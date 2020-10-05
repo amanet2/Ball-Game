@@ -1,0 +1,12 @@
+import javax.swing.*;
+
+public class xComEditorShowLossAlert extends xCom {
+    public  String doCommand(String fullcomm) {
+        if(eManager.currentMap.wasLoaded > 0) {
+            if (JOptionPane.showConfirmDialog(oDisplay.instance(), "All unsaved changes will be lost...",
+                    sVars.get("defaulttitle"), JOptionPane.YES_NO_OPTION) > 0)
+                return "1";
+        }
+        return "0";
+    }
+}

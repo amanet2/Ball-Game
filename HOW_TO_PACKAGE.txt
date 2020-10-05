@@ -1,0 +1,4 @@
+1. (build.bat) Create jar file
+2. (build_distrib.bat) Create pkg "pkg_Ball-Game.zip"
+3. (NSIS zip2exe) Create CLASSIC installer from pkg_Ball-Game.zip as "install.exe", name "Ball-Game"
+4. Zip install.exe & distribute

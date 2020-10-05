@@ -1,0 +1,37 @@
+cmd cv_maptype 0
+cmd cv_gamemode 9
+cmd cv_botbehavior goto_ball
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -5100 -2700 600 900 100 150 900 100 150 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -2700 600 900 100 150 900 100 150 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4500 -3600 900 900 100 150 900 0 0 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3600 -3600 900 900 100 150 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2700 -3600 900 900 100 150 900 0 0 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2700 -2700 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3600 -2700 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4500 -2700 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4500 -1800 900 900 0 0 900 100 150 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3600 -1800 900 900 0 0 900 100 150 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2700 -1800 900 900 0 0 900 100 150 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -1800 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1200 -2700 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -3600 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -5400 -3600 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6000 -2700 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -5400 -1800 900 900 0 0 900 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -3330 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -2970 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -2610 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -2250 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -1890 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3450 -1530 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -1470 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -1830 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -2190 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -2550 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -2910 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3150 -3270 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -4500 -2700 100 250 100 150 0 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -1900 -2700 100 250 100 150 0 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -4500 -2050 100 250 250 0 0 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -1900 -2050 100 250 250 0 0 0 0 0 0 255 1
+prop 9 0 0 -3300 -2400 300 300

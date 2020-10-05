@@ -1,0 +1,121 @@
+cmd cv_maptype 0
+cmd cv_gamemode 4
+cmd cv_botbehavior goto_kofflag
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1380 -330 600 600 100 150 0 0 0 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -880 270 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -1200 2400 2400 100 150 2400 0 0 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 1200 2400 2400 0 0 2400 100 150 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 -1200 2400 2400 100 150 2400 0 0 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 1200 2400 2400 0 0 2400 100 150 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -180 1740 600 600 100 150 600 100 150 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 120 1170 600 1800 100 150 0 100 150 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -1200 2430 600 600 100 150 600 0 0 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -700 3030 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -1710 1200 1200 250 100 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 690 -540 1800 600 100 150 600 0 0 100 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1260 -120 600 600 0 0 600 0 0 100 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 690 60 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 2390 60 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1760 480 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1260 480 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1445 1110 600 600 0 0 0 100 150 0 100 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1425 2150 600 600 100 150 600 0 0 100 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1425 2750 100 150 0 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1945 1010 100 100 100 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -240 -540 750 250 100 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1260 -220 100 100 100 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1760 -220 100 100 100 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 260 665 750 250 100 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none -1265 500 100 450 300 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png none 1025 1700 100 450 300 150 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -1050 2820 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 300 2460 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1590 2460 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 900 -180 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2010 -180 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -270 -120 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 240 1470 200 200 0 0 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 -1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 -1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3750 -1170 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2550 -30 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3630 870 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2550 1530 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3780 2790 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2640 3420 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3600 4380 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1470 3780 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2400 4590 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -120 4140 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1140 4860 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 1650 4560 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 900 3810 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3120 3900 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3720 5160 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3750 2700 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3180 1170 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 4110 -720 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3300 -1170 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 1500 -2610 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3240 -2790 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 2430 -2130 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 630 -2850 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -570 -1950 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1530 -3000 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -2550 -1710 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -3300 -2940 450 600 150 450 0 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 -1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 -1200 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 -3600 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6600 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4200 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1800 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 600 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 3000 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png 5400 -6000 2400 2400 0 0 2400 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 120 870 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 420 870 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 720 870 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 1020 870 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 330 1410 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 30 1410 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 120 1890 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -180 1890 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 720 1170 300 300 0 0 300 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2300 2580 600 250 100 150 50 0 0 0 0 255 0
+prop 5 0 0 -1380 2880 300 300
+prop 5 0 0 -1350 0 300 300
+prop 5 0 0 1410 -330 300 300
+prop 5 0 0 1530 2370 300 300
+prop 7 0 0 -420 2670 300 300
+prop 7 0 0 -960 1590 300 300
+prop 7 0 0 -930 720 300 300
+prop 7 0 0 -1200 -780 300 300
+prop 7 0 0 -270 -210 300 300
+prop 7 0 0 1950 -180 300 300
+prop 7 0 0 870 -180 300 300
+prop 7 0 0 1560 1110 300 300
+prop 7 0 0 960 2370 300 300
+prop 7 0 0 2550 3000 300 300
+prop 7 0 0 2280 1350 300 300

@@ -1,0 +1,183 @@
+==DISTRIBUTION==
+* Rename game to Major-Bombardment\
+    -> Court-Bombardment
+* Distribute both the installer exe, as well as a portable version (pkg_BRA without the uninstall exe)
+    -> have build scripts generate both archives
+* create update patches
+    -> zip up all the update files in same dir structure as existing BRA
+    -> create NSIS zip2exe to extract updates into BRA folder
+
+==ISSUES==
+* only draw gfx that will be seen
+* bots really drag down performance
+* EDITOR - NEWTILE - dim0h didnt change when setting base dims
+* find a way to change corner's "wall height"
+* Bot dont explode on other clients screen
+* EDITOR: texture not included when copying/injecting tile dimensions
+* many cvars need to be changed to a each-player var for the sake of future usability
+    -> features like BOTS and perhaps split screen multiplayer
+* need to restrict certain console commands if a client is playing
+    -> 'addbot' and many more to be sure
+* bot needs to be affected by boost and teleporters
+* scores get fucked up when people/bots quit and rejoin
+* editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
+* ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
+* ISSUE: SERVER NOT GOING TO THE PROPER COORDS AFTER DYING, AFTER A CLIENT QUITS
+    -> java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+               at cScripts.createDamagePopup(cScripts.java:529)
+               at cScripts.checkProjectileSplashes(cScripts.java:459)
+               at cGameLogic.checkForPlayerDeath(cGameLogic.java:732)
+               at cGameLogic.customLoop(cGameLogic.java:49)
+               at uiInterface.startTicker(uiInterface.java:51)
+               at uiInterface.startNew(uiInterface.java:97)
+               at xMain.main(xMain.java:7)
+   -> doing calls like matchKills[getInt("tag")] dont work because tags arent changed when ppl quit
+* CRASH: handle characters who are it/viral quitting
+    -> virus: remove player from the virus state string, if nobody infected after quit then re-assign virus
+    -> tag: re-assign "itness"
+* EDITOR: Tighten up the undo/redo
+* BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
+
+==FEATURES==
+* maybe allow a creation mode so ppl can edit the map in multiplayer
+    -> like forge
+    -> simply pass along the console command to place a tile over the network and run it on the other side
+    -> could be fun
+* move tile down 1 layer seems lame.
+    -> replace with put_tile_at_layer
+        -> will just remove/reinstert tile at index in array
+            -> where N is new index, if N > size, then do size instead
+            -> where N is 0 or below, just put at 0
+* need to see a visual pallette for selecting tiles
+* create a hashmap of string/gDoable tuples so we can call things like "THING_PLAYER.0.do_thing"
+* implementing search algorithms for ai
+    -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
+    -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
+        -> function should take a x,y, pair and return 4 candidate pairs (1 each dir)
+* map designs
+    -> think of maps as a group or series of several fun minicourses
+        -> a "course" would be a sequence of obstacles that for movements alternating in LR or UD directions
+* switch between gfx styles in the video menu
+* make the powerups float up and down and have a shadow
+* change "thetime" to have the server "say" the time after receving proper msg
+* players bounce off of eachother in topdown view
+    -> user an small centered hitbox for all other players in the collision check
+* server could have a "admin" role where you can use the mapmaker
+    -> actions taken by the admin broadcast to all players
+        -> e.g. deleted a powerup, added a tile
+* checksum checks
+    -> client sends checksum of the jar, and the map file currently played
+    -> server verifies these two MD5 hashes against its own md5s
+* allow players to bounce off floor in sidescroller mode
+    -> make a plinketto game mode
+    -> scorepoints at the bottom
+        -> more scorepoint props placed in the better slots
+    -> have the scores in the textures for the map
+        -> e.g. 5, 3, 10
+* not how the spawn points have illusion of depth on wp_steam sometimes
+    -> black line on top, light line on bottom
+*create didicated spawn point object
+    -> so they can be easily referenced when needed
+    -> no more spawn errors at all
+* create customTrigger object
+    -> like xCom
+        -> just needs to execute code
+    -> have map of these objects
+    -> add prop that has a string for the key of customTrigger map
+        -> on intersect/destroy run the customTrigger
+* gametype
+    -> ball thinks like a bot, going after nearest character
+        -> if you touch the ball you die
+        -> get points for staying alive
+* change powerups/weapons
+    -> start with only slot0 usable
+    -> unlock other slots if right powerup picked up
+    -> mousewheel goes to next _open_ slot
+        -> have a co-array that's like [1,0,0,0,0] for each locked/unlocked slot
+    -> if weapons are on and reloading is disabled, going over a weapons powerup should refill ammo
+* to cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
+to reference them.
+* replace stockhp
+    -> replace all cVars usage of stockhp with calls for player0's stockhp
+    -> then refactor functions to take any player not just 0
+* need more vars on player and not in cvars
+    -> like health
+    -> handle respawns by player obj, not by user
+* be able to kil bot
+* as a bot on sideview map, look for edges of platforms above yourself for the opportunity to jump
+    -> if waypoint above try to jump
+* make players eyes blink
+* allow all textures in folder to be used in mapmaker
+* new gametypes
+    -> sidescrolling map scrolls past with obstacles to jump and duck
+        -> like twisted system in fuzion frenzy
+    -> current pulling players in one dir, where death awaits at the edge and objects try to knock you in
+        -> like the jetboat waterfall in fuzion frenzy
+    -> pool game mode where you try to knock ball into one of six pockets
+        -> maybe only one ball/goal active at any one time
+            -> scoring will change the active goal
+        -> have only 4 spawn points on the map.  each spawn points gives player access to a full table
+            -> players will be separated by hard walls
+    -> have N-1 props each cycle where N is # players left.  players grab props but drop them when killed
+        -> when timer ends anyone not holding prop dies
+    -> have multiple flags each cycle.  players grab flags but drop them when killed
+        -> when timer ends anyone not holding flag dies. survivors get points
+    -> have N-1 safepoint each cycle where N is number of players left.  No respawning, only 30 - 60 sec allowed
+* new weapons
+    -> add a bomb type that functions like the bomberman64 bomb
+    -> something like the rock from dod mg server
+    -> jihad
+* new props
+    -> for race mode, bombs that explode on contact and stop you for a little
+    -> pinball bumper that actual increases your bounce velocity
+* illustrate fire rate recharge
+    -> illustrate weapon bar refilling
+    -> a grey bar fills until full then change to the right color
+* idle sfx
+    -> have music for background of match.
+    -> loop a roylaty-free mp3
+    -> reference the mp3 in mapfile or whatever
+    -> have characters make chirpy muttery noises
+        -> kinda like grunt from halo
+    -> have them respond to events in the game
+        -> deaths, objectives, etc
+    -> have them grunt for punching
+        -> like bomberman64
+* powerup to have all other players have a waypoint on them
+    -> what color?
+* new map lines:
+    -> lockcam x y
+    -> locks cam at a certain coordinate for duration of the map.
+        -> no center cam, no free cam
+        -> check in the commandCenterCam and commandSelectUDLR files
+    -> lockscale s
+        -> locks game scale at certain level for the duration of the map
+        -> no zooming allowed
+* keep trying to scale panel to full screen in full screen mode
+* add 'allow reload' flag for game & server
+* add texture tiling
+    -> sprite must be converted to bufferedimage before drawing
+    -> on a per texture basis i.e. 3 "fill or tile" flags per tile
+    -> add 7 base x/y vals for possibly tiled textures
+* Create a server browser program
+    -> when you start a game server it sends data to this server
+    -> when you go to server browser menu in game you see data returned from here
+* change vector of speed boost (RMB) depending on movement keys held down
+* put visual feedback for racing positions
+* add voip
+* ADD BOTS
+    -> bot logic will depend on game type
+    -> virus should be easiest
+        -> if not infected, move random and fire on infected nearby
+        -> if infected, move toward nearest uninfected
+* Load all images used on a map into a temp. sprite sheet to improve performance?
+* TRY MAKING PLAYER SHRINK/INFLATE FOR SLOW/FAST POWERUPS
+* ENABLE A "GRAVITY" SETTING EXCLUSIVELY FOR SIDESCROLLER MAPS
+    -> MUST BE ABLE TO SET IT FROM MAP FILES
+* TRIM THE FAT ON THE "NEW TILE/PROP/FLARE" OPTIONPANES
+    -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
+* server should have clients run a set of instructions on join
+* CLIENT/SERVER SHOULD VERIFY MAP & FILES BEFORE LOADING
+    -> USE md5 CHECKSUM
+    -> could check on every tick and boot mismatches with special message
+* transmit file over the server/cli connection
