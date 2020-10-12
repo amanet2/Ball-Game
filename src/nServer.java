@@ -105,7 +105,9 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            if(eManager.currentMap.scene.botplayers().size() > 0) {
+            if(eManager.currentMap.scene.botplayers().size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
+                sVars.putLong("bottime",
+                        uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
                 for(gPlayer p : eManager.currentMap.scene.botplayers()) {
                     nVarsBot.update(p);
                     String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
@@ -113,7 +115,7 @@ public class nServer extends Thread {
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
                     nReceive.processReceiveDataString(receiveDataString);
-                    //                String k = String.format("%s:%d", addr.toString(), port);
+                    //String k = String.format("%s:%d", addr.toString(), port);
                     //get player id of client
                     HashMap<String, String> clientmap = cScripts.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
@@ -151,6 +153,10 @@ public class nServer extends Thread {
                 uiInterface.serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
+//                System.out.println(cScripts.isNetworkGame());
+//                if(nServer.clientsConnected < 1)
+//                    uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots"));
+
                 if(sVars.getInt("rateserver") > 1000)
                     sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
                 else

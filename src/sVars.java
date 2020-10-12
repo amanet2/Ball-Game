@@ -12,6 +12,7 @@ public class sVars {
         keys.put("bgcolor", "0,0,0");
         keys.put("botcount", "0");
         keys.put("botcountmax", "3");
+        keys.put("bottime", "0");
         keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("countdowntimeleft", "60000");
@@ -38,6 +39,7 @@ public class sVars {
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
+        keys.put("ratebots", "15");
         keys.put("rateclient", "15");
         keys.put("rateserver", "500");
         keys.put("playerarrow", "0");
@@ -160,6 +162,10 @@ public class sVars {
 
     public static void putInt(String s, int v) {
         put(s, Integer.toString(v));
+    }
+
+    public static void putLong(String s, long v) {
+        put(s, Long.toString(v));
     }
 
     public static void reset() {
