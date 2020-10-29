@@ -40,6 +40,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* GAME: Virus should be passed on by killing
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge
     -> simply pass along the console command to place a tile over the network and run it on the other side
