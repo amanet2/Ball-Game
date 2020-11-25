@@ -32,7 +32,7 @@ public class dScreenMessages {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
         cScripts.setFontSmall(g);
 //        //copyright notice
-        g.drawString("\"Ball-Game\" by Anthony Manetti",sSettings.width - sSettings.width / 4, sSettings.height - sSettings.height / 20);
+        g.drawString("\"Ball-Game\" \u00a9 2020 Anthony Manetti",sSettings.width - sSettings.width / 4, sSettings.height - sSettings.height / 20);
         g.drawString("github.com/amanet2",sSettings.width - sSettings.width / 4, sSettings.height - sSettings.height / 40);
         //scale
         if(sVars.isOne("showscale")) {
