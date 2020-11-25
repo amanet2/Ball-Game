@@ -9,6 +9,8 @@
 
 ==ISSUES==
 * only draw gfx that will be seen
+* sounds are dragging down performance
+    -> was better when javafx wasnt working
 * bots really drag down performance
     -> check if the rates are influencing it.  maybe bots are updating at server rate and dragging down performance
 * EDITOR - NEWTILE - dim0h didnt change when setting base dims
