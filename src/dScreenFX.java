@@ -137,7 +137,7 @@ public class dScreenFX {
             }
         }
         // -- aimer
-//        if(uiInterface.inplay) {
+        if(uiInterface.inplay) {
             int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
             int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
             int cx = eUtils.unscaleInt(cVars.getInt("camx"));
@@ -151,6 +151,6 @@ public class dScreenFX {
             int setw = sSettings.height / 128;
             g2.setColor(Color.RED);
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
-//        }
+        }
     }
 }

@@ -24,8 +24,10 @@ public class dMenus {
         dScreenMessages.drawCenteredString(g,
             "----------------",sSettings.width/2,11*sSettings.height/30);
         int ctr = 0;
+        int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
+                sel = 1;
                 g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),
                         Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
@@ -36,6 +38,7 @@ public class dMenus {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
                 dScreenMessages.drawCenteredString(g,i.text,
@@ -43,6 +46,8 @@ public class dMenus {
             }
             ctr++;
         }
+        if(sel == 0 && oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
+            oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     public static void showControlsMenu(Graphics g) {

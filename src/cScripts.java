@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 public class cScripts {
@@ -424,6 +425,7 @@ public class cScripts {
     public static void doPause() {
         uiInterface.inplay = !uiInterface.inplay;
         if(uiInterface.inplay) {
+            oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
             xCon.ex("playsound sounds/clampdown.wav");
             if(sSettings.show_mapmaker_ui || !isNetworkGame())
                 setupGame();
