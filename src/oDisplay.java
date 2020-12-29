@@ -62,11 +62,11 @@ public class oDisplay extends JLayeredPane {
     }
 
 	public void showFrame() {
-	    int fx = -1;
-	    int fy = -1;
+//	    int fx = -1;
+//	    int fy = -1;
         if(frame != null) {
-            fx = frame.getX();
-            fy = frame.getY();
+//            fx = frame.getX();
+//            fy = frame.getY();
             frame.dispose();
         }
 		frame = new JFrame(String.format("%s%s", sVars.get("defaulttitle"),
@@ -83,7 +83,6 @@ public class oDisplay extends JLayeredPane {
 		if(sSettings.show_mapmaker_ui)
 			cEditorLogic.setupMapMakerWindow();
 		frame.setResizable(false);
-//        frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
         sSettings.width = Integer.parseInt(xCon.ex("vidmode").split(",")[0]);
         sSettings.height = Integer.parseInt(xCon.ex("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
@@ -94,11 +93,9 @@ public class oDisplay extends JLayeredPane {
         ));
 		frame.setContentPane(this);
 		frame.pack();
-		if(fx < 0)
-		    frame.setLocationRelativeTo(null);
-		else {
-		    frame.setLocation(fx,fy);
-        }
+        frame.setLocationRelativeTo(null);
+//		if(fx > -1)
+//		    frame.setLocation(fx,fy);
         if(sVars.isIntVal("displaymode", displaymode_fullscreen))
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
