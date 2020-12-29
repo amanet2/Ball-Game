@@ -3,15 +3,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
-/**
- * SINGLETON, JLayeredPane
- * handles the panels that make up
- * visual objects on the screen
- */
 public class oDisplay extends JLayeredPane {
 	static int displaymode_windowed = 0;
 	static int displaymode_fullscreen = 1;
+	static int displaymode_borderless = 2;
 	JFrame frame;
 	private static oDisplay instance = null;
 
@@ -76,8 +73,11 @@ public class oDisplay extends JLayeredPane {
 		if(sSettings.show_mapmaker_ui)
 			cEditorLogic.setupMapMakerWindow();
 		frame.setResizable(false);
-		frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		sSettings.width = Integer.parseInt(xCon.ex("vidmode").split(",")[0]);
+//        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+//        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+//		frame.setCursor(blankCursor);
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+        sSettings.width = Integer.parseInt(xCon.ex("vidmode").split(",")[0]);
         sSettings.height = Integer.parseInt(xCon.ex("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         setBackground(new Color(

@@ -14,9 +14,8 @@ public class gPlayer extends gThing {
     public void doBehavior(String key) {
         if(cVars.get("winnerid").length() < 1) {
             gDoable behavior = cBotsLogic.getBehavior(key);
-            if(behavior != null) {
+            if(behavior != null)
                 behavior.doItem(this);
-            }
         }
         else {
             put("mov0", "0");
@@ -67,7 +66,6 @@ public class gPlayer extends gThing {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
         for (gTile target : eManager.currentMap.scene.tiles()) {
-//            System.out.println(willCollideWithinCornerTileAtCoords(target, dx, dy));
             if(willCollideWithinTileAtCoords(target, dx, dy) || willCollideWithinCornerTileAtCoords(target, dx, dy)) {
                 if(cVars.getLong("knocksoundtime") < uiInterface.gameTime && !cVars.isOne("suppressknocksound")) {
                     cVars.putLong("knocksoundtime", uiInterface.gameTime + cVars.getInt("knocksoundtimegap"));
