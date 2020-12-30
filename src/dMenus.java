@@ -4,11 +4,10 @@ import java.awt.*;
 public class dMenus {
     private static Image logoImage = new ImageIcon(
         String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
-        )).getImage().getScaledInstance(sSettings.width, sSettings.height/3 ,Image.SCALE_FAST);
+        )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
 
     public static void showPauseMenu(Graphics g) {
         cScripts.getUIMenuItemUnderMouse();
-        g.drawImage(logoImage,0,0,null);
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
@@ -53,7 +52,6 @@ public class dMenus {
 
     public static void showControlsMenu(Graphics g) {
         cScripts.getUIMenuItemUnderMouse();
-        g.drawImage(logoImage,0,0,null);
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
@@ -93,6 +91,20 @@ public class dMenus {
             }
             ctr++;
         }
+    }
+
+    public static void showCreditsMenu(Graphics g) {
+        cScripts.getUIMenuItemUnderMouse();
+        g.setColor(new Color(0,0,0,100));
+        g.fillRect(0,0,sSettings.width,sSettings.height);
+        g.drawImage(logoImage,0,0,null);
+        //copyright notice
+        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 20);
+        g.drawString("github.com/amanet2",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 40);
     }
 
     public static void showScoreBoard(Graphics g) {

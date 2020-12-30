@@ -31,9 +31,6 @@ public class dScreenMessages {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
         cScripts.setFontSmall(g);
-//        //copyright notice
-//        g.drawString("\"Ball-Game\" \u00a9 2020 Anthony Manetti",sSettings.width - sSettings.width / 4, sSettings.height - sSettings.height / 20);
-//        g.drawString("github.com/amanet2",sSettings.width - sSettings.width / 4, sSettings.height - sSettings.height / 40);
         //scale
         if(sVars.isOne("showscale")) {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
@@ -232,6 +229,8 @@ public class dScreenMessages {
             if(!sSettings.show_mapmaker_ui) {
                 if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS)
                     dMenus.showControlsMenu(g);
+                else if(uiMenus.selectedMenu == uiMenus.MENU_CREDITS)
+                    dMenus.showCreditsMenu(g);
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)

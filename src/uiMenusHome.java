@@ -1,6 +1,6 @@
 public class uiMenusHome extends uiMenu {
     public uiMenusHome() {
-        super("Main Menu",
+        super("Ball Ball Arena",
             new uiMenuItem[]{
                 new uiMenuItem("New Game") {
                     public void doItem(){
@@ -15,6 +15,11 @@ public class uiMenusHome extends uiMenu {
                 new uiMenuItem("Options") {
                     public void doItem(){
                         uiMenus.selectedMenu = (uiMenus.MENU_OPTIONS);
+                    }
+                },
+                new uiMenuItem("Credits") {
+                    public void doItem(){
+                        uiMenus.selectedMenu = (uiMenus.MENU_CREDITS);
                     }
                 },
                 new uiMenuItem("Quit") {

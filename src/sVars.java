@@ -34,7 +34,7 @@ public class sVars {
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
-        keys.put("logopath", "misc/logo.png");
+        keys.put("logopath", "misc/cover.png");
         keys.put("lowpowermode", "1");
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
