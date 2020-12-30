@@ -1,15 +1,16 @@
 public class gWeaponsNone extends gWeapon {
     public gWeaponsNone() {
         super();
-        name = "HANDS";
+        name = "ROCK";
         dims = new int[]{225,150};
         bulletDims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
         firerate = 500;
         damage = 1100;
         maxAmmo = 0;
-        bulletSpritePath = eUtils.getPath("misc/glove.png");
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
+        bulletSpritePath = eUtils.getPath("misc/rock.png");
+//        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
+        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath(""),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 50;

@@ -38,7 +38,8 @@ public class dMenus {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                    oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
                 dScreenMessages.drawCenteredString(g,i.text,

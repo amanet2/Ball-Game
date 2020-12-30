@@ -51,7 +51,8 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle.png" :
                     p.isInt("weapon",gWeapons.weapon_shotgun) ? "misc/shotgun.png" :
-                        p.isInt("weapon",gWeapons.weapon_none) ? "misc/glove.png" :
+//                        p.isInt("weapon",gWeapons.weapon_none) ? "misc/glove.png" :
+                        p.isInt("weapon",gWeapons.weapon_none) ? "" :
                         p.isInt("weapon",gWeapons.weapon_launcher) ? "misc/launcher.png" :
                             "misc/bfg.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
@@ -69,7 +70,8 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_shotgun) ? "misc/shotgun_flip.png" :
-                    p.isInt("weapon", gWeapons.weapon_none) ? "misc/glove_flip.png" :
+//                    p.isInt("weapon", gWeapons.weapon_none) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.weapon_none) ? "" :
                     p.isInt("weapon", gWeapons.weapon_launcher) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
