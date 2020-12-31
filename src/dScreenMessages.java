@@ -32,7 +32,7 @@ public class dScreenMessages {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
         cScripts.setFontSmall(g);
         //scale
-        if(sVars.isOne("showscale")) {
+        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0) {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         }
         //ticks

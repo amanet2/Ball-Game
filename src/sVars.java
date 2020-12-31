@@ -16,6 +16,7 @@ public class sVars {
         keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("countdowntimeleft", "60000");
+        keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
@@ -34,7 +35,7 @@ public class sVars {
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
-        keys.put("logopath", "misc/cover.png");
+        keys.put("logopath", "misc/logo.png");
         keys.put("lowpowermode", "1");
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");

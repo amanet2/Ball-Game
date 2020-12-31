@@ -148,7 +148,7 @@ public class dScreenFX {
             snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
-            int setw = sSettings.height / 128;
+            int setw = sSettings.height / 96;
             g2.setColor(Color.RED);
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }

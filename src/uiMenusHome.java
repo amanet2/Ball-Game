@@ -1,6 +1,6 @@
 public class uiMenusHome extends uiMenu {
     public uiMenusHome() {
-        super("Ball Ball Arena",
+        super("Main Menu",
             new uiMenuItem[]{
                 new uiMenuItem("New Game") {
                     public void doItem(){

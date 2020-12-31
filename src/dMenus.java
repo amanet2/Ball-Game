@@ -2,14 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class dMenus {
-    private static Image logoImage = new ImageIcon(
-        String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
+    private static Image coverimg = new ImageIcon(
+        String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
         )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
+    private static Image logoimg = new ImageIcon(
+            String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
+            )).getImage().getScaledInstance(sSettings.width, sSettings.height/3, Image.SCALE_FAST);
 
     public static void showPauseMenu(Graphics g) {
         cScripts.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
+        g.drawImage(logoimg,0,0,null);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
@@ -20,8 +24,7 @@ public class dMenus {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-        dScreenMessages.drawCenteredString(g,
-            "----------------",sSettings.width/2,11*sSettings.height/30);
+        dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -54,6 +57,7 @@ public class dMenus {
         cScripts.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
+        g.drawImage(logoimg,0,0,null);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
@@ -64,8 +68,7 @@ public class dMenus {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-        dScreenMessages.drawCenteredString(g,
-            "----------------",sSettings.width/2,11*sSettings.height/30);
+        dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         dScreenMessages.drawCenteredString(g,
                 "- ACTION -",sSettings.width/3,12*sSettings.height/30);
         g.drawString("   - KEY/BUTTON -",2*sSettings.width/3,12*sSettings.height/30);
@@ -97,14 +100,14 @@ public class dMenus {
         cScripts.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(logoImage,0,0,null);
+        g.drawImage(coverimg,0,0,null);
         //copyright notice
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-        g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 20);
-        g.drawString("github.com/amanet2",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 40);
+        g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
+        g.drawString("Venmo @Anthony-Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }
 
     public static void showScoreBoard(Graphics g) {
