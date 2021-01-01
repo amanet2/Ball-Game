@@ -6,6 +6,19 @@ import java.util.concurrent.TimeUnit;
 
 public class eUtils {
     static double zoomLevel = 1.0;
+    private static int[] screendims = new int[]{Integer.parseInt(sVars.get("vidmode").split(",")[0]),
+            Integer.parseInt(sVars.get("vidmode").split(",")[1])};
+
+    public static boolean resolutionChanged() {
+        if(screendims[0] != Integer.parseInt(sVars.get("vidmode").split(",")[0])
+        || screendims[1] != Integer.parseInt(sVars.get("vidmode").split(",")[1])) {
+            screendims = new int[]{
+                    Integer.parseInt(sVars.get("vidmode").split(",")[0]),
+                    Integer.parseInt(sVars.get("vidmode").split(",")[1])};
+            return true;
+        }
+        return false;
+    }
 
     public static String getPath(String s) {
         return sVars.get("datapath") + "/" + s;

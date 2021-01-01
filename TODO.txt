@@ -1,13 +1,11 @@
 ==DISTRIBUTION==
-* Rename game to Major-Bombardment\
-    -> Court-Bombardment
-* Distribute both the installer exe, as well as a portable version (pkg_BRA without the uninstall exe)
-    -> have build scripts generate both archives
+* Rename game to Major-Bombardment
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
     -> was better when javafx wasnt working

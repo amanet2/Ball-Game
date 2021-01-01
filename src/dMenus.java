@@ -10,6 +10,14 @@ public class dMenus {
             )).getImage().getScaledInstance(sSettings.width, sSettings.height/3, Image.SCALE_FAST);
 
     public static void showPauseMenu(Graphics g) {
+        if(eUtils.resolutionChanged()) {
+            logoimg = new ImageIcon(
+                    String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
+                    )).getImage().getScaledInstance(sSettings.width, sSettings.height/3, Image.SCALE_FAST);
+            coverimg = new ImageIcon(
+                    String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
+                    )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
+        }
         cScripts.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
@@ -97,6 +105,14 @@ public class dMenus {
     }
 
     public static void showCreditsMenu(Graphics g) {
+        if(eUtils.resolutionChanged()) {
+            logoimg = new ImageIcon(
+                    String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
+                    )).getImage().getScaledInstance(sSettings.width, sSettings.height/3, Image.SCALE_FAST);
+            coverimg = new ImageIcon(
+                    String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
+                    )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
+        }
         cScripts.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
