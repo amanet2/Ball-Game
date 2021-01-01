@@ -57,9 +57,9 @@ public class dScreenFX {
                     sSettings.height / 2);
             g2.setTransform(a);
             int[][] arrowpolygon = new int[][]{
-                    new int[]{sSettings.width / 2 - sSettings.width / 32,
-                            sSettings.width / 2 + sSettings.width / 32, sSettings.width / 2},
-                    new int[]{sSettings.height / 32, sSettings.height / 32, 0}
+                    new int[]{sSettings.width / 2 - sSettings.width / 64,
+                            sSettings.width / 2 + sSettings.width / 64, sSettings.width / 2},
+                    new int[]{sSettings.height / 16, sSettings.height / 16, 0}
             };
             g2.setColor(new Color(255,100,50,180));
             g2.fillPolygon(arrowpolygon[0],arrowpolygon[1], 3);
