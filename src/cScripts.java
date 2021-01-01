@@ -731,16 +731,6 @@ public class cScripts {
         }
     }
 
-    public static HashMap<String,String> getMapFromNetString(String argload) {
-        HashMap<String,String> toReturn = new HashMap<>();
-        String argstr = argload.substring(1,argload.length()-1);
-        for(String pair : argstr.split(",")) {
-            String[] vals = pair.split("=");
-            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
-        }
-        return  toReturn;
-    }
-
     public static boolean canSpawnPlayer() {
         for(gTile t : eManager.currentMap.scene.tiles()) {
             if(t.isOne("canspawn") && !cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(t,
@@ -938,66 +928,6 @@ public class cScripts {
             }
         }
         return virusSb.toString();
-    }
-
-    public static void removeNetClient(String id) {
-        if(nSend.focus_id.equals(id)){
-            nSend.focus_id = "";
-        }
-        nServer.clientsConnected -=1;
-        nServer.clientArgsMap.remove(id);
-        int quitterIndex = nServer.clientIds.indexOf(id);
-        gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
-        eManager.currentMap.scene.players().remove(quitterIndex+1);
-        String quitterName = nServer.clientNames.get(quitterIndex);
-        nServer.clientIds.remove(id);
-        nServer.clientNames.remove(quitterIndex);
-        //update wins
-        int[] newWins = new int[nServer.clientsConnected+1];
-        int c = 0;
-        for(int i = 0; i < nServer.matchWins.length; i++) {
-            if(i != quitterIndex+1) {
-                newWins[c] = nServer.matchWins[i];
-                c++;
-            }
-        }
-        nServer.matchWins = newWins;
-        //update scores
-        int[] newScores = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.scores.length; i++) {
-            if(i != quitterIndex+1) {
-                newScores[c] = nServer.scores[i];
-                c++;
-            }
-        }
-        nServer.scores = newScores;
-        //update kills
-        int[] newKills = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.matchKills.length; i++) {
-            if(i != quitterIndex+1) {
-                newKills[c] = nServer.matchKills[i];
-                c++;
-            }
-        }
-        nServer.matchKills = newKills;
-        //update pings
-        int[] newPings = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.matchPings.length; i++) {
-            if(i != quitterIndex+1) {
-                newPings[c] = nServer.matchPings[i];
-                c++;
-            }
-        }
-        nServer.matchPings = newPings;
-        if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-            && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
-            cVars.put("flagmasterid", "");
-        }
-        xCon.ex(String.format("say %s left the game", quitterName));
     }
 
     public static String getScoreString() {

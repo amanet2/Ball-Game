@@ -10,7 +10,7 @@ public class nReceive {
                 int isnewclient = 1;
                 String argload = toks[0];
                 //process new packet
-                HashMap<String, String> packArgMap = cScripts.getMapFromNetString(argload);
+                HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId)) {
                     nServer.clientArgsMap.put(packId, packArgMap);
@@ -106,7 +106,7 @@ public class nReceive {
             ArrayList<String> foundIds = new ArrayList<>();
             for(int i = 0; i < toks.length; i++) {
                 String argload = toks[i];
-                HashMap<String, String> packArgs = cScripts.getMapFromNetString(argload);
+                HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
                 String idload = packArgs.get("id");
                 String nameload = packArgs.get("name") != null ? packArgs.get("name")
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")

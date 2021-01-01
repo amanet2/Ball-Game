@@ -90,7 +90,7 @@ public class nServer extends Thread {
                 int port = receivePacket.getPort();
                 //                String k = String.format("%s:%d", addr.toString(), port);
                 //get player id of client
-                HashMap<String, String> clientmap = cScripts.getMapFromNetString(receiveDataString);
+                HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
                 nSend.focus_id = clientId;
                 //create response
@@ -117,7 +117,7 @@ public class nServer extends Thread {
                     nReceive.processReceiveDataString(receiveDataString);
                     //String k = String.format("%s:%d", addr.toString(), port);
                     //get player id of client
-                    HashMap<String, String> clientmap = cScripts.getMapFromNetString(receiveDataString);
+                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
                     nSend.focus_id = clientId;
                     //act as if responding
@@ -132,6 +132,66 @@ public class nServer extends Thread {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void removeNetClient(String id) {
+        if(nSend.focus_id.equals(id)){
+            nSend.focus_id = "";
+        }
+        clientsConnected -=1;
+        clientArgsMap.remove(id);
+        int quitterIndex = clientIds.indexOf(id);
+        gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
+        eManager.currentMap.scene.players().remove(quitterIndex+1);
+        String quitterName = clientNames.get(quitterIndex);
+        clientIds.remove(id);
+        clientNames.remove(quitterIndex);
+        //update wins
+        int[] newWins = new int[clientsConnected+1];
+        int c = 0;
+        for(int i = 0; i < matchWins.length; i++) {
+            if(i != quitterIndex+1) {
+                newWins[c] = matchWins[i];
+                c++;
+            }
+        }
+        matchWins = newWins;
+        //update scores
+        int[] newScores = new int[clientsConnected+1];
+        c = 0;
+        for(int i = 0; i < scores.length; i++) {
+            if(i != quitterIndex+1) {
+                newScores[c] = scores[i];
+                c++;
+            }
+        }
+        scores = newScores;
+        //update kills
+        int[] newKills = new int[clientsConnected+1];
+        c = 0;
+        for(int i = 0; i < matchKills.length; i++) {
+            if(i != quitterIndex+1) {
+                newKills[c] = matchKills[i];
+                c++;
+            }
+        }
+        matchKills = newKills;
+        //update pings
+        int[] newPings = new int[clientsConnected+1];
+        c = 0;
+        for(int i = 0; i < matchPings.length; i++) {
+            if(i != quitterIndex+1) {
+                newPings[c] = matchPings[i];
+                c++;
+            }
+        }
+        matchPings = newPings;
+        if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
+                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
+                && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
+            cVars.put("flagmasterid", "");
+        }
+        xCon.ex(String.format("say %s left the game", quitterName));
     }
 
     public void run() {

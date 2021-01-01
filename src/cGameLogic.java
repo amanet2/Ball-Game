@@ -233,7 +233,7 @@ public class cGameLogic {
             }
             while(nServer.quitClientIds.size() > 0) {
                 String quitterId = nServer.quitClientIds.remove();
-                cScripts.removeNetClient(quitterId);
+                nServer.removeNetClient(quitterId);
             }
             while(nServer.kickClientIds.size() > 0 && nServer.kickConfirmed) {
                 nServer.kickClientIds.remove();
