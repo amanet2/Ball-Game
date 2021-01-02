@@ -877,6 +877,7 @@ public class cScripts {
 
     public static String getTopScoreString() {
         int topscore = 0;
+        int tiectr = 0;
         String winnerName = "";
         if(cVars.isZero("gameteam")) {
             for(int i = 0; i < nServer.scores.length; i++) {
@@ -888,6 +889,12 @@ public class cScripts {
                     else
                         winnerName = nServer.clientNames.get(i-1) + " (" + nServer.scores[i]+")";
                 }
+                else if(nServer.scores[i] == topscore) {
+                    tiectr++;
+                }
+            }
+            if(tiectr > 0) {
+                winnerName = winnerName + " + " + tiectr + " others";
             }
         }
         else {
