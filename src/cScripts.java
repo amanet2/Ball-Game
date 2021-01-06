@@ -50,7 +50,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle.png" :
                     p.isInt("weapon",gWeapons.weapon_shotgun) ? "misc/shotgun.png" :
-//                        p.isInt("weapon",gWeapons.weapon_none) ? "misc/glove.png" :
+                        p.isInt("weapon",gWeapons.weapon_boxingglove) ? "misc/glove.png" :
                         p.isInt("weapon",gWeapons.weapon_none) ? "" :
                         p.isInt("weapon",gWeapons.weapon_launcher) ? "misc/launcher.png" :
                             "misc/bfg.png";
@@ -69,7 +69,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_shotgun) ? "misc/shotgun_flip.png" :
-//                    p.isInt("weapon", gWeapons.weapon_none) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.weapon_boxingglove) ? "misc/glove_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_none) ? "" :
                     p.isInt("weapon", gWeapons.weapon_launcher) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
@@ -261,15 +261,17 @@ public class cScripts {
     public static void checkPlayerPowerups(gProp powerup) {
         if(powerup.getInt("int0") > 0) {
             //do powerup effect
-            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "fast"};
+            String[] powerup_selection = new String[]{"boxingglove"};
+            String[] powerup_weap_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove"};
+//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove", "fast"};
 //            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "slow", "fast"};
             int r = (int)(Math.random()*(double)powerup_selection.length);
             if(sSettings.net_server) {
                 xCon.ex("say "+sVars.get("playername")+" picked up the " + powerup_selection[r] + "!");
             }
-            if(r < 4) {
+            if(new ArrayList<>(Arrays.asList(powerup_weap_selection)).contains(powerup_selection[r])) {
                 if (cVars.isZero("gamespawnarmed")) {
-                    changeWeapon(r + 1, true);
+                    changeWeapon(gWeapons.getWeaponFromString(powerup_selection[r]), true);
                 }
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {

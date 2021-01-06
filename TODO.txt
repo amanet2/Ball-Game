@@ -5,6 +5,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
+* weapons need overhaul
+    -> mainly should be able to give/remove weapons more easily than right now
 * should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
@@ -40,6 +43,8 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* add boxing glove back as a extreme-dmg extra range melee weap
+* Add ability to reset game to default settings
 * GAME: Virus should be passed on by killing
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge

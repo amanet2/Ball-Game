@@ -134,16 +134,19 @@ public class cVars {
         put("weaponbotrange2", "400");
         put("weaponbotrange3", "600");
         put("weaponbotrange4", "600");
+        put("weaponbotrange5", "300");
         put("weapontime0", "0");
         put("weapontime1", "0");
         put("weapontime2", "0");
         put("weapontime3", "0");
         put("weapontime4", "0");
+        put("weapontime5", "0");
         put("weaponstock0", "0");
         put("weaponstock1", "0");
         put("weaponstock2", "0");
         put("weaponstock3", "0");
         put("weaponstock4", "0");
+        put("weaponstock5", "0");
         put("winnerid", "");
         //bots
         put("botbehavior", "NONE");
