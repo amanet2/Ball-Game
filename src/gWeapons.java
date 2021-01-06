@@ -7,10 +7,9 @@ public class gWeapons {
 	static final int weapon_boxingglove = 5;
 
 	public static int getWeaponFromString(String s) {
-		String[] weap_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove"};
-		for(int j = 0; j < weap_selection.length; j++) {
-			if(weap_selection[j].equalsIgnoreCase(s))
-				return j+1;
+		for(int j = 0; j < weapons_selection.length; j++) {
+			if(weapons_selection[j].name.equalsIgnoreCase(s))
+				return j;
 		}
 		return -1;
 	}

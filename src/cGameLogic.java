@@ -797,17 +797,14 @@ public class cGameLogic {
                             if(sSettings.net_server) {
                                 if(cl.get("id").contains("bot")) {
                                     //do powerup effect
-                                    String[] powerup_selection = new String[]{
-                                            "pistol", "shotgun", "autorifle", "launcher"};
-                                    int r = (int)(Math.random()*(double)powerup_selection.length);
-                                    xCon.ex("say " + cl.get("name") + " picked up the " + powerup_selection[r] + "!");
-//                                    if(r < 4) {
+                                    int r = (int)(Math.random()*(double)gWeapons.weapons_selection.length);
+                                    xCon.ex("say " + cl.get("name") + " picked up the "
+                                            + gWeapons.weapons_selection[r+1].name + "!");
                                     cScripts.changeBotWeapon(cl, r + 1, true);
                                     if (cVars.isZero("gamespawnarmed")) {
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                                     }
-//                                    }
                                 }
                             }
                         }

@@ -43,6 +43,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* props should go from 0-5 where 0 is off and 1-6 are the powerups (need special case for the fast)
 * add boxing glove back as a extreme-dmg extra range melee weap
 * Add ability to reset game to default settings
 * GAME: Virus should be passed on by killing

@@ -1,7 +1,7 @@
 public class gWeaponsBoxingGlove extends gWeapon {
     public gWeaponsBoxingGlove() {
         super();
-        name = "BOXING GLOVE";
+        name = "BOXINGGLOVE";
         dims = new int[]{225,150};
         bulletDims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
