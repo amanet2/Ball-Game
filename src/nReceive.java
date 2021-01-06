@@ -37,7 +37,7 @@ public class nReceive {
                     String clientId = nServer.clientIds.get(i);
                     if(clientId.equals(packId)){
                         isnewclient = 0;
-                        nServer.matchPings[i+1] = (int) (System.currentTimeMillis() - oldTimestamp);
+                        nServer.matchPings[i+1] = (int) Math.abs(System.currentTimeMillis() - oldTimestamp);
                         if(oldName.length() > 0 && !oldName.equals(packName)) {
                             nServer.clientNames.set(i, packName);
                             xCon.ex(String.format("say %s changed name to %s", oldName, packName));

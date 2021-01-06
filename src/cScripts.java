@@ -535,6 +535,19 @@ public class cScripts {
         return id.toString();
     }
 
+    public static void playerDropPropHeld(gPlayer pl, int pc) {
+        gProp fl = null;
+        for(gProp fla : eManager.currentMap.scene.props()) {
+            if(fla.isInt("code", pc)) {
+                fl = fla;
+            }
+        }
+        if(fl != null) {
+            fl.putInt("coordx", pl.getInt("coordx"));
+            fl.putInt("coordy", pl.getInt("coordy"));
+        }
+    }
+
     public static void createDamagePopup(gPlayer p, gBullet tr) {
         int d = tr.getInt("dmg")
             -(int)((double)tr.getInt("dmg")
@@ -581,6 +594,7 @@ public class cScripts {
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                                 && cVars.isVal("flagmasterid", p.get("id"))) {
                             cVars.put("flagmasterid", "");
+//                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -632,6 +646,7 @@ public class cScripts {
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                         && cVars.isVal("flagmasterid", "server")) {
                             cVars.put("flagmasterid", "");
+//                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -889,7 +904,7 @@ public class cScripts {
                     else
                         winnerName = nServer.clientNames.get(i-1) + " (" + nServer.scores[i]+")";
                 }
-                else if(nServer.scores[i] == topscore) {
+                else if(topscore > 0 && nServer.scores[i] == topscore) {
                     tiectr++;
                 }
             }
