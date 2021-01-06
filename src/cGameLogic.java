@@ -74,7 +74,8 @@ public class cGameLogic {
                 int limit = Math.min(powerups.size(), cVars.getInt("powerupson"));
                 while (ctr < limit) {
                     int r = (int) (Math.random() * powerups.size());
-                    powerups.get(r).put("int0", "1");
+                    int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
+                    powerups.get(r).put("int0", Integer.toString(rr));
                     powerups.remove(r);
                     ctr++;
                 }
@@ -797,10 +798,9 @@ public class cGameLogic {
                             if(sSettings.net_server) {
                                 if(cl.get("id").contains("bot")) {
                                     //do powerup effect
-                                    int r = (int)(Math.random()*(double)gWeapons.weapons_selection.length);
                                     xCon.ex("say " + cl.get("name") + " picked up the "
-                                            + gWeapons.weapons_selection[r+1].name + "!");
-                                    cScripts.changeBotWeapon(cl, r + 1, true);
+                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
+                                    cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                     if (cVars.isZero("gamespawnarmed")) {
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));

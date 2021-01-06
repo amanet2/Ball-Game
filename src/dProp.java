@@ -33,7 +33,13 @@ public class dProp {
                         else if(prop.getInt("int0") < 1 && !prop.get("sprite").contains("flag_red"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
                     }
-                    g2.drawImage(prop.sprite,
+                    if(prop.isInt("code", gProp.POWERUP))
+                        g2.drawImage(gWeapons.weapons_selection[prop.getInt("int0")].sprite,
+                                eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
+                                eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")),
+                                null);
+                    else
+                        g2.drawImage(prop.sprite,
                             eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
                             eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")),
                             null

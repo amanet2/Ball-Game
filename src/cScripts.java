@@ -259,29 +259,26 @@ public class cScripts {
     }
 
     public static void checkPlayerPowerups(gProp powerup) {
-        if(powerup.getInt("int0") > 0) {
+        int r = powerup.getInt("int0");
+        if(r > 0) {
             //do powerup effect
-            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove", "fast"};
-//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "slow", "fast"};
-            int r = (int)(Math.random()*(double)powerup_selection.length);
+//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove", "fast"};
             if(sSettings.net_server) {
-                xCon.ex("say "+sVars.get("playername")+" picked up the " + powerup_selection[r] + "!");
+                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
             }
-            if(gWeapons.getWeaponFromString(powerup_selection[r]) > 0) {
-                if (cVars.isZero("gamespawnarmed")) {
-                    changeWeapon(gWeapons.getWeaponFromString(powerup_selection[r]), true);
-                }
+            if (cVars.isZero("gamespawnarmed")) {
+                changeWeapon(r, true);
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
 //                xCon.ex("THING_PLAYER.0.sicknessslow 1");
 //                xCon.ex("cv_sicknessslow 1");
 //            }
-            else if(powerup_selection[r].equals("fast") && cVars.isZero("sicknessfast")) {
-                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
-                xCon.ex("THING_PLAYER.0.sicknessfast 1");
-                xCon.ex("sicknessfast 1");
-            }
+//            else if(powerup_selection[r].equals("fast") && cVars.isZero("sicknessfast")) {
+//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
+//                xCon.ex("THING_PLAYER.0.sicknessfast 1");
+//                xCon.ex("sicknessfast 1");
+//            }
             powerup.put("int0", "0");
             cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
                     System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
