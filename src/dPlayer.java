@@ -28,7 +28,7 @@ public class dPlayer {
                         case gWeapons.weapon_launcher:
                             rgb[0] = 255;
                             break;
-                        case gWeapons.weapon_boxingglove:
+                        case gWeapons.weapon_gloves:
                             rgb[0] = 255;
                             rgb[1] = 255;
                             break;

@@ -50,7 +50,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle.png" :
                     p.isInt("weapon",gWeapons.weapon_shotgun) ? "misc/shotgun.png" :
-                        p.isInt("weapon",gWeapons.weapon_boxingglove) ? "misc/glove.png" :
+                        p.isInt("weapon",gWeapons.weapon_gloves) ? "misc/glove.png" :
                         p.isInt("weapon",gWeapons.weapon_none) ? "" :
                         p.isInt("weapon",gWeapons.weapon_launcher) ? "misc/launcher.png" :
                             "misc/bfg.png";
@@ -69,7 +69,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_shotgun) ? "misc/shotgun_flip.png" :
-                    p.isInt("weapon", gWeapons.weapon_boxingglove) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.weapon_gloves) ? "misc/glove_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_none) ? "" :
                     p.isInt("weapon", gWeapons.weapon_launcher) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
@@ -262,7 +262,7 @@ public class cScripts {
         int r = powerup.getInt("int0");
         if(r > 0) {
             //do powerup effect
-//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "boxingglove", "fast"};
+//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "gloves", "fast"};
             if(sSettings.net_server) {
                 xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
             }

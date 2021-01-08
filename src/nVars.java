@@ -45,7 +45,7 @@ public class nVars {
         keys.put("crouch", xCon.ex("THING_PLAYER.0.crouch"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
                 || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
-                || cVars.getInt("currentweapon") == gWeapons.weapon_boxingglove
+                || cVars.getInt("currentweapon") == gWeapons.weapon_gloves
                 || cVars.getInt("currentweapon") == gWeapons.weapon_none) ? "1" : "0");
         keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
         keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
