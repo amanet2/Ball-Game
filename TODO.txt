@@ -42,7 +42,7 @@
                at xMain.main(xMain.java:7)
    -> doing calls like matchKills[getInt("tag")] dont work because tags arent changed when ppl quit
 * CRASH: handle characters who are it/viral quitting
-    -> virus: remove player from the virus state string, if nobody infected after quit then re-assig    ``
+    -> virus: remove player from the virus state string, if nobody infected after quit then re-assign virus
     -> tag: re-assign "itness"
 * EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
