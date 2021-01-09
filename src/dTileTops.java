@@ -513,7 +513,7 @@ public class dTileTops {
         if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE) {
             //waypoints
             //virus single nav pointer
-            if(cVars.get("virussingleid").length() > 0 && !cVars.get("virussingleid").equals(uiInterface.uuid)) {
+            if(cVars.get("virussingleid").length() > 0) {
                 gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,

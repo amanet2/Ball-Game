@@ -190,9 +190,12 @@ public class dScreenMessages {
                     sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
-                            : "AMMO ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
+                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
+                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
+                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
                             eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
-                                    -System.currentTimeMillis())+"s]",
+                            -System.currentTimeMillis())+"s]"
+                            : "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+"]",
                     sSettings.width/62,60*sSettings.height/64);
             //sprint
             g.setColor(new Color(0,0,0,255));
@@ -205,7 +208,7 @@ public class dScreenMessages {
             g.drawRect(sSettings.width/64,62*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
-            g.drawString("SPEED", sSettings.width/62,62*sSettings.height/64);
+            g.drawString("BOOST", sSettings.width/62,62*sSettings.height/64);
         }
         //big font
         cScripts.setFontNormal(g);
