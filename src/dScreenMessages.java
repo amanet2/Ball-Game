@@ -154,6 +154,17 @@ public class dScreenMessages {
             g.setColor(new Color(150,0,0,255));
             g.drawRect(sSettings.width/64,58*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
+            if(cVars.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                cVars.getLong("hprechargetime") + cVars.getInt("delayhp")
+                        >= System.currentTimeMillis()) {
+                double reloadratio = (double)(
+                        cVars.getLong("hprechargetime") + cVars.getInt("delayhp")
+                                - System.currentTimeMillis())/cVars.getInt("delayhp");
+                g.setColor(new Color(255,60,150,100));
+                g.fillRect(sSettings.width/64,58*sSettings.height/64,
+                        (int)(sSettings.width/3*reloadratio),
+                        sSettings.height/64);
+            }
             g.setColor(new Color(200,200,200,255));
             g.drawString("HEALTH", sSettings.width/62,58*sSettings.height/64);
             //ammo

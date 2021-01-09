@@ -22,6 +22,7 @@ public class gWeaponsGloves extends gWeapon {
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
         b.putInt("tag", p.getInt("tag"));
         b.putInt("ttl",bulletTtl);
+        b.putInt("src", gWeapons.weapon_gloves);
         eManager.currentMap.scene.bullets().add(b);
     }
 }

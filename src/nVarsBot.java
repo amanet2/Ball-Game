@@ -16,8 +16,8 @@ public class nVarsBot {
         refreshForId(p.get("id"));
         if(p.getLong("botthinktime") < uiInterface.gameTime) {
             p.doBehavior(cVars.get("botbehavior"));
-            p.putLong("botthinktime", uiInterface.gameTime + cVars.getInt("botthinkdelay")
-                                            - (int)(Math.random()*(cVars.getInt("botthinkdelay")/2)));
+            int rd = (int)(Math.random()*cVars.getInt("botthinkdelay")-cVars.getInt("botthinkdelay")/2);
+            p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
         }
 
         for(String s : new String[]{"id","fv","name","color","crouch","hat"}) {

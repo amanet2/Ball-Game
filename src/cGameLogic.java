@@ -54,7 +54,7 @@ public class cGameLogic {
                 checkPlayersFire();
                 checkForPlayerDeath();
             }
-            cScripts.checkProjectileSplashes();
+            cScripts.checkBulletSplashes();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -1017,7 +1017,7 @@ public class cGameLogic {
 
     public static void checkForPlayerDeath() {
         gPlayer cl = cGameLogic.getPlayerByIndex(0);
-        cScripts.checkProjectileSplashes();
+        cScripts.checkBulletSplashes();
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cVars.contains("respawntime")) {

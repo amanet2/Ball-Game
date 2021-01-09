@@ -455,7 +455,7 @@ public class cScripts {
         }
     }
 
-    public static void checkProjectileSplashes() {
+    public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<gAnimationEmitter> tra = new ArrayList<>();
         HashMap<gPlayer,gBullet> trv = new HashMap<>();
@@ -474,7 +474,7 @@ public class cScripts {
                 continue;
             }
             for(gTile t : eManager.currentMap.scene.tiles()) {
-                if(b.doesCollideWithinTile(t)) {
+                if(b.doesCollideWithinTile(t) && b.getInt("src") != gWeapons.weapon_gloves) {
                     trc.add(b);
                     if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
                         eManager.currentMap.scene.animations().add(
