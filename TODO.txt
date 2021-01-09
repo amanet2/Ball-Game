@@ -48,6 +48,11 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* differentiate the way weapons work from the way powerups work
+    -> powerups should have a pink bar on top of regular hud that show the timingout
+    -> weapons should last until death and maybe even drop
+    -> but how to do this with flashlight?
+        -> flaghlight should be different thing, like an icon like half life
 * Add ability to reset game to default settings
 * GAME: Virus should be passed on by killing
 * maybe allow a creation mode so ppl can edit the map in multiplayer

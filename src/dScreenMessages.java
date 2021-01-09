@@ -190,7 +190,9 @@ public class dScreenMessages {
                     sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
-                            : "AMMO ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+"]",
+                            : "AMMO ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
+                            eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
+                                    -System.currentTimeMillis())+"s]",
                     sSettings.width/62,60*sSettings.height/64);
             //sprint
             g.setColor(new Color(0,0,0,255));
