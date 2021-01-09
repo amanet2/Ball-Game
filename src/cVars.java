@@ -24,7 +24,7 @@ public class cVars {
         put("delayhp", "5000");
         put("delayjump", "0");
         put("delaypow", "1000");
-        put("delayweap", "2000");
+        put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
         put("exitteleportertag", "-1");
