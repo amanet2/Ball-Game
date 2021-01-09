@@ -6,7 +6,7 @@ public class xComAttack extends xCom {
             br.fireWeapon();
             br.putLong("cooldown",
                     (System.currentTimeMillis()
-                            + (long)(gWeapons.weapons_selection[br.getInt("weapon")].firerate*(
+                            + (long)(gWeapons.weapons_selection[br.getInt("weapon")].refiredelay *(
                                     cVars.isOne("sicknessfast") ? 0.5 : cVars.isOne("sicknessslow") ? 2 : 1))));
         }
         return "attack";

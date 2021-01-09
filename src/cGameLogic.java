@@ -459,7 +459,7 @@ public class cGameLogic {
                     p.fireWeapon();
                     p.putLong("cooldown",
                             (System.currentTimeMillis()
-                                    + gWeapons.weapons_selection[p.getInt("weapon")].firerate));
+                                    + gWeapons.weapons_selection[p.getInt("weapon")].refiredelay));
                 }
                 if(p.isInt("crouch", 1)) {
                     cScripts.doPlayerCrouch(p);
@@ -798,8 +798,8 @@ public class cGameLogic {
                             if(sSettings.net_server) {
                                 if(cl.get("id").contains("bot")) {
                                     //do powerup effect
-                                    xCon.ex("say " + cl.get("name") + " picked up the "
-                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
+//                                    xCon.ex("say " + cl.get("name") + " picked up the "
+//                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                     if (cVars.isZero("gamespawnarmed")) {
                                         cl.putLong("powerupsusetime",

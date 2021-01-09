@@ -6,13 +6,14 @@ public class gWeaponsLauncher extends gWeapon {
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/bfg.wav";
-        firerate = 1000;
+        refiredelay = 1000;
         damage = 6000; //damage will come from the pellets spawned in the explosion
-        maxAmmo = 1;
+        maxAmmo = 2;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/launcher.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 200;
+        bulletVel = 20;
     }
 
     public void fireWeapon(gPlayer p) {

@@ -6,13 +6,14 @@ public class gWeaponsShotgun extends gWeapon {
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireblue.png");
         soundFilePath = "sounds/shotgun.wav";
-        firerate = 620;
+        refiredelay = 620;
         damage = 9600;
-        maxAmmo = 2;
+        maxAmmo = 8;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/shotgun.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 300;
+        bulletVel = 50;
     }
 
     public void fireWeapon(gPlayer p) {
@@ -24,6 +25,7 @@ public class gWeaponsShotgun extends gWeapon {
                         bulletSpritePath, p.getDouble("fv"), damage/5);
                 b.putInt("ttl",bulletTtl);
                 b.putInt("tag", p.getInt("tag"));
+                b.putInt("src", gWeapons.weapon_shotgun);
                 double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
                 b.putDouble("fv", b.getDouble("fv") + (i * Math.PI / 16 - Math.PI / 16 + randomOffset));
                 b.putInt("anim", gAnimations.ANIM_SPLASH_BLUE);

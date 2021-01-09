@@ -263,11 +263,12 @@ public class cScripts {
         if(r > 0) {
             //do powerup effect
 //            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "gloves", "fast"};
-            if(sSettings.net_server) {
-                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
-            }
+//            if(sSettings.net_server) {
+//                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
+//            }
             if (cVars.isZero("gamespawnarmed")) {
                 changeWeapon(r, true);
+                cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
@@ -546,18 +547,15 @@ public class cScripts {
     }
 
     public static void createDamagePopup(gPlayer p, gBullet tr) {
-        int d = tr.getInt("dmg")
-            -(int)((double)tr.getInt("dmg")
-            *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
-        String s = String.format("%d", d);
+        int adjusteddmg = tr.getInt("dmg") - (int)((double)tr.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
+        String s = String.format("%d", adjusteddmg);
         eManager.currentMap.scene.popups().add(new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
             p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)), s, 0.0));
         if(sVars.isOne("vfxenableanimations") && tr.getInt("anim") > -1)
             eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                 tr.getInt("coordx"), tr.getInt("coordy")));
         if(p.get("id").contains("bot") && !p.contains("spawnprotectiontime")) {
-            int adjusteddmg = tr.getInt("dmg") -(int)((double)tr.getInt("dmg")
-                    *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
             cGameLogic.damageBotHealth(p, adjusteddmg);
             if(p.getInt("stockhp") < 1) {
                 if(!p.contains("respawntime")) {
@@ -603,8 +601,6 @@ public class cScripts {
             }
         }
         if(p.isZero("tag") && !cVars.contains("spawnprotectiontime")) {
-            int adjusteddmg = tr.getInt("dmg") -(int)((double)tr.getInt("dmg")
-                    *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
             cGameLogic.damageHealth(adjusteddmg);
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {

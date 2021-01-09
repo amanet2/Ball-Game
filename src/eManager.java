@@ -99,9 +99,9 @@ public class eManager {
 
         for(gBullet obj : eManager.currentMap.scene.bullets()) {
             obj.putInt("coordx", obj.getInt("coordx")
-                - (int) (cVars.getInt("velocitybullet")*Math.cos(obj.getDouble("fv")+Math.PI/2)));
+                - (int) (gWeapons.weapons_selection[obj.getInt("src")].bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
-                - (int) (cVars.getInt("velocitybullet")*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+                - (int) (gWeapons.weapons_selection[obj.getInt("src")].bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
         for(gPopup obj : eManager.currentMap.scene.popups()) {
             obj.put("coordx", Integer.toString(obj.getInt("coordx")

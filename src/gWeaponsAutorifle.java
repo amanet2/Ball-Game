@@ -6,13 +6,14 @@ public class gWeaponsAutorifle extends gWeapon {
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireorange.png");
         soundFilePath = "sounds/30cal.wav";
-        firerate = 150;
-        damage = 1200;
-        maxAmmo = 15;
+        refiredelay = 80;
+        damage = 1100;
+        maxAmmo = 30;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
-        bulletTtl = 450;
+        bulletTtl = 300;
+        bulletVel = 60;
     }
 
     public void fireWeapon(gPlayer p) {
@@ -22,8 +23,9 @@ public class gWeaponsAutorifle extends gWeapon {
                 p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"),
                 damage);
             b.putInt("ttl",bulletTtl);
+            b.putInt("src", gWeapons.weapon_autorifle);
             b.putInt("tag", p.getInt("tag"));
-            double randomOffset = (Math.random() * Math.PI/4) - Math.PI/8;
+            double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
             b.putDouble("fv", b.getDouble("fv") + randomOffset);
             b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             eManager.currentMap.scene.bullets().add(b);

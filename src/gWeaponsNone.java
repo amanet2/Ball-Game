@@ -5,7 +5,7 @@ public class gWeaponsNone extends gWeapon {
         dims = new int[]{225,150};
         bulletDims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
-        firerate = 500;
+        refiredelay = 500;
         damage = 1100;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
@@ -14,6 +14,7 @@ public class gWeaponsNone extends gWeapon {
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 50;
+        bulletVel = 20;
     }
 
     public void fireWeapon(gPlayer p){

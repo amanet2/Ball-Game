@@ -93,7 +93,6 @@ public class cVars {
         put("suppressknocksound", "0");
         put("survivesafezone", "0");
         put("timeleft", sVars.get("timelimit"));
-        put("velocitybullet", "20");
         put("velocitycam", "9");
         put("velocityplayer", "8");
         put("velocityplayerbase", "8");

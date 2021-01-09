@@ -3,9 +3,9 @@ public class gWeaponsGloves extends gWeapon {
         super();
         name = "GLOVES";
         dims = new int[]{225,150};
-        bulletDims = new int[]{225,150};
+        bulletDims = new int[]{300,300};
         soundFilePath = "sounds/splash.wav";
-        firerate = 450;
+        refiredelay = 450;
         damage = 2200;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
@@ -13,6 +13,7 @@ public class gWeaponsGloves extends gWeapon {
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 75;
+        bulletVel = 20;
     }
 
     public void fireWeapon(gPlayer p){
