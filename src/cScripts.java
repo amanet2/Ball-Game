@@ -277,6 +277,8 @@ public class cScripts {
                     changeWeapon(r, true);
                     powerup.put("int0", "0");
                     cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+                    if(sSettings.net_client)
+                        cVars.put("sendpowerup", powerup.get("tag"));
 //                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
 //                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                 }
@@ -285,6 +287,8 @@ public class cScripts {
                     powerup.put("int0","0");
                     cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
                     xCon.ex("playsound sounds/clampdown.wav");
+                    if(sSettings.net_client)
+                        cVars.put("sendpowerup", powerup.get("tag"));
                 }
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {

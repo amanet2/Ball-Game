@@ -76,6 +76,7 @@ public class cVars {
         put("respawnwaittime", sVars.get("respawnwaittime"));
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));
+        put("sendpowerup", "-1");
         put("sendsafezone", "0");
         put("sendsound", "");
         put("serveraddbotstime", "0");
