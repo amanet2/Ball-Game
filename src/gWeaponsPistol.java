@@ -6,8 +6,8 @@ public class gWeaponsPistol extends gWeapon {
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/laser.wav";
-        refiredelay = 400;
-        damage = 2000;
+        refiredelay = 300;
+        damage = 1400;
         maxAmmo = 18;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
         flipdimr = 100;

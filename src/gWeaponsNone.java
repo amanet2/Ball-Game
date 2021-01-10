@@ -6,7 +6,7 @@ public class gWeaponsNone extends gWeapon {
         bulletDims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
         refiredelay = 500;
-        damage = 1100;
+        damage = 800;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
 //        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
