@@ -284,6 +284,7 @@ public class cScripts {
                         && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
                     powerup.put("int0","0");
                     cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+                    xCon.ex("playsound sounds/clampdown.wav");
                 }
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {

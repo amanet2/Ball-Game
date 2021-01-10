@@ -12,6 +12,7 @@ public class uiMenusControls extends uiMenu {
                 new uiMenuItem("jump: Space"),
                 new uiMenuItem("crouch: Ctrl"),
                 new uiMenuItem("reload weapon: "+(char)(int)xCon.getKeyCodeForComm("reload")),
+                new uiMenuItem("change weapon: Mouse Wheel"),
                 new uiMenuItem("flashlight: "+(char)(int)xCon.getKeyCodeForComm("flashlight")),
                 new uiMenuItem("center camera: "+(char)(int)xCon.getKeyCodeForComm("centercamera")),
                 new uiMenuItem("show scoreboard: Tab"),
