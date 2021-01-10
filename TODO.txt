@@ -49,6 +49,14 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* powerups ideas
+    -> super speed
+    -> on-fire like bomberman (touch ppl, they die)
+    -> shielded
+    -> dmg boost
+* be sure to make as many variant maps for the different gamemodes
+* replace chosen/anti-chosen maps with flag master
+    -> remove existing fm map
 * add "disable attacks" flag
     -> would only be fun in specific gamemodes
     -> could be a map string
