@@ -5,7 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* weapons carrying over after prev round ends
+* bot weapons not working all the time
 * edit game so different timezones and computer times work correctly
     -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$

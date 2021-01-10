@@ -739,7 +739,7 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
             }
-//            cVars.putInt("currentweapon", gWeapons.weapon_none);
+            cVars.putInt("currentweapon", gWeapons.weapon_none);
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){

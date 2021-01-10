@@ -21,7 +21,7 @@ public class cVars {
         put("clipplayer", "1");
         put("collideplayers", "1");
         put("currentweapon", "0");
-        put("delayhp", "4000");
+        put("delayhp", "2400");
         put("delayjump", "0");
         put("delaypow", "1000");
         put("delayweap", "1800");
@@ -70,7 +70,7 @@ public class cVars {
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
-        put("rechargehp", "6");
+        put("rechargehp", "4");
         put("reloading", "0");
         put("reportedkiller", "1");
         put("respawnwaittime", sVars.get("respawnwaittime"));

@@ -3,7 +3,7 @@ public class gWeaponsNone extends gWeapon {
         super();
         name = "ROCK";
         dims = new int[]{225,150};
-        bulletDims = new int[]{225,150};
+        bulletDims = new int[]{150,150};
         soundFilePath = "sounds/splash.wav";
         refiredelay = 500;
         damage = 800;
