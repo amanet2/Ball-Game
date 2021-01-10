@@ -64,8 +64,8 @@ public class nVars {
             xCon.ex("THING_PLAYER.0.vel1"), xCon.ex("THING_PLAYER.0.vel2"),
             xCon.ex("THING_PLAYER.0.vel3")));
         keys.put("weapon", cVars.get("currentweapon"));
-        keys.put("sicknessslow", xCon.ex("THING_PLAYER.0.sicknessslow"));
-        keys.put("sicknessfast", xCon.ex("THING_PLAYER.0.sicknessfast"));
+//        keys.put("sicknessslow", xCon.ex("THING_PLAYER.0.sicknessslow"));
+//        keys.put("sicknessfast", xCon.ex("THING_PLAYER.0.sicknessfast"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
         else
