@@ -54,7 +54,7 @@ public class cGameLogic {
                 checkPlayersFire();
                 checkForPlayerDeath();
             }
-            cScripts.checkProjectileSplashes();
+            cScripts.checkBulletSplashes();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -74,7 +74,8 @@ public class cGameLogic {
                 int limit = Math.min(powerups.size(), cVars.getInt("powerupson"));
                 while (ctr < limit) {
                     int r = (int) (Math.random() * powerups.size());
-                    powerups.get(r).put("int0", "1");
+                    int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
+                    powerups.get(r).put("int0", Integer.toString(rr));
                     powerups.remove(r);
                     ctr++;
                 }
@@ -82,9 +83,9 @@ public class cGameLogic {
             }
             //powerup expired
             if (cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime") < System.currentTimeMillis()) {
-                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
-                    cScripts.changeWeapon(0, true);
-                }
+//                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
+//                    cScripts.changeWeapon(0, true);
+//                }
                 cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase"));
                 xCon.ex("THING_PLAYER.0.sicknessslow 0");
                 xCon.ex("THING_PLAYER.0.sicknessfast 0");
@@ -95,8 +96,8 @@ public class cGameLogic {
                 for(gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").contains("bot")) {
                         if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != 0) {
-                                cScripts.changeBotWeapon(p, 0, true);
+                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
+                                cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
                             }
                         }
                     }
@@ -233,7 +234,7 @@ public class cGameLogic {
             }
             while(nServer.quitClientIds.size() > 0) {
                 String quitterId = nServer.quitClientIds.remove();
-                cScripts.removeNetClient(quitterId);
+                nServer.removeNetClient(quitterId);
             }
             while(nServer.kickClientIds.size() > 0 && nServer.kickConfirmed) {
                 nServer.kickClientIds.remove();
@@ -458,7 +459,7 @@ public class cGameLogic {
                     p.fireWeapon();
                     p.putLong("cooldown",
                             (System.currentTimeMillis()
-                                    + gWeapons.weapons_selection[p.getInt("weapon")].firerate));
+                                    + gWeapons.weapons_selection[p.getInt("weapon")].refiredelay));
                 }
                 if(p.isInt("crouch", 1)) {
                     cScripts.doPlayerCrouch(p);
@@ -795,19 +796,14 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
-                                if(cl.get("id").contains("bot")) {
+                                if(cl.get("id").contains("bot") && cVars.isZero("gamespawnarmed")
+                                        && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
-                                    String[] powerup_selection = new String[]{
-                                            "pistol", "shotgun", "autorifle", "launcher"};
-                                    int r = (int)(Math.random()*(double)powerup_selection.length);
-                                    xCon.ex("say " + cl.get("name") + " picked up the " + powerup_selection[r] + "!");
-//                                    if(r < 4) {
-                                    cScripts.changeBotWeapon(cl, r + 1, true);
-                                    if (cVars.isZero("gamespawnarmed")) {
+//                                    xCon.ex("say " + cl.get("name") + " picked up the "
+//                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
-                                    }
-//                                    }
+                                    cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                 }
                             }
                         }
@@ -921,9 +917,106 @@ public class cGameLogic {
         }
     }
 
+    public static String getGameState() {
+        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
+            for(gProp p : eManager.currentMap.scene.props()) {
+                if(p.isInt("code", gProp.SAFEPOINT) && p.isInt("int0", 1))
+                    return String.format("safezone-%s-%s-", p.get("tag"), cVars.get("safezonetime"));
+            }
+        }
+        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
+            int c = 0;
+            for(gProp p : eManager.currentMap.scene.props()) {
+                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
+                    break;
+                c++;
+            }
+            return String.format("waypoints-%d-", c);
+        }
+        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
+            int c = 0;
+            for(gProp p : eManager.currentMap.scene.props()) {
+                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
+                    break;
+                c++;
+            }
+            return String.format("bouncyball-%d-", c);
+        }
+        // KOF
+        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
+            StringBuilder s = new StringBuilder();
+            for (int i : cVars.getIntArray("kofflagcaps")) {
+                s.append(i);
+            }
+            return String.format("kingofflags%s", s);
+        }
+        // VIRUS
+        if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
+            //check
+            if(!cVars.contains("virustags"))
+                cGameLogic.refreshVirusPlayers();
+            String[] vts = cVars.getArray("virustags");
+            //check if reset time
+            if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
+                cGameLogic.refreshVirusPlayers();
+                cVars.remove("virusresettime");
+            }
+            //check if more players
+            if(vts.length != eManager.currentMap.scene.players().size()) {
+                String[] na = Arrays.copyOf(vts, eManager.currentMap.scene.players().size());
+                for(int i = vts.length; i < na.length; i++) {
+                    na[i] = "1";
+                }
+                cVars.putArray("virustags", na);
+            }
+            String virusIdsStr = cScripts.getVirusIdsString();
+            //check intersections
+            for(int i = 0; i < eManager.currentMap.scene.players().size(); i++) {
+                for(int j = 0; j < eManager.currentMap.scene.players().size(); j++) {
+                    if(i != j) {
+                        gPlayer p = cGameLogic.getPlayerByIndex(i);
+                        gPlayer pp = cGameLogic.getPlayerByIndex(j);
+                        Rectangle r = new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
+                                p.getInt("dimw"), p.getInt("dimh"));
+                        Rectangle rr = new Rectangle(pp.getInt("coordx"), pp.getInt("coordy"),
+                                pp.getInt("dimw"), pp.getInt("dimh"));
+                        if (r.intersects(rr) && (
+                                (p.getInt("tag") == 0 && virusIdsStr.contains("server"))
+                                        || (p.get("id").length() > 0 && virusIdsStr.contains(p.get("id")))
+                                        || (pp.get("id").length() > 0 && virusIdsStr.contains(pp.get("id")))
+                        )) {
+                            String[] cvts = cVars.getArray("virustags");
+                            if(!cvts[i].equals("1")) {
+                                xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
+                            }
+                            if(!cvts[j].equals("1")) {
+                                xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
+                            }
+                            cVars.putInArray("virustags", "1", i);
+                            cVars.putInArray("virustags", "1", j);
+                        }
+                    }
+                }
+            }
+            virusIdsStr = cScripts.getVirusIdsString();
+            //send codes before ids
+            StringBuilder virusTagsStr = new StringBuilder();
+            for(String s : cVars.getArray("virustags")) {
+                virusTagsStr.append(s);
+            }
+            //check if thing if full, begin countdown to reset if it is
+            String[] cts = virusIdsStr.split("-");
+            if(cts.length-1 == vts.length && !cVars.contains("virusresettime")) {
+                cVars.putLong("virusresettime", System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
+            }
+            return String.format("virus-%s%s", virusTagsStr.toString(), virusIdsStr);
+        }
+        return "";
+    }
+
     public static void checkForPlayerDeath() {
         gPlayer cl = cGameLogic.getPlayerByIndex(0);
-        cScripts.checkProjectileSplashes();
+        cScripts.checkBulletSplashes();
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cVars.contains("respawntime")) {

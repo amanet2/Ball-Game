@@ -7,12 +7,13 @@ public class gWeapon {
     int[] dims;
     int[] bulletDims;
     int damage;
-    int firerate;
+    int refiredelay;
     String bulletSpritePath;
     String soundFilePath;
     int flipdimr;
     int flipdiml;
     int bulletTtl;
+    int bulletVel;
 
     public gWeapon() {
     }

@@ -82,6 +82,13 @@ public class gPlayer extends gThing {
                 }
             }
         }
+        if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
+            for (gPlayer target : eManager.currentMap.scene.players()) {
+                if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -102,6 +109,19 @@ public class gPlayer extends gThing {
                 target.getInt("coordy"),
                 target.getInt("dimw"),
                 target.getInt("dimh")
+            );
+            return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
+        }
+        return false;
+    }
+
+    public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
+        if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
+            Shape bounds = new Rectangle(
+                    target.getInt("coordx") + target.getInt("dimw")/4,
+                    target.getInt("coordy") + target.getInt("dimh")/4,
+                    target.getInt("dimw")/2,
+                    target.getInt("dimh")/2
             );
             return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
         }

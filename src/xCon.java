@@ -214,6 +214,24 @@ public class xCon {
         commands.put("zoom", new xComZoom());
     }
 
+    public static Integer getKeyCodeForComm(String comm) {
+        if(comm.length() > 0) {
+            if(comm.charAt(0) == '-') {
+                for(Integer j : xCon.instance().releaseBinds.keySet()) {
+                    if(xCon.instance().releaseBinds.get(j).equals(comm)) {
+                        return j;
+                    }
+                }
+            }
+            for(Integer j : xCon.instance().pressBinds.keySet()) {
+                if(xCon.instance().pressBinds.get(j).equals(comm)) {
+                    return j;
+                }
+            }
+        }
+        return -1;
+    }
+
     public static String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");

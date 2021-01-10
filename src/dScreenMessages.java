@@ -154,23 +154,45 @@ public class dScreenMessages {
             g.setColor(new Color(150,0,0,255));
             g.drawRect(sSettings.width/64,58*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
+            if(cVars.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                cVars.getLong("hprechargetime") + cVars.getInt("delayhp")
+                        >= System.currentTimeMillis()) {
+                double reloadratio = (double)(
+                        cVars.getLong("hprechargetime") + cVars.getInt("delayhp")
+                                - System.currentTimeMillis())/cVars.getInt("delayhp");
+                g.setColor(new Color(255,60,150,100));
+                g.fillRect(sSettings.width/64,58*sSettings.height/64,
+                        (int)(sSettings.width/3*reloadratio),
+                        sSettings.height/64);
+            }
             g.setColor(new Color(200,200,200,255));
             g.drawString("HEALTH", sSettings.width/62,58*sSettings.height/64);
             //ammo
             g.setColor(new Color(0,0,0,255));
             g.fillRect(sSettings.width/64,60*sSettings.height/64, sSettings.width/3,
                     sSettings.height/64);
-            g.setColor(new Color(30,50,220,255));
-            if(gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo > 0)
+            if(cScripts.isReloading()) {
+                double reloadratio = (double)(
+                        cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
+                        - System.currentTimeMillis())/cVars.getInt("delayweap");
+                g.setColor(new Color(255,255,255,100));
                 g.fillRect(sSettings.width/64,60*sSettings.height/64,
-                        sSettings.width/3*cVars.getInt("weaponstock"+cVars.get("currentweapon"))
-                                /gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo,
+                        (int)(sSettings.width/3-(sSettings.width/3*reloadratio)),
                         sSettings.height/64);
+            }
+            else {
+                g.setColor(new Color(30,50,220,255));
+                if(gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo > 0)
+                    g.fillRect(sSettings.width/64,60*sSettings.height/64,
+                            sSettings.width/3*cVars.getInt("weaponstock"+cVars.get("currentweapon"))
+                                    /gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo,
+                            sSettings.height/64);
+            }
             g2.setColor(Color.BLACK);
             for(int j = 0; j < gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo;j++) {
                 g2.drawRect(
-                sSettings.width/64+(j*((sSettings.width/3)/gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo)),
-                    60*sSettings.height/64,
+                        sSettings.width/64+(j*((sSettings.width/3)/gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo)),
+                        60*sSettings.height/64,
                         ((sSettings.width/3)/gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo),
                         sSettings.height/64);
             }
@@ -178,8 +200,17 @@ public class dScreenMessages {
             g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                     sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
-            g.drawString(cVars.isOne("reloading") ? "-- RELOADING --"
-                            : "AMMO ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+"]",
+            g.drawString(cScripts.isReloading() ? "-- RELOADING --"
+//                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
+//                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
+//                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
+//                            eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
+//                            -System.currentTimeMillis())+"s]"
+                    : cVars.getInt("currentweapon") != gWeapons.weapon_none
+                    && cVars.getInt("currentweapon") != gWeapons.weapon_gloves
+                    ? (gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase()
+                    + " ["+cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]")
+                    : gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase(),
                     sSettings.width/62,60*sSettings.height/64);
             //sprint
             g.setColor(new Color(0,0,0,255));
@@ -192,7 +223,7 @@ public class dScreenMessages {
             g.drawRect(sSettings.width/64,62*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
-            g.drawString("SPEED", sSettings.width/62,62*sSettings.height/64);
+            g.drawString("BOOST", sSettings.width/62,62*sSettings.height/64);
         }
         //big font
         cScripts.setFontNormal(g);
@@ -391,7 +422,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex(textcolor).split(",")[1]),
                         Integer.parseInt(xCon.ex(textcolor).split(",")[2]),
                         Integer.parseInt(xCon.ex(textcolor).split(",")[3])));
-                dScreenMessages.drawCenteredString(g,"YOU ARE THE CHOSEN ONE",
+                dScreenMessages.drawCenteredString(g,"YOU ARE THE VICTIM",
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
         }

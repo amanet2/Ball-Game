@@ -24,7 +24,7 @@ public class cGameMode {
             "Flag Master",
             "Bouncy Ball",
             "Chosen One",
-            "Anti Chosen One"
+            "Victim"
     };
     static String[] net_gamemode_descriptions = {
             "Kill other players",

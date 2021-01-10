@@ -156,8 +156,11 @@ public class cBotsLogic {
             if(waypoint != null) {
                 if(inBotWeaponRange(bot,waypoint)) {
                     gPlayer botPlayer = (gPlayer) bot;
-                    cScripts.pointPlayerAtCoords(botPlayer, waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
-                            waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
+                    int waypointErrorMargin = eUtils.scaleInt(300);
+                    int rx = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
+                    int ry = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
+                    cScripts.pointPlayerAtCoords(botPlayer, rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
+                            ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
                     botPlayer.fireWeapon();
                 }
                 else {

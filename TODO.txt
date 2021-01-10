@@ -5,6 +5,15 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bot weapons not working all the time
+* edit game so different timezones and computer times work correctly
+    -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
+    -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
+* server says bots pick up items but sometimes nothing is visualized on the bot sprite
+* bots wont go for flag in kof if another bot owns that flag
+* I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
+* weapons need overhaul
+    -> mainly should be able to give/remove weapons more easily than right now
 * should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
@@ -40,7 +49,25 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* GAME: Virus should be passed on by killing
+* powerups ideas
+    -> super speed
+    -> on-fire like bomberman (touch ppl, they die)
+    -> shielded
+    -> dmg boost
+* be sure to make as many variant maps for the different gamemodes
+* replace chosen/anti-chosen maps with flag master
+    -> remove existing fm map
+* add "disable attacks" flag
+    -> would only be fun in specific gamemodes
+    -> could be a map string
+* new powerups string
+    -> <on/off>:<xcoord>:<ycoord>
+    -> replaces the current string
+* add ability for map to have a sound play on each score
+    -> would be manually exec'd with a line
+    -> integrate into mapmaker as well
+* reintroduce powerups, would function the way weapons used to
+* Add ability to reset game to default settings
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge
     -> simply pass along the console command to place a tile over the network and run it on the other side
@@ -50,20 +77,15 @@
         -> will just remove/reinstert tile at index in array
             -> where N is new index, if N > size, then do size instead
             -> where N is 0 or below, just put at 0
+            -> all orginal tiles m (>N) become m+1
 * need to see a visual pallette for selecting tiles
 * create a hashmap of string/gDoable tuples so we can call things like "THING_PLAYER.0.do_thing"
 * implementing search algorithms for ai
     -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
     -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
         -> function should take a x,y, pair and return 4 candidate pairs (1 each dir)
-* map designs
-    -> think of maps as a group or series of several fun minicourses
-        -> a "course" would be a sequence of obstacles that for movements alternating in LR or UD directions
-* switch between gfx styles in the video menu
 * make the powerups float up and down and have a shadow
 * change "thetime" to have the server "say" the time after receving proper msg
-* players bounce off of eachother in topdown view
-    -> user an small centered hitbox for all other players in the collision check
 * server could have a "admin" role where you can use the mapmaker
     -> actions taken by the admin broadcast to all players
         -> e.g. deleted a powerup, added a tile
@@ -97,7 +119,7 @@
     -> mousewheel goes to next _open_ slot
         -> have a co-array that's like [1,0,0,0,0] for each locked/unlocked slot
     -> if weapons are on and reloading is disabled, going over a weapons powerup should refill ammo
-* to cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
+*  cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
 to reference them.
 * replace stockhp
     -> replace all cVars usage of stockhp with calls for player0's stockhp
@@ -105,9 +127,7 @@ to reference them.
 * need more vars on player and not in cvars
     -> like health
     -> handle respawns by player obj, not by user
-* be able to kil bot
 * as a bot on sideview map, look for edges of platforms above yourself for the opportunity to jump
-    -> if waypoint above try to jump
 * make players eyes blink
 * allow all textures in folder to be used in mapmaker
 * new gametypes
@@ -128,6 +148,7 @@ to reference them.
 * new weapons
     -> add a bomb type that functions like the bomberman64 bomb
     -> something like the rock from dod mg server
+        -> bounces around and flies far and erratically
     -> jihad
 * new props
     -> for race mode, bombs that explode on contact and stop you for a little
@@ -155,8 +176,6 @@ to reference them.
     -> lockscale s
         -> locks game scale at certain level for the duration of the map
         -> no zooming allowed
-* keep trying to scale panel to full screen in full screen mode
-* add 'allow reload' flag for game & server
 * add texture tiling
     -> sprite must be converted to bufferedimage before drawing
     -> on a per texture basis i.e. 3 "fill or tile" flags per tile
@@ -167,11 +186,6 @@ to reference them.
 * change vector of speed boost (RMB) depending on movement keys held down
 * put visual feedback for racing positions
 * add voip
-* ADD BOTS
-    -> bot logic will depend on game type
-    -> virus should be easiest
-        -> if not infected, move random and fire on infected nearby
-        -> if infected, move toward nearest uninfected
 * Load all images used on a map into a temp. sprite sheet to improve performance?
 * TRY MAKING PLAYER SHRINK/INFLATE FOR SLOW/FAST POWERUPS
 * ENABLE A "GRAVITY" SETTING EXCLUSIVELY FOR SIDESCROLLER MAPS

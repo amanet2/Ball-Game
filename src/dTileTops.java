@@ -461,7 +461,9 @@ public class dTileTops {
             //chosen one nav pointer
             if((cVars.getInt("gamemode") == cGameMode.CHOSENONE
                     || cVars.getInt("gamemode") == cGameMode.ANTI_CHOSENONE)
-                    && cVars.get("chosenoneid").length() > 0 && !cVars.get("chosenoneid").equals(uiInterface.uuid)) {
+                    && cVars.get("chosenoneid").length() > 0
+                    && !(cVars.getInt("gamemode") == cGameMode.CHOSENONE
+                    && cVars.get("chosenoneid").equals(uiInterface.uuid))) {
                 gPlayer p = cGameLogic.getPlayerById(cVars.get("chosenoneid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
@@ -513,7 +515,7 @@ public class dTileTops {
         if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE) {
             //waypoints
             //virus single nav pointer
-            if(cVars.get("virussingleid").length() > 0 && !cVars.get("virussingleid").equals(uiInterface.uuid)) {
+            if(cVars.get("virussingleid").length() > 0) {
                 gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,

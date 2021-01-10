@@ -50,7 +50,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle.png" :
                     p.isInt("weapon",gWeapons.weapon_shotgun) ? "misc/shotgun.png" :
-//                        p.isInt("weapon",gWeapons.weapon_none) ? "misc/glove.png" :
+                        p.isInt("weapon",gWeapons.weapon_gloves) ? "misc/glove.png" :
                         p.isInt("weapon",gWeapons.weapon_none) ? "" :
                         p.isInt("weapon",gWeapons.weapon_launcher) ? "misc/launcher.png" :
                             "misc/bfg.png";
@@ -69,7 +69,7 @@ public class cScripts {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_shotgun) ? "misc/shotgun_flip.png" :
-//                    p.isInt("weapon", gWeapons.weapon_none) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.weapon_gloves) ? "misc/glove_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_none) ? "" :
                     p.isInt("weapon", gWeapons.weapon_launcher) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
@@ -258,18 +258,33 @@ public class cScripts {
         }
     }
 
+    public static boolean isReloading() {
+        return cVars.isOne("allowweaponreload")
+                && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
+                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
+    }
+
     public static void checkPlayerPowerups(gProp powerup) {
-        if(powerup.getInt("int0") > 0) {
+        int r = powerup.getInt("int0");
+        if(r > 0) {
             //do powerup effect
-            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "fast"};
-//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "slow", "fast"};
-            int r = (int)(Math.random()*(double)powerup_selection.length);
-            if(sSettings.net_server) {
-                xCon.ex("say "+sVars.get("playername")+" picked up the " + powerup_selection[r] + "!");
-            }
-            if(r < 4) {
-                if (cVars.isZero("gamespawnarmed")) {
-                    changeWeapon(r + 1, true);
+//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "gloves", "fast"};
+//            if(sSettings.net_server) {
+//                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
+//            }
+            if (cVars.isZero("gamespawnarmed")) {
+                if(cVars.isZero("currentweapon")) {
+                    changeWeapon(r, true);
+                    powerup.put("int0", "0");
+                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+//                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
+//                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
+                }
+                else if(cVars.isInt("currentweapon", r)
+                        && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
+                    powerup.put("int0","0");
+                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+                    xCon.ex("playsound sounds/clampdown.wav");
                 }
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
@@ -277,14 +292,11 @@ public class cScripts {
 //                xCon.ex("THING_PLAYER.0.sicknessslow 1");
 //                xCon.ex("cv_sicknessslow 1");
 //            }
-            else if(powerup_selection[r].equals("fast") && cVars.isZero("sicknessfast")) {
-                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
-                xCon.ex("THING_PLAYER.0.sicknessfast 1");
-                xCon.ex("sicknessfast 1");
-            }
-            powerup.put("int0", "0");
-            cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
-                    System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
+//            else if(powerup_selection[r].equals("fast") && cVars.isZero("sicknessfast")) {
+//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
+//                xCon.ex("THING_PLAYER.0.sicknessfast 1");
+//                xCon.ex("sicknessfast 1");
+//            }
         }
     }
 
@@ -447,11 +459,12 @@ public class cScripts {
             g.putInt("ttl",150);
             g.putInt("tag", seed.getInt("tag"));
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
+            g.putInt("isexplosionpart",1);
             eManager.currentMap.scene.bullets().add(g);
         }
     }
 
-    public static void checkProjectileSplashes() {
+    public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<gAnimationEmitter> tra = new ArrayList<>();
         HashMap<gPlayer,gBullet> trv = new HashMap<>();
@@ -470,7 +483,8 @@ public class cScripts {
                 continue;
             }
             for(gTile t : eManager.currentMap.scene.tiles()) {
-                if(b.doesCollideWithinTile(t)) {
+                if(b.doesCollideWithinTile(t) && b.getInt("src") != gWeapons.weapon_gloves
+                && b.isZero("isexplosionpart")) {
                     trc.add(b);
                     if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
                         eManager.currentMap.scene.animations().add(
@@ -535,19 +549,29 @@ public class cScripts {
         return id.toString();
     }
 
+    public static void playerDropPropHeld(gPlayer pl, int pc) {
+        gProp fl = null;
+        for(gProp fla : eManager.currentMap.scene.props()) {
+            if(fla.isInt("code", pc)) {
+                fl = fla;
+            }
+        }
+        if(fl != null) {
+            fl.putInt("coordx", pl.getInt("coordx"));
+            fl.putInt("coordy", pl.getInt("coordy"));
+        }
+    }
+
     public static void createDamagePopup(gPlayer p, gBullet tr) {
-        int d = tr.getInt("dmg")
-            -(int)((double)tr.getInt("dmg")
-            *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
-        String s = String.format("%d", d);
+        int adjusteddmg = tr.getInt("dmg") - (int)((double)tr.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
+        String s = String.format("%d", adjusteddmg);
         eManager.currentMap.scene.popups().add(new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
             p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)), s, 0.0));
         if(sVars.isOne("vfxenableanimations") && tr.getInt("anim") > -1)
             eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                 tr.getInt("coordx"), tr.getInt("coordy")));
         if(p.get("id").contains("bot") && !p.contains("spawnprotectiontime")) {
-            int adjusteddmg = tr.getInt("dmg") -(int)((double)tr.getInt("dmg")
-                    *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
             cGameLogic.damageBotHealth(p, adjusteddmg);
             if(p.getInt("stockhp") < 1) {
                 if(!p.contains("respawntime")) {
@@ -581,6 +605,10 @@ public class cScripts {
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                                 && cVars.isVal("flagmasterid", p.get("id"))) {
                             cVars.put("flagmasterid", "");
+//                            playerDropPropHeld(p, gProp.FLAGRED);
+                        }
+                        if(cVars.isZero("gamespawnarmed")) {
+                            cScripts.changeBotWeapon(p,gWeapons.weapon_none,true);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -592,11 +620,10 @@ public class cScripts {
             }
         }
         if(p.isZero("tag") && !cVars.contains("spawnprotectiontime")) {
-            int adjusteddmg = tr.getInt("dmg") -(int)((double)tr.getInt("dmg")
-                    *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
             cGameLogic.damageHealth(adjusteddmg);
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {
+                    cVars.putInt("currentweapon", gWeapons.weapon_none);
                     cVars.remove("shaketime");
                     cVars.putInt("cammode", gCamera.MODE_TRACKING);
                     cVars.putInt("camplayertrackingindex", tr.getInt("tag"));
@@ -632,6 +659,7 @@ public class cScripts {
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                         && cVars.isVal("flagmasterid", "server")) {
                             cVars.put("flagmasterid", "");
+//                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -714,6 +742,7 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
             }
+            cVars.putInt("currentweapon", gWeapons.weapon_none);
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){
@@ -729,16 +758,6 @@ public class cScripts {
         for(String s : eManager.currentMap.execLines) {
             xCon.ex(s.replaceFirst("cmd ", ""));
         }
-    }
-
-    public static HashMap<String,String> getMapFromNetString(String argload) {
-        HashMap<String,String> toReturn = new HashMap<>();
-        String argstr = argload.substring(1,argload.length()-1);
-        for(String pair : argstr.split(",")) {
-            String[] vals = pair.split("=");
-            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
-        }
-        return  toReturn;
     }
 
     public static boolean canSpawnPlayer() {
@@ -797,7 +816,7 @@ public class cScripts {
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
         if(eManager.currentMap.scene.botplayers().size() > 0 && !(!fromPowerup && newweapon != 0
                 && cVars.isZero("gamespawnarmed"))) {
-            cl.putInt("weapon", newweapon);
+            nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }
     }
@@ -833,104 +852,7 @@ public class cScripts {
         return sSettings.net_server || sSettings.net_client;
     }
 
-    public static String getGameState() {
-        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SAFEPOINT) && p.isInt("int0", 1))
-                    return String.format("safezone-%s-%s-", p.get("tag"), cVars.get("safezonetime"));
-            }
-        }
-        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            int c = 0;
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
-                    break;
-                c++;
-            }
-            return String.format("waypoints-%d-", c);
-        }
-        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
-            int c = 0;
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
-                    break;
-                c++;
-            }
-            return String.format("bouncyball-%d-", c);
-        }
-        // KOF
-        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-            StringBuilder s = new StringBuilder();
-            for (int i : cVars.getIntArray("kofflagcaps")) {
-                s.append(i);
-            }
-            return String.format("kingofflags%s", s);
-        }
-        // VIRUS
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
-            //check
-            if(!cVars.contains("virustags"))
-                cGameLogic.refreshVirusPlayers();
-            String[] vts = cVars.getArray("virustags");
-            //check if reset time
-            if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
-                cGameLogic.refreshVirusPlayers();
-                cVars.remove("virusresettime");
-            }
-            //check if more players
-            if(vts.length != eManager.currentMap.scene.players().size()) {
-                String[] na = Arrays.copyOf(vts, eManager.currentMap.scene.players().size());
-                for(int i = vts.length; i < na.length; i++) {
-                    na[i] = "1";
-                }
-                cVars.putArray("virustags", na);
-            }
-            String virusIdsStr = getVirusIdsString();
-            //check intersections
-            for(int i = 0; i < eManager.currentMap.scene.players().size(); i++) {
-                for(int j = 0; j < eManager.currentMap.scene.players().size(); j++) {
-                    if(i != j) {
-                        gPlayer p = cGameLogic.getPlayerByIndex(i);
-                        gPlayer pp = cGameLogic.getPlayerByIndex(j);
-                        Rectangle r = new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
-                                p.getInt("dimw"), p.getInt("dimh"));
-                        Rectangle rr = new Rectangle(pp.getInt("coordx"), pp.getInt("coordy"),
-                                pp.getInt("dimw"), pp.getInt("dimh"));
-                        if (r.intersects(rr) && (
-                                (p.getInt("tag") == 0 && virusIdsStr.contains("server"))
-                                || (p.get("id").length() > 0 && virusIdsStr.contains(p.get("id")))
-                                || (pp.get("id").length() > 0 && virusIdsStr.contains(pp.get("id")))
-                        )) {
-                            String[] cvts = cVars.getArray("virustags");
-                            if(!cvts[i].equals("1")) {
-                                xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
-                            }
-                            if(!cvts[j].equals("1")) {
-                                xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
-                            }
-                            cVars.putInArray("virustags", "1", i);
-                            cVars.putInArray("virustags", "1", j);
-                        }
-                    }
-                }
-            }
-            virusIdsStr = getVirusIdsString();
-            //send codes before ids
-            StringBuilder virusTagsStr = new StringBuilder();
-            for(String s : cVars.getArray("virustags")) {
-                virusTagsStr.append(s);
-            }
-            //check if thing if full, begin countdown to reset if it is
-            String[] cts = virusIdsStr.split("-");
-            if(cts.length-1 == vts.length && !cVars.contains("virusresettime")) {
-                cVars.putLong("virusresettime", System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
-            }
-            return String.format("virus-%s%s", virusTagsStr.toString(), virusIdsStr);
-        }
-        return "";
-    }
-
-    private static String getVirusIdsString() {
+    public static String getVirusIdsString() {
         StringBuilder virusSb = new StringBuilder();
         for(int i = 0; i < cVars.getArray("virustags").length; i++) {
             if(cVars.getArray("virustags")[i].equals("1")) {
@@ -938,66 +860,6 @@ public class cScripts {
             }
         }
         return virusSb.toString();
-    }
-
-    public static void removeNetClient(String id) {
-        if(nSend.focus_id.equals(id)){
-            nSend.focus_id = "";
-        }
-        nServer.clientsConnected -=1;
-        nServer.clientArgsMap.remove(id);
-        int quitterIndex = nServer.clientIds.indexOf(id);
-        gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
-        eManager.currentMap.scene.players().remove(quitterIndex+1);
-        String quitterName = nServer.clientNames.get(quitterIndex);
-        nServer.clientIds.remove(id);
-        nServer.clientNames.remove(quitterIndex);
-        //update wins
-        int[] newWins = new int[nServer.clientsConnected+1];
-        int c = 0;
-        for(int i = 0; i < nServer.matchWins.length; i++) {
-            if(i != quitterIndex+1) {
-                newWins[c] = nServer.matchWins[i];
-                c++;
-            }
-        }
-        nServer.matchWins = newWins;
-        //update scores
-        int[] newScores = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.scores.length; i++) {
-            if(i != quitterIndex+1) {
-                newScores[c] = nServer.scores[i];
-                c++;
-            }
-        }
-        nServer.scores = newScores;
-        //update kills
-        int[] newKills = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.matchKills.length; i++) {
-            if(i != quitterIndex+1) {
-                newKills[c] = nServer.matchKills[i];
-                c++;
-            }
-        }
-        nServer.matchKills = newKills;
-        //update pings
-        int[] newPings = new int[nServer.clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < nServer.matchPings.length; i++) {
-            if(i != quitterIndex+1) {
-                newPings[c] = nServer.matchPings[i];
-                c++;
-            }
-        }
-        nServer.matchPings = newPings;
-        if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-            && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
-            cVars.put("flagmasterid", "");
-        }
-        xCon.ex(String.format("say %s left the game", quitterName));
     }
 
     public static String getScoreString() {
@@ -1044,10 +906,12 @@ public class cScripts {
 
     public static String getTopScoreString() {
         int topscore = 0;
+        int tiectr = 0;
         String winnerName = "";
         if(cVars.isZero("gameteam")) {
             for(int i = 0; i < nServer.scores.length; i++) {
                 if(nServer.scores[i] > topscore) {
+                    tiectr = 0;
                     topscore = nServer.scores[i];
                     if(i == 0) {
                         winnerName = sVars.get("playername") + " (" + nServer.scores[i]+")";
@@ -1055,6 +919,12 @@ public class cScripts {
                     else
                         winnerName = nServer.clientNames.get(i-1) + " (" + nServer.scores[i]+")";
                 }
+                else if(topscore > 0 && nServer.scores[i] == topscore) {
+                    tiectr++;
+                }
+            }
+            if(tiectr > 0) {
+                winnerName = winnerName + " + " + tiectr + " others";
             }
         }
         else {

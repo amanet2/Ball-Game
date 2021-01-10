@@ -42,6 +42,7 @@ public class gBullet extends gThing {
         putLong("timestamp", System.currentTimeMillis());
         putDouble("fv", fv);
         putInt("tag", -1);
+        putInt("isexplosionpart", 0);
         sprite = gTextures.getScaledImage(tt, getInt("dimw"), getInt("dimh"));
     }
 }

@@ -67,7 +67,7 @@ public class nClient extends Thread {
                     }
                     uiInterface.clientSocket.send(sendPacket);
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                    HashMap<String, String> clientmap = cScripts.getMapFromNetString(sendDataString);
+                    HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
                     if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
                         hasDisconnected = 1;
                     }

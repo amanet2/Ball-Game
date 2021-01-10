@@ -6,7 +6,7 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("allowweaponreload", "1");
+        put("allowweaponreload", "0");
         put("ballx", "0");
         put("bally", "0");
         putInt("cammode", gCamera.MODE_TRACKING);
@@ -19,11 +19,12 @@ public class cVars {
         put("camx", "0");
         put("camy", "0");
         put("clipplayer", "1");
+        put("collideplayers", "1");
         put("currentweapon", "0");
-        put("delayhp", "5000");
+        put("delayhp", "2400");
         put("delayjump", "0");
         put("delaypow", "1000");
-        put("delayweap", "2000");
+        put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
         put("exitteleportertag", "-1");
@@ -69,7 +70,7 @@ public class cVars {
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
-        put("rechargehp", "6");
+        put("rechargehp", "4");
         put("reloading", "0");
         put("reportedkiller", "1");
         put("respawnwaittime", sVars.get("respawnwaittime"));
@@ -92,7 +93,6 @@ public class cVars {
         put("suppressknocksound", "0");
         put("survivesafezone", "0");
         put("timeleft", sVars.get("timelimit"));
-        put("velocitybullet", "20");
         put("velocitycam", "9");
         put("velocityplayer", "8");
         put("velocityplayerbase", "8");
@@ -133,16 +133,19 @@ public class cVars {
         put("weaponbotrange2", "400");
         put("weaponbotrange3", "600");
         put("weaponbotrange4", "600");
+        put("weaponbotrange5", "300");
         put("weapontime0", "0");
         put("weapontime1", "0");
         put("weapontime2", "0");
         put("weapontime3", "0");
         put("weapontime4", "0");
+        put("weapontime5", "0");
         put("weaponstock0", "0");
         put("weaponstock1", "0");
         put("weaponstock2", "0");
         put("weaponstock3", "0");
         put("weaponstock4", "0");
+        put("weaponstock5", "0");
         put("winnerid", "");
         //bots
         put("botbehavior", "NONE");

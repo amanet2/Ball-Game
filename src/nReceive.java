@@ -10,7 +10,7 @@ public class nReceive {
                 int isnewclient = 1;
                 String argload = toks[0];
                 //process new packet
-                HashMap<String, String> packArgMap = cScripts.getMapFromNetString(argload);
+                HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId)) {
                     nServer.clientArgsMap.put(packId, packArgMap);
@@ -37,7 +37,7 @@ public class nReceive {
                     String clientId = nServer.clientIds.get(i);
                     if(clientId.equals(packId)){
                         isnewclient = 0;
-                        nServer.matchPings[i+1] = (int) (System.currentTimeMillis() - oldTimestamp);
+                        nServer.matchPings[i+1] = (int) Math.abs(System.currentTimeMillis() - oldTimestamp);
                         if(oldName.length() > 0 && !oldName.equals(packName)) {
                             nServer.clientNames.set(i, packName);
                             xCon.ex(String.format("say %s changed name to %s", oldName, packName));
@@ -106,7 +106,7 @@ public class nReceive {
             ArrayList<String> foundIds = new ArrayList<>();
             for(int i = 0; i < toks.length; i++) {
                 String argload = toks[i];
-                HashMap<String, String> packArgs = cScripts.getMapFromNetString(argload);
+                HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
                 String idload = packArgs.get("id");
                 String nameload = packArgs.get("name") != null ? packArgs.get("name")
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")

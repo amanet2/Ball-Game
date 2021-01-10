@@ -45,6 +45,7 @@ public class nVars {
         keys.put("crouch", xCon.ex("THING_PLAYER.0.crouch"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
                 || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
+                || cVars.getInt("currentweapon") == gWeapons.weapon_gloves
                 || cVars.getInt("currentweapon") == gWeapons.weapon_none) ? "1" : "0");
         keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
         keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
@@ -119,9 +120,19 @@ public class nVars {
             keys.put("timeleft", cVars.get("timeleft"));
             keys.put("topscore", cScripts.getTopScoreString());
             keys.put("spmaxtime", cVars.get("spawnprotectionmaxtime"));
-            keys.put("state", cScripts.getGameState());
+            keys.put("state", cGameLogic.getGameState());
             keys.put("win", cVars.get("winnerid"));
         }
+    }
+
+    public static HashMap<String,String> getMapFromNetString(String argload) {
+        HashMap<String,String> toReturn = new HashMap<>();
+        String argstr = argload.substring(1,argload.length()-1);
+        for(String pair : argstr.split(",")) {
+            String[] vals = pair.split("=");
+            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+        }
+        return  toReturn;
     }
 
     private static void refresh() {

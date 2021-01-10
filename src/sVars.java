@@ -62,7 +62,7 @@ public class sVars {
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("spawnprotectionmaxtime", "1500");
+        keys.put("spawnprotectionmaxtime", "1000");
         keys.put("startpaused", "1");
         keys.put("tagscorewaittime", "10000");
         keys.put("textcoloralert", "200,0,50,200");
