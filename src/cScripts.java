@@ -459,6 +459,7 @@ public class cScripts {
             g.putInt("ttl",150);
             g.putInt("tag", seed.getInt("tag"));
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
+            g.putInt("isexplosionpart",1);
             eManager.currentMap.scene.bullets().add(g);
         }
     }
@@ -482,7 +483,8 @@ public class cScripts {
                 continue;
             }
             for(gTile t : eManager.currentMap.scene.tiles()) {
-                if(b.doesCollideWithinTile(t) && b.getInt("src") != gWeapons.weapon_gloves) {
+                if(b.doesCollideWithinTile(t) && b.getInt("src") != gWeapons.weapon_gloves
+                && b.isZero("isexplosionpart")) {
                     trc.add(b);
                     if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
                         eManager.currentMap.scene.animations().add(
@@ -737,6 +739,7 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
             }
+//            cVars.putInt("currentweapon", gWeapons.weapon_none);
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){

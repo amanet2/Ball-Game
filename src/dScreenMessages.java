@@ -422,7 +422,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex(textcolor).split(",")[1]),
                         Integer.parseInt(xCon.ex(textcolor).split(",")[2]),
                         Integer.parseInt(xCon.ex(textcolor).split(",")[3])));
-                dScreenMessages.drawCenteredString(g,"YOU ARE THE CHOSEN ONE",
+                dScreenMessages.drawCenteredString(g,"YOU ARE THE VICTIM",
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
         }

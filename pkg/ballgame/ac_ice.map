@@ -1,6 +1,6 @@
 cmd cv_maptype 0
-cmd cv_gamemode 10
-cmd cv_botbehavior chosenone
+cmd cv_gamemode 11
+cmd cv_botbehavior anti_chosenone
 tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 2400 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 2400 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 1200 1200 1200 0 0 1200 0 0 0 0 255 0
