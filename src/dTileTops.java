@@ -461,7 +461,9 @@ public class dTileTops {
             //chosen one nav pointer
             if((cVars.getInt("gamemode") == cGameMode.CHOSENONE
                     || cVars.getInt("gamemode") == cGameMode.ANTI_CHOSENONE)
-                    && cVars.get("chosenoneid").length() > 0 && !cVars.get("chosenoneid").equals(uiInterface.uuid)) {
+                    && cVars.get("chosenoneid").length() > 0
+                    && !(cVars.getInt("gamemode") == cGameMode.CHOSENONE
+                    && cVars.get("chosenoneid").equals(uiInterface.uuid))) {
                 gPlayer p = cGameLogic.getPlayerById(cVars.get("chosenoneid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
