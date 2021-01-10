@@ -808,7 +808,7 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
-                                if(cl.get("id").contains("bot") && cVars.isZero("gamespawnarmed")
+                                if(cl.get("id").contains("bot")
                                         && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
 //                                    xCon.ex("say " + cl.get("name") + " picked up the "
