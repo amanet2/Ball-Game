@@ -5,6 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* gotta be able to switch weapons, at least after empty
 * edit game so different timezones and computer times work correctly
     -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
@@ -48,6 +49,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* new weapon exp
+    -> can switch back to rock, but lose weapon
+    -> can only pick up weapons if you have the rock out
 * differentiate the way weapons work from the way powerups work
     -> powerups should have a pink bar on top of regular hud that show the timingout
     -> weapons should last until death and maybe even drop

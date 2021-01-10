@@ -273,8 +273,18 @@ public class cScripts {
 //                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
 //            }
             if (cVars.isZero("gamespawnarmed")) {
-                changeWeapon(r, true);
-                cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+                if(cVars.isZero("currentweapon")) {
+                    changeWeapon(r, true);
+                    powerup.put("int0", "0");
+                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+//                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
+//                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
+                }
+                else if(cVars.isInt("currentweapon", r)
+                        && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
+                    powerup.put("int0","0");
+                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
+                }
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
@@ -286,9 +296,6 @@ public class cScripts {
 //                xCon.ex("THING_PLAYER.0.sicknessfast 1");
 //                xCon.ex("sicknessfast 1");
 //            }
-            powerup.put("int0", "0");
-            cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
-                    System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
         }
     }
 

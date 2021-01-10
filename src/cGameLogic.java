@@ -83,9 +83,9 @@ public class cGameLogic {
             }
             //powerup expired
             if (cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime") < System.currentTimeMillis()) {
-                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
-                    cScripts.changeWeapon(0, true);
-                }
+//                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
+//                    cScripts.changeWeapon(0, true);
+//                }
                 cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase"));
                 xCon.ex("THING_PLAYER.0.sicknessslow 0");
                 xCon.ex("THING_PLAYER.0.sicknessfast 0");
@@ -796,7 +796,8 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
-                                if(cl.get("id").contains("bot")) {
+                                if(cl.get("id").contains("bot")
+                                        && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
 //                                    xCon.ex("say " + cl.get("name") + " picked up the "
 //                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");

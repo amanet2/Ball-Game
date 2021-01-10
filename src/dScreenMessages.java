@@ -201,12 +201,13 @@ public class dScreenMessages {
                     sSettings.height/64);
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
-                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
-                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
-                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
-                            eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
-                            -System.currentTimeMillis())+"s]"
-                            : "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+"]",
+//                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
+//                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
+//                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
+//                            eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
+//                            -System.currentTimeMillis())+"s]"
+                            : "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - " +
+                            cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]",
                     sSettings.width/62,60*sSettings.height/64);
             //sprint
             g.setColor(new Color(0,0,0,255));

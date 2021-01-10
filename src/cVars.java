@@ -6,7 +6,7 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("allowweaponreload", "1");
+        put("allowweaponreload", "0");
         put("ballx", "0");
         put("bally", "0");
         putInt("cammode", gCamera.MODE_TRACKING);
