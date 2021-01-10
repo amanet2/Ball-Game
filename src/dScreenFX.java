@@ -11,7 +11,7 @@ public class dScreenFX {
                 + cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
                 dy - cGameLogic.getPlayerByIndex(0).getInt("coordy")
                 + cGameLogic.getPlayerByIndex(0).getInt("dimh")/2};
-        g2.setColor(new Color(255,200,50,150));
+        g2.setColor(new Color(255,100,50,150));
         int[][] polygondims = new int[][]{
                 new int[]{
                         eUtils.scaleInt(dx - cVars.getInt("camx")) - sSettings.height/16,
@@ -61,7 +61,7 @@ public class dScreenFX {
                             sSettings.width / 2 + sSettings.width / 54, sSettings.width / 2},
                     new int[]{sSettings.height / 12, sSettings.height / 12, 0}
             };
-            g2.setColor(new Color(255,100,50,180));
+            g2.setColor(new Color(255,100,50,150));
             g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
             g2.setColor(new Color(255,100,50,220));
             g2.setStroke(new BasicStroke(eUtils.scaleInt(8)));

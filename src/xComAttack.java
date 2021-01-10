@@ -13,7 +13,7 @@ public class xComAttack extends xCom {
                                 cVars.isOne("sicknessfast") ? 0.5 : cVars.isOne("sicknessslow") ? 2 : 1))));
             }
         }
-        else if(cVars.isZero("allowweaponreload")){
+        else if(cVars.isZero("allowweaponreload") && cVars.isZero("gamespawnarmed")){
             cScripts.changeWeapon(0);
         }
         return "attack";

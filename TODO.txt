@@ -49,16 +49,17 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* new weapon exp
-    -> can switch back to rock, but lose weapon
-    -> can only pick up weapons if you have the rock out
-* differentiate the way weapons work from the way powerups work
-    -> powerups should have a pink bar on top of regular hud that show the timingout
-    -> weapons should last until death and maybe even drop
-    -> but how to do this with flashlight?
-        -> flaghlight should be different thing, like an icon like half life
+* add "disable attacks" flag
+    -> would only be fun in specific gamemodes
+    -> could be a map string
+* new powerups string
+    -> <on/off>:<xcoord>:<ycoord>
+    -> replaces the current string
+* add ability for map to have a sound play on each score
+    -> would be manually exec'd with a line
+    -> integrate into mapmaker as well
+* reintroduce powerups, would function the way weapons used to
 * Add ability to reset game to default settings
-* GAME: Virus should be passed on by killing
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge
     -> simply pass along the console command to place a tile over the network and run it on the other side
