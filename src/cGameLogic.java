@@ -96,8 +96,8 @@ public class cGameLogic {
                 for(gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").contains("bot")) {
                         if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != 0) {
-                                cScripts.changeBotWeapon(p, 0, true);
+                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
+                                cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
                             }
                         }
                     }
@@ -796,17 +796,14 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
-                                if(cl.get("id").contains("bot")
-                                        && cVars.isZero("gamespawnarmed")
+                                if(cl.get("id").contains("bot") && cVars.isZero("gamespawnarmed")
                                         && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
 //                                    xCon.ex("say " + cl.get("name") + " picked up the "
 //                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
-                                    cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
-                                    if (cVars.isZero("gamespawnarmed")) {
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
-                                    }
+                                    cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                 }
                             }
                         }

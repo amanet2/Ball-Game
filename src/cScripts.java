@@ -607,6 +607,9 @@ public class cScripts {
                             cVars.put("flagmasterid", "");
 //                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
+                        if(cVars.isZero("gamespawnarmed")) {
+                            cScripts.changeBotWeapon(p,gWeapons.weapon_none,true);
+                        }
                     }
                     if(sVars.isOne("vfxenableanimations"))
                         eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
@@ -813,7 +816,7 @@ public class cScripts {
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
         if(eManager.currentMap.scene.botplayers().size() > 0 && !(!fromPowerup && newweapon != 0
                 && cVars.isZero("gamespawnarmed"))) {
-            cl.putInt("weapon", newweapon);
+            nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }
     }
