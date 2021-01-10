@@ -3,7 +3,7 @@ public class gWeaponsPistol extends gWeapon {
         super();
         name = "PISTOL";
         dims = new int[]{200,100};
-        bulletDims = new int[]{50,50};
+        bulletDims = new int[]{75,75};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/laser.wav";
         refiredelay = 300;
