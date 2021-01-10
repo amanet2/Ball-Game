@@ -220,7 +220,7 @@ public class cScripts {
                 }
                 if (sSettings.net_server) {
                     nServer.givePoint(pla.getInt("tag"));
-                    xCon.ex("say " + sVars.get("playername") + " completed a lap!");
+//                    xCon.ex("say " + pla.get("name") + " completed a lap!");
                 } else if (sSettings.net_client) {
                     xCon.ex("cv_lapcomplete 1");
                 }
@@ -264,6 +264,15 @@ public class cScripts {
                 >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
     }
 
+    public static void takepowerup(gProp powerup) {
+        cVars.putInt("weaponstock"+powerup.getInt("int0"),
+                gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo);
+        powerup.put("int0","0");
+        xCon.ex("playsound sounds/clampdown.wav");
+        if(sSettings.net_client)
+            cVars.put("sendpowerup", powerup.get("tag"));
+    }
+
     public static void checkPlayerPowerups(gProp powerup) {
         int r = powerup.getInt("int0");
         if(r > 0) {
@@ -275,21 +284,17 @@ public class cScripts {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
                     changeWeapon(r, true);
-                    powerup.put("int0", "0");
-                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
-                    if(sSettings.net_client)
-                        cVars.put("sendpowerup", powerup.get("tag"));
+                    takepowerup(powerup);
 //                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
 //                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                 }
                 else if(cVars.isInt("currentweapon", r)
                         && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
-                    powerup.put("int0","0");
-                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
-                    xCon.ex("playsound sounds/clampdown.wav");
-                    if(sSettings.net_client)
-                        cVars.put("sendpowerup", powerup.get("tag"));
+                    takepowerup(powerup);
                 }
+            }
+            else if(cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo){
+                takepowerup(powerup);
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);

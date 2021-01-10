@@ -6,7 +6,7 @@ public class gWeaponsShotgun extends gWeapon {
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireblue.png");
         soundFilePath = "sounds/shotgun.wav";
-        refiredelay = 620;
+        refiredelay = 800;
         damage = 9600;
         maxAmmo = 8;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/shotgun.png"),dims[0],dims[1]);
