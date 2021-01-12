@@ -319,6 +319,19 @@ public class cScripts {
         return str.toString();
     }
 
+    public static String getNewPowerupsString() {
+        StringBuilder str = new StringBuilder();
+        for(gProp p : eManager.currentMap.scene.props()) {
+            if(p.isInt("code", gProp.POWERUP)) {
+                str.append(p.get("int0")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+            }
+        }
+        String rstr = str.toString();
+        if(rstr.length() < 1)
+            return "null";
+        return rstr.substring(0, rstr.length()-1);
+    }
+
     static void processPowerupsString(String powerupString) {
         int ctr = 0;
         for(gProp p : eManager.currentMap.scene.props()) {
@@ -556,19 +569,6 @@ public class cScripts {
             id.append(vals[(int) (Math.random() * 10.0)]);
         }
         return id.toString();
-    }
-
-    public static void playerDropPropHeld(gPlayer pl, int pc) {
-        gProp fl = null;
-        for(gProp fla : eManager.currentMap.scene.props()) {
-            if(fla.isInt("code", pc)) {
-                fl = fla;
-            }
-        }
-        if(fl != null) {
-            fl.putInt("coordx", pl.getInt("coordx"));
-            fl.putInt("coordy", pl.getInt("coordy"));
-        }
     }
 
     public static void createDamagePopup(gPlayer p, gBullet tr) {

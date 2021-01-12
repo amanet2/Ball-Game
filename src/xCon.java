@@ -267,6 +267,7 @@ public class xCon {
                         if(eManager.currentMap.scene.objects.get(type).size() > tag) {
                             gThing g = (gThing) eManager.currentMap.scene.objects.get(type).get(tag);
                             if(args.length > 1) {
+                                //process the arg by checking if svar or cvar can be subbed in
                                 String val = args[1];
                                 if(sVars.contains(val))
                                     val = sVars.get(val);
@@ -274,6 +275,9 @@ public class xCon {
                                         && cVars.contains(val.substring(0,3)))
                                     val = cVars.get(val.substring(3));
                                 g.put(var, val);
+                            }
+                            else if(g.canDo(var)) {
+                                g.doDoable(var);
                             }
                             return g.get(var);
                         }
@@ -294,8 +298,9 @@ public class xCon {
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
-            if (cp != null && !(!sSettings.show_mapmaker_ui && (fullCommand.substring(0, 2).equals("e_")
-                || fullCommand.substring(0, 3).equals("-e_")))) {
+//            if (cp != null && !(!sSettings.show_mapmaker_ui && (fullCommand.substring(0, 2).equals("e_")
+//                || fullCommand.substring(0, 3).equals("-e_")))) {
+            if (cp != null) {
                 if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
                     cEditorLogic.undoStateStack.push(cEditorLogic.getEditorState());
                     eManager.currentMap.wasLoaded = 1;

@@ -50,6 +50,10 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* need to be able to drop a prop on the map at will with a console command
+    -> unify editor and game comm into one
+    -> everything needs to be supplied in the command
+        -> no cvar usage
 * players should drop weapons/flags stuff where they get killed
     -> and the guns should retain their ammo
     -> accomodate BOTH the random refreshes and un-picked guns from last refresh

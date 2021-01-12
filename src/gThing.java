@@ -1,7 +1,9 @@
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class gThing {
     private LinkedHashMap<String, String> vars;
+    private HashMap<String, gDoable> doables;
     public String get(String s) {
         return vars.get(s);
     }
@@ -57,17 +59,33 @@ public class gThing {
         return vars().keySet().toString();
     }
 
+    public void registerDoable(String k, gDoable doable) {
+        doables.put(k, doable);
+    }
+
+    public boolean canDo(String doString) {
+        return doables.containsKey(doString);
+    }
+
+    public void doDoable(String k) {
+        if(doables.containsKey(k))
+            doables.get(k).doItem(this);
+    }
+
     public String toString() {
         return vars().toString();
     }
 
     public gThing(){
-        vars = new LinkedHashMap<>();
+        refresh();
     }
 
     public void refresh() {
         if(vars == null) {
             vars = new LinkedHashMap<>();
+        }
+        if(doables == null) {
+            doables = new HashMap<>();
         }
     }
 

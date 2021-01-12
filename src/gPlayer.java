@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -11,7 +10,7 @@ public class gPlayer extends gThing {
        gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
     }
 
-    public void doBehavior(String key) {
+    public void doBotBehavior(String key) {
         if(cVars.get("winnerid").length() < 1) {
             gDoable behavior = cBotsLogic.getBehavior(key);
             if(behavior != null)
@@ -532,6 +531,15 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
+    public void dropWeapon() {
+        String doString = String.format("e_putprop %d %d %d %d %d %d %d",
+                gProp.POWERUP, getInt("weapon"), 0,
+                getInt("coordx")+getInt("dimw")+50, getInt("coordy")+getInt("dimh")+50,
+                gWeapons.weapons_selection[getInt("weapon")].dims[0],
+                gWeapons.weapons_selection[getInt("weapon")].dims[1]);
+        xCon.ex(doString);
+    }
+
     public gPlayer(int x, int y, int w, int h, String tt) {
         super();
         putInt("coordx", x);
@@ -569,5 +577,10 @@ public class gPlayer extends gThing {
         put("sendshot", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
+        registerDoable("drop_powerup", new gDoable(){
+            public void doItem(gThing thing) {
+                dropWeapon();
+            }
+        });
     }
 }
