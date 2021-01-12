@@ -5,14 +5,12 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* powerups not synced with clients online
-    -> they used to disappear regardless whenever crossed over.
-    -> now server must know whether to diable powerup
-    -> maybe handle all of it server side and just sync the weapon to the client
-* edit game so different timezones and computer times work correctly
+* sometimes bots become invulnerable
+    -> happens after end of first game, non-server player cant kill bot
+* make sure different timezones and computer times work correctly
     -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
+        -> due to timezones, system clock etc
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
-* server says bots pick up items but sometimes nothing is visualized on the bot sprite
 * bots wont go for flag in kof if another bot owns that flag
 * I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
 * weapons need overhaul
@@ -52,6 +50,13 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* players should drop weapons/flags stuff where they get killed
+    -> and the guns should retain their ammo
+    -> accomodate BOTH the random refreshes and un-picked guns from last refresh
+        -> if gun is picked up, that powerup slot should be eligible again
+        -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
+* create a map of "doables" for tiles, props, players so you can call actions from the console
+    -> e.g. THING_PLAYER.0.drop_prop
 * powerups ideas
     -> super speed
     -> on-fire like bomberman (touch ppl, they die)

@@ -806,7 +806,7 @@ public class cScripts {
         double r = Math.random();
         if(r > .99)
             xCon.ex("playsound sounds/growl.wav");
-        else if(r > .5)
+        else if(r > .49)
             xCon.ex("playsound sounds/shout.wav");
         else
             xCon.ex("playsound sounds/death.wav");
