@@ -50,6 +50,12 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* create system where e_ commands are transmitted and exec'd by clients
+    -> will be needed to finish off the "drop_powerup" command
+    -> server arg map will have a "cmd" thing
+        -> send this line as part of the payload
+        -> how to handle spaces?
+        -> will need to confirm every client rcvd/excd the line
 * need to be able to drop a prop on the map at will with a console command
     -> unify editor and game comm into one
     -> everything needs to be supplied in the command
@@ -91,7 +97,6 @@
             -> where N is 0 or below, just put at 0
             -> all orginal tiles m (>N) become m+1
 * need to see a visual pallette for selecting tiles
-* create a hashmap of string/gDoable tuples so we can call things like "THING_PLAYER.0.do_thing"
 * implementing search algorithms for ai
     -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
     -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
