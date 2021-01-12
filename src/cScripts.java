@@ -323,7 +323,7 @@ public class cScripts {
         StringBuilder str = new StringBuilder();
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.POWERUP)) {
-                str.append(p.get("int0")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+                str.append(p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
         String rstr = str.toString();

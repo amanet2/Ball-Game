@@ -13,8 +13,6 @@
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
 * bots wont go for flag in kof if another bot owns that flag
 * I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
-* weapons need overhaul
-    -> mainly should be able to give/remove weapons more easily than right now
 * should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
@@ -50,6 +48,12 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* ammo for weapons need to be tracked on a per-weapon basis
+    -> so that players can drop weapons with proper ammo amounts for when others pick them up
+* new powerups system to accomodate dropping weapons
+    -> all powerups on all the time
+    -> use int1 of prop to store ammo count (for when someone dies witha  gun)
+    -> server sends a string with data to clients
 * create system where e_ commands are transmitted and exec'd by clients
     -> will be needed to finish off the "drop_powerup" command
     -> server arg map will have a "cmd" thing
