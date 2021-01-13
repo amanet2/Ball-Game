@@ -48,8 +48,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* ammo for weapons need to be tracked on a per-weapon basis
-    -> so that players can drop weapons with proper ammo amounts for when others pick them up
+* compare md5 checksum of the JAR file to verify source parity between all players
 * new powerups system to accomodate dropping weapons
     -> all powerups on all the time
     -> use int1 of prop to store ammo count (for when someone dies witha  gun)

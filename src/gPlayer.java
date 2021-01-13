@@ -532,13 +532,14 @@ public class gPlayer extends gThing {
     }
 
     public void dropWeapon() {
-        putInt("weapon", gWeapons.weapon_none);
-        String doString = String.format("e_putprop %d %d %d %d %d %d %d",
-                gProp.POWERUP, getInt("weapon"), 0,
-                getInt("coordx")+getInt("dimw"), getInt("coordy")+getInt("dimh")+50,
-                gWeapons.weapons_selection[getInt("weapon")].dims[0],
-                gWeapons.weapons_selection[getInt("weapon")].dims[1]);
-        xCon.ex(doString);
+        xCon.instance().debug("THING_PLAYER.drop_weapon is deprecated.  Use global 'dropweapon' command");
+//        String doString = String.format("e_putprop %d %d %d %d %d %d %d",
+//                gProp.POWERUP, getInt("weapon"), 0,
+//                getInt("coordx")+getInt("dimw"), getInt("coordy")+getInt("dimh")+50,
+//                gWeapons.weapons_selection[getInt("weapon")].dims[0],
+//                gWeapons.weapons_selection[getInt("weapon")].dims[1]);
+//        putInt("weapon", gWeapons.weapon_none);
+//        xCon.ex(doString);
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
