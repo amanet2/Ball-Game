@@ -477,10 +477,10 @@ public class cGameLogic {
         String actionload = "";
         if(sSettings.net_client && cVars.isOne("sendsafezone"))
             actionload += "safezone|";
-        if(sSettings.net_client && cVars.getInt("sendpowerup")>-1) {
-            actionload += ("powerup"+cVars.getInt("sendpowerup")+"|");
-            cVars.putInt("sendpowerup",-1);
-        }
+//        if(sSettings.net_client && cVars.getInt("sendpowerup")>-1) {
+//            actionload += ("powerup"+cVars.getInt("sendpowerup")+"|");
+//            cVars.putInt("sendpowerup",-1);
+//        }
         if(cVars.get("sendcmd").length() > 0) {
             actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
             cVars.put("sendcmd","");
@@ -570,14 +570,15 @@ public class cGameLogic {
                             new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG, Integer.parseInt(args[1]),
                                     Integer.parseInt(args[2])));
             }
-            if(action.contains("powerup")) {
-                for(gProp p : eManager.currentMap.scene.props()) {
-                    if(p.isInt("code",gProp.POWERUP)
-                            && p.isVal("tag", action.replace("powerup", ""))) {
-                            p.putInt("int0",0);
-                    }
-                }
-            }
+//            if(action.contains("powerup")) {
+//                for(gProp p : eManager.currentMap.scene.props()) {
+//                    if(p.isInt("code",gProp.POWERUP)
+//                            && p.isVal("tag", action.replace("powerup", ""))) {
+//                            p.putInt("int0",0);
+//                            System.out.println("ASDF");
+//                    }
+//                }
+//            }
             if(action.contains("sendcmd")) {
                 xCon.ex(action.replaceFirst("sendcmd_",""));
             }
@@ -829,6 +830,9 @@ public class cGameLogic {
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
+                                    p.put("int0", "0");
+                                }
+                                else if(!cl.get("id").equals("server")) {
                                     p.put("int0", "0");
                                 }
                             }

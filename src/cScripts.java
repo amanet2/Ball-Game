@@ -268,8 +268,8 @@ public class cScripts {
         cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
         powerup.put("int0","0");
         xCon.ex("playsound sounds/clampdown.wav");
-        if(sSettings.net_client)
-            cVars.put("sendpowerup", powerup.get("tag"));
+//        if(sSettings.net_client)
+//            cVars.put("sendpowerup", powerup.get("tag"));
     }
 
     public static void checkPlayerPowerups(gProp powerup) {

@@ -5,6 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* player 2 picking up weapon dropped by player 1 leaves weapon on ground for player 2.. might be a clue
 * player 2 picking up weapon dropped by player 3 causes weird stuff
 * too much sent in new powerups string
 * sometimes bots become invulnerable
