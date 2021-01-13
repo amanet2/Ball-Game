@@ -206,6 +206,7 @@ public class xCon {
         commands.put("slot2", new xComSlot2());
         commands.put("slot3", new xComSlot3());
         commands.put("slot4", new xComSlot4());
+        commands.put("slot5", new xComSlot5());
         commands.put("soundlist", new xComSoundlist());
         commands.put("sspeed", new xComSuperSpeed());
         commands.put("status", new xComStatus());

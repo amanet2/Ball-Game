@@ -5,16 +5,6 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* have to handle the default prop spawns for the "refresh" thing
-    -> differentiate btwn powerups from map load and all others later
-    -> but also handle a varying length of the powerups string, only matching up the first X with powerups from the map file
-    -> DONT remove any powerups, just hide them
-* to get powerups to work better
-    -> have clients have all powerups at 0 at start
-    -> the "powerups" string should be parsed in 2 stage
-        -> 1. anything not in the string is erased
-        -> 2. anything in the strong not existin gin created
-* probably should separate props and "prop spawn points" as entities to avoid all this spaghetti
 * too much sent in new powerups string
 * teleporters broken
 * sometimes bots become invulnerable
@@ -60,34 +50,16 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* compare md5 checksum of the JAR file to verify source parity between all players
-* new powerups system to accomodate dropping weapons
-    ->include "send put prop" msg for when clients or server drops a prop
-    -> accomodate BOTH the random refreshes and un-picked guns from last refresh
-        -> if gun is picked up, that powerup slot should be eligible again
-        -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
-    -> use int1 of prop to store ammo count (for when someone dies witha  gun)
-    -> server sends a string with data to clients
-* create system where e_ commands are transmitted and exec'd by clients
-    -> will be needed to finish off the "drop_powerup" command
-    -> server arg map will have a "cmd" thing
-        -> send this line as part of the payload
-        -> how to handle spaces?
-        -> will need to confirm every client rcvd/excd the line
+* illustrate fire rate recharge
+      -> a layer over blue bar like the health rchg rate
 * powerups ideas
     -> on-fire like bomberman (touch ppl, they die)
-    -> dmg boost
-    -> tiny fast mode
-    -> big slow mode (shielded)
+    -> tiny and fast
+    -> big slow and shielded
 * be sure to make as many variant maps for the different gamemodes
-* replace chosen/anti-chosen maps with flag master
-    -> remove existing fm map
 * add "disable attacks" flag
     -> would only be fun in specific gamemodes
     -> could be a map string
-* new powerups string
-    -> <on/off>:<xcoord>:<ycoord>
-    -> replaces the current string
 * add ability for map to have a sound play on each score
     -> would be manually exec'd with a line
     -> integrate into mapmaker as well
@@ -137,12 +109,6 @@
     -> ball thinks like a bot, going after nearest character
         -> if you touch the ball you die
         -> get points for staying alive
-* change powerups/weapons
-    -> start with only slot0 usable
-    -> unlock other slots if right powerup picked up
-    -> mousewheel goes to next _open_ slot
-        -> have a co-array that's like [1,0,0,0,0] for each locked/unlocked slot
-    -> if weapons are on and reloading is disabled, going over a weapons powerup should refill ammo
 *  cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
 to reference them.
 * replace stockhp
@@ -177,9 +143,6 @@ to reference them.
 * new props
     -> for race mode, bombs that explode on contact and stop you for a little
     -> pinball bumper that actual increases your bounce velocity
-* illustrate fire rate recharge
-    -> illustrate weapon bar refilling
-    -> a grey bar fills until full then change to the right color
 * idle sfx
     -> have music for background of match.
     -> loop a roylaty-free mp3
@@ -190,8 +153,6 @@ to reference them.
         -> deaths, objectives, etc
     -> have them grunt for punching
         -> like bomberman64
-* powerup to have all other players have a waypoint on them
-    -> what color?
 * new map lines:
     -> lockcam x y
     -> locks cam at a certain coordinate for duration of the map.
@@ -211,13 +172,9 @@ to reference them.
 * put visual feedback for racing positions
 * add voip
 * Load all images used on a map into a temp. sprite sheet to improve performance?
-* TRY MAKING PLAYER SHRINK/INFLATE FOR SLOW/FAST POWERUPS
-* ENABLE A "GRAVITY" SETTING EXCLUSIVELY FOR SIDESCROLLER MAPS
+* ENABLE A "GRAVITY" SETTING TO PULL PLAYERS IN CERTAIN VECTOR
     -> MUST BE ABLE TO SET IT FROM MAP FILES
 * TRIM THE FAT ON THE "NEW TILE/PROP/FLARE" OPTIONPANES
     -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
 * server should have clients run a set of instructions on join
-* CLIENT/SERVER SHOULD VERIFY MAP & FILES BEFORE LOADING
-    -> USE md5 CHECKSUM
-    -> could check on every tick and boot mismatches with special message
 * transmit file over the server/cli connection
