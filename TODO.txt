@@ -5,8 +5,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* player 2 picking up weapon dropped by player 3 causes weird stuff
 * too much sent in new powerups string
-* teleporters broken
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot
 * make sure different timezones and computer times work correctly
