@@ -199,6 +199,15 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,150,255));
             g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                     sSettings.height/64);
+//            if(cGameLogic.getPlayerByIndex(0).getLong("cooldown") >= System.currentTimeMillis()) {
+//                double reloadratio = ((double)(cGameLogic.getPlayerByIndex(0).getLong("cooldown")
+//                    - System.currentTimeMillis())/(gWeapons.weapons_selection[
+//                        cGameLogic.getPlayerByIndex(0).getInt("weapon")].refiredelay));
+//                System.out.println(reloadratio);
+//                g.setColor(new Color(0,255,255,100));
+//                g.fillRect(sSettings.width/64,60*sSettings.height/64,
+//                        (int)(sSettings.width/3*reloadratio),sSettings.height/64);
+//            }
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
 //                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none

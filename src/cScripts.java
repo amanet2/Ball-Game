@@ -184,7 +184,7 @@ public class cScripts {
             }
         }
         else if(p.isZero("tag") && !cVars.isVal("exitteleportertag", tp.get("tag"))) {
-            xCon.ex("playsound sounds/bfg.wav");
+            xCon.ex("playsound sounds/teleporter.wav");
             if(exit != null) {
                 p.putInt("coordx", exit.getInt("coordx") + exit.getInt("dimw")/2 - p.getInt("dimw")/2);
                 p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);
