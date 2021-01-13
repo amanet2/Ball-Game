@@ -308,21 +308,21 @@ public class cScripts {
         }
     }
 
+//    public static String getPowerupsString() {
+//        StringBuilder str = new StringBuilder();
+//        for(gProp p : eManager.currentMap.scene.props()) {
+//            if(p.isInt("code", gProp.POWERUP)) {
+//                str.append(p.get("int0"));
+//            }
+//        }
+//        return str.toString();
+//    }
+
     public static String getPowerupsString() {
         StringBuilder str = new StringBuilder();
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.POWERUP)) {
-                str.append(p.get("int0"));
-            }
-        }
-        return str.toString();
-    }
-
-    public static String getNewPowerupsString() {
-        StringBuilder str = new StringBuilder();
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP)) {
-                str.append(p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+                str.append(p.get("tag")+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
         String rstr = str.toString();
@@ -331,13 +331,37 @@ public class cScripts {
         return rstr.substring(0, rstr.length()-1);
     }
 
-    static void processPowerupsString(String powerupString) {
-        int ctr = 0;
+//    static void processPowerupsString(String powerupString) {
+//        int ctr = 0;
+//        for(gProp p : eManager.currentMap.scene.props()) {
+//            if(p.isInt("code", gProp.POWERUP)) {
+//                p.put("int0", Character.toString(powerupString.charAt(ctr)));
+//                ctr++;
+//            }
+//        }
+//    }
+
+    static gProp getPropByTag(String tag) {
         for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP)) {
-                p.put("int0", Character.toString(powerupString.charAt(ctr)));
-                ctr++;
-            }
+            if(p.get("tag").equals(tag))
+                return p;
+        }
+        return null;
+    }
+
+    static void processPowerupsString(String powerupString) {
+        String[] powerupStringToks = powerupString.split(":");
+        for(int i = 0; i < powerupStringToks.length; i+=5) {
+            String tag = powerupStringToks[i];
+            String int0 = powerupStringToks[i+1];
+            String int1 = powerupStringToks[i+2];
+            String x = powerupStringToks[i+3];
+            String y = powerupStringToks[i+4];
+            gProp prop = getPropByTag(tag);
+            prop.put("int0", int0);
+            prop.put("int1", int1);
+            prop.put("coordx", x);
+            prop.put("coordy", y);
         }
     }
 

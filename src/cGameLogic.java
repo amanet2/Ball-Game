@@ -1,3 +1,5 @@
+import org.w3c.dom.css.CSSStyleDeclaration;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -506,6 +508,10 @@ public class cGameLogic {
             actionload += ("powerup"+cVars.getInt("sendpowerup")+"|");
             cVars.putInt("sendpowerup",-1);
         }
+        if(cVars.get("sendcmd").length() > 0) {
+            actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
+            cVars.put("sendcmd","");
+        }
         if(sSettings.net_client && cVars.isOne("lapcomplete"))
             actionload += "lapcomplete|";
         if(cVars.isZero("exploded"))
@@ -599,10 +605,13 @@ public class cGameLogic {
                     }
                 }
             }
+            if(action.contains("sendcmd")) {
+                xCon.ex(action.replaceFirst("sendcmd_",""));
+            }
         }
     }
 
-    public static void processActionLoadClient(String actionload, int i) {
+    public static void processActionLoadClient(String actionload) {
         String[] actions = actionload.split("\\|");
         for(String action : actions) {
             if(action.contains("explode")) {
@@ -616,6 +625,10 @@ public class cGameLogic {
                 nClient.sfxreceived = 1;
                 xCon.ex(String.format("playsound %s",
                         action.split("-")[0].replace("playsound","")));
+            }
+            if(action.contains("sendcmd")) {
+                nClient.cmdreceived = 1;
+                xCon.ex(action.replaceFirst("sendcmd_",""));
             }
         }
     }

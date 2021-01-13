@@ -254,7 +254,7 @@ public class nReceive {
                                     && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
                                 nServer.clientArgsMap.get(idload).remove("spawnprotected");
                             }
-                            cGameLogic.processActionLoadClient(actionload, i);
+                            cGameLogic.processActionLoadClient(actionload);
                             w++;
                         }
                     }

@@ -19,7 +19,7 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        //reset msg/sfx
+        //reset msg/sfx/cmd
         if(sSettings.net_server && cScripts.allClientsReceivedMessage("netmsgrcv")
                 && gMessages.networkMessage.length() > 0) {
             gMessages.networkMessage = "";
@@ -32,6 +32,13 @@ public class gMessages {
             cVars.put("sendsound", "");
             for(String id : nServer.clientArgsMap.keySet()) {
                 nServer.clientArgsMap.get(id).remove("netsfxrcv");
+            }
+        }
+        if(sSettings.net_server && cScripts.allClientsReceivedMessage("netcmdrcv")
+                && cVars.get("sendcmd").length() > 0) {
+            cVars.put("sendcmd", "");
+            for(String id : nServer.clientArgsMap.keySet()) {
+                nServer.clientArgsMap.get(id).remove("netcmdrcv");
             }
         }
 

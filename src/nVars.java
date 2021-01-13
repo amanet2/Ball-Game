@@ -29,6 +29,7 @@ public class nVars {
             gMessages.networkMessage = "";
         }
         keys.put("act", cGameLogic.getActionLoad());
+        //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
                 && cVars.get("sendsound").length() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
@@ -38,6 +39,17 @@ public class nVars {
                 nServer.clientArgsMap.get(nSend.focus_id).put("netsfxrcv", "1");
             }
             keys.put("act", "playsound"+cVars.get("sendsound")+"-"+keys.get("act"));
+        }
+        //handle outgoing cmd
+        if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
+                && cVars.get("sendcmd").length() > 0
+                && nServer.clientArgsMap.containsKey(nSend.focus_id)
+                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
+            xCon.ex(cVars.get("sendcmd"));
+            if(nSend.focus_id.contains("bot")) {
+                nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
+            }
+            keys.put("act", "sendcmd_"+cVars.get("sendcmd")+"-"+keys.get("act"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
         keys.put("x", xCon.ex("THING_PLAYER.0.coordx"));
@@ -96,8 +108,8 @@ public class nVars {
                 xCon.ex("say GAME MODE: "
                         + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase());
             keys.put("mode", cVars.get("gamemode"));
+//            keys.put("powerups", cScripts.getPowerupsString());
             keys.put("powerups", cScripts.getPowerupsString());
-            keys.put("newpowerups", cScripts.getNewPowerupsString());
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
                 xCon.ex("say TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
             }

@@ -5,6 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* teleporters broken
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot
 * make sure different timezones and computer times work correctly
@@ -50,6 +51,7 @@
 ==FEATURES==
 * compare md5 checksum of the JAR file to verify source parity between all players
 * new powerups system to accomodate dropping weapons
+    ->include "send put prop" msg for when clients or server drops a prop
     -> accomodate BOTH the random refreshes and un-picked guns from last refresh
         -> if gun is picked up, that powerup slot should be eligible again
         -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
