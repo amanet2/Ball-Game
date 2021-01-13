@@ -5,6 +5,17 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* have to handle the default prop spawns for the "refresh" thing
+    -> differentiate btwn powerups from map load and all others later
+    -> but also handle a varying length of the powerups string, only matching up the first X with powerups from the map file
+    -> DONT remove any powerups, just hide them
+* to get powerups to work better
+    -> have clients have all powerups at 0 at start
+    -> the "powerups" string should be parsed in 2 stage
+        -> 1. anything not in the string is erased
+        -> 2. anything in the strong not existin gin created
+* probably should separate props and "prop spawn points" as entities to avoid all this spaghetti
+* too much sent in new powerups string
 * teleporters broken
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot

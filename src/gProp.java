@@ -332,6 +332,7 @@ public class gProp extends gThing {
         put("mov1", "0");
         put("mov2", "0");
         put("mov3", "0");
+        put("native","0");
         sprite = gTextures.getScaledImage(get("sprite"), getInt("dimw"), getInt("dimh"));
     }
 }

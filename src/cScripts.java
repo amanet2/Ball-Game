@@ -308,21 +308,11 @@ public class cScripts {
         }
     }
 
-//    public static String getPowerupsString() {
-//        StringBuilder str = new StringBuilder();
-//        for(gProp p : eManager.currentMap.scene.props()) {
-//            if(p.isInt("code", gProp.POWERUP)) {
-//                str.append(p.get("int0"));
-//            }
-//        }
-//        return str.toString();
-//    }
-
-    public static String getPowerupsString() {
+    public static String createPowerupsStringServer() {
         StringBuilder str = new StringBuilder();
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.POWERUP)) {
-                str.append(p.get("tag")+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+                str.append(p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
         String rstr = str.toString();
@@ -331,37 +321,36 @@ public class cScripts {
         return rstr.substring(0, rstr.length()-1);
     }
 
-//    static void processPowerupsString(String powerupString) {
-//        int ctr = 0;
-//        for(gProp p : eManager.currentMap.scene.props()) {
-//            if(p.isInt("code", gProp.POWERUP)) {
-//                p.put("int0", Character.toString(powerupString.charAt(ctr)));
-//                ctr++;
-//            }
-//        }
-//    }
-
-    static gProp getPropByTag(String tag) {
+    static gProp getPowerupAtLocation(int x, int y) {
         for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.get("tag").equals(tag))
+            if(p.isInt("coordx",x) && p.isInt("coordy",y) && p.isInt("code", gProp.POWERUP))
                 return p;
         }
         return null;
     }
 
-    static void processPowerupsString(String powerupString) {
+    static void processPowerupsStringClient(String powerupString) {
         String[] powerupStringToks = powerupString.split(":");
-        for(int i = 0; i < powerupStringToks.length; i+=5) {
-            String tag = powerupStringToks[i];
-            String int0 = powerupStringToks[i+1];
-            String int1 = powerupStringToks[i+2];
-            String x = powerupStringToks[i+3];
-            String y = powerupStringToks[i+4];
-            gProp prop = getPropByTag(tag);
-            prop.put("int0", int0);
-            prop.put("int1", int1);
-            prop.put("coordx", x);
-            prop.put("coordy", y);
+        for(int i = 0; i < powerupStringToks.length; i+=4) {
+            String int0 = powerupStringToks[i];
+            String int1 = powerupStringToks[i+1];
+            String x = powerupStringToks[i+2];
+            String y = powerupStringToks[i+3];
+            gProp prop = getPowerupAtLocation(Integer.parseInt(x), Integer.parseInt(y));
+            if(prop != null) {
+                if(!prop.get("int0").equals(int0)) {
+                    prop.put("int0", int0);
+                    prop.put("int1", int1);
+                    prop.put("coordx", x);
+                    prop.put("coordy", y);
+                }
+            }
+            else {
+                String doString = String.format("e_putprop %d %s %s %s %s %d %d",
+                        gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
+                        gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]);
+                xCon.ex(doString);
+            }
         }
     }
 

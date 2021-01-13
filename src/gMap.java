@@ -76,6 +76,7 @@ public class gMap {
                         Integer.valueOf(lineToks[6]),
                         Integer.valueOf(lineToks[7]));
                     prop.putInt("tag", scene.props().size());
+                    prop.putInt("native", 1);
                     scene.props().add(prop);
                 }
                 else if (lineToks[0].toLowerCase().equals("flare")) {

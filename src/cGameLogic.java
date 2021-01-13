@@ -64,74 +64,47 @@ public class cGameLogic {
     }
 
     public static void checkPowerupsStatus() {
-        if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-            ArrayList<gProp> powerups = new ArrayList<>();
-            int powerupson = 0;
-            ArrayList<gProp> powerupcandidates = new ArrayList<>();
-            for (gProp p : eManager.currentMap.scene.props()) {
-                if (p.isInt("code", gProp.POWERUP) && !p.isZero("int0")) {
-                    powerupson++;
+        //step 0: start with blank map
+        //step 1: count how many powerups present already
+        //step 2: create new powerups at a random prop powerup loc
+        //step 2a: ensure no overlaps
+        if(sSettings.net_server || !cScripts.isNetworkGame()) {
+            if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
+                int powerupson = 0;
+                ArrayList<gProp> powerupcandidates = new ArrayList<>();
+                for (gProp p : eManager.currentMap.scene.props()) {
+                    if (p.isInt("code", gProp.POWERUP) && !p.isZero("int0")) {
+                        powerupson++;
+                    }
+                    else if(p.isInt("code", gProp.POWERUP) && p.isOne("native")){
+                        powerupcandidates.add(p);
+                    }
                 }
-                else {
-                    powerupcandidates.add(p);
+                int ctr = 0;
+                // limit represents the number of powerups we should spawn
+                int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
+                while (ctr < limit) {
+                    int r = (int) (Math.random() * powerupcandidates.size());
+                    int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
+                    powerupcandidates.get(r).put("int0", Integer.toString(rr));
+                    powerupcandidates.get(r).putInt("int1", gWeapons.weapons_selection[rr].maxAmmo);
+                    powerupcandidates.remove(r);
+                    ctr++;
                 }
-                powerups.add(p);
+                cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
             }
-            int ctr = 0;
-            int limit = Math.min(powerups.size()-powerupson, cVars.getInt("powerupson")-powerupson);
-            while (ctr < limit) {
-                int r = (int) (Math.random() * powerupcandidates.size());
-                int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
-                powerups.get(r).put("int0", Integer.toString(rr));
-                powerups.get(r).putInt("int1", gWeapons.weapons_selection[rr].maxAmmo);
-                powerups.remove(r);
-                ctr++;
-            }
-            cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
         }
-        //every <poweruptimer> seconds we hide all powerups and select <powerupson> to
-        //re-enable and present a random weapon
-//            if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-//                ArrayList<gProp> powerups = new ArrayList<>();
-//                for (gProp p : eManager.currentMap.scene.props()) {
-//                    if (p.isInt("code", gProp.POWERUP)) {
-//                        p.put("int0", "0");
-//                        powerups.add(p);
-//                    }
-//                }
-//                int ctr = 0;
-//                int limit = Math.min(powerups.size(), cVars.getInt("powerupson"));
-//                while (ctr < limit) {
-//                    int r = (int) (Math.random() * powerups.size());
-//                    int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
-//                    powerups.get(r).put("int0", Integer.toString(rr));
-//                    powerups.remove(r);
-//                    ctr++;
-//                }
-//                cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
-//            }
-//            //powerup expired
-//            if (cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime") < System.currentTimeMillis()) {
-////                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
-////                    cScripts.changeWeapon(0, true);
-////                }
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase"));
-//                xCon.ex("THING_PLAYER.0.sicknessslow 0");
-//                xCon.ex("THING_PLAYER.0.sicknessfast 0");
-//                xCon.ex("cv_sicknessslow 0");
-//                xCon.ex("cv_sicknessfast 0");
-//            }
-            if(sSettings.net_server) {
-                for(gPlayer p : eManager.currentMap.scene.players()) {
-                    if(p.get("id").contains("bot")) {
-                        if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
-                                cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
-                            }
+        if(sSettings.net_server) {
+            for(gPlayer p : eManager.currentMap.scene.players()) {
+                if(p.get("id").contains("bot")) {
+                    if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
+                        if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
+                            cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
                         }
                     }
                 }
             }
+        }
     }
 
     public static void checkMapGravity() {
