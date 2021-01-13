@@ -265,8 +265,7 @@ public class cScripts {
     }
 
     public static void takepowerup(gProp powerup) {
-        cVars.putInt("weaponstock"+powerup.getInt("int0"),
-                gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo);
+        cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
         powerup.put("int0","0");
         xCon.ex("playsound sounds/clampdown.wav");
         if(sSettings.net_client)

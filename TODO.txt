@@ -50,7 +50,9 @@
 ==FEATURES==
 * compare md5 checksum of the JAR file to verify source parity between all players
 * new powerups system to accomodate dropping weapons
-    -> all powerups on all the time
+    -> accomodate BOTH the random refreshes and un-picked guns from last refresh
+        -> if gun is picked up, that powerup slot should be eligible again
+        -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
     -> use int1 of prop to store ammo count (for when someone dies witha  gun)
     -> server sends a string with data to clients
 * create system where e_ commands are transmitted and exec'd by clients
@@ -59,22 +61,11 @@
         -> send this line as part of the payload
         -> how to handle spaces?
         -> will need to confirm every client rcvd/excd the line
-* need to be able to drop a prop on the map at will with a console command
-    -> unify editor and game comm into one
-    -> everything needs to be supplied in the command
-        -> no cvar usage
-* players should drop weapons/flags stuff where they get killed
-    -> and the guns should retain their ammo
-    -> accomodate BOTH the random refreshes and un-picked guns from last refresh
-        -> if gun is picked up, that powerup slot should be eligible again
-        -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
-* create a map of "doables" for tiles, props, players so you can call actions from the console
-    -> e.g. THING_PLAYER.0.drop_prop
 * powerups ideas
-    -> super speed
     -> on-fire like bomberman (touch ppl, they die)
-    -> shielded
     -> dmg boost
+    -> tiny fast mode
+    -> big slow mode (shielded)
 * be sure to make as many variant maps for the different gamemodes
 * replace chosen/anti-chosen maps with flag master
     -> remove existing fm map
