@@ -5,6 +5,14 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* need special flag for clients refilling ammo from ground weapons
+    -> use sendpowerup flag
+    -> find better way to narrow down exact prop to remove besides tag
+        -> or start sending the tag with the powerupstring from server
+* FUCKIN A
+    -> GO TO COMMIT: git checkout <commit>
+    -> GO BACK: git checkout <branch_name>
+* too much sent in new powerups string
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot
 * make sure different timezones and computer times work correctly
@@ -13,9 +21,6 @@
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
 * bots wont go for flag in kof if another bot owns that flag
 * I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
-* weapons need overhaul
-    -> mainly should be able to give/remove weapons more easily than right now
-* should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
     -> was better when javafx wasnt working
@@ -29,7 +34,6 @@
     -> features like BOTS and perhaps split screen multiplayer
 * need to restrict certain console commands if a client is playing
     -> 'addbot' and many more to be sure
-* bot needs to be affected by boost and teleporters
 * scores get fucked up when people/bots quit and rejoin
 * editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
@@ -50,27 +54,14 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* players should drop weapons/flags stuff where they get killed
-    -> and the guns should retain their ammo
-    -> accomodate BOTH the random refreshes and un-picked guns from last refresh
-        -> if gun is picked up, that powerup slot should be eligible again
-        -> if not, dont remove or replace it, and also make it so -1 fresh powerup spawns
-* create a map of "doables" for tiles, props, players so you can call actions from the console
-    -> e.g. THING_PLAYER.0.drop_prop
 * powerups ideas
-    -> super speed
     -> on-fire like bomberman (touch ppl, they die)
-    -> shielded
-    -> dmg boost
+    -> tiny and fast
+    -> big slow and shielded
 * be sure to make as many variant maps for the different gamemodes
-* replace chosen/anti-chosen maps with flag master
-    -> remove existing fm map
 * add "disable attacks" flag
     -> would only be fun in specific gamemodes
     -> could be a map string
-* new powerups string
-    -> <on/off>:<xcoord>:<ycoord>
-    -> replaces the current string
 * add ability for map to have a sound play on each score
     -> would be manually exec'd with a line
     -> integrate into mapmaker as well
@@ -87,7 +78,6 @@
             -> where N is 0 or below, just put at 0
             -> all orginal tiles m (>N) become m+1
 * need to see a visual pallette for selecting tiles
-* create a hashmap of string/gDoable tuples so we can call things like "THING_PLAYER.0.do_thing"
 * implementing search algorithms for ai
     -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
     -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
@@ -121,12 +111,6 @@
     -> ball thinks like a bot, going after nearest character
         -> if you touch the ball you die
         -> get points for staying alive
-* change powerups/weapons
-    -> start with only slot0 usable
-    -> unlock other slots if right powerup picked up
-    -> mousewheel goes to next _open_ slot
-        -> have a co-array that's like [1,0,0,0,0] for each locked/unlocked slot
-    -> if weapons are on and reloading is disabled, going over a weapons powerup should refill ammo
 *  cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
 to reference them.
 * replace stockhp
@@ -161,9 +145,6 @@ to reference them.
 * new props
     -> for race mode, bombs that explode on contact and stop you for a little
     -> pinball bumper that actual increases your bounce velocity
-* illustrate fire rate recharge
-    -> illustrate weapon bar refilling
-    -> a grey bar fills until full then change to the right color
 * idle sfx
     -> have music for background of match.
     -> loop a roylaty-free mp3
@@ -174,8 +155,6 @@ to reference them.
         -> deaths, objectives, etc
     -> have them grunt for punching
         -> like bomberman64
-* powerup to have all other players have a waypoint on them
-    -> what color?
 * new map lines:
     -> lockcam x y
     -> locks cam at a certain coordinate for duration of the map.
@@ -195,13 +174,9 @@ to reference them.
 * put visual feedback for racing positions
 * add voip
 * Load all images used on a map into a temp. sprite sheet to improve performance?
-* TRY MAKING PLAYER SHRINK/INFLATE FOR SLOW/FAST POWERUPS
-* ENABLE A "GRAVITY" SETTING EXCLUSIVELY FOR SIDESCROLLER MAPS
+* ENABLE A "GRAVITY" SETTING TO PULL PLAYERS IN CERTAIN VECTOR
     -> MUST BE ABLE TO SET IT FROM MAP FILES
 * TRIM THE FAT ON THE "NEW TILE/PROP/FLARE" OPTIONPANES
     -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
 * server should have clients run a set of instructions on join
-* CLIENT/SERVER SHOULD VERIFY MAP & FILES BEFORE LOADING
-    -> USE md5 CHECKSUM
-    -> could check on every tick and boot mismatches with special message
 * transmit file over the server/cli connection

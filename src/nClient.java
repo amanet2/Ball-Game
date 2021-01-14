@@ -9,6 +9,7 @@ public class nClient extends Thread {
     static int clientIndex;
     static int msgreceived;
     static int sfxreceived;
+    static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nClient instance = null;
 
@@ -23,6 +24,7 @@ public class nClient extends Thread {
         clientIndex = 0;
         msgreceived = 0;
         sfxreceived = 0;
+        cmdreceived = 0;
     }
 
     public static void processPackets() {

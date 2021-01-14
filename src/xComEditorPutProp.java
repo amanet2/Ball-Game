@@ -2,24 +2,19 @@ public class xComEditorPutProp extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
-            int propx = eUtils.roundToNearest(eUtils.unscaleInt(Integer.parseInt(toks[2]))
-                +cVars.getInt("camx")-cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX);
-            int propy = eUtils.roundToNearest(eUtils.unscaleInt(Integer.parseInt(toks[3]))
-                +cVars.getInt("camy")-cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY);
-            int propw = Integer.parseInt(toks[4]);
-            int proph = Integer.parseInt(toks[5]);
             gProp p = new gProp(
                 Integer.parseInt(toks[1]),
-                cEditorLogic.state.newProp.getInt("int0"),
-                cEditorLogic.state.newProp.getInt("int1"),
-                propx,
-                propy,
-                propw,
-                proph);
+                Integer.parseInt(toks[2]),
+                Integer.parseInt(toks[3]),
+                Integer.parseInt(toks[4]),
+                Integer.parseInt(toks[5]),
+                Integer.parseInt(toks[6]),
+                Integer.parseInt(toks[7])
+            );
             p.putInt("tag", eManager.currentMap.scene.props().size());
             eManager.currentMap.scene.props().add(p);
             return "";
         }
-        return "usage: e_putprop <c> <x> <y> <w> <h>";
+        return "usage: e_putprop <code> <int0> <int1> <x> <y> <w> <h>";
     }
 }

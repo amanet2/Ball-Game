@@ -49,6 +49,7 @@ public class nSend {
             else {
                 sendMap.remove("netmsgrcv");
             }
+
             if(nClient.sfxreceived != 0) {
                 sendMap.put("netsfxrcv","");
                 nClient.sfxreceived = 0;
@@ -56,6 +57,15 @@ public class nSend {
             else {
                 sendMap.remove("netsfxrcv");
             }
+
+            if(nClient.cmdreceived != 0) {
+                sendMap.put("netcmdrcv","");
+                nClient.cmdreceived = 0;
+            }
+            else {
+                sendMap.remove("netcmdrcv");
+            }
+
             sendDataString = new StringBuilder(sendMap.toString());
             xCon.ex("cv_quitconfirmed cv_quitting");
             xCon.ex("cv_disconnectconfirmed cv_disconnecting");

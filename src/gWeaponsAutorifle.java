@@ -29,7 +29,7 @@ public class gWeaponsAutorifle extends gWeapon {
             b.putDouble("fv", b.getDouble("fv") + randomOffset);
             b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             eManager.currentMap.scene.bullets().add(b);
-            if(p == cGameLogic.getPlayerByIndex(0)) {
+            if(p == cGameLogic.getUserPlayer()) {
                 cVars.decrement("weaponstock"+gWeapons.weapon_autorifle);
                 cVars.putLong("weapontime"+gWeapons.weapon_autorifle, System.currentTimeMillis());
             }

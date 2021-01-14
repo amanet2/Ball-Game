@@ -13,8 +13,10 @@ public class iMouseWheel implements MouseWheelListener {
                 xCon.ex("-e_nextthing");
             }
             else {
-                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon"))
-                    cScripts.changeWeapon(0);
+                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
+//                    cScripts.changeWeapon(0);
+                    xCon.ex("dropweapon");
+                }
                 else
                     cScripts.changeWeapon(cVars.getInt("currentweapon") > 0
                         ? cVars.getInt("currentweapon") - 1 : gWeapons.weapons_selection.length - 1);
@@ -30,8 +32,10 @@ public class iMouseWheel implements MouseWheelListener {
                 xCon.ex("e_nextthing");
             }
             else {
-                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon"))
-                    cScripts.changeWeapon(0);
+                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
+//                    cScripts.changeWeapon(0);
+                    xCon.ex("dropweapon");
+                }
                 else
                     cScripts.changeWeapon(cVars.getInt("currentweapon") < gWeapons.weapons_selection.length - 1
                             ? cVars.getInt("currentweapon") + 1 : 0);

@@ -29,7 +29,7 @@ public class gWeaponsPistol extends gWeapon {
             b.putDouble("fv", b.getDouble("fv") + randomOffset);
             b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
             eManager.currentMap.scene.bullets().add(b);
-            if(p == cGameLogic.getPlayerByIndex(0)) {
+            if(p == cGameLogic.getUserPlayer()) {
                 cVars.decrement("weaponstock"+gWeapons.weapon_pistol);
                 cVars.putLong("weapontime"+gWeapons.weapon_pistol, System.currentTimeMillis());
             }

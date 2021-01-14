@@ -203,7 +203,7 @@ public class nReceive {
                             cVars.putInArray("kofflagcaps", Character.toString(ftags.charAt(f)), f);
                         }
                     }
-                    cScripts.processPowerupsString(packArgs.get("powerups"));
+                    cScripts.processPowerupStringClient(packArgs.get("powerups"));
                     cVars.put("gamemode", packArgs.get("mode"));
                     cVars.put("gameteam", packArgs.get("teams"));
                     cVars.put("gamespawnarmed", packArgs.get("armed"));
@@ -254,7 +254,7 @@ public class nReceive {
                                     && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
                                 nServer.clientArgsMap.get(idload).remove("spawnprotected");
                             }
-                            cGameLogic.processActionLoadClient(actionload, i);
+                            cGameLogic.processActionLoadClient(actionload);
                             w++;
                         }
                     }

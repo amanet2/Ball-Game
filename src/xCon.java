@@ -136,6 +136,7 @@ public class xCon {
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("disconnect", new xComDisconnect());
+        commands.put("dropweapon", new xComDropWeapon());
         commands.put("exec", new xComExec());
         commands.put("e_copytile", new xComEditorCopyTile());
         commands.put("e_delflare", new xComEditorDelFlare());
@@ -205,6 +206,7 @@ public class xCon {
         commands.put("slot2", new xComSlot2());
         commands.put("slot3", new xComSlot3());
         commands.put("slot4", new xComSlot4());
+        commands.put("slot5", new xComSlot5());
         commands.put("soundlist", new xComSoundlist());
         commands.put("sspeed", new xComSuperSpeed());
         commands.put("status", new xComStatus());
@@ -267,6 +269,7 @@ public class xCon {
                         if(eManager.currentMap.scene.objects.get(type).size() > tag) {
                             gThing g = (gThing) eManager.currentMap.scene.objects.get(type).get(tag);
                             if(args.length > 1) {
+                                //process the arg by checking if svar or cvar can be subbed in
                                 String val = args[1];
                                 if(sVars.contains(val))
                                     val = sVars.get(val);
@@ -274,6 +277,9 @@ public class xCon {
                                         && cVars.contains(val.substring(0,3)))
                                     val = cVars.get(val.substring(3));
                                 g.put(var, val);
+                            }
+                            else if(g.canDo(var)) {
+                                g.doDoable(var);
                             }
                             return g.get(var);
                         }
@@ -294,8 +300,9 @@ public class xCon {
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
-            if (cp != null && !(!sSettings.show_mapmaker_ui && (fullCommand.substring(0, 2).equals("e_")
-                || fullCommand.substring(0, 3).equals("-e_")))) {
+//            if (cp != null && !(!sSettings.show_mapmaker_ui && (fullCommand.substring(0, 2).equals("e_")
+//                || fullCommand.substring(0, 3).equals("-e_")))) {
+            if (cp != null) {
                 if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
                     cEditorLogic.undoStateStack.push(cEditorLogic.getEditorState());
                     eManager.currentMap.wasLoaded = 1;

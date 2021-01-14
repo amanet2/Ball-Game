@@ -94,16 +94,18 @@ public class iInput {
                 xCon.instance().previousCommands.add(xCon.instance().commandString);
                 xCon.instance().stringLines.add(String.format("console:~$ %s",
                         xCon.instance().commandString));
-                if(res.length() > xCon.charlimit()) {
-                    xCon.instance().stringLines.add(res.substring(0, xCon.charlimit()));
-                    for(int i = xCon.charlimit(); i < res.length();
-                        i+= xCon.charlimit()) {
-                        int lim = Math.min(res.length(), i+ xCon.charlimit());
-                        xCon.instance().stringLines.add(res.substring(i,lim));
+                if(res != null) {
+                    if(res.length() > xCon.charlimit()) {
+                        xCon.instance().stringLines.add(res.substring(0, xCon.charlimit()));
+                        for(int i = xCon.charlimit(); i < res.length();
+                            i+= xCon.charlimit()) {
+                            int lim = Math.min(res.length(), i+ xCon.charlimit());
+                            xCon.instance().stringLines.add(res.substring(i,lim));
+                        }
                     }
+                    else
+                        xCon.instance().stringLines.add(res);
                 }
-                else 
-                    xCon.instance().stringLines.add(res);
                 xCon.instance().linesToShowStart = Math.max(0,
                         xCon.instance().stringLines.size() - xCon.instance().linesToShow);
                 xCon.instance().prevCommandIndex = -1;
