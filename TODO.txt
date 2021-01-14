@@ -6,6 +6,12 @@
 
 ==ISSUES==
 * every powerup disappears under client on both client and server's screen
+    -> can block them if they dont have the same wep
+    -> but how to differentiate between full amoo or no?
+        -> either a send flag or start trackin that ammo btwn client server
+* FUCKIN A
+    -> GO TO COMMIT: git checkout <commit>
+    -> GO BACK: git checkout <branch_name>
 * too much sent in new powerups string
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot

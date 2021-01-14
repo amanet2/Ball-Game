@@ -836,7 +836,8 @@ public class cGameLogic {
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                     p.put("int0", "0");
                                 }
-                                else if(!cl.get("id").equals("server")) {
+                                else if(!cl.get("id").equals("server")
+                                        && cl.getInt("weapon") == gWeapons.weapon_none) {
                                     p.put("int0", "0");
                                 }
                             }
