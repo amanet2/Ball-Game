@@ -165,7 +165,7 @@ public class dMenus {
             String pli = i == nClient.clientIndex ? uiInterface.uuid
                     : i > nClient.clientIndex ? nServer.clientIds.get(i-1)
                     : nServer.clientIds.get(i);
-            String cl = pli.equals(uiInterface.uuid) ? cGameLogic.getPlayerByIndex(0).get("color")
+            String cl = pli.equals(uiInterface.uuid) ? cGameLogic.getUserPlayer().get("color")
                     : cGameLogic.getPlayerById(pli).get("color");
             if(i == nClient.clientIndex) {
                 g.setColor(new Color(

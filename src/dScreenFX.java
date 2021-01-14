@@ -7,10 +7,10 @@ public class dScreenFX {
         if(dx < -9000 && dy < -9000) {
             return;
         }
-        double[] deltas = new double[]{dx - cGameLogic.getPlayerByIndex(0).getInt("coordx")
-                + cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
-                dy - cGameLogic.getPlayerByIndex(0).getInt("coordy")
-                + cGameLogic.getPlayerByIndex(0).getInt("dimh")/2};
+        double[] deltas = new double[]{dx - cGameLogic.getUserPlayer().getInt("coordx")
+                + cGameLogic.getUserPlayer().getInt("dimw")/2,
+                dy - cGameLogic.getUserPlayer().getInt("coordy")
+                + cGameLogic.getUserPlayer().getInt("dimh")/2};
         g2.setColor(new Color(255,100,50,150));
         int[][] polygondims = new int[][]{
                 new int[]{

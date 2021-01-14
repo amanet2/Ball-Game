@@ -3,7 +3,7 @@ import java.util.*;
 
 public class cScripts {
     public static void pointPlayerAtMousePointer() {
-        gPlayer p = cGameLogic.getPlayerByIndex(0);
+        gPlayer p = cGameLogic.getUserPlayer();
         int[] mc = getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
                 - cVars.getInt("camx"));
@@ -184,7 +184,7 @@ public class cScripts {
             }
         }
         else if(p.isZero("tag") && !cVars.isVal("exitteleportertag", tp.get("tag"))) {
-            xCon.ex("playsound sounds/bfg.wav");
+            xCon.ex("playsound sounds/teleporter.wav");
             if(exit != null) {
                 p.putInt("coordx", exit.getInt("coordx") + exit.getInt("dimw")/2 - p.getInt("dimw")/2);
                 p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);
@@ -220,7 +220,7 @@ public class cScripts {
                 }
                 if (sSettings.net_server) {
                     nServer.givePoint(pla.getInt("tag"));
-                    xCon.ex("say " + sVars.get("playername") + " completed a lap!");
+//                    xCon.ex("say " + pla.get("name") + " completed a lap!");
                 } else if (sSettings.net_client) {
                     xCon.ex("cv_lapcomplete 1");
                 }
@@ -250,7 +250,7 @@ public class cScripts {
         if(cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 && cVars.isVal("flagmasterid", uiInterface.uuid)) {
             cVars.put("flagmasterid", "");
-            createScorePopup(cGameLogic.getPlayerByIndex(0),1);
+            createScorePopup(cGameLogic.getUserPlayer(),1);
             if(sSettings.net_server) {
                 nServer.givePoint(0);
                 xCon.ex("say " + sVars.get("playername") + " captured the flag!");
@@ -261,7 +261,20 @@ public class cScripts {
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
+                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon "));
+    }
+
+    public static void takepowerup(gProp powerup) {
+        if(sSettings.net_client
+                && cVars.getInt("weaponstock"+powerup.getInt("int0"))
+                < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
+            //this is for the special case where clients pick up powerup to replenish ammo stoks
+//            System.out.println("SENDPOWERUP "+powerup.get("tag"));
+            cVars.put("sendpowerup", powerup.get("tag"));
+        }
+        cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
+        powerup.put("int0","0");
+        xCon.ex("playsound sounds/clampdown.wav");
     }
 
     public static void checkPlayerPowerups(gProp powerup) {
@@ -275,17 +288,17 @@ public class cScripts {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
                     changeWeapon(r, true);
-                    powerup.put("int0", "0");
-                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
-//                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
+                    takepowerup(powerup);
+//                    cGameLogic.getUserPlayer().putLong("powerupsusetime",
 //                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                 }
                 else if(cVars.isInt("currentweapon", r)
                         && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
-                    powerup.put("int0","0");
-                    cVars.putInt("weaponstock"+r,gWeapons.weapons_selection[r].maxAmmo);
-                    xCon.ex("playsound sounds/clampdown.wav");
+                    takepowerup(powerup);
                 }
+            }
+            else if(cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo){
+                takepowerup(powerup);
             }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
@@ -300,24 +313,65 @@ public class cScripts {
         }
     }
 
-    public static String getPowerupsString() {
+    public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.POWERUP)) {
-                str.append(p.get("int0"));
+                str.append(p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
-        return str.toString();
+        String rstr = str.toString();
+        if(rstr.length() < 1)
+            return "null";
+        return rstr.substring(0, rstr.length()-1);
     }
 
-    static void processPowerupsString(String powerupString) {
-        int ctr = 0;
+    static gProp getPowerupAtLocation(int x, int y) {
         for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP)) {
-                p.put("int0", Character.toString(powerupString.charAt(ctr)));
-                ctr++;
+            if(p.isInt("coordx",x) && p.isInt("coordy",y) && p.isInt("code", gProp.POWERUP))
+                return p;
+        }
+        return null;
+    }
+
+    static void processPowerupStringClient(String powerupString) {
+        String[] powerupStringToks = powerupString.split(":");
+        ArrayList<String> powerupsLive = new ArrayList<>();
+        for(int i = 0; i < powerupStringToks.length; i+=4) {
+            String int0 = powerupStringToks[i];
+            String int1 = powerupStringToks[i+1];
+            String x = powerupStringToks[i+2];
+            String y = powerupStringToks[i+3];
+            gProp prop = getPowerupAtLocation(Integer.parseInt(x), Integer.parseInt(y));
+            if(prop != null) {
+                if(!prop.get("int0").equals(int0)) {
+                    prop.put("int0", int0);
+                    prop.put("int1", int1);
+                    prop.put("coordx", x);
+                    prop.put("coordy", y);
+                }
+                powerupsLive.add(prop.get("tag"));
+            }
+            else {
+                String doString = String.format("e_putprop %d %s %s %s %s %d %d",
+                        gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
+                        gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]);
+                xCon.ex(doString);
+                powerupsLive.add(prop.get("tag"));
             }
         }
+        //hide anything that shouldn't be on
+        for(gProp p : eManager.currentMap.scene.props()) {
+            if(p.isInt("code", gProp.POWERUP) && !powerupsLive.contains(p.get("tag")))
+                p.put("int0", "0");
+        }
+    }
+
+    public static boolean isVirus() {
+        return (cVars.get("virussingleid").equals(uiInterface.uuid)
+                || (nServer.clientArgsMap.containsKey("server")
+                && nServer.clientArgsMap.get("server").containsKey("virussingleid")
+                && nServer.clientArgsMap.get("server").get("virussingleid").equals(uiInterface.uuid)));
     }
 
     public static void checkPlayerRedFlags(gProp flag) {
@@ -330,7 +384,7 @@ public class cScripts {
             }
         }
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS && flag.getInt("int0") != 1) {
-            gPlayer cl = cGameLogic.getPlayerByIndex(0);
+            gPlayer cl = cGameLogic.getUserPlayer();
             int pass = 1;
             for(gPlayer p : eManager.currentMap.scene.players()) {
                 //make sure no other players still on the flag
@@ -350,7 +404,7 @@ public class cScripts {
                         xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
                     }
                 }
-                createScorePopup(cGameLogic.getPlayerByIndex(0),1);
+                createScorePopup(cGameLogic.getUserPlayer(),1);
             }
         }
     }
@@ -549,19 +603,6 @@ public class cScripts {
         return id.toString();
     }
 
-    public static void playerDropPropHeld(gPlayer pl, int pc) {
-        gProp fl = null;
-        for(gProp fla : eManager.currentMap.scene.props()) {
-            if(fla.isInt("code", pc)) {
-                fl = fla;
-            }
-        }
-        if(fl != null) {
-            fl.putInt("coordx", pl.getInt("coordx"));
-            fl.putInt("coordy", pl.getInt("coordy"));
-        }
-    }
-
     public static void createDamagePopup(gPlayer p, gBullet tr) {
         int adjusteddmg = tr.getInt("dmg") - (int)((double)tr.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
@@ -632,8 +673,8 @@ public class cScripts {
                     playPlayerDeathSound();
                     cVars.put("stockhp", cVars.get("maxstockhp"));
                     cVars.put("exploded", "0");
-                    cVars.putInt("explodex", cGameLogic.getPlayerByIndex(0).getInt("coordx") - 75);
-                    cVars.putInt("explodey", cGameLogic.getPlayerByIndex(0).getInt("coordy") - 75);
+                    cVars.putInt("explodex", cGameLogic.getUserPlayer().getInt("coordx") - 75);
+                    cVars.putInt("explodey", cGameLogic.getUserPlayer().getInt("coordy") - 75);
                     cVars.put("killername", xCon.ex("THING_PLAYER." + tr.get("tag") + ".name"));
                     cVars.put("killerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));
                     if (sSettings.net_server) {
@@ -762,23 +803,23 @@ public class cScripts {
 
     public static boolean canSpawnPlayer() {
         for(gTile t : eManager.currentMap.scene.tiles()) {
-            if(t.isOne("canspawn") && !cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(t,
-                t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
-                t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimh")/2)) {
+            if(t.isOne("canspawn") && !cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(t,
+                t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getUserPlayer().getInt("dimw")/2,
+                t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
                 boolean pass = true;
                 for(gTile td : eManager.currentMap.scene.tiles()) {
-                    if(cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(td,
+                    if(cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(td,
                         t.getInt("coordx") + t.getInt("dimw")/2
-                            - cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
+                            - cGameLogic.getUserPlayer().getInt("dimw")/2,
                         t.getInt("coordy") + t.getInt("dimh")/2
-                            - cGameLogic.getPlayerByIndex(0).getInt("dimh")/2)) {
+                            - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
                         pass = false;
                         break;
                     }
                     if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
                         for (gPlayer target : eManager.currentMap.scene.players()) {
-                            if (target.getInt("tag") != cGameLogic.getPlayerByIndex(0).getInt("tag") &&
-                                cGameLogic.getPlayerByIndex(0).willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
+                            if (target.getInt("tag") != cGameLogic.getUserPlayer().getInt("tag") &&
+                                cGameLogic.getUserPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
                                     t.getInt("coordy"))) {
                                 pass = false;
                                 break;
@@ -797,7 +838,7 @@ public class cScripts {
         double r = Math.random();
         if(r > .99)
             xCon.ex("playsound sounds/growl.wav");
-        else if(r > .5)
+        else if(r > .49)
             xCon.ex("playsound sounds/shout.wav");
         else
             xCon.ex("playsound sounds/death.wav");
@@ -809,7 +850,7 @@ public class cScripts {
             xCon.ex("THING_PLAYER.0.weapon " + newweapon);
             cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
-            checkPlayerSpriteFlip(cGameLogic.getPlayerByIndex(0));
+            checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
         }
     }
 
@@ -827,7 +868,7 @@ public class cScripts {
             xCon.ex("THING_PLAYER.0.weapon " + newweapon);
             cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
-            checkPlayerSpriteFlip(cGameLogic.getPlayerByIndex(0));
+            checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
         }
     }
 

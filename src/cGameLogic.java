@@ -1,9 +1,15 @@
+import org.w3c.dom.css.CSSStyleDeclaration;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class cGameLogic {
+
+    public static gPlayer getUserPlayer() {
+        return getPlayerByIndex(0);
+    }
 
     public static gPlayer getPlayerByIndex(int n) {
         return eManager.currentMap.scene.players().size() > n ?
@@ -37,7 +43,7 @@ public class cGameLogic {
             if(cVars.isOne("quitconfirmed")) {
                 uiInterface.exit();
             }
-            if(getPlayerByIndex(0) != null) {
+            if(getUserPlayer() != null) {
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
@@ -62,47 +68,47 @@ public class cGameLogic {
     }
 
     public static void checkPowerupsStatus() {
+        //step 0: start with blank map
+        //step 1: count how many powerups present already
+        //step 2: create new powerups at a random prop powerup loc
+        //step 2a: ensure no overlaps
+        if(sSettings.net_server || !cScripts.isNetworkGame()) {
             if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-                ArrayList<gProp> powerups = new ArrayList<>();
+                int powerupson = 0;
+                ArrayList<gProp> powerupcandidates = new ArrayList<>();
                 for (gProp p : eManager.currentMap.scene.props()) {
-                    if (p.isInt("code", gProp.POWERUP)) {
-                        p.put("int0", "0");
-                        powerups.add(p);
+                    if (p.isInt("code", gProp.POWERUP) && !p.isZero("int0")) {
+                        powerupson++;
+                    }
+                    else if(p.isInt("code", gProp.POWERUP) && p.isOne("native")){
+                        powerupcandidates.add(p);
                     }
                 }
                 int ctr = 0;
-                int limit = Math.min(powerups.size(), cVars.getInt("powerupson"));
+                // limit represents the number of powerups we should spawn
+                int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
                 while (ctr < limit) {
-                    int r = (int) (Math.random() * powerups.size());
+                    int r = (int) (Math.random() * powerupcandidates.size());
                     int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
-                    powerups.get(r).put("int0", Integer.toString(rr));
-                    powerups.remove(r);
+                    powerupcandidates.get(r).put("int0", Integer.toString(rr));
+                    powerupcandidates.get(r).putInt("int1", gWeapons.weapons_selection[rr].maxAmmo);
+                    powerupcandidates.remove(r);
                     ctr++;
                 }
                 cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
             }
-            //powerup expired
-            if (cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime") < System.currentTimeMillis()) {
-//                if (cVars.isZero("gamespawnarmed") && cVars.getInt("currentweapon") != 0) {
-//                    cScripts.changeWeapon(0, true);
-//                }
-                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase"));
-                xCon.ex("THING_PLAYER.0.sicknessslow 0");
-                xCon.ex("THING_PLAYER.0.sicknessfast 0");
-                xCon.ex("cv_sicknessslow 0");
-                xCon.ex("cv_sicknessfast 0");
-            }
-            if(sSettings.net_server) {
-                for(gPlayer p : eManager.currentMap.scene.players()) {
-                    if(p.get("id").contains("bot")) {
-                        if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                            if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
-                                cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
-                            }
+        }
+        if(sSettings.net_server) {
+            for(gPlayer p : eManager.currentMap.scene.players()) {
+                if(p.get("id").contains("bot")) {
+                    if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
+                        if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
+                            cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
                         }
                     }
                 }
             }
+        }
     }
 
     public static void checkMapGravity() {
@@ -114,7 +120,7 @@ public class cGameLogic {
                 } else {
                     if(!cVars.contains("respawntime"))
                         xCon.ex("THING_PLAYER.0.mov1 1");
-                    if (!getPlayerByIndex(0).canJump())
+                    if (!getUserPlayer().canJump())
                         cVars.increment("falltime");
                     else
                         cVars.put("falltime", "0");
@@ -266,7 +272,7 @@ public class cGameLogic {
 
     public static void checkWeaponsStatus() {
         //player0
-        if(cVars.getInt("currentweapon") != getPlayerByIndex(0).getInt("weapon")) {
+        if(cVars.getInt("currentweapon") != getUserPlayer().getInt("weapon")) {
             cScripts.changeWeapon(cVars.getInt("currentweapon"));
         }
         //pistol
@@ -319,7 +325,7 @@ public class cGameLogic {
 
     public static void checkHatStatus(){
         if(!xCon.ex("THING_PLAYER.0.pathspritehat").contains(sVars.get("playerhat"))) {
-            cGameLogic.getPlayerByIndex(0).setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+            cGameLogic.getUserPlayer().setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat")))
             );
         }
@@ -338,7 +344,7 @@ public class cGameLogic {
     public static void checkColorStatus(){
         if(!xCon.ex("THING_PLAYER.0.color").contains(sVars.get("playercolor"))) {
             xCon.ex("THING_PLAYER.0.color playercolor");
-            cGameLogic.getPlayerByIndex(0).setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
+            cGameLogic.getUserPlayer().setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
                     sVars.get("playercolor"),
                     xCon.ex("THING_PLAYER.0.pathsprite").substring(
                             xCon.ex("THING_PLAYER.0.pathsprite").lastIndexOf('/')))));
@@ -475,6 +481,14 @@ public class cGameLogic {
         String actionload = "";
         if(sSettings.net_client && cVars.isOne("sendsafezone"))
             actionload += "safezone|";
+        if(sSettings.net_client && cVars.getInt("sendpowerup")>-1) {
+            actionload += ("powerup"+cVars.getInt("sendpowerup")+"|");
+            cVars.putInt("sendpowerup",-1);
+        }
+        if(cVars.get("sendcmd").length() > 0) {
+            actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
+            cVars.put("sendcmd","");
+        }
         if(sSettings.net_client && cVars.isOne("lapcomplete"))
             actionload += "lapcomplete|";
         if(cVars.isZero("exploded"))
@@ -560,10 +574,22 @@ public class cGameLogic {
                             new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG, Integer.parseInt(args[1]),
                                     Integer.parseInt(args[2])));
             }
+            if(action.contains("powerup")) {
+                for(gProp p : eManager.currentMap.scene.props()) {
+                    if(p.isInt("code",gProp.POWERUP)
+                            && p.isVal("tag", action.replace("powerup", ""))) {
+//                            System.out.println("CLIENTGOTPOWERUP " + p.get("tag") + " " + p.getInt("int0"));
+                            p.putInt("int0",0);
+                    }
+                }
+            }
+            if(action.contains("sendcmd")) {
+                xCon.ex(action.replaceFirst("sendcmd_",""));
+            }
         }
     }
 
-    public static void processActionLoadClient(String actionload, int i) {
+    public static void processActionLoadClient(String actionload) {
         String[] actions = actionload.split("\\|");
         for(String action : actions) {
             if(action.contains("explode")) {
@@ -577,6 +603,10 @@ public class cGameLogic {
                 nClient.sfxreceived = 1;
                 xCon.ex(String.format("playsound %s",
                         action.split("-")[0].replace("playsound","")));
+            }
+            if(action.contains("sendcmd")) {
+                nClient.cmdreceived = 1;
+                xCon.ex(action.replaceFirst("sendcmd_",""));
             }
         }
     }
@@ -796,7 +826,7 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
-                                if(cl.get("id").contains("bot") && cVars.isZero("gamespawnarmed")
+                                if(cl.get("id").contains("bot")
                                         && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
 //                                    xCon.ex("say " + cl.get("name") + " picked up the "
@@ -804,10 +834,14 @@ public class cGameLogic {
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
+                                    p.put("int0", "0");
+                                }
+                                else if(!cl.get("id").equals("server")
+                                        && cl.getInt("weapon") == gWeapons.weapon_none) {
+                                    p.put("int0", "0");
                                 }
                             }
                         }
-                        p.put("int0", "0");
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
                             && p.isInt("code", gProp.FLAGRED)
@@ -1015,7 +1049,7 @@ public class cGameLogic {
     }
 
     public static void checkForPlayerDeath() {
-        gPlayer cl = cGameLogic.getPlayerByIndex(0);
+        gPlayer cl = cGameLogic.getUserPlayer();
         cScripts.checkBulletSplashes();
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")

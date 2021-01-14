@@ -8,11 +8,11 @@ public class gWeaponsAutorifle extends gWeapon {
         soundFilePath = "sounds/30cal.wav";
         refiredelay = 80;
         damage = 800;
-        maxAmmo = 30;
+        maxAmmo = 50;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
-        bulletTtl = 300;
+        bulletTtl = 250;
         bulletVel = 60;
     }
 
@@ -29,7 +29,7 @@ public class gWeaponsAutorifle extends gWeapon {
             b.putDouble("fv", b.getDouble("fv") + randomOffset);
             b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             eManager.currentMap.scene.bullets().add(b);
-            if(p == cGameLogic.getPlayerByIndex(0)) {
+            if(p == cGameLogic.getUserPlayer()) {
                 cVars.decrement("weaponstock"+gWeapons.weapon_autorifle);
                 cVars.putLong("weapontime"+gWeapons.weapon_autorifle, System.currentTimeMillis());
             }

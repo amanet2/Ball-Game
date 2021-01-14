@@ -10,13 +10,13 @@ public class xComRespawn extends xCom {
                 int randomNum = ThreadLocalRandom.current().nextInt(0,
                     eManager.currentMap.scene.tiles().size());
                 gTile t = eManager.currentMap.scene.tiles().get(randomNum);
-                if(t.isOne("canspawn") && !cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(t,
-                    t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
-                    t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimh")/2)) {
+                if(t.isOne("canspawn") && !cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(t,
+                    t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getUserPlayer().getInt("dimw")/2,
+                    t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
                     boolean pass = true;
                     for (gPlayer target : eManager.currentMap.scene.players()) {
-                        if (target.getInt("tag") != cGameLogic.getPlayerByIndex(0).getInt("tag") &&
-                                cGameLogic.getPlayerByIndex(0).willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
+                        if (target.getInt("tag") != cGameLogic.getUserPlayer().getInt("tag") &&
+                                cGameLogic.getUserPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
                                         t.getInt("coordy"))) {
                             pass = false;
                             break;
@@ -24,9 +24,9 @@ public class xComRespawn extends xCom {
                     }
                     if(pass) {
                         xCon.ex("THING_PLAYER.0.coordx " + (t.getInt("coordx") + t.getInt("dimw") / 2
-                                - cGameLogic.getPlayerByIndex(0).getInt("dimw") / 2));
+                                - cGameLogic.getUserPlayer().getInt("dimw") / 2));
                         xCon.ex("THING_PLAYER.0.coordy "+ (t.getInt("coordy") + t.getInt("dimh") / 2
-                                - cGameLogic.getPlayerByIndex(0).getInt("dimh") / 2));
+                                - cGameLogic.getUserPlayer().getInt("dimh") / 2));
                         cVars.putInt("weaponstock" + gWeapons.weapon_pistol,
                                 gWeapons.weapons_selection[gWeapons.weapon_pistol].maxAmmo);
                         cVars.putInt("weaponstock" + gWeapons.weapon_shotgun,

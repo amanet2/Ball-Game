@@ -1,7 +1,7 @@
 public class xComCrouch extends xCom {
     public String doCommand(String fullCommand) {
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            gPlayer p = cGameLogic.getPlayerByIndex(0);
+            gPlayer p = cGameLogic.getUserPlayer();
             if (p != null && p.isZero("crouch")) {
                 xCon.ex("THING_PLAYER.0.dimh 75");
                 p.setSpriteFromPath(p.get("pathsprite"));
@@ -14,7 +14,7 @@ public class xComCrouch extends xCom {
 
     public String undoCommand(String fullCommand) {
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            gPlayer p = cGameLogic.getPlayerByIndex(0);
+            gPlayer p = cGameLogic.getUserPlayer();
             if (p != null && p.isOne("crouch")) {
                 xCon.ex("THING_PLAYER.0.dimh 150");
                 if(p.wontClipOnMove(1,p.getInt("coordy")-80))

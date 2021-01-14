@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -11,7 +10,7 @@ public class gPlayer extends gThing {
        gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
     }
 
-    public void doBehavior(String key) {
+    public void doBotBehavior(String key) {
         if(cVars.get("winnerid").length() < 1) {
             gDoable behavior = cBotsLogic.getBehavior(key);
             if(behavior != null)
@@ -532,6 +531,10 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
+    public void dropWeapon() {
+        xCon.instance().debug("THING_PLAYER.drop_weapon is deprecated.  Use global 'dropweapon' command");
+    }
+
     public gPlayer(int x, int y, int w, int h, String tt) {
         super();
         putInt("coordx", x);
@@ -569,5 +572,10 @@ public class gPlayer extends gThing {
         put("sendshot", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
+        registerDoable("drop_powerup", new gDoable(){
+            public void doItem(gThing thing) {
+                dropWeapon();
+            }
+        });
     }
 }
