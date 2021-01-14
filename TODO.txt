@@ -5,10 +5,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* every powerup disappears under client on both client and server's screen
-    -> can block them if they dont have the same wep
-    -> but how to differentiate between full amoo or no?
-        -> either a send flag or start trackin that ammo btwn client server
+* need special flag for clients refilling ammo from ground weapons
+    -> use sendpowerup flag
+    -> find better way to narrow down exact prop to remove besides tag
+        -> or start sending the tag with the powerupstring from server
 * FUCKIN A
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>

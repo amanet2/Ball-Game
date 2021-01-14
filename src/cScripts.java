@@ -261,7 +261,7 @@ public class cScripts {
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
+                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon "));
     }
 
     public static void takepowerup(gProp powerup) {
@@ -269,7 +269,7 @@ public class cScripts {
                 && cVars.getInt("weaponstock"+powerup.getInt("int0"))
                 < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
             //this is for the special case where clients pick up powerup to replenish ammo stoks
-            System.out.println("ASDF");
+//            System.out.println("SENDPOWERUP "+powerup.get("tag"));
             cVars.put("sendpowerup", powerup.get("tag"));
         }
         cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
