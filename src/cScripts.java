@@ -308,7 +308,7 @@ public class cScripts {
         }
     }
 
-    public static String createPowerupsStringServer() {
+    public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.POWERUP)) {
@@ -329,8 +329,9 @@ public class cScripts {
         return null;
     }
 
-    static void processPowerupsStringClient(String powerupString) {
+    static void processPowerupStringClient(String powerupString) {
         String[] powerupStringToks = powerupString.split(":");
+        ArrayList<String> powerupsLive = new ArrayList<>();
         for(int i = 0; i < powerupStringToks.length; i+=4) {
             String int0 = powerupStringToks[i];
             String int1 = powerupStringToks[i+1];
@@ -344,14 +345,28 @@ public class cScripts {
                     prop.put("coordx", x);
                     prop.put("coordy", y);
                 }
+                powerupsLive.add(prop.get("tag"));
             }
             else {
                 String doString = String.format("e_putprop %d %s %s %s %s %d %d",
                         gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
                         gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]);
                 xCon.ex(doString);
+                powerupsLive.add(prop.get("tag"));
             }
         }
+        //hide anything that shouldn't be on
+        for(gProp p : eManager.currentMap.scene.props()) {
+            if(p.isInt("code", gProp.POWERUP) && !powerupsLive.contains(p.get("tag")))
+                p.put("int0", "0");
+        }
+    }
+
+    public static boolean isVirus() {
+        return (cVars.get("virussingleid").equals(uiInterface.uuid)
+                || (nServer.clientArgsMap.containsKey("server")
+                && nServer.clientArgsMap.get("server").containsKey("virussingleid")
+                && nServer.clientArgsMap.get("server").get("virussingleid").equals(uiInterface.uuid)));
     }
 
     public static void checkPlayerRedFlags(gProp flag) {

@@ -520,6 +520,11 @@ public class dTileTops {
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                             p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
+                else if(sSettings.net_client && cScripts.isVirus()) {
+                    p = cGameLogic.getPlayerByIndex(0);
+                    dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
+                            p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
+                }
             }
         }
         //popups

@@ -7,6 +7,10 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
+    public static gPlayer getUserPlayer() {
+        return getPlayerByIndex(0);
+    }
+
     public static gPlayer getPlayerByIndex(int n) {
         return eManager.currentMap.scene.players().size() > n ?
             eManager.currentMap.scene.players().get(n) :

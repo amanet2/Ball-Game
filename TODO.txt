@@ -5,8 +5,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* INFECTED MARKER NOT SHOWING UP ON CLIENTS OWN SCREEN WHEN CLIENT IS INFECTED
 * player 2 picking up weapon dropped by player 1 leaves weapon on ground for player 2.. might be a clue
-* player 2 picking up weapon dropped by player 3 causes weird stuff
+    -> maybe a client func needs to hide all non-use powerups
+* player 2 picking up weapon dropped by player 3 sometimes leaves weap on ground and "clones" into hands
 * too much sent in new powerups string
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot

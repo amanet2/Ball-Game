@@ -396,10 +396,7 @@ public class dScreenMessages {
                 drawVirusTagString(g);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
-                    && (cVars.get("virussingleid").equals(uiInterface.uuid)
-                    || (nServer.clientArgsMap.containsKey("server")
-                    && nServer.clientArgsMap.get("server").containsKey("virussingleid")
-                    && nServer.clientArgsMap.get("server").get("virussingleid").equals(uiInterface.uuid)))) {
+                    && cScripts.isVirus()) {
                 g.setColor(new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
