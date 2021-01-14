@@ -5,10 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* INFECTED MARKER NOT SHOWING UP ON CLIENTS OWN SCREEN WHEN CLIENT IS INFECTED
-* player 2 picking up weapon dropped by player 1 leaves weapon on ground for player 2.. might be a clue
-    -> maybe a client func needs to hide all non-use powerups
-* player 2 picking up weapon dropped by player 3 sometimes leaves weap on ground and "clones" into hands
+* every powerup disappears under client on both client and server's screen
 * too much sent in new powerups string
 * sometimes bots become invulnerable
     -> happens after end of first game, non-server player cant kill bot
@@ -18,7 +15,6 @@
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
 * bots wont go for flag in kof if another bot owns that flag
 * I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
-* should have green tinted screen when infected
 * only draw gfx that will be seen
 * sounds are dragging down performance
     -> was better when javafx wasnt working
@@ -32,7 +28,6 @@
     -> features like BOTS and perhaps split screen multiplayer
 * need to restrict certain console commands if a client is playing
     -> 'addbot' and many more to be sure
-* bot needs to be affected by boost and teleporters
 * scores get fucked up when people/bots quit and rejoin
 * editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
@@ -53,8 +48,6 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* illustrate fire rate recharge
-      -> a layer over blue bar like the health rchg rate
 * powerups ideas
     -> on-fire like bomberman (touch ppl, they die)
     -> tiny and fast
