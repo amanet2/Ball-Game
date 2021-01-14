@@ -265,11 +265,16 @@ public class cScripts {
     }
 
     public static void takepowerup(gProp powerup) {
+        if(sSettings.net_client
+                && cVars.getInt("weaponstock"+powerup.getInt("int0"))
+                < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
+            //this is for the special case where clients pick up powerup to replenish ammo stoks
+            System.out.println("ASDF");
+            cVars.put("sendpowerup", powerup.get("tag"));
+        }
         cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
         powerup.put("int0","0");
         xCon.ex("playsound sounds/clampdown.wav");
-//        if(sSettings.net_client)
-//            cVars.put("sendpowerup", powerup.get("tag"));
     }
 
     public static void checkPlayerPowerups(gProp powerup) {
