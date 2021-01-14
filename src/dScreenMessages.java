@@ -57,14 +57,14 @@ public class dScreenMessages {
             //camera
             String camstring = String.format("Cam: %d,%d",
                 uiInterface.camReport[0], uiInterface.camReport[1]);
-            camstring += (cVars.isInt("cammode", gCamera.MODE_FREE)) && cGameLogic.getPlayerByIndex(0) != null
+            camstring += (cVars.isInt("cammode", gCamera.MODE_FREE)) && cGameLogic.getUserPlayer() != null
                     ? " (Press 'E' to re-center)" : "";
             g.drawString(camstring,0, 8 * sSettings.height / 64);
             //instance
-            if(cGameLogic.getPlayerByIndex(0) != null) {
+            if(cGameLogic.getUserPlayer() != null) {
                 g.drawString(String.format("Player: %d,%d",
-                        cGameLogic.getPlayerByIndex(0).getInt("coordx"),
-                        cGameLogic.getPlayerByIndex(0).getInt("coordy")),
+                        cGameLogic.getUserPlayer().getInt("coordx"),
+                        cGameLogic.getUserPlayer().getInt("coordy")),
                         0,9*sSettings.height/64);
             }
             // create tile
@@ -199,10 +199,10 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,150,255));
             g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                     sSettings.height/64);
-//            if(cGameLogic.getPlayerByIndex(0).getLong("cooldown") >= System.currentTimeMillis()) {
-//                double reloadratio = ((double)(cGameLogic.getPlayerByIndex(0).getLong("cooldown")
+//            if(cGameLogic.getUserPlayer().getLong("cooldown") >= System.currentTimeMillis()) {
+//                double reloadratio = ((double)(cGameLogic.getUserPlayer().getLong("cooldown")
 //                    - System.currentTimeMillis())/(gWeapons.weapons_selection[
-//                        cGameLogic.getPlayerByIndex(0).getInt("weapon")].refiredelay));
+//                        cGameLogic.getUserPlayer().getInt("weapon")].refiredelay));
 //                System.out.println(reloadratio);
 //                g.setColor(new Color(0,255,255,100));
 //                g.fillRect(sSettings.width/64,60*sSettings.height/64,
@@ -213,7 +213,7 @@ public class dScreenMessages {
 //                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
 //                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
 //                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
-//                            eUtils.getTimeString(cGameLogic.getPlayerByIndex(0).getLong("powerupsusetime")
+//                            eUtils.getTimeString(cGameLogic.getUserPlayer().getLong("powerupsusetime")
 //                            -System.currentTimeMillis())+"s]"
                     : cVars.getInt("currentweapon") != gWeapons.weapon_none
                     && cVars.getInt("currentweapon") != gWeapons.weapon_gloves
@@ -357,7 +357,7 @@ public class dScreenMessages {
         }
 
         //game alerts
-        if(cGameLogic.getPlayerByIndex(0) != null) {
+        if(cGameLogic.getUserPlayer() != null) {
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {

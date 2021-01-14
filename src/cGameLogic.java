@@ -43,7 +43,7 @@ public class cGameLogic {
             if(cVars.isOne("quitconfirmed")) {
                 uiInterface.exit();
             }
-            if(getPlayerByIndex(0) != null) {
+            if(getUserPlayer() != null) {
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
@@ -120,7 +120,7 @@ public class cGameLogic {
                 } else {
                     if(!cVars.contains("respawntime"))
                         xCon.ex("THING_PLAYER.0.mov1 1");
-                    if (!getPlayerByIndex(0).canJump())
+                    if (!getUserPlayer().canJump())
                         cVars.increment("falltime");
                     else
                         cVars.put("falltime", "0");
@@ -272,7 +272,7 @@ public class cGameLogic {
 
     public static void checkWeaponsStatus() {
         //player0
-        if(cVars.getInt("currentweapon") != getPlayerByIndex(0).getInt("weapon")) {
+        if(cVars.getInt("currentweapon") != getUserPlayer().getInt("weapon")) {
             cScripts.changeWeapon(cVars.getInt("currentweapon"));
         }
         //pistol
@@ -325,7 +325,7 @@ public class cGameLogic {
 
     public static void checkHatStatus(){
         if(!xCon.ex("THING_PLAYER.0.pathspritehat").contains(sVars.get("playerhat"))) {
-            cGameLogic.getPlayerByIndex(0).setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+            cGameLogic.getUserPlayer().setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat")))
             );
         }
@@ -344,7 +344,7 @@ public class cGameLogic {
     public static void checkColorStatus(){
         if(!xCon.ex("THING_PLAYER.0.color").contains(sVars.get("playercolor"))) {
             xCon.ex("THING_PLAYER.0.color playercolor");
-            cGameLogic.getPlayerByIndex(0).setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
+            cGameLogic.getUserPlayer().setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
                     sVars.get("playercolor"),
                     xCon.ex("THING_PLAYER.0.pathsprite").substring(
                             xCon.ex("THING_PLAYER.0.pathsprite").lastIndexOf('/')))));
@@ -1048,7 +1048,7 @@ public class cGameLogic {
     }
 
     public static void checkForPlayerDeath() {
-        gPlayer cl = cGameLogic.getPlayerByIndex(0);
+        gPlayer cl = cGameLogic.getUserPlayer();
         cScripts.checkBulletSplashes();
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")

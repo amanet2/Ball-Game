@@ -3,7 +3,7 @@ import java.util.*;
 
 public class cScripts {
     public static void pointPlayerAtMousePointer() {
-        gPlayer p = cGameLogic.getPlayerByIndex(0);
+        gPlayer p = cGameLogic.getUserPlayer();
         int[] mc = getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
                 - cVars.getInt("camx"));
@@ -250,7 +250,7 @@ public class cScripts {
         if(cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 && cVars.isVal("flagmasterid", uiInterface.uuid)) {
             cVars.put("flagmasterid", "");
-            createScorePopup(cGameLogic.getPlayerByIndex(0),1);
+            createScorePopup(cGameLogic.getUserPlayer(),1);
             if(sSettings.net_server) {
                 nServer.givePoint(0);
                 xCon.ex("say " + sVars.get("playername") + " captured the flag!");
@@ -284,7 +284,7 @@ public class cScripts {
                 if(cVars.isZero("currentweapon")) {
                     changeWeapon(r, true);
                     takepowerup(powerup);
-//                    cGameLogic.getPlayerByIndex(0).putLong("powerupsusetime",
+//                    cGameLogic.getUserPlayer().putLong("powerupsusetime",
 //                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                 }
                 else if(cVars.isInt("currentweapon", r)
@@ -379,7 +379,7 @@ public class cScripts {
             }
         }
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS && flag.getInt("int0") != 1) {
-            gPlayer cl = cGameLogic.getPlayerByIndex(0);
+            gPlayer cl = cGameLogic.getUserPlayer();
             int pass = 1;
             for(gPlayer p : eManager.currentMap.scene.players()) {
                 //make sure no other players still on the flag
@@ -399,7 +399,7 @@ public class cScripts {
                         xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
                     }
                 }
-                createScorePopup(cGameLogic.getPlayerByIndex(0),1);
+                createScorePopup(cGameLogic.getUserPlayer(),1);
             }
         }
     }
@@ -668,8 +668,8 @@ public class cScripts {
                     playPlayerDeathSound();
                     cVars.put("stockhp", cVars.get("maxstockhp"));
                     cVars.put("exploded", "0");
-                    cVars.putInt("explodex", cGameLogic.getPlayerByIndex(0).getInt("coordx") - 75);
-                    cVars.putInt("explodey", cGameLogic.getPlayerByIndex(0).getInt("coordy") - 75);
+                    cVars.putInt("explodex", cGameLogic.getUserPlayer().getInt("coordx") - 75);
+                    cVars.putInt("explodey", cGameLogic.getUserPlayer().getInt("coordy") - 75);
                     cVars.put("killername", xCon.ex("THING_PLAYER." + tr.get("tag") + ".name"));
                     cVars.put("killerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));
                     if (sSettings.net_server) {
@@ -798,23 +798,23 @@ public class cScripts {
 
     public static boolean canSpawnPlayer() {
         for(gTile t : eManager.currentMap.scene.tiles()) {
-            if(t.isOne("canspawn") && !cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(t,
-                t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
-                t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getPlayerByIndex(0).getInt("dimh")/2)) {
+            if(t.isOne("canspawn") && !cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(t,
+                t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getUserPlayer().getInt("dimw")/2,
+                t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
                 boolean pass = true;
                 for(gTile td : eManager.currentMap.scene.tiles()) {
-                    if(cGameLogic.getPlayerByIndex(0).willCollideWithinTileAtCoords(td,
+                    if(cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(td,
                         t.getInt("coordx") + t.getInt("dimw")/2
-                            - cGameLogic.getPlayerByIndex(0).getInt("dimw")/2,
+                            - cGameLogic.getUserPlayer().getInt("dimw")/2,
                         t.getInt("coordy") + t.getInt("dimh")/2
-                            - cGameLogic.getPlayerByIndex(0).getInt("dimh")/2)) {
+                            - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
                         pass = false;
                         break;
                     }
                     if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
                         for (gPlayer target : eManager.currentMap.scene.players()) {
-                            if (target.getInt("tag") != cGameLogic.getPlayerByIndex(0).getInt("tag") &&
-                                cGameLogic.getPlayerByIndex(0).willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
+                            if (target.getInt("tag") != cGameLogic.getUserPlayer().getInt("tag") &&
+                                cGameLogic.getUserPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
                                     t.getInt("coordy"))) {
                                 pass = false;
                                 break;
@@ -845,7 +845,7 @@ public class cScripts {
             xCon.ex("THING_PLAYER.0.weapon " + newweapon);
             cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
-            checkPlayerSpriteFlip(cGameLogic.getPlayerByIndex(0));
+            checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
         }
     }
 
@@ -863,7 +863,7 @@ public class cScripts {
             xCon.ex("THING_PLAYER.0.weapon " + newweapon);
             cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
-            checkPlayerSpriteFlip(cGameLogic.getPlayerByIndex(0));
+            checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
         }
     }
 

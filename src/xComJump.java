@@ -1,7 +1,7 @@
 public class xComJump extends xCom {
     public String doCommand(String fullCommand) {
-        if(cGameLogic.getPlayerByIndex(0) != null && cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            if(cVars.getLong("jumptime") < System.currentTimeMillis() && cGameLogic.getPlayerByIndex(0).canJump()) {
+        if(cGameLogic.getUserPlayer() != null && cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+            if(cVars.getLong("jumptime") < System.currentTimeMillis() && cGameLogic.getUserPlayer().canJump()) {
                 xCon.ex("crouch");
                 xCon.ex("cv_jumping 1");
                 cVars.putLong("jumptime", System.currentTimeMillis() + cVars.getInt("delayjump"));

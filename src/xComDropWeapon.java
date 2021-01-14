@@ -1,6 +1,6 @@
 public class xComDropWeapon extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer p = cGameLogic.getPlayerByIndex(0);
+        gPlayer p = cGameLogic.getUserPlayer();
         if(p != null) {
             String doString = String.format("e_putprop %d %d %d %d %d %d %d",
                     gProp.POWERUP, p.getInt("weapon"), cVars.getInt("weaponstock"+p.get("weapon")),

@@ -521,7 +521,7 @@ public class dTileTops {
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                             p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
                 else if(sSettings.net_client && cScripts.isVirus()) {
-                    p = cGameLogic.getPlayerByIndex(0);
+                    p = cGameLogic.getUserPlayer();
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                             p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
                 }
@@ -551,17 +551,17 @@ public class dTileTops {
             };
             int polygonSize = sSettings.width/32;
             int[][] polygon = new int[][]{
-                    new int[]{eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordx")
+                    new int[]{eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordx")
                             - cVars.getInt("camx")) + polygonBase[0][0]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordx")
+                            eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordx")
                                     - cVars.getInt("camx")) + polygonBase[0][1]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordx")
+                            eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordx")
                                     - cVars.getInt("camx")) + polygonBase[0][2]*polygonSize},
-                    new int[]{eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordy")
+                    new int[]{eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordy")
                             - cVars.getInt("camy")-200) + polygonBase[1][0]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordy")
+                            eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordy")
                                     - cVars.getInt("camy")-200) + polygonBase[1][1]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.getPlayerByIndex(0).getInt("coordy")
+                            eUtils.scaleInt(cGameLogic.getUserPlayer().getInt("coordy")
                                     - cVars.getInt("camy")-200) + polygonBase[1][2]*polygonSize}
             };
             g2.fillPolygon(new Polygon(polygon[0], polygon[1], polygon[0].length));
