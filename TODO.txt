@@ -5,10 +5,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* need special flag for clients refilling ammo from ground weapons
-    -> use sendpowerup flag
-    -> find better way to narrow down exact prop to remove besides tag
-        -> or start sending the tag with the powerupstring from server
+* weapons still funky
+    -> duplicating weapons glitch can be done by client
+        -> unknown conditions
 * FUCKIN A
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
@@ -54,7 +53,10 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* powerups ideas
+* introduce ability to queue-up console cmds for passing to clients
+    -> would wait for the "cmdreceived" before sending the next
+* reintroduce powerups, would function the way weapons used to
+    -> powerup spawn points have 0/1 switch, present a random powerup
     -> on-fire like bomberman (touch ppl, they die)
     -> tiny and fast
     -> big slow and shielded
@@ -65,7 +67,6 @@
 * add ability for map to have a sound play on each score
     -> would be manually exec'd with a line
     -> integrate into mapmaker as well
-* reintroduce powerups, would function the way weapons used to
 * Add ability to reset game to default settings
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge
