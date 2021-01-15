@@ -81,6 +81,14 @@ public class dTileFloors {
 //                    eUtils.scaleInt(tile.getInt("dim2h"))
 //                );
             }
+            else if(!tile.isOne("canspawn")){
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),
+                        eUtils.scaleInt(tile.getInt("dimw")),
+                        eUtils.scaleInt(tile.getInt("dimh"))
+                );
+            }
         }
     }
 }

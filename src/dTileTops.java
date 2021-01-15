@@ -4,17 +4,35 @@ public class dTileTops {
     public static void drawTops(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         for(gTile t : eManager.currentMap.scene.tiles()) {
-            if(t.sprites[0] != null)
+            if(t.sprites[0] != null) {
                 g2.drawImage(t.sprites[0],
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                    null
+                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                        null
                 );
-            if(t.sprites[3] != null)
+            }
+            else {
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                        eUtils.scaleInt(t.getInt("dim0w")),
+                        eUtils.scaleInt(t.getInt("dim0h"))
+                );
+            }
+            if(t.sprites[3] != null) {
                 g2.drawImage(t.sprites[3],
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")+t.getInt("dimh")-t.getInt("dim3h")-t.getInt("dim4h")),
-                    null);
+                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
+                        null);
+            }
+            else {
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
+                        eUtils.scaleInt(t.getInt("dim3w")),
+                        eUtils.scaleInt(t.getInt("dim3h"))
+                );
+            }
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             g2.setColor(new Color(0, 0, 0, 255));
             if(sVars.isOne("vfxenableshading")) {
@@ -83,12 +101,22 @@ public class dTileTops {
                     );
                 }
             }
-            if(t.sprites[5] != null)
+            if(t.sprites[5] != null) {
                 g2.drawImage(t.sprites[5],
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")+t.getInt("dim0h")),
-                    null
+                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                        null
                 );
+            }
+            else {
+                System.out.println("FDSA");
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                        eUtils.scaleInt(t.getInt("dim5w")),
+                        eUtils.scaleInt(t.getInt("dim5h"))
+                );
+            }
             int d6w = t.getInt("dim6w");
             if(t.sprites[6] != null) {
                 if(d6w > -1)
