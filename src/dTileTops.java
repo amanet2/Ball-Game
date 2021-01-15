@@ -109,7 +109,6 @@ public class dTileTops {
                 );
             }
             else {
-                System.out.println("FDSA");
                 g2.setColor(Color.LIGHT_GRAY);
                 g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),

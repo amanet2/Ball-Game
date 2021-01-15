@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.*;
 
 public class gTextures {
@@ -37,7 +38,14 @@ public class gTextures {
             return null;
         String rk = String.format("%s%d%d",s,w,h);
         if(base_sprites.get(s) == null) {
-            base_sprites.put(s, new ImageIcon(s));
+            File f = new File(s);
+            if(!f.exists() || f.isDirectory()) {
+                base_sprites.put(s, null);
+                scaled_sprites.put(rk, null);
+                return null;
+            }
+            else
+                base_sprites.put(s, new ImageIcon(s));
         }
         if(scaled_sprites.get(rk) == null) {
             scaled_sprites.put(rk,
