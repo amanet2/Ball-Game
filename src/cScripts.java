@@ -261,7 +261,7 @@ public class cScripts {
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon "));
+                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
     }
 
     public static void takepowerup(gProp powerup) {
