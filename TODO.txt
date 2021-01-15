@@ -5,6 +5,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* weapons should only pick up ammo when player has the gun (either spawn armed or current weap)
 * firing broken
     -> xComRespawn is the culprit
 * weapons still funky
