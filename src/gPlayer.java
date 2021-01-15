@@ -7,7 +7,7 @@ public class gPlayer extends gThing {
     Image sprite;
 
     public void fireWeapon() {
-       gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
+        gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
     }
 
     public void doBotBehavior(String key) {

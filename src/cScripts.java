@@ -265,13 +265,19 @@ public class cScripts {
     }
 
     public static void takepowerup(gProp powerup) {
-        while(powerup.getInt("int1") > 0) {
+//        boolean spawnbugflag = false; //don't know why this is needed, see commented chunks in xComRespawn
+//        if(cVars.isZero("gamespawnarmed") && cVars.isInt("currentweapon", gWeapons.weapon_none)
+//                && cVars.isInt("weaponstock" + powerup.getInt("int0"),
+//                gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo)) {
+//            spawnbugflag = true;
+//            System.out.println("ASDF");
+//        }
+        while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
+                < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
             cVars.increment("weaponstock"+powerup.get("int0"));
             powerup.putInt("int1", powerup.getInt("int1") - 1);
-            if(cVars.getInt("weaponstock" + powerup.getInt("int0"))
-                    >= gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo)
-                break;
         }
+//        if(powerup.getInt("int1") < 1 || spawnbugflag) {
         if(powerup.getInt("int1") < 1) {
             powerup.put("int0", "0");
             if(sSettings.net_client) {
@@ -287,20 +293,20 @@ public class cScripts {
         if(r > 0) {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
+                    takepowerup(powerup);
                     xCon.ex("THING_PLAYER.0.weapon " + r);
                     cVars.putInt("currentweapon", r);
                     xCon.ex("playsound sounds/grenpinpull.wav");
                     checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
+                }
+                else if(cVars.isInt("currentweapon", r)
+                        && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
                     takepowerup(powerup);
                 }
-//                else if(cVars.isInt("currentweapon", r)
-//                        && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
-//                    takepowerup(powerup);
-//                }
             }
-//            else if(cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo){
-//                takepowerup(powerup);
-//            }
+            else if(cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo){
+                takepowerup(powerup);
+            }
 //            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
 //                xCon.ex("THING_PLAYER.0.sicknessslow 1");

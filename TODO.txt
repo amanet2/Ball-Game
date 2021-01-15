@@ -1,13 +1,15 @@
 ==DISTRIBUTION==
-* Rename game to Major-Bombardment
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* weapons should only pick up ammo when player has the gun (either spawn armed or current weap)
+* rename "isVal" to "isString"
 * firing broken
     -> xComRespawn is the culprit
+    -> I think the weapons might get desynced due to the way powerups are picked up
+        -> i.e. player shows weapon he doesnt have
+        -> gotta simplify firing process
 * weapons still funky
     -> duplicating weapons glitch can be done by client
         -> unknown conditions

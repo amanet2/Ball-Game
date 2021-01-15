@@ -461,7 +461,7 @@ public class cGameLogic {
             }
             for(int i = 1; i < eManager.currentMap.scene.players().size(); i++) {
                 gPlayer p = eManager.currentMap.scene.players().get(i);
-                if(p.isInt("firing", 1) && p.getLong("cooldown") < System.currentTimeMillis()) {
+                if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
                     p.fireWeapon();
                     p.putLong("cooldown",
                             (System.currentTimeMillis()
