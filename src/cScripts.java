@@ -261,36 +261,35 @@ public class cScripts {
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon "));
+                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
     }
 
     public static void takepowerup(gProp powerup) {
-        if(sSettings.net_client
-                && cVars.getInt("weaponstock"+powerup.getInt("int0"))
+        while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
                 < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
-            //this is for the special case where clients pick up powerup to replenish ammo stoks
-//            System.out.println("SENDPOWERUP "+powerup.get("tag"));
-            cVars.put("sendpowerup", powerup.get("tag"));
+            cVars.increment("weaponstock"+powerup.get("int0"));
+            powerup.putInt("int1", powerup.getInt("int1") - 1);
         }
-        cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
-        powerup.put("int0","0");
+        if(powerup.getInt("int1") < 1) {
+            powerup.put("int0", "0");
+            if(sSettings.net_client) {
+                //this is for the special case where clients pick up powerup to replenish ammo stoks
+                cVars.put("sendpowerup", powerup.get("tag"));
+            }
+        }
         xCon.ex("playsound sounds/clampdown.wav");
     }
 
     public static void checkPlayerPowerups(gProp powerup) {
         int r = powerup.getInt("int0");
         if(r > 0) {
-            //do powerup effect
-//            String[] powerup_selection = new String[]{"pistol", "shotgun", "autorifle", "launcher", "gloves", "fast"};
-//            if(sSettings.net_server) {
-//                xCon.ex("say "+sVars.get("playername")+" picked up the " + gWeapons.weapons_selection[r].name + "!");
-//            }
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
-                    changeWeapon(r, true);
                     takepowerup(powerup);
-//                    cGameLogic.getUserPlayer().putLong("powerupsusetime",
-//                            System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
+                    xCon.ex("THING_PLAYER.0.weapon " + r);
+                    cVars.putInt("currentweapon", r);
+                    xCon.ex("playsound sounds/grenpinpull.wav");
+                    checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
                 }
                 else if(cVars.isInt("currentweapon", r)
                         && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
@@ -842,16 +841,6 @@ public class cScripts {
             xCon.ex("playsound sounds/shout.wav");
         else
             xCon.ex("playsound sounds/death.wav");
-    }
-
-    public static void changeWeapon(int newweapon, boolean fromPowerup) {
-        if(eManager.currentMap.scene.players().size() > 0 && !(!fromPowerup && newweapon != 0
-                && cVars.isZero("gamespawnarmed"))) {
-            xCon.ex("THING_PLAYER.0.weapon " + newweapon);
-            cVars.putInt("currentweapon", newweapon);
-            xCon.ex("playsound sounds/grenpinpull.wav");
-            checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
-        }
     }
 
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {

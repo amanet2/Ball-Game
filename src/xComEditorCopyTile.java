@@ -3,11 +3,15 @@ import java.util.List;
 
 public class xComEditorCopyTile extends xCom {
     public String doCommand(String fullCommand) {
-        String[] dontcopy = new String[]{"id", "coordx", "coordy", "canspawn", "sprite0", "sprite1", "sprite2"};
-        List dontCopyList = Arrays.asList(dontcopy);
+        List dontCopyList = Arrays.asList("id", "coordx", "coordy");
+        List spriteFieldList = Arrays.asList("sprite0", "sprite1", "sprite2");
         gTile t = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
         for(String k : t.vars().keySet()) {
-            if(!dontCopyList.contains(k)) {
+            if(spriteFieldList.contains(k)) {
+                cEditorLogic.state.newTile.put(k,
+                        t.get(k).replaceFirst(sVars.get("datapath")+"/",""));
+            }
+            else if(!dontCopyList.contains(k)) {
                 cEditorLogic.state.newTile.put(k, t.get(k));
             }
         }
