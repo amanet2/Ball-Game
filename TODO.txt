@@ -5,6 +5,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* firing broken
+    -> xComRespawn is the culprit
 * weapons still funky
     -> duplicating weapons glitch can be done by client
         -> unknown conditions
