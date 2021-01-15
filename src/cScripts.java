@@ -265,19 +265,11 @@ public class cScripts {
     }
 
     public static void takepowerup(gProp powerup) {
-//        boolean spawnbugflag = false; //don't know why this is needed, see commented chunks in xComRespawn
-//        if(cVars.isZero("gamespawnarmed") && cVars.isInt("currentweapon", gWeapons.weapon_none)
-//                && cVars.isInt("weaponstock" + powerup.getInt("int0"),
-//                gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo)) {
-//            spawnbugflag = true;
-//            System.out.println("ASDF");
-//        }
         while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
                 < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
             cVars.increment("weaponstock"+powerup.get("int0"));
             powerup.putInt("int1", powerup.getInt("int1") - 1);
         }
-//        if(powerup.getInt("int1") < 1 || spawnbugflag) {
         if(powerup.getInt("int1") < 1) {
             powerup.put("int0", "0");
             if(sSettings.net_client) {
