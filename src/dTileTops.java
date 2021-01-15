@@ -126,7 +126,14 @@ public class dTileTops {
                     );
             }
             else {
-                if(d6w == -1) { //UR
+                if(d6w > 0) {
+                    g2.drawImage(t.sprites[6],
+                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx") + t.getInt("dimw") - t.getInt("dim6w")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                            null
+                    );
+                }
+                else if(d6w == -1) { //UR
                     Polygon p = new Polygon(
                             new int[]{
                                     eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),

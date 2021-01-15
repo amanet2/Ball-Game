@@ -54,6 +54,11 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* powerup idea
+    -> egg
+    -> pick up
+    -> do something to initiate the growing sequence
+    -> chuck it before it blows, or drop it
 * introduce ability to queue-up console cmds for passing to clients
     -> would wait for the "cmdreceived" before sending the next
 * reintroduce powerups, would function the way weapons used to
