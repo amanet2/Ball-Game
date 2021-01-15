@@ -6,6 +6,10 @@
 
 ==ISSUES==
 * weapons still funky
+    -> why should a gun on the ground with 1 round in it give you full ammo?
+        -> make it work exact
+            -> remove ammo from the int1 pool until empty, then set int0 to 0
+            -> add this amnt to the weaponstock
     -> duplicating weapons glitch can be done by client
         -> unknown conditions
 * FUCKIN A

@@ -269,11 +269,18 @@ public class cScripts {
                 && cVars.getInt("weaponstock"+powerup.getInt("int0"))
                 < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
             //this is for the special case where clients pick up powerup to replenish ammo stoks
-//            System.out.println("SENDPOWERUP "+powerup.get("tag"));
             cVars.put("sendpowerup", powerup.get("tag"));
         }
-        cVars.putInt("weaponstock"+powerup.getInt("int0"),powerup.getInt("int1"));
-        powerup.put("int0","0");
+        while(powerup.getInt("int1") > 0) {
+            cVars.putInt("weaponstock" + powerup.getInt("int0"),
+                    cVars.getInt("weaponstock" + powerup.getInt("int0")) + 1);
+            powerup.putInt("int1", powerup.getInt("int1") - 1);
+            if(cVars.getInt("weaponstock" + powerup.getInt("int0"))
+                    >= gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo)
+                break;
+        }
+        if(powerup.getInt("int1") < 1)
+            powerup.put("int0","0");
         xCon.ex("playsound sounds/clampdown.wav");
     }
 

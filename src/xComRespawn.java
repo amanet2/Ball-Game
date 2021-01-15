@@ -27,14 +27,10 @@ public class xComRespawn extends xCom {
                                 - cGameLogic.getUserPlayer().getInt("dimw") / 2));
                         xCon.ex("THING_PLAYER.0.coordy "+ (t.getInt("coordy") + t.getInt("dimh") / 2
                                 - cGameLogic.getUserPlayer().getInt("dimh") / 2));
-                        cVars.putInt("weaponstock" + gWeapons.weapon_pistol,
-                                gWeapons.weapons_selection[gWeapons.weapon_pistol].maxAmmo);
-                        cVars.putInt("weaponstock" + gWeapons.weapon_shotgun,
-                                gWeapons.weapons_selection[gWeapons.weapon_shotgun].maxAmmo);
-                        cVars.putInt("weaponstock" + gWeapons.weapon_autorifle,
-                                gWeapons.weapons_selection[gWeapons.weapon_autorifle].maxAmmo);
-                        cVars.putInt("weaponstock" + gWeapons.weapon_launcher,
-                                gWeapons.weapons_selection[gWeapons.weapon_launcher].maxAmmo);
+                        cVars.putInt("weaponstock" + gWeapons.weapon_pistol, 0);
+                        cVars.putInt("weaponstock" + gWeapons.weapon_shotgun, 0);
+                        cVars.putInt("weaponstock" + gWeapons.weapon_autorifle, 0);
+                        cVars.putInt("weaponstock" + gWeapons.weapon_launcher, 0);
                         cVars.put("stockhp", cVars.get("maxstockhp"));
                         xCon.ex("cv_flashlight 0");
                         xCon.ex("cv_sprint 0");

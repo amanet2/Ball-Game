@@ -7,6 +7,7 @@ public class xComDropWeapon extends xCom {
                     p.getInt("coordx") + p.getInt("dimw"), p.getInt("coordy") + p.getInt("dimh") + 50,
                     gWeapons.weapons_selection[p.getInt("weapon")].dims[0],
                     gWeapons.weapons_selection[p.getInt("weapon")].dims[1]);
+            cVars.putInt("weaponstock"+p.get("weapon"), 0);
             cScripts.changeWeapon(gWeapons.weapon_none);
             xCon.ex(doString);
             cVars.put("sendcmd", doString);
