@@ -30,6 +30,7 @@ public class nClient extends Thread {
     public static void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
+                //this means all other packets are thrown out, bad in long run
                 receivedPackets.remove();
             }
             if(receivedPackets.size() > 0) {
