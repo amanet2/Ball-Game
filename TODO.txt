@@ -7,12 +7,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* gotta be able to use arrow keys in main menu as well
-    -> if keyboard key is pressed, turn a flag on and ignore/hide the mouse until mouse moves
-* client not removing the forbidden sign after spawn protection
-    -> also client wont see anybody elses spawn protection
-    -> works on grey_tiles branch but not player_ids
-        -> creep print statments in grey_tiles branch until you narrow down where it doesnt work in new branch
+* server not showing spawn protection to clients
 * refactoring scores
     -> use the new scoresmap to hold wins, score, kils, ping
     -> refactore all of cScripts.createDamagePopup to start
