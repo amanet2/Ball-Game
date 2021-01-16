@@ -23,7 +23,6 @@ public class gWeaponsAutorifle extends gWeapon {
             damage);
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.weapon_autorifle);
-        b.putInt("tag", p.getInt("tag"));
         b.put("srcid", p.get("id"));
         double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);

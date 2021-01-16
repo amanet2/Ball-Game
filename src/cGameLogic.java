@@ -368,7 +368,6 @@ public class cGameLogic {
         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
             xCon.ex("respawn");
             cVars.remove("respawntime");
-            cVars.put("camplayertrackingindex", "0");
         }
         if(cVars.contains("spawnprotectiontime")
                 && cVars.getLong("spawnprotectiontime") < System.currentTimeMillis()) {

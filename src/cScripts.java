@@ -533,7 +533,7 @@ public class cScripts {
                 }
             }
             for(gPlayer t : eManager.currentMap.scene.players()) {
-                if(b.doesCollideWithPlayer(t)) {
+                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(t.get("id"))) {
                     trv.put(t,b);
                     if(b.isInt("src", gWeapons.weapon_launcher))
                         pseeds.add(b);
@@ -652,7 +652,7 @@ public class cScripts {
                     cVars.putInt("currentweapon", gWeapons.weapon_none);
                     cVars.remove("shaketime");
                     cVars.putInt("cammode", gCamera.MODE_TRACKING);
-                    cVars.putInt("camplayertrackingindex", tr.getInt("tag"));
+                    cVars.putInt("camplayertrackingid", tr.getInt("srcid"));
                     xCon.ex("centercamera");
                     cVars.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
                     playPlayerDeathSound();
@@ -754,6 +754,7 @@ public class cScripts {
                 eUtils.getPath(String.format("animations/player_%s/a03.png",
                         xCon.ex("playercolor"))));
             player0.put("tag", "0");
+            player0.put("id", uiInterface.uuid);
             if(sSettings.net_server)
                 player0.put("id", "server");
             xCon.ex("THING_PLAYER.0.color playercolor");

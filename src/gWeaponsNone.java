@@ -21,7 +21,6 @@ public class gWeaponsNone extends gWeapon {
         super.fireWeapon(p);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2, p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2,
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
-        b.putInt("tag", p.getInt("tag"));
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         eManager.currentMap.scene.bullets().add(b);

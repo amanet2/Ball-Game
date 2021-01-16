@@ -24,7 +24,6 @@ public class gWeaponsShotgun extends gWeapon {
                 p.getInt("coordy") + p.getInt("dimh") / 2 - bulletDims[1] / 2, bulletDims[0], bulletDims[1],
                     bulletSpritePath, p.getDouble("fv"), damage/numpellets);
             b.putInt("ttl",bulletTtl);
-            b.putInt("tag", p.getInt("tag"));
             b.put("srcid", p.get("id"));
             b.putInt("src", gWeapons.weapon_shotgun);
             double randomOffset = (Math.random() * ((Math.PI / 16)))-Math.PI/32;

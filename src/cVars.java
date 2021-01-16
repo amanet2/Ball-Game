@@ -14,6 +14,7 @@ public class cVars {
         put("cammov1", "0");
         put("cammov2", "0");
         put("cammov3", "0");
+        put("camplayertrackingid", uiInterface.uuid);
         put("camplayertrackingindex", "0");
         put("camshakemax", "20");
         put("camx", "0");

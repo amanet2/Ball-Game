@@ -5,9 +5,10 @@ public class gBullet extends gThing {
     Image sprite;
 
     public boolean doesCollideWithPlayer(gPlayer p) {
-        Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"), getInt("dimw"), getInt("dimh"));
-        return bounds.intersects(new Rectangle(p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh")))
-                && getInt("tag") != p.getInt("tag");
+        Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"),
+                getInt("dimw"), getInt("dimh"));
+        return bounds.intersects(new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
+                p.getInt("dimw"), p.getInt("dimh")));
     }
 
     public boolean doesCollideWithinTile(gTile target) {
@@ -41,7 +42,7 @@ public class gBullet extends gThing {
         putInt("ttl", 1000);
         putLong("timestamp", System.currentTimeMillis());
         putDouble("fv", fv);
-        putInt("tag", -1);
+        put("srcid", "God");
         putInt("isexplosionpart", 0);
         sprite = gTextures.getScaledImage(tt, getInt("dimw"), getInt("dimh"));
     }
