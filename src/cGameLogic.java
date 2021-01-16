@@ -144,6 +144,11 @@ public class cGameLogic {
         }
     }
 
+    public static boolean drawSpawnProtection() {
+        return cVars.contains("spawnprotectiontime")
+                && cVars.getLong("spawnprotectiontime") > System.currentTimeMillis();
+    }
+
     public static void resetGameState() {
         if(nServer.matchWins.length != nServer.clientIds.size()+1)
             nServer.matchWins = new int[nServer.clientIds.size()+1];

@@ -361,7 +361,13 @@ public class dTileTops {
                 eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
                     null);
             //forbidden sign
-            if(nServer.clientArgsMap.containsKey(e.get("id"))
+            if(cGameLogic.isUserPlayer(e) && cGameLogic.drawSpawnProtection()) {
+                g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
+                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
+                        null);
+            }
+            else if(!cGameLogic.isUserPlayer(e) && nServer.clientArgsMap.containsKey(e.get("id"))
                     && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
                 g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
                         eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
