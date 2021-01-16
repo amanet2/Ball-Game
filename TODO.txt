@@ -1,13 +1,17 @@
 ==DISTRIBUTION==
 * rename game ballmaster general
     -> roller ruckus
-
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* server not showing spawn protection to clients
+* spawn protection visibility not working correctly
+    -> broken in very first commit to player_ids
+        -> client always sees a forbidden sign over himself
+            -> line in setupGame() where we give the player an id
+                -> all til now the player0 never got an id, and the camera tracked by index, not id so an id was never needed
+        -> server never shows forbidden sign
 * refactoring scores
     -> use the new scoresmap to hold wins, score, kils, ping
     -> refactore all of cScripts.createDamagePopup to start

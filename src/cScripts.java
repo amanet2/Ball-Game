@@ -760,7 +760,7 @@ public class cScripts {
                 eUtils.getPath(String.format("animations/player_%s/a03.png",
                         xCon.ex("playercolor"))));
             player0.put("tag", "0");
-            player0.put("id", uiInterface.uuid);
+//            player0.put("id", uiInterface.uuid);
             if(sSettings.net_server)
                 player0.put("id", "server");
             xCon.ex("THING_PLAYER.0.color playercolor");
