@@ -7,6 +7,12 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* refactoring scores
+    -> use the new scoresmap to hold wins, score, kils, ping
+    -> refactore all of cScripts.createDamagePopup to start
+        -> spaghetti leads:
+            -> the whole dang scoreboard
+            -> nServer.givePoint(index)
 * start game, player 2 join.  player 3 join.  player 2 quit.  player 3 try to kill player 1. player 1 doesnt go to graveyard
 * replace "tag" with "id" for weapon stuff
     -> under working name "srcid"

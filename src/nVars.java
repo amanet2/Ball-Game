@@ -119,6 +119,7 @@ public class nVars {
             }
             keys.put("tick", sVars.get("gametick"));
             keys.put("scores", cScripts.getScoreString());
+            keys.put("scoremap", cScripts.getScoreMapString());
             if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
                 xCon.ex("say SCORE LIMIT: " + sVars.get("scorelimit"));
             }

@@ -12,9 +12,10 @@ public class nReceive {
                 //process new packet
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 String packId = packArgMap.get("id");
-                if(!nServer.clientArgsMap.containsKey(packId)) {
+                if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
-                }
+                if(!nServer.scoresMap.containsKey(packId))
+                    nServer.scoresMap.put(packId, new HashMap<>());
                 String packName = packArgMap.get("name") != null ? packArgMap.get("name") : nServer.clientArgsMap.get(packId).get("name");
                 String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
                 int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
@@ -112,9 +113,10 @@ public class nReceive {
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")
                         : "player";
                 String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
-                if(!nServer.clientArgsMap.containsKey(idload)) {
+                if(!nServer.clientArgsMap.containsKey(idload))
                     nServer.clientArgsMap.put(idload, packArgs);
-                }
+                if(!nServer.scoresMap.containsKey(idload))
+                    nServer.scoresMap.put(idload, new HashMap<>());
                 for(String k : packArgs.keySet()) {
                     if(!nServer.clientArgsMap.get(idload).containsKey(k)
                             || nServer.clientArgsMap.get(idload).get(k) != packArgs.get(k)) {

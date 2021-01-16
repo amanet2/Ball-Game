@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class xComAddBot extends xCom {
     public String doCommand(String fullCommand) {
         String[] botnameselection = sVars.getArray("botnameselection");
@@ -20,6 +22,7 @@ public class xComAddBot extends xCom {
         eManager.currentMap.scene.botplayers().add(p);
         nVarsBot.update(p);
         nServer.clientArgsMap.put(p.get("id"), nVarsBot.copyArgsForId(p.get("id")));
+        nServer.scoresMap.put(p.get("id"), new HashMap<>());
         xCon.ex("botrespawn " + p.getInt("bottag"));
         return "spawned bot";
     }

@@ -20,6 +20,7 @@ public class nServer extends Thread {
     static ArrayList<String> clientIds = new ArrayList<>();
     static ArrayList<String> clientNames = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
+    static HashMap<String, HashMap<String, String>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
@@ -60,6 +61,25 @@ public class nServer extends Thread {
                 xCon.ex("addbot");
                 i++;
             }
+        }
+    }
+
+    public static void incrementScoreFieldById(String id, String field) {
+        int nscore = Integer.parseInt(nServer.scoresMap.get(id).get(field)) + 1;
+        nServer.scoresMap.get(id).put(field, Integer.toString(nscore));
+    }
+
+    public static void givePointToId(String id) {
+        if(cVars.isOne("gameteam")) {
+            String color = cGameLogic.getPlayerById(id).get("color");
+            for(String mapid : scoresMap.keySet()) {
+                if(color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
+                    incrementScoreFieldById(mapid, "score");
+                }
+            }
+        }
+        else {
+            incrementScoreFieldById(id, "score");
         }
     }
 

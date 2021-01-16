@@ -588,71 +588,76 @@ public class cScripts {
         return id.toString();
     }
 
-    public static void createDamagePopup(gPlayer p, gBullet tr) {
-        int adjusteddmg = tr.getInt("dmg") - (int)((double)tr.getInt("dmg")/2
-                *((Math.abs(System.currentTimeMillis()-tr.getLong("timestamp"))/(double)tr.getInt("ttl"))));
+    public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
+        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
         String s = String.format("%d", adjusteddmg);
-        eManager.currentMap.scene.popups().add(new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-            p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)), s, 0.0));
-        if(sVars.isOne("vfxenableanimations") && tr.getInt("anim") > -1)
+        eManager.currentMap.scene.popups().add(new gPopup(dmgvictim.getInt("coordx")
+                + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
+            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
+        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
             eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                tr.getInt("coordx"), tr.getInt("coordy")));
-        if(p.get("id").contains("bot") && !p.contains("spawnprotectiontime")) {
-            cGameLogic.damageBotHealth(p, adjusteddmg);
-            if(p.getInt("stockhp") < 1) {
-                if(!p.contains("respawntime")) {
-                    p.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
-                    p.put("stockhp", cVars.get("maxstockhp"));
+                bullet.getInt("coordx"), bullet.getInt("coordy")));
+        gPlayer killerPlayer = cGameLogic.getPlayerById(bullet.get("srcid"));
+        String killerid = killerPlayer.get("id");
+        String killername = killerPlayer.get("name");
+        if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
+            cGameLogic.damageBotHealth(dmgvictim, adjusteddmg);
+            if(dmgvictim.getInt("stockhp") < 1) {
+                if(!dmgvictim.contains("respawntime")) {
+                    dmgvictim.putLong("respawntime",
+                            System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
+                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
                     cVars.put("botexploded", "0");
-                    cVars.putInt("botexplodex", p.getInt("coordx") - 75);
-                    cVars.putInt("botexplodey", p.getInt("coordy") - 75);
-                    cVars.put("botkillername", xCon.ex("THING_PLAYER." + tr.get("tag") + ".name"));
-                    cVars.put("botkillerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));
+                    cVars.putInt("botexplodex", dmgvictim.getInt("coordx") - 75);
+                    cVars.putInt("botexplodey", dmgvictim.getInt("coordy") - 75);
+                    cVars.put("botkillername", killername);
+                    cVars.put("botkillerid", killerid);
                     if (sSettings.net_server) {
-                        nServer.matchKills[tr.getInt("tag")]++;
-                        xCon.ex("say " + cVars.get("botkillername") + " killed " + p.get("name"));
+                        nServer.incrementScoreFieldById(killerid, "kills");
+                        xCon.ex("say " + cVars.get("botkillername") + " killed " + dmgvictim.get("name"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            nServer.givePoint(tr.getInt("tag"));
+                            nServer.givePointToId(killerid);
                         }
                         if(cVars.isInt("gamemode", cGameMode.CHOSENONE)
-                                && cVars.isVal("chosenoneid", p.get("id"))) {
-                            cVars.put("chosenoneid", cVars.get("botkillerid"));
+                                && cVars.isVal("chosenoneid", dmgvictim.get("id"))) {
+                            cVars.put("chosenoneid", killerid);
                         }
                         if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", p.get("id"))) {
-                            nServer.givePoint(tr.getInt("tag"));
+                                && cVars.isVal("chosenoneid", dmgvictim.get("id"))) {
+                            nServer.givePointToId(killerid);
                         }
                         if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", cVars.get("botkillerid"))) {
-                            nServer.givePoint(tr.getInt("tag"));
-                            xCon.ex("cv_chosenoneid " + p.get("id"));
+                                && cVars.isVal("chosenoneid", killerid)) {
+                            nServer.givePointToId(killerid);
+                            xCon.ex("cv_chosenoneid " + dmgvictim.get("id"));
                         }
                         if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                                && cVars.isVal("flagmasterid", p.get("id"))) {
+                                && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
                             cVars.put("flagmasterid", "");
 //                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
                         if(cVars.isZero("gamespawnarmed")) {
-                            cScripts.changeBotWeapon(p,gWeapons.weapon_none,true);
+                            cScripts.changeBotWeapon(dmgvictim,gWeapons.weapon_none,true);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
                         eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                            p.getInt("coordx") - 75, p.getInt("coordy") - 75));
-                    p.put("coordx", "-10000");
-                    p.put("coordy", "-10000");
+                            dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    dmgvictim.put("coordx", "-10000");
+                    dmgvictim.put("coordy", "-10000");
                 }
             }
         }
-        if(p.isZero("tag") && !cVars.contains("spawnprotectiontime")) {
+        if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
             cGameLogic.damageHealth(adjusteddmg);
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {
                     cVars.putInt("currentweapon", gWeapons.weapon_none);
                     cVars.remove("shaketime");
                     cVars.putInt("cammode", gCamera.MODE_TRACKING);
-                    cVars.putInt("camplayertrackingid", tr.getInt("srcid"));
+                    cVars.put("camplayertrackingid", bullet.get("srcid"));
                     xCon.ex("centercamera");
                     cVars.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
                     playPlayerDeathSound();
@@ -660,14 +665,13 @@ public class cScripts {
                     cVars.put("exploded", "0");
                     cVars.putInt("explodex", cGameLogic.getUserPlayer().getInt("coordx") - 75);
                     cVars.putInt("explodey", cGameLogic.getUserPlayer().getInt("coordy") - 75);
-                    cVars.put("killername", xCon.ex("THING_PLAYER." + tr.get("tag") + ".name"));
-                    cVars.put("killerid", cGameLogic.getPlayerById(tr.get("srcid")).get("id"));//test for id from bullet
-//                    cVars.put("killerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));  //old bullet, uses tag
+                    cVars.put("killername", killername);
+                    cVars.put("killerid", killerid);
                     if (sSettings.net_server) {
-                        nServer.matchKills[tr.getInt("tag")]++;
-                        xCon.ex("say " + cVars.get("killername") + " killed " + sVars.get("playername"));
+                        nServer.incrementScoreFieldById(killerid, "kills");
+                        xCon.ex("say " + killername + " killed " + sVars.get("playername"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            nServer.givePoint(tr.getInt("tag"));
+                            nServer.givePointToId(killerid);
                         }
                         if(cVars.isInt("gamemode", cGameMode.CHOSENONE)
                         && cVars.isVal("chosenoneid", "server")) {
@@ -675,11 +679,11 @@ public class cScripts {
                         }
                         if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
                                 && cVars.isVal("chosenoneid", "server")) {
-                            nServer.givePoint(tr.getInt("tag"));
+                            nServer.givePointToId(killerid);
                         }
                         if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
                                 && cVars.isVal("chosenoneid", cVars.get("killerid"))) {
-                            nServer.givePoint(tr.getInt("tag"));
+                            nServer.givePointToId(killerid);
                             xCon.ex("cv_chosenoneid server");
                         }
                         if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
@@ -691,9 +695,9 @@ public class cScripts {
                     }
                     if(sVars.isOne("vfxenableanimations"))
                         eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_BLUE,
-                            p.getInt("coordx") - 75, p.getInt("coordy") - 75));
-                    p.put("coordx", "-10000");
-                    p.put("coordy", "-10000");
+                            dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    dmgvictim.put("coordx", "-10000");
+                    dmgvictim.put("coordy", "-10000");
                 }
             }
             else {
@@ -885,6 +889,25 @@ public class cScripts {
         for(int i = 0; i < nServer.scores.length; i++) {
             scoreString.append(String.format("%d-%d-%d-%d:", nServer.matchWins[i], nServer.scores[i],
                     nServer.matchKills[i], nServer.matchPings[i]));
+        }
+        return scoreString.toString();
+    }
+
+    public static String getScoreMapString() {
+        String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
+        StringBuilder scoreString = new StringBuilder();
+        for(String id : nServer.scoresMap.keySet()) {
+            for(String fn : scoreFields) {
+                if(!nServer.scoresMap.get(id).containsKey(fn))
+                    nServer.scoresMap.get(id).put(fn, "0");
+            }
+            scoreString.append(String.format("%s-%s-%s-%s-%s:",
+                    id,
+                    nServer.scoresMap.get(id).get(scoreFields[0]),
+                    nServer.scoresMap.get(id).get(scoreFields[1]),
+                    nServer.scoresMap.get(id).get(scoreFields[2]),
+                    nServer.scoresMap.get(id).get(scoreFields[3])
+            ));
         }
         return scoreString.toString();
     }

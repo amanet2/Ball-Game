@@ -363,6 +363,10 @@ public class cGameLogic {
         }
     }
 
+    public static boolean isUserPlayer(gPlayer player) {
+        return player.isVal("id", sSettings.net_server ? "server" : uiInterface.uuid);
+    }
+
     public static void checkHealthStatus() {
         if(cVars.contains("respawntime") && (cVars.getLong("respawntime") < System.currentTimeMillis()
         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
