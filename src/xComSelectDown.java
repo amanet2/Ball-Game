@@ -2,8 +2,10 @@ public class xComSelectDown extends xCom {
     public String doCommand(String fullCommand) {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
             gCamera.move(1);
-        else
+        else {
+            cVars.putInt("hidemouseui", 1);
             uiMenus.nextItem();
+        }
         return fullCommand;
     }
     public String undoCommand(String fullCommand) {
