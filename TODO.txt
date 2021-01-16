@@ -9,6 +9,7 @@
 ==ISSUES==
 * client not removing the forbidden sign after spawn protection
     -> works on grey_tiles branch but not player_ids
+        -> creep print statments in grey_tiles branch until you narrow down where it doesnt work in new branch
 * refactoring scores
     -> use the new scoresmap to hold wins, score, kils, ping
     -> refactore all of cScripts.createDamagePopup to start
