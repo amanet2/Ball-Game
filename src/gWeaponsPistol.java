@@ -22,6 +22,7 @@ public class gWeaponsPistol extends gWeapon {
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"),
             damage);
         b.putInt("tag", p.getInt("tag"));
+        b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.weapon_pistol);
         double randomOffset = (Math.random() * ((Math.PI/12))) - Math.PI/24;

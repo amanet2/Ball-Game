@@ -7,6 +7,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* replace "tag" with "id" for weapon stuff
+    -> under working name "srcid"
 * when texture fails to load show flat grey instead of nothing
 * rename "isVal" to "isString"
 * FUCKIN A
@@ -54,6 +56,13 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* mapmaker
+    -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
+    -> have option in the tile menu to "move tile group"
+        -> only give ability to edit x,y coords for now
+        -> build up to copy/past tile group
+        -> also build up to "transform/flip" tile group
+
 * powerup idea
     -> egg
     -> pick up

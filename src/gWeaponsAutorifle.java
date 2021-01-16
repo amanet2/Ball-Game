@@ -24,6 +24,7 @@ public class gWeaponsAutorifle extends gWeapon {
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.weapon_autorifle);
         b.putInt("tag", p.getInt("tag"));
+        b.put("srcid", p.get("id"));
         double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);

@@ -503,20 +503,6 @@ public class cScripts {
         }
     }
 
-    public static void createGrenadeExplosion(gBullet seed) {
-        for (int i = 0; i < 8; i++) {
-            gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 100, 100,
-                    eUtils.getPath("objects/misc/fireorange.png"), 0, gWeapons.weapons_selection[gWeapons.weapon_launcher].damage);
-            double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
-            g.putDouble("fv", g.getDouble("fv")+(i * (2.0*Math.PI/8.0) - Math.PI / 16 + randomOffset));
-            g.putInt("ttl",150);
-            g.putInt("tag", seed.getInt("tag"));
-            g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
-            g.putInt("isexplosionpart",1);
-            eManager.currentMap.scene.bullets().add(g);
-        }
-    }
-
     public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<gAnimationEmitter> tra = new ArrayList<>();
@@ -556,7 +542,7 @@ public class cScripts {
         }
         if(pseeds.size() > 0) {
             for(gBullet pseed : pseeds)
-                createGrenadeExplosion(pseed);
+                gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
         for(gBullet b : trc) {
             eManager.currentMap.scene.bullets().remove(b);
@@ -675,7 +661,8 @@ public class cScripts {
                     cVars.putInt("explodex", cGameLogic.getUserPlayer().getInt("coordx") - 75);
                     cVars.putInt("explodey", cGameLogic.getUserPlayer().getInt("coordy") - 75);
                     cVars.put("killername", xCon.ex("THING_PLAYER." + tr.get("tag") + ".name"));
-                    cVars.put("killerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));
+                    cVars.put("killerid", cGameLogic.getPlayerById(tr.get("srcid")).get("id"));//test for id from bullet
+//                    cVars.put("killerid", xCon.ex("THING_PLAYER." + tr.get("tag") + ".id"));  //old bullet, uses tag
                     if (sSettings.net_server) {
                         nServer.matchKills[tr.getInt("tag")]++;
                         xCon.ex("say " + cVars.get("killername") + " killed " + sVars.get("playername"));
