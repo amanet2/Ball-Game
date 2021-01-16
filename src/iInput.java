@@ -4,6 +4,7 @@ import java.awt.event.*;
 public class iInput {
 	static final iKeyboard keyboardInput = new iKeyboard();
 	static final iMouse mouseInput = new iMouse();
+	static final iMouseMotion mouseMotion = new iMouseMotion();
 	static final iMouseWheel mouseWheelInput = new iMouseWheel();
 
 	public static void readKeyInputs() {

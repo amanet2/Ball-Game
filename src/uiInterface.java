@@ -104,6 +104,7 @@ public class uiInterface {
 	public static void addListeners() {
 		oDisplay.instance().frame.addKeyListener(iInput.keyboardInput);
 		oDisplay.instance().frame.addMouseListener(iInput.mouseInput);
+		oDisplay.instance().frame.addMouseMotionListener(iInput.mouseMotion);
 		oDisplay.instance().frame.addMouseWheelListener(iInput.mouseWheelInput);
 		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
 	}

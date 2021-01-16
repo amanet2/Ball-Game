@@ -13,7 +13,7 @@ public class iMouseMotion implements MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         if(cVars.isOne("hidemouseui")) {
-            cVars.put("hidemouseui","1");
+            cVars.put("hidemouseui","0");
         }
     }
 }
