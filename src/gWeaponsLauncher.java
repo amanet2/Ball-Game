@@ -35,12 +35,11 @@ public class gWeaponsLauncher extends gWeapon {
     public static void createGrenadeExplosion(gBullet seed) {
         //launcher explosion
         for (int i = 0; i < 8; i++) {
-            gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 100, 100,
+            gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 300, 300,
                     eUtils.getPath("objects/misc/fireorange.png"), 0, gWeapons.weapons_selection[gWeapons.weapon_launcher].damage);
             double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
             g.putDouble("fv", g.getDouble("fv")+(i * (2.0*Math.PI/8.0) - Math.PI / 16 + randomOffset));
             g.putInt("ttl",150);
-            g.putInt("tag", seed.getInt("tag"));
             g.put("srcid", seed.get("srcid"));
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             g.putInt("isexplosionpart",1);
