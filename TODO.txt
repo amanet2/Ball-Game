@@ -7,9 +7,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* start game, player 2 join.  player 3 join.  player 2 quit.  player 3 try to kill player 1. player 1 doesnt go to graveyard
 * replace "tag" with "id" for weapon stuff
     -> under working name "srcid"
-* when texture fails to load show flat grey instead of nothing
 * rename "isVal" to "isString"
 * FUCKIN A
     -> GO TO COMMIT: git checkout <commit>
