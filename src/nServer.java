@@ -17,7 +17,7 @@ public class nServer extends Thread {
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
-    static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
 
     public static nServer instance() {

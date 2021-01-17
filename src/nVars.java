@@ -66,8 +66,9 @@ public class nVars {
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
         keys.put("msg", nms);
-        if(sSettings.net_server && nSend.focus_id.length() > 0 && nServer.clientIds.contains(nSend.focus_id)
-            && !nSend.focus_id.equals(uiInterface.uuid)) {
+        if(sSettings.net_server && nSend.focus_id.length() > 0
+                && nServer.clientArgsMap.containsKey(nSend.focus_id)
+                && !nSend.focus_id.equals(uiInterface.uuid)) {
             keys.put("msg", !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")
                     && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
         }
