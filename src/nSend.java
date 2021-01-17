@@ -36,6 +36,13 @@ public class nSend {
             else {
                 sendDataString = new StringBuilder(nVars.dump());
             }
+            // this one results in jittery clients i guess movements are tried to applied to them erroneously
+//            for(String id : nServer.clientArgsMap.keySet()) {
+//                if(!id.equals(cGameLogic.getUserPlayer().get("id"))) {
+//                    sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(id).toString()));
+//                }
+//            }
+            //this one works
             for(int i = 0; i < nServer.clientIds.size(); i++) {
                 String idload2 = nServer.clientIds.get(i);
                 sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));

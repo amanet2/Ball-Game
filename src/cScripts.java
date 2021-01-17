@@ -927,8 +927,7 @@ public class cScripts {
         boolean pass = false;
         while (!pass) {
             pass = true;
-            for(int j = 0; j < nServer.clientIds.size(); j++) {
-                String id = nServer.clientIds.get(j);
+            for(String id : nServer.scoresMap.keySet()) {
                 if(nServer.scoresMap.get(id).get("score") > highestScore) {
                     pass = false;
                     highestId = id;
@@ -944,8 +943,7 @@ public class cScripts {
         boolean pass = false;
         while (!pass) {
             pass = true;
-            for(int j = 0; j < nServer.clientIds.size(); j++) {
-                String id = nServer.clientIds.get(j);
+            for(String id : nServer.scoresMap.keySet()) {
                 if(nServer.scoresMap.get(id).get("score") > highestScore) {
                     pass = false;
                     highestScore = nServer.scoresMap.get(id).get("score");

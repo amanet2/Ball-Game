@@ -556,29 +556,25 @@ public class cGameLogic {
                     }
                 }
                 else {
-                    int index = 0;
-                    for (String id : nServer.clientIds) {
-                        index++;
-                        if(action.replace("killedby", "").contains(id)) {
-                            nServer.incrementScoreFieldById(id, "kills");
-                            if(gamemode == cGameMode.DEATHMATCH)
-                                nServer.givePointToId(id);
-                            xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " killed " + packName);
-                            if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
-                                    && cVars.get("chosenoneid").equals(packId)) {
-                                if(gamemode == cGameMode.CHOSENONE) {
-                                    cVars.put("chosenoneid", id);
-                                    xCon.ex("say "+ xCon.ex("THING_PLAYER."+index+".name") + " is the chosen one!");
-                                }
-                                else {
-                                    nServer.givePointToId(id);
-                                }
-                            }
-                            if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", id)) {
-                                nServer.givePointToId(id);
-                                cVars.put("chosenoneid", packId);
-                            }
+                    String killerid = action.replace("killedby", "");
+                    nServer.incrementScoreFieldById(killerid, "kills");
+                    if(gamemode == cGameMode.DEATHMATCH)
+                        nServer.givePointToId(killerid);
+                    xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
+                    if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
+                            && cVars.get("chosenoneid").equals(packId)) {
+                        if(gamemode == cGameMode.CHOSENONE) {
+                            cVars.put("chosenoneid", killerid);
+                            xCon.ex("say "+ cGameLogic.getPlayerById(killerid).get("name")
+                                    + " is the chosen one!");
                         }
+                        else {
+                            nServer.givePointToId(killerid);
+                        }
+                    }
+                    if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", killerid)) {
+                        nServer.givePointToId(killerid);
+                        cVars.put("chosenoneid", packId);
                     }
                 }
             }
@@ -729,11 +725,7 @@ public class cGameLogic {
                     }
                 }
                 if(novirus) {
-                    int r = (int) (Math.random()*((double)eManager.currentMap.scene.players().size()-1));
-                    if(cGameLogic.getPlayerByIndex(r) != null) {
-                        cVars.put("virussingleid", eManager.currentMap.scene.players().size() < 2 ? "server"
-                                : nServer.clientIds.get(r));
-                    }
+                    assignRandomIdToCvar("virussingleid");
                 }
                 cVars.putLong("virussingletime", uiInterface.gameTime + 1000);
             }
@@ -770,6 +762,14 @@ public class cGameLogic {
         }
     }
 
+    public static void assignRandomIdToCvar(String cvar) {
+        int r = (int) (Math.random()*((double)eManager.currentMap.scene.players().size()-1));
+        gPlayer rp = cGameLogic.getPlayerByIndex(r);
+        if(rp != null) {
+            cVars.put(cvar, eManager.currentMap.scene.players().size() < 2 ? "server" : rp.get("id"));
+        }
+    }
+
     public static void checkChosenOne() {
         if(sSettings.net_server) {
             if(cVars.getLong("chosenonetime") < uiInterface.gameTime) {
@@ -781,11 +781,7 @@ public class cGameLogic {
                     }
                 }
                 if(nogolden) {
-                    int r = (int) (Math.random()*((double)eManager.currentMap.scene.players().size()-1));
-                    if(cGameLogic.getPlayerByIndex(r) != null) {
-                        cVars.put("chosenoneid", eManager.currentMap.scene.players().size() < 2 ? "server"
-                                : nServer.clientIds.get(r));
-                    }
+                    assignRandomIdToCvar("chosenoneid");
                 }
                 cVars.putLong("chosenonetime", uiInterface.gameTime + 1000);
             }
@@ -795,11 +791,7 @@ public class cGameLogic {
     public static void checkAntiChosenOne() {
         if(sSettings.net_server) {
             if(cVars.isVal("chosenoneid", "")) {
-                int r = (int) (Math.random()*((double)eManager.currentMap.scene.players().size()-1));
-                if(cGameLogic.getPlayerByIndex(r) != null) {
-                    cVars.put("chosenoneid", eManager.currentMap.scene.players().size() < 2 ? "server"
-                            : nServer.clientIds.get(r));
-                }
+                assignRandomIdToCvar("chosenoneid");
             }
         }
     }
