@@ -14,7 +14,6 @@ public class nServer extends Thread {
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
     static boolean kickConfirmed = false;
     static ArrayList<String> clientIds = new ArrayList<>();
-    static ArrayList<String> clientNames = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
@@ -146,9 +145,8 @@ public class nServer extends Thread {
         int quitterIndex = clientIds.indexOf(id);
         gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
         eManager.currentMap.scene.players().remove(quitterIndex+1);
-        String quitterName = clientNames.get(quitterIndex);
+        String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
-        clientNames.remove(quitterIndex);
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {

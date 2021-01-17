@@ -45,12 +45,9 @@ public class nReceive {
                         isnewclient = 0;
                         nServer.scoresMap.get(clientId).put("ping",
                                 (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
-                        if(oldName.length() > 0 && !oldName.equals(packName)) {
-                            nServer.clientNames.set(i, packName);
+                        if(oldName.length() > 0 && !oldName.equals(packName))
                             xCon.ex(String.format("say %s changed name to %s", oldName, packName));
-                        }
                         if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
-                            isnewclient = 0;
                             nServer.quitClientIds.add(packId);
                         }
                         if(cGameLogic.getPlayerByIndex(i+1) != null) {
@@ -73,7 +70,6 @@ public class nReceive {
                         }
                         cGameLogic.processActionLoadServer(packActions, i, packName, packId);
                         if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
-                            isnewclient = 0;
                             nServer.quitClientIds.add(packId);
                         }
                         if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
@@ -89,7 +85,6 @@ public class nReceive {
                     nServer.newClientIds.add(packId);
                     nServer.clientsConnected++;
                     nServer.clientIds.add(packId);
-                    nServer.clientNames.add(packName);
                     if(!packId.contains("bot")) {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
@@ -241,11 +236,9 @@ public class nReceive {
                         if(clientId.equals(idload)) {
                             ctr ++;
                             foundIds.add(clientId);
-                            String clientname = nServer.clientNames.get(j);
-                            if(!clientname.equals(nameload)) {
-                                nServer.clientNames.set(j, nameload);
-                                xCon.ex("THING_PLAYER."+(j+1)+".name " + nameload);
-                            }
+                            String clientname = nServer.clientArgsMap.get(clientId).get("name");
+                            if(!clientname.equals(nameload))
+                                cGameLogic.getPlayerById(clientId).put("name", nameload);
                             if(sVars.isOne("smoothing")) {
                                 cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(clientId).get("x"));
                                 cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(clientId).get("y"));
@@ -269,7 +262,6 @@ public class nReceive {
                     }
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
-                        nServer.clientNames.add(nameload);
                         ctr++;
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
@@ -312,7 +304,6 @@ public class nReceive {
                     nServer.clientArgsMap.remove(tr);
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
-                    nServer.clientNames.remove(qi);
                 }
             }
         }
