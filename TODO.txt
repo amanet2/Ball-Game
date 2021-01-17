@@ -6,14 +6,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* spawn protection visibility not working correctly
-    -> broken in very first commit to player_ids
-        -> client always sees a forbidden sign over himself
-            -> line in setupGame() where we give the player an id
-                -> all til now the player0 never got an id, and the camera tracked by index, not id so an id was never needed
-        -> server never shows forbidden sign
+* now that the client has no id the killing stopped working
+* server doesnt have his own spot in the scoresmap
 * refactoring scores
-    -> use the new scoresmap to hold wins, score, kils, ping
+    -> use the new scoresmap to hold wins, score, kills, ping
     -> refactore all of cScripts.createDamagePopup to start
         -> spaghetti leads:
             -> the whole dang scoreboard
@@ -67,6 +63,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * mapmaker
     -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
     -> have option in the tile menu to "move tile group"

@@ -156,6 +156,8 @@ public class cGameLogic {
         nServer.matchKills = new int[nServer.clientIds.size()+1];
         nServer.matchPings = new int[nServer.clientIds.size()+1];
         nServer.scoresMap = new HashMap<>();
+        if(sSettings.net_server)
+            nServer.scoresMap.put("server", new HashMap<>());
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
         if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
