@@ -889,7 +889,7 @@ public class cScripts {
     public static String getScoreString() {
         StringBuilder scoreString = new StringBuilder();
         for(int i = 0; i < nServer.scores.length; i++) {
-            scoreString.append(String.format("%d-%d-%d-%d:", nServer.matchWins[i], nServer.scores[i],
+            scoreString.append(String.format("%d-%d-%d-%d:", 420, nServer.scores[i],
                     nServer.matchKills[i], nServer.matchPings[i]));
         }
         return scoreString.toString();

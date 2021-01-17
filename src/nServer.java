@@ -8,7 +8,6 @@ import java.util.Queue;
 
 public class nServer extends Thread {
     private int netticks;
-    static int[] matchWins = new int[]{0};
     static int[] scores = new int[]{0};
     static int[] matchKills = new int[]{0};
     static int[] matchPings = new int[]{0};
@@ -160,23 +159,15 @@ public class nServer extends Thread {
         }
         clientsConnected -=1;
         clientArgsMap.remove(id);
+        scoresMap.remove(id);
         int quitterIndex = clientIds.indexOf(id);
         gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
         eManager.currentMap.scene.players().remove(quitterIndex+1);
         String quitterName = clientNames.get(quitterIndex);
         clientIds.remove(id);
         clientNames.remove(quitterIndex);
-        //update wins
-        int[] newWins = new int[clientsConnected+1];
-        int c = 0;
-        for(int i = 0; i < matchWins.length; i++) {
-            if(i != quitterIndex+1) {
-                newWins[c] = matchWins[i];
-                c++;
-            }
-        }
-        matchWins = newWins;
         //update scores
+        int c = 0;
         int[] newScores = new int[clientsConnected+1];
         c = 0;
         for(int i = 0; i < scores.length; i++) {

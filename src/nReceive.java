@@ -82,7 +82,6 @@ public class nReceive {
                 if(isnewclient == 1) {
                     nServer.newClientIds.add(packId);
                     nServer.clientsConnected++;
-                    nServer.matchWins = Arrays.copyOf(nServer.matchWins, nServer.clientsConnected+1);
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientsConnected+1);
                     nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientsConnected+1);
                     nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientsConnected+1);
@@ -263,7 +262,6 @@ public class nReceive {
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
                         nServer.clientNames.add(nameload);
-                        nServer.matchWins = Arrays.copyOf(nServer.matchWins, nServer.clientIds.size()+1);
                         nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
                         nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientIds.size()+1);
                         nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);
@@ -283,13 +281,11 @@ public class nReceive {
                 if(idload.equals("server")) {
                     String[] stoks = packArgs.get("scores").split(":");
                     if(nServer.scores.length < stoks.length) {
-                        nServer.matchWins = Arrays.copyOf(nServer.matchWins, stoks.length);
                         nServer.scores = Arrays.copyOf(nServer.scores, stoks.length);
                         nServer.matchKills = Arrays.copyOf(nServer.matchKills, stoks.length);
                         nServer.matchPings = Arrays.copyOf(nServer.matchPings, stoks.length);
                     }
                     for (int j = 0; j < stoks.length; j++) {
-                        nServer.matchWins[j] = Integer.parseInt(stoks[j].split("-")[0]);
                         nServer.scores[j] = Integer.parseInt(stoks[j].split("-")[1]);
                         nServer.matchKills[j] = Integer.parseInt(stoks[j].split("-")[2]);
                         nServer.matchPings[j] = Integer.parseInt(stoks[j].split("-")[3]);
@@ -309,7 +305,6 @@ public class nReceive {
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
                     nServer.clientNames.remove(qi);
-                    nServer.matchWins = Arrays.copyOf(nServer.matchWins, nServer.clientIds.size()+1);
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
                     nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientIds.size()+1);
                     nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);

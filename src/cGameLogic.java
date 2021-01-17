@@ -150,8 +150,6 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
-        if(nServer.matchWins.length != nServer.clientIds.size()+1)
-            nServer.matchWins = new int[nServer.clientIds.size()+1];
         nServer.scores = new int[nServer.clientIds.size()+1];
         nServer.matchKills = new int[nServer.clientIds.size()+1];
         nServer.matchPings = new int[nServer.clientIds.size()+1];
@@ -933,7 +931,7 @@ public class cGameLogic {
                         xCon.ex("say " + sVars.get("playercolor") + " team wins!");
                     else
                         xCon.ex("say " + sVars.get("playername") + " wins!");
-                    nServer.matchWins[0]++;
+                    nServer.incrementScoreFieldById("server", "wins");
                 }
                 else {
                     //someone beats score
@@ -947,11 +945,7 @@ public class cGameLogic {
                             xCon.ex("say "
                                     + nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.net_server) {
-                            for(int j = 0; j < nServer.clientIds.size(); j++) {
-                                if(cVars.get("winnerid").equals(nServer.clientIds.get(j))) {
-                                    nServer.matchWins[j+1]++;
-                                }
-                            }
+                            nServer.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                         }
                     }
                 }
