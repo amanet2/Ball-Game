@@ -150,7 +150,7 @@ public class dMenus {
         dScreenMessages.drawCenteredString(g,"--------",
             sSettings.width/2,
             4*sSettings.height/30);
-        g.drawString("["+nServer.clientArgsMap.keySet().size() + " players]",sSettings.width/4,5*sSettings.height/30);
+        g.drawString("["+nServer.clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                   Kills",

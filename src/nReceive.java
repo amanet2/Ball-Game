@@ -39,46 +39,42 @@ public class nReceive {
                         nServer.clientArgsMap.get(packId).put(k, packArgMap.get(k));
                     }
                 }
-                for(int i = 0; i < nServer.clientIds.size(); i++) {
-                    String clientId = nServer.clientIds.get(i);
-                    if(clientId.equals(packId)){
-                        isnewclient = 0;
-                        nServer.scoresMap.get(clientId).put("ping",
-                                (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
-                        if(oldName.length() > 0 && !oldName.equals(packName))
-                            xCon.ex(String.format("say %s changed name to %s", oldName, packName));
-                        if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
-                            nServer.quitClientIds.add(packId);
+                if(nServer.clientIds.contains(packId)) {
+                    isnewclient = 0;
+                    nServer.scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+                    if(oldName.length() > 0 && !oldName.equals(packName))
+                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
+                    if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
+                        nServer.quitClientIds.add(packId);
+                    }
+                    gPlayer packPlayer = cGameLogic.getPlayerById(packId);
+                    if(packPlayer != null) {
+                        if (nServer.clientArgsMap.get(packId).containsKey("vels")) {
+                            String[] veltoks = nServer.clientArgsMap.get(packId).get("vels").split("-");
+                            packPlayer.put("vel0", veltoks[0]);
+                            packPlayer.put("vel1", veltoks[1]);
+                            packPlayer.put("vel2", veltoks[2]);
+                            packPlayer.put("vel3", veltoks[3]);
                         }
-                        if(cGameLogic.getPlayerByIndex(i+1) != null) {
-                            if (nServer.clientArgsMap.get(clientId).containsKey("vels")) {
-                                String[] veltoks = nServer.clientArgsMap.get(clientId).get("vels").split("-");
-                                for(int vel = 0; vel < veltoks.length; vel++) {
-                                    xCon.ex("THING_PLAYER."+(i+1)+".vel"+vel+" "+veltoks[vel]);
-                                }
-                            }
-                            if (sVars.isOne("smoothing")) {
-                                cGameLogic.getPlayerByIndex(i + 1).put("coordx",
-                                        nServer.clientArgsMap.get(clientId).get("x"));
-                                cGameLogic.getPlayerByIndex(i + 1).put("coordy",
-                                        nServer.clientArgsMap.get(clientId).get("y"));
-                            }
+                        if (sVars.isOne("smoothing")) {
+                            packPlayer.put("coordx", nServer.clientArgsMap.get(packId).get("x"));
+                            packPlayer.put("coordy", nServer.clientArgsMap.get(packId).get("y"));
                         }
-                        if(!packArgMap.containsKey("spawnprotected")
-                                && nServer.clientArgsMap.get(packId).containsKey("spawnprotected")) {
-                            nServer.clientArgsMap.get(packId).remove("spawnprotected");
-                        }
-                        cGameLogic.processActionLoadServer(packActions, i, packName, packId);
-                        if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
-                            nServer.quitClientIds.add(packId);
-                        }
-                        if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
-                            String msg = packArgMap.get("msg");
-                            xCon.ex(String.format("say %s", msg));
-                            String[] t = msg.split(" ");
-                            if(t.length > 1)
-                                cScripts.checkMsgSpecialFunction(t[1]);
-                        }
+                    }
+                    if(!packArgMap.containsKey("spawnprotected")
+                            && nServer.clientArgsMap.get(packId).containsKey("spawnprotected")) {
+                        nServer.clientArgsMap.get(packId).remove("spawnprotected");
+                    }
+                    cGameLogic.processActionLoadServer(packActions, packName, packId);
+                    if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
+                        nServer.quitClientIds.add(packId);
+                    }
+                    if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
+                        String msg = packArgMap.get("msg");
+                        xCon.ex(String.format("say %s", msg));
+                        String[] t = msg.split(" ");
+                        if(t.length > 1)
+                            cScripts.checkMsgSpecialFunction(t[1]);
                     }
                 }
                 if(isnewclient == 1) {
@@ -302,6 +298,7 @@ public class nReceive {
                 if(tr.length() > 0) {
                     int qi = nServer.clientIds.indexOf(tr);
                     nServer.clientArgsMap.remove(tr);
+                    nServer.scoresMap.remove(tr);
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
                 }

@@ -519,7 +519,7 @@ public class cGameLogic {
         return actionload;
     }
 
-    public static void processActionLoadServer(String packActions, int i, String packName, String packId) {
+    public static void processActionLoadServer(String packActions, String packName, String packId) {
         String[] actions = packActions.split("\\|");
         for(String action : actions) {
             if(action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE
@@ -589,7 +589,6 @@ public class cGameLogic {
                 for(gProp p : eManager.currentMap.scene.props()) {
                     if(p.isInt("code",gProp.POWERUP)
                             && p.isVal("tag", action.replace("powerup", ""))) {
-//                            System.out.println("CLIENTGOTPOWERUP " + p.get("tag") + " " + p.getInt("int0"));
                             p.putInt("int0",0);
                     }
                 }

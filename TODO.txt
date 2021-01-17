@@ -9,25 +9,11 @@
 * wins get wiped out on new map
 * lap counter display broken, dScreenmessages "LAP"
 * need to fix king of flags mode, it uses player indices for scoring
-* get rid of client index next
-* now that the client has no id the killing stopped working
-* server doesnt have his own spot in the scoresmap
-* refactoring scores
-    -> use the new scoresmap to hold wins, score, kills, ping
-    -> refactore all of cScripts.createDamagePopup to start
-        -> spaghetti leads:
-            -> the whole dang scoreboard
-            -> nServer.givePoint(index)
-* start game, player 2 join.  player 3 join.  player 2 quit.  player 3 try to kill player 1. player 1 doesnt go to graveyard
-* replace "tag" with "id" for weapon stuff
-    -> under working name "srcid"
 * rename "isVal" to "isString"
 * FUCKIN A
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * too much sent in new powerups string
-* sometimes bots become invulnerable
-    -> happens after end of first game, non-server player cant kill bot
 * make sure different timezones and computer times work correctly
     -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
         -> due to timezones, system clock etc
