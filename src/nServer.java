@@ -9,7 +9,6 @@ import java.util.Queue;
 public class nServer extends Thread {
     private int netticks;
     static int clientsConnected = 0;
-//    static int[] scores;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
@@ -79,20 +78,6 @@ public class nServer extends Thread {
             incrementScoreFieldById(id, "score");
         }
     }
-
-//    public static void givePoint(int i) {
-//        if(cVars.isOne("gameteam")) {
-//            String color = cGameLogic.getPlayerByIndex(i).get("color");
-//            for(int j = 0; j < scores.length; j++) {
-//                if(color.equals(cGameLogic.getPlayerByIndex(j).get("color"))) {
-//                    scores[j]++;
-//                }
-//            }
-//        }
-//        else if(scores.length > i){
-//            scores[i]++;
-//        }
-//    }
 
     public static void processPackets() {
         try {

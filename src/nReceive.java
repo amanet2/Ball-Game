@@ -14,8 +14,13 @@ public class nReceive {
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
-                if(!nServer.scoresMap.containsKey(packId))
+                if(!nServer.scoresMap.containsKey(packId)) {
                     nServer.scoresMap.put(packId, new HashMap<>());
+                    nServer.scoresMap.get(packId).put("wins", 0);
+                    nServer.scoresMap.get(packId).put("score", 0);
+                    nServer.scoresMap.get(packId).put("kills", 0);
+                    nServer.scoresMap.get(packId).put("ping", 0);
+                }
                 String packName = packArgMap.get("name") != null ? packArgMap.get("name") : nServer.clientArgsMap.get(packId).get("name");
                 String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
                 int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
@@ -112,8 +117,13 @@ public class nReceive {
                 String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
                 if(!nServer.clientArgsMap.containsKey(idload))
                     nServer.clientArgsMap.put(idload, packArgs);
-                if(!nServer.scoresMap.containsKey(idload))
+                if(!nServer.scoresMap.containsKey(idload)) {
                     nServer.scoresMap.put(idload, new HashMap<>());
+                    nServer.scoresMap.get(idload).put("wins", 0);
+                    nServer.scoresMap.get(idload).put("score", 0);
+                    nServer.scoresMap.get(idload).put("kills", 0);
+                    nServer.scoresMap.get(idload).put("ping", 0);
+                }
                 for(String k : packArgs.keySet()) {
                     if(!nServer.clientArgsMap.get(idload).containsKey(k)
                             || nServer.clientArgsMap.get(idload).get(k) != packArgs.get(k)) {
@@ -278,8 +288,13 @@ public class nReceive {
                     String[] stoks = packArgs.get("scoremap").split(":");
                     for (int j = 0; j < stoks.length; j++) {
                         String scoreid = stoks[j].split("-")[0];
-                        if(!nServer.scoresMap.containsKey(scoreid))
+                        if(!nServer.scoresMap.containsKey(scoreid)) {
                             nServer.scoresMap.put(scoreid, new HashMap<>());
+                            nServer.scoresMap.get(scoreid).put("wins", 0);
+                            nServer.scoresMap.get(scoreid).put("score", 0);
+                            nServer.scoresMap.get(scoreid).put("kills", 0);
+                            nServer.scoresMap.get(scoreid).put("ping", 0);
+                        }
                         nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[1]));
                     }
                 }

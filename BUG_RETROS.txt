@@ -6,3 +6,6 @@
                 -> all til now the player0 never got an id, and the camera tracked by index, not id so an id was never needed
         -> server never shows forbidden sign
             -> actually this never worked even in master branch
+
+2021/01/17
+* scoremap needs all fields laid out for an id
