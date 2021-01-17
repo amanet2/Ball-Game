@@ -6,6 +6,11 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* the winner message doesnt work anymore
+    -> in safezone!
+* lap counter display broken, dScreenmessages "LAP"
+* need to fix king of flags mode, it uses player indices for scoring
+* get rid of client index next
 * now that the client has no id the killing stopped working
 * server doesnt have his own spot in the scoresmap
 * refactoring scores
@@ -63,9 +68,6 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* lap counter display broken, dScreenmessages "LAP"
-* need to fix king of flags mode, it uses player indices for scoring
-* get rid of client index next
 * make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * mapmaker
     -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
