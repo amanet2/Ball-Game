@@ -894,14 +894,6 @@ public class cScripts {
         return virusSb.toString();
     }
 
-    public static String getScoreString() {
-        StringBuilder scoreString = new StringBuilder();
-        for(int i = 0; i < nServer.clientsConnected+1; i++) {
-            scoreString.append("420-420-420-420:");
-        }
-        return scoreString.toString();
-    }
-
     public static String getScoreMapString() {
         String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
         StringBuilder scoreString = new StringBuilder();

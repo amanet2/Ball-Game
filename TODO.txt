@@ -6,6 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* scoreboard doesnt sort by winner anymore
 * wins get wiped out on new map
 * lap counter display broken, dScreenmessages "LAP"
 * need to fix king of flags mode, it uses player indices for scoring
