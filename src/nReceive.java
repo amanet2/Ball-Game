@@ -295,7 +295,10 @@ public class nReceive {
                             nServer.scoresMap.get(scoreid).put("kills", 0);
                             nServer.scoresMap.get(scoreid).put("ping", 0);
                         }
-                        nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[1]));
+                        nServer.scoresMap.get(scoreid).put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+                        nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[2]));
+                        nServer.scoresMap.get(scoreid).put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+                        nServer.scoresMap.get(scoreid).put("ping", Integer.parseInt(stoks[j].split("-")[4]));
                     }
                 }
             }
