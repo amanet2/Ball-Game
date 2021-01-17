@@ -193,7 +193,6 @@ public class cEditorLogic {
             menus.get("Props").getItem(0).add(newmenuitem);
         }
         for(String s : new String[]{"THING_TILE", "THING_PROP", "THING_FLARE"}){
-//            JMenuItem newmenuitem = new JMenuItem(gScene.getObjTitleForCode(i));
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);

@@ -68,10 +68,6 @@ public class cGameLogic {
     }
 
     public static void checkPowerupsStatus() {
-        //step 0: start with blank map
-        //step 1: count how many powerups present already
-        //step 2: create new powerups at a random prop powerup loc
-        //step 2a: ensure no overlaps
         if(sSettings.net_server || !cScripts.isNetworkGame()) {
             if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
                 int powerupson = 0;
@@ -85,7 +81,6 @@ public class cGameLogic {
                     }
                 }
                 int ctr = 0;
-                // limit represents the number of powerups we should spawn
                 int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
                 while (ctr < limit) {
                     int r = (int) (Math.random() * powerupcandidates.size());
