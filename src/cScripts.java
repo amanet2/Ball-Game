@@ -221,7 +221,7 @@ public class cScripts {
                     p.put(useint, "0");
                 }
                 if (sSettings.net_server) {
-                    nServer.givePoint(pla.getInt("tag"));
+                    nServer.givePointToId(pla.get("id"));
 //                    xCon.ex("say " + pla.get("name") + " completed a lap!");
                 } else if (sSettings.net_client) {
                     xCon.ex("cv_lapcomplete 1");
@@ -234,7 +234,7 @@ public class cScripts {
                 scorepoint.put(useint, "0");
                 createScorePopup(pla,1);
                 if(sSettings.net_server) {
-                    nServer.givePoint(pla.getInt("tag"));
+                    nServer.givePointToId(pla.get("id"));
                     cGameLogic.refreshWaypoints();
                 }
             }
@@ -254,7 +254,7 @@ public class cScripts {
             cVars.put("flagmasterid", "");
             createScorePopup(cGameLogic.getUserPlayer(),1);
             if(sSettings.net_server) {
-                nServer.givePoint(0);
+                nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                 xCon.ex("say " + sVars.get("playername") + " captured the flag!");
             }
         }
@@ -401,7 +401,7 @@ public class cScripts {
                 if(sSettings.net_server) {
                     cVars.putInArray("kofflagcaps", "1", flag.getInt("tag"));
                     if(sSettings.net_server) {
-                        nServer.givePoint(0);
+                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                         xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
                     }
                 }
@@ -856,11 +856,15 @@ public class cScripts {
     }
 
     public static boolean isTopScore() {
-        for(int i : nServer.scores) {
-            if(i > nServer.scores[nClient.clientIndex])
-                return false;
+        for(String otherClientId : nServer.scoresMap.keySet()) {
+            if(!otherClientId.equals(cGameLogic.getUserPlayer().get("id"))) {
+                if(nServer.scoresMap.get(otherClientId).get("score")
+                > nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score")) {
+                    return false;
+                }
+            }
         }
-        return nServer.scores[nClient.clientIndex] > 0;
+        return nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") > 0;
     }
 
     public static void goToEndScreen() {
@@ -888,7 +892,7 @@ public class cScripts {
 
     public static String getScoreString() {
         StringBuilder scoreString = new StringBuilder();
-        for(int i = 0; i < nServer.scores.length; i++) {
+        for(int i = 0; i < nServer.clientsConnected+1; i++) {
             scoreString.append("420-420-420-420:");
         }
         return scoreString.toString();
@@ -900,7 +904,7 @@ public class cScripts {
         for(String id : nServer.scoresMap.keySet()) {
             for(String fn : scoreFields) {
                 if(!nServer.scoresMap.get(id).containsKey(fn))
-                    nServer.scoresMap.get(id).put(fn, "0");
+                    nServer.scoresMap.get(id).put(fn, 0);
             }
             scoreString.append(String.format("%s-%s-%s-%s-%s:",
                     id,
@@ -921,10 +925,10 @@ public class cScripts {
             pass = true;
             for(int j = 0; j < nServer.clientIds.size(); j++) {
                 String id = nServer.clientIds.get(j);
-                if(nServer.scores[j+1] > highestScore) {
+                if(nServer.scoresMap.get(id).get("score") > highestScore) {
                     pass = false;
                     highestId = id;
-                    highestScore = nServer.scores[j+1];
+                    highestScore = nServer.scoresMap.get(id).get("score");
                 }
             }
         }
@@ -936,10 +940,11 @@ public class cScripts {
         boolean pass = false;
         while (!pass) {
             pass = true;
-            for(int j = 0; j < nServer.scores.length; j++) {
-                if(nServer.scores[j] > highestScore) {
+            for(int j = 0; j < nServer.clientIds.size(); j++) {
+                String id = nServer.clientIds.get(j);
+                if(nServer.scoresMap.get(id).get("score") > highestScore) {
                     pass = false;
-                    highestScore = nServer.scores[j];
+                    highestScore = nServer.scoresMap.get(id).get("score");
                 }
             }
         }
@@ -951,17 +956,13 @@ public class cScripts {
         int tiectr = 0;
         String winnerName = "";
         if(cVars.isZero("gameteam")) {
-            for(int i = 0; i < nServer.scores.length; i++) {
-                if(nServer.scores[i] > topscore) {
+            for(String id : nServer.scoresMap.keySet()) {
+                if(nServer.scoresMap.get(id).get("score") > topscore) {
                     tiectr = 0;
-                    topscore = nServer.scores[i];
-                    if(i == 0) {
-                        winnerName = sVars.get("playername") + " (" + nServer.scores[i]+")";
-                    }
-                    else
-                        winnerName = nServer.clientNames.get(i-1) + " (" + nServer.scores[i]+")";
+                    topscore = nServer.scoresMap.get(id).get("score");
+                    winnerName = cGameLogic.getPlayerById(id).get("name");
                 }
-                else if(topscore > 0 && nServer.scores[i] == topscore) {
+                else if(topscore > 0 && nServer.scoresMap.get(id).get("score") == topscore) {
                     tiectr++;
                 }
             }
@@ -973,11 +974,11 @@ public class cScripts {
             String[] colors = sVars.getArray("colorselection");
             int[] colorscores = new int[colors.length];
             Arrays.fill(colorscores, 0);
-            for(int i = 0; i < nServer.scores.length; i++) {
-                gPlayer p = cGameLogic.getPlayerByIndex(i);
+            for(String id : nServer.scoresMap.keySet()) {
+                gPlayer p = cGameLogic.getPlayerById(id);
                 for(int j = 0; j < colors.length; j++) {
                     if(p.get("color").equals(colors[j])) {
-                        colorscores[j] = nServer.scores[i];
+                        colorscores[j] = nServer.scoresMap.get(id).get("score");
                     }
                 }
             }

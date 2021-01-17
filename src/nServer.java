@@ -8,8 +8,8 @@ import java.util.Queue;
 
 public class nServer extends Thread {
     private int netticks;
-    static int[] scores = new int[]{0};
     static int clientsConnected = 0;
+//    static int[] scores;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
@@ -17,7 +17,7 @@ public class nServer extends Thread {
     static ArrayList<String> clientIds = new ArrayList<>();
     static ArrayList<String> clientNames = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    static HashMap<String, HashMap<String, String>> scoresMap = new HashMap<>(); //server too, index by uuids
+    static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
@@ -62,8 +62,8 @@ public class nServer extends Thread {
     }
 
     public static void incrementScoreFieldById(String id, String field) {
-        int nscore = Integer.parseInt(nServer.scoresMap.get(id).get(field)) + 1;
-        nServer.scoresMap.get(id).put(field, Integer.toString(nscore));
+        int nscore = nServer.scoresMap.get(id).get(field) + 1;
+        nServer.scoresMap.get(id).put(field, nscore);
     }
 
     public static void givePointToId(String id) {
@@ -80,19 +80,19 @@ public class nServer extends Thread {
         }
     }
 
-    public static void givePoint(int i) {
-        if(cVars.isOne("gameteam")) {
-            String color = cGameLogic.getPlayerByIndex(i).get("color");
-            for(int j = 0; j < scores.length; j++) {
-                if(color.equals(cGameLogic.getPlayerByIndex(j).get("color"))) {
-                    scores[j]++;
-                }
-            }
-        }
-        else if(scores.length > i){
-            scores[i]++;
-        }
-    }
+//    public static void givePoint(int i) {
+//        if(cVars.isOne("gameteam")) {
+//            String color = cGameLogic.getPlayerByIndex(i).get("color");
+//            for(int j = 0; j < scores.length; j++) {
+//                if(color.equals(cGameLogic.getPlayerByIndex(j).get("color"))) {
+//                    scores[j]++;
+//                }
+//            }
+//        }
+//        else if(scores.length > i){
+//            scores[i]++;
+//        }
+//    }
 
     public static void processPackets() {
         try {
@@ -164,17 +164,6 @@ public class nServer extends Thread {
         String quitterName = clientNames.get(quitterIndex);
         clientIds.remove(id);
         clientNames.remove(quitterIndex);
-        int c;
-        //update scores
-        int[] newScores = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < scores.length; i++) {
-            if(i != quitterIndex+1) {
-                newScores[c] = scores[i];
-                c++;
-            }
-        }
-        scores = newScores;
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {

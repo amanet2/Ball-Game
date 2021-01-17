@@ -380,10 +380,11 @@ public class dScreenMessages {
                 dScreenMessages.drawCenteredString(g,"FLAG TAKEN",
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
-            if(cVars.getInt("gamemode") == cGameMode.RACE)
-                dScreenMessages.drawCenteredString(g, "LAP  "+(nServer.scores[nClient.clientIndex]+1)
-                                +"/"+cVars.get("scorelimit"),
-                        sSettings.width/2,sSettings.height-sSettings.height/16);
+//            if(cVars.getInt("gamemode") == cGameMode.RACE)
+//                dScreenMessages.drawCenteredString(g,
+//                        "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
+//                                +"/"+cVars.get("scorelimit"),
+//                        sSettings.width/2,sSettings.height-sSettings.height/16);
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
                 StringBuilder todraw = new StringBuilder();
                 for(int i : cVars.getIntArray("kofflagcaps")) {

@@ -63,6 +63,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* lap counter display broken, dScreenmessages "LAP"
+* need to fix king of flags mode, it uses player indices for scoring
+* get rid of client index next
 * make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * mapmaker
     -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)

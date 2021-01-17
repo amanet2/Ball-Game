@@ -158,39 +158,39 @@ public class dMenus {
         g.drawString("                                                               Ping",
                 sSettings.width/4,5*sSettings.height/30);
 
-        for (int i = 0; i < nServer.scores.length; i++) {
-            String pl = i == nClient.clientIndex ? xCon.ex("playername")
-                    : i > nClient.clientIndex ? nServer.clientNames.get(i-1)
-                    : nServer.clientNames.get(i);
-            String pli = i == nClient.clientIndex ? uiInterface.uuid
-                    : i > nClient.clientIndex ? nServer.clientIds.get(i-1)
-                    : nServer.clientIds.get(i);
-            String cl = pli.equals(uiInterface.uuid) ? cGameLogic.getUserPlayer().get("color")
-                    : cGameLogic.getPlayerById(pli).get("color");
-            if(i == nClient.clientIndex) {
+        int i = 0;
+        for(String id : nServer.scoresMap.keySet()) {
+            String playername = cGameLogic.getPlayerById(id).get("name");
+            String playercolor = cGameLogic.getPlayerById(id).get("color");
+            int playerwins = nServer.scoresMap.get(id).get("wins");
+            int playerscore = nServer.scoresMap.get(id).get("score");
+            int playerkills = nServer.scoresMap.get(id).get("kills");
+            int playerping = nServer.scoresMap.get(id).get("ping");
+            if(id.equals(cGameLogic.getUserPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
             }
-            g.drawString((cVars.isOne("gameteam") ? "(" +cl+")" : "") + pl, sSettings.width/4,
+            g.drawString((cVars.isOne("gameteam") ? "(" +playercolor+")" : "") + playername, sSettings.width/4,
                     6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                           " + 420,
+            g.drawString("                           " + playerwins,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                       " + nServer.scores[i],
+            g.drawString("                                       " + playerscore,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                   " + 420,
+            g.drawString("                                                   " + playerkills,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                               " + 420,
+            g.drawString("                                                               " + playerping,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            if(i == nClient.clientIndex) {
+            if(id.equals(cGameLogic.getUserPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
             }
+            i++;
         }
     }
 }

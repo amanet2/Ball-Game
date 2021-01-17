@@ -150,7 +150,6 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
-        nServer.scores = new int[nServer.clientIds.size()+1];
         nServer.scoresMap = new HashMap<>();
         if(sSettings.net_server)
             nServer.scoresMap.put("server", new HashMap<>());
@@ -515,7 +514,7 @@ public class cGameLogic {
             if(action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE
                     || action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES
                     || action.contains("waypoint") && cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-                nServer.givePoint(i+1);
+                nServer.givePointToId(packId);
             }
             if(action.contains("killedby")) {
                 int gamemode = cVars.getInt("gamemode");
@@ -528,7 +527,7 @@ public class cGameLogic {
                     nServer.incrementScoreFieldById("server", "kills");
                     xCon.ex("say " + sVars.get("playername") + " killed " + packName);
                     if(gamemode == cGameMode.DEATHMATCH) {
-                        nServer.givePoint(0);
+                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                     }
                     if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                             && cVars.get("chosenoneid").equals(packId)) {
@@ -537,11 +536,11 @@ public class cGameLogic {
                             xCon.ex("say " + xCon.ex("THING_PLAYER.0.name") + " is the chosen one!");
                         }
                         else {
-                            nServer.givePoint(0);
+                            nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                         }
                     }
                     if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", "server")) {
-                        nServer.givePoint(0);
+                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                         cVars.put("chosenoneid", packId);
                     }
                 }
@@ -561,11 +560,11 @@ public class cGameLogic {
                                     xCon.ex("say "+ xCon.ex("THING_PLAYER."+index+".name") + " is the chosen one!");
                                 }
                                 else {
-                                    nServer.givePoint(index);
+                                    nServer.givePointToId(id);
                                 }
                             }
                             if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", id)) {
-                                nServer.givePoint(index);
+                                nServer.givePointToId(id);
                                 cVars.put("chosenoneid", packId);
                             }
                         }
@@ -650,11 +649,13 @@ public class cGameLogic {
     public static void checkKingOfFlags() {
         if(sSettings.net_server) {
             if(cVars.getLong("kingofflagstime") < uiInterface.gameTime) {
-                for(String s : cVars.getArray("kofflagcaps")) {
-                    if(Integer.parseInt(s) > 0) {
-                        nServer.givePoint(Integer.parseInt(s)-1);
-                    }
-                }
+//                for(String s : cVars.getArray("kofflagcaps")) {
+//                    //need to fix kofflagcaps
+//                    if(Integer.parseInt(s) > 0) {
+//                        nServer.givePointToId();
+//                        nServer.givePoint(Integer.parseInt(s)-1);
+//                    }
+//                }
                 cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);
             }
         }
@@ -695,7 +696,7 @@ public class cGameLogic {
                         if(nServer.clientArgsMap.get("server").containsKey("state")
                                 && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))
                                 && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                            nServer.givePoint(p.getInt("tag"));
+                            nServer.givePointToId(p.get("id"));
                         }
                     }
                 }
@@ -713,8 +714,7 @@ public class cGameLogic {
                         novirus = false;
                     }
                     else if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                        if(nServer.scores.length > p.getInt("tag"))
-                            nServer.givePoint(p.getInt("tag"));
+                        nServer.givePointToId(p.get("id"));
                     }
                 }
                 if(novirus) {
@@ -751,7 +751,7 @@ public class cGameLogic {
             if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
                 for (gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").equals(cVars.get("flagmasterid"))) {
-                        nServer.givePoint(p.getInt("tag"));
+                        nServer.givePointToId(p.get("id"));
                     }
                 }
                 cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
@@ -766,7 +766,7 @@ public class cGameLogic {
                 for(gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").equals(cVars.get("chosenoneid"))) {
                         nogolden = false;
-                        nServer.givePoint(p.getInt("tag"));
+                        nServer.givePointToId(p.get("id"));
                     }
                 }
                 if(nogolden) {
@@ -870,7 +870,7 @@ public class cGameLogic {
                                     Integer.toString(cl.getInt("tag") + 1), p.getInt("tag"));
                             if (sSettings.net_server) {
                                 xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
-                                nServer.givePoint(cl.getInt("tag"));
+                                nServer.givePointToId(cl.get("id"));
                             }
                         }
                     }
@@ -887,7 +887,7 @@ public class cGameLogic {
                             && p.isInt("code", gProp.FLAGBLUE)
                             && cVars.isVal("flagmasterid", cl.get("id"))){
                         if(sSettings.net_server) {
-                            nServer.givePoint(cl.getInt("tag"));
+                            nServer.givePointToId(cl.get("id"));
                             cVars.put("flagmasterid", "");
                             xCon.ex("say " + cl.get("name") + " captured the flag!");
                         }
@@ -895,7 +895,7 @@ public class cGameLogic {
                     else if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS
                             && p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0) {
                         if(sSettings.net_server) {
-                            nServer.givePoint(cl.getInt("tag"));
+                            nServer.givePointToId(cl.get("id"));
                             p.put("int0", "0");
                         }
                     }
@@ -1071,7 +1071,7 @@ public class cGameLogic {
                 if (cVars.isOne("survivesafezone")) {
                     cVars.put("sendsafezone", "1");
                     if(sSettings.net_server) {
-                        nServer.givePoint(0);
+                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
                     }
                 }
                 else {

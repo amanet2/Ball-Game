@@ -39,7 +39,7 @@ public class nReceive {
                     if(clientId.equals(packId)){
                         isnewclient = 0;
                         nServer.scoresMap.get(clientId).put("ping",
-                                Integer.toString((int) Math.abs(System.currentTimeMillis() - oldTimestamp)));
+                                (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                         if(oldName.length() > 0 && !oldName.equals(packName)) {
                             nServer.clientNames.set(i, packName);
                             xCon.ex(String.format("say %s changed name to %s", oldName, packName));
@@ -83,7 +83,6 @@ public class nReceive {
                 if(isnewclient == 1) {
                     nServer.newClientIds.add(packId);
                     nServer.clientsConnected++;
-                    nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientsConnected+1);
                     nServer.clientIds.add(packId);
                     nServer.clientNames.add(packName);
                     if(!packId.contains("bot")) {
@@ -261,7 +260,6 @@ public class nReceive {
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
                         nServer.clientNames.add(nameload);
-                        nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
                         ctr++;
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
@@ -276,12 +274,13 @@ public class nReceive {
                     nClient.clientIndex = w-1;
                 }
                 if(idload.equals("server")) {
-                    String[] stoks = packArgs.get("scores").split(":");
-                    if(nServer.scores.length < stoks.length) {
-                        nServer.scores = Arrays.copyOf(nServer.scores, stoks.length);
-                    }
+                    //this is where we update scores map on client
+                    String[] stoks = packArgs.get("scoremap").split(":");
                     for (int j = 0; j < stoks.length; j++) {
-                        nServer.scores[j] = Integer.parseInt(stoks[j].split("-")[1]);
+                        String scoreid = stoks[j].split("-")[0];
+                        if(!nServer.scoresMap.containsKey(scoreid))
+                            nServer.scoresMap.put(scoreid, new HashMap<>());
+                        nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[1]));
                     }
                 }
             }
@@ -298,7 +297,6 @@ public class nReceive {
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
                     nServer.clientNames.remove(qi);
-                    nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
                 }
             }
         }
