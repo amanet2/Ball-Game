@@ -9,7 +9,6 @@ import java.util.Queue;
 public class nServer extends Thread {
     private int netticks;
     static int[] scores = new int[]{0};
-    static int[] matchKills = new int[]{0};
     static int[] matchPings = new int[]{0};
     static int clientsConnected = 0;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
@@ -166,8 +165,8 @@ public class nServer extends Thread {
         String quitterName = clientNames.get(quitterIndex);
         clientIds.remove(id);
         clientNames.remove(quitterIndex);
+        int c;
         //update scores
-        int c = 0;
         int[] newScores = new int[clientsConnected+1];
         c = 0;
         for(int i = 0; i < scores.length; i++) {
@@ -177,16 +176,6 @@ public class nServer extends Thread {
             }
         }
         scores = newScores;
-        //update kills
-        int[] newKills = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < matchKills.length; i++) {
-            if(i != quitterIndex+1) {
-                newKills[c] = matchKills[i];
-                c++;
-            }
-        }
-        matchKills = newKills;
         //update pings
         int[] newPings = new int[clientsConnected+1];
         c = 0;

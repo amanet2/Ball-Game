@@ -151,7 +151,6 @@ public class cGameLogic {
 
     public static void resetGameState() {
         nServer.scores = new int[nServer.clientIds.size()+1];
-        nServer.matchKills = new int[nServer.clientIds.size()+1];
         nServer.matchPings = new int[nServer.clientIds.size()+1];
         nServer.scoresMap = new HashMap<>();
         if(sSettings.net_server)
@@ -527,7 +526,7 @@ public class cGameLogic {
                     xCon.ex("say " + packName + " lost the flag!");
                 }
                 if (action.replace("killedby", "").equals("server")) {
-                    nServer.matchKills[0]++;
+                    nServer.incrementScoreFieldById("server", "kills");
                     xCon.ex("say " + sVars.get("playername") + " killed " + packName);
                     if(gamemode == cGameMode.DEATHMATCH) {
                         nServer.givePoint(0);
@@ -552,12 +551,10 @@ public class cGameLogic {
                     for (String id : nServer.clientIds) {
                         index++;
                         if(action.replace("killedby", "").contains(id)) {
-                            if(gamemode == cGameMode.DEATHMATCH) {
-                                nServer.givePoint(index);
-                            }
-                            nServer.matchKills[index]++;
-                            xCon.ex("say " + xCon.ex("THING_PLAYER."+index+".name")
-                                    + " killed " + packName);
+                            nServer.incrementScoreFieldById(id, "kills");
+                            if(gamemode == cGameMode.DEATHMATCH)
+                                nServer.givePointToId(id);
+                            xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " killed " + packName);
                             if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                                     && cVars.get("chosenoneid").equals(packId)) {
                                 if(gamemode == cGameMode.CHOSENONE) {

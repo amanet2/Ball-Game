@@ -83,7 +83,6 @@ public class nReceive {
                     nServer.newClientIds.add(packId);
                     nServer.clientsConnected++;
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientsConnected+1);
-                    nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientsConnected+1);
                     nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientsConnected+1);
                     nServer.clientIds.add(packId);
                     nServer.clientNames.add(packName);
@@ -263,7 +262,6 @@ public class nReceive {
                         nServer.clientIds.add(idload);
                         nServer.clientNames.add(nameload);
                         nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
-                        nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientIds.size()+1);
                         nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);
                         ctr++;
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
@@ -282,12 +280,10 @@ public class nReceive {
                     String[] stoks = packArgs.get("scores").split(":");
                     if(nServer.scores.length < stoks.length) {
                         nServer.scores = Arrays.copyOf(nServer.scores, stoks.length);
-                        nServer.matchKills = Arrays.copyOf(nServer.matchKills, stoks.length);
                         nServer.matchPings = Arrays.copyOf(nServer.matchPings, stoks.length);
                     }
                     for (int j = 0; j < stoks.length; j++) {
                         nServer.scores[j] = Integer.parseInt(stoks[j].split("-")[1]);
-                        nServer.matchKills[j] = Integer.parseInt(stoks[j].split("-")[2]);
                         nServer.matchPings[j] = Integer.parseInt(stoks[j].split("-")[3]);
                     }
                 }
@@ -306,7 +302,6 @@ public class nReceive {
                     eManager.currentMap.scene.players().remove( qi + 1);
                     nServer.clientNames.remove(qi);
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
-                    nServer.matchKills = Arrays.copyOf(nServer.matchKills, nServer.clientIds.size()+1);
                     nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);
                 }
             }

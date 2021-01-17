@@ -176,11 +176,11 @@ public class dMenus {
             }
             g.drawString((cVars.isOne("gameteam") ? "(" +cl+")" : "") + pl, sSettings.width/4,
                     6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                           "+420,
+            g.drawString("                           " + 420,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                       " + nServer.scores[i],
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                   " + nServer.matchKills[i],
+            g.drawString("                                                   " + 420,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                               " + nServer.matchPings[i],
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
