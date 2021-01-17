@@ -150,6 +150,7 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
+        //TODO: keep wins when loading new map
         nServer.scoresMap = new HashMap<>();
         if(sSettings.net_server) {
             nServer.scoresMap.put("server", new HashMap<>());
@@ -157,6 +158,11 @@ public class cGameLogic {
             nServer.scoresMap.get("server").put("score", 0);
             nServer.scoresMap.get("server").put("kills", 0);
             nServer.scoresMap.get("server").put("ping", 0);
+//            for(String id : nServer.scoresMap.keySet()) {
+//                nServer.scoresMap.get(id).put("score", 0);
+//                nServer.scoresMap.get(id).put("kills", 0);
+//                nServer.scoresMap.get(id).put("ping", 0);
+//            }
         }
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");

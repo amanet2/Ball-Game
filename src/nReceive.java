@@ -280,9 +280,7 @@ public class nReceive {
                         w++;
                     }
                 }
-                else {
-                    nClient.clientIndex = w-1;
-                }
+
                 if(idload.equals("server")) {
                     //this is where we update scores map on client
                     String[] stoks = packArgs.get("scoremap").split(":");

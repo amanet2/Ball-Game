@@ -6,7 +6,6 @@ import java.util.Queue;
 public class nClient extends Thread {
     private int netticks;
     static int hasDisconnected;
-    static int clientIndex;
     static int msgreceived;
     static int sfxreceived;
     static int cmdreceived;
@@ -21,7 +20,6 @@ public class nClient extends Thread {
 
     private nClient() {
         netticks = 0;
-        clientIndex = 0;
         msgreceived = 0;
         sfxreceived = 0;
         cmdreceived = 0;

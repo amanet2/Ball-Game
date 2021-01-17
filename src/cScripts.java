@@ -755,14 +755,18 @@ public class cScripts {
     public static void setupGame() {
         int[] npcs = new int[] {-6000,-6000};
         cVars.putLong("starttime", System.currentTimeMillis());
+//        nServer.scoresMap = new HashMap<>();
         if(cScripts.isNetworkGame() || uiInterface.inplay) {
             gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
                 eUtils.getPath(String.format("animations/player_%s/a03.png",
                         xCon.ex("playercolor"))));
             player0.put("tag", "0");
             player0.put("id", uiInterface.uuid);
-            if(sSettings.net_server)
+            if(sSettings.net_server) {
                 player0.put("id", "server");
+//                nServer.scoresMap.put("server", new HashMap<>());
+//                nServer.scoresMap.get("server").put("wins", 0);
+            }
             xCon.ex("THING_PLAYER.0.color playercolor");
             eManager.currentMap.scene.players().add(player0);
             xCon.ex("centercamera");
@@ -960,7 +964,7 @@ public class cScripts {
                 if(nServer.scoresMap.get(id).get("score") > topscore) {
                     tiectr = 0;
                     topscore = nServer.scoresMap.get(id).get("score");
-                    winnerName = cGameLogic.getPlayerById(id).get("name");
+                    winnerName = cGameLogic.getPlayerById(id).get("name") + " ("+topscore+")";
                 }
                 else if(topscore > 0 && nServer.scoresMap.get(id).get("score") == topscore) {
                     tiectr++;
