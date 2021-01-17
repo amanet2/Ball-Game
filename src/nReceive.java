@@ -227,34 +227,31 @@ public class nReceive {
                 }
                 if(!idload.equals(uiInterface.uuid)) {
                     int isnewclient = 1;
-                    for(int j = 0; j < nServer.clientIds.size(); j++) {
-                        String clientId = nServer.clientIds.get(j);
-                        if(clientId.equals(idload)) {
-                            ctr ++;
-                            foundIds.add(clientId);
-                            String clientname = nServer.clientArgsMap.get(clientId).get("name");
-                            if(!clientname.equals(nameload))
-                                cGameLogic.getPlayerById(clientId).put("name", nameload);
-                            if(sVars.isOne("smoothing")) {
-                                cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(clientId).get("x"));
-                                cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(clientId).get("y"));
-                            }
-                            String[] veltoks = nServer.clientArgsMap.get(clientId).get("vels").split("-");
-                            for(int vel = 0; vel < veltoks.length; vel++) {
-                                xCon.ex("THING_PLAYER."+w+".vel"+vel+" "+veltoks[vel]);
-                            }
-                            isnewclient = 0;
-                            if(packArgs.containsKey("kick") && packArgs.get("kick").equals(uiInterface.uuid)) {
-                                xCon.ex("disconnect");
-                                xCon.ex("echo you have been kicked by the server");
-                            }
-                            if(!packArgs.containsKey("spawnprotected")
-                                    && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
-                                nServer.clientArgsMap.get(idload).remove("spawnprotected");
-                            }
-                            cGameLogic.processActionLoadClient(actionload);
-                            w++;
+                    if(nServer.clientIds.contains(idload)) {
+                        ctr ++;
+                        foundIds.add(idload);
+                        String clientname = nServer.clientArgsMap.get(idload).get("name");
+                        if(!clientname.equals(nameload))
+                            cGameLogic.getPlayerById(idload).put("name", nameload);
+                        if(sVars.isOne("smoothing")) {
+                            cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
+                            cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
                         }
+                        String[] veltoks = nServer.clientArgsMap.get(idload).get("vels").split("-");
+                        for(int vel = 0; vel < veltoks.length; vel++) {
+                            xCon.ex("THING_PLAYER."+w+".vel"+vel+" "+veltoks[vel]);
+                        }
+                        isnewclient = 0;
+                        if(packArgs.containsKey("kick") && packArgs.get("kick").equals(uiInterface.uuid)) {
+                            xCon.ex("disconnect");
+                            xCon.ex("echo you have been kicked by the server");
+                        }
+                        if(!packArgs.containsKey("spawnprotected")
+                                && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
+                            nServer.clientArgsMap.get(idload).remove("spawnprotected");
+                        }
+                        cGameLogic.processActionLoadClient(actionload);
+                        w++;
                     }
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
