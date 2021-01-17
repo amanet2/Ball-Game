@@ -9,7 +9,6 @@ import java.util.Queue;
 public class nServer extends Thread {
     private int netticks;
     static int[] scores = new int[]{0};
-    static int[] matchPings = new int[]{0};
     static int clientsConnected = 0;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
@@ -176,20 +175,14 @@ public class nServer extends Thread {
             }
         }
         scores = newScores;
-        //update pings
-        int[] newPings = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < matchPings.length; i++) {
-            if(i != quitterIndex+1) {
-                newPings[c] = matchPings[i];
-                c++;
-            }
-        }
-        matchPings = newPings;
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
+        }
+        if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
+                && cVars.isVal("virussingleid", quittingPlayer.get("id"))) {
+            cVars.put("virussingleid", "");
         }
         xCon.ex(String.format("say %s left the game", quitterName));
     }

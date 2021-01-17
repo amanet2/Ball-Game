@@ -38,7 +38,8 @@ public class nReceive {
                     String clientId = nServer.clientIds.get(i);
                     if(clientId.equals(packId)){
                         isnewclient = 0;
-                        nServer.matchPings[i+1] = (int) Math.abs(System.currentTimeMillis() - oldTimestamp);
+                        nServer.scoresMap.get(clientId).put("ping",
+                                Integer.toString((int) Math.abs(System.currentTimeMillis() - oldTimestamp)));
                         if(oldName.length() > 0 && !oldName.equals(packName)) {
                             nServer.clientNames.set(i, packName);
                             xCon.ex(String.format("say %s changed name to %s", oldName, packName));
@@ -83,7 +84,6 @@ public class nReceive {
                     nServer.newClientIds.add(packId);
                     nServer.clientsConnected++;
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientsConnected+1);
-                    nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientsConnected+1);
                     nServer.clientIds.add(packId);
                     nServer.clientNames.add(packName);
                     if(!packId.contains("bot")) {
@@ -262,7 +262,6 @@ public class nReceive {
                         nServer.clientIds.add(idload);
                         nServer.clientNames.add(nameload);
                         nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
-                        nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);
                         ctr++;
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
@@ -280,11 +279,9 @@ public class nReceive {
                     String[] stoks = packArgs.get("scores").split(":");
                     if(nServer.scores.length < stoks.length) {
                         nServer.scores = Arrays.copyOf(nServer.scores, stoks.length);
-                        nServer.matchPings = Arrays.copyOf(nServer.matchPings, stoks.length);
                     }
                     for (int j = 0; j < stoks.length; j++) {
                         nServer.scores[j] = Integer.parseInt(stoks[j].split("-")[1]);
-                        nServer.matchPings[j] = Integer.parseInt(stoks[j].split("-")[3]);
                     }
                 }
             }
@@ -302,7 +299,6 @@ public class nReceive {
                     eManager.currentMap.scene.players().remove( qi + 1);
                     nServer.clientNames.remove(qi);
                     nServer.scores = Arrays.copyOf(nServer.scores, nServer.clientIds.size()+1);
-                    nServer.matchPings = Arrays.copyOf(nServer.matchPings, nServer.clientIds.size()+1);
                 }
             }
         }

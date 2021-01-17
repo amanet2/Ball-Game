@@ -51,7 +51,8 @@ public class dScreenMessages {
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            g.drawString("Ping:" + nServer.matchPings[nClient.clientIndex], 0, 6 * sSettings.height / 64);
+            g.drawString("Ping:" + nServer.scoresMap.get(uiInterface.uuid).get("ping"),
+                    0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
             //camera

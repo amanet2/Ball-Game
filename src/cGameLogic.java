@@ -151,7 +151,6 @@ public class cGameLogic {
 
     public static void resetGameState() {
         nServer.scores = new int[nServer.clientIds.size()+1];
-        nServer.matchPings = new int[nServer.clientIds.size()+1];
         nServer.scoresMap = new HashMap<>();
         if(sSettings.net_server)
             nServer.scoresMap.put("server", new HashMap<>());

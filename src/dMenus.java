@@ -182,7 +182,7 @@ public class dMenus {
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                   " + 420,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                               " + nServer.matchPings[i],
+            g.drawString("                                                               " + 420,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
             if(i == nClient.clientIndex) {
                 g.setColor(new Color(
