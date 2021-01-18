@@ -9,37 +9,38 @@ public class cPowerups {
             powerup.put("int0", "0");
             if(sSettings.net_client) {
                 //this is for the case where clients empty out powerup
-                cVars.put("sendpowerup", powerup.get("tag"));
+                cVars.put("sendpowerup", powerup.get("id"));
             }
         }
         xCon.ex("playsound sounds/clampdown.wav");
     }
 
     public static void checkPlayerPowerups(gProp powerup) {
-        int r = powerup.getInt("int0");
-        if(r > 0) {
+        int int0 = powerup.getInt("int0");
+        if(int0 > 0) {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
+                    //pickupweapon
                     takepowerupammo(powerup);
-                    xCon.ex("THING_PLAYER.0.weapon " + r);
-                    cVars.putInt("currentweapon", r);
+                    xCon.ex("THING_PLAYER.0.weapon " + int0);
+                    cVars.putInt("currentweapon", int0);
                     xCon.ex("playsound sounds/grenpinpull.wav");
                     cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
                 }
-                else if(cVars.isInt("currentweapon", r)
-                        && cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo) {
+                else if(cVars.isInt("currentweapon", int0)
+                        && cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo) {
                     takepowerupammo(powerup);
                 }
             }
-            else if(cVars.getInt("weaponstock"+r) < gWeapons.weapons_selection[r].maxAmmo){
+            else if(cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo){
                 takepowerupammo(powerup);
             }
-//            else if(powerup_selection[r].equals("slow") && cVars.isZero("sicknessslow")) {
+//            else if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
 //                xCon.ex("THING_PLAYER.0.sicknessslow 1");
 //                xCon.ex("cv_sicknessslow 1");
 //            }
-//            else if(powerup_selection[r].equals("fast") && cVars.isZero("sicknessfast")) {
+//            else if(powerup_selection[int0].equals("fast") && cVars.isZero("sicknessfast")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
 //                xCon.ex("THING_PLAYER.0.sicknessfast 1");
 //                xCon.ex("sicknessfast 1");
@@ -91,10 +92,9 @@ public class cPowerups {
                         prop.put("coordy", y);
                 }
                 else {
-                    String doString = String.format("e_putprop %d %s %s %s %s %d %d",
+                    xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
                             gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
-                            gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]);
-                    xCon.ex(doString);
+                            gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]));
                     eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
                 }
             }

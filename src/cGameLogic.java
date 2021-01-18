@@ -583,7 +583,7 @@ public class cGameLogic {
             if(action.contains("powerup")) {
                 for(gProp p : eManager.currentMap.scene.props()) {
                     if(p.isInt("code",gProp.POWERUP)
-                            && p.isVal("tag", action.replace("powerup", ""))) {
+                            && p.isVal("id", action.replace("powerup", ""))) {
                             p.putInt("int0",0);
                     }
                 }
