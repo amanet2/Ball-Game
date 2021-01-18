@@ -656,7 +656,7 @@ public class cScripts {
             cGameLogic.damageHealth(adjusteddmg);
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {
-                    cVars.putInt("currentweapon", gWeapons.weapon_none);
+                    xCon.ex("dropweapon");
                     cVars.remove("shaketime");
                     cVars.putInt("cammode", gCamera.MODE_TRACKING);
                     cVars.put("camplayertrackingid", bullet.get("srcid"));

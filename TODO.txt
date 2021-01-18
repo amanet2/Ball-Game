@@ -6,6 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* start showing errors in debug log now
+* make sure the combinations of spawn-armed and allow-reload modes work correctly together
+* verify integrity of fps counter
 * scoreboard doesnt sort by winner anymore
 * wins get wiped out on new map
 * lap counter display broken, dScreenmessages "LAP"
