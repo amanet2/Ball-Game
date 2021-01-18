@@ -7,6 +7,8 @@
 
 ==ISSUES==
 * killing host character causes fatal network bug when weapon drops
+    -> somebody cant find prop tags and it causes crash
+    -> giving props ids instead of tags might work
 * make sure the combinations of spawn-armed and allow-reload modes work correctly together
 * verify integrity of fps counter
 * scoreboard doesnt sort by winner anymore
