@@ -824,7 +824,7 @@ public class cGameLogic {
                         }
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                            && p.isInt("code", gProp.FLAGRED)) {
+                            && p.isInt("code", gProp.FLAGRED) && !p.isVal("str0", cl.get("id")) ) {
                         //handle kingofflag flagred intersection
                         int pass = 1;
                         for(gPlayer p2 : eManager.currentMap.scene.players()) {
@@ -952,7 +952,7 @@ public class cGameLogic {
             StringBuilder s = new StringBuilder();
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(p.isInt("code", gProp.FLAGRED)) {
-                    s.append(String.format("%s-%s:", p.get("id"), p.get("str0")));
+                    s.append(String.format("%s-%s:", p.get("tag"), p.get("str0")));
                 }
             }
             return String.format("kingofflags%s", s);

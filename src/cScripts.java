@@ -282,7 +282,8 @@ public class cScripts {
                 xCon.ex("say " + sVars.get("playername") + " has the flag!");
             }
         }
-        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS && flag.getInt("int0") != 1) {
+        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
+                && !flag.isVal("str0", cGameLogic.getUserPlayer().get("id"))) {
             gPlayer cl = cGameLogic.getUserPlayer();
             int pass = 1;
             for(gPlayer p : eManager.currentMap.scene.players()) {
@@ -294,8 +295,6 @@ public class cScripts {
                 }
             }
             if(pass > 0) {
-                flag.put("int0", "1");
-                flag.put("botint0", "0");
                 flag.put("str0", cl.get("id"));
                 if(sSettings.net_server) {
                     nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));

@@ -390,9 +390,10 @@ public class dScreenMessages {
                 StringBuilder todraw = new StringBuilder();
                 //this is where we show the checkmarks for kof flag caps
                 for(gProp p : eManager.currentMap.scene.props()) {
-                    if(p.isInt("code", gProp.FLAGRED))
-                        todraw.append(String.format("[%s]",
-                                p.get("str0").replace("null", "<NEUTRAL>")));
+                    if(p.isInt("code", gProp.FLAGRED)) {
+                        gPlayer flagking = cGameLogic.getPlayerById(p.get("str0"));
+                        todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
+                    }
                 }
                 dScreenMessages.drawCenteredString(g, todraw.toString(),
                         sSettings.width/2,sSettings.height-sSettings.height/16);

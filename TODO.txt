@@ -6,6 +6,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* get first two lines of error stack trace for debug out (like in those halo beta builds)
+* mapfile prop line and editor_put_prop console comm can be combined
 * getting a ton of messages when bot intersects kof flag
 * enable spectate mode for online matches
 * new way to manage weapons
