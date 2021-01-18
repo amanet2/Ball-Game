@@ -46,7 +46,7 @@ public class cVars {
         put("gametick", sVars.get("gametick"));
         put("chosenoneid", "");
         put("chosenonetime", "0");
-        put("hidemouseui", "0");
+        put("blockmouseui", "0");
         put("hprechargetime", "0");
         put("inboost", "0");
         put("intermissiontime", "-1");

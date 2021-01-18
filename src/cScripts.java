@@ -81,7 +81,7 @@ public class cScripts {
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
-        if(cVars.isZero("hidemouseui")) {
+        if(cVars.isZero("blockmouseui")) {
             int[] mc = getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
             int[] yBounds = sVars.getInt("displaymode") > 0

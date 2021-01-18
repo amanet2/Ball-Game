@@ -3,7 +3,7 @@ public class xComSelectDown extends xCom {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
             gCamera.move(1);
         else {
-            cVars.putInt("hidemouseui", 1);
+            cVars.putInt("blockmouseui", 1);
             uiMenus.nextItem();
         }
         return fullCommand;
