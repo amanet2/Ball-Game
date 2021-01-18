@@ -826,7 +826,23 @@ public class cGameLogic {
                     else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
                             && p.isInt("code", gProp.FLAGRED)) {
                         //handle kingofflag flagred intersection
-                        System.out.println("KOF FLAGRED INTERSECTION");
+                        int pass = 1;
+                        for(gPlayer p2 : eManager.currentMap.scene.players()) {
+                            //make sure no other players still on the flag
+                            if(!p2.get("id").equals(cl.get("id"))
+                                    && p2.willCollideWithPropAtCoords(p,
+                                    p2.getInt("coordx"), p2.getInt("coordy"))) {
+                                pass = 0;
+                                break;
+                            }
+                        }
+                        if(pass > 0) {
+                            p.put("str0", cl.get("id"));
+                            if (sSettings.net_server) {
+                                xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
+                                nServer.givePointToId(cl.get("id"));
+                            }
+                        }
                     }
                     else if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
@@ -936,7 +952,7 @@ public class cGameLogic {
             StringBuilder s = new StringBuilder();
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(p.isInt("code", gProp.FLAGRED)) {
-                    s.append(p.get("str0")).append(":");
+                    s.append(String.format("%s-%s:", p.get("id"), p.get("str0")));
                 }
             }
             return String.format("kingofflags%s", s);

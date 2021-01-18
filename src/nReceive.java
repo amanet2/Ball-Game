@@ -192,7 +192,16 @@ public class nReceive {
                     }
                     if(packArgs.get("state").contains("kingofflags")) {
                         //read kingofflags for client
-                        System.out.println("READ KINGOFFLAGS");
+                        String flagidstr = packArgs.get("state").replace("kingofflags","");
+                        String[] kingids = flagidstr.split(":");
+                        for(int c = 0; c < kingids.length;c++) {
+                            String[] kofidpair = kingids[c].split("-");
+                            for(gProp p : eManager.currentMap.scene.props()) {
+                                if(p.isVal("id", kofidpair[0]) && !p.isVal("str0", kofidpair[1])) {
+                                    p.put("str0", kofidpair[1]);
+                                }
+                            }
+                        }
                     }
                     cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                     cVars.put("gamemode", packArgs.get("mode"));
