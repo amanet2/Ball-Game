@@ -381,11 +381,11 @@ public class dScreenMessages {
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
             //broken race lap
-//            if(cVars.getInt("gamemode") == cGameMode.RACE)
-//                dScreenMessages.drawCenteredString(g,
-//                        "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
-//                                +"/"+cVars.get("scorelimit"),
-//                        sSettings.width/2,sSettings.height-sSettings.height/16);
+            if(cVars.getInt("gamemode") == cGameMode.RACE)
+                dScreenMessages.drawCenteredString(g,
+                        "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
+                                +"/"+cVars.get("scorelimit"),
+                        sSettings.width/2,sSettings.height-sSettings.height/16);
 //            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
 //                StringBuilder todraw = new StringBuilder();
 //                //this is where we show the checkmarks for kof flag caps

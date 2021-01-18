@@ -6,6 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* enable spectate mode for online matches
 * new way to manage weapons
     -> clients loading map shouldnt load powerups outright
     -> props should be created/delted/updated via a string received from server
