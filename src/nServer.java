@@ -8,7 +8,6 @@ import java.util.Queue;
 
 public class nServer extends Thread {
     private int netticks;
-    static int clientsConnected = 0;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
@@ -139,7 +138,6 @@ public class nServer extends Thread {
         if(nSend.focus_id.equals(id)){
             nSend.focus_id = "";
         }
-        clientsConnected -=1;
         clientArgsMap.remove(id);
         scoresMap.remove(id);
         gPlayer quittingPlayer = cGameLogic.getPlayerById(id);

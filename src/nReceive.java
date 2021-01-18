@@ -79,7 +79,6 @@ public class nReceive {
                 }
                 if(isnewclient == 1) {
                     nServer.newClientIds.add(packId);
-                    nServer.clientsConnected++;
                     nServer.clientIds.add(packId);
                     if(!packId.contains("bot")) {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,

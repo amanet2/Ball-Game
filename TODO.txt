@@ -57,14 +57,15 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
-* make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * mapmaker
     -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
     -> have option in the tile menu to "move tile group"
         -> only give ability to edit x,y coords for now
         -> build up to copy/past tile group
         -> also build up to "transform/flip" tile group
-
+* find a way for player vector and corner steepness to effect eachother
+    -> prolly dont need to
+* make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * powerup idea
     -> egg
     -> pick up
