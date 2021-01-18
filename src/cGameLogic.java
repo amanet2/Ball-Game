@@ -824,30 +824,9 @@ public class cGameLogic {
                         }
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                            && p.isInt("code", gProp.FLAGRED)
-                            && !(cl.isInt("tag",
-                            cVars.getIntArray("kofflagcaps")[p.getInt("tag")]-1))) {
-                        int pass = 1;
-                        for(gPlayer p2 : eManager.currentMap.scene.players()) {
-                            //make sure no other players still on the flag
-                            if(!p2.get("id").equals(cl.get("id"))
-                                    && p2.willCollideWithPropAtCoords(p, p2.getInt("coordx"), p2.getInt("coordy"))) {
-                                pass = 0;
-                                break;
-                            }
-                        }
-                        if(pass > 0) {
-                            if (p.getInt("int0") != 0)
-                                p.put("int0", "0");
-                            if (cl.get("id").contains("bot"))
-                                p.put("botint0", "1");
-                            cVars.putInArray("kofflagcaps",
-                                    Integer.toString(cl.getInt("tag") + 1), p.getInt("tag"));
-                            if (sSettings.net_server) {
-                                xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
-                                nServer.givePointToId(cl.get("id"));
-                            }
-                        }
+                            && p.isInt("code", gProp.FLAGRED)) {
+                        //handle kingofflag flagred intersection
+                        System.out.println("KOF FLAGRED INTERSECTION");
                     }
                     else if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
@@ -952,11 +931,13 @@ public class cGameLogic {
             }
             return String.format("bouncyball-%d-", c);
         }
-        // KOF
+        // KINGOFFLAGS
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
             StringBuilder s = new StringBuilder();
-            for (int i : cVars.getIntArray("kofflagcaps")) {
-                s.append(i);
+            for(gProp p : eManager.currentMap.scene.props()) {
+                if(p.isInt("code", gProp.FLAGRED)) {
+                    s.append(p.get("str0")).append(":");
+                }
             }
             return String.format("kingofflags%s", s);
         }

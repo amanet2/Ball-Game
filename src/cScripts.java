@@ -296,12 +296,10 @@ public class cScripts {
             if(pass > 0) {
                 flag.put("int0", "1");
                 flag.put("botint0", "0");
+                flag.put("str0", cl.get("id"));
                 if(sSettings.net_server) {
-                    cVars.putInArray("kofflagcaps", "1", flag.getInt("tag"));
-                    if(sSettings.net_server) {
-                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
-                        xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
-                    }
+                    nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
+                    xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
                 }
                 createScorePopup(cGameLogic.getUserPlayer(),1);
             }

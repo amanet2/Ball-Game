@@ -386,16 +386,17 @@ public class dScreenMessages {
                         "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
                                 +"/"+cVars.get("scorelimit"),
                         sSettings.width/2,sSettings.height-sSettings.height/16);
-//            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-//                StringBuilder todraw = new StringBuilder();
-//                //this is where we show the checkmarks for kof flag caps
-//                for(int i : cVars.getIntArray("kofflagcaps")) {
-//                    todraw.append((sSettings.net_client && nClient.clientIndex+1 == i)
-//                            || (sSettings.net_server && i == 1)? "[X]" : "[  ]");
-//                }
-//                dScreenMessages.drawCenteredString(g, todraw.toString(),
-//                        sSettings.width/2,sSettings.height-sSettings.height/16);
-//            }
+            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
+                StringBuilder todraw = new StringBuilder();
+                //this is where we show the checkmarks for kof flag caps
+                for(gProp p : eManager.currentMap.scene.props()) {
+                    if(p.isInt("code", gProp.FLAGRED))
+                        todraw.append(String.format("[%s]",
+                                p.get("str0").replace("null", "<NEUTRAL>")));
+                }
+                dScreenMessages.drawCenteredString(g, todraw.toString(),
+                        sSettings.width/2,sSettings.height-sSettings.height/16);
+            }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
                 drawVirusTagString(g);
             }

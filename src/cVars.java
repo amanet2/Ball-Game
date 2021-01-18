@@ -60,7 +60,6 @@ public class cVars {
         put("kingofflagstime", "0");
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
-        put("kofflagcaps", "");
         put("lapcomplete", "0");
         putInt("maptype", gMap.MAP_TOPVIEW);
         put("maxstockhp", "2000");

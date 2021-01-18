@@ -191,16 +191,8 @@ public class nReceive {
                         }
                     }
                     if(packArgs.get("state").contains("kingofflags")) {
-                        int fctr = 0;
-                        for(gProp p : eManager.currentMap.scene.props()) {
-                            if(p.isInt("code", gProp.FLAGRED))
-                                fctr++;
-                        }
-                        String ftags = packArgs.get("state").replace("kingofflags",
-                                "").substring(0, fctr);
-                        for(int f = 0; f < ftags.length(); f++) {
-                            cVars.putInArray("kofflagcaps", Character.toString(ftags.charAt(f)), f);
-                        }
+                        //read kingofflags for client
+                        System.out.println("READ KINGOFFLAGS");
                     }
                     cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                     cVars.put("gamemode", packArgs.get("mode"));

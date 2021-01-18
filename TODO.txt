@@ -6,7 +6,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-*redo king of flags mode to use id
+* redo king of flags mode to use id
+    -> flag starts str0 of 0
+    -> if it gets touched str0 becomes the id of the toucher
+        -> make new var called str0
 * enable spectate mode for online matches
 * new way to manage weapons
     -> clients loading map shouldnt load powerups outright
