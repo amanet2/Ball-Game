@@ -516,9 +516,9 @@ public class dTileTops {
             for(int i = 0; i < eManager.currentMap.scene.props().size(); i++) {
                 gProp p = eManager.currentMap.scene.props().get(i);
                 if((cVars.getInt("gamemode") == cGameMode.RACE && p.isInt("code", gProp.SCOREPOINT)
-                        && p.getInt("int0") < 1)
+                            && p.getInt("int0") < 1)
                         || (cVars.getInt("gamemode") == cGameMode.SAFE_ZONES && p.isInt("code", gProp.SAFEPOINT)
-                        && p.getInt("int0") > 0)
+                            && p.getInt("int0") > 0)
                         || ((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                             && p.isInt("code", gProp.FLAGRED) && cVars.isVal("flagmasterid", ""))
@@ -526,11 +526,12 @@ public class dTileTops {
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                             && p.isInt("code", gProp.FLAGBLUE) && cVars.isVal("flagmasterid", uiInterface.uuid))
                         || (cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                        && p.isInt("code", gProp.FLAGRED) && p.getInt("int0") != 1)
+                            && p.isInt("code", gProp.FLAGRED)
+                            && !p.isVal("str0", cGameLogic.getUserPlayer().get("id")))
                         || (cVars.getInt("gamemode") == cGameMode.WAYPOINTS && p.isInt("code", gProp.SCOREPOINT)
-                        && p.getInt("int0") > 0)
+                            && p.getInt("int0") > 0)
                         || (cVars.getInt("gamemode") == cGameMode.BOUNCYBALL && p.isInt("code", gProp.SCOREPOINT)
-                        && p.getInt("int0") > 0)
+                            && p.getInt("int0") > 0)
                 ) {
                     dScreenFX.drawNavPointer(g2,p.getInt("coordx") + p.getInt("dimw")/2, p.getInt("coordy") + p.getInt("dimh")/2,
                             "* GO HERE *");

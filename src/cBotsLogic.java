@@ -313,7 +313,7 @@ public class cBotsLogic {
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
                     && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(p.isInt("code", gProp.FLAGRED) && p.isZero("botint0"))
+                if(p.isInt("code", gProp.FLAGRED) && !p.isVal("str0", bot.get("id")))
                     waypoint = p;
             }
         }

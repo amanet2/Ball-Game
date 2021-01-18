@@ -29,9 +29,11 @@ public class dProp {
                         && (!cVars.isVal("flagmasterid", ""))) ||
                         (prop.isInt("code", gProp.POWERUP) && prop.isInt("int0", 0)))) {
                     if(prop.isInt("code", gProp.FLAGRED) && cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)) {
-                        if(prop.getInt("int0") > 0 && !prop.get("sprite").contains("flag_blue"))
+                        if(prop.isVal("str0", cGameLogic.getUserPlayer().get("id"))
+                                && !prop.get("sprite").contains("flag_blue"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_blue.png"));
-                        else if(prop.getInt("int0") < 1 && !prop.get("sprite").contains("flag_red"))
+                        else if(!prop.isVal("str0", cGameLogic.getUserPlayer().get("id"))
+                                && !prop.get("sprite").contains("flag_red"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
                     }
                     if(prop.isInt("code", gProp.POWERUP)) {

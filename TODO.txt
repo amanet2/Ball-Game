@@ -6,11 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* redo king of flags mode to use id
-    -> flag starts str0 of null
-    -> if it gets touched str0 becomes the id of the toucher
-    -> flag prop needs id
-    -> send "<flag>-<id>:" pair string for network
+* getting a ton of messages when bot intersects kof flag
 * enable spectate mode for online matches
 * new way to manage weapons
     -> clients loading map shouldnt load powerups outright
