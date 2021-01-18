@@ -6,27 +6,16 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* get first two lines of error stack trace for debug out (like in those halo beta builds)
-* mapfile prop line and editor_put_prop console comm can be combined
-* getting a ton of messages when bot intersects kof flag
-* enable spectate mode for online matches
-* new way to manage weapons
-    -> clients loading map shouldnt load powerups outright
-    -> props should be created/delted/updated via a string received from server
-* killing host character causes fatal network bug when weapon drops
-    -> somebody cant find prop tags and it causes crash
-    -> giving props ids instead of tags might work
-* make sure the combinations of spawn-armed and allow-reload modes work correctly together
-* verify integrity of fps counter
 * scoreboard doesnt sort by winner anymore
 * wins get wiped out on new map
-* lap counter display broken, dScreenmessages "LAP"
-* need to fix king of flags mode, it uses player indices for scoring
-* rename "isVal" to "isString"
+* get first two lines of error stack trace for debug out (like in those halo beta builds)
+* mapfile prop line and editor_put_prop console comm can be combined
+* too much sent in new powerups string
+* make sure the combinations of spawn-armed and allow-reload modes work correctly together
+* verify integrity of fps counter
 * FUCKIN A
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
-* too much sent in new powerups string
 * make sure different timezones and computer times work correctly
     -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
         -> due to timezones, system clock etc
@@ -66,6 +55,12 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* enable spectate mode for online matches
+    -> player stays in graveyard
+    -> always tracks the tracking id
+    -> use mouse wheel to cycle through tracking ids available (excluding dead and self)
+* put a mini version of the character next to name in scoreboard
+* for flag king, maybe put a little representation of the person owning the flag on the flag or in the flagstring
 * maybe have the console display always show if debug is 1
     -> don't put the dark gray overlay on top of the view
 * start showing errors in debug log now

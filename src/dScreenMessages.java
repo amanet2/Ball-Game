@@ -339,7 +339,7 @@ public class dScreenMessages {
         //respawn msg
         //scoreboard
         if(cVars.isOne("showscore")) {
-            dMenus.showScoreBoard(g);
+            dScoreboard.showScoreBoard(g);
         }
         else if(eManager.currentMap.scene.players().size() > 0){
 //            System.out.println(nServer.clientArgsMap.toString());
