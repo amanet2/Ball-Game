@@ -159,7 +159,7 @@ public class nServer extends Thread {
     public void run() {
         while(true) {
             try {
-                netticks += 1;
+                netticks++;
                 if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
                     uiInterface.netReport = netticks;
                     netticks = 0;
@@ -175,7 +175,6 @@ public class nServer extends Thread {
                 uiInterface.serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
-//                System.out.println(cScripts.isNetworkGame());
 //                if(nServer.clientsConnected < 1)
 //                    uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots"));
 

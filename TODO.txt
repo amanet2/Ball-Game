@@ -6,7 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* start showing errors in debug log now
+* killing host character causes fatal network bug when weapon drops
 * make sure the combinations of spawn-armed and allow-reload modes work correctly together
 * verify integrity of fps counter
 * scoreboard doesnt sort by winner anymore
@@ -57,6 +57,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* maybe have the console display always show if debug is 1
+    -> don't put the dark gray overlay on top of the view
+* start showing errors in debug log now
 * mapmaker
     -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
     -> have option in the tile menu to "move tile group"
