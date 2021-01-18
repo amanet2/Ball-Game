@@ -33,7 +33,8 @@ public class dProp {
                                 && prop.isVal("str0", cGameLogic.getUserPlayer().get("id"))
                                 && !prop.get("sprite").contains("flag_blue"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_blue.png"));
-                        else if(!prop.isVal("str0", cGameLogic.getUserPlayer().get("id"))
+                        else if(cGameLogic.getUserPlayer() != null
+                                && !prop.isVal("str0", cGameLogic.getUserPlayer().get("id"))
                                 && !prop.get("sprite").contains("flag_red"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
                     }
