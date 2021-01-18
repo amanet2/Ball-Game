@@ -6,6 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+*redo king of flags mode to use id
 * enable spectate mode for online matches
 * new way to manage weapons
     -> clients loading map shouldnt load powerups outright

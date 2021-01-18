@@ -166,15 +166,7 @@ public class cGameLogic {
             cVars.put("flagmasterid", "");
         }
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-            int ctr = 0;
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.FLAGRED)) {
-                    ctr++;
-                }
-            }
-            String[] tmp = new String[ctr];
-            Arrays.fill(tmp, "0");
-            cVars.putArray("kofflagcaps", tmp);
+            cGameMode.resetKingOfFlags();
         }
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
             refreshSafeZones();
@@ -647,21 +639,6 @@ public class cGameLogic {
         }
     }
 
-    public static void checkKingOfFlags() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("kingofflagstime") < uiInterface.gameTime) {
-//                for(String s : cVars.getArray("kofflagcaps")) {
-//                    //need to fix kofflagcaps
-//                    if(Integer.parseInt(s) > 0) {
-//                        nServer.givePointToId();
-//                        nServer.givePoint(Integer.parseInt(s)-1);
-//                    }
-//                }
-                cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
     public static void refreshWaypoints() {
         int pass = 1;
         int c = -1;
@@ -800,7 +777,7 @@ public class cGameLogic {
                 cVars.put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
 
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS)
-                checkKingOfFlags();
+                cGameMode.checkKingOfFlags();
             if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS)
                 refreshWaypoints();
             if(cVars.getInt("gamemode") == cGameMode.VIRUS)
