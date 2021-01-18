@@ -55,7 +55,7 @@ public class gThing {
         return vars;
     }
 
-    public String keys() {
+    public String keysString() {
         return vars().keySet().toString();
     }
 

@@ -202,7 +202,7 @@ public class nReceive {
                             cVars.putInArray("kofflagcaps", Character.toString(ftags.charAt(f)), f);
                         }
                     }
-                    cScripts.processPowerupStringClient(packArgs.get("powerups"));
+                    cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                     cVars.put("gamemode", packArgs.get("mode"));
                     cVars.put("gameteam", packArgs.get("teams"));
                     cVars.put("gamespawnarmed", packArgs.get("armed"));

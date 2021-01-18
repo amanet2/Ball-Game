@@ -6,6 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* new way to manage weapons
+    -> clients loading map shouldnt load powerups outright
+    -> props should be created/delted/updated via a string received from server
 * killing host character causes fatal network bug when weapon drops
     -> somebody cant find prop tags and it causes crash
     -> giving props ids instead of tags might work

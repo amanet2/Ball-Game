@@ -35,7 +35,7 @@ public class gProp extends gThing {
                 cScripts.checkPlayerBlueFlags();
                 break;
             case POWERUP:
-                cScripts.checkPlayerPowerups(this);
+                cPowerups.checkPlayerPowerups(this);
                 break;
             case BOOSTUP:
                 xCon.ex(new String[]{"THING_PLAYER.0.mov0 1", "THING_PLAYER.0.mov1 0", "cv_jumping 1", "cv_inboost 1",
@@ -333,6 +333,7 @@ public class gProp extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         put("native","0");
+        put("id", cScripts.createID(8));
         sprite = gTextures.getScaledImage(get("sprite"), getInt("dimw"), getInt("dimh"));
     }
 }

@@ -109,8 +109,7 @@ public class nVars {
                 xCon.ex("say GAME MODE: "
                         + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase());
             keys.put("mode", cVars.get("gamemode"));
-//            keys.put("powerups", cScripts.getPowerupsString());
-            keys.put("powerups", cScripts.createPowerupStringServer());
+            keys.put("powerups", cPowerups.createPowerupStringServer());
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
                 xCon.ex("say TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
             }
