@@ -20,10 +20,9 @@ public class cPowerups {
         if(int0 > 0) {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
-                    //pickupweapon
-                    takepowerupammo(powerup);
                     xCon.ex("THING_PLAYER.0.weapon " + int0);
                     cVars.putInt("currentweapon", int0);
+                    takepowerupammo(powerup);
                     xCon.ex("playsound sounds/grenpinpull.wav");
                     cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
                 }

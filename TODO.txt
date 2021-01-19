@@ -6,7 +6,14 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+ *picking up ammo from weapon doesnt deplete the ammo for client
+* client pikcup weapon, then drop weapon, all other weapons messed up on pickup
+* powerup shadows no longer appear for clients
 * scoreboard doesnt sort by winner anymore
+    -> new scores
+    -> server holds "sortedscorestring" which looks like what is sent over network
+    -> every time score changes, re-sort this string
+    -> send over network and display in order
 * wins get wiped out on new map
 * get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined

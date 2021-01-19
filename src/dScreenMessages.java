@@ -381,7 +381,8 @@ public class dScreenMessages {
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
             //broken race lap
-            if(cVars.getInt("gamemode") == cGameMode.RACE)
+            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.getUserPlayer() != null
+                    && nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")) != null)
                 dScreenMessages.drawCenteredString(g,
                         "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
                                 +"/"+cVars.get("scorelimit"),
