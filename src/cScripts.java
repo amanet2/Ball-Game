@@ -789,25 +789,6 @@ public class cScripts {
         return virusSb.toString();
     }
 
-    public static String getScoreMapString() {
-        String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
-        StringBuilder scoreString = new StringBuilder();
-        for(String id : nServer.scoresMap.keySet()) {
-            for(String fn : scoreFields) {
-                if(!nServer.scoresMap.get(id).containsKey(fn))
-                    nServer.scoresMap.get(id).put(fn, 0);
-            }
-            scoreString.append(String.format("%s-%s-%s-%s-%s:",
-                    id,
-                    nServer.scoresMap.get(id).get(scoreFields[0]),
-                    nServer.scoresMap.get(id).get(scoreFields[1]),
-                    nServer.scoresMap.get(id).get(scoreFields[2]),
-                    nServer.scoresMap.get(id).get(scoreFields[3])
-            ));
-        }
-        return scoreString.toString();
-    }
-
     public static String getWinnerId() {
         int highestScore = 0;
         String highestId = "";

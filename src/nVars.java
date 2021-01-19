@@ -118,7 +118,7 @@ public class nVars {
                 xCon.ex("say GAME SPEED: " + sVars.get("gametick"));
             }
             keys.put("tick", sVars.get("gametick"));
-            keys.put("scoremap", cScripts.getScoreMapString());
+            keys.put("scoremap", cScoreboard.createScoreMapStringServer());
             if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
                 xCon.ex("say SCORE LIMIT: " + sVars.get("scorelimit"));
             }

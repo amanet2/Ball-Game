@@ -86,6 +86,7 @@ public class cVars {
         put("showscore", "0");
         put("sicknessslow", "0");
         put("sicknessfast", "0");
+        put("sortedscorestring", "server-0-0-0-0:");
         put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
         put("speedbonus", "0");
         put("sprint", "0");
