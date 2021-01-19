@@ -815,11 +815,11 @@ public class cGameLogic {
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                     p.put("int0", "0");
                                 }
-                                else if(!cl.get("id").equals("server")
-                                        && cl.getInt("weapon") == gWeapons.weapon_none) {
-                                    //this is to hide a prop that client just picked up from unarmed pose
-                                    p.put("int0", "0");
-                                }
+//                                else if(!cl.get("id").equals("server")
+//                                        && cl.getInt("weapon") == gWeapons.weapon_none) {
+//                                    //this is to hide a prop that client just picked up from unarmed pose
+////                                    p.put("int0", "0");
+//                                }
                             }
                         }
                     }

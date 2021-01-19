@@ -18,6 +18,7 @@ public class cPowerups {
     public static void checkPlayerPowerups(gProp powerup) {
         int int0 = powerup.getInt("int0");
         if(int0 > 0) {
+            System.out.println("PICKUP " + powerup.getInt("id"));
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
                     xCon.ex("THING_PLAYER.0.weapon " + int0);

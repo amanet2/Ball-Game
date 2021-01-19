@@ -6,7 +6,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
- *picking up ammo from weapon doesnt deplete the ammo for client
+* sometimes picking up weapon does nothing client wise or server wise
+    -> client sees an int0 of "0"
+    -> i think its a race condition for server detecting client over powerup vs client sending powerup msg to server
+        -> server should hold off on detecting the bots and clients going over powerups
 * client pikcup weapon, then drop weapon, all other weapons messed up on pickup
 * powerup shadows no longer appear for clients
 * scoreboard doesnt sort by winner anymore
