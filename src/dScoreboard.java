@@ -38,8 +38,9 @@ public class dScoreboard {
         int prevplace = 0;
         String[] scoretoks = cVars.get("scoremap").split(":");
         for(String id : nServer.scoresMap.keySet()) {
-            if(scoretoks.length == nServer.scoresMap.size()) {
-                id = scoretoks[i].split("-")[0];
+            if(scoretoks.length > 0 && scoretoks.length == nServer.scoresMap.size()) {
+                if(scoretoks[i].split("-")[0].length() > 0)
+                    id = scoretoks[i].split("-")[0];
             }
             String playername = cGameLogic.getPlayerById(id).get("name");
             String playercolor = cGameLogic.getPlayerById(id).get("color");
