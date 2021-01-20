@@ -485,9 +485,9 @@ public class cGameLogic {
         String actionload = "";
         if(sSettings.net_client && cVars.isOne("sendsafezone"))
             actionload += "safezone|";
-        if(sSettings.net_client && cVars.getInt("sendpowerup")>-1) {
-            actionload += ("powerup"+cVars.getInt("sendpowerup")+"|");
-            cVars.putInt("sendpowerup",-1);
+        if(sSettings.net_client && cVars.get("sendpowerup").length() > 0) {
+            actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
+            cVars.put("sendpowerup","");
         }
         if(cVars.get("sendcmd").length() > 0) {
             actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
@@ -572,11 +572,14 @@ public class cGameLogic {
                             new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG, Integer.parseInt(args[1]),
                                     Integer.parseInt(args[2])));
             }
-            if(action.contains("powerup")) {
+            if(action.contains("sendpowerup")) {
                 for(gProp p : eManager.currentMap.scene.props()) {
+                    String[] sptoks = action.replace("sendpowerup", "").split(":");
                     if(p.isInt("code",gProp.POWERUP)
-                            && p.isVal("id", action.replace("powerup", ""))) {
-                            p.putInt("int0",0);
+                            && p.isVal("id", sptoks[0])) {
+                            p.put("int1", sptoks[1]);
+                            if(Integer.parseInt(p.get("int1")) < 1)
+                                p.put("int0","0");
                     }
                 }
             }

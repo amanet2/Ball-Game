@@ -78,7 +78,7 @@ public class cVars {
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));
         put("sendcmd", "");
-        put("sendpowerup", "-1");
+        put("sendpowerup", "");
         put("sendsafezone", "0");
         put("sendsound", "");
         put("serveraddbotstime", "0");
@@ -86,7 +86,6 @@ public class cVars {
         put("showscore", "0");
         put("sicknessslow", "0");
         put("sicknessfast", "0");
-        put("sortedscorestring", "server-0-0-0-0:");
         put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
         put("speedbonus", "0");
         put("sprint", "0");
