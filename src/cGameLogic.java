@@ -509,9 +509,9 @@ public class cGameLogic {
     public static void processActionLoadServer(String packActions, String packName, String packId) {
         String[] actions = packActions.split("\\|");
         for(String action : actions) {
-            if(action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE
-                    || action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES
-                    || action.contains("waypoint") && cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
+            if((action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE)
+                    || (action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES)
+                    || (action.contains("waypoint") && cVars.getInt("gamemode") == cGameMode.WAYPOINTS)) {
                 nServer.givePointToId(packId);
             }
             if(action.contains("killedby")) {

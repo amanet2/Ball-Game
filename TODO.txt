@@ -6,12 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* powerup shadows not appearing all the time
-* scoreboard doesnt sort by winner anymore
-    -> new scores
-    -> server holds "sortedscorestring" which looks like what is sent over network
-    -> every time score changes, re-sort this string
-    -> send over network and display in order
+* scoring broken on race mode
+    -> extra points coming from somewhere, its not broken in the "intended" scoring spot
+    -> put print statement in givepoint method
 * wins get wiped out on new map
 * get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined
