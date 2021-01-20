@@ -34,7 +34,13 @@ public class dScoreboard {
                 sSettings.width/4,5*sSettings.height/30);
 
         int i = 0;
+        int prevscore=-1000000;
+        int prevplace = 0;
+        String[] scoretoks = cVars.get("scoremap").split(":");
         for(String id : nServer.scoresMap.keySet()) {
+            if(scoretoks.length == nServer.scoresMap.size()) {
+                id = scoretoks[i].split("-")[0];
+            }
             String playername = cGameLogic.getPlayerById(id).get("name");
             String playercolor = cGameLogic.getPlayerById(id).get("color");
             int playerwins = nServer.scoresMap.get(id).get("wins");
@@ -48,7 +54,14 @@ public class dScoreboard {
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
             }
-            g.drawString((cVars.isOne("gameteam") ? "(" +playercolor+")" : "") + playername, sSettings.width/4,
+            int place = i;
+            if(playerscore == prevscore)
+                place = prevplace;
+            prevplace = place;
+            prevscore = playerscore;
+            g.drawString(String.format("%d. ", place+1)
+                            + (cVars.isOne("gameteam") ? "(" +playercolor+")" : "")
+                            + playername, sSettings.width/4,
                     6 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                           " + playerwins,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);

@@ -267,7 +267,8 @@ public class nReceive {
                 }
 
                 if(idload.equals("server")) {
-                    //this is where we update scores map on client
+                    //this is where we update scores on client
+                    cVars.put("scoremap", packArgs.get("scoremap"));
                     String[] stoks = packArgs.get("scoremap").split(":");
                     for (int j = 0; j < stoks.length; j++) {
                         String scoreid = stoks[j].split("-")[0];

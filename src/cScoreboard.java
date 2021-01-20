@@ -35,7 +35,7 @@ public class cScoreboard {
             sorted = true;
             for(int i = 0; i < sortedIds.length-1; i++) {
                 if(nServer.scoresMap.get(sortedIds[i]).get("score")
-                        > nServer.scoresMap.get(sortedIds[i+1]).get("score")) {
+                        < nServer.scoresMap.get(sortedIds[i+1]).get("score")) {
                     sorted = false;
                     String tmp = sortedIds[i];
                     sortedIds[i] = sortedIds[i+1];
