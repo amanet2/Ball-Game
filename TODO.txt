@@ -6,12 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* sometimes picking up weapon does nothing client wise or server wise
-    -> client sees an int0 of "0"
-    -> i think its a race condition for server detecting client over powerup vs client sending powerup msg to server
-        -> server should hold off on detecting the bots and clients going over powerups
-* client pikcup weapon, then drop weapon, all other weapons messed up on pickup
-* powerup shadows no longer appear for clients
+* powerup shadows not appearing all the time
 * scoreboard doesnt sort by winner anymore
     -> new scores
     -> server holds "sortedscorestring" which looks like what is sent over network
@@ -45,7 +40,6 @@
     -> features like BOTS and perhaps split screen multiplayer
 * need to restrict certain console commands if a client is playing
     -> 'addbot' and many more to be sure
-* scores get fucked up when people/bots quit and rejoin
 * editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
 * ISSUE: SERVER NOT GOING TO THE PROPER COORDS AFTER DYING, AFTER A CLIENT QUITS
@@ -65,6 +59,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* spawning under "unarmed" mode then enabling armed mode gives all weapons with 0 stock.
+    -> modify changeweapon function to skip empty guns
+        -> will work like max payne where you have all guns but cant switch until you get some ammo
 * enable spectate mode for online matches
     -> player stays in graveyard
     -> always tracks the tracking id
