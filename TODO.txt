@@ -6,10 +6,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* scoring broken on race mode
-    -> extra points coming from somewhere, its not broken in the "intended" scoring spot
-    -> put print statement in givepoint method
 * wins get wiped out on new map
+    -> keep a winmap in parallel to the scoremap?
+    -> save a copy of the old one's wins?
+    -> see how its handled now
 * get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined
 * too much sent in new powerups string

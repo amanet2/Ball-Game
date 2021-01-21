@@ -544,24 +544,29 @@ public class cGameLogic {
                 }
                 else {
                     String killerid = action.replace("killedby", "");
-                    nServer.incrementScoreFieldById(killerid, "kills");
-                    if(gamemode == cGameMode.DEATHMATCH)
-                        nServer.givePointToId(killerid);
-                    xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
-                    if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
-                            && cVars.get("chosenoneid").equals(packId)) {
-                        if(gamemode == cGameMode.CHOSENONE) {
-                            cVars.put("chosenoneid", killerid);
-                            xCon.ex("say "+ cGameLogic.getPlayerById(killerid).get("name")
-                                    + " is the chosen one!");
-                        }
-                        else {
+                    if(!killerid.equals("God")) {
+                        nServer.incrementScoreFieldById(killerid, "kills");
+                        if (gamemode == cGameMode.DEATHMATCH)
                             nServer.givePointToId(killerid);
+                        xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
+                        if ((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
+                                && cVars.get("chosenoneid").equals(packId)) {
+                            if (gamemode == cGameMode.CHOSENONE) {
+                                cVars.put("chosenoneid", killerid);
+                                xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name")
+                                        + " is the chosen one!");
+                            } else {
+                                nServer.givePointToId(killerid);
+                            }
+                        }
+                        if (gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", killerid)) {
+                            nServer.givePointToId(killerid);
+                            cVars.put("chosenoneid", packId);
                         }
                     }
-                    if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", killerid)) {
-                        nServer.givePointToId(killerid);
-                        cVars.put("chosenoneid", packId);
+                    else {
+                        //handle God/Guardians/Map kills separate
+                        xCon.ex("say " + packName + " died");
                     }
                 }
             }
@@ -1056,6 +1061,8 @@ public class cGameLogic {
                     if (sVars.isOne("vfxenableanimations"))
                         eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_BLUE,
                                 cVars.getInt("explodex"), cVars.getInt("explodey")));
+                    if(sSettings.net_server)
+                        xCon.ex("say " + cGameLogic.getUserPlayer().get("name") + " died");
                     xCon.ex("respawn");
                 }
             }
