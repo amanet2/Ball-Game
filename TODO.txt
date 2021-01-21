@@ -6,6 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* might be cool - use left click to drop weapon, and cant use boost while holding a weapon
 * wins get wiped out on new map
     -> keep a winmap in parallel to the scoremap?
     -> save a copy of the old one's wins?
