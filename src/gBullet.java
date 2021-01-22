@@ -29,6 +29,43 @@ public class gBullet extends gThing {
             target.getInt("dim6h")));
     }
 
+    public boolean doesCollideWithinCornerTile(gTile t) {
+        Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"), getInt("dimw"), getInt("dimh"));
+        if(t.getInt("dim6w") == -1) {  //cornerUR
+            return eUtils.pointInsideTriangle(getInt("coordx")+getInt("dimw")/2,
+                    getInt("coordy") + getInt("dimh")/2, t.getInt("coordx"), t.getInt("coordy"),
+                    t.getInt("coordx") + t.getInt("dimw"), t.getInt("coordy"),
+                    t.getInt("coordx") + t.getInt("dimw"),
+                    t.getInt("coordy") + t.getInt("dimh") + 50);
+        }
+        if(t.getInt("dim6w") == -2) {  //cornerBR
+            return eUtils.pointInsideTriangle(getInt("coordx")+getInt("dimw")/2,
+                    getInt("coordy") + getInt("dimh")/2, t.getInt("coordx") + t.getInt("dimw"),
+                    t.getInt("coordy") + 75, t.getInt("coordx") + t.getInt("dimw"),
+                    t.getInt("coordy") + t.getInt("dimh") + 50, t.getInt("coordx"),
+                    t.getInt("coordy") + t.getInt("dimh") + 50
+            );
+        }
+        if(t.getInt("dim6w") == -3) {  //cornerBL
+            return eUtils.pointInsideTriangle(getInt("coordx")+getInt("dimw")/2,
+                    getInt("coordy") + getInt("dimh")/2,  t.getInt("coordx"),
+                    t.getInt("coordy") + 75, t.getInt("coordx"),
+                    t.getInt("coordy") + t.getInt("dimh") + 50, t.getInt("coordx") + t.getInt("dimw"),
+                    t.getInt("coordy") + t.getInt("dimh") + 50
+            );
+        }
+        if(t.getInt("dim6w") == -4) {  //cornerUL
+            return eUtils.pointInsideTriangle(getInt("coordx")+getInt("dimw")/2,
+                    getInt("coordy") + getInt("dimh")/2,  t.getInt("coordx"),
+                    t.getInt("coordy") + 75, t.getInt("coordx") + t.getInt("dimw"),
+                    t.getInt("coordy") + 75, t.getInt("coordx"),
+                    t.getInt("coordy") + t.getInt("dimh")
+                    );
+        }
+        return false;
+    }
+
+
     public gBullet(int x, int y, int w, int h, String tt, double fv, int dmg) {
         super();
         put("sprite", tt);

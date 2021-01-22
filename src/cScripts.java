@@ -419,7 +419,8 @@ public class cScripts {
                 continue;
             }
             for(gTile t : eManager.currentMap.scene.tiles()) {
-                if(b.doesCollideWithinTile(t) && b.getInt("src") != gWeapons.weapon_gloves
+                if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
+                        && b.getInt("src") != gWeapons.weapon_gloves
                 && b.isZero("isexplosionpart")) {
                     trc.add(b);
                     if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)

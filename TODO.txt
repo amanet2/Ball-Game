@@ -7,6 +7,7 @@
 
 ==ISSUES==
 * projectiles not splashing correctly against corner tiles
+    -> adapt player.willcollidewithincornertile to be used on any gThing and use for both bullets and player
 * might be cool - use left click to drop weapon, and cant use boost while holding a weapon
 * wins get wiped out on new map
     -> keep a winmap in parallel to the scoremap?
