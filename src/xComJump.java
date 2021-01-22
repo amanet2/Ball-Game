@@ -10,6 +10,9 @@ public class xComJump extends xCom {
                 xCon.ex("cv_stockspeed 0");
             }
         }
+        else if(cGameLogic.getUserPlayer() != null && cVars.getInt("maptype") == gMap.MAP_TOPVIEW) {
+            xCon.ex("dropweapon");
+        }
         return fullCommand;
     }
 }
