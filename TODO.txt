@@ -6,13 +6,12 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* game ran for like a half hour then brutally crashed
+* wins get wiped out on new map
+* race scoring messed up points coming out of nowhere
 * projectiles not splashing correctly against corner tiles
     -> adapt player.willcollidewithincornertile to be used on any gThing and use for both bullets and player
 * might be cool - use left click to drop weapon, and cant use boost while holding a weapon
-* wins get wiped out on new map
-    -> keep a winmap in parallel to the scoremap?
-    -> save a copy of the old one's wins?
-    -> see how its handled now
 * get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined
 * too much sent in new powerups string
