@@ -61,6 +61,15 @@ public class gScene {
     public ArrayList<gProp> props() {
         return objects.get("THING_PROP");
     }
+
+    public ArrayList<gProp> scorePoints() {
+	    ArrayList<gProp> scorepoints = new ArrayList<>();
+	    for(gProp prop : props()) {
+	        if(prop.isInt("code", gProp.SCOREPOINT))
+	            scorepoints.add(prop);
+        }
+	    return scorepoints;
+    }
     public ArrayList<gFlare> flares() {
         return objects.get("THING_FLARE");
     }

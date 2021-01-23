@@ -195,40 +195,52 @@ public class cScripts {
         }
     }
 
-    public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
-        String useint = "int0";
-        if(cVars.getInt("gamemode") == cGameMode.RACE) {
-            //for race gamemode
-            gProp prev = null;
-            int gonnaWin = 1;
-            if(pla.get("id").contains("bot")) {
-                useint = "botint0";
-            }
-            if (scorepoint.getInt("tag") > 0)
-                prev = eManager.currentMap.scene.props().get(scorepoint.getInt("tag") - 1);
-            if (scorepoint.isZero("tag") || prev.getInt(useint) > 0) {
-                scorepoint.put(useint, "1");
+    public static String createBotScorepointString() {
+        StringBuilder s = new StringBuilder();
+        for(gProp scorepoint : eManager.currentMap.scene.scorePoints()) {
+            s.append(scorepoint.getInt("tag")).append("-0:");
+        }
+        return s.toString();
+    }
 
-            }
-            for (gProp p : eManager.currentMap.scene.props()) {
-                if (p.getInt(useint) < 1 && p.isInt("code", gProp.SCOREPOINT)) {
-                    gonnaWin = 0;
-                    break;
+    public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
+        //nonlinear race
+        if(cVars.getInt("gamemode") == cGameMode.RACE) {
+            if(pla.get("id").contains("bot")) {
+                for(gProp scorepointa : eManager.currentMap.scene.scorePoints()) {
+                    if(scorepointa.isInt("tag", scorepoint.getInt("tag"))) {
+
+                    }
                 }
             }
-            if (gonnaWin > 0) {
-                for (gProp p : eManager.currentMap.scene.props()) {
-                    p.put(useint, "0");
+            else {
+                if (scorepoint.isZero("int0")) {
+                    scorepoint.putInt("int0", 1);
+                    int gonnaWin = 1;
+                    for (gProp scorepointa : eManager.currentMap.scene.scorePoints()) {
+                        if (scorepointa.isZero("int0")) {
+                            gonnaWin = 0;
+                        }
+                    }
+                    if (gonnaWin > 0) {
+                        for (gProp scorepointa : eManager.currentMap.scene.scorePoints()) {
+                            scorepointa.put("int0", "0");
+                        }
+                        if (sSettings.net_server) {
+                            xCon.ex("givepoint " + pla.get("id"));
+                            xCon.ex("say " + pla.get("name") + " completed a lap!");
+                        } else if (sSettings.net_client) {
+                            xCon.ex("cv_lapcomplete 1");
+                        }
+                        createScorePopup(pla, 1);
+                    }
                 }
-                if (sSettings.net_server) {
-                    xCon.ex("givepoint " + pla.get("id"));
-//                    xCon.ex("say " + pla.get("name") + " completed a lap!");
-                } else if (sSettings.net_client) {
-                    xCon.ex("cv_lapcomplete 1");
-                }
-                createScorePopup(pla,1);
             }
         }
+        // waypoints
+        String useint = "int0";
+        if(pla.get("id").contains("bot"))
+            useint = "botint0";
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
             if(scorepoint.getInt(useint) > 0) {
                 scorepoint.put(useint, "0");

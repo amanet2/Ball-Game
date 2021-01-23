@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class cGameMode {
     static int DEATHMATCH = 0;
     static int RACE = 1;
