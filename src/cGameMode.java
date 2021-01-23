@@ -57,7 +57,7 @@ public class cGameMode {
                 for(gProp flag : eManager.currentMap.scene.props()) {
                     if(flag.isInt("code", gProp.FLAGRED)) {
                         if(cGameLogic.getPlayerById(flag.get("str0")) != null)
-                            nServer.givePointToId(flag.get("str0"));
+                            xCon.ex("givepoint " + flag.get("str0"));
                     }
                 }
                 cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);

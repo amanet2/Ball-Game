@@ -521,7 +521,7 @@ public class cGameLogic {
             if((action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE)
                     || (action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES)
                     || (action.contains("waypoint") && cVars.getInt("gamemode") == cGameMode.WAYPOINTS)) {
-                nServer.givePointToId(packId);
+                xCon.ex("givepoint " + packId);
             }
             if(action.contains("killedby")) {
                 int gamemode = cVars.getInt("gamemode");
@@ -534,7 +534,7 @@ public class cGameLogic {
                     nServer.incrementScoreFieldById("server", "kills");
                     xCon.ex("say " + sVars.get("playername") + " killed " + packName);
                     if(gamemode == cGameMode.DEATHMATCH) {
-                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
                     }
                     if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                             && cVars.get("chosenoneid").equals(packId)) {
@@ -543,11 +543,11 @@ public class cGameLogic {
                             xCon.ex("say " + xCon.ex("THING_PLAYER.0.name") + " is the chosen one!");
                         }
                         else {
-                            nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
+                            xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
                         }
                     }
                     if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", "server")) {
-                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
                         cVars.put("chosenoneid", packId);
                     }
                 }
@@ -556,7 +556,7 @@ public class cGameLogic {
                     if(!killerid.equals("God")) {
                         nServer.incrementScoreFieldById(killerid, "kills");
                         if (gamemode == cGameMode.DEATHMATCH)
-                            nServer.givePointToId(killerid);
+                            xCon.ex("givepoint " + killerid);
                         xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
                         if ((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                                 && cVars.get("chosenoneid").equals(packId)) {
@@ -565,11 +565,11 @@ public class cGameLogic {
                                 xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name")
                                         + " is the chosen one!");
                             } else {
-                                nServer.givePointToId(killerid);
+                                xCon.ex("givepoint " + killerid);
                             }
                         }
                         if (gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", killerid)) {
-                            nServer.givePointToId(killerid);
+                            xCon.ex("givepoint " + killerid);
                             cVars.put("chosenoneid", packId);
                         }
                     }
@@ -691,7 +691,7 @@ public class cGameLogic {
                         if(nServer.clientArgsMap.get("server").containsKey("state")
                                 && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))
                                 && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                            nServer.givePointToId(p.get("id"));
+                            xCon.ex("givepoint " + p.get("id"));
                         }
                     }
                 }
@@ -709,7 +709,7 @@ public class cGameLogic {
                         novirus = false;
                     }
                     else if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                        nServer.givePointToId(p.get("id"));
+                        xCon.ex("givepoint " + p.get("id"));
                     }
                 }
                 if(novirus) {
@@ -742,7 +742,7 @@ public class cGameLogic {
             if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
                 for (gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").equals(cVars.get("flagmasterid"))) {
-                        nServer.givePointToId(p.get("id"));
+                        xCon.ex("givepoint " + p.get("id"));
                     }
                 }
                 cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
@@ -765,7 +765,7 @@ public class cGameLogic {
                 for(gPlayer p : eManager.currentMap.scene.players()) {
                     if(p.get("id").equals(cVars.get("chosenoneid"))) {
                         nogolden = false;
-                        nServer.givePointToId(p.get("id"));
+                        xCon.ex("givepoint " + p.get("id"));
                     }
                 }
                 if(nogolden) {
@@ -857,7 +857,7 @@ public class cGameLogic {
                             p.put("str0", cl.get("id"));
                             if (sSettings.net_server) {
                                 xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
-                                nServer.givePointToId(cl.get("id"));
+                                xCon.ex("givepoint " + cl.get("id"));
                             }
                         }
                     }
@@ -874,7 +874,7 @@ public class cGameLogic {
                             && p.isInt("code", gProp.FLAGBLUE)
                             && cVars.isVal("flagmasterid", cl.get("id"))){
                         if(sSettings.net_server) {
-                            nServer.givePointToId(cl.get("id"));
+                            xCon.ex("givepoint " + cl.get("id"));
                             cVars.put("flagmasterid", "");
                             xCon.ex("say " + cl.get("name") + " captured the flag!");
                         }
@@ -882,7 +882,7 @@ public class cGameLogic {
                     else if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS
                             && p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0) {
                         if(sSettings.net_server) {
-                            nServer.givePointToId(cl.get("id"));
+                            xCon.ex("givepoint " + cl.get("id"));
                             p.put("int0", "0");
                         }
                     }
@@ -1060,7 +1060,7 @@ public class cGameLogic {
                 if (cVars.isOne("survivesafezone")) {
                     cVars.put("sendsafezone", "1");
                     if(sSettings.net_server) {
-                        nServer.givePointToId(cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
                     }
                 }
                 else {

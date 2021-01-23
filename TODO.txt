@@ -8,14 +8,14 @@
 ==ISSUES==
 * cant have key bound to multiple actions
 * game ran for like a half hour then brutally crashed
-* race scoring messed up points coming out of nowhere
-* use space to drop weapon
+* race scoring messed up
+    -> points coming out of nowhere
 * get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined
 * too much sent in new powerups string
 * make sure the combinations of spawn-armed and allow-reload modes work correctly together
 * verify integrity of fps counter
-* FUCKIN A
+* COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * make sure different timezones and computer times work correctly

@@ -67,20 +67,6 @@ public class nServer extends Thread {
         nServer.scoresMap.get(id).put(field, nscore);
     }
 
-    public static void givePointToId(String id) {
-        if(cVars.isOne("gameteam")) {
-            String color = cGameLogic.getPlayerById(id).get("color");
-            for(String mapid : scoresMap.keySet()) {
-                if(color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
-                    incrementScoreFieldById(mapid, "score");
-                }
-            }
-        }
-        else {
-            incrementScoreFieldById(id, "score");
-        }
-    }
-
     public static void processPackets() {
         try {
             if(receivedPackets.size() > 0) {
