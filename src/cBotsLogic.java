@@ -175,7 +175,7 @@ public class cBotsLogic {
         for(gProp p : eManager.currentMap.scene.props()) {
             if(p.isInt("code", gProp.SCOREPOINT)
                     && cVars.getInt("gamemode") == cGameMode.RACE
-                    && !p.get("racebotidcheckins").contains(bot.get("id"))) {
+                    ? !p.get("racebotidcheckins").contains(bot.get("id")) : p.isOne("int0")) {
                 waypoint = p;
                 break;
             }
