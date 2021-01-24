@@ -337,16 +337,6 @@ public class cScripts {
                         cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
             }
         }
-//        if(msg.contains("scored a point")
-//        && (cVars.getInt("gamemode") != cGameMode.CHOSENONE)) {
-//            double d = Math.random();
-//            if(d > 0.90)
-//                xCon.ex("playsound sounds/bell1.wav");
-//            else if(d > 0.75)
-//                xCon.ex("playsound sounds/bell3.wav");
-//            else
-//                xCon.ex("playsound sounds/bell2.wav");
-//        }
     }
 
     public static void processOptionText(String optionTitle, String enteredText) {

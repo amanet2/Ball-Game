@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class xComGivePoint extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -14,7 +17,16 @@ public class xComGivePoint extends xCom {
             else {
                 nServer.incrementScoreFieldById(id, "score");
             }
-            xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");
+            String[] quietGameModesArray = {
+                    Integer.toString(cGameMode.KING_OF_FLAGS),
+                    Integer.toString(cGameMode.CHOSENONE),
+                    Integer.toString(cGameMode.VIRUS_SINGLE),
+                    Integer.toString(cGameMode.VIRUS),
+                    Integer.toString(cGameMode.FLAG_MASTER),
+                    Integer.toString(cGameMode.DEATHMATCH)};
+            List<String> javafuckingsucks = Arrays.asList(quietGameModesArray);
+            if(!javafuckingsucks.contains(cVars.get("gamemode")))
+                xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";
