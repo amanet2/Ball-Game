@@ -241,7 +241,7 @@ public class dScreenMessages {
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                100));
         g.drawString("WORK IN PROGRESS",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
         //say
         if(gMessages.enteringMessage) {
