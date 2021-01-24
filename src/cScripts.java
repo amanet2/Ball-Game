@@ -195,14 +195,6 @@ public class cScripts {
         }
     }
 
-    public static String createBotScorepointString() {
-        StringBuilder s = new StringBuilder();
-        for(gProp scorepoint : eManager.currentMap.scene.scorePoints()) {
-            s.append(scorepoint.getInt("tag")).append("-0:");
-        }
-        return s.toString();
-    }
-
     public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
         //nonlinear race
         if(cVars.getInt("gamemode") == cGameMode.RACE) {
@@ -238,12 +230,12 @@ public class cScripts {
             }
         }
         // waypoints
-        String useint = "int0";
-        if(pla.get("id").contains("bot"))
-            useint = "botint0";
+//        String useint = "int0";
+//        if(pla.get("id").contains("bot"))
+//            useint = "botint0";
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            if(scorepoint.getInt(useint) > 0) {
-                scorepoint.put(useint, "0");
+            if(scorepoint.getInt("int0") > 0) {
+                scorepoint.put("int0", "0");
                 createScorePopup(pla,1);
                 if(sSettings.net_server) {
                     xCon.ex("givepoint " + pla.get("id"));

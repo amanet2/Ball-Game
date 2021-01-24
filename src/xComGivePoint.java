@@ -14,6 +14,7 @@ public class xComGivePoint extends xCom {
             else {
                 nServer.incrementScoreFieldById(id, "score");
             }
+            xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";

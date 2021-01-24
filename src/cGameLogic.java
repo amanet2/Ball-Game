@@ -502,8 +502,10 @@ public class cGameLogic {
             actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
             cVars.put("sendcmd","");
         }
-        if(sSettings.net_client && cVars.isOne("lapcomplete"))
+        if(sSettings.net_client && cVars.isOne("lapcomplete")) {
             actionload += "lapcomplete|";
+            xCon.ex("cv_lapcomplete 0");
+        }
         if(cVars.isZero("exploded"))
             actionload += String.format("explode:%s:%s|", cVars.get("explodex"), cVars.get("explodey"));
         if(cVars.isZero("reportedkiller")) {

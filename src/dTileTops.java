@@ -533,10 +533,11 @@ public class dTileTops {
                         || (cVars.getInt("gamemode") == cGameMode.BOUNCYBALL && p.isInt("code", gProp.SCOREPOINT)
                             && p.getInt("int0") > 0)
                 ) {
+
                     dScreenFX.drawNavPointer(g2,p.getInt("coordx") + p.getInt("dimw")/2, p.getInt("coordy") + p.getInt("dimh")/2,
                             "* GO HERE *");
-                    if(cVars.getInt("gamemode") == cGameMode.RACE && p.isInt("code", gProp.SCOREPOINT))
-                        break;
+//                    if(cVars.getInt("gamemode") == cGameMode.RACE_LINEAR && p.isInt("code", gProp.SCOREPOINT))
+//                        break;
                 }
             }
         }
