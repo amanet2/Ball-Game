@@ -6,6 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* come up with way for the bot routines to be called from the console
+    -> Thing_Player.<id>.go_to_scorepoint
+        -> if not bot, "cant attach behavior to user player"
 * bots dont play waypoints anymore
 * bots seem to capture scorepoints for a client
 * scorepoints need visual repr in mapmaker

@@ -10,24 +10,6 @@ public class gPlayer extends gThing {
         gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
     }
 
-    public void doBotBehavior(String key) {
-        if(cVars.get("winnerid").length() < 1) {
-            gDoable behavior = cBotsLogic.getBehavior(key);
-            if(behavior != null)
-                behavior.doItem(this);
-        }
-        else {
-            put("mov0", "0");
-            put("mov1", "0");
-            put("mov2", "0");
-            put("mov3", "0");
-            put("vel0", "0");
-            put("vel1", "0");
-            put("vel2", "0");
-            put("vel3", "0");
-        }
-    }
-
     public boolean canJump() {
         for(gTile t : eManager.currentMap.scene.tiles()) {
             if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))

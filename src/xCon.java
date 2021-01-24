@@ -137,6 +137,7 @@ public class xCon {
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("disconnect", new xComDisconnect());
+        commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("dropweapon", new xComDropWeapon());
         commands.put("exec", new xComExec());
         commands.put("e_copytile", new xComEditorCopyTile());
