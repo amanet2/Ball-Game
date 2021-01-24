@@ -681,7 +681,6 @@ public class cGameLogic {
                     p.put("int0", "1");
                 else if (p.isInt("code", gProp.SCOREPOINT))
                     p.put("int0", "0");
-
             }
         }
     }
