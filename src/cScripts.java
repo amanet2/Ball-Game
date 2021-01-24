@@ -367,21 +367,6 @@ public class cScripts {
         }
     }
 
-    public static void doPause() {
-        uiInterface.inplay = !uiInterface.inplay;
-        if(uiInterface.inplay) {
-            oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-            xCon.ex("playsound sounds/clampdown.wav");
-            if(sSettings.show_mapmaker_ui || !isNetworkGame())
-                setupGame();
-        }
-        else {
-            xCon.ex("playsound sounds/grenpinpull.wav");
-            if(sSettings.show_mapmaker_ui || !isNetworkGame())
-                eManager.currentMap.scene.players().clear();
-        }
-    }
-
     public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<gAnimationEmitter> tra = new ArrayList<>();

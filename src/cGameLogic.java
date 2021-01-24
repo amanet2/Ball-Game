@@ -231,7 +231,7 @@ public class cGameLogic {
             sSettings.net_client = false;
             xCon.ex("load " + sVars.get("defaultmap"));
             if (uiInterface.inplay)
-                cScripts.doPause();
+                xCon.ex("pause");
         }
     }
 
