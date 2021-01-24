@@ -73,6 +73,10 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* bouncy ball mode
+    -> ball will change color of last touching person
+        -> when it goes in a goal it respawns at start and give point
+        -> have multiple balls on the field
 * new race arch
     -> all waypoints on at once
     -> waypoints hold list of bot ids that have touched.  when every scorepoint has a bot id, remove that id from all
