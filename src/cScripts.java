@@ -252,7 +252,6 @@ public class cScripts {
                 }
             }
         }
-
     }
 
     public static void checkPlayerSafepoints(gProp safepoint) {

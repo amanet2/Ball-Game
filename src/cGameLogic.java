@@ -818,7 +818,8 @@ public class cGameLogic {
                     else if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
                         p.propEffect(cl);
                     }
-                    else if(p.isInt("code", gProp.SCOREPOINT) && cl.get("id").contains("bot")) {
+                    else if(sSettings.net_server
+                            && p.isInt("code", gProp.SCOREPOINT) && cl.get("id").contains("bot")) {
                         cScripts.checkPlayerScorepoints(p, cl);
                     }
                     else if(p.isInt("code", gProp.POWERUP)) {

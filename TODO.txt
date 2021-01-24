@@ -6,6 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bots seem to capture scorepoints for a client
 * scorepoints need visual repr in mapmaker
     -> yellow square with the in0, int1 vals drawn on top
 * bot race checks
