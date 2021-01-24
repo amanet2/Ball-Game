@@ -367,26 +367,6 @@ public class cScripts {
         }
     }
 
-    public static void doPlayerCrouch(gPlayer p) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            if (p != null) {
-                p.put("dimh", "75");
-                p.setSpriteFromPath(p.get("pathsprite"));
-                p.put("crouch", "1");
-            }
-        }
-    }
-
-    public static void stopPlayerCrouch(gPlayer p) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            if (p != null) {
-                p.put("dimh", "150");
-                p.setSpriteFromPath(p.get("pathsprite"));
-                p.put("crouch", "0");
-            }
-        }
-    }
-
     public static void doPause() {
         uiInterface.inplay = !uiInterface.inplay;
         if(uiInterface.inplay) {
