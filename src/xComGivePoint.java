@@ -23,7 +23,8 @@ public class xComGivePoint extends xCom {
                     Integer.toString(cGameMode.VIRUS_SINGLE),
                     Integer.toString(cGameMode.VIRUS),
                     Integer.toString(cGameMode.FLAG_MASTER),
-                    Integer.toString(cGameMode.DEATHMATCH)};
+                    Integer.toString(cGameMode.DEATHMATCH)
+            };
             List<String> javafuckingsucks = Arrays.asList(quietGameModesArray);
             if(!javafuckingsucks.contains(cVars.get("gamemode")))
                 xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");

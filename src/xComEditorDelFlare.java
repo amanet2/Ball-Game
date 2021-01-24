@@ -4,6 +4,7 @@ public class xComEditorDelFlare extends xCom {
             try {
                 eManager.currentMap.scene.flares().remove(eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareId));
             } catch(Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
         }

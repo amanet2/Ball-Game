@@ -96,6 +96,7 @@ public class uiInterface {
                     }
                 }
             } catch (Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
 		}
@@ -130,6 +131,7 @@ public class uiInterface {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
         System.exit(0);

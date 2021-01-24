@@ -170,6 +170,7 @@ public class cVars {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
             return false;
         }

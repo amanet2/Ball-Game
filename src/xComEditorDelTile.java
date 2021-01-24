@@ -9,6 +9,7 @@ public class xComEditorDelTile extends xCom {
                     xCon.ex(String.format("HIDDEN e_selecttile %d",
                         eManager.currentMap.scene.tiles().size() - 1));
             } catch (Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
         }

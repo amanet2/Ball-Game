@@ -103,6 +103,7 @@ public class gMap {
             wasLoaded = 1;
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
             gTextures.clear();
             mapName = "new";
@@ -154,7 +155,8 @@ public class gMap {
             }
             wasLoaded = 1;
 		} catch (IOException e) {
-			e.printStackTrace();
+            eUtils.echoException(e);
+            e.printStackTrace();
 		}
 	}
 }

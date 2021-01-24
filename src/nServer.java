@@ -120,6 +120,7 @@ public class nServer extends Thread {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }
@@ -174,6 +175,7 @@ public class nServer extends Thread {
                     sleep(uiInterface.networkTime-uiInterface.gameTime);
             }
             catch (Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
         }

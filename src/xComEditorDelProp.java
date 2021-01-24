@@ -4,6 +4,7 @@ public class xComEditorDelProp extends xCom {
             try {
                 eManager.currentMap.scene.props().remove(eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId));
             } catch (Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
         }

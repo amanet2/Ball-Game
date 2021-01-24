@@ -41,6 +41,7 @@ public class nClient extends Thread {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
 
@@ -87,6 +88,7 @@ public class nClient extends Thread {
                 retries = 0;
             }
             catch(Exception e) {
+                eUtils.echoException(e);
                 retries++;
                 e.printStackTrace();
                 if(retries > sVars.getInt("netrcvretries"))

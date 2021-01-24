@@ -118,6 +118,7 @@ public class sVars {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
             return false;
         }
@@ -207,6 +208,7 @@ public class sVars {
             xCon.instance().debug(keys.toString());
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }
@@ -223,6 +225,7 @@ public class sVars {
                 writer.write("\n");
             }
         } catch (IOException e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }

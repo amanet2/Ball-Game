@@ -153,6 +153,7 @@ public class dPlayer {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }

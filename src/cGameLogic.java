@@ -63,6 +63,7 @@ public class cGameLogic {
             cScripts.checkBulletSplashes();
         }
         catch(Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }

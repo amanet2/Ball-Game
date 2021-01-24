@@ -12,6 +12,7 @@ public class xComEditorDelThing extends xCom {
                             xCon.ex(String.format("HIDDEN e_selectflare %d",
                                     eManager.currentMap.scene.flares().size() - 1));
                     } catch (Exception e) {
+                        eUtils.echoException(e);
                         e.printStackTrace();
                     }
                 }
@@ -25,6 +26,7 @@ public class xComEditorDelThing extends xCom {
                             xCon.ex(String.format("HIDDEN e_selectprop %d",
                                     eManager.currentMap.scene.props().size() - 1));
                     } catch (Exception e) {
+                        eUtils.echoException(e);
                         e.printStackTrace();
                     }
                 }
@@ -38,6 +40,7 @@ public class xComEditorDelThing extends xCom {
                             xCon.ex(String.format("HIDDEN e_selecttile %d",
                                     eManager.currentMap.scene.tiles().size() - 1));
                     } catch (Exception e) {
+                        eUtils.echoException(e);
                         e.printStackTrace();
                     }
                 }
