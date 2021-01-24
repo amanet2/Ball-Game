@@ -482,10 +482,10 @@ public class cGameLogic {
                                     + gWeapons.weapons_selection[p.getInt("weapon")].refiredelay));
                 }
                 if(p.isInt("crouch", 1)) {
-                    cScripts.doPlayerCrouch(p);
+                    xCon.ex("playercrouch " + p.get("id"));
                 }
                 else {
-                    cScripts.stopPlayerCrouch(p);
+                    xCon.ex("-playercrouch " + p.get("id"));
                 }
             }
         }
