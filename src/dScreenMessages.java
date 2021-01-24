@@ -237,6 +237,12 @@ public class dScreenMessages {
         }
         //big font
         cScripts.setFontNormal(g);
+        //wip notice
+        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
+                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        g.drawString("WORK IN PROGRESS",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
         //say
         if(gMessages.enteringMessage) {
             String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";

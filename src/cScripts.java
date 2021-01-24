@@ -198,10 +198,22 @@ public class cScripts {
     public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
         //nonlinear race
         if(cVars.getInt("gamemode") == cGameMode.RACE) {
-            if(pla.get("id").contains("bot")) {
-                for(gProp scorepointa : eManager.currentMap.scene.scorePoints()) {
-                    if(scorepointa.isInt("tag", scorepoint.getInt("tag"))) {
-
+            if(sSettings.net_server && pla.get("id").contains("bot")) {
+                if(!scorepoint.get("racebotidcheckins").contains(pla.get("id"))) {
+                    scorepoint.put("racebotidcheckins", scorepoint.get("racebotidcheckins")+(pla.get("id")+":"));
+                }
+                int gonnaWin = 1;
+                for(gProp p : eManager.currentMap.scene.scorePoints()) {
+                    if(!p.get("racebotidcheckins").contains(pla.get("id"))) {
+                        gonnaWin = 0;
+                        break;
+                    }
+                }
+                if(gonnaWin > 0) {
+                    xCon.ex("givepoint "+pla.get("id"));
+                    for(gProp p : eManager.currentMap.scene.scorePoints()) {
+                        p.put("racebotidcheckins",
+                                p.get("racebotidcheckins").replace(pla.get("id")+":", ""));
                     }
                 }
             }
@@ -230,9 +242,6 @@ public class cScripts {
             }
         }
         // waypoints
-//        String useint = "int0";
-//        if(pla.get("id").contains("bot"))
-//            useint = "botint0";
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
             if(scorepoint.getInt("int0") > 0) {
                 scorepoint.put("int0", "0");

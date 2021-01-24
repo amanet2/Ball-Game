@@ -321,6 +321,7 @@ public class gProp extends gThing {
         putInt("int1", uy);
         put("str0","null");
         putInt("botint0", ux);
+        put("racebotidcheckins", "");
         put("accelrate", "100");
         put("clip", "1");
         put("crouch", "0");

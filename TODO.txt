@@ -68,6 +68,11 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* new race arch
+    -> all waypoints on at once
+    -> waypoints hold list of bot ids that have touched.  when every scorepoint has a bot id, remove that id from all
+        ->also give that bot a point!
+* gungame mode
 * spawning under "unarmed" mode then enabling armed mode gives all weapons with 0 stock.
     -> modify changeweapon function to skip empty guns
         -> will work like max payne where you have all guns but cant switch until you get some ammo
