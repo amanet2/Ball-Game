@@ -54,6 +54,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* put little representation of the lead character next to the leader string
+    -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
+        -> facing the right
 * turn individual powerups on and off in new game menu
 * adjust player speed in new game menu
 * add player speed and other cool vars to the newgame screen, and send as cvar over net
