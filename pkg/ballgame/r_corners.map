@@ -138,6 +138,7 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -6900 -6150 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -5700 -6150 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4500 -4950 1200 1200 0 0 1200 0 0 0 0 255 0
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -7650 -1770 1800 700 0 0 700 0 0 0 0 255 0
 prop 3 0 0 -2040 -1050 900 900
 prop 3 0 0 -690 -1320 900 900
 prop 3 0 0 -270 -2310 900 900
