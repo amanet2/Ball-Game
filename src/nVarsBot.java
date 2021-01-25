@@ -20,7 +20,7 @@ public class nVarsBot {
             p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
         }
 
-        for(String s : new String[]{"id","fv","name","color","crouch","hat"}) {
+        for(String s : new String[]{"id","fv","name","color","crouch","hat","flashlight"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
         if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)

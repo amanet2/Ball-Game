@@ -7,12 +7,8 @@
 
 ==ISSUES==
 * maps should have a flag (cvar) for bots to use flashlights on the map
-* scorepoints need visual repr in mapmaker
-    -> yellow square with the in0, int1 vals drawn on top
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
-* make two race modes -> linear and nonlinear
 * cant have key bound to multiple actions
-* get first two lines of error stack trace for debug out (like in those halo beta builds)
 * mapfile prop line and editor_put_prop console comm can be combined
 * too much sent in new powerups string
 * make sure the combinations of spawn-armed and allow-reload modes work correctly together
@@ -74,6 +70,7 @@
     -> always tracks the tracking id
     -> use mouse wheel to cycle through tracking ids available (excluding dead and self)
 * put a mini version of the character next to name in scoreboard
+* make two race modes -> linear and nonlinear
 * for flag king, maybe put a little representation of the person owning the flag on the flag or in the flagstring
 * maybe have the console display always show if debug is 1
     -> don't put the dark gray overlay on top of the view
