@@ -3,7 +3,7 @@ import java.util.LinkedHashMap;
 
 public class gThing {
     private LinkedHashMap<String, String> vars;
-    private HashMap<String, gDoable> doables;
+    private HashMap<String, gDoableThing> doables;
     public String get(String s) {
         return vars.get(s);
     }
@@ -59,7 +59,7 @@ public class gThing {
         return vars().keySet().toString();
     }
 
-    public void registerDoable(String k, gDoable doable) {
+    public void registerDoable(String k, gDoableThing doable) {
         doables.put(k, doable);
     }
 

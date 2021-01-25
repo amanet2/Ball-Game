@@ -514,7 +514,8 @@ public class gPlayer extends gThing {
     }
 
     public void dropWeapon() {
-        xCon.instance().debug("THING_PLAYER.drop_weapon is deprecated.  Use global 'dropweapon' command");
+        xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
+        xCon.instance().debug("THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
@@ -555,7 +556,7 @@ public class gPlayer extends gThing {
         put("botracescorepointint0string", "");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
-        registerDoable("drop_powerup", new gDoable(){
+        registerDoable("dropweapon", new gDoableThing(){
             public void doItem(gThing thing) {
                 dropWeapon();
             }

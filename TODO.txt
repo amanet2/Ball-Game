@@ -6,15 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* come up with way for the bot routines to be called from the console
-    -> Thing_Player.<id>.go_to_scorepoint
-        -> if not bot, "cant attach behavior to user player"
-* bots dont play waypoints anymore
-* bots seem to capture scorepoints for a client
+* send flashlight flag on per-id basis, draw white flar over players with flashlight on
 * scorepoints need visual repr in mapmaker
     -> yellow square with the in0, int1 vals drawn on top
-* bot race checks
-    -> if racestring.length > 0 and does not contain a "0" bot completed a lap
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
 * make two race modes -> linear and nonlinear
 * CLIENT GOT POINT IN RACE MODE FOR NOTHING, MAYB WHEN BOT GOT A POINT
@@ -77,10 +71,6 @@
     -> ball will change color of last touching person
         -> when it goes in a goal it respawns at start and give point
         -> have multiple balls on the field
-* new race arch
-    -> all waypoints on at once
-    -> waypoints hold list of bot ids that have touched.  when every scorepoint has a bot id, remove that id from all
-        ->also give that bot a point!
 * gungame mode
 * spawning under "unarmed" mode then enabling armed mode gives all weapons with 0 stock.
     -> modify changeweapon function to skip empty guns

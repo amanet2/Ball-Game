@@ -8,7 +8,7 @@ public class xComDoBotBehavior extends xCom {
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
             if(cVars.get("winnerid").length() < 1) {
-                gDoable behavior = cBotsLogic.getBehavior(botbehavior);
+                gDoableThing behavior = cBotsLogic.getBehavior(botbehavior);
                 if(behavior != null)
                     behavior.doItem(botPlayer);
                 else

@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class cBotsLogic {
-    private static HashMap<String, gDoable> behaviors = null;
-    public static gDoable getBehavior(String key) {
+    private static HashMap<String, gDoableThing> behaviors = null;
+    public static gDoableThing getBehavior(String key) {
         if(behaviors == null) {
             init();
         }
@@ -19,17 +19,17 @@ public class cBotsLogic {
 
     private static void init() {
         behaviors = new HashMap<>();
-        behaviors.put("goto_player", new gDoable(){
+        behaviors.put("goto_player", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestPlayer(p);
             }
         });
-        behaviors.put("goto_scorepoint", new gDoable(){
+        behaviors.put("goto_scorepoint", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestScorePoint(p);
             }
         });
-        behaviors.put("ctf", new gDoable(){
+        behaviors.put("ctf", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
                     cBotsLogic.goToBlueFlagCtf(p);
@@ -39,7 +39,7 @@ public class cBotsLogic {
                     cBotsLogic.goToRedFlagCtf(p);
             }
         });
-        behaviors.put("flagmaster", new gDoable(){
+        behaviors.put("flagmaster", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
                     cBotsLogic.runFromNearestPlayer(p);
@@ -49,7 +49,7 @@ public class cBotsLogic {
                     cBotsLogic.goToRedFlagCtf(p);
             }
         });
-        behaviors.put("virus", new gDoable(){
+        behaviors.put("virus", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.clientArgsMap.containsKey("server")
                         && nServer.clientArgsMap.get("server").containsKey("state")
@@ -61,7 +61,7 @@ public class cBotsLogic {
                 }
             }
         });
-        behaviors.put("goto_teleporter_virus", new gDoable(){
+        behaviors.put("goto_teleporter_virus", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.clientArgsMap.containsKey("server")
                         && nServer.clientArgsMap.get("server").containsKey("state")
@@ -79,7 +79,7 @@ public class cBotsLogic {
                 }
             }
         });
-        behaviors.put("virus_single", new gDoable(){
+        behaviors.put("virus_single", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("virussingleid", p.get("id")))
                     cBotsLogic.goToNearestPlayer(p);
@@ -87,7 +87,7 @@ public class cBotsLogic {
                     cBotsLogic.runFromNearestVirusSinglePlayer(p);
             }
         });
-        behaviors.put("anti_chosenone", new gDoable(){
+        behaviors.put("anti_chosenone", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("chosenoneid", p.get("id")))
                     cBotsLogic.goToNearestPlayer(p);
@@ -95,7 +95,7 @@ public class cBotsLogic {
                     cBotsLogic.goToChosenOne(p);
             }
         });
-        behaviors.put("chosenone", new gDoable(){
+        behaviors.put("chosenone", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("chosenoneid", p.get("id")))
                     cBotsLogic.runFromNearestPlayer(p);
@@ -103,17 +103,17 @@ public class cBotsLogic {
                     cBotsLogic.goToChosenOne(p);
             }
         });
-        behaviors.put("goto_ball", new gDoable(){
+        behaviors.put("goto_ball", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToBall(p);
             }
         });
-        behaviors.put("goto_safezone", new gDoable(){
+        behaviors.put("goto_safezone", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToSafeZone(p);
             }
         });
-        behaviors.put("goto_kofflag", new gDoable(){
+        behaviors.put("goto_kofflag", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestRedFlagKof(p);
             }
