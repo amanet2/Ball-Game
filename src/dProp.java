@@ -105,6 +105,7 @@ public class dProp {
                                 eUtils.scaleInt(prop.getInt("coordy") + prop.getInt("dimh") / 2
                                         - cVars.getInt("camy")));
                         if (prop.getInt("int0") > 0) {
+                            System.out.println("ASDF");
                             g2.setColor(new Color(80, 255, 180, 150));
                             g2.fillRect(eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
                                     eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")),

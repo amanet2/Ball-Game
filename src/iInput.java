@@ -221,29 +221,36 @@ public class iInput {
                     return;
                 }
                 if(command == KeyEvent.VK_Q && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     xCon.ex("quit");
                 }
                 if(command == KeyEvent.VK_O && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     xCon.ex("e_openfile");
                 }
                 if(command == KeyEvent.VK_N && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     if(xCon.getInt("e_showlossalert") > 0)
                         xCon.ex("load");
                 }
                 if(command == KeyEvent.VK_S && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     if(eManager.currentMap.wasLoaded < 1)
                         xCon.ex("e_saveas");
                     else
                         xCon.ex("e_save");
                 }
                 if(command == KeyEvent.VK_C && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     xCon.ex("e_copytile");
                 }
                 if(command == KeyEvent.VK_X && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     xCon.ex("e_copytile");
                     xCon.ex("e_deltile");
                 }
                 if(command == KeyEvent.VK_V && iKeyboard.ctrlMode) {
+                    iKeyboard.ctrlMode = false;
                     xCon.ex("e_pastetile");
                 }
             }

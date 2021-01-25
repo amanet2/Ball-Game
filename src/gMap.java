@@ -116,7 +116,7 @@ public class gMap {
     }
 
 	public void save(String filename) {
-	    System.out.println(filename);
+	    System.out.println("SAVED " + filename);
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
