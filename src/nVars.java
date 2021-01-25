@@ -55,6 +55,7 @@ public class nVars {
         keys.put("x", xCon.ex("THING_PLAYER.0.coordx"));
         keys.put("y", xCon.ex("THING_PLAYER.0.coordy"));
         keys.put("crouch", xCon.ex("THING_PLAYER.0.crouch"));
+        keys.put("flashlight", xCon.ex("cv_flashlight"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
                 || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
                 || cVars.getInt("currentweapon") == gWeapons.weapon_gloves

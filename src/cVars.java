@@ -98,8 +98,8 @@ public class cVars {
         put("survivesafezone", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocitycam", "9");
-        put("velocityplayer", "8");
         put("velocityplayerbase", "8");
+        put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
         put("vfxuialphaflashlight", "128");
         put("vfxuialphasprint", "128");

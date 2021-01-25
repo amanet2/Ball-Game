@@ -530,6 +530,7 @@ public class gPlayer extends gThing {
         put("accelrate", "100");
         put("clip", "1");
         put("firing", "0");
+        put("flashlight", "0");
         put("exitteleportertag", "-1");
         put("pathspritehat", "");
         put("pathsprite", "");
@@ -553,7 +554,6 @@ public class gPlayer extends gThing {
         put("botthinktime", "0");
         put("powerupsusetime", "0");
         put("sendshot", "0");
-        put("botracescorepointint0string", "");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("dropweapon", new gDoableThing(){
