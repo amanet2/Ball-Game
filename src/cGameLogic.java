@@ -196,6 +196,7 @@ public class cGameLogic {
                     char[] cmovedirs = cargs.get("dirs").toCharArray();
                     int ccrouch = Integer.parseInt(cargs.get("crouch"));
                     int cfire = Integer.parseInt(cargs.get("fire"));
+                    int cflashlight = Integer.parseInt(cargs.get("flashlight"));
                     if(sVars.isZero("smoothing")) {
                         p.put("coordx", cargs.get("x"));
                         p.put("coordy", cargs.get("y"));
@@ -212,6 +213,9 @@ public class cGameLogic {
                         p.putInt("crouch", ccrouch);
                     if(!p.isInt("firing", cfire))
                         p.putInt("firing", cfire);
+                    if(!p.isInt("flashlight", cflashlight))
+                        p.putInt("flashlight", cflashlight);
+
                 }
             }
         }
