@@ -6,7 +6,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* maps should have a flag (cvar) for bots to use flashlights on the map
+* player should drop flag in flagmaster, but ctf shoud go back to starting spot
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
 * cant have key bound to multiple actions
 * mapfile prop line and editor_put_prop console comm can be combined
@@ -54,6 +54,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* maps should have a flag (cvar) for bots to use flashlights on the map
 * put little representation of the lead character next to the leader string
     -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
         -> facing the right

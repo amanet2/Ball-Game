@@ -5,9 +5,9 @@ public class xComAddBot extends xCom {
         String[] botnameselection = sVars.getArray("botnameselection");
         String[] colorselection = sVars.getArray("colorselection");
         String[] hatselection = sVars.getArray("hatselection");
-        String botname = botnameselection[(int)(Math.random()*(botnameselection.length-1))];
-        String botcolor = colorselection[(int)(Math.random()*(colorselection.length-1))];
-        String bothat = hatselection[(int)(Math.random()*(hatselection.length-1))];
+        String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
+        String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
+        String bothat = hatselection[(int)(Math.random()*(hatselection.length))];
 
         gPlayer p = new gPlayer(-6000,-6000,150,150,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
