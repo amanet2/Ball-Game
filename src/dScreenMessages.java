@@ -16,9 +16,11 @@ public class dScreenMessages {
             String statestr = nServer.clientArgsMap.get("server").get("state");
             String[] stoks = statestr.split("-");
             StringBuilder todraw = new StringBuilder();
-            for(int i = 0; i < stoks[1].length(); i++) {
-                char c = stoks[1].charAt(i);
-                todraw.append(c == '1' ? "[X]" : "[  ]");
+            if(stoks.length > 1) {
+                for (int i = 0; i < stoks[1].length(); i++) {
+                    char c = stoks[1].charAt(i);
+                    todraw.append(c == '1' ? "[X]" : "[  ]");
+                }
             }
             dScreenMessages.drawCenteredString(g, todraw.toString(),
                     sSettings.width/2,sSettings.height-sSettings.height/16);

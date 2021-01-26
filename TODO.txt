@@ -54,6 +54,9 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* add buttons, like in the nuke map in day of defeat
+    -> red square with flare like weapon highlight.  turn to green whenn player goes over
+        -> need to have doables attached to the button
 * maps should have a flag (cvar) for bots to use flashlights on the map
 * put little representation of the lead character next to the leader string
     -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
