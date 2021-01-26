@@ -497,11 +497,14 @@ public class cScripts {
                             xCon.ex("givepoint " + killerid);
                             xCon.ex("cv_chosenoneid " + dmgvictim.get("id"));
                         }
-                        if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                                || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                                && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
+                        if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
+                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
                             cVars.put("flagmasterid", "");
-//                            playerDropPropHeld(p, gProp.FLAGRED);
+                        }
+                        if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
+                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
+                            //player dies holding flag
+                            cVars.put("flagmasterid", "");
                         }
                         if(cVars.isZero("gamespawnarmed")) {
                             cScripts.changeBotWeapon(dmgvictim,gWeapons.weapon_none,true);
@@ -520,6 +523,10 @@ public class cScripts {
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {
                     xCon.ex("dropweapon");
+                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
+                    && cVars.isVal("flagmasterid", cGameLogic.getUserPlayer().get("id"))) {
+                        xCon.ex("dropflagred");
+                    }
                     cVars.remove("shaketime");
                     cVars.putInt("cammode", gCamera.MODE_TRACKING);
                     cVars.put("camplayertrackingid", bullet.get("srcid"));
@@ -555,7 +562,6 @@ public class cScripts {
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                         && cVars.isVal("flagmasterid", "server")) {
                             cVars.put("flagmasterid", "");
-//                            playerDropPropHeld(p, gProp.FLAGRED);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))

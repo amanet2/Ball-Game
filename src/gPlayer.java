@@ -515,7 +515,6 @@ public class gPlayer extends gThing {
 
     public void dropWeapon() {
         xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
-        xCon.instance().debug("THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
