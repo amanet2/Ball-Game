@@ -12,6 +12,7 @@ public class iKeyboard implements KeyListener {
 
     private static HashMap<Integer, String> shiftKeyMap = null;
     private static HashMap<Integer, String> specialKeyMap = null;
+    private static HashMap<String, Integer> subKeyMap = null;
 
     private static void init() {
         shiftKeyMap = new HashMap<>();
@@ -52,6 +53,64 @@ public class iKeyboard implements KeyListener {
         specialKeyMap.put(KeyEvent.VK_PAGE_DOWN, "");
         specialKeyMap.put(KeyEvent.VK_END, "");
         specialKeyMap.put(KeyEvent.VK_ALT, "");
+        subKeyMap = new HashMap<>();
+        subKeyMap.put("a", KeyEvent.VK_A);
+        subKeyMap.put("b", KeyEvent.VK_B);
+        subKeyMap.put("c", KeyEvent.VK_C);
+        subKeyMap.put("d", KeyEvent.VK_D);
+        subKeyMap.put("e", KeyEvent.VK_E);
+        subKeyMap.put("f", KeyEvent.VK_F);
+        subKeyMap.put("g", KeyEvent.VK_G);
+        subKeyMap.put("h", KeyEvent.VK_H);
+        subKeyMap.put("i", KeyEvent.VK_I);
+        subKeyMap.put("j", KeyEvent.VK_J);
+        subKeyMap.put("k", KeyEvent.VK_K);
+        subKeyMap.put("l", KeyEvent.VK_L);
+        subKeyMap.put("m", KeyEvent.VK_M);
+        subKeyMap.put("n", KeyEvent.VK_N);
+        subKeyMap.put("o", KeyEvent.VK_O);
+        subKeyMap.put("p", KeyEvent.VK_P);
+        subKeyMap.put("q", KeyEvent.VK_Q);
+        subKeyMap.put("r", KeyEvent.VK_R);
+        subKeyMap.put("s", KeyEvent.VK_S);
+        subKeyMap.put("t", KeyEvent.VK_T);
+        subKeyMap.put("u", KeyEvent.VK_U);
+        subKeyMap.put("v", KeyEvent.VK_V);
+        subKeyMap.put("w", KeyEvent.VK_W);
+        subKeyMap.put("x", KeyEvent.VK_X);
+        subKeyMap.put("y", KeyEvent.VK_Y);
+        subKeyMap.put("z", KeyEvent.VK_Z);
+        subKeyMap.put("enter", KeyEvent.VK_ENTER);
+        subKeyMap.put("shift", KeyEvent.VK_SHIFT);
+        subKeyMap.put("ctrl", KeyEvent.VK_CONTROL);
+        subKeyMap.put("[", KeyEvent.VK_OPEN_BRACKET);
+        subKeyMap.put("escape", KeyEvent.VK_ESCAPE);
+        subKeyMap.put("\\", KeyEvent.VK_BACK_SLASH);
+        subKeyMap.put("]", KeyEvent.VK_CLOSE_BRACKET);
+        subKeyMap.put("space", KeyEvent.VK_SPACE);
+        subKeyMap.put("left", KeyEvent.VK_LEFT);
+        subKeyMap.put("up", KeyEvent.VK_UP);
+        subKeyMap.put("right", KeyEvent.VK_RIGHT);
+        subKeyMap.put("down", KeyEvent.VK_DOWN);
+        subKeyMap.put("-", KeyEvent.VK_MINUS);
+        subKeyMap.put("=", KeyEvent.VK_EQUALS);
+        subKeyMap.put("`", KeyEvent.VK_BACK_QUOTE);
+        subKeyMap.put("0", KeyEvent.VK_0);
+        subKeyMap.put("1", KeyEvent.VK_1);
+        subKeyMap.put("2", KeyEvent.VK_2);
+        subKeyMap.put("3", KeyEvent.VK_3);
+        subKeyMap.put("4", KeyEvent.VK_4);
+        subKeyMap.put("5", KeyEvent.VK_5);
+        subKeyMap.put("6", KeyEvent.VK_6);
+        subKeyMap.put("7", KeyEvent.VK_7);
+        subKeyMap.put("8", KeyEvent.VK_8);
+        subKeyMap.put("9", KeyEvent.VK_9);
+        subKeyMap.put("tab", KeyEvent.VK_TAB);
+        subKeyMap.put(",", KeyEvent.VK_COMMA);
+        subKeyMap.put(".", KeyEvent.VK_PERIOD);
+        subKeyMap.put("/", KeyEvent.VK_SLASH);
+        subKeyMap.put("backspace", KeyEvent.VK_BACK_SPACE);
+        subKeyMap.put("delete", KeyEvent.VK_DELETE);
     }
 
     public static String getShiftKeyForCode(Integer code) {
@@ -64,6 +123,12 @@ public class iKeyboard implements KeyListener {
         if(specialKeyMap == null)
             init();
         return specialKeyMap.get(code);
+    }
+
+    public static Integer getCodeForKey(String text) {
+        if(subKeyMap == null)
+            init();
+        return subKeyMap.get(text);
     }
 
     static String[] keyCodeSubTexts = new String[] {
