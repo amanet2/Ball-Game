@@ -1,7 +1,7 @@
 public class cPowerups {
     public static void takepowerupammo(gProp powerup) {
         while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
-                < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
+                < gWeapons.fromCode(powerup.getInt("int0")).maxAmmo) {
             cVars.increment("weaponstock"+powerup.get("int0"));
             powerup.putInt("int1", powerup.getInt("int1") - 1);
             if(sSettings.net_client) {
@@ -31,11 +31,11 @@ public class cPowerups {
                     cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
                 }
                 else if(cVars.isInt("currentweapon", int0)
-                        && cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo) {
+                        && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
                     takepowerupammo(powerup);
                 }
             }
-            else if(cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo){
+            else if(cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo){
                 takepowerupammo(powerup);
             }
 //            else if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
@@ -96,8 +96,8 @@ public class cPowerups {
                 }
                 else {
                     xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
-                            gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
-                            gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]));
+                            gProp.POWERUP, int0, int1,x, y,gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
+                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]));
                     eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
                 }
             }

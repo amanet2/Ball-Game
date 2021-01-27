@@ -185,18 +185,19 @@ public class dScreenMessages {
             }
             else {
                 g.setColor(new Color(30,50,220,255));
-                if(gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo > 0)
+                if(gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo > 0)
                     g.fillRect(sSettings.width/64,60*sSettings.height/64,
                             sSettings.width/3*cVars.getInt("weaponstock"+cVars.get("currentweapon"))
-                                    /gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo,
+                                    /gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo,
                             sSettings.height/64);
             }
             g2.setColor(Color.BLACK);
-            for(int j = 0; j < gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo;j++) {
+            for(int j = 0; j < gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo;j++) {
                 g2.drawRect(
-                        sSettings.width/64+(j*((sSettings.width/3)/gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo)),
+                        sSettings.width/64
+                                + (j*((sSettings.width/3)/gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo)),
                         60*sSettings.height/64,
-                        ((sSettings.width/3)/gWeapons.weapons_selection[cVars.getInt("currentweapon")].maxAmmo),
+                        ((sSettings.width/3)/gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo),
                         sSettings.height/64);
             }
             g.setColor(new Color(0,0,150,255));
@@ -215,9 +216,9 @@ public class dScreenMessages {
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
                     : cVars.getInt("currentweapon") != gWeapons.type.NONE.code()
                     && cVars.getInt("currentweapon") != gWeapons.type.GLOVES.code()
-                    ? (gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase()
+                    ? (gWeapons.fromCode(cVars.getInt("currentweapon")).name.toUpperCase()
                     + " ["+cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]")
-                    : gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase(),
+                    : gWeapons.fromCode(cVars.getInt("currentweapon")).name.toUpperCase(),
                     sSettings.width/62,60*sSettings.height/64);
             //sprint
             g.setColor(new Color(0,0,0,255));

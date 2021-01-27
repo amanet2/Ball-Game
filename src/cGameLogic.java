@@ -83,9 +83,9 @@ public class cGameLogic {
                 int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
                 while (ctr < limit) {
                     int r = (int) (Math.random() * powerupcandidates.size());
-                    int rr = (int) (Math.random() * gWeapons.weapons_selection.length-1)+1;
+                    int rr = (int) (Math.random() * gWeapons.weaponSelection().size()-1)+1;
                     powerupcandidates.get(r).put("int0", Integer.toString(rr));
-                    powerupcandidates.get(r).putInt("int1", gWeapons.weapons_selection[rr].maxAmmo);
+                    powerupcandidates.get(r).putInt("int1", gWeapons.fromCode(rr).maxAmmo);
                     powerupcandidates.remove(r);
                     ctr++;
                 }
@@ -294,7 +294,7 @@ public class cGameLogic {
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
             cVars.putInt("weaponstock"+ gWeapons.type.PISTOL.code(),
-                    gWeapons.weapons_selection[gWeapons.type.PISTOL.code()].maxAmmo);
+                    gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
             cVars.put("reloading", "0");
         }
         //shotgun
@@ -303,7 +303,7 @@ public class cGameLogic {
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
             cVars.putInt("weaponstock"+ gWeapons.type.SHOTGUN.code(),
-                    gWeapons.weapons_selection[gWeapons.type.SHOTGUN.code()].maxAmmo);
+                    gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
             cVars.put("reloading", "0");
         }
         //autorifle
@@ -312,7 +312,7 @@ public class cGameLogic {
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
             cVars.putInt("weaponstock"+ gWeapons.type.AUTORIFLE.code(),
-                    gWeapons.weapons_selection[gWeapons.type.AUTORIFLE.code()].maxAmmo);
+                    gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
             cVars.put("reloading", "0");
         }
         //grenade
@@ -321,7 +321,7 @@ public class cGameLogic {
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
             cVars.putInt("weaponstock"+ gWeapons.type.LAUNCHER.code(),
-                    gWeapons.weapons_selection[gWeapons.type.LAUNCHER.code()].maxAmmo);
+                    gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
             cVars.put("reloading", "0");
         }
         //other players
@@ -480,8 +480,7 @@ public class cGameLogic {
                 if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
                     p.fireWeapon();
                     p.putLong("cooldown",
-                            (System.currentTimeMillis()
-                                    + gWeapons.weapons_selection[p.getInt("weapon")].refiredelay));
+                            (System.currentTimeMillis() + gWeapons.fromCode(p.getInt("weapon")).refiredelay));
                 }
                 if(p.isInt("crouch", 1)) {
                     xCon.ex("playercrouch " + p.get("id"));

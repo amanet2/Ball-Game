@@ -141,9 +141,9 @@ public class dPlayer {
                 );
                 g2.setTransform(a);
                 int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
-                        gWeapons.weapons_selection[e.getInt("weapon")].dims[1]/2:
-                        gWeapons.weapons_selection[e.getInt("weapon")].dims[1]/2;
-                g2.drawImage(gWeapons.weapons_selection[e.getInt("weapon")].sprite,
+                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
+                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
+                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
                         eUtils.scaleInt(e.getInt("coordx")+ e.getInt("dimw")/2-cVars.getInt("camx")),
                         eUtils.scaleInt(e.getInt("coordy")+ e.getInt("dimh")/2-cVars.getInt("camy")-diff),
                         null);

@@ -45,9 +45,9 @@ public class dProp {
                                 Rectangle2D shadowBounds = new Rectangle.Double(
                                     eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
                                     eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")
-                                            + 3*gWeapons.weapons_selection[prop.getInt("int0")].dims[1]/4),
-                                    eUtils.scaleInt(gWeapons.weapons_selection[prop.getInt("int0")].dims[0]),
-                                    eUtils.scaleInt(gWeapons.weapons_selection[prop.getInt("int0")].dims[1])/2);
+                                            + 3*gWeapons.fromCode(prop.getInt("int0")).dims[1]/4),
+                                    eUtils.scaleInt(gWeapons.fromCode(prop.getInt("int0")).dims[0]),
+                                    eUtils.scaleInt(gWeapons.fromCode(prop.getInt("int0")).dims[1])/2);
                                 if(shadowBounds.getWidth() > 0 && shadowBounds.getHeight() > 0) {
                                     RadialGradientPaint df = new RadialGradientPaint(
                                             shadowBounds, new float[]{0f, 1f},
@@ -61,7 +61,7 @@ public class dProp {
                                 }
                             }
                         }
-                        g2.drawImage(gWeapons.weapons_selection[prop.getInt("int0")].sprite,
+                        g2.drawImage(gWeapons.fromCode(prop.getInt("int0")).sprite,
                                 eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
                                 eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")),
                                 null);

@@ -54,9 +54,9 @@ public class cScripts {
                         p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
                         p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
                             "misc/bfg.png";
-                gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
-                    gWeapons.weapons_selection[p.getInt("weapon")].flipdimr;
-                gWeapons.weapons_selection[p.getInt("weapon")].setSpriteFromPath(eUtils.getPath(sprite));
+                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
+                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
             }
         }
         else if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
@@ -73,9 +73,9 @@ public class cScripts {
                     p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
                     p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
-                gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
-                    gWeapons.weapons_selection[p.getInt("weapon")].flipdiml;
-                gWeapons.weapons_selection[p.getInt("weapon")].setSpriteFromPath(eUtils.getPath(sprite));
+                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+                    gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
             }
         }
     }

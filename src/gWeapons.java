@@ -10,6 +10,7 @@ public class gWeapons {
 		GLOVES (5)
 		;
 		private final int code;
+		static final int none = 0;
 		static final int pistol = 1;
 		static final int shotgun = 2;
 		static final int autorifle = 3;
@@ -34,12 +35,12 @@ public class gWeapons {
 		types.put(type.LAUNCHER, new gWeaponsNone());
 		types.put(type.GLOVES, new gWeaponsNone());
 		codes = new HashMap<>();
-		codes.put(0, types.get(type.NONE));
-		codes.put(1, types.get(type.PISTOL));
-		codes.put(2, types.get(type.SHOTGUN));
-		codes.put(3, types.get(type.AUTORIFLE));
-		codes.put(4, types.get(type.LAUNCHER));
-		codes.put(5, types.get(type.GLOVES));
+		codes.put(type.none, types.get(type.NONE));
+		codes.put(type.pistol, types.get(type.PISTOL));
+		codes.put(type.shotgun, types.get(type.SHOTGUN));
+		codes.put(type.autorifle, types.get(type.AUTORIFLE));
+		codes.put(type.launcher, types.get(type.LAUNCHER));
+		codes.put(type.gloves, types.get(type.GLOVES));
 	}
 	public static HashMap<type, gWeapon> weaponSelection() {
 		if(types == null)
@@ -47,16 +48,16 @@ public class gWeapons {
 		return types;
 	}
 
-	public static gWeapon fromCode(int code) {
-		return codes.get(code);
+	public static HashMap<Integer, gWeapon> weaponCodes() {
+		if(codes == null)
+			init();
+		return codes;
 	}
 
-	static gWeapon[] weapons_selection = new gWeapon[]{
-		new gWeaponsNone(),
-		new gWeaponsPistol(),
-		new gWeaponsShotgun(),
-		new gWeaponsAutorifle(),
-		new gWeaponsLauncher(),
-		new gWeaponsGloves()
-	};
+	public static gWeapon fromCode(int code) {
+		return weaponCodes().get(code);
+	}
+	public static gWeapon get(type type) {
+		return weaponSelection().get(type);
+	}
 }
