@@ -2,13 +2,13 @@ public class xComDropFlagRed extends xCom {
     public String doCommand(String fullCommand) {
         gPlayer p = cGameLogic.getUserPlayer();
         if(p != null) {
-            System.out.println("ASDF");
-            String doString = String.format("e_putprop %d %s %s %d %d %d %d",
-                    gProp.FLAGRED, "1", "0", p.getInt("coordx") + p.getInt("dimw"),
-                    p.getInt("coordy") + p.getInt("dimh"), 300, 300);
-            cVars.putInt("weaponstock"+p.get("weapon"), 0);
-            xCon.ex(doString);
-            cVars.put("sendcmd", doString);
+            System.out.println("DROP FLAG (RED)");
+//            String doString = String.format("e_putprop %d %s %s %d %d %d %d",
+//                    gProp.FLAGRED, "1", "0", p.getInt("coordx") + p.getInt("dimw"),
+//                    p.getInt("coordy") + p.getInt("dimh"), 300, 300);
+//            cVars.putInt("weaponstock"+p.get("weapon"), 0);
+//            xCon.ex(doString);
+//            cVars.put("sendcmd", doString);
         }
         return "drop weapon";
     }

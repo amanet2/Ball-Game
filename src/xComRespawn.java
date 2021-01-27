@@ -28,20 +28,10 @@ public class xComRespawn extends xCom {
                         xCon.ex("THING_PLAYER.0.coordy "+ (t.getInt("coordy") + t.getInt("dimh") / 2
                                 - cGameLogic.getUserPlayer().getInt("dimh") / 2));
                         if(cVars.getInt("gamespawnarmed") < 1) {
-                            cVars.putInt("weaponstock" + gWeapons.weapon_pistol, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_shotgun, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_autorifle, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_launcher, 0);
+                            cScripts.clearWeaponStocks();
                         }
                         else {
-                            cVars.putInt("weaponstock" + gWeapons.weapon_pistol,
-                                    gWeapons.weapons_selection[gWeapons.weapon_pistol].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_shotgun,
-                                    gWeapons.weapons_selection[gWeapons.weapon_shotgun].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_autorifle,
-                                    gWeapons.weapons_selection[gWeapons.weapon_autorifle].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_launcher,
-                                    gWeapons.weapons_selection[gWeapons.weapon_launcher].maxAmmo);
+                            cScripts.refillWeaponStocks();
                         }
                         cVars.put("stockhp", cVars.get("maxstockhp"));
                         xCon.ex("cv_flashlight 0");

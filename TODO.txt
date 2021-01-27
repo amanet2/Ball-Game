@@ -6,6 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* incorporate enums where possible
+    -> replace weapon_selection with weaponSelection()
+* why does cGameLogic.getMovementStatus() have a double for-loop for all ids
 * need sound effects for hitting sorepoints, capping flags, surviving safezones, grabbing flags, completing laps
 * player should drop flag in flagmaster, but ctf shoud go back to starting spot
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene

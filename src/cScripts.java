@@ -367,6 +367,24 @@ public class cScripts {
         }
     }
 
+    public static void refillWeaponStocks() {
+        cVars.putInt("weaponstock0", gWeapons.weaponSelection().get(gWeapons.Type.NONE).maxAmmo);
+        cVars.putInt("weaponstock1", gWeapons.weaponSelection().get(gWeapons.Type.PISTOL).maxAmmo);
+        cVars.putInt("weaponstock2", gWeapons.weaponSelection().get(gWeapons.Type.SHOTGUN).maxAmmo);
+        cVars.putInt("weaponstock3", gWeapons.weaponSelection().get(gWeapons.Type.AUTORIFLE).maxAmmo);
+        cVars.putInt("weaponstock4", gWeapons.weaponSelection().get(gWeapons.Type.LAUNCHER).maxAmmo);
+        cVars.putInt("weaponstock5", gWeapons.weaponSelection().get(gWeapons.Type.GLOVES).maxAmmo);
+    }
+
+    public static void clearWeaponStocks() {
+        cVars.put("weaponstock0", "0");
+        cVars.put("weaponstock1", "0");
+        cVars.put("weaponstock2", "0");
+        cVars.put("weaponstock3", "0");
+        cVars.put("weaponstock4", "0");
+        cVars.put("weaponstock5", "0");
+    }
+
     public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<gAnimationEmitter> tra = new ArrayList<>();
@@ -523,6 +541,7 @@ public class cScripts {
             if(cVars.getInt("stockhp") < 1) {
                 if(!cVars.contains("respawntime")) {
                     xCon.ex("dropweapon");
+                    //drop flag on death if holding flag in flagmaster game mode
                     if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
                     && cVars.isVal("flagmasterid", cGameLogic.getUserPlayer().get("id"))) {
                         xCon.ex("dropflagred");
