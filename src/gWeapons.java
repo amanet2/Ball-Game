@@ -48,7 +48,6 @@ public class gWeapons {
 			init();
 		return types;
 	}
-
 	public static gWeapon fromCode(Integer code) {
 		if(codes == null)
 			init();

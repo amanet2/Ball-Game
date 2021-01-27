@@ -94,14 +94,13 @@ public class iInput {
                     break;
             }
             if(iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-                for (int i = 0; i < iKeyboard.shiftKeyCodes.length; i++) {
-                    if (command == iKeyboard.shiftKeyCodes[i]) {
-                        String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                        String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
-                        xCon.instance().commandString = a+iKeyboard.shiftKeyTexts[i]+b;
-                        xCon.instance().cursorIndex++;
-                        return;
-                    }
+                String key = iKeyboard.getShiftKeyForCode(command);
+                if(key != null) {
+                    String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
+                    String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
+                    xCon.instance().commandString = a+key+b;
+                    xCon.instance().cursorIndex++;
+                    return;
                 }
             }
             for (int i = 0; i < iKeyboard.specialKeys.length; i++) {
@@ -127,11 +126,10 @@ public class iInput {
         }
 	    else if(gMessages.enteringMessage) {
 	        if(iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-                for (int i = 0; i < iKeyboard.shiftKeyCodes.length; i++) {
-                    if (command == iKeyboard.shiftKeyCodes[i]) {
-                        gMessages.msgInProgress += iKeyboard.shiftKeyTexts[i];
-                        return;
-                    }
+                String key = iKeyboard.getShiftKeyForCode(command);
+                if(key != null) {
+                    gMessages.msgInProgress += key;
+                    return;
                 }
             }
             for (int i = 0; i < iKeyboard.specialKeys.length; i++) {

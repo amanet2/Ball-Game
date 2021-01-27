@@ -1,5 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,27 +10,25 @@ public class iKeyboard implements KeyListener {
     static boolean shiftMode = false;
     static boolean ctrlMode = false;
 
-    static Integer[] shiftKeyCodes = new Integer[] {
-        KeyEvent.VK_SEMICOLON,
-        KeyEvent.VK_MINUS,
-        KeyEvent.VK_EQUALS,
-        KeyEvent.VK_QUOTE,
-        KeyEvent.VK_COMMA,
-        KeyEvent.VK_PERIOD,
-        KeyEvent.VK_SLASH,
-        KeyEvent.VK_BACK_QUOTE
-    };
+    private static HashMap<Integer, String> shiftKeyMap = null;
 
-    static String[] shiftKeyTexts = new String[] {
-        ":",
-        "_",
-        "+",
-        "\"",
-        "<",
-        ">",
-        "?",
-        "~"
-    };
+    private static void init() {
+        shiftKeyMap = new HashMap<>();
+        shiftKeyMap.put(KeyEvent.VK_SEMICOLON, ":");
+        shiftKeyMap.put(KeyEvent.VK_MINUS,"_");
+        shiftKeyMap.put(KeyEvent.VK_EQUALS,"+");
+        shiftKeyMap.put(KeyEvent.VK_QUOTE,"\"");
+        shiftKeyMap.put(KeyEvent.VK_COMMA,"<");
+        shiftKeyMap.put(KeyEvent.VK_PERIOD,">");
+        shiftKeyMap.put(KeyEvent.VK_SLASH,"?");
+        shiftKeyMap.put(KeyEvent.VK_BACK_QUOTE,"~");
+    }
+
+    public static String getShiftKeyForCode(Integer code) {
+        if(shiftKeyMap == null)
+            init();
+        return shiftKeyMap.get(code);
+    }
 
     static Integer[] specialKeys = new Integer[] {
         KeyEvent.VK_SPACE,
