@@ -58,8 +58,8 @@ public class nVars {
         keys.put("flashlight", xCon.ex("cv_flashlight"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
                 || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
-                || cVars.getInt("currentweapon") == gWeapons.Type.GLOVES.code()
-                || cVars.getInt("currentweapon") == gWeapons.Type.NONE.code()) ? "1" : "0");
+                || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
+                || cVars.getInt("currentweapon") == gWeapons.type.NONE.code()) ? "1" : "0");
         keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
         keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
                 xCon.ex("THING_PLAYER.0.mov1"), xCon.ex("THING_PLAYER.0.mov2"),

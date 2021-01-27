@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class gWeapons {
-	public enum Type {
+	public enum type {
 		NONE (0),
 		PISTOL (1),
 		SHOTGUN (2),
@@ -16,31 +16,40 @@ public class gWeapons {
 		static final int launcher = 4;
 		static final int gloves = 5;
 
-		Type(int code) {
+		type(int code) {
 			this.code = code;
 		}
 		public int code() {
 			return code;
 		}
 	}
-	private static HashMap<Type, gWeapon> weaponSelection = null;
+	private static HashMap<type, gWeapon> types = null;
+	private static HashMap<Integer, gWeapon> codes = null;
 	private static void init() {
-		weaponSelection = new HashMap<>();
-		weaponSelection.put(Type.NONE, new gWeaponsNone());
-		weaponSelection.put(Type.PISTOL, new gWeaponsNone());
-		weaponSelection.put(Type.SHOTGUN, new gWeaponsNone());
-		weaponSelection.put(Type.AUTORIFLE, new gWeaponsNone());
-		weaponSelection.put(Type.LAUNCHER, new gWeaponsNone());
-		weaponSelection.put(Type.GLOVES, new gWeaponsNone());
+		types = new HashMap<>();
+		types.put(type.NONE, new gWeaponsNone());
+		types.put(type.PISTOL, new gWeaponsNone());
+		types.put(type.SHOTGUN, new gWeaponsNone());
+		types.put(type.AUTORIFLE, new gWeaponsNone());
+		types.put(type.LAUNCHER, new gWeaponsNone());
+		types.put(type.GLOVES, new gWeaponsNone());
+		codes = new HashMap<>();
+		codes.put(0, types.get(type.NONE));
+		codes.put(1, types.get(type.PISTOL));
+		codes.put(2, types.get(type.SHOTGUN));
+		codes.put(3, types.get(type.AUTORIFLE));
+		codes.put(4, types.get(type.LAUNCHER));
+		codes.put(5, types.get(type.GLOVES));
 	}
-	public static HashMap<Type, gWeapon> weaponSelection() {
-		if(weaponSelection == null)
+	public static HashMap<type, gWeapon> weaponSelection() {
+		if(types == null)
 			init();
-		return weaponSelection;
+		return types;
 	}
 
-	static final int weapon_launcher = 4;
-	static final int weapon_gloves = 5;
+	public static gWeapon fromCode(int code) {
+		return codes.get(code);
+	}
 
 	static gWeapon[] weapons_selection = new gWeapon[]{
 		new gWeaponsNone(),

@@ -48,11 +48,11 @@ public class cScripts {
             || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
             if(!p.get("pathsprite").contains("a03")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.Type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-                    p.isInt("weapon",gWeapons.Type.SHOTGUN.code()) ? "misc/shotgun.png" :
-                        p.isInt("weapon",gWeapons.Type.GLOVES.code()) ? "misc/glove.png" :
-                        p.isInt("weapon",gWeapons.Type.NONE.code()) ? "" :
-                        p.isInt("weapon",gWeapons.Type.LAUNCHER.code()) ? "misc/launcher.png" :
+                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
                             "misc/bfg.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
                     gWeapons.weapons_selection[p.getInt("weapon")].flipdimr;
@@ -67,11 +67,11 @@ public class cScripts {
         else {
             if(!p.get("pathsprite").contains("a05")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.Type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-                    p.isInt("weapon", gWeapons.Type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-                    p.isInt("weapon", gWeapons.Type.GLOVES.code()) ? "misc/glove_flip.png" :
-                    p.isInt("weapon", gWeapons.Type.NONE.code()) ? "" :
-                    p.isInt("weapon", gWeapons.Type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
                     gWeapons.weapons_selection[p.getInt("weapon")].flipdiml;
@@ -368,12 +368,12 @@ public class cScripts {
     }
 
     public static void refillWeaponStocks() {
-        cVars.putInt("weaponstock0", gWeapons.weaponSelection().get(gWeapons.Type.NONE).maxAmmo);
-        cVars.putInt("weaponstock1", gWeapons.weaponSelection().get(gWeapons.Type.PISTOL).maxAmmo);
-        cVars.putInt("weaponstock2", gWeapons.weaponSelection().get(gWeapons.Type.SHOTGUN).maxAmmo);
-        cVars.putInt("weaponstock3", gWeapons.weaponSelection().get(gWeapons.Type.AUTORIFLE).maxAmmo);
-        cVars.putInt("weaponstock4", gWeapons.weaponSelection().get(gWeapons.Type.LAUNCHER).maxAmmo);
-        cVars.putInt("weaponstock5", gWeapons.weaponSelection().get(gWeapons.Type.GLOVES).maxAmmo);
+        cVars.putInt("weaponstock0", gWeapons.weaponSelection().get(gWeapons.type.NONE).maxAmmo);
+        cVars.putInt("weaponstock1", gWeapons.weaponSelection().get(gWeapons.type.PISTOL).maxAmmo);
+        cVars.putInt("weaponstock2", gWeapons.weaponSelection().get(gWeapons.type.SHOTGUN).maxAmmo);
+        cVars.putInt("weaponstock3", gWeapons.weaponSelection().get(gWeapons.type.AUTORIFLE).maxAmmo);
+        cVars.putInt("weaponstock4", gWeapons.weaponSelection().get(gWeapons.type.LAUNCHER).maxAmmo);
+        cVars.putInt("weaponstock5", gWeapons.weaponSelection().get(gWeapons.type.GLOVES).maxAmmo);
     }
 
     public static void clearWeaponStocks() {
@@ -398,27 +398,27 @@ public class cScripts {
                     eManager.currentMap.scene.animations().add(
                         new gAnimationEmitter(b.getInt("anim"), b.getInt("coordx"), b.getInt("coordy")));
                 //grenade explosion
-                if(b.isInt("src", gWeapons.Type.LAUNCHER.code())) {
+                if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
                     pseeds.add(b);
                 }
                 continue;
             }
             for(gTile t : eManager.currentMap.scene.tiles()) {
                 if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
-                        && b.getInt("src") != gWeapons.Type.GLOVES.code()
+                        && b.getInt("src") != gWeapons.type.GLOVES.code()
                 && b.isZero("isexplosionpart")) {
                     trc.add(b);
                     if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
                         eManager.currentMap.scene.animations().add(
                             new gAnimationEmitter(b.getInt("anim"), b.getInt("coordx"), b.getInt("coordy")));
-                    if(b.isInt("src", gWeapons.Type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
                 }
             }
             for(gPlayer t : eManager.currentMap.scene.players()) {
                 if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(t.get("id"))) {
                     trv.put(t,b);
-                    if(b.isInt("src", gWeapons.Type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
                 }
             }
@@ -525,7 +525,7 @@ public class cScripts {
                             cVars.put("flagmasterid", "");
                         }
                         if(cVars.isZero("gamespawnarmed")) {
-                            cScripts.changeBotWeapon(dmgvictim,gWeapons.Type.NONE.code(),true);
+                            cScripts.changeBotWeapon(dmgvictim, gWeapons.type.NONE.code(),true);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -668,7 +668,7 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
             }
-            cVars.putInt("currentweapon", gWeapons.Type.NONE.code());
+            cVars.putInt("currentweapon", gWeapons.type.NONE.code());
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){

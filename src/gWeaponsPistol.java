@@ -23,14 +23,14 @@ public class gWeaponsPistol extends gWeapon {
             damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.Type.PISTOL.code());
+        b.putInt("src", gWeapons.type.PISTOL.code());
         double randomOffset = (Math.random() * ((Math.PI/12))) - Math.PI/24;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         eManager.currentMap.scene.bullets().add(b);
         if(p == cGameLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+gWeapons.Type.PISTOL.code());
-            cVars.putLong("weapontime"+gWeapons.Type.PISTOL.code(), System.currentTimeMillis());
+            cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
+            cVars.putLong("weapontime"+ gWeapons.type.PISTOL.code(), System.currentTimeMillis());
         }
     }
 }

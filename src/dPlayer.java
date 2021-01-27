@@ -8,33 +8,33 @@ public class dPlayer {
         try {
             for (gPlayer e : eManager.currentMap.scene.players()) {
                 //player gun
-                if(e.getInt("weapon") != gWeapons.Type.NONE.code()) {
+                if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
                     int[] rgb = new int[4];
                     rgb[3] = 255;
                     switch (e.getInt("weapon")) {
-                        case gWeapons.Type.pistol:
+                        case gWeapons.type.pistol:
                             rgb[0] = 100;
                             rgb[1] = 255;
                             break;
-                        case gWeapons.Type.shotgun:
+                        case gWeapons.type.shotgun:
                             rgb[1] = 200;
                             rgb[2] = 255;
                             break;
-                        case gWeapons.Type.autorifle:
+                        case gWeapons.type.autorifle:
                             rgb[0] = 255;
                             rgb[1] = 170;
                             break;
-                        case gWeapons.Type.launcher:
+                        case gWeapons.type.launcher:
                             rgb[0] = 255;
                             break;
-                        case gWeapons.Type.gloves:
+                        case gWeapons.type.gloves:
                             rgb[0] = 255;
                             rgb[1] = 255;
                             break;
                         default:
                             break;
                     }
-                    if(e.getInt("weapon") != gWeapons.Type.NONE.code()) {
+                    if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
                         int x = eUtils.scaleInt(e.getInt("coordx")-cVars.getInt("camx")
                                 - e.getInt("dimw")/4);
                         int y = eUtils.scaleInt(e.getInt("coordy")-cVars.getInt("camy") - e.getInt("dimh")/4);

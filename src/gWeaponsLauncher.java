@@ -23,12 +23,12 @@ public class gWeaponsLauncher extends gWeapon {
                 damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.Type.LAUNCHER.code());
+        b.putInt("src", gWeapons.type.LAUNCHER.code());
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         eManager.currentMap.scene.bullets().add(b);
         if(p == cGameLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+gWeapons.Type.LAUNCHER.code());
-            cVars.putLong("weapontime"+gWeapons.Type.LAUNCHER.code(), System.currentTimeMillis());
+            cVars.decrement("weaponstock"+ gWeapons.type.LAUNCHER.code());
+            cVars.putLong("weapontime"+ gWeapons.type.LAUNCHER.code(), System.currentTimeMillis());
         }
     }
 
@@ -36,7 +36,7 @@ public class gWeaponsLauncher extends gWeapon {
         //launcher explosion
         for (int i = 0; i < 8; i++) {
             gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 300, 300,
-                    eUtils.getPath("objects/misc/fireorange.png"), 0, gWeapons.weapons_selection[gWeapons.Type.LAUNCHER.code()].damage);
+                    eUtils.getPath("objects/misc/fireorange.png"), 0, gWeapons.weapons_selection[gWeapons.type.LAUNCHER.code()].damage);
             double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
             g.putDouble("fv", g.getDouble("fv")+(i * (2.0*Math.PI/8.0) - Math.PI / 16 + randomOffset));
             g.putInt("ttl",75);

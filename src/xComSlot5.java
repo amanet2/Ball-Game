@@ -1,6 +1,6 @@
 public class xComSlot5 extends xCom {
     public String doCommand(String fullCommand) {
-        cScripts.changeWeapon(gWeapons.Type.GLOVES.code());
+        cScripts.changeWeapon(gWeapons.type.GLOVES.code());
         return fullCommand;
     }
 }
