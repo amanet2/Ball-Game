@@ -1,6 +1,6 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        if(cVars.getInt("currentweapon") == gWeapons.weapon_none
+        if(cVars.getInt("currentweapon") == gWeapons.Type.NONE.code()
             || cVars.getInt("currentweapon") == gWeapons.weapon_gloves
             || cVars.getInt("weaponstock"+cVars.getInt("currentweapon")) > 0) {
             xCon.ex("cv_firing 1");

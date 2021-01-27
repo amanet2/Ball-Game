@@ -6,6 +6,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* changing resolution screws up corner tiles & powerups
+* figure a way to measure your functions for optimization
 * incorporate enums where possible
     -> replace weapon_selection with weaponSelection()
 * why does cGameLogic.getMovementStatus() have a double for-loop for all ids

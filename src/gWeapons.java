@@ -13,6 +13,9 @@ public class gWeapons {
 		private Type(int code) {
 			this.code = code;
 		}
+		public int code() {
+			return code;
+		}
 	}
 	private static HashMap<Type, gWeapon> weaponSelection = null;
 	private static void init() {
@@ -28,13 +31,6 @@ public class gWeapons {
 		if(weaponSelection == null)
 			init();
 		return weaponSelection;
-	}
-	public static Type weaponFromCode(int code) {
-		for(Type type : weaponSelection.keySet()) {
-			if(type.code == code)
-				return type;
-		}
-		return Type.NONE;
 	}
 
 

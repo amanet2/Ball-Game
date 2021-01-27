@@ -59,7 +59,7 @@ public class nVars {
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
                 || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
                 || cVars.getInt("currentweapon") == gWeapons.weapon_gloves
-                || cVars.getInt("currentweapon") == gWeapons.weapon_none) ? "1" : "0");
+                || cVars.getInt("currentweapon") == gWeapons.Type.NONE.code()) ? "1" : "0");
         keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
         keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
                 xCon.ex("THING_PLAYER.0.mov1"), xCon.ex("THING_PLAYER.0.mov2"),

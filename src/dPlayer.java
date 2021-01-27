@@ -9,7 +9,7 @@ public class dPlayer {
             int ctr = 0;
             for (gPlayer e : eManager.currentMap.scene.players()) {
                 //player gun
-                if(e.getInt("weapon") != gWeapons.weapon_none) {
+                if(e.getInt("weapon") != gWeapons.Type.NONE.code()) {
                     int[] rgb = new int[4];
                     rgb[3] = 255;
                     switch (e.getInt("weapon")) {
@@ -35,7 +35,7 @@ public class dPlayer {
                         default:
                             break;
                     }
-                    if(e.getInt("weapon") != gWeapons.weapon_none) {
+                    if(e.getInt("weapon") != gWeapons.Type.NONE.code()) {
                         int x = eUtils.scaleInt(e.getInt("coordx")-cVars.getInt("camx")
                                 - e.getInt("dimw")/4);
                         int y = eUtils.scaleInt(e.getInt("coordy")-cVars.getInt("camy") - e.getInt("dimh")/4);

@@ -213,12 +213,7 @@ public class dScreenMessages {
 //            }
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
-//                            : (cVars.getInt("currentweapon") != gWeapons.weapon_none
-//                            && cVars.getInt("currentweapon") != gWeapons.weapon_gloves)
-//                            ? "WEAPON ["+gWeapons.weapons_selection[cVars.getInt("currentweapon")].name+" - "+
-//                            eUtils.getTimeString(cGameLogic.getUserPlayer().getLong("powerupsusetime")
-//                            -System.currentTimeMillis())+"s]"
-                    : cVars.getInt("currentweapon") != gWeapons.weapon_none
+                    : cVars.getInt("currentweapon") != gWeapons.Type.NONE.code()
                     && cVars.getInt("currentweapon") != gWeapons.weapon_gloves
                     ? (gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase()
                     + " ["+cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]")

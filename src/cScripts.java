@@ -51,7 +51,7 @@ public class cScripts {
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle.png" :
                     p.isInt("weapon",gWeapons.weapon_shotgun) ? "misc/shotgun.png" :
                         p.isInt("weapon",gWeapons.weapon_gloves) ? "misc/glove.png" :
-                        p.isInt("weapon",gWeapons.weapon_none) ? "" :
+                        p.isInt("weapon",gWeapons.Type.NONE.code()) ? "" :
                         p.isInt("weapon",gWeapons.weapon_launcher) ? "misc/launcher.png" :
                             "misc/bfg.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
@@ -70,7 +70,7 @@ public class cScripts {
                 String sprite = p.isInt("weapon", gWeapons.weapon_autorifle) ? "misc/autorifle_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_shotgun) ? "misc/shotgun_flip.png" :
                     p.isInt("weapon", gWeapons.weapon_gloves) ? "misc/glove_flip.png" :
-                    p.isInt("weapon", gWeapons.weapon_none) ? "" :
+                    p.isInt("weapon", gWeapons.Type.NONE.code()) ? "" :
                     p.isInt("weapon", gWeapons.weapon_launcher) ? "misc/launcher_flip.png" :
                         "misc/bfg_flip.png";
                 gWeapons.weapons_selection[p.getInt("weapon")].dims[1] =
@@ -525,7 +525,7 @@ public class cScripts {
                             cVars.put("flagmasterid", "");
                         }
                         if(cVars.isZero("gamespawnarmed")) {
-                            cScripts.changeBotWeapon(dmgvictim,gWeapons.weapon_none,true);
+                            cScripts.changeBotWeapon(dmgvictim,gWeapons.Type.NONE.code(),true);
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
@@ -668,7 +668,7 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
             }
-            cVars.putInt("currentweapon", gWeapons.weapon_none);
+            cVars.putInt("currentweapon", gWeapons.Type.NONE.code());
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){

@@ -98,8 +98,8 @@ public class cGameLogic {
             for(gPlayer p : eManager.currentMap.scene.players()) {
                 if(p.get("id").contains("bot")) {
                     if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                        if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.weapon_none) {
-                            cScripts.changeBotWeapon(p, gWeapons.weapon_none, true);
+                        if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.Type.NONE.code()) {
+                            cScripts.changeBotWeapon(p, gWeapons.Type.NONE.code(), true);
                         }
                     }
                 }
@@ -840,7 +840,7 @@ public class cGameLogic {
                                     p.put("int0", "0");
                                 }
 //                                else if(!cl.get("id").equals("server")
-//                                        && cl.getInt("weapon") == gWeapons.weapon_none) {
+//                                        && cl.getInt("weapon") == gWeapons.Type.NONE.code()) {
 //                                    //this is to hide a prop that client just picked up from unarmed pose
 ////                                    p.put("int0", "0");
 //                                }

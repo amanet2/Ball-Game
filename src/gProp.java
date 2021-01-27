@@ -49,19 +49,17 @@ public class gProp extends gThing {
                 break;
         }
     }
+    private void bouncePlayerBounds(int velA, int velB, String velP) {
+        //bounce away from a player colliding into prop
+        //velB and velA come from player and compare Up/Down and Left/Right in pairs
+        if(velA > velB)
+            putInt(velP, velA + 1);
+    }
     public void bounceOffPlayerBounds(gPlayer p) {
-        if(p.getInt("vel3") > p.getInt("vel2")) {
-            putInt("vel3", p.getInt("vel3")+1);
-        }
-        if(p.getInt("vel2") > p.getInt("vel3")) {
-            putInt("vel2", p.getInt("vel2")+1);
-        }
-        if(p.getInt("vel1") > p.getInt("vel0")) {
-            putInt("vel1", p.getInt("vel1")+1);
-        }
-        if(p.getInt("vel0") > p.getInt("vel1")) {
-            putInt("vel0", p.getInt("vel0")+1);
-        }
+        bouncePlayerBounds(p.getInt("vel3"), p.getInt("vel2"), "vel3");
+        bouncePlayerBounds(p.getInt("vel2"), p.getInt("vel3"), "vel2");
+        bouncePlayerBounds(p.getInt("vel1"), p.getInt("vel0"), "vel1");
+        bouncePlayerBounds(p.getInt("vel0"), p.getInt("vel1"), "vel0");
     }
 
     public boolean checkBump(Shape bounds, int ystart) {
