@@ -262,32 +262,42 @@ public class iInput {
 
 	public static void processKeyReleaseInput(int command) {
 	    if(sVars.isOne("inconsole")) {
-	        if(command == KeyEvent.VK_BACK_QUOTE) {
-                xCon.ex("console");
-                return;
-            }
-            if (command == KeyEvent.VK_SHIFT) {
-                iKeyboard.shiftMode = false;
+	        switch (command) {
+                case KeyEvent.VK_BACK_QUOTE:
+                    xCon.ex("console");
+                    return;
+                case KeyEvent.VK_SHIFT:
+                    iKeyboard.shiftMode = false;
+                    break;
+                default:
+                    break;
             }
         }
         else if(gMessages.enteringMessage) {
-            if (command == KeyEvent.VK_ESCAPE) {
-                gMessages.msgInProgress = "";
-                gMessages.enteringMessage = false;
-                gMessages.enteringOptionText = "";
-                return;
-            }
-            if (command == KeyEvent.VK_SHIFT) {
-                iKeyboard.shiftMode = false;
+            switch (command) {
+                case KeyEvent.VK_ESCAPE:
+                    gMessages.msgInProgress = "";
+                    gMessages.enteringMessage = false;
+                    gMessages.enteringOptionText = "";
+                    return;
+                case KeyEvent.VK_SHIFT:
+                    iKeyboard.shiftMode = false;
+                    break;
+                default:
+                    break;
             }
         }
 	    else {
             if(sSettings.show_mapmaker_ui) {
-                if (command == KeyEvent.VK_SHIFT) {
-                    iKeyboard.shiftMode = false;
-                }
-                if(command == KeyEvent.VK_CONTROL) {
-                    iKeyboard.ctrlMode = false;
+                switch (command) {
+                    case KeyEvent.VK_SHIFT:
+                        iKeyboard.shiftMode = false;
+                        break;
+                    case KeyEvent.VK_CONTROL:
+                        iKeyboard.ctrlMode = false;
+                        break;
+                    default:
+                        break;
                 }
             }
             //regular comms
