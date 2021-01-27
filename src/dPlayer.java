@@ -6,29 +6,28 @@ public class dPlayer {
     public static void drawPlayers(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         try {
-            int ctr = 0;
             for (gPlayer e : eManager.currentMap.scene.players()) {
                 //player gun
                 if(e.getInt("weapon") != gWeapons.Type.NONE.code()) {
                     int[] rgb = new int[4];
                     rgb[3] = 255;
                     switch (e.getInt("weapon")) {
-                        case gWeapons.weapon_pistol:
+                        case gWeapons.Type.pistol:
                             rgb[0] = 100;
                             rgb[1] = 255;
                             break;
-                        case gWeapons.weapon_shotgun:
+                        case gWeapons.Type.shotgun:
                             rgb[1] = 200;
                             rgb[2] = 255;
                             break;
-                        case gWeapons.weapon_autorifle:
+                        case gWeapons.Type.autorifle:
                             rgb[0] = 255;
                             rgb[1] = 170;
                             break;
-                        case gWeapons.weapon_launcher:
+                        case gWeapons.Type.launcher:
                             rgb[0] = 255;
                             break;
-                        case gWeapons.weapon_gloves:
+                        case gWeapons.Type.gloves:
                             rgb[0] = 255;
                             rgb[1] = 255;
                             break;
@@ -133,7 +132,6 @@ public class dPlayer {
                             eUtils.scaleInt(e.getInt("dimw")),
                             eUtils.scaleInt(e.getInt("dimh")));
                 }
-                ctr++;
                 //player weapon
                 AffineTransform backup = g2.getTransform();
                 AffineTransform a = g2.getTransform();

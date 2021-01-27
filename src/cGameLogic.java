@@ -291,39 +291,39 @@ public class cGameLogic {
             cScripts.changeWeapon(cVars.getInt("currentweapon"));
         }
         //pistol
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.weapon_pistol) < 1
-            && cVars.getLong("weapontime" + gWeapons.weapon_pistol) + cVars.getInt("delayweap")
+        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.Type.PISTOL.code()) < 1
+            && cVars.getLong("weapontime" + gWeapons.Type.PISTOL.code()) + cVars.getInt("delayweap")
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+gWeapons.weapon_pistol,
-                    gWeapons.weapons_selection[gWeapons.weapon_pistol].maxAmmo);
+            cVars.putInt("weaponstock"+gWeapons.Type.PISTOL.code(),
+                    gWeapons.weapons_selection[gWeapons.Type.PISTOL.code()].maxAmmo);
             cVars.put("reloading", "0");
         }
         //shotgun
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.weapon_shotgun) < 1
-            && cVars.getLong("weapontime" + gWeapons.weapon_shotgun) + cVars.getInt("delayweap")
+        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.Type.SHOTGUN.code()) < 1
+            && cVars.getLong("weapontime" + gWeapons.Type.SHOTGUN.code()) + cVars.getInt("delayweap")
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+gWeapons.weapon_shotgun,
-                    gWeapons.weapons_selection[gWeapons.weapon_shotgun].maxAmmo);
+            cVars.putInt("weaponstock"+gWeapons.Type.SHOTGUN.code(),
+                    gWeapons.weapons_selection[gWeapons.Type.SHOTGUN.code()].maxAmmo);
             cVars.put("reloading", "0");
         }
         //autorifle
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.weapon_autorifle) < 1
-            && cVars.getLong("weapontime" + gWeapons.weapon_autorifle) + cVars.getInt("delayweap")
+        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.Type.AUTORIFLE.code()) < 1
+            && cVars.getLong("weapontime" + gWeapons.Type.AUTORIFLE.code()) + cVars.getInt("delayweap")
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+gWeapons.weapon_autorifle,
-                    gWeapons.weapons_selection[gWeapons.weapon_autorifle].maxAmmo);
+            cVars.putInt("weaponstock"+gWeapons.Type.AUTORIFLE.code(),
+                    gWeapons.weapons_selection[gWeapons.Type.AUTORIFLE.code()].maxAmmo);
             cVars.put("reloading", "0");
         }
         //grenade
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.weapon_launcher) < 1
-                && cVars.getLong("weapontime" + gWeapons.weapon_launcher) + cVars.getInt("delayweap")
+        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.Type.LAUNCHER.code()) < 1
+                && cVars.getLong("weapontime" + gWeapons.Type.LAUNCHER.code()) + cVars.getInt("delayweap")
                 < System.currentTimeMillis()) {
             xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+gWeapons.weapon_launcher,
-                    gWeapons.weapons_selection[gWeapons.weapon_launcher].maxAmmo);
+            cVars.putInt("weaponstock"+gWeapons.Type.LAUNCHER.code(),
+                    gWeapons.weapons_selection[gWeapons.Type.LAUNCHER.code()].maxAmmo);
             cVars.put("reloading", "0");
         }
         //other players

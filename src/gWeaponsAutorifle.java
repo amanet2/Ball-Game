@@ -22,15 +22,15 @@ public class gWeaponsAutorifle extends gWeapon {
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"),
             damage);
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.weapon_autorifle);
+        b.putInt("src", gWeapons.Type.AUTORIFLE.code());
         b.put("srcid", p.get("id"));
         double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
         eManager.currentMap.scene.bullets().add(b);
         if(p == cGameLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+gWeapons.weapon_autorifle);
-            cVars.putLong("weapontime"+gWeapons.weapon_autorifle, System.currentTimeMillis());
+            cVars.decrement("weaponstock"+gWeapons.Type.AUTORIFLE.code());
+            cVars.putLong("weapontime"+gWeapons.Type.AUTORIFLE.code(), System.currentTimeMillis());
         }
     }
 }

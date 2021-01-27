@@ -214,7 +214,7 @@ public class dScreenMessages {
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
                     : cVars.getInt("currentweapon") != gWeapons.Type.NONE.code()
-                    && cVars.getInt("currentweapon") != gWeapons.weapon_gloves
+                    && cVars.getInt("currentweapon") != gWeapons.Type.GLOVES.code()
                     ? (gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase()
                     + " ["+cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]")
                     : gWeapons.weapons_selection[cVars.getInt("currentweapon")].name.toUpperCase(),

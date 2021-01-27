@@ -10,7 +10,13 @@ public class gWeapons {
 		GLOVES (5)
 		;
 		private final int code;
-		private Type(int code) {
+		static final int pistol = 1;
+		static final int shotgun = 2;
+		static final int autorifle = 3;
+		static final int launcher = 4;
+		static final int gloves = 5;
+
+		Type(int code) {
 			this.code = code;
 		}
 		public int code() {
@@ -33,12 +39,6 @@ public class gWeapons {
 		return weaponSelection;
 	}
 
-
-
-	static final int weapon_none = 0;
-	static final int weapon_pistol = 1;
-	static final int weapon_shotgun = 2;
-	static final int weapon_autorifle = 3;
 	static final int weapon_launcher = 4;
 	static final int weapon_gloves = 5;
 

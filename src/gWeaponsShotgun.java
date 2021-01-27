@@ -25,15 +25,15 @@ public class gWeaponsShotgun extends gWeapon {
                     bulletSpritePath, p.getDouble("fv"), damage/numpellets);
             b.putInt("ttl",bulletTtl);
             b.put("srcid", p.get("id"));
-            b.putInt("src", gWeapons.weapon_shotgun);
+            b.putInt("src", gWeapons.Type.SHOTGUN.code());
             double randomOffset = (Math.random() * ((Math.PI / 16)))-Math.PI/32;
             b.putDouble("fv", b.getDouble("fv") + (i*Math.PI/32-(numpellets/2)*Math.PI/32+randomOffset));
             b.putInt("anim", gAnimations.ANIM_SPLASH_BLUE);
             eManager.currentMap.scene.bullets().add(b);
         }
         if(p == cGameLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+gWeapons.weapon_shotgun);
-            cVars.putLong("weapontime"+gWeapons.weapon_shotgun, System.currentTimeMillis());
+            cVars.decrement("weaponstock"+gWeapons.Type.SHOTGUN.code());
+            cVars.putLong("weapontime"+gWeapons.Type.SHOTGUN.code(), System.currentTimeMillis());
         }
     }
 }
