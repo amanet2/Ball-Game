@@ -11,17 +11,47 @@ public class iKeyboard implements KeyListener {
     static boolean ctrlMode = false;
 
     private static HashMap<Integer, String> shiftKeyMap = null;
+    private static HashMap<Integer, String> specialKeyMap = null;
 
     private static void init() {
         shiftKeyMap = new HashMap<>();
         shiftKeyMap.put(KeyEvent.VK_SEMICOLON, ":");
-        shiftKeyMap.put(KeyEvent.VK_MINUS,"_");
-        shiftKeyMap.put(KeyEvent.VK_EQUALS,"+");
-        shiftKeyMap.put(KeyEvent.VK_QUOTE,"\"");
-        shiftKeyMap.put(KeyEvent.VK_COMMA,"<");
-        shiftKeyMap.put(KeyEvent.VK_PERIOD,">");
-        shiftKeyMap.put(KeyEvent.VK_SLASH,"?");
-        shiftKeyMap.put(KeyEvent.VK_BACK_QUOTE,"~");
+        shiftKeyMap.put(KeyEvent.VK_MINUS, "_");
+        shiftKeyMap.put(KeyEvent.VK_EQUALS, "+");
+        shiftKeyMap.put(KeyEvent.VK_QUOTE, "\"");
+        shiftKeyMap.put(KeyEvent.VK_COMMA, "<");
+        shiftKeyMap.put(KeyEvent.VK_PERIOD, ">");
+        shiftKeyMap.put(KeyEvent.VK_SLASH, "?");
+        shiftKeyMap.put(KeyEvent.VK_BACK_QUOTE, "~");
+        specialKeyMap = new HashMap<>();
+        specialKeyMap.put(KeyEvent.VK_SPACE, " ");
+        specialKeyMap.put(KeyEvent.VK_SEMICOLON, ";");
+        specialKeyMap.put(KeyEvent.VK_QUOTE, "'");
+        specialKeyMap.put(KeyEvent.VK_MINUS, "-");
+        specialKeyMap.put(KeyEvent.VK_EQUALS, "=");
+        specialKeyMap.put(KeyEvent.VK_PERIOD, ".");
+        specialKeyMap.put(KeyEvent.VK_COLON, ":");
+        specialKeyMap.put(KeyEvent.VK_SLASH, "/");
+        specialKeyMap.put(KeyEvent.VK_NUM_LOCK, "");
+        specialKeyMap.put(KeyEvent.VK_PLUS, "+");
+        specialKeyMap.put(KeyEvent.VK_BACK_SLASH, "\\");
+        specialKeyMap.put(KeyEvent.VK_SEPARATER, "|");
+        specialKeyMap.put(KeyEvent.VK_DOWN, "");
+        specialKeyMap.put(KeyEvent.VK_LEFT, "");
+        specialKeyMap.put(KeyEvent.VK_RIGHT, "");
+        specialKeyMap.put(KeyEvent.VK_UP, "");
+        specialKeyMap.put(KeyEvent.VK_CAPS_LOCK, "");
+        specialKeyMap.put(KeyEvent.VK_COMMA, ",");
+        specialKeyMap.put(KeyEvent.VK_BACK_QUOTE, "");
+        specialKeyMap.put(KeyEvent.VK_OPEN_BRACKET, "[");
+        specialKeyMap.put(KeyEvent.VK_CLOSE_BRACKET, "]");
+        specialKeyMap.put(KeyEvent.VK_TAB, "    ");
+        specialKeyMap.put(KeyEvent.VK_INSERT, "");
+        specialKeyMap.put(KeyEvent.VK_HOME, "");
+        specialKeyMap.put(KeyEvent.VK_PAGE_UP, "");
+        specialKeyMap.put(KeyEvent.VK_PAGE_DOWN, "");
+        specialKeyMap.put(KeyEvent.VK_END, "");
+        specialKeyMap.put(KeyEvent.VK_ALT, "");
     }
 
     public static String getShiftKeyForCode(Integer code) {
@@ -30,67 +60,11 @@ public class iKeyboard implements KeyListener {
         return shiftKeyMap.get(code);
     }
 
-    static Integer[] specialKeys = new Integer[] {
-        KeyEvent.VK_SPACE,
-        KeyEvent.VK_SEMICOLON,
-        KeyEvent.VK_QUOTE,
-        KeyEvent.VK_MINUS,
-        KeyEvent.VK_EQUALS,
-        KeyEvent.VK_PERIOD,
-        KeyEvent.VK_COLON,
-        KeyEvent.VK_SLASH,
-        KeyEvent.VK_NUM_LOCK,
-        KeyEvent.VK_PLUS,
-        KeyEvent.VK_BACK_SLASH,
-        KeyEvent.VK_SEPARATER,
-        KeyEvent.VK_DOWN,
-        KeyEvent.VK_LEFT,
-        KeyEvent.VK_RIGHT,
-        KeyEvent.VK_UP,
-        KeyEvent.VK_CAPS_LOCK,
-        KeyEvent.VK_COMMA,
-        KeyEvent.VK_BACK_QUOTE,
-        KeyEvent.VK_OPEN_BRACKET,
-        KeyEvent.VK_CLOSE_BRACKET,
-        KeyEvent.VK_TAB,
-        KeyEvent.VK_INSERT,
-        KeyEvent.VK_HOME,
-        KeyEvent.VK_PAGE_UP,
-        KeyEvent.VK_PAGE_DOWN,
-        KeyEvent.VK_END,
-        KeyEvent.VK_ALT
-    };
-
-    static String[] specialKeySubs = new String[] {
-        " ",
-        ";",
-        "'",
-        "-",
-        "=",
-        ".",
-        ":",
-        "/",
-        "",
-        "+",
-        "\\",
-        "|",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ",",
-        "",
-        "[",
-        "]",
-        "    ",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
-    };
+    public static String getSpecialKeyForCode(Integer code) {
+        if(specialKeyMap == null)
+            init();
+        return specialKeyMap.get(code);
+    }
 
     static String[] keyCodeSubTexts = new String[] {
         "a",

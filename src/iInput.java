@@ -103,14 +103,13 @@ public class iInput {
                     return;
                 }
             }
-            for (int i = 0; i < iKeyboard.specialKeys.length; i++) {
-                if (command == iKeyboard.specialKeys[i]) {
-                    String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                    String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
-                    xCon.instance().commandString = a+iKeyboard.specialKeySubs[i]+b;
-                    xCon.instance().cursorIndex = xCon.instance().commandString.length();
-                    return;
-                }
+            String specialKey = iKeyboard.getSpecialKeyForCode(command);
+            if (specialKey != null) {
+                String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
+                String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
+                xCon.instance().commandString = a+specialKey+b;
+                xCon.instance().cursorIndex = xCon.instance().commandString.length();
+                return;
             }
             if(xCon.instance().commandString.length() < 64){
                 String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
@@ -132,11 +131,10 @@ public class iInput {
                     return;
                 }
             }
-            for (int i = 0; i < iKeyboard.specialKeys.length; i++) {
-                if (command == iKeyboard.specialKeys[i]) {
-                    gMessages.msgInProgress += iKeyboard.specialKeySubs[i];
+            String specialKey = iKeyboard.getSpecialKeyForCode(command);
+            if (specialKey != null) {
+                    gMessages.msgInProgress += specialKey;
                     return;
-                }
             }
             switch (command) {
                 case KeyEvent.VK_BACK_SPACE:
