@@ -22,27 +22,26 @@ public class gPropFlagRed extends gProp {
 
     gDoableThing kingOfFlagsDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                    && !isVal("str0", cGameLogic.getUserPlayer().get("id"))) {
-                gPlayer cl = cGameLogic.getUserPlayer();
-                int pass = 1;
-                for(gPlayer p2 : eManager.currentMap.scene.players()) {
-                    //make sure no other players still on the flag
-                    if(!p2.get("id").equals(cl.get("id"))
-                            && p2.willCollideWithPropAtCoords(this, p2.getInt("coordx"), p2.getInt("coordy"))) {
-                        pass = 0;
-                        break;
-                    }
-                }
-                if(pass > 0) {
-                    put("str0", cl.get("id"));
-                    if(sSettings.net_server) {
-                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
-                        xCon.ex("say " + sVars.get("playername") + " captured flag#"+getInt("tag"));
-                    }
-                    cScripts.createScorePopup(cGameLogic.getUserPlayer(),1);
-                }
-            }
+//            if(!isVal("str0", cGameLogic.getUserPlayer().get("id"))) {
+//                gPlayer cl = cGameLogic.getUserPlayer();
+//                int pass = 1;
+//                for(gPlayer p2 : eManager.currentMap.scene.players()) {
+//                    //make sure no other players still on the flag
+//                    if(!p2.get("id").equals(cl.get("id"))
+//                            && p2.willCollideWithPropAtCoords(this, p2.getInt("coordx"), p2.getInt("coordy"))) {
+//                        pass = 0;
+//                        break;
+//                    }
+//                }
+//                if(pass > 0) {
+//                    put("str0", cl.get("id"));
+//                    if(sSettings.net_server) {
+//                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+//                        xCon.ex("say " + sVars.get("playername") + " captured flag#"+getInt("tag"));
+//                    }
+//                    cScripts.createScorePopup(cGameLogic.getUserPlayer(),1);
+//                }
+//            }
         }
     };
 
