@@ -368,12 +368,12 @@ public class cScripts {
     }
 
     public static void refillWeaponStocks() {
-        cVars.putInt("weaponstock0", gWeapons.weaponSelection().get(gWeapons.type.NONE).maxAmmo);
-        cVars.putInt("weaponstock1", gWeapons.weaponSelection().get(gWeapons.type.PISTOL).maxAmmo);
-        cVars.putInt("weaponstock2", gWeapons.weaponSelection().get(gWeapons.type.SHOTGUN).maxAmmo);
-        cVars.putInt("weaponstock3", gWeapons.weaponSelection().get(gWeapons.type.AUTORIFLE).maxAmmo);
-        cVars.putInt("weaponstock4", gWeapons.weaponSelection().get(gWeapons.type.LAUNCHER).maxAmmo);
-        cVars.putInt("weaponstock5", gWeapons.weaponSelection().get(gWeapons.type.GLOVES).maxAmmo);
+        cVars.putInt("weaponstock0", gWeapons.get(gWeapons.type.NONE).maxAmmo);
+        cVars.putInt("weaponstock1", gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
+        cVars.putInt("weaponstock2", gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
+        cVars.putInt("weaponstock3", gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
+        cVars.putInt("weaponstock4", gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
+        cVars.putInt("weaponstock5", gWeapons.get(gWeapons.type.GLOVES).maxAmmo);
     }
 
     public static void clearWeaponStocks() {

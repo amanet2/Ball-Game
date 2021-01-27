@@ -49,14 +49,10 @@ public class gWeapons {
 		return types;
 	}
 
-	public static TreeMap<Integer, gWeapon> weaponCodes() {
+	public static gWeapon fromCode(Integer code) {
 		if(codes == null)
 			init();
-		return codes;
-	}
-
-	public static gWeapon fromCode(Integer code) {
-		return weaponCodes().get(code);
+		return codes.get(code);
 	}
 	public static gWeapon get(type type) {
 		return weaponSelection().get(type);
