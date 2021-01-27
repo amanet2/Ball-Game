@@ -5,8 +5,12 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
+    static gPlayer userPlayer;
+
     public static gPlayer getUserPlayer() {
-        return getPlayerByIndex(0);
+        if(userPlayer == null)
+            userPlayer = getPlayerByIndex(0);
+        return userPlayer;
     }
 
     public static gPlayer getPlayerByIndex(int n) {

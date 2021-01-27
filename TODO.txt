@@ -6,6 +6,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* refactor props to not rely on so many ifs
+    -> use inheritance instead of the "code"
+    -> should have basic function like the propeffect() function
 * reloading isnt working no more
 * changing resolution screws up corner tiles & powerups
 * figure a way to measure your functions for optimization

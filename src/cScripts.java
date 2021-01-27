@@ -166,7 +166,7 @@ public class cScripts {
         }
     }
 
-    private static gProp getExitTeleporter(gProp tp) {
+    public static gProp getExitTeleporter(gProp tp) {
         for(gProp p : eManager.currentMap.scene.props()) {
             if(!p.isVal("tag", tp.get("tag")) && p.isInt("code", gProp.TELEPORTER)
                     && p.isVal("int0", tp.get("int0"))) {
@@ -650,10 +650,9 @@ public class cScripts {
                         xCon.ex("playercolor"))));
             player0.put("tag", "0");
             player0.put("id", uiInterface.uuid);
+            cGameLogic.userPlayer = player0;
             if(sSettings.net_server) {
                 player0.put("id", "server");
-//                nServer.scoresMap.put("server", new HashMap<>());
-//                nServer.scoresMap.get("server").put("wins", 0);
             }
             xCon.ex("THING_PLAYER.0.color playercolor");
             eManager.currentMap.scene.players().add(player0);
