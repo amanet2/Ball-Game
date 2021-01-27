@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class gWeapons {
 	public enum type {
@@ -25,16 +26,16 @@ public class gWeapons {
 		}
 	}
 	private static HashMap<type, gWeapon> types = null;
-	private static HashMap<Integer, gWeapon> codes = null;
+	private static TreeMap<Integer, gWeapon> codes = null;
 	private static void init() {
 		types = new HashMap<>();
 		types.put(type.NONE, new gWeaponsNone());
-		types.put(type.PISTOL, new gWeaponsNone());
-		types.put(type.SHOTGUN, new gWeaponsNone());
-		types.put(type.AUTORIFLE, new gWeaponsNone());
-		types.put(type.LAUNCHER, new gWeaponsNone());
-		types.put(type.GLOVES, new gWeaponsNone());
-		codes = new HashMap<>();
+		types.put(type.PISTOL, new gWeaponsPistol());
+		types.put(type.SHOTGUN, new gWeaponsShotgun());
+		types.put(type.AUTORIFLE, new gWeaponsAutorifle());
+		types.put(type.LAUNCHER, new gWeaponsLauncher());
+		types.put(type.GLOVES, new gWeaponsGloves());
+		codes = new TreeMap<>();
 		codes.put(type.none, types.get(type.NONE));
 		codes.put(type.pistol, types.get(type.PISTOL));
 		codes.put(type.shotgun, types.get(type.SHOTGUN));
@@ -48,13 +49,13 @@ public class gWeapons {
 		return types;
 	}
 
-	public static HashMap<Integer, gWeapon> weaponCodes() {
+	public static TreeMap<Integer, gWeapon> weaponCodes() {
 		if(codes == null)
 			init();
 		return codes;
 	}
 
-	public static gWeapon fromCode(int code) {
+	public static gWeapon fromCode(Integer code) {
 		return weaponCodes().get(code);
 	}
 	public static gWeapon get(type type) {
