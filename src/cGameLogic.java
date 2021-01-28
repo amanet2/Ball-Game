@@ -800,26 +800,47 @@ public class cGameLogic {
             if(!cVars.get("spawnprotectionmaxtime").equals(sVars.get("spawnprotectionmaxtime")))
                 cVars.put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
 
-            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS)
-                cGameMode.checkKingOfFlags();
-            if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS)
-                refreshWaypoints();
-            if(cVars.getInt("gamemode") == cGameMode.VIRUS)
-                checkVirus();
-            if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE)
-                checkVirusSingle();
-            if(cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                checkFlagMaster();
-            if(cVars.getInt("gamemode") == cGameMode.CHOSENONE)
-                checkChosenOne();
-            if(cVars.getInt("gamemode") == cGameMode.ANTI_CHOSENONE)
-                checkAntiChosenOne();
+            switch (cVars.getInt("gamemode")) {
+                case cGameMode.KING_OF_FLAGS:
+                    cGameMode.checkKingOfFlags();
+                    break;
+                case cGameMode.WAYPOINTS:
+                    refreshWaypoints();
+                    break;
+                case cGameMode.VIRUS:
+                    checkVirus();
+                    break;
+                case cGameMode.VIRUS_SINGLE:
+                    checkVirusSingle();
+                    break;
+                case cGameMode.FLAG_MASTER:
+                    checkFlagMaster();
+                    break;
+                case cGameMode.CHOSENONE:
+                    checkChosenOne();
+                    break;
+                case cGameMode.ANTI_CHOSENONE:
+                    checkAntiChosenOne();
+                    break;
+                default:
+                    break;
+            }
         }
+        //check new props
+        for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
+            if(cGameLogic.userPlayer.willCollideWithPropAtCoords(tp,
+                    cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
+                tp.propEffect(cGameLogic.userPlayer);
+            }
+        }
+        //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"),cl.getInt("coordy"))) {
-                    if(cl.isZero("tag"))
-                        p.propEffect(cl);
+                    if(cl.isZero("tag")) {
+                        if(!p.isInt("code", gProp.TELEPORTER))
+                            p.propEffect(cl);
+                    }
                     else if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
                         p.propEffect(cl);
                     }

@@ -1,16 +1,16 @@
 public class cGameMode {
-    static int DEATHMATCH = 0;
-    static int RACE = 1;
-    static int SAFE_ZONES = 2;
-    static int CAPTURE_THE_FLAG = 3;
-    static int KING_OF_FLAGS = 4;
-    static int WAYPOINTS = 5;
-    static int VIRUS = 6;
-    static int VIRUS_SINGLE = 7;
-    static int FLAG_MASTER = 8;
-    static int BOUNCYBALL = 9;
-    static int CHOSENONE = 10;
-    static int ANTI_CHOSENONE = 11;
+    static final int DEATHMATCH = 0;
+    static final int RACE = 1;
+    static final int SAFE_ZONES = 2;
+    static final int CAPTURE_THE_FLAG = 3;
+    static final int KING_OF_FLAGS = 4;
+    static final int WAYPOINTS = 5;
+    static final int VIRUS = 6;
+    static final int VIRUS_SINGLE = 7;
+    static final int FLAG_MASTER = 8;
+    static final int BOUNCYBALL = 9;
+    static final int CHOSENONE = 10;
+    static final int ANTI_CHOSENONE = 11;
 
     static String[] net_gamemode_texts = {
             "Deathmatch",
