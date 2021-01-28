@@ -16,9 +16,9 @@ public class gProp extends gThing {
 
     public void propEffect(gPlayer p) {
         switch (getInt("code")) {
-            case TELEPORTER:
-                cScripts.teleportPlayer(this, p);
-                break;
+//            case TELEPORTER:
+//                cScripts.teleportPlayer(this, p);
+//                break;
             case LADDER:
                 cVars.put("onladder", "1");
                 break;

@@ -1,6 +1,5 @@
 public class gPropTeleporter extends gProp {
     public void propEffect(gPlayer p) {
-        System.out.println("ASDF");
         gProp exit = null;
         for(gProp pr : eManager.currentMap.scene.props()) {
             if(!pr.isVal("tag", get("tag")) && pr.isInt("code", gProp.TELEPORTER)

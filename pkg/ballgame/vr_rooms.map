@@ -86,20 +86,20 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 4260 4710 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -4050 5100 300 300 150 150 0 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -4050 4290 300 300 150 150 0 0 0 0 0 255 0
-prop 0 7 0 1050 2310 300 300
-prop 0 7 0 -2580 -1830 300 300
-prop 0 1 0 3750 210 300 300
-prop 0 1 0 -150 3330 300 300
-prop 0 2 0 2550 210 300 300
-prop 0 2 0 -450 -1440 300 300
-prop 0 3 0 1650 -2130 300 300
-prop 0 6 0 -4950 4080 300 300
-prop 0 5 0 -4950 5310 300 300
-prop 0 5 0 4980 4680 300 300
-prop 0 4 0 3750 5130 300 300
-prop 0 4 0 -1950 480 300 300
-prop 0 6 0 -750 1140 300 300
-prop 0 3 0 -3150 1170 300 300
+teleporter 7 0 1050 2310 300 300
+teleporter 7 0 -2580 -1830 300 300
+teleporter 1 0 3750 210 300 300
+teleporter 1 0 -150 3330 300 300
+teleporter 2 0 2550 210 300 300
+teleporter 2 0 -450 -1440 300 300
+teleporter 3 0 1650 -2130 300 300
+teleporter 6 0 -4950 4080 300 300
+teleporter 5 0 -4950 5310 300 300
+teleporter 5 0 4980 4680 300 300
+teleporter 4 0 3750 5130 300 300
+teleporter 4 0 -1950 480 300 300
+teleporter 6 0 -750 1140 300 300
+teleporter 3 0 -3150 1170 300 300
 prop 7 0 0 -4050 4710 300 300
 prop 7 0 0 420 2730 300 300
 prop 7 0 0 -1950 1170 300 300
