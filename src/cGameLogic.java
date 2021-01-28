@@ -791,6 +791,13 @@ public class cGameLogic {
         }
     }
 
+    public static void checkProp(gProp prop) {
+        if(cGameLogic.userPlayer.willCollideWithPropAtCoords(prop,
+                cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
+            prop.propEffect(cGameLogic.userPlayer);
+        }
+    }
+
     public static void checkGameState() {
         if(sSettings.net_server) {
             if(!cVars.get("scorelimit").equals(sVars.get("scorelimit")))
@@ -826,26 +833,30 @@ public class cGameLogic {
                     break;
             }
         }
-        //check new props
+        //check new props teleporters
         for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
-            if(cGameLogic.userPlayer.willCollideWithPropAtCoords(tp,
-                    cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
-                tp.propEffect(cGameLogic.userPlayer);
-            }
+//            if(cGameLogic.userPlayer.willCollideWithPropAtCoords(tp,
+//                    cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
+//                tp.propEffect(cGameLogic.userPlayer);
+//            }
+            checkProp((gPropTeleporter) tp);
+        }
+        //check new props scorepoints
+        for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
+            checkProp((gPropScorepoint) sp);
         }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
-                if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"),cl.getInt("coordy"))) {
+                if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
                     if(cl.isZero("tag")) {
-                        if(!p.isInt("code", gProp.TELEPORTER))
-                            p.propEffect(cl);
+                        p.propEffect(cl);
                     }
                     else if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
                         p.propEffect(cl);
                     }
-                    else if(sSettings.net_server
-                            && p.isInt("code", gProp.SCOREPOINT) && cl.get("id").contains("bot")) {
+                    else if(sSettings.net_server && p.isInt("code", gProp.SCOREPOINT)
+                            && cl.get("id").contains("bot")) {
                         cScripts.checkPlayerScorepoints(p, cl);
                     }
                     else if(p.isInt("code", gProp.POWERUP)) {

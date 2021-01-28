@@ -19,9 +19,10 @@ public class gProp extends gThing {
             case LADDER:
                 cVars.put("onladder", "1");
                 break;
-            case SCOREPOINT:
-                cScripts.checkPlayerScorepoints(this, p);
-                break;
+                //remove from here as props get refactored
+//            case SCOREPOINT:
+//                cScripts.checkPlayerScorepoints(this, p);
+//                break;
             case SAFEPOINT:
                 cScripts.checkPlayerSafepoints(this);
                 break;
