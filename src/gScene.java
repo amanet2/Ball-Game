@@ -16,10 +16,11 @@ public class gScene {
     static final int THING_ANIMATION = 6;
     static final int THING_BOTPLAYER = 7;
     static final int PROP_TELEPORTER = 8;
+    static final int PROP_SCOREPOINT = 9;
 
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
-            "THING_BOTPLAYER", "PROP_TELEPORTER"
+            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT"
     };
 	HashMap<String, ArrayList> objects;
 
@@ -67,7 +68,11 @@ public class gScene {
 	    return objects.get("PROP_TELEPORTER");
     }
 
-    public ArrayList<gProp> scorePoints() {
+    public ArrayList<gPropScorepoint> scorepoints() {
+        return objects.get("PROP_SCOREPOINT");
+    }
+
+    public ArrayList<gProp> scorePointsOld() {
 	    ArrayList<gProp> scorepoints = new ArrayList<>();
 	    for(gProp prop : props()) {
 	        if(prop.isInt("code", gProp.SCOREPOINT))
