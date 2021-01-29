@@ -18,14 +18,8 @@ public class gProp extends gThing {
     }
 
     public void propEffect(gPlayer p) {
+//        xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
         switch (getInt("code")) {
-                //remove from here as props get refactored
-            case FLAGRED:
-                cScripts.checkPlayerRedFlags(this);
-                break;
-//            case FLAGBLUE:
-//                cScripts.checkPlayerBlueFlags();
-//                break;
             case POWERUP:
                 cPowerups.checkPlayerPowerups(this);
                 break;

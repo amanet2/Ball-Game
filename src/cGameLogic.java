@@ -841,6 +841,14 @@ public class cGameLogic {
         for(gPropBoostup sp : eManager.currentMap.scene.boostups()) {
             checkProp((gPropBoostup) sp);
         }
+        //check new props flagsblue
+        for(gPropFlagBlue sp : eManager.currentMap.scene.flagsblue()) {
+            checkProp((gPropFlagBlue) sp);
+        }
+        //check new props flagsred
+        for(gPropFlagRed sp : eManager.currentMap.scene.flagsred()) {
+            checkProp((gPropFlagRed) sp);
+        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
@@ -856,7 +864,6 @@ public class cGameLogic {
                     else if(sSettings.net_server && p.isInt("code", gProp.SCOREPOINT)
                             && cl.get("id").contains("bot")) {
                         //bot touches scorepoint
-                        //TODO: include safezone logic in here
                         cScripts.checkPlayerScorepoints(p, cl);
                     }
                     else if(p.isInt("code", gProp.POWERUP)) {
@@ -1007,10 +1014,8 @@ public class cGameLogic {
         // KINGOFFLAGS
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
             StringBuilder s = new StringBuilder();
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.FLAGRED)) {
-                    s.append(String.format("%s-%s:", p.get("tag"), p.get("str0")));
-                }
+            for(gProp p : eManager.currentMap.scene.flagsred()) {
+                s.append(String.format("%s-%s:", p.get("tag"), p.get("str0")));
             }
             return String.format("kingofflags%s", s);
         }

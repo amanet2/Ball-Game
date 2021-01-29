@@ -96,9 +96,8 @@ public class dPlayer {
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                 (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
                     gProp flag = null;
-                    for(gProp p : eManager.currentMap.scene.props()) {
-                        if(p.getInt("code") == gProp.FLAGRED)
-                            flag = p;
+                    for(gProp p : eManager.currentMap.scene.flagsred()) {
+                        flag = p;
                     }
                     if(flag != null) {
                         g2.drawImage(flag.sprite,

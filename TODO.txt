@@ -4,6 +4,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* why do the red flags still work?
+* king of flags needs a new architecture
+* make sure all maps in maps_b folder work with new props
 * replace goTosafeZone with goToThing(player, String) where String == "PROP_TELEPORTER" etc.
 * prop sprite string needs to be made a var of the prop object/subclass
 * gMap.load has a giant if/else block

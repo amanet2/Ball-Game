@@ -42,21 +42,17 @@ public class cGameMode {
     };
 
     public static void resetKingOfFlags() {
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.FLAGRED)) {
-                p.put("str0", "null");
-            }
+        for(gProp p : eManager.currentMap.scene.flagsred()) {
+            p.put("str0", "null");
         }
     }
 
     public static void checkKingOfFlags() {
         if(sSettings.net_server) {
             if(cVars.getLong("kingofflagstime") < uiInterface.gameTime) {
-                for(gProp flag : eManager.currentMap.scene.props()) {
-                    if(flag.isInt("code", gProp.FLAGRED)) {
-                        if(cGameLogic.getPlayerById(flag.get("str0")) != null)
-                            xCon.ex("givepoint " + flag.get("str0"));
-                    }
+                for(gProp flag : eManager.currentMap.scene.flagsred()) {
+                    if(cGameLogic.getPlayerById(flag.get("str0")) != null)
+                        xCon.ex("givepoint " + flag.get("str0"));
                 }
                 cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);
             }
