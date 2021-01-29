@@ -7,12 +7,15 @@ public class gProp extends gThing {
     static final int TELEPORTER = 0;
     static final int LADDER = 2;
     static final int SCOREPOINT = 3;
-    static final int SAFEPOINT = 4;
     static final int FLAGRED = 5;
     static final int FLAGBLUE = 6;
     static final int POWERUP = 7;
     static final int BOOSTUP = 8;
     static final int BALLBOUNCY = 9;
+
+    public boolean isType(int code) {
+        return isInt("code", code);
+    }
 
     public void propEffect(gPlayer p) {
         switch (getInt("code")) {
@@ -23,9 +26,9 @@ public class gProp extends gThing {
 //            case SCOREPOINT:
 //                cScripts.checkPlayerScorepoints(this, p);
 //                break;
-            case SAFEPOINT:
-                cScripts.checkPlayerSafepoints(this);
-                break;
+//            case SAFEPOINT:
+//                cScripts.checkPlayerSafepoints(this);
+//                break;
             case FLAGRED:
                 cScripts.checkPlayerRedFlags(this);
                 break;

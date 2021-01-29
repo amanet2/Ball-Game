@@ -163,7 +163,7 @@ public class nReceive {
                             gProp p = eManager.currentMap.scene.props().get(k);
                             if(k == Integer.parseInt(packArgs.get("state").split("-")[1]))
                                 p.put("int0", "1");
-                            else if(p.isInt("code", gProp.SAFEPOINT))
+                            else if(p.isInt("code", gProp.SCOREPOINT))
                                 p.put("int0", "0");
                         }
                         cVars.put("safezonetime", packArgs.get("state").split("-")[2]);

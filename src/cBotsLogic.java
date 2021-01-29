@@ -279,9 +279,9 @@ public class cBotsLogic {
 
     public static void goToSafeZone(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.SAFEPOINT) && p.isOne("int0")) {
-                waypoint = p;
+        for(gPropScorepoint safezone : eManager.currentMap.scene.scorepoints()) {
+            if(safezone.isOne("int0")) {
+                waypoint = safezone;
                 break;
             }
         }

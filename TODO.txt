@@ -6,6 +6,11 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* logic drawing navpointers is a huge if/else block
+* turn safezones into scorepoints
+    -> botsLogic.goToSafeZone [ ]
+    -> cGameLogic.refreshSafeZones [ ]
+    -> cGameLogic.getGameState [X]
 * make sure editing and saving a map works with the new prop architecture
 * combine scorepoint and safezone
     -> they truly do not need to be different
@@ -72,6 +77,8 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* map with winding maxze structure that travels downwards with scorepoints
+    -> watch which path you take or you can fall out the bottom of the map
 * add buttons, like in the nuke map in day of defeat
     -> red square with flare like weapon highlight.  turn to green whenn player goes over
         -> need to have doables attached to the button

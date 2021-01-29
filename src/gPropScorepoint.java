@@ -72,5 +72,12 @@ public class gPropScorepoint extends gProp {
                 }
             }
         });
+        gameModeEffects.put(Integer.toString(cGameMode.SAFE_ZONES), new gDoableThing() {
+            public void doItem(gThing p) {
+                if(getInt("int0") > 0) {
+                    cVars.put("survivesafezone", "1");
+                }
+            }
+        });
     }
 }

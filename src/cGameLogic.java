@@ -648,19 +648,17 @@ public class cGameLogic {
         int canpass = 0;
         int i = 0;
         int[] proptags = new int[]{};
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.getInt("code") == gProp.SAFEPOINT) {
-                p.put("int0", "0");
-                canpass = 1;
-                int[] tmp = Arrays.copyOf(proptags, proptags.length+1);
-                tmp[tmp.length-1] = i;
-                proptags = tmp;
-            }
+        for(gPropScorepoint safezone : eManager.currentMap.scene.scorepoints()) {
+            safezone.put("int0", "0");
+            canpass = 1;
+            int[] tmp = Arrays.copyOf(proptags, proptags.length+1);
+            tmp[tmp.length-1] = i;
+            proptags = tmp;
             i++;
         }
         if(canpass > 0) {
             int rando = (int)(Math.random()*(double)(proptags.length));
-            xCon.ex("THING_PROP."+proptags[rando]+".int0 1");
+            eManager.currentMap.scene.scorepoints().get(rando).putInt("int0", 1);
         }
     }
 
@@ -835,10 +833,6 @@ public class cGameLogic {
         }
         //check new props teleporters
         for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
-//            if(cGameLogic.userPlayer.willCollideWithPropAtCoords(tp,
-//                    cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
-//                tp.propEffect(cGameLogic.userPlayer);
-//            }
             checkProp((gPropTeleporter) tp);
         }
         //check new props scorepoints
@@ -850,13 +844,17 @@ public class cGameLogic {
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
                     if(cl.isZero("tag")) {
+                        //user touches prop
                         p.propEffect(cl);
                     }
                     else if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
+                        //bot touches teleporter
                         p.propEffect(cl);
                     }
                     else if(sSettings.net_server && p.isInt("code", gProp.SCOREPOINT)
                             && cl.get("id").contains("bot")) {
+                        //bot touches scorepoint
+                        //TODO: include safezone logic in here
                         cScripts.checkPlayerScorepoints(p, cl);
                     }
                     else if(p.isInt("code", gProp.POWERUP)) {
@@ -982,7 +980,7 @@ public class cGameLogic {
     public static String getGameState() {
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
             for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SAFEPOINT) && p.isInt("int0", 1))
+                if(p.isInt("code", gProp.SCOREPOINT) && p.isInt("int0", 1))
                     return String.format("safezone-%s-%s-", p.get("tag"), cVars.get("safezonetime"));
             }
         }
@@ -1100,7 +1098,7 @@ public class cGameLogic {
                 if (cVars.isOne("survivesafezone")) {
                     cVars.put("sendsafezone", "1");
                     if(sSettings.net_server) {
-                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cl.get("id"));
                     }
                 }
                 else {
@@ -1111,7 +1109,7 @@ public class cGameLogic {
                         eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_BLUE,
                                 cVars.getInt("explodex"), cVars.getInt("explodey")));
                     if(sSettings.net_server)
-                        xCon.ex("say " + cGameLogic.getUserPlayer().get("name") + " died");
+                        xCon.ex("say " + cl.get("name") + " died");
                     xCon.ex("respawn");
                 }
             }

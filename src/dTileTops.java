@@ -517,7 +517,7 @@ public class dTileTops {
                 gProp p = eManager.currentMap.scene.props().get(i);
                 if((cVars.getInt("gamemode") == cGameMode.RACE && p.isInt("code", gProp.SCOREPOINT)
                             && p.getInt("int0") < 1)
-                        || (cVars.getInt("gamemode") == cGameMode.SAFE_ZONES && p.isInt("code", gProp.SAFEPOINT)
+                        || (cVars.getInt("gamemode") == cGameMode.SAFE_ZONES && p.isInt("code", gProp.SCOREPOINT)
                             && p.getInt("int0") > 0)
                         || ((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
