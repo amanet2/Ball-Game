@@ -18,14 +18,7 @@ public class gProp extends gThing {
     }
 
     public void propEffect(gPlayer p) {
-//        xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
-        switch (getInt("code")) {
-            case POWERUP:
-                cPowerups.checkPlayerPowerups(this);
-                break;
-            default:
-                break;
-        }
+        xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
     }
 
     private void bouncePlayerBounds(int velA, int velB, String velP) {

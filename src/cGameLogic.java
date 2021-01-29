@@ -75,11 +75,11 @@ public class cGameLogic {
             if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
                 int powerupson = 0;
                 ArrayList<gProp> powerupcandidates = new ArrayList<>();
-                for (gProp p : eManager.currentMap.scene.props()) {
-                    if (p.isInt("code", gProp.POWERUP) && !p.isZero("int0")) {
+                for (gProp p : eManager.currentMap.scene.powerups()) {
+                    if (!p.isZero("int0")) {
                         powerupson++;
                     }
-                    else if(p.isInt("code", gProp.POWERUP) && p.isOne("native")){
+                    else if(p.isOne("native")){
                         powerupcandidates.add(p);
                     }
                 }
@@ -593,13 +593,12 @@ public class cGameLogic {
                                     Integer.parseInt(args[2])));
             }
             if(action.contains("sendpowerup")) {
-                for(gProp p : eManager.currentMap.scene.props()) {
+                for(gProp p : eManager.currentMap.scene.powerups()) {
                     String[] sptoks = action.replace("sendpowerup", "").split(":");
-                    if(p.isInt("code",gProp.POWERUP)
-                            && p.isVal("id", sptoks[0])) {
-                            p.put("int1", sptoks[1]);
-                            if(Integer.parseInt(p.get("int1")) < 1)
-                                p.put("int0","0");
+                    if(p.isVal("id", sptoks[0])) {
+                        p.put("int1", sptoks[1]);
+                        if(Integer.parseInt(p.get("int1")) < 1)
+                            p.put("int0","0");
                     }
                 }
             }
@@ -838,17 +837,21 @@ public class cGameLogic {
             checkProp((gPropScorepoint) sp);
         }
         //check new props boostups
-        for(gPropBoostup sp : eManager.currentMap.scene.boostups()) {
-            checkProp((gPropBoostup) sp);
+        for(gPropBoostup bu : eManager.currentMap.scene.boostups()) {
+            checkProp((gPropBoostup) bu);
         }
 //        //check new props flagsblue
-//        for(gPropFlagBlue sp : eManager.currentMap.scene.flagsblue()) {
-//            checkProp((gPropFlagBlue) sp);
+//        for(gPropFlagBlue fb : eManager.currentMap.scene.flagsblue()) {
+//            checkProp((gPropFlagBlue) fb);
 //        }
 //        //check new props flagsred
-//        for(gPropFlagRed sp : eManager.currentMap.scene.flagsred()) {
-//            checkProp((gPropFlagRed) sp);
+//        for(gPropFlagRed fr : eManager.currentMap.scene.flagsred()) {
+//            checkProp((gPropFlagRed) fr);
 //        }
+        //check new powerups
+        for(gPropPowerup pu : eManager.currentMap.scene.powerups()) {
+            checkProp(pu);
+        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {

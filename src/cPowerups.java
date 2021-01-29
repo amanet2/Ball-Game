@@ -53,8 +53,8 @@ public class cPowerups {
 
     public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && p.getInt("int0") > 0) {
+        for(gProp p : eManager.currentMap.scene.powerups()) {
+            if(p.getInt("int0") > 0) {
                 str.append(p.get("id")+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
@@ -65,8 +65,8 @@ public class cPowerups {
     }
 
     static gProp getPowerupById(String id) {
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && p.get("id").equals(id))
+        for(gProp p : eManager.currentMap.scene.powerups()) {
+            if(p.get("id").equals(id))
                 return p;
         }
         return null;
@@ -103,8 +103,8 @@ public class cPowerups {
             }
         }
         //hide anything that shouldn't be on
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && !powerupString.contains(p.get("id")))
+        for(gProp p : eManager.currentMap.scene.powerups()) {
+            if(!powerupString.contains(p.get("id")))
                 p.put("int0", "0");
             //there needs to be a way to remove props to avoid mem leaks
         }
