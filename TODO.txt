@@ -1,19 +1,13 @@
 ==DISTRIBUTION==
-* rename game ballmaster general
-    -> roller ruckus
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* gMap.load has a giant if/else block
+    -> convert to a map of doables, or something... at least use the console commands this time
 * logic drawing navpointers is a huge if/else block
-* turn safezones into scorepoints
-    -> botsLogic.goToSafeZone [ ]
-    -> cGameLogic.refreshSafeZones [ ]
-    -> cGameLogic.getGameState [X]
 * make sure editing and saving a map works with the new prop architecture
-* combine scorepoint and safezone
-    -> they truly do not need to be different
 * show grey bar on bottom 1/4 of screen, with gametype and description for first 10 seconds of player joining
 * make sure props spawn and clear without memory leaks
 * audit graphics and sounds to remove anything not made by (you)

@@ -38,10 +38,10 @@ public class gProp extends gThing {
             case POWERUP:
                 cPowerups.checkPlayerPowerups(this);
                 break;
-            case BOOSTUP:
-                xCon.ex(new String[]{"THING_PLAYER.0.mov0 1", "THING_PLAYER.0.mov1 0", "cv_jumping 1", "cv_inboost 1",
-                        "cv_falltime 0"});
-                break;
+//            case BOOSTUP:
+//                xCon.ex(new String[]{"THING_PLAYER.0.mov0 1", "THING_PLAYER.0.mov1 0", "cv_jumping 1", "cv_inboost 1",
+//                        "cv_falltime 0"});
+//                break;
             case BALLBOUNCY:
                 //ball should bounce away from player
                 bounceOffPlayerBounds(p);

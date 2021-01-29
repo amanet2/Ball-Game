@@ -839,6 +839,10 @@ public class cGameLogic {
         for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
             checkProp((gPropScorepoint) sp);
         }
+        //check new props boostups
+        for(gPropBoostup sp : eManager.currentMap.scene.boostups()) {
+            checkProp((gPropBoostup) sp);
+        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
