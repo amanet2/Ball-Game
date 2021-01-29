@@ -841,14 +841,14 @@ public class cGameLogic {
         for(gPropBoostup sp : eManager.currentMap.scene.boostups()) {
             checkProp((gPropBoostup) sp);
         }
-        //check new props flagsblue
-        for(gPropFlagBlue sp : eManager.currentMap.scene.flagsblue()) {
-            checkProp((gPropFlagBlue) sp);
-        }
-        //check new props flagsred
-        for(gPropFlagRed sp : eManager.currentMap.scene.flagsred()) {
-            checkProp((gPropFlagRed) sp);
-        }
+//        //check new props flagsblue
+//        for(gPropFlagBlue sp : eManager.currentMap.scene.flagsblue()) {
+//            checkProp((gPropFlagBlue) sp);
+//        }
+//        //check new props flagsred
+//        for(gPropFlagRed sp : eManager.currentMap.scene.flagsred()) {
+//            checkProp((gPropFlagRed) sp);
+//        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {

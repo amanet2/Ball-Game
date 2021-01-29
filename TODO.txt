@@ -4,7 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* why do the red flags still work?
+* flags work off of a seperate server-side collision detection
+* put all static ints for props in the map file
 * king of flags needs a new architecture
 * make sure all maps in maps_b folder work with new props
 * replace goTosafeZone with goToThing(player, String) where String == "PROP_TELEPORTER" etc.
