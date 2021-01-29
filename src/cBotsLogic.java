@@ -293,11 +293,9 @@ public class cBotsLogic {
 
     public static void goToBall(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.BALLBOUNCY)) {
+        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
                 waypoint = p;
                 break;
-            }
         }
         if(waypoint != null) {
             shootAtNearestPlayer(bot);

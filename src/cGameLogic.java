@@ -222,11 +222,9 @@ public class cGameLogic {
             }
         }
         //ball prop
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.getInt("code") == gProp.BALLBOUNCY) {
-                cVars.putInt("ballx", p.getInt("coordx"));
-                cVars.putInt("bally", p.getInt("coordy"));
-            }
+        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
+            cVars.putInt("ballx", p.getInt("coordx"));
+            cVars.putInt("bally", p.getInt("coordy"));
         }
     }
 

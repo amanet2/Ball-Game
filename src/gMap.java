@@ -118,6 +118,19 @@ public class gMap {
                     scene.props().add(prop);
                     scene.boostups().add(prop);
                 }
+                else if (lineToks[0].toLowerCase().equals("ballbouncy")) {
+                    gPropBallBouncy prop = new gPropBallBouncy(
+                            Integer.valueOf(lineToks[1]),
+                            Integer.valueOf(lineToks[2]),
+                            Integer.valueOf(lineToks[3]),
+                            Integer.valueOf(lineToks[4]),
+                            Integer.valueOf(lineToks[5]),
+                            Integer.valueOf(lineToks[6]));
+                    prop.putInt("tag", scene.ballbouncys().size());
+                    prop.putInt("native", 1);
+                    scene.props().add(prop);
+                    scene.ballbouncys().add(prop);
+                }
                 else if (lineToks[0].toLowerCase().equals("flare")) {
                     gFlare flare = new gFlare(
                         Integer.valueOf(lineToks[1]),
