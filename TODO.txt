@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bots not dropping weapons anymore
 * consider making HASHMAPS of all the current proplists, would make looking up a prop by id an O(1) op
 * flags work off of a seperate server-side collision detection
 * put all static ints for props in the map file
