@@ -23,9 +23,9 @@ public class gProp extends gThing {
             case FLAGRED:
                 cScripts.checkPlayerRedFlags(this);
                 break;
-            case FLAGBLUE:
-                cScripts.checkPlayerBlueFlags();
-                break;
+//            case FLAGBLUE:
+//                cScripts.checkPlayerBlueFlags();
+//                break;
             case POWERUP:
                 cPowerups.checkPlayerPowerups(this);
                 break;

@@ -63,7 +63,7 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1830 -1920 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 480 -2670 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1620 -2730 300 300 0 0 300 0 0 0 0 255 1
-prop 6 0 0 990 -3870 300 300
+flagblue 0 0 990 -3870 300 300
 prop 5 1 0 -1320 330 300 300
 prop 7 0 0 -2160 -2220 300 300
 prop 7 0 0 1860 -990 300 300

@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* replace goTosafeZone with goToThing(player, String) where String == "PROP_TELEPORTER" etc.
 * prop sprite string needs to be made a var of the prop object/subclass
 * gMap.load has a giant if/else block
     -> convert to a map of doables, or something... at least use the console commands this time

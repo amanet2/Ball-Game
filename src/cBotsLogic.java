@@ -265,11 +265,9 @@ public class cBotsLogic {
 
     public static void goToBlueFlagCtf(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.FLAGBLUE)) {
-                waypoint = p;
-                break;
-            }
+        for(gProp p : eManager.currentMap.scene.flagsblue()) {
+            waypoint = p;
+            break;
         }
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
