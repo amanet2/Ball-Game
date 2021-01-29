@@ -19,16 +19,7 @@ public class gProp extends gThing {
 
     public void propEffect(gPlayer p) {
         switch (getInt("code")) {
-            case LADDER:
-                cVars.put("onladder", "1");
-                break;
                 //remove from here as props get refactored
-//            case SCOREPOINT:
-//                cScripts.checkPlayerScorepoints(this, p);
-//                break;
-//            case SAFEPOINT:
-//                cScripts.checkPlayerSafepoints(this);
-//                break;
             case FLAGRED:
                 cScripts.checkPlayerRedFlags(this);
                 break;
@@ -38,18 +29,11 @@ public class gProp extends gThing {
             case POWERUP:
                 cPowerups.checkPlayerPowerups(this);
                 break;
-//            case BOOSTUP:
-//                xCon.ex(new String[]{"THING_PLAYER.0.mov0 1", "THING_PLAYER.0.mov1 0", "cv_jumping 1", "cv_inboost 1",
-//                        "cv_falltime 0"});
-//                break;
-//            case BALLBOUNCY:
-//                //ball should bounce away from player
-//                bounceOffPlayerBounds(p);
-//                break;
             default:
                 break;
         }
     }
+
     private void bouncePlayerBounds(int velA, int velB, String velP) {
         //bounce away from a player colliding into prop
         //velB and velA come from player and compare Up/Down and Left/Right in pairs
