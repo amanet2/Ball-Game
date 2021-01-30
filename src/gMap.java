@@ -56,8 +56,9 @@ public class gMap {
                     propToLoad.putInt("tag", scene.teleportersMap().size());
                     propToLoad.putInt("native", 1);
                     scene.props().add(propToLoad);
-                    scene.teleporters().add((gPropTeleporter) propToLoad);
-                    scene.teleportersMap().put(propToLoad.get("id"), propToLoad);
+                    propReturnFunction.storeProp(propToLoad, scene);
+//                    scene.teleporters().add((gPropTeleporter) propToLoad);
+//                    scene.teleportersMap().put(propToLoad.get("id"), propToLoad);
                 }
                 if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
