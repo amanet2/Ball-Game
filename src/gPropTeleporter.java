@@ -1,4 +1,7 @@
 public class gPropTeleporter extends gProp {
+    public gPropTeleporter load(String[] args) {
+        return null;
+    }
     public void propEffect(gPlayer p) {
         gProp exit = null;
         for(gProp pr : eManager.currentMap.scene.teleporters()) {

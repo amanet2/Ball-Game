@@ -40,6 +40,10 @@ public class gProp extends gThing {
         }
     }
 
+    public gProp load(String[] args) {
+        return null;
+    }
+
     public void propEffect(gPlayer p) {
         xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
     }

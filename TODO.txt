@@ -4,6 +4,14 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* add zombies gametype
+    -> how many ID:coord:coord:attack sets can we cram in a send string
+* placing teleporter doesnt work in editor
+* use the strings that serve as the prop key in the objects hashmap as the load/save string for props
+    -> OR make all the appropriate arrays for the different prop subtypes in the save function
+* what the hell happened to the light fixture prop?
+    -> they used to be prop 1
+    -> i guess since we dont do sidescroller maps anymore it shouldnt be an issue
 * all powerup cycle at same time
     -> each powerup should have its own timer, and be longer (like halo weapons despawning)
 * people still spawn inside other people

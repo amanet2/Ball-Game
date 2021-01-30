@@ -38,6 +38,14 @@ public class gMap {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
+                String putString = lineToks[0];
+                for(String thing_string : gScene.object_titles) {
+                    if(putString.toUpperCase().equals(thing_string)) {
+                        //put new object_title-based import
+
+                        System.out.println(thing_string);
+                    }
+                }
                 if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
                         xCon.ex(line.replaceFirst("cmd ", ""));
