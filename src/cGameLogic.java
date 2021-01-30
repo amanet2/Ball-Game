@@ -826,10 +826,14 @@ public class cGameLogic {
                     break;
             }
         }
-        //check new props teleporters
-        for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
-            checkProp((gPropTeleporter) tp);
+        //check newer props teleporters
+        for(String tpid : eManager.currentMap.scene.teleportersMap().keySet()) {
+            checkProp((gProp) eManager.currentMap.scene.teleportersMap().get(tpid));
         }
+        //check new props teleporters
+//        for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
+//            checkProp((gPropTeleporter) tp);
+//        }
         //check new props scorepoints
         for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
             checkProp((gPropScorepoint) sp);

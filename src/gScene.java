@@ -114,6 +114,10 @@ public class gScene {
         return objectsMap.get("PROP_TELEPORTER");
     }
 
+    public HashMap<String, gThing> boostupsMap() {
+        return objectsMap.get("PROP_BOOSTUP");
+    }
+
     public ArrayList<gPropScorepoint> scorepoints() {
         return objects.get("PROP_SCOREPOINT");
     }
