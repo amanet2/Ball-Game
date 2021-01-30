@@ -19,7 +19,7 @@ public class gPropScorepoint extends gProp {
                         put("racebotidcheckins", get("racebotidcheckins")+(p.get("id")+":"));
                     }
                     int gonnaWin = 1;
-                    for(gProp pr : eManager.currentMap.scene.scorePointsOld()) {
+                    for(gProp pr : eManager.currentMap.scene.scorepoints()) {
                         if(!pr.get("racebotidcheckins").contains(pr.get("id"))) {
                             gonnaWin = 0;
                             break;
@@ -27,7 +27,7 @@ public class gPropScorepoint extends gProp {
                     }
                     if(gonnaWin > 0) {
                         xCon.ex("givepoint "+p.get("id"));
-                        for(gProp pr : eManager.currentMap.scene.scorePointsOld()) {
+                        for(gProp pr : eManager.currentMap.scene.scorepoints()) {
                             pr.put("racebotidcheckins",
                                     pr.get("racebotidcheckins").replace(p.get("id")+":", ""));
                         }
@@ -37,13 +37,13 @@ public class gPropScorepoint extends gProp {
                     if (isZero("int0")) {
                         putInt("int0", 1);
                         int gonnaWin = 1;
-                        for (gProp scorepointa : eManager.currentMap.scene.scorePointsOld()) {
+                        for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
                             if (scorepointa.isZero("int0")) {
                                 gonnaWin = 0;
                             }
                         }
                         if (gonnaWin > 0) {
-                            for (gProp scorepointa : eManager.currentMap.scene.scorePointsOld()) {
+                            for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
                                 scorepointa.put("int0", "0");
                             }
                             if (sSettings.net_server) {

@@ -29,19 +29,33 @@ public class gScene {
             "PROP_FLAGBLUE", "PROP_FLAGRED", "PROP_POWERUP"
     };
 	HashMap<String, ArrayList> objects;
+	HashMap<String, HashMap<String, gThing>> objectsMap;
 
 	public gScene() {
 		objects = new HashMap<>();
+		objectsMap = new HashMap<>();
 		for(String s : object_titles) {
 			objects.put(s, new ArrayList<>());
 		}
+		for(String s : object_titles) {
+		    objectsMap.put(s, new HashMap<String, gThing>());
+        }
 	}
 
 	public gScene copy() {
 	    gScene toReturn = new gScene();
 	    toReturn.objects = new HashMap<>();
+	    toReturn.objectsMap = new HashMap<>();
 	    for(String s : object_titles) {
 	        toReturn.objects.put(s, new ArrayList<>(objects.get(s)));
+        }
+//        HashMap‘s parameterized constructor HashMap(Map<? extends K,? extends V> m)
+//        provides a quick way to shallow copy an entire map:
+//
+//        HashMap<String, Employee> shallowCopy = new HashMap<String, Employee>(originalMap);
+
+        for(String objectType : objectsMap.keySet()) {
+            toReturn.objectsMap.put(objectType, new HashMap<>(objectsMap.get(objectType)));
         }
 	    return toReturn;
     }
@@ -95,15 +109,6 @@ public class gScene {
 
     public ArrayList<gPropPowerup> powerups() {
 	    return objects.get("PROP_POWERUP");
-    }
-
-    public ArrayList<gProp> scorePointsOld() {
-	    ArrayList<gProp> scorepoints = new ArrayList<>();
-	    for(gProp prop : props()) {
-	        if(prop.isInt("code", gProp.SCOREPOINT))
-	            scorepoints.add(prop);
-        }
-	    return scorepoints;
     }
     public ArrayList<gFlare> flares() {
         return objects.get("THING_FLARE");

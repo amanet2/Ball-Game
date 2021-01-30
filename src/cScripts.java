@@ -203,7 +203,7 @@ public class cScripts {
                     scorepoint.put("racebotidcheckins", scorepoint.get("racebotidcheckins")+(pla.get("id")+":"));
                 }
                 int gonnaWin = 1;
-                for(gProp p : eManager.currentMap.scene.scorePointsOld()) {
+                for(gProp p : eManager.currentMap.scene.scorepoints()) {
                     if(!p.get("racebotidcheckins").contains(pla.get("id"))) {
                         gonnaWin = 0;
                         break;
@@ -211,7 +211,7 @@ public class cScripts {
                 }
                 if(gonnaWin > 0) {
                     xCon.ex("givepoint "+pla.get("id"));
-                    for(gProp p : eManager.currentMap.scene.scorePointsOld()) {
+                    for(gProp p : eManager.currentMap.scene.scorepoints()) {
                         p.put("racebotidcheckins",
                                 p.get("racebotidcheckins").replace(pla.get("id")+":", ""));
                     }
@@ -221,13 +221,13 @@ public class cScripts {
                 if (scorepoint.isZero("int0")) {
                     scorepoint.putInt("int0", 1);
                     int gonnaWin = 1;
-                    for (gProp scorepointa : eManager.currentMap.scene.scorePointsOld()) {
+                    for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
                         if (scorepointa.isZero("int0")) {
                             gonnaWin = 0;
                         }
                     }
                     if (gonnaWin > 0) {
-                        for (gProp scorepointa : eManager.currentMap.scene.scorePointsOld()) {
+                        for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
                             scorepointa.put("int0", "0");
                         }
                         if (sSettings.net_server) {
