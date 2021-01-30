@@ -28,6 +28,7 @@ public class gScene {
             "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOSTUP", "PROP_BALLBOUNCY",
             "PROP_FLAGBLUE", "PROP_FLAGRED", "PROP_POWERUP"
     };
+
 	HashMap<String, ArrayList> objects;
 	HashMap<String, HashMap<String, gThing>> objectsMap;
 
@@ -107,6 +108,10 @@ public class gScene {
 
     public ArrayList<gPropTeleporter> teleporters() {
 	    return objects.get("PROP_TELEPORTER");
+    }
+
+    public HashMap<String, gThing> teleportersMap() {
+        return objectsMap.get("PROP_TELEPORTER");
     }
 
     public ArrayList<gPropScorepoint> scorepoints() {

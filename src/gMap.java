@@ -1,6 +1,8 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
@@ -13,6 +15,9 @@ public class gMap {
     ArrayList<String> execLines;
     int wasLoaded;
     gScene scene;
+    //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
+    //of the prop types we'd like to feature in the game
+    HashMap<String, gDoablePropReturn> propLoadMap;
 
 	public gMap() {
 		gTextures.clear();
@@ -20,6 +25,8 @@ public class gMap {
         execLines = new ArrayList<>();
 		scene = new gScene();
         wasLoaded = 0;
+        propLoadMap = new HashMap<>();
+        propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
@@ -35,16 +42,22 @@ public class gMap {
                 mapName = s.split("\\.")[0];
             execLines = new ArrayList<>();
             scene = new gScene();
+            propLoadMap = new HashMap<>();
+            propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
-                String putString = lineToks[0];
-                for(String thing_string : gScene.object_titles) {
-                    if(putString.toUpperCase().equals(thing_string)) {
-                        //put new object_title-based import
-
-                        System.out.println(thing_string);
-                    }
+                String putTitle = lineToks[0];
+                String[] args = Arrays.copyOfRange(lineToks, 1, lineToks.length);
+                gDoablePropReturn propReturnFunction = propLoadMap.get(putTitle);
+                if(propReturnFunction != null) {
+                    gProp propToLoad = propReturnFunction.getProp(args);
+                    propToLoad.put("id", cScripts.createID(8));
+                    propToLoad.putInt("tag", scene.teleportersMap().size());
+                    propToLoad.putInt("native", 1);
+                    scene.props().add(propToLoad);
+                    scene.teleporters().add((gPropTeleporter) propToLoad);
+                    scene.teleportersMap().put(propToLoad.get("id"), propToLoad);
                 }
                 if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
