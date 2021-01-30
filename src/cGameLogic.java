@@ -663,23 +663,21 @@ public class cGameLogic {
         int pass = 1;
         int c = -1;
         int[] scorepoint_indexes = new int[]{};
-        for(gProp p : eManager.currentMap.scene.props()) {
+        for(gProp p : eManager.currentMap.scene.scorepoints()) {
             c++;
-            if(p.isInt("code", gProp.SCOREPOINT)) {
-                int[] tmp = Arrays.copyOf(scorepoint_indexes, scorepoint_indexes.length+1);
-                tmp[tmp.length-1] = c;
-                scorepoint_indexes = tmp;
-                if(p.getInt("int0") > 0)
-                    pass = 0;
-            }
+            int[] tmp = Arrays.copyOf(scorepoint_indexes, scorepoint_indexes.length+1);
+            tmp[tmp.length-1] = c;
+            scorepoint_indexes = tmp;
+            if(p.getInt("int0") > 0)
+                pass = 0;
         }
         if(pass > 0) {
             int r = (int) (Math.random() * (scorepoint_indexes.length));
-            for (int i = 0; i < eManager.currentMap.scene.props().size(); i++) {
-                gProp p = eManager.currentMap.scene.props().get(i);
+            for (int i = 0; i < eManager.currentMap.scene.scorepoints().size(); i++) {
+                gPropScorepoint p = eManager.currentMap.scene.scorepoints().get(i);
                 if (i == scorepoint_indexes[r])
                     p.put("int0", "1");
-                else if (p.isInt("code", gProp.SCOREPOINT))
+                else
                     p.put("int0", "0");
             }
         }

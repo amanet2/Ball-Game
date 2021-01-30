@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* all powerup cycle at same time
+    -> each powerup should have its own timer, and be longer (like halo weapons despawning)
 * people still spawn inside other people
     -> for now dont collide with other players while spawn protection is active
 * bots not dropping weapons

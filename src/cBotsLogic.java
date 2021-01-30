@@ -172,9 +172,8 @@ public class cBotsLogic {
 
     public static void goToNearestScorePoint(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.SCOREPOINT)
-                    && cVars.getInt("gamemode") == cGameMode.RACE
+        for(gProp p : eManager.currentMap.scene.scorepoints()) {
+            if(cVars.getInt("gamemode") == cGameMode.RACE
                     ? !p.get("racebotidcheckins").contains(bot.get("id")) : p.isOne("int0")) {
                 waypoint = p;
                 break;
@@ -322,11 +321,10 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
+        for(gProp p : eManager.currentMap.scene.teleporters()) {
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(p.isInt("code", gProp.TELEPORTER)
-                    && !p.isVal("tag", bot.get("exitteleportertag"))) {
+            if(!p.isVal("tag", bot.get("exitteleportertag"))) {
                 if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
                         && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
                     waypoint = p;
