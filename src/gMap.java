@@ -28,6 +28,7 @@ public class gMap {
         propLoadMap = new HashMap<>();
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
         propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
+        propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
@@ -46,6 +47,7 @@ public class gMap {
             propLoadMap = new HashMap<>();
             propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
             propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
+            propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
@@ -59,8 +61,6 @@ public class gMap {
                     propToLoad.putInt("native", 1);
                     scene.props().add(propToLoad);
                     propReturnFunction.storeProp(propToLoad, scene);
-//                    scene.teleporters().add((gPropTeleporter) propToLoad);
-//                    scene.teleportersMap().put(propToLoad.get("id"), propToLoad);
                 }
                 if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
@@ -115,19 +115,6 @@ public class gMap {
                     prop.putInt("native", 1);
                     scene.props().add(prop);
                     scene.scorepoints().add(prop);
-                }
-                else if (lineToks[0].toLowerCase().equals("ballbouncy")) {
-                    gPropBallBouncy prop = new gPropBallBouncy(
-                            Integer.valueOf(lineToks[1]),
-                            Integer.valueOf(lineToks[2]),
-                            Integer.valueOf(lineToks[3]),
-                            Integer.valueOf(lineToks[4]),
-                            Integer.valueOf(lineToks[5]),
-                            Integer.valueOf(lineToks[6]));
-                    prop.putInt("tag", scene.ballbouncys().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
-                    scene.ballbouncys().add(prop);
                 }
                 else if (lineToks[0].toLowerCase().equals("flagblue")) {
                     gPropFlagBlue prop = new gPropFlagBlue(
