@@ -232,7 +232,8 @@ public class gMap {
                 writer.write(str);
             }
             for(gProp p : scene.props()) {
-                String str = String.format("prop %s %d %d %d %d %d %d\n", p.get("code"), p.getInt("int0"), p.getInt("int1"),
+                String savetitle = gProp.getSaveStringForProp(p);
+                String str = String.format("%s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);
             }

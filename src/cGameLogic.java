@@ -854,11 +854,11 @@ public class cGameLogic {
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
-                    if(cl.isZero("tag")) {
-                        //user touches prop
-                        p.propEffect(cl);
-                    }
-                    else if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
+//                    if(cl.isZero("tag")) {
+//                        //user touches prop
+//                        p.propEffect(cl);
+//                    }
+                    if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
                         //bot touches teleporter
                         p.propEffect(cl);
                     }
@@ -989,15 +989,15 @@ public class cGameLogic {
 
     public static String getGameState() {
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SCOREPOINT) && p.isInt("int0", 1))
+            for(gProp p : eManager.currentMap.scene.scorepoints()) {
+                if(p.isInt("int0", 1))
                     return String.format("safezone-%s-%s-", p.get("tag"), cVars.get("safezonetime"));
             }
         }
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
             int c = 0;
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
+            for(gProp p : eManager.currentMap.scene.scorepoints()) {
+                if(p.getInt("int0") > 0)
                     break;
                 c++;
             }
@@ -1005,8 +1005,8 @@ public class cGameLogic {
         }
         if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
             int c = 0;
-            for(gProp p : eManager.currentMap.scene.props()) {
-                if(p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0)
+            for(gProp p : eManager.currentMap.scene.ballbouncys()) {
+                if(p.getInt("int0") > 0)
                     break;
                 c++;
             }

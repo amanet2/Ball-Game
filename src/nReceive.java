@@ -135,11 +135,9 @@ public class nReceive {
                         cVars.put("winnerid", "");
                     }
                     if(packArgs.containsKey("ballx") && packArgs.containsKey("bally")) {
-                        for(gProp p : eManager.currentMap.scene.props()) {
-                            if(p.getInt("code") == gProp.BALLBOUNCY) {
-                                p.put("coordx", packArgs.get("ballx"));
-                                p.put("coordy", packArgs.get("bally"));
-                            }
+                        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
+                            p.put("coordx", packArgs.get("ballx"));
+                            p.put("coordy", packArgs.get("bally"));
                         }
                     }
                     if(packArgs.containsKey("flagmasterid")) {
@@ -159,34 +157,34 @@ public class nReceive {
                         xCon.ex("respawn");
                     }
                     if(packArgs.get("state").contains("safezone")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
+                        for(int k = 0; k < eManager.currentMap.scene.scorepoints().size(); k++) {
+                            gProp p = eManager.currentMap.scene.scorepoints().get(k);
                             if(k == Integer.parseInt(packArgs.get("state").split("-")[1]))
                                 p.put("int0", "1");
-                            else if(p.isInt("code", gProp.SCOREPOINT))
+                            else
                                 p.put("int0", "0");
                         }
                         cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
                     }
                     if(packArgs.get("state").contains("waypoints")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
+                        for(int k = 0; k < eManager.currentMap.scene.scorepoints().size(); k++) {
+                            gProp p = eManager.currentMap.scene.scorepoints().get(k);
                             if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
                                 if(p.getInt("int0") != 1)
                                     p.put("int0", "1");
                             }
-                            else if(p.isInt("code", gProp.SCOREPOINT))
+                            else
                                 p.put("int0", "0");
                         }
                     }
                     if(packArgs.get("state").contains("bouncyball")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
+                        for(int k = 0; k < eManager.currentMap.scene.ballbouncys().size(); k++) {
+                            gProp p = eManager.currentMap.scene.ballbouncys().get(k);
                             if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
                                 if(p.getInt("int0") != 1)
                                     p.put("int0", "1");
                             }
-                            else if(p.isInt("code", gProp.SCOREPOINT))
+                            else
                                 p.put("int0", "0");
                         }
                     }
@@ -196,7 +194,7 @@ public class nReceive {
                         String[] kingids = flagidstr.split(":");
                         for(int c = 0; c < kingids.length;c++) {
                             String[] kofidpair = kingids[c].split("-");
-                            for(gProp p : eManager.currentMap.scene.props()) {
+                            for(gProp p : eManager.currentMap.scene.flagsred()) {
                                 if(p.isVal("tag", kofidpair[0]) && !p.isVal("str0", kofidpair[1])) {
                                     p.put("str0", kofidpair[1]);
                                 }

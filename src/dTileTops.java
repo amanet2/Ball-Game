@@ -513,10 +513,9 @@ public class dTileTops {
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                         p.getInt("coordy") + p.getInt("dimh")/2, "* KILL *");
             }
-            for(int i = 0; i < eManager.currentMap.scene.props().size(); i++) {
-                gProp p = eManager.currentMap.scene.props().get(i);
-                if((cVars.getInt("gamemode") == cGameMode.RACE && p.isInt("code", gProp.SCOREPOINT)
-                            && p.getInt("int0") < 1)
+            for(int i = 0; i < eManager.currentMap.scene.scorepoints().size(); i++) {
+                gProp p = eManager.currentMap.scene.scorepoints().get(i);
+                if((cVars.getInt("gamemode") == cGameMode.RACE && p.getInt("int0") < 1)
                         || (cVars.getInt("gamemode") == cGameMode.SAFE_ZONES && p.isInt("code", gProp.SCOREPOINT)
                             && p.getInt("int0") > 0)
                         || ((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG

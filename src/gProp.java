@@ -17,6 +17,29 @@ public class gProp extends gThing {
         return isInt("code", code);
     }
 
+    public static String getSaveStringForProp(gProp prop) {
+        switch (prop.getInt("code")) {
+            case TELEPORTER:
+                return "teleporter";
+            case LADDER:
+                return "ladder";
+            case SCOREPOINT:
+                return "scorepoint";
+            case FLAGRED:
+                return "flagred";
+            case FLAGBLUE:
+                return "flagblue";
+            case POWERUP:
+                return "powerup";
+            case BOOSTUP:
+                return "boostup";
+            case BALLBOUNCY:
+                return "ballbouncy";
+            default:
+                return "prop 0";
+        }
+    }
+
     public void propEffect(gPlayer p) {
         xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
     }

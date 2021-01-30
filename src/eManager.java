@@ -60,41 +60,39 @@ public class eManager {
             }
         }
 
-        for(gProp obj : eManager.currentMap.scene.props()) {
-            if(obj.getInt("code") == gProp.BALLBOUNCY) {
-                int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-                int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
+        for(gProp obj : eManager.currentMap.scene.ballbouncys()) {
+            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
+            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
 
-                if(obj.getLong("acceltick") < System.currentTimeMillis()) {
-                    obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-                    for (int i = 0; i < 4; i++) {
-                        if(obj.isZero("tag")) {
-                            if (obj.getInt("mov"+i) > 0)
-                                obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
-                                                + cVars.getInt("speedbonus"),
-                                        obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
-                            if (obj.getInt("mov"+i) < 1)
-                                obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
-                        }
-                        else {
-                            obj.putInt("vel"+i,
-                                    Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
-                        }
+            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
+                obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
+                for (int i = 0; i < 4; i++) {
+                    if(obj.isZero("tag")) {
+                        if (obj.getInt("mov"+i) > 0)
+                            obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
+                                            + cVars.getInt("speedbonus"),
+                                    obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
+                        if (obj.getInt("mov"+i) < 1)
+                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
+                    }
+                    else {
+                        obj.putInt("vel"+i,
+                                Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
                     }
                 }
-
-                if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
-                    obj.putInt("coordx", dx);
-                }
-
-                if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
-                    obj.putInt("coordy", dy);
-                }
-                obj.put("mov0", "0");
-                obj.put("mov1", "0");
-                obj.put("mov2", "0");
-                obj.put("mov3", "0");
             }
+
+            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
+                obj.putInt("coordx", dx);
+            }
+
+            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
+                obj.putInt("coordy", dy);
+            }
+            obj.put("mov0", "0");
+            obj.put("mov1", "0");
+            obj.put("mov2", "0");
+            obj.put("mov3", "0");
         }
 
         for(gBullet obj : eManager.currentMap.scene.bullets()) {

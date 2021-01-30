@@ -1,9 +1,8 @@
 public class gPropTeleporter extends gProp {
     public void propEffect(gPlayer p) {
         gProp exit = null;
-        for(gProp pr : eManager.currentMap.scene.props()) {
-            if(!pr.isVal("tag", get("tag")) && pr.isInt("code", gProp.TELEPORTER)
-                    && pr.isVal("int0", get("int0"))) {
+        for(gProp pr : eManager.currentMap.scene.teleporters()) {
+            if(!pr.isVal("tag", get("tag")) && pr.isVal("int0", get("int0"))) {
                 exit = pr;
             }
         }

@@ -60,6 +60,27 @@ public class gScene {
 	    return toReturn;
     }
 
+    public String getPropArrayTitleForProp(gProp prop) {
+        switch (prop.getInt("code")) {
+            case gProp.TELEPORTER:
+                return "PROP_TELEPORTER";
+            case gProp.SCOREPOINT:
+                return "PROP_SCOREPOINT";
+            case gProp.FLAGRED:
+                return "PROP_FLAGRED";
+            case gProp.FLAGBLUE:
+                return "PROP_FLAGBLUE";
+            case gProp.POWERUP:
+                return "PROP_POWERUP";
+            case gProp.BOOSTUP:
+                return "PROP_BOOSTUP";
+            case gProp.BALLBOUNCY:
+                return "PROP_BALLBOUNCY";
+            default:
+                return null;
+        }
+    }
+
 	public ArrayList<gBullet> bullets() {
 	    return objects.get("THING_BULLET");
     }
