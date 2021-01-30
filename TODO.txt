@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* what if had a hashmap where a dummy prop was the key, which pointed to a list of props
+    ->gScene.MasterTeleporter is a gPropTeleporter() instance, and maps to a list of gPropTeleporter()
 * make sure propmap id pointers are dereferenced/removed along with the arraylist
 * add zombies gametype
     -> how many ID:coord:coord:attack sets can we cram in a send string
@@ -92,6 +94,7 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 
 ==FEATURES==
+* map where a scorepoint runs away from the nearest player and player explodes when catches it, but gets a point
 * map with winding maxze structure that travels downwards with scorepoints
     -> watch which path you take or you can fall out the bottom of the map
 * add buttons, like in the nuke map in day of defeat
