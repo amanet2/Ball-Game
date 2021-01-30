@@ -1,6 +1,6 @@
 cmd cv_maptype 0
 cmd cv_gamemode 5
-cmd cv_botbehavior goto_scorepoint
+cmd cv_botbehavior goto_PROP_SCOREPOINT
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -4500 -2040 7500 6400 0 0 6400 0 0 0 0 200 0
 tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1800 870 600 600 0 0 600 0 0 100 0 255 0
 tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1200 870 600 600 0 0 600 100 150 100 0 255 0
@@ -134,11 +134,11 @@ tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.
 tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3000 2670 100 100 0 0 0 0 0 0 -4 255 0
 tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -2500 2670 100 100 0 0 0 0 0 0 -1 255 0
 tile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -5 1230 100 100 0 0 0 0 0 0 -4 255 0
-scorepoint 0 0 930 2580 300 300
-scorepoint 0 0 990 -540 300 300
-scorepoint 0 0 -1620 420 300 300
-scorepoint 0 0 -3090 -930 300 300
-scorepoint 0 0 -2850 2850 300 300
+PROP_SCOREPOINT 0 0 930 2580 300 300
+PROP_SCOREPOINT 0 0 990 -540 300 300
+PROP_SCOREPOINT 0 0 -1620 420 300 300
+PROP_SCOREPOINT 0 0 -3090 -930 300 300
+PROP_SCOREPOINT 0 0 -2850 2850 300 300
 powerup 0 0 -3390 2910 300 300
 powerup 0 0 -3480 -150 300 300
 powerup 0 0 -2190 30 300 300

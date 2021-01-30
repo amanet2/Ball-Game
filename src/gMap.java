@@ -29,6 +29,7 @@ public class gMap {
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
         propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
         propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
+        propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
@@ -48,6 +49,7 @@ public class gMap {
             propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
             propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
             propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
+            propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
@@ -91,6 +93,7 @@ public class gMap {
                     scene.tiles().add(tile);
                 }
                 else if (lineToks[0].toLowerCase().equals("prop")) {
+                    //only serves the light fixtures now
                     gProp prop = new gProp(
                         Integer.valueOf(lineToks[1]),
                         Integer.valueOf(lineToks[2]),
@@ -102,19 +105,6 @@ public class gMap {
                     prop.putInt("tag", scene.props().size());
                     prop.putInt("native", 1);
                     scene.props().add(prop);
-                }
-                else if (lineToks[0].toLowerCase().equals("scorepoint")) {
-                    gPropScorepoint prop = new gPropScorepoint(
-                            Integer.valueOf(lineToks[1]),
-                            Integer.valueOf(lineToks[2]),
-                            Integer.valueOf(lineToks[3]),
-                            Integer.valueOf(lineToks[4]),
-                            Integer.valueOf(lineToks[5]),
-                            Integer.valueOf(lineToks[6]));
-                    prop.putInt("tag", scene.scorepoints().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
-                    scene.scorepoints().add(prop);
                 }
                 else if (lineToks[0].toLowerCase().equals("flagblue")) {
                     gPropFlagBlue prop = new gPropFlagBlue(

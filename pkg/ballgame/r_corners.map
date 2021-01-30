@@ -1,6 +1,6 @@
 cmd cv_maptype 0
 cmd cv_gamemode 1
-cmd cv_botbehavior goto_scorepoint
+cmd cv_botbehavior goto_PROP_SCOREPOINT
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -2100 -3990 1200 1200 100 150 0 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -900 -3990 1200 1200 100 150 0 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -3300 -3990 1200 1200 100 150 0 0 0 0 0 255 0
@@ -139,22 +139,22 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -5700 -6150 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -4500 -4950 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -7650 -1770 1800 700 0 0 700 0 0 0 0 255 0
-scorepoint 0 0 -2040 -1050 900 900
-scorepoint 0 0 -690 -1320 900 900
-scorepoint 0 0 -270 -2310 900 900
-scorepoint 0 0 -810 -3330 900 900
-scorepoint 0 0 -1950 -3960 900 900
-scorepoint 0 0 -3120 -3360 900 900
-scorepoint 0 0 -4350 -2940 900 900
-scorepoint 0 0 -5520 -3540 900 900
-scorepoint 0 0 -7290 -4050 900 900
-scorepoint 0 0 -9090 -3900 900 900
-scorepoint 0 0 -9390 -2970 900 900
-scorepoint 0 0 -9030 -2160 900 900
-scorepoint 0 0 -9300 -1260 900 900
-scorepoint 0 0 -8040 -870 900 900
-scorepoint 0 0 -6000 -1020 900 900
-scorepoint 0 0 -2400 -1050 900 900
+PROP_SCOREPOINT 0 0 -2040 -1050 900 900
+PROP_SCOREPOINT 0 0 -690 -1320 900 900
+PROP_SCOREPOINT 0 0 -270 -2310 900 900
+PROP_SCOREPOINT 0 0 -810 -3330 900 900
+PROP_SCOREPOINT 0 0 -1950 -3960 900 900
+PROP_SCOREPOINT 0 0 -3120 -3360 900 900
+PROP_SCOREPOINT 0 0 -4350 -2940 900 900
+PROP_SCOREPOINT 0 0 -5520 -3540 900 900
+PROP_SCOREPOINT 0 0 -7290 -4050 900 900
+PROP_SCOREPOINT 0 0 -9090 -3900 900 900
+PROP_SCOREPOINT 0 0 -9390 -2970 900 900
+PROP_SCOREPOINT 0 0 -9030 -2160 900 900
+PROP_SCOREPOINT 0 0 -9300 -1260 900 900
+PROP_SCOREPOINT 0 0 -8040 -870 900 900
+PROP_SCOREPOINT 0 0 -6000 -1020 900 900
+PROP_SCOREPOINT 0 0 -2400 -1050 900 900
 powerup 0 0 -1050 -750 300 300
 powerup 0 0 0 -2610 300 300
 powerup 0 0 -1020 -3630 300 300

@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* make sure propmap id pointers are dereferenced/removed along with the arraylist
 * add zombies gametype
     -> how many ID:coord:coord:attack sets can we cram in a send string
 * placing teleporter doesnt work in editor
