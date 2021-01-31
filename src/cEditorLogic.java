@@ -283,9 +283,9 @@ public class cEditorLogic {
         JMenuItem newmenuitem = new JMenuItem(title);
         newmenuitem.addActionListener(e -> {
             if(menutitle.contains("Nearest X Coord"))
-                state.snapToX = Integer.valueOf(title);
+                state.snapToX = Integer.parseInt(title);
             else if(menutitle.contains("Nearest Y Coord"))
-                state.snapToY = Integer.valueOf(title);
+                state.snapToY = Integer.parseInt(title);
             menus.get("Parameters").getItem(0).setText(String.format("Snap-To: %d,%d",
                     state.snapToX, state.snapToY));
         });

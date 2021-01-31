@@ -3,12 +3,12 @@ public class xComEditorPutProp extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
             int propcode = Integer.parseInt(toks[1]);
-            int int0 = Integer.valueOf(toks[2]);
-            int int1 = Integer.valueOf(toks[3]);
-            int x = Integer.valueOf(toks[4]);
-            int y = Integer.valueOf(toks[5]);
-            int w = Integer.valueOf(toks[6]);
-            int h = Integer.valueOf(toks[7]);
+            int int0 = Integer.parseInt(toks[2]);
+            int int1 = Integer.parseInt(toks[3]);
+            int x = Integer.parseInt(toks[4]);
+            int y = Integer.parseInt(toks[5]);
+            int w = Integer.parseInt(toks[6]);
+            int h = Integer.parseInt(toks[7]);
             switch(propcode) {
                 case gProp.POWERUP:
                     gPropPowerup prop = new gPropPowerup(int0, int1, x, y, w, h);

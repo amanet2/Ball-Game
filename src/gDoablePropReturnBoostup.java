@@ -1,12 +1,12 @@
 public class gDoablePropReturnBoostup extends gDoablePropReturn {
     public gProp getProp(String[] args) {
         gPropBoostup prop = new gPropBoostup(
-                Integer.valueOf(args[0]),
-                Integer.valueOf(args[1]),
-                Integer.valueOf(args[2]),
-                Integer.valueOf(args[3]),
-                Integer.valueOf(args[4]),
-                Integer.valueOf(args[5]));
+                Integer.parseInt(args[0]),
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                Integer.parseInt(args[3]),
+                Integer.parseInt(args[4]),
+                Integer.parseInt(args[5]));
         return prop;
     }
 
