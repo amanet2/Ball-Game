@@ -32,7 +32,7 @@ public class cBotsLogic {
         behaviors.put("ctf", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
-                    cBotsLogic.goToBlueFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGBLUE");
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
@@ -248,10 +248,11 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToRedFlagCtf(gThing bot) {
+    public static void goToFirstThing(gThing bot, String thingType) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.flagsred()) {
-            waypoint = p;
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.objectsMap.get(thingType);
+        for(String id : thingMap.keySet()) {
+            waypoint = (gProp) thingMap.get(id);
             break;
         }
         if(waypoint != null) {
@@ -260,9 +261,9 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToBlueFlagCtf(gThing bot) {
+    public static void goToRedFlagCtf(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.flagsblue()) {
+        for(gProp p : eManager.currentMap.scene.flagsred()) {
             waypoint = p;
             break;
         }

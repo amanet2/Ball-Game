@@ -11,7 +11,6 @@ public class gDoablePropReturnFlagBlue extends gDoablePropReturn {
     }
 
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-        sceneToStore.flagsblue().add((gPropFlagBlue) propToLoad);
-//        sceneToStore.flagsblueMap().put(propToLoad.get("id"), propToLoad);
+        sceneToStore.getThingMap("PROP_FLAGBLUE").put(propToLoad.get("id"), propToLoad);
     }
 }

@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* eliminate all flagblue(), teleporters() style functions
 *safe zone messed up
     -> use id instead of tag for prop in safezone
         -> maybe start using those hashmaps

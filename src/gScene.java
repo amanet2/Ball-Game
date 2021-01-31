@@ -110,10 +110,6 @@ public class gScene {
 	    return objectsMap.get(thing_title);
     }
 
-    public HashMap<String, gThing> powerupsMap() {
-        return objectsMap.get("PROP_POWERUP");
-    }
-
     public ArrayList<gPropScorepoint> scorepoints() {
         return objects.get("PROP_SCOREPOINT");
     }
@@ -133,9 +129,11 @@ public class gScene {
     public ArrayList<gPropPowerup> powerups() {
 	    return objects.get("PROP_POWERUP");
     }
+
     public ArrayList<gFlare> flares() {
         return objects.get("THING_FLARE");
     }
+
     public ArrayList<gAnimationEmitter> animations() {
         return objects.get("THING_ANIMATION");
     }
