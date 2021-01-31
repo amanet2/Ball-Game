@@ -839,7 +839,8 @@ public class cGameLogic {
             checkProp((gPropScorepoint) sp);
         }
         //check new props boostups
-        for(gPropBoostup bu : eManager.currentMap.scene.boostups()) {
+        for(String id : eManager.currentMap.scene.boostupsMap().keySet()) {
+            gPropBoostup bu = (gPropBoostup) eManager.currentMap.scene.boostupsMap().get(id);
             checkProp((gPropBoostup) bu);
         }
 //        //check new props flagsblue

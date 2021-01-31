@@ -67,13 +67,13 @@ public class cBotsLogic {
                         && nServer.clientArgsMap.get("server").containsKey("state")
                         && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))){
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestTeleporter(p);
+                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.teleportersMap());
                     else
                         cBotsLogic.runFromNearestVirusPlayer(p);
                 }
                 else {
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestTeleporter(p);
+                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.teleportersMap());
                     else
                         cBotsLogic.goToNearestVirusPlayer(p);
                 }
@@ -317,12 +317,34 @@ public class cBotsLogic {
         }
     }
 
+    public static void goToNearestThing(gThing bot, HashMap<String, gThing> thingMap) {
+        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
+        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
+        gProp waypoint = null;
+        for(String id : thingMap.keySet()) {
+            gProp p = (gProp) thingMap.get(id);
+            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+            if(!p.isVal("tag", bot.get("exitteleportertag"))) {
+                if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                        && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                    waypoint = p;
+                }
+            }
+        }
+        if(waypoint != null) {
+            shootAtNearestPlayer(bot);
+            goToWaypoint(bot, waypoint);
+        }
+    }
+
     public static void goToNearestTeleporter(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        for(String id : eManager.currentMap.scene.teleportersMap().keySet()) {
-            gProp p = (gProp) eManager.currentMap.scene.teleportersMap().get(id);
+        HashMap<String, gThing> teleporterMap = eManager.currentMap.scene.teleportersMap();
+        for(String id : teleporterMap.keySet()) {
+            gProp p = (gProp) teleporterMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.isVal("tag", bot.get("exitteleportertag"))) {

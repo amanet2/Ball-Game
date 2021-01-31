@@ -106,10 +106,6 @@ public class gScene {
         return objects.get("THING_PROP");
     }
 
-    public ArrayList<gPropTeleporter> teleporters() {
-	    return objects.get("PROP_TELEPORTER");
-    }
-
     public HashMap<String, gThing> teleportersMap() {
         return objectsMap.get("PROP_TELEPORTER");
     }
