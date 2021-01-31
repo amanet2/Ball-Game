@@ -115,7 +115,7 @@ public class cBotsLogic {
         });
         behaviors.put("goto_kofflag", new gDoableThing(){
             public void doItem(gThing p) {
-                cBotsLogic.goToNearestRedFlagKof(p);
+                cBotsLogic.goToNearestThingOfType(p, "PROP_FLAGRED");
             }
         });
     }
@@ -287,11 +287,13 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToNearestRedFlagKof(gThing bot) {
+    public static void goToNearestThingOfType(gThing bot, String thingType) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.flagsred()) {
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
+        for(String id: thingMap.keySet()) {
+            gProp p = (gProp) thingMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
