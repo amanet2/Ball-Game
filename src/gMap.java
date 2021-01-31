@@ -19,11 +19,10 @@ public class gMap {
     //of the prop types we'd like to feature in the game
     HashMap<String, gDoablePropReturn> propLoadMap;
 
-	public gMap() {
-		gTextures.clear();
-        mapName = "new";
+    private void basicInit() {
+        gTextures.clear();
         execLines = new ArrayList<>();
-		scene = new gScene();
+        scene = new gScene();
         wasLoaded = 0;
         propLoadMap = new HashMap<>();
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
@@ -32,6 +31,12 @@ public class gMap {
         propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
         propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
+        propLoadMap.put("PROP_POWERUP", new gDoablePropReturnPowerup());
+    }
+
+	public gMap() {
+		basicInit();
+        mapName = "new";
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
@@ -40,20 +45,11 @@ public class gMap {
 	    xCon.instance().debug("Loading Map: " + s);
         long ct = System.currentTimeMillis();
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            gTextures.clear();
+            basicInit();
             if(s.contains("/"))
                 mapName = s.split("/")[1].split("\\.")[0];
             else
                 mapName = s.split("\\.")[0];
-            execLines = new ArrayList<>();
-            scene = new gScene();
-            propLoadMap = new HashMap<>();
-            propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
-            propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
-            propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
-            propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
-            propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
-            propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
@@ -110,19 +106,6 @@ public class gMap {
                     prop.putInt("native", 1);
                     scene.props().add(prop);
                 }
-                else if (lineToks[0].toLowerCase().equals("powerup")) {
-                    gPropPowerup prop = new gPropPowerup(
-                            Integer.parseInt(lineToks[1]),
-                            Integer.parseInt(lineToks[2]),
-                            Integer.parseInt(lineToks[3]),
-                            Integer.parseInt(lineToks[4]),
-                            Integer.parseInt(lineToks[5]),
-                            Integer.parseInt(lineToks[6]));
-                    prop.putInt("tag", scene.powerups().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
-                    scene.powerups().add(prop);
-                }
                 else if (lineToks[0].toLowerCase().equals("flare")) {
                     gFlare flare = new gFlare(
                         Integer.parseInt(lineToks[1]),
@@ -149,9 +132,8 @@ public class gMap {
         catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-            gTextures.clear();
+            basicInit();
             mapName = "new";
-            scene = new gScene();
             cVars.putInt("maptype", sSettings.create_map_mode);
             cVars.putInt("gamemode", cGameMode.DEATHMATCH);
             cVars.put("botbehavior", "");

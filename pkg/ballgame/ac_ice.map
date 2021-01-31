@@ -73,20 +73,20 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1740 2970 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 3870 -450 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 750 -1620 300 300 0 0 0 0 0 0 0 255 1
-powerup 0 0 1050 3030 300 300
-powerup 0 0 1950 840 300 300
-powerup 0 0 4920 -1650 300 300
-powerup 0 0 2700 -90 300 300
-powerup 0 0 2040 -1980 300 300
-powerup 0 0 4590 -360 300 300
-powerup 0 0 3900 -2430 300 300
-powerup 0 0 1350 -630 300 300
-powerup 0 0 930 -2130 300 300
-powerup 0 0 360 990 300 300
-powerup 0 0 3630 1470 300 300
-powerup 0 0 750 -660 300 300
-powerup 0 0 3060 -1590 300 300
-powerup 0 0 2640 2490 300 300
-powerup 0 0 120 1890 300 300
-powerup 0 0 1500 1740 300 300
-powerup 0 0 3270 480 300 300
+PROP_POWERUP 0 0 1050 3030 300 300
+PROP_POWERUP 0 0 1950 840 300 300
+PROP_POWERUP 0 0 4920 -1650 300 300
+PROP_POWERUP 0 0 2700 -90 300 300
+PROP_POWERUP 0 0 2040 -1980 300 300
+PROP_POWERUP 0 0 4590 -360 300 300
+PROP_POWERUP 0 0 3900 -2430 300 300
+PROP_POWERUP 0 0 1350 -630 300 300
+PROP_POWERUP 0 0 930 -2130 300 300
+PROP_POWERUP 0 0 360 990 300 300
+PROP_POWERUP 0 0 3630 1470 300 300
+PROP_POWERUP 0 0 750 -660 300 300
+PROP_POWERUP 0 0 3060 -1590 300 300
+PROP_POWERUP 0 0 2640 2490 300 300
+PROP_POWERUP 0 0 120 1890 300 300
+PROP_POWERUP 0 0 1500 1740 300 300
+PROP_POWERUP 0 0 3270 480 300 300
