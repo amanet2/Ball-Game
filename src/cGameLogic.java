@@ -984,7 +984,7 @@ public class cGameLogic {
         }
     }
 
-    public static String getGameState() {
+    public static String getGameStateServer() {
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
             for(gProp p : eManager.currentMap.scene.scorepoints()) {
                 if(p.isInt("int0", 1))
@@ -1012,8 +1012,9 @@ public class cGameLogic {
         // KINGOFFLAGS
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
             StringBuilder s = new StringBuilder();
-            for(gProp p : eManager.currentMap.scene.flagsred()) {
-                s.append(String.format("%s-%s:", p.get("tag"), p.get("str0")));
+            HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+            for(String id : thingMap.keySet()) {
+                s.append(String.format("%s-%s:", id, thingMap.get(id).get("str0")));
             }
             return String.format("kingofflags%s", s);
         }

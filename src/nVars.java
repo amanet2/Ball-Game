@@ -135,7 +135,7 @@ public class nVars {
             keys.put("timeleft", cVars.get("timeleft"));
             keys.put("topscore", cScripts.getTopScoreString());
             keys.put("spmaxtime", cVars.get("spawnprotectionmaxtime"));
-            keys.put("state", cGameLogic.getGameState());
+            keys.put("state", cGameLogic.getGameStateServer());
             keys.put("win", cVars.get("winnerid"));
         }
     }
