@@ -11,7 +11,6 @@ public class gDoablePropReturnBallBouncy extends gDoablePropReturn {
     }
 
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-        sceneToStore.ballbouncys().add((gPropBallBouncy) propToLoad);
-//        sceneToStore.ballbouncysMap().put(propToLoad.get("id"), propToLoad);
+        sceneToStore.getThingMap("PROP_BALLBOUNCY").put(propToLoad.get("id"), propToLoad);
     }
 }

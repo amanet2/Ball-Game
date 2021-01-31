@@ -106,7 +106,6 @@ public class cBotsLogic {
         behaviors.put("goto_ball", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToFirstThing(p, "PROP_BALLBOUNCY");
-                cBotsLogic.goToBall(p);
             }
         });
         behaviors.put("goto_safezone", new gDoableThing(){
