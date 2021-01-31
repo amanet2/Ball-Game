@@ -222,10 +222,12 @@ public class cGameLogic {
             }
         }
         //ball prop
-        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
-            cVars.putInt("ballx", p.getInt("coordx"));
-            cVars.putInt("bally", p.getInt("coordy"));
-        }
+//        HashMap<String, gThing> props = eManager.currentMap.scene.getThingMap("PROP_BALLBOUNCY");
+//        for(String id : props.keySet()) {
+//            gProp p = (gProp) props.get(id);
+//            cVars.putInt("ballx", p.getInt("coordx"));
+//            cVars.putInt("bally", p.getInt("coordy"));
+//        }
     }
 
     public static void checkDisconnectStatus() {
@@ -1000,15 +1002,15 @@ public class cGameLogic {
             }
             return String.format("waypoints-%d-", c);
         }
-        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
-            int c = 0;
-            for(gProp p : eManager.currentMap.scene.ballbouncys()) {
-                if(p.getInt("int0") > 0)
-                    break;
-                c++;
-            }
-            return String.format("bouncyball-%d-", c);
-        }
+//        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
+//            int c = 0;
+//            for(gProp p : eManager.currentMap.scene.ballbouncys()) {
+//                if(p.getInt("int0") > 0)
+//                    break;
+//                c++;
+//            }
+//            return String.format("bouncyball-%d-", c);
+//        }
         // KINGOFFLAGS
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
             StringBuilder s = new StringBuilder();

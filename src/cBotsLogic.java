@@ -103,11 +103,11 @@ public class cBotsLogic {
                     cBotsLogic.goToChosenOne(p);
             }
         });
-        behaviors.put("goto_ball", new gDoableThing(){
-            public void doItem(gThing p) {
-                cBotsLogic.goToFirstThing(p, "PROP_BALLBOUNCY");
-            }
-        });
+//        behaviors.put("goto_ball", new gDoableThing(){
+//            public void doItem(gThing p) {
+//                cBotsLogic.goToFirstThing(p, "PROP_BALLBOUNCY");
+//            }
+//        });
         behaviors.put("goto_safezone", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToSafeZone(p);
@@ -268,18 +268,6 @@ public class cBotsLogic {
                 waypoint = safezone;
                 break;
             }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToBall(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
-                waypoint = p;
-                break;
         }
         if(waypoint != null) {
             shootAtNearestPlayer(bot);

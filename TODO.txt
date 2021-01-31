@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* get rid of bouncy ball
+    -> for now
 * waypoints game mode broken
 * bouncy ball broken
 * make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag

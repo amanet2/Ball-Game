@@ -33,8 +33,8 @@ public class gProp extends gThing {
                 return "powerup";
             case BOOSTUP:
                 return "boostup";
-            case BALLBOUNCY:
-                return "ballbouncy";
+//            case BALLBOUNCY:
+//                return "ballbouncy";
             default:
                 return "prop 0";
         }

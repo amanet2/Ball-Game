@@ -114,9 +114,9 @@ public class gScene {
         return objects.get("PROP_SCOREPOINT");
     }
 
-    public ArrayList<gPropBallBouncy> ballbouncys() {
-        return objects.get("PROP_BALLBOUNCY");
-    }
+//    public ArrayList<gPropBallBouncy> ballbouncys() {
+//        return objects.get("PROP_BALLBOUNCY");
+//    }
 
     public ArrayList<gPropPowerup> powerups() {
 	    return objects.get("PROP_POWERUP");
