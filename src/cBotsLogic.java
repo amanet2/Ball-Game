@@ -36,7 +36,7 @@ public class cBotsLogic {
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToRedFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
             }
         });
         behaviors.put("flagmaster", new gDoableThing(){
@@ -46,7 +46,7 @@ public class cBotsLogic {
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToRedFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
             }
         });
         behaviors.put("virus", new gDoableThing(){
@@ -253,18 +253,6 @@ public class cBotsLogic {
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.objectsMap.get(thingType);
         for(String id : thingMap.keySet()) {
             waypoint = (gProp) thingMap.get(id);
-            break;
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToRedFlagCtf(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.flagsred()) {
-            waypoint = p;
             break;
         }
         if(waypoint != null) {
