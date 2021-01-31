@@ -35,7 +35,7 @@ public class gMap {
     }
 
 	public gMap() {
-		basicInit();
+        basicInit();
         mapName = "new";
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
