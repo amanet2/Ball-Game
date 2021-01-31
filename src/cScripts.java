@@ -584,7 +584,7 @@ public class cScripts {
                         }
                     }
                     if(sVars.isOne("vfxenableanimations"))
-                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_BLUE,
+                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
                             dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
                     dmgvictim.put("coordx", "-10000");
                     dmgvictim.put("coordy", "-10000");

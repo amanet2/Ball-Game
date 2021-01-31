@@ -1118,7 +1118,7 @@ public class cGameLogic {
                     cVars.putInt("explodex", cl.getInt("coordx") - 75);
                     cVars.putInt("explodey", cl.getInt("coordy") - 75);
                     if (sVars.isOne("vfxenableanimations"))
-                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_BLUE,
+                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
                                 cVars.getInt("explodex"), cVars.getInt("explodey")));
                     if(sSettings.net_server)
                         xCon.ex("say " + cl.get("name") + " died");
