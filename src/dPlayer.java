@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayers(Graphics g) {
@@ -96,8 +97,9 @@ public class dPlayer {
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                 (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
                     gProp flag = null;
-                    for(gProp p : eManager.currentMap.scene.flagsred()) {
-                        flag = p;
+                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                    for(String id : thingMap.keySet()) {
+                        flag = (gProp) thingMap.get(id);
                     }
                     if(flag != null) {
                         g2.drawImage(flag.sprite,

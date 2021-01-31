@@ -118,10 +118,6 @@ public class gScene {
         return objects.get("PROP_BALLBOUNCY");
     }
 
-    public ArrayList<gPropFlagRed> flagsred() {
-        return objects.get("PROP_FLAGRED");
-    }
-
     public ArrayList<gPropPowerup> powerups() {
 	    return objects.get("PROP_POWERUP");
     }

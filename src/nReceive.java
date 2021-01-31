@@ -194,9 +194,12 @@ public class nReceive {
                         String[] kingids = flagidstr.split(":");
                         for(int c = 0; c < kingids.length;c++) {
                             String[] kofidpair = kingids[c].split("-");
-                            for(gProp p : eManager.currentMap.scene.flagsred()) {
-                                if(p.isVal("tag", kofidpair[0]) && !p.isVal("str0", kofidpair[1])) {
-                                    p.put("str0", kofidpair[1]);
+                            HashMap<String, gThing> thingMap =
+                                    eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                            for(String id : thingMap.keySet()) {
+                                if(thingMap.get(id).isVal("tag", kofidpair[0])
+                                        && !thingMap.get(id).isVal("str0", kofidpair[1])) {
+                                    thingMap.get(id).put("str0", kofidpair[1]);
                                 }
                             }
                         }

@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class cGameMode {
     static final int DEATHMATCH = 0;
     static final int RACE = 1;
@@ -42,15 +44,18 @@ public class cGameMode {
     };
 
     public static void resetKingOfFlags() {
-        for(gProp p : eManager.currentMap.scene.flagsred()) {
-            p.put("str0", "null");
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+        for(String id : thingMap.keySet()) {
+            thingMap.get(id).put("str0", "null");
         }
     }
 
     public static void checkKingOfFlags() {
         if(sSettings.net_server) {
             if(cVars.getLong("kingofflagstime") < uiInterface.gameTime) {
-                for(gProp flag : eManager.currentMap.scene.flagsred()) {
+                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                for(String id : thingMap.keySet()) {
+                    gProp flag = (gProp) thingMap.get(id);
                     if(cGameLogic.getPlayerById(flag.get("str0")) != null)
                         xCon.ex("givepoint " + flag.get("str0"));
                 }

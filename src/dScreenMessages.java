@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.font.FontRenderContext;
+import java.util.HashMap;
 
 public class dScreenMessages {
     static FontRenderContext fontrendercontext =
@@ -396,7 +397,9 @@ public class dScreenMessages {
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
                 StringBuilder todraw = new StringBuilder();
                 //this is where we show the checkmarks for kof flag caps
-                for(gProp p : eManager.currentMap.scene.flagsred()) {
+                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                for(String id : thingMap.keySet()) {
+                    gProp p = (gProp) thingMap.get(id);
                     gPlayer flagking = cGameLogic.getPlayerById(p.get("str0"));
                     todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
                 }
