@@ -11,6 +11,6 @@ public class gDoablePropReturnBoostup extends gDoablePropReturn {
     }
 
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-        sceneToStore.boostupsMap().put(propToLoad.get("id"), propToLoad);
+        sceneToStore.getThingMap("PROP_BOOSTUP").put(propToLoad.get("id"), propToLoad);
     }
 }

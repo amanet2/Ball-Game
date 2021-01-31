@@ -827,7 +827,9 @@ public class cGameLogic {
             }
         }
         //check ALL PROPS
-        for(String checkThingType : new String[]{"PROP_TELEPORTER", "PROP_BOOSTUP"}) {
+        for(String checkThingType : new String[]{
+                "PROP_TELEPORTER", "PROP_BOOSTUP"
+        }) {
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String id : thingMap.keySet()) {
                 checkProp((gProp) thingMap.get(id));

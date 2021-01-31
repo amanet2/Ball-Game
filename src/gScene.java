@@ -110,10 +110,6 @@ public class gScene {
 	    return objectsMap.get(thing_title);
     }
 
-    public HashMap<String, gThing> boostupsMap() {
-        return objectsMap.get("PROP_BOOSTUP");
-    }
-
     public HashMap<String, gThing> powerupsMap() {
         return objectsMap.get("PROP_POWERUP");
     }
