@@ -104,10 +104,10 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -180 1890 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 720 1170 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2300 2580 600 250 100 150 50 0 0 0 0 255 0
-flagred 0 0 -1380 2880 300 300
-flagred 0 0 -1350 0 300 300
-flagred 0 0 1410 -330 300 300
-flagred 0 0 1530 2370 300 300
+PROP_FLAGRED 0 0 -1380 2880 300 300
+PROP_FLAGRED 0 0 -1350 0 300 300
+PROP_FLAGRED 0 0 1410 -330 300 300
+PROP_FLAGRED 0 0 1530 2370 300 300
 powerup 0 0 -420 2670 300 300
 powerup 0 0 -960 1590 300 300
 powerup 0 0 -930 720 300 300

@@ -31,6 +31,7 @@ public class gMap {
         propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
         propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
+        propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
         cVars.putInt("maptype", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
@@ -52,6 +53,7 @@ public class gMap {
             propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
             propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
             propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
+            propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
@@ -74,22 +76,22 @@ public class gMap {
                 }
                 else if (lineToks[0].toLowerCase().equals("tile")) {
                     gTile tile = new gTile(
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]),
-                        Integer.valueOf(lineToks[8]),
-                        Integer.valueOf(lineToks[9]),
-                        Integer.valueOf(lineToks[10]),
-                        Integer.valueOf(lineToks[11]),
-                        Integer.valueOf(lineToks[12]),
-                        Integer.valueOf(lineToks[13]),
-                        Integer.valueOf(lineToks[14]),
+                        Integer.parseInt(lineToks[4]),
+                        Integer.parseInt(lineToks[5]),
+                        Integer.parseInt(lineToks[6]),
+                        Integer.parseInt(lineToks[7]),
+                        Integer.parseInt(lineToks[8]),
+                        Integer.parseInt(lineToks[9]),
+                        Integer.parseInt(lineToks[10]),
+                        Integer.parseInt(lineToks[11]),
+                        Integer.parseInt(lineToks[12]),
+                        Integer.parseInt(lineToks[13]),
+                        Integer.parseInt(lineToks[14]),
                         eUtils.getPath(lineToks[1]),
                         eUtils.getPath(lineToks[2]),
                         eUtils.getPath(lineToks[3]),
-                        Integer.valueOf(lineToks[15]),
-                        Integer.valueOf(lineToks[16])
+                        Integer.parseInt(lineToks[15]),
+                        Integer.parseInt(lineToks[16])
                     );
                     tile.putInt("id", scene.tiles().size());
                     scene.tiles().add(tile);
@@ -97,38 +99,25 @@ public class gMap {
                 else if (lineToks[0].toLowerCase().equals("prop")) {
                     //only serves the old light fixtures now
                     gProp prop = new gProp(
-                        Integer.valueOf(lineToks[1]),
-                        Integer.valueOf(lineToks[2]),
-                        Integer.valueOf(lineToks[3]),
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]));
+                        Integer.parseInt(lineToks[1]),
+                        Integer.parseInt(lineToks[2]),
+                        Integer.parseInt(lineToks[3]),
+                        Integer.parseInt(lineToks[4]),
+                        Integer.parseInt(lineToks[5]),
+                        Integer.parseInt(lineToks[6]),
+                        Integer.parseInt(lineToks[7]));
                     prop.putInt("tag", scene.props().size());
                     prop.putInt("native", 1);
                     scene.props().add(prop);
                 }
-                else if (lineToks[0].toLowerCase().equals("flagred")) {
-                    gPropFlagRed prop = new gPropFlagRed(
-                            Integer.valueOf(lineToks[1]),
-                            Integer.valueOf(lineToks[2]),
-                            Integer.valueOf(lineToks[3]),
-                            Integer.valueOf(lineToks[4]),
-                            Integer.valueOf(lineToks[5]),
-                            Integer.valueOf(lineToks[6]));
-                    prop.putInt("tag", scene.flagsred().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
-                    scene.flagsred().add(prop);
-                }
                 else if (lineToks[0].toLowerCase().equals("powerup")) {
                     gPropPowerup prop = new gPropPowerup(
-                            Integer.valueOf(lineToks[1]),
-                            Integer.valueOf(lineToks[2]),
-                            Integer.valueOf(lineToks[3]),
-                            Integer.valueOf(lineToks[4]),
-                            Integer.valueOf(lineToks[5]),
-                            Integer.valueOf(lineToks[6]));
+                            Integer.parseInt(lineToks[1]),
+                            Integer.parseInt(lineToks[2]),
+                            Integer.parseInt(lineToks[3]),
+                            Integer.parseInt(lineToks[4]),
+                            Integer.parseInt(lineToks[5]),
+                            Integer.parseInt(lineToks[6]));
                     prop.putInt("tag", scene.powerups().size());
                     prop.putInt("native", 1);
                     scene.props().add(prop);
@@ -136,18 +125,18 @@ public class gMap {
                 }
                 else if (lineToks[0].toLowerCase().equals("flare")) {
                     gFlare flare = new gFlare(
-                        Integer.valueOf(lineToks[1]),
-                        Integer.valueOf(lineToks[2]),
-                        Integer.valueOf(lineToks[3]),
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]),
-                        Integer.valueOf(lineToks[8]),
-                        Integer.valueOf(lineToks[9]),
-                        Integer.valueOf(lineToks[10]),
-                        Integer.valueOf(lineToks[11]),
-                        Integer.valueOf(lineToks[12])
+                        Integer.parseInt(lineToks[1]),
+                        Integer.parseInt(lineToks[2]),
+                        Integer.parseInt(lineToks[3]),
+                        Integer.parseInt(lineToks[4]),
+                        Integer.parseInt(lineToks[5]),
+                        Integer.parseInt(lineToks[6]),
+                        Integer.parseInt(lineToks[7]),
+                        Integer.parseInt(lineToks[8]),
+                        Integer.parseInt(lineToks[9]),
+                        Integer.parseInt(lineToks[10]),
+                        Integer.parseInt(lineToks[11]),
+                        Integer.parseInt(lineToks[12])
                     );
                     if(lineToks.length > 13)
                         flare.put("flicker", lineToks[13]);
