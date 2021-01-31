@@ -12,10 +12,10 @@ public class xComEditorPutProp extends xCom {
             switch(propcode) {
                 case gProp.POWERUP:
                     gPropPowerup prop = new gPropPowerup(int0, int1, x, y, w, h);
-                    prop.putInt("tag", eManager.currentMap.scene.powerups().size());
+                    prop.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
                     prop.putInt("native", 1);
                     eManager.currentMap.scene.props().add(prop);
-                    eManager.currentMap.scene.powerups().add(prop);
+                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(cScripts.createID(8), prop);
                     break;
                 default:
                     break;

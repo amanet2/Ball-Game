@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class cPowerups {
     public static void takepowerupammo(gProp powerup) {
         while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
@@ -53,9 +55,11 @@ public class cPowerups {
 
     public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
-        for(gProp p : eManager.currentMap.scene.powerups()) {
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
+        for(String id : thingMap.keySet()) {
+            gProp p = (gProp) thingMap.get(id);
             if(p.getInt("int0") > 0) {
-                str.append(p.get("id")+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+                str.append(id+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
         String rstr = str.toString();
@@ -65,11 +69,7 @@ public class cPowerups {
     }
 
     static gProp getPowerupById(String id) {
-        for(gProp p : eManager.currentMap.scene.powerups()) {
-            if(p.get("id").equals(id))
-                return p;
-        }
-        return null;
+        return (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(id);
     }
 
     static void processPowerupStringClient(String powerupString) {
@@ -103,10 +103,11 @@ public class cPowerups {
             }
         }
         //hide anything that shouldn't be on
-        for(gProp p : eManager.currentMap.scene.powerups()) {
-            if(!powerupString.contains(p.get("id")))
-                p.put("int0", "0");
-            //there needs to be a way to remove props to avoid mem leaks
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
+        for(String id : thingMap.keySet()) {
+            if(!powerupString.contains(id)) {
+                thingMap.get(id).put("int0", "0");
+            }
         }
     }
 }

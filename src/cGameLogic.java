@@ -75,7 +75,9 @@ public class cGameLogic {
             if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
                 int powerupson = 0;
                 ArrayList<gProp> powerupcandidates = new ArrayList<>();
-                for (gProp p : eManager.currentMap.scene.powerups()) {
+                HashMap<String, gThing> powerupsMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
+                for (String id : powerupsMap.keySet()) {
+                    gProp p = (gProp) powerupsMap.get(id);
                     if (!p.isZero("int0")) {
                         powerupson++;
                     }
@@ -595,14 +597,11 @@ public class cGameLogic {
                                     Integer.parseInt(args[2])));
             }
             if(action.contains("sendpowerup")) {
-                for(gProp p : eManager.currentMap.scene.powerups()) {
-                    String[] sptoks = action.replace("sendpowerup", "").split(":");
-                    if(p.isVal("id", sptoks[0])) {
-                        p.put("int1", sptoks[1]);
-                        if(Integer.parseInt(p.get("int1")) < 1)
-                            p.put("int0","0");
-                    }
-                }
+                String[] sptoks = action.replace("sendpowerup", "").split(":");
+                gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(sptoks[0]);
+                p.put("int1", sptoks[1]);
+                if(Integer.parseInt(p.get("int1")) < 1)
+                    p.put("int0","0");
             }
             if(action.contains("sendcmd")) {
                 xCon.ex(action.replaceFirst("sendcmd_",""));
@@ -828,9 +827,9 @@ public class cGameLogic {
                     break;
             }
         }
-        //check ALL PROPS
+        //check ALL PROPS this is the best one
         for(String checkThingType : new String[]{
-                "PROP_TELEPORTER", "PROP_BOOSTUP"
+                "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP"
         }) {
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String id : thingMap.keySet()) {
@@ -849,10 +848,6 @@ public class cGameLogic {
 //        for(gPropFlagRed fr : eManager.currentMap.scene.flagsred()) {
 //            checkProp((gPropFlagRed) fr);
 //        }
-        //check new powerups
-        for(gPropPowerup pu : eManager.currentMap.scene.powerups()) {
-            checkProp(pu);
-        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {

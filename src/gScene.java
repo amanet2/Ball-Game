@@ -51,10 +51,6 @@ public class gScene {
 	        toReturn.objects.put(s, new ArrayList<>(objects.get(s)));
         }
 	    //OBJECTMAP BELOW
-//        HashMap‘s parameterized constructor HashMap(Map<? extends K,? extends V> m)
-//        provides a quick way to shallow copy an entire map:
-//
-//        HashMap<String, Employee> shallowCopy = new HashMap<String, Employee>(originalMap);
         for(String objectType : objectsMap.keySet()) {
             toReturn.objectsMap.put(objectType, new HashMap<>(objectsMap.get(objectType)));
         }
@@ -112,14 +108,6 @@ public class gScene {
 
     public ArrayList<gPropScorepoint> scorepoints() {
         return objects.get("PROP_SCOREPOINT");
-    }
-
-//    public ArrayList<gPropBallBouncy> ballbouncys() {
-//        return objects.get("PROP_BALLBOUNCY");
-//    }
-
-    public ArrayList<gPropPowerup> powerups() {
-	    return objects.get("PROP_POWERUP");
     }
 
     public ArrayList<gFlare> flares() {
