@@ -826,18 +826,16 @@ public class cGameLogic {
                     break;
             }
         }
-        //check new props teleporters
-        for(String tpid : eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").keySet()) {
-            checkProp((gProp) eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").get(tpid));
+        //check ALL PROPS
+        for(String checkThingType : new String[]{"PROP_TELEPORTER", "PROP_BOOSTUP"}) {
+            HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
+            for(String id : thingMap.keySet()) {
+                checkProp((gProp) thingMap.get(id));
+            }
         }
         //check new props scorepoints
         for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
             checkProp((gPropScorepoint) sp);
-        }
-        //check new props boostups
-        for(String id : eManager.currentMap.scene.boostupsMap().keySet()) {
-            gPropBoostup bu = (gPropBoostup) eManager.currentMap.scene.boostupsMap().get(id);
-            checkProp((gPropBoostup) bu);
         }
 //        //check new props flagsblue
 //        for(gPropFlagBlue fb : eManager.currentMap.scene.flagsblue()) {
