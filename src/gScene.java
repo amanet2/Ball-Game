@@ -30,7 +30,7 @@ public class gScene {
     };
 
 	HashMap<String, ArrayList> objects;
-	HashMap<String, HashMap<String, gThing>> objectsMap;
+	HashMap<String, HashMap> objectsMap;
 
 	public gScene() {
 		objects = new HashMap<>();
@@ -39,7 +39,7 @@ public class gScene {
 			objects.put(s, new ArrayList<>());
 		}
 		for(String s : object_titles) {
-		    objectsMap.put(s, new HashMap<String, gThing>());
+		    objectsMap.put(s, new HashMap<>());
         }
 	}
 
@@ -50,11 +50,11 @@ public class gScene {
 	    for(String s : object_titles) {
 	        toReturn.objects.put(s, new ArrayList<>(objects.get(s)));
         }
+	    //OBJECTMAP BELOW
 //        HashMap‘s parameterized constructor HashMap(Map<? extends K,? extends V> m)
 //        provides a quick way to shallow copy an entire map:
 //
 //        HashMap<String, Employee> shallowCopy = new HashMap<String, Employee>(originalMap);
-
         for(String objectType : objectsMap.keySet()) {
             toReturn.objectsMap.put(objectType, new HashMap<>(objectsMap.get(objectType)));
         }

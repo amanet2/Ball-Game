@@ -4,6 +4,10 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+*safe zone messed up
+    -> use id instead of tag for prop in safezone
+        -> maybe start using those hashmaps
+            -> do teleporter first
 * waypoints stopped working for ctf, kof and more
     -> when the waypoint deals with prop objects directly
 * get rid of the ladder prop

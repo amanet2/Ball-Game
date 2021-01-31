@@ -321,7 +321,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.teleporters()) {
+        for(String id : eManager.currentMap.scene.teleportersMap().keySet()) {
+            gProp p = (gProp) eManager.currentMap.scene.teleportersMap().get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.isVal("tag", bot.get("exitteleportertag"))) {
