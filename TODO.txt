@@ -4,6 +4,15 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* for safezone, maybe have server hold "safezoneid" which will then be matched up to the right safezone, no int0/int1
+required?
+    -> prolly still want int0 to flip from 0 to 1 and such
+* have bots eventually go back to exit teleporter after X seconds
+* save old functions to aid in rebuilding the broken functionality
+* powerups broken over net
+* race broken with maplist of scorepoints
+* goToNearestThing() function has explicit reference to flagmaster stuff
+* get rid of the scorepoints() array in the cGameLogic file
 * get rid of bouncy ball
     -> for now
 * waypoints game mode broken

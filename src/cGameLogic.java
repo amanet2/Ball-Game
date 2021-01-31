@@ -829,17 +829,17 @@ public class cGameLogic {
         }
         //check ALL PROPS this is the best one
         for(String checkThingType : new String[]{
-                "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP"
+                "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String id : thingMap.keySet()) {
                 checkProp((gProp) thingMap.get(id));
             }
         }
-        //check new props scorepoints
-        for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
-            checkProp((gPropScorepoint) sp);
-        }
+//        //check new props scorepoints
+//        for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
+//            checkProp((gPropScorepoint) sp);
+//        }
 //        //check new props flagsblue
 //        for(gPropFlagBlue fb : eManager.currentMap.scene.flagsblue()) {
 //            checkProp((gPropFlagBlue) fb);
