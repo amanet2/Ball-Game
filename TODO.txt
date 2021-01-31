@@ -4,6 +4,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* waypoints stopped working for ctf, kof and more
+    -> when the waypoint deals with prop objects directly
+* get rid of the ladder prop
 * what if had a hashmap where a dummy prop was the key, which pointed to a list of props
     ->gScene.MasterTeleporter is a gPropTeleporter() instance, and maps to a list of gPropTeleporter()
 * make sure propmap id pointers are dereferenced/removed along with the arraylist
