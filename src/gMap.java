@@ -64,7 +64,7 @@ public class gMap {
                     scene.props().add(propToLoad);
                     propReturnFunction.storeProp(propToLoad, scene);
                 }
-                if(lineToks[0].toLowerCase().equals("cmd")) {
+                else if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
                         xCon.ex(line.replaceFirst("cmd ", ""));
                         execLines.add(line);
