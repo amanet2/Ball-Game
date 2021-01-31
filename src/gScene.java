@@ -106,12 +106,16 @@ public class gScene {
         return objects.get("THING_PROP");
     }
 
-    public HashMap<String, gThing> teleportersMap() {
-        return objectsMap.get("PROP_TELEPORTER");
+    public HashMap<String, gThing> getThingMap(String thing_title) {
+	    return objectsMap.get(thing_title);
     }
 
     public HashMap<String, gThing> boostupsMap() {
         return objectsMap.get("PROP_BOOSTUP");
+    }
+
+    public HashMap<String, gThing> powerupsMap() {
+        return objectsMap.get("PROP_POWERUP");
     }
 
     public ArrayList<gPropScorepoint> scorepoints() {

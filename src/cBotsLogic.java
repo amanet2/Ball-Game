@@ -67,13 +67,13 @@ public class cBotsLogic {
                         && nServer.clientArgsMap.get("server").containsKey("state")
                         && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))){
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.teleportersMap());
+                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.getThingMap("PROP_TELEPORTER"));
                     else
                         cBotsLogic.runFromNearestVirusPlayer(p);
                 }
                 else {
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.teleportersMap());
+                        cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.getThingMap("PROP_TELEPORTER"));
                     else
                         cBotsLogic.goToNearestVirusPlayer(p);
                 }
@@ -342,7 +342,7 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        HashMap<String, gThing> teleporterMap = eManager.currentMap.scene.teleportersMap();
+        HashMap<String, gThing> teleporterMap = eManager.currentMap.scene.getThingMap("PROP_TELEPORTER");
         for(String id : teleporterMap.keySet()) {
             gProp p = (gProp) teleporterMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;

@@ -7,15 +7,15 @@ public class gPropTeleporter extends gProp {
                 Integer.parseInt(args[4]),
                 Integer.parseInt(args[5]),
                 Integer.parseInt(args[6]));
-        prop.putInt("tag", eManager.currentMap.scene.teleportersMap().size());
+        prop.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
         prop.putInt("native", 1);
         eManager.currentMap.scene.props().add(prop);
         return prop;
     }
     public void propEffect(gPlayer p) {
         gProp exit = null;
-        for(String id : eManager.currentMap.scene.teleportersMap().keySet()) {
-            gProp pr = (gProp) eManager.currentMap.scene.teleportersMap().get(id);
+        for(String id : eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").keySet()) {
+            gProp pr = (gProp) eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").get(id);
             if(!pr.isVal("tag", get("tag")) && pr.isVal("int0", get("int0"))) {
                 exit = pr;
             }

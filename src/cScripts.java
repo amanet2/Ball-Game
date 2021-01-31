@@ -167,8 +167,8 @@ public class cScripts {
     }
 
     public static gProp getExitTeleporter(gProp tp) {
-        for(String id : eManager.currentMap.scene.teleportersMap().keySet()) {
-            gProp p = (gProp) eManager.currentMap.scene.teleportersMap().get(id);
+        for(String id : eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").keySet()) {
+            gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").get(id);
             if(!p.isVal("tag", tp.get("tag"))
                     && p.isVal("int0", tp.get("int0"))) {
                 return p;

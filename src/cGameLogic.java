@@ -826,14 +826,10 @@ public class cGameLogic {
                     break;
             }
         }
-        //check newer props teleporters
-        for(String tpid : eManager.currentMap.scene.teleportersMap().keySet()) {
-            checkProp((gProp) eManager.currentMap.scene.teleportersMap().get(tpid));
-        }
         //check new props teleporters
-//        for(gPropTeleporter tp : eManager.currentMap.scene.teleporters()) {
-//            checkProp((gPropTeleporter) tp);
-//        }
+        for(String tpid : eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").keySet()) {
+            checkProp((gProp) eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").get(tpid));
+        }
         //check new props scorepoints
         for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
             checkProp((gPropScorepoint) sp);
@@ -859,10 +855,6 @@ public class cGameLogic {
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
-//                    if(cl.isZero("tag")) {
-//                        //user touches prop
-//                        p.propEffect(cl);
-//                    }
                     if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
                         //bot touches teleporter
                         p.propEffect(cl);

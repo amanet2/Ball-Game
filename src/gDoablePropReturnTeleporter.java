@@ -11,6 +11,6 @@ public class gDoablePropReturnTeleporter extends gDoablePropReturn {
     }
 
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-        sceneToStore.teleportersMap().put(propToLoad.get("id"), propToLoad);
+        sceneToStore.getThingMap("PROP_TELEPORTER").put(propToLoad.get("id"), propToLoad);
     }
 }
