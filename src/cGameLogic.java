@@ -643,20 +643,20 @@ public class cGameLogic {
     }
 
     public static void refreshSafeZones() {
-        int canpass = 0;
-        int i = 0;
-        int[] proptags = new int[]{};
-        for(gPropScorepoint safezone : eManager.currentMap.scene.scorepoints()) {
-            safezone.put("int0", "0");
-            canpass = 1;
-            int[] tmp = Arrays.copyOf(proptags, proptags.length+1);
-            tmp[tmp.length-1] = i;
-            proptags = tmp;
-            i++;
-        }
-        if(canpass > 0) {
-            int rando = (int)(Math.random()*(double)(proptags.length));
-            eManager.currentMap.scene.scorepoints().get(rando).putInt("int0", 1);
+        String[] propids = new String[]{};
+        HashMap safezones = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        if(safezones.size() > 0) {
+            for(Object id : safezones.keySet()) {
+                gProp safezone = (gProp) safezones.get(id);
+                safezone.put("int0", "0");
+                String[] tmp = Arrays.copyOf(propids, propids.length+1);
+                tmp[tmp.length-1] = (String) id;
+                propids = tmp;
+                i++;
+            }
+            int rando = (int)(Math.random()*(double)(propids.length));
+            gProp nextactiveszone = (gProp) safezones.get(propids[rando]);
+            nextactiveszone.put("int0", "1");
         }
     }
 
@@ -836,18 +836,6 @@ public class cGameLogic {
                 checkProp((gProp) thingMap.get(id));
             }
         }
-//        //check new props scorepoints
-//        for(gPropScorepoint sp : eManager.currentMap.scene.scorepoints()) {
-//            checkProp((gPropScorepoint) sp);
-//        }
-//        //check new props flagsblue
-//        for(gPropFlagBlue fb : eManager.currentMap.scene.flagsblue()) {
-//            checkProp((gPropFlagBlue) fb);
-//        }
-//        //check new props flagsred
-//        for(gPropFlagRed fr : eManager.currentMap.scene.flagsred()) {
-//            checkProp((gPropFlagRed) fr);
-//        }
         //old props
         for(gPlayer cl : eManager.currentMap.scene.players()) {
             for(gProp p : eManager.currentMap.scene.props()) {

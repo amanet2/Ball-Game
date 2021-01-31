@@ -26,8 +26,8 @@ public class cBotsLogic {
         });
         behaviors.put("goto_scorepoint", new gDoableThing(){
             public void doItem(gThing p) {
-                cBotsLogic.goToNearestScorePoint(p);
-//                cBotsLogic.goToNearestThing(p, eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT"));
+//                cBotsLogic.goToNearestScorePoint(p);
+                cBotsLogic.goToNearestThingOfType(p, "PROP_SCOREPOINT");
             }
         });
         behaviors.put("ctf", new gDoableThing(){
@@ -171,21 +171,6 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToNearestScorePoint(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.scorepoints()) {
-            if(cVars.getInt("gamemode") == cGameMode.RACE
-                    ? !p.get("racebotidcheckins").contains(bot.get("id")) : p.isOne("int0")) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
     public static void runFromNearestVirusSinglePlayer(gThing bot) {
         gPlayer waypoint = null;
         for(gPlayer p : eManager.currentMap.scene.players()) {
@@ -264,7 +249,9 @@ public class cBotsLogic {
 
     public static void goToSafeZone(gThing bot) {
         gProp waypoint = null;
-        for(gPropScorepoint safezone : eManager.currentMap.scene.scorepoints()) {
+        HashMap scorepointsMap = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        for(Object id : scorepointsMap.keySet()) {
+            gProp safezone = (gProp) scorepointsMap.get(id);
             if(safezone.isOne("int0")) {
                 waypoint = safezone;
                 break;
@@ -277,8 +264,15 @@ public class cBotsLogic {
     }
 
     private static boolean goToWaypointVerification(gThing bot, gProp p) {
-        if(p.isInt("code", gProp.TELEPORTER))
-            return !p.isVal("tag", bot.get("exitteleportertag"));
+        int propcode = p.getInt("code");
+        switch (propcode) {
+            case gProp.TELEPORTER:
+                return !p.isVal("tag", bot.get("exitteleportertag"));
+            case gProp.SCOREPOINT:
+                return !p.isOne("int0");
+            default:
+                break;
+        }
         return true;
     }
 
@@ -286,8 +280,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gProp waypoint = null;
-        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
-        for(String id: thingMap.keySet()) {
+        HashMap thingMap = eManager.currentMap.scene.getThingMap(thingType);
+        for(Object id: thingMap.keySet()) {
             gProp p = (gProp) thingMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
@@ -301,6 +295,10 @@ public class cBotsLogic {
                             if (goToWaypointVerification(bot, p))
                                 waypoint = p;
                         }
+                        break;
+                    case cGameMode.RACE:
+                        if(!p.get("racebotidcheckins").contains(bot.get("id")))
+                            waypoint = p;
                         break;
                     default:
                         if(goToWaypointVerification(bot, p))

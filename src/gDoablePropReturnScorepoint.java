@@ -11,7 +11,6 @@ public class gDoablePropReturnScorepoint extends gDoablePropReturn {
     }
 
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-        sceneToStore.scorepoints().add((gPropScorepoint) propToLoad);
-//        sceneToStore.scorepointsMap().put(propToLoad.get("id"), propToLoad);
+        sceneToStore.getThingMap("PROP_SCOREPOINT").put(propToLoad.get("id"), propToLoad);
     }
 }

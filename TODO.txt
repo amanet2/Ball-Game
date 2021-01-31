@@ -4,6 +4,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bots just hanging around one single flag in kof mode
+* make sure botscripts dont get messed up by refactoring "teleporter" to PROP_TELEPORTER
+    -> just one example, actual issue was in scorepoints
 * for safezone, maybe have server hold "safezoneid" which will then be matched up to the right safezone, no int0/int1
 required?
     -> prolly still want int0 to flip from 0 to 1 and such
