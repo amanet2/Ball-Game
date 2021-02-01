@@ -3,6 +3,6 @@ public class gDoablePropReturn {
         return null;
     }
     public void storeProp(gProp propToLoad, gScene sceneToStore) {
-
+        sceneToStore.props().add(propToLoad);
     }
 }

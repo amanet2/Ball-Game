@@ -61,7 +61,6 @@ public class gMap {
                     propToLoad.put("id", cScripts.createID(8));
                     propToLoad.putInt("tag", scene.getThingMap("PROP_TELEPORTER").size());
                     propToLoad.putInt("native", 1);
-                    scene.props().add(propToLoad);
                     propReturnFunction.storeProp(propToLoad, scene);
                 }
                 else if(lineToks[0].toLowerCase().equals("cmd")) {
