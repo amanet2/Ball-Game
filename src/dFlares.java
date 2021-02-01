@@ -16,9 +16,9 @@ public class dFlares {
             RadialGradientPaint df = new RadialGradientPaint(new Point(x + w/2, y + h/2),
                     mode == 1 ? Math.max(w/2, h/2) : Math.min(w/2, h/2),
                     new float[]{0f, 1f}, new Color[]{
-                    new Color(rgba1[0],rgba1[1],rgba1[2],rgba1[3]),
-                    new Color(rgba2[0],rgba2[1],rgba2[2],rgba2[3])
-            }
+                        new Color(rgba1[0],rgba1[1],rgba1[2],rgba1[3]),
+                        new Color(rgba2[0],rgba2[1],rgba2[2],rgba2[3])
+                    }
             );
             g2.setPaint(df);
             g2.fillRect(x, y, w, h);

@@ -114,27 +114,6 @@ public class gMap {
                     prop.putInt("native", 1);
                     scene.props().add(prop);
                 }
-                else if (lineToks[0].toLowerCase().equals("flare")) {
-                    gFlare flare = new gFlare(
-                        Integer.parseInt(lineToks[1]),
-                        Integer.parseInt(lineToks[2]),
-                        Integer.parseInt(lineToks[3]),
-                        Integer.parseInt(lineToks[4]),
-                        Integer.parseInt(lineToks[5]),
-                        Integer.parseInt(lineToks[6]),
-                        Integer.parseInt(lineToks[7]),
-                        Integer.parseInt(lineToks[8]),
-                        Integer.parseInt(lineToks[9]),
-                        Integer.parseInt(lineToks[10]),
-                        Integer.parseInt(lineToks[11]),
-                        Integer.parseInt(lineToks[12])
-                    );
-                    if(lineToks.length > 13)
-                        flare.put("flicker", lineToks[13]);
-                    HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
-                    flare.put("tag", Integer.toString(flaresMap.size()));
-                    flaresMap.put(flare.get("id"), flare);
-                }
             }
             wasLoaded = 1;
         }
