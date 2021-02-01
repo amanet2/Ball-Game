@@ -455,12 +455,13 @@ public class dTileTops {
                         eUtils.scaleInt(sw), eUtils.scaleInt(sh));
             }
             // -- selected flare
-            if(eManager.currentMap.scene.flares().size() > cEditorLogic.state.selectedFlareId) {
-                int st = cEditorLogic.state.selectedFlareId;
-                int sx = eManager.currentMap.scene.flares().get(st).getInt("coordx");
-                int sy = eManager.currentMap.scene.flares().get(st).getInt("coordy");
-                int sw = eManager.currentMap.scene.flares().get(st).getInt("dimw");
-                int sh = eManager.currentMap.scene.flares().get(st).getInt("dimh");
+            HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+            if(flaresMap.containsKey(cEditorLogic.state.selectedFlareId)) {
+                gFlare selectedFlare = (gFlare) flaresMap.get(cEditorLogic.state.selectedFlareId);
+                int sx = selectedFlare.getInt("coordx");
+                int sy = selectedFlare.getInt("coordy");
+                int sw = selectedFlare.getInt("dimw");
+                int sh = selectedFlare.getInt("dimh");
                 g2.setColor(new Color(50, 100, 255));
                 g2.drawRect(eUtils.scaleInt(sx-cVars.getInt("camx")),
                         eUtils.scaleInt(sy-cVars.getInt("camy")),

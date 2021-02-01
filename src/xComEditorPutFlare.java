@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class xComEditorPutFlare extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -24,7 +26,8 @@ public class xComEditorPutFlare extends xCom {
                 Integer.parseInt(toks[11]),
                 Integer.parseInt(toks[12])
             );
-            eManager.currentMap.scene.flares().add(p);
+            HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+            flaresMap.put(p.get("id"), p);
             return "";
         }
         return "usage: e_putflare <x> <y> <r1> <g1> <b1> <a1> <r2> <g2> <b2> <a2>";

@@ -18,6 +18,7 @@ public class gMap {
     //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
     //of the prop types we'd like to feature in the game
     HashMap<String, gDoablePropReturn> propLoadMap;
+    HashMap<String, gDoableThingReturn> thingLoadMap;
 
     private void basicInit() {
         gTextures.clear();
@@ -32,6 +33,8 @@ public class gMap {
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
         propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
         propLoadMap.put("PROP_POWERUP", new gDoablePropReturnPowerup());
+        thingLoadMap = new HashMap<>();
+        thingLoadMap.put("THING_FLARE", new gDoableThingReturnFlare());
     }
 
 	public gMap() {
@@ -56,7 +59,13 @@ public class gMap {
                 String putTitle = lineToks[0];
                 String[] args = Arrays.copyOfRange(lineToks, 1, lineToks.length);
                 gDoablePropReturn propReturnFunction = propLoadMap.get(putTitle);
-                if(propReturnFunction != null) {
+                gDoableThingReturn thingReturnFunction = thingLoadMap.get(putTitle);
+                if(thingReturnFunction != null) {
+                    gThing thingToLoad = thingReturnFunction.getThing(args);
+                    thingToLoad.putInt("native", 1);
+                    thingReturnFunction.storeThing(thingToLoad, scene);
+                }
+                else if(propReturnFunction != null) {
                     gProp propToLoad = propReturnFunction.getProp(args);
                     propToLoad.put("id", cScripts.createID(8));
                     propToLoad.putInt("tag", scene.getThingMap("PROP_TELEPORTER").size());
@@ -122,8 +131,9 @@ public class gMap {
                     );
                     if(lineToks.length > 13)
                         flare.put("flicker", lineToks[13]);
-                    flare.put("tag", Integer.toString(scene.flares().size()));
-                    scene.flares().add(flare);
+                    HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+                    flare.put("tag", Integer.toString(flaresMap.size()));
+                    flaresMap.put(flare.get("id"), flare);
                 }
             }
             wasLoaded = 1;
@@ -171,7 +181,9 @@ public class gMap {
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);
             }
-            for(gFlare f : scene.flares()) {
+            HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+            for(Object id : flaresMap.keySet()) {
+                gFlare f = (gFlare) flaresMap.get(id);
                 int b = f.getInt("flicker");
                 String str = String.format("flare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
                         f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),

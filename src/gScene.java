@@ -94,10 +94,6 @@ public class gScene {
 	    return objectsMap.get(thing_title);
     }
 
-    public ArrayList<gFlare> flares() {
-        return objects.get("THING_FLARE");
-    }
-
     static String getObjTitleForCode(int code) {
 	    return object_titles[code];
     }

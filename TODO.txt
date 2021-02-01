@@ -4,7 +4,9 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* bullets not despawning when hitting a enemy
+* convert selectedFlareID in mapmaker with a real string value
+    -> dont want to automatically select flares anymore
+* trying to start a new game with spawn-armed and reloading crashes
 * show the green +1 popup for the virus, flagmaster, kof, etc game modes (wouldbe nice to see the good vibes every 1s)
 * why is the currentmap NULL on first load when this wasnt happening before
 * weird waypoint glitches in race mode

@@ -2,7 +2,8 @@ import javax.swing.*;
 
 public class xComEditorSetSelectedFlareDims extends xCom {
     public String doCommand(String fullCommand) {
-        gFlare t = eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareId);
+        gFlare t = (gFlare) eManager.currentMap.scene.getThingMap("THING_FLARE").get(
+                cEditorLogic.state.selectedFlareId);
         if(t != null) {
             JTextField[] jfields = new JTextField[t.vars().keySet().size()];
             int i = 0;
