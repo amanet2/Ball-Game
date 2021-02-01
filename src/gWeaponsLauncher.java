@@ -25,7 +25,7 @@ public class gWeaponsLauncher extends gWeapon {
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.type.LAUNCHER.code());
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
-        eManager.currentMap.scene.bullets().add(b);
+        eManager.currentMap.scene.getThingMap("THING_BULLET").put(cScripts.createID(8), b);
         if(p == cGameLogic.userPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.LAUNCHER.code());
             cVars.putLong("weapontime"+ gWeapons.type.LAUNCHER.code(), System.currentTimeMillis());
@@ -44,7 +44,7 @@ public class gWeaponsLauncher extends gWeapon {
             g.put("srcid", seed.get("srcid"));
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             g.putInt("isexplosionpart",1);
-            eManager.currentMap.scene.bullets().add(g);
+            eManager.currentMap.scene.getThingMap("THING_BULLET").put(cScripts.createID(8), g);
         }
     }
 }

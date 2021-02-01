@@ -396,14 +396,16 @@ public class cScripts {
     }
 
     public static void checkBulletSplashes() {
-        ArrayList<gBullet> trc = new ArrayList<>();
+        ArrayList bulletsToRemoveIds = new ArrayList<>();
         ArrayList<String> animationIdsToRemove = new ArrayList<>();
-        HashMap<gPlayer,gBullet> trv = new HashMap<>();
+        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         String popupIdToRemove = "";
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        for(gBullet b : eManager.currentMap.scene.bullets()) {
+        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
-                trc.add(b);
+                bulletsToRemoveIds.add(id);
                 if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                     eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
                             cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
@@ -419,7 +421,7 @@ public class cScripts {
                 if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
                         && b.getInt("src") != gWeapons.type.GLOVES.code()
                 && b.isZero("isexplosionpart")) {
-                    trc.add(b);
+                    bulletsToRemoveIds.add(id);
                     if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                         eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
                                 cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
@@ -431,7 +433,7 @@ public class cScripts {
             }
             for(gPlayer t : eManager.currentMap.scene.players()) {
                 if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(t.get("id"))) {
-                    trv.put(t,b);
+                    bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
                 }
@@ -441,13 +443,14 @@ public class cScripts {
             for(gBullet pseed : pseeds)
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
-        for(gBullet b : trc) {
-            eManager.currentMap.scene.bullets().remove(b);
+        for(Object bulletId : bulletsToRemoveIds) {
+            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bulletId);
         }
-        for(gPlayer p : trv.keySet()) {
+        for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
             playPlayerDeathSound();
-            createDamagePopup(p, trv.get(p));
-            eManager.currentMap.scene.bullets().remove(trv.get(p));
+            createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
+            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(
+                    bulletsToRemovePlayerMap.get(p).get("id"));
         }
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {

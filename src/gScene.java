@@ -78,10 +78,6 @@ public class gScene {
         }
     }
 
-	public ArrayList<gBullet> bullets() {
-	    return objects.get("THING_BULLET");
-    }
-
 	public ArrayList<gTile> tiles() {
 		return objects.get("THING_TILE");
 	}

@@ -407,7 +407,9 @@ public class dTileTops {
         //flares
         dFlares.drawSceneFlares(g2);
         //bullets
-        for(gBullet t : eManager.currentMap.scene.bullets()) {
+        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet t = (gBullet) bulletsMap.get(id);
             g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")), null);
         }

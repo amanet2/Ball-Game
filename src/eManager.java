@@ -95,8 +95,9 @@ public class eManager {
 //            obj.put("mov2", "0");
 //            obj.put("mov3", "0");
 //        }
-
-        for(gBullet obj : eManager.currentMap.scene.bullets()) {
+        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet obj = (gBullet) bulletsMap.get(id);
             obj.putInt("coordx", obj.getInt("coordx")
                 - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")

@@ -23,6 +23,6 @@ public class gWeaponsGloves extends gWeapon {
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.type.GLOVES.code());
-        eManager.currentMap.scene.bullets().add(b);
+        eManager.currentMap.scene.getThingMap("THING_BULLET").put(cScripts.createID(8), b);
     }
 }

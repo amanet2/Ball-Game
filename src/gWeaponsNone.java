@@ -23,6 +23,6 @@ public class gWeaponsNone extends gWeapon {
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        eManager.currentMap.scene.bullets().add(b);
+        eManager.currentMap.scene.getThingMap("THING_BULLET").put(cScripts.createID(8), b);
     }
 }
