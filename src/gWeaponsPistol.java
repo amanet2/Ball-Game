@@ -27,7 +27,7 @@ public class gWeaponsPistol extends gWeapon {
         double randomOffset = (Math.random() * ((Math.PI/12))) - Math.PI/24;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
-        eManager.currentMap.scene.getThingMap("THING_BULLET").put(cScripts.createID(8), b);
+        eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cGameLogic.userPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
             cVars.putLong("weapontime"+ gWeapons.type.PISTOL.code(), System.currentTimeMillis());
