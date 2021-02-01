@@ -56,8 +56,10 @@ public class cGameMode {
                 HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
                 for(String id : thingMap.keySet()) {
                     gProp flag = (gProp) thingMap.get(id);
-                    if(cGameLogic.getPlayerById(flag.get("str0")) != null)
+                    gPlayer givePointPlayer = cGameLogic.getPlayerById(flag.get("str0"));
+                    if(givePointPlayer != null) {
                         xCon.ex("givepoint " + flag.get("str0"));
+                    }
                 }
                 cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);
             }

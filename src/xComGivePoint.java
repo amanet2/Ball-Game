@@ -11,11 +11,19 @@ public class xComGivePoint extends xCom {
                 for (String mapid : nServer.scoresMap.keySet()) {
                     if (color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
                         nServer.incrementScoreFieldById(mapid, "score");
+                        gPlayer givePointPlayer = cGameLogic.getPlayerById(mapid);
+                        if(givePointPlayer != null) {
+                            cScripts.createScorePopup(givePointPlayer, 1);
+                        }
                     }
                 }
             }
             else {
                 nServer.incrementScoreFieldById(id, "score");
+                gPlayer givePointPlayer = cGameLogic.getPlayerById(id);
+                if(givePointPlayer != null) {
+                    cScripts.createScorePopup(givePointPlayer, 1);
+                }
             }
             String[] quietGameModesArray = {
                     Integer.toString(cGameMode.KING_OF_FLAGS),
@@ -25,8 +33,8 @@ public class xComGivePoint extends xCom {
                     Integer.toString(cGameMode.FLAG_MASTER),
                     Integer.toString(cGameMode.DEATHMATCH)
             };
-            List<String> javafuckingsucks = Arrays.asList(quietGameModesArray);
-            if(!javafuckingsucks.contains(cVars.get("gamemode")))
+            List<String> quietGameModesList = Arrays.asList(quietGameModesArray);
+            if(!quietGameModesList.contains(cVars.get("gamemode")))
                 xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");
             return "gave point to " + id;
         }

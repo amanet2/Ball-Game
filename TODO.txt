@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* framerate tanked for the client on r_corners.map
 * mapmakers gotta be like 90% redone after this
 * weird dark flare under teleporter in mainmenu now
 * mapflares broken, flares under player holding gun still work though
@@ -179,8 +180,6 @@ required?
     -> pick up
     -> do something to initiate the growing sequence
     -> chuck it before it blows, or drop it
-* introduce ability to queue-up console cmds for passing to clients
-    -> would wait for the "cmdreceived" before sending the next
 * reintroduce powerups, would function the way weapons used to
     -> powerup spawn points have 0/1 switch, present a random powerup
     -> on-fire like bomberman (touch ppl, they die)
