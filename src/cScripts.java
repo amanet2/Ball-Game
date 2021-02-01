@@ -393,16 +393,18 @@ public class cScripts {
 
     public static void checkBulletSplashes() {
         ArrayList<gBullet> trc = new ArrayList<>();
-        ArrayList<gAnimationEmitter> tra = new ArrayList<>();
+        ArrayList<String> animationIdsToRemove = new ArrayList<>();
         HashMap<gPlayer,gBullet> trv = new HashMap<>();
         gPopup ttr = null;
         ArrayList<gBullet> pseeds = new ArrayList<>();
         for(gBullet b : eManager.currentMap.scene.bullets()) {
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 trc.add(b);
-                if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
-                    eManager.currentMap.scene.animations().add(
-                        new gAnimationEmitter(b.getInt("anim"), b.getInt("coordx"), b.getInt("coordy")));
+                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
+                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                            cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                                    b.getInt("coordx"), b.getInt("coordy")));
+                }
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
                     pseeds.add(b);
@@ -414,9 +416,11 @@ public class cScripts {
                         && b.getInt("src") != gWeapons.type.GLOVES.code()
                 && b.isZero("isexplosionpart")) {
                     trc.add(b);
-                    if(sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1)
-                        eManager.currentMap.scene.animations().add(
-                            new gAnimationEmitter(b.getInt("anim"), b.getInt("coordx"), b.getInt("coordy")));
+                    if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
+                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                                cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                                        b.getInt("coordx"), b.getInt("coordy")));
+                    }
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
                 }
@@ -452,14 +456,15 @@ public class cScripts {
             eManager.currentMap.scene.popups().remove(ttr);
         }
         //remove finished animations
-        for(gAnimationEmitter a : eManager.currentMap.scene.animations()) {
-            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")
-                    ].frames.length) {
-                tra.add(a);
+        HashMap animationMap = eManager.currentMap.scene.getThingMap("THING_ANIMATION");
+        for(Object id : animationMap.keySet()) {
+            gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
+            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
+                animationIdsToRemove.add((String) id);
             }
         }
-        for(gAnimationEmitter a : tra) {
-            eManager.currentMap.scene.animations().remove(a);
+        for(String aid : animationIdsToRemove) {
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").remove(aid);
         }
     }
 
@@ -484,9 +489,11 @@ public class cScripts {
         eManager.currentMap.scene.popups().add(new gPopup(dmgvictim.getInt("coordx")
                 + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
             dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
-        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-            eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                bullet.getInt("coordx"), bullet.getInt("coordy")));
+        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1) {
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+                    new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                            bullet.getInt("coordx"), bullet.getInt("coordy")));
+        }
         gPlayer killerPlayer = cGameLogic.getPlayerById(bullet.get("srcid"));
         String killerid = killerPlayer.get("id");
         String killername = killerPlayer.get("name");
@@ -534,9 +541,11 @@ public class cScripts {
                             cScripts.changeBotWeapon(dmgvictim, gWeapons.type.NONE.code(),true);
                         }
                     }
-                    if(sVars.isOne("vfxenableanimations"))
-                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                            dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    if(sVars.isOne("vfxenableanimations")) {
+                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    }
                     dmgvictim.put("coordx", "-10000");
                     dmgvictim.put("coordy", "-10000");
                 }
@@ -589,9 +598,11 @@ public class cScripts {
                             cVars.put("flagmasterid", "");
                         }
                     }
-                    if(sVars.isOne("vfxenableanimations"))
-                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                            dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    if(sVars.isOne("vfxenableanimations")) {
+                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                    }
                     dmgvictim.put("coordx", "-10000");
                     dmgvictim.put("coordy", "-10000");
                 }

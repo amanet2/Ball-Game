@@ -592,10 +592,11 @@ public class cGameLogic {
             }
             if(action.contains("explode")) {
                 String[] args = action.split(":");
-                if(sVars.isOne("vfxenableanimations"))
-                    eManager.currentMap.scene.animations().add(
-                            new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG, Integer.parseInt(args[1]),
-                                    Integer.parseInt(args[2])));
+                if (sVars.isOne("vfxenableanimations")) {
+                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                            cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                                    Integer.parseInt(args[1]), Integer.parseInt(args[2])));
+                }
             }
             if(action.contains("sendpowerup")) {
                 String[] sptoks = action.replace("sendpowerup", "").split(":");
@@ -615,10 +616,11 @@ public class cGameLogic {
         for(String action : actions) {
             if(action.contains("explode")) {
                 String[] args = action.split(":");
-                if(sVars.isOne("vfxenableanimations"))
-                    eManager.currentMap.scene.animations().add(
-                        new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG, Integer.parseInt(args[1]),
-                                Integer.parseInt(args[2])));
+                if (sVars.isOne("vfxenableanimations")) {
+                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                            cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                                    Integer.parseInt(args[1]), Integer.parseInt(args[2])));
+                }
             }
             if(action.contains("playsound")) {
                 nClient.sfxreceived = 1;
@@ -645,7 +647,7 @@ public class cGameLogic {
 
     public static void refreshSafeZones() {
         String[] propids = new String[]{};
-        HashMap safezones = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        HashMap safezones = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         if(safezones.size() > 0) {
             for(Object id : safezones.keySet()) {
                 gProp safezone = (gProp) safezones.get(id);
@@ -661,7 +663,7 @@ public class cGameLogic {
     }
 
     public static void checkWaypoints() {
-        HashMap scorepoints = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         if(scorepoints.size() > 0) {
             boolean noneActive = true;
             for(Object id : scorepoints.keySet()) {
@@ -678,7 +680,7 @@ public class cGameLogic {
 
     public static void refreshWaypoints() {
         String[] propids = new String[]{};
-        HashMap scorepoints = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         for(Object id : scorepoints.keySet()) {
             gProp scorepoint = (gProp) scorepoints.get(id);
             scorepoint.put("int0", "0");
@@ -1104,9 +1106,11 @@ public class cGameLogic {
                     cVars.put("exploded", "0");
                     cVars.putInt("explodex", cl.getInt("coordx") - 75);
                     cVars.putInt("explodey", cl.getInt("coordy") - 75);
-                    if (sVars.isOne("vfxenableanimations"))
-                        eManager.currentMap.scene.animations().add(new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                    if (sVars.isOne("vfxenableanimations")) {
+                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                                cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
                                 cVars.getInt("explodex"), cVars.getInt("explodey")));
+                    }
                     if(sSettings.net_server)
                         xCon.ex("say " + cl.get("name") + " died");
                     xCon.ex("respawn");

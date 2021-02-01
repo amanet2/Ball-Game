@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* why is the currentmap NULL on first load when this wasnt happening before
 * weird waypoint glitches in race mode
 * refactore objectsMap.get with scene.getThingMap
     -> might wanna make the objectMap private

@@ -236,7 +236,7 @@ public class cBotsLogic {
 
     public static void goToFirstThing(gThing bot, String thingType) {
         gProp waypoint = null;
-        HashMap<String, gThing> thingMap = eManager.currentMap.scene.objectsMap.get(thingType);
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
         for(String id : thingMap.keySet()) {
             waypoint = (gProp) thingMap.get(id);
             break;
@@ -249,7 +249,7 @@ public class cBotsLogic {
 
     public static void goToSafeZone(gThing bot) {
         gProp waypoint = null;
-        HashMap scorepointsMap = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         for(Object id : scorepointsMap.keySet()) {
             gProp safezone = (gProp) scorepointsMap.get(id);
             if(safezone.isOne("int0")) {

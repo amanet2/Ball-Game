@@ -106,10 +106,6 @@ public class gScene {
         return objects.get("THING_FLARE");
     }
 
-    public ArrayList<gAnimationEmitter> animations() {
-        return objects.get("THING_ANIMATION");
-    }
-
     static String getObjTitleForCode(int code) {
 	    return object_titles[code];
     }
