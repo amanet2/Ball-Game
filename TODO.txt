@@ -4,6 +4,11 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* weird waypoint glitches in race mode
+* refactore objectsMap.get with scene.getThingMap
+    -> might wanna make the objectMap private
+* gamemodes need to have a subclass structure like the props do
+    -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
 * bots just hanging around one single flag in kof mode
 * make sure botscripts dont get messed up by refactoring "teleporter" to PROP_TELEPORTER
     -> just one example, actual issue was in scorepoints

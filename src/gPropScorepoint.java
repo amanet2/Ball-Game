@@ -14,20 +14,23 @@ public class gPropScorepoint extends gProp {
         gameModeEffects = new HashMap<>();
         gameModeEffects.put(Integer.toString(cGameMode.RACE), new gDoableThing() {
             public void doItem(gThing p) {
+                HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                 if(sSettings.net_server && p.get("id").contains("bot")) {
                     if(!get("racebotidcheckins").contains(p.get("id"))) {
                         put("racebotidcheckins", get("racebotidcheckins")+(p.get("id")+":"));
                     }
                     int gonnaWin = 1;
-                    for(gProp pr : eManager.currentMap.scene.scorepoints()) {
-                        if(!pr.get("racebotidcheckins").contains(pr.get("id"))) {
+                    for(Object id : scorepointsMap.keySet()) {
+                        gProp pr = (gProp) scorepointsMap.get(id);
+                        if(!pr.get("racebotidcheckins").contains(p.get("id"))) {
                             gonnaWin = 0;
                             break;
                         }
                     }
                     if(gonnaWin > 0) {
                         xCon.ex("givepoint "+p.get("id"));
-                        for(gProp pr : eManager.currentMap.scene.scorepoints()) {
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
                             pr.put("racebotidcheckins",
                                     pr.get("racebotidcheckins").replace(p.get("id")+":", ""));
                         }
@@ -37,14 +40,16 @@ public class gPropScorepoint extends gProp {
                     if (isZero("int0")) {
                         putInt("int0", 1);
                         int gonnaWin = 1;
-                        for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
-                            if (scorepointa.isZero("int0")) {
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
+                            if (pr.isZero("int0")) {
                                 gonnaWin = 0;
                             }
                         }
                         if (gonnaWin > 0) {
-                            for (gProp scorepointa : eManager.currentMap.scene.scorepoints()) {
-                                scorepointa.put("int0", "0");
+                            for(Object id : scorepointsMap.keySet()) {
+                                gProp pr = (gProp) scorepointsMap.get(id);
+                                pr.put("int0", "0");
                             }
                             if (sSettings.net_server) {
                                 xCon.ex("givepoint " + p.get("id"));
@@ -60,14 +65,12 @@ public class gPropScorepoint extends gProp {
         });
         gameModeEffects.put(Integer.toString(cGameMode.WAYPOINTS), new gDoableThing() {
             public void doItem(gThing p) {
-                if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-                    if(getInt("int0") > 0) {
-                        put("int0", "0");
-                        cScripts.createScorePopup((gPlayer) p,1);
-                        if(sSettings.net_server) {
-                            xCon.ex("givepoint " + p.get("id"));
-                            cGameLogic.checkWaypoints();
-                        }
+                if(getInt("int0") > 0) {
+                    put("int0", "0");
+                    cScripts.createScorePopup((gPlayer) p,1);
+                    if(sSettings.net_server) {
+                        xCon.ex("givepoint " + p.get("id"));
+                        cGameLogic.checkWaypoints();
                     }
                 }
             }

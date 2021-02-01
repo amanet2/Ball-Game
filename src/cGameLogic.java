@@ -976,20 +976,21 @@ public class cGameLogic {
     }
 
     public static String getGameStateServer() {
-        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            for(gProp p : eManager.currentMap.scene.scorepoints()) {
+        if(cVars.isInt("gamemode", cGameMode.SAFE_ZONES)) {
+            HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+            for(Object id : scorepointsMap.keySet()) {
+                gProp p = (gProp) scorepointsMap.get(id);
                 if(p.isInt("int0", 1))
-                    return String.format("safezone-%s-%s-", p.get("tag"), cVars.get("safezonetime"));
+                    return String.format("safezone-%s-%s", id, cVars.getInt("safezonetime"));
             }
         }
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            int c = 0;
-            for(gProp p : eManager.currentMap.scene.scorepoints()) {
-                if(p.getInt("int0") > 0)
-                    break;
-                c++;
+            HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+            for(Object id : scorepointsMap.keySet()) {
+                gProp p = (gProp) scorepointsMap.get(id);
+                if(p.isInt("int0", 1))
+                    return String.format("waypoints-%s", id);
             }
-            return String.format("waypoints-%d-", c);
         }
 //        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
 //            int c = 0;
