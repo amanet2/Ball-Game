@@ -106,10 +106,6 @@ public class gScene {
 	    return objectsMap.get(thing_title);
     }
 
-    public ArrayList<gPropScorepoint> scorepoints() {
-        return objects.get("PROP_SCOREPOINT");
-    }
-
     public ArrayList<gFlare> flares() {
         return objects.get("THING_FLARE");
     }

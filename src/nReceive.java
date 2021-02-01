@@ -157,24 +157,26 @@ public class nReceive {
                         xCon.ex("respawn");
                     }
                     if(packArgs.get("state").contains("safezone")) {
-                        for(int k = 0; k < eManager.currentMap.scene.scorepoints().size(); k++) {
-                            gProp p = eManager.currentMap.scene.scorepoints().get(k);
-                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1]))
-                                p.put("int0", "1");
+                        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                        String[] args = packArgs.get("state").split("-");
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
+                            if(pr.isVal("id", args[1]))
+                                pr.put("int0", "1");
                             else
-                                p.put("int0", "0");
+                                pr.put("int0", "0");
                         }
                         cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
                     }
                     if(packArgs.get("state").contains("waypoints")) {
-                        for(int k = 0; k < eManager.currentMap.scene.scorepoints().size(); k++) {
-                            gProp p = eManager.currentMap.scene.scorepoints().get(k);
-                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
-                                if(p.getInt("int0") != 1)
-                                    p.put("int0", "1");
-                            }
+                        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                        String[] args = packArgs.get("state").split("-");
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
+                            if(pr.isVal("id", args[1]))
+                                pr.put("int0", "1");
                             else
-                                p.put("int0", "0");
+                                pr.put("int0", "0");
                         }
                     }
 //                    if(packArgs.get("state").contains("bouncyball")) {
