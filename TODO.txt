@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* mapmakers gotta be like 90% redone after this
+* weird dark flare under teleporter in mainmenu now
 * mapflares broken, flares under player holding gun still work though
     -> when converting to new returnThingDoable architecture, arg indices are decreased by 1
 * convert selectedFlareID in mapmaker with a real string value
