@@ -95,10 +95,23 @@ public class cPowerups {
                         prop.put("coordy", y);
                 }
                 else {
-                    xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
-                            gProp.POWERUP, int0, int1,x, y,gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
-                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]));
-                    eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
+//                    xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
+//                            gProp.POWERUP, int0, int1,x, y,gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
+//                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]));
+                    gPropPowerup powerupSyncProp = new gPropPowerup(
+                            Integer.parseInt(int0),
+                            Integer.parseInt(int1),
+                            Integer.parseInt(x),
+                            Integer.parseInt(y),
+                            gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
+                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]
+                    );
+                    powerupSyncProp.putInt("tag",
+                            eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
+                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(id, powerupSyncProp);
+                    powerupSyncProp.put("id", id);
+                    eManager.currentMap.scene.props().add(powerupSyncProp);
+//                    eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
                 }
             }
         }

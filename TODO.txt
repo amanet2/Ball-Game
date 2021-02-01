@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* picking up powerup now causes server to have endless exception
+    -> sendpowerup still working on tag?
 * framerate tanked for the client on r_corners.map
 * mapmakers gotta be like 90% redone after this
 * weird dark flare under teleporter in mainmenu now
