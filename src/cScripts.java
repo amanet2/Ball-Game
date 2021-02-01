@@ -735,8 +735,8 @@ public class cScripts {
     }
 
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
-        if(eManager.currentMap.scene.botplayers().size() > 0 && !(!fromPowerup && newweapon != 0
-                && cVars.isZero("gamespawnarmed"))) {
+        HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
             nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }

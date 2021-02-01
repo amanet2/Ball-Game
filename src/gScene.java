@@ -90,11 +90,7 @@ public class gScene {
         return objects.get("THING_PLAYER");
     }
 
-    public ArrayList<gPlayer> botplayers() {
-        return objects.get("THING_BOTPLAYER");
-    }
-
-    public ArrayList<gPopup> popups() {
+    ArrayList<gPopup> popups() {
         return objects.get("THING_POPUP");
     }
 
@@ -114,11 +110,11 @@ public class gScene {
         return objects.get("THING_ANIMATION");
     }
 
-    public static String getObjTitleForCode(int code) {
+    static String getObjTitleForCode(int code) {
 	    return object_titles[code];
     }
 
-    public static int getObjCodeForTitle(String title) {
+    static int getObjCodeForTitle(String title) {
 	    int i = 0;
         for(String s : object_titles) {
             if(s.equals(title))

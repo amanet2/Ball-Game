@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xComBotRespawn extends xCom {
@@ -12,7 +13,13 @@ public class xComBotRespawn extends xCom {
             int randomNum = ThreadLocalRandom.current().nextInt(0,
                 eManager.currentMap.scene.tiles().size());
             gTile t = eManager.currentMap.scene.tiles().get(randomNum);
-            gPlayer bot = eManager.currentMap.scene.botplayers().get(botIndex);
+            gPlayer bot = null;
+            HashMap botMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            for(Object id : botMap.keySet()) {
+                gPlayer tbot = (gPlayer) botMap.get(id);
+                if(tbot.isInt("bottag", botIndex))
+                    bot = tbot;
+            }
             if(t.isOne("canspawn") && !bot.willCollideWithinTileAtCoords(t,
                 t.getInt("coordx") + t.getInt("dimw")/2 - bot.getInt("dimw")/2,
                 t.getInt("coordy") + t.getInt("dimh")/2 - bot.getInt("dimh")/2)) {

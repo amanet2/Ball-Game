@@ -41,9 +41,12 @@ public class nServer extends Thread {
     }
 
     public static void clearBots() {
-        if(sSettings.net_server && eManager.currentMap.scene.botplayers().size() > 0) {
-            for(gPlayer p : eManager.currentMap.scene.botplayers()) {
-                nServer.quitClientIds.add(p.get("id"));
+        if(eManager.currentMap != null) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(sSettings.net_server && botsMap.size() > 0) {
+                for(Object id : botsMap.keySet()) {
+                    nServer.quitClientIds.add((String) id);
+                }
             }
         }
     }
@@ -95,10 +98,12 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            if(eManager.currentMap.scene.botplayers().size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
                 sVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
-                for(gPlayer p : eManager.currentMap.scene.botplayers()) {
+                for(Object id : botsMap.keySet()) {
+                    gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
                     String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
                     String receiveDataString = botStateStr;

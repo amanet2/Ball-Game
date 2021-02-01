@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
-    private static gPlayer userPlayer;
+    public static gPlayer userPlayer;
 
     public static gPlayer userPlayer() {
         if(userPlayer == null)
@@ -13,7 +13,7 @@ public class cGameLogic {
         return userPlayer;
     }
 
-    private static gPlayer getPlayerByIndex(int n) {
+    public static gPlayer getPlayerByIndex(int n) {
         return eManager.currentMap.scene.players().size() > n ?
             eManager.currentMap.scene.players().get(n) :
             null;
@@ -396,7 +396,9 @@ public class cGameLogic {
             cVars.remove("spawnprotectiontime");
         }
         if(sSettings.net_server) {
-            for(gPlayer p : eManager.currentMap.scene.botplayers()) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            for(Object id : botsMap.keySet()) {
+                gPlayer p = (gPlayer) botsMap.get(id);
                 if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                     xCon.ex("botrespawn " + p.get("bottag"));
