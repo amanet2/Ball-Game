@@ -254,7 +254,7 @@ public class cScripts {
                 createScorePopup(pla,1);
                 if(sSettings.net_server) {
                     xCon.ex("givepoint " + pla.get("id"));
-                    cGameLogic.refreshWaypoints();
+                    cGameLogic.checkWaypoints();
                 }
             }
         }

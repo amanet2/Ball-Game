@@ -652,7 +652,6 @@ public class cGameLogic {
                 String[] tmp = Arrays.copyOf(propids, propids.length+1);
                 tmp[tmp.length-1] = (String) id;
                 propids = tmp;
-                i++;
             }
             int rando = (int)(Math.random()*(double)(propids.length));
             gProp nextactiveszone = (gProp) safezones.get(propids[rando]);
@@ -660,28 +659,35 @@ public class cGameLogic {
         }
     }
 
-    public static void refreshWaypoints() {
-        int pass = 1;
-        int c = -1;
-        int[] scorepoint_indexes = new int[]{};
-        for(gProp p : eManager.currentMap.scene.scorepoints()) {
-            c++;
-            int[] tmp = Arrays.copyOf(scorepoint_indexes, scorepoint_indexes.length+1);
-            tmp[tmp.length-1] = c;
-            scorepoint_indexes = tmp;
-            if(p.getInt("int0") > 0)
-                pass = 0;
-        }
-        if(pass > 0) {
-            int r = (int) (Math.random() * (scorepoint_indexes.length));
-            for (int i = 0; i < eManager.currentMap.scene.scorepoints().size(); i++) {
-                gPropScorepoint p = eManager.currentMap.scene.scorepoints().get(i);
-                if (i == scorepoint_indexes[r])
-                    p.put("int0", "1");
-                else
-                    p.put("int0", "0");
+    public static void checkWaypoints() {
+        HashMap scorepoints = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        if(scorepoints.size() > 0) {
+            boolean noneActive = true;
+            for(Object id : scorepoints.keySet()) {
+                gProp scorepoint = (gProp) scorepoints.get(id);
+                if(scorepoint.getInt("int0") > 0) {
+                    noneActive = false;
+                    break;
+                }
             }
+            if(noneActive)
+                refreshWaypoints();
         }
+    }
+
+    public static void refreshWaypoints() {
+        String[] propids = new String[]{};
+        HashMap scorepoints = eManager.currentMap.scene.objectsMap.get("PROP_SCOREPOINT");
+        for(Object id : scorepoints.keySet()) {
+            gProp scorepoint = (gProp) scorepoints.get(id);
+            scorepoint.put("int0", "0");
+            String[] tmp = Arrays.copyOf(propids, propids.length+1);
+            tmp[tmp.length-1] = (String) id;
+            propids = tmp;
+        }
+        int rando = (int)(Math.random()*(double)(propids.length));
+        gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
+        nextactivescorepoint.put("int0", "1");
     }
 
     public static void checkVirus() {
@@ -806,7 +812,7 @@ public class cGameLogic {
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.WAYPOINTS:
-                    refreshWaypoints();
+                    checkWaypoints();
                     break;
                 case cGameMode.VIRUS:
                     checkVirus();
