@@ -90,10 +90,6 @@ public class gScene {
         return objects.get("THING_PLAYER");
     }
 
-    ArrayList<gPopup> popups() {
-        return objects.get("THING_POPUP");
-    }
-
     public ArrayList<gProp> props() {
         return objects.get("THING_PROP");
     }

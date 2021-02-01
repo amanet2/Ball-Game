@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.HashMap;
 
 public class dTileTops {
     public static void drawTops(Graphics g) {
@@ -573,7 +574,9 @@ public class dTileTops {
             }
         }
         //popups
-        for(gPopup p : eManager.currentMap.scene.popups()) {
+        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup p = (gPopup) popupsMap.get(id);
             g.setColor(p.get("text").charAt(0) == '+' ?
                     new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
                             Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),

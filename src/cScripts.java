@@ -137,32 +137,36 @@ public class cScripts {
 
     public static synchronized void selectThingUnderMouse(int objType) {
         int[] mc = getMouseCoordinates();
-        if(objType == gScene.THING_TILE) {
-            for (int i=eManager.currentMap.scene.tiles().size()-1; i >= 0; i--) {
-                gTile t = eManager.currentMap.scene.tiles().get(i);
-                if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedTileId != i)) {
-                    xCon.ex(String.format("e_selecttile %d", i));
-                    return;
+        switch (objType) {
+            case gScene.THING_TILE:
+                for (int i=eManager.currentMap.scene.tiles().size()-1; i >= 0; i--) {
+                    gTile t = eManager.currentMap.scene.tiles().get(i);
+                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedTileId != i)) {
+                        xCon.ex(String.format("e_selecttile %d", i));
+                        return;
+                    }
                 }
-            }
-        }
-        else if(objType == gScene.THING_PROP) {
-            for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
-                gProp t = eManager.currentMap.scene.props().get(i);
-                if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedPropId != i)) {
-                    xCon.ex(String.format("e_selectprop %d", i));
-                    return;
+                break;
+            case gScene.THING_PROP:
+                for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
+                    gProp t = eManager.currentMap.scene.props().get(i);
+                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedPropId != i)) {
+                        xCon.ex(String.format("e_selectprop %d", i));
+                        return;
+                    }
                 }
-            }
-        }
-        else if(objType == gScene.THING_FLARE) {
-            for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
-                gFlare t = eManager.currentMap.scene.flares().get(i);
-                if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedFlareId != i)) {
-                    xCon.ex(String.format("e_selectflare %d", i));
-                    return;
+                break;
+            case gScene.THING_FLARE:
+                for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
+                    gFlare t = eManager.currentMap.scene.flares().get(i);
+                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedFlareId != i)) {
+                        xCon.ex(String.format("e_selectflare %d", i));
+                        return;
+                    }
                 }
-            }
+                break;
+            default:
+                break;
         }
     }
 
@@ -395,7 +399,7 @@ public class cScripts {
         ArrayList<gBullet> trc = new ArrayList<>();
         ArrayList<String> animationIdsToRemove = new ArrayList<>();
         HashMap<gPlayer,gBullet> trv = new HashMap<>();
-        gPopup ttr = null;
+        String popupIdToRemove = "";
         ArrayList<gBullet> pseeds = new ArrayList<>();
         for(gBullet b : eManager.currentMap.scene.bullets()) {
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
@@ -445,15 +449,16 @@ public class cScripts {
             createDamagePopup(p, trv.get(p));
             eManager.currentMap.scene.bullets().remove(trv.get(p));
         }
-        for(gPopup g : eManager.currentMap.scene.popups()) {
-            if(g.getLong("timestamp") < System.currentTimeMillis()
-                    - cVars.getInt("popuplivetime")) {
-                ttr = g;
+        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup g = (gPopup) popupsMap.get(id);
+            if(g.getLong("timestamp") < System.currentTimeMillis() - cVars.getInt("popuplivetime")) {
+                popupIdToRemove = (String) id;
                 break;
             }
         }
-        if(ttr != null) {
-            eManager.currentMap.scene.popups().remove(ttr);
+        if(popupIdToRemove.length() > 0) {
+            popupsMap.remove(popupIdToRemove);
         }
         //remove finished animations
         HashMap animationMap = eManager.currentMap.scene.getThingMap("THING_ANIMATION");
@@ -469,8 +474,10 @@ public class cScripts {
     }
 
     public static void createScorePopup(gPlayer p, int points) {
-        eManager.currentMap.scene.popups().add(new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-                p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)), String.format("+%d", points), 0.0));
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(createID(8),
+                new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
+                p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
+                        String.format("+%d", points), 0.0));
     }
 
     public static String createID(int length) {
@@ -486,8 +493,8 @@ public class cScripts {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
         String s = String.format("%d", adjusteddmg);
-        eManager.currentMap.scene.popups().add(new gPopup(dmgvictim.getInt("coordx")
-                + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
+                new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
             dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
         if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1) {
             eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),

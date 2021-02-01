@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -101,7 +102,9 @@ public class eManager {
             obj.putInt("coordy", obj.getInt("coordy")
                 - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        for(gPopup obj : eManager.currentMap.scene.popups()) {
+        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup obj = (gPopup) popupsMap.get(id);
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
                     - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
