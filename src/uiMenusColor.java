@@ -16,7 +16,7 @@ public class uiMenusColor extends uiMenu {
                     uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text =
                         String.format("Color: [%s]", sVars.get("playercolor"));
                     if(eManager.currentMap.scene.players().size() > 0) {
-                        cGameLogic.getUserPlayer().setSpriteFromPath(
+                        cGameLogic.userPlayer().setSpriteFromPath(
                                 eUtils.getPath(String.format("animations/player_%s/a00.png", sVars.get("playercolor"))));
                         xCon.ex("THING_PLAYER.0.color playercolor");
                     }

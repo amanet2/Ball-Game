@@ -48,7 +48,7 @@ public class dScoreboard {
             int playerscore = nServer.scoresMap.get(id).get("score");
             int playerkills = nServer.scoresMap.get(id).get("kills");
             int playerping = nServer.scoresMap.get(id).get("ping");
-            if(id.equals(cGameLogic.getUserPlayer().get("id"))) {
+            if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
@@ -72,7 +72,7 @@ public class dScoreboard {
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                               " + playerping,
                     sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
-            if(id.equals(cGameLogic.getUserPlayer().get("id"))) {
+            if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),

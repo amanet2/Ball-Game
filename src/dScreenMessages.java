@@ -61,14 +61,14 @@ public class dScreenMessages {
             //camera
             String camstring = String.format("Cam: %d,%d",
                 uiInterface.camReport[0], uiInterface.camReport[1]);
-            camstring += (cVars.isInt("cammode", gCamera.MODE_FREE)) && cGameLogic.getUserPlayer() != null
+            camstring += (cVars.isInt("cammode", gCamera.MODE_FREE)) && cGameLogic.userPlayer() != null
                     ? " (Press 'E' to re-center)" : "";
             g.drawString(camstring,0, 8 * sSettings.height / 64);
             //instance
-            if(cGameLogic.getUserPlayer() != null) {
+            if(cGameLogic.userPlayer() != null) {
                 g.drawString(String.format("Player: %d,%d",
-                        cGameLogic.getUserPlayer().getInt("coordx"),
-                        cGameLogic.getUserPlayer().getInt("coordy")),
+                        cGameLogic.userPlayer().getInt("coordx"),
+                        cGameLogic.userPlayer().getInt("coordy")),
                         0,9*sSettings.height/64);
             }
             // create tile
@@ -365,7 +365,7 @@ public class dScreenMessages {
         }
 
         //game alerts
-        if(cGameLogic.getUserPlayer() != null) {
+        if(cGameLogic.userPlayer() != null) {
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {
@@ -388,10 +388,10 @@ public class dScreenMessages {
                         sSettings.width / 2, sSettings.height - sSettings.height / 16);
             }
             //broken race lap
-            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.getUserPlayer() != null
-                    && nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")) != null)
+            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
+                    && nServer.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
                 dScreenMessages.drawCenteredString(g,
-                        "LAP  " + (nServer.scoresMap.get(cGameLogic.getUserPlayer().get("id")).get("score") + 1)
+                        "LAP  " + (nServer.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
                                 +"/"+cVars.get("scorelimit"),
                         sSettings.width/2,sSettings.height-sSettings.height/16);
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {

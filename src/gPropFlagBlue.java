@@ -13,9 +13,9 @@ public class gPropFlagBlue extends gProp {
         public void doItem(gThing p) {
             if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
                 cVars.put("flagmasterid", "");
-                cScripts.createScorePopup(cGameLogic.getUserPlayer(),1);
+                cScripts.createScorePopup(cGameLogic.userPlayer(),1);
                 if(sSettings.net_server) {
-                    xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+                    xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
                     xCon.ex("say " + sVars.get("playername") + " captured the flag!");
                 }
             }

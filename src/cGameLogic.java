@@ -5,15 +5,15 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
-    static gPlayer userPlayer;
+    private static gPlayer userPlayer;
 
-    public static gPlayer getUserPlayer() {
+    public static gPlayer userPlayer() {
         if(userPlayer == null)
             userPlayer = getPlayerByIndex(0);
         return userPlayer;
     }
 
-    public static gPlayer getPlayerByIndex(int n) {
+    private static gPlayer getPlayerByIndex(int n) {
         return eManager.currentMap.scene.players().size() > n ?
             eManager.currentMap.scene.players().get(n) :
             null;
@@ -45,7 +45,7 @@ public class cGameLogic {
             if(cVars.isOne("quitconfirmed")) {
                 uiInterface.exit();
             }
-            if(getUserPlayer() != null) {
+            if(userPlayer() != null) {
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
@@ -120,7 +120,7 @@ public class cGameLogic {
                 } else {
                     if(!cVars.contains("respawntime"))
                         xCon.ex("THING_PLAYER.0.mov1 1");
-                    if (!getUserPlayer().canJump())
+                    if (!userPlayer().canJump())
                         cVars.increment("falltime");
                     else
                         cVars.put("falltime", "0");
@@ -150,7 +150,6 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
-        //TODO: keep wins when loading new map
         HashMap<String, Integer> savedWins = new HashMap<>();
         for(String id : nServer.scoresMap.keySet()) {
             savedWins.put(id, nServer.scoresMap.get(id).get("wins"));
@@ -291,7 +290,7 @@ public class cGameLogic {
 
     public static void checkWeaponsStatus() {
         //player0
-        if(cVars.getInt("currentweapon") != getUserPlayer().getInt("weapon")) {
+        if(cVars.getInt("currentweapon") != userPlayer().getInt("weapon")) {
             cScripts.changeWeapon(cVars.getInt("currentweapon"));
         }
         //pistol
@@ -344,7 +343,7 @@ public class cGameLogic {
 
     public static void checkHatStatus(){
         if(!xCon.ex("THING_PLAYER.0.pathspritehat").contains(sVars.get("playerhat"))) {
-            cGameLogic.getUserPlayer().setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+            cGameLogic.userPlayer().setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat")))
             );
         }
@@ -363,7 +362,7 @@ public class cGameLogic {
     public static void checkColorStatus(){
         if(!xCon.ex("THING_PLAYER.0.color").contains(sVars.get("playercolor"))) {
             xCon.ex("THING_PLAYER.0.color playercolor");
-            cGameLogic.getUserPlayer().setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
+            cGameLogic.userPlayer().setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
                     sVars.get("playercolor"),
                     xCon.ex("THING_PLAYER.0.pathsprite").substring(
                             xCon.ex("THING_PLAYER.0.pathsprite").lastIndexOf('/')))));
@@ -544,7 +543,7 @@ public class cGameLogic {
                     nServer.incrementScoreFieldById("server", "kills");
                     xCon.ex("say " + sVars.get("playername") + " killed " + packName);
                     if(gamemode == cGameMode.DEATHMATCH) {
-                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
                     }
                     if((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                             && cVars.get("chosenoneid").equals(packId)) {
@@ -553,11 +552,11 @@ public class cGameLogic {
                             xCon.ex("say " + xCon.ex("THING_PLAYER.0.name") + " is the chosen one!");
                         }
                         else {
-                            xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+                            xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
                         }
                     }
                     if(gamemode == cGameMode.ANTI_CHOSENONE && cVars.isVal("chosenoneid", "server")) {
-                        xCon.ex("givepoint " + cGameLogic.getUserPlayer().get("id"));
+                        xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
                         cVars.put("chosenoneid", packId);
                     }
                 }
@@ -1075,7 +1074,7 @@ public class cGameLogic {
     }
 
     public static void checkForPlayerDeath() {
-        gPlayer cl = cGameLogic.getUserPlayer();
+        gPlayer cl = cGameLogic.userPlayer();
         cScripts.checkBulletSplashes();
         if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")

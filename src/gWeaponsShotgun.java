@@ -31,7 +31,7 @@ public class gWeaponsShotgun extends gWeapon {
             b.putInt("anim", gAnimations.ANIM_SPLASH_BLUE);
             eManager.currentMap.scene.bullets().add(b);
         }
-        if(p == cGameLogic.getUserPlayer()) {
+        if(p == cGameLogic.userPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.SHOTGUN.code());
             cVars.putLong("weapontime"+ gWeapons.type.SHOTGUN.code(), System.currentTimeMillis());
         }

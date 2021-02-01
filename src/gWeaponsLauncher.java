@@ -26,7 +26,7 @@ public class gWeaponsLauncher extends gWeapon {
         b.putInt("src", gWeapons.type.LAUNCHER.code());
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         eManager.currentMap.scene.bullets().add(b);
-        if(p == cGameLogic.getUserPlayer()) {
+        if(p == cGameLogic.userPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.LAUNCHER.code());
             cVars.putLong("weapontime"+ gWeapons.type.LAUNCHER.code(), System.currentTimeMillis());
         }

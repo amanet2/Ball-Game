@@ -1,6 +1,6 @@
 public class xComDropFlagRed extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer p = cGameLogic.getUserPlayer();
+        gPlayer p = cGameLogic.userPlayer();
         if(p != null) {
             System.out.println("DROP FLAG (RED)");
 //            String doString = String.format("e_putprop %d %s %s %d %d %d %d",

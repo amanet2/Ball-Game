@@ -8,7 +8,7 @@ public class gPropPowerup extends gProp {
                     cVars.putInt("currentweapon", int0);
                     cPowerups.takepowerupammo(this);
                     xCon.ex("playsound sounds/grenpinpull.wav");
-                    cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
+                    cScripts.checkPlayerSpriteFlip(cGameLogic.userPlayer());
                 }
                 else if(cVars.isInt("currentweapon", int0)
                         && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {

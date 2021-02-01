@@ -30,7 +30,7 @@ public class cPowerups {
                     cVars.putInt("currentweapon", int0);
                     takepowerupammo(powerup);
                     xCon.ex("playsound sounds/grenpinpull.wav");
-                    cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
+                    cScripts.checkPlayerSpriteFlip(cGameLogic.userPlayer());
                 }
                 else if(cVars.isInt("currentweapon", int0)
                         && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
