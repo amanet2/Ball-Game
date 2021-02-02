@@ -20,19 +20,19 @@ public class gProp extends gThing {
     public static String getSaveStringForProp(gProp prop) {
         switch (prop.getInt("code")) {
             case TELEPORTER:
-                return "teleporter";
+                return "PROP_TELEPORTER";
             case LADDER:
-                return "ladder";
+                return "PROP_LADDER";
             case SCOREPOINT:
-                return "scorepoint";
+                return "PROP_SCOREPOINT";
             case FLAGRED:
-                return "flagred";
+                return "PROP_FLAGRED";
             case FLAGBLUE:
-                return "flagblue";
+                return "PROP_FLAGBLUE";
             case POWERUP:
-                return "powerup";
+                return "PROP_POWERUP";
             case BOOSTUP:
-                return "boostup";
+                return "PROP_BOOSTUP";
 //            case BALLBOUNCY:
 //                return "ballbouncy";
             default:
