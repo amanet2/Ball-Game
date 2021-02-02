@@ -10,12 +10,30 @@ public class xComEditorPutProp extends xCom {
             int w = Integer.parseInt(toks[6]);
             int h = Integer.parseInt(toks[7]);
             switch(propcode) {
+//                TELEPORTER = 0;
+//                LADDER = 2;
+//                SCOREPOINT = 3;
+//                FLAGRED = 5;
+//                FLAGBLUE = 6;
+//                POWERUP = 7;
+//                BOOSTUP = 8;
+//                BALLBOUNCY = 9;
+                case gProp.TELEPORTER:
+                    gPropTeleporter teleporter = new gPropTeleporter(int0, int1, x, y, w, h);
+                    teleporter.put("id", cScripts.createID(8));
+                    teleporter.putInt("tag",
+                            eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
+                    teleporter.putInt("native", 1);
+                    eManager.currentMap.scene.props().add(teleporter);
+                    eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").put(teleporter.get("id"),
+                            teleporter);
+                    break;
                 case gProp.POWERUP:
-                    gPropPowerup prop = new gPropPowerup(int0, int1, x, y, w, h);
-                    prop.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
-                    prop.putInt("native", 1);
-                    eManager.currentMap.scene.props().add(prop);
-                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(cScripts.createID(8), prop);
+                    gPropPowerup powerup = new gPropPowerup(int0, int1, x, y, w, h);
+                    powerup.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
+                    powerup.putInt("native", 1);
+                    eManager.currentMap.scene.props().add(powerup);
+                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(cScripts.createID(8), powerup);
                     break;
                 default:
                     break;
