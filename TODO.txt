@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bot just shooting all over instead of waiting to be in range
 * fill in putProp for all props
 * verify flares work in mapmaker
 * picking up powerup now causes server to have endless exception

@@ -266,7 +266,7 @@ public class cBotsLogic {
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
                     && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(!p.get("id").contains("bot"))
+                if(!p.get("id").equals(bot.get("id")))
                     waypoint = p;
             }
         }
@@ -285,7 +285,8 @@ public class cBotsLogic {
             gThing p = (gThing) thingMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+            if(waypoint == null || cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)
+                    || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
                     && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
                 //this str0 value is used in KOF
                 int gameMode = cVars.getInt("gamemode");
