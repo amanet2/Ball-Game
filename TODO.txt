@@ -310,3 +310,4 @@ to reference them.
     -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
 * server should have clients run a set of instructions on join
 * transmit file over the server/cli connection
+* next game better have rotating map in both gameplay and editor

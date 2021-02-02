@@ -36,7 +36,7 @@ public class gProp extends gThing {
 //            case BALLBOUNCY:
 //                return "ballbouncy";
             default:
-                return "prop 0";
+                return "prop 1"; //for light fixture
         }
     }
 
