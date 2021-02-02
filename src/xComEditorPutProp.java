@@ -32,6 +32,7 @@ public class xComEditorPutProp extends xCom {
 //            );
 //            p.putInt("tag", eManager.currentMap.scene.props().size());
 //            eManager.currentMap.scene.props().add(p);
+
             return "";
         }
         return "usage: e_putprop <code> <int0> <int1> <x> <y> <w> <h>";

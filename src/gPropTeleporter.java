@@ -9,7 +9,6 @@ public class gPropTeleporter extends gProp {
                 Integer.parseInt(args[6]));
         prop.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
         prop.putInt("native", 1);
-        eManager.currentMap.scene.props().add(prop);
         return prop;
     }
     public void propEffect(gPlayer p) {
