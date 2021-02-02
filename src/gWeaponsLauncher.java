@@ -7,7 +7,7 @@ public class gWeaponsLauncher extends gWeapon {
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/bfg.wav";
         refiredelay = 1000;
-        damage = 6000; //damage will come from the pellets spawned in the explosion
+        damage = 1500; //damage will come from the pellets spawned in the explosion
         maxAmmo = 3;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/launcher.png"),dims[0],dims[1]);
         flipdimr = 100;

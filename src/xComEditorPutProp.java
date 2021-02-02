@@ -13,8 +13,7 @@ public class xComEditorPutProp extends xCom {
                 case gProp.TELEPORTER:
                     gPropTeleporter teleporter = new gPropTeleporter(int0, int1, x, y, w, h);
                     teleporter.put("id", cScripts.createID(8));
-                    teleporter.putInt("tag",
-                            eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
+                    teleporter.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
                     teleporter.putInt("native", 1);
                     eManager.currentMap.scene.props().add(teleporter);
                     eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").put(teleporter.get("id"), teleporter);
@@ -22,8 +21,7 @@ public class xComEditorPutProp extends xCom {
                 case gProp.SCOREPOINT:
                     gPropScorepoint scorepoint = new gPropScorepoint(int0, int1, x, y, w, h);
                     scorepoint.put("id", cScripts.createID(8));
-                    scorepoint.putInt("tag",
-                            eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT").size());
+                    scorepoint.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT").size());
                     scorepoint.putInt("native", 1);
                     eManager.currentMap.scene.props().add(scorepoint);
                     eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT").put(scorepoint.get("id"), scorepoint);
@@ -31,8 +29,7 @@ public class xComEditorPutProp extends xCom {
                 case gProp.FLAGRED:
                     gPropFlagRed flagred = new gPropFlagRed(int0, int1, x, y, w, h);
                     flagred.put("id", cScripts.createID(8));
-                    flagred.putInt("tag",
-                            eManager.currentMap.scene.getThingMap("PROP_FLAGRED").size());
+                    flagred.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_FLAGRED").size());
                     flagred.putInt("native", 1);
                     eManager.currentMap.scene.props().add(flagred);
                     eManager.currentMap.scene.getThingMap("PROP_FLAGRED").put(flagred.get("id"), flagred);
@@ -40,8 +37,7 @@ public class xComEditorPutProp extends xCom {
                 case gProp.FLAGBLUE:
                     gPropFlagBlue flagblue = new gPropFlagBlue(int0, int1, x, y, w, h);
                     flagblue.put("id", cScripts.createID(8));
-                    flagblue.putInt("tag",
-                            eManager.currentMap.scene.getThingMap("PROP_FLAGBLUE").size());
+                    flagblue.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_FLAGBLUE").size());
                     flagblue.putInt("native", 1);
                     eManager.currentMap.scene.props().add(flagblue);
                     eManager.currentMap.scene.getThingMap("PROP_FLAGBLUE").put(flagblue.get("id"), flagblue);

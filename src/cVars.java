@@ -62,7 +62,7 @@ public class cVars {
         put("knocksoundtimegap", "150");
         put("lapcomplete", "0");
         putInt("maptype", gMap.MAP_TOPVIEW);
-        put("maxstockhp", "2000");
+        put("maxstockhp", "500");
         put("maxstockspeed", "1000");
         put("onladder", "0");
         put("popuplivetime", "2000");
@@ -71,7 +71,7 @@ public class cVars {
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
-        put("rechargehp", "4");
+        put("rechargehp", "1");
         put("reloading", "0");
         put("reportedkiller", "1");
         put("respawnwaittime", sVars.get("respawnwaittime"));

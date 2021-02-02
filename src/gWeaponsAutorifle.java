@@ -7,7 +7,7 @@ public class gWeaponsAutorifle extends gWeapon {
         bulletSpritePath = eUtils.getPath("objects/misc/fireorange.png");
         soundFilePath = "sounds/30cal.wav";
         refiredelay = 80;
-        damage = 800;
+        damage = 200;
         maxAmmo = 40;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
         flipdimr = 100;
