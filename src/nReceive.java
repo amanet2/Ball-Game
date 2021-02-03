@@ -159,9 +159,11 @@ public class nReceive {
                     if(packArgs.get("state").contains("safezone")) {
                         HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                         String[] args = packArgs.get("state").split("-");
+                        System.out.println(Arrays.toString(args));
+                        System.out.println(scorepointsMap.toString());
                         for(Object id : scorepointsMap.keySet()) {
                             gProp pr = (gProp) scorepointsMap.get(id);
-                            if(pr.isVal("id", args[1]))
+                            if(pr.isVal("tag", args[1]))
                                 pr.put("int0", "1");
                             else
                                 pr.put("int0", "0");

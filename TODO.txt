@@ -4,19 +4,17 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
-* revert select flare to work with the int like the selectedProp stuff does
-    -> so the mousewheel can work
+* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
+    -> obv this means json
+    -> obv this means everythings fucked
+* safezone doesnt work, obviously IDs are different for props accross clients
+    -> use tag again
+* consider reverting flares to arraylist, i cant think of needing to look em up by id
 * cant select flare under mouse in mapmaker
 * bot just shooting all over instead of waiting to be in range
-* picking up powerup now causes server to have endless exception
-    -> sendpowerup still working on tag?
 * framerate tanked for the client on r_corners.map
 * mapmakers gotta be like 90% redone after this
 * weird dark flare under teleporter in mainmenu now
-* mapflares broken, flares under player holding gun still work though
-    -> when converting to new returnThingDoable architecture, arg indices are decreased by 1
-* convert selectedFlareID in mapmaker with a real string value
-    -> dont want to automatically select flares anymore
 * trying to start a new game with spawn-armed and reloading crashes
 * show the green +1 popup for the virus, flagmaster, kof, etc game modes (wouldbe nice to see the good vibes every 1s)
 * why is the currentmap NULL on first load when this wasnt happening before

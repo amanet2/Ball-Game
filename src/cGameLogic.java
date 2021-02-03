@@ -984,7 +984,7 @@ public class cGameLogic {
             for(Object id : scorepointsMap.keySet()) {
                 gProp p = (gProp) scorepointsMap.get(id);
                 if(p.isInt("int0", 1))
-                    return String.format("safezone-%s-%s", id, cVars.get("safezonetime"));
+                    return String.format("safezone-%s-%s", p.get("tag"), cVars.get("safezonetime"));
             }
         }
         if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {

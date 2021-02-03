@@ -101,7 +101,7 @@ public class gMap {
                     scene.tiles().add(tile);
                 }
                 else if (lineToks[0].toLowerCase().equals("prop")) {
-                    //only serves the old light fixtures now
+                    //ONLY SERVES THE OLD LIGHT FIXTURE
                     gProp prop = new gProp(
                         Integer.parseInt(lineToks[1]),
                         Integer.parseInt(lineToks[2]),
