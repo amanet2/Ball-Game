@@ -4,6 +4,8 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* revert select flare to work with the int like the selectedProp stuff does
+    -> so the mousewheel can work
 * cant select flare under mouse in mapmaker
 * bot just shooting all over instead of waiting to be in range
 * picking up powerup now causes server to have endless exception

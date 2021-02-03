@@ -90,6 +90,10 @@ public class gScene {
         return objects.get("THING_PROP");
     }
 
+//    public ArrayList<gFlare> flares() {
+//        return objects.get("THING_FLARE");
+//    }
+
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectsMap.get(thing_title);
     }
