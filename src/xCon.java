@@ -166,6 +166,7 @@ public class xCon {
         commands.put("e_saveas", new xComEditorSaveAs());
         commands.put("e_selectprop", new xComEditorSelectProp());
         commands.put("e_selecttile", new xComEditorSelectTile());
+        commands.put("e_selectflare", new xComEditorSelectFlare());
         commands.put("e_setselectedflare", new xComEditorSetSelectedFlareDims());
         commands.put("e_setselectedprop", new xComEditorSetSelectedPropDims());
         commands.put("e_setselectedtile", new xComEditorSetSelectedTileDims());
