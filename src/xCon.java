@@ -96,9 +96,6 @@ public class xCon {
 
         undoableCommands = new ArrayList<>();
         undoableCommands.add("e_copytile");
-        undoableCommands.add("e_delflare");
-        undoableCommands.add("e_delprop");
-        undoableCommands.add("e_deltile");
         undoableCommands.add("e_newflare");
         undoableCommands.add("e_newprop");
         undoableCommands.add("e_newtile");
@@ -142,10 +139,7 @@ public class xCon {
         commands.put("dropweapon", new xComDropWeapon());
         commands.put("exec", new xComExec());
         commands.put("e_copytile", new xComEditorCopyTile());
-        commands.put("e_delflare", new xComEditorDelFlare());
-        commands.put("e_delprop", new xComEditorDelProp());
         commands.put("e_delthing", new xComEditorDelThing());
-        commands.put("e_deltile", new xComEditorDelTile());
         commands.put("e_newflare", new xComEditorSetNewFlareDims());
         commands.put("e_newprop", new xComEditorSetNewPropDims());
         commands.put("e_newtile", new xComEditorSetNewTileDims());

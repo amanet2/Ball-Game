@@ -12,6 +12,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* make generic copything() function maybe instead of copytile, copyprop, etc
+* audit unused binds and remove vestigal classes
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * flares probably need to be reverted to an arraylist
 -> OR maybe create a thrid data structre for the map for ordered lists/maps exclusively

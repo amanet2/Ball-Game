@@ -247,7 +247,7 @@ public class iInput {
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
                             xCon.ex("e_copytile");
-                            xCon.ex("e_deltile");
+                            xCon.ex("e_delthing");
                         }
                         break;
                     case KeyEvent.VK_V:
