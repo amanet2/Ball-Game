@@ -1,5 +1,3 @@
-import java.util.TreeMap;
-
 public class xComEditorNextThing extends xCom {
     public String doCommand(String fullCommand) {
         switch (cEditorLogic.state.createObjCode) {

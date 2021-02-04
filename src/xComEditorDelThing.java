@@ -9,7 +9,7 @@ public class xComEditorDelThing extends xCom {
                 try {
                     eManager.currentMap.scene.flares().remove(cEditorLogic.state.selectedFlareTag);
                     //selects another flare after deletion of flare
-                        if(eManager.currentMap.scene.getThingMap("THING_FLARE").size() > 0)
+                        if(eManager.currentMap.scene.flares().size() > 0)
                             xCon.ex(String.format("HIDDEN e_selectflare %d",
                                     eManager.currentMap.scene.flares().size() - 1));
                 } catch (Exception e) {

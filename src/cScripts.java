@@ -157,11 +157,10 @@ public class cScripts {
                 }
                 break;
             case gScene.THING_FLARE:
-                TreeMap flaresMap = eManager.currentMap.scene.getThingOrderedMap("THING_FLARE");
-                for(Object id : flaresMap.keySet()) {
-                    gFlare t = (gFlare) flaresMap.get(id);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && !t.isInt("tag", cEditorLogic.state.selectedFlareTag)) {
-                        xCon.ex(String.format("e_selectflare %s", id));
+                for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
+                    gFlare t = eManager.currentMap.scene.flares().get(i);
+                    if(t.coordsWithinBounds(mc[0], mc[1]) && cEditorLogic.state.selectedFlareTag != i) {
+                        xCon.ex(String.format("e_selectflare %d", i));
                         return;
                     }
                 }

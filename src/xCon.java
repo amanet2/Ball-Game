@@ -100,9 +100,7 @@ public class xCon {
         undoableCommands.add("e_newprop");
         undoableCommands.add("e_newtile");
         undoableCommands.add("e_newtilequick");
-        undoableCommands.add("e_nexflare");
-        undoableCommands.add("e_nexprop");
-        undoableCommands.add("e_nextile");
+        undoableCommands.add("e_nextthing");
         undoableCommands.add("e_pastetile");
         undoableCommands.add("e_preflare");
         undoableCommands.add("e_preprop");
@@ -144,10 +142,7 @@ public class xCon {
         commands.put("e_newprop", new xComEditorSetNewPropDims());
         commands.put("e_newtile", new xComEditorSetNewTileDims());
         commands.put("e_newtilequick", new xComEditorSetNewTileQuickDims());
-        commands.put("e_nexflare", new xComEditorNextFlare());
-        commands.put("e_nexprop", new xComEditorNextProp());
         commands.put("e_nextthing", new xComEditorNextThing());
-        commands.put("e_nextile", new xComEditorNextTile());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_pastetile", new xComEditorPasteTile());
         commands.put("e_preflare", new xComEditorPrevFlare());
