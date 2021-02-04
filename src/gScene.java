@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -29,30 +28,30 @@ public class gScene {
             "PROP_FLAGBLUE", "PROP_FLAGRED", "PROP_POWERUP"
     };
 
-	HashMap<String, ArrayList> objects;
-	HashMap<String, HashMap> objectsMap;
+	HashMap<String, ArrayList> objectLists;
+	HashMap<String, HashMap> objectMaps;
 
 	public gScene() {
-		objects = new HashMap<>();
-		objectsMap = new HashMap<>();
+		objectLists = new HashMap<>();
+		objectMaps = new HashMap<>();
 		for(String s : object_titles) {
-			objects.put(s, new ArrayList<>());
+			objectLists.put(s, new ArrayList<>());
 		}
 		for(String s : object_titles) {
-		    objectsMap.put(s, new HashMap<>());
+		    objectMaps.put(s, new HashMap<>());
         }
 	}
 
 	public gScene copy() {
 	    gScene toReturn = new gScene();
-	    toReturn.objects = new HashMap<>();
-	    toReturn.objectsMap = new HashMap<>();
+	    toReturn.objectLists = new HashMap<>();
+	    toReturn.objectMaps = new HashMap<>();
 	    for(String s : object_titles) {
-	        toReturn.objects.put(s, new ArrayList<>(objects.get(s)));
+	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
         }
 	    //OBJECTMAP BELOW
-        for(String objectType : objectsMap.keySet()) {
-            toReturn.objectsMap.put(objectType, new HashMap<>(objectsMap.get(objectType)));
+        for(String objectType : objectMaps.keySet()) {
+            toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
         }
 	    return toReturn;
     }
@@ -79,15 +78,15 @@ public class gScene {
     }
 
 	public ArrayList<gTile> tiles() {
-		return objects.get("THING_TILE");
+		return objectLists.get("THING_TILE");
 	}
 
     public ArrayList<gPlayer> players() {
-        return objects.get("THING_PLAYER");
+        return objectLists.get("THING_PLAYER");
     }
 
     public ArrayList<gProp> props() {
-        return objects.get("THING_PROP");
+        return objectLists.get("THING_PROP");
     }
 
 //    public ArrayList<gFlare> flares() {
@@ -95,7 +94,7 @@ public class gScene {
 //    }
 
     public HashMap<String, gThing> getThingMap(String thing_title) {
-	    return objectsMap.get(thing_title);
+	    return objectMaps.get(thing_title);
     }
 
     static String getObjTitleForCode(int code) {

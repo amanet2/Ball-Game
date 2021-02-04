@@ -3,19 +3,23 @@
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
-==ISSUES==
-* bots going to inactive scorepoints in waypoint mode
-* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
-    -> obv this means json
-    -> obv this means everythings fucked
-* safezone doesnt work, obviously IDs are different for props accross clients
-    -> use tag again
-* consider reverting flares to arraylist, i cant think of needing to look em up by id
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==ISSUES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* flares probably need to be reverted to an arraylist
+-> I think the dark spot is caused by flare ordering
+    -> or a linked hashmap
+       -> SOMETHING that preserves order with the most efficient usage
 * cant select flare under mouse in mapmaker
 * bot just shooting all over instead of waiting to be in range
-* framerate tanked for the client on r_corners.map
-* mapmakers gotta be like 90% redone after this
-* weird dark flare under teleporter in mainmenu now
+* mapmakers gotta be verified heavily
+* weird dark spot under teleporter in mainmenu now
 * trying to start a new game with spawn-armed and reloading crashes
 * show the green +1 popup for the virus, flagmaster, kof, etc game modes (wouldbe nice to see the good vibes every 1s)
 * why is the currentmap NULL on first load when this wasnt happening before
@@ -137,8 +141,19 @@ required?
     -> tag: re-assign "itness"
 * EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-
-==FEATURES==
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==FEATURES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
+    -> obv this means json
+    -> obv this means everythings fucked
+* consider reverting flares to arraylist, i cant think of needing to look em up by id
 * give the victim a boxing glove in victim mode
 * map where a scorepoint runs away from the nearest player and player explodes when catches it, but gets a point
 * map with winding maxze structure that travels downwards with scorepoints

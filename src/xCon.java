@@ -273,8 +273,8 @@ public class xCon {
                         String type = otoks[0];
                         int tag = Integer.parseInt(otoks[1]);
                         String var = otoks[2];
-                        if(eManager.currentMap.scene.objects.get(type).size() > tag) {
-                            gThing g = (gThing) eManager.currentMap.scene.objects.get(type).get(tag);
+                        if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
+                            gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
                             if(args.length > 1) {
                                 //process the arg by checking if svar or cvar can be subbed in
                                 String val = args[1];
@@ -294,8 +294,8 @@ public class xCon {
                     else if(otoks.length > 1) {
                         String type = otoks[0];
                         int tag = Integer.parseInt(otoks[1]);
-                        if(eManager.currentMap.scene.objects.get(type).size() > tag) {
-                            gThing g = (gThing) eManager.currentMap.scene.objects.get(type).get(tag);
+                        if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
+                            gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
                             return g.vars().toString();
                         }
                     }
