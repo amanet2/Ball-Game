@@ -170,36 +170,6 @@ public class cScripts {
         }
     }
 
-    public static gProp getExitTeleporter(gProp tp) {
-        for(String id : eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").keySet()) {
-            gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").get(id);
-            if(!p.isVal("tag", tp.get("tag"))
-                    && p.isVal("int0", tp.get("int0"))) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    public static void teleportPlayer(gProp tp, gPlayer p) {
-        gProp exit = getExitTeleporter(tp);
-        if(p.get("id").contains("bot") && !p.isVal("exitteleportertag", tp.get("tag"))) {
-            if(exit != null) {
-                p.putInt("coordx", exit.getInt("coordx") + exit.getInt("dimw")/2 - p.getInt("dimw")/2);
-                p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);
-                p.put("exitteleportertag", exit.get("tag"));
-            }
-        }
-        else if(p.isZero("tag") && !cVars.isVal("exitteleportertag", tp.get("tag"))) {
-            xCon.ex("playsound sounds/teleporter.wav");
-            if(exit != null) {
-                p.putInt("coordx", exit.getInt("coordx") + exit.getInt("dimw")/2 - p.getInt("dimw")/2);
-                p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);
-                cVars.put("exitteleportertag", exit.get("tag"));
-            }
-        }
-    }
-
     public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
         HashMap<String, gThing> scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         //nonlinear race

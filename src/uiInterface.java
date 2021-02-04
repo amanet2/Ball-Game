@@ -1,4 +1,5 @@
 import java.net.DatagramSocket;
+import java.util.TreeMap;
 
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
@@ -14,6 +15,7 @@ public class uiInterface {
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
+    static long nextFrameTime = -1;
 
     static DatagramSocket serverSocket = null;
     static DatagramSocket clientSocket = null;
@@ -33,6 +35,7 @@ public class uiInterface {
                 else if(sSettings.net_client && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
+                nextFrameTime = gameTime + (1000/sSettings.framerate);
                 gameTimeNanos = System.nanoTime();
                 //game loop
                 if(sSettings.net_server && cVars.getInt("timeleft") > 0)
@@ -86,15 +89,18 @@ public class uiInterface {
                     framecounterTime = gameTime + 1000;
                 }
                 //sleep
-                if(sVars.isOne("lowpowermode")) {
+//                if(sVars.isOne("lowpowermode")) {
                     if (sSettings.framerate > 999) {
                         long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
                         Thread.sleep(0, Math.max(0, (int) toSleepNanos));
-                    } else {
-                        long toSleepMillis = 1000 / sSettings.framerate - (System.currentTimeMillis() - gameTime);
-                        Thread.sleep(Math.max(0, toSleepMillis));
                     }
-                }
+                    else {
+                        long toSleepMillis = nextFrameTime - gameTime;
+                        if(toSleepMillis > 0)
+                            Thread.sleep(toSleepMillis-1);
+//                        Thread.sleep(Math.max(0, toSleepMillis));
+                    }
+//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
