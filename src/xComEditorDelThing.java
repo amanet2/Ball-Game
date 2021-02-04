@@ -5,13 +5,13 @@ public class xComEditorDelThing extends xCom {
         String toRemoveId = "";
         switch (cEditorLogic.state.createObjCode) {
             case gScene.THING_FLARE:
-                toRemoveId = toks.length > 1 ? toks[1] : cEditorLogic.state.selectedFlareId;
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedFlareTag;
                 try {
-                    eManager.currentMap.scene.getThingMap("THING_FLARE").remove(toRemoveId);
+                    eManager.currentMap.scene.flares().remove(cEditorLogic.state.selectedFlareTag);
                     //selects another flare after deletion of flare
-//                        if(eManager.currentMap.scene.getThingMap("THING_FLARE").size() > 0)
-//                            xCon.ex(String.format("HIDDEN e_selectflare %d",
-//                                    eManager.currentMap.scene.flares().size() - 1));
+                        if(eManager.currentMap.scene.getThingMap("THING_FLARE").size() > 0)
+                            xCon.ex(String.format("HIDDEN e_selectflare %d",
+                                    eManager.currentMap.scene.flares().size() - 1));
                 } catch (Exception e) {
                     eUtils.echoException(e);
                     e.printStackTrace();

@@ -1,5 +1,8 @@
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * A scene holds the background and objects for a game
@@ -30,15 +33,16 @@ public class gScene {
 
 	HashMap<String, ArrayList> objectLists;
 	HashMap<String, HashMap> objectMaps;
+	HashMap<String, TreeMap> objectOrderedMaps;
 
 	public gScene() {
 		objectLists = new HashMap<>();
 		objectMaps = new HashMap<>();
+        objectOrderedMaps = new HashMap<>();
 		for(String s : object_titles) {
 			objectLists.put(s, new ArrayList<>());
-		}
-		for(String s : object_titles) {
-		    objectMaps.put(s, new HashMap<>());
+            objectMaps.put(s, new HashMap<>());
+            objectOrderedMaps.put(s, new TreeMap<>());
         }
 	}
 
@@ -46,12 +50,17 @@ public class gScene {
 	    gScene toReturn = new gScene();
 	    toReturn.objectLists = new HashMap<>();
 	    toReturn.objectMaps = new HashMap<>();
+	    toReturn.objectOrderedMaps = new HashMap<>();
 	    for(String s : object_titles) {
 	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
         }
 	    //OBJECTMAP BELOW
         for(String objectType : objectMaps.keySet()) {
             toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
+        }
+        //OBJECTORDEREDMAP BELOW
+        for(String objectType : objectOrderedMaps.keySet()) {
+            toReturn.objectOrderedMaps.put(objectType, new TreeMap<>(objectOrderedMaps.get(objectType)));
         }
 	    return toReturn;
     }
@@ -93,12 +102,16 @@ public class gScene {
         return objectLists.get("THING_FLARE");
     }
 
+    public ArrayList<gThing> getThingList(String thing_title) {
+        return objectLists.get(thing_title);
+    }
+
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
     }
 
-    public ArrayList<gThing> getThingList(String thing_title) {
-        return objectLists.get(thing_title);
+    public TreeMap<String, gThing> getThingOrderedMap(String thing_title) {
+	    return objectOrderedMaps.get(thing_title);
     }
 
     static String getObjTitleForCode(int code) {

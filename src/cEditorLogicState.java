@@ -8,14 +8,14 @@ public class cEditorLogicState {
     JMenuItem[] selectedTextureMenuItems;
     int selectedTileId;
     int selectedPropId;
-    String selectedFlareId;
+    int selectedFlareTag;
     int createObjCode;
     gScene mapScene;
     gTile newTile;
     gProp newProp;
     gFlare newFlare;
 
-    public cEditorLogicState(int stx, int sty, String st, JMenuItem stmi, int sti, int spi, String sfi, int coc, gTile nt,
+    public cEditorLogicState(int stx, int sty, String st, JMenuItem stmi, int sti, int spi, int sfi, int coc, gTile nt,
                              gProp np, gFlare nf, gScene ms) {
         newTile = nt;
         newProp = np;
@@ -30,7 +30,7 @@ public class cEditorLogicState {
         createObjCode = coc;
         selectedTileId = sti;
         selectedPropId = spi;
-        selectedFlareId = sfi;
+        selectedFlareTag = sfi;
         mapScene = ms;
     }
 }

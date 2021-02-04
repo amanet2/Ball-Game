@@ -12,9 +12,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* make generic copything() function maybe instead of copytile, copyprop, etc
+* replace objectMap with flares()
+    -> dont forget to load/put in the correct data structure
+* Use a Treemap for flares instead of arraylist
+* cut/copy/paste only works for tiles right now
+    -> make generic copything() function maybe instead of copytile, copyprop, etc
 * audit unused binds and remove vestigal classes
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
+    -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
+    -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
 * flares probably need to be reverted to an arraylist
 -> OR maybe create a thrid data structre for the map for ordered lists/maps exclusively
     -> first try to revert flare placement order in the mapfile

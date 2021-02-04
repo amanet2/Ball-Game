@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
@@ -160,9 +161,7 @@ public class gMap {
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);
             }
-            HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
-            for(Object id : flaresMap.keySet()) {
-                gFlare f = (gFlare) flaresMap.get(id);
+            for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
                 String str = String.format("flare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
                         f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),

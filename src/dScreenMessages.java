@@ -107,16 +107,13 @@ public class dScreenMessages {
                 }
             }
             if(cEditorLogic.state.createObjCode == gScene.THING_FLARE
-                    && cEditorLogic.state.selectedFlareId.length() > 0) {
-                gFlare t = (gFlare) eManager.currentMap.scene.getThingMap("THING_FLARE").get(
-                        cEditorLogic.state.selectedFlareId);
-                if(t != null) {
-                    int c = 0;
-                    for (String s : t.vars().keySet()) {
-                        g.drawString(
-                                String.format("%s: %s", s, t.get(s)), 0, (16 + c) * sSettings.height / 64);
-                        c++;
-                    }
+                    && cEditorLogic.state.selectedFlareTag< eManager.currentMap.scene.flares().size()) {
+                gFlare t = eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareTag);
+                int c = 0;
+                for (String s : t.vars().keySet()) {
+                    g.drawString(
+                            String.format("%s: %s", s, t.get(s)), 0, (16 + c) * sSettings.height / 64);
+                    c++;
                 }
             }
         }
@@ -294,7 +291,7 @@ public class dScreenMessages {
             else {
                 g.drawString(String.format("{TILES : %d, PROPS: %d, FLARES: %d}",
                     eManager.currentMap.scene.tiles().size(), eManager.currentMap.scene.props().size(),
-                    eManager.currentMap.scene.getThingMap("THING_FLARE").size()),
+                    eManager.currentMap.scene.flares().size()),
                         0,15*sSettings.height/16);
                 g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
                     31*sSettings.height/32);

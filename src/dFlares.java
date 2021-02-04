@@ -1,11 +1,10 @@
 import java.awt.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class dFlares {
     public static void drawSceneFlares(Graphics2D g2){
-        HashMap flareMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
-        for(Object id : flareMap.keySet()) {
-            gFlare f = (gFlare) flareMap.get(id);
+        ArrayList<gFlare> flareMap = eManager.currentMap.scene.flares();
+        for(gFlare f : flareMap) {
             drawFlare(g2, f);
         }
     }

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class gDoableThingReturnFlare extends gDoableThingReturn {
     public gThing getThing(String[] args) {
@@ -22,8 +23,18 @@ public class gDoableThingReturnFlare extends gDoableThingReturn {
     }
 
     public void storeThing(gThing thingToLoad, gScene sceneToStore) {
-        HashMap flaresMap = sceneToStore.getThingMap("THING_FLARE");
-        thingToLoad.put("tag", Integer.toString(flaresMap.size()));
-        flaresMap.put(thingToLoad.get("id"), thingToLoad);
+//        HashMap flaresMap = sceneToStore.getThingMap("THING_FLARE");
+//        thingToLoad.put("tag", Integer.toString(flaresMap.size()));
+//        flaresMap.put(thingToLoad.get("id"), thingToLoad);
+        //
+        // --LIST BELOW --
+        //
+        thingToLoad.put("tag", Integer.toString(sceneToStore.flares().size()));
+        sceneToStore.flares().add((gFlare) thingToLoad);
+        //
+        // -- TREEMAP BELOW
+//        TreeMap flaresOrderedMap = sceneToStore.flares();
+//        thingToLoad.put("tag", Integer.toString(flaresOrderedMap.size()));
+//        flaresOrderedMap.put(thingToLoad.get("id"), thingToLoad);
     }
 }

@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -11,7 +10,7 @@ public class cEditorLogic {
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
     static cEditorLogicState state = new cEditorLogicState(30,30, "",
-            new JMenuItem(""),0,0,"", gScene.THING_TILE,
+            new JMenuItem(""),0,0,0, gScene.THING_TILE,
             new gTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
                     100, gTextures.selection_top[0], gTextures.selection_wall[0], gTextures.selection_floor[0],
                     255, 0),
@@ -308,7 +307,7 @@ public class cEditorLogic {
         state.selectedTextureMenuItems = newstate.selectedTextureMenuItems;
         state.selectedTileId = newstate.selectedTileId;
         state.selectedPropId = newstate.selectedPropId;
-        state.selectedFlareId = newstate.selectedFlareId;
+        state.selectedFlareTag = newstate.selectedFlareTag;
         state.createObjCode = newstate.createObjCode;
         state.newTile = newstate.newTile;
         state.newProp = newstate.newProp;
@@ -318,7 +317,7 @@ public class cEditorLogic {
 
     public static cEditorLogicState getEditorState() {
         return new cEditorLogicState(state.snapToX, state.snapToY, state.selectedTitle, state.selectedTileMenuItem,
-                state.selectedTileId, state.selectedPropId, state.selectedFlareId, state.createObjCode, state.newTile,
+                state.selectedTileId, state.selectedPropId, state.selectedFlareTag, state.createObjCode, state.newTile,
                 state.newProp, state.newFlare, eManager.currentMap.scene.copy());
     }
 }

@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -118,25 +119,17 @@ public class eManager {
             xCon.ex("centercamera");
 		else {
 		    double rr = Math.random();
-		    HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
-		    if(flaresMap.size() > 0) {
-		        int rand = (int)(Math.random() * (flaresMap.size()));
-		        int c = 0;
-		        for(Object id : flaresMap.keySet()) {
-		            if(c == rand) {
-                        gFlare r = (gFlare) flaresMap.get(id);
-                        cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                        cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-                    }
-		            c++;
-                }
+            if(currentMap.scene.flares().size() > 0) {
+                gFlare r = currentMap.scene.flares().get((int)(Math.random() * (currentMap.scene.flares().size()-1)));
+                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
+                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
 		    }
             if((rr > 0.5 && currentMap.scene.props().size() > 0)){
                 gProp r = eManager.currentMap.scene.props().get((int)(Math.random() * (currentMap.scene.props().size()-1)));
                 cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
                 cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
             }
-            if((rr > 0.90 || (currentMap.scene.props().size() < 1 && flaresMap.size() < 1))
+            if((rr > 0.90 || (currentMap.scene.props().size() < 1 && currentMap.scene.flares().size() < 1))
                 && currentMap.scene.tiles().size() > 0){
                 gTile r = eManager.currentMap.scene.tiles().get((int)(Math.random() * (currentMap.scene.tiles().size()-1)));
                 cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);

@@ -1,5 +1,7 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class dTileTops {
     public static void drawTops(Graphics g) {
@@ -455,9 +457,9 @@ public class dTileTops {
                         eUtils.scaleInt(sw), eUtils.scaleInt(sh));
             }
             // -- selected flare
-            HashMap flaresMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
-            if(flaresMap.containsKey(cEditorLogic.state.selectedFlareId)) {
-                gFlare selectedFlare = (gFlare) flaresMap.get(cEditorLogic.state.selectedFlareId);
+            ArrayList<gFlare> flareList = eManager.currentMap.scene.flares();
+            if(flareList.size() > cEditorLogic.state.selectedFlareTag) {
+                gFlare selectedFlare = flareList.get(cEditorLogic.state.selectedFlareTag);
                 int sx = selectedFlare.getInt("coordx");
                 int sy = selectedFlare.getInt("coordy");
                 int sw = selectedFlare.getInt("dimw");
