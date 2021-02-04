@@ -89,12 +89,16 @@ public class gScene {
         return objectLists.get("THING_PROP");
     }
 
-//    public ArrayList<gFlare> flares() {
-//        return objects.get("THING_FLARE");
-//    }
+    public ArrayList<gFlare> flares() {
+        return objectLists.get("THING_FLARE");
+    }
 
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
+    }
+
+    public ArrayList<gThing> getThingList(String thing_title) {
+        return objectLists.get(thing_title);
     }
 
     static String getObjTitleForCode(int code) {

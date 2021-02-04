@@ -12,7 +12,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * flares probably need to be reverted to an arraylist
+-> OR maybe create a thrid data structre for the map for ordered lists/maps exclusively
+    -> first try to revert flare placement order in the mapfile
+        -> then do the old-style arraylist process
+        -> remember you need unique strings in the map loading process
+    -> OR consider that flares being in a "unordered" list is just a sacrifice to make in map ability
+        -> e.g. cant layer a bunch of flares like a barbarian
 -> I think the dark spot is caused by flare ordering
     -> or a linked hashmap
        -> SOMETHING that preserves order with the most efficient usage
