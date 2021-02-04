@@ -89,18 +89,19 @@ public class uiInterface {
                     framecounterTime = gameTime + 1000;
                 }
                 //sleep
-//                if(sVars.isOne("lowpowermode")) {
+                if(sVars.isOne("lowpowermode")) {
                     if (sSettings.framerate > 999) {
                         long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
                         Thread.sleep(0, Math.max(0, (int) toSleepNanos));
                     }
                     else {
-                        long toSleepMillis = nextFrameTime - gameTime;
+//                        long toSleepMillis = nextFrameTime - gameTime;
+                        long toSleepMillis = nextFrameTime - System.currentTimeMillis();
                         if(toSleepMillis > 0)
                             Thread.sleep(toSleepMillis-1);
 //                        Thread.sleep(Math.max(0, toSleepMillis));
                     }
-//                }
+                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
