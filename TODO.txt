@@ -4,6 +4,7 @@
     -> create NSIS zip2exe to extract updates into BRA folder
 
 ==ISSUES==
+* bots going to inactive scorepoints in waypoint mode
 * refactor mapfile so you can create objects with the kind of flexibility of hashmaps
     -> obv this means json
     -> obv this means everythings fucked

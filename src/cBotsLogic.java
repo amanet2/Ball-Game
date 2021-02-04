@@ -247,10 +247,10 @@ public class cBotsLogic {
     private static boolean goToWaypointPropVerification(gThing bot, gThing p) {
         int propcode = p.getInt("code");
         switch (propcode) {
-            case gProp.TELEPORTER:
+            case gProp.TELEPORTER: //generic teleporter operation
                 return !p.isVal("tag", bot.get("exitteleportertag"));
-            case gProp.SCOREPOINT:
-                return !p.isOne("int0");
+            case gProp.SCOREPOINT: //waypoints game mode
+                return p.isOne("int0");
             default:
                 break;
         }
