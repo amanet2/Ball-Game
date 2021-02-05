@@ -11,15 +11,12 @@ public class nReceive {
                 String argload = toks[0];
                 //process new packet
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
+                HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
-                if(!nServer.scoresMap.containsKey(packId)) {
-                    nServer.scoresMap.put(packId, new HashMap<>());
-                    nServer.scoresMap.get(packId).put("wins", 0);
-                    nServer.scoresMap.get(packId).put("score", 0);
-                    nServer.scoresMap.get(packId).put("kills", 0);
-                    nServer.scoresMap.get(packId).put("ping", 0);
+                if(!scoresMap.containsKey(packId)) {
+                    cScoreboard.addId(packId);
                 }
                 String packName = packArgMap.get("name") != null ? packArgMap.get("name") : nServer.clientArgsMap.get(packId).get("name");
                 String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
@@ -41,7 +38,7 @@ public class nReceive {
                 }
                 if(nServer.clientIds.contains(packId)) {
                     isnewclient = 0;
-                    nServer.scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+                    scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                     if(oldName.length() > 0 && !oldName.equals(packName))
                         xCon.ex(String.format("say %s changed name to %s", oldName, packName));
                     if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
@@ -100,6 +97,7 @@ public class nReceive {
             for(int i = 0; i < toks.length; i++) {
                 String argload = toks[i];
                 HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
+                HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
                 String idload = packArgs.get("id");
                 String nameload = packArgs.get("name") != null ? packArgs.get("name")
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")
@@ -107,12 +105,8 @@ public class nReceive {
                 String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
                 if(!nServer.clientArgsMap.containsKey(idload))
                     nServer.clientArgsMap.put(idload, packArgs);
-                if(!nServer.scoresMap.containsKey(idload)) {
-                    nServer.scoresMap.put(idload, new HashMap<>());
-                    nServer.scoresMap.get(idload).put("wins", 0);
-                    nServer.scoresMap.get(idload).put("score", 0);
-                    nServer.scoresMap.get(idload).put("kills", 0);
-                    nServer.scoresMap.get(idload).put("ping", 0);
+                if(!scoresMap.containsKey(idload)) {
+                    cScoreboard.addId(idload);
                 }
                 for(String k : packArgs.keySet()) {
                     if(!nServer.clientArgsMap.get(idload).containsKey(k)
@@ -275,17 +269,14 @@ public class nReceive {
                     String[] stoks = packArgs.get("scoremap").split(":");
                     for (int j = 0; j < stoks.length; j++) {
                         String scoreid = stoks[j].split("-")[0];
-                        if(!nServer.scoresMap.containsKey(scoreid)) {
-                            nServer.scoresMap.put(scoreid, new HashMap<>());
-                            nServer.scoresMap.get(scoreid).put("wins", 0);
-                            nServer.scoresMap.get(scoreid).put("score", 0);
-                            nServer.scoresMap.get(scoreid).put("kills", 0);
-                            nServer.scoresMap.get(scoreid).put("ping", 0);
+                        if(!scoresMap.containsKey(scoreid)) {
+                            cScoreboard.addId(scoreid);
                         }
-                        nServer.scoresMap.get(scoreid).put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-                        nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[2]));
-                        nServer.scoresMap.get(scoreid).put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-                        nServer.scoresMap.get(scoreid).put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+                        System.out.println(scoreid);
+                        scoresMap.get(scoreid).put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+                        scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[2]));
+                        scoresMap.get(scoreid).put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+                        scoresMap.get(scoreid).put("ping", Integer.parseInt(stoks[j].split("-")[4]));
                     }
                 }
             }
