@@ -11,7 +11,7 @@ public class nReceive {
                 String argload = toks[0];
                 //process new packet
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
-                HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+                HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
@@ -97,7 +97,7 @@ public class nReceive {
             for(int i = 0; i < toks.length; i++) {
                 String argload = toks[i];
                 HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
-                HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+                HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
                 String idload = packArgs.get("id");
                 String nameload = packArgs.get("name") != null ? packArgs.get("name")
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")
@@ -272,11 +272,11 @@ public class nReceive {
                         if(!scoresMap.containsKey(scoreid)) {
                             cScoreboard.addId(scoreid);
                         }
-                        System.out.println(scoreid);
-                        scoresMap.get(scoreid).put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-                        scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[2]));
-                        scoresMap.get(scoreid).put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-                        scoresMap.get(scoreid).put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+                        HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
+                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
+                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
                     }
                 }
             }
@@ -290,7 +290,7 @@ public class nReceive {
                 if(tr.length() > 0) {
                     int qi = nServer.clientIds.indexOf(tr);
                     nServer.clientArgsMap.remove(tr);
-                    nServer.scoresMap.remove(tr);
+                    cScoreboard.scoresMap.remove(tr);
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
                 }

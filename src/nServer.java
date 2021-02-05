@@ -14,7 +14,6 @@ public class nServer extends Thread {
     static boolean kickConfirmed = false;
     static ArrayList<String> clientIds = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
@@ -128,7 +127,7 @@ public class nServer extends Thread {
             nSend.focus_id = "";
         }
         clientArgsMap.remove(id);
-        scoresMap.remove(id);
+        cScoreboard.scoresMap.remove(id);
         gPlayer quittingPlayer = cGameLogic.getPlayerById(id);
         eManager.currentMap.scene.players().remove(quittingPlayer);
         String quitterName = quittingPlayer.get("name");

@@ -640,7 +640,7 @@ public class cScripts {
     public static void setupGame() {
         int[] npcs = new int[] {-6000,-6000};
         cVars.putLong("starttime", System.currentTimeMillis());
-//        nServer.scoresMap = new HashMap<>();
+//        cScoreboard.scoresMap = new HashMap<>();
         if(cScripts.isNetworkGame() || uiInterface.inplay) {
             gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
                 eUtils.getPath(String.format("animations/player_%s/a03.png",

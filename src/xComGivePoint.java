@@ -8,7 +8,7 @@ public class xComGivePoint extends xCom {
             String id = toks[1];
             if (cVars.isOne("gameteam")) {
                 String color = cGameLogic.getPlayerById(id).get("color");
-                for (String mapid : nServer.scoresMap.keySet()) {
+                for (String mapid : cScoreboard.scoresMap.keySet()) {
                     if (color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
                         cScoreboard.incrementScoreFieldById(mapid, "score");
                         gPlayer givePointPlayer = cGameLogic.getPlayerById(mapid);

@@ -2,13 +2,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class cScoreboard {
-    public static void resetScoresMap(HashMap<String, HashMap<String, Integer>> scoresMap) {
+    static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
+
+    public static void resetScoresMap() {
         HashMap<String, Integer> savedWins = new HashMap<>();
         for(String id : scoresMap.keySet()) {
             savedWins.put(id, scoresMap.get(id).get("wins"));
         }
-        nServer.scoresMap = new HashMap<>();
-        scoresMap = nServer.scoresMap;
+        scoresMap = new HashMap<>();
         if(sSettings.net_server) {
             addId("server");
             for(String id : savedWins.keySet()) {
@@ -20,7 +21,7 @@ public class cScoreboard {
         }
     }
 
-    public static String createSortedScoreMapStringServer(HashMap<String, HashMap<String, Integer>> scoresMap) {
+    public static String createSortedScoreMapStringServer() {
         String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
         StringBuilder scoreString = new StringBuilder();
         String[] sortedIds = new String[scoresMap.keySet().size()];
@@ -60,7 +61,6 @@ public class cScoreboard {
     }
 
     public static boolean isTopScoreId(String id) {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         if(scoresMap.containsKey(id)) {
             for(String otherId : scoresMap.keySet()) {
                 if(!otherId.equals(id)) {
@@ -74,7 +74,6 @@ public class cScoreboard {
     }
 
     public static String getTopScoreString() {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         int topscore = 0;
         int tiectr = 0;
         String winnerName = "";
@@ -117,7 +116,6 @@ public class cScoreboard {
     }
 
     public static String getWinnerId() {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         int highestScore = 0;
         String highestId = "";
         boolean pass = false;
@@ -136,7 +134,6 @@ public class cScoreboard {
     }
 
     public static int getWinnerScore() {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         int highestScore = 0;
         boolean pass = false;
         while (!pass) {
@@ -153,7 +150,6 @@ public class cScoreboard {
     }
 
     public static void addId(String id) {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         scoresMap.put(id, new HashMap<>());
         scoresMap.get(id).put("wins", 0);
         scoresMap.get(id).put("score", 0);
@@ -162,7 +158,6 @@ public class cScoreboard {
     }
 
     public static void incrementScoreFieldById(String id, String field) {
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
         if(!scoresMap.containsKey(id))
             scoresMap.put(id, new HashMap<>());
         HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);

@@ -54,7 +54,7 @@ public class dScreenMessages {
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            g.drawString("Ping:" + nServer.scoresMap.get(uiInterface.uuid).get("ping"),
+            g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
                     0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
@@ -390,9 +390,9 @@ public class dScreenMessages {
             }
             //broken race lap
             if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
-                    && nServer.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
+                    && cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
                 dScreenMessages.drawCenteredString(g,
-                        "LAP  " + (nServer.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
+                        "LAP  " + (cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
                                 +"/"+cVars.get("scorelimit"),
                         sSettings.width/2,sSettings.height-sSettings.height/16);
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {

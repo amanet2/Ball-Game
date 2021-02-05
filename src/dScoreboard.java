@@ -38,7 +38,7 @@ public class dScoreboard {
         int prevscore=-1000000;
         int prevplace = 0;
         String[] scoretoks = cVars.get("scoremap").split(":");
-        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
         for(String id : scoresMap.keySet()) {
             if(scoretoks.length > 0 && scoretoks.length == scoresMap.size()) {
                 if(scoretoks[i].split("-")[0].length() > 0)

@@ -150,7 +150,7 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
-        cScoreboard.resetScoresMap(nServer.scoresMap);
+        cScoreboard.resetScoresMap();
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
         if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)

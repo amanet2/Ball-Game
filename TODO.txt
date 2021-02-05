@@ -12,6 +12,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* scoreboard exception when client joins game now
 * refactor scoreboard
     -> first, get rid of all the extra "nServer.scoresMap" usage for either parameterized functions or at least a reference var
     -> then put functions that use the scoremap into cScorebaord class.  Eventually migrate master scoremap from server to scoreboard class
