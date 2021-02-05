@@ -49,6 +49,7 @@ public class cVars {
         put("blockmouseui", "0");
         put("hprechargetime", "0");
         put("inboost", "0");
+        put("inspawn", "1");
         put("intermissiontime", "-1");
         put("jumptime", "0");
         put("jumpheight", "0");

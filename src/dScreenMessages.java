@@ -383,10 +383,6 @@ public class dScreenMessages {
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU HAVE THE FLAG",
                         sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
@@ -394,12 +390,8 @@ public class dScreenMessages {
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     !cVars.isVal("flagmasterid", "")
                     && !cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"FLAG TAKEN",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                        sSettings.width / 2, 5*sSettings.height/8);
             }
             //broken race lap
             if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
@@ -418,30 +410,22 @@ public class dScreenMessages {
                     todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
                 }
                 dScreenMessages.drawCenteredString(g, todraw.toString(),
-                        sSettings.width/2,sSettings.height-sSettings.height/15);
+                        sSettings.width/2,14*sSettings.height/15);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
                 drawVirusTagString(g);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
                     && cScripts.isVirus()) {
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcoloralert").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU ARE INFECTED",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                        sSettings.width / 2, 14*sSettings.height/15);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE && cVars.get("virussingleid").length() > 0
                     && (!cVars.get("virussingleid").equals(uiInterface.uuid))) {
                 gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
                 if(p != null) {
-                    g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                            Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                            Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                            Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
                     dScreenMessages.drawCenteredString(g,String.format("%s IS INFECTED",p.get("name")),
-                            sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                            sSettings.width / 2, 14*sSettings.height/15);
                 }
             }
             if((cVars.isInt("gamemode", cGameMode.CHOSENONE)
@@ -452,28 +436,25 @@ public class dScreenMessages {
                 String textcolor = "textcolorbonus";
                 if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE))
                     textcolor = "textcoloralert";
-                g.setColor(new Color(Integer.parseInt(xCon.ex(textcolor).split(",")[0]),
-                        Integer.parseInt(xCon.ex(textcolor).split(",")[1]),
-                        Integer.parseInt(xCon.ex(textcolor).split(",")[2]),
-                        Integer.parseInt(xCon.ex(textcolor).split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU ARE THE VICTIM",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                        sSettings.width / 2, 5*sSettings.height/8);
             }
         }
         //win lose
         if((cVars.get("winnerid").length() > 0 && nServer.clientArgsMap.containsKey(cVars.get("winnerid")))) {
             if(cVars.isOne("gameteam")) {
                 drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
-                        sSettings.width / 2, sSettings.height / 3);
+                        sSettings.width / 2, 5*sSettings.height/8);
             }
             else
                 drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
-                    sSettings.width / 2, sSettings.height / 3);
+                    sSettings.width / 2, 5*sSettings.height/8);
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
             if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
-                drawCenteredString(g, "changing map...", sSettings.width / 2, 14*sSettings.height/15);
+                drawCenteredString(g,
+                        "-- changing map --", sSettings.width / 2, 14*sSettings.height/15);
             }
         }
         //messages
