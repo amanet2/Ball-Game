@@ -18,7 +18,6 @@ public class uiInterface {
     static int frames = 0;
     static long lastFrameTime = 0;
 
-    static DatagramSocket serverSocket = null;
     static DatagramSocket clientSocket = null;
     static String uuid = cScripts.createID(8);
 

@@ -18,6 +18,8 @@ public class nServer extends Thread {
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
+    static DatagramSocket serverSocket = null;
+
 
     public static nServer instance() {
         if(instance == null)
@@ -91,7 +93,7 @@ public class nServer extends Thread {
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket =
                         new DatagramPacket(sendData, sendData.length, addr, port);
-                uiInterface.serverSocket.send(sendPacket);
+                serverSocket.send(sendPacket);
                 xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
                 if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
                     kickConfirmed = true;
@@ -163,12 +165,12 @@ public class nServer extends Thread {
                 }
                 byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                if(uiInterface.serverSocket == null || uiInterface.serverSocket.isClosed()) {
+                if(serverSocket == null || serverSocket.isClosed()) {
                     uiInterface.uuid = "server";
-                    uiInterface.serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-                    uiInterface.serverSocket.setSoTimeout(sVars.getInt("timeout"));
+                    serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+                    serverSocket.setSoTimeout(sVars.getInt("timeout"));
                 }
-                uiInterface.serverSocket.receive(receivePacket);
+                serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
 //                if(nServer.clientsConnected < 1)
