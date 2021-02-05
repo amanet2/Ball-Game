@@ -12,10 +12,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* people still spawn inside other people
+    -> have a flag "isclearofspawn" that starts at 0
+    -> if(willcollidewithplayer && isclearofspawn!=0) { //then do collisions }
+    -> else {isclearofspawn = 1}
 * scoreboard exception when client joins game now
-* refactor scoreboard
-    -> first, get rid of all the extra "nServer.scoresMap" usage for either parameterized functions or at least a reference var
-    -> then put functions that use the scoremap into cScorebaord class.  Eventually migrate master scoremap from server to scoreboard class
 * make game mode appear in giant text taking up screen like in control
     -> e.g. RACE, KING OF FLAGS
         -> gonna have to be special for each gametype
@@ -47,31 +48,21 @@
     -> just one example, actual issue was in scorepoints
 * have bots eventually go back to exit teleporter after X seconds
 * save old functions to aid in rebuilding the broken functionality
-* powerups broken over net
-* race broken with maplist of scorepoints
 * goToNearestThing() function has explicit reference to flagmaster stuff
 * get rid of the scorepoints() array in the cGameLogic file
 * get rid of bouncy ball
     -> for now
 * bouncy ball broken
 * make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
-* eliminate all flagblue(), teleporters() style functions
 * get rid of the ladder prop
-* what if had a hashmap where a dummy prop was the key, which pointed to a list of props
-    ->gScene.MasterTeleporter is a gPropTeleporter() instance, and maps to a list of gPropTeleporter()
 * make sure propmap id pointers are dereferenced/removed along with the arraylist
 * add zombies gametype, a zopmbie will be a prop
     -> how many ID:coord:coord:attack sets can we cram in a send string
-* placing teleporter doesnt work in editor
-* use the strings that serve as the prop key in the objects hashmap as the load/save string for props
-    -> OR make all the appropriate arrays for the different prop subtypes in the save function
 * what the hell happened to the light fixture prop?
     -> they used to be prop 1
     -> i guess since we dont do sidescroller maps anymore it shouldnt be an issue
 * all powerup cycle at same time
     -> each powerup should have its own timer, and be longer (like halo weapons despawning)
-* people still spawn inside other people
-    -> for now dont collide with other players while spawn protection is active
 * bots not dropping weapons
     -> actually they never dropped their weapons even in the old branches
 * consider making HASHMAPS of all the current proplists, would make looking up a prop by id an O(1) op

@@ -697,7 +697,7 @@ public class cScripts {
                         pass = false;
                         break;
                     }
-                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+//                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
                         for (gPlayer target : eManager.currentMap.scene.players()) {
                             if (target.getInt("tag") != cGameLogic.userPlayer().getInt("tag") &&
                                 cGameLogic.userPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
@@ -706,7 +706,7 @@ public class cScripts {
                                 break;
                             }
                         }
-                    }
+//                    }
                 }
                 if(pass)
                     return true;
