@@ -12,29 +12,19 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* replace objectMap with flares()
-    -> dont forget to load/put in the correct data structure
-* Use a Treemap for flares instead of arraylist
+* clients need to show green +1s on their own screen
+    -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
+* flag needs to drop at dead players feet in flagmaster
+    -> ctf is more balanced the way it is
 * cut/copy/paste only works for tiles right now
     -> make generic copything() function maybe instead of copytile, copyprop, etc
 * audit unused binds and remove vestigal classes
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
     -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
     -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
-* flares probably need to be reverted to an arraylist
--> OR maybe create a thrid data structre for the map for ordered lists/maps exclusively
-    -> first try to revert flare placement order in the mapfile
-        -> then do the old-style arraylist process
-        -> remember you need unique strings in the map loading process
-    -> OR consider that flares being in a "unordered" list is just a sacrifice to make in map ability
-        -> e.g. cant layer a bunch of flares like a barbarian
--> I think the dark spot is caused by flare ordering
-    -> or a linked hashmap
-       -> SOMETHING that preserves order with the most efficient usage
 * cant select flare under mouse in mapmaker
 * bot just shooting all over instead of waiting to be in range
 * mapmakers gotta be verified heavily
-* weird dark spot under teleporter in mainmenu now
 * trying to start a new game with spawn-armed and reloading crashes
 * show the green +1 popup for the virus, flagmaster, kof, etc game modes (wouldbe nice to see the good vibes every 1s)
 * why is the currentmap NULL on first load when this wasnt happening before

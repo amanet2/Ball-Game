@@ -11,6 +11,7 @@ public class nClient extends Thread {
     static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nClient instance = null;
+    static DatagramSocket clientSocket = null;
 
     public static nClient instance() {
         if(instance == null)
@@ -63,11 +64,11 @@ public class nClient extends Thread {
                     byte[] clientSendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                             sVars.getInt("joinport"));
-                    if(uiInterface.clientSocket == null || uiInterface.clientSocket.isClosed()) {
-                        uiInterface.clientSocket = new DatagramSocket();
-                        uiInterface.clientSocket.setSoTimeout(sVars.getInt("timeout"));
+                    if(clientSocket == null || clientSocket.isClosed()) {
+                        clientSocket = new DatagramSocket();
+                        clientSocket.setSoTimeout(sVars.getInt("timeout"));
                     }
-                    uiInterface.clientSocket.send(sendPacket);
+                    clientSocket.send(sendPacket);
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
                     if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
@@ -76,7 +77,7 @@ public class nClient extends Thread {
                     else {
                         byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
                         DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        uiInterface.clientSocket.receive(receivePacket);
+                        clientSocket.receive(receivePacket);
                         receivedPackets.add(receivePacket);
                     }
                 }

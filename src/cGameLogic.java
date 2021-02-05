@@ -234,7 +234,7 @@ public class cGameLogic {
     public static void checkDisconnectStatus() {
         if(sSettings.net_client && cVars.isOne("disconnectconfirmed")) {
             cVars.put("disconnecting", "0");
-            uiInterface.clientSocket.close();
+            nClient.clientSocket.close();
             sSettings.net_client = false;
             xCon.ex("load " + sVars.get("defaultmap"));
             if (uiInterface.inplay)

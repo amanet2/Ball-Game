@@ -17,8 +17,6 @@ public class uiInterface {
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
     static long lastFrameTime = 0;
-
-    static DatagramSocket clientSocket = null;
     static String uuid = cScripts.createID(8);
 
 	public static void startTicker() {
