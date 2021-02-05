@@ -765,45 +765,4 @@ public class cScripts {
         }
         return virusSb.toString();
     }
-
-    public static String getTopScoreString() {
-        int topscore = 0;
-        int tiectr = 0;
-        String winnerName = "";
-        if(cVars.isZero("gameteam")) {
-            for(String id : nServer.scoresMap.keySet()) {
-                if(nServer.scoresMap.get(id).get("score") > topscore) {
-                    tiectr = 0;
-                    topscore = nServer.scoresMap.get(id).get("score");
-                    winnerName = cGameLogic.getPlayerById(id).get("name") + " ("+topscore+")";
-                }
-                else if(topscore > 0 && nServer.scoresMap.get(id).get("score") == topscore) {
-                    tiectr++;
-                }
-            }
-            if(tiectr > 0) {
-                winnerName = winnerName + " + " + tiectr + " others";
-            }
-        }
-        else {
-            String[] colors = sVars.getArray("colorselection");
-            int[] colorscores = new int[colors.length];
-            Arrays.fill(colorscores, 0);
-            for(String id : nServer.scoresMap.keySet()) {
-                gPlayer p = cGameLogic.getPlayerById(id);
-                for(int j = 0; j < colors.length; j++) {
-                    if(p.get("color").equals(colors[j])) {
-                        colorscores[j] = nServer.scoresMap.get(id).get("score");
-                    }
-                }
-            }
-            for(int i = 0; i < colorscores.length; i++) {
-                if(colorscores[i] > topscore) {
-                    topscore = colorscores[i];
-                    winnerName = colors[i] + " (" + colorscores[i]+")";
-                }
-            }
-        }
-        return winnerName;
-    }
 }

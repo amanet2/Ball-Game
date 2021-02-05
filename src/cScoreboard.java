@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class cScoreboard {
@@ -78,6 +79,49 @@ public class cScoreboard {
             }
         }
         return scoresMap.get(id).get("score") > 0;
+    }
+
+    public static String getTopScoreString() {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        int topscore = 0;
+        int tiectr = 0;
+        String winnerName = "";
+        if(cVars.isZero("gameteam")) {
+            for(String id : scoresMap.keySet()) {
+                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+                if(scoresMapIdMap.get("score") > topscore) {
+                    tiectr = 0;
+                    topscore = scoresMapIdMap.get("score");
+                    winnerName = cGameLogic.getPlayerById(id).get("name") + " ("+topscore+")";
+                }
+                else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
+                    tiectr++;
+                }
+            }
+            if(tiectr > 0) {
+                winnerName = winnerName + " + " + tiectr + " others";
+            }
+        }
+        else {
+            String[] colors = sVars.getArray("colorselection");
+            int[] colorscores = new int[colors.length];
+            Arrays.fill(colorscores, 0);
+            for(String id : scoresMap.keySet()) {
+                gPlayer p = cGameLogic.getPlayerById(id);
+                for(int j = 0; j < colors.length; j++) {
+                    if(p.get("color").equals(colors[j])) {
+                        colorscores[j] = scoresMap.get(id).get("score");
+                    }
+                }
+            }
+            for(int i = 0; i < colorscores.length; i++) {
+                if(colorscores[i] > topscore) {
+                    topscore = colorscores[i];
+                    winnerName = colors[i] + " (" + colorscores[i]+")";
+                }
+            }
+        }
+        return winnerName;
     }
 
     public static String getWinnerId() {
