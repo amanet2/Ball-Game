@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.HashMap;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
@@ -37,17 +38,19 @@ public class dScoreboard {
         int prevscore=-1000000;
         int prevplace = 0;
         String[] scoretoks = cVars.get("scoremap").split(":");
-        for(String id : nServer.scoresMap.keySet()) {
-            if(scoretoks.length > 0 && scoretoks.length == nServer.scoresMap.size()) {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        for(String id : scoresMap.keySet()) {
+            if(scoretoks.length > 0 && scoretoks.length == scoresMap.size()) {
                 if(scoretoks[i].split("-")[0].length() > 0)
                     id = scoretoks[i].split("-")[0];
             }
             String playername = cGameLogic.getPlayerById(id).get("name");
             String playercolor = cGameLogic.getPlayerById(id).get("color");
-            int playerwins = nServer.scoresMap.get(id).get("wins");
-            int playerscore = nServer.scoresMap.get(id).get("score");
-            int playerkills = nServer.scoresMap.get(id).get("kills");
-            int playerping = nServer.scoresMap.get(id).get("ping");
+            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+            int playerwins = scoresMapIdMap.get("wins");
+            int playerscore = scoresMapIdMap.get("score");
+            int playerkills = scoresMapIdMap.get("kills");
+            int playerping = scoresMapIdMap.get("ping");
             if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),

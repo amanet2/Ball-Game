@@ -10,18 +10,10 @@ public class cScoreboard {
         nServer.scoresMap = new HashMap<>();
         scoresMap = nServer.scoresMap;
         if(sSettings.net_server) {
-            scoresMap.put("server", new HashMap<>());
-            scoresMap.get("server").put("wins", 0);
-            scoresMap.get("server").put("score", 0);
-            scoresMap.get("server").put("kills", 0);
-            scoresMap.get("server").put("ping", 0);
+            addId("server");
             for(String id : savedWins.keySet()) {
                 if(!scoresMap.containsKey(id)) {
-                    scoresMap.put(id, new HashMap<>());
-                    scoresMap.get(id).put("wins", 0);
-                    scoresMap.get(id).put("score", 0);
-                    scoresMap.get(id).put("kills", 0);
-                    scoresMap.get(id).put("ping", 0);
+                    addId(id);
                 }
                 scoresMap.get(id).put("wins", savedWins.get(id));
             }
