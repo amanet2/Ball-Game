@@ -24,7 +24,7 @@ public class dScreenMessages {
                 }
             }
             dScreenMessages.drawCenteredString(g, todraw.toString(),
-                    sSettings.width/2,sSettings.height-sSettings.height/16);
+                    sSettings.width/2,sSettings.height-sSettings.height/15);
         }
     }
 
@@ -375,11 +375,11 @@ public class dScreenMessages {
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
             dScreenMessages.drawCenteredString(g,
                     eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis()),
-                    sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                    sSettings.width / 2, sSettings.height - sSettings.height / 15);
         }
 
         //game alerts
-        if(cGameLogic.userPlayer() != null) {
+        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {
@@ -388,7 +388,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcolorbonus").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU HAVE THE FLAG",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
@@ -399,7 +399,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"FLAG TAKEN",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
             //broken race lap
             if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
@@ -407,7 +407,7 @@ public class dScreenMessages {
                 dScreenMessages.drawCenteredString(g,
                         "LAP  " + (cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
                                 +"/"+cVars.get("scorelimit"),
-                        sSettings.width/2,sSettings.height-sSettings.height/16);
+                        sSettings.width/2,sSettings.height-sSettings.height/15);
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
                 StringBuilder todraw = new StringBuilder();
                 //this is where we show the checkmarks for kof flag caps
@@ -418,7 +418,7 @@ public class dScreenMessages {
                     todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
                 }
                 dScreenMessages.drawCenteredString(g, todraw.toString(),
-                        sSettings.width/2,sSettings.height-sSettings.height/16);
+                        sSettings.width/2,sSettings.height-sSettings.height/15);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
                 drawVirusTagString(g);
@@ -430,7 +430,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
                         Integer.parseInt(xCon.ex("textcoloralert").split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU ARE INFECTED",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE && cVars.get("virussingleid").length() > 0
                     && (!cVars.get("virussingleid").equals(uiInterface.uuid))) {
@@ -441,7 +441,7 @@ public class dScreenMessages {
                             Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                             Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
                     dScreenMessages.drawCenteredString(g,String.format("%s IS INFECTED",p.get("name")),
-                            sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                            sSettings.width / 2, sSettings.height - sSettings.height / 15);
                 }
             }
             if((cVars.isInt("gamemode", cGameMode.CHOSENONE)
@@ -457,7 +457,7 @@ public class dScreenMessages {
                         Integer.parseInt(xCon.ex(textcolor).split(",")[2]),
                         Integer.parseInt(xCon.ex(textcolor).split(",")[3])));
                 dScreenMessages.drawCenteredString(g,"YOU ARE THE VICTIM",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 16);
+                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
         }
         //win lose
@@ -472,12 +472,8 @@ public class dScreenMessages {
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
-            if(cVars.getInt("timeleft") < Integer.parseInt(xCon.ex("countdowntimeleft")) &&
-            cVars.get("winnerid").length() < 1) {
-                drawCenteredString(g, cVars.getInt("timeleft") > 0 && !nServer.clientArgsMap.containsKey(cVars.get("winnerid"))
-                                ? String.format("%s remaining",
-                        eUtils.getTimeString(cVars.getLong("timeleft"))) : "changing map...",
-                        sSettings.width / 2, 62 * sSettings.height / 64);
+            if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
+                drawCenteredString(g, "changing map...", sSettings.width / 2, 14*sSettings.height/15);
             }
         }
         //messages

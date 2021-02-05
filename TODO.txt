@@ -12,26 +12,20 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* people still spawn inside other people
-    -> have a flag "isclearofspawn" that starts at 0
-    -> if(willcollidewithplayer && isclearofspawn!=0) { //then do collisions }
-    -> else {isclearofspawn = 1}
-* scoreboard exception when client joins game now
-* make game mode appear in giant text taking up screen like in control
-    -> e.g. RACE, KING OF FLAGS
-        -> gonna have to be special for each gametype
-        -> can create showGameModetitle() for each gamemode object when i turn it into a class-based structure
 * waypoints game mode doesnt show scorepoint for clients
 * client cant score in safezones
 * horrible crash when client wins deathmatch mode
     -> processActionLoadClient line 611
 * client locks up and cant exit when loses connection to server, has to close cmd window
+* scoreboard exception when client joins game now
 * timeout negative-timeout sleep() exception
     -> nServer.run line 182
 * clients need to show green +1s on their own screen
     -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
 * flag needs to drop at dead players feet in flagmaster
     -> ctf is more balanced the way it is
+* for ctf, have multiple red flags spawn around the map, have a few equidistant blue flag "stations" to bring them to
+    -> like a fuzion frenzy type thing
 * cut/copy/paste only works for tiles right now
     -> make generic copything() function maybe instead of copytile, copyprop, etc
 * audit unused binds and remove vestigal classes

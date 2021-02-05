@@ -29,18 +29,18 @@ public class cGameMode {
             "Victim"
     };
     static String[] net_gamemode_descriptions = {
-            "Kill other players",
-            "Complete laps",
-            "Reach the zone in time",
-            "Capture the red flag",
-            "Touch every flag",
-            "Be first to the zone",
+            "Kill other players for points",
+            "Capture every waypoint to complete a lap",
+            "Reach the zone before the countdown ends",
+            "Bring the red flag to the blue flag",
+            "Earn points for each flag held",
+            "Get to the waypoint before anyone else",
             "Don't catch the virus",
-            "Virus, but one at a time",
-            "Hold the flag the longest",
+            "Don't catch the virus",
+            "Hold onto the flag for the longest time",
             "Bounce the ball into the goal",
             "Kill the chosen one to become them",
-            "Kill the chosen one for points"
+            "Kill the victim for points"
     };
 
     public static void resetKingOfFlags() {

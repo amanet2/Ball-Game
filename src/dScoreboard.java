@@ -9,16 +9,14 @@ public class dScoreboard {
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
-        dScreenMessages.drawCenteredString(g, cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
-                sSettings.width/2,
-                3*sSettings.height/30);
+        dScreenMessages.drawCenteredString(g,
+                cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
+                        + cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
+                sSettings.width/2, 2*sSettings.height/30);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-        dScreenMessages.drawCenteredString(g,"--------",
-                sSettings.width/2,
-                4*sSettings.height/30);
         g.drawString("["+nServer.clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
@@ -26,7 +24,8 @@ public class dScoreboard {
                 sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                               Ping",
                 sSettings.width/4,5*sSettings.height/30);
-
+        g.drawString("-------------------------------------------------------------------",
+                sSettings.width/4, 6*sSettings.height/30);
         int i = 0;
         int prevscore=-1000000;
         int prevplace = 0;
@@ -59,15 +58,15 @@ public class dScoreboard {
             g.drawString(String.format("%d. ", place+1)
                             + (cVars.isOne("gameteam") ? "(" +playercolor+")" : "")
                             + playername, sSettings.width/4,
-                    6 * sSettings.height / 30 + i * sSettings.height / 30);
+                    7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                           " + playerwins,
-                    sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                       " + playerscore,
-                    sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                   " + playerkills,
-                    sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                               " + playerping,
-                    sSettings.width/4,6 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
                         Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
