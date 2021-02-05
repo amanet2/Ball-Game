@@ -115,4 +115,13 @@ public class cScoreboard {
         }
         return highestScore;
     }
+
+    public static void addId(String id) {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        scoresMap.put(id, new HashMap<>());
+        scoresMap.get(id).put("wins", 0);
+        scoresMap.get(id).put("score", 0);
+        scoresMap.get(id).put("kills", 0);
+        scoresMap.get(id).put("ping", 0);
+    }
 }
