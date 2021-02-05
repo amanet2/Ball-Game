@@ -766,38 +766,6 @@ public class cScripts {
         return virusSb.toString();
     }
 
-    public static String getWinnerId() {
-        int highestScore = 0;
-        String highestId = "";
-        boolean pass = false;
-        while (!pass) {
-            pass = true;
-            for(String id : nServer.scoresMap.keySet()) {
-                if(nServer.scoresMap.get(id).get("score") > highestScore) {
-                    pass = false;
-                    highestId = id;
-                    highestScore = nServer.scoresMap.get(id).get("score");
-                }
-            }
-        }
-        return highestId;
-    }
-
-    public static int getWinnerScore() {
-        int highestScore = 0;
-        boolean pass = false;
-        while (!pass) {
-            pass = true;
-            for(String id : nServer.scoresMap.keySet()) {
-                if(nServer.scoresMap.get(id).get("score") > highestScore) {
-                    pass = false;
-                    highestScore = nServer.scoresMap.get(id).get("score");
-                }
-            }
-        }
-        return highestScore;
-    }
-
     public static String getTopScoreString() {
         int topscore = 0;
         int tiectr = 0;

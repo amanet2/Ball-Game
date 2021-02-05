@@ -15,7 +15,12 @@
 * refactor scoreboard
     -> first, get rid of all the extra "nServer.scoresMap" usage for either parameterized functions or at least a reference var
     -> then put functions that use the scoremap into cScorebaord class.  Eventually migrate master scoremap from server to scoreboard class
+* make game mode appear in giant text taking up screen like in control
+    -> e.g. RACE, KING OF FLAGS
+        -> gonna have to be special for each gametype
+        -> can create showGameModetitle() for each gamemode object when i turn it into a class-based structure
 * waypoints game mode doesnt show scorepoint for clients
+* client cant score in safezones
 * horrible crash when client wins deathmatch mode
     -> processActionLoadClient line 611
 * client locks up and cant exit when loses connection to server, has to close cmd window
@@ -31,23 +36,14 @@
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
     -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
     -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
-* cant select flare under mouse in mapmaker
 * bot just shooting all over instead of waiting to be in range
 * mapmakers gotta be verified heavily
 * trying to start a new game with spawn-armed and reloading crashes
-* show the green +1 popup for the virus, flagmaster, kof, etc game modes (wouldbe nice to see the good vibes every 1s)
 * why is the currentmap NULL on first load when this wasnt happening before
-* weird waypoint glitches in race mode
-* refactore objectsMap.get with scene.getThingMap
-    -> might wanna make the objectMap private
 * gamemodes need to have a subclass structure like the props do
     -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
-* bots just hanging around one single flag in kof mode
 * make sure botscripts dont get messed up by refactoring "teleporter" to PROP_TELEPORTER
     -> just one example, actual issue was in scorepoints
-* for safezone, maybe have server hold "safezoneid" which will then be matched up to the right safezone, no int0/int1
-required?
-    -> prolly still want int0 to flip from 0 to 1 and such
 * have bots eventually go back to exit teleporter after X seconds
 * save old functions to aid in rebuilding the broken functionality
 * powerups broken over net
@@ -59,10 +55,6 @@ required?
 * bouncy ball broken
 * make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
 * eliminate all flagblue(), teleporters() style functions
-*safe zone messed up
-    -> use id instead of tag for prop in safezone
-        -> maybe start using those hashmaps
-            -> do teleporter first
 * get rid of the ladder prop
 * what if had a hashmap where a dummy prop was the key, which pointed to a list of props
     ->gScene.MasterTeleporter is a gPropTeleporter() instance, and maps to a list of gPropTeleporter()

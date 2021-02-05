@@ -79,4 +79,40 @@ public class cScoreboard {
         }
         return scoresMap.get(id).get("score") > 0;
     }
+
+    public static String getWinnerId() {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        int highestScore = 0;
+        String highestId = "";
+        boolean pass = false;
+        while (!pass) {
+            pass = true;
+            for(String id : scoresMap.keySet()) {
+                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+                if(scoresMapIdMap.get("score") > highestScore) {
+                    pass = false;
+                    highestId = id;
+                    highestScore = scoresMapIdMap.get("score");
+                }
+            }
+        }
+        return highestId;
+    }
+
+    public static int getWinnerScore() {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        int highestScore = 0;
+        boolean pass = false;
+        while (!pass) {
+            pass = true;
+            for(String id : scoresMap.keySet()) {
+                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+                if(scoresMapIdMap.get("score") > highestScore) {
+                    pass = false;
+                    highestScore = scoresMapIdMap.get("score");
+                }
+            }
+        }
+        return highestScore;
+    }
 }

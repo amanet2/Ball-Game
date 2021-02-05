@@ -922,7 +922,7 @@ public class cGameLogic {
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
-            || (cScripts.getWinnerScore() >= cVars.getInt("scorelimit"))) {
+            || (cScoreboard.getWinnerScore() >= cVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
@@ -937,7 +937,7 @@ public class cGameLogic {
                 }
                 else {
                     //someone beats score
-                    String highestId = cScripts.getWinnerId();
+                    String highestId = cScoreboard.getWinnerId();
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
                         if(cVars.isOne("gameteam"))
