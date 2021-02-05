@@ -12,6 +12,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* refactor scoreboard
+    -> first, get rid of all the extra "nServer.scoresMap" usage for either parameterized functions or at least a reference var
+    -> then put functions that use the scoremap into cScorebaord class.  Eventually migrate master scoremap from server to scoreboard class
+* waypoints game mode doesnt show scorepoint for clients
+* horrible crash when client wins deathmatch mode
+    -> processActionLoadClient line 611
+* client locks up and cant exit when loses connection to server, has to close cmd window
+* timeout negative-timeout sleep() exception
+    -> nServer.run line 182
 * clients need to show green +1s on their own screen
     -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
 * flag needs to drop at dead players feet in flagmaster
@@ -47,7 +56,6 @@ required?
 * get rid of the scorepoints() array in the cGameLogic file
 * get rid of bouncy ball
     -> for now
-* waypoints game mode broken
 * bouncy ball broken
 * make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
 * eliminate all flagblue(), teleporters() style functions
@@ -55,8 +63,6 @@ required?
     -> use id instead of tag for prop in safezone
         -> maybe start using those hashmaps
             -> do teleporter first
-* waypoints stopped working for ctf, kof and more
-    -> when the waypoint deals with prop objects directly
 * get rid of the ladder prop
 * what if had a hashmap where a dummy prop was the key, which pointed to a list of props
     ->gScene.MasterTeleporter is a gPropTeleporter() instance, and maps to a list of gPropTeleporter()

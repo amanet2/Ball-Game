@@ -150,28 +150,7 @@ public class cGameLogic {
     }
 
     public static void resetGameState() {
-        HashMap<String, Integer> savedWins = new HashMap<>();
-        for(String id : nServer.scoresMap.keySet()) {
-            savedWins.put(id, nServer.scoresMap.get(id).get("wins"));
-        }
-        nServer.scoresMap = new HashMap<>();
-        if(sSettings.net_server) {
-            nServer.scoresMap.put("server", new HashMap<>());
-            nServer.scoresMap.get("server").put("wins", 0);
-            nServer.scoresMap.get("server").put("score", 0);
-            nServer.scoresMap.get("server").put("kills", 0);
-            nServer.scoresMap.get("server").put("ping", 0);
-            for(String id : savedWins.keySet()) {
-                if(!nServer.scoresMap.containsKey(id)) {
-                    nServer.scoresMap.put(id, new HashMap<>());
-                    nServer.scoresMap.get(id).put("wins", 0);
-                    nServer.scoresMap.get(id).put("score", 0);
-                    nServer.scoresMap.get(id).put("kills", 0);
-                    nServer.scoresMap.get(id).put("ping", 0);
-                }
-                nServer.scoresMap.get(id).put("wins", savedWins.get(id));
-            }
-        }
+        cScoreboard.resetScoresMap(nServer.scoresMap);
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
         if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
@@ -947,7 +926,8 @@ public class cGameLogic {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
-                if(cScripts.isTopScore()) {
+                //check for server win
+                if(cScoreboard.isTopScoreId("server")) {
                     cVars.put("winnerid", "server");
                     if(cVars.isOne("gameteam"))
                         xCon.ex("say " + sVars.get("playercolor") + " team wins!");

@@ -743,18 +743,6 @@ public class cScripts {
         }
     }
 
-    public static boolean isTopScore() {
-        for(String otherClientId : nServer.scoresMap.keySet()) {
-            if(!otherClientId.equals(cGameLogic.userPlayer().get("id"))) {
-                if(nServer.scoresMap.get(otherClientId).get("score")
-                > nServer.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score")) {
-                    return false;
-                }
-            }
-        }
-        return nServer.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") > 0;
-    }
-
     public static void goToEndScreen() {
         cVars.putLong("intermissiontime",
                 System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));

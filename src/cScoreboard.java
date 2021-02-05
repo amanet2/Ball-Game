@@ -1,41 +1,51 @@
+import java.util.HashMap;
+
 public class cScoreboard {
-    public static String createScoreMapStringServer() {
-        String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
-        StringBuilder scoreString = new StringBuilder();
-        for(String id : nServer.scoresMap.keySet()) {
-            for(String fn : scoreFields) {
-                if(!nServer.scoresMap.get(id).containsKey(fn))
-                    nServer.scoresMap.get(id).put(fn, 0);
-            }
-            scoreString.append(String.format("%s-%s-%s-%s-%s:",
-                    id,
-                    nServer.scoresMap.get(id).get(scoreFields[0]),
-                    nServer.scoresMap.get(id).get(scoreFields[1]),
-                    nServer.scoresMap.get(id).get(scoreFields[2]),
-                    nServer.scoresMap.get(id).get(scoreFields[3])
-            ));
+    public static void resetScoresMap(HashMap<String, HashMap<String, Integer>> scoresMap) {
+        HashMap<String, Integer> savedWins = new HashMap<>();
+        for(String id : scoresMap.keySet()) {
+            savedWins.put(id, scoresMap.get(id).get("wins"));
         }
-        return scoreString.toString();
+        nServer.scoresMap = new HashMap<>();
+        scoresMap = nServer.scoresMap;
+        if(sSettings.net_server) {
+            scoresMap.put("server", new HashMap<>());
+            scoresMap.get("server").put("wins", 0);
+            scoresMap.get("server").put("score", 0);
+            scoresMap.get("server").put("kills", 0);
+            scoresMap.get("server").put("ping", 0);
+            for(String id : savedWins.keySet()) {
+                if(!scoresMap.containsKey(id)) {
+                    scoresMap.put(id, new HashMap<>());
+                    scoresMap.get(id).put("wins", 0);
+                    scoresMap.get(id).put("score", 0);
+                    scoresMap.get(id).put("kills", 0);
+                    scoresMap.get(id).put("ping", 0);
+                }
+                scoresMap.get(id).put("wins", savedWins.get(id));
+            }
+        }
     }
 
-    public static String createSortedScoreMapStringServer() {
+    public static String createSortedScoreMapStringServer(HashMap<String, HashMap<String, Integer>> scoresMap) {
         String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
         StringBuilder scoreString = new StringBuilder();
-        String[] sortedIds = new String[nServer.scoresMap.keySet().size()];
+        String[] sortedIds = new String[scoresMap.keySet().size()];
         int ic = 0;
-        for(String id : nServer.scoresMap.keySet()) {
+        for(String id : scoresMap.keySet()) {
             sortedIds[ic++] = id;
+            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
             for(String fn : scoreFields) {
-                if(!nServer.scoresMap.get(id).containsKey(fn))
-                    nServer.scoresMap.get(id).put(fn, 0);
+                if(!scoresMapIdMap.containsKey(fn))
+                    scoresMapIdMap.put(fn, 0);
             }
         }
         boolean sorted = false;
         while(!sorted) {
             sorted = true;
             for(int i = 0; i < sortedIds.length-1; i++) {
-                if(nServer.scoresMap.get(sortedIds[i]).get("score")
-                        < nServer.scoresMap.get(sortedIds[i+1]).get("score")) {
+                if(scoresMap.get(sortedIds[i]).get("score")
+                        < scoresMap.get(sortedIds[i+1]).get("score")) {
                     sorted = false;
                     String tmp = sortedIds[i];
                     sortedIds[i] = sortedIds[i+1];
@@ -44,14 +54,29 @@ public class cScoreboard {
             }
         }
         for(int i = 0 ; i < sortedIds.length; i++) {
+            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(sortedIds[i]);
             scoreString.append(String.format("%s-%s-%s-%s-%s:",
                     sortedIds[i],
-                    nServer.scoresMap.get(sortedIds[i]).get(scoreFields[0]),
-                    nServer.scoresMap.get(sortedIds[i]).get(scoreFields[1]),
-                    nServer.scoresMap.get(sortedIds[i]).get(scoreFields[2]),
-                    nServer.scoresMap.get(sortedIds[i]).get(scoreFields[3])
+                    scoresMapIdMap.get(scoreFields[0]),
+                    scoresMapIdMap.get(scoreFields[1]),
+                    scoresMapIdMap.get(scoreFields[2]),
+                    scoresMapIdMap.get(scoreFields[3])
             ));
         }
         return scoreString.toString();
+    }
+
+    public static boolean isTopScoreId(String id) {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        if(scoresMap.containsKey(id)) {
+            for(String otherId : scoresMap.keySet()) {
+                if(!otherId.equals(id)) {
+                    if(scoresMap.get(otherId).get("score") > scoresMap.get(id).get("score")) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return scoresMap.get(id).get("score") > 0;
     }
 }
