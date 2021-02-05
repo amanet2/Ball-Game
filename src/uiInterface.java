@@ -7,6 +7,7 @@ public class uiInterface {
 	static long gameTimeNanos = System.nanoTime();
 	static long tickCounterTime = gameTime;
 	static long tickTime = gameTime;
+	static long tickTimeNanos = gameTimeNanos;
 	static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
 	static long networkTime = gameTime;
@@ -15,7 +16,7 @@ public class uiInterface {
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
-    static long nextFrameTime = -1;
+    static long lastFrameTime = 0;
 
     static DatagramSocket serverSocket = null;
     static DatagramSocket clientSocket = null;
@@ -35,7 +36,6 @@ public class uiInterface {
                 else if(sSettings.net_client && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
-                nextFrameTime = gameTime + (1000/sSettings.framerate);
                 gameTimeNanos = System.nanoTime();
                 //game loop
                 if(sSettings.net_server && cVars.getInt("timeleft") > 0)
@@ -46,8 +46,8 @@ public class uiInterface {
                     nServer.addBots();
                     cVars.remove("serveraddbots");
                 }
-                while(tickTime < gameTime) {
-                    tickTime += (1000/cVars.getInt("gametick"));
+                while(tickTimeNanos < gameTimeNanos) {
+                    tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     oDisplay.instance().checkDisplay();
                     oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
@@ -81,27 +81,38 @@ public class uiInterface {
 //                while(vFrameFactory.instance().frameImageQueue.size() > 1) {
 //                    vFrameFactory.instance().frameImageQueue.remove();
 //                }
-                oDisplay.instance().frame.repaint();
-                frames += 1;
-                if (framecounterTime < uiInterface.gameTime) {
-                    fpsReport = frames;
-                    frames = 0;
-                    framecounterTime = gameTime + 1000;
-                }
+//                if(lastFrameTime < nextFrameTime) {
+                    oDisplay.instance().frame.repaint();
+                    frames += 1;
+                    lastFrameTime = System.currentTimeMillis();
+                    if (framecounterTime < lastFrameTime) {
+                        fpsReport = frames;
+                        frames = 0;
+                        framecounterTime = lastFrameTime + 1000;
+                    }
+//                }
                 //sleep
-                if(sVars.isOne("lowpowermode")) {
-                    if (sSettings.framerate > 999) {
-                        long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
-                        Thread.sleep(0, Math.max(0, (int) toSleepNanos));
+//                if(sVars.isOne("lowpowermode")) {
+//                    long toSleepNanos = (gameTimeNanos + (1000000000/sSettings.framerate)) - System.nanoTime();
+                long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+                    while(nextFrameTime >= System.nanoTime()) {
+                        //do nothing
                     }
-                    else {
-//                        long toSleepMillis = nextFrameTime - gameTime;
-                        long toSleepMillis = nextFrameTime - System.currentTimeMillis();
-                        if(toSleepMillis > 0)
-                            Thread.sleep(toSleepMillis-1);
-//                        Thread.sleep(Math.max(0, toSleepMillis));
-                    }
-                }
+//                    System.out.println(toSleepNanos);
+//                    if(toSleepNanos > 0)
+//                        Thread.sleep(0, (int) toSleepNanos);
+//                    if (sSettings.framerate > 999) {
+//                        long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
+//                        Thread.sleep(0, Math.max(0, (int) toSleepNanos));
+//                    }
+//                    else {
+//                        long toSleepMillis = (gameTime + (long) (1000.0/(double)sSettings.framerate))
+//                                - lastFrameTime;
+//                        if(toSleepMillis > 0)
+//                            Thread.sleep(toSleepMillis);
+////                        Thread.sleep(Math.max(0, toSleepMillis));
+//                    }
+//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
