@@ -124,4 +124,15 @@ public class cScoreboard {
         scoresMap.get(id).put("kills", 0);
         scoresMap.get(id).put("ping", 0);
     }
+
+    public static void incrementScoreFieldById(String id, String field) {
+        HashMap<String, HashMap<String, Integer>> scoresMap = nServer.scoresMap;
+        if(!scoresMap.containsKey(id))
+            scoresMap.put(id, new HashMap<>());
+        HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+        if(!scoresMapIdMap.containsKey(field))
+            scoresMapIdMap.put(field, 0);
+        int nscore = scoresMapIdMap.get(field) + 1;
+        scoresMapIdMap.put(field, nscore);
+    }
 }

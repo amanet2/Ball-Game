@@ -63,15 +63,6 @@ public class nServer extends Thread {
         }
     }
 
-    public static void incrementScoreFieldById(String id, String field) {
-        if(!nServer.scoresMap.containsKey(id))
-            nServer.scoresMap.put(id, new HashMap<>());
-        if(!nServer.scoresMap.get(id).containsKey(field))
-            nServer.scoresMap.get(id).put(field, 0);
-        int nscore = nServer.scoresMap.get(id).get(field) + 1;
-        nServer.scoresMap.get(id).put(field, nscore);
-    }
-
     public static void processPackets() {
         try {
             if(receivedPackets.size() > 0) {

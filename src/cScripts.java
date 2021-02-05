@@ -490,7 +490,7 @@ public class cScripts {
                     cVars.put("botkillername", killername);
                     cVars.put("botkillerid", killerid);
                     if (sSettings.net_server) {
-                        nServer.incrementScoreFieldById(killerid, "kills");
+                        cScoreboard.incrementScoreFieldById(killerid, "kills");
                         xCon.ex("say " + cVars.get("botkillername") + " killed " + dmgvictim.get("name"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                             xCon.ex("givepoint " + killerid);
@@ -554,7 +554,7 @@ public class cScripts {
                     cVars.put("killername", killername);
                     cVars.put("killerid", killerid);
                     if (sSettings.net_server) {
-                        nServer.incrementScoreFieldById(killerid, "kills");
+                        cScoreboard.incrementScoreFieldById(killerid, "kills");
                         xCon.ex("say " + killername + " killed " + sVars.get("playername"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                             xCon.ex("givepoint " + killerid);

@@ -10,7 +10,7 @@ public class xComGivePoint extends xCom {
                 String color = cGameLogic.getPlayerById(id).get("color");
                 for (String mapid : nServer.scoresMap.keySet()) {
                     if (color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
-                        nServer.incrementScoreFieldById(mapid, "score");
+                        cScoreboard.incrementScoreFieldById(mapid, "score");
                         gPlayer givePointPlayer = cGameLogic.getPlayerById(mapid);
                         if(givePointPlayer != null) {
                             cScripts.createScorePopup(givePointPlayer, 1);
@@ -19,7 +19,7 @@ public class xComGivePoint extends xCom {
                 }
             }
             else {
-                nServer.incrementScoreFieldById(id, "score");
+                cScoreboard.incrementScoreFieldById(id, "score");
                 gPlayer givePointPlayer = cGameLogic.getPlayerById(id);
                 if(givePointPlayer != null) {
                     cScripts.createScorePopup(givePointPlayer, 1);

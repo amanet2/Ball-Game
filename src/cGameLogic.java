@@ -521,7 +521,7 @@ public class cGameLogic {
                     xCon.ex("say " + packName + " lost the flag!");
                 }
                 if (action.replace("killedby", "").equals("server")) {
-                    nServer.incrementScoreFieldById("server", "kills");
+                    cScoreboard.incrementScoreFieldById("server", "kills");
                     xCon.ex("say " + sVars.get("playername") + " killed " + packName);
                     if(gamemode == cGameMode.DEATHMATCH) {
                         xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
@@ -544,7 +544,7 @@ public class cGameLogic {
                 else {
                     String killerid = action.replace("killedby", "");
                     if(!killerid.equals("God")) {
-                        nServer.incrementScoreFieldById(killerid, "kills");
+                        cScoreboard.incrementScoreFieldById(killerid, "kills");
                         if (gamemode == cGameMode.DEATHMATCH)
                             xCon.ex("givepoint " + killerid);
                         xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
@@ -933,7 +933,7 @@ public class cGameLogic {
                         xCon.ex("say " + sVars.get("playercolor") + " team wins!");
                     else
                         xCon.ex("say " + sVars.get("playername") + " wins!");
-                    nServer.incrementScoreFieldById("server", "wins");
+                    cScoreboard.incrementScoreFieldById("server", "wins");
                 }
                 else {
                     //someone beats score
@@ -947,7 +947,7 @@ public class cGameLogic {
                             xCon.ex("say "
                                     + nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.net_server) {
-                            nServer.incrementScoreFieldById(cVars.get("winnerid"), "wins");
+                            cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                         }
                     }
                 }
