@@ -95,9 +95,7 @@ public class uiInterface {
 //                if(sVars.isOne("lowpowermode")) {
 //                    long toSleepNanos = (gameTimeNanos + (1000000000/sSettings.framerate)) - System.nanoTime();
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
-                    while(nextFrameTime >= System.nanoTime()) {
-                        //do nothing
-                    }
+                while(nextFrameTime >= System.nanoTime()); //do nothing
 //                    System.out.println(toSleepNanos);
 //                    if(toSleepNanos > 0)
 //                        Thread.sleep(0, (int) toSleepNanos);
