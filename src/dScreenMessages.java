@@ -236,12 +236,25 @@ public class dScreenMessages {
         }
         //big font
         cScripts.setFontNormal(g);
+        if(uiInterface.inplay) {
+            g.drawString(String.format("%s",cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
+                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 5 * sSettings.height / 30);
+            g.drawString(eManager.currentMap.mapName.toUpperCase(),
+                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 4 * sSettings.height / 30);
+            g.drawString(cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 3 * sSettings.height / 30);
+            g.drawString(cVars.get("scorelimit") + "pts to win",
+                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 2 * sSettings.height / 30);
+            g.drawString(eUtils.getTimeString(cVars.getLong("timeleft")) + " remaining",
+                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - sSettings.height / 30);
+        }
         //wip notice
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 100));
-        g.drawString("WORK IN PROGRESS",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
+        drawCenteredString(g, "WORK IN PROGRESS",
+                sSettings.width/2, sSettings.height - sSettings.height / 6);
         //big font
         cScripts.setFontNormal(g);
         //say

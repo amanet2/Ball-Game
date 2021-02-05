@@ -8,18 +8,16 @@ public class uiMenusControls extends uiMenu {
                 new uiMenuItem("player left: "+(char)(int)xCon.getKeyCodeForComm("playerleft")),
                 new uiMenuItem("player right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
                 new uiMenuItem("attack: Mouse Left"),
-                new uiMenuItem("speed boost: Mouse Right/Shift"),
-                new uiMenuItem("jump/drop weapon: Space"),
+                new uiMenuItem("speed boost: Shift"),
+                new uiMenuItem("drop weapon: Space"),
                 new uiMenuItem("crouch: Ctrl"),
                 new uiMenuItem("reload weapon: "+(char)(int)xCon.getKeyCodeForComm("reload")),
-                new uiMenuItem("change weapon: Mouse Wheel"),
                 new uiMenuItem("flashlight: "+(char)(int)xCon.getKeyCodeForComm("flashlight")),
                 new uiMenuItem("center camera: "+(char)(int)xCon.getKeyCodeForComm("centercamera")),
                 new uiMenuItem("show scoreboard: Tab"),
                 new uiMenuItem("chat message: "+(char)(int)xCon.getKeyCodeForComm("chat")),
                 new uiMenuItem("zoom in: "+(char)(int)xCon.getKeyCodeForComm("zoom")),
                 new uiMenuItem("zoom out: "+(char)(int)xCon.getKeyCodeForComm("-zoom")),
-                new uiMenuItem("console: ~"),
         };
         return gameControls;
     }

@@ -9,13 +9,6 @@ public class dScoreboard {
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
-        dScreenMessages.drawCenteredString(g,String.format("%s | %s%s",eManager.currentMap.mapName,
-                cGameMode.net_gamemode_texts[cVars.getInt("gamemode")],cVars.isOne("gameteam") ? "-TEAM" : ""),
-                sSettings.width/2,
-                sSettings.height/30);
-        dScreenMessages.drawCenteredString(g, cVars.get("scorelimit") + "pts to win | "
-                        + eUtils.getTimeString(cVars.getLong("timeleft")) + " remaining",
-                sSettings.width/2, 2*sSettings.height/30);
         dScreenMessages.drawCenteredString(g, cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2,
                 3*sSettings.height/30);

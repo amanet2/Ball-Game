@@ -106,9 +106,10 @@ public class nVars {
             keys.put("armed", cVars.get("gamespawnarmed"));
             keys.put("kick", nServer.kickClientIds.size() > 0 ? nServer.kickClientIds.peek() : "");
             keys.put("map", eManager.currentMap.mapName);
-            if(keys.containsKey("mode") && !keys.get("mode").equals(cVars.get("gamemode")))
-                xCon.ex("say GAME MODE: "
-                        + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase());
+//            if(keys.containsKey("mode") && !keys.get("mode").equals(cVars.get("gamemode"))) {
+//                String gameMode = "GAME: " + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase();
+//                xCon.ex("echo "+gameMode);
+//            }
             keys.put("mode", cVars.get("gamemode"));
             keys.put("powerups", cPowerups.createPowerupStringServer());
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
