@@ -444,16 +444,17 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithinTileAtCoords(gTile target, int dx, int dy) {
+        int xstart = target.getInt("coordx");
+        int ystart = target.getInt("coordy")+75;
+        int xend = target.getInt("coordx")+target.getInt("dim0w");
+        int yend = target.getInt("coordy") + target.getInt("dim0h");
+        target.put("occupied", (dx >= xstart && dx <= ystart) && (dy >= ystart && dy <= yend) ? "1" : "0");
         if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
             boolean bounceOverSafe = true;
             cVars.put("suppressknocksound", "0");
             Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));
             Rectangle targetbounds = new Rectangle(target.getInt("coordx"), target.getInt("coordy") + 75,
                     target.getInt("dim0w"), target.getInt("dim0h") - 75);
-            int xstart = target.getInt("coordx");
-            int ystart = target.getInt("coordy")+75;
-            int xend = target.getInt("coordx")+target.getInt("dim0w");
-            int yend = target.getInt("coordy") + target.getInt("dim0h");
             bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); //0 (the tile component)
             targetbounds = new Rectangle(target.getInt("coordx"),
                     target.getInt("coordy") + target.getInt("dim0h"),

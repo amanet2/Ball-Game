@@ -383,14 +383,14 @@ public class dScreenMessages {
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                dScreenMessages.drawCenteredString(g,"YOU HAVE THE FLAG",
+                dScreenMessages.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
                         sSettings.width / 2, sSettings.height - sSettings.height / 15);
             }
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     !cVars.isVal("flagmasterid", "")
                     && !cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                dScreenMessages.drawCenteredString(g,"FLAG TAKEN",
+                dScreenMessages.drawCenteredString(g,">>FLAG TAKEN!<<",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
             //broken race lap

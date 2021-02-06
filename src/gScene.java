@@ -33,16 +33,13 @@ public class gScene {
 
 	HashMap<String, ArrayList> objectLists;
 	HashMap<String, HashMap> objectMaps;
-	HashMap<String, TreeMap> objectOrderedMaps;
 
 	public gScene() {
 		objectLists = new HashMap<>();
 		objectMaps = new HashMap<>();
-        objectOrderedMaps = new HashMap<>();
 		for(String s : object_titles) {
 			objectLists.put(s, new ArrayList<>());
             objectMaps.put(s, new HashMap<>());
-            objectOrderedMaps.put(s, new TreeMap<>());
         }
 	}
 
@@ -50,17 +47,12 @@ public class gScene {
 	    gScene toReturn = new gScene();
 	    toReturn.objectLists = new HashMap<>();
 	    toReturn.objectMaps = new HashMap<>();
-	    toReturn.objectOrderedMaps = new HashMap<>();
 	    for(String s : object_titles) {
 	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
         }
 	    //OBJECTMAP BELOW
         for(String objectType : objectMaps.keySet()) {
             toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
-        }
-        //OBJECTORDEREDMAP BELOW
-        for(String objectType : objectOrderedMaps.keySet()) {
-            toReturn.objectOrderedMaps.put(objectType, new TreeMap<>(objectOrderedMaps.get(objectType)));
         }
 	    return toReturn;
     }
@@ -108,10 +100,6 @@ public class gScene {
 
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
-    }
-
-    public TreeMap<String, gThing> getThingOrderedMap(String thing_title) {
-	    return objectOrderedMaps.get(thing_title);
     }
 
     static String getObjTitleForCode(int code) {
