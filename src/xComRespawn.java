@@ -5,14 +5,14 @@ public class xComRespawn extends xCom {
     public String doCommand(String fullCommand) {
         int randomSpawnpointIndex = ThreadLocalRandom.current().nextInt(0,
                 eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
-        ArrayList<String> spawnpointids = new ArrayList<>();
-        for(String id : eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet()) {
-            spawnpointids.add(id);
-        }
+        ArrayList<String> spawnpointids =
+                new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());
         String randomId = spawnpointids.get(randomSpawnpointIndex);
         gPropSpawnpoint spawnpoint =
                 (gPropSpawnpoint) eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").get(randomId);
 
+
+        //player-centric spawn comands
         xCon.ex("THING_PLAYER.0.coordx " + (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
                 - cGameLogic.userPlayer().getInt("dimw") / 2));
         xCon.ex("THING_PLAYER.0.coordy "+ (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
