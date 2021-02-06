@@ -12,7 +12,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* create spawnpoint prop
+    -> thats gonna fix this once and for all
+* literally have two functions checking can spawn
+    -> one in the console comm and one in the player obj
+        -> go with player obj, that way we can reuse that code for bots
 * double +1 when capturing flag
+* player joining can spawn on top of player
+    -> this is because the user player is always first in the list so he cant detect other players
+    -> character should be in "dead" state when joining an online game, then respawning that way will avoid collisions
 * bot can still spawn on top of player
     -> have var in each tile called "occupied"
     -> set it to true when we detect character bounds intersecting the spawn tile's bounds

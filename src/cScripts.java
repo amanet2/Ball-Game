@@ -534,6 +534,7 @@ public class cScripts {
         if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
             cGameLogic.damageHealth(adjusteddmg);
             if(cVars.getInt("stockhp") < 1) {
+                dmgvictim.putInt("alive", 0);
                 if(!cVars.contains("respawntime")) {
                     xCon.ex("dropweapon");
                     //drop flag on death if holding flag in flagmaster game mode
@@ -697,15 +698,15 @@ public class cScripts {
                     }
 //                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
                     //occupied should take care of it but check these to make sure
-                        for (gPlayer target : eManager.currentMap.scene.players()) {
-                            if (target.getInt("tag") != cGameLogic.userPlayer().getInt("tag") &&
-                                (cGameLogic.userPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
-                                t.getInt("coordy"))
-                                || (dx == target.getInt("coordx") && dy == target.getInt("coordy")))) {
-                                pass = false;
-                                break;
-                            }
-                        }
+//                        for (gPlayer target : eManager.currentMap.scene.players()) {
+//                            if (target.getInt("tag") != cGameLogic.userPlayer().getInt("tag") &&
+//                                (cGameLogic.userPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
+//                                t.getInt("coordy"))
+//                                || (dx == target.getInt("coordx") && dy == target.getInt("coordy")))) {
+//                                pass = false;
+//                                break;
+//                            }
+//                        }
 //                    }
                 }
                 if(pass)

@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +33,24 @@ public class eManager {
     }
 
 	public static void updateEntityPositions() {
+	    for(gTile tile : eManager.currentMap.scene.tiles()) {
+	        int tx = tile.getInt("coordx");
+	        int ty = tile.getInt("coordy");
+	        int tw = tile.getInt("dimw");
+	        int th = tile.getInt("dimh");
+            Rectangle2D tileBounds = new Rectangle(tx,ty,tw,th);
+	        for(gPlayer player : eManager.currentMap.scene.players()) {
+                int px = player.getInt("coordx");
+                int py = player.getInt("coordy");
+                int pw = player.getInt("dimw");
+                int ph = player.getInt("dimh");
+                Rectangle2D playerBounds = new Rectangle(px,py,pw,ph);
+                if(tileBounds.intersects(playerBounds) ||
+                (px+pw >= tx && px <= tx+tw && py+ph >= ty && py <= ty+th)) {
+                    tile.put("occupied", "1");
+                }
+            }
+        }
         for(gPlayer obj : eManager.currentMap.scene.players()) {
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");

@@ -34,6 +34,7 @@ public class xComRespawn extends xCom {
                             cScripts.refillWeaponStocks();
                         }
                         cVars.put("stockhp", cVars.get("maxstockhp"));
+                        cGameLogic.userPlayer().put("alive", "1");
                         xCon.ex("cv_flashlight 0");
                         xCon.ex("cv_sprint 0");
                         xCon.ex("cv_stockspeed cv_maxstockspeed");
