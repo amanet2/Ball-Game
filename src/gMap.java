@@ -34,6 +34,7 @@ public class gMap {
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
         propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
         propLoadMap.put("PROP_POWERUP", new gDoablePropReturnPowerup());
+        propLoadMap.put("PROP_SPAWNPOINT", new gDoablePropReturnSpawnpoint());
         thingLoadMap = new HashMap<>();
         thingLoadMap.put("THING_FLARE", new gDoableThingReturnFlare());
     }

@@ -12,6 +12,7 @@ public class gProp extends gThing {
     static final int POWERUP = 7;
     static final int BOOSTUP = 8;
     static final int BALLBOUNCY = 9;
+    static final int SPAWNPOINT = 10;
 
     public boolean isType(int code) {
         return isInt("code", code);
@@ -33,12 +34,43 @@ public class gProp extends gThing {
                 return "PROP_POWERUP";
             case BOOSTUP:
                 return "PROP_BOOSTUP";
+            case SPAWNPOINT:
+                return "PROP_SPAWNPOINT";
 //            case BALLBOUNCY:
 //                return "ballbouncy";
             default:
                 return "prop 1"; //for light fixture
         }
     }
+
+    //old and shitty
+    static String[] propSelection = new String[]{
+            "Teleporter",
+            "Light1",
+            "Ladder",
+            "Score Point",
+            "Safe Point",
+            "Flag-Red",
+            "Flag-Blue",
+            "Powerup",
+            "Boostup",
+            "Ball (Bouncy)",
+            "Spawn Point"
+    };
+
+    static String[] propSpriteSelection = new String[]{
+            "misc/misc_energy_ball_trans_purple.png",
+            "misc/light1.png",
+            "misc/ladder.png",
+            "notexture",
+            "notexture",
+            "misc/flag_red.png",
+            "misc/flag_blue.png",
+            "misc/powerup.png",
+            "misc/boostup.png",
+            "misc/misc_energy_ball_fire.png",
+            "notexture"
+    };
 
     public gProp load(String[] args) {
         return null;
@@ -277,32 +309,6 @@ public class gProp extends gThing {
         put("sprite", newpath);
         sprite = gTextures.getScaledImage(get("sprite"), getInt("dimw"), getInt("dimh"));
     }
-
-    static String[] propSelection = new String[]{
-        "Teleporter",
-        "Light1",
-        "Ladder",
-        "Score Point",
-        "Safe Point",
-        "Flag-Red",
-        "Flag-Blue",
-        "Powerup",
-        "Boostup",
-        "Ball (Bouncy)"
-    };
-
-    static String[] propSpriteSelection = new String[]{
-        "misc/misc_energy_ball_trans_purple.png",
-        "misc/light1.png",
-        "misc/ladder.png",
-        "notexture",
-        "notexture",
-        "misc/flag_red.png",
-        "misc/flag_blue.png",
-        "misc/powerup.png",
-        "misc/boostup.png",
-        "misc/misc_energy_ball_fire.png"
-    };
 
     public gProp(int t, int ux, int uy, int x, int y, int w, int h) {
         super();

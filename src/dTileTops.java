@@ -423,15 +423,6 @@ public class dTileTops {
             int mousey = MouseInfo.getPointerInfo().getLocation().y;
             int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
             int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
-            // -- spawn points
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                if(t.isOne("canspawn")) {
-                    g2.setColor(new Color(255, 100, 255, 100));
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx")-cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy")-cVars.getInt("camy")),
-                            eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh")));
-                }
-            }
             // -- selected tile
             if(eManager.currentMap.scene.tiles().size() > cEditorLogic.state.selectedTileId) {
                 int st = cEditorLogic.state.selectedTileId;

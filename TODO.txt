@@ -12,6 +12,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* code in editorPutProp needs to be stored in the prop object instead of that fucking switch case
+* dont have to spawn in center of spawnpoint prop
+* for new spawnpoint prop, gonna have to detect when NOT occupied
+    ->use eManager.updateEntityPositions func
 * create spawnpoint prop
     -> thats gonna fix this once and for all
 * literally have two functions checking can spawn

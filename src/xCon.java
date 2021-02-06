@@ -250,37 +250,35 @@ public class xCon {
                     }
                     return cVars.get(configval.substring(3));
                 }
-                if(gScene.object_titles != null) {
-                    String[] otoks = configval.split("\\.");
-                    if(otoks.length > 2) {
-                        String type = otoks[0];
-                        int tag = Integer.parseInt(otoks[1]);
-                        String var = otoks[2];
-                        if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
-                            gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
-                            if(args.length > 1) {
-                                //process the arg by checking if svar or cvar can be subbed in
-                                String val = args[1];
-                                if(sVars.contains(val))
-                                    val = sVars.get(val);
-                                if(val.length() > 3 && val.substring(0,3).equals("cv_")
-                                        && cVars.contains(val.substring(0,3)))
-                                    val = cVars.get(val.substring(3));
-                                g.put(var, val);
-                            }
-                            else if(g.canDo(var)) {
-                                g.doDoable(var);
-                            }
-                            return g.get(var);
+                String[] otoks = configval.split("\\.");
+                if(otoks.length > 2) {
+                    String type = otoks[0];
+                    int tag = Integer.parseInt(otoks[1]);
+                    String var = otoks[2];
+                    if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
+                        gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
+                        if(args.length > 1) {
+                            //process the arg by checking if svar or cvar can be subbed in
+                            String val = args[1];
+                            if(sVars.contains(val))
+                                val = sVars.get(val);
+                            if(val.length() > 3 && val.substring(0,3).equals("cv_")
+                                    && cVars.contains(val.substring(0,3)))
+                                val = cVars.get(val.substring(3));
+                            g.put(var, val);
                         }
+                        else if(g.canDo(var)) {
+                            g.doDoable(var);
+                        }
+                        return g.get(var);
                     }
-                    else if(otoks.length > 1) {
-                        String type = otoks[0];
-                        int tag = Integer.parseInt(otoks[1]);
-                        if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
-                            gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
-                            return g.vars().toString();
-                        }
+                }
+                else if(otoks.length > 1) {
+                    String type = otoks[0];
+                    int tag = Integer.parseInt(otoks[1]);
+                    if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
+                        gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
+                        return g.vars().toString();
                     }
                 }
             }

@@ -58,6 +58,14 @@ public class xComEditorPutProp extends xCom {
                     eManager.currentMap.scene.props().add(boostup);
                     eManager.currentMap.scene.getThingMap("PROP_BOOSTUP").put(boostup.get("id"), boostup);
                     break;
+                case gProp.SPAWNPOINT:
+                    gPropSpawnpoint spawnpoint = new gPropSpawnpoint(int0, int1, x, y, w, h);
+                    spawnpoint.put("id", cScripts.createID(8));
+                    spawnpoint.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
+                    spawnpoint.putInt("native", 1);
+                    eManager.currentMap.scene.props().add(spawnpoint);
+                    eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").put(spawnpoint.get("id"), spawnpoint);
+                    break;
                 default:
                     break;
             }
