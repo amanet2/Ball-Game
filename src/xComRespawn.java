@@ -9,7 +9,7 @@ public class xComRespawn extends xCom {
             while(true) {
                 int randomNum = ThreadLocalRandom.current().nextInt(0,
                     eManager.currentMap.scene.tiles().size());
-                gTile t = eManager.currentMap.scene.tiles().get(randomNum);
+                gThingTile t = eManager.currentMap.scene.tiles().get(randomNum);
                 if(t.isOne("canspawn") && !cGameLogic.userPlayer().willCollideWithinTileAtCoords(t,
                     t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.userPlayer().getInt("dimw")/2,
                     t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.userPlayer().getInt("dimh")/2)) {

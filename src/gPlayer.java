@@ -11,7 +11,7 @@ public class gPlayer extends gThing {
     }
 
     public boolean canJump() {
-        for(gTile t : eManager.currentMap.scene.tiles()) {
+        for(gThingTile t : eManager.currentMap.scene.tiles()) {
             if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
                 && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
                 && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
@@ -46,7 +46,7 @@ public class gPlayer extends gThing {
     public boolean wontClipOnMove(int coord, int coord2) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
-        for (gTile target : eManager.currentMap.scene.tiles()) {
+        for (gThingTile target : eManager.currentMap.scene.tiles()) {
             if(willCollideWithinTileAtCoords(target, dx, dy) || willCollideWithinCornerTileAtCoords(target, dx, dy)) {
                 if(cVars.getLong("knocksoundtime") < uiInterface.gameTime && !cVars.isOne("suppressknocksound")) {
                     cVars.putLong("knocksoundtime", uiInterface.gameTime + cVars.getInt("knocksoundtimegap"));
@@ -233,7 +233,7 @@ public class gPlayer extends gThing {
         return true;
     }
 
-    public boolean bouncesBounds(Shape bounds, gTile target) {
+    public boolean bouncesBounds(Shape bounds, gThingTile target) {
         return bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75,
                 target.getInt("dim0w"), target.getInt("dim0h")-75))
                 || bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75+target.getInt("dimh")
@@ -252,7 +252,7 @@ public class gPlayer extends gThing {
                 target.getInt("dim6h")+target.getInt("dim3h")));
     }
 
-    public boolean willCollideWithinCornerTileAtCoords(gTile t, int dx, int dy) {
+    public boolean willCollideWithinCornerTileAtCoords(gThingTile t, int dx, int dy) {
         Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));
         if(t.getInt("dim6w") == -1) {  //cornerUR
             Polygon cornerbounds = new Polygon(
@@ -443,7 +443,7 @@ public class gPlayer extends gThing {
         return false;
     }
 
-    public boolean willCollideWithinTileAtCoords(gTile target, int dx, int dy) {
+    public boolean willCollideWithinTileAtCoords(gThingTile target, int dx, int dy) {
         if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
             boolean bounceOverSafe = true;
             cVars.put("suppressknocksound", "0");

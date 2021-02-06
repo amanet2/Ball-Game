@@ -11,7 +11,7 @@ public class gBullet extends gThing {
                 p.getInt("dimw"), p.getInt("dimh")));
     }
 
-    public boolean doesCollideWithinTile(gTile target) {
+    public boolean doesCollideWithinTile(gThingTile target) {
         Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"), getInt("dimw"), getInt("dimh"));
         return bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75,
             target.getInt("dim0w"), target.getInt("dim0h")-75))
@@ -29,7 +29,7 @@ public class gBullet extends gThing {
             target.getInt("dim6h")));
     }
 
-    public boolean doesCollideWithinCornerTile(gTile t) {
+    public boolean doesCollideWithinCornerTile(gThingTile t) {
         Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"), getInt("dimw"), getInt("dimh"));
         if(t.getInt("dim6w") == -1) {  //cornerUR
             return eUtils.pointInsideTriangle(getInt("coordx")+getInt("dimw")/2,

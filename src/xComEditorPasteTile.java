@@ -6,7 +6,7 @@ public class xComEditorPasteTile extends xCom {
     public String doCommand(String fullCommand) {
         String[] dontcopy = new String[]{"id", "coordx", "coordy", "canspawn", "sprite0", "sprite1", "sprite2"};
         List dontCopyList = Arrays.asList(dontcopy);
-        gTile p = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
+        gThingTile p = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
         for(String k : cEditorLogic.state.newTile.vars().keySet()) {
             if(!dontCopyList.contains(k)) {
                 p.put(k, cEditorLogic.state.newTile.get(k));

@@ -1,12 +1,12 @@
 import java.awt.Image;
 
-public class gTile extends gThing {
+public class gThingTile extends gThing {
     Image[] sprites;
     Image spriteT;
     Image spriteTW;
 
-    public gTile(int x, int y, int w, int h, int nh, int nmh, int mh, int smh, int sh, int lw, int rw, String tt,
-                 String mt, String bt, int bl, int sp) {
+    public gThingTile(int x, int y, int w, int h, int nh, int nmh, int mh, int smh, int sh, int lw, int rw, String tt,
+                      String mt, String bt, int bl, int sp) {
         super();
         put("type", "THING_TILE");
         putInt("coordx", x);

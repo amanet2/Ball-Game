@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class xComEditorSetSelectedTileDims extends xCom {
     public String doCommand(String fullCommand) {
-        gTile p = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
+        gThingTile p = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
         if(p != null) {
             JTextField[] jfields = new JTextField[p.vars().keySet().size()];
             int i = 0;

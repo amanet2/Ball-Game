@@ -4,7 +4,7 @@ public class dTileWalls {
     public static void drawWalls(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         //two passes, first pass corners, second reg walls
-        for(gTile t: eManager.currentMap.scene.tiles()) {
+        for(gThingTile t: eManager.currentMap.scene.tiles()) {
             dShadows.drawTileShadows(g2, t);
             int d6w = t.getInt("dim6w");
             if(d6w == -2 || d6w == -3) { //BR and BL
@@ -34,7 +34,7 @@ public class dTileWalls {
                 }
             }
         }
-        for(gTile t : eManager.currentMap.scene.tiles()) {
+        for(gThingTile t : eManager.currentMap.scene.tiles()) {
             int d6w = t.getInt("dim6w");
             if (t.sprites[1] != null) {
                 g2.drawImage(t.sprites[1],

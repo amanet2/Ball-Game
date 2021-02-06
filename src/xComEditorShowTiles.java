@@ -5,7 +5,7 @@ public class xComEditorShowTiles extends xCom {
     public String doCommand(String fullCommand) {
         Object[] titles = new Object[eManager.currentMap.scene.tiles().size()];
         for(int i=0;i < titles.length;i++) {
-            gTile t = eManager.currentMap.scene.tiles().get(i);
+            gThingTile t = eManager.currentMap.scene.tiles().get(i);
             titles[i] = String.format("%s. %s %s %s %s %s %d %d %d %d %d %d %d %d %d %s %s\n",
                 t.get("id"),
                 t.get("sprite0").replace(xCon.ex("datapath")+"/",""),

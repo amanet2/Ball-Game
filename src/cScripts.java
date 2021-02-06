@@ -140,7 +140,7 @@ public class cScripts {
         switch (objType) {
             case gScene.THING_TILE:
                 for (int i=eManager.currentMap.scene.tiles().size()-1; i >= 0; i--) {
-                    gTile t = eManager.currentMap.scene.tiles().get(i);
+                    gThingTile t = eManager.currentMap.scene.tiles().get(i);
                     if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedTileId != i)) {
                         xCon.ex(String.format("e_selecttile %d", i));
                         return;
@@ -387,7 +387,7 @@ public class cScripts {
                 }
                 continue;
             }
-            for(gTile t : eManager.currentMap.scene.tiles()) {
+            for(gThingTile t : eManager.currentMap.scene.tiles()) {
                 if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
                         && b.getInt("src") != gWeapons.type.GLOVES.code()
                 && b.isZero("isexplosionpart")) {
@@ -623,7 +623,7 @@ public class cScripts {
 
     public static void moveTileDown(int tag) {
         if(tag > 0) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag-1);
+            gThingTile tmp = eManager.currentMap.scene.tiles().get(tag-1);
             eManager.currentMap.scene.tiles().set(tag-1, eManager.currentMap.scene.tiles().get(tag));
             eManager.currentMap.scene.tiles().set(tag, tmp);
         }
@@ -631,7 +631,7 @@ public class cScripts {
 
     public static void movetileUp(int tag) {
         if(tag < eManager.currentMap.scene.tiles().size()-1) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag+1);
+            gThingTile tmp = eManager.currentMap.scene.tiles().get(tag+1);
             eManager.currentMap.scene.tiles().set(tag+1, eManager.currentMap.scene.tiles().get(tag));
             eManager.currentMap.scene.tiles().set(tag, tmp);
         }
@@ -683,12 +683,12 @@ public class cScripts {
     }
 
     public static boolean canSpawnPlayer() {
-        for(gTile t : eManager.currentMap.scene.tiles()) {
+        for(gThingTile t : eManager.currentMap.scene.tiles()) {
             if(t.isOne("canspawn") && !cGameLogic.userPlayer().willCollideWithinTileAtCoords(t,
                 t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.userPlayer().getInt("dimw")/2,
                 t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.userPlayer().getInt("dimh")/2)) {
                 boolean pass = true;
-                for(gTile td : eManager.currentMap.scene.tiles()) {
+                for(gThingTile td : eManager.currentMap.scene.tiles()) {
                     if(cGameLogic.userPlayer().willCollideWithinTileAtCoords(td,
                         t.getInt("coordx") + t.getInt("dimw")/2
                             - cGameLogic.userPlayer().getInt("dimw")/2,

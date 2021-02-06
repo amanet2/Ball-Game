@@ -18,7 +18,7 @@ public class xComEditorPutTile extends xCom {
             String bt = toks[14];
             int bl = Integer.parseInt(toks[15]);
             int sp = Integer.parseInt(toks[16]);
-            gTile t = new gTile(eUtils.roundToNearest(
+            gThingTile t = new gThingTile(eUtils.roundToNearest(
                 eUtils.unscaleInt(x) + cVars.getInt("camx") - w / 2, cEditorLogic.state.snapToX),
                 eUtils.roundToNearest(eUtils.unscaleInt(y) + cVars.getInt("camy") - h / 2,
                     cEditorLogic.state.snapToY), w, h, nth, nmh, mh, sth, smh, lh, rh, eUtils.getPath(tt),

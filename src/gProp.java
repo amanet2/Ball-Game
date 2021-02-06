@@ -175,7 +175,7 @@ public class gProp extends gThing {
         return true;
     }
 
-    public boolean bouncesBounds(Shape bounds, gTile target) {
+    public boolean bouncesBounds(Shape bounds, gThingTile target) {
         return bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75,
                 target.getInt("dim0w"), target.getInt("dim0h")-75))
                 || bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75+target.getInt("dimh")
@@ -198,7 +198,7 @@ public class gProp extends gThing {
     public boolean wontClipOnMove(int coord, int coord2) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
-        for (gTile target : eManager.currentMap.scene.tiles()) {
+        for (gThingTile target : eManager.currentMap.scene.tiles()) {
             if(willCollideWithinTileAtCoords(target, dx, dy)) {
                 return false;
             }
@@ -206,7 +206,7 @@ public class gProp extends gThing {
         return true;
     }
 
-    public boolean willCollideWithinTileAtCoords(gTile target, int dx, int dy) {
+    public boolean willCollideWithinTileAtCoords(gThingTile target, int dx, int dy) {
         if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
             boolean bounceSafe = true;
             Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));

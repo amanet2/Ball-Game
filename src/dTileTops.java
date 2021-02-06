@@ -1,12 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class dTileTops {
     public static void drawTops(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        for(gTile t : eManager.currentMap.scene.tiles()) {
+        for(gThingTile t : eManager.currentMap.scene.tiles()) {
             if(t.sprites[0] != null) {
                 g2.drawImage(t.sprites[0],
                         eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
@@ -386,7 +385,7 @@ public class dTileTops {
             snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
-            for(gTile t : eManager.currentMap.scene.tiles()) {
+            for(gThingTile t : eManager.currentMap.scene.tiles()) {
                 RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY),
                         eUtils.scaleInt(maxd/2), new float[]{0f, 1f},
                         new Color[]{new Color(0,0,0,0), new Color(0,0,0,255-t.getInt("brightness"))}
@@ -398,7 +397,7 @@ public class dTileTops {
             }
         }
         else {
-            for(gTile t : eManager.currentMap.scene.tiles()) {
+            for(gThingTile t : eManager.currentMap.scene.tiles()) {
                 g2.setColor(new Color(0,0,0,255-t.getInt("brightness")));
                 g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
@@ -424,7 +423,7 @@ public class dTileTops {
             int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
             int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
             // -- spawn points
-            for(gTile t : eManager.currentMap.scene.tiles()) {
+            for(gThingTile t : eManager.currentMap.scene.tiles()) {
                 if(t.isOne("canspawn")) {
                     g2.setColor(new Color(255, 100, 255, 100));
                     g2.fillRect(eUtils.scaleInt(t.getInt("coordx")-cVars.getInt("camx")),

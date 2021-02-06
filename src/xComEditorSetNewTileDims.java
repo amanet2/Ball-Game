@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class xComEditorSetNewTileDims extends xCom {
     public String doCommand(String fullCommand) {
-        gTile p = cEditorLogic.state.newTile;
+        gThingTile p = cEditorLogic.state.newTile;
         if(p != null) {
             JTextField[] jfields = new JTextField[p.vars().keySet().size()];
             int i = 0;

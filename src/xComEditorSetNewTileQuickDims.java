@@ -2,7 +2,7 @@ public class xComEditorSetNewTileQuickDims extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
-            gTile t = cEditorLogic.state.newTile;
+            gThingTile t = cEditorLogic.state.newTile;
             int[] ods = new int[]{t.getInt("dimw"), t.getInt("dimh")};
             t.put("dimw", toks[1]);
             t.put("dimh", toks[2]);
