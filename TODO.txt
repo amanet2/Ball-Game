@@ -13,9 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * bot can still spawn on top of player
-    -> have var "inspawn" set to 1 on respawn
-    -> if(wilcollide && inspawn != 1) to start
-    -> else inspawn = 0
+    -> have var in each tile called "occupied"
+    -> set it to true when we detect character bounds intersecting the spawn tile's bounds
 * waypoints game mode doesnt show scorepoint for clients
 * client cant score in safezones
 * horrible crash when client wins deathmatch mode
