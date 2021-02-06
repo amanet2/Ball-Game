@@ -11,6 +11,10 @@ public class dScreenMessages {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
+    public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
+    }
+
     public static void drawVirusTagString(Graphics g) {
         if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
                 && nServer.clientArgsMap.get("server").containsKey("state")) {
@@ -237,16 +241,16 @@ public class dScreenMessages {
         //big font
         cScripts.setFontNormal(g);
         if(uiInterface.inplay) {
-            g.drawString(String.format("%s",cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
-                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 5 * sSettings.height / 30);
-            g.drawString(eManager.currentMap.mapName.toUpperCase(),
-                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 4 * sSettings.height / 30);
-            g.drawString(cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 3 * sSettings.height / 30);
-            g.drawString(cVars.get("scorelimit") + "pts to win",
-                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - 2 * sSettings.height / 30);
-            g.drawString(eUtils.getTimeString(cVars.getLong("timeleft")) + " remaining",
-                    sSettings.width - (int)(sSettings.width / 3.5), sSettings.height - sSettings.height / 30);
+            drawRightJustifiedString(g, String.format("%s",cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
+                    29*sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
+            drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
+                    29*sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+            drawRightJustifiedString(g,
+                    cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + "pts <<",
+                    29*sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+            drawRightJustifiedString(g, cVars.get("scorelimit") + "pts to win | "
+                            + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    29*sSettings.width / 30, sSettings.height - sSettings.height / 30);
         }
         //wip notice
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
@@ -394,12 +398,13 @@ public class dScreenMessages {
                         sSettings.width / 2, 5*sSettings.height/8);
             }
             //broken race lap
-            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
-                    && cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
-                dScreenMessages.drawCenteredString(g,
-                        "LAP  " + (cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
-                                +"/"+cVars.get("scorelimit"),
-                        sSettings.width/2,sSettings.height-sSettings.height/15);
+//            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
+////                    && cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
+////                dScreenMessages.drawCenteredString(g,
+////                        "LAP  " + (cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
+////                                +"/"+cVars.get("scorelimit"),
+////                        sSettings.width/2,sSettings.height-sSettings.height/15);
+            // king of flags
             if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
                 StringBuilder todraw = new StringBuilder();
                 //this is where we show the checkmarks for kof flag caps

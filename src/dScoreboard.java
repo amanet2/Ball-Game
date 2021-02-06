@@ -17,6 +17,8 @@ public class dScoreboard {
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+//        dScreenMessages.drawRightJustifiedString(g, eManager.currentMap.mapName,
+//                14*sSettings.width/60, 5*sSettings.height/30);
         g.drawString("["+nServer.clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
