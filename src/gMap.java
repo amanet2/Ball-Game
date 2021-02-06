@@ -164,7 +164,7 @@ public class gMap {
             }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
-                String str = String.format("flare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
+                String str = String.format("THING_FLARE %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
                         f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
                         f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
                         f.getInt("a2"), b);
