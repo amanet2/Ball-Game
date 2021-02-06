@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class xComAddBot extends xCom {
     public String doCommand(String fullCommand) {
         String[] botnameselection = sVars.getArray("botnameselection");
