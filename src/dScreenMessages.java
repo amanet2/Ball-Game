@@ -88,7 +88,7 @@ public class dScreenMessages {
             g.drawString("---",0,15*sSettings.height/64);
             if(cEditorLogic.state.createObjCode == gScene.THING_TILE
             && cEditorLogic.state.selectedTileId < eManager.currentMap.scene.tiles().size()) {
-                gThingTile t = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
+                gTile t = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
                 int c = 0;
                 for(String s : t.vars().keySet()) {
                     g.drawString(

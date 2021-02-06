@@ -11,7 +11,7 @@ public class cEditorLogic {
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
     static cEditorLogicState state = new cEditorLogicState(30,30, "",
             new JMenuItem(""),0,0,0, gScene.THING_TILE,
-            new gThingTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
+            new gTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
                     100, gTextures.selection_top[0], gTextures.selection_wall[0], gTextures.selection_floor[0],
                     255, 0),
             new gProp(gProp.TELEPORTER, 0, 0, 0, 0, 300, 300),

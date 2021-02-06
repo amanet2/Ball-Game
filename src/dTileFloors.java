@@ -15,7 +15,7 @@ public class dTileFloors {
                     eUtils.scaleInt(6000 - cVars.getInt("camy")));
             }
         }
-        for(gThingTile tile : eManager.currentMap.scene.tiles()) {
+        for(gTile tile : eManager.currentMap.scene.tiles()) {
             if(tile.sprites[2] != null) {
                 g2.drawImage(tile.sprites[2],
                     eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),

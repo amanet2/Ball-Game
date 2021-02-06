@@ -12,7 +12,7 @@ public class xComBotRespawn extends xCom {
             tries++;
             int randomNum = ThreadLocalRandom.current().nextInt(0,
                 eManager.currentMap.scene.tiles().size());
-            gThingTile t = eManager.currentMap.scene.tiles().get(randomNum);
+            gTile t = eManager.currentMap.scene.tiles().get(randomNum);
             gPlayer bot = null;
             HashMap botMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
             for(Object id : botMap.keySet()) {

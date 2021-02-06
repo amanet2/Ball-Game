@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class dShadows {
-    public static void drawTileShadows(Graphics2D g2, gThingTile t) {
+    public static void drawTileShadows(Graphics2D g2, gTile t) {
         if(sVars.isOne("vfxenableshadows")) {
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             if(t.getInt("dim1h") > 0) {

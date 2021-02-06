@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
@@ -79,7 +80,7 @@ public class gMap {
                     }
                 }
                 else if (lineToks[0].toLowerCase().equals("tile")) {
-                    gThingTile tile = new gThingTile(
+                    gTile tile = new gTile(
                         Integer.parseInt(lineToks[4]),
                         Integer.parseInt(lineToks[5]),
                         Integer.parseInt(lineToks[6]),
@@ -143,7 +144,7 @@ public class gMap {
                     writer.write(s + "\n");
                 }
             }
-            for(gThingTile t : scene.tiles()) {
+            for(gTile t : scene.tiles()) {
                 String str = String.format("tile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d %s\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite1").replace(xCon.ex("datapath")+"/",""),

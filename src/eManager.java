@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -130,7 +131,7 @@ public class eManager {
             }
             if((rr > 0.90 || (currentMap.scene.props().size() < 1 && currentMap.scene.flares().size() < 1))
                 && currentMap.scene.tiles().size() > 0){
-                gThingTile r = eManager.currentMap.scene.tiles().get((int)(Math.random() * (currentMap.scene.tiles().size()-1)));
+                gTile r = eManager.currentMap.scene.tiles().get((int)(Math.random() * (currentMap.scene.tiles().size()-1)));
                 cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
                 cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
             }

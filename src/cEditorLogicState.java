@@ -11,11 +11,11 @@ public class cEditorLogicState {
     int selectedFlareTag;
     int createObjCode;
     gScene mapScene;
-    gThingTile newTile;
+    gTile newTile;
     gProp newProp;
     gFlare newFlare;
 
-    public cEditorLogicState(int stx, int sty, String st, JMenuItem stmi, int sti, int spi, int sfi, int coc, gThingTile nt,
+    public cEditorLogicState(int stx, int sty, String st, JMenuItem stmi, int sti, int spi, int sfi, int coc, gTile nt,
                              gProp np, gFlare nf, gScene ms) {
         newTile = nt;
         newProp = np;

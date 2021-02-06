@@ -62,7 +62,7 @@ public class gTextures {
 
     public static void refreshObjectSprites() {
         scaled_sprites.clear();
-        for (gThingTile t : eManager.currentMap.scene.tiles()) {
+        for (gTile t : eManager.currentMap.scene.tiles()) {
             t.sprites = new Image[]{
                     gTextures.getScaledImage(t.get("sprite0"), t.getInt("dim0w"), t.getInt("dim0h")),
                     gTextures.getScaledImage(t.get("sprite1"), t.getInt("dim1w"), t.getInt("dim1h")),
