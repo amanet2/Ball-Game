@@ -89,7 +89,6 @@ public class cVars {
         put("sicknessslow", "0");
         put("sicknessfast", "0");
         put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
-        put("speedbonus", "0");
         put("sprint", "0");
         put("sprinttime", "0");
         put("starttime", "0");
@@ -102,7 +101,7 @@ public class cVars {
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
-        put("velocityspeedbonus", "16");
+        put("velocitysuperspeed", "16");
         put("vfxuialphaflashlight", "128");
         put("vfxuialphasprint", "128");
         put("vfxuialphahp", "230");

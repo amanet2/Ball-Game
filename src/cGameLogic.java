@@ -428,18 +428,14 @@ public class cGameLogic {
         else if(cVars.isOne("sprint") && cVars.getInt("stockspeed") > 0) {
             if(cVars.getLong("sprinttime") < System.currentTimeMillis() || cVars.getInt("stockspeed") < 1) {
                 cVars.put("sprint", "0");
-                cVars.put("speedbonus", "0");
                 cVars.put("stockspeed", "0");
             }
             else {
                 cVars.putInt("stockspeed", (int)(cVars.getLong("sprinttime")-System.currentTimeMillis()));
-                cVars.putInt("speedbonus", (int)((double)cVars.getInt("velocityplayer")
-                        *((double)cVars.getInt("stockspeed")/(double)cVars.getInt("maxstockspeed"))));
             }
         }
         else if(cVars.getInt("stockspeed") < 1) {
             cVars.put("sprint", "0");
-            cVars.put("speedbonus", "0");
             cVars.put("stockspeed", "0");
         }
     }
@@ -1087,7 +1083,7 @@ public class cGameLogic {
                         xCon.ex("givepoint " + cl.get("id"));
                     }
                 }
-                else {
+//                else {
                     cVars.put("exploded", "0");
                     cVars.putInt("explodex", cl.getInt("coordx") - 75);
                     cVars.putInt("explodey", cl.getInt("coordy") - 75);
@@ -1099,7 +1095,7 @@ public class cGameLogic {
                     if(sSettings.net_server)
                         xCon.ex("say " + cl.get("name") + " died");
                     xCon.ex("respawn");
-                }
+//                }
             }
             else
                 cVars.put("survivesafezone", "0");

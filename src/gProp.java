@@ -160,8 +160,7 @@ public class gProp extends gThing {
                 case 1:
                 case 2:
                     if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel1") - 1));
+                        putInt("vel0", getInt("vel1") - 1);
                         put("vel1", "0");
                         xCon.ex(String.format("playsound sounds/knock.wav 1 %d %d",
                                 getInt("coordx"),getInt("coordy")));
@@ -173,8 +172,7 @@ public class gProp extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel3", getInt("vel2") - 1);
                     put("vel2", "0");
                     xCon.ex(String.format("playsound sounds/knock.wav 1 %d %d",
                             getInt("coordx"),getInt("coordy")));
@@ -182,8 +180,7 @@ public class gProp extends gThing {
                 case 6:
                 case 7:
                 case 8:
-                    putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel0") + getInt("vel1") - 1));
+                    putInt("vel1", getInt("vel0") - 1);
                     put("vel0", "0");
                     xCon.ex(String.format("playsound sounds/knock.wav 1 %d %d",
                             getInt("coordx"),getInt("coordy")));
@@ -194,8 +191,7 @@ public class gProp extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel2", getInt("vel3") - 1);
                     put("vel3", "0");
                     xCon.ex(String.format("playsound sounds/knock.wav 1 %d %d",
                             getInt("coordx"),getInt("coordy")));

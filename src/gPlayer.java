@@ -190,10 +190,7 @@ public class gPlayer extends gThing {
                 case 1:
                 case 2:
                     if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
-                        double mod = 1.5;
-                        putInt("vel0", Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                        + mod*cVars.getInt("speedbonus")),
-                                getInt("vel1") - 1));
+                        putInt("vel0", getInt("vel1"));
                         put("vel1", "0");
                     }
                     else {
@@ -206,15 +203,13 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel3", getInt("vel2"));
                     put("vel2", "0");
                     break;
                 case 6:
                 case 7:
                 case 8:
-                    putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel0") - 1));
+                    putInt("vel1", getInt("vel0"));
                     put("vel0", "0");
                     break;
                 case 9:
@@ -223,8 +218,7 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel2", getInt("vel3"));
                     put("vel3", "0");
                     break;
                 default:
@@ -272,29 +266,24 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") - 1));
+                        putInt("vel0", getInt("vel1") - 1);
                         putInt("vel1", 0);
                     }
                 }
                 else if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
                     if(getInt("vel2") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") - 1));
+                        putInt("vel3", getInt("vel2") - 1);
                         putInt("vel2", 0);
                     }
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel3") - 1));
+                        putInt("vel1", getInt("vel3") - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel0") > 0) {
                         double mod = 1.5;
-                        putInt("vel2", Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                        + mod*cVars.getInt("speedbonus")),
-                                getInt("vel0") - 1));
+                        putInt("vel2", getInt("vel0") - 1);
                         put("vel0", "0");
                     }
                 }
@@ -321,9 +310,7 @@ public class gPlayer extends gThing {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
                         double mod = 1.5;
-                        putInt("vel1", Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                        + mod*cVars.getInt("speedbonus")),
-                                getInt("vel0") - 1));
+                        putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
                 }
@@ -332,20 +319,17 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
                     if(getInt("vel2") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") - 1));
+                        putInt("vel3", getInt("vel2") - 1);
                         putInt("vel2", 0);
                     }
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel3") - 1));
+                        putInt("vel0", getInt("vel3") - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel1") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") - 1));
+                        putInt("vel2", getInt("vel1") - 1);
                         put("vel1", "0");
                     }
                 }
@@ -372,9 +356,7 @@ public class gPlayer extends gThing {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
                         double mod = 1.5;
-                        putInt("vel1", Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                        + mod*cVars.getInt("speedbonus")),
-                                getInt("vel0") - 1));
+                        putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
                 }
@@ -383,20 +365,17 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
                     if(getInt("vel3") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel3") - 1));
+                        putInt("vel2", getInt("vel3") - 1);
                         putInt("vel3", 0);
                     }
                 }
                 else {
                     if (getInt("vel2") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") - 1));
+                        putInt("vel0", getInt("vel2") - 1);
                         put("vel2", "0");
                     }
                     if (getInt("vel1") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") - 1));
+                        putInt("vel3", getInt("vel1") - 1);
                         put("vel1", "0");
                     }
                 }
@@ -420,29 +399,24 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") - 1));
+                        putInt("vel0", getInt("vel1") - 1);
                         putInt("vel1", 0);
                     }
                 }
                 else if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
                     if(getInt("vel3") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel3") - 1));
+                        putInt("vel2", getInt("vel3") - 1);
                         putInt("vel3", 0);
                     }
                 }
                 else{
                     if (getInt("vel0") > 0) {
                         double mod = 1.5;
-                        putInt("vel3", Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                        + mod*cVars.getInt("speedbonus")),
-                                getInt("vel0") - 1));
+                        putInt("vel3", getInt("vel0") - 1);
                         put("vel0", "0");
                     }
                     if (getInt("vel2") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") - 1));
+                        putInt("vel1", getInt("vel2") - 1);
                         put("vel2", "0");
                     }
                 }
