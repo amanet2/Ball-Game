@@ -639,39 +639,6 @@ public class cScripts {
         }
     }
 
-    public static boolean canSpawnPlayer() {
-        for(gTile t : eManager.currentMap.scene.tiles()) {
-            int dx = t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.userPlayer().getInt("dimw")/2;
-            int dy = t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.userPlayer().getInt("dimh")/2;
-            if(t.isOne("canspawn") && !cGameLogic.userPlayer().willCollideWithinTileAtCoords(t, dx, dy)
-                && t.isZero("occupied")) {
-                boolean pass = true;
-                for(gTile td : eManager.currentMap.scene.tiles()) {
-                    //this checks for any TILE objects ON TOP OF or OVERLAPPING the spawn point
-                    if(cGameLogic.userPlayer().willCollideWithinTileAtCoords(td, dx,dy)) {
-                        pass = false;
-                        break;
-                    }
-//                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-                    //occupied should take care of it but check these to make sure
-//                        for (gPlayer target : eManager.currentMap.scene.players()) {
-//                            if (target.getInt("tag") != cGameLogic.userPlayer().getInt("tag") &&
-//                                (cGameLogic.userPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
-//                                t.getInt("coordy"))
-//                                || (dx == target.getInt("coordx") && dy == target.getInt("coordy")))) {
-//                                pass = false;
-//                                break;
-//                            }
-//                        }
-//                    }
-                }
-                if(pass)
-                    return true;
-            }
-        }
-        return false;
-    }
-
     public static void playPlayerDeathSound() {
         double r = Math.random();
         if(r > .99)

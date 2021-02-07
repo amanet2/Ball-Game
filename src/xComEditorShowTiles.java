@@ -6,14 +6,14 @@ public class xComEditorShowTiles extends xCom {
         Object[] titles = new Object[eManager.currentMap.scene.tiles().size()];
         for(int i=0;i < titles.length;i++) {
             gTile t = eManager.currentMap.scene.tiles().get(i);
-            titles[i] = String.format("%s. %s %s %s %s %s %d %d %d %d %d %d %d %d %d %s %s\n",
+            titles[i] = String.format("%s. %s %s %s %s %s %d %d %d %d %d %d %d %d %d %s\n",
                 t.get("id"),
                 t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
                 t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
                 t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
                 t.get("coordx"), t.get("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
                 t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                t.getInt("dim5w"), t.getInt("dim6w"), t.get("brightness"), t.get("canspawn")
+                t.getInt("dim5w"), t.getInt("dim6w"), t.get("brightness")
             );
         }
         JList list = new JList(titles);

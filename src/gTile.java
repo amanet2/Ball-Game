@@ -13,7 +13,6 @@ public class gTile extends gThing {
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
-        putInt("canspawn", sp);
         putInt("brightness", bl);
         putInt("dim0h", nh);
         putInt("dim1h", nmh);

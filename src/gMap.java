@@ -146,14 +146,13 @@ public class gMap {
                 }
             }
             for(gTile t : scene.tiles()) {
-                String str = String.format("tile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d %s\n",
+                String str = String.format("tile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
                     t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
                     t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"), t.get("canspawn")
-                );
+                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
                 writer.write(str);
             }
             for(gProp p : scene.props()) {

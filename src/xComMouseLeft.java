@@ -41,8 +41,7 @@ public class xComMouseLeft extends xCom {
                                     cEditorLogic.state.newTile.get("sprite0"),
                                     cEditorLogic.state.newTile.get("sprite1"),
                                     cEditorLogic.state.newTile.get("sprite2"),
-                                    cEditorLogic.state.newTile.get("brightness"),
-                                    cEditorLogic.state.newTile.get("canspawn")));
+                                    cEditorLogic.state.newTile.get("brightness")));
                         break;
                 }
             }
