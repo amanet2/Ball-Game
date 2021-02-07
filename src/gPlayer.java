@@ -199,7 +199,7 @@ public class gPlayer extends gThing {
 //                        if(getInt("vel1") < 3)
                             cVars.put("suppressknocksound", "1");
 
-                        putInt("vel0", getInt("vel1"));
+                        putInt("vel0", getInt("vel1") - 1);
                         put("vel1", "0");
                     }
                     else {
@@ -212,7 +212,7 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel3", getInt("vel2"));
+                    putInt("vel3", getInt("vel2") - 1);
                     put("vel2", "0");
                     break;
                 case 6:
@@ -228,7 +228,7 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel2", getInt("vel3"));
+                    putInt("vel2", getInt("vel3") - 1);
                     put("vel3", "0");
                     break;
                 default:
