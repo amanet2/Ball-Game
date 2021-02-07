@@ -95,9 +95,8 @@ public class eManager {
 //                for (int i = 0; i < 4; i++) {
 //                    if(obj.isZero("tag")) {
 //                        if (obj.getInt("mov"+i) > 0)
-//                            obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
-//                                            + cVars.getInt("speedbonus"),
-//                                    obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
+//                            obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayerbase"),
+//                                    obj.getInt("vel"+i) + 1)));
 //                        if (obj.getInt("mov"+i) < 1)
 //                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
 //                    }
