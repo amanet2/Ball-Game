@@ -590,7 +590,6 @@ public class dTileTops {
         }
         //player highlight
         if(sVars.isOne("playerarrow") && eManager.currentMap.scene.players().size() > 0) {
-            g2.setColor(new Color(150,200,200));
             int[][] polygonBase = new int[][]{
                     new int[]{0,2,1},
                     new int[]{0,0,1}
@@ -610,7 +609,12 @@ public class dTileTops {
                             eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordy")
                                     - cVars.getInt("camy")-200) + polygonBase[1][2]*polygonSize}
             };
-            g2.fillPolygon(new Polygon(polygon[0], polygon[1], polygon[0].length));
+            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
+            g2.setColor(new Color(0,150,50, 255));
+            g2.drawPolygon(pg);
+            g2.setColor(new Color(0,200,0, 100));
+            g2.fillPolygon(pg);
         }
         //playernames
         for(gPlayer p : eManager.currentMap.scene.players()) {

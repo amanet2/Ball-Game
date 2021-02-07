@@ -212,7 +212,8 @@ public class gPlayer extends gThing {
                 case 6:
                 case 7:
                 case 8:
-                    putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
+                    double mod = 1.5;
+                    putInt("vel1", Math.min((int)(mod*(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"))),
                             getInt("vel0") + getInt("vel1") - 1));
                     put("vel0", "0");
                     break;
