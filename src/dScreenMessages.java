@@ -246,7 +246,7 @@ public class dScreenMessages {
             drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                     29*sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
             drawRightJustifiedString(g,
-                    cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + "pts <<",
+                    cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " <",
                     29*sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
             drawRightJustifiedString(g, cVars.get("scorelimit") + "pts to win | "
                             + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
@@ -379,7 +379,7 @@ public class dScreenMessages {
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
             dScreenMessages.drawCenteredString(g,
                     eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis()),
-                    sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                    sSettings.width / 2, 5*sSettings.height/8);
         }
 
         //game alerts
@@ -388,7 +388,7 @@ public class dScreenMessages {
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                     cVars.isVal("flagmasterid", uiInterface.uuid)) {
                 dScreenMessages.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-                        sSettings.width / 2, sSettings.height - sSettings.height / 15);
+                        sSettings.width / 2, 5*sSettings.height/8);
             }
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
@@ -422,17 +422,17 @@ public class dScreenMessages {
             }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
                     && cScripts.isVirus()) {
-                dScreenMessages.drawCenteredString(g,"YOU ARE INFECTED",
-                        sSettings.width / 2, 14*sSettings.height/15);
+                dScreenMessages.drawCenteredString(g,">>YOU ARE INFECTED<<",
+                        sSettings.width / 2, 5*sSettings.height/8);
             }
-            if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE && cVars.get("virussingleid").length() > 0
-                    && (!cVars.get("virussingleid").equals(uiInterface.uuid))) {
-                gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
-                if(p != null) {
-                    dScreenMessages.drawCenteredString(g,String.format("%s IS INFECTED",p.get("name")),
-                            sSettings.width / 2, 14*sSettings.height/15);
-                }
-            }
+//            if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE && cVars.get("virussingleid").length() > 0
+//                    && (!cVars.get("virussingleid").equals(uiInterface.uuid))) {
+//                gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
+//                if(p != null) {
+//                    dScreenMessages.drawCenteredString(g,String.format("%s IS INFECTED",p.get("name")),
+//                            sSettings.width / 2, 14*sSettings.height/15);
+//                }
+//            }
             if((cVars.isInt("gamemode", cGameMode.CHOSENONE)
                     || cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)) && (cVars.get("chosenoneid").equals(uiInterface.uuid)
             || (nServer.clientArgsMap.containsKey("server")
@@ -441,7 +441,7 @@ public class dScreenMessages {
                 String textcolor = "textcolorbonus";
                 if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE))
                     textcolor = "textcoloralert";
-                dScreenMessages.drawCenteredString(g,"YOU ARE THE VICTIM",
+                dScreenMessages.drawCenteredString(g,">>YOU ARE THE VICTIM<<",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
         }
