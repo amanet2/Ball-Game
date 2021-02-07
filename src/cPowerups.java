@@ -24,23 +24,7 @@ public class cPowerups {
     public static void checkPlayerPowerups(gProp powerup) {
         int int0 = powerup.getInt("int0");
         if(int0 > 0) {
-            if (cVars.isZero("gamespawnarmed")) {
-                if(cVars.isZero("currentweapon")) {
-                    xCon.ex("THING_PLAYER.0.weapon " + int0);
-                    cVars.putInt("currentweapon", int0);
-                    takepowerupammo(powerup);
-                    xCon.ex("playsound sounds/grenpinpull.wav");
-                    cScripts.checkPlayerSpriteFlip(cGameLogic.userPlayer());
-                }
-                else if(cVars.isInt("currentweapon", int0)
-                        && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
-                    takepowerupammo(powerup);
-                }
-            }
-            else if(cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo){
-                takepowerupammo(powerup);
-            }
-//            else if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
+//            if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
 //                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
 //                xCon.ex("THING_PLAYER.0.sicknessslow 1");
 //                xCon.ex("cv_sicknessslow 1");
@@ -95,9 +79,6 @@ public class cPowerups {
                         prop.put("coordy", y);
                 }
                 else {
-//                    xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
-//                            gProp.POWERUP, int0, int1,x, y,gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
-//                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]));
                     gPropPowerup powerupSyncProp = new gPropPowerup(
                             Integer.parseInt(int0),
                             Integer.parseInt(int1),

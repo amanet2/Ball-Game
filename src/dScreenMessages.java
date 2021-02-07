@@ -255,9 +255,11 @@ public class dScreenMessages {
                 drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 setFontColorByTitle(g, "textcolorhighlight");
-                drawRightJustifiedString(g,
-                        cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
-                        29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+                if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
+                    drawRightJustifiedString(g,
+                            cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
+                            29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+                }
                 setFontColorByTitle(g, "textcolornormal");
                 drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
@@ -386,55 +388,30 @@ public class dScreenMessages {
 
         //game alerts
         if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
-            if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                    || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
-                    cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                dScreenMessages.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-                        sSettings.width / 2, 5*sSettings.height/8);
-            }
-            if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                    || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
-                    !cVars.isVal("flagmasterid", "")
-                    && !cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                dScreenMessages.drawCenteredString(g,">>FLAG TAKEN!<<",
-                        sSettings.width / 2, 5*sSettings.height/8);
-            }
-//            // king of flags
-//            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-//                StringBuilder todraw = new StringBuilder();
-//                //this is where we show the checkmarks for kof flag caps
-//                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-//                for(String id : thingMap.keySet()) {
-//                    gProp p = (gProp) thingMap.get(id);
-//                    gPlayer flagking = cGameLogic.getPlayerById(p.get("str0"));
-//                    todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
-//                }
-//                dScreenMessages.drawCenteredString(g, todraw.toString(),
-//                        sSettings.width/2,14*sSettings.height/15);
-//            }
-            if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
-                drawVirusTagString(g);
-            }
-            if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
-                    && cScripts.isVirus()) {
-                dScreenMessages.drawCenteredString(g,">>YOU ARE INFECTED<<",
-                        sSettings.width / 2, 5*sSettings.height/8);
-            }
-//            if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE && cVars.get("virussingleid").length() > 0
-//                    && (!cVars.get("virussingleid").equals(uiInterface.uuid))) {
-//                gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
-//                if(p != null) {
-//                    dScreenMessages.drawCenteredString(g,String.format("%s IS INFECTED",p.get("name")),
-//                            sSettings.width / 2, 14*sSettings.height/15);
-//                }
-//            }
-            if((cVars.isInt("gamemode", cGameMode.CHOSENONE)
-                    || cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)) && (cVars.get("chosenoneid").equals(uiInterface.uuid)
-            || (nServer.clientArgsMap.containsKey("server")
-                    && nServer.clientArgsMap.get("server").containsKey("chosenoneid")
-            && nServer.clientArgsMap.get("server").get("chosenoneid").equals(uiInterface.uuid)))) {
-                dScreenMessages.drawCenteredString(g,">>YOU ARE THE VICTIM<<",
-                        sSettings.width / 2, 5*sSettings.height/8);
+            switch(cVars.getInt("gamemode")) {
+                case cGameMode.VIRUS:
+                    if(nServer.clientArgsMap.containsKey("server")
+                            && nServer.clientArgsMap.get("server").containsKey("state")
+                            && nServer.clientArgsMap.get("server").get("state").contains(
+                                cGameLogic.userPlayer().get("id"))) {
+                        dScreenMessages.drawCenteredString(g,">>YOU ARE INFECTED<<",
+                                sSettings.width / 2, 5*sSettings.height/8);
+                    }
+                    drawVirusTagString(g);
+                    break;
+                case cGameMode.CAPTURE_THE_FLAG:
+                case cGameMode.FLAG_MASTER:
+                    if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
+                        dScreenMessages.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
+                                sSettings.width / 2, 5*sSettings.height/8);
+                    }
+                    else if(cVars.get("flagmasterid").length() > 0){
+                        dScreenMessages.drawCenteredString(g,">>FLAG TAKEN!<<",
+                                sSettings.width / 2, 5*sSettings.height/8);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         //win lose
@@ -458,9 +435,9 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-//                if(!s.contains(":")) {
-//                    s = "Server: " + s;
-//                }
+                if(!s.contains(":")) {
+                    s = "server: " + s;
+                }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
                 setFontColorByTitle(g, "textcolornormal");
