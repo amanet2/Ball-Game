@@ -123,7 +123,7 @@ public class cGameLogic {
                     if(!cVars.contains("respawntime")) {
 //                        userPlayer.putInt("mov1", 1);
                         userPlayer.addVal("vel1",
-                                userPlayer.getInt("vel1") < cVars.getInt("velocityplayerbase") ? 1 : 0);
+                                userPlayer.getInt("vel1") < cVars.getInt("gravity") ? 1 : 0);
                     }
                     if (!userPlayer().canJump())
                         cVars.increment("falltime");

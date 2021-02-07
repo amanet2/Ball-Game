@@ -289,7 +289,6 @@ public class dScreenMessages {
                             eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
-        setFontColorByTitle(g, "textcolorhighlight");
         //sendmsg.. invisible?
         setFontColorByTitle(g, "textcolornormal");
         //menus
@@ -459,10 +458,9 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                if(!s.contains(":")) {
-                    s = "Server: " + s;
-                    setFontColorByTitle(g, "textcolorhighlight");
-                }
+//                if(!s.contains(":")) {
+//                    s = "Server: " + s;
+//                }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
                 setFontColorByTitle(g, "textcolornormal");

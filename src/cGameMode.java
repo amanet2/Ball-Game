@@ -34,7 +34,7 @@ public class cGameMode {
             "Reach the zone before the countdown ends",
             "Bring the red flag to the blue flag",
             "Earn points for each flag held",
-            "Get to the waypoint before anyone else",
+            "Race to the waypoint",
             "Don't catch the virus",
             "Don't catch the virus",
             "Hold onto the flag for the longest time",

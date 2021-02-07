@@ -22,10 +22,7 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+        dScreenMessages.setFontColorByTitle(g, "textcolorhighlight");
         dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
@@ -66,10 +63,7 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+        dScreenMessages.setFontColorByTitle(g, "textcolorhighlight");
         dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),

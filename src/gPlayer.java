@@ -209,7 +209,8 @@ public class gPlayer extends gThing {
                 case 6:
                 case 7:
                 case 8:
-                    putInt("vel1", getInt("vel0"));
+                    //special case for modifier of upward movement
+                    putInt("vel1", 2*getInt("vel0")/3);
                     put("vel0", "0");
                     break;
                 case 9:

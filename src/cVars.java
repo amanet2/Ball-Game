@@ -44,6 +44,7 @@ public class cVars {
         put("gamespawnarmed", "0");
         put("gameteam", "0");
         put("gametick", sVars.get("gametick"));
+        putInt("gravity", 6);
         put("chosenoneid", "");
         put("chosenonetime", "0");
         put("blockmouseui", "0");
