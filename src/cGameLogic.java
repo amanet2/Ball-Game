@@ -123,7 +123,10 @@ public class cGameLogic {
                     if(!cVars.contains("respawntime")) {
 //                        userPlayer.putInt("mov1", 1);
                         userPlayer.addVal("vel1",
-                                userPlayer.getInt("vel1") < cVars.getInt("gravity") ? 1 : 0);
+                                userPlayer.getInt("vel1") <
+                                        cVars.getInt("gravity")/(
+                                                userPlayer.isOne("crouch") ? 6 : 1)
+                                        ? 1 : 0);
                     }
                     if (!userPlayer().canJump())
                         cVars.increment("falltime");
@@ -134,7 +137,9 @@ public class cGameLogic {
             }
             //jumping
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
-                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < cVars.getInt("jumptimemax")) {
+                int jumpmax = cVars.isInt("maptype", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
+                        : cVars.getInt("jumptimemax")/2;
+                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < jumpmax) {
                     cVars.increment("jumpheight");
                     if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))
                         xCon.ex("-crouch");

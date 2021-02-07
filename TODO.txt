@@ -12,6 +12,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* remove game spawn armed and reloading
+    -> for now
 * bouncing off floor need changing due to new gravity
 * player crouch in boostup
 * squish player in the direction of the boost
@@ -21,11 +23,9 @@
 * EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
 * if changing settings, msgs can screw it up
     -> tried setting "scorelimit" to "player has left the game"
-* big if else block in dScreenMessages around line 420
 * make tile object work like flare object loading into maps and saving
     ->gThingReturnTile
 * code in editorPutProp needs to be stored in the prop object instead of that fucking switch case
-* remove vestigal spawning-related code
 * waypoints game mode doesnt show scorepoint for clients
 * client cant score in safezones
 * horrible crash when client wins deathmatch mode

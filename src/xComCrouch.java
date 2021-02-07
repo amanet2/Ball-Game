@@ -1,6 +1,6 @@
 public class xComCrouch extends xCom {
     public String doCommand(String fullCommand) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+//        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
             gPlayer p = cGameLogic.userPlayer();
             if (p != null && p.isZero("crouch")) {
                 xCon.ex("THING_PLAYER.0.dimh 75");
@@ -8,12 +8,12 @@ public class xComCrouch extends xCom {
                 p.setHatSpriteFromPath(p.get("pathspritehat"));
                 xCon.ex("THING_PLAYER.0.crouch 1");
             }
-        }
+//        }
         return "crouch";
     }
 
     public String undoCommand(String fullCommand) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+//        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
             gPlayer p = cGameLogic.userPlayer();
             if (p != null && p.isOne("crouch")) {
                 xCon.ex("THING_PLAYER.0.dimh 150");
@@ -23,7 +23,7 @@ public class xComCrouch extends xCom {
                 p.setHatSpriteFromPath(p.get("pathspritehat"));
                 xCon.ex("THING_PLAYER.0.crouch 0");
             }
-        }
+//        }
         return "-crouch";
     }
 }
