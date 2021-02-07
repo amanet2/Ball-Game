@@ -57,8 +57,8 @@ public class eManager {
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
+                    //user player
                     if(obj.isZero("tag")) {
-                        //user player
                         if (obj.getInt("mov"+i) > 0) {
                             double mod = 1;
                             if(i==0) {
