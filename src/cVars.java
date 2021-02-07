@@ -23,7 +23,7 @@ public class cVars {
         put("collideplayers", "1");
         put("currentweapon", "0");
         put("delayhp", "2400");
-        put("delayjump", "0");
+        put("delayjump", "160");
         put("delaypow", "1000");
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");

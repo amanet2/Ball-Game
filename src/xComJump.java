@@ -7,7 +7,7 @@ public class xComJump extends xCom {
                 xCon.ex("cv_jumping 1");
                 cVars.putLong("jumptime", System.currentTimeMillis() + cVars.getInt("delayjump"));
                 xCon.ex("THING_PLAYER.0.vel0 " + cVars.getInt("velocityplayer")/2);
-                xCon.ex("THING_PLAYER.0.vel1 " + 1);
+                xCon.ex("THING_PLAYER.0.vel1 " + 0);
                 xCon.ex("cv_stockspeed 0");
             }
         }

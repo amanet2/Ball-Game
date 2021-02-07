@@ -11,33 +11,38 @@ public class gPlayer extends gThing {
     }
 
     public boolean canJump() {
-        for(gTile t : eManager.currentMap.scene.tiles()) {
-            if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
-                && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
-                && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
-                || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
-                && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
-                && (t.getInt("dim0h") > 0
-                || t.getInt("dim3h") > 0
-                || t.getInt("dim5w") > 0
-                || t.getInt("dim6w") > 0)
+        if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
+            for(gTile t : eManager.currentMap.scene.tiles()) {
+                if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
+                        && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
+                        && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
+                        || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
+                        && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
+                        && (t.getInt("dim0h") > 0
+                        || t.getInt("dim3h") > 0
+                        || t.getInt("dim5w") > 0
+                        || t.getInt("dim6w") > 0)
                 ) {
-                return true;
+                    return true;
+                }
+                if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
+                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
+                ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
+                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
+                )){
+                    return true;
+                }
             }
-            if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
-            ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
-            )){
-                return true;
+            for (gPlayer target : eManager.currentMap.scene.players()) {
+                if(!(getInt("coordx")+getInt("dimw") < target.getInt("coordx"))
+                        && !(getInt("coordx") > target.getInt("coordx")+target.getInt("dimw"))
+                        && Math.abs((getInt("coordy")+getInt("dimh"))-target.getInt("coordy")) < 10) {
+                    return true;
+                }
             }
         }
-        for (gPlayer target : eManager.currentMap.scene.players()) {
-            if(!(getInt("coordx")+getInt("dimw") < target.getInt("coordx"))
-                && !(getInt("coordx") > target.getInt("coordx")+target.getInt("dimw"))
-                && Math.abs((getInt("coordy")+getInt("dimh"))-target.getInt("coordy")) < 10) {
-                return true;
-            }
+        else {
+            return true;
         }
         return false;
     }
