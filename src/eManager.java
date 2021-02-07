@@ -33,13 +33,14 @@ public class eManager {
     }
 
 	public static void updateEntityPositions() {
-	    for(gTile tile : eManager.currentMap.scene.tiles()) {
+	    for(gTile tile : currentMap.scene.tiles()) {
 	        int tx = tile.getInt("coordx");
 	        int ty = tile.getInt("coordy");
 	        int tw = tile.getInt("dimw");
 	        int th = tile.getInt("dimh");
             Rectangle2D tileBounds = new Rectangle(tx,ty,tw,th);
-	        for(gPlayer player : eManager.currentMap.scene.players()) {
+	        for(String id : gScene.getPlayerIds()) {
+	            gPlayer player = gScene.getPlayerById(id);
                 int px = player.getInt("coordx");
                 int py = player.getInt("coordy");
                 int pw = player.getInt("dimw");
@@ -51,8 +52,8 @@ public class eManager {
                 }
             }
         }
-        for(String id : cGameLogic.getPlayerIds()) {
-            gPlayer obj = cGameLogic.getPlayerById(id);
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer obj = gScene.getPlayerById(id);
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {

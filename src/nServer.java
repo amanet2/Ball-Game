@@ -128,7 +128,7 @@ public class nServer extends Thread {
         }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
-        gPlayer quittingPlayer = cGameLogic.getPlayerById(id);
+        gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.players().remove(quittingPlayer);
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");

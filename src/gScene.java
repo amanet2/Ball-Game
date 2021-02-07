@@ -1,6 +1,7 @@
 import com.sun.source.tree.Tree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -71,6 +72,14 @@ public class gScene {
 
     public HashMap<String, gPlayer> playersMap() {
 	    return objectMaps.get("THING_PLAYER");
+    }
+
+    public static Collection<String> getPlayerIds() {
+        return eManager.currentMap.scene.playersMap().keySet();
+    }
+
+    public static gPlayer getPlayerById(String id) {
+        return eManager.currentMap.scene.playersMap().get(id);
     }
 
     static String getObjTitleForCode(int code) {

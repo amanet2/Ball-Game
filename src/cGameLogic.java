@@ -20,9 +20,6 @@ public class cGameLogic {
             null;
     }
 
-    public static gPlayer getPlayerById(String id) {
-        return eManager.currentMap.scene.playersMap().get(id);
-    }
 
     public static void damageHealth(int dmg) {
         cVars.putInt("stockhp", Math.max(cVars.getInt("stockhp") - dmg, 0));
@@ -547,12 +544,12 @@ public class cGameLogic {
                         cScoreboard.incrementScoreFieldById(killerid, "kills");
                         if (gamemode == cGameMode.DEATHMATCH)
                             xCon.ex("givepoint " + killerid);
-                        xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name") + " killed " + packName);
+                        xCon.ex("say " + gScene.getPlayerById(killerid).get("name") + " killed " + packName);
                         if ((gamemode == cGameMode.CHOSENONE || gamemode == cGameMode.ANTI_CHOSENONE)
                                 && cVars.get("chosenoneid").equals(packId)) {
                             if (gamemode == cGameMode.CHOSENONE) {
                                 cVars.put("chosenoneid", killerid);
-                                xCon.ex("say " + cGameLogic.getPlayerById(killerid).get("name")
+                                xCon.ex("say " + gScene.getPlayerById(killerid).get("name")
                                         + " is the chosen one!");
                             } else {
                                 xCon.ex("givepoint " + killerid);
@@ -724,10 +721,6 @@ public class cGameLogic {
                 }
             }
         }
-    }
-
-    public static Collection<String> getPlayerIds() {
-        return eManager.currentMap.scene.playersMap().keySet();
     }
 
     public static void checkFlagMaster() {

@@ -3,7 +3,7 @@ public class xComPlayerCrouch extends xCom {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String id = toks[1];
-            gPlayer p = cGameLogic.getPlayerById(id);
+            gPlayer p = gScene.getPlayerById(id);
             if (cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                 if (p != null) {
                     p.put("dimh", "75");
@@ -19,7 +19,7 @@ public class xComPlayerCrouch extends xCom {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String id = toks[1];
-            gPlayer p = cGameLogic.getPlayerById(id);
+            gPlayer p = gScene.getPlayerById(id);
             if (cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                 if (p != null) {
                     p.put("dimh", "150");

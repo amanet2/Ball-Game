@@ -495,7 +495,7 @@ public class dTileTops {
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                     && !cVars.isVal("flagmasterid", "")
                     && !cVars.get("flagmasterid").equals(uiInterface.uuid)) {
-                gPlayer p = cGameLogic.getPlayerById(cVars.get("flagmasterid"));
+                gPlayer p = gScene.getPlayerById(cVars.get("flagmasterid"));
                 dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                         p.getInt("coordy") + p.getInt("dimh")/2, "* KILL *");
             }
@@ -505,7 +505,7 @@ public class dTileTops {
                     && cVars.get("chosenoneid").length() > 0
                     && !(cVars.getInt("gamemode") == cGameMode.CHOSENONE
                     && cVars.get("chosenoneid").equals(uiInterface.uuid))) {
-                gPlayer p = cGameLogic.getPlayerById(cVars.get("chosenoneid"));
+                gPlayer p = gScene.getPlayerById(cVars.get("chosenoneid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                         p.getInt("coordy") + p.getInt("dimh")/2, "* KILL *");
@@ -560,7 +560,7 @@ public class dTileTops {
             //waypoints
             //virus single nav pointer
             if(cVars.get("virussingleid").length() > 0) {
-                gPlayer p = cGameLogic.getPlayerById(cVars.get("virussingleid"));
+                gPlayer p = gScene.getPlayerById(cVars.get("virussingleid"));
                 if(p != null)
                     dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
                             p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");

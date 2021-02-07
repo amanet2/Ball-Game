@@ -429,7 +429,7 @@ public class cScripts {
                     new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         }
-        gPlayer killerPlayer = cGameLogic.getPlayerById(bullet.get("srcid"));
+        gPlayer killerPlayer = gScene.getPlayerById(bullet.get("srcid"));
         String killerid = killerPlayer.get("id");
         String killername = killerPlayer.get("name");
         if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {

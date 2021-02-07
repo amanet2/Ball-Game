@@ -83,7 +83,7 @@ public class cScoreboard {
                 if(scoresMapIdMap.get("score") > topscore) {
                     tiectr = 0;
                     topscore = scoresMapIdMap.get("score");
-                    winnerName = cGameLogic.getPlayerById(id).get("name") + " ("+topscore+")";
+                    winnerName = gScene.getPlayerById(id).get("name") + " ("+topscore+")";
                 }
                 else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
                     tiectr++;
@@ -98,7 +98,7 @@ public class cScoreboard {
             int[] colorscores = new int[colors.length];
             Arrays.fill(colorscores, 0);
             for(String id : scoresMap.keySet()) {
-                gPlayer p = cGameLogic.getPlayerById(id);
+                gPlayer p = gScene.getPlayerById(id);
                 for(int j = 0; j < colors.length; j++) {
                     if(p.get("color").equals(colors[j])) {
                         colorscores[j] = scoresMap.get(id).get("score");

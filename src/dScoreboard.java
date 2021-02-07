@@ -38,8 +38,8 @@ public class dScoreboard {
                 if(scoretoks[i].split("-")[0].length() > 0)
                     id = scoretoks[i].split("-")[0];
             }
-            String playername = cGameLogic.getPlayerById(id).get("name");
-            String playercolor = cGameLogic.getPlayerById(id).get("color");
+            String playername = gScene.getPlayerById(id).get("name");
+            String playercolor = gScene.getPlayerById(id).get("color");
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
             int playerwins = scoresMapIdMap.get("wins");
             int playerscore = scoresMapIdMap.get("score");

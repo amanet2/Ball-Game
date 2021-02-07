@@ -55,16 +55,16 @@ public class gPlayer extends gThing {
             }
         }
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            for(String id : cGameLogic.getPlayerIds()) {
-                gPlayer target = cGameLogic.getPlayerById(id);
+            for(String id : gScene.getPlayerIds()) {
+                gPlayer target = gScene.getPlayerById(id);
                 if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
                     return false;
                 }
             }
         }
         if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
-            for(String id : cGameLogic.getPlayerIds()) {
-                gPlayer target = cGameLogic.getPlayerById(id);
+            for(String id : gScene.getPlayerIds()) {
+                gPlayer target = gScene.getPlayerById(id);
                 if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
                     return false;
                 }

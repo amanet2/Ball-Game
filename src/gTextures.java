@@ -73,8 +73,8 @@ public class gTextures {
                     gTextures.getScaledImage(t.get("sprite0"), t.getInt("dim6w"), t.getInt("dim6h"))
             };
         }
-        for(String id : cGameLogic.getPlayerIds()) {
-            gPlayer p = cGameLogic.getPlayerById(id);
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             p.sprite = getScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
         }
         for (gProp t : eManager.currentMap.scene.props()) {

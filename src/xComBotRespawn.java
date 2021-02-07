@@ -27,8 +27,8 @@ public class xComBotRespawn extends xCom {
                     bot = tbot;
             }
             boolean pass = true;
-            for (String id : cGameLogic.getPlayerIds()) {
-                if (!id.equals(bot.get("id")) && bot.willCollideWithPlayerAtCoords(cGameLogic.getPlayerById(id),
+            for (String id : gScene.getPlayerIds()) {
+                if (!id.equals(bot.get("id")) && bot.willCollideWithPlayerAtCoords(gScene.getPlayerById(id),
                                 spawnpoint.getInt("coordx"), spawnpoint.getInt("coordy"))) {
                     pass = false;
                     break;

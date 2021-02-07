@@ -7,11 +7,11 @@ public class xComGivePoint extends xCom {
         if (toks.length > 1) {
             String id = toks[1];
             if (cVars.isOne("gameteam")) {
-                String color = cGameLogic.getPlayerById(id).get("color");
+                String color = gScene.getPlayerById(id).get("color");
                 for (String mapid : cScoreboard.scoresMap.keySet()) {
-                    if (color.equals(cGameLogic.getPlayerById(mapid).get("color"))) {
+                    if (color.equals(gScene.getPlayerById(mapid).get("color"))) {
                         cScoreboard.incrementScoreFieldById(mapid, "score");
-                        gPlayer givePointPlayer = cGameLogic.getPlayerById(mapid);
+                        gPlayer givePointPlayer = gScene.getPlayerById(mapid);
                         if(givePointPlayer != null) {
                             cScripts.createScorePopup(givePointPlayer, 1);
                         }
@@ -20,7 +20,7 @@ public class xComGivePoint extends xCom {
             }
             else {
                 cScoreboard.incrementScoreFieldById(id, "score");
-                gPlayer givePointPlayer = cGameLogic.getPlayerById(id);
+                gPlayer givePointPlayer = gScene.getPlayerById(id);
                 if(givePointPlayer != null) {
                     cScripts.createScorePopup(givePointPlayer, 1);
                 }
@@ -35,7 +35,7 @@ public class xComGivePoint extends xCom {
             };
             List<String> quietGameModesList = Arrays.asList(quietGameModesArray);
             if(!quietGameModesList.contains(cVars.get("gamemode")))
-                xCon.ex("say " + cGameLogic.getPlayerById(id).get("name") + " scored");
+                xCon.ex("say " + gScene.getPlayerById(id).get("name") + " scored");
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";

@@ -44,7 +44,7 @@ public class nReceive {
                     if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                         nServer.quitClientIds.add(packId);
                     }
-                    gPlayer packPlayer = cGameLogic.getPlayerById(packId);
+                    gPlayer packPlayer = gScene.getPlayerById(packId);
                     if(packPlayer != null) {
                         if (nServer.clientArgsMap.get(packId).containsKey("vels")) {
                             String[] veltoks = nServer.clientArgsMap.get(packId).get("vels").split("-");
@@ -213,7 +213,7 @@ public class nReceive {
                         foundIds.add(idload);
                         String clientname = nServer.clientArgsMap.get(idload).get("name");
                         if(!clientname.equals(nameload))
-                            cGameLogic.getPlayerById(idload).put("name", nameload);
+                            gScene.getPlayerById(idload).put("name", nameload);
                         if(sVars.isOne("smoothing")) {
                             cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
                             cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
