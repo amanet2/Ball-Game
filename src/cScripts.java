@@ -609,6 +609,7 @@ public class cScripts {
             }
             xCon.ex("THING_PLAYER.0.color playercolor");
             eManager.currentMap.scene.players().add(player0);
+            eManager.currentMap.scene.getThingMap("THING_PLAYER").put(player0.get("id"), player0);
             xCon.ex("centercamera");
         }
         //network
@@ -619,6 +620,7 @@ public class cScripts {
                 player.putInt("tag", eManager.currentMap.scene.players().size());
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
+                eManager.currentMap.scene.getThingMap("THING_PLAYER").put(s, player);
             }
             cVars.putInt("currentweapon", gWeapons.type.NONE.code());
             xCon.ex("respawn");

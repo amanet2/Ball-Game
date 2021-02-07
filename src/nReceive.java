@@ -85,6 +85,7 @@ public class nReceive {
                         player.put("id", packId);
                         player.putInt("weapon", packWeap);
                         eManager.currentMap.scene.players().add(player);
+                        eManager.currentMap.scene.getThingMap("THING_PLAYER").put(packId, player);
                     }
                     xCon.ex(String.format("say %s joined the game", packName));
                 }
@@ -242,6 +243,7 @@ public class nReceive {
                         player.putInt("tag", eManager.currentMap.scene.players().size());
                         player.put("name", nameload);
                         eManager.currentMap.scene.players().add(player);
+                        eManager.currentMap.scene.getThingMap("THING_PLAYER").put(idload, player);
                         w++;
                     }
                 }
