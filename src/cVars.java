@@ -102,6 +102,7 @@ public class cVars {
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
+        put("velocityspeedbonus", "16");
         put("vfxuialphaflashlight", "128");
         put("vfxuialphasprint", "128");
         put("vfxuialphahp", "230");

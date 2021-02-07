@@ -118,9 +118,12 @@ public class cGameLogic {
                 if (cVars.isOne("jumping")) {
                     userPlayer.putInt("mov1", 0);
                     userPlayer.putInt("mov0", 1);
-                } else {
+                }
+                else {
                     if(!cVars.contains("respawntime")) {
-                        userPlayer.putInt("mov1", 1);
+//                        userPlayer.putInt("mov1", 1);
+                        userPlayer.addVal("vel1",
+                                userPlayer.getInt("vel1") < cVars.getInt("velocityplayerbase") ? 1 : 0);
                     }
                     if (!userPlayer().canJump())
                         cVars.increment("falltime");

@@ -4,8 +4,13 @@ public class xComSuperSpeed extends xCom {
             xCon.ex("cv_sprint 1");
             xCon.ex("cv_sprinttime " + (System.currentTimeMillis()+cVars.getInt("stockspeed")));
             xCon.ex("playsound sounds/goodwork.wav");
-            xCon.ex("cv_speedbonus " + ((int)((double)cVars.getInt("velocityplayer")
-                    *((double)cVars.getInt("stockspeed")/(double)cVars.getInt("maxstockspeed")))));
+            gPlayer userPlayer = cGameLogic.userPlayer();
+            for(int i = 0; i < 4; i++) {
+                if(userPlayer.isOne("mov"+i)) {
+                    userPlayer.addVal("vel"+i, cVars.getInt(""));
+                }
+            }
+//            xCon.ex("cv_speedbonus " + cVars.getInt("velocityplayer"));
         }
         return fullCommand;
     }

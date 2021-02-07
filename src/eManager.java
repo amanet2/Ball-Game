@@ -66,11 +66,10 @@ public class eManager {
                                 mod = 1.5;
                                 speedbonus = 2*speedbonus;
                             }
-                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")
-                                            + mod*cVars.getInt("speedbonus")),
+                            obj.putInt("vel" + i, (Math.min((int)(mod*2*cVars.getInt("velocityplayer")),
                                     obj.getInt("vel" + i) + 1 + (int)(mod*speedbonus))));
                         }
-                        if (obj.getInt("mov"+i) < 1)
+                        else if(i != 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
                     else {
