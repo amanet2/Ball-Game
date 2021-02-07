@@ -54,7 +54,7 @@ public class sVars {
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("respawnwaittime", "2000");
-        keys.put("safezonetime", "30000");
+        keys.put("safezonetime", "20000");
         keys.put("scorelimit", "25");
         keys.put("sfxrange", "1800");
         keys.put("showtick", "0");

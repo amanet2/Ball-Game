@@ -56,7 +56,7 @@ public class cVars {
         put("jumping", "0");
         put("jumpsquish", "20");
         put("jumptimemax", "100");
-        put("delayjump", "25");
+        put("delayjump", "600");
         put("killerid", "God");
         put("killername", "God");
         put("kingofflagstime", "0");

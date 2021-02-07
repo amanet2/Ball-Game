@@ -195,6 +195,10 @@ public class gPlayer extends gThing {
                 case 1:
                 case 2:
                     if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
+//                        System.out.println(getInt("vel1"));
+//                        if(getInt("vel1") < 3)
+                            cVars.put("suppressknocksound", "1");
+
                         putInt("vel0", getInt("vel1"));
                         put("vel1", "0");
                     }

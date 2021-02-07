@@ -12,7 +12,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
+    -> as I think the gfx has a race condition with the internal manager
 * dont cancel W on jump
+    -> jump needs to be fixed to not use mov0!
 * draw shadow lower while jumping
 * add ball skins
     -> use existing color architecture

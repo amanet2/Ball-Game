@@ -117,7 +117,8 @@ public class cGameLogic {
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 if (cVars.isOne("jumping")) {
                     userPlayer.putInt("mov1", 0);
-                    userPlayer.putInt("mov0", 1);
+//                    userPlayer.putInt("mov0", 1);
+                    userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
                     if(!cVars.contains("respawntime")) {
@@ -145,7 +146,8 @@ public class cGameLogic {
                         xCon.ex("-crouch");
                 }
                 else if(cVars.isOne("jumping")) {
-                    userPlayer.putInt("mov0", 0);
+                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
+                        userPlayer.putInt("mov0", 0);
                     cVars.putInt("jumping", 0);
                 }
             }
