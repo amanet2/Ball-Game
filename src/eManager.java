@@ -54,18 +54,22 @@ public class eManager {
         for(gPlayer obj : eManager.currentMap.scene.players()) {
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     if(obj.isZero("tag")) {
+                        //user player
                         if (obj.getInt("mov"+i) > 0) {
                             double mod = 1;
                             if(i==0) {
                                 mod = 1.5;
                             }
-                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
-                                    obj.getInt("vel" + i) + 1)));
+                            if(obj.isOne("crouch"))
+                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayerbase")/4),
+                                        obj.getInt("vel"+i) + 1)));
+                            else
+                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
+                                        obj.getInt("vel" + i) + 1)));
                         }
                         else if(i != 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
