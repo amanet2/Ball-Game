@@ -544,11 +544,9 @@ public class dTileTops {
             if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
                     && nServer.clientArgsMap.get("server").containsKey("state")) {
                 String statestr = nServer.clientArgsMap.get("server").get("state");
-                for (int i = 0; i < eManager.currentMap.scene.playersMap().size(); i++) {
-                    gPlayer p = cGameLogic.getPlayerByIndex(i);
-                    if ((sSettings.net_server && i == 0 && statestr.contains("server")) ||
-                            (sSettings.net_client && i == 0 && statestr.contains(uiInterface.uuid)) ||
-                            (p.get("id").length() > 0 && statestr.contains(p.get("id")))) {
+                for (String id : gScene.getPlayerIds()) {
+                    gPlayer p = gScene.getPlayerById(id);
+                    if (statestr.contains(p.get("id"))) {
                         dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                 p.getInt("coordy") + p.getInt("dimh") / 2,
                                 "* INFECTED *");
