@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -290,21 +291,41 @@ public class cBotsLogic {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            if(nServer.clientArgsMap.get("server").containsKey("state")) {
+            if(nServer.clientArgsMap.get("server").containsKey("state")
+            && nServer.clientArgsMap.get("server").get("state").contains("virus")) {
                 String stateString = nServer.clientArgsMap.get("server").get("state").replace("virus", "");
-                String[] virusIds = stateString.split("-");
-                for(String id : virusIds) {
-                    System.out.println(id);
-                    gPlayer p = gScene.getPlayerById(id);
-                    int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-                    int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-                    if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                            && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                        if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                            waypoint = p;
+                if(offense) {
+                    for(String id : gScene.getPlayerIds()) {
+                        if(!stateString.contains(id)) {
+                            gPlayer p = gScene.getPlayerById(id);
+                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+                                    waypoint = p;
+                                }
+                            }
                         }
                     }
                 }
+                else {
+                    String[] virusIds = stateString.split("-");
+                    for(String id : virusIds) {
+                        if(id.length() > 0) {
+                            gPlayer p = gScene.getPlayerById(id);
+                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+                                    waypoint = p;
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
             if(waypoint != null) {
                 shootAtNearestPlayer(bot);

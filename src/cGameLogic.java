@@ -697,7 +697,6 @@ public class cGameLogic {
         int r = (int) (Math.random()*((double)gScene.getPlayerIds().size()));
         int c = 0;
         for(String id : gScene.getPlayerIds()) {
-            System.out.println(id);
             if(c==r)
                 cVars.put(cvar, id);
             c++;
@@ -930,11 +929,11 @@ public class cGameLogic {
                             )) {
                                 if(!virusIds.contains(id1)) {
                                     xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
-                                    cVars.put("virusIds", cVars.get("virusIds")+(id1+"-"));
+                                    cVars.put("virusids", cVars.get("virusids")+id1+"-");
                                 }
                                 if(!virusIds.contains(id2)) {
                                     xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
-                                    cVars.put("virusIds", cVars.get("virusIds")+(id2+"-"));
+                                    cVars.put("virusids", cVars.get("virusids")+id2+"-");
                                 }
                             }
                         }
