@@ -69,6 +69,10 @@ public class gScene {
 	    return objectMaps.get(thing_title);
     }
 
+    public HashMap<String, gPlayer> playersMap() {
+	    return objectMaps.get("THING_PLAYER");
+    }
+
     static String getObjTitleForCode(int code) {
 	    return object_titles[code];
     }

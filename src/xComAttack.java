@@ -4,7 +4,7 @@ public class xComAttack extends xCom {
             || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
             || cVars.getInt("weaponstock"+cVars.getInt("currentweapon")) > 0) {
             xCon.ex("cv_firing 1");
-            gPlayer br = eManager.currentMap.scene.players().get(0);
+            gPlayer br = cGameLogic.userPlayer();
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 br.fireWeapon();
                 br.putLong("cooldown",

@@ -20,11 +20,7 @@ public class cGameLogic {
     }
 
     public static gPlayer getPlayerById(String id) {
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(p.get("id").equals(id))
-                return p;
-        }
-        return null;
+        return eManager.currentMap.scene.playersMap().get(id);
     }
 
     public static void damageHealth(int dmg) {
@@ -731,12 +727,9 @@ public class cGameLogic {
 
     public static void checkFlagMaster() {
         if(sSettings.net_server) {
-            if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                for (gPlayer p : eManager.currentMap.scene.players()) {
-                    if(p.get("id").equals(cVars.get("flagmasterid"))) {
-                        xCon.ex("givepoint " + p.get("id"));
-                    }
-                }
+            if(cVars.get("flagmasterid").length() > 0
+                    && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                xCon.ex("givepoint " + cVars.get("flagmasterid"));
                 cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
             }
         }
