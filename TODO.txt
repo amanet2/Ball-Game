@@ -22,6 +22,8 @@ PRIORITY 1: * EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
 PRIORITY 1: * use boostups on topdown map
 PRIORITY 1:     -> use it in dm_zone to block off the spawns
 PRIORITY 1:     -> have to stop forcing the mov0 when not intersecting
+* WHILE ENTERING SETTINGS VALUES, IF THE SERVER SENDS A MSG IT GETS FUCKED UP
+    -> TRIED TO SET "SCORELIMIT" TO "PLAYER HAS LEFT THE GAME"
 * big if else block in dScreenMessages around line 420
 * make tile object work like flare object loading into maps and saving
     ->gThingReturnTile

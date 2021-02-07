@@ -15,6 +15,13 @@ public class dScreenMessages {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
     }
 
+    public static void setFontColorByTitle(Graphics g, String fonttitle) {
+        g.setColor(new Color(Integer.parseInt(xCon.ex(fonttitle).split(",")[0]),
+                Integer.parseInt(xCon.ex(fonttitle).split(",")[1]),
+                Integer.parseInt(xCon.ex(fonttitle).split(",")[2]),
+                Integer.parseInt(xCon.ex(fonttitle).split(",")[3])));
+    }
+
     public static void drawVirusTagString(Graphics g) {
         if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
                 && nServer.clientArgsMap.get("server").containsKey("state")) {
@@ -33,10 +40,7 @@ public class dScreenMessages {
     }
 
     public static void displayScreenMessages(Graphics g) {
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        setFontColorByTitle(g, "textcolornormal");
         cScripts.setFontSmall(g);
         //scale
         if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0) {
@@ -122,10 +126,7 @@ public class dScreenMessages {
             }
         }
         //ingame messages
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        setFontColorByTitle(g, "textcolornormal");
         if(uiInterface.inplay) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
@@ -246,24 +247,15 @@ public class dScreenMessages {
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft < 30000) {
-                    g.setColor((new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
-                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
-                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
-                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[3]))));
+                    setFontColorByTitle(g, "textcoloralert");
                 }
                 drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+                setFontColorByTitle(g, "textcolorhighlight");
                 drawRightJustifiedString(g,
                         cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
                         29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                setFontColorByTitle(g, "textcolornormal");
                 drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
@@ -289,23 +281,14 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0, sSettings.width,sSettings.height/4);
             g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            g.setColor((new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[3]))));
+            setFontColorByTitle(g, "textcoloralert");
             drawCenteredString(g, "RESPAWN IN " +
                             eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+        setFontColorByTitle(g, "textcolorhighlight");
         //sendmsg.. invisible?
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        setFontColorByTitle(g, "textcolornormal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -316,10 +299,7 @@ public class dScreenMessages {
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[3])));
+                    setFontColorByTitle(g, "textcolorbonus");
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
             else {
@@ -338,10 +318,7 @@ public class dScreenMessages {
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
-            g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+            setFontColorByTitle(g, "textcolornormal");
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
                 i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
@@ -388,8 +365,13 @@ public class dScreenMessages {
             if(nServer.clientArgsMap.get("server") != null
             && nServer.clientArgsMap.get("server").get("topscore") != null
             && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {
-                dScreenMessages.drawCenteredString(g, "Leader: " + nServer.clientArgsMap.get("server").get("topscore"),
+                if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
+                    setFontColorByTitle(g, "textcolorhighlight");
+                }
+                dScreenMessages.drawCenteredString(g, "Leader: "
+                        + nServer.clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
+                setFontColorByTitle(g, "textcolornormal");
             }
         }
         //safezone timer
@@ -456,9 +438,6 @@ public class dScreenMessages {
             || (nServer.clientArgsMap.containsKey("server")
                     && nServer.clientArgsMap.get("server").containsKey("chosenoneid")
             && nServer.clientArgsMap.get("server").get("chosenoneid").equals(uiInterface.uuid)))) {
-                String textcolor = "textcolorbonus";
-                if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE))
-                    textcolor = "textcoloralert";
                 dScreenMessages.drawCenteredString(g,">>YOU ARE THE VICTIM<<",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
@@ -486,17 +465,11 @@ public class dScreenMessages {
                 String s = gMessages.screenMessages.get(i);
                 if(!s.contains(":")) {
                     s = "Server: " + s;
-                    g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+                    setFontColorByTitle(g, "textcolorhighlight");
                 }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                setFontColorByTitle(g, "textcolornormal");
             }
         }
     }
