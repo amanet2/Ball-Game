@@ -65,7 +65,7 @@ public class eManager {
                                 mod = 1.5;
                             }
                             if(obj.isOne("crouch"))
-                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayerbase")/4),
+                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")/4),
                                         obj.getInt("vel"+i) + 1)));
                             else
                                 obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),

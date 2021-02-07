@@ -31,7 +31,7 @@ public class cGameMode {
     static String[] net_gamemode_descriptions = {
             "Kill other players for points",
             "Capture every waypoint to complete a lap",
-            "Reach the zone before the countdown ends",
+            "Be in the zone when the timer ends",
             "Bring the red flag to the blue flag",
             "Earn points for each flag held",
             "Race to the waypoint",
