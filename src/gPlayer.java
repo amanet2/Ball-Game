@@ -189,14 +189,15 @@ public class gPlayer extends gThing {
                 case 0:
                 case 1:
                 case 2:
-                    cVars.put("suppressknocksound", "1");
                     if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel1") - 1));
+                        double mod = 1.5;
+                        putInt("vel0", Math.min((int)(mod*(cVars.getInt("velocityplayer")
+                                        + cVars.getInt("speedbonus"))),
+                                getInt("vel1") - 1));
                         put("vel1", "0");
                     }
                     else {
-
+                        cVars.put("suppressknocksound", "1");
                     }
                     break;
                 case 3:
@@ -212,9 +213,8 @@ public class gPlayer extends gThing {
                 case 6:
                 case 7:
                 case 8:
-                    double mod = 1.5;
-                    putInt("vel1", Math.min((int)(mod*(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"))),
-                            getInt("vel0") + getInt("vel1") - 1));
+                    putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
+                            getInt("vel0") - 1));
                     put("vel0", "0");
                     break;
                 case 9:

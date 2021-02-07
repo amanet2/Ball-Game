@@ -27,15 +27,18 @@ public class dScreenMessages {
                 && nServer.clientArgsMap.get("server").containsKey("state")) {
             String statestr = nServer.clientArgsMap.get("server").get("state");
             String[] stoks = statestr.split("-");
-            StringBuilder todraw = new StringBuilder();
+            String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
             if(stoks.length > 1) {
-                for (int i = 0; i < stoks[1].length(); i++) {
+                int virusplayers = 0;
+                int totalplayers = stoks[1].length();
+                for (int i = 0; i < totalplayers; i++) {
                     char c = stoks[1].charAt(i);
-                    todraw.append(c == '1' ? "[X]" : "[  ]");
+                    virusplayers += c == '1' ? 1 : 0;
                 }
+                virusString = String.format("%d/%d PLAYERS INFECTED",virusplayers,totalplayers);
             }
-            dScreenMessages.drawCenteredString(g, todraw.toString(),
-                    sSettings.width/2,sSettings.height-sSettings.height/15);
+            dScreenMessages.drawCenteredString(g, virusString.toString(),
+                    sSettings.width/2,14*sSettings.height/15);
         }
     }
 
@@ -397,26 +400,19 @@ public class dScreenMessages {
                 dScreenMessages.drawCenteredString(g,">>FLAG TAKEN!<<",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
-            //broken race lap
-//            if(cVars.getInt("gamemode") == cGameMode.RACE && cGameLogic.userPlayer() != null
-////                    && cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")) != null)
-////                dScreenMessages.drawCenteredString(g,
-////                        "LAP  " + (cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + 1)
-////                                +"/"+cVars.get("scorelimit"),
-////                        sSettings.width/2,sSettings.height-sSettings.height/15);
-            // king of flags
-            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-                StringBuilder todraw = new StringBuilder();
-                //this is where we show the checkmarks for kof flag caps
-                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                for(String id : thingMap.keySet()) {
-                    gProp p = (gProp) thingMap.get(id);
-                    gPlayer flagking = cGameLogic.getPlayerById(p.get("str0"));
-                    todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
-                }
-                dScreenMessages.drawCenteredString(g, todraw.toString(),
-                        sSettings.width/2,14*sSettings.height/15);
-            }
+//            // king of flags
+//            if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
+//                StringBuilder todraw = new StringBuilder();
+//                //this is where we show the checkmarks for kof flag caps
+//                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+//                for(String id : thingMap.keySet()) {
+//                    gProp p = (gProp) thingMap.get(id);
+//                    gPlayer flagking = cGameLogic.getPlayerById(p.get("str0"));
+//                    todraw.append(String.format("[%s]",flagking != null ? flagking.get("name") : "-----"));
+//                }
+//                dScreenMessages.drawCenteredString(g, todraw.toString(),
+//                        sSettings.width/2,14*sSettings.height/15);
+//            }
             if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
                 drawVirusTagString(g);
             }
