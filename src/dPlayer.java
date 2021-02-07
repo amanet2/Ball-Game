@@ -75,10 +75,11 @@ public class dPlayer {
                 //player shadow
                 if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                     if(sVars.isOne("vfxenableshadows")) {
+                        int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
                         Rectangle2D shadowBounds = new Rectangle.Double(
                                 eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
                                 eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                        + 5*e.getInt("dimh")/6),
+                                        + yadj),
                                 eUtils.scaleInt(e.getInt("dimw")),
                                 eUtils.scaleInt(e.getInt("dimh")/3));
                         RadialGradientPaint df = new RadialGradientPaint(

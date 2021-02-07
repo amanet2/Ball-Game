@@ -138,7 +138,7 @@ public class cGameLogic {
             //jumping
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
                 int jumpmax = cVars.isInt("mapview", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
-                        : cVars.getInt("jumptimemax")/2;
+                        : cVars.getInt("jumptimemax")/4;
                 if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < jumpmax) {
                     cVars.increment("jumpheight");
                     if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))

@@ -23,7 +23,6 @@ public class cVars {
         put("collideplayers", "1");
         put("currentweapon", "0");
         put("delayhp", "2400");
-        put("delayjump", "160");
         put("delaypow", "1000");
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
@@ -56,7 +55,8 @@ public class cVars {
         put("jumpheight", "0");
         put("jumping", "0");
         put("jumpsquish", "20");
-        put("jumptimemax", "80");
+        put("jumptimemax", "100");
+        put("delayjump", "25");
         put("killerid", "God");
         put("killername", "God");
         put("kingofflagstime", "0");

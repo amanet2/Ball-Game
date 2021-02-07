@@ -212,7 +212,6 @@ public class cScripts {
                         }
                         if (sSettings.net_server) {
                             xCon.ex("givepoint " + pla.get("id"));
-                            xCon.ex("say " + pla.get("name") + " completed a lap!");
                         } else if (sSettings.net_client) {
                             xCon.ex("cv_lapcomplete 1");
                         }

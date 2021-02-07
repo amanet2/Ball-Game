@@ -54,7 +54,6 @@ public class gPropScorepoint extends gProp {
                             }
                             if (sSettings.net_server) {
                                 xCon.ex("givepoint " + p.get("id"));
-                                xCon.ex("say " + p.get("name") + " completed a lap!");
                             } else if (sSettings.net_client) {
                                 xCon.ex("cv_lapcomplete 1");
                                 cScripts.createScorePopup((gPlayer) p, 1);
