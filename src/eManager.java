@@ -59,10 +59,14 @@ public class eManager {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     if(obj.isZero("tag")) {
-                        if (obj.getInt("mov"+i) > 0)
-                            obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
-                                            + cVars.getInt("speedbonus"),
-                                    obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
+                        if (obj.getInt("mov"+i) > 0) {
+                            double mod = 1;
+                            if(i==0)
+                                mod = 1.5;
+                            obj.putInt("vel" + i, (Math.min((int)(mod*(cVars.getInt("velocityplayer")
+                                            + cVars.getInt("speedbonus"))),
+                                    obj.getInt("vel" + i) + 1 + cVars.getInt("speedbonus"))));
+                        }
                         if (obj.getInt("mov"+i) < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }

@@ -12,14 +12,21 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+PRIORITY 1: * PLAYER CROUCHES IN BOOSTUP
+PRIORITY 1: * squish player in the direction of the boost
+PRIORITY 1:     -> needed for comedy
+PRIORITY 1: * EDITOR: you NEED a gravity setting for maps
+PRIORITY 1:     -> falling to the bottom is too much fun
+PRIORITY 1: * EDITOR: select last placed tile
+PRIORITY 1: * EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
+PRIORITY 1: * use boostups on topdown map
+PRIORITY 1:     -> use it in dm_zone to block off the spawns
+PRIORITY 1:     -> have to stop forcing the mov0 when not intersecting
 * big if else block in dScreenMessages around line 420
 * make tile object work like flare object loading into maps and saving
     ->gThingReturnTile
-* all flares gone from maps
-    ->happens when saving maps in editor
 * code in editorPutProp needs to be stored in the prop object instead of that fucking switch case
 * remove vestigal spawning-related code
-* double +1 when capturing flag
 * waypoints game mode doesnt show scorepoint for clients
 * client cant score in safezones
 * horrible crash when client wins deathmatch mode
@@ -34,6 +41,7 @@
     -> ctf is more balanced the way it is
 * for ctf, have multiple red flags spawn around the map, have a few equidistant blue flag "stations" to bring them to
     -> like a fuzion frenzy type thing
+    -> need to accomodate multiple "flagmasterids"
 * cut/copy/paste only works for tiles right now
     -> make generic copything() function maybe instead of copytile, copyprop, etc
 * audit unused binds and remove vestigal classes

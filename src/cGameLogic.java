@@ -112,7 +112,7 @@ public class cGameLogic {
     }
 
     public static void checkMapGravity() {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+//        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
                 if (cVars.isOne("jumping")) {
                     xCon.ex("THING_PLAYER.0.mov1 0");
@@ -141,7 +141,7 @@ public class cGameLogic {
             }
             cVars.put("onladder", "0");
             cVars.put("inboost", "0");
-        }
+//        }
     }
 
     public static boolean drawSpawnProtection() {

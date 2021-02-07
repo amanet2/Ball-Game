@@ -241,16 +241,18 @@ public class dScreenMessages {
         //big font
         cScripts.setFontNormal(g);
         if(uiInterface.inplay) {
-            drawRightJustifiedString(g, String.format("%s",cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
-                    29*sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
-            drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
-                    29*sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-            drawRightJustifiedString(g,
-                    cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " <",
-                    29*sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
-            drawRightJustifiedString(g, cVars.get("scorelimit") + "pts to win | "
-                            + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                    29*sSettings.width / 30, sSettings.height - sSettings.height / 30);
+            if(cScripts.isNetworkGame()) {
+                drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
+                        29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
+                drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
+                        29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+                drawRightJustifiedString(g,
+                        cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " <",
+                        29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+                drawRightJustifiedString(g, cVars.get("scorelimit") + "pts to win | "
+                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+            }
         }
         //wip notice
         g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
@@ -377,8 +379,9 @@ public class dScreenMessages {
         }
         //safezone timer
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            dScreenMessages.drawCenteredString(g,
-                    eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis()),
+            dScreenMessages.drawCenteredString(g,">>SELF-DESTRUCT IN "+
+                    eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis())
+                    + "<<",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
 
