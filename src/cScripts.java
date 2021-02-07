@@ -240,18 +240,6 @@ public class cScripts {
         }
     }
 
-    public static void checkPlayerBlueFlags() {
-        if(cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                && cVars.isVal("flagmasterid", uiInterface.uuid)) {
-            cVars.put("flagmasterid", "");
-            createScorePopup(cGameLogic.userPlayer(),1);
-            if(sSettings.net_server) {
-                xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
-                xCon.ex("say " + sVars.get("playername") + " captured the flag!");
-            }
-        }
-    }
-
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
@@ -263,38 +251,6 @@ public class cScripts {
                 || (nServer.clientArgsMap.containsKey("server")
                 && nServer.clientArgsMap.get("server").containsKey("virussingleid")
                 && nServer.clientArgsMap.get("server").get("virussingleid").equals(uiInterface.uuid)));
-    }
-
-    public static void checkPlayerRedFlags(gProp flag) {
-        if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-            && cVars.isVal("flagmasterid", "")) {
-            cVars.put("flagmasterid", uiInterface.uuid);
-            if(sSettings.net_server) {
-                xCon.ex("say " + sVars.get("playername") + " has the flag!");
-            }
-        }
-        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                && !flag.isVal("str0", cGameLogic.userPlayer().get("id"))) {
-            gPlayer cl = cGameLogic.userPlayer();
-            int pass = 1;
-            for(gPlayer p : eManager.currentMap.scene.players()) {
-                //make sure no other players still on the flag
-                if(!p.get("id").equals(cl.get("id"))
-                        && p.willCollideWithPropAtCoords(flag, p.getInt("coordx"), p.getInt("coordy"))) {
-                    pass = 0;
-                    break;
-                }
-            }
-            if(pass > 0) {
-                flag.put("str0", cl.get("id"));
-                if(sSettings.net_server) {
-                    xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
-                    xCon.ex("say " + sVars.get("playername") + " captured flag#"+flag.getInt("tag"));
-                }
-                createScorePopup(cGameLogic.userPlayer(),1);
-            }
-        }
     }
 
     public static void checkMsgSpecialFunction(String msg) {

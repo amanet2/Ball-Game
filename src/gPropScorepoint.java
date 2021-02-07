@@ -29,6 +29,7 @@ public class gPropScorepoint extends gProp {
                     }
                     if(gonnaWin > 0) {
                         xCon.ex("givepoint "+p.get("id"));
+                        cScripts.createScorePopup((gPlayer) p, 1);
                         for(Object id : scorepointsMap.keySet()) {
                             gProp pr = (gProp) scorepointsMap.get(id);
                             pr.put("racebotidcheckins",
@@ -56,8 +57,8 @@ public class gPropScorepoint extends gProp {
                                 xCon.ex("say " + p.get("name") + " completed a lap!");
                             } else if (sSettings.net_client) {
                                 xCon.ex("cv_lapcomplete 1");
+                                cScripts.createScorePopup((gPlayer) p, 1);
                             }
-                            cScripts.createScorePopup((gPlayer) p, 1);
                         }
                     }
                 }
@@ -67,10 +68,12 @@ public class gPropScorepoint extends gProp {
             public void doItem(gThing p) {
                 if(getInt("int0") > 0) {
                     put("int0", "0");
-                    cScripts.createScorePopup((gPlayer) p,1);
                     if(sSettings.net_server) {
                         xCon.ex("givepoint " + p.get("id"));
                         cGameLogic.checkWaypoints();
+                    }
+                    else {
+                        cScripts.createScorePopup((gPlayer) p,1);
                     }
                 }
             }
