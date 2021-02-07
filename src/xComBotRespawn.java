@@ -36,8 +36,8 @@ public class xComBotRespawn extends xCom {
                 }
             }
             if(pass) {
-                bot.putInt("coordx", spawnpoint.getInt("coordx") - bot.getInt("dimw") / 2);
-                bot.putInt("coordy", spawnpoint.getInt("coordy") - bot.getInt("dimh") / 2);
+                bot.putInt("coordx", spawnpoint.getInt("coordx") );
+                bot.putInt("coordy", spawnpoint.getInt("coordy"));
                 bot.put("stockhp", cVars.get("maxstockhp"));
                 if(cVars.contains("spawnprotectionmaxtime") && cVars.getInt("spawnprotectionmaxtime") > 0) {
                     bot.putLong("spawnprotectiontime",

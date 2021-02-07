@@ -244,12 +244,27 @@ public class dScreenMessages {
             if(cScripts.isNetworkGame()) {
                 drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
+                long timeleft = cVars.getLong("timeleft");
+                if(timeleft < 30000) {
+                    g.setColor((new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
+                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
+                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
+                            Integer.parseInt(xCon.ex("textcoloralert").split(",")[3]))));
+                }
                 drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
+                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
+                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
+                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
                 drawRightJustifiedString(g,
-                        cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " <",
+                        cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
                         29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
-                drawRightJustifiedString(g, cVars.get("scorelimit") + "pts to win | "
+                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
+                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
+                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
+                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
