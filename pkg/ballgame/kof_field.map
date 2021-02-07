@@ -1,4 +1,4 @@
-cmd cv_maptype 0
+cmd cv_mapview 0
 cmd cv_gamemode 4
 cmd cv_botbehavior goto_kofflag
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1380 -330 600 600 100 150 0 0 0 0 100 255 0

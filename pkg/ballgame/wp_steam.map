@@ -1,4 +1,4 @@
-cmd cv_maptype 0
+cmd cv_mapview 0
 cmd cv_gamemode 5
 cmd cv_botbehavior goto_scorepoint
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -4500 -2040 7500 6400 0 0 6400 0 0 0 0 200 0

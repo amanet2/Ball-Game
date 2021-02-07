@@ -1,4 +1,4 @@
-cmd cv_maptype 0
+cmd cv_mapview 0
 cmd cv_gamemode 1
 cmd cv_botbehavior goto_scorepoint
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -2100 -3990 1200 1200 100 150 0 0 0 0 0 255 0

@@ -1,4 +1,4 @@
-cmd cv_maptype 0
+cmd cv_mapview 0
 cmd cv_gamemode 2
 cmd cv_botbehavior goto_safezone
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/sand.png -2700 -3600 1200 1200 0 0 1200 0 0 0 0 255 0
