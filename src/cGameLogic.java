@@ -114,12 +114,14 @@ public class cGameLogic {
     public static void checkMapGravity() {
 //        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
+                gPlayer userPlayer = cGameLogic.userPlayer();
                 if (cVars.isOne("jumping")) {
-                    xCon.ex("THING_PLAYER.0.mov1 0");
-                    xCon.ex("THING_PLAYER.0.mov0 1");
+                    userPlayer.putInt("mov1", 0);
+                    userPlayer.putInt("mov0", 1);
                 } else {
-                    if(!cVars.contains("respawntime"))
-                        xCon.ex("THING_PLAYER.0.mov1 1");
+                    if(!cVars.contains("respawntime")) {
+                        userPlayer.putInt("mov1", 1);
+                    }
                     if (!userPlayer().canJump())
                         cVars.increment("falltime");
                     else
@@ -135,8 +137,8 @@ public class cGameLogic {
                         xCon.ex("-crouch");
                 }
                 else if(cVars.isOne("jumping")) {
-                    xCon.ex("THING_PLAYER.0.mov0 0");
-                    xCon.ex("cv_jumping 0");
+                    userPlayer.putInt("mov0", 0);
+                    cVars.putInt("jumping", 0);
                 }
             }
             cVars.put("onladder", "0");

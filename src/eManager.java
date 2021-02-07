@@ -61,11 +61,14 @@ public class eManager {
                     if(obj.isZero("tag")) {
                         if (obj.getInt("mov"+i) > 0) {
                             double mod = 1;
-                            if(i==0)
+                            int speedbonus = cVars.getInt("speedbonus");
+                            if(i==0) {
                                 mod = 1.5;
-                            obj.putInt("vel" + i, (Math.min((int)(mod*(cVars.getInt("velocityplayer")
-                                            + cVars.getInt("speedbonus"))),
-                                    obj.getInt("vel" + i) + 1 + cVars.getInt("speedbonus"))));
+                                speedbonus = 2*speedbonus;
+                            }
+                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")
+                                            + mod*cVars.getInt("speedbonus")),
+                                    obj.getInt("vel" + i) + 1 + (int)(mod*speedbonus))));
                         }
                         if (obj.getInt("mov"+i) < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
