@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class cGameLogic {
@@ -14,7 +15,7 @@ public class cGameLogic {
     }
 
     public static gPlayer getPlayerByIndex(int n) {
-        return eManager.currentMap.scene.players().size() > n ?
+        return eManager.currentMap.scene.playersMap().size() > n ?
             eManager.currentMap.scene.players().get(n) :
             null;
     }
@@ -453,14 +454,14 @@ public class cGameLogic {
     }
 
     public static void checkPlayersFire() {
-        if (eManager.currentMap.scene.players().size() > 0) {
+        if (eManager.currentMap.scene.playersMap().size() > 0) {
             if(iMouse.holdingMouseLeft) {
                 xCon.ex("attack");
             }
             else {
                 cVars.put("firing", "0");
             }
-            for(int i = 1; i < eManager.currentMap.scene.players().size(); i++) {
+            for(int i = 1; i < eManager.currentMap.scene.playersMap().size(); i++) {
                 gPlayer p = eManager.currentMap.scene.players().get(i);
                 if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
                     p.fireWeapon();
@@ -613,7 +614,7 @@ public class cGameLogic {
     }
 
     public static void refreshVirusPlayers() {
-        String[] tmp = new String[eManager.currentMap.scene.players().size()];
+        String[] tmp = new String[eManager.currentMap.scene.playersMap().size()];
         int i = 0;
         while(i < tmp.length) {
             tmp[i] = "0";
@@ -725,6 +726,10 @@ public class cGameLogic {
         }
     }
 
+    public static Collection<String> getPlayerIds() {
+        return eManager.currentMap.scene.playersMap().keySet();
+    }
+
     public static void checkFlagMaster() {
         if(sSettings.net_server) {
             if(cVars.get("flagmasterid").length() > 0
@@ -736,10 +741,10 @@ public class cGameLogic {
     }
 
     public static void assignRandomIdToCvar(String cvar) {
-        int r = (int) (Math.random()*((double)eManager.currentMap.scene.players().size()-1));
+        int r = (int) (Math.random()*((double)eManager.currentMap.scene.playersMap().size()-1));
         gPlayer rp = cGameLogic.getPlayerByIndex(r);
         if(rp != null) {
-            cVars.put(cvar, eManager.currentMap.scene.players().size() < 2 ? "server" : rp.get("id"));
+            cVars.put(cvar, eManager.currentMap.scene.playersMap().size() < 2 ? "server" : rp.get("id"));
         }
     }
 
@@ -987,8 +992,8 @@ public class cGameLogic {
                 cVars.remove("virusresettime");
             }
             //check if more players
-            if(vts.length != eManager.currentMap.scene.players().size()) {
-                String[] na = Arrays.copyOf(vts, eManager.currentMap.scene.players().size());
+            if(vts.length != eManager.currentMap.scene.playersMap().size()) {
+                String[] na = Arrays.copyOf(vts, eManager.currentMap.scene.playersMap().size());
                 for(int i = vts.length; i < na.length; i++) {
                     na[i] = "1";
                 }
@@ -996,8 +1001,8 @@ public class cGameLogic {
             }
             String virusIdsStr = cScripts.getVirusIdsString();
             //check intersections
-            for(int i = 0; i < eManager.currentMap.scene.players().size(); i++) {
-                for(int j = 0; j < eManager.currentMap.scene.players().size(); j++) {
+            for(int i = 0; i < eManager.currentMap.scene.playersMap().size(); i++) {
+                for(int j = 0; j < eManager.currentMap.scene.playersMap().size(); j++) {
                     if(i != j) {
                         gPlayer p = cGameLogic.getPlayerByIndex(i);
                         gPlayer pp = cGameLogic.getPlayerByIndex(j);

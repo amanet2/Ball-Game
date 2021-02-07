@@ -33,13 +33,6 @@ public class gPlayer extends gThing {
                     return true;
                 }
             }
-            for (gPlayer target : eManager.currentMap.scene.players()) {
-                if(!(getInt("coordx")+getInt("dimw") < target.getInt("coordx"))
-                        && !(getInt("coordx") > target.getInt("coordx")+target.getInt("dimw"))
-                        && Math.abs((getInt("coordy")+getInt("dimh"))-target.getInt("coordy")) < 10) {
-                    return true;
-                }
-            }
         }
         else {
             return true;
@@ -62,15 +55,17 @@ public class gPlayer extends gThing {
             }
         }
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            for (gPlayer target : eManager.currentMap.scene.players()) {
-                if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
+            for(String id : cGameLogic.getPlayerIds()) {
+                gPlayer target = cGameLogic.getPlayerById(id);
+                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
                     return false;
                 }
             }
         }
         if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
-            for (gPlayer target : eManager.currentMap.scene.players()) {
-                if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
+            for(String id : cGameLogic.getPlayerIds()) {
+                gPlayer target = cGameLogic.getPlayerById(id);
+                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
                     return false;
                 }
             }

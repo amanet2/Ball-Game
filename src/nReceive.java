@@ -81,11 +81,11 @@ public class nReceive {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
                         player.put("name", packName);
-                        player.putInt("tag", eManager.currentMap.scene.players().size());
+                        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("id", packId);
                         player.putInt("weapon", packWeap);
                         eManager.currentMap.scene.players().add(player);
-                        eManager.currentMap.scene.getThingMap("THING_PLAYER").put(packId, player);
+                        eManager.currentMap.scene.playersMap().put(packId, player);
                     }
                     xCon.ex(String.format("say %s joined the game", packName));
                 }
@@ -240,10 +240,10 @@ public class nReceive {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
                         player.put("id", idload);
-                        player.putInt("tag", eManager.currentMap.scene.players().size());
+                        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("name", nameload);
                         eManager.currentMap.scene.players().add(player);
-                        eManager.currentMap.scene.getThingMap("THING_PLAYER").put(idload, player);
+                        eManager.currentMap.scene.playersMap().put(idload, player);
                         w++;
                     }
                 }
@@ -278,6 +278,7 @@ public class nReceive {
                     cScoreboard.scoresMap.remove(tr);
                     nServer.clientIds.remove(tr);
                     eManager.currentMap.scene.players().remove( qi + 1);
+                    eManager.currentMap.scene.playersMap().remove(tr);
                 }
             }
         }

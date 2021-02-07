@@ -130,6 +130,7 @@ public class nServer extends Thread {
         cScoreboard.scoresMap.remove(id);
         gPlayer quittingPlayer = cGameLogic.getPlayerById(id);
         eManager.currentMap.scene.players().remove(quittingPlayer);
+        eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG

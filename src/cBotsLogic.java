@@ -120,7 +120,8 @@ public class cBotsLogic {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            for(gPlayer p : eManager.currentMap.scene.players()) {
+            for(String id : cGameLogic.getPlayerIds()) {
+                gPlayer p = cGameLogic.getPlayerById(id);
                 int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
                 int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
                 if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)

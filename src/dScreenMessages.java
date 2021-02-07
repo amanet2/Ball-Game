@@ -364,7 +364,7 @@ public class dScreenMessages {
         if(cVars.isOne("showscore")) {
             dScoreboard.showScoreBoard(g);
         }
-        else if(eManager.currentMap.scene.players().size() > 0){
+        else if(eManager.currentMap.scene.playersMap().size() > 0){
 //            System.out.println(nServer.clientArgsMap.toString());
             if(nServer.clientArgsMap.get("server") != null
             && nServer.clientArgsMap.get("server").get("topscore") != null

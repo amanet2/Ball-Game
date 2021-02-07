@@ -51,7 +51,8 @@ public class eManager {
                 }
             }
         }
-        for(gPlayer obj : eManager.currentMap.scene.players()) {
+        for(String id : cGameLogic.getPlayerIds()) {
+            gPlayer obj = cGameLogic.getPlayerById(id);
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
@@ -109,7 +110,8 @@ public class eManager {
 	}
 
 	public static void setScene() {
-		if (cVars.isInt("cammode", gCamera.MODE_TRACKING) && currentMap.scene.players().size() > 0)
+		if (cVars.isInt("cammode", gCamera.MODE_TRACKING)
+                && currentMap.scene.playersMap().size() > 0)
             xCon.ex("centercamera");
 		else {
 		    double rr = Math.random();

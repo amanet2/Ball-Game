@@ -489,7 +489,7 @@ public class dTileTops {
             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER
             || cVars.getInt("gamemode") == cGameMode.CHOSENONE
             || cVars.getInt("gamemode") == cGameMode.ANTI_CHOSENONE)
-            && eManager.currentMap.scene.players().size() > 0){
+            && eManager.currentMap.scene.playersMap().size() > 0){
             //flagmaster nav pointer
             if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                     || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
@@ -544,7 +544,7 @@ public class dTileTops {
             if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
                     && nServer.clientArgsMap.get("server").containsKey("state")) {
                 String statestr = nServer.clientArgsMap.get("server").get("state");
-                for (int i = 0; i < eManager.currentMap.scene.players().size(); i++) {
+                for (int i = 0; i < eManager.currentMap.scene.playersMap().size(); i++) {
                     gPlayer p = cGameLogic.getPlayerByIndex(i);
                     if ((sSettings.net_server && i == 0 && statestr.contains("server")) ||
                             (sSettings.net_client && i == 0 && statestr.contains(uiInterface.uuid)) ||
@@ -589,24 +589,27 @@ public class dTileTops {
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
         }
         //player highlight
-        if(sVars.isOne("playerarrow") && eManager.currentMap.scene.players().size() > 0) {
+        if(sVars.isOne("playerarrow") && eManager.currentMap.scene.playersMap().size() > 0) {
+            gPlayer userPlayer = cGameLogic.userPlayer();
             int[][] polygonBase = new int[][]{
                     new int[]{0,2,1},
                     new int[]{0,0,1}
             };
             int polygonSize = sSettings.width/32;
             int[][] polygon = new int[][]{
-                    new int[]{eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordx")
-                            - cVars.getInt("camx")) + polygonBase[0][0]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordx")
+                    new int[]{
+                            eUtils.scaleInt(userPlayer.getInt("coordx")
+                                    - cVars.getInt("camx")) + polygonBase[0][0]*polygonSize,
+                            eUtils.scaleInt(userPlayer.getInt("coordx")
                                     - cVars.getInt("camx")) + polygonBase[0][1]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordx")
+                            eUtils.scaleInt(userPlayer.getInt("coordx")
                                     - cVars.getInt("camx")) + polygonBase[0][2]*polygonSize},
-                    new int[]{eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordy")
-                            - cVars.getInt("camy")-200) + polygonBase[1][0]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordy")
+                    new int[]{
+                            eUtils.scaleInt(userPlayer.getInt("coordy")
+                                    - cVars.getInt("camy")-200) + polygonBase[1][0]*polygonSize,
+                            eUtils.scaleInt(userPlayer.getInt("coordy")
                                     - cVars.getInt("camy")-200) + polygonBase[1][1]*polygonSize,
-                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("coordy")
+                            eUtils.scaleInt(userPlayer.getInt("coordy")
                                     - cVars.getInt("camy")-200) + polygonBase[1][2]*polygonSize}
             };
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));

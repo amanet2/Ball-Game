@@ -609,7 +609,7 @@ public class cScripts {
             }
             xCon.ex("THING_PLAYER.0.color playercolor");
             eManager.currentMap.scene.players().add(player0);
-            eManager.currentMap.scene.getThingMap("THING_PLAYER").put(player0.get("id"), player0);
+            eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
             xCon.ex("centercamera");
         }
         //network
@@ -617,10 +617,10 @@ public class cScripts {
             for(String s : nServer.clientIds) {
                 gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
-                player.putInt("tag", eManager.currentMap.scene.players().size());
+                player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                 player.put("id", s);
                 eManager.currentMap.scene.players().add(player);
-                eManager.currentMap.scene.getThingMap("THING_PLAYER").put(s, player);
+                eManager.currentMap.scene.playersMap().put(s, player);
             }
             cVars.putInt("currentweapon", gWeapons.type.NONE.code());
             xCon.ex("respawn");
@@ -659,7 +659,7 @@ public class cScripts {
     }
 
     public static void changeWeapon(int newweapon) {
-        if(eManager.currentMap.scene.players().size() > 0
+        if(eManager.currentMap.scene.playersMap().size() > 0
                 && !(newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
             xCon.ex("THING_PLAYER.0.weapon " + newweapon);
             cVars.putInt("currentweapon", newweapon);
