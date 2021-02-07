@@ -44,8 +44,7 @@ public class dScreenFX {
                         -(int)g2.getFont().getStringBounds(message,frc).getWidth()/2,
                 eUtils.scaleInt(dy - cVars.getInt("camy"))
                         -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
-        if(!cVars.isInt("gamemode", cGameMode.VIRUS) && !cVars.isInt("gamemode", cGameMode.VIRUS_SINGLE)
-                && !cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
+        if(!cVars.isInt("gamemode", cGameMode.VIRUS)
                 && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
             double angle = Math.atan2(deltas[1], deltas[0]);
             if (angle < 0)

@@ -28,7 +28,6 @@ public class xComGivePoint extends xCom {
             String[] quietGameModesArray = {
                     Integer.toString(cGameMode.KING_OF_FLAGS),
                     Integer.toString(cGameMode.CHOSENONE),
-                    Integer.toString(cGameMode.VIRUS_SINGLE),
                     Integer.toString(cGameMode.VIRUS),
                     Integer.toString(cGameMode.FLAG_MASTER),
                     Integer.toString(cGameMode.DEATHMATCH)

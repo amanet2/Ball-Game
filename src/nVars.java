@@ -90,12 +90,13 @@ public class nVars {
             keys.remove("disconnect");
         keys.put("time", Long.toString(System.currentTimeMillis()));
         if(sSettings.net_server) {
-            for(String s : new String[]{"virussingleid", "chosenoneid","ballx","bally"}) {
-                if(cVars.get(s).length() > 0)
-                    keys.put(s, cVars.get(s));
-                else
-                    keys.remove(s);
-            }
+            // old code for "always-on" gamemode vars
+//            for(String s : new String[]{"ballx","bally"}) {
+//                if(cVars.get(s).length() > 0)
+//                    keys.put(s, cVars.get(s));
+//                else
+//                    keys.remove(s);
+//            }
             if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
                 keys.put("flagmasterid", cVars.get("flagmasterid"));

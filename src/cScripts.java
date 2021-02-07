@@ -233,23 +233,10 @@ public class cScripts {
         }
     }
 
-    public static void checkPlayerSafepoints(gProp safepoint) {
-        if(safepoint.getInt("int0") > 0) {
-            cVars.put("survivesafezone", "1");
-        }
-    }
-
     public static boolean isReloading() {
         return cVars.isOne("allowweaponreload")
                 && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
                 >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
-    }
-
-    public static boolean isVirus() {
-        return (cVars.get("virussingleid").equals(uiInterface.uuid)
-                || (nServer.clientArgsMap.containsKey("server")
-                && nServer.clientArgsMap.get("server").containsKey("virussingleid")
-                && nServer.clientArgsMap.get("server").get("virussingleid").equals(uiInterface.uuid)));
     }
 
     public static void checkMsgSpecialFunction(String msg) {
@@ -679,15 +666,5 @@ public class cScripts {
 
     public static boolean isNetworkGame() {
         return sSettings.net_server || sSettings.net_client;
-    }
-
-    public static String getVirusIdsString() {
-        StringBuilder virusSb = new StringBuilder();
-        for(int i = 0; i < cVars.getArray("virustags").length; i++) {
-            if(cVars.getArray("virustags")[i].equals("1")) {
-                virusSb.append("-").append(i == 0 ? "server" : cGameLogic.getPlayerByIndex(i).get("id"));
-            }
-        }
-        return virusSb.toString();
     }
 }

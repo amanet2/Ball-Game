@@ -138,10 +138,6 @@ public class nServer extends Thread {
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
         }
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
-                && cVars.isVal("virussingleid", quittingPlayer.get("id"))) {
-            cVars.put("virussingleid", "");
-        }
         xCon.ex(String.format("say %s left the game", quitterName));
     }
 

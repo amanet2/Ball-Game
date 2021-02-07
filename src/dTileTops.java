@@ -554,21 +554,6 @@ public class dTileTops {
                 }
             }
         }
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE) {
-            //waypoints
-            //virus single nav pointer
-            if(cVars.get("virussingleid").length() > 0) {
-                gPlayer p = gScene.getPlayerById(cVars.get("virussingleid"));
-                if(p != null)
-                    dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
-                            p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
-                else if(sSettings.net_client && cScripts.isVirus()) {
-                    p = cGameLogic.userPlayer();
-                    dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
-                            p.getInt("coordy") + p.getInt("dimh")/2, "* INFECTED *");
-                }
-            }
-        }
         //popups
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {

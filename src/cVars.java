@@ -127,13 +127,9 @@ public class cVars {
         put("vfxwalloutlinealpha2", "200");
         put("vfxwallshadingalpha1", "50");
         put("vfxwallshadingalpha2", "200");
+        put("virusids", "");
         put("virusresetwaittime", "5000");
         put("virustime", "0");
-        put("virussingleid", "");
-        put("virussingletime", "0");
-        put("virussingletagbackid", "");
-        put("virussingletagbacktime", "0");
-        put("virussingletagbackwaittime", "2000");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");
         put("weaponbotrange2", "400");

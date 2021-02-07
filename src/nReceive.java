@@ -132,9 +132,6 @@ public class nReceive {
                     if(packArgs.containsKey("flagmasterid")) {
                         cVars.put("flagmasterid", packArgs.get("flagmasterid"));
                     }
-                    if(packArgs.containsKey("virussingleid")) {
-                        cVars.put("virussingleid", packArgs.get("virussingleid"));
-                    }
                     if(packArgs.containsKey("chosenoneid")) {
                             cVars.put("chosenoneid", packArgs.get("chosenoneid"));
                     }

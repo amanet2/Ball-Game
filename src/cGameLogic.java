@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class cGameLogic {
@@ -161,18 +160,22 @@ public class cGameLogic {
         cScoreboard.resetScoresMap();
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
-        if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-            || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
-            cVars.put("flagmasterid", "");
-        }
-        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-            cGameMode.resetKingOfFlags();
-        }
-        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            refreshSafeZones();
-        }
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
-            refreshVirusPlayers();
+        switch (cVars.getInt("gamemode")) {
+            case cGameMode.CAPTURE_THE_FLAG:
+            case cGameMode.FLAG_MASTER:
+                cVars.put("flagmasterid", "");
+                break;
+            case cGameMode.KING_OF_FLAGS:
+                cGameMode.resetKingOfFlags();
+                break;
+            case cGameMode.SAFE_ZONES:
+                refreshSafeZones();
+                break;
+            case cGameMode.VIRUS:
+                resetVirusPlayers();
+                break;
+            default:
+                break;
         }
     }
 
@@ -610,15 +613,9 @@ public class cGameLogic {
         }
     }
 
-    public static void refreshVirusPlayers() {
-        String[] tmp = new String[eManager.currentMap.scene.playersMap().size()];
-        int i = 0;
-        while(i < tmp.length) {
-            tmp[i] = "0";
-            i++;
-        }
-        tmp[(int)(Math.random()*(double)(tmp.length))] = "1"; //random player
-        cVars.putArray("virustags", tmp);
+    public static void resetVirusPlayers() {
+        assignRandomIdToCvar("virusids");
+        cVars.put("virusids", cVars.get("virusids")+"-");
     }
 
     public static void refreshSafeZones() {
@@ -686,43 +683,6 @@ public class cGameLogic {
         }
     }
 
-    public static void checkVirusSingle() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("virussingletime") < uiInterface.gameTime) {
-                boolean novirus = true;
-                for(gPlayer p : eManager.currentMap.scene.players()) {
-                    if(p.get("id").equals(cVars.get("virussingleid"))) {
-                        novirus = false;
-                    }
-                    else if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                        xCon.ex("givepoint " + p.get("id"));
-                    }
-                }
-                if(novirus) {
-                    assignRandomIdToCvar("virussingleid");
-                }
-                cVars.putLong("virussingletime", uiInterface.gameTime + 1000);
-            }
-            //check intersections
-            for(gPlayer p1 : eManager.currentMap.scene.players()) {
-                for(gPlayer p2 : eManager.currentMap.scene.players()) {
-                    if(p1.get("id").equals(cVars.get("virussingleid"))
-                    && cVars.getLong("virussingletagbacktime") < uiInterface.gameTime
-                    && !p1.get("id").equals(p2.get("id"))
-                    && new Rectangle(
-                            p1.getInt("coordx"), p1.getInt("coordy"), p1.getInt("dimw"), p1.getInt("dimh")
-                    ).intersects(new Rectangle(
-                            p2.getInt("coordx"), p2.getInt("coordy"), p2.getInt("dimw"), p2.getInt("dimh"))
-                    )) {
-                        cVars.putLong("virussingletagbacktime",
-                                uiInterface.gameTime + cVars.getInt("virussingletagbackwaittime"));
-                        cVars.put("virussingleid", p2.get("id"));
-                    }
-                }
-            }
-        }
-    }
-
     public static void checkFlagMaster() {
         if(sSettings.net_server) {
             if(cVars.get("flagmasterid").length() > 0
@@ -734,36 +694,13 @@ public class cGameLogic {
     }
 
     public static void assignRandomIdToCvar(String cvar) {
-        int r = (int) (Math.random()*((double)eManager.currentMap.scene.playersMap().size()-1));
-        gPlayer rp = cGameLogic.getPlayerByIndex(r);
-        if(rp != null) {
-            cVars.put(cvar, eManager.currentMap.scene.playersMap().size() < 2 ? "server" : rp.get("id"));
-        }
-    }
-
-    public static void checkChosenOne() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("chosenonetime") < uiInterface.gameTime) {
-                boolean nogolden = true;
-                for(gPlayer p : eManager.currentMap.scene.players()) {
-                    if(p.get("id").equals(cVars.get("chosenoneid"))) {
-                        nogolden = false;
-                        xCon.ex("givepoint " + p.get("id"));
-                    }
-                }
-                if(nogolden) {
-                    assignRandomIdToCvar("chosenoneid");
-                }
-                cVars.putLong("chosenonetime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
-    public static void checkAntiChosenOne() {
-        if(sSettings.net_server) {
-            if(cVars.isVal("chosenoneid", "")) {
-                assignRandomIdToCvar("chosenoneid");
-            }
+        int r = (int) (Math.random()*((double)gScene.getPlayerIds().size()));
+        int c = 0;
+        for(String id : gScene.getPlayerIds()) {
+            System.out.println(id);
+            if(c==r)
+                cVars.put(cvar, id);
+            c++;
         }
     }
 
@@ -793,17 +730,8 @@ public class cGameLogic {
                 case cGameMode.VIRUS:
                     checkVirus();
                     break;
-                case cGameMode.VIRUS_SINGLE:
-                    checkVirusSingle();
-                    break;
                 case cGameMode.FLAG_MASTER:
                     checkFlagMaster();
-                    break;
-                case cGameMode.CHOSENONE:
-                    checkChosenOne();
-                    break;
-                case cGameMode.ANTI_CHOSENONE:
-                    checkAntiChosenOne();
                     break;
                 default:
                     break;
@@ -948,91 +876,88 @@ public class cGameLogic {
 
     public static String getGameStateServer() {
         //ugly if else
-        if(cVars.isInt("gamemode", cGameMode.SAFE_ZONES)) {
-            HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-            for(Object id : scorepointsMap.keySet()) {
-                gProp p = (gProp) scorepointsMap.get(id);
-                if(p.isInt("int0", 1))
-                    return String.format("safezone-%s-%s", p.get("tag"), cVars.get("safezonetime"));
-            }
-        }
-        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-            for(Object id : scorepointsMap.keySet()) {
-                gProp p = (gProp) scorepointsMap.get(id);
-                if(p.isInt("int0", 1))
-                    return String.format("waypoints-%s", id);
-            }
-        }
-        // KINGOFFLAGS
-        if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
-            StringBuilder s = new StringBuilder();
-            HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-            for(String id : thingMap.keySet()) {
-                s.append(String.format("%s-%s:", id, thingMap.get(id).get("str0")));
-            }
-            return String.format("kingofflags%s", s);
-        }
-        // VIRUS
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
-            //check
-            if(!cVars.contains("virustags"))
-                cGameLogic.refreshVirusPlayers();
-            String[] vts = cVars.getArray("virustags");
-            //check if reset time
-            if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
-                cGameLogic.refreshVirusPlayers();
-                cVars.remove("virusresettime");
-            }
-            //check if more players
-            if(vts.length != eManager.currentMap.scene.playersMap().size()) {
-                String[] na = Arrays.copyOf(vts, eManager.currentMap.scene.playersMap().size());
-                for(int i = vts.length; i < na.length; i++) {
-                    na[i] = "1";
+        HashMap thingMap;
+        switch(cVars.getInt("gamemode")) {
+            case cGameMode.SAFE_ZONES:
+                thingMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                for(Object id : thingMap.keySet()) {
+                    gProp p = (gProp) thingMap.get(id);
+                    if(p.isInt("int0", 1))
+                        return String.format("safezone-%s-%s", p.get("tag"), cVars.get("safezonetime"));
                 }
-                cVars.putArray("virustags", na);
-            }
-            String virusIdsStr = cScripts.getVirusIdsString();
-            //check intersections
-            for(int i = 0; i < eManager.currentMap.scene.playersMap().size(); i++) {
-                for(int j = 0; j < eManager.currentMap.scene.playersMap().size(); j++) {
-                    if(i != j) {
-                        gPlayer p = cGameLogic.getPlayerByIndex(i);
-                        gPlayer pp = cGameLogic.getPlayerByIndex(j);
-                        Rectangle r = new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
-                                p.getInt("dimw"), p.getInt("dimh"));
-                        Rectangle rr = new Rectangle(pp.getInt("coordx"), pp.getInt("coordy"),
-                                pp.getInt("dimw"), pp.getInt("dimh"));
-                        if (r.intersects(rr) && (
-                                (p.getInt("tag") == 0 && virusIdsStr.contains("server"))
-                                        || (p.get("id").length() > 0 && virusIdsStr.contains(p.get("id")))
-                                        || (pp.get("id").length() > 0 && virusIdsStr.contains(pp.get("id")))
-                        )) {
-                            String[] cvts = cVars.getArray("virustags");
-                            if(!cvts[i].equals("1")) {
-                                xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
+                break;
+            case cGameMode.WAYPOINTS:
+                thingMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                for(Object id : thingMap.keySet()) {
+                    gProp p = (gProp) thingMap.get(id);
+                    if(p.isInt("int0", 1))
+                        return String.format("waypoints-%s", id);
+                }
+                break;
+            case cGameMode.KING_OF_FLAGS:
+                StringBuilder s = new StringBuilder();
+                HashMap<String, gThing> kofThingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                for(String id : kofThingMap.keySet()) {
+                    s.append(String.format("%s-%s:", id, kofThingMap.get(id).get("str0")));
+                }
+                return String.format("kingofflags%s", s);
+            case cGameMode.VIRUS:
+                //check
+                if(cVars.get("virusids").length() < 1)
+                    resetVirusPlayers();
+                String virusIds = cVars.get("virusids");
+                //check if reset time
+                if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
+                    resetVirusPlayers();
+                    cVars.remove("virusresettime");
+                }
+                //check if more players
+
+                //check intersections
+                for(String id1 : gScene.getPlayerIds()) {
+                    for(String id2 : gScene.getPlayerIds()) {
+                        if(!id1.equals(id2)) {
+                            gPlayer p = gScene.getPlayerById(id1);
+                            gPlayer pp = gScene.getPlayerById(id2);
+                            Rectangle r = new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
+                                    p.getInt("dimw"), p.getInt("dimh"));
+                            Rectangle rr = new Rectangle(pp.getInt("coordx"), pp.getInt("coordy"),
+                                    pp.getInt("dimw"), pp.getInt("dimh"));
+                            if (r.intersects(rr) && (
+                                    (p.getInt("tag") == 0 && virusIds.contains("server"))
+                                            || (p.get("id").length() > 0 && virusIds.contains(p.get("id")))
+                                            || (pp.get("id").length() > 0 && virusIds.contains(pp.get("id")))
+                            )) {
+                                if(!virusIds.contains(id1)) {
+                                    xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
+                                    cVars.put("virusIds", cVars.get("virusIds")+(id1+"-"));
+                                }
+                                if(!virusIds.contains(id2)) {
+                                    xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
+                                    cVars.put("virusIds", cVars.get("virusIds")+(id2+"-"));
+                                }
                             }
-                            if(!cvts[j].equals("1")) {
-                                xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
-                            }
-                            cVars.putInArray("virustags", "1", i);
-                            cVars.putInArray("virustags", "1", j);
                         }
                     }
                 }
-            }
-            virusIdsStr = cScripts.getVirusIdsString();
-            //send codes before ids
-            StringBuilder virusTagsStr = new StringBuilder();
-            for(String s : cVars.getArray("virustags")) {
-                virusTagsStr.append(s);
-            }
-            //check if thing if full, begin countdown to reset if it is
-            String[] cts = virusIdsStr.split("-");
-            if(cts.length-1 == vts.length && !cVars.contains("virusresettime")) {
-                cVars.putLong("virusresettime", System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
-            }
-            return String.format("virus-%s%s", virusTagsStr.toString(), virusIdsStr);
+                virusIds = cVars.get("virusids");
+                //check if thing if full, begin countdown to reset if it is
+                boolean isFull = true;
+                for(String id : gScene.getPlayerIds()) {
+                    if(!virusIds.contains(id)) {
+                        isFull = false;
+                        break;
+                    }
+                }
+                if (isFull) {
+                    if(!cVars.contains("virusresettime")) {
+                        cVars.putLong("virusresettime",
+                                System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
+                    }
+                }
+                return String.format("virus-%s", virusIds);
+            default:
+                break;
         }
         return "";
     }
