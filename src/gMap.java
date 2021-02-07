@@ -29,7 +29,6 @@ public class gMap {
         propLoadMap = new HashMap<>();
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
         propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
-        propLoadMap.put("PROP_BALLBOUNCY", new gDoablePropReturnBallBouncy());
         propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
         propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
@@ -96,25 +95,10 @@ public class gMap {
                         eUtils.getPath(lineToks[1]),
                         eUtils.getPath(lineToks[2]),
                         eUtils.getPath(lineToks[3]),
-                        Integer.parseInt(lineToks[15]),
-                        Integer.parseInt(lineToks[16])
+                        Integer.parseInt(lineToks[15])
                     );
                     tile.putInt("id", scene.tiles().size());
                     scene.tiles().add(tile);
-                }
-                else if (lineToks[0].toLowerCase().equals("prop")) {
-                    //ONLY SERVES THE OLD LIGHT FIXTURE
-                    gProp prop = new gProp(
-                        Integer.parseInt(lineToks[1]),
-                        Integer.parseInt(lineToks[2]),
-                        Integer.parseInt(lineToks[3]),
-                        Integer.parseInt(lineToks[4]),
-                        Integer.parseInt(lineToks[5]),
-                        Integer.parseInt(lineToks[6]),
-                        Integer.parseInt(lineToks[7]));
-                    prop.putInt("tag", scene.props().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
                 }
             }
             wasLoaded = 1;

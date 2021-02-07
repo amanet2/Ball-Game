@@ -5,14 +5,12 @@ public class gProp extends gThing {
     Image sprite;
 
     static final int TELEPORTER = 0;
-    static final int LADDER = 2;
-    static final int SCOREPOINT = 3;
-    static final int FLAGRED = 5;
-    static final int FLAGBLUE = 6;
-    static final int POWERUP = 7;
-    static final int BOOSTUP = 8;
-    static final int BALLBOUNCY = 9;
-    static final int SPAWNPOINT = 10;
+    static final int SCOREPOINT = 1;
+    static final int FLAGRED = 2;
+    static final int FLAGBLUE = 3;
+    static final int POWERUP = 4;
+    static final int BOOSTUP = 5;
+    static final int SPAWNPOINT = 6;
 
     public boolean isType(int code) {
         return isInt("code", code);
@@ -22,8 +20,6 @@ public class gProp extends gThing {
         switch (prop.getInt("code")) {
             case TELEPORTER:
                 return "PROP_TELEPORTER";
-            case LADDER:
-                return "PROP_LADDER";
             case SCOREPOINT:
                 return "PROP_SCOREPOINT";
             case FLAGRED:
@@ -36,8 +32,6 @@ public class gProp extends gThing {
                 return "PROP_BOOSTUP";
             case SPAWNPOINT:
                 return "PROP_SPAWNPOINT";
-//            case BALLBOUNCY:
-//                return "ballbouncy";
             default:
                 return "prop 1"; //for light fixture
         }
@@ -46,30 +40,22 @@ public class gProp extends gThing {
     //old and shitty
     static String[] propSelection = new String[]{
             "Teleporter",
-            "Light1",
-            "Ladder",
             "Score Point",
-            "Safe Point",
             "Flag-Red",
             "Flag-Blue",
             "Powerup",
             "Boostup",
-            "Ball (Bouncy)",
             "Spawn Point"
     };
 
     static String[] propSpriteSelection = new String[]{
             "misc/misc_energy_ball_trans_purple.png",
-            "misc/light1.png",
-            "misc/ladder.png",
-            "notexture",
-            "notexture",
+            "none",
             "misc/flag_red.png",
             "misc/flag_blue.png",
             "misc/powerup.png",
             "misc/boostup.png",
-            "misc/misc_energy_ball_fire.png",
-            "notexture"
+            "none"
     };
 
     public gProp load(String[] args) {

@@ -6,7 +6,7 @@ public class gTile extends gThing {
     Image spriteTW;
 
     public gTile(int x, int y, int w, int h, int nh, int nmh, int mh, int smh, int sh, int lw, int rw, String tt,
-                 String mt, String bt, int bl, int sp) {
+                 String mt, String bt, int bl) {
         super();
         put("type", "THING_TILE");
         putInt("coordx", x);

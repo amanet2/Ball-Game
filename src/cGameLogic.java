@@ -213,13 +213,6 @@ public class cGameLogic {
                 }
             }
         }
-        //ball prop
-//        HashMap<String, gThing> props = eManager.currentMap.scene.getThingMap("PROP_BALLBOUNCY");
-//        for(String id : props.keySet()) {
-//            gProp p = (gProp) props.get(id);
-//            cVars.putInt("ballx", p.getInt("coordx"));
-//            cVars.putInt("bally", p.getInt("coordy"));
-//        }
     }
 
     public static void checkDisconnectStatus() {
@@ -912,12 +905,6 @@ public class cGameLogic {
                             p.put("int0", "0");
                         }
                     }
-                    else if(p.isInt("code", gProp.BALLBOUNCY)) {
-                        if(sSettings.net_server) {
-                            //clients interact with the ball depending on server-side coords
-                            p.bounceOffPlayerBounds(cl);
-                        }
-                    }
                 }
                 else if(cl.isZero("tag") && p.isInt("code", gProp.TELEPORTER)
                         && p.isVal("tag", cVars.get("exitteleportertag"))) {
@@ -967,6 +954,7 @@ public class cGameLogic {
     }
 
     public static String getGameStateServer() {
+        //ugly if else
         if(cVars.isInt("gamemode", cGameMode.SAFE_ZONES)) {
             HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
             for(Object id : scorepointsMap.keySet()) {
@@ -983,15 +971,6 @@ public class cGameLogic {
                     return String.format("waypoints-%s", id);
             }
         }
-//        if(cVars.getInt("gamemode") == cGameMode.BOUNCYBALL) {
-//            int c = 0;
-//            for(gProp p : eManager.currentMap.scene.ballbouncys()) {
-//                if(p.getInt("int0") > 0)
-//                    break;
-//                c++;
-//            }
-//            return String.format("bouncyball-%d-", c);
-//        }
         // KINGOFFLAGS
         if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS) {
             StringBuilder s = new StringBuilder();

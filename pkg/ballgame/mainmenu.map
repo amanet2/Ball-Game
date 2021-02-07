@@ -258,10 +258,7 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -780 3210 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -1350 1440 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -660 -2160 300 300 0 0 0 0 0 0 0 255 1
-prop 1 0 0 150 -1200 300 300
-prop 1 0 0 1050 0 300 300
 PROP_BOOSTUP 0 0 -1500 -600 300 300
-prop 1 0 0 450 1800 300 300
 PROP_BOOSTUP 0 0 -1800 0 300 300
 PROP_BOOSTUP 0 0 -1800 300 300 300
 PROP_BOOSTUP 0 0 -1800 600 300 300
@@ -282,9 +279,6 @@ PROP_BOOSTUP 0 0 3300 -1500 300 300
 PROP_BOOSTUP 0 0 3300 -1200 300 300
 PROP_BOOSTUP 0 0 3300 -900 300 300
 PROP_BOOSTUP 0 0 3300 -600 300 300
-prop 1 0 0 -1500 600 300 300
-prop 1 0 0 3900 0 300 300
-prop 1 0 0 -1950 3450 300 300
 PROP_BOOSTUP 0 0 -2400 4800 300 300
 PROP_BOOSTUP 0 0 -2400 4500 300 300
 PROP_TELEPORTER 1 0 780 -6000 300 300

@@ -128,12 +128,6 @@ public class nReceive {
                     else if(cVars.get("winnerid").length() > 0){
                         cVars.put("winnerid", "");
                     }
-//                    if(packArgs.containsKey("ballx") && packArgs.containsKey("bally")) {
-//                        for(gProp p : eManager.currentMap.scene.ballbouncys()) {
-//                            p.put("coordx", packArgs.get("ballx"));
-//                            p.put("coordy", packArgs.get("bally"));
-//                        }
-//                    }
                     if(packArgs.containsKey("flagmasterid")) {
                         cVars.put("flagmasterid", packArgs.get("flagmasterid"));
                     }
@@ -173,17 +167,6 @@ public class nReceive {
                                 pr.put("int0", "0");
                         }
                     }
-//                    if(packArgs.get("state").contains("bouncyball")) {
-//                        for(int k = 0; k < eManager.currentMap.scene.ballbouncys().size(); k++) {
-//                            gProp p = eManager.currentMap.scene.ballbouncys().get(k);
-//                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
-//                                if(p.getInt("int0") != 1)
-//                                    p.put("int0", "1");
-//                            }
-//                            else
-//                                p.put("int0", "0");
-//                        }
-//                    }
                     if(packArgs.get("state").contains("kingofflags")) {
                         //read kingofflags for client
                         String flagidstr = packArgs.get("state").replace("kingofflags","");

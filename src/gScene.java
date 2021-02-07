@@ -10,26 +10,13 @@ import java.util.TreeMap;
  */
 public class gScene {
     static final int THING_TILE = 0;
-    static final int THING_PLAYER = 1;
-    static final int THING_BULLET = 2;
-    static final int THING_POPUP = 3;
     static final int THING_PROP = 4;
     static final int THING_FLARE = 5;
-    static final int THING_ANIMATION = 6;
-    static final int THING_BOTPLAYER = 7;
-    static final int PROP_TELEPORTER = 8;
-    static final int PROP_SCOREPOINT = 9;
-    static final int PROP_BOOSTUP = 10;
-    static final int PROP_BALLBOUNCY = 11;
-    static final int PROP_FLAGBLUE = 12;
-    static final int PROP_FLAGRED = 13;
-    static final int PROP_POWERUP = 14;
-    static final int PROP_SPAWNPOINT = 15;
 
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
-            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOSTUP", "PROP_BALLBOUNCY",
-            "PROP_FLAGBLUE", "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT"
+            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOSTUP", "PROP_FLAGBLUE",
+            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT"
     };
 
 	HashMap<String, ArrayList> objectLists;
