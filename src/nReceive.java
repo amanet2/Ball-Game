@@ -119,7 +119,7 @@ public class nReceive {
                     if(packArgs.get("win").length() > 0) {
                         cVars.put("winnerid", packArgs.get("win"));
                         for(int d = 0; d < 4; d++) {
-                            if(!(d == 1 && cVars.getInt("maptype") == gMap.MAP_SIDEVIEW)) {
+                            if(!(d == 1 && cVars.getInt("mapview") == gMap.MAP_SIDEVIEW)) {
                                 xCon.ex("THING_PLAYER.0.vel"+d+" 0");
                                 xCon.ex("THING_PLAYER.0.mov"+d+" 0");
                             }

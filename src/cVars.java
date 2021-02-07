@@ -63,7 +63,7 @@ public class cVars {
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
         put("lapcomplete", "0");
-        putInt("maptype", gMap.MAP_TOPVIEW);
+        putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
         put("maxstockspeed", "1000");
         put("onladder", "0");

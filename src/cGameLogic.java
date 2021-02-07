@@ -112,7 +112,7 @@ public class cGameLogic {
     }
 
     public static void checkMapGravity() {
-//        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 if (cVars.isOne("jumping")) {
@@ -137,7 +137,7 @@ public class cGameLogic {
             }
             //jumping
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
-                int jumpmax = cVars.isInt("maptype", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
+                int jumpmax = cVars.isInt("mapview", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
                         : cVars.getInt("jumptimemax")/2;
                 if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < jumpmax) {
                     cVars.increment("jumpheight");
@@ -1066,7 +1066,7 @@ public class cGameLogic {
     public static void checkForPlayerDeath() {
         gPlayer cl = cGameLogic.userPlayer();
         cScripts.checkBulletSplashes();
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
+        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cVars.contains("respawntime")) {
                 cScripts.playPlayerDeathSound();

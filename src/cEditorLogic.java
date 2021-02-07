@@ -38,7 +38,7 @@ public class cEditorLogic {
         createNewSubmenu("Textures", "top_textures");
         createNewSubmenu("Textures", "wall_textures");
         createNewSubmenu("Textures", "floor_textures");
-        createNewSubmenu("Scene", "Map Type: " + gMap.maptype_selection[sSettings.create_map_mode]);
+        createNewSubmenu("Scene", "Map View: " + gMap.mapview_selection[sSettings.create_map_mode]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
         createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
@@ -199,17 +199,17 @@ public class cEditorLogic {
             });
             menus.get("Parameters").getItem(1).add(newmenuitem);
         }
-        for(int i = 0; i < gMap.maptype_selection.length; i++) {
-            JMenuItem newmenuitem = new JMenuItem(gMap.maptype_selection[i]);
+        for(int i = 0; i < gMap.mapview_selection.length; i++) {
+            JMenuItem newmenuitem = new JMenuItem(gMap.mapview_selection[i]);
             newmenuitem.addActionListener(e -> {
-                for(int j = 0; j < gMap.maptype_selection.length; j++) {
-                    if(gMap.maptype_selection[j].equals(newmenuitem.getText())) {
-                        cVars.putInt("maptype", j);
-                        sSettings.create_map_mode = cVars.getInt("maptype");
+                for(int j = 0; j < gMap.mapview_selection.length; j++) {
+                    if(gMap.mapview_selection[j].equals(newmenuitem.getText())) {
+                        cVars.putInt("mapview", j);
+                        sSettings.create_map_mode = cVars.getInt("mapview");
                     }
                 }
-                menus.get("Scene").getItem(0).setText("Map Type: "
-                        + gMap.maptype_selection[cVars.getInt("maptype")]);
+                menus.get("Scene").getItem(0).setText("Map View: "
+                        + gMap.mapview_selection[cVars.getInt("mapview")]);
             });
             menus.get("Scene").getItem(0).add(newmenuitem);
         }

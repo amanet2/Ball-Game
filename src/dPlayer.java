@@ -73,7 +73,7 @@ public class dPlayer {
                     );
                 }
                 //player shadow
-                if (cVars.getInt("maptype") == gMap.MAP_TOPVIEW) {
+                if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                     if(sVars.isOne("vfxenableshadows")) {
                         Rectangle2D shadowBounds = new Rectangle.Double(
                                 eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),

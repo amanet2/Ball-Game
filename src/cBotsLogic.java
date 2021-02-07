@@ -446,7 +446,7 @@ public class cBotsLogic {
                     Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
             bot.putInt("vel2", modspeed);
         }
-        if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
+        if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
             if(y2 > y1) {
                 int modspeed = speed + (int)(
                         Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));

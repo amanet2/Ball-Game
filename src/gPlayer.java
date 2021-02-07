@@ -56,14 +56,14 @@ public class gPlayer extends gThing {
                 return false;
             }
         }
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
             for (gPlayer target : eManager.currentMap.scene.players()) {
                 if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
                     return false;
                 }
             }
         }
-        if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
+        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
             for (gPlayer target : eManager.currentMap.scene.players()) {
                 if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
                     return false;
@@ -115,7 +115,7 @@ public class gPlayer extends gThing {
     }
 
     public boolean checkBump(Shape bounds, int ystart) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
             if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
                     < bounds.getBounds().getHeight()/2+10) {
                 putInt("coordy", (int) (getInt("coordy")
@@ -153,7 +153,7 @@ public class gPlayer extends gThing {
                     situation = 5;
                 else if(xend > getInt("coordx") && getInt("coordy")+getInt("dimh") > yend) {
                     situation = 6;
-                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                         cancelJump();
                     }
                 }
@@ -161,7 +161,7 @@ public class gPlayer extends gThing {
             else if(getInt("vel0") > getInt("vel1") && getInt("vel3") > getInt("vel2")) {
                 if(getInt("coordy")+getInt("dimh") > yend && getInt("coordx")+getInt("dimw") > xstart) {
                     situation = 8;
-                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                         cancelJump();
                     }
                 }
@@ -175,7 +175,7 @@ public class gPlayer extends gThing {
                 situation = 4;
             if(getInt("vel0") > getInt("vel1") && getInt("vel3") == 0 && getInt("vel2") == 0) {
                 situation = 7;
-                if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                     cancelJump();
                 }
             }
@@ -189,7 +189,7 @@ public class gPlayer extends gThing {
                 case 0:
                 case 1:
                 case 2:
-                    if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
+                    if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
                         putInt("vel0", getInt("vel1"));
                         put("vel1", "0");
                     }

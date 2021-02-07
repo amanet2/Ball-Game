@@ -38,13 +38,13 @@ public class cScripts {
     }
 
     public static void checkPlayerSpriteFlip(gPlayer p) {
-        if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW
+        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
                 && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
             if(!p.get("pathsprite").contains("a00")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
             }
         }
-        else if((cVars.getInt("maptype") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
+        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
             || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
             if(!p.get("pathsprite").contains("a03")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
@@ -59,7 +59,7 @@ public class cScripts {
                 gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
             }
         }
-        else if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
+        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
             if(!p.get("pathsprite").contains("a04")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
             }
