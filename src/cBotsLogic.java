@@ -127,7 +127,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.get("id").equals(bot.get("id"))) {
@@ -145,13 +146,7 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(cVars.isVal("flagmasterid",p.get("id"))) {
-                waypoint = p;
-                break;
-            }
-        }
+        gPlayer waypoint = gScene.getPlayerById(cVars.get("flagmasterid"));
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
             goToWaypoint(bot, waypoint);
@@ -204,7 +199,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -332,7 +328,8 @@ public class cBotsLogic {
     public static boolean inVirusChaseRange(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        for(gPlayer waypoint : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer waypoint = gScene.getPlayerById(id);
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;

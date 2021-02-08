@@ -78,8 +78,6 @@ public class nVars {
             xCon.ex("THING_PLAYER.0.vel1"), xCon.ex("THING_PLAYER.0.vel2"),
             xCon.ex("THING_PLAYER.0.vel3")));
         keys.put("weapon", cVars.get("currentweapon"));
-//        keys.put("sicknessslow", xCon.ex("THING_PLAYER.0.sicknessslow"));
-//        keys.put("sicknessfast", xCon.ex("THING_PLAYER.0.sicknessfast"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
         else
@@ -90,13 +88,6 @@ public class nVars {
             keys.remove("disconnect");
         keys.put("time", Long.toString(System.currentTimeMillis()));
         if(sSettings.net_server) {
-            // old code for "always-on" gamemode vars
-//            for(String s : new String[]{"ballx","bally"}) {
-//                if(cVars.get(s).length() > 0)
-//                    keys.put(s, cVars.get(s));
-//                else
-//                    keys.remove(s);
-//            }
             if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
                 keys.put("flagmasterid", cVars.get("flagmasterid"));
@@ -107,10 +98,6 @@ public class nVars {
             keys.put("armed", cVars.get("gamespawnarmed"));
             keys.put("kick", nServer.kickClientIds.size() > 0 ? nServer.kickClientIds.peek() : "");
             keys.put("map", eManager.currentMap.mapName);
-//            if(keys.containsKey("mode") && !keys.get("mode").equals(cVars.get("gamemode"))) {
-//                String gameMode = "GAME: " + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase();
-//                xCon.ex("echo "+gameMode);
-//            }
             keys.put("mode", cVars.get("gamemode"));
             keys.put("powerups", cPowerups.createPowerupStringServer());
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {

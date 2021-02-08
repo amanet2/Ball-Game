@@ -21,22 +21,6 @@ public class cPowerups {
         xCon.ex("playsound sounds/clampdown.wav");
     }
 
-    public static void checkPlayerPowerups(gProp powerup) {
-        int int0 = powerup.getInt("int0");
-        if(int0 > 0) {
-//            if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
-//                xCon.ex("THING_PLAYER.0.sicknessslow 1");
-//                xCon.ex("cv_sicknessslow 1");
-//            }
-//            else if(powerup_selection[int0].equals("fast") && cVars.isZero("sicknessfast")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
-//                xCon.ex("THING_PLAYER.0.sicknessfast 1");
-//                xCon.ex("sicknessfast 1");
-//            }
-        }
-    }
-
     public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");

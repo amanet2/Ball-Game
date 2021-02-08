@@ -18,16 +18,6 @@ public class gPropPowerup extends gProp {
             else if(cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo){
                 cPowerups.takepowerupammo(this);
             }
-//            else if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
-//                xCon.ex("THING_PLAYER.0.sicknessslow 1");
-//                xCon.ex("cv_sicknessslow 1");
-//            }
-//            else if(powerup_selection[int0].equals("fast") && cVars.isZero("sicknessfast")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
-//                xCon.ex("THING_PLAYER.0.sicknessfast 1");
-//                xCon.ex("sicknessfast 1");
-//            }
         }
     }
 
