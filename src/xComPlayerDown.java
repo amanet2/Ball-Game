@@ -3,9 +3,8 @@ public class xComPlayerDown extends xCom {
         if(!uiInterface.inplay)
             gCamera.move(1);
         else if(cGameLogic.userPlayer() != null) {
-            if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW
-                || cVars.isOne("inboost"))
-                xCon.ex("THING_PLAYER.0.mov1 1");
+            if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW || cVars.isOne("inboost"))
+                cGameLogic.userPlayer().putInt("mov1", 1);
         }
         return fullCommand;
     }
@@ -14,9 +13,8 @@ public class xComPlayerDown extends xCom {
         if(!uiInterface.inplay)
             gCamera.stopMove(1);
         else if(cGameLogic.userPlayer() != null) {
-            if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW
-                || cVars.isOne("inboost"))
-                xCon.ex("THING_PLAYER.0.mov1 0");
+            if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW || cVars.isOne("inboost"))
+                cGameLogic.userPlayer().putInt("mov1", 0);
         }
         return fullCommand;
     }

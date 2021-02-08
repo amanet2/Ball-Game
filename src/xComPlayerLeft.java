@@ -3,7 +3,7 @@ public class xComPlayerLeft extends xCom {
         if(!uiInterface.inplay)
             gCamera.move(2);
         else if(cGameLogic.userPlayer() != null) {
-            xCon.ex("THING_PLAYER.0.mov2 1");
+            cGameLogic.userPlayer().putInt("mov2", 1);
         }
         return fullCommand;
     }
@@ -12,7 +12,7 @@ public class xComPlayerLeft extends xCom {
         if(!uiInterface.inplay)
             gCamera.stopMove(2);
         else if(cGameLogic.userPlayer() != null) {
-            xCon.ex("THING_PLAYER.0.mov2 0");
+            cGameLogic.userPlayer().putInt("mov2", 0);
         }
         return fullCommand;
     }

@@ -10,13 +10,12 @@ public class xComRespawn extends xCom {
         String randomId = spawnpointids.get(randomSpawnpointIndex);
         gPropSpawnpoint spawnpoint =
                 (gPropSpawnpoint) eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").get(randomId);
-
-
+        gPlayer userPlayer = cGameLogic.userPlayer();
         //player-centric spawn comands
-        xCon.ex("THING_PLAYER.0.coordx " + (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
-                - cGameLogic.userPlayer().getInt("dimw") / 2));
-        xCon.ex("THING_PLAYER.0.coordy "+ (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
-                - cGameLogic.userPlayer().getInt("dimh") / 2));
+        userPlayer.putInt("coordx", spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
+                - cGameLogic.userPlayer().getInt("dimw") / 2);
+        userPlayer.putInt("coordy", spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
+                - cGameLogic.userPlayer().getInt("dimh") / 2);
         if(cVars.getInt("gamespawnarmed") < 1) {
             cScripts.clearWeaponStocks();
         }
@@ -24,7 +23,7 @@ public class xComRespawn extends xCom {
             cScripts.refillWeaponStocks();
         }
         cVars.put("stockhp", cVars.get("maxstockhp"));
-        cGameLogic.userPlayer().put("alive", "1");
+        userPlayer.put("alive", "1");
         xCon.ex("cv_flashlight 0");
         xCon.ex("cv_sprint 0");
         xCon.ex("cv_stockspeed cv_maxstockspeed");

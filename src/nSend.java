@@ -86,7 +86,7 @@ public class nSend {
         }
         xCon.ex("cv_reportedkiller cv_exploded");
         xCon.ex("cv_exploded 1");
-        xCon.ex("THING_PLAYER.0.sendshot 0");
+        cGameLogic.userPlayer().put("sendshot", "0");
         xCon.ex("cv_sendsafezone 0");
         return sendDataString.toString();
     }
