@@ -11,12 +11,7 @@ public class xComEditorPutProp extends xCom {
             int h = Integer.parseInt(toks[7]);
             switch(propcode) {
                 case gProp.TELEPORTER:
-                    gPropTeleporter teleporter = new gPropTeleporter(int0, int1, x, y, w, h);
-                    teleporter.put("id", cScripts.createID(8));
-                    teleporter.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
-                    teleporter.putInt("native", 1);
-                    eManager.currentMap.scene.props().add(teleporter);
-                    eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").put(teleporter.get("id"), teleporter);
+                    eManager.currentMap.propLoadMap.get("PROP_TELEPORTER").putProp(int0, int1, x, y, w, h);
                     break;
                 case gProp.SCOREPOINT:
                     gPropScorepoint scorepoint = new gPropScorepoint(int0, int1, x, y, w, h);

@@ -88,7 +88,6 @@ public class xCon {
         visibleCommands = new ArrayList<>();
         visibleCommands.add("bind");
         visibleCommands.add("exec");
-//        visibleCommands.add("givepoint");
         visibleCommands.add("kick");
         visibleCommands.add("joingame");
         visibleCommands.add("load");
