@@ -437,19 +437,6 @@ public class cScripts {
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                             xCon.ex("givepoint " + killerid);
                         }
-                        if(cVars.isInt("gamemode", cGameMode.CHOSENONE)
-                                && cVars.isVal("chosenoneid", dmgvictim.get("id"))) {
-                            cVars.put("chosenoneid", killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", dmgvictim.get("id"))) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", killerid)) {
-                            xCon.ex("givepoint " + killerid);
-                            xCon.ex("cv_chosenoneid " + dmgvictim.get("id"));
-                        }
                         if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                             && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
                             cVars.put("flagmasterid", "");
@@ -501,19 +488,6 @@ public class cScripts {
                         xCon.ex("say " + killername + " killed " + sVars.get("playername"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                             xCon.ex("givepoint " + killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.CHOSENONE)
-                        && cVars.isVal("chosenoneid", "server")) {
-                            cVars.put("chosenoneid", cVars.get("killerid"));
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", "server")) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.ANTI_CHOSENONE)
-                                && cVars.isVal("chosenoneid", cVars.get("killerid"))) {
-                            xCon.ex("givepoint " + killerid);
-                            xCon.ex("cv_chosenoneid server");
                         }
                         if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))

@@ -132,9 +132,6 @@ public class nReceive {
                     if(packArgs.containsKey("flagmasterid")) {
                         cVars.put("flagmasterid", packArgs.get("flagmasterid"));
                     }
-                    if(packArgs.containsKey("chosenoneid")) {
-                            cVars.put("chosenoneid", packArgs.get("chosenoneid"));
-                    }
                     if(!packArgs.get("map").contains(eManager.currentMap.mapName)) {
                         cVars.put("intermissiontime", "-1");
                         cVars.putInt("timeleft", sVars.getInt("timelimit"));

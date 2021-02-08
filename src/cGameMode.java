@@ -8,11 +8,7 @@ public class cGameMode {
     static final int KING_OF_FLAGS = 4;
     static final int WAYPOINTS = 5;
     static final int VIRUS = 6;
-    static final int VIRUS_SINGLE = 7;
-    static final int FLAG_MASTER = 8;
-    static final int BOUNCYBALL = 9;
-    static final int CHOSENONE = 10;
-    static final int ANTI_CHOSENONE = 11;
+    static final int FLAG_MASTER = 7;
 
     static String[] net_gamemode_texts = {
             "Deathmatch",
@@ -22,11 +18,7 @@ public class cGameMode {
             "King of Flags",
             "Waypoints",
             "Virus",
-            "Single Virus",
-            "Flag Master",
-            "Bouncy Ball",
-            "Chosen One",
-            "Victim"
+            "Flag Master"
     };
     static String[] net_gamemode_descriptions = {
             "Kill other players for points",
@@ -36,11 +28,7 @@ public class cGameMode {
             "Earn points for each flag held",
             "Race to the waypoint",
             "Don't catch the virus",
-            "Don't catch the virus",
-            "Hold onto the flag for the longest time",
-            "Bounce the ball into the goal",
-            "Kill the chosen one to become them",
-            "Kill the victim for points"
+            "Hold onto the flag for the longest time"
     };
 
     public static void resetKingOfFlags() {

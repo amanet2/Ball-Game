@@ -44,8 +44,6 @@ public class cVars {
         put("gameteam", "0");
         put("gametick", sVars.get("gametick"));
         putInt("gravity", 6);
-        put("chosenoneid", "");
-        put("chosenonetime", "0");
         put("blockmouseui", "0");
         put("hprechargetime", "0");
         put("inboost", "0");

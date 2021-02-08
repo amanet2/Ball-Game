@@ -1,5 +1,5 @@
 cmd cv_mapview 0
-cmd cv_gamemode 8
+cmd cv_gamemode 7
 cmd cv_botbehavior flagmaster
 tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 2400 1200 1200 0 0 1200 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 2400 1200 1200 0 0 1200 0 0 0 0 255 0

@@ -80,22 +80,6 @@ public class cBotsLogic {
                 }
             }
         });
-        behaviors.put("anti_chosenone", new gDoableThing(){
-            public void doItem(gThing p) {
-                if(cVars.isVal("chosenoneid", p.get("id")))
-                    cBotsLogic.goToNearestPlayer(p);
-                else
-                    cBotsLogic.goToChosenOne(p);
-            }
-        });
-        behaviors.put("chosenone", new gDoableThing(){
-            public void doItem(gThing p) {
-                if(cVars.isVal("chosenoneid", p.get("id")))
-                    cBotsLogic.runFromNearestPlayer(p);
-                else
-                    cBotsLogic.goToChosenOne(p);
-            }
-        });
         behaviors.put("goto_safezone", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToSafeZone(p);
@@ -164,20 +148,6 @@ public class cBotsLogic {
         gPlayer waypoint = null;
         for(gPlayer p : eManager.currentMap.scene.players()) {
             if(cVars.isVal("flagmasterid",p.get("id"))) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToChosenOne(gThing bot) {
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(cVars.isVal("chosenoneid",p.get("id"))) {
                 waypoint = p;
                 break;
             }
