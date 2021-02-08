@@ -357,16 +357,17 @@ public class dTileTops {
         /*
         * players and stuff
         * */
-        for(gPlayer e : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer e = gScene.getPlayerById(id);
             //player hat
             g2.drawImage(e.spriteHat,
-                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
+                    eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                    eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
                     null);
             //forbidden sign for spawn protection
             if(nServer.clientArgsMap.containsKey(e.get("id"))
                     && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
-            && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
+                    && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
                 g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
                         eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
@@ -587,7 +588,8 @@ public class dTileTops {
             g2.fillPolygon(pg);
         }
         //playernames
-        for(gPlayer p : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             cScripts.setFontNormal(g);
             g.drawString(p.get("name"), eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
