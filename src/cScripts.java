@@ -343,8 +343,9 @@ public class cScripts {
                         pseeds.add(b);
                 }
             }
-            for(gPlayer t : eManager.currentMap.scene.players()) {
-                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(t.get("id"))) {
+            for(String playerId : gScene.getPlayerIds()) {
+                gPlayer t = gScene.getPlayerById(playerId);
+                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);

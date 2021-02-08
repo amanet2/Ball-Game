@@ -1,78 +1,78 @@
 cmd cv_mapview 0
 cmd cv_gamemode 7
 cmd cv_botbehavior flagmaster
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 0 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 0 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 0 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -1200 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 0 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -2550 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -1500 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -450 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 1050 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -2550 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -1500 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -450 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 1650 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 2700 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 3750 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 3600 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 3450 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 2100 1200 1200 1050 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -1650 900 900 750 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 -900 900 900 750 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 1200 600 450 300 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 900 2220 600 450 300 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1140 -1200 100 900 750 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1140 -450 100 900 750 150 0 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4290 -2430 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4920 -2040 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5010 -360 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3870 1320 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1950 1620 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1050 420 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1650 -2340 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 1800 -900 600 750 0 0 0 0 0 0 -1 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4800 -2550 600 600 0 0 0 0 0 0 -1 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 600 600 600 0 0 0 0 0 0 -4 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 600 -2550 600 600 0 0 0 0 0 0 -4 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 2700 -1650 600 750 0 0 0 0 0 0 -3 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 3000 600 600 0 0 0 0 0 0 -3 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 3600 1500 600 600 0 0 0 0 0 0 -2 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -150 1200 1200 0 0 0 0 0 0 -2 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 2400 2250 1200 1200 0 0 0 0 0 0 -2 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 2400 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4800 0 1200 1200 0 0 1200 0 0 0 0 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -1950 600 600 0 0 0 0 0 0 -3 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 3600 -1950 600 600 0 0 0 0 0 0 -1 255 0
-tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -1350 600 600 0 0 0 0 0 0 -1 255 0
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2580 570 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 3090 -2310 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 420 2850 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1740 2970 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 3870 -450 300 300 0 0 0 0 0 0 0 255 1
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 750 -1620 300 300 0 0 0 0 0 0 0 255 1
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 0 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 0 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 0 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -1200 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 0 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 600 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3000 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -2550 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -1500 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5400 -450 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4200 1050 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -2550 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -1500 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -600 -450 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 1650 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 2700 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg -1200 3750 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 0 3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1200 3600 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 3450 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3600 2100 1200 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 -1650 900 900 750 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 -900 900 900 750 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1800 1200 600 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 900 2220 600 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1140 -1200 100 900 750 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1140 -450 100 900 750 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4290 -2430 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4920 -2040 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 5010 -360 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 3870 1320 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1950 1620 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1050 420 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 1650 -2340 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 1800 -900 600 750 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4800 -2550 600 600 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 600 600 600 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 600 -2550 600 600 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 2700 -1650 600 750 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 3000 600 600 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 3600 1500 600 600 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -150 1200 1200 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 2400 2250 1200 1200 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 2400 2400 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/metal/brushed_metal1.jpg 4800 0 1200 1200 0 0 1200 0 0 0 0 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -1950 600 600 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 3600 -1950 600 600 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock3_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 4200 -1350 600 600 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2580 570 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 3090 -2310 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 420 2850 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1740 2970 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 3870 -450 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 750 -1620 300 300 0 0 0 0 0 0 0 255
 PROP_POWERUP 0 0 1050 3030 300 300
 PROP_POWERUP 0 0 1950 840 300 300
 PROP_POWERUP 0 0 4920 -1650 300 300

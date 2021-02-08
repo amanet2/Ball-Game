@@ -7,7 +7,8 @@ public class dPlayer {
     public static void drawPlayers(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         try {
-            for (gPlayer e : eManager.currentMap.scene.players()) {
+            for (String playerId : gScene.getPlayerIds()) {
+                gPlayer e = gScene.getPlayerById(playerId);
                 //player gun
                 if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
                     int[] rgb = new int[4];
@@ -38,7 +39,8 @@ public class dPlayer {
                     if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
                         int x = eUtils.scaleInt(e.getInt("coordx")-cVars.getInt("camx")
                                 - e.getInt("dimw")/4);
-                        int y = eUtils.scaleInt(e.getInt("coordy")-cVars.getInt("camy") - e.getInt("dimh")/4);
+                        int y = eUtils.scaleInt(e.getInt("coordy")-cVars.getInt("camy")
+                                - e.getInt("dimh")/4);
                         int w = eUtils.scaleInt(3*e.getInt("dimw")/2);
                         int h = eUtils.scaleInt(3*e.getInt("dimh")/2);
                         if(sVars.isOne("vfxenableflares"))
@@ -46,31 +48,14 @@ public class dPlayer {
                         //solid ring
                         g2.setColor(new Color(rgb[0], rgb[1], rgb[2]));
                         g2.fillOval(
-                                eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx") - e.getInt("dimw")/16),
-                                eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy") - e.getInt("dimw")/16),
+                                eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx")
+                                        - e.getInt("dimw")/16),
+                                eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy")
+                                        - e.getInt("dimw")/16),
                                 eUtils.scaleInt(e.getInt("dimw") + e.getInt("dimw")/8),
                                 eUtils.scaleInt(e.getInt("dimh") + e.getInt("dimw")/8)
                         );
                     }
-                }
-                //player sickness
-                if(e.isOne("sicknessfast")) {
-                    g2.setColor(new Color(255,255,190));
-                    g2.fillOval(
-                            eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx") - e.getInt("dimw")/16),
-                            eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy") - e.getInt("dimw")/16),
-                            eUtils.scaleInt(e.getInt("dimw") + e.getInt("dimw")/8),
-                            eUtils.scaleInt(e.getInt("dimh") + e.getInt("dimw")/8)
-                    );
-                }
-                if(e.isOne("sicknessslow")) {
-                    g2.setColor(new Color(80,40,0));
-                    g2.fillOval(
-                            eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx") - e.getInt("dimw")/16),
-                            eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy") - e.getInt("dimw")/16),
-                            eUtils.scaleInt(e.getInt("dimw") + e.getInt("dimw")/8),
-                            eUtils.scaleInt(e.getInt("dimh") + e.getInt("dimw")/8)
-                    );
                 }
                 //player shadow
                 if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
@@ -123,10 +108,12 @@ public class dPlayer {
                 if(sVars.isOne("vfxenableshading")) {
                     GradientPaint df = new GradientPaint(
                             eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") + 2*e.getInt("dimh")/3- cVars.getInt("camy")),
+                            eUtils.scaleInt(e.getInt("coordy") + 2*e.getInt("dimh")/3
+                                    - cVars.getInt("camy")),
                             new Color(0,0, 0,0),
                             eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh") - cVars.getInt("camy")),
+                            eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")
+                                    - cVars.getInt("camy")),
                             new Color(0,0, 0,cVars.getInt("vfxshadowalpha1")/2));
                     g2.setPaint(df);
                     g2.fillOval(eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
@@ -138,16 +125,20 @@ public class dPlayer {
                 AffineTransform backup = g2.getTransform();
                 AffineTransform a = g2.getTransform();
                 a.rotate(e.getDouble("fv")-Math.PI/2,
-                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx") + e.getInt("dimw") / 2),
-                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") + e.getInt("dimh") / 2)
+                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+                                + e.getInt("dimw") / 2),
+                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                + e.getInt("dimh") / 2)
                 );
                 g2.setTransform(a);
                 int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
                         gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
                         gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
                 g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
-                        eUtils.scaleInt(e.getInt("coordx")+ e.getInt("dimw")/2-cVars.getInt("camx")),
-                        eUtils.scaleInt(e.getInt("coordy")+ e.getInt("dimh")/2-cVars.getInt("camy")-diff),
+                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
+                                - cVars.getInt("camx")),
+                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
+                                - cVars.getInt("camy")-diff),
                         null);
                 g2.setTransform(backup);
             }
