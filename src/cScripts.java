@@ -568,7 +568,6 @@ public class cScripts {
                 player0.put("id", "server");
             }
             player0.put("color", sVars.get("playercolor"));
-            eManager.currentMap.scene.players().add(player0);
             eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
             xCon.ex("centercamera");
         }
@@ -579,7 +578,6 @@ public class cScripts {
                     eUtils.getPath("animations/player_red/a03.png"));
                 player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                 player.put("id", s);
-                eManager.currentMap.scene.players().add(player);
                 eManager.currentMap.scene.playersMap().put(s, player);
             }
             cVars.putInt("currentweapon", gWeapons.type.NONE.code());

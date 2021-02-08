@@ -13,13 +13,6 @@ public class cGameLogic {
         return userPlayer;
     }
 
-    public static gPlayer getPlayerByIndex(int n) {
-        return eManager.currentMap.scene.playersMap().size() > n ?
-            eManager.currentMap.scene.players().get(n) :
-            null;
-    }
-
-
     public static void damageHealth(int dmg) {
         cVars.putInt("stockhp", Math.max(cVars.getInt("stockhp") - dmg, 0));
         cVars.putLong("hprechargetime", System.currentTimeMillis());

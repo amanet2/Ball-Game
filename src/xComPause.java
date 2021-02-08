@@ -12,7 +12,6 @@ public class xComPause extends xCom {
         else {
                 xCon.ex("playsound sounds/grenpinpull.wav");
                 if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame()) {
-                    eManager.currentMap.scene.players().clear();
                     eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
                 }
             }

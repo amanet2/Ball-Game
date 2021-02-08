@@ -84,7 +84,6 @@ public class nReceive {
                         player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("id", packId);
                         player.putInt("weapon", packWeap);
-                        eManager.currentMap.scene.players().add(player);
                         eManager.currentMap.scene.playersMap().put(packId, player);
                     }
                     xCon.ex(String.format("say %s joined the game", packName));
@@ -236,7 +235,6 @@ public class nReceive {
                         player.put("id", idload);
                         player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("name", nameload);
-                        eManager.currentMap.scene.players().add(player);
                         eManager.currentMap.scene.playersMap().put(idload, player);
                     }
                 }
@@ -266,11 +264,9 @@ public class nReceive {
                     }
                 }
                 if(tr.length() > 0) {
-                    int qi = nServer.clientIds.indexOf(tr);
                     nServer.clientArgsMap.remove(tr);
                     cScoreboard.scoresMap.remove(tr);
                     nServer.clientIds.remove(tr);
-                    eManager.currentMap.scene.players().remove( qi + 1);
                     eManager.currentMap.scene.playersMap().remove(tr);
                 }
             }

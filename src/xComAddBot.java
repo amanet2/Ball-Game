@@ -16,7 +16,6 @@ public class xComAddBot extends xCom {
         p.putInt("bottag", eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").size());
         p.put("id", "bot"+cScripts.createID(5));
         p.put("hat", bothat);
-        eManager.currentMap.scene.players().add(p);
         eManager.currentMap.scene.playersMap().put(p.get("id"), p);
         eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
         nVarsBot.update(p);

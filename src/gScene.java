@@ -50,10 +50,6 @@ public class gScene {
 		return objectLists.get("THING_TILE");
 	}
 
-    public ArrayList<gPlayer> players() {
-        return objectLists.get("THING_PLAYER");
-    }
-
     public ArrayList<gProp> props() {
         return objectLists.get("THING_PROP");
     }
