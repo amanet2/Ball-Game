@@ -71,9 +71,6 @@ public class uiInterface {
                         frames = 0;
                         framecounterTime = lastFrameTime + 1000;
                     }
-//sleep
-//                if(sVars.isOne("lowpowermode")) {
-//                    long toSleepNanos = (gameTimeNanos + (1000000000/sSettings.framerate)) - System.nanoTime();
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
             } catch (Exception e) {

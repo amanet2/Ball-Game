@@ -159,9 +159,6 @@ public class nServer extends Thread {
                 serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
-//                if(nServer.clientsConnected < 1)
-//                    uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots"));
-
                 if(sVars.getInt("rateserver") > 1000)
                     sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
                 else

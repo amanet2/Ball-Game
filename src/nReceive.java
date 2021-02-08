@@ -182,9 +182,6 @@ public class nReceive {
                     cVars.put("gamemode", packArgs.get("mode"));
                     cVars.put("gameteam", packArgs.get("teams"));
                     cVars.put("gamespawnarmed", packArgs.get("armed"));
-//                    if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
-//                        cScripts.changeWeapon(0);
-//                    }
                     cVars.put("scorelimit", packArgs.get("scorelimit"));
                     cVars.put("allowweaponreload", packArgs.get("allowweaponreload"));
                     cVars.put("gametick", packArgs.get("tick"));

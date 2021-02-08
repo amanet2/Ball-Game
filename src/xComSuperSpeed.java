@@ -11,7 +11,6 @@ public class xComSuperSpeed extends xCom {
                     userPlayer.addVal("vel"+i, cVars.getInt("velocitysuperspeed"));
                 }
             }
-//            cVars.putInt("stockspeed", 0);
         }
         return fullCommand;
     }

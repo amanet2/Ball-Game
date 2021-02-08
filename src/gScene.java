@@ -1,9 +1,6 @@
-import com.sun.source.tree.Tree;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 /**
  * A scene holds the background and objects for a game

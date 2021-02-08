@@ -13,50 +13,32 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * crousching not shown across net
-* get rid of all THING_PLAYER calls in the code
-    -> scripting lang should stay in SCRIPTING
 * dont turn off flashlight on death?
 * replace graveyard coords with "alive" flag
     -> using coord -9000 and -9000
     -> e.g. cGamelogic checkVirus
 * boostups broken now
     -> just make them give a boost like the speedboost works
-* something about bots breaks virus mode when client joings
-* remove vestigal gamemodes
-    -> NOT deathmatch (mainmenu)
-* getplayerbyindex needs to be eliminated first
-* then make everything use player by id
-* then get rid of players() arraylist
-* use getPlayerById() WAY more often
 * replace objectsmap usage with more specific playersMap(), botplayersMap() etc
 * any bounces occuring due to a vel0 vector need to have 2/3 modifier applied
 * wasd shouldnt work in pause menu during a game
-* make it so players are indexed by id in a hash map
 * bouncing off of stuff still feels too harsh
 * look for //ugly if else markers in code
 * messy //old props in cGameLogic, in 800s
-* clean up unused props
 * have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
     -> as I think the gfx has a race condition with the internal manager
 * dont cancel W on jump
     -> jump needs to be fixed to not use mov0!
-* draw shadow lower while jumping
 * add ball skins
     -> use existing color architecture
-* "sensible reface" commit broke sidescroller mode
-* player needs to be able to jump whenever
-* bouncing off floor need changing due to new gravity
-* player crouch in boostup
-* squish player in the direction of the boost
-    -> needed for comedy
-* EDITOR: a gravity setting for maps
+* gravity setting for maps
 * EDITOR: select last placed thing automatically after placing new thing
 * EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
 * if changing settings, msgs can screw it up
     -> tried setting "scorelimit" to "player has left the game"
 * make tile object work like flare object loading into maps and saving
     ->gThingReturnTile
-* code in editorPutProp needs to be stored in the prop object instead of that fucking switch case
+* code in editorPutProp needs to be stored in the prop object instead of switch case
 * waypoints game mode doesnt show scorepoint for clients
 * client cant score in safezones
 * horrible crash when client wins deathmatch mode
@@ -74,7 +56,6 @@
     -> need to accomodate multiple "flagmasterids"
 * cut/copy/paste only works for tiles right now
     -> make generic copything() function maybe instead of copytile, copyprop, etc
-* audit unused binds and remove vestigal classes
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
     -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
     -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
@@ -84,8 +65,6 @@
 * why is the currentmap NULL on first load when this wasnt happening before
 * gamemodes need to have a subclass structure like the props do
     -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
-* make sure botscripts dont get messed up by refactoring "teleporter" to PROP_TELEPORTER
-    -> just one example, actual issue was in scorepoints
 * have bots eventually go back to exit teleporter after X seconds
 * save old functions to aid in rebuilding the broken functionality
 * goToNearestThing() function has explicit reference to flagmaster stuff

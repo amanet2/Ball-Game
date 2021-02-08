@@ -99,17 +99,14 @@ public class cGameLogic {
     }
 
     public static void checkMapGravity() {
-//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
             if(cVars.isZero("inboost") && cVars.isOne("clipplayer")) {
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 if (cVars.isOne("jumping")) {
                     userPlayer.putInt("mov1", 0);
-//                    userPlayer.putInt("mov0", 1);
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
                     if(!cVars.contains("respawntime")) {
-//                        userPlayer.putInt("mov1", 1);
                         if(userPlayer.isOne("crouch"))
                             userPlayer.subtractVal("vel1",
                                     userPlayer.getInt("vel1") > 1 ? 1 : 0);
@@ -142,7 +139,6 @@ public class cGameLogic {
             }
             cVars.put("onladder", "0");
             cVars.put("inboost", "0");
-//        }
     }
 
     public static boolean drawSpawnProtection() {
@@ -730,18 +726,11 @@ public class cGameLogic {
                                 if(cl.get("id").contains("bot")
                                         && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
                                     //do powerup effect
-//                                    xCon.ex("say " + cl.get("name") + " picked up the "
-//                                            + gWeapons.weapons_selection[p.getInt("int0")].name + "!");
                                         cl.putLong("powerupsusetime",
                                                 System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
                                     cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
                                     p.put("int0", "0");
                                 }
-//                                else if(!cl.get("id").equals("server")
-//                                        && cl.getInt("weapon") == gWeapons.Type.NONE.code()) {
-//                                    //this is to hide a prop that client just picked up from unarmed pose
-////                                    p.put("int0", "0");
-//                                }
                             }
                         }
                     }
@@ -951,19 +940,17 @@ public class cGameLogic {
                         xCon.ex("givepoint " + cl.get("id"));
                     }
                 }
-//                else {
-                    cVars.put("exploded", "0");
-                    cVars.putInt("explodex", cl.getInt("coordx") - 75);
-                    cVars.putInt("explodey", cl.getInt("coordy") - 75);
-                    if (sVars.isOne("vfxenableanimations")) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                                cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                cVars.getInt("explodex"), cVars.getInt("explodey")));
-                    }
-                    if(sSettings.net_server)
-                        xCon.ex("say " + cl.get("name") + " died");
-                    xCon.ex("respawn");
-//                }
+                cVars.put("exploded", "0");
+                cVars.putInt("explodex", cl.getInt("coordx") - 75);
+                cVars.putInt("explodey", cl.getInt("coordy") - 75);
+                if (sVars.isOne("vfxenableanimations")) {
+                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                            cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                            cVars.getInt("explodex"), cVars.getInt("explodey")));
+                }
+                if(sSettings.net_server)
+                    xCon.ex("say " + cl.get("name") + " died");
+                xCon.ex("respawn");
             }
             else
                 cVars.put("survivesafezone", "0");
