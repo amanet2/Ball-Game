@@ -1,6 +1,7 @@
 cmd cv_mapview 0
 cmd cv_gamemode 6
 cmd cv_botbehavior virus
+cmd cv_flashlight 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3300 -4800 2400 2400 0 0 2400 0 0 0 0 255
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -900 -4800 2400 2400 0 0 2400 0 0 0 0 255
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -900 -2400 2400 2400 0 0 2400 0 0 0 0 255

@@ -45,7 +45,8 @@ public class nSend {
             //this one works
             for(int i = 0; i < nServer.clientIds.size(); i++) {
                 String idload2 = nServer.clientIds.get(i);
-                sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));
+                if(nServer.clientArgsMap.get(idload2) != null)
+                    sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));
             }
         }
         else {

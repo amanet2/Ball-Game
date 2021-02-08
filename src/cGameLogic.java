@@ -876,7 +876,6 @@ public class cGameLogic {
                 //check
                 if(cVars.get("virusids").length() < 1)
                     resetVirusPlayers();
-                String virusIds = cVars.get("virusids");
                 //check if reset time
                 if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
                     resetVirusPlayers();
@@ -895,15 +894,15 @@ public class cGameLogic {
                             Rectangle rr = new Rectangle(pp.getInt("coordx"), pp.getInt("coordy"),
                                     pp.getInt("dimw"), pp.getInt("dimh"));
                             if (r.intersects(rr) && (
-                                    (p.getInt("tag") == 0 && virusIds.contains("server"))
-                                            || (p.get("id").length() > 0 && virusIds.contains(p.get("id")))
-                                            || (pp.get("id").length() > 0 && virusIds.contains(pp.get("id")))
+                                    (p.getInt("tag") == 0 && cVars.get("virusids").contains("server"))
+                                            || (p.get("id").length() > 0 && cVars.get("virusids").contains(p.get("id")))
+                                            || (pp.get("id").length() > 0 && cVars.get("virusids").contains(pp.get("id")))
                             )) {
-                                if(!virusIds.contains(id1)) {
+                                if(!cVars.get("virusids").contains(id1)) {
                                     xCon.ex("say " + pp.get("name") + " infected " + p.get("name") + "!");
                                     cVars.put("virusids", cVars.get("virusids")+id1+"-");
                                 }
-                                if(!virusIds.contains(id2)) {
+                                if(!cVars.get("virusids").contains(id2)) {
                                     xCon.ex("say " + p.get("name") + " infected " + pp.get("name") + "!");
                                     cVars.put("virusids", cVars.get("virusids")+id2+"-");
                                 }
@@ -911,11 +910,10 @@ public class cGameLogic {
                         }
                     }
                 }
-                virusIds = cVars.get("virusids");
                 //check if thing if full, begin countdown to reset if it is
                 boolean isFull = true;
                 for(String id : gScene.getPlayerIds()) {
-                    if(!virusIds.contains(id)) {
+                    if(!cVars.get("virusids").contains(id)) {
                         isFull = false;
                         break;
                     }
@@ -926,7 +924,7 @@ public class cGameLogic {
                                 System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
                     }
                 }
-                return String.format("virus-%s", virusIds);
+                return String.format("virus-%s", cVars.get("virusids"));
             default:
                 break;
         }

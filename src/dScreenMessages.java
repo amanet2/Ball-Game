@@ -23,21 +23,26 @@ public class dScreenMessages {
     }
 
     public static void drawVirusTagString(Graphics g) {
-        if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
+        if(nServer.clientArgsMap != null
+                && nServer.clientArgsMap.containsKey("server")
                 && nServer.clientArgsMap.get("server").containsKey("state")) {
             String statestr = nServer.clientArgsMap.get("server").get("state");
-            String[] stoks = statestr.split("-");
+            String[] stoks = statestr.replace("virus", "").split("-");
             String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
+            System.out.println(statestr);
             if(stoks.length > 1) {
-                int virusplayers = 0;
-                int totalplayers = stoks[1].length();
-                for (int i = 0; i < totalplayers; i++) {
-                    char c = stoks[1].charAt(i);
-                    virusplayers += c == '1' ? 1 : 0;
+                int infected = 0;
+                int total = nServer.clientArgsMap.size();
+                for (int i = 0; i < stoks.length; i++) {
+                    String id = stoks[i];
+                    if(id.length() > 0) {
+                        if(statestr.contains(id))
+                            infected++;
+                    }
                 }
-                virusString = String.format("%d/%d PLAYERS INFECTED",virusplayers,totalplayers);
+                virusString = String.format("%d/%d PLAYERS INFECTED",infected,total);
             }
-            dScreenMessages.drawCenteredString(g, virusString.toString(),
+            dScreenMessages.drawCenteredString(g, virusString,
                     sSettings.width/2,14*sSettings.height/15);
         }
     }
