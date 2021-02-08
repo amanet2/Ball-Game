@@ -284,12 +284,14 @@ public class cBotsLogic {
                     for(String id : virusIds) {
                         if(id.length() > 0) {
                             gPlayer p = gScene.getPlayerById(id);
-                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                                    waypoint = p;
+                            if(p != null) {
+                                int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+                                int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+                                if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                                        && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                                    if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+                                        waypoint = p;
+                                    }
                                 }
                             }
                         }
