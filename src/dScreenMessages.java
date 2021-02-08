@@ -29,7 +29,6 @@ public class dScreenMessages {
             String statestr = nServer.clientArgsMap.get("server").get("state");
             String[] stoks = statestr.replace("virus", "").split("-");
             String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
-            System.out.println(statestr);
             if(stoks.length > 1) {
                 int infected = 0;
                 int total = nServer.clientArgsMap.size();
@@ -217,15 +216,6 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,150,255));
             g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                     sSettings.height/64);
-//            if(cGameLogic.getUserPlayer().getLong("cooldown") >= System.currentTimeMillis()) {
-//                double reloadratio = ((double)(cGameLogic.getUserPlayer().getLong("cooldown")
-//                    - System.currentTimeMillis())/(gWeapons.weapons_selection[
-//                        cGameLogic.getUserPlayer().getInt("weapon")].refiredelay));
-//                System.out.println(reloadratio);
-//                g.setColor(new Color(0,255,255,100));
-//                g.fillRect(sSettings.width/64,60*sSettings.height/64,
-//                        (int)(sSettings.width/3*reloadratio),sSettings.height/64);
-//            }
             g.setColor(new Color(200,200,200,255));
             g.drawString(cScripts.isReloading() ? "-- RELOADING --"
                     : cVars.getInt("currentweapon") != gWeapons.type.NONE.code()
@@ -370,7 +360,6 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         else if(eManager.currentMap.scene.playersMap().size() > 0){
-//            System.out.println(nServer.clientArgsMap.toString());
             if(nServer.clientArgsMap.get("server") != null
             && nServer.clientArgsMap.get("server").get("topscore") != null
             && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {

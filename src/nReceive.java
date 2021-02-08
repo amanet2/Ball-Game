@@ -92,7 +92,6 @@ public class nReceive {
             }
         }
         else if(sSettings.net_client) {
-            int w = 1;
             int ctr = 0;
             ArrayList<String> foundIds = new ArrayList<>();
             for(int i = 0; i < toks.length; i++) {
@@ -119,10 +118,12 @@ public class nReceive {
                 if(idload.equals("server")) {
                     if(packArgs.get("win").length() > 0) {
                         cVars.put("winnerid", packArgs.get("win"));
+                        gPlayer userPlayer = cGameLogic.userPlayer();
                         for(int d = 0; d < 4; d++) {
                             if(!(d == 1 && cVars.getInt("mapview") == gMap.MAP_SIDEVIEW)) {
-                                xCon.ex("THING_PLAYER.0.vel"+d+" 0");
-                                xCon.ex("THING_PLAYER.0.mov"+d+" 0");
+                                //disable the movements for sidescroller maps
+                                userPlayer.put("vel"+d, "0");
+                                userPlayer.put("mov"+d, "0");
                             }
                         }
                     }
@@ -209,12 +210,12 @@ public class nReceive {
                         if(!clientname.equals(nameload))
                             gScene.getPlayerById(idload).put("name", nameload);
                         if(sVars.isOne("smoothing")) {
-                            cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
-                            cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
+                            gScene.getPlayerById(idload).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
+                            gScene.getPlayerById(idload).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
                         }
                         String[] veltoks = nServer.clientArgsMap.get(idload).get("vels").split("-");
                         for(int vel = 0; vel < veltoks.length; vel++) {
-                            xCon.ex("THING_PLAYER."+w+".vel"+vel+" "+veltoks[vel]);
+                            gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
                         }
                         isnewclient = 0;
                         if(packArgs.containsKey("kick") && packArgs.get("kick").equals(uiInterface.uuid)) {
@@ -226,7 +227,6 @@ public class nReceive {
                             nServer.clientArgsMap.get(idload).remove("spawnprotected");
                         }
                         cGameLogic.processActionLoadClient(actionload);
-                        w++;
                     }
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
@@ -238,7 +238,6 @@ public class nReceive {
                         player.put("name", nameload);
                         eManager.currentMap.scene.players().add(player);
                         eManager.currentMap.scene.playersMap().put(idload, player);
-                        w++;
                     }
                 }
 

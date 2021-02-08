@@ -4,7 +4,7 @@ public class gPropPowerup extends gProp {
         if(int0 > 0) {
             if (cVars.isZero("gamespawnarmed")) {
                 if(cVars.isZero("currentweapon")) {
-                    xCon.ex("THING_PLAYER.0.weapon " + int0);
+                    p.putInt("weapon", int0);
                     cVars.putInt("currentweapon", int0);
                     cPowerups.takepowerupammo(this);
                     xCon.ex("playsound sounds/grenpinpull.wav");

@@ -558,18 +558,16 @@ public class cScripts {
     public static void setupGame() {
         int[] npcs = new int[] {-6000,-6000};
         cVars.putLong("starttime", System.currentTimeMillis());
-//        cScoreboard.scoresMap = new HashMap<>();
         if(cScripts.isNetworkGame() || uiInterface.inplay) {
             gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
-                eUtils.getPath(String.format("animations/player_%s/a03.png",
-                        xCon.ex("playercolor"))));
+                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
             player0.put("tag", "0");
             player0.put("id", uiInterface.uuid);
             cGameLogic.userPlayer = player0;
             if(sSettings.net_server) {
                 player0.put("id", "server");
             }
-            xCon.ex("THING_PLAYER.0.color playercolor");
+            player0.put("color", sVars.get("playercolor"));
             eManager.currentMap.scene.players().add(player0);
             eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
             xCon.ex("centercamera");
@@ -623,7 +621,7 @@ public class cScripts {
     public static void changeWeapon(int newweapon) {
         if(eManager.currentMap.scene.playersMap().size() > 0
                 && !(newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
-            xCon.ex("THING_PLAYER.0.weapon " + newweapon);
+            cGameLogic.userPlayer().putInt("weapon", newweapon);
             cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
             checkPlayerSpriteFlip(cGameLogic.userPlayer());

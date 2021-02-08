@@ -269,6 +269,48 @@ public class cGameLogic {
         }
     }
 
+    public static void checkHatStatus(){
+        //player0
+        gPlayer userPlayer = cGameLogic.userPlayer();
+        if(!userPlayer.isVal("pathspritehat", sVars.get("playerhat"))) {
+            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+                    sVars.get("playerhat"))));
+        }
+        //others
+        for(String id : nServer.clientArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid)) {
+                gPlayer p = gScene.getPlayerById(id);
+                String chat = nServer.clientArgsMap.get(id).get("hat");
+                if(!p.get("pathspritehat").contains(chat)) {
+                    p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
+                }
+            }
+        }
+    }
+
+    public static void checkColorStatus(){
+        //player0
+        gPlayer userPlayer = cGameLogic.userPlayer();
+        if(!userPlayer.isVal("color", sVars.get("playercolor"))) {
+            userPlayer.put("color", sVars.get("playercolor"));
+            userPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
+                    sVars.get("playercolor"), userPlayer.get("pathsprite").substring(
+                            userPlayer.get("pathsprite").lastIndexOf('/')))));
+        }
+        //others
+        for(String id : nServer.clientArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid)) {
+                gPlayer p = gScene.getPlayerById(id);
+                String ccol = nServer.clientArgsMap.get(id).get("color");
+                if(!p.get("color").contains(ccol) || !p.get("pathsprite").contains(ccol)) {
+                    p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
+                            p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
+                    p.put("color", ccol);
+                }
+            }
+        }
+    }
+
     public static void checkWeaponsStatus() {
         //player0
         if(cVars.getInt("currentweapon") != userPlayer().getInt("weapon")) {
@@ -317,44 +359,6 @@ public class cGameLogic {
                 int cweap = Integer.parseInt(nServer.clientArgsMap.get(id).get("weapon"));
                 if(!p.isInt("weapon", cweap))
                     p.putInt("weapon", cweap);
-            }
-        }
-    }
-
-    public static void checkHatStatus(){
-        if(!xCon.ex("THING_PLAYER.0.pathspritehat").contains(sVars.get("playerhat"))) {
-            cGameLogic.userPlayer().setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
-                    sVars.get("playerhat")))
-            );
-        }
-        for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
-                String chat = nServer.clientArgsMap.get(id).get("hat");
-                if(!p.get("pathspritehat").contains(chat)) {
-                    p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
-                }
-            }
-        }
-    }
-
-    public static void checkColorStatus(){
-        if(!xCon.ex("THING_PLAYER.0.color").contains(sVars.get("playercolor"))) {
-            xCon.ex("THING_PLAYER.0.color playercolor");
-            cGameLogic.userPlayer().setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
-                    sVars.get("playercolor"),
-                    xCon.ex("THING_PLAYER.0.pathsprite").substring(
-                            xCon.ex("THING_PLAYER.0.pathsprite").lastIndexOf('/')))));
-        }
-        for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
-                String ccol = nServer.clientArgsMap.get(id).get("color");
-                if(!p.get("color").contains(ccol) || !p.get("pathsprite").contains(ccol)) {
-                    p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
-                        p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
-                    p.put("color", ccol);
-                }
             }
         }
     }

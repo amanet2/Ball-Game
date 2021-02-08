@@ -1,6 +1,3 @@
-import java.net.DatagramSocket;
-import java.util.TreeMap;
-
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
@@ -26,8 +23,6 @@ public class uiInterface {
 		while(true) {
             try {
                 //inits
-//                if(!vFrameFactory.instance().isAlive())
-//                    vFrameFactory.instance().start();
                 if(sSettings.net_server && !nServer.instance().isAlive())
                     nServer.instance().start();
                 else if(sSettings.net_client && !nClient.instance().isAlive())
@@ -68,17 +63,6 @@ public class uiInterface {
                     }
                 }
                 //draw gfx
-//                Image[] toAdd = new Image[]{
-//                vFrameFactory.showImage = vFrameFactory.showImage == 1 ? 2 : 1;
-//
-//                vFrameFactory.createFrame(0);
-//                vFrameFactory.createFrame(1);
-//                };
-//                vFrameFactory.instance().frameImageQueue.add(toAdd);
-//                while(vFrameFactory.instance().frameImageQueue.size() > 1) {
-//                    vFrameFactory.instance().frameImageQueue.remove();
-//                }
-//                if(lastFrameTime < nextFrameTime) {
                     oDisplay.instance().frame.repaint();
                     frames += 1;
                     lastFrameTime = System.currentTimeMillis();
@@ -87,27 +71,11 @@ public class uiInterface {
                         frames = 0;
                         framecounterTime = lastFrameTime + 1000;
                     }
-//                }
-                //sleep
+//sleep
 //                if(sVars.isOne("lowpowermode")) {
 //                    long toSleepNanos = (gameTimeNanos + (1000000000/sSettings.framerate)) - System.nanoTime();
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
-//                    System.out.println(toSleepNanos);
-//                    if(toSleepNanos > 0)
-//                        Thread.sleep(0, (int) toSleepNanos);
-//                    if (sSettings.framerate > 999) {
-//                        long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
-//                        Thread.sleep(0, Math.max(0, (int) toSleepNanos));
-//                    }
-//                    else {
-//                        long toSleepMillis = (gameTime + (long) (1000.0/(double)sSettings.framerate))
-//                                - lastFrameTime;
-//                        if(toSleepMillis > 0)
-//                            Thread.sleep(toSleepMillis);
-////                        Thread.sleep(Math.max(0, toSleepMillis));
-//                    }
-//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
