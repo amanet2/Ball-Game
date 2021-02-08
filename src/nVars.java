@@ -28,6 +28,7 @@ public class nVars {
         if(sSettings.net_client && nms.length() > 0) {
             gMessages.networkMessage = "";
         }
+        gPlayer userPlayer = cGameLogic.userPlayer();
         keys.put("act", cGameLogic.getActionLoad());
         //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
@@ -52,18 +53,17 @@ public class nVars {
             keys.put("act", "sendcmd_"+cVars.get("sendcmd")+"-"+keys.get("act"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-        keys.put("x", xCon.ex("THING_PLAYER.0.coordx"));
-        keys.put("y", xCon.ex("THING_PLAYER.0.coordy"));
-        keys.put("crouch", xCon.ex("THING_PLAYER.0.crouch"));
+        keys.put("x", userPlayer.get("coordx"));
+        keys.put("y", userPlayer.get("coordy"));
+        keys.put("crouch", userPlayer.get("crouch"));
         keys.put("flashlight", xCon.ex("cv_flashlight"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
-                || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
+                || userPlayer.get("sendshot").equals("1")
                 || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
                 || cVars.getInt("currentweapon") == gWeapons.type.NONE.code()) ? "1" : "0");
-        keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
-        keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
-                xCon.ex("THING_PLAYER.0.mov1"), xCon.ex("THING_PLAYER.0.mov2"),
-                xCon.ex("THING_PLAYER.0.mov3")));
+        keys.put("fv", userPlayer.get("fv"));
+        keys.put("dirs",String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                userPlayer.get("mov2"), userPlayer.get("mov3")));
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
         keys.put("msg", nms);
@@ -74,9 +74,9 @@ public class nVars {
                     && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
         }
         keys.put("name", sVars.get("playername"));
-        keys.put("vels", String.format("%s-%s-%s-%s", xCon.ex("THING_PLAYER.0.vel0"),
-            xCon.ex("THING_PLAYER.0.vel1"), xCon.ex("THING_PLAYER.0.vel2"),
-            xCon.ex("THING_PLAYER.0.vel3")));
+        keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                userPlayer.get("vel2"), userPlayer.get("vel3")));
+
         keys.put("weapon", cVars.get("currentweapon"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");

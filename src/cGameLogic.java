@@ -9,7 +9,7 @@ public class cGameLogic {
 
     public static gPlayer userPlayer() {
         if(userPlayer == null)
-            userPlayer = getPlayerByIndex(0);
+            userPlayer = gScene.getPlayerById(uiInterface.uuid);
         return userPlayer;
     }
 
