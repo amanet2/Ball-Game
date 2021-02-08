@@ -14,4 +14,13 @@ public class gDoablePropReturnBoostup extends gDoablePropReturn {
         super.storeProp(propToLoad, sceneToStore);
         sceneToStore.getThingMap("PROP_BOOSTUP").put(propToLoad.get("id"), propToLoad);
     }
+
+    public void putProp(int int0, int int1, int x, int y, int w, int h) {
+        gPropBoostup boostup = new gPropBoostup(int0, int1, x, y, w, h);
+        boostup.put("id", cScripts.createID(8));
+        boostup.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_BOOSTUP").size());
+        boostup.putInt("native", 1);
+        eManager.currentMap.scene.props().add(boostup);
+        eManager.currentMap.scene.getThingMap("PROP_BOOSTUP").put(boostup.get("id"), boostup);
+    }
 }

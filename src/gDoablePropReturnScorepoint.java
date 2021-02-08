@@ -15,4 +15,13 @@ public class gDoablePropReturnScorepoint extends gDoablePropReturn {
         propToLoad.putInt("tag", sceneToStore.getThingMap("PROP_SCOREPOINT").size());
         sceneToStore.getThingMap("PROP_SCOREPOINT").put(propToLoad.get("id"), propToLoad);
     }
+
+    public void putProp(int int0, int int1, int x, int y, int w, int h) {
+        gPropScorepoint scorepoint = new gPropScorepoint(int0, int1, x, y, w, h);
+        scorepoint.put("id", cScripts.createID(8));
+        scorepoint.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT").size());
+        scorepoint.putInt("native", 1);
+        eManager.currentMap.scene.props().add(scorepoint);
+        eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT").put(scorepoint.get("id"), scorepoint);
+    }
 }
