@@ -16,6 +16,27 @@ public class gProp extends gThing {
         return isInt("code", code);
     }
 
+    public static String getSaveStringForCode(int code) {
+        switch (code) {
+            case TELEPORTER:
+                return "PROP_TELEPORTER";
+            case SCOREPOINT:
+                return "PROP_SCOREPOINT";
+            case FLAGRED:
+                return "PROP_FLAGRED";
+            case FLAGBLUE:
+                return "PROP_FLAGBLUE";
+            case POWERUP:
+                return "PROP_POWERUP";
+            case BOOSTUP:
+                return "PROP_BOOSTUP";
+            case SPAWNPOINT:
+                return "PROP_SPAWNPOINT";
+            default:
+                return "prop 1"; //for light fixture
+        }
+    }
+
     public static String getSaveStringForProp(gProp prop) {
         switch (prop.getInt("code")) {
             case TELEPORTER:
