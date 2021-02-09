@@ -7,7 +7,8 @@ public class gPlayer extends gThing {
     Image sprite;
 
     public void fireWeapon() {
-        gWeapons.fromCode(getInt("weapon")).fireWeapon(this);
+        xCon.ex("fireweapon " + get("id") + " " + getInt("weapon"));
+//        gWeapons.fromCode(getInt("weapon")).fireWeapon(this);
     }
 
     public boolean canJump() {
