@@ -208,7 +208,7 @@ public class cScripts {
                 createScorePopup(pla,1);
                 if(sSettings.net_server) {
                     xCon.ex("givepoint " + pla.get("id"));
-                    cGameLogic.checkWaypoints();
+                    cGameMode.checkWaypoints();
                 }
             }
         }
@@ -544,7 +544,7 @@ public class cScripts {
                 eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
             player0.put("tag", "0");
             player0.put("id", uiInterface.uuid);
-            cGameLogic.userPlayer = player0;
+            cGameLogic.setUserPlayer(player0);
             if(sSettings.net_server) {
                 player0.put("id", "server");
             }

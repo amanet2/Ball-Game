@@ -69,7 +69,7 @@ public class gPropScorepoint extends gProp {
                     put("int0", "0");
                     if(sSettings.net_server) {
                         xCon.ex("givepoint " + p.get("id"));
-                        cGameLogic.checkWaypoints();
+                        cGameMode.checkWaypoints();
                     }
                     else {
                         cScripts.createScorePopup((gPlayer) p,1);

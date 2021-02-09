@@ -5,7 +5,11 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
-    public static gPlayer userPlayer;
+    private static gPlayer userPlayer;
+
+    public static void setUserPlayer(gPlayer newUserPlayer) {
+        userPlayer = newUserPlayer;
+    }
 
     public static gPlayer userPlayer() {
         if(userPlayer == null)
@@ -133,7 +137,7 @@ public class cGameLogic {
                 }
                 else if(cVars.isOne("jumping")) {
                     if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
-                        userPlayer.putInt("mov0", 0);
+                        userPlayer().putInt("mov0", 0);
                     cVars.putInt("jumping", 0);
                 }
             }
@@ -159,10 +163,10 @@ public class cGameLogic {
                 cGameMode.resetKingOfFlags();
                 break;
             case cGameMode.SAFE_ZONES:
-                refreshSafeZones();
+                cGameMode.refreshSafeZones();
                 break;
             case cGameMode.VIRUS:
-                resetVirusPlayers();
+                cGameMode.resetVirusPlayers();
                 break;
             default:
                 break;
@@ -573,101 +577,10 @@ public class cGameLogic {
         }
     }
 
-    public static void resetVirusPlayers() {
-        assignRandomIdToCvar("virusids");
-        cVars.put("virusids", cVars.get("virusids")+"-");
-    }
-
-    public static void refreshSafeZones() {
-        String[] propids = new String[]{};
-        HashMap safezones = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        if(safezones.size() > 0) {
-            for(Object id : safezones.keySet()) {
-                gProp safezone = (gProp) safezones.get(id);
-                safezone.put("int0", "0");
-                String[] tmp = Arrays.copyOf(propids, propids.length+1);
-                tmp[tmp.length-1] = (String) id;
-                propids = tmp;
-            }
-            int rando = (int)(Math.random()*(double)(propids.length));
-            gProp nextactiveszone = (gProp) safezones.get(propids[rando]);
-            nextactiveszone.put("int0", "1");
-        }
-    }
-
-    public static void checkWaypoints() {
-        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        if(scorepoints.size() > 0) {
-            boolean noneActive = true;
-            for(Object id : scorepoints.keySet()) {
-                gProp scorepoint = (gProp) scorepoints.get(id);
-                if(scorepoint.getInt("int0") > 0) {
-                    noneActive = false;
-                    break;
-                }
-            }
-            if(noneActive)
-                refreshWaypoints();
-        }
-    }
-
-    public static void refreshWaypoints() {
-        String[] propids = new String[]{};
-        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        for(Object id : scorepoints.keySet()) {
-            gProp scorepoint = (gProp) scorepoints.get(id);
-            scorepoint.put("int0", "0");
-            String[] tmp = Arrays.copyOf(propids, propids.length+1);
-            tmp[tmp.length-1] = (String) id;
-            propids = tmp;
-        }
-        int rando = (int)(Math.random()*(double)(propids.length));
-        gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
-        nextactivescorepoint.put("int0", "1");
-    }
-
-    public static void checkVirus() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.clientArgsMap.containsKey("server")) {
-                    for(String id : gScene.getPlayerIds()) {
-                        gPlayer p = gScene.getPlayerById(id);
-                        if(nServer.clientArgsMap.get("server").containsKey("state")
-                        && !nServer.clientArgsMap.get("server").get("state").contains(id)
-                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
-                            xCon.ex("givepoint " + p.get("id"));
-                        }
-                    }
-                }
-                cVars.putLong("virustime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
-    public static void checkFlagMaster() {
-        if(sSettings.net_server) {
-            if(cVars.get("flagmasterid").length() > 0
-                    && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                xCon.ex("givepoint " + cVars.get("flagmasterid"));
-                cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
-    public static void assignRandomIdToCvar(String cvar) {
-        int r = (int) (Math.random()*((double)gScene.getPlayerIds().size()));
-        int c = 0;
-        for(String id : gScene.getPlayerIds()) {
-            if(c==r)
-                cVars.put(cvar, id);
-            c++;
-        }
-    }
-
     public static void checkProp(gProp prop) {
-        if(cGameLogic.userPlayer.willCollideWithPropAtCoords(prop,
-                cGameLogic.userPlayer.getInt("coordx"), cGameLogic.userPlayer.getInt("coordy"))) {
-            prop.propEffect(cGameLogic.userPlayer);
+        if(userPlayer().willCollideWithPropAtCoords(prop, userPlayer().getInt("coordx"),
+                userPlayer().getInt("coordy"))) {
+            prop.propEffect(userPlayer());
         }
     }
 
@@ -685,19 +598,20 @@ public class cGameLogic {
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.WAYPOINTS:
-                    checkWaypoints();
+                    cGameMode.checkWaypoints();
                     break;
                 case cGameMode.VIRUS:
-                    checkVirus();
+                    cGameMode.checkVirus();
                     break;
                 case cGameMode.FLAG_MASTER:
-                    checkFlagMaster();
+                    cGameMode.checkFlagMaster();
                     break;
                 default:
                     break;
             }
         }
         //check ALL PROPS this is the best one
+        //new way of checkingProps
         for(String checkThingType : new String[]{
                 "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
@@ -859,10 +773,10 @@ public class cGameLogic {
             case cGameMode.VIRUS:
                 //check
                 if(cVars.get("virusids").length() < 1)
-                    resetVirusPlayers();
+                    cGameMode.resetVirusPlayers();
                 //check if reset time
                 if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
-                    resetVirusPlayers();
+                    cGameMode.resetVirusPlayers();
                     cVars.remove("virusresettime");
                 }
                 //check if more players
@@ -933,7 +847,7 @@ public class cGameLogic {
             }
             if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
                 cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-                refreshSafeZones();
+                cGameMode.refreshSafeZones();
                 if (cVars.isOne("survivesafezone")) {
                     cVars.put("sendsafezone", "1");
                     if(sSettings.net_server) {
