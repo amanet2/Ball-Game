@@ -41,7 +41,7 @@ public class sVars {
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
         keys.put("ratebots", "15");
-        keys.put("rateclient", "15");
+        keys.put("rateclient", "25");
         keys.put("rateserver", "500");
         keys.put("playerarrow", "0");
         keys.put("playercolor", "blue");

@@ -165,6 +165,7 @@ public class xCon {
         commands.put("echo", new xComEcho());
         commands.put("flashlight", new xComFlashlight());
         commands.put("givepoint", new xComGivePoint());
+        commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
         commands.put("jump", new xComJump());

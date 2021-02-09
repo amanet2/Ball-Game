@@ -12,6 +12,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* console command for giveweapon
+    -> take id
+    -> and int code
+    -> this is the ticket for gungame working
+        -> can just force player into a different weapon slot ya know
 * new players joining virus need to be infected
 * make jumps look better
     -> save ycoord for when jump happened and draw shadows there until jump not happening

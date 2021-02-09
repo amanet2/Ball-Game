@@ -2,20 +2,12 @@ public class gPropPowerup extends gProp {
     public void propEffect(gPlayer p) {
         int int0 = getInt("int0");
         if(int0 > 0) {
-            if (cVars.isZero("gamespawnarmed")) {
-                if(cVars.isZero("currentweapon")) {
-                    p.putInt("weapon", int0);
-                    cVars.putInt("currentweapon", int0);
-                    cPowerups.takepowerupammo(this);
-                    xCon.ex("playsound sounds/grenpinpull.wav");
-                    cScripts.checkPlayerSpriteFlip(cGameLogic.userPlayer());
-                }
-                else if(cVars.isInt("currentweapon", int0)
-                        && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
-                    cPowerups.takepowerupammo(this);
-                }
+            if(cVars.isZero("currentweapon")) {
+                xCon.ex("giveweapon " + p.get("id") + " " + int0);
+                cPowerups.takepowerupammo(this);
             }
-            else if(cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo){
+            else if(cVars.isInt("currentweapon", int0)
+                    && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
                 cPowerups.takepowerupammo(this);
             }
         }
