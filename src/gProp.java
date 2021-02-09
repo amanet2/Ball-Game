@@ -4,10 +4,6 @@ import java.awt.geom.Ellipse2D;
 public class gProp extends gThing {
     Image sprite;
 
-    public boolean isType(int code) {
-        return isInt("code", code);
-    }
-
     public gProp load(String[] args) {
         return null;
     }
