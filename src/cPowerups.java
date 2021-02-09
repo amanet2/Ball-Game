@@ -1,7 +1,9 @@
+import java.util.HashMap;
+
 public class cPowerups {
     public static void takepowerupammo(gProp powerup) {
         while(powerup.getInt("int1") > 0 && cVars.getInt("weaponstock" + powerup.getInt("int0"))
-                < gWeapons.weapons_selection[powerup.getInt("int0")].maxAmmo) {
+                < gWeapons.fromCode(powerup.getInt("int0")).maxAmmo) {
             cVars.increment("weaponstock"+powerup.get("int0"));
             powerup.putInt("int1", powerup.getInt("int1") - 1);
             if(sSettings.net_client) {
@@ -19,43 +21,13 @@ public class cPowerups {
         xCon.ex("playsound sounds/clampdown.wav");
     }
 
-    public static void checkPlayerPowerups(gProp powerup) {
-        int int0 = powerup.getInt("int0");
-        if(int0 > 0) {
-            if (cVars.isZero("gamespawnarmed")) {
-                if(cVars.isZero("currentweapon")) {
-                    xCon.ex("THING_PLAYER.0.weapon " + int0);
-                    cVars.putInt("currentweapon", int0);
-                    takepowerupammo(powerup);
-                    xCon.ex("playsound sounds/grenpinpull.wav");
-                    cScripts.checkPlayerSpriteFlip(cGameLogic.getUserPlayer());
-                }
-                else if(cVars.isInt("currentweapon", int0)
-                        && cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo) {
-                    takepowerupammo(powerup);
-                }
-            }
-            else if(cVars.getInt("weaponstock"+int0) < gWeapons.weapons_selection[int0].maxAmmo){
-                takepowerupammo(powerup);
-            }
-//            else if(powerup_selection[int0].equals("slow") && cVars.isZero("sicknessslow")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")/2);
-//                xCon.ex("THING_PLAYER.0.sicknessslow 1");
-//                xCon.ex("cv_sicknessslow 1");
-//            }
-//            else if(powerup_selection[int0].equals("fast") && cVars.isZero("sicknessfast")) {
-//                cVars.putInt("velocityplayer", cVars.getInt("velocityplayerbase")*2);
-//                xCon.ex("THING_PLAYER.0.sicknessfast 1");
-//                xCon.ex("sicknessfast 1");
-//            }
-        }
-    }
-
     public static String createPowerupStringServer() {
         StringBuilder str = new StringBuilder();
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && p.getInt("int0") > 0) {
-                str.append(p.get("id")+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
+        for(String id : thingMap.keySet()) {
+            gProp p = (gProp) thingMap.get(id);
+            if(p.getInt("int0") > 0) {
+                str.append(id+":"+p.get("int0")+":"+p.get("int1")+":"+p.get("coordx")+":"+p.get("coordy")+":");
             }
         }
         String rstr = str.toString();
@@ -65,11 +37,7 @@ public class cPowerups {
     }
 
     static gProp getPowerupById(String id) {
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && p.get("id").equals(id))
-                return p;
-        }
-        return null;
+        return (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(id);
     }
 
     static void processPowerupStringClient(String powerupString) {
@@ -95,18 +63,29 @@ public class cPowerups {
                         prop.put("coordy", y);
                 }
                 else {
-                    xCon.ex(String.format("e_putprop %d %s %s %s %s %d %d",
-                            gProp.POWERUP, int0, int1,x, y,gWeapons.weapons_selection[Integer.parseInt(int0)].dims[0],
-                            gWeapons.weapons_selection[Integer.parseInt(int0)].dims[1]));
-                    eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
+                    gPropPowerup powerupSyncProp = new gPropPowerup(
+                            Integer.parseInt(int0),
+                            Integer.parseInt(int1),
+                            Integer.parseInt(x),
+                            Integer.parseInt(y),
+                            gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
+                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]
+                    );
+                    powerupSyncProp.putInt("tag",
+                            eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
+                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(id, powerupSyncProp);
+                    powerupSyncProp.put("id", id);
+                    eManager.currentMap.scene.props().add(powerupSyncProp);
+//                    eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
                 }
             }
         }
         //hide anything that shouldn't be on
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.POWERUP) && !powerupString.contains(p.get("id")))
-                p.put("int0", "0");
-            //there needs to be a way to remove props to avoid mem leaks
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
+        for(String id : thingMap.keySet()) {
+            if(!powerupString.contains(id)) {
+                thingMap.get(id).put("int0", "0");
+            }
         }
     }
 }

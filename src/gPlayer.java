@@ -7,37 +7,35 @@ public class gPlayer extends gThing {
     Image sprite;
 
     public void fireWeapon() {
-        gWeapons.weapons_selection[getInt("weapon")].fireWeapon(this);
+        gWeapons.fromCode(getInt("weapon")).fireWeapon(this);
     }
 
     public boolean canJump() {
-        for(gTile t : eManager.currentMap.scene.tiles()) {
-            if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
-                && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
-                && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
-                || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
-                && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
-                && (t.getInt("dim0h") > 0
-                || t.getInt("dim3h") > 0
-                || t.getInt("dim5w") > 0
-                || t.getInt("dim6w") > 0)
+        if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
+            for(gTile t : eManager.currentMap.scene.tiles()) {
+                if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
+                        && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
+                        && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
+                        || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
+                        && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
+                        && (t.getInt("dim0h") > 0
+                        || t.getInt("dim3h") > 0
+                        || t.getInt("dim5w") > 0
+                        || t.getInt("dim6w") > 0)
                 ) {
-                return true;
-            }
-            if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
-            ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
-            )){
-                return true;
+                    return true;
+                }
+                if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
+                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
+                ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
+                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
+                )){
+                    return true;
+                }
             }
         }
-        for (gPlayer target : eManager.currentMap.scene.players()) {
-            if(!(getInt("coordx")+getInt("dimw") < target.getInt("coordx"))
-                && !(getInt("coordx") > target.getInt("coordx")+target.getInt("dimw"))
-                && Math.abs((getInt("coordy")+getInt("dimh"))-target.getInt("coordy")) < 10) {
-                return true;
-            }
+        else {
+            return true;
         }
         return false;
     }
@@ -56,16 +54,18 @@ public class gPlayer extends gThing {
                 return false;
             }
         }
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            for (gPlayer target : eManager.currentMap.scene.players()) {
-                if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
+        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+            for(String id : gScene.getPlayerIds()) {
+                gPlayer target = gScene.getPlayerById(id);
+                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
                     return false;
                 }
             }
         }
-        if(cVars.getInt("maptype") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
-            for (gPlayer target : eManager.currentMap.scene.players()) {
-                if (!(target.isInt("tag", getInt("tag"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
+        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
+            for(String id : gScene.getPlayerIds()) {
+                gPlayer target = gScene.getPlayerById(id);
+                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
                     return false;
                 }
             }
@@ -115,7 +115,7 @@ public class gPlayer extends gThing {
     }
 
     public boolean checkBump(Shape bounds, int ystart) {
-        if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
             if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
                     < bounds.getBounds().getHeight()/2+10) {
                 putInt("coordy", (int) (getInt("coordy")
@@ -153,7 +153,7 @@ public class gPlayer extends gThing {
                     situation = 5;
                 else if(xend > getInt("coordx") && getInt("coordy")+getInt("dimh") > yend) {
                     situation = 6;
-                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                         cancelJump();
                     }
                 }
@@ -161,7 +161,7 @@ public class gPlayer extends gThing {
             else if(getInt("vel0") > getInt("vel1") && getInt("vel3") > getInt("vel2")) {
                 if(getInt("coordy")+getInt("dimh") > yend && getInt("coordx")+getInt("dimw") > xstart) {
                     situation = 8;
-                    if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                         cancelJump();
                     }
                 }
@@ -175,7 +175,7 @@ public class gPlayer extends gThing {
                 situation = 4;
             if(getInt("vel0") > getInt("vel1") && getInt("vel3") == 0 && getInt("vel2") == 0) {
                 situation = 7;
-                if(cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
+                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
                     cancelJump();
                 }
             }
@@ -189,14 +189,13 @@ public class gPlayer extends gThing {
                 case 0:
                 case 1:
                 case 2:
-                    cVars.put("suppressknocksound", "1");
-                    if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel1") - 1));
+                    if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
+                        cVars.put("suppressknocksound", "1");
+                        putInt("vel0", 3*getInt("vel1")/2 - 1);
                         put("vel1", "0");
                     }
                     else {
-
+                        cVars.put("suppressknocksound", "1");
                     }
                     break;
                 case 3:
@@ -205,15 +204,14 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel3", getInt("vel2") - 1);
                     put("vel2", "0");
                     break;
                 case 6:
                 case 7:
                 case 8:
-                    putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel0") + getInt("vel1") - 1));
+                    //special case for modifier of upward movement
+                    putInt("vel1", 2*getInt("vel0")/3);
                     put("vel0", "0");
                     break;
                 case 9:
@@ -222,8 +220,7 @@ public class gPlayer extends gThing {
                     //check for bump
                     if(!checkBump(bounds, ystart))
                         return false;
-                    putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                            getInt("vel2") + getInt("vel3") - 1));
+                    putInt("vel2", getInt("vel3") - 1);
                     put("vel3", "0");
                     break;
                 default:
@@ -271,27 +268,24 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") + getInt("vel0") - 1));
+                        putInt("vel0", getInt("vel1") - 1);
                         putInt("vel1", 0);
                     }
                 }
                 else if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
                     if(getInt("vel2") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel3") - 1));
+                        putInt("vel3", getInt("vel2") - 1);
                         putInt("vel2", 0);
                     }
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") + getInt("vel3") - 1));
+                        putInt("vel1", getInt("vel3") - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel0") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel0") - 1));
+                        double mod = 1.5;
+                        putInt("vel2", getInt("vel0") - 1);
                         put("vel0", "0");
                     }
                 }
@@ -317,8 +311,8 @@ public class gPlayer extends gThing {
             if(pb.intersects(cwb)) {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel1") - 1));
+                        double mod = 1.5;
+                        putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
                 }
@@ -327,20 +321,17 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
                     if(getInt("vel2") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel3") - 1));
+                        putInt("vel3", getInt("vel2") - 1);
                         putInt("vel2", 0);
                     }
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel3") - 1));
+                        putInt("vel0", getInt("vel3") - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel1") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel1") - 1));
+                        putInt("vel2", getInt("vel1") - 1);
                         put("vel1", "0");
                     }
                 }
@@ -366,8 +357,8 @@ public class gPlayer extends gThing {
             if(pb.intersects(cwb)) {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel1") - 1));
+                        double mod = 1.5;
+                        putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
                 }
@@ -376,20 +367,17 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
                     if(getInt("vel3") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel3") - 1));
+                        putInt("vel2", getInt("vel3") - 1);
                         putInt("vel3", 0);
                     }
                 }
                 else {
                     if (getInt("vel2") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel2") - 1));
+                        putInt("vel0", getInt("vel2") - 1);
                         put("vel2", "0");
                     }
                     if (getInt("vel1") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel3") + getInt("vel1") - 1));
+                        putInt("vel3", getInt("vel1") - 1);
                         put("vel1", "0");
                     }
                 }
@@ -413,27 +401,24 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel1") + getInt("vel0") - 1));
+                        putInt("vel0", getInt("vel1") - 1);
                         putInt("vel1", 0);
                     }
                 }
                 else if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
                     if(getInt("vel3") > 0) {
-                        putInt("vel2", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel3") - 1));
+                        putInt("vel2", getInt("vel3") - 1);
                         putInt("vel3", 0);
                     }
                 }
                 else{
                     if (getInt("vel0") > 0) {
-                        putInt("vel3", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel0") + getInt("vel3") - 1));
+                        double mod = 1.5;
+                        putInt("vel3", getInt("vel0") - 1);
                         put("vel0", "0");
                     }
                     if (getInt("vel2") > 0) {
-                        putInt("vel1", Math.min(cVars.getInt("velocityplayer") + cVars.getInt("speedbonus"),
-                                getInt("vel2") + getInt("vel1") - 1));
+                        putInt("vel1", getInt("vel2") - 1);
                         put("vel2", "0");
                     }
                 }
@@ -444,16 +429,20 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithinTileAtCoords(gTile target, int dx, int dy) {
+        int xstart;
+        int ystart;
+        int xend;
+        int yend;
+        boolean bounceOverSafe = true;
         if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
-            boolean bounceOverSafe = true;
             cVars.put("suppressknocksound", "0");
             Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));
             Rectangle targetbounds = new Rectangle(target.getInt("coordx"), target.getInt("coordy") + 75,
                     target.getInt("dim0w"), target.getInt("dim0h") - 75);
-            int xstart = target.getInt("coordx");
-            int ystart = target.getInt("coordy")+75;
-            int xend = target.getInt("coordx")+target.getInt("dim0w");
-            int yend = target.getInt("coordy") + target.getInt("dim0h");
+            xstart = target.getInt("coordx");
+            ystart = target.getInt("coordy")+75;
+            xend = target.getInt("coordx")+target.getInt("dim0w");
+            yend = target.getInt("coordy") + target.getInt("dim0h");
             bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); //0 (the tile component)
             targetbounds = new Rectangle(target.getInt("coordx"),
                     target.getInt("coordy") + target.getInt("dim0h"),
@@ -553,6 +542,7 @@ public class gPlayer extends gThing {
         put("botthinktime", "0");
         put("powerupsusetime", "0");
         put("sendshot", "0");
+        put("alive", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("dropweapon", new gDoableThing(){

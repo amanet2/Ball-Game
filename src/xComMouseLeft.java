@@ -28,7 +28,7 @@ public class xComMouseLeft extends xCom {
                         break;
                     default:
                         xCon.ex(
-                            String.format("e_puttile %d %d %d %d %d %d %d %d %d %d %d %s %s %s %s %s",
+                            String.format("e_puttile %d %d %d %d %d %d %d %d %d %d %d %s %s %s %s",
                                 mc[0], mc[1], cEditorLogic.state.newTile.getInt("dimw"),
                                     cEditorLogic.state.newTile.getInt("dimh"),
                                     cEditorLogic.state.newTile.getInt("dim0h"),
@@ -41,8 +41,7 @@ public class xComMouseLeft extends xCom {
                                     cEditorLogic.state.newTile.get("sprite0"),
                                     cEditorLogic.state.newTile.get("sprite1"),
                                     cEditorLogic.state.newTile.get("sprite2"),
-                                    cEditorLogic.state.newTile.get("brightness"),
-                                    cEditorLogic.state.newTile.get("canspawn")));
+                                    cEditorLogic.state.newTile.get("brightness")));
                         break;
                 }
             }

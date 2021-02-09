@@ -1,4 +1,4 @@
-cmd cv_maptype 0
+cmd cv_mapview 0
 cmd cv_gamemode 4
 cmd cv_botbehavior goto_kofflag
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/grass.png -1380 -330 600 600 100 150 0 0 0 0 100 255 0
@@ -104,18 +104,27 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -180 1890 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 720 1170 300 300 0 0 300 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 2300 2580 600 250 100 150 50 0 0 0 0 255 0
-prop 5 0 0 -1380 2880 300 300
-prop 5 0 0 -1350 0 300 300
-prop 5 0 0 1410 -330 300 300
-prop 5 0 0 1530 2370 300 300
-prop 7 0 0 -420 2670 300 300
-prop 7 0 0 -960 1590 300 300
-prop 7 0 0 -930 720 300 300
-prop 7 0 0 -1200 -780 300 300
-prop 7 0 0 -270 -210 300 300
-prop 7 0 0 1950 -180 300 300
-prop 7 0 0 870 -180 300 300
-prop 7 0 0 1560 1110 300 300
-prop 7 0 0 960 2370 300 300
-prop 7 0 0 2550 3000 300 300
-prop 7 0 0 2280 1350 300 300
+PROP_FLAGRED 0 0 -1380 2880 300 300
+PROP_FLAGRED 0 0 -1350 0 300 300
+PROP_FLAGRED 0 0 1410 -330 300 300
+PROP_FLAGRED 0 0 1530 2370 300 300
+PROP_POWERUP 0 0 -420 2670 300 300
+PROP_POWERUP 0 0 -960 1590 300 300
+PROP_POWERUP 0 0 -930 720 300 300
+PROP_POWERUP 0 0 -1200 -780 300 300
+PROP_POWERUP 0 0 -270 -210 300 300
+PROP_POWERUP 0 0 1950 -180 300 300
+PROP_POWERUP 0 0 870 -180 300 300
+PROP_POWERUP 0 0 1560 1110 300 300
+PROP_POWERUP 0 0 960 2370 300 300
+PROP_POWERUP 0 0 2550 3000 300 300
+PROP_POWERUP 0 0 2280 1350 300 300
+PROP_SPAWNPOINT 0 0 180 960 150 150
+PROP_SPAWNPOINT 0 0 420 960 150 150
+PROP_SPAWNPOINT 0 0 660 960 150 150
+PROP_SPAWNPOINT 0 0 870 960 150 150
+PROP_SPAWNPOINT 0 0 1080 960 150 150
+PROP_SPAWNPOINT 0 0 780 1140 150 150
+PROP_SPAWNPOINT 0 0 780 1320 150 150
+PROP_SPAWNPOINT 0 0 390 1470 150 150
+PROP_SPAWNPOINT 0 0 120 1470 150 150

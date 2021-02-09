@@ -6,14 +6,13 @@ public class gTile extends gThing {
     Image spriteTW;
 
     public gTile(int x, int y, int w, int h, int nh, int nmh, int mh, int smh, int sh, int lw, int rw, String tt,
-                 String mt, String bt, int bl, int sp) {
+                 String mt, String bt, int bl) {
         super();
         put("type", "THING_TILE");
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
-        putInt("canspawn", sp);
         putInt("brightness", bl);
         putInt("dim0h", nh);
         putInt("dim1h", nmh);
@@ -25,6 +24,7 @@ public class gTile extends gThing {
         put("sprite0", tt);
         put("sprite1", mt);
         put("sprite2", bt);
+        put("occupied", "0");
 
         for(int j = 0; j < 5; j++) {
             if(getInt(String.format("dim%dh", j)) != 0)

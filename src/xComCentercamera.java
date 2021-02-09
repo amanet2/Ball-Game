@@ -1,8 +1,8 @@
 public class xComCentercamera extends xCom {
     public String doCommand(String fullCommand) {
-        gThing p = cGameLogic.getPlayerById(cVars.get("camplayertrackingid"));
+        gThing p = gScene.getPlayerById(cVars.get("camplayertrackingid"));
         if(p == null)
-            p = cGameLogic.getUserPlayer();
+            p = cGameLogic.userPlayer();
         if(p != null) {
             cVars.putInt("cammode", gCamera.MODE_TRACKING);
             cVars.putInt("camx",

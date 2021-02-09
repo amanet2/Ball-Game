@@ -89,6 +89,18 @@ public class gThing {
         }
     }
 
+    public void addVal(String key, int val) {
+        if(contains(key)) {
+            putInt(key, getInt(key)+val);
+        }
+    }
+
+    public void subtractVal(String key, int val) {
+        if(contains(key)) {
+            putInt(key, getInt(key)-val);
+        }
+    }
+
     public boolean coordsWithinBounds(int x, int y) {
         return (x >= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx"))
                 && x <= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx")+getInt("dimw")))

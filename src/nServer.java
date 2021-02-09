@@ -14,10 +14,11 @@ public class nServer extends Thread {
     static boolean kickConfirmed = false;
     static ArrayList<String> clientIds = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
+    static DatagramSocket serverSocket = null;
+
 
     public static nServer instance() {
         if(instance == null)
@@ -41,9 +42,12 @@ public class nServer extends Thread {
     }
 
     public static void clearBots() {
-        if(sSettings.net_server && eManager.currentMap.scene.botplayers().size() > 0) {
-            for(gPlayer p : eManager.currentMap.scene.botplayers()) {
-                nServer.quitClientIds.add(p.get("id"));
+        if(eManager.currentMap != null) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(sSettings.net_server && botsMap.size() > 0) {
+                for(Object id : botsMap.keySet()) {
+                    nServer.quitClientIds.add((String) id);
+                }
             }
         }
     }
@@ -56,15 +60,6 @@ public class nServer extends Thread {
                 i++;
             }
         }
-    }
-
-    public static void incrementScoreFieldById(String id, String field) {
-        if(!nServer.scoresMap.containsKey(id))
-            nServer.scoresMap.put(id, new HashMap<>());
-        if(!nServer.scoresMap.get(id).containsKey(field))
-            nServer.scoresMap.get(id).put(field, 0);
-        int nscore = nServer.scoresMap.get(id).get(field) + 1;
-        nServer.scoresMap.get(id).put(field, nscore);
     }
 
     public static void processPackets() {
@@ -88,17 +83,19 @@ public class nServer extends Thread {
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket =
                         new DatagramPacket(sendData, sendData.length, addr, port);
-                uiInterface.serverSocket.send(sendPacket);
+                serverSocket.send(sendPacket);
                 xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
                 if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
                     kickConfirmed = true;
                 }
                 receivedPackets.remove();
             }
-            if(eManager.currentMap.scene.botplayers().size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
                 sVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
-                for(gPlayer p : eManager.currentMap.scene.botplayers()) {
+                for(Object id : botsMap.keySet()) {
+                    gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
                     String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
                     String receiveDataString = botStateStr;
@@ -130,19 +127,15 @@ public class nServer extends Thread {
             nSend.focus_id = "";
         }
         clientArgsMap.remove(id);
-        scoresMap.remove(id);
-        gPlayer quittingPlayer = cGameLogic.getPlayerById(id);
-        eManager.currentMap.scene.players().remove(quittingPlayer);
+        cScoreboard.scoresMap.remove(id);
+        gPlayer quittingPlayer = gScene.getPlayerById(id);
+        eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
-        }
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS_SINGLE
-                && cVars.isVal("virussingleid", quittingPlayer.get("id"))) {
-            cVars.put("virussingleid", "");
         }
         xCon.ex(String.format("say %s left the game", quitterName));
     }
@@ -158,17 +151,14 @@ public class nServer extends Thread {
                 }
                 byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                if(uiInterface.serverSocket == null || uiInterface.serverSocket.isClosed()) {
+                if(serverSocket == null || serverSocket.isClosed()) {
                     uiInterface.uuid = "server";
-                    uiInterface.serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-                    uiInterface.serverSocket.setSoTimeout(sVars.getInt("timeout"));
+                    serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+                    serverSocket.setSoTimeout(sVars.getInt("timeout"));
                 }
-                uiInterface.serverSocket.receive(receivePacket);
+                serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
-//                if(nServer.clientsConnected < 1)
-//                    uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots"));
-
                 if(sVars.getInt("rateserver") > 1000)
                     sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
                 else

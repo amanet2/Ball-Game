@@ -3,23 +3,21 @@ import java.awt.event.KeyEvent;
 public class uiMenusControls extends uiMenu {
     public static uiMenuItem[] getControlsMenuItems() {
         uiMenuItem[] gameControls = new uiMenuItem[] {
-                new uiMenuItem("player up: "+(char)(int)xCon.getKeyCodeForComm("playerup")),
-                new uiMenuItem("player down: "+(char)(int)xCon.getKeyCodeForComm("playerdown")),
-                new uiMenuItem("player left: "+(char)(int)xCon.getKeyCodeForComm("playerleft")),
-                new uiMenuItem("player right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
-                new uiMenuItem("attack: Mouse Left"),
-                new uiMenuItem("speed boost: Mouse Right/Shift"),
-                new uiMenuItem("jump/drop weapon: Space"),
-                new uiMenuItem("crouch: Ctrl"),
-                new uiMenuItem("reload weapon: "+(char)(int)xCon.getKeyCodeForComm("reload")),
-                new uiMenuItem("change weapon: Mouse Wheel"),
+                new uiMenuItem("move up: "+(char)(int)xCon.getKeyCodeForComm("playerup")),
+                new uiMenuItem("move down: "+(char)(int)xCon.getKeyCodeForComm("playerdown")),
+                new uiMenuItem("move left: "+(char)(int)xCon.getKeyCodeForComm("playerleft")),
+                new uiMenuItem("move right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
+                new uiMenuItem("attack: MOUSE_LEFT"),
+                new uiMenuItem("speed boost: MOUSE_RIGHT"),
+                new uiMenuItem("drop weapon: " + (char)(int)xCon.getKeyCodeForComm("dropweapon")),
+                new uiMenuItem("crouch: SHIFT"),
+//                new uiMenuItem("reload: "+(char)(int)xCon.getKeyCodeForComm("reload")),
                 new uiMenuItem("flashlight: "+(char)(int)xCon.getKeyCodeForComm("flashlight")),
                 new uiMenuItem("center camera: "+(char)(int)xCon.getKeyCodeForComm("centercamera")),
-                new uiMenuItem("show scoreboard: Tab"),
-                new uiMenuItem("chat message: "+(char)(int)xCon.getKeyCodeForComm("chat")),
+                new uiMenuItem("show scoreboard: TAB"),
+                new uiMenuItem("chat: "+(char)(int)xCon.getKeyCodeForComm("chat")),
                 new uiMenuItem("zoom in: "+(char)(int)xCon.getKeyCodeForComm("zoom")),
                 new uiMenuItem("zoom out: "+(char)(int)xCon.getKeyCodeForComm("-zoom")),
-                new uiMenuItem("console: ~"),
         };
         return gameControls;
     }

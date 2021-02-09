@@ -1,11 +1,116 @@
 ==DISTRIBUTION==
-* rename game ballmaster general
-    -> roller ruckus
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
-==ISSUES==
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==ISSUES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* new players joining virus need to be infected
+* make jumps look better
+    -> save ycoord for when jump happened and draw shadows there until jump not happening
+* crousching not shown across net
+* dont turn off flashlight on death?
+* replace graveyard coords with "alive" flag
+    -> using coord -9000 and -9000
+    -> e.g. cGamelogic checkVirus
+* boostups broken now
+    -> just make them give a boost like the speedboost works
+* replace objectsmap usage with more specific playersMap(), botplayersMap() etc
+* any bounces occuring due to a vel0 vector need to have 2/3 modifier applied
+* wasd shouldnt work in pause menu during a game
+* bouncing off of stuff still feels too harsh
+* look for //ugly if else markers in code
+* messy //old props in cGameLogic, in 800s
+* have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
+    -> as I think the gfx has a race condition with the internal manager
+* dont cancel W on jump
+    -> jump needs to be fixed to not use mov0!
+* add ball skins
+    -> use existing color architecture
+* gravity setting for maps
+* EDITOR: select last placed thing automatically after placing new thing
+* EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
+* if changing settings, msgs can screw it up
+    -> tried setting "scorelimit" to "player has left the game"
+* make tile object work like flare object loading into maps and saving
+    ->gThingReturnTile
+* code in editorPutProp needs to be stored in the prop object instead of switch case
+* waypoints game mode doesnt show scorepoint for clients
+* client cant score in safezones
+* horrible crash when client wins deathmatch mode
+    -> processActionLoadClient line 611
+* client locks up and cant exit when loses connection to server, has to close cmd window
+* scoreboard exception when client joins game now
+* timeout negative-timeout sleep() exception
+    -> nServer.run line 182
+* clients need to show green +1s on their own screen
+    -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
+* flag needs to drop at dead players feet in flagmaster
+    -> ctf is more balanced the way it is
+* for ctf, have multiple red flags spawn around the map, have a few equidistant blue flag "stations" to bring them to
+    -> like a fuzion frenzy type thing
+    -> need to accomodate multiple "flagmasterids"
+* cut/copy/paste only works for tiles right now
+    -> make generic copything() function maybe instead of copytile, copyprop, etc
+* avoid casting from WIDE scope to NARROWER scope as it introduces overhead
+    -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
+    -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
+* bot just shooting all over instead of waiting to be in range
+* mapmakers gotta be verified heavily
+* trying to start a new game with spawn-armed and reloading crashes
+* why is the currentmap NULL on first load when this wasnt happening before
+* gamemodes need to have a subclass structure like the props do
+    -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
+* have bots eventually go back to exit teleporter after X seconds
+* save old functions to aid in rebuilding the broken functionality
+* goToNearestThing() function has explicit reference to flagmaster stuff
+* get rid of the scorepoints() array in the cGameLogic file
+* get rid of bouncy ball
+    -> for now
+* bouncy ball broken
+* make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
+* get rid of the ladder prop
+* make sure propmap id pointers are dereferenced/removed along with the arraylist
+* add zombies gametype, a zopmbie will be a prop
+    -> how many ID:coord:coord:attack sets can we cram in a send string
+* what the hell happened to the light fixture prop?
+    -> they used to be prop 1
+    -> i guess since we dont do sidescroller maps anymore it shouldnt be an issue
+* all powerup cycle at same time
+    -> each powerup should have its own timer, and be longer (like halo weapons despawning)
+* bots not dropping weapons
+    -> actually they never dropped their weapons even in the old branches
+* consider making HASHMAPS of all the current proplists, would make looking up a prop by id an O(1) op
+* flags work off of a seperate server-side collision detection
+* put all static ints for props in the map file
+* king of flags needs a new architecture
+* make sure all maps in maps_b folder work with new props
+* prop sprite string needs to be made a var of the prop object/subclass
+* gMap.load has a giant if/else block
+    -> convert to a map of doables, or something... at least use the console commands this time
+* logic drawing navpointers is a huge if/else block
+* make sure editing and saving a map works with the new prop architecture
+* show grey bar on bottom 1/4 of screen, with gametype and description for first 10 seconds of player joining
+* make sure props spawn and clear without memory leaks
+* audit graphics and sounds to remove anything not made by (you)
+* refactor maps to use new prop architecture while slowly removing the old functionality
+* player_ids is the last good branch before i started gutting the weapons and props functionality
+* refactor props to not rely on so many ifs
+    -> use inheritance instead of the "code"
+    -> should have basic function like the propeffect() function
+* reloading isnt working no more
+* changing resolution screws up corner tiles & powerups
+* figure a way to measure your functions for optimization
+* incorporate enums where possible
+    -> replace weapon_selection with weaponSelection()
+* why does cGameLogic.getMovementStatus() have a double for-loop for all ids
 * need sound effects for hitting sorepoints, capping flags, surviving safezones, grabbing flags, completing laps
 * player should drop flag in flagmaster, but ctf shoud go back to starting spot
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
@@ -53,8 +158,23 @@
     -> tag: re-assign "itness"
 * EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-
-==FEATURES==
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==FEATURES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
+    -> obv this means json
+    -> obv this means everythings fucked
+* consider reverting flares to arraylist, i cant think of needing to look em up by id
+* give the victim a boxing glove in victim mode
+* map where a scorepoint runs away from the nearest player and player explodes when catches it, but gets a point
+* map with winding maxze structure that travels downwards with scorepoints
+    -> watch which path you take or you can fall out the bottom of the map
 * add buttons, like in the nuke map in day of defeat
     -> red square with flare like weapon highlight.  turn to green whenn player goes over
         -> need to have doables attached to the button
@@ -97,8 +217,6 @@
     -> pick up
     -> do something to initiate the growing sequence
     -> chuck it before it blows, or drop it
-* introduce ability to queue-up console cmds for passing to clients
-    -> would wait for the "cmdreceived" before sending the next
 * reintroduce powerups, would function the way weapons used to
     -> powerup spawn points have 0/1 switch, present a random powerup
     -> on-fire like bomberman (touch ppl, they die)
@@ -225,3 +343,4 @@ to reference them.
     -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
 * server should have clients run a set of instructions on join
 * transmit file over the server/cli connection
+* next game better have rotating map in both gameplay and editor

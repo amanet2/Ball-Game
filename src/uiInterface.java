@@ -1,11 +1,10 @@
-import java.net.DatagramSocket;
-
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
 	static long gameTimeNanos = System.nanoTime();
 	static long tickCounterTime = gameTime;
 	static long tickTime = gameTime;
+	static long tickTimeNanos = gameTimeNanos;
 	static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
 	static long networkTime = gameTime;
@@ -14,9 +13,7 @@ public class uiInterface {
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
-
-    static DatagramSocket serverSocket = null;
-    static DatagramSocket clientSocket = null;
+    static long lastFrameTime = 0;
     static String uuid = cScripts.createID(8);
 
 	public static void startTicker() {
@@ -26,8 +23,6 @@ public class uiInterface {
 		while(true) {
             try {
                 //inits
-//                if(!vFrameFactory.instance().isAlive())
-//                    vFrameFactory.instance().start();
                 if(sSettings.net_server && !nServer.instance().isAlive())
                     nServer.instance().start();
                 else if(sSettings.net_client && !nClient.instance().isAlive())
@@ -43,8 +38,8 @@ public class uiInterface {
                     nServer.addBots();
                     cVars.remove("serveraddbots");
                 }
-                while(tickTime < gameTime) {
-                    tickTime += (1000/cVars.getInt("gametick"));
+                while(tickTimeNanos < gameTimeNanos) {
+                    tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     oDisplay.instance().checkDisplay();
                     oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
@@ -68,33 +63,16 @@ public class uiInterface {
                     }
                 }
                 //draw gfx
-//                Image[] toAdd = new Image[]{
-//                vFrameFactory.showImage = vFrameFactory.showImage == 1 ? 2 : 1;
-//
-//                vFrameFactory.createFrame(0);
-//                vFrameFactory.createFrame(1);
-//                };
-//                vFrameFactory.instance().frameImageQueue.add(toAdd);
-//                while(vFrameFactory.instance().frameImageQueue.size() > 1) {
-//                    vFrameFactory.instance().frameImageQueue.remove();
-//                }
-                oDisplay.instance().frame.repaint();
-                frames += 1;
-                if (framecounterTime < uiInterface.gameTime) {
-                    fpsReport = frames;
-                    frames = 0;
-                    framecounterTime = gameTime + 1000;
-                }
-                //sleep
-                if(sVars.isOne("lowpowermode")) {
-                    if (sSettings.framerate > 999) {
-                        long toSleepNanos = 1000000 / sSettings.framerate - (System.nanoTime() - gameTimeNanos);
-                        Thread.sleep(0, Math.max(0, (int) toSleepNanos));
-                    } else {
-                        long toSleepMillis = 1000 / sSettings.framerate - (System.currentTimeMillis() - gameTime);
-                        Thread.sleep(Math.max(0, toSleepMillis));
+                    oDisplay.instance().frame.repaint();
+                    frames += 1;
+                    lastFrameTime = System.currentTimeMillis();
+                    if (framecounterTime < lastFrameTime) {
+                        fpsReport = frames;
+                        frames = 0;
+                        framecounterTime = lastFrameTime + 1000;
                     }
-                }
+                long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+                while(nextFrameTime >= System.nanoTime()); //do nothing
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();

@@ -1,11 +1,13 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
     static final int MAP_SIDEVIEW = 1;
-    static String[] maptype_selection = new String[] {
+    static String[] mapview_selection = new String[] {
             "top-down view",
             "side-scrolling view"
     };
@@ -13,14 +15,32 @@ public class gMap {
     ArrayList<String> execLines;
     int wasLoaded;
     gScene scene;
+    //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
+    //of the prop types we'd like to feature in the game
+    HashMap<String, gDoablePropReturn> propLoadMap;
+    HashMap<String, gDoableThingReturn> thingLoadMap;
+
+    private void basicInit() {
+        gTextures.clear();
+        execLines = new ArrayList<>();
+        scene = new gScene();
+        wasLoaded = 0;
+        propLoadMap = new HashMap<>();
+        propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
+        propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
+        propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
+        propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
+        propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
+        propLoadMap.put("PROP_POWERUP", new gDoablePropReturnPowerup());
+        propLoadMap.put("PROP_SPAWNPOINT", new gDoablePropReturnSpawnpoint());
+        thingLoadMap = new HashMap<>();
+        thingLoadMap.put("THING_FLARE", new gDoableThingReturnFlare());
+    }
 
 	public gMap() {
-		gTextures.clear();
+        basicInit();
         mapName = "new";
-        execLines = new ArrayList<>();
-		scene = new gScene();
-        wasLoaded = 0;
-        cVars.putInt("maptype", sSettings.create_map_mode);
+        cVars.putInt("mapview", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
@@ -28,17 +48,31 @@ public class gMap {
 	    xCon.instance().debug("Loading Map: " + s);
         long ct = System.currentTimeMillis();
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            gTextures.clear();
+            basicInit();
             if(s.contains("/"))
                 mapName = s.split("/")[1].split("\\.")[0];
             else
                 mapName = s.split("\\.")[0];
-            execLines = new ArrayList<>();
-            scene = new gScene();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] lineToks = line.split(" ");
-                if(lineToks[0].toLowerCase().equals("cmd")) {
+                String putTitle = lineToks[0];
+                String[] args = Arrays.copyOfRange(lineToks, 1, lineToks.length);
+                gDoablePropReturn propReturnFunction = propLoadMap.get(putTitle);
+                gDoableThingReturn thingReturnFunction = thingLoadMap.get(putTitle);
+                if(thingReturnFunction != null) {
+                    gThing thingToLoad = thingReturnFunction.getThing(args);
+                    thingToLoad.putInt("native", 1);
+                    thingReturnFunction.storeThing(thingToLoad, scene);
+                }
+                else if(propReturnFunction != null) {
+                    gProp propToLoad = propReturnFunction.getProp(args);
+                    propToLoad.put("id", cScripts.createID(8));
+                    propToLoad.putInt("tag", scene.getThingMap(putTitle).size());
+                    propToLoad.putInt("native", 1);
+                    propReturnFunction.storeProp(propToLoad, scene);
+                }
+                else if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
                         xCon.ex(line.replaceFirst("cmd ", ""));
                         execLines.add(line);
@@ -46,58 +80,24 @@ public class gMap {
                 }
                 else if (lineToks[0].toLowerCase().equals("tile")) {
                     gTile tile = new gTile(
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]),
-                        Integer.valueOf(lineToks[8]),
-                        Integer.valueOf(lineToks[9]),
-                        Integer.valueOf(lineToks[10]),
-                        Integer.valueOf(lineToks[11]),
-                        Integer.valueOf(lineToks[12]),
-                        Integer.valueOf(lineToks[13]),
-                        Integer.valueOf(lineToks[14]),
+                        Integer.parseInt(lineToks[4]),
+                        Integer.parseInt(lineToks[5]),
+                        Integer.parseInt(lineToks[6]),
+                        Integer.parseInt(lineToks[7]),
+                        Integer.parseInt(lineToks[8]),
+                        Integer.parseInt(lineToks[9]),
+                        Integer.parseInt(lineToks[10]),
+                        Integer.parseInt(lineToks[11]),
+                        Integer.parseInt(lineToks[12]),
+                        Integer.parseInt(lineToks[13]),
+                        Integer.parseInt(lineToks[14]),
                         eUtils.getPath(lineToks[1]),
                         eUtils.getPath(lineToks[2]),
                         eUtils.getPath(lineToks[3]),
-                        Integer.valueOf(lineToks[15]),
-                        Integer.valueOf(lineToks[16])
+                        Integer.parseInt(lineToks[15])
                     );
                     tile.putInt("id", scene.tiles().size());
                     scene.tiles().add(tile);
-                }
-                else if (lineToks[0].toLowerCase().equals("prop")) {
-                    gProp prop = new gProp(
-                        Integer.valueOf(lineToks[1]),
-                        Integer.valueOf(lineToks[2]),
-                        Integer.valueOf(lineToks[3]),
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]));
-                    prop.putInt("tag", scene.props().size());
-                    prop.putInt("native", 1);
-                    scene.props().add(prop);
-                }
-                else if (lineToks[0].toLowerCase().equals("flare")) {
-                    gFlare flare = new gFlare(
-                        Integer.valueOf(lineToks[1]),
-                        Integer.valueOf(lineToks[2]),
-                        Integer.valueOf(lineToks[3]),
-                        Integer.valueOf(lineToks[4]),
-                        Integer.valueOf(lineToks[5]),
-                        Integer.valueOf(lineToks[6]),
-                        Integer.valueOf(lineToks[7]),
-                        Integer.valueOf(lineToks[8]),
-                        Integer.valueOf(lineToks[9]),
-                        Integer.valueOf(lineToks[10]),
-                        Integer.valueOf(lineToks[11]),
-                        Integer.valueOf(lineToks[12])
-                    );
-                    if(lineToks.length > 13)
-                        flare.put("flicker", lineToks[13]);
-                    flare.put("tag", Integer.toString(scene.flares().size()));
-                    scene.flares().add(flare);
                 }
             }
             wasLoaded = 1;
@@ -105,10 +105,9 @@ public class gMap {
         catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-            gTextures.clear();
+            basicInit();
             mapName = "new";
-            scene = new gScene();
-            cVars.putInt("maptype", sSettings.create_map_mode);
+            cVars.putInt("mapview", sSettings.create_map_mode);
             cVars.putInt("gamemode", cGameMode.DEATHMATCH);
             cVars.put("botbehavior", "");
         }
@@ -120,34 +119,34 @@ public class gMap {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cmd cv_maptype %s\n", cVars.get("maptype")));
+            writer.write(String.format("cmd cv_mapview %s\n", cVars.get("mapview")));
             writer.write(String.format("cmd cv_gamemode %s\n", cVars.get("gamemode")));
             writer.write(String.format("cmd cv_botbehavior %s\n", cVars.get("botbehavior")));
             //this one is dynamic
             for(String s : execLines) {
-                if(!s.contains("cv_maptype") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
+                if(!s.contains("cv_mapview") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
                     writer.write(s + "\n");
                 }
             }
             for(gTile t : scene.tiles()) {
-                String str = String.format("tile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d %s\n",
+                String str = String.format("tile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
                     t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
                     t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"), t.get("canspawn")
-                );
+                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
                 writer.write(str);
             }
             for(gProp p : scene.props()) {
-                String str = String.format("prop %s %d %d %d %d %d %d\n", p.get("code"), p.getInt("int0"), p.getInt("int1"),
+                String savetitle = gProps.getTitleForProp(p);
+                String str = String.format("%s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);
             }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
-                String str = String.format("flare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
+                String str = String.format("THING_FLARE %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
                         f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
                         f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
                         f.getInt("a2"), b);

@@ -4,7 +4,7 @@ public class xComDoBotBehavior extends xCom {
         if(toks.length > 2) {
             String botid = toks[1];
             String botbehavior = toks[2];
-            gPlayer botPlayer = cGameLogic.getPlayerById(botid);
+            gPlayer botPlayer = gScene.getPlayerById(botid);
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
             if(cVars.get("winnerid").length() < 1) {

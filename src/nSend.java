@@ -36,16 +36,10 @@ public class nSend {
             else {
                 sendDataString = new StringBuilder(nVars.dump());
             }
-            // this one results in jittery clients i guess movements are tried to applied to them erroneously
-//            for(String id : nServer.clientArgsMap.keySet()) {
-//                if(!id.equals(cGameLogic.getUserPlayer().get("id"))) {
-//                    sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(id).toString()));
-//                }
-//            }
-            //this one works
             for(int i = 0; i < nServer.clientIds.size(); i++) {
                 String idload2 = nServer.clientIds.get(i);
-                sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));
+                if(nServer.clientArgsMap.get(idload2) != null)
+                    sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));
             }
         }
         else {
@@ -85,7 +79,7 @@ public class nSend {
         }
         xCon.ex("cv_reportedkiller cv_exploded");
         xCon.ex("cv_exploded 1");
-        xCon.ex("THING_PLAYER.0.sendshot 0");
+        cGameLogic.userPlayer().put("sendshot", "0");
         xCon.ex("cv_sendsafezone 0");
         return sendDataString.toString();
     }

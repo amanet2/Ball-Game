@@ -1,62 +1,37 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xComRespawn extends xCom {
     public String doCommand(String fullCommand) {
-        int canspawn = cScripts.canSpawnPlayer() ? 1 : 0;
-        cVars.put("onladder", "0");
-        cVars.put("inboost", "0");
-        if(canspawn != 0) {
-            while(true) {
-                int randomNum = ThreadLocalRandom.current().nextInt(0,
-                    eManager.currentMap.scene.tiles().size());
-                gTile t = eManager.currentMap.scene.tiles().get(randomNum);
-                if(t.isOne("canspawn") && !cGameLogic.getUserPlayer().willCollideWithinTileAtCoords(t,
-                    t.getInt("coordx") + t.getInt("dimw")/2 - cGameLogic.getUserPlayer().getInt("dimw")/2,
-                    t.getInt("coordy") + t.getInt("dimh")/2 - cGameLogic.getUserPlayer().getInt("dimh")/2)) {
-                    boolean pass = true;
-                    for (gPlayer target : eManager.currentMap.scene.players()) {
-                        if (target.getInt("tag") != cGameLogic.getUserPlayer().getInt("tag") &&
-                                cGameLogic.getUserPlayer().willCollideWithPlayerAtCoords(target, t.getInt("coordx"),
-                                        t.getInt("coordy"))) {
-                            pass = false;
-                            break;
-                        }
-                    }
-                    if(pass) {
-                        xCon.ex("THING_PLAYER.0.coordx " + (t.getInt("coordx") + t.getInt("dimw") / 2
-                                - cGameLogic.getUserPlayer().getInt("dimw") / 2));
-                        xCon.ex("THING_PLAYER.0.coordy "+ (t.getInt("coordy") + t.getInt("dimh") / 2
-                                - cGameLogic.getUserPlayer().getInt("dimh") / 2));
-                        if(cVars.getInt("gamespawnarmed") < 1) {
-                            cVars.putInt("weaponstock" + gWeapons.weapon_pistol, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_shotgun, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_autorifle, 0);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_launcher, 0);
-                        }
-                        else {
-                            cVars.putInt("weaponstock" + gWeapons.weapon_pistol,
-                                    gWeapons.weapons_selection[gWeapons.weapon_pistol].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_shotgun,
-                                    gWeapons.weapons_selection[gWeapons.weapon_shotgun].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_autorifle,
-                                    gWeapons.weapons_selection[gWeapons.weapon_autorifle].maxAmmo);
-                            cVars.putInt("weaponstock" + gWeapons.weapon_launcher,
-                                    gWeapons.weapons_selection[gWeapons.weapon_launcher].maxAmmo);
-                        }
-                        cVars.put("stockhp", cVars.get("maxstockhp"));
-                        xCon.ex("cv_flashlight 0");
-                        xCon.ex("cv_sprint 0");
-                        xCon.ex("cv_stockspeed cv_maxstockspeed");
-                        cVars.put("camplayertrackingid", sSettings.net_server ? "server" : uiInterface.uuid);
-                        xCon.ex("centercamera");
-                        if(cVars.contains("spawnprotectionmaxtime") && cVars.getInt("spawnprotectionmaxtime") > 0) {
-                            cVars.putLong("spawnprotectiontime",
-                                    System.currentTimeMillis() + cVars.getInt("spawnprotectionmaxtime"));
-                        }
-                        break;
-                    }
-                }
-            }
+        int randomSpawnpointIndex = ThreadLocalRandom.current().nextInt(0,
+                eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
+        ArrayList<String> spawnpointids =
+                new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());
+        String randomId = spawnpointids.get(randomSpawnpointIndex);
+        gPropSpawnpoint spawnpoint =
+                (gPropSpawnpoint) eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").get(randomId);
+        gPlayer userPlayer = cGameLogic.userPlayer();
+        //player-centric spawn comands
+        userPlayer.putInt("coordx", spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
+                - cGameLogic.userPlayer().getInt("dimw") / 2);
+        userPlayer.putInt("coordy", spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
+                - cGameLogic.userPlayer().getInt("dimh") / 2);
+        if(cVars.getInt("gamespawnarmed") < 1) {
+            cScripts.clearWeaponStocks();
+        }
+        else {
+            cScripts.refillWeaponStocks();
+        }
+        cVars.put("stockhp", cVars.get("maxstockhp"));
+        userPlayer.put("alive", "1");
+        xCon.ex("cv_flashlight 0");
+        xCon.ex("cv_sprint 0");
+        xCon.ex("cv_stockspeed cv_maxstockspeed");
+        cVars.put("camplayertrackingid", sSettings.net_server ? "server" : uiInterface.uuid);
+        xCon.ex("centercamera");
+        if(cVars.contains("spawnprotectionmaxtime") && cVars.getInt("spawnprotectionmaxtime") > 0) {
+            cVars.putLong("spawnprotectiontime",
+                    System.currentTimeMillis() + cVars.getInt("spawnprotectionmaxtime"));
         }
         return "respawned";
     }

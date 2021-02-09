@@ -28,6 +28,7 @@ public class nVars {
         if(sSettings.net_client && nms.length() > 0) {
             gMessages.networkMessage = "";
         }
+        gPlayer userPlayer = cGameLogic.userPlayer();
         keys.put("act", cGameLogic.getActionLoad());
         //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
@@ -52,18 +53,17 @@ public class nVars {
             keys.put("act", "sendcmd_"+cVars.get("sendcmd")+"-"+keys.get("act"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-        keys.put("x", xCon.ex("THING_PLAYER.0.coordx"));
-        keys.put("y", xCon.ex("THING_PLAYER.0.coordy"));
-        keys.put("crouch", xCon.ex("THING_PLAYER.0.crouch"));
+        keys.put("x", userPlayer.get("coordx"));
+        keys.put("y", userPlayer.get("coordy"));
+        keys.put("crouch", userPlayer.get("crouch"));
         keys.put("flashlight", xCon.ex("cv_flashlight"));
         keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
-                || xCon.ex("THING_PLAYER.0.sendshot").equals("1")
-                || cVars.getInt("currentweapon") == gWeapons.weapon_gloves
-                || cVars.getInt("currentweapon") == gWeapons.weapon_none) ? "1" : "0");
-        keys.put("fv", xCon.ex("THING_PLAYER.0.fv"));
-        keys.put("dirs",String.format("%s%s%s%s", xCon.ex("THING_PLAYER.0.mov0"),
-                xCon.ex("THING_PLAYER.0.mov1"), xCon.ex("THING_PLAYER.0.mov2"),
-                xCon.ex("THING_PLAYER.0.mov3")));
+                || userPlayer.get("sendshot").equals("1")
+                || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
+                || cVars.getInt("currentweapon") == gWeapons.type.NONE.code()) ? "1" : "0");
+        keys.put("fv", userPlayer.get("fv"));
+        keys.put("dirs",String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                userPlayer.get("mov2"), userPlayer.get("mov3")));
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
         keys.put("msg", nms);
@@ -74,12 +74,10 @@ public class nVars {
                     && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
         }
         keys.put("name", sVars.get("playername"));
-        keys.put("vels", String.format("%s-%s-%s-%s", xCon.ex("THING_PLAYER.0.vel0"),
-            xCon.ex("THING_PLAYER.0.vel1"), xCon.ex("THING_PLAYER.0.vel2"),
-            xCon.ex("THING_PLAYER.0.vel3")));
+        keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                userPlayer.get("vel2"), userPlayer.get("vel3")));
+
         keys.put("weapon", cVars.get("currentweapon"));
-//        keys.put("sicknessslow", xCon.ex("THING_PLAYER.0.sicknessslow"));
-//        keys.put("sicknessfast", xCon.ex("THING_PLAYER.0.sicknessfast"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
         else
@@ -90,12 +88,6 @@ public class nVars {
             keys.remove("disconnect");
         keys.put("time", Long.toString(System.currentTimeMillis()));
         if(sSettings.net_server) {
-            for(String s : new String[]{"virussingleid", "chosenoneid","ballx","bally"}) {
-                if(cVars.get(s).length() > 0)
-                    keys.put(s, cVars.get(s));
-                else
-                    keys.remove(s);
-            }
             if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
                 keys.put("flagmasterid", cVars.get("flagmasterid"));
@@ -106,9 +98,6 @@ public class nVars {
             keys.put("armed", cVars.get("gamespawnarmed"));
             keys.put("kick", nServer.kickClientIds.size() > 0 ? nServer.kickClientIds.peek() : "");
             keys.put("map", eManager.currentMap.mapName);
-            if(keys.containsKey("mode") && !keys.get("mode").equals(cVars.get("gamemode")))
-                xCon.ex("say GAME MODE: "
-                        + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase());
             keys.put("mode", cVars.get("gamemode"));
             keys.put("powerups", cPowerups.createPowerupStringServer());
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
@@ -133,9 +122,9 @@ public class nVars {
             }
             keys.put("timelimit", sVars.get("timelimit"));
             keys.put("timeleft", cVars.get("timeleft"));
-            keys.put("topscore", cScripts.getTopScoreString());
+            keys.put("topscore", cScoreboard.getTopScoreString());
             keys.put("spmaxtime", cVars.get("spawnprotectionmaxtime"));
-            keys.put("state", cGameLogic.getGameState());
+            keys.put("state", cGameLogic.getGameStateServer());
             keys.put("win", cVars.get("winnerid"));
         }
     }

@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class xComAddBot extends xCom {
     public String doCommand(String fullCommand) {
         String[] botnameselection = sVars.getArray("botnameselection");
@@ -14,19 +12,15 @@ public class xComAddBot extends xCom {
         p.put("color", botcolor);
         p.put("name", botname);
         p.put("color", botcolor);
-        p.putInt("tag", eManager.currentMap.scene.players().size());
-        p.putInt("bottag", eManager.currentMap.scene.botplayers().size());
+        p.putInt("tag", eManager.currentMap.scene.playersMap().size());
+        p.putInt("bottag", eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").size());
         p.put("id", "bot"+cScripts.createID(5));
         p.put("hat", bothat);
-        eManager.currentMap.scene.players().add(p);
-        eManager.currentMap.scene.botplayers().add(p);
+        eManager.currentMap.scene.playersMap().put(p.get("id"), p);
+        eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
         nVarsBot.update(p);
         nServer.clientArgsMap.put(p.get("id"), nVarsBot.copyArgsForId(p.get("id")));
-        nServer.scoresMap.put(p.get("id"), new HashMap<>());
-        nServer.scoresMap.get(p.get("id")).put("wins", 0);
-        nServer.scoresMap.get(p.get("id")).put("score", 0);
-        nServer.scoresMap.get(p.get("id")).put("kills", 0);
-        nServer.scoresMap.get(p.get("id")).put("ping", 0);
+        cScoreboard.addId(p.get("id"));
         xCon.ex("botrespawn " + p.getInt("bottag"));
         return "spawned bot";
     }

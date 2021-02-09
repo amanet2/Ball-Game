@@ -7,7 +7,7 @@ public class xComEditorShowProps extends xCom {
         for(int i=0;i < titles.length;i++) {
             gProp t = eManager.currentMap.scene.props().get(i);
             titles[i] = String.format("%d. %s %d %d %d %d %d %d\n",
-                i, gProp.propSelection[t.getInt("code")], t.getInt("coordx"), t.getInt("coordy"),
+                i, gProps.titles[t.getInt("code")], t.getInt("coordx"), t.getInt("coordy"),
                     t.getInt("dimw"), t.getInt("dimh"), t.getInt("int0"), t.getInt("int1")
             );
         }

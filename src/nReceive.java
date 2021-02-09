@@ -11,15 +11,12 @@ public class nReceive {
                 String argload = toks[0];
                 //process new packet
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
+                HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
                 String packId = packArgMap.get("id");
                 if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
-                if(!nServer.scoresMap.containsKey(packId)) {
-                    nServer.scoresMap.put(packId, new HashMap<>());
-                    nServer.scoresMap.get(packId).put("wins", 0);
-                    nServer.scoresMap.get(packId).put("score", 0);
-                    nServer.scoresMap.get(packId).put("kills", 0);
-                    nServer.scoresMap.get(packId).put("ping", 0);
+                if(!scoresMap.containsKey(packId)) {
+                    cScoreboard.addId(packId);
                 }
                 String packName = packArgMap.get("name") != null ? packArgMap.get("name") : nServer.clientArgsMap.get(packId).get("name");
                 String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
@@ -41,13 +38,13 @@ public class nReceive {
                 }
                 if(nServer.clientIds.contains(packId)) {
                     isnewclient = 0;
-                    nServer.scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+                    scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                     if(oldName.length() > 0 && !oldName.equals(packName))
                         xCon.ex(String.format("say %s changed name to %s", oldName, packName));
                     if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                         nServer.quitClientIds.add(packId);
                     }
-                    gPlayer packPlayer = cGameLogic.getPlayerById(packId);
+                    gPlayer packPlayer = gScene.getPlayerById(packId);
                     if(packPlayer != null) {
                         if (nServer.clientArgsMap.get(packId).containsKey("vels")) {
                             String[] veltoks = nServer.clientArgsMap.get(packId).get("vels").split("-");
@@ -84,22 +81,22 @@ public class nReceive {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
                         player.put("name", packName);
-                        player.putInt("tag", eManager.currentMap.scene.players().size());
+                        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("id", packId);
                         player.putInt("weapon", packWeap);
-                        eManager.currentMap.scene.players().add(player);
+                        eManager.currentMap.scene.playersMap().put(packId, player);
                     }
                     xCon.ex(String.format("say %s joined the game", packName));
                 }
             }
         }
         else if(sSettings.net_client) {
-            int w = 1;
             int ctr = 0;
             ArrayList<String> foundIds = new ArrayList<>();
             for(int i = 0; i < toks.length; i++) {
                 String argload = toks[i];
                 HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
+                HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
                 String idload = packArgs.get("id");
                 String nameload = packArgs.get("name") != null ? packArgs.get("name")
                         : nServer.clientArgsMap.containsKey(idload) ? nServer.clientArgsMap.get(idload).get("name")
@@ -107,12 +104,8 @@ public class nReceive {
                 String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
                 if(!nServer.clientArgsMap.containsKey(idload))
                     nServer.clientArgsMap.put(idload, packArgs);
-                if(!nServer.scoresMap.containsKey(idload)) {
-                    nServer.scoresMap.put(idload, new HashMap<>());
-                    nServer.scoresMap.get(idload).put("wins", 0);
-                    nServer.scoresMap.get(idload).put("score", 0);
-                    nServer.scoresMap.get(idload).put("kills", 0);
-                    nServer.scoresMap.get(idload).put("ping", 0);
+                if(!scoresMap.containsKey(idload)) {
+                    cScoreboard.addId(idload);
                 }
                 for(String k : packArgs.keySet()) {
                     if(!nServer.clientArgsMap.get(idload).containsKey(k)
@@ -124,32 +117,20 @@ public class nReceive {
                 if(idload.equals("server")) {
                     if(packArgs.get("win").length() > 0) {
                         cVars.put("winnerid", packArgs.get("win"));
+                        gPlayer userPlayer = cGameLogic.userPlayer();
                         for(int d = 0; d < 4; d++) {
-                            if(!(d == 1 && cVars.getInt("maptype") == gMap.MAP_SIDEVIEW)) {
-                                xCon.ex("THING_PLAYER.0.vel"+d+" 0");
-                                xCon.ex("THING_PLAYER.0.mov"+d+" 0");
+                            if(!(d == 1 && cVars.getInt("mapview") == gMap.MAP_SIDEVIEW)) {
+                                //disable the movements for sidescroller maps
+                                userPlayer.put("vel"+d, "0");
+                                userPlayer.put("mov"+d, "0");
                             }
                         }
                     }
                     else if(cVars.get("winnerid").length() > 0){
                         cVars.put("winnerid", "");
                     }
-                    if(packArgs.containsKey("ballx") && packArgs.containsKey("bally")) {
-                        for(gProp p : eManager.currentMap.scene.props()) {
-                            if(p.getInt("code") == gProp.BALLBOUNCY) {
-                                p.put("coordx", packArgs.get("ballx"));
-                                p.put("coordy", packArgs.get("bally"));
-                            }
-                        }
-                    }
                     if(packArgs.containsKey("flagmasterid")) {
                         cVars.put("flagmasterid", packArgs.get("flagmasterid"));
-                    }
-                    if(packArgs.containsKey("virussingleid")) {
-                        cVars.put("virussingleid", packArgs.get("virussingleid"));
-                    }
-                    if(packArgs.containsKey("chosenoneid")) {
-                            cVars.put("chosenoneid", packArgs.get("chosenoneid"));
                     }
                     if(!packArgs.get("map").contains(eManager.currentMap.mapName)) {
                         cVars.put("intermissiontime", "-1");
@@ -159,35 +140,26 @@ public class nReceive {
                         xCon.ex("respawn");
                     }
                     if(packArgs.get("state").contains("safezone")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
-                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1]))
-                                p.put("int0", "1");
-                            else if(p.isInt("code", gProp.SAFEPOINT))
-                                p.put("int0", "0");
+                        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                        String[] args = packArgs.get("state").split("-");
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
+                            if(pr.isVal("tag", args[1]))
+                                pr.put("int0", "1");
+                            else
+                                pr.put("int0", "0");
                         }
                         cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
                     }
                     if(packArgs.get("state").contains("waypoints")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
-                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
-                                if(p.getInt("int0") != 1)
-                                    p.put("int0", "1");
-                            }
-                            else if(p.isInt("code", gProp.SCOREPOINT))
-                                p.put("int0", "0");
-                        }
-                    }
-                    if(packArgs.get("state").contains("bouncyball")) {
-                        for(int k = 0; k < eManager.currentMap.scene.props().size(); k++) {
-                            gProp p = eManager.currentMap.scene.props().get(k);
-                            if(k == Integer.parseInt(packArgs.get("state").split("-")[1])) {
-                                if(p.getInt("int0") != 1)
-                                    p.put("int0", "1");
-                            }
-                            else if(p.isInt("code", gProp.SCOREPOINT))
-                                p.put("int0", "0");
+                        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+                        String[] args = packArgs.get("state").split("-");
+                        for(Object id : scorepointsMap.keySet()) {
+                            gProp pr = (gProp) scorepointsMap.get(id);
+                            if(pr.isVal("id", args[1]))
+                                pr.put("int0", "1");
+                            else
+                                pr.put("int0", "0");
                         }
                     }
                     if(packArgs.get("state").contains("kingofflags")) {
@@ -196,9 +168,12 @@ public class nReceive {
                         String[] kingids = flagidstr.split(":");
                         for(int c = 0; c < kingids.length;c++) {
                             String[] kofidpair = kingids[c].split("-");
-                            for(gProp p : eManager.currentMap.scene.props()) {
-                                if(p.isVal("tag", kofidpair[0]) && !p.isVal("str0", kofidpair[1])) {
-                                    p.put("str0", kofidpair[1]);
+                            HashMap<String, gThing> thingMap =
+                                    eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                            for(String id : thingMap.keySet()) {
+                                if(thingMap.get(id).isVal("tag", kofidpair[0])
+                                        && !thingMap.get(id).isVal("str0", kofidpair[1])) {
+                                    thingMap.get(id).put("str0", kofidpair[1]);
                                 }
                             }
                         }
@@ -207,9 +182,6 @@ public class nReceive {
                     cVars.put("gamemode", packArgs.get("mode"));
                     cVars.put("gameteam", packArgs.get("teams"));
                     cVars.put("gamespawnarmed", packArgs.get("armed"));
-//                    if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
-//                        cScripts.changeWeapon(0);
-//                    }
                     cVars.put("scorelimit", packArgs.get("scorelimit"));
                     cVars.put("allowweaponreload", packArgs.get("allowweaponreload"));
                     cVars.put("gametick", packArgs.get("tick"));
@@ -232,14 +204,14 @@ public class nReceive {
                         foundIds.add(idload);
                         String clientname = nServer.clientArgsMap.get(idload).get("name");
                         if(!clientname.equals(nameload))
-                            cGameLogic.getPlayerById(idload).put("name", nameload);
+                            gScene.getPlayerById(idload).put("name", nameload);
                         if(sVars.isOne("smoothing")) {
-                            cGameLogic.getPlayerByIndex(w).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
-                            cGameLogic.getPlayerByIndex(w).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
+                            gScene.getPlayerById(idload).put("coordx", nServer.clientArgsMap.get(idload).get("x"));
+                            gScene.getPlayerById(idload).put("coordy", nServer.clientArgsMap.get(idload).get("y"));
                         }
                         String[] veltoks = nServer.clientArgsMap.get(idload).get("vels").split("-");
                         for(int vel = 0; vel < veltoks.length; vel++) {
-                            xCon.ex("THING_PLAYER."+w+".vel"+vel+" "+veltoks[vel]);
+                            gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
                         }
                         isnewclient = 0;
                         if(packArgs.containsKey("kick") && packArgs.get("kick").equals(uiInterface.uuid)) {
@@ -251,7 +223,6 @@ public class nReceive {
                             nServer.clientArgsMap.get(idload).remove("spawnprotected");
                         }
                         cGameLogic.processActionLoadClient(actionload);
-                        w++;
                     }
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);
@@ -259,10 +230,9 @@ public class nReceive {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
                         player.put("id", idload);
-                        player.putInt("tag", eManager.currentMap.scene.players().size());
+                        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("name", nameload);
-                        eManager.currentMap.scene.players().add(player);
-                        w++;
+                        eManager.currentMap.scene.playersMap().put(idload, player);
                     }
                 }
 
@@ -272,17 +242,14 @@ public class nReceive {
                     String[] stoks = packArgs.get("scoremap").split(":");
                     for (int j = 0; j < stoks.length; j++) {
                         String scoreid = stoks[j].split("-")[0];
-                        if(!nServer.scoresMap.containsKey(scoreid)) {
-                            nServer.scoresMap.put(scoreid, new HashMap<>());
-                            nServer.scoresMap.get(scoreid).put("wins", 0);
-                            nServer.scoresMap.get(scoreid).put("score", 0);
-                            nServer.scoresMap.get(scoreid).put("kills", 0);
-                            nServer.scoresMap.get(scoreid).put("ping", 0);
+                        if(!scoresMap.containsKey(scoreid)) {
+                            cScoreboard.addId(scoreid);
                         }
-                        nServer.scoresMap.get(scoreid).put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-                        nServer.scoresMap.get(scoreid).put("score", Integer.parseInt(stoks[j].split("-")[2]));
-                        nServer.scoresMap.get(scoreid).put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-                        nServer.scoresMap.get(scoreid).put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+                        HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
+                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
+                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
                     }
                 }
             }
@@ -294,11 +261,10 @@ public class nReceive {
                     }
                 }
                 if(tr.length() > 0) {
-                    int qi = nServer.clientIds.indexOf(tr);
                     nServer.clientArgsMap.remove(tr);
-                    nServer.scoresMap.remove(tr);
+                    cScoreboard.scoresMap.remove(tr);
                     nServer.clientIds.remove(tr);
-                    eManager.currentMap.scene.players().remove( qi + 1);
+                    eManager.currentMap.scene.playersMap().remove(tr);
                 }
             }
         }

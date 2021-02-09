@@ -74,11 +74,12 @@ public class gBullet extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         putInt("dmg", dmg);
-        putInt("src", gWeapons.weapon_none);
+        putInt("src", gWeapons.type.NONE.code());
         putInt("anim", -1);
         putInt("ttl", 1000);
         putLong("timestamp", System.currentTimeMillis());
         putDouble("fv", fv);
+        put("id", cScripts.createID(8));
         put("srcid", "God");
         putInt("isexplosionpart", 0);
         sprite = gTextures.getScaledImage(tt, getInt("dimw"), getInt("dimh"));

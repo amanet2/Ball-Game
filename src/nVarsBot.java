@@ -33,7 +33,6 @@ public class nVarsBot {
             map.get(p.get("id")).put("fv", Double.toString(2*Math.PI));
         map.get(p.get("id")).put("x", p.get("coordx"));
         map.get(p.get("id")).put("y", p.get("coordy"));
-//        map.get(p.get("id")).put("fire", p.get("firing"));
         map.get(p.get("id")).put("dirs", "1111");
         map.get(p.get("id")).put("vels",
                 String.format("%s-%s-%s-%s", p.get("vel0"), p.get("vel1"), p.get("vel2"), p.get("vel3")));

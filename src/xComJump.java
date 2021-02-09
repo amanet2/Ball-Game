@@ -1,17 +1,14 @@
 public class xComJump extends xCom {
     public String doCommand(String fullCommand) {
-        if(cGameLogic.getUserPlayer() != null && cVars.getInt("maptype") == gMap.MAP_SIDEVIEW) {
-            if(cVars.getLong("jumptime") < System.currentTimeMillis() && cGameLogic.getUserPlayer().canJump()) {
+        if(cGameLogic.userPlayer() != null) {
+            if(cVars.getLong("jumptime") < System.currentTimeMillis() && cGameLogic.userPlayer().canJump()) {
                 xCon.ex("crouch");
                 xCon.ex("cv_jumping 1");
                 cVars.putLong("jumptime", System.currentTimeMillis() + cVars.getInt("delayjump"));
-                xCon.ex("THING_PLAYER.0.vel0 " + cVars.getInt("velocityplayer")/2);
-                xCon.ex("THING_PLAYER.0.vel1 " + 1);
+                cGameLogic.userPlayer().putInt("vel0", cVars.getInt("velocityplayer")/2);
+                cGameLogic.userPlayer().putInt("vel1", 0);
                 xCon.ex("cv_stockspeed 0");
             }
-        }
-        else if(cGameLogic.getUserPlayer() != null && cVars.getInt("maptype") == gMap.MAP_TOPVIEW) {
-            xCon.ex("dropweapon");
         }
         return fullCommand;
     }
