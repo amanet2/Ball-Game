@@ -33,7 +33,7 @@ public class dScreenFX {
         //big font
         String waypointdistance = String.format("%dm",(int)Math.sqrt((deltas[0]*deltas[0])+(deltas[1]*deltas[1])));
         dFonts.setFontNormal(g2);
-        dScreenMessages.drawCenteredString(g2,
+        dFonts.drawCenteredString(g2,
                 waypointdistance,
                 eUtils.scaleInt(dx - cVars.getInt("camx")),
                 eUtils.scaleInt(dy - cVars.getInt("camy")));

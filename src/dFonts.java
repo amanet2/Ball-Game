@@ -1,6 +1,18 @@
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 
 public class dFonts {
+    static FontRenderContext fontrendercontext =
+            new FontRenderContext(null, false, true);
+
+    public static void drawCenteredString(Graphics g, String s, int x, int y) {
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
+    }
+
+    public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
+    }
+
     public static void setFontColorByTitleWithTransparancy(Graphics g, String fonttitle, int transparency) {
         String[] fontStrings = xCon.ex(fonttitle).split(",");
         g.setColor(new Color(Integer.parseInt(fontStrings[0]),

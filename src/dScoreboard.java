@@ -9,7 +9,7 @@ public class dScoreboard {
                 Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[1]),
                 Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[2]),
                 Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[3])));
-        dScreenMessages.drawCenteredString(g,
+        dFonts.drawCenteredString(g,
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);

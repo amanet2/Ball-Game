@@ -23,24 +23,24 @@ public class dMenus {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColorByTitle(g, "fontcolorhighlight");
-        dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
+        dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColorByTitle(g, "fontcolornormal");
-        dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
+        dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
                 dFonts.setFontColorByTitle(g, "fontcolorbonus");
-                dScreenMessages.drawCenteredString(g,i.text,
+                dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColorByTitle(g, "fontcolornormal");
                 if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
-                dScreenMessages.drawCenteredString(g,i.text,
+                dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
             }
             ctr++;
@@ -55,16 +55,16 @@ public class dMenus {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColorByTitle(g, "fontcolorhighlight");
-        dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
+        dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColorByTitle(g, "fontcolornormal");
-        dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
-        dScreenMessages.drawCenteredString(g,
+        dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
+        dFonts.drawCenteredString(g,
                 "- ACTION -",sSettings.width/3,12*sSettings.height/30);
         g.drawString("   - KEY/BUTTON -",2*sSettings.width/3,12*sSettings.height/30);
-        dScreenMessages.drawCenteredString(g,
+        dFonts.drawCenteredString(g,
                 "",sSettings.width/4,13*sSettings.height/30);
-        dScreenMessages.drawCenteredString(g,
+        dFonts.drawCenteredString(g,
                 "",2*sSettings.width/3,13*sSettings.height/30);
         int ctr = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){

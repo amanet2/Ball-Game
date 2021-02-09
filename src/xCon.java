@@ -52,7 +52,7 @@ public class xCon {
     public static int charlimit() {
         return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
             sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2).getStringBounds("_",
-                dScreenMessages.fontrendercontext).getWidth());
+                dFonts.fontrendercontext).getWidth());
     }
 
     public void debug(String s) {

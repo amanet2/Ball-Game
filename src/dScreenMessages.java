@@ -3,16 +3,6 @@ import java.awt.event.KeyEvent;
 import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
-    static FontRenderContext fontrendercontext =
-        new FontRenderContext(null, false, true);
-
-    public static void drawCenteredString(Graphics g, String s, int x, int y) {
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-    }
-
-    public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
-    }
 
     public static void drawVirusTagString(Graphics g) {
         if(nServer.clientArgsMap != null
@@ -33,7 +23,7 @@ public class dScreenMessages {
                 }
                 virusString = String.format("%d/%d PLAYERS INFECTED",infected,total);
             }
-            dScreenMessages.drawCenteredString(g, virusString,
+            dFonts.drawCenteredString(g, virusString,
                     sSettings.width/2,14*sSettings.height/15);
         }
     }
@@ -133,7 +123,7 @@ public class dScreenMessages {
                 dFonts.setFontNormal(g);
                 for(Integer i : xCon.instance().pressBinds.keySet()) {
                     if(xCon.instance().pressBinds.get(i).contains("centercamera")) {
-                        dScreenMessages.drawCenteredString(g,">>PRESS ["+ KeyEvent.getKeyText(i)+"] TO RE-CENTER CAMERA<<",
+                        dFonts.drawCenteredString(g,">>PRESS ["+ KeyEvent.getKeyText(i)+"] TO RE-CENTER CAMERA<<",
                                 sSettings.width / 2, 2*sSettings.height/3);
                     }
                 }
@@ -233,29 +223,29 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
             if(cScripts.isNetworkGame()) {
-                drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
+                dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft < 30000) {
                     dFonts.setFontColorByTitle(g, "fontcoloralert");
                 }
-                drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
+                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorByTitle(g, "fontcolorhighlight");
                 if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
-                    drawRightJustifiedString(g,
+                    dFonts.drawRightJustifiedString(g,
                             cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorByTitle(g, "fontcolornormal");
-                drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
+                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
-        drawCenteredString(g, "WORK IN PROGRESS",
+        dFonts.drawCenteredString(g, "WORK IN PROGRESS",
                 sSettings.width/2, sSettings.height - sSettings.height / 6);
         //big font
         dFonts.setFontNormal(g);
@@ -271,7 +261,7 @@ public class dScreenMessages {
             g.fillRect(0,0, sSettings.width,sSettings.height/4);
             g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
             dFonts.setFontColorByTitle(g, "fontcoloralert");
-            drawCenteredString(g, "RESPAWN IN " +
+            dFonts.drawCenteredString(g, "RESPAWN IN " +
                             eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
@@ -355,7 +345,7 @@ public class dScreenMessages {
                 if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorByTitle(g, "fontcolorhighlight");
                 }
-                dScreenMessages.drawCenteredString(g, "Leader: "
+                dFonts.drawCenteredString(g, "Leader: "
                         + nServer.clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
                 dFonts.setFontColorByTitle(g, "fontcolornormal");
@@ -363,7 +353,7 @@ public class dScreenMessages {
         }
         //safezone timer
         if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            dScreenMessages.drawCenteredString(g,">>SELF-DESTRUCT IN "+
+            dFonts.drawCenteredString(g,">>SELF-DESTRUCT IN "+
                     eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis())
                     + "<<",
                     sSettings.width / 2, 5*sSettings.height/8);
@@ -377,7 +367,7 @@ public class dScreenMessages {
                             && nServer.clientArgsMap.get("server").containsKey("state")
                             && nServer.clientArgsMap.get("server").get("state").contains(
                                 cGameLogic.userPlayer().get("id"))) {
-                        dScreenMessages.drawCenteredString(g,">>YOU ARE INFECTED<<",
+                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
                     drawVirusTagString(g);
@@ -385,11 +375,11 @@ public class dScreenMessages {
                 case cGameMode.CAPTURE_THE_FLAG:
                 case cGameMode.FLAG_MASTER:
                     if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                        dScreenMessages.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
+                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
                     else if(cVars.get("flagmasterid").length() > 0){
-                        dScreenMessages.drawCenteredString(g,">>FLAG TAKEN!<<",
+                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
                     break;
@@ -400,17 +390,17 @@ public class dScreenMessages {
         //win lose
         if((cVars.get("winnerid").length() > 0 && nServer.clientArgsMap.containsKey(cVars.get("winnerid")))) {
             if(cVars.isOne("gameteam")) {
-                drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
+                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
             else
-                drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
             if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
-                drawCenteredString(g,
+                dFonts.drawCenteredString(g,
                         "-- changing map --", sSettings.width / 2, 14*sSettings.height/15);
             }
         }
