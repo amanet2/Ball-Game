@@ -13,12 +13,12 @@ public class iMouseWheel implements MouseWheelListener {
                 xCon.ex("-e_nextthing");
             }
             else {
-                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
+//                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
                     xCon.ex("dropweapon");
-                }
-                else
-                    cScripts.changeWeapon(cVars.getInt("currentweapon") > 0
-                        ? cVars.getInt("currentweapon") - 1 : gWeapons.weaponSelection().size() - 1);
+//                }
+//                else
+//                    cScripts.changeWeapon(cVars.getInt("currentweapon") > 0
+//                        ? cVars.getInt("currentweapon") - 1 : gWeapons.weaponSelection().size() - 1);
             }
         }
         else {
@@ -32,12 +32,12 @@ public class iMouseWheel implements MouseWheelListener {
                 xCon.ex("e_nextthing");
             }
             else {
-                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
+//                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
                     xCon.ex("dropweapon");
-                }
-                else
-                    cScripts.changeWeapon(cVars.getInt("currentweapon") < gWeapons.weaponSelection().size() - 1
-                            ? cVars.getInt("currentweapon") + 1 : 0);
+//                }
+//                else
+//                    cScripts.changeWeapon(cVars.getInt("currentweapon") < gWeapons.weaponSelection().size() - 1
+//                            ? cVars.getInt("currentweapon") + 1 : 0);
             }
         }
     }

@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 
 public class dHUD {
     public static void drawHUD(Graphics g) {
+        gPlayer userPlayer = cGameLogic.userPlayer();
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
         //camera indicator
@@ -58,7 +59,7 @@ public class dHUD {
                 sSettings.height/64);
         if(cScripts.isReloading()) {
             double reloadratio = (double)(
-                    cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
+                    cVars.getLong("weapontime"+userPlayer.get("weapon"))+cVars.getInt("delayweap")
                             - System.currentTimeMillis())/cVars.getInt("delayweap");
             g.setColor(new Color(255,255,255,100));
             g.fillRect(sSettings.width/64,60*sSettings.height/64,
@@ -67,19 +68,19 @@ public class dHUD {
         }
         else {
             g.setColor(new Color(30,50,220,255));
-            if(gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo > 0)
+            if(gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo > 0)
                 g.fillRect(sSettings.width/64,60*sSettings.height/64,
-                        sSettings.width/3*cVars.getInt("weaponstock"+cVars.get("currentweapon"))
-                                /gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo,
+                        sSettings.width/3*cVars.getInt("weaponstock"+userPlayer.get("weapon"))
+                                /gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo,
                         sSettings.height/64);
         }
         g2.setColor(Color.BLACK);
-        for(int j = 0; j < gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo;j++) {
+        for(int j = 0; j < gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo;j++) {
             g2.drawRect(
                     sSettings.width/64
-                            + (j*((sSettings.width/3)/gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo)),
+                            + (j*((sSettings.width/3)/gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo)),
                     60*sSettings.height/64,
-                    ((sSettings.width/3)/gWeapons.fromCode(cVars.getInt("currentweapon")).maxAmmo),
+                    ((sSettings.width/3)/gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo),
                     sSettings.height/64);
         }
         g.setColor(new Color(0,0,150,255));
@@ -87,11 +88,11 @@ public class dHUD {
                 sSettings.height/64);
         g.setColor(new Color(200,200,200,255));
         g.drawString(cScripts.isReloading() ? "-- RELOADING --"
-                        : cVars.getInt("currentweapon") != gWeapons.type.NONE.code()
-                        && cVars.getInt("currentweapon") != gWeapons.type.GLOVES.code()
-                        ? (gWeapons.fromCode(cVars.getInt("currentweapon")).name.toUpperCase()
-                        + " ["+cVars.getInt("weaponstock"+cVars.getInt("currentweapon"))+ "]")
-                        : gWeapons.fromCode(cVars.getInt("currentweapon")).name.toUpperCase(),
+                        : !userPlayer.isInt("weapon", gWeapons.type.NONE.code())
+                        && !userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
+                        ? (gWeapons.fromCode(userPlayer.getInt("weapon")).name.toUpperCase()
+                        + " ["+cVars.getInt("weaponstock"+userPlayer.getInt("weapon"))+ "]")
+                        : gWeapons.fromCode(userPlayer.getInt("weapon")).name.toUpperCase(),
                 sSettings.width/62,60*sSettings.height/64);
         //sprint
         g.setColor(new Color(0,0,0,255));

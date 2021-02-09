@@ -305,46 +305,6 @@ public class cGameLogic {
     }
 
     public static void checkWeaponsStatus() {
-        //player0
-        if(cVars.getInt("currentweapon") != userPlayer().getInt("weapon")) {
-            cScripts.changeWeapon(cVars.getInt("currentweapon"));
-        }
-        //pistol
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.PISTOL.code()) < 1
-            && cVars.getLong("weapontime" + gWeapons.type.PISTOL.code()) + cVars.getInt("delayweap")
-                < System.currentTimeMillis()) {
-            xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+ gWeapons.type.PISTOL.code(),
-                    gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
-            cVars.put("reloading", "0");
-        }
-        //shotgun
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.SHOTGUN.code()) < 1
-            && cVars.getLong("weapontime" + gWeapons.type.SHOTGUN.code()) + cVars.getInt("delayweap")
-                < System.currentTimeMillis()) {
-            xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+ gWeapons.type.SHOTGUN.code(),
-                    gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
-            cVars.put("reloading", "0");
-        }
-        //autorifle
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.AUTORIFLE.code()) < 1
-            && cVars.getLong("weapontime" + gWeapons.type.AUTORIFLE.code()) + cVars.getInt("delayweap")
-                < System.currentTimeMillis()) {
-            xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+ gWeapons.type.AUTORIFLE.code(),
-                    gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
-            cVars.put("reloading", "0");
-        }
-        //grenade
-        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.LAUNCHER.code()) < 1
-                && cVars.getLong("weapontime" + gWeapons.type.LAUNCHER.code()) + cVars.getInt("delayweap")
-                < System.currentTimeMillis()) {
-            xCon.ex("playsound sounds/clampdown.wav");
-            cVars.putInt("weaponstock"+ gWeapons.type.LAUNCHER.code(),
-                    gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
-            cVars.put("reloading", "0");
-        }
         //other players
         for(String id : nServer.clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
@@ -354,6 +314,43 @@ public class cGameLogic {
                     p.putInt("weapon", cweap);
             }
         }
+        //unused reloading code
+//        //pistol
+//        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.PISTOL.code()) < 1
+//            && cVars.getLong("weapontime" + gWeapons.type.PISTOL.code()) + cVars.getInt("delayweap")
+//                < System.currentTimeMillis()) {
+//            xCon.ex("playsound sounds/clampdown.wav");
+//            cVars.putInt("weaponstock"+ gWeapons.type.PISTOL.code(),
+//                    gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
+//            cVars.put("reloading", "0");
+//        }
+//        //shotgun
+//        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.SHOTGUN.code()) < 1
+//            && cVars.getLong("weapontime" + gWeapons.type.SHOTGUN.code()) + cVars.getInt("delayweap")
+//                < System.currentTimeMillis()) {
+//            xCon.ex("playsound sounds/clampdown.wav");
+//            cVars.putInt("weaponstock"+ gWeapons.type.SHOTGUN.code(),
+//                    gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
+//            cVars.put("reloading", "0");
+//        }
+//        //autorifle
+//        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.AUTORIFLE.code()) < 1
+//            && cVars.getLong("weapontime" + gWeapons.type.AUTORIFLE.code()) + cVars.getInt("delayweap")
+//                < System.currentTimeMillis()) {
+//            xCon.ex("playsound sounds/clampdown.wav");
+//            cVars.putInt("weaponstock"+ gWeapons.type.AUTORIFLE.code(),
+//                    gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
+//            cVars.put("reloading", "0");
+//        }
+//        //grenade
+//        if(cVars.isOne("allowweaponreload") && cVars.getInt("weaponstock" + gWeapons.type.LAUNCHER.code()) < 1
+//                && cVars.getLong("weapontime" + gWeapons.type.LAUNCHER.code()) + cVars.getInt("delayweap")
+//                < System.currentTimeMillis()) {
+//            xCon.ex("playsound sounds/clampdown.wav");
+//            cVars.putInt("weaponstock"+ gWeapons.type.LAUNCHER.code(),
+//                    gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
+//            cVars.put("reloading", "0");
+//        }
     }
 
     public static boolean isUserPlayer(gPlayer player) {

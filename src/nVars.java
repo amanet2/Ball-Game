@@ -57,10 +57,10 @@ public class nVars {
         keys.put("y", userPlayer.get("coordy"));
         keys.put("crouch", userPlayer.get("crouch"));
         keys.put("flashlight", xCon.ex("cv_flashlight"));
-        keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+cVars.get("currentweapon")) > 0
+        keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+userPlayer.get("weapon")) > 0
                 || userPlayer.get("sendshot").equals("1")
-                || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
-                || cVars.getInt("currentweapon") == gWeapons.type.NONE.code()) ? "1" : "0");
+                || userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
+                || userPlayer.isInt("weapon", gWeapons.type.NONE.code())) ? "1" : "0");
         keys.put("fv", userPlayer.get("fv"));
         keys.put("dirs",String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
                 userPlayer.get("mov2"), userPlayer.get("mov3")));
@@ -77,7 +77,7 @@ public class nVars {
         keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                 userPlayer.get("vel2"), userPlayer.get("vel3")));
 
-        keys.put("weapon", cVars.get("currentweapon"));
+        keys.put("weapon", userPlayer.get("weapon"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
         else

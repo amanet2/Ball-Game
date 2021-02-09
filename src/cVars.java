@@ -21,7 +21,6 @@ public class cVars {
         put("camy", "0");
         put("clipplayer", "1");
         put("collideplayers", "1");
-        put("currentweapon", "0");
         put("delayhp", "2400");
         put("delaypow", "1000");
         put("delayweap", "1800");

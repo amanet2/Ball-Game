@@ -215,9 +215,10 @@ public class cScripts {
     }
 
     public static boolean isReloading() {
-        return cVars.isOne("allowweaponreload")
-                && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
+//        return cVars.isOne("allowweaponreload")
+//                && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
+//                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
+        return false;
     }
 
     public static void checkMsgSpecialFunction(String msg) {
@@ -561,7 +562,6 @@ public class cScripts {
                 player.put("id", s);
                 eManager.currentMap.scene.playersMap().put(s, player);
             }
-            cVars.putInt("currentweapon", gWeapons.type.NONE.code());
             xCon.ex("respawn");
         }
         else if(uiInterface.inplay){
@@ -601,7 +601,6 @@ public class cScripts {
         if(eManager.currentMap.scene.playersMap().size() > 0
                 && !(newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
             cGameLogic.userPlayer().putInt("weapon", newweapon);
-            cVars.putInt("currentweapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
             checkPlayerSpriteFlip(cGameLogic.userPlayer());
         }

@@ -7,7 +7,6 @@ public class xComGiveWeapon extends xCom {
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
                 player.putInt("weapon", weapon);
-                cVars.putInt("currentweapon", weapon);
                 xCon.ex("playsound sounds/grenpinpull.wav");
                 cScripts.checkPlayerSpriteFlip(cGameLogic.userPlayer());
             }

@@ -1,8 +1,9 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        if(cVars.getInt("currentweapon") == gWeapons.type.NONE.code()
-            || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
-            || cVars.getInt("weaponstock"+cVars.getInt("currentweapon")) > 0) {
+        int playerWeapon = cGameLogic.userPlayer().getInt("weapon");
+        if(playerWeapon == gWeapons.type.NONE.code()
+            || playerWeapon == gWeapons.type.GLOVES.code()
+            || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             xCon.ex("cv_firing 1");
             gPlayer br = cGameLogic.userPlayer();
             if(br.getLong("cooldown") < System.currentTimeMillis()) {

@@ -2,11 +2,11 @@ public class gPropPowerup extends gProp {
     public void propEffect(gPlayer p) {
         int int0 = getInt("int0");
         if(int0 > 0) {
-            if(cVars.isZero("currentweapon")) {
+            if(p.isZero("weapon")) {
                 xCon.ex("giveweapon " + p.get("id") + " " + int0);
                 cPowerups.takepowerupammo(this);
             }
-            else if(cVars.isInt("currentweapon", int0)
+            else if(p.isInt("weapon", int0)
                     && cVars.getInt("weaponstock"+int0) < gWeapons.fromCode(int0).maxAmmo) {
                 cPowerups.takepowerupammo(this);
             }
