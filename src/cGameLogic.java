@@ -620,7 +620,7 @@ public class cGameLogic {
                 checkProp((gProp) thingMap.get(id));
             }
         }
-        //old props
+        //old props, other players
         for(String id : gScene.getPlayerIds()) {
             gPlayer cl = gScene.getPlayerById(id);
             for(gProp p : eManager.currentMap.scene.props()) {
@@ -775,12 +775,11 @@ public class cGameLogic {
                 if(cVars.get("virusids").length() < 1)
                     cGameMode.resetVirusPlayers();
                 //check if reset time
-                if(cVars.contains("virusresettime") && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
+                if(cVars.contains("virusresettime")
+                        && cVars.getLong("virusresettime") < System.currentTimeMillis()) {
                     cGameMode.resetVirusPlayers();
                     cVars.remove("virusresettime");
                 }
-                //check if more players
-
                 //check intersections
                 for(String id1 : gScene.getPlayerIds()) {
                     for(String id2 : gScene.getPlayerIds()) {

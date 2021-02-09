@@ -3,7 +3,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
@@ -140,7 +139,7 @@ public class gMap {
                 writer.write(str);
             }
             for(gProp p : scene.props()) {
-                String savetitle = gProp.getSaveStringForProp(p);
+                String savetitle = gProps.getTitleForProp(p);
                 String str = String.format("%s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);

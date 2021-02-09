@@ -9,7 +9,7 @@ public class xComEditorPutProp extends xCom {
             int y = Integer.parseInt(toks[5]);
             int w = Integer.parseInt(toks[6]);
             int h = Integer.parseInt(toks[7]);
-            String propString = gProp.getSaveStringForCode(propcode);
+            String propString = gProps.getTitleForCode(propcode);
             if(eManager.currentMap.propLoadMap.containsKey(propString))
                 eManager.currentMap.propLoadMap.get(propString).putProp(int0, int1, x, y, w, h);
             return "";

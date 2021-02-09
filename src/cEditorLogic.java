@@ -33,7 +33,7 @@ public class cEditorLogic {
         createNewSubmenu("Tiles", "Current Tile");
         createNewSubmenu("Tiles","Tile Selection");
         createNewSubmenu("Tiles", "Textures");
-        createNewSubmenu("Props","Create: " + gProp.propSelection[state.newProp.getInt("code")]);
+        createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
         createNewSubmenu("Textures", "Current Textures");
         createNewSubmenu("Textures", "top_textures");
         createNewSubmenu("Textures", "wall_textures");
@@ -183,10 +183,10 @@ public class cEditorLogic {
         for(String s : gTextures.selection_floor) {
             addTextureMenuItem("floor_textures",s);
         }
-        for(String s : gProp.propSelection) {
+        for(String s : gProps.titles) {
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
-                state.newProp.putInt("code", gProp.getCodeForTitle(s));
+                state.newProp.putInt("code", gProps.getCodeForTitle(s));
                 menus.get("Props").getItem(0).setText("Create: " + s);
             });
             menus.get("Props").getItem(0).add(newmenuitem);

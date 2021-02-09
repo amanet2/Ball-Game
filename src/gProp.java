@@ -16,59 +16,12 @@ public class gProp extends gThing {
         return isInt("code", code);
     }
 
-    public static String getSaveStringForCode(int code) {
-        return saveStrings[code];
-    }
-
-    public static String getSaveStringForProp(gProp prop) {
-        return getSaveStringForCode(prop.getInt("code"));
-    }
-
-    //old and shitty
-    static String[] propSelection = new String[]{
-            "Teleporter",
-            "Score Point",
-            "Flag-Red",
-            "Flag-Blue",
-            "Powerup",
-            "Boostup",
-            "Spawn Point"
-    };
-
-    static String[] propSpriteSelection = new String[]{
-            "misc/misc_energy_ball_trans_purple.png",
-            "none",
-            "misc/flag_red.png",
-            "misc/flag_blue.png",
-            "misc/powerup.png",
-            "misc/boostup.png",
-            "none"
-    };
-
-    static String[] saveStrings = new String[]{
-            "PROP_TELEPORTER",
-            "PROP_SCOREPOINT",
-            "PROP_FLAGRED",
-            "PROP_FLAGBLUE",
-            "PROP_POWERUP",
-            "PROP_BOOSTUP",
-            "PROP_SPAWNPOINT"
-    };
-
     public gProp load(String[] args) {
         return null;
     }
 
     public void propEffect(gPlayer p) {
         xCon.ex("echo Unspecified prop effect for prop tag/code: "+get("tag")+"/"+get("code"));
-    }
-
-    static int getCodeForTitle(String title) {
-        for(int i = 0; i < propSelection.length;i++) {
-            if(title.equalsIgnoreCase(propSelection[i]))
-                return i;
-        }
-        return -1;
     }
 
     public void setSpriteFromPath(String newpath) {
@@ -84,7 +37,7 @@ public class gProp extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         putInt("code", t);
-        put("sprite", eUtils.getPath(propSpriteSelection[getInt("code")]));
+        put("sprite", eUtils.getPath(gProps.spritesSelection[getInt("code")]));
         put("fv", "0.0");
         putInt("int0", ux);
         putInt("int1", uy);
