@@ -10,7 +10,6 @@ public class xComSelectLeft extends xCom {
         else {
             if(!(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0)) {
                 uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-//                xConsole.exec("playsound sounds/pause.wav");
             }
         }
         return fullCommand;

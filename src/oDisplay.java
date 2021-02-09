@@ -3,17 +3,16 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
-/**
- * SINGLETON, JLayeredPane
- * handles the panels that make up
- * visual objects on the screen
- */
 public class oDisplay extends JLayeredPane {
 	static int displaymode_windowed = 0;
 	static int displaymode_fullscreen = 1;
+	static int displaymode_borderless = 2;
 	JFrame frame;
-	private static oDisplay instance = null;
+    Cursor blankCursor;
+
+    private static oDisplay instance = null;
 
 	public static oDisplay instance() {
 		if (instance == null)
@@ -23,7 +22,10 @@ public class oDisplay extends JLayeredPane {
 
 	private oDisplay() {
 		super();
-		super.setOpaque(true);
+        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                cursorImg, new Point(0, 0), "blank cursor");
+        super.setOpaque(true);
 	}
 
 	public void refreshResolution() {
@@ -60,8 +62,9 @@ public class oDisplay extends JLayeredPane {
     }
 
 	public void showFrame() {
-        if(frame != null)
-	        frame.dispose();
+        if(frame != null) {
+            frame.dispose();
+        }
 		frame = new JFrame(String.format("%s%s", sVars.get("defaulttitle"),
                 sSettings.show_mapmaker_ui ? " -editor" : ""));
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -76,8 +79,7 @@ public class oDisplay extends JLayeredPane {
 		if(sSettings.show_mapmaker_ui)
 			cEditorLogic.setupMapMakerWindow();
 		frame.setResizable(false);
-		frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		sSettings.width = Integer.parseInt(xCon.ex("vidmode").split(",")[0]);
+        sSettings.width = Integer.parseInt(xCon.ex("vidmode").split(",")[0]);
         sSettings.height = Integer.parseInt(xCon.ex("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         setBackground(new Color(
@@ -87,11 +89,10 @@ public class oDisplay extends JLayeredPane {
         ));
 		frame.setContentPane(this);
 		frame.pack();
-		frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null);
         if(sVars.isIntVal("displaymode", displaymode_fullscreen))
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-//        frame.createBufferStrategy(2);
     }
 
 	public double[] getScreenHardwareDimensions() {
@@ -115,12 +116,6 @@ public class oDisplay extends JLayeredPane {
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;
         int oh = sSettings.height;
-//        if(xCon.getInt("displaymode") == displaymode_fullscreen) {
-//            ox = 0;
-//            oy = 0;
-//            ow = (int) getScreenHardwareDimensions()[0];
-//            oh = (int) getScreenHardwareDimensions()[1];
-//        }
         dPanel vfxPanel = new dPanel();
         vfxPanel.setBounds(ox,oy,ow,oh);
         add(vfxPanel, 0, 0);

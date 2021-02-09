@@ -12,13 +12,13 @@ public class uiMenusColor extends uiMenu {
             items = Arrays.copyOf(items,items.length+1);
             items[items.length-1] = new uiMenuItem(selection[i]){
                 public void doItem() {
-                    sVars.put("playercolor", text);
-                    uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text =
-                        String.format("Color: [%s]", sVars.get("playercolor"));
-                    if(eManager.currentMap.scene.players().size() > 0) {
-                        cGameLogic.getPlayerByIndex(0).setSpriteFromPath(
-                                eUtils.getPath(String.format("animations/player_%s/a00.png", sVars.get("playercolor"))));
-                        xCon.ex("THING_PLAYER.0.color playercolor");
+                    String color = text;
+                    gPlayer user = cGameLogic.userPlayer();
+                    sVars.put("playercolor", color);
+                    uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text = String.format("Color: [%s]", color);
+                    if(user != null) {
+                        user.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", color)));
+                        user.put("color", color);
                     }
                     uiMenus.selectedMenu = parentMenu;
                 }

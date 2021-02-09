@@ -3,7 +3,7 @@ public class uiMenusVideo extends uiMenu {
         setMenuItemTexts(new String[]{
                 String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
                 String.format("Framerate [%d]",sSettings.framerate),
-                String.format("Fullscreen [%s]", sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+                String.format("Borderless [%s]", sVars.isIntVal("displaymode", oDisplay.displaymode_borderless)
                         ? "X" : "  "),
                 String.format("Animations [%s]", sVars.isOne("vfxenableanimations") ? "X" : "  "),
                 String.format("Flares [%s]", sVars.isOne("vfxenableflares") ? "X" : "  "),
@@ -25,16 +25,13 @@ public class uiMenusVideo extends uiMenu {
                         uiMenus.selectedMenu = uiMenus.MENU_REFRESH;
                     }
                 },
-                new uiMenuItem(String.format("Fullscreen [%s]",
-                        sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen) ? "X" : "  ")) {
+                new uiMenuItem(String.format("Borderless [%s]",
+                        sVars.isIntVal("displaymode", oDisplay.displaymode_borderless) ? "X" : "  ")) {
                     public void doItem() {
-                        if(sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen))
-                            sVars.putInt("displaymode", oDisplay.displaymode_windowed);
-                        else
-                            sVars.put("displaymode",
-                                    Integer.toString(oDisplay.displaymode_fullscreen));
-                        text = String.format("Fullscreen [%s]",
-                                sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen) ? "X" : "  ");
+                        sVars.putInt("displaymode", sVars.isIntVal("displaymode", oDisplay.displaymode_windowed)
+                                ? oDisplay.displaymode_borderless : oDisplay.displaymode_windowed);
+                        text = String.format("Borderless [%s]",
+                                sVars.isIntVal("displaymode", oDisplay.displaymode_borderless) ? "X" : "  ");
                         oDisplay.instance().createPanels();
                         oDisplay.instance().showFrame();
                         uiInterface.addListeners();

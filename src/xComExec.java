@@ -14,6 +14,7 @@ public class xComExec extends xCom {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
         return String.format("%s finished", s);

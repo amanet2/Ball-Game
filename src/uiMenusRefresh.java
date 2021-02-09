@@ -17,7 +17,7 @@ public class uiMenusRefresh extends uiMenu {
                     uiMenus.selectedMenu = parentMenu;
                 }
             };
-            if(Integer.valueOf(items[items.length-1].text) == sSettings.framerate) {
+            if(Integer.parseInt(items[items.length-1].text) == sSettings.framerate) {
                 selectedItem = i;
             }
         }

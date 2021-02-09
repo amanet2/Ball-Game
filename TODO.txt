@@ -1,15 +1,138 @@
 ==DISTRIBUTION==
-* Rename game to Major-Bombardment\
-    -> Court-Bombardment
-* Distribute both the installer exe, as well as a portable version (pkg_BRA without the uninstall exe)
-    -> have build scripts generate both archives
 * create update patches
     -> zip up all the update files in same dir structure as existing BRA
     -> create NSIS zip2exe to extract updates into BRA folder
 
-==ISSUES==
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==ISSUES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* new players joining virus need to be infected
+* make jumps look better
+    -> save ycoord for when jump happened and draw shadows there until jump not happening
+* crousching not shown across net
+* dont turn off flashlight on death?
+* replace graveyard coords with "alive" flag
+    -> using coord -9000 and -9000
+    -> e.g. cGamelogic checkVirus
+* boostups broken now
+    -> just make them give a boost like the speedboost works
+* replace objectsmap usage with more specific playersMap(), botplayersMap() etc
+* any bounces occuring due to a vel0 vector need to have 2/3 modifier applied
+* wasd shouldnt work in pause menu during a game
+* bouncing off of stuff still feels too harsh
+* look for //ugly if else markers in code
+* messy //old props in cGameLogic, in 800s
+* have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
+    -> as I think the gfx has a race condition with the internal manager
+* dont cancel W on jump
+    -> jump needs to be fixed to not use mov0!
+* add ball skins
+    -> use existing color architecture
+* gravity setting for maps
+* EDITOR: select last placed thing automatically after placing new thing
+* EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
+* if changing settings, msgs can screw it up
+    -> tried setting "scorelimit" to "player has left the game"
+* make tile object work like flare object loading into maps and saving
+    ->gThingReturnTile
+* code in editorPutProp needs to be stored in the prop object instead of switch case
+* waypoints game mode doesnt show scorepoint for clients
+* client cant score in safezones
+* horrible crash when client wins deathmatch mode
+    -> processActionLoadClient line 611
+* client locks up and cant exit when loses connection to server, has to close cmd window
+* scoreboard exception when client joins game now
+* timeout negative-timeout sleep() exception
+    -> nServer.run line 182
+* clients need to show green +1s on their own screen
+    -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
+* flag needs to drop at dead players feet in flagmaster
+    -> ctf is more balanced the way it is
+* for ctf, have multiple red flags spawn around the map, have a few equidistant blue flag "stations" to bring them to
+    -> like a fuzion frenzy type thing
+    -> need to accomodate multiple "flagmasterids"
+* cut/copy/paste only works for tiles right now
+    -> make generic copything() function maybe instead of copytile, copyprop, etc
+* avoid casting from WIDE scope to NARROWER scope as it introduces overhead
+    -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
+    -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
+* bot just shooting all over instead of waiting to be in range
+* mapmakers gotta be verified heavily
+* trying to start a new game with spawn-armed and reloading crashes
+* why is the currentmap NULL on first load when this wasnt happening before
+* gamemodes need to have a subclass structure like the props do
+    -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
+* have bots eventually go back to exit teleporter after X seconds
+* save old functions to aid in rebuilding the broken functionality
+* goToNearestThing() function has explicit reference to flagmaster stuff
+* get rid of the scorepoints() array in the cGameLogic file
+* get rid of bouncy ball
+    -> for now
+* bouncy ball broken
+* make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
+* get rid of the ladder prop
+* make sure propmap id pointers are dereferenced/removed along with the arraylist
+* add zombies gametype, a zopmbie will be a prop
+    -> how many ID:coord:coord:attack sets can we cram in a send string
+* what the hell happened to the light fixture prop?
+    -> they used to be prop 1
+    -> i guess since we dont do sidescroller maps anymore it shouldnt be an issue
+* all powerup cycle at same time
+    -> each powerup should have its own timer, and be longer (like halo weapons despawning)
+* bots not dropping weapons
+    -> actually they never dropped their weapons even in the old branches
+* consider making HASHMAPS of all the current proplists, would make looking up a prop by id an O(1) op
+* flags work off of a seperate server-side collision detection
+* put all static ints for props in the map file
+* king of flags needs a new architecture
+* make sure all maps in maps_b folder work with new props
+* prop sprite string needs to be made a var of the prop object/subclass
+* gMap.load has a giant if/else block
+    -> convert to a map of doables, or something... at least use the console commands this time
+* logic drawing navpointers is a huge if/else block
+* make sure editing and saving a map works with the new prop architecture
+* show grey bar on bottom 1/4 of screen, with gametype and description for first 10 seconds of player joining
+* make sure props spawn and clear without memory leaks
+* audit graphics and sounds to remove anything not made by (you)
+* refactor maps to use new prop architecture while slowly removing the old functionality
+* player_ids is the last good branch before i started gutting the weapons and props functionality
+* refactor props to not rely on so many ifs
+    -> use inheritance instead of the "code"
+    -> should have basic function like the propeffect() function
+* reloading isnt working no more
+* changing resolution screws up corner tiles & powerups
+* figure a way to measure your functions for optimization
+* incorporate enums where possible
+    -> replace weapon_selection with weaponSelection()
+* why does cGameLogic.getMovementStatus() have a double for-loop for all ids
+* need sound effects for hitting sorepoints, capping flags, surviving safezones, grabbing flags, completing laps
+* player should drop flag in flagmaster, but ctf shoud go back to starting spot
+* introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
+* cant have key bound to multiple actions
+* mapfile prop line and editor_put_prop console comm can be combined
+* too much sent in new powerups string
+* make sure the combinations of spawn-armed and allow-reload modes work correctly together
+* verify integrity of fps counter
+* COMMIT SPOT CHECKS
+    -> GO TO COMMIT: git checkout <commit>
+    -> GO BACK: git checkout <branch_name>
+* make sure different timezones and computer times work correctly
+    -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
+        -> due to timezones, system clock etc
+    -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
+* bots wont go for flag in kof if another bot owns that flag
+* I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
 * only draw gfx that will be seen
+* sounds are dragging down performance
+    -> was better when javafx wasnt working
 * bots really drag down performance
+    -> check if the rates are influencing it.  maybe bots are updating at server rate and dragging down performance
 * EDITOR - NEWTILE - dim0h didnt change when setting base dims
 * find a way to change corner's "wall height"
 * Bot dont explode on other clients screen
@@ -18,8 +141,6 @@
     -> features like BOTS and perhaps split screen multiplayer
 * need to restrict certain console commands if a client is playing
     -> 'addbot' and many more to be sure
-* bot needs to be affected by boost and teleporters
-* scores get fucked up when people/bots quit and rejoin
 * editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
 * ISSUE: SERVER NOT GOING TO THE PROPER COORDS AFTER DYING, AFTER A CLIENT QUITS
@@ -37,8 +158,78 @@
     -> tag: re-assign "itness"
 * EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-
-==FEATURES==
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+                                                ==FEATURES==
+/////////////////////                                                                 /////////////////////////////////
+/////////////////////                                                                 /////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
+    -> obv this means json
+    -> obv this means everythings fucked
+* consider reverting flares to arraylist, i cant think of needing to look em up by id
+* give the victim a boxing glove in victim mode
+* map where a scorepoint runs away from the nearest player and player explodes when catches it, but gets a point
+* map with winding maxze structure that travels downwards with scorepoints
+    -> watch which path you take or you can fall out the bottom of the map
+* add buttons, like in the nuke map in day of defeat
+    -> red square with flare like weapon highlight.  turn to green whenn player goes over
+        -> need to have doables attached to the button
+* maps should have a flag (cvar) for bots to use flashlights on the map
+* put little representation of the lead character next to the leader string
+    -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
+        -> facing the right
+* turn individual powerups on and off in new game menu
+* adjust player speed in new game menu
+* add player speed and other cool vars to the newgame screen, and send as cvar over net
+* bouncy ball mode
+    -> ball will change color of last touching person
+        -> when it goes in a goal it respawns at start and give point
+        -> have multiple balls on the field
+* gungame mode
+* spawning under "unarmed" mode then enabling armed mode gives all weapons with 0 stock.
+    -> modify changeweapon function to skip empty guns
+        -> will work like max payne where you have all guns but cant switch until you get some ammo
+* enable spectate mode for online matches
+    -> player stays in graveyard
+    -> always tracks the tracking id
+    -> use mouse wheel to cycle through tracking ids available (excluding dead and self)
+* put a mini version of the character next to name in scoreboard
+* make two race modes -> linear and nonlinear
+* for flag king, maybe put a little representation of the person owning the flag on the flag or in the flagstring
+* maybe have the console display always show if debug is 1
+    -> don't put the dark gray overlay on top of the view
+* start showing errors in debug log now
+* mapmaker
+    -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
+    -> have option in the tile menu to "move tile group"
+        -> only give ability to edit x,y coords for now
+        -> build up to copy/past tile group
+        -> also build up to "transform/flip" tile group
+* find a way for player vector and corner steepness to effect eachother
+    -> prolly dont need to
+* make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
+* powerup idea
+    -> egg
+    -> pick up
+    -> do something to initiate the growing sequence
+    -> chuck it before it blows, or drop it
+* reintroduce powerups, would function the way weapons used to
+    -> powerup spawn points have 0/1 switch, present a random powerup
+    -> on-fire like bomberman (touch ppl, they die)
+    -> tiny and fast
+    -> big slow and shielded
+* be sure to make as many variant maps for the different gamemodes
+* add "disable attacks" flag
+    -> would only be fun in specific gamemodes
+    -> could be a map string
+* add ability for map to have a sound play on each score
+    -> would be manually exec'd with a line
+    -> integrate into mapmaker as well
+* Add ability to reset game to default settings
 * maybe allow a creation mode so ppl can edit the map in multiplayer
     -> like forge
     -> simply pass along the console command to place a tile over the network and run it on the other side
@@ -48,20 +239,14 @@
         -> will just remove/reinstert tile at index in array
             -> where N is new index, if N > size, then do size instead
             -> where N is 0 or below, just put at 0
+            -> all orginal tiles m (>N) become m+1
 * need to see a visual pallette for selecting tiles
-* create a hashmap of string/gDoable tuples so we can call things like "THING_PLAYER.0.do_thing"
 * implementing search algorithms for ai
     -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
     -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
         -> function should take a x,y, pair and return 4 candidate pairs (1 each dir)
-* map designs
-    -> think of maps as a group or series of several fun minicourses
-        -> a "course" would be a sequence of obstacles that for movements alternating in LR or UD directions
-* switch between gfx styles in the video menu
 * make the powerups float up and down and have a shadow
 * change "thetime" to have the server "say" the time after receving proper msg
-* players bounce off of eachother in topdown view
-    -> user an small centered hitbox for all other players in the collision check
 * server could have a "admin" role where you can use the mapmaker
     -> actions taken by the admin broadcast to all players
         -> e.g. deleted a powerup, added a tile
@@ -89,13 +274,7 @@
     -> ball thinks like a bot, going after nearest character
         -> if you touch the ball you die
         -> get points for staying alive
-* change powerups/weapons
-    -> start with only slot0 usable
-    -> unlock other slots if right powerup picked up
-    -> mousewheel goes to next _open_ slot
-        -> have a co-array that's like [1,0,0,0,0] for each locked/unlocked slot
-    -> if weapons are on and reloading is disabled, going over a weapons powerup should refill ammo
-* to cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
+*  cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
 to reference them.
 * replace stockhp
     -> replace all cVars usage of stockhp with calls for player0's stockhp
@@ -103,9 +282,7 @@ to reference them.
 * need more vars on player and not in cvars
     -> like health
     -> handle respawns by player obj, not by user
-* be able to kil bot
 * as a bot on sideview map, look for edges of platforms above yourself for the opportunity to jump
-    -> if waypoint above try to jump
 * make players eyes blink
 * allow all textures in folder to be used in mapmaker
 * new gametypes
@@ -126,13 +303,11 @@ to reference them.
 * new weapons
     -> add a bomb type that functions like the bomberman64 bomb
     -> something like the rock from dod mg server
+        -> bounces around and flies far and erratically
     -> jihad
 * new props
     -> for race mode, bombs that explode on contact and stop you for a little
     -> pinball bumper that actual increases your bounce velocity
-* illustrate fire rate recharge
-    -> illustrate weapon bar refilling
-    -> a grey bar fills until full then change to the right color
 * idle sfx
     -> have music for background of match.
     -> loop a roylaty-free mp3
@@ -143,8 +318,6 @@ to reference them.
         -> deaths, objectives, etc
     -> have them grunt for punching
         -> like bomberman64
-* powerup to have all other players have a waypoint on them
-    -> what color?
 * new map lines:
     -> lockcam x y
     -> locks cam at a certain coordinate for duration of the map.
@@ -153,8 +326,6 @@ to reference them.
     -> lockscale s
         -> locks game scale at certain level for the duration of the map
         -> no zooming allowed
-* keep trying to scale panel to full screen in full screen mode
-* add 'allow reload' flag for game & server
 * add texture tiling
     -> sprite must be converted to bufferedimage before drawing
     -> on a per texture basis i.e. 3 "fill or tile" flags per tile
@@ -165,19 +336,11 @@ to reference them.
 * change vector of speed boost (RMB) depending on movement keys held down
 * put visual feedback for racing positions
 * add voip
-* ADD BOTS
-    -> bot logic will depend on game type
-    -> virus should be easiest
-        -> if not infected, move random and fire on infected nearby
-        -> if infected, move toward nearest uninfected
 * Load all images used on a map into a temp. sprite sheet to improve performance?
-* TRY MAKING PLAYER SHRINK/INFLATE FOR SLOW/FAST POWERUPS
-* ENABLE A "GRAVITY" SETTING EXCLUSIVELY FOR SIDESCROLLER MAPS
+* ENABLE A "GRAVITY" SETTING TO PULL PLAYERS IN CERTAIN VECTOR
     -> MUST BE ABLE TO SET IT FROM MAP FILES
 * TRIM THE FAT ON THE "NEW TILE/PROP/FLARE" OPTIONPANES
     -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
 * server should have clients run a set of instructions on join
-* CLIENT/SERVER SHOULD VERIFY MAP & FILES BEFORE LOADING
-    -> USE md5 CHECKSUM
-    -> could check on every tick and boot mismatches with special message
 * transmit file over the server/cli connection
+* next game better have rotating map in both gameplay and editor

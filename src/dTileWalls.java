@@ -36,20 +36,40 @@ public class dTileWalls {
         }
         for(gTile t : eManager.currentMap.scene.tiles()) {
             int d6w = t.getInt("dim6w");
-            if (t.sprites[1] != null)
+            if (t.sprites[1] != null) {
                 g2.drawImage(t.sprites[1],
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")
-                        + t.getInt("dim0h")),
-                    null
+                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")
+                                + t.getInt("dim0h")),
+                        null
                 );
-            if (t.sprites[4] != null)
+            }
+            else {
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")
+                                + t.getInt("dim0h")),
+                        eUtils.scaleInt(t.getInt("dim1w")),
+                        eUtils.scaleInt(t.getInt("dim1h"))
+                );
+            }
+            if (t.sprites[4] != null) {
                 g2.drawImage(t.sprites[4],
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh")
-                        - t.getInt("dim4h")),
-                    null
+                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh")
+                                - t.getInt("dim4h")),
+                        null
                 );
+            }
+            else {
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh")
+                                - t.getInt("dim4h")),
+                        eUtils.scaleInt(t.getInt("dim4w")),
+                        eUtils.scaleInt(t.getInt("dim4h"))
+                );
+            }
             if(d6w == -1) { //UR
                 g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
                 Polygon pw = new Polygon(

@@ -12,9 +12,11 @@ public class sVars {
         keys.put("bgcolor", "0,0,0");
         keys.put("botcount", "0");
         keys.put("botcountmax", "3");
+        keys.put("bottime", "0");
         keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("countdowntimeleft", "60000");
+        keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
@@ -28,7 +30,7 @@ public class sVars {
         keys.put("framerates", "24,30,60,75,100,120,144,240,320,1000");
         keys.put("gamescale", "2160");
         keys.put("gametick", "240");
-        keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe,bow,witch,skull,boomer");
+        keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe,stovepipe_irish,bow,witch,skull,boomer");
         keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
@@ -38,6 +40,7 @@ public class sVars {
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
+        keys.put("ratebots", "15");
         keys.put("rateclient", "15");
         keys.put("rateserver", "500");
         keys.put("playerarrow", "0");
@@ -51,7 +54,7 @@ public class sVars {
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("respawnwaittime", "2000");
-        keys.put("safezonetime", "30000");
+        keys.put("safezonetime", "20000");
         keys.put("scorelimit", "25");
         keys.put("sfxrange", "1800");
         keys.put("showtick", "0");
@@ -59,13 +62,13 @@ public class sVars {
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("spawnprotectionmaxtime", "1500");
+        keys.put("spawnprotectionmaxtime", "1000");
         keys.put("startpaused", "1");
         keys.put("tagscorewaittime", "10000");
-        keys.put("textcoloralert", "200,0,50,200");
-        keys.put("textcolorbonus", "50,220,100,200");
-        keys.put("textcolorhighlight", "220,175,0,255");
-        keys.put("textcolornormal", "255,255,255,255");
+        keys.put("fontcoloralert", "200,0,50,200");
+        keys.put("fontcolorbonus", "50,220,100,200");
+        keys.put("fontcolorhighlight", "220,175,0,255");
+        keys.put("fontcolornormal", "255,255,255,255");
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vfxenableanimations", "1");
@@ -86,13 +89,13 @@ public class sVars {
                 return toks.length == 3 && Integer.parseInt(toks[0]) >= 640 && Integer.parseInt(toks[1]) >= 480
                         && Integer.parseInt(toks[2]) >= 24;
             }
-            else if(k.contains("bgcolor") || k.contains("textcolor")) {
+            else if(k.contains("bgcolor") || k.contains("fontcolor")) {
                 String[] toks = v.split(",");
                 return (k.contains("bgcolor") && toks.length == 3 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
                         && Integer.parseInt(toks[0]) < 256 && Integer.parseInt(toks[1]) < 256
                         && Integer.parseInt(toks[2]) < 256)
-                        || (k.contains("textcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
+                        || (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
                         && Integer.parseInt(toks[3]) >= 0 && Integer.parseInt(toks[0]) < 256
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
@@ -115,6 +118,7 @@ public class sVars {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
             return false;
         }
@@ -162,6 +166,10 @@ public class sVars {
         put(s, Integer.toString(v));
     }
 
+    public static void putLong(String s, long v) {
+        put(s, Long.toString(v));
+    }
+
     public static void reset() {
         keys = null;
     }
@@ -200,6 +208,7 @@ public class sVars {
             xCon.instance().debug(keys.toString());
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }
@@ -216,6 +225,7 @@ public class sVars {
                 writer.write("\n");
             }
         } catch (IOException e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }

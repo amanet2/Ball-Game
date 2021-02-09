@@ -49,13 +49,21 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5730 -3570 300 300 0 0 0 0 0 0 0 255 1
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -4015 -3220 100 150 0 150 0 0 0 0 0 255 0
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -4890 -3780 300 600 450 150 0 0 0 0 0 255 0
-prop 7 0 0 -5730 -3540 300 300
-prop 7 0 0 -5760 -2970 300 300
-prop 7 0 0 -4410 -3060 300 300
-prop 7 0 0 -3810 -3570 300 300
-prop 7 0 0 -2940 -3540 300 300
-prop 7 0 0 -4740 -4500 300 300
-prop 7 0 0 -5850 -5640 300 300
-prop 7 0 0 -5220 -5220 300 300
-prop 7 0 0 -3480 -5040 300 300
-prop 7 0 0 -2880 -5550 300 300
+PROP_POWERUP 0 0 -5730 -3540 300 300
+PROP_POWERUP 0 0 -5760 -2970 300 300
+PROP_POWERUP 0 0 -4410 -3060 300 300
+PROP_POWERUP 0 0 -3810 -3570 300 300
+PROP_POWERUP 0 0 -2940 -3540 300 300
+PROP_POWERUP 0 0 -4740 -4500 300 300
+PROP_POWERUP 0 0 -5850 -5640 300 300
+PROP_POWERUP 0 0 -5220 -5220 300 300
+PROP_POWERUP 0 0 -3480 -5040 300 300
+PROP_POWERUP 0 0 -2880 -5550 300 300
+PROP_SPAWNPOINT 0 0 -2820 -2910 300 300
+PROP_SPAWNPOINT 0 0 -4890 -3120 300 300
+PROP_SPAWNPOINT 0 0 -5250 -4680 300 300
+PROP_SPAWNPOINT 0 0 -5850 -4170 300 300
+PROP_SPAWNPOINT 0 0 -4770 -5730 300 300
+PROP_SPAWNPOINT 0 0 -3510 -5730 300 300
+PROP_SPAWNPOINT 0 0 -3420 -4380 300 300
+PROP_SPAWNPOINT 0 0 -2820 -4170 300 300

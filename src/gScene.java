@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -8,71 +8,78 @@ import java.util.HashMap;
  */
 public class gScene {
     static final int THING_TILE = 0;
-    static final int THING_PLAYER = 1;
-    static final int THING_BULLET = 2;
-    static final int THING_POPUP = 3;
     static final int THING_PROP = 4;
     static final int THING_FLARE = 5;
-    static final int THING_ANIMATION = 6;
-    static final int THING_BOTPLAYER = 7;
 
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
-            "THING_BOTPLAYER"
+            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOSTUP", "PROP_FLAGBLUE",
+            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT"
     };
-	HashMap<String, ArrayList> objects;
+
+	HashMap<String, ArrayList> objectLists;
+	HashMap<String, HashMap> objectMaps;
 
 	public gScene() {
-		objects = new HashMap<>();
+		objectLists = new HashMap<>();
+		objectMaps = new HashMap<>();
 		for(String s : object_titles) {
-			objects.put(s, new ArrayList<>());
-		}
+			objectLists.put(s, new ArrayList<>());
+            objectMaps.put(s, new HashMap<>());
+        }
 	}
 
 	public gScene copy() {
 	    gScene toReturn = new gScene();
-	    toReturn.objects = new HashMap<>();
+	    toReturn.objectLists = new HashMap<>();
+	    toReturn.objectMaps = new HashMap<>();
 	    for(String s : object_titles) {
-	        toReturn.objects.put(s, new ArrayList<>(objects.get(s)));
+	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
+        }
+	    //OBJECTMAP BELOW
+        for(String objectType : objectMaps.keySet()) {
+            toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
         }
 	    return toReturn;
     }
 
-	public ArrayList<gBullet> bullets() {
-	    return objects.get("THING_BULLET");
-    }
-
 	public ArrayList<gTile> tiles() {
-		return objects.get("THING_TILE");
+		return objectLists.get("THING_TILE");
 	}
 
-    public ArrayList<gPlayer> players() {
-        return objects.get("THING_PLAYER");
-    }
-
-    public ArrayList<gPlayer> botplayers() {
-        return objects.get("THING_BOTPLAYER");
-    }
-
-    public ArrayList<gPopup> popups() {
-        return objects.get("THING_POPUP");
-    }
-
     public ArrayList<gProp> props() {
-        return objects.get("THING_PROP");
-    }
-    public ArrayList<gFlare> flares() {
-        return objects.get("THING_FLARE");
-    }
-    public ArrayList<gAnimationEmitter> animations() {
-        return objects.get("THING_ANIMATION");
+        return objectLists.get("THING_PROP");
     }
 
-    public static String getObjTitleForCode(int code) {
+    public ArrayList<gFlare> flares() {
+        return objectLists.get("THING_FLARE");
+    }
+
+    public ArrayList<gThing> getThingList(String thing_title) {
+        return objectLists.get(thing_title);
+    }
+
+    public HashMap<String, gThing> getThingMap(String thing_title) {
+	    return objectMaps.get(thing_title);
+    }
+
+    public HashMap<String, gPlayer> playersMap() {
+	    return objectMaps.get("THING_PLAYER");
+    }
+
+    public static Collection<String> getPlayerIds() {
+        return eManager.currentMap.scene.playersMap().keySet();
+    }
+
+    public static gPlayer getPlayerById(String id) {
+        return eManager.currentMap.scene.playersMap().get(id);
+    }
+
+    static String getObjTitleForCode(int code) {
 	    return object_titles[code];
     }
 
-    public static int getObjCodeForTitle(String title) {
+    static int getObjCodeForTitle(String title) {
 	    int i = 0;
         for(String s : object_titles) {
             if(s.equals(title))

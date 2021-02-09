@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.*;
 
 public class gTextures {
@@ -37,7 +38,14 @@ public class gTextures {
             return null;
         String rk = String.format("%s%d%d",s,w,h);
         if(base_sprites.get(s) == null) {
-            base_sprites.put(s, new ImageIcon(s));
+            File f = new File(s);
+            if(!f.exists() || f.isDirectory()) {
+                base_sprites.put(s, null);
+                scaled_sprites.put(rk, null);
+                return null;
+            }
+            else
+                base_sprites.put(s, new ImageIcon(s));
         }
         if(scaled_sprites.get(rk) == null) {
             scaled_sprites.put(rk,
@@ -65,8 +73,9 @@ public class gTextures {
                     gTextures.getScaledImage(t.get("sprite0"), t.getInt("dim6w"), t.getInt("dim6h"))
             };
         }
-        for (gPlayer t : eManager.currentMap.scene.players()) {
-            t.sprite = getScaledImage(t.get("pathsprite"), t.getInt("dimw"), t.getInt("dimh"));
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
+            p.sprite = getScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
         }
         for (gProp t : eManager.currentMap.scene.props()) {
             t.sprite = getScaledImage(t.get("sprite"), t.getInt("dimw"), t.getInt("dimh"));

@@ -55,18 +55,19 @@ public class gCamera {
         if (cVars.isInt("cammode", MODE_TRACKING))
             xCon.ex("centercamera");
         else {
+        	gPlayer userPlayer = cGameLogic.userPlayer();
 			if(cVars.isInt("cammode", MODE_PROCEEDING)) {
-				proceedTo((xCon.getInt("THING_PLAYER.0.coordx") - eUtils.unscaleInt(sSettings.width)/2)
-								+ xCon.getInt("THING_PLAYER.0.dimw")/2,
-						(xCon.getInt("THING_PLAYER.0.coordy") - eUtils.unscaleInt(sSettings.height)/2)
-								+ xCon.getInt("THING_PLAYER.0.dimh")/2);
+				proceedTo((userPlayer.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
+								+ userPlayer.getInt("dimw")/2,
+						(userPlayer.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
+								+ userPlayer.getInt("dimh")/2);
 			}
 			if(cVars.isInt("cammode", MODE_SHAKYPROCEEDING)) {
 				shakyproceedto(
-						(xCon.getInt("THING_PLAYER.0.coordx") - eUtils.unscaleInt(sSettings.width)/2)
-								+ xCon.getInt("THING_PLAYER.0.dimw")/2,
-						(xCon.getInt("THING_PLAYER.0.coordy") - eUtils.unscaleInt(sSettings.height)/2)
-								+ xCon.getInt("THING_PLAYER.0.dimh")/2);
+						(userPlayer.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
+								+ userPlayer.getInt("dimw")/2,
+						(userPlayer.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
+								+ userPlayer.getInt("dimh")/2);
 			}
 			if(!cVars.isInt("cammode", MODE_LOCKED)){
 				cVars.addIntVal("camx", cVars.getInt("velocitycam")*cVars.getInt("cammov3")

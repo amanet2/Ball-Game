@@ -7,11 +7,10 @@ public class xComBind extends xCom {
             for(int i = 2; i < toks.length; i++) {
                 comm.append(toks[i]).append(" ");
             }
-            for(int i = 0; i < iKeyboard.keyCodeSubTexts.length; i++) {
-                if(iKeyboard.keyCodeSubTexts[i].equalsIgnoreCase(key)) {
-                    xCon.instance().pressBinds.put(iKeyboard.keyCodeSubCodes[i], comm.substring(0,comm.length()-1));
-                    return "";
-                }
+            Integer keycode = iKeyboard.getCodeForKey(key);
+            if(keycode != null) {
+                xCon.instance().pressBinds.put(keycode, comm.substring(0,comm.length()-1));
+                return "";
             }
         }
         return "cannot bindpress ";
@@ -25,12 +24,10 @@ public class xComBind extends xCom {
             for(int i = 2; i < toks.length; i++) {
                 comm.append(toks[i]).append(" ");
             }
-            for(int i = 0; i < iKeyboard.keyCodeSubTexts.length; i++) {
-                if(iKeyboard.keyCodeSubTexts[i].equalsIgnoreCase(key)) {
-                    xCon.instance().releaseBinds.put(iKeyboard.keyCodeSubCodes[i],
-                            comm.substring(0,comm.length()-1));
+            Integer keycode = iKeyboard.getCodeForKey(key);
+            if(keycode != null) {
+                    xCon.instance().releaseBinds.put(keycode, comm.substring(0,comm.length()-1));
                     return "";
-                }
             }
         }
         return "cannot bindrelease ";
