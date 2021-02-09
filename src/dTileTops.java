@@ -518,8 +518,6 @@ public class dTileTops {
 
                     dScreenFX.drawNavPointer(g2,p.getInt("coordx") + p.getInt("dimw")/2, p.getInt("coordy") + p.getInt("dimh")/2,
                             "* GO HERE *");
-//                    if(cVars.getInt("gamemode") == cGameMode.RACE_LINEAR && p.isInt("code", gProp.SCOREPOINT))
-//                        break;
                 }
             }
         }
@@ -539,6 +537,14 @@ public class dTileTops {
             }
         }
         //popups
+        drawPopups(g);
+        //player highlight
+        drawUserPlayerArrow(g2);
+        //playernames
+        drawPlayerNames(g, g2);
+    }
+
+    public static void drawPopups(Graphics g) {
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
             gPopup p = (gPopup) popupsMap.get(id);
@@ -555,7 +561,9 @@ public class dTileTops {
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
         }
-        //player highlight
+    }
+
+    public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sVars.isOne("playerarrow") && eManager.currentMap.scene.playersMap().size() > 0) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             int[][] polygonBase = new int[][]{
@@ -586,7 +594,9 @@ public class dTileTops {
             g2.setColor(new Color(0,200,0, 100));
             g2.fillPolygon(pg);
         }
-        //playernames
+    }
+
+    public static void drawPlayerNames(Graphics g, Graphics2D g2) {
         for(String id : gScene.getPlayerIds()) {
             gPlayer p = gScene.getPlayerById(id);
             dFonts.setFontNormal(g);
