@@ -163,6 +163,7 @@ public class xCon {
         commands.put("e_tileup", new xComEditorTileUp());
         commands.put("e_undo", new xComEditorUndo());
         commands.put("echo", new xComEcho());
+        commands.put("fireweapon", new xComFireWeapon());
         commands.put("flashlight", new xComFlashlight());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());

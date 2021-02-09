@@ -12,9 +12,18 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* make console command for fireweapon <id> <code>
+    -> can send over network
+    -> while firing, every bullet triggers the send
+    -> so it goes
+        -> state 0, mouse not held
+        -> state 1, mouse held
+            -> ammo > 0 && rate of fire threshold, execute fireweapon <weaponcode> on all clients
+            -> not threshold, continue waiting
+            -> ammo < 1, switch to rock weapon
 * EDITOR: while in play, arrow keys dont control camera but still adjust quick dims
-* last client shot not sending on server side
-    -> nor on other clients side
+* last shot not sending on server side or other clients
+    -> probably because you switch back to rock before last shot is received by clients
 * console command for giveweapon
     -> take id and int code
     -> this is the ticket for gungame working
