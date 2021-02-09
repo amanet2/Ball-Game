@@ -114,7 +114,7 @@ public class dScreenMessages {
             }
         }
         //ingame messages
-        dFonts.setFontColorByTitle(g, "fontcolornormal");
+        dFonts.setFontColorNormal(g);
         if(uiInterface.inplay) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
@@ -227,17 +227,17 @@ public class dScreenMessages {
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft < 30000) {
-                    dFonts.setFontColorByTitle(g, "fontcoloralert");
+                    dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-                dFonts.setFontColorByTitle(g, "fontcolorhighlight");
+                dFonts.setFontColorHighlight(g);
                 if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
                     dFonts.drawRightJustifiedString(g,
                             cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
-                dFonts.setFontColorByTitle(g, "fontcolornormal");
+                dFonts.setFontColorNormal(g);
                 dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
@@ -260,13 +260,13 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0, sSettings.width,sSettings.height/4);
             g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            dFonts.setFontColorByTitle(g, "fontcoloralert");
+            dFonts.setFontColorAlert(g);
             dFonts.drawCenteredString(g, "RESPAWN IN " +
                             eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
         //sendmsg.. invisible?
-        dFonts.setFontColorByTitle(g, "fontcolornormal");
+        dFonts.setFontColorNormal(g);
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -277,7 +277,7 @@ public class dScreenMessages {
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    dFonts.setFontColorByTitle(g, "fontcolorbonus");
+                    dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
             else {
@@ -296,7 +296,7 @@ public class dScreenMessages {
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
-            dFonts.setFontColorByTitle(g, "fontcolornormal");
+            dFonts.setFontColorNormal(g);
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
                 i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
@@ -343,12 +343,12 @@ public class dScreenMessages {
             && nServer.clientArgsMap.get("server").get("topscore") != null
             && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {
                 if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
-                    dFonts.setFontColorByTitle(g, "fontcolorhighlight");
+                    dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
                         + nServer.clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
-                dFonts.setFontColorByTitle(g, "fontcolornormal");
+                dFonts.setFontColorNormal(g);
             }
         }
         //safezone timer
@@ -413,7 +413,7 @@ public class dScreenMessages {
                 }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
-                dFonts.setFontColorByTitle(g, "fontcolornormal");
+                dFonts.setFontColorNormal(g);
             }
         }
     }

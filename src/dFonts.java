@@ -28,8 +28,25 @@ public class dFonts {
                 Integer.parseInt(fontStrings[2]),
                 Integer.parseInt(fontStrings[3])));
     }
-    public static void setFontNormal(Graphics g) {
+
+    public static void setFontColorNormal(Graphics g) {
         setFontColorByTitle(g, "fontcolornormal");
+    }
+
+    public static void setFontColorHighlight(Graphics g) {
+        setFontColorByTitle(g, "fontcolorhighlight");
+    }
+
+    public static void setFontColorAlert(Graphics g) {
+        setFontColorByTitle(g, "fontcoloralert");
+    }
+
+    public static void setFontColorBonus(Graphics g) {
+        setFontColorByTitle(g, "fontcolorbonus");
+    }
+
+    public static void setFontNormal(Graphics g) {
+        setFontColorNormal(g);
         g.setFont(
                 new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
                         sVars.getInt("fontsize") * sSettings.height / sVars.getInt("gamescale")
@@ -37,7 +54,7 @@ public class dFonts {
         );
     }
     public static void setFontSmall(Graphics g) {
-        setFontColorByTitle(g, "fontcolornormal");
+        setFontColorNormal(g);
         g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
                 sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
     }

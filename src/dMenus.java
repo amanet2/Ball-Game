@@ -22,20 +22,20 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColorByTitle(g, "fontcolorhighlight");
+        dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        dFonts.setFontColorByTitle(g, "fontcolornormal");
+        dFonts.setFontColorNormal(g);
         dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
-                dFonts.setFontColorByTitle(g, "fontcolorbonus");
+                dFonts.setFontColorBonus(g);
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
-                dFonts.setFontColorByTitle(g, "fontcolornormal");
+                dFonts.setFontColorNormal(g);
                 if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
@@ -54,10 +54,10 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColorByTitle(g, "fontcolorhighlight");
+        dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        dFonts.setFontColorByTitle(g, "fontcolornormal");
+        dFonts.setFontColorNormal(g);
         dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         dFonts.drawCenteredString(g,
                 "- ACTION -",sSettings.width/3,12*sSettings.height/30);
@@ -101,7 +101,7 @@ public class dMenus {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);
         //copyright notice
-        dFonts.setFontColorByTitle(g, "fontcolornormal");
+        dFonts.setFontColorNormal(g);
         g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
         g.drawString("Venmo @Anthony-Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }
