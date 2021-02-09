@@ -65,10 +65,10 @@ public class sVars {
         keys.put("spawnprotectionmaxtime", "1000");
         keys.put("startpaused", "1");
         keys.put("tagscorewaittime", "10000");
-        keys.put("textcoloralert", "200,0,50,200");
-        keys.put("textcolorbonus", "50,220,100,200");
-        keys.put("textcolorhighlight", "220,175,0,255");
-        keys.put("textcolornormal", "255,255,255,255");
+        keys.put("fontcoloralert", "200,0,50,200");
+        keys.put("fontcolorbonus", "50,220,100,200");
+        keys.put("fontcolorhighlight", "220,175,0,255");
+        keys.put("fontcolornormal", "255,255,255,255");
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vfxenableanimations", "1");
@@ -89,13 +89,13 @@ public class sVars {
                 return toks.length == 3 && Integer.parseInt(toks[0]) >= 640 && Integer.parseInt(toks[1]) >= 480
                         && Integer.parseInt(toks[2]) >= 24;
             }
-            else if(k.contains("bgcolor") || k.contains("textcolor")) {
+            else if(k.contains("bgcolor") || k.contains("fontcolor")) {
                 String[] toks = v.split(",");
                 return (k.contains("bgcolor") && toks.length == 3 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
                         && Integer.parseInt(toks[0]) < 256 && Integer.parseInt(toks[1]) < 256
                         && Integer.parseInt(toks[2]) < 256)
-                        || (k.contains("textcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
+                        || (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
                         && Integer.parseInt(toks[3]) >= 0 && Integer.parseInt(toks[0]) < 256
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256

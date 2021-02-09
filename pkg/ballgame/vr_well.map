@@ -48,10 +48,10 @@ tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.pn
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -3300 0 2400 2400 0 0 2400 0 0 0 0 255
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -900 0 2400 2400 0 0 2400 0 0 0 0 255
 tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg 1500 0 2400 2400 0 0 2400 0 0 0 0 255
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -7200 9600 2400 0 0 0 0 0 0 0 200
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 0 9600 2400 0 0 0 0 0 0 0 200
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -4800 2400 4800 0 0 0 0 0 0 0 200
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1500 -4800 2400 4800 0 0 0 0 0 0 0 200
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -7200 9600 2400 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 0 9600 2400 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -4800 2400 4800 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1500 -4800 2400 4800 0 0 0 0 0 0 0 50
 tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -1470 -990 1200 600 0 0 0 100 150 100 100 255
 tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -1350 -2250 900 900 750 150 0 0 0 0 0 255
 tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -3210 -4710 450 450 0 0 0 0 0 0 -4 255

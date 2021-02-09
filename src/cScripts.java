@@ -116,25 +116,6 @@ public class cScripts {
         }
     }
 
-    public static void setFontNormal(Graphics g) {
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
-        g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize") * sSettings.height / sVars.getInt("gamescale")));
-    }
-
-    public static void setFontSmall(Graphics g) {
-        g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
-    }
-
-    public static void setFontConsole(Graphics g) {
-        g.setFont(new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
-    }
-
     public static synchronized void selectThingUnderMouse(int objType) {
         int[] mc = getMouseCoordinates();
         switch (objType) {

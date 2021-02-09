@@ -5,18 +5,18 @@ public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+        g.setColor(new Color(Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[0]),
+                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[1]),
+                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[2]),
+                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[3])));
         dScreenMessages.drawCenteredString(g,
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        g.setColor(new Color(Integer.parseInt(xCon.ex("fontcolornormal").split(",")[0]),
+                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[1]),
+                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[2]),
+                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[3])));
         g.drawString("["+nServer.clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
@@ -45,10 +45,10 @@ public class dScoreboard {
             int playerping = scoresMapIdMap.get("ping");
             if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolorhighlight").split(",")[3])));
+                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[0]),
+                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[1]),
+                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[2]),
+                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[3])));
             }
             int place = i;
             if(playerscore == prevscore)
@@ -69,10 +69,10 @@ public class dScoreboard {
                     sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(id.equals(cGameLogic.userPlayer().get("id"))) {
                 g.setColor(new Color(
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[0]),
+                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[1]),
+                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[2]),
+                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[3])));
             }
             i++;
         }

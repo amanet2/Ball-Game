@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.font.FontRenderContext;
-import java.util.HashMap;
 
 public class dScreenMessages {
     static FontRenderContext fontrendercontext =
@@ -13,13 +12,6 @@ public class dScreenMessages {
 
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
-    }
-
-    public static void setFontColorByTitle(Graphics g, String fonttitle) {
-        g.setColor(new Color(Integer.parseInt(xCon.ex(fonttitle).split(",")[0]),
-                Integer.parseInt(xCon.ex(fonttitle).split(",")[1]),
-                Integer.parseInt(xCon.ex(fonttitle).split(",")[2]),
-                Integer.parseInt(xCon.ex(fonttitle).split(",")[3])));
     }
 
     public static void drawVirusTagString(Graphics g) {
@@ -47,8 +39,7 @@ public class dScreenMessages {
     }
 
     public static void displayScreenMessages(Graphics g) {
-        setFontColorByTitle(g, "textcolornormal");
-        cScripts.setFontSmall(g);
+        dFonts.setFontSmall(g);
         //scale
         if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0) {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
@@ -133,16 +124,17 @@ public class dScreenMessages {
             }
         }
         //ingame messages
-        setFontColorByTitle(g, "textcolornormal");
+        dFonts.setFontColorByTitle(g, "fontcolornormal");
         if(uiInterface.inplay) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
             //camera indicator
             if(cVars.getInt("cammode") == gCamera.MODE_FREE) {
+                dFonts.setFontNormal(g);
                 for(Integer i : xCon.instance().pressBinds.keySet()) {
                     if(xCon.instance().pressBinds.get(i).contains("centercamera")) {
-                        dScreenMessages.drawCenteredString(g,"PRESS '"+ KeyEvent.getKeyText(i)+"' TO CENTER CAMERA",
-                                sSettings.width / 2, sSettings.height - sSettings.height / 64);
+                        dScreenMessages.drawCenteredString(g,">>PRESS ["+ KeyEvent.getKeyText(i)+"] TO RE-CENTER CAMERA<<",
+                                sSettings.width / 2, 2*sSettings.height/3);
                     }
                 }
             }
@@ -238,38 +230,35 @@ public class dScreenMessages {
             g.drawString("BOOST", sSettings.width/62,62*sSettings.height/64);
         }
         //big font
-        cScripts.setFontNormal(g);
+        dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
             if(cScripts.isNetworkGame()) {
                 drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft < 30000) {
-                    setFontColorByTitle(g, "textcoloralert");
+                    dFonts.setFontColorByTitle(g, "fontcoloralert");
                 }
                 drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-                setFontColorByTitle(g, "textcolorhighlight");
+                dFonts.setFontColorByTitle(g, "fontcolorhighlight");
                 if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
                     drawRightJustifiedString(g,
                             cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
-                setFontColorByTitle(g, "textcolornormal");
+                dFonts.setFontColorByTitle(g, "fontcolornormal");
                 drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
         }
-        //wip notice
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                100));
+        //wip notice -> needs to be transparent
+        dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
         drawCenteredString(g, "WORK IN PROGRESS",
                 sSettings.width/2, sSettings.height - sSettings.height / 6);
         //big font
-        cScripts.setFontNormal(g);
+        dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
             String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
@@ -281,13 +270,13 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0, sSettings.width,sSettings.height/4);
             g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            setFontColorByTitle(g, "textcoloralert");
+            dFonts.setFontColorByTitle(g, "fontcoloralert");
             drawCenteredString(g, "RESPAWN IN " +
                             eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
         //sendmsg.. invisible?
-        setFontColorByTitle(g, "textcolornormal");
+        dFonts.setFontColorByTitle(g, "fontcolornormal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -298,7 +287,7 @@ public class dScreenMessages {
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    setFontColorByTitle(g, "textcolorbonus");
+                    dFonts.setFontColorByTitle(g, "fontcolorbonus");
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
             else {
@@ -311,13 +300,13 @@ public class dScreenMessages {
             }
         }
         //console
-        cScripts.setFontConsole(g);
+        dFonts.setFontConsole(g);
         if(sVars.isOne("inconsole")) {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
-            setFontColorByTitle(g, "textcolornormal");
+            dFonts.setFontColorByTitle(g, "fontcolornormal");
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
                 i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
@@ -353,7 +342,7 @@ public class dScreenMessages {
                 (xCon.instance().linesToShow+1)*sSettings.height/64);
         }
         //big font
-        cScripts.setFontNormal(g);
+        dFonts.setFontNormal(g);
         //respawn msg
         //scoreboard
         if(cVars.isOne("showscore")) {
@@ -364,12 +353,12 @@ public class dScreenMessages {
             && nServer.clientArgsMap.get("server").get("topscore") != null
             && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {
                 if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
-                    setFontColorByTitle(g, "textcolorhighlight");
+                    dFonts.setFontColorByTitle(g, "fontcolorhighlight");
                 }
                 dScreenMessages.drawCenteredString(g, "Leader: "
                         + nServer.clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
-                setFontColorByTitle(g, "textcolornormal");
+                dFonts.setFontColorByTitle(g, "fontcolornormal");
             }
         }
         //safezone timer
@@ -434,7 +423,7 @@ public class dScreenMessages {
                 }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
-                setFontColorByTitle(g, "textcolornormal");
+                dFonts.setFontColorByTitle(g, "fontcolornormal");
             }
         }
     }

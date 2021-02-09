@@ -22,29 +22,20 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dScreenMessages.setFontColorByTitle(g, "textcolorhighlight");
+        dFonts.setFontColorByTitle(g, "fontcolorhighlight");
         dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        dFonts.setFontColorByTitle(g, "fontcolornormal");
         dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
-                        Integer.parseInt(xCon.ex("textcolorbonus").split(",")[3])));
+                dFonts.setFontColorByTitle(g, "fontcolorbonus");
                 dScreenMessages.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
-                g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+                dFonts.setFontColorByTitle(g, "fontcolornormal");
                 if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
@@ -63,13 +54,10 @@ public class dMenus {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dScreenMessages.setFontColorByTitle(g, "textcolorhighlight");
+        dFonts.setFontColorByTitle(g, "fontcolorhighlight");
         dScreenMessages.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        dFonts.setFontColorByTitle(g, "fontcolornormal");
         dScreenMessages.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
         dScreenMessages.drawCenteredString(g,
                 "- ACTION -",sSettings.width/3,12*sSettings.height/30);
@@ -99,6 +87,7 @@ public class dMenus {
     }
 
     public static void showCreditsMenu(Graphics g) {
+        //TODO: cache these images somewhere
         if(eUtils.resolutionChanged()) {
             logoimg = new ImageIcon(
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")
@@ -112,10 +101,7 @@ public class dMenus {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);
         //copyright notice
-        g.setColor(new Color(Integer.parseInt(xCon.ex("textcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("textcolornormal").split(",")[3])));
+        dFonts.setFontColorByTitle(g, "fontcolornormal");
         g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
         g.drawString("Venmo @Anthony-Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }

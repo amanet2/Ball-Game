@@ -85,7 +85,7 @@ public class dProp {
                                 eUtils.scaleInt(prop.getInt("dimh")));
                         break;
                     case gProp.SCOREPOINT:
-                        cScripts.setFontNormal(g2);
+                        dFonts.setFontNormal(g2);
                         g2.drawString(Integer.toString(prop.getInt("tag")),
                                 eUtils.scaleInt(prop.getInt("coordx") + prop.getInt("dimw") / 2
                                         - cVars.getInt("camx")),

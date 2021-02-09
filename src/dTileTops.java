@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class dTileTops {
     public static void drawTops(Graphics g) {
@@ -544,14 +543,14 @@ public class dTileTops {
         for(Object id : popupsMap.keySet()) {
             gPopup p = (gPopup) popupsMap.get(id);
             g.setColor(p.get("text").charAt(0) == '+' ?
-                    new Color(Integer.parseInt(xCon.ex("textcolorbonus").split(",")[0]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[1]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[2]),
-                            Integer.parseInt(xCon.ex("textcolorbonus").split(",")[3]))
-                    : new Color(Integer.parseInt(xCon.ex("textcoloralert").split(",")[0]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[1]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[2]),
-                    Integer.parseInt(xCon.ex("textcoloralert").split(",")[3])));
+                    new Color(Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[0]),
+                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[1]),
+                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[2]),
+                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[3]))
+                    : new Color(Integer.parseInt(xCon.ex("fontcoloralert").split(",")[0]),
+                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[1]),
+                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[2]),
+                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[3])));
             g.drawString(p.get("text"),
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
@@ -590,7 +589,7 @@ public class dTileTops {
         //playernames
         for(String id : gScene.getPlayerIds()) {
             gPlayer p = gScene.getPlayerById(id);
-            cScripts.setFontNormal(g);
+            dFonts.setFontNormal(g);
             g.drawString(p.get("name"), eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
             int x = eUtils.scaleInt(p.getInt("coordx")-cVars.getInt("camx")

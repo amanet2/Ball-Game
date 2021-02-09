@@ -32,7 +32,7 @@ public class dScreenFX {
         g2.drawPolygon(polygondims[0], polygondims[1],4);
         //big font
         String waypointdistance = String.format("%dm",(int)Math.sqrt((deltas[0]*deltas[0])+(deltas[1]*deltas[1])));
-        cScripts.setFontNormal(g2);
+        dFonts.setFontNormal(g2);
         dScreenMessages.drawCenteredString(g2,
                 waypointdistance,
                 eUtils.scaleInt(dx - cVars.getInt("camx")),
