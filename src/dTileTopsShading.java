@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class dTileTopsShading {
-    public static void drawTileTopShading(Graphics2D g2, gTile t) {
+    public static void drawTileTopShadingPre(Graphics2D g2, gTile t) {
         if(t.getInt("dim0h") > 0) {
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2 - cVars.getInt("camx")),

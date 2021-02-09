@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class dTileTops {
@@ -38,7 +37,7 @@ public class dTileTops {
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             g2.setColor(new Color(0, 0, 0, 255));
             if(sVars.isOne("vfxenableshading")) {
-                dTileTopsShading.drawTileTopShading(g2, t);
+                dTileTopsShading.drawTileTopShadingPre(g2, t);
             }
             if(t.sprites[5] != null) {
                 g2.drawImage(t.sprites[5],
