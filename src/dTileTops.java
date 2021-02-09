@@ -480,62 +480,7 @@ public class dTileTops {
                     eUtils.scaleInt(w), eUtils.scaleInt(h));
         }
         //safezone pointer
-        if((cVars.getInt("gamemode") == cGameMode.RACE
-            || cVars.getInt("gamemode") == cGameMode.SAFE_ZONES
-            || cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-            || cVars.getInt("gamemode") == cGameMode.WAYPOINTS
-            || cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-            || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-            && eManager.currentMap.scene.playersMap().size() > 0){
-            //flagmaster nav pointer
-            if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                    || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                    && !cVars.isVal("flagmasterid", "")
-                    && !cVars.get("flagmasterid").equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(cVars.get("flagmasterid"));
-                dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw")/2,
-                        p.getInt("coordy") + p.getInt("dimh")/2, "* KILL *");
-            }
-            for(int i = 0; i < eManager.currentMap.scene.props().size(); i++) {
-                gProp p = eManager.currentMap.scene.props().get(i);
-                if((cVars.getInt("gamemode") == cGameMode.RACE
-                        && p.isInt("code", gProp.SCOREPOINT)
-                        && p.getInt("int0") < 1)
-                        || (cVars.getInt("gamemode") == cGameMode.SAFE_ZONES && p.isInt("code", gProp.SCOREPOINT)
-                            && p.getInt("int0") > 0)
-                        || ((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                            || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                            && p.isInt("code", gProp.FLAGRED) && cVars.isVal("flagmasterid", ""))
-                        || ((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                            || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                            && p.isInt("code", gProp.FLAGBLUE) && cVars.isVal("flagmasterid", uiInterface.uuid))
-                        || (cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                            && p.isInt("code", gProp.FLAGRED)
-                            && !p.isVal("str0", cGameLogic.userPlayer().get("id")))
-                        || (cVars.getInt("gamemode") == cGameMode.WAYPOINTS && p.isInt("code", gProp.SCOREPOINT)
-                            && p.getInt("int0") > 0)
-                ) {
-
-                    dScreenFX.drawNavPointer(g2,p.getInt("coordx") + p.getInt("dimw")/2, p.getInt("coordy") + p.getInt("dimh")/2,
-                            "* GO HERE *");
-                }
-            }
-        }
-        if(cVars.getInt("gamemode") == cGameMode.VIRUS) {
-            //waypoints
-            if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
-                    && nServer.clientArgsMap.get("server").containsKey("state")) {
-                String statestr = nServer.clientArgsMap.get("server").get("state");
-                for (String id : gScene.getPlayerIds()) {
-                    gPlayer p = gScene.getPlayerById(id);
-                    if (statestr.contains(p.get("id"))) {
-                        dScreenFX.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2,
-                                "* INFECTED *");
-                    }
-                }
-            }
-        }
+        dWaypoints.drawWaypoints(g2);
         //popups
         drawPopups(g);
         //player highlight
@@ -543,6 +488,8 @@ public class dTileTops {
         //playernames
         drawPlayerNames(g, g2);
     }
+
+
 
     public static void drawPopups(Graphics g) {
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
