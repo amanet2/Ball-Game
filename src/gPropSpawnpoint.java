@@ -17,6 +17,6 @@ public class gPropSpawnpoint extends gProp {
     }
 
     public gPropSpawnpoint(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.SPAWNPOINT, ux, uy, x, y, w, h);
+        super(gProps.SPAWNPOINT, ux, uy, x, y, w, h);
     }
 }

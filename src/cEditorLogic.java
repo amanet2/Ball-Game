@@ -14,7 +14,7 @@ public class cEditorLogic {
             new gTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
                     100, gTextures.selection_top[0], gTextures.selection_wall[0], gTextures.selection_floor[0],
                     255),
-            new gProp(gProp.TELEPORTER, 0, 0, 0, 0, 300, 300),
+            new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
 

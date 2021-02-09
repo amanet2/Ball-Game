@@ -7,7 +7,7 @@ public class dProp {
     {
         for(gProp prop : eManager.currentMap.scene.props()) {
             if (prop.sprite != null) {
-                if (prop.isInt("code", gProp.TELEPORTER)) {
+                if (prop.isInt("code", gProps.TELEPORTER)) {
                     if (prop.getDouble("fv") < 2 * Math.PI) {
                         prop.putDouble("fv", prop.getDouble("fv")+0.1);
                     } else {
@@ -25,10 +25,10 @@ public class dProp {
                 g2.setTransform(a);
                 if(!(((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                         || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                    && prop.isInt("code", gProp.FLAGRED)
+                    && prop.isInt("code", gProps.FLAGRED)
                         && (!cVars.isVal("flagmasterid", ""))) ||
-                        (prop.isInt("code", gProp.POWERUP) && prop.isInt("int0", 0)))) {
-                    if(prop.isInt("code", gProp.FLAGRED) && cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)) {
+                        (prop.isInt("code", gProps.POWERUP) && prop.isInt("int0", 0)))) {
+                    if(prop.isInt("code", gProps.FLAGRED) && cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)) {
                         if(cGameLogic.userPlayer() != null
                                 && prop.isVal("str0", cGameLogic.userPlayer().get("id"))
                                 && !prop.get("sprite").contains("flag_blue"))
@@ -38,7 +38,7 @@ public class dProp {
                                 && !prop.get("sprite").contains("flag_red"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
                     }
-                    if(prop.isInt("code", gProp.POWERUP) && prop.getInt("int0") > 0) {
+                    if(prop.isInt("code", gProps.POWERUP) && prop.getInt("int0") > 0) {
                         //propshadow
                         if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                             if(sVars.isOne("vfxenableshadows")) {
@@ -77,14 +77,14 @@ public class dProp {
             }
             if(sSettings.show_mapmaker_ui) {
                 switch(prop.getInt("code")) {
-                    case gProp.POWERUP:
+                    case gProps.POWERUP:
                         g2.setColor(new Color(255, 150, 80, 150));
                         g2.fillRect(eUtils.scaleInt(prop.getInt("coordx") - cVars.getInt("camx")),
                                 eUtils.scaleInt(prop.getInt("coordy") - cVars.getInt("camy")),
                                 eUtils.scaleInt(prop.getInt("dimw")),
                                 eUtils.scaleInt(prop.getInt("dimh")));
                         break;
-                    case gProp.SCOREPOINT:
+                    case gProps.SCOREPOINT:
                         dFonts.setFontNormal(g2);
                         g2.drawString(Integer.toString(prop.getInt("tag")),
                                 eUtils.scaleInt(prop.getInt("coordx") + prop.getInt("dimw") / 2
@@ -105,7 +105,7 @@ public class dProp {
                                     eUtils.scaleInt(prop.getInt("dimh")));
                         }
                         break;
-                    case gProp.SPAWNPOINT:
+                    case gProps.SPAWNPOINT:
                         g2.setColor(new Color(255, 100, 255, 100));
                         g2.fillRect(eUtils.scaleInt(prop.getInt("coordx")-cVars.getInt("camx")),
                                 eUtils.scaleInt(prop.getInt("coordy")-cVars.getInt("camy")),

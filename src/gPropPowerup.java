@@ -22,6 +22,6 @@ public class gPropPowerup extends gProp {
     }
 
     public gPropPowerup(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.POWERUP, ux, uy, x, y, w, h);
+        super(gProps.POWERUP, ux, uy, x, y, w, h);
     }
 }

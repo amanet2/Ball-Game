@@ -625,16 +625,16 @@ public class cGameLogic {
             gPlayer cl = gScene.getPlayerById(id);
             for(gProp p : eManager.currentMap.scene.props()) {
                 if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
-                    if(p.isInt("code", gProp.TELEPORTER) && cl.get("id").contains("bot")) {
+                    if(p.isInt("code", gProps.TELEPORTER) && cl.get("id").contains("bot")) {
                         //bot touches teleporter
                         p.propEffect(cl);
                     }
-                    else if(sSettings.net_server && p.isInt("code", gProp.SCOREPOINT)
+                    else if(sSettings.net_server && p.isInt("code", gProps.SCOREPOINT)
                             && cl.get("id").contains("bot")) {
                         //bot touches scorepoint
                         cScripts.checkPlayerScorepoints(p, cl);
                     }
-                    else if(p.isInt("code", gProp.POWERUP)) {
+                    else if(p.isInt("code", gProps.POWERUP)) {
                         if(p.getInt("int0") > 0) {
                             if(sSettings.net_server) {
                                 if(cl.get("id").contains("bot")
@@ -649,7 +649,7 @@ public class cGameLogic {
                         }
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-                            && p.isInt("code", gProp.FLAGRED) && !p.isVal("str0", cl.get("id")) ) {
+                            && p.isInt("code", gProps.FLAGRED) && !p.isVal("str0", cl.get("id")) ) {
                         //handle kingofflag flagred intersection
                         int pass = 1;
                         for(String id2 : gScene.getPlayerIds()) {
@@ -672,7 +672,7 @@ public class cGameLogic {
                     }
                     else if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                             || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                            && p.isInt("code", gProp.FLAGRED)
+                            && p.isInt("code", gProps.FLAGRED)
                             && cVars.isVal("flagmasterid", "")){
                         if(sSettings.net_server) {
                             xCon.ex("say " + cl.get("name") + " has the flag!");
@@ -680,7 +680,7 @@ public class cGameLogic {
                         cVars.put("flagmasterid", cl.get("id"));
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                            && p.isInt("code", gProp.FLAGBLUE)
+                            && p.isInt("code", gProps.FLAGBLUE)
                             && cVars.isVal("flagmasterid", cl.get("id"))){
                         if(sSettings.net_server) {
                             xCon.ex("givepoint " + cl.get("id"));
@@ -689,14 +689,14 @@ public class cGameLogic {
                         }
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS
-                            && p.isInt("code", gProp.SCOREPOINT) && p.getInt("int0") > 0) {
+                            && p.isInt("code", gProps.SCOREPOINT) && p.getInt("int0") > 0) {
                         if(sSettings.net_server) {
                             xCon.ex("givepoint " + cl.get("id"));
                             p.put("int0", "0");
                         }
                     }
                 }
-                else if(cl.isZero("tag") && p.isInt("code", gProp.TELEPORTER)
+                else if(cl.isZero("tag") && p.isInt("code", gProps.TELEPORTER)
                         && p.isVal("tag", cVars.get("exitteleportertag"))) {
                     //not colliding with our exit teleporter now
                     cVars.put("exitteleportertag", "-1");

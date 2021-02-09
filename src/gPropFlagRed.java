@@ -27,7 +27,7 @@ public class gPropFlagRed extends gProp {
     };
 
     public gPropFlagRed(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.FLAGRED, ux, uy, x, y, w, h);
+        super(gProps.FLAGRED, ux, uy, x, y, w, h);
         gameModeEffects = new HashMap<>();
         gameModeEffects.put(Integer.toString(cGameMode.CAPTURE_THE_FLAG), flagMasterDoable);
         gameModeEffects.put(Integer.toString(cGameMode.FLAG_MASTER), flagMasterDoable);

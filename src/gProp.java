@@ -4,14 +4,6 @@ import java.awt.geom.Ellipse2D;
 public class gProp extends gThing {
     Image sprite;
 
-    static final int TELEPORTER = 0;
-    static final int SCOREPOINT = 1;
-    static final int FLAGRED = 2;
-    static final int FLAGBLUE = 3;
-    static final int POWERUP = 4;
-    static final int BOOSTUP = 5;
-    static final int SPAWNPOINT = 6;
-
     public boolean isType(int code) {
         return isInt("code", code);
     }

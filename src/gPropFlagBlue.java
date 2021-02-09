@@ -22,7 +22,7 @@ public class gPropFlagBlue extends gProp {
     };
 
     public gPropFlagBlue(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.FLAGBLUE, ux, uy, x, y, w, h);
+        super(gProps.FLAGBLUE, ux, uy, x, y, w, h);
         gameModeEffects = new HashMap<>();
         gameModeEffects.put(Integer.toString(cGameMode.CAPTURE_THE_FLAG), ctfDoable);
     }

@@ -35,6 +35,6 @@ public class gPropTeleporter extends gProp {
     }
 
     public gPropTeleporter(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.TELEPORTER, ux, uy, x, y, w, h);
+        super(gProps.TELEPORTER, ux, uy, x, y, w, h);
     }
 }

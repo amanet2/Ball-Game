@@ -3,7 +3,7 @@ public class xComDropWeapon extends xCom {
         gPlayer p = cGameLogic.userPlayer();
         if(p != null) {
             String doString = String.format("e_putprop %d %d %d %d %d %d %d",
-                    gProp.POWERUP, p.getInt("weapon"), cVars.getInt("weaponstock"+p.get("weapon")),
+                    gProps.POWERUP, p.getInt("weapon"), cVars.getInt("weaponstock"+p.get("weapon")),
                     p.getInt("coordx") + p.getInt("dimw"), p.getInt("coordy") + p.getInt("dimh") + 50,
                     gWeapons.fromCode(p.getInt("weapon")).dims[0],
                     gWeapons.fromCode(p.getInt("weapon")).dims[1]);

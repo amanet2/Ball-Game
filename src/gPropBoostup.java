@@ -6,6 +6,6 @@ public class gPropBoostup extends gProp {
     }
 
     public gPropBoostup(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.BOOSTUP, ux, uy, x, y, w, h);
+        super(gProps.BOOSTUP, ux, uy, x, y, w, h);
     }
 }

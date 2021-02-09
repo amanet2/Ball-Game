@@ -1,4 +1,11 @@
 public class gProps {
+    static final int TELEPORTER = 0;
+    static final int SCOREPOINT = 1;
+    static final int FLAGRED = 2;
+    static final int FLAGBLUE = 3;
+    static final int POWERUP = 4;
+    static final int BOOSTUP = 5;
+    static final int SPAWNPOINT = 6;
 
     static String[] spritesSelection = new String[]{
             "misc/misc_energy_ball_trans_purple.png",

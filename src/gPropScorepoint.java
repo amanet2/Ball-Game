@@ -10,7 +10,7 @@ public class gPropScorepoint extends gProp {
     }
 
     public gPropScorepoint(int ux, int uy, int x, int y, int w, int h) {
-        super(gProp.SCOREPOINT, ux, uy, x, y, w, h);
+        super(gProps.SCOREPOINT, ux, uy, x, y, w, h);
         gameModeEffects = new HashMap<>();
         gameModeEffects.put(Integer.toString(cGameMode.RACE), new gDoableThing() {
             public void doItem(gThing p) {
