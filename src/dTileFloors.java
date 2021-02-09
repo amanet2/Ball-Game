@@ -56,32 +56,8 @@ public class dTileFloors {
                             eUtils.scaleInt(5), eUtils.scaleInt(5)
                     );
                 }
-//                BufferedImage bi = new BufferedImage
-//                        (tile.sprites[2].getWidth(null),
-//                                tile.sprites[2].getHeight(null),
-//                                BufferedImage.TYPE_INT_RGB);
-//                Graphics bg = bi.getGraphics();
-//                bg.drawImage(tile.sprites[2], 0, 0, null);
-//                bg.dispose();
-//                TexturePaint paint = new TexturePaint(bi,
-//                        new Rectangle(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
-//                                eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),
-//                                300,
-//                                300));
-//                g2.setPaint(paint);
-//                g2.fillRect(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),
-//                        eUtils.scaleInt(tile.getInt("dim2w")),
-//                        eUtils.scaleInt(tile.getInt("dim2h")));
-//                //shading floor
-//                g2.setColor(new Color(0,0,0,3*cVars.getInt("vfxshadowalpha")/4));
-//                g2.fillRect(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),
-//                    eUtils.scaleInt(tile.getInt("dim2w")),
-//                    eUtils.scaleInt(tile.getInt("dim2h"))
-//                );
             }
-            else if(!tile.isOne("canspawn")){
+            else {
                 g2.setColor(Color.LIGHT_GRAY);
                 g2.fillRect(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),

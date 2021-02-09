@@ -1,5 +1,9 @@
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -29,19 +33,47 @@ public class eManager {
     }
 
 	public static void updateEntityPositions() {
-        for(gPlayer obj : eManager.currentMap.scene.players()) {
+	    for(gTile tile : currentMap.scene.tiles()) {
+	        int tx = tile.getInt("coordx");
+	        int ty = tile.getInt("coordy");
+	        int tw = tile.getInt("dimw");
+	        int th = tile.getInt("dimh");
+            Rectangle2D tileBounds = new Rectangle(tx,ty,tw,th);
+	        for(String id : gScene.getPlayerIds()) {
+	            gPlayer player = gScene.getPlayerById(id);
+                int px = player.getInt("coordx");
+                int py = player.getInt("coordy");
+                int pw = player.getInt("dimw");
+                int ph = player.getInt("dimh");
+                Rectangle2D playerBounds = new Rectangle(px,py,pw,ph);
+                if(tileBounds.intersects(playerBounds) ||
+                (px+pw >= tx && px <= tx+tw && py+ph >= ty && py <= ty+th)) {
+                    tile.put("occupied", "1");
+                }
+            }
+        }
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer obj = gScene.getPlayerById(id);
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
+                    //user player
                     if(obj.isZero("tag")) {
-                        if (obj.getInt("mov"+i) > 0)
-                            obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
-                                            + cVars.getInt("speedbonus"),
-                                    obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
-                        if (obj.getInt("mov"+i) < 1)
+                        if (obj.getInt("mov"+i) > 0) {
+                            double mod = 1;
+                            if(i==0) {
+                                mod = 1.5;
+                            }
+                            if(obj.isOne("crouch"))
+                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")/4),
+                                        obj.getInt("vel"+i) + 1)));
+                            else
+                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
+                                        obj.getInt("vel" + i) + 1)));
+                        }
+                        else if(i != 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
                     else {
@@ -60,50 +92,17 @@ public class eManager {
             }
         }
 
-        for(gProp obj : eManager.currentMap.scene.props()) {
-            if(obj.getInt("code") == gProp.BALLBOUNCY) {
-                int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-                int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-
-                if(obj.getLong("acceltick") < System.currentTimeMillis()) {
-                    obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-                    for (int i = 0; i < 4; i++) {
-                        if(obj.isZero("tag")) {
-                            if (obj.getInt("mov"+i) > 0)
-                                obj.putInt("vel"+i,(Math.min(cVars.getInt("velocityplayer")
-                                                + cVars.getInt("speedbonus"),
-                                        obj.getInt("vel"+i) + 1 + cVars.getInt("speedbonus"))));
-                            if (obj.getInt("mov"+i) < 1)
-                                obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
-                        }
-                        else {
-                            obj.putInt("vel"+i,
-                                    Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
-                        }
-                    }
-                }
-
-                if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
-                    obj.putInt("coordx", dx);
-                }
-
-                if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
-                    obj.putInt("coordy", dy);
-                }
-                obj.put("mov0", "0");
-                obj.put("mov1", "0");
-                obj.put("mov2", "0");
-                obj.put("mov3", "0");
-            }
-        }
-
-        for(gBullet obj : eManager.currentMap.scene.bullets()) {
+        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet obj = (gBullet) bulletsMap.get(id);
             obj.putInt("coordx", obj.getInt("coordx")
-                - (int) (gWeapons.weapons_selection[obj.getInt("src")].bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
+                - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
-                - (int) (gWeapons.weapons_selection[obj.getInt("src")].bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+                - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        for(gPopup obj : eManager.currentMap.scene.popups()) {
+        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup obj = (gPopup) popupsMap.get(id);
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
                     - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
@@ -112,14 +111,15 @@ public class eManager {
 	}
 
 	public static void setScene() {
-		if (cVars.isInt("cammode", gCamera.MODE_TRACKING) && currentMap.scene.players().size() > 0)
+		if (cVars.isInt("cammode", gCamera.MODE_TRACKING)
+                && currentMap.scene.playersMap().size() > 0)
             xCon.ex("centercamera");
 		else {
 		    double rr = Math.random();
-		    if(currentMap.scene.flares().size() > 0) {
-		        gFlare r = currentMap.scene.flares().get((int)(Math.random() * (currentMap.scene.flares().size()-1)));
-		        cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-		        cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
+            if(currentMap.scene.flares().size() > 0) {
+                gFlare r = currentMap.scene.flares().get((int)(Math.random() * (currentMap.scene.flares().size()-1)));
+                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
+                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
 		    }
             if((rr > 0.5 && currentMap.scene.props().size() > 0)){
                 gProp r = eManager.currentMap.scene.props().get((int)(Math.random() * (currentMap.scene.props().size()-1)));

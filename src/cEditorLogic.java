@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -14,8 +13,8 @@ public class cEditorLogic {
             new JMenuItem(""),0,0,0, gScene.THING_TILE,
             new gTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
                     100, gTextures.selection_top[0], gTextures.selection_wall[0], gTextures.selection_floor[0],
-                    255, 0),
-            new gProp(gProp.TELEPORTER, 0, 0, 0, 0, 300, 300),
+                    255),
+            new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
 
@@ -34,12 +33,12 @@ public class cEditorLogic {
         createNewSubmenu("Tiles", "Current Tile");
         createNewSubmenu("Tiles","Tile Selection");
         createNewSubmenu("Tiles", "Textures");
-        createNewSubmenu("Props","Create: " + gProp.propSelection[state.newProp.getInt("code")]);
+        createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
         createNewSubmenu("Textures", "Current Textures");
         createNewSubmenu("Textures", "top_textures");
         createNewSubmenu("Textures", "wall_textures");
         createNewSubmenu("Textures", "floor_textures");
-        createNewSubmenu("Scene", "Map Type: " + gMap.maptype_selection[sSettings.create_map_mode]);
+        createNewSubmenu("Scene", "Map View: " + gMap.mapview_selection[sSettings.create_map_mode]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
         createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
@@ -184,16 +183,15 @@ public class cEditorLogic {
         for(String s : gTextures.selection_floor) {
             addTextureMenuItem("floor_textures",s);
         }
-        for(String s : gProp.propSelection) {
+        for(String s : gProps.titles) {
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
-                state.newProp.putInt("code", gProp.getCodeForTitle(s));
+                state.newProp.putInt("code", gProps.getCodeForTitle(s));
                 menus.get("Props").getItem(0).setText("Create: " + s);
             });
             menus.get("Props").getItem(0).add(newmenuitem);
         }
         for(String s : new String[]{"THING_TILE", "THING_PROP", "THING_FLARE"}){
-//            JMenuItem newmenuitem = new JMenuItem(gScene.getObjTitleForCode(i));
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);
@@ -201,17 +199,17 @@ public class cEditorLogic {
             });
             menus.get("Parameters").getItem(1).add(newmenuitem);
         }
-        for(int i = 0; i < gMap.maptype_selection.length; i++) {
-            JMenuItem newmenuitem = new JMenuItem(gMap.maptype_selection[i]);
+        for(int i = 0; i < gMap.mapview_selection.length; i++) {
+            JMenuItem newmenuitem = new JMenuItem(gMap.mapview_selection[i]);
             newmenuitem.addActionListener(e -> {
-                for(int j = 0; j < gMap.maptype_selection.length; j++) {
-                    if(gMap.maptype_selection[j].equals(newmenuitem.getText())) {
-                        cVars.putInt("maptype", j);
-                        sSettings.create_map_mode = cVars.getInt("maptype");
+                for(int j = 0; j < gMap.mapview_selection.length; j++) {
+                    if(gMap.mapview_selection[j].equals(newmenuitem.getText())) {
+                        cVars.putInt("mapview", j);
+                        sSettings.create_map_mode = cVars.getInt("mapview");
                     }
                 }
-                menus.get("Scene").getItem(0).setText("Map Type: "
-                        + gMap.maptype_selection[cVars.getInt("maptype")]);
+                menus.get("Scene").getItem(0).setText("Map View: "
+                        + gMap.mapview_selection[cVars.getInt("mapview")]);
             });
             menus.get("Scene").getItem(0).add(newmenuitem);
         }
@@ -284,9 +282,9 @@ public class cEditorLogic {
         JMenuItem newmenuitem = new JMenuItem(title);
         newmenuitem.addActionListener(e -> {
             if(menutitle.contains("Nearest X Coord"))
-                state.snapToX = Integer.valueOf(title);
+                state.snapToX = Integer.parseInt(title);
             else if(menutitle.contains("Nearest Y Coord"))
-                state.snapToY = Integer.valueOf(title);
+                state.snapToY = Integer.parseInt(title);
             menus.get("Parameters").getItem(0).setText(String.format("Snap-To: %d,%d",
                     state.snapToX, state.snapToY));
         });
@@ -309,7 +307,7 @@ public class cEditorLogic {
         state.selectedTextureMenuItems = newstate.selectedTextureMenuItems;
         state.selectedTileId = newstate.selectedTileId;
         state.selectedPropId = newstate.selectedPropId;
-        state.selectedFlareId = newstate.selectedFlareId;
+        state.selectedFlareTag = newstate.selectedFlareTag;
         state.createObjCode = newstate.createObjCode;
         state.newTile = newstate.newTile;
         state.newProp = newstate.newProp;
@@ -319,7 +317,7 @@ public class cEditorLogic {
 
     public static cEditorLogicState getEditorState() {
         return new cEditorLogicState(state.snapToX, state.snapToY, state.selectedTitle, state.selectedTileMenuItem,
-                state.selectedTileId, state.selectedPropId, state.selectedFlareId, state.createObjCode, state.newTile,
+                state.selectedTileId, state.selectedPropId, state.selectedFlareTag, state.createObjCode, state.newTile,
                 state.newProp, state.newFlare, eManager.currentMap.scene.copy());
     }
 }

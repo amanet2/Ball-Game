@@ -1,0 +1,100 @@
+cmd cv_mapview 0
+cmd cv_gamemode 6
+cmd cv_botbehavior virus
+cmd cv_flashlight 1
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3300 -4800 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -900 -4800 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -900 -2400 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -3300 -2400 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -3300 -4800 4800 4800 100 150 4800 100 150 100 100 100
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2100 -3900 1000 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -700 -3900 1000 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2400 -3900 300 1200 1050 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 300 -3900 300 1300 1150 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2400 -2410 300 700 550 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 300 -2280 300 600 450 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 600 -3300 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2850 -3300 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -1800 -4680 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -1350 -4680 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -900 -4680 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -450 -4680 450 450 300 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -1800 -3000 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -1200 -3000 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -600 -3000 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 0 -2400 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2100 -2400 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -1800 -1800 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -300 -1800 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -300 -900 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -3000 -900 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 900 -900 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 900 -1500 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -3000 -1500 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -3000 -2700 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 900 -2700 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png -2100 -4500 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 0 -4500 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png misc/water.png 900 -4200 300 300 0 0 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -3300 -7200 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -900 -7200 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg 1500 -7200 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg 1500 -4800 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg 1500 -2400 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -5700 0 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -5700 -2400 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -5700 -4800 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -5700 -7200 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -3300 0 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg -900 0 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/metal/brushed_metal1.jpg 1500 0 2400 2400 0 0 2400 0 0 0 0 255
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -7200 9600 2400 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 0 9600 2400 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -4800 2400 4800 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 1500 -4800 2400 4800 0 0 0 0 0 0 0 50
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -1470 -990 1200 600 0 0 0 100 150 100 100 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -1350 -2250 900 900 750 150 0 0 0 0 0 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -3210 -4710 450 450 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2100 -3600 450 450 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 -4680 450 300 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 600 -3000 450 250 0 0 0 0 0 0 -4 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 960 -4710 450 450 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2250 -4680 450 300 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -150 -3600 450 450 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2850 -3000 450 150 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -510 -780 150 150 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 960 -690 450 450 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2850 -3900 450 600 0 0 0 0 0 0 -2 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 600 -3900 450 600 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -3210 -690 450 450 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -1380 -780 150 150 0 0 0 0 0 0 -3 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2700 -1200 700 500 0 0 0 0 0 0 -1 255
+tile objects/scenery/sceneryBlock2_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 210 -1200 700 500 0 0 0 0 0 0 -4 255
+PROP_POWERUP 0 0 -3210 -4200 300 300
+PROP_POWERUP 0 0 -2400 -4200 300 300
+PROP_POWERUP 0 0 -900 -4200 300 300
+PROP_POWERUP 0 0 300 -4200 300 300
+PROP_POWERUP 0 0 600 -3900 300 300
+PROP_POWERUP 0 0 -600 -3300 300 300
+PROP_POWERUP 0 0 -1500 -3300 300 300
+PROP_POWERUP 0 0 -1050 -2700 300 300
+PROP_POWERUP 0 0 -2100 -2070 300 300
+PROP_POWERUP 0 0 0 -2100 300 300
+PROP_POWERUP 0 0 -2730 -2040 300 300
+PROP_POWERUP 0 0 630 -2040 300 300
+PROP_POWERUP 0 0 -2070 -600 300 300
+PROP_POWERUP 0 0 -30 -570 300 300
+PROP_POWERUP 0 0 -3120 -1110 300 300
+PROP_POWERUP 0 0 990 -1110 300 300
+PROP_POWERUP 0 0 -3180 -3210 300 300
+PROP_POWERUP 0 0 1050 -3240 300 300
+PROP_SPAWNPOINT 0 0 -2640 -4470 300 300
+PROP_SPAWNPOINT 0 0 600 -4500 300 300
+PROP_SPAWNPOINT 0 0 -2910 -3900 300 300
+PROP_SPAWNPOINT 0 0 990 -3720 300 300
+PROP_SPAWNPOINT 0 0 -2730 -2430 300 300
+PROP_SPAWNPOINT 0 0 660 -2430 300 300
+PROP_SPAWNPOINT 0 0 -1410 -2640 300 300
+PROP_SPAWNPOINT 0 0 -660 -2610 300 300
+PROP_SPAWNPOINT 0 0 630 -810 300 300
+PROP_SPAWNPOINT 0 0 -2730 -870 300 300

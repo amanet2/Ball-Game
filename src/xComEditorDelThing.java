@@ -2,18 +2,19 @@ public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         int toRemove = -1;
+        String toRemoveId = "";
         switch (cEditorLogic.state.createObjCode) {
             case gScene.THING_FLARE:
-                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedFlareId;
-                if(eManager.currentMap.scene.flares().size() > toRemove) {
-                    try {
-                        eManager.currentMap.scene.flares().remove(eManager.currentMap.scene.flares().get(toRemove));
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedFlareTag;
+                try {
+                    eManager.currentMap.scene.flares().remove(cEditorLogic.state.selectedFlareTag);
+                    //selects another flare after deletion of flare
                         if(eManager.currentMap.scene.flares().size() > 0)
                             xCon.ex(String.format("HIDDEN e_selectflare %d",
                                     eManager.currentMap.scene.flares().size() - 1));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
+                    eUtils.echoException(e);
+                    e.printStackTrace();
                 }
                 break;
             case gScene.THING_PROP:
@@ -25,6 +26,7 @@ public class xComEditorDelThing extends xCom {
                             xCon.ex(String.format("HIDDEN e_selectprop %d",
                                     eManager.currentMap.scene.props().size() - 1));
                     } catch (Exception e) {
+                        eUtils.echoException(e);
                         e.printStackTrace();
                     }
                 }
@@ -38,6 +40,7 @@ public class xComEditorDelThing extends xCom {
                             xCon.ex(String.format("HIDDEN e_selecttile %d",
                                     eManager.currentMap.scene.tiles().size() - 1));
                     } catch (Exception e) {
+                        eUtils.echoException(e);
                         e.printStackTrace();
                     }
                 }

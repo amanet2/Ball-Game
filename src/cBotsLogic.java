@@ -1,9 +1,10 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
 public class cBotsLogic {
-    private static HashMap<String, gDoable> behaviors = null;
-    public static gDoable getBehavior(String key) {
+    private static HashMap<String, gDoableThing> behaviors = null;
+    public static gDoableThing getBehavior(String key) {
         if(behaviors == null) {
             init();
         }
@@ -19,37 +20,37 @@ public class cBotsLogic {
 
     private static void init() {
         behaviors = new HashMap<>();
-        behaviors.put("goto_player", new gDoable(){
+        behaviors.put("goto_player", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestPlayer(p);
             }
         });
-        behaviors.put("goto_scorepoint", new gDoable(){
+        behaviors.put("goto_scorepoint", new gDoableThing(){
             public void doItem(gThing p) {
-                cBotsLogic.goToNearestScorePoint(p);
+                cBotsLogic.goToNearestThingOfType(p, "PROP_SCOREPOINT");
             }
         });
-        behaviors.put("ctf", new gDoable(){
+        behaviors.put("ctf", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
-                    cBotsLogic.goToBlueFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGBLUE");
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToRedFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
             }
         });
-        behaviors.put("flagmaster", new gDoable(){
+        behaviors.put("flagmaster", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
                     cBotsLogic.runFromNearestPlayer(p);
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToRedFlagCtf(p);
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
             }
         });
-        behaviors.put("virus", new gDoable(){
+        behaviors.put("virus", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.clientArgsMap.containsKey("server")
                         && nServer.clientArgsMap.get("server").containsKey("state")
@@ -61,141 +62,64 @@ public class cBotsLogic {
                 }
             }
         });
-        behaviors.put("goto_teleporter_virus", new gDoable(){
+        behaviors.put("goto_teleporter_virus", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.clientArgsMap.containsKey("server")
                         && nServer.clientArgsMap.get("server").containsKey("state")
                         && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))){
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestTeleporter(p);
+                        cBotsLogic.goToNearestThingOfType(p, "PROP_TELEPORTER");
                     else
                         cBotsLogic.runFromNearestVirusPlayer(p);
                 }
                 else {
                     if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestTeleporter(p);
+                        cBotsLogic.goToNearestThingOfType(p, "PROP_TELEPORTER");
                     else
                         cBotsLogic.goToNearestVirusPlayer(p);
                 }
             }
         });
-        behaviors.put("virus_single", new gDoable(){
-            public void doItem(gThing p) {
-                if(cVars.isVal("virussingleid", p.get("id")))
-                    cBotsLogic.goToNearestPlayer(p);
-                else
-                    cBotsLogic.runFromNearestVirusSinglePlayer(p);
-            }
-        });
-        behaviors.put("anti_chosenone", new gDoable(){
-            public void doItem(gThing p) {
-                if(cVars.isVal("chosenoneid", p.get("id")))
-                    cBotsLogic.goToNearestPlayer(p);
-                else
-                    cBotsLogic.goToChosenOne(p);
-            }
-        });
-        behaviors.put("chosenone", new gDoable(){
-            public void doItem(gThing p) {
-                if(cVars.isVal("chosenoneid", p.get("id")))
-                    cBotsLogic.runFromNearestPlayer(p);
-                else
-                    cBotsLogic.goToChosenOne(p);
-            }
-        });
-        behaviors.put("goto_ball", new gDoable(){
-            public void doItem(gThing p) {
-                cBotsLogic.goToBall(p);
-            }
-        });
-        behaviors.put("goto_safezone", new gDoable(){
+        behaviors.put("goto_safezone", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToSafeZone(p);
             }
         });
-        behaviors.put("goto_kofflag", new gDoable(){
+        behaviors.put("goto_kofflag", new gDoableThing(){
             public void doItem(gThing p) {
-                cBotsLogic.goToNearestRedFlagKof(p);
+                cBotsLogic.goToNearestThingOfType(p, "PROP_FLAGRED");
             }
         });
     }
 
-    public static void goToNearestPlayer(gThing bot) {
+    public static void shootAtNearestPlayer(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(!p.get("id").contains("bot"))
+                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                if(!p.get("id").equals(bot.get("id")))
                     waypoint = p;
             }
         }
         if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void shootAtNearestPlayer(gThing bot) {
-        if(!cVars.isVal("virussingleid", bot.get("id"))) {
-            int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
-            int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-            gPlayer waypoint = null;
-            for(gPlayer p : eManager.currentMap.scene.players()) {
-                int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-                int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-                if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                        && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                    if(!p.get("id").equals(bot.get("id")))
-                        waypoint = p;
-                }
+            if(inBotWeaponRange(bot,waypoint)) {
+                gPlayer botPlayer = (gPlayer) bot;
+                int waypointErrorMargin = eUtils.scaleInt(300);
+                int rx = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
+                int ry = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
+                cScripts.pointPlayerAtCoords(botPlayer,
+                        rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
+                        ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
+                botPlayer.fireWeapon();
             }
-            if(waypoint != null) {
-                if(inBotWeaponRange(bot,waypoint)) {
-                    gPlayer botPlayer = (gPlayer) bot;
-                    int waypointErrorMargin = eUtils.scaleInt(300);
-                    int rx = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
-                    int ry = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
-                    cScripts.pointPlayerAtCoords(botPlayer, rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
-                            ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
-                    botPlayer.fireWeapon();
-                }
-                else {
-                    bot.put("sendshot", "0");
-                }
+            else {
+                bot.put("sendshot", "0");
             }
-        }
-    }
-
-    public static void goToNearestScorePoint(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.SCOREPOINT)
-                    && cVars.getInt("gamemode") == cGameMode.RACE ? p.isZero("botint0") : p.isOne("int0")) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void runFromNearestVirusSinglePlayer(gThing bot) {
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(cVars.isVal("virussingleid",p.get("id"))) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            runFromWaypoint(bot, waypoint);
         }
     }
 
@@ -203,7 +127,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.get("id").equals(bot.get("id"))) {
@@ -221,54 +146,19 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(cVars.isVal("flagmasterid",p.get("id"))) {
-                waypoint = p;
-                break;
-            }
-        }
+        gPlayer waypoint = gScene.getPlayerById(cVars.get("flagmasterid"));
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
             goToWaypoint(bot, waypoint);
         }
     }
 
-    public static void goToChosenOne(gThing bot) {
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            if(cVars.isVal("chosenoneid",p.get("id"))) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToRedFlagCtf(gThing bot) {
+    public static void goToFirstThing(gThing bot, String thingType) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.FLAGRED)) {
-                waypoint = p;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToBlueFlagCtf(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.FLAGBLUE)) {
-                waypoint = p;
-                break;
-            }
+        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
+        for(String id : thingMap.keySet()) {
+            waypoint = (gProp) thingMap.get(id);
+            break;
         }
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
@@ -278,9 +168,11 @@ public class cBotsLogic {
 
     public static void goToSafeZone(gThing bot) {
         gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.SAFEPOINT) && p.isOne("int0")) {
-                waypoint = p;
+        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+        for(Object id : scorepointsMap.keySet()) {
+            gProp safezone = (gProp) scorepointsMap.get(id);
+            if(safezone.isOne("int0")) {
+                waypoint = safezone;
                 break;
             }
         }
@@ -290,30 +182,30 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToBall(gThing bot) {
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
-            if(p.isInt("code", gProp.BALLBOUNCY)) {
-                waypoint = p;
+    private static boolean goToWaypointPropVerification(gThing bot, gThing p) {
+        int propcode = p.getInt("code");
+        switch (propcode) {
+            case gProps.TELEPORTER: //generic teleporter operation
+                return !p.isVal("tag", bot.get("exitteleportertag"));
+            case gProps.SCOREPOINT: //waypoints game mode
+                return p.isOne("int0");
+            default:
                 break;
-            }
         }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
+        return true;
     }
 
-    public static void goToNearestRedFlagKof(gThing bot) {
+    public static void goToNearestPlayer(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
+        gPlayer waypoint = null;
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
                     && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(p.isInt("code", gProp.FLAGRED) && p.isZero("botint0"))
+                if(!p.get("id").equals(bot.get("id")))
                     waypoint = p;
             }
         }
@@ -323,70 +215,102 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToNearestTeleporter(gThing bot) {
+    public static void goToNearestThingOfType(gThing bot, String thingType) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gProp waypoint = null;
-        for(gProp p : eManager.currentMap.scene.props()) {
+        gThing waypoint = null;
+        HashMap thingMap = eManager.currentMap.scene.getThingMap(thingType);
+        for(Object id: thingMap.keySet()) {
+            gThing p = (gThing) thingMap.get(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(p.isInt("code", gProp.TELEPORTER)
-                    && !p.isVal("tag", bot.get("exitteleportertag"))) {
-                if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                        && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                    waypoint = p;
+            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                //this str0 value is used in KOF
+                int gameMode = cVars.getInt("gamemode");
+                switch (gameMode) {
+                    case cGameMode.KING_OF_FLAGS:
+                        if(!p.isVal("str0", bot.get("id"))) {
+                            if (goToWaypointPropVerification(bot, p))
+                                waypoint = p;
+                        }
+                        break;
+                    case cGameMode.RACE:
+                        if(!p.get("racebotidcheckins").contains(bot.get("id")))
+                            waypoint = p;
+                        break;
+                    default:
+                        if(goToWaypointPropVerification(bot, p))
+                            waypoint = p;
+                        break;
                 }
             }
         }
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
             goToWaypoint(bot, waypoint);
+        }
+    }
+
+    private static void actOnNearestVirusPlayer(gThing bot, boolean offense) {
+        if(nServer.clientArgsMap.containsKey("server")) {
+            int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
+            int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
+            gPlayer waypoint = null;
+            if(nServer.clientArgsMap.get("server").containsKey("state")
+            && nServer.clientArgsMap.get("server").get("state").contains("virus")) {
+                String stateString = nServer.clientArgsMap.get("server").get("state").replace("virus", "");
+                if(offense) {
+                    for(String id : gScene.getPlayerIds()) {
+                        if(!stateString.contains(id)) {
+                            gPlayer p = gScene.getPlayerById(id);
+                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+                                    waypoint = p;
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    String[] virusIds = stateString.split("-");
+                    for(String id : virusIds) {
+                        if(id.length() > 0) {
+                            gPlayer p = gScene.getPlayerById(id);
+                            if(p != null) {
+                                int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+                                int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+                                if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+                                        && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+                                    if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+                                        waypoint = p;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            if(waypoint != null) {
+                shootAtNearestPlayer(bot);
+                if(offense)
+                    goToWaypoint(bot, waypoint);
+                else
+                    runFromWaypoint(bot, waypoint);
+            }
         }
     }
     
     public static void runFromNearestVirusPlayer(gThing bot) {
-        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
-        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(nServer.clientArgsMap.get("server").containsKey("state")
-                        && nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))
-                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                    waypoint = p;
-                }
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            runFromWaypoint(bot, waypoint);
-        }
+        actOnNearestVirusPlayer(bot, false);
     }
 
     public static void goToNearestVirusPlayer(gThing bot) {
-        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
-        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gPlayer waypoint = null;
-        for(gPlayer p : eManager.currentMap.scene.players()) {
-            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                if(nServer.clientArgsMap.containsKey("server")
-                        && nServer.clientArgsMap.get("server").containsKey("state")
-                        && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))
-                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                    waypoint = p;
-                }
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
+        actOnNearestVirusPlayer(bot, true);
     }
 
     private static boolean inBotWeaponRange(gThing bot, gThing waypoint) {
@@ -404,7 +328,8 @@ public class cBotsLogic {
     public static boolean inVirusChaseRange(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        for(gPlayer waypoint : eManager.currentMap.scene.players()) {
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer waypoint = gScene.getPlayerById(id);
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
@@ -477,7 +402,7 @@ public class cBotsLogic {
                     Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
             bot.putInt("vel2", modspeed);
         }
-        if(cVars.getInt("maptype") != gMap.MAP_SIDEVIEW) {
+        if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
             if(y2 > y1) {
                 int modspeed = speed + (int)(
                         Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));

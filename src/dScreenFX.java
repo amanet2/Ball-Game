@@ -7,10 +7,10 @@ public class dScreenFX {
         if(dx < -9000 && dy < -9000) {
             return;
         }
-        double[] deltas = new double[]{dx - cGameLogic.getUserPlayer().getInt("coordx")
-                + cGameLogic.getUserPlayer().getInt("dimw")/2,
-                dy - cGameLogic.getUserPlayer().getInt("coordy")
-                + cGameLogic.getUserPlayer().getInt("dimh")/2};
+        double[] deltas = new double[]{dx - cGameLogic.userPlayer().getInt("coordx")
+                + cGameLogic.userPlayer().getInt("dimw")/2,
+                dy - cGameLogic.userPlayer().getInt("coordy")
+                + cGameLogic.userPlayer().getInt("dimh")/2};
         g2.setColor(new Color(255,100,50,150));
         int[][] polygondims = new int[][]{
                 new int[]{
@@ -32,8 +32,8 @@ public class dScreenFX {
         g2.drawPolygon(polygondims[0], polygondims[1],4);
         //big font
         String waypointdistance = String.format("%dm",(int)Math.sqrt((deltas[0]*deltas[0])+(deltas[1]*deltas[1])));
-        cScripts.setFontNormal(g2);
-        dScreenMessages.drawCenteredString(g2,
+        dFonts.setFontNormal(g2);
+        dFonts.drawCenteredString(g2,
                 waypointdistance,
                 eUtils.scaleInt(dx - cVars.getInt("camx")),
                 eUtils.scaleInt(dy - cVars.getInt("camy")));
@@ -44,7 +44,7 @@ public class dScreenFX {
                         -(int)g2.getFont().getStringBounds(message,frc).getWidth()/2,
                 eUtils.scaleInt(dy - cVars.getInt("camy"))
                         -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
-        if(cVars.getInt("gamemode") != cGameMode.VIRUS && cVars.getInt("gamemode") != cGameMode.VIRUS_SINGLE
+        if(!cVars.isInt("gamemode", cGameMode.VIRUS)
                 && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
             double angle = Math.atan2(deltas[1], deltas[0]);
             if (angle < 0)
@@ -73,8 +73,7 @@ public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
-        if(cVars.contains("spawnprotectiontime")
-                && cVars.getLong("spawnprotectiontime") > System.currentTimeMillis()) {
+        if(cGameLogic.drawSpawnProtection()) {
             int factors = sVars.getInt("vfxfactor");
             int maxl = cVars.getInt("vfxuialphaflashlight");
             for (int i = 0; i < factors; i++) {

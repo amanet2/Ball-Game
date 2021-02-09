@@ -8,7 +8,7 @@ public class cEditorLogicState {
     JMenuItem[] selectedTextureMenuItems;
     int selectedTileId;
     int selectedPropId;
-    int selectedFlareId;
+    int selectedFlareTag;
     int createObjCode;
     gScene mapScene;
     gTile newTile;
@@ -30,7 +30,7 @@ public class cEditorLogicState {
         createObjCode = coc;
         selectedTileId = sti;
         selectedPropId = spi;
-        selectedFlareId = sfi;
+        selectedFlareTag = sfi;
         mapScene = ms;
     }
 }

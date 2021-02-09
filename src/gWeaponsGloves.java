@@ -6,7 +6,7 @@ public class gWeaponsGloves extends gWeapon {
         bulletDims = new int[]{300,300};
         soundFilePath = "sounds/splash.wav";
         refiredelay = 450;
-        damage = 2200;
+        damage = 550;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
@@ -20,10 +20,9 @@ public class gWeaponsGloves extends gWeapon {
         super.fireWeapon(p);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2, p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2,
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
-        b.putInt("tag", p.getInt("tag"));
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.weapon_gloves);
-        eManager.currentMap.scene.bullets().add(b);
+        b.putInt("src", gWeapons.type.GLOVES.code());
+        eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
     }
 }

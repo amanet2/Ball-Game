@@ -6,12 +6,12 @@ import java.util.Queue;
 public class nClient extends Thread {
     private int netticks;
     static int hasDisconnected;
-    static int clientIndex;
     static int msgreceived;
     static int sfxreceived;
     static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nClient instance = null;
+    static DatagramSocket clientSocket = null;
 
     public static nClient instance() {
         if(instance == null)
@@ -21,7 +21,6 @@ public class nClient extends Thread {
 
     private nClient() {
         netticks = 0;
-        clientIndex = 0;
         msgreceived = 0;
         sfxreceived = 0;
         cmdreceived = 0;
@@ -30,6 +29,7 @@ public class nClient extends Thread {
     public static void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
+                //this means all other packets are thrown out, bad in long run
                 receivedPackets.remove();
             }
             if(receivedPackets.size() > 0) {
@@ -42,6 +42,7 @@ public class nClient extends Thread {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
 
@@ -63,11 +64,11 @@ public class nClient extends Thread {
                     byte[] clientSendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                             sVars.getInt("joinport"));
-                    if(uiInterface.clientSocket == null || uiInterface.clientSocket.isClosed()) {
-                        uiInterface.clientSocket = new DatagramSocket();
-                        uiInterface.clientSocket.setSoTimeout(sVars.getInt("timeout"));
+                    if(clientSocket == null || clientSocket.isClosed()) {
+                        clientSocket = new DatagramSocket();
+                        clientSocket.setSoTimeout(sVars.getInt("timeout"));
                     }
-                    uiInterface.clientSocket.send(sendPacket);
+                    clientSocket.send(sendPacket);
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
                     if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
@@ -76,7 +77,7 @@ public class nClient extends Thread {
                     else {
                         byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
                         DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        uiInterface.clientSocket.receive(receivePacket);
+                        clientSocket.receive(receivePacket);
                         receivedPackets.add(receivePacket);
                     }
                 }
@@ -88,6 +89,7 @@ public class nClient extends Thread {
                 retries = 0;
             }
             catch(Exception e) {
+                eUtils.echoException(e);
                 retries++;
                 e.printStackTrace();
                 if(retries > sVars.getInt("netrcvretries"))
