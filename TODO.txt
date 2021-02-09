@@ -12,11 +12,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* EDITOR: while in play, arrow keys dont control camera but still adjust quick dims
+* last client shot not sending on server side
+    -> nor on other clients side
 * console command for giveweapon
-    -> take id
-    -> and int code
+    -> take id and int code
     -> this is the ticket for gungame working
-        -> can just force player into a different weapon slot ya know
+        -> server can force clients to have a weapon
 * new players joining virus need to be infected
 * make jumps look better
     -> save ycoord for when jump happened and draw shadows there until jump not happening

@@ -57,8 +57,9 @@ public class dScreenMessages {
             //camera
             String camstring = String.format("Cam: %d,%d",
                 uiInterface.camReport[0], uiInterface.camReport[1]);
-            camstring += (cVars.isInt("cammode", gCamera.MODE_FREE)) && cGameLogic.userPlayer() != null
-                    ? " (Press 'E' to re-center)" : "";
+//            camstring += (uiInterface.inplay && cVars.isInt("cammode", gCamera.MODE_FREE))
+//                    && cGameLogic.userPlayer() != null
+//                    ? " (Press 'E' to re-center)" : "";
             g.drawString(camstring,0, 8 * sSettings.height / 64);
             //instance
             if(cGameLogic.userPlayer() != null) {

@@ -57,7 +57,10 @@ public class dTileFloors {
                     );
                 }
             }
-            else {
+            else if(tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0
+                    && !tile.get("sprite2").contains("none")){
+                //this isnt supposed to be called so much for everything
+//                System.out.println(tile.get("sprite2"));
                 g2.setColor(Color.LIGHT_GRAY);
                 g2.fillRect(eUtils.scaleInt(tile.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(tile.getInt("coordy") - cVars.getInt("camy")),
