@@ -1,4 +1,4 @@
-public class gDoable {
+public class gDoableThing {
     public void doItem(gThing thing) {
 
     }

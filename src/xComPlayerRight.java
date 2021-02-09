@@ -2,8 +2,8 @@ public class xComPlayerRight extends xCom {
     public String doCommand(String fullCommand) {
         if(!uiInterface.inplay)
             gCamera.move(3);
-        else if(cGameLogic.getUserPlayer() != null) {
-            xCon.ex("THING_PLAYER.0.mov3 1");
+        else if(cGameLogic.userPlayer() != null) {
+            cGameLogic.userPlayer().putInt("mov3", 1);
         }
         return fullCommand;
     }
@@ -11,8 +11,8 @@ public class xComPlayerRight extends xCom {
     public String undoCommand(String fullCommand) {
         if(!uiInterface.inplay)
             gCamera.stopMove(3);
-        else if(cGameLogic.getUserPlayer() != null) {
-            xCon.ex("THING_PLAYER.0.mov3 0");
+        else if(cGameLogic.userPlayer() != null) {
+            cGameLogic.userPlayer().putInt("mov3", 0);
         }
         return fullCommand;
     }

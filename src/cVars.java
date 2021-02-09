@@ -14,6 +14,7 @@ public class cVars {
         put("cammov1", "0");
         put("cammov2", "0");
         put("cammov3", "0");
+        put("camplayertrackingid", uiInterface.uuid);
         put("camplayertrackingindex", "0");
         put("camshakemax", "20");
         put("camx", "0");
@@ -22,7 +23,6 @@ public class cVars {
         put("collideplayers", "1");
         put("currentweapon", "0");
         put("delayhp", "2400");
-        put("delayjump", "0");
         put("delaypow", "1000");
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
@@ -43,25 +43,26 @@ public class cVars {
         put("gamespawnarmed", "0");
         put("gameteam", "0");
         put("gametick", sVars.get("gametick"));
-        put("chosenoneid", "");
-        put("chosenonetime", "0");
+        putInt("gravity", 6);
+        put("blockmouseui", "0");
         put("hprechargetime", "0");
         put("inboost", "0");
+        put("inspawn", "1");
         put("intermissiontime", "-1");
         put("jumptime", "0");
         put("jumpheight", "0");
         put("jumping", "0");
         put("jumpsquish", "20");
-        put("jumptimemax", "80");
+        put("jumptimemax", "100");
+        put("delayjump", "600");
         put("killerid", "God");
         put("killername", "God");
         put("kingofflagstime", "0");
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
-        put("kofflagcaps", "");
         put("lapcomplete", "0");
-        putInt("maptype", gMap.MAP_TOPVIEW);
-        put("maxstockhp", "2000");
+        putInt("mapview", gMap.MAP_TOPVIEW);
+        put("maxstockhp", "500");
         put("maxstockspeed", "1000");
         put("onladder", "0");
         put("popuplivetime", "2000");
@@ -70,14 +71,15 @@ public class cVars {
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
-        put("rechargehp", "4");
+        put("rechargehp", "1");
         put("reloading", "0");
         put("reportedkiller", "1");
         put("respawnwaittime", sVars.get("respawnwaittime"));
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));
+        put("scoremap", "");
         put("sendcmd", "");
-        put("sendpowerup", "-1");
+        put("sendpowerup", "");
         put("sendsafezone", "0");
         put("sendsound", "");
         put("serveraddbotstime", "0");
@@ -86,7 +88,6 @@ public class cVars {
         put("sicknessslow", "0");
         put("sicknessfast", "0");
         put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
-        put("speedbonus", "0");
         put("sprint", "0");
         put("sprinttime", "0");
         put("starttime", "0");
@@ -96,9 +97,10 @@ public class cVars {
         put("survivesafezone", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocitycam", "9");
-        put("velocityplayer", "8");
         put("velocityplayerbase", "8");
+        put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
+        put("velocitysuperspeed", "16");
         put("vfxuialphaflashlight", "128");
         put("vfxuialphasprint", "128");
         put("vfxuialphahp", "230");
@@ -123,13 +125,9 @@ public class cVars {
         put("vfxwalloutlinealpha2", "200");
         put("vfxwallshadingalpha1", "50");
         put("vfxwallshadingalpha2", "200");
+        put("virusids", "");
         put("virusresetwaittime", "5000");
         put("virustime", "0");
-        put("virussingleid", "");
-        put("virussingletime", "0");
-        put("virussingletagbackid", "");
-        put("virussingletagbacktime", "0");
-        put("virussingletagbackwaittime", "2000");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");
         put("weaponbotrange2", "400");
@@ -168,6 +166,7 @@ public class cVars {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
             return false;
         }
@@ -264,6 +263,16 @@ public class cVars {
         if(vars == null) {
             vars = new HashMap<>();
             init();
+        }
+    }
+
+    public static void assignRandomPlayerIdToVar(String cvar) {
+        int r = (int) (Math.random()*((double)gScene.getPlayerIds().size()));
+        int c = 0;
+        for(String id : gScene.getPlayerIds()) {
+            if(c==r)
+                cVars.put(cvar, id);
+            c++;
         }
     }
 }

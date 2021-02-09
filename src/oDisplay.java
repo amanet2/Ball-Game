@@ -62,11 +62,7 @@ public class oDisplay extends JLayeredPane {
     }
 
 	public void showFrame() {
-//	    int fx = -1;
-//	    int fy = -1;
         if(frame != null) {
-//            fx = frame.getX();
-//            fy = frame.getY();
             frame.dispose();
         }
 		frame = new JFrame(String.format("%s%s", sVars.get("defaulttitle"),
@@ -94,12 +90,9 @@ public class oDisplay extends JLayeredPane {
 		frame.setContentPane(this);
 		frame.pack();
         frame.setLocationRelativeTo(null);
-//		if(fx > -1)
-//		    frame.setLocation(fx,fy);
         if(sVars.isIntVal("displaymode", displaymode_fullscreen))
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
-//        frame.createBufferStrategy(2);
     }
 
 	public double[] getScreenHardwareDimensions() {
@@ -123,12 +116,6 @@ public class oDisplay extends JLayeredPane {
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;
         int oh = sSettings.height;
-//        if(xCon.getInt("displaymode") == displaymode_fullscreen) {
-//            ox = 0;
-//            oy = 0;
-//            ow = (int) getScreenHardwareDimensions()[0];
-//            oh = (int) getScreenHardwareDimensions()[1];
-//        }
         dPanel vfxPanel = new dPanel();
         vfxPanel.setBounds(ox,oy,ow,oh);
         add(vfxPanel, 0, 0);

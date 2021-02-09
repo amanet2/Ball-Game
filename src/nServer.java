@@ -8,21 +8,17 @@ import java.util.Queue;
 
 public class nServer extends Thread {
     private int netticks;
-    static int[] matchWins = new int[]{0};
-    static int[] scores = new int[]{0};
-    static int[] matchKills = new int[]{0};
-    static int[] matchPings = new int[]{0};
-    static int clientsConnected = 0;
     static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
     static boolean kickConfirmed = false;
     static ArrayList<String> clientIds = new ArrayList<>();
-    static ArrayList<String> clientNames = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     static String[] mapvoteSelection = new String[]{};
-    static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
+    static DatagramSocket serverSocket = null;
+
 
     public static nServer instance() {
         if(instance == null)
@@ -46,9 +42,12 @@ public class nServer extends Thread {
     }
 
     public static void clearBots() {
-        if(sSettings.net_server && eManager.currentMap.scene.botplayers().size() > 0) {
-            for(gPlayer p : eManager.currentMap.scene.botplayers()) {
-                nServer.quitClientIds.add(p.get("id"));
+        if(eManager.currentMap != null) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(sSettings.net_server && botsMap.size() > 0) {
+                for(Object id : botsMap.keySet()) {
+                    nServer.quitClientIds.add((String) id);
+                }
             }
         }
     }
@@ -60,20 +59,6 @@ public class nServer extends Thread {
                 xCon.ex("addbot");
                 i++;
             }
-        }
-    }
-
-    public static void givePoint(int i) {
-        if(cVars.isOne("gameteam")) {
-            String color = cGameLogic.getPlayerByIndex(i).get("color");
-            for(int j = 0; j < scores.length; j++) {
-                if(color.equals(cGameLogic.getPlayerByIndex(j).get("color"))) {
-                    scores[j]++;
-                }
-            }
-        }
-        else if(scores.length > i){
-            scores[i]++;
         }
     }
 
@@ -98,17 +83,19 @@ public class nServer extends Thread {
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket =
                         new DatagramPacket(sendData, sendData.length, addr, port);
-                uiInterface.serverSocket.send(sendPacket);
+                serverSocket.send(sendPacket);
                 xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
                 if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
                     kickConfirmed = true;
                 }
                 receivedPackets.remove();
             }
-            if(eManager.currentMap.scene.botplayers().size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
+            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
                 sVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
-                for(gPlayer p : eManager.currentMap.scene.botplayers()) {
+                for(Object id : botsMap.keySet()) {
+                    gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
                     String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
                     String receiveDataString = botStateStr;
@@ -130,6 +117,7 @@ public class nServer extends Thread {
             }
         }
         catch (Exception e) {
+            eUtils.echoException(e);
             e.printStackTrace();
         }
     }
@@ -138,54 +126,12 @@ public class nServer extends Thread {
         if(nSend.focus_id.equals(id)){
             nSend.focus_id = "";
         }
-        clientsConnected -=1;
         clientArgsMap.remove(id);
-        int quitterIndex = clientIds.indexOf(id);
-        gPlayer quittingPlayer = eManager.currentMap.scene.players().get(quitterIndex+1);
-        eManager.currentMap.scene.players().remove(quitterIndex+1);
-        String quitterName = clientNames.get(quitterIndex);
+        cScoreboard.scoresMap.remove(id);
+        gPlayer quittingPlayer = gScene.getPlayerById(id);
+        eManager.currentMap.scene.playersMap().remove(id);
+        String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
-        clientNames.remove(quitterIndex);
-        //update wins
-        int[] newWins = new int[clientsConnected+1];
-        int c = 0;
-        for(int i = 0; i < matchWins.length; i++) {
-            if(i != quitterIndex+1) {
-                newWins[c] = matchWins[i];
-                c++;
-            }
-        }
-        matchWins = newWins;
-        //update scores
-        int[] newScores = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < scores.length; i++) {
-            if(i != quitterIndex+1) {
-                newScores[c] = scores[i];
-                c++;
-            }
-        }
-        scores = newScores;
-        //update kills
-        int[] newKills = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < matchKills.length; i++) {
-            if(i != quitterIndex+1) {
-                newKills[c] = matchKills[i];
-                c++;
-            }
-        }
-        matchKills = newKills;
-        //update pings
-        int[] newPings = new int[clientsConnected+1];
-        c = 0;
-        for(int i = 0; i < matchPings.length; i++) {
-            if(i != quitterIndex+1) {
-                newPings[c] = matchPings[i];
-                c++;
-            }
-        }
-        matchPings = newPings;
         if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
@@ -197,7 +143,7 @@ public class nServer extends Thread {
     public void run() {
         while(true) {
             try {
-                netticks += 1;
+                netticks++;
                 if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
                     uiInterface.netReport = netticks;
                     netticks = 0;
@@ -205,24 +151,21 @@ public class nServer extends Thread {
                 }
                 byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                if(uiInterface.serverSocket == null || uiInterface.serverSocket.isClosed()) {
+                if(serverSocket == null || serverSocket.isClosed()) {
                     uiInterface.uuid = "server";
-                    uiInterface.serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-                    uiInterface.serverSocket.setSoTimeout(sVars.getInt("timeout"));
+                    serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+                    serverSocket.setSoTimeout(sVars.getInt("timeout"));
                 }
-                uiInterface.serverSocket.receive(receivePacket);
+                serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
                 uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
-//                System.out.println(cScripts.isNetworkGame());
-//                if(nServer.clientsConnected < 1)
-//                    uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots"));
-
                 if(sVars.getInt("rateserver") > 1000)
                     sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
                 else
                     sleep(uiInterface.networkTime-uiInterface.gameTime);
             }
             catch (Exception e) {
+                eUtils.echoException(e);
                 e.printStackTrace();
             }
         }

@@ -2,8 +2,10 @@ public class xComSelectUp extends xCom {
     public String doCommand(String fullCommand) {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
             gCamera.move(0);
-        else
+        else {
+            cVars.putInt("blockmouseui", 1);
             uiMenus.prevItem();
+        }
         return fullCommand;
     }
     public String undoCommand(String fullCommand) {

@@ -8,12 +8,11 @@ public class xComUnbind extends xCom {
                 xCon.instance().releaseBinds.clear();
                 return fullCommand;
             }
-            for(int i = 0; i < iKeyboard.keyCodeSubTexts.length; i++) {
-                if(iKeyboard.keyCodeSubTexts[i].equalsIgnoreCase(key)) {
-                    xCon.instance().pressBinds.remove(iKeyboard.keyCodeSubCodes[i]);
-                    xCon.instance().releaseBinds.remove(iKeyboard.keyCodeSubCodes[i]);
-                    return String.format("unbind %s ",key);
-                }
+            Integer keycode = iKeyboard.getCodeForKey(key);
+            if(keycode != null) {
+                xCon.instance().pressBinds.remove(keycode);
+                xCon.instance().releaseBinds.remove(keycode);
+                return String.format("unbind %s ",key);
             }
         }
         return "cannot unbind ";

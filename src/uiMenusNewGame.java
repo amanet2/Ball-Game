@@ -8,9 +8,9 @@ public class uiMenusNewGame extends uiMenu {
                 String.format("Time Limit [%s]", Double.toString((double)sVars.getInt("timelimit")/60000.0)),
                 String.format("Number of Bots [%s]", sVars.get("botcount")),
                 String.format("Powerups on Map [%s]", cVars.get("powerupson")),
-                String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  "),
-                String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  "),
-                String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ")
+                String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  ")
+//                String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  "),
+//                String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ")
         });
     }
     public uiMenusNewGame() {
@@ -19,7 +19,7 @@ public class uiMenusNewGame extends uiMenu {
                 new uiMenuItem("-Start-"){
                     public void doItem() {
                         xCon.ex("newgame");
-                        cScripts.doPause();
+                        xCon.ex("pause");
                     }
                 },
                 new uiMenuItem("MAP [<random map>]"){
@@ -59,19 +59,19 @@ public class uiMenusNewGame extends uiMenu {
                         cVars.put("gameteam", cVars.isOne("gameteam") ? "0" : "1");
                         text = String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  ");
                     }
-                },
-                new uiMenuItem(String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  ")){
-                    public void doItem() {
-                        cVars.put("gamespawnarmed", cVars.isOne("gamespawnarmed") ? "0" : "1");
-                        text = String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  ");
-                    }
-                },
-                new uiMenuItem(String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ")){
-                    public void doItem() {
-                        cVars.put("allowweaponreload", cVars.isOne("allowweaponreload") ? "0" : "1");
-                        text = String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ");
-                    }
                 }
+//                new uiMenuItem(String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  ")){
+//                    public void doItem() {
+//                        cVars.put("gamespawnarmed", cVars.isOne("gamespawnarmed") ? "0" : "1");
+//                        text = String.format("Spawn Armed [%s]", cVars.isOne("gamespawnarmed") ? "X" : "  ");
+//                    }
+//                },
+//                new uiMenuItem(String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ")){
+//                    public void doItem() {
+//                        cVars.put("allowweaponreload", cVars.isOne("allowweaponreload") ? "0" : "1");
+//                        text = String.format("Reloading [%s]", cVars.isOne("allowweaponreload") ? "X" : "  ");
+//                    }
+//                }
             },
             uiMenus.MENU_MAIN);
     }

@@ -15,12 +15,12 @@ public class nVarsBot {
     public static void update(gPlayer p) {
         refreshForId(p.get("id"));
         if(p.getLong("botthinktime") < uiInterface.gameTime) {
-            p.doBotBehavior(cVars.get("botbehavior"));
+            xCon.ex("dobotbehavior " + p.get("id") + " "+cVars.get("botbehavior"));
             int rd = (int)(Math.random()*cVars.getInt("botthinkdelay")-cVars.getInt("botthinkdelay")/2);
             p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
         }
 
-        for(String s : new String[]{"id","fv","name","color","crouch","hat"}) {
+        for(String s : new String[]{"id","fv","name","color","crouch","hat","flashlight"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
         if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)
@@ -33,7 +33,6 @@ public class nVarsBot {
             map.get(p.get("id")).put("fv", Double.toString(2*Math.PI));
         map.get(p.get("id")).put("x", p.get("coordx"));
         map.get(p.get("id")).put("y", p.get("coordy"));
-//        map.get(p.get("id")).put("fire", p.get("firing"));
         map.get(p.get("id")).put("dirs", "1111");
         map.get(p.get("id")).put("vels",
                 String.format("%s-%s-%s-%s", p.get("vel0"), p.get("vel1"), p.get("vel2"), p.get("vel3")));
