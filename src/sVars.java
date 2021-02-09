@@ -40,7 +40,7 @@ public class sVars {
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
-        keys.put("ratebots", "15");
+        keys.put("ratebots", "25");
         keys.put("rateclient", "25");
         keys.put("rateserver", "500");
         keys.put("playerarrow", "0");
