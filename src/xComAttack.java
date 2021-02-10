@@ -4,7 +4,6 @@ public class xComAttack extends xCom {
         if(playerWeapon == gWeapons.type.NONE.code()
             || playerWeapon == gWeapons.type.GLOVES.code()
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
-            cVars.putInt("firing", 1);
             gPlayer br = cGameLogic.userPlayer();
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 br.fireWeapon();
@@ -19,7 +18,6 @@ public class xComAttack extends xCom {
     }
 
     public String undoCommand(String fullCommand) {
-        cVars.putInt("firing", 0);
         return "-attack";
     }
 }

@@ -8,7 +8,6 @@ public class gPlayer extends gThing {
 
     public void fireWeapon() {
         xCon.ex("fireweapon " + get("id") + " " + getInt("weapon"));
-//        gWeapons.fromCode(getInt("weapon")).fireWeapon(this);
     }
 
     public boolean canJump() {
@@ -542,7 +541,7 @@ public class gPlayer extends gThing {
         put("stockhp", cVars.get("maxstockhp"));
         put("botthinktime", "0");
         put("powerupsusetime", "0");
-        put("sendshot", "0");
+//        put("sendshot", "0");
         put("alive", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));

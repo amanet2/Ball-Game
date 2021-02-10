@@ -9,6 +9,7 @@ public class nReceive {
             if(toks[0].length() > 0) {
                 int isnewclient = 1;
                 String argload = toks[0];
+
                 //process new packet
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
@@ -62,7 +63,7 @@ public class nReceive {
                             && nServer.clientArgsMap.get(packId).containsKey("spawnprotected")) {
                         nServer.clientArgsMap.get(packId).remove("spawnprotected");
                     }
-                    cGameLogic.processActionLoadServer(packActions, packName, packId);
+                    cServer.processActionLoadServer(packActions, packName, packId);
                     if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
                         nServer.quitClientIds.add(packId);
                     }
@@ -222,7 +223,7 @@ public class nReceive {
                                 && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
                             nServer.clientArgsMap.get(idload).remove("spawnprotected");
                         }
-                        cGameLogic.processActionLoadClient(actionload);
+                        cClient.processActionLoadClient(actionload);
                     }
                     if(isnewclient == 1){
                         nServer.clientIds.add(idload);

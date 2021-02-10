@@ -39,7 +39,7 @@ public class nVarsBot {
         map.get(p.get("id")).put("weapon", p.get("weapon"));
         map.get(p.get("id")).put("netmsgrcv", "");
         map.get(p.get("id")).put("time", Long.toString(System.currentTimeMillis()));
-        map.get(p.get("id")).put("fire", p.get("sendshot").equals("1")? "1" : "0");
+//        map.get(p.get("id")).put("fire", p.get("sendshot").equals("1")? "1" : "0");
         if(p.contains("spawnprotectiontime"))
             map.get(p.get("id")).put("spawnprotected","");
         else

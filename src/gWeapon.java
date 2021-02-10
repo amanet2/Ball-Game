@@ -24,6 +24,6 @@ public class gWeapon {
 
     public void fireWeapon(gPlayer p) {
         xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
-        p.put("sendshot", "1");
+//        p.put("sendshot", "1");
     }
 }

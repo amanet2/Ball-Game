@@ -118,7 +118,7 @@ public class cBotsLogic {
                 botPlayer.fireWeapon();
             }
             else {
-                bot.put("sendshot", "0");
+//                bot.put("sendshot", "0");
             }
         }
     }

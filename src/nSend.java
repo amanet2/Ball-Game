@@ -6,7 +6,8 @@ public class nSend {
     public static String focus_id = ""; //for when you need to operate on a response to a specific id
     static HashMap<String, String> sendMap = null;
     private static String[] constantFields = {"map", "mode", "teams", "armed", "tick", "powerups", "scoremap", "scorelimit",
-            "timeleft", "timelimit", "topscore", "state", "win", "vels", "fire", "dirs", "x", "y", "msg", "kick",
+//            "timeleft", "timelimit", "topscore", "state", "win", "vels", "fire", "dirs", "x", "y", "msg", "kick",
+            "timeleft", "timelimit", "topscore", "state", "win", "vels", "dirs", "x", "y", "msg", "kick",
             "weapon", "spawnprotectionmaxtime"};
     private static List<String> constantsList = Arrays.asList(constantFields);
     static String createSendDataString() {
@@ -79,7 +80,7 @@ public class nSend {
         }
         xCon.ex("cv_reportedkiller cv_exploded");
         xCon.ex("cv_exploded 1");
-        cGameLogic.userPlayer().put("sendshot", "0");
+//        cGameLogic.userPlayer().put("sendshot", "0");
         xCon.ex("cv_sendsafezone 0");
         return sendDataString.toString();
     }
