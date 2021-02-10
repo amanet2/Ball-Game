@@ -16,7 +16,6 @@ public class cClient {
                         action.split("-")[0].replace("playsound","")));
             }
             if(action.contains("sendcmd")) {
-                System.out.println(action);
                 nClient.cmdreceived = 1;
                 xCon.ex(action.replaceFirst("sendcmd_",""));
             }

@@ -1,8 +1,10 @@
 public class xComMouseLeft extends xCom {
     public String doCommand(String fullCommand) {
         if (uiInterface.inplay) {
+//            xCon.ex("attack");
             iMouse.holdingMouseLeft = true;
-        } else {
+        }
+        else {
             if(sSettings.show_mapmaker_ui) {
                 int[] mc = cScripts.getMouseCoordinates();
                 switch(cEditorLogic.state.createObjCode) {
@@ -11,10 +13,10 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.newProp.get("code"),
                                 cEditorLogic.state.newProp.getInt("int0"),
                                 cEditorLogic.state.newProp.getInt("int1"),
-                                eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
-                                        -cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
-                                eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
-                                        -cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY),
+                                eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
+                                eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                        - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY),
                                 cEditorLogic.state.newProp.get("dimw"), cEditorLogic.state.newProp.get("dimh")));
                         break;
                     case gScene.THING_FLARE:

@@ -447,20 +447,20 @@ public class cGameLogic {
             if(iMouse.holdingMouseLeft) {
                 xCon.ex("attack");
             }
-            for(String id : gScene.getPlayerIds()) {
-                gPlayer p = gScene.getPlayerById(id);
-                if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
-                    p.fireWeapon();
-                    p.putLong("cooldown",
-                            (System.currentTimeMillis() + gWeapons.fromCode(p.getInt("weapon")).refiredelay));
-                }
-                if(p.isInt("crouch", 1)) {
-                    xCon.ex("playercrouch " + p.get("id"));
-                }
-                else {
-                    xCon.ex("-playercrouch " + p.get("id"));
-                }
-            }
+//            for(String id : gScene.getPlayerIds()) {
+//                gPlayer p = gScene.getPlayerById(id);
+//                if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
+//                    p.fireWeapon();
+//                    p.putLong("cooldown",
+//                            (System.currentTimeMillis() + gWeapons.fromCode(p.getInt("weapon")).refiredelay));
+//                }
+//                if(p.isInt("crouch", 1)) {
+//                    xCon.ex("playercrouch " + p.get("id"));
+//                }
+//                else {
+//                    xCon.ex("-playercrouch " + p.get("id"));
+//                }
+//            }
         }
     }
 

@@ -1,10 +1,10 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        int playerWeapon = cGameLogic.userPlayer().getInt("weapon");
+        gPlayer br = cGameLogic.userPlayer();
+        int playerWeapon = br.getInt("weapon");
         if(playerWeapon == gWeapons.type.NONE.code()
             || playerWeapon == gWeapons.type.GLOVES.code()
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
-            gPlayer br = cGameLogic.userPlayer();
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 br.fireWeapon();
                 br.putLong("cooldown", System.currentTimeMillis()
