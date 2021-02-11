@@ -12,8 +12,8 @@ public class gWeaponsPistol extends gWeapon {
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
-        bulletTtl = 600;
-        bulletVel = 60;
+        bulletTtl = 560;
+        bulletVel = 70;
     }
 
     public void fireWeapon(gPlayer p) {
