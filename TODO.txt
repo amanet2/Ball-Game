@@ -12,35 +12,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* work on detecting all shots on serverside
-    -> then move on to detecting all _kills_ on server side
-* for full auto guns, gonna have to "hold trigger" until next nettick where we dont see a "fireweapon" msg come in
-* server half firing
-    ->sendcmd reaches server 1/2 times
-* create "checkarg" map that can check for null, etc
-    -> for consuming nServerClientArgeMap pairs
-* make "sendcmd" a queue
-    -> append all into one string at nettick time tho
-* client works fine
-* weapons double firing online
-* "firing" will be used as a player var only for bots
-    -> consider renaming to "botfiring"
-* make console command for fireweapon <id> <code>
-    -> can send over network
-    -> while firing, every bullet triggers the send
-    -> so it goes
-        -> state 0, mouse not held
-        -> state 1, mouse held
-            -> ammo > 0 && rate of fire threshold, execute fireweapon <weaponcode> on all clients
-            -> not threshold, continue waiting
-            -> ammo < 1, switch to rock weapon
+* make safezone so that you get +1 for each second in the safezone
+    -> countdown to safezone change
+    -> no more dying as a game mechanic
+* bots shoot server side but not for clients
+    -> find where server makes bot shoot and send the cmd string
 * EDITOR: while in play, arrow keys dont control camera but still adjust quick dims
-* last shot not sending on server side or other clients
-    -> probably because you switch back to rock before last shot is received by clients
-* console command for giveweapon
-    -> take id and int code
-    -> this is the ticket for gungame working
-        -> server can force clients to have a weapon
 * new players joining virus need to be infected
 * make jumps look better
     -> save ycoord for when jump happened and draw shadows there until jump not happening
