@@ -53,31 +53,32 @@ public class nVars {
             keys.put("act", "sendcmd_"+cVars.get("sendcmd")+"-"+keys.get("act"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-        keys.put("x", userPlayer.get("coordx"));
-        keys.put("y", userPlayer.get("coordy"));
-        keys.put("crouch", userPlayer.get("crouch"));
-        keys.put("flashlight", xCon.ex("cv_flashlight"));
+        if(userPlayer != null) {
+            keys.put("x", userPlayer.get("coordx"));
+            keys.put("y", userPlayer.get("coordy"));
+            keys.put("crouch", userPlayer.get("crouch"));
 //        keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+userPlayer.get("weapon")) > 0
 //                || userPlayer.get("sendshot").equals("1")
 //                || userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
 //                || userPlayer.isInt("weapon", gWeapons.type.NONE.code())) ? "1" : "0");
-        keys.put("fv", userPlayer.get("fv"));
-        keys.put("dirs",String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
-                userPlayer.get("mov2"), userPlayer.get("mov3")));
+            keys.put("fv", userPlayer.get("fv"));
+            keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                    userPlayer.get("mov2"), userPlayer.get("mov3")));
+            keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                    userPlayer.get("vel2"), userPlayer.get("vel3")));
+            keys.put("weapon", userPlayer.get("weapon"));
+        }
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
         keys.put("msg", nms);
-        if(sSettings.net_server && nSend.focus_id.length() > 0
+        if (sSettings.net_server && nSend.focus_id.length() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nSend.focus_id.equals(uiInterface.uuid)) {
             keys.put("msg", !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")
                     && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
         }
         keys.put("name", sVars.get("playername"));
-        keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
-                userPlayer.get("vel2"), userPlayer.get("vel3")));
-
-        keys.put("weapon", userPlayer.get("weapon"));
+        keys.put("flashlight", xCon.ex("cv_flashlight"));
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
         else

@@ -6,8 +6,9 @@ public class xComFireWeapon extends xCom {
             int weapon = Integer.parseInt(toks[2]);
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
-                if(id.equals(uiInterface.uuid))
-                    cVars.put("sendcmd", "fireweapon " + id + " " + weapon);
+//                if(id.equals(uiInterface.uuid)) {
+//                    cVars.put("sendcmd", "fireweapon " + id + " " + weapon);
+//                }
                 gWeapons.fromCode(weapon).fireWeapon(player);
             }
             return id + " fired weapon " + weapon;

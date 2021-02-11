@@ -36,6 +36,7 @@ public class gMessages {
         }
         if(sSettings.net_server && cScripts.allClientsReceivedMessage("netcmdrcv")
                 && cVars.get("sendcmd").length() > 0) {
+            System.out.println("ASDF");
             cVars.put("sendcmd", "");
             for(String id : nServer.clientArgsMap.keySet()) {
                 nServer.clientArgsMap.get(id).remove("netcmdrcv");

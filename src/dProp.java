@@ -38,7 +38,7 @@ public class dProp {
                                 && !prop.get("sprite").contains("flag_red"))
                             prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
                     }
-                    if(prop.isInt("code", gProps.POWERUP) && prop.getInt("int0") > 0) {
+                    if(prop != null && prop.isInt("code", gProps.POWERUP) && prop.getInt("int0") > 0) {
                         //propshadow
                         if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                             if(sVars.isOne("vfxenableshadows")) {

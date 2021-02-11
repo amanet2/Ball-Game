@@ -12,6 +12,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* server half firing
+    ->sendcmd reaches server 1/2 times
+* create "checkarg" map that can check for null, etc
+    -> for consuming nServerClientArgeMap pairs
+* make "sendcmd" a queue
+    -> append all into one string at nettick time tho
+* client works fine
 * weapons double firing online
 * "firing" will be used as a player var only for bots
     -> consider renaming to "botfiring"

@@ -247,10 +247,12 @@ public class nReceive {
                             cScoreboard.addId(scoreid);
                         }
                         HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
-                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
-                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+                        if(scoresMapIdMap != null) {
+                            scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+                            scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
+                            scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+                            scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+                        }
                     }
                 }
             }
