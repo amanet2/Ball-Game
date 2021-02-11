@@ -34,14 +34,14 @@ public class gMessages {
                 nServer.clientArgsMap.get(id).remove("netsfxrcv");
             }
         }
-        if(sSettings.net_server && cScripts.allClientsReceivedMessage("netcmdrcv")
-                && cVars.get("sendcmd").length() > 0) {
-            System.out.println("ASDF");
-            cVars.put("sendcmd", "");
-            for(String id : nServer.clientArgsMap.keySet()) {
-                nServer.clientArgsMap.get(id).remove("netcmdrcv");
-            }
-        }
+//        if(sSettings.net_server && cScripts.allClientsReceivedMessage("netcmdrcv")
+//                && cVars.get("sendcmd").length() > 0) {
+//            System.out.println("ASDF");
+//            cVars.put("sendcmd", "");
+//            for(String id : nServer.clientArgsMap.keySet()) {
+//                nServer.clientArgsMap.get(id).remove("netcmdrcv");
+//            }
+//        }
 
         if(sayMessages.size() > 0 && networkMessage.length() < 1) {
             String plr = sVars.get("playername");

@@ -12,7 +12,7 @@ public class gWeaponsGloves extends gWeapon {
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
-        bulletTtl = 60;
+        bulletTtl = 50;
         bulletVel = 30;
     }
 

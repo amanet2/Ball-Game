@@ -512,10 +512,8 @@ public class cScripts {
 
     public static boolean allClientsReceivedMessage(String msg) {
         for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                if(!nServer.clientArgsMap.get(id).containsKey(msg)) {
-                    return false;
-                }
+            if(!id.equals(uiInterface.uuid) && !nServer.clientArgsMap.get(id).containsKey(msg)) {
+                return false;
             }
         }
         return true;
