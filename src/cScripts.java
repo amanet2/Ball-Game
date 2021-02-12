@@ -417,7 +417,7 @@ public class cScripts {
                         xCon.ex("dropweapon");
                         cVars.remove("shaketime");
                         cVars.putInt("cammode", gCamera.MODE_TRACKING);
-                        cVars.put("camplayertrackingid", killerid);
+//                        cVars.put("camplayertrackingid", killerid);
                         xCon.ex("centercamera");
                     }
                     playPlayerDeathSound();

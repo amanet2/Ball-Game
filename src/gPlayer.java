@@ -506,6 +506,10 @@ public class gPlayer extends gThing {
         xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
     }
 
+    public boolean isBot() {
+        return get("id") != null && get("id").contains("bot");
+    }
+
     public gPlayer(int x, int y, int w, int h, String tt) {
         super();
         putInt("coordx", x);

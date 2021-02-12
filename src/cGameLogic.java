@@ -364,7 +364,9 @@ public class cGameLogic {
                 gPlayer p = (gPlayer) playersMap.get(id);
                 if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                    xCon.ex("botrespawn " + p.get("bottag"));
+                    if(p.isBot())
+                        xCon.ex("botrespawn " + p.get("bottag"));
+                    else if(cGameLogic.isUserPlayer(p))
                     p.remove("respawntime");
                 }
                 if(p.contains("spawnprotectiontime")
