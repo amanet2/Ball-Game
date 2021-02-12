@@ -12,7 +12,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* "sendcmd" the damageplayer command
+    -> come up with a way for server to specifically send things to a chosen id
+* use "alive" server flag over net
+    -> if client sees that they're not supposed to be "alive" they go invisible and camera remains free mode at last coords
+* console command for spawn animation as well
 * refactor cvars.respawntime into player
+    -> also spawnprotectiontime
 * lock camera to death pos on death
     -> use follow camera for spectator mode
 * use bot code for players

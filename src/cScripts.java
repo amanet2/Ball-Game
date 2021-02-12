@@ -387,6 +387,7 @@ public class cScripts {
         return id.toString();
     }
 
+    //call this everytime a bullet intersects a player
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
@@ -403,78 +404,35 @@ public class cScripts {
         String killerid = bullet.get("srcid");
         gPlayer killerPlayer = gScene.getPlayerById(killerid);
         String killername = killerPlayer.get("name");
-        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
-        if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
+        if(!dmgvictim.contains("spawnprotectiontime")) {
             if(dmgvictim.getInt("stockhp") < 1) {
                 if(!dmgvictim.contains("respawntime")) {
-                    dmgvictim.putLong("respawntime",
-                            System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
-                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
-                    cVars.put("botexploded", "0");
-                    cVars.putInt("botexplodex", dmgvictim.getInt("coordx") - 75);
-                    cVars.putInt("botexplodey", dmgvictim.getInt("coordy") - 75);
-                    cVars.put("botkillername", killername);
-                    cVars.put("botkillerid", killerid);
-                    if (sSettings.net_server) {
-                        cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        xCon.ex("say " + cVars.get("botkillername") + " killed " + dmgvictim.get("name"));
-                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                            cVars.put("flagmasterid", "");
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
-                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                            //player dies holding flag
-                            cVars.put("flagmasterid", "");
-                        }
-                        if(cVars.isZero("gamespawnarmed")) {
-                            cScripts.changeBotWeapon(dmgvictim, gWeapons.type.NONE.code(),true);
-                        }
+                    if(cGameLogic.isUserPlayer(dmgvictim)) {
+                        xCon.ex("dropweapon");
+                        cVars.remove("shaketime");
+                        cVars.putInt("cammode", gCamera.MODE_TRACKING);
+                        cVars.put("camplayertrackingid", killerid);
+                        xCon.ex("centercamera");
                     }
-                    if(sVars.isOne("vfxenableanimations")) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
-                    }
-                    dmgvictim.put("coordx", "-10000");
-                    dmgvictim.put("coordy", "-10000");
-                }
-            }
-        }
-        if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
-            if(dmgvictim.getInt("stockhp") < 1) {
-                dmgvictim.putInt("alive", 0);
-                if(!cVars.contains("respawntime")) {
-                    xCon.ex("dropweapon");
-                    //drop flag on death if holding flag in flagmaster game mode
-                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
-                    && cVars.isVal("flagmasterid", cGameLogic.userPlayer().get("id"))) {
-                        xCon.ex("dropflagred");
-                    }
-                    cVars.remove("shaketime");
-                    cVars.putInt("cammode", gCamera.MODE_TRACKING);
-                    cVars.put("camplayertrackingid", bullet.get("srcid"));
-                    xCon.ex("centercamera");
-                    cVars.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
                     playPlayerDeathSound();
-                    cVars.put("stockhp", cVars.get("maxstockhp"));
-                    cVars.put("exploded", "0");
-                    cVars.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-                    cVars.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
-                    cVars.put("killername", killername);
-                    cVars.put("killerid", killerid);
                     if (sSettings.net_server) {
+                        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
+                        dmgvictim.putInt("alive", 0);
+                        dmgvictim.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
+                        dmgvictim.put("stockhp", cVars.get("maxstockhp"));
+                        dmgvictim.put("exploded", "0");
+                        dmgvictim.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
+                        dmgvictim.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
+                        dmgvictim.put("killername", killername);
+                        dmgvictim.put("killerid", killerid);
                         cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        xCon.ex("say " + killername + " killed " + sVars.get("playername"));
+                        xCon.ex("say " + killername + " killed " + dmgvictim.get("name"));
                         if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                             xCon.ex("givepoint " + killerid);
                         }
                         if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                        && cVars.isVal("flagmasterid", "server")) {
+                                && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
                             cVars.put("flagmasterid", "");
                         }
                     }
@@ -487,7 +445,7 @@ public class cScripts {
                     dmgvictim.put("coordy", "-10000");
                 }
             }
-            else {
+            else if(cGameLogic.isUserPlayer(dmgvictim)) {
                 cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
                 int shakeintensity = Math.min(cVars.getInt("camshakemax"),
                         cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)dmgvictim.getInt("stockhp")));
@@ -495,6 +453,99 @@ public class cScripts {
                 cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
             }
         }
+        //new above
+        //old below
+//        if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
+//            if(dmgvictim.getInt("stockhp") < 1) {
+//                if(!dmgvictim.contains("respawntime")) {
+//                    dmgvictim.putLong("respawntime",
+//                            System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
+//                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
+//                    cVars.put("botexploded", "0");
+//                    cVars.putInt("botexplodex", dmgvictim.getInt("coordx") - 75);
+//                    cVars.putInt("botexplodey", dmgvictim.getInt("coordy") - 75);
+//                    cVars.put("botkillername", killername);
+//                    cVars.put("botkillerid", killerid);
+//                    if (sSettings.net_server) {
+//                        cScoreboard.incrementScoreFieldById(killerid, "kills");
+//                        xCon.ex("say " + cVars.get("botkillername") + " killed " + dmgvictim.get("name"));
+//                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
+//                            xCon.ex("givepoint " + killerid);
+//                        }
+//                        if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
+//                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
+//                            cVars.put("flagmasterid", "");
+//                        }
+//                        if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
+//                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
+//                            //player dies holding flag
+//                            cVars.put("flagmasterid", "");
+//                        }
+//                        if(cVars.isZero("gamespawnarmed")) {
+//                            cScripts.changeBotWeapon(dmgvictim, gWeapons.type.NONE.code(),true);
+//                        }
+//                    }
+//                    if(sVars.isOne("vfxenableanimations")) {
+//                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+//                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+//                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+//                    }
+//                    dmgvictim.put("coordx", "-10000");
+//                    dmgvictim.put("coordy", "-10000");
+//                }
+//            }
+//        }
+//        if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
+//            if(dmgvictim.getInt("stockhp") < 1) {
+//                dmgvictim.putInt("alive", 0);
+//                if(!cVars.contains("respawntime")) {
+//                    xCon.ex("dropweapon");
+//                    //drop flag on death if holding flag in flagmaster game mode
+//                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
+//                    && cVars.isVal("flagmasterid", cGameLogic.userPlayer().get("id"))) {
+//                        xCon.ex("dropflagred");
+//                    }
+//                    cVars.remove("shaketime");
+//                    cVars.putInt("cammode", gCamera.MODE_TRACKING);
+//                    cVars.put("camplayertrackingid", bullet.get("srcid"));
+//                    xCon.ex("centercamera");
+//                    cVars.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
+//                    playPlayerDeathSound();
+//                    cVars.put("stockhp", cVars.get("maxstockhp"));
+//                    cVars.put("exploded", "0");
+//                    cVars.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
+//                    cVars.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
+//                    cVars.put("killername", killername);
+//                    cVars.put("killerid", killerid);
+//                    if (sSettings.net_server) {
+//                        cScoreboard.incrementScoreFieldById(killerid, "kills");
+//                        xCon.ex("say " + killername + " killed " + sVars.get("playername"));
+//                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
+//                            xCon.ex("givepoint " + killerid);
+//                        }
+//                        if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
+//                                || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+//                        && cVars.isVal("flagmasterid", "server")) {
+//                            cVars.put("flagmasterid", "");
+//                        }
+//                    }
+//                    if(sVars.isOne("vfxenableanimations")) {
+//                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+//                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+//                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+//                    }
+//                    dmgvictim.put("coordx", "-10000");
+//                    dmgvictim.put("coordy", "-10000");
+//                }
+//            }
+//            else {
+//                cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
+//                int shakeintensity = Math.min(cVars.getInt("camshakemax"),
+//                        cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)dmgvictim.getInt("stockhp")));
+//                cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
+//                cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
+//            }
+//        }
     }
 
     public static int[] getPlaceObjCoords() {
