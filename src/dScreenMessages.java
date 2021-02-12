@@ -122,6 +122,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
+            gPlayer userPlayer = cGameLogic.userPlayer();
             if(cScripts.isNetworkGame()) {
                 dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
@@ -132,9 +133,9 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
-                if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
+                if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
                     dFonts.drawRightJustifiedString(g,
-                            cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
+                            cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);

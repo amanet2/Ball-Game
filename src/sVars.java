@@ -53,7 +53,6 @@ public class sVars {
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
-        keys.put("respawnwaittime", "2000");
         keys.put("safezonetime", "20000");
         keys.put("scorelimit", "25");
         keys.put("sfxrange", "1800");
@@ -107,7 +106,7 @@ public class sVars {
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
                 || k.equals("rateclient") || k.equals("rateserver") || k.equals("powerupsmaxon")
                 || k.equals("powerupsusetimemax") || k.equals("powerupswaittime") || k.equals("rcvbytesclient")
-                || k.equals("rcvbytesserver") || k.equals("respawnwaittime") || k.equals("safezonetime")
+                || k.equals("rcvbytesserver") || k.equals("safezonetime")
                 || k.equals("scorelimit") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
                 || k.equals("smoothing") || k.equals("spawnprotectionmaxtime") || k.equals("startpaused")
                 || k.equals("tagscorewaittime") || k.equals("timelimit") || k.equals("timeout")

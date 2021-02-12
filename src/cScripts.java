@@ -419,6 +419,10 @@ public class cScripts {
                         xCon.ex("dropweapon");
                         cVars.remove("shaketime");
                         cVars.putInt("cammode", gCamera.MODE_FREE);
+                        cVars.put("cammov0", "0");
+                        cVars.put("cammov1", "0");
+                        cVars.put("cammov2", "0");
+                        cVars.put("cammov3", "0");
 //                        cVars.put("camplayertrackingid", killerid);
 //                        xCon.ex("centercamera");
                     }

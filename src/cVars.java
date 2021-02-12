@@ -72,7 +72,7 @@ public class cVars {
         put("rechargehp", "1");
         put("reloading", "0");
         put("reportedkiller", "1");
-        put("respawnwaittime", sVars.get("respawnwaittime"));
+        put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));
         put("scoremap", "");
