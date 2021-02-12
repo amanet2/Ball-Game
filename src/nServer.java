@@ -14,6 +14,8 @@ public class nServer extends Thread {
     static boolean kickConfirmed = false;
     static ArrayList<String> clientIds = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
+    //id maps to queue of cmds we want to run on that client
+    static HashMap<String, LinkedList<String>> clientSendCmdQueue = new HashMap<>();
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;

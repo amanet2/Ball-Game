@@ -107,6 +107,7 @@ public class cGameLogic {
                         else
                             userPlayer.addVal("vel1",
                                     userPlayer.getInt("vel1") < cVars.getInt("gravity")
+                                            && cVars.getInt("gravity") > 0
                             ? 1 : 0);
                     }
                     if (!userPlayer().canJump())

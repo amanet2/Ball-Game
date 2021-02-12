@@ -116,6 +116,7 @@ public class nVars {
             }
             keys.put("allowweaponreload", cVars.get("allowweaponreload"));
             keys.put("scorelimit", sVars.get("scorelimit"));
+            keys.put("gravity", cVars.get("gravity"));
             if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
                 xCon.ex("say TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
                 cVars.putLong("starttime", System.currentTimeMillis());

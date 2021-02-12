@@ -405,6 +405,12 @@ public class cScripts {
         gPlayer killerPlayer = gScene.getPlayerById(killerid);
         String killername = killerPlayer.get("name");
         if(!dmgvictim.contains("spawnprotectiontime")) {
+            if(sSettings.net_server) {
+                System.out.println("ASDF");
+                String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
+                xCon.ex(damageplayer_cmdstring);
+                cVars.put("sendcmd", damageplayer_cmdstring);
+            }
             if(dmgvictim.getInt("stockhp") < 1) {
                 if(!dmgvictim.contains("respawntime")) {
                     if(cGameLogic.isUserPlayer(dmgvictim)) {
@@ -416,9 +422,9 @@ public class cScripts {
                     }
                     playPlayerDeathSound();
                     if (sSettings.net_server) {
-                        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
                         dmgvictim.putInt("alive", 0);
-                        dmgvictim.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
+                        dmgvictim.putLong("respawntime",
+                                System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
                         dmgvictim.put("stockhp", cVars.get("maxstockhp"));
                         dmgvictim.put("exploded", "0");
                         dmgvictim.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);

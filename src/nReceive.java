@@ -184,6 +184,7 @@ public class nReceive {
                     cVars.put("gameteam", packArgs.get("teams"));
                     cVars.put("gamespawnarmed", packArgs.get("armed"));
                     cVars.put("scorelimit", packArgs.get("scorelimit"));
+                    cVars.put("gravity", packArgs.get("gravity"));
                     cVars.put("allowweaponreload", packArgs.get("allowweaponreload"));
                     cVars.put("gametick", packArgs.get("tick"));
                     cVars.put("timeleft", packArgs.get("timeleft"));

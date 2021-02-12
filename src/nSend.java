@@ -30,8 +30,6 @@ public class nSend {
         if(sSettings.net_server) {
             nServer.clientArgsMap.put(uiInterface.uuid, nVars.copy());
             sendDataString = new StringBuilder(nVars.dump());
-            if(sendDataString.toString().contains("fireweapon"))
-                System.out.println(sendDataString);
             nServer.newClientIds.remove(nSend.focus_id);
             for(int i = 0; i < nServer.clientIds.size(); i++) {
                 String idload2 = nServer.clientIds.get(i);
