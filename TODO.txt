@@ -22,7 +22,8 @@
 * console command for spawn animation as well
 * refactor cvars.respawntime into player
     -> also spawnprotectiontime
-* lock camera to death pos on death
+* lock camera to death pos on death to watch explosion, then spawn after 2 seconds (draw red string of course)
+    -> make player invisible/unclip on death and lock to that id
     -> use follow camera for spectator mode
 * use bot code for players
 * cvar spawnprotection should be replaced with player spawnprotection

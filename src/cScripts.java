@@ -389,6 +389,7 @@ public class cScripts {
 
     //call this everytime a bullet intersects a player
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
+        //calculate dmg
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
         String s = String.format("%d", adjusteddmg);
@@ -401,12 +402,13 @@ public class cScripts {
                     new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         }
+        //get shooter details
         String killerid = bullet.get("srcid");
         gPlayer killerPlayer = gScene.getPlayerById(killerid);
         String killername = killerPlayer.get("name");
         if(!dmgvictim.contains("spawnprotectiontime")) {
+            //handle killing serverside
             if(sSettings.net_server) {
-                System.out.println("ASDF");
                 String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
                 xCon.ex(damageplayer_cmdstring);
                 cVars.put("sendcmd", damageplayer_cmdstring);
@@ -416,9 +418,9 @@ public class cScripts {
                     if(cGameLogic.isUserPlayer(dmgvictim)) {
                         xCon.ex("dropweapon");
                         cVars.remove("shaketime");
-                        cVars.putInt("cammode", gCamera.MODE_TRACKING);
+                        cVars.putInt("cammode", gCamera.MODE_FREE);
 //                        cVars.put("camplayertrackingid", killerid);
-                        xCon.ex("centercamera");
+//                        xCon.ex("centercamera");
                     }
                     playPlayerDeathSound();
                     if (sSettings.net_server) {
@@ -450,13 +452,6 @@ public class cScripts {
                     dmgvictim.put("coordx", "-10000");
                     dmgvictim.put("coordy", "-10000");
                 }
-            }
-            else if(cGameLogic.isUserPlayer(dmgvictim)) {
-                cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
-                int shakeintensity = Math.min(cVars.getInt("camshakemax"),
-                        cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)dmgvictim.getInt("stockhp")));
-                cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
-                cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
             }
         }
         //new above
