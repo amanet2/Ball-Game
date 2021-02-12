@@ -12,6 +12,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* try to have the server create bot shots as if reacting to a received packet
+* gamemode where you chase a ball that runs away from you, but you explode when you touch it
+    -> but it also respawns and gives you a point
+* client never receives the "actionload" for bot firing
 * make safezone so that you get +1 for each second in the safezone
     -> countdown to safezone change
     -> no more dying as a game mechanic

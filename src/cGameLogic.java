@@ -475,7 +475,6 @@ public class cGameLogic {
         if(cVars.get("sendcmd").length() > 0) {
             actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
             cVars.put("sendcmd","");
-            System.out.println(actionload);
         }
         if(sSettings.net_client && cVars.isOne("lapcomplete")) {
             actionload += "lapcomplete|";
