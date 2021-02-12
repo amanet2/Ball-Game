@@ -100,7 +100,7 @@ public class cGameLogic {
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
-                    if(!cVars.contains("respawntime")) {
+                    if(!userPlayer.contains("respawntime")) {
                         if(userPlayer.isOne("crouch"))
                             userPlayer.subtractVal("vel1",
                                     userPlayer.getInt("vel1") > 1 ? 1 : 0);
@@ -349,7 +349,7 @@ public class cGameLogic {
     }
 
     public static void checkHealthStatus() {
-        if(cVars.contains("respawntime") && (cVars.getLong("respawntime") < System.currentTimeMillis()
+        if(userPlayer.contains("respawntime") && (userPlayer.getLong("respawntime") < System.currentTimeMillis()
         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
             xCon.ex("respawn");
             cVars.remove("respawntime");
@@ -648,7 +648,7 @@ public class cGameLogic {
         cScripts.checkBulletSplashes();
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
-            && !cVars.contains("respawntime")) {
+            && !cl.contains("respawntime")) {
                 cScripts.playPlayerDeathSound();
                 cl.put("stockhp", cVars.get("maxstockhp"));
                 xCon.ex("respawn");
