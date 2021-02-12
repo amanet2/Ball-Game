@@ -400,10 +400,10 @@ public class cScripts {
                     new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         }
-        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
-        gPlayer killerPlayer = gScene.getPlayerById(bullet.get("srcid"));
-        String killerid = killerPlayer.get("id");
+        String killerid = bullet.get("srcid");
+        gPlayer killerPlayer = gScene.getPlayerById(killerid);
         String killername = killerPlayer.get("name");
+        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
         if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
             if(dmgvictim.getInt("stockhp") < 1) {
                 if(!dmgvictim.contains("respawntime")) {
