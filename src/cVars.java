@@ -89,7 +89,6 @@ public class cVars {
         put("sprint", "0");
         put("sprinttime", "0");
         put("starttime", "0");
-        put("stockhp", get("maxstockhp"));
         put("stockspeed", get("maxstockspeed"));
         put("suppressknocksound", "0");
         put("survivesafezone", "0");

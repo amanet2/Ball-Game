@@ -12,6 +12,16 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* lock camera to death pos on death
+    -> use follow camera for spectator mode
+* use bot code for players
+* cvar spawnprotection should be replaced with player spawnprotection
+* replace cvars stockhp with players stockhp
+* players must BOUNCE off other players
+    -> if a player is slower than another, make them take more and the other take less force accordingly
+* sendcmd commands need to append to eachother, so we can hold all possible actions that occur in a tick
+    -> next work on console commands that will build up this architecture
+        -> xComDamgePlayer
 * try to have the server create bot shots as if reacting to a received packet
 * gamemode where you chase a ball that runs away from you, but you explode when you touch it
     -> but it also respawns and gives you a point

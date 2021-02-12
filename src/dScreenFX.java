@@ -4,6 +4,7 @@ import java.awt.geom.AffineTransform;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
+        gPlayer userPlayer = cGameLogic.userPlayer();
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
         if(cGameLogic.drawSpawnProtection()) {
@@ -36,36 +37,38 @@ public class dScreenFX {
 
         }
         // health overlay
-        if(cVars.getInt("stockhp") < cVars.getInt("maxstockhp")-60) {
-            int factors = sVars.getInt("vfxfactor");
-            int maxl = cVars.getInt("vfxuialphahp");
-            for(int i = 0; i < sSettings.width; i += sSettings.width/factors) {
-                for(int j = 0; j < sSettings.height; j += sSettings.height/factors) {
-                    int w = sSettings.width/factors;
-                    int h = sSettings.height/factors;
-                    if(Math.random() > 0.95 && Math.random() > 0.95) {
-                        g.setColor(new Color(200, 0, 0, maxl
-                                - maxl*cVars.getInt("stockhp")/cVars.getInt("maxstockhp")
-                                + (int) (Math.random() * (-25) + 25)));
-                        g.fillRect(i, j, w, h);
+        if(userPlayer != null) {
+            //threshold to turn on screen fx
+            int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
+            if (userhp < cVars.getInt("maxstockhp") - 75) {
+                int factors = sVars.getInt("vfxfactor");
+                int maxl = cVars.getInt("vfxuialphahp");
+                for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
+                    for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
+                        int w = sSettings.width / factors;
+                        int h = sSettings.height / factors;
+                        if (Math.random() > 0.95 && Math.random() > 0.95) {
+                            g.setColor(new Color(200, 0, 0, maxl
+                                    - maxl * userhp / cVars.getInt("maxstockhp")
+                                    + (int) (Math.random() * (-25) + 25)));
+                            g.fillRect(i, j, w, h);
+                        }
                     }
                 }
-            }
-            int factorsw = sSettings.width/sVars.getInt("vfxfactordiv");
-            int factorsh = sSettings.height/sVars.getInt("vfxfactordiv");
-            for (int i = 0; i < factorsw; i++) {
-                g.setColor(new Color(100, 0, 0,
-                        Math.abs(Math.abs((maxl / (factorsw/2)) * (Math.abs(((factorsw/2) - i))-(factorsw/2))) - maxl)
-                                *  (cVars.getInt("maxstockhp")
-                                - cVars.getInt("stockhp"))/cVars.getInt("maxstockhp")/2));
-                g.fillRect(sSettings.width/factorsw * i, 0,sSettings.width/factorsw, sSettings.height);
-            }
-            for (int i = 0; i < factorsh; i++) {
-                g.setColor(new Color(100, 0, 0,
-                        Math.abs(Math.abs((maxl / (factorsh/2)) * (Math.abs(((factorsh/2) - i))-(factorsh/2))) - maxl)
-                                *  (cVars.getInt("maxstockhp")
-                                - cVars.getInt("stockhp"))/cVars.getInt("maxstockhp")/2));
-                g.fillRect(0, sSettings.height/factorsh * i, sSettings.width, sSettings.height/factorsh);
+                int factorsw = sSettings.width / sVars.getInt("vfxfactordiv");
+                int factorsh = sSettings.height / sVars.getInt("vfxfactordiv");
+                for (int i = 0; i < factorsw; i++) {
+                    g.setColor(new Color(100, 0, 0,
+                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i)) - (factorsw / 2))) - maxl)
+                                    * (cVars.getInt("maxstockhp") - userhp) / cVars.getInt("maxstockhp") / 2));
+                    g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
+                }
+                for (int i = 0; i < factorsh; i++) {
+                    g.setColor(new Color(100, 0, 0,
+                            Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
+                                    * (cVars.getInt("maxstockhp") - userhp) / cVars.getInt("maxstockhp") / 2));
+                    g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
+                }
             }
         }
         // -- aimer

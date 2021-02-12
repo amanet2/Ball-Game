@@ -17,16 +17,6 @@ public class cGameLogic {
         return userPlayer;
     }
 
-    public static void damageHealth(int dmg) {
-        cVars.putInt("stockhp", Math.max(cVars.getInt("stockhp") - dmg, 0));
-        cVars.putLong("hprechargetime", System.currentTimeMillis());
-    }
-
-    public static void damageBotHealth(gPlayer bot, int dmg) {
-        bot.putInt("stockhp", Math.max(bot.getInt("stockhp") - dmg, 0));
-        bot.putLong("hprechargetime", System.currentTimeMillis());
-    }
-
     /**
      * executed at every game tick
      */
@@ -368,9 +358,9 @@ public class cGameLogic {
             cVars.remove("spawnprotectiontime");
         }
         if(sSettings.net_server) {
-            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            for(Object id : botsMap.keySet()) {
-                gPlayer p = (gPlayer) botsMap.get(id);
+            HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+            for(Object id : playersMap.keySet()) {
+                gPlayer p = (gPlayer) playersMap.get(id);
                 if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                     xCon.ex("botrespawn " + p.get("bottag"));
@@ -395,13 +385,6 @@ public class cGameLogic {
         else if(cVars.contains("shaketime")) {
             cVars.putInt("cammode", gCamera.MODE_TRACKING);
             cVars.remove("shaketime");
-        }
-        if(cVars.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-            cVars.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-            if(cVars.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                cVars.put("stockhp", cVars.get("maxstockhp"));
-            else
-                cVars.putInt("stockhp", cVars.getInt("stockhp") + cVars.getInt("rechargehp"));
         }
     }
 
@@ -664,7 +647,7 @@ public class cGameLogic {
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cVars.contains("respawntime")) {
                 cScripts.playPlayerDeathSound();
-                cVars.put("stockhp", cVars.get("maxstockhp"));
+                cl.put("stockhp", cVars.get("maxstockhp"));
                 xCon.ex("respawn");
                 cVars.put("falltime", "0");
             }

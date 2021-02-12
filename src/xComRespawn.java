@@ -22,7 +22,7 @@ public class xComRespawn extends xCom {
         else {
             cScripts.refillWeaponStocks();
         }
-        cVars.put("stockhp", cVars.get("maxstockhp"));
+        userPlayer.put("stockhp", cVars.get("maxstockhp"));
         userPlayer.put("alive", "1");
         xCon.ex("cv_flashlight 0");
         xCon.ex("cv_sprint 0");

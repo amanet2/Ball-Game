@@ -391,6 +391,7 @@ public class cScripts {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
         String s = String.format("%d", adjusteddmg);
+        //play animations first in case player dies in a function before these get called
         eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
                 new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
             dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
@@ -399,11 +400,11 @@ public class cScripts {
                     new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         }
+        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg);
         gPlayer killerPlayer = gScene.getPlayerById(bullet.get("srcid"));
         String killerid = killerPlayer.get("id");
         String killername = killerPlayer.get("name");
         if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
-            cGameLogic.damageBotHealth(dmgvictim, adjusteddmg);
             if(dmgvictim.getInt("stockhp") < 1) {
                 if(!dmgvictim.contains("respawntime")) {
                     dmgvictim.putLong("respawntime",
@@ -444,8 +445,7 @@ public class cScripts {
             }
         }
         if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
-            cGameLogic.damageHealth(adjusteddmg);
-            if(cVars.getInt("stockhp") < 1) {
+            if(dmgvictim.getInt("stockhp") < 1) {
                 dmgvictim.putInt("alive", 0);
                 if(!cVars.contains("respawntime")) {
                     xCon.ex("dropweapon");
@@ -490,7 +490,7 @@ public class cScripts {
             else {
                 cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
                 int shakeintensity = Math.min(cVars.getInt("camshakemax"),
-                        cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)cVars.getInt("stockhp")));
+                        cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)dmgvictim.getInt("stockhp")));
                 cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
                 cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
             }
