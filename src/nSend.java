@@ -6,7 +6,6 @@ public class nSend {
     public static String focus_id = ""; //for when you need to operate on a response to a specific id
     static HashMap<String, String> sendMap = null;
     private static String[] constantFields = {"map", "mode", "teams", "armed", "tick", "powerups", "scoremap", "scorelimit",
-//            "timeleft", "timelimit", "topscore", "state", "win", "vels", "fire", "dirs", "x", "y", "msg", "kick",
             "timeleft", "timelimit", "topscore", "state", "win", "vels", "dirs", "x", "y", "msg", "kick",
             "weapon", "spawnprotectionmaxtime"};
     private static List<String> constantsList = Arrays.asList(constantFields);
@@ -42,40 +41,33 @@ public class nSend {
                 sendMap.put("netmsgrcv","");
                 nClient.msgreceived = 0;
             }
-            else {
+            else
                 sendMap.remove("netmsgrcv");
-            }
 
             if(nClient.sfxreceived != 0) {
                 sendMap.put("netsfxrcv","");
                 nClient.sfxreceived = 0;
             }
-            else {
+            else
                 sendMap.remove("netsfxrcv");
-            }
 
             if(nClient.cmdreceived != 0) {
                 sendMap.put("netcmdrcv","");
                 nClient.cmdreceived = 0;
             }
-            else {
+            else
                 sendMap.remove("netcmdrcv");
-            }
 
             sendDataString = new StringBuilder(sendMap.toString());
-            xCon.ex("cv_quitconfirmed cv_quitting");
-            xCon.ex("cv_disconnectconfirmed cv_disconnecting");
+            cVars.put("quitconfirmed", cVars.get("quitting"));
+            cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         }
-        if(cVars.contains("spawnprotectiontime")) {
+        if(cVars.contains("spawnprotectiontime"))
             sendMap.put("spawnprotected","");
-        }
-        else {
+        else
             sendMap.remove("spawnprotected");
-        }
-        xCon.ex("cv_reportedkiller cv_exploded");
-        xCon.ex("cv_exploded 1");
-//        cGameLogic.userPlayer().put("sendshot", "0");
-        xCon.ex("cv_sendsafezone 0");
+        cVars.put("exploded", "1");
+        cVars.put("sendsafezone", "0");
         return sendDataString.toString();
     }
 }

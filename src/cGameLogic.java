@@ -462,16 +462,8 @@ public class cGameLogic {
             actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
             cVars.put("sendcmd","");
         }
-        if(sSettings.net_client && cVars.isOne("lapcomplete")) {
-            actionload += "lapcomplete|";
-            xCon.ex("cv_lapcomplete 0");
-        }
         if(cVars.isZero("exploded"))
             actionload += String.format("explode:%s:%s|", cVars.get("explodex"), cVars.get("explodey"));
-        if(cVars.isZero("reportedkiller")) {
-            actionload += String.format("killedby%s|", cVars.get("killerid"));
-            cVars.put("killerid", "God");
-        }
         if(actionload.length() > 0)
             actionload.substring(0,actionload.length()-1); //cutoff last separator
         return actionload;
@@ -590,6 +582,7 @@ public class cGameLogic {
                     }
                     else if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS
                             && p.isInt("code", gProps.SCOREPOINT) && p.getInt("int0") > 0) {
+                        System.out.println("ASDFASDFASDF");
                         if(sSettings.net_server) {
                             xCon.ex("givepoint " + cl.get("id"));
                             p.put("int0", "0");

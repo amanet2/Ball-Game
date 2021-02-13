@@ -15,7 +15,7 @@ public class gPropScorepoint extends gProp {
         gameModeEffects.put(Integer.toString(cGameMode.RACE), new gDoableThing() {
             public void doItem(gThing p) {
                 HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-                if(sSettings.net_server && p.get("id").contains("bot")) {
+                if(sSettings.net_server) {
                     if(!get("racebotidcheckins").contains(p.get("id"))) {
                         put("racebotidcheckins", get("racebotidcheckins")+(p.get("id")+":"));
                     }
@@ -43,21 +43,15 @@ public class gPropScorepoint extends gProp {
                         int gonnaWin = 1;
                         for(Object id : scorepointsMap.keySet()) {
                             gProp pr = (gProp) scorepointsMap.get(id);
-                            if (pr.isZero("int0")) {
+                            if (pr.isZero("int0"))
                                 gonnaWin = 0;
-                            }
                         }
                         if (gonnaWin > 0) {
                             for(Object id : scorepointsMap.keySet()) {
                                 gProp pr = (gProp) scorepointsMap.get(id);
                                 pr.put("int0", "0");
                             }
-                            if (sSettings.net_server) {
-                                xCon.ex("givepoint " + p.get("id"));
-                            } else if (sSettings.net_client) {
-                                xCon.ex("cv_lapcomplete 1");
-                                cScripts.createScorePopup((gPlayer) p, 1);
-                            }
+                            cScripts.createScorePopup((gPlayer) p, 1);
                         }
                     }
                 }

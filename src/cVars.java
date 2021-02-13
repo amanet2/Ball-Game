@@ -57,7 +57,6 @@ public class cVars {
         put("kingofflagstime", "0");
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
-        put("lapcomplete", "0");
         putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
         put("maxstockspeed", "1000");
@@ -70,7 +69,6 @@ public class cVars {
         put("rechargepow", "12");
         put("rechargehp", "1");
         put("reloading", "0");
-        put("reportedkiller", "1");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));

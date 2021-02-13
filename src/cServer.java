@@ -90,38 +90,8 @@ public class cServer {
     public static void processActionLoadServer(String packActions, String packName, String packId) {
         String[] actions = packActions.split("\\|");
         for(String action : actions) {
-            if((action.contains("lapcomplete") && cVars.getInt("gamemode") == cGameMode.RACE)
-                    || (action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES)
-                    || (action.contains("waypoint") && cVars.getInt("gamemode") == cGameMode.WAYPOINTS)) {
+            if(action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
                 xCon.ex("givepoint " + packId);
-            }
-            if(action.contains("killedby")) {
-                int gamemode = cVars.getInt("gamemode");
-                if((gamemode == cGameMode.CAPTURE_THE_FLAG || gamemode == cGameMode.FLAG_MASTER)
-                        && cVars.get("flagmasterid").equals(packId)) {
-                    cVars.put("flagmasterid", "");
-                    xCon.ex("say " + packName + " lost the flag!");
-                }
-                if (action.replace("killedby", "").equals("server")) {
-                    cScoreboard.incrementScoreFieldById("server", "kills");
-                    xCon.ex("say " + sVars.get("playername") + " killed " + packName);
-                    if(gamemode == cGameMode.DEATHMATCH) {
-                        xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
-                    }
-                }
-                else {
-                    String killerid = action.replace("killedby", "");
-                    if(!killerid.equals("God")) {
-                        cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        if (gamemode == cGameMode.DEATHMATCH)
-                            xCon.ex("givepoint " + killerid);
-                        xCon.ex("say " + gScene.getPlayerById(killerid).get("name") + " killed " + packName);
-                    }
-                    else {
-                        //handle God/Guardians/Map kills separate
-                        xCon.ex("say " + packName + " died");
-                    }
-                }
             }
             if(action.contains("explode")) {
                 String[] args = action.split(":");
