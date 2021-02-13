@@ -21,7 +21,7 @@ public class gPropScorepoint extends gProp {
                     }
                     int gonnaWin = 1;
                     for(Object id : scorepointsMap.keySet()) {
-                        gProp pr = (gProp) scorepointsMap.get(id);
+                        gThing pr = (gThing) scorepointsMap.get(id);
                         if(!pr.get("racebotidcheckins").contains(p.get("id"))) {
                             gonnaWin = 0;
                             break;

@@ -135,7 +135,9 @@ public class dWaypoints {
                         if(((cVars.isInt("gamemode", cGameMode.WAYPOINTS)
                                 || cVars.isInt("gamemode", cGameMode.SAFE_ZONES))
                                 && scorepoint.getInt("int0") > 0)
-                                || (cVars.isInt("gamemode", cGameMode.RACE) && scorepoint.getInt("int0") < 1)) {
+                                || (cVars.isInt("gamemode", cGameMode.RACE)
+                                && !scorepoint.get("racebotidcheckins").contains(cGameLogic.userPlayer().get("id")))) {
+                            //racebots is for server, int0 is for clients
                             dWaypoints.drawNavPointer(g2,
                                     scorepoint.getInt("coordx") + scorepoint.getInt("dimw") / 2,
                                     scorepoint.getInt("coordy") + scorepoint.getInt("dimh") / 2,

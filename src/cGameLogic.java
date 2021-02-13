@@ -429,25 +429,8 @@ public class cGameLogic {
     }
 
     public static void checkPlayersFire() {
-        if (eManager.currentMap.scene.playersMap().size() > 0) {
-            if(iMouse.holdingMouseLeft) {
+        if(cGameLogic.userPlayer() != null && iMouse.holdingMouseLeft)
                 xCon.ex("attack");
-            }
-//            for(String id : gScene.getPlayerIds()) {
-//                gPlayer p = gScene.getPlayerById(id);
-//                if(p.isOne("firing") && p.getLong("cooldown") < System.currentTimeMillis()) {
-//                    p.fireWeapon();
-//                    p.putLong("cooldown",
-//                            (System.currentTimeMillis() + gWeapons.fromCode(p.getInt("weapon")).refiredelay));
-//                }
-//                if(p.isInt("crouch", 1)) {
-//                    xCon.ex("playercrouch " + p.get("id"));
-//                }
-//                else {
-//                    xCon.ex("-playercrouch " + p.get("id"));
-//                }
-//            }
-        }
     }
 
     public static String getActionLoad() {
@@ -500,10 +483,10 @@ public class cGameLogic {
         for(String checkThingType : new String[]{
                 "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
-            HashMap<String, gThing> playerMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String playerId : playerMap.keySet()) {
-                gPlayer player = (gPlayer) playerMap.get(playerId);
+                gPlayer player = playerMap.get(playerId);
                 for (String propId : thingMap.keySet()) {
                     gProp prop = (gProp) thingMap.get(propId);
                     if(player.willCollideWithPropAtCoords(prop, player.getInt("coordx"),
@@ -513,90 +496,6 @@ public class cGameLogic {
                 }
             }
         }
-//        //old props, other players
-//        for(String id : gScene.getPlayerIds()) {
-//            gPlayer cl = gScene.getPlayerById(id);
-//            for(gProp p : eManager.currentMap.scene.props()) {
-//                if(cl.willCollideWithPropAtCoords(p, cl.getInt("coordx"), cl.getInt("coordy"))) {
-//                    if(p.isInt("code", gProps.TELEPORTER) && cl.get("id").contains("bot")) {
-//                        //bot touches teleporter
-//                        p.propEffect(cl);
-//                    }
-//                    else if(sSettings.net_server && p.isInt("code", gProps.SCOREPOINT)
-//                            && cl.get("id").contains("bot")) {
-//                        //bot touches scorepoint
-//                        cScripts.checkPlayerScorepoints(p, cl);
-//                    }
-//                    else if(p.isInt("code", gProps.POWERUP)) {
-//                        if(p.getInt("int0") > 0) {
-//                            if(sSettings.net_server) {
-//                                if(cl.get("id").contains("bot")
-//                                        && cl.getLong("powerupsusetime") < System.currentTimeMillis()) {
-//                                    //do powerup effect
-//                                        cl.putLong("powerupsusetime",
-//                                                System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
-//                                    cScripts.changeBotWeapon(cl, p.getInt("int0"), true);
-//                                    p.put("int0", "0");
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else if(cVars.getInt("gamemode") == cGameMode.KING_OF_FLAGS
-//                            && p.isInt("code", gProps.FLAGRED) && !p.isVal("str0", cl.get("id")) ) {
-//                        //handle kingofflag flagred intersection
-//                        int pass = 1;
-//                        for(String id2 : gScene.getPlayerIds()) {
-//                            gPlayer p2 = gScene.getPlayerById(id2);
-//                            //make sure no other players still on the flag
-//                            if(!p2.get("id").equals(cl.get("id"))
-//                                    && p2.willCollideWithPropAtCoords(p,
-//                                    p2.getInt("coordx"), p2.getInt("coordy"))) {
-//                                pass = 0;
-//                                break;
-//                            }
-//                        }
-//                        if(pass > 0) {
-//                            p.put("str0", cl.get("id"));
-//                            if (sSettings.net_server) {
-//                                xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
-//                                xCon.ex("givepoint " + cl.get("id"));
-//                            }
-//                        }
-//                    }
-//                    else if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-//                            || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-//                            && p.isInt("code", gProps.FLAGRED)
-//                            && cVars.isVal("flagmasterid", "")){
-//                        if(sSettings.net_server) {
-//                            xCon.ex("say " + cl.get("name") + " has the flag!");
-//                        }
-//                        cVars.put("flagmasterid", cl.get("id"));
-//                    }
-//                    else if(cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-//                            && p.isInt("code", gProps.FLAGBLUE)
-//                            && cVars.isVal("flagmasterid", cl.get("id"))){
-//                        if(sSettings.net_server) {
-//                            xCon.ex("givepoint " + cl.get("id"));
-//                            cVars.put("flagmasterid", "");
-//                            xCon.ex("say " + cl.get("name") + " captured the flag!");
-//                        }
-//                    }
-//                    else if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS
-//                            && p.isInt("code", gProps.SCOREPOINT) && p.getInt("int0") > 0) {
-//                        System.out.println("ASDFASDFASDF");
-//                        if(sSettings.net_server) {
-//                            xCon.ex("givepoint " + cl.get("id"));
-//                            p.put("int0", "0");
-//                        }
-//                    }
-//                }
-//                else if(cl.isZero("tag") && p.isInt("code", gProps.TELEPORTER)
-//                        && p.isVal("tag", cVars.get("exitteleportertag"))) {
-//                    //not colliding with our exit teleporter now
-//                    cVars.put("exitteleportertag", "-1");
-//                }
-//            }
-//        }
         //check for winlose
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
@@ -639,7 +538,7 @@ public class cGameLogic {
 
     public static void checkForPlayerDeath() {
         gPlayer cl = cGameLogic.userPlayer();
-        cScripts.checkBulletSplashes();
+//        cScripts.checkBulletSplashes();
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW && cVars.isZero("inboost")){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cl.contains("respawntime")) {
@@ -658,9 +557,8 @@ public class cGameLogic {
                 cGameMode.refreshSafeZones();
                 if (cVars.isOne("survivesafezone")) {
                     cVars.put("sendsafezone", "1");
-                    if(sSettings.net_server) {
+                    if(sSettings.net_server)
                         xCon.ex("givepoint " + cl.get("id"));
-                    }
                 }
                 cVars.put("exploded", "0");
                 cVars.putInt("explodex", cl.getInt("coordx") - 75);

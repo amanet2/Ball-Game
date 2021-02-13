@@ -46,25 +46,6 @@ public class gPropFlagRed extends gProp {
                     }
                 }
             }
-//                        //handle kingofflag flagred intersection
-//                        int pass = 1;
-//                        for(String id2 : gScene.getPlayerIds()) {
-//                            gPlayer p2 = gScene.getPlayerById(id2);
-//                            //make sure no other players still on the flag
-//                            if(!p2.get("id").equals(cl.get("id"))
-//                                    && p2.willCollideWithPropAtCoords(p,
-//                                    p2.getInt("coordx"), p2.getInt("coordy"))) {
-//                                pass = 0;
-//                                break;
-//                            }
-//                        }
-//                        if(pass > 0) {
-//                            p.put("str0", cl.get("id"));
-//                            if (sSettings.net_server) {
-//                                xCon.ex("say " + cl.get("name") + " captured flag#" + p.getInt("tag"));
-//                                xCon.ex("givepoint " + cl.get("id"));
-//                            }
-//                        }
         }
     };
 
