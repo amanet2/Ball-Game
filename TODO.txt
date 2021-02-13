@@ -3,9 +3,8 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* come up with ways to keep things like "time" in the client map without relying on input from client
-    -> onreceive, store "time" in the client map but dont use client's value
-* why does the client send a "time"
+* for new multiflag ctf use the flag's "str0" to store the former "flagmasterid"
+    -> don't need a cvar for it if everything goes as planned
 * think about returning a player's health from the server and reading/syncing it instead of having each client
 call the "damageplayer" console function
 * make respawn a console command taking an id
@@ -19,9 +18,6 @@ call the "damageplayer" console function
 * console command for spawn animation as well
 * refactor cvars.respawntime into player
     -> also spawnprotectiontime
-* lock camera to death pos on death to watch explosion, then spawn after 2 seconds (draw red string of course)
-    -> make player invisible/unclip on death and lock to that id
-    -> use follow camera for spectator mode
 * use bot code for players
 * cvar spawnprotection should be replaced with player spawnprotection
 * replace cvars stockhp with players stockhp

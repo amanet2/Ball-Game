@@ -403,25 +403,10 @@ public class cScripts {
                 xCon.ex(damageplayer_cmdstring);
                 cVars.put("sendcmd", damageplayer_cmdstring);
             }
+            //serverside actions on player death
             if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
-                if(cGameLogic.isUserPlayer(dmgvictim)) {
-                    xCon.ex("dropweapon");
-                    cVars.remove("shaketime");
-                    cVars.putInt("cammode", gCamera.MODE_FREE);
-                    cVars.put("cammov0", "0");
-                    cVars.put("cammov1", "0");
-                    cVars.put("cammov2", "0");
-                    cVars.put("cammov3", "0");
-                }
-                playPlayerDeathSound();
+                cScripts.playPlayerDeathSound();
                 if (sSettings.net_server) {
-                    dmgvictim.putInt("alive", 0);
-                    dmgvictim.putLong("respawntime",
-                            System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
-                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
-                    dmgvictim.put("exploded", "0");
-                    dmgvictim.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-                    dmgvictim.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
                     cScoreboard.incrementScoreFieldById(killerid, "kills");
                     xCon.ex("say " + killername + " killed " + dmgvictim.get("name"));
                     if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
@@ -432,11 +417,6 @@ public class cScripts {
                             && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
                         cVars.put("flagmasterid", "");
                     }
-                }
-                if(sVars.isOne("vfxenableanimations")) {
-                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                            new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                    dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
                 }
                 dmgvictim.put("coordx", "-10000");
                 dmgvictim.put("coordy", "-10000");
