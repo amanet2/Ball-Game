@@ -132,13 +132,13 @@ public class cGameLogic {
                     cVars.putInt("jumping", 0);
                 }
             }
-            cVars.put("onladder", "0");
             cVars.put("inboost", "0");
     }
 
     public static boolean drawSpawnProtection() {
-        return cVars.contains("spawnprotectiontime")
-                && cVars.getLong("spawnprotectiontime") > System.currentTimeMillis();
+        gPlayer userplayer = cGameLogic.userPlayer();
+        return userplayer != null && (userplayer.contains("spawnprotectiontime")
+                && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
     }
 
     public static void resetGameState() {
@@ -316,9 +316,9 @@ public class cGameLogic {
         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
             xCon.ex("respawn");
         }
-        if(cVars.contains("spawnprotectiontime")
-                && cVars.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-            cVars.remove("spawnprotectiontime");
+        if(userPlayer.contains("spawnprotectiontime")
+                && userPlayer.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
+            userPlayer.remove("spawnprotectiontime");
         }
         if(sSettings.net_server) {
             HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");

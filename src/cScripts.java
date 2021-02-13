@@ -397,7 +397,7 @@ public class cScripts {
                 eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
                         createID(8), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                                 bullet.getInt("coordx"), bullet.getInt("coordy")));
-            //handle killing serverside
+            //handle damage serverside
             if(sSettings.net_server) {
                 String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
                 xCon.ex(damageplayer_cmdstring);

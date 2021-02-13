@@ -58,7 +58,6 @@ public class cVars {
         putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
         put("maxstockspeed", "1000");
-        put("onladder", "0");
         put("popuplivetime", "2000");
         put("powerupson", sVars.get("powerupsmaxon"));
         put("powerupstime", "0");

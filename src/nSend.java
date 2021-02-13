@@ -62,7 +62,7 @@ public class nSend {
             cVars.put("quitconfirmed", cVars.get("quitting"));
             cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         }
-        if(cVars.contains("spawnprotectiontime"))
+        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
             sendMap.put("spawnprotected","");
         else
             sendMap.remove("spawnprotected");

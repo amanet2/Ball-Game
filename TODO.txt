@@ -3,6 +3,7 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* spawnprotection should be on a per-player basis
 * for new multiflag ctf use the flag's "str0" to store the former "flagmasterid"
     -> don't need a cvar for it if everything goes as planned
 * think about returning a player's health from the server and reading/syncing it instead of having each client
