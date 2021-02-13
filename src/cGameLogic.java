@@ -320,7 +320,7 @@ public class cGameLogic {
                 && userPlayer.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
             userPlayer.remove("spawnprotectiontime");
         }
-        if(sSettings.net_server) {
+//        if(sSettings.net_server) {
             HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
             for(Object id : playersMap.keySet()) {
                 gPlayer p = (gPlayer) playersMap.get(id);
@@ -328,7 +328,7 @@ public class cGameLogic {
                         || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                     if(p.isBot())
                         xCon.ex("botrespawn " + p.get("bottag"));
-                    else if(cGameLogic.isUserPlayer(p))
+                    else
                         p.remove("respawntime");
                 }
                 if(p.contains("spawnprotectiontime")
@@ -343,7 +343,7 @@ public class cGameLogic {
                         p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
                 }
             }
-        }
+//        }
         if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
             cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
         }
