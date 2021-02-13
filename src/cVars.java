@@ -43,7 +43,6 @@ public class cVars {
         put("gametick", sVars.get("gametick"));
         putInt("gravity", 6);
         put("blockmouseui", "0");
-        put("hprechargetime", "0");
         put("inboost", "0");
         put("inspawn", "1");
         put("intermissiontime", "-1");

@@ -393,7 +393,7 @@ public class cScripts {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
         String s = String.format("%d", adjusteddmg);
-        //play animations first in case player dies in a function before these get called
+        //play animations first on all clients
         eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
                 new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
             dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
