@@ -268,7 +268,7 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", getInt("vel1") - 1);
+                        putInt("vel0",3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
                 }
@@ -327,7 +327,7 @@ public class gPlayer extends gThing {
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel0", getInt("vel3") - 1);
+                        putInt("vel0", 3*getInt("vel3")/2 - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel1") > 0) {
@@ -373,7 +373,7 @@ public class gPlayer extends gThing {
                 }
                 else {
                     if (getInt("vel2") > 0) {
-                        putInt("vel0", getInt("vel2") - 1);
+                        putInt("vel0", 3*getInt("vel2")/2 - 1);
                         put("vel2", "0");
                     }
                     if (getInt("vel1") > 0) {
@@ -401,7 +401,7 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", getInt("vel1") - 1);
+                        putInt("vel0", 3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
                 }

@@ -12,28 +12,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*
-
-* race scorepoints dont show navpointer
-    -> clients have no way to know what the server's prop properties are
-        -> in state string, send string of tag:int0 pairs so client knows what props to turn on or off
-* make it so propEffect is called on all clients when anyone hits a prop
-    -> but try to restrict it to the server to actually make decisions
-    -> commented code in gamelogic.getstate holds the lost functions
-* make it so race game doesnt use "lapcomplete"
-* add "createpopup" console command for popups to appear synced on all clients
-* think about that queue for sendcmds
-    -> maybe be like: nServer.addSendCmd(String cmd) and they all go through on a queue
-        -> instead of setting sendcmd="" check for another msg on the queue
-* have to respawn manually but client is kinda like what we want when the server kills them
-* health not recharging anymore
-    -> works for server
-    -> prolly tied up in cvars
-* botrespawn error when server kills client
-    -> cGamelogic.367
+* corner tiles with flat tops dont react the same as toptiles
 * setting "gravity" to 0 needs to work as expected
-* "sendcmd" the damageplayer command
-    -> come up with a way for server to specifically send things to a chosen id
 * use "alive" server flag over net
     -> if client sees that they're not supposed to be "alive" they go invisible and camera remains free mode at last coords
 * console command for spawn animation as well
