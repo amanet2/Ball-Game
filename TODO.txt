@@ -1,18 +1,18 @@
-==DISTRIBUTION==
-* create update patches
-    -> zip up all the update files in same dir structure as existing BRA
-    -> create NSIS zip2exe to extract updates into BRA folder
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
 /////////////////////                                                                 /////////////////////////////////
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* corner tiles with flat tops dont react the same as toptiles
+* come up with ways to keep things like "time" in the client map without relying on input from client
+    -> onreceive, store "time" in the client map but dont use client's value
+* why does the client send a "time"
+* think about returning a player's health from the server and reading/syncing it instead of having each client
+call the "damageplayer" console function
+* make respawn a console command taking an id
+    -> send over net for player respawning
+    -> client gets dmg updates but doesnt know when hes actually dead
+    -> see where client gets put to the off-world coords though
+* bot respawning is messed up bad but doesnt crash
 * setting "gravity" to 0 needs to work as expected
 * use "alive" server flag over net
     -> if client sees that they're not supposed to be "alive" they go invisible and camera remains free mode at last coords
@@ -186,14 +186,15 @@
     -> tag: re-assign "itness"
 * EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
 /////////////////////                                                                 /////////////////////////////////
                                                 ==FEATURES==
 /////////////////////                                                                 /////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * refactor mapfile so you can create objects with the kind of flexibility of hashmaps
     -> obv this means json

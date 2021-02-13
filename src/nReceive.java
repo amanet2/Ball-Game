@@ -14,8 +14,9 @@ public class nReceive {
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
                 String packId = packArgMap.get("id");
-                if(!nServer.clientArgsMap.containsKey(packId))
+                if(!nServer.clientArgsMap.containsKey(packId)) {
                     nServer.clientArgsMap.put(packId, packArgMap);
+                }
                 if(!scoresMap.containsKey(packId)) {
                     cScoreboard.addId(packId);
                 }
@@ -29,7 +30,8 @@ public class nReceive {
                 long oldTimestamp = 0;
                 if(oldArgMap != null) {
                     oldName = oldArgMap.get("name");
-                    oldTimestamp = Long.parseLong(oldArgMap.get("time"));
+                    oldTimestamp = oldArgMap.containsKey("time") ?
+                            Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
                 }
                 for(String k : packArgMap.keySet()) {
                     if(!nServer.clientArgsMap.get(packId).containsKey(k)
@@ -37,6 +39,9 @@ public class nReceive {
                         nServer.clientArgsMap.get(packId).put(k, packArgMap.get(k));
                     }
                 }
+                //record time we last updated client args
+                nServer.clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
+                //parse and process the args from client packet
                 if(nServer.clientIds.contains(packId)) {
                     isnewclient = 0;
                     scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));

@@ -379,71 +379,67 @@ public class cScripts {
 
     //call this everytime a bullet intersects a player
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
-        //calculate dmg
-        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
-        String s = String.format("%d", adjusteddmg);
-        //play animations first on all clients
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
-                new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
-            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
-        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1) {
-            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                    new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                            bullet.getInt("coordx"), bullet.getInt("coordy")));
-        }
         //get shooter details
         String killerid = bullet.get("srcid");
         gPlayer killerPlayer = gScene.getPlayerById(killerid);
         String killername = killerPlayer.get("name");
         if(!dmgvictim.contains("spawnprotectiontime")) {
+            //calculate dmg
+            int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                    *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
+            )/(double)bullet.getInt("ttl"))));
+            //play animations on all clients
+            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
+                    new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
+                            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
+                            Integer.toString(adjusteddmg), 0.0));
+            if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                        createID(8), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                                bullet.getInt("coordx"), bullet.getInt("coordy")));
             //handle killing serverside
             if(sSettings.net_server) {
                 String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
                 xCon.ex(damageplayer_cmdstring);
                 cVars.put("sendcmd", damageplayer_cmdstring);
             }
-            if(dmgvictim.getInt("stockhp") < 1) {
-                if(!dmgvictim.contains("respawntime")) {
-                    if(cGameLogic.isUserPlayer(dmgvictim)) {
-                        xCon.ex("dropweapon");
-                        cVars.remove("shaketime");
-                        cVars.putInt("cammode", gCamera.MODE_FREE);
-                        cVars.put("cammov0", "0");
-                        cVars.put("cammov1", "0");
-                        cVars.put("cammov2", "0");
-                        cVars.put("cammov3", "0");
-                    }
-                    playPlayerDeathSound();
-                    if (sSettings.net_server) {
-                        dmgvictim.putInt("alive", 0);
-                        dmgvictim.putLong("respawntime",
-                                System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
-                        dmgvictim.put("stockhp", cVars.get("maxstockhp"));
-                        dmgvictim.put("exploded", "0");
-                        dmgvictim.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-                        dmgvictim.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
-                        dmgvictim.put("killername", killername);
-                        dmgvictim.put("killerid", killerid);
-                        cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        xCon.ex("say " + killername + " killed " + dmgvictim.get("name"));
-                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                                || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                                && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                            cVars.put("flagmasterid", "");
-                        }
-                    }
-                    if(sVars.isOne("vfxenableanimations")) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
-                    }
-                    dmgvictim.put("coordx", "-10000");
-                    dmgvictim.put("coordy", "-10000");
+            if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
+                if(cGameLogic.isUserPlayer(dmgvictim)) {
+                    xCon.ex("dropweapon");
+                    cVars.remove("shaketime");
+                    cVars.putInt("cammode", gCamera.MODE_FREE);
+                    cVars.put("cammov0", "0");
+                    cVars.put("cammov1", "0");
+                    cVars.put("cammov2", "0");
+                    cVars.put("cammov3", "0");
                 }
+                playPlayerDeathSound();
+                if (sSettings.net_server) {
+                    dmgvictim.putInt("alive", 0);
+                    dmgvictim.putLong("respawntime",
+                            System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
+                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
+                    dmgvictim.put("exploded", "0");
+                    dmgvictim.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
+                    dmgvictim.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
+                    cScoreboard.incrementScoreFieldById(killerid, "kills");
+                    xCon.ex("say " + killername + " killed " + dmgvictim.get("name"));
+                    if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
+                        xCon.ex("givepoint " + killerid);
+                    }
+                    if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
+                            || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
+                        cVars.put("flagmasterid", "");
+                    }
+                }
+                if(sVars.isOne("vfxenableanimations")) {
+                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
+                            new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                                    dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
+                }
+                dmgvictim.put("coordx", "-10000");
+                dmgvictim.put("coordy", "-10000");
             }
         }
     }

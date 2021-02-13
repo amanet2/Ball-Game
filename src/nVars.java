@@ -87,7 +87,6 @@ public class nVars {
             keys.put("disconnect", "");
         else
             keys.remove("disconnect");
-        keys.put("time", Long.toString(System.currentTimeMillis()));
         if(sSettings.net_server) {
             if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {

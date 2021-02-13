@@ -215,8 +215,8 @@ public class cGameLogic {
             for(String id : nServer.clientArgsMap.keySet()) {
                 if(!id.equals(uiInterface.uuid)) {
                     //check currentTime vs last recorded checkin time
-                    long ctime = Long.parseLong(nServer.clientArgsMap.get(id).get("time"));
-                    if(System.currentTimeMillis() > ctime + sVars.getInt("timeout")) {
+                    long lastrecordedtime = Long.parseLong(nServer.clientArgsMap.get(id).get("time"));
+                    if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
                         nServer.quitClientIds.add(id);
                     }
                 }
