@@ -268,6 +268,7 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
+                        cVars.put("suppressknocksound", "1");
                         putInt("vel0",3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
@@ -357,7 +358,6 @@ public class gPlayer extends gThing {
             if(pb.intersects(cwb)) {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
-                        double mod = 1.5;
                         putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
@@ -401,6 +401,7 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
+                        cVars.put("suppressknocksound", "1");
                         putInt("vel0", 3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
