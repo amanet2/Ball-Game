@@ -12,6 +12,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*
+
+* race scorepoints dont show navpointer
+    -> clients have no way to know what the server's prop properties are
+        -> in state string, send string of tag:int0 pairs so client knows what props to turn on or off
 * make it so propEffect is called on all clients when anyone hits a prop
     -> but try to restrict it to the server to actually make decisions
     -> commented code in gamelogic.getstate holds the lost functions

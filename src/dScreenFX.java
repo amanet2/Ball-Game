@@ -40,7 +40,7 @@ public class dScreenFX {
         if(userPlayer != null) {
             //threshold to turn on screen fx
             int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
-            if (userhp < cVars.getInt("maxstockhp") - 75) {
+            if (userhp < cVars.getInt("maxstockhp")) {
                 int factors = sVars.getInt("vfxfactor");
                 int maxl = cVars.getInt("vfxuialphahp");
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
