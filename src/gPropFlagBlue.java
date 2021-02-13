@@ -11,11 +11,12 @@ public class gPropFlagBlue extends gProp {
 
     gDoableThing ctfDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                cVars.put("flagmasterid", "");
-                if(sSettings.net_server) {
-                    xCon.ex("givepoint " + cGameLogic.userPlayer().get("id"));
-                    xCon.ex("say " + sVars.get("playername") + " captured the flag!");
+            if(sSettings.net_server) {
+                if(cVars.isVal("flagmasterid", p.get("id"))) {
+                    cVars.put("flagmasterid", "");
+                    if(sSettings.net_server) {
+                        xCon.ex("givepoint " + p.get("id"));
+                    }
                 }
             }
         }

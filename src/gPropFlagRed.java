@@ -11,10 +11,12 @@ public class gPropFlagRed extends gProp {
 
     gDoableThing flagMasterDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(cVars.isVal("flagmasterid", "")) {
-                cVars.put("flagmasterid", uiInterface.uuid);
-                if(sSettings.net_server) {
-                    xCon.ex("say " + sVars.get("playername") + " has the flag!");
+            if(sSettings.net_server) {
+                if(cVars.isVal("flagmasterid", "")) {
+                    cVars.put("flagmasterid", p.get("id"));
+                    if(sSettings.net_server) {
+                        xCon.ex("say " + p.get("name") + " has the flag!");
+                    }
                 }
             }
         }

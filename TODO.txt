@@ -12,6 +12,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* make it so propEffect is called on all clients when anyone hits a prop
+    -> but try to restrict it to the server to actually make decisions
+    -> commented code in gamelogic.getstate holds the lost functions
 * make it so race game doesnt use "lapcomplete"
 * add "createpopup" console command for popups to appear synced on all clients
 * think about that queue for sendcmds
