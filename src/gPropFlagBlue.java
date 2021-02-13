@@ -14,9 +14,8 @@ public class gPropFlagBlue extends gProp {
             if(sSettings.net_server) {
                 if(cVars.isVal("flagmasterid", p.get("id"))) {
                     cVars.put("flagmasterid", "");
-                    if(sSettings.net_server) {
+                    if(sSettings.net_server)
                         xCon.ex("givepoint " + p.get("id"));
-                    }
                 }
             }
         }

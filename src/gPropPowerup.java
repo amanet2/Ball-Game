@@ -6,7 +6,7 @@ public class gPropPowerup extends gProp {
                 //do powerup effect
                 p.putLong("powerupsusetime",
                         System.currentTimeMillis()+sVars.getLong("powerupsusetimemax"));
-                cScripts.changeBotWeapon(p, p.getInt("int0"), true);
+                cScripts.changeBotWeapon(p, getInt("int0"), true);
                 put("int0", "0");
             }
         }
