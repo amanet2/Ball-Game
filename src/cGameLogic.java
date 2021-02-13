@@ -367,7 +367,7 @@ public class cGameLogic {
                     if(p.isBot())
                         xCon.ex("botrespawn " + p.get("bottag"));
                     else if(cGameLogic.isUserPlayer(p))
-                    p.remove("respawntime");
+                        p.remove("respawntime");
                 }
                 if(p.contains("spawnprotectiontime")
                         && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {

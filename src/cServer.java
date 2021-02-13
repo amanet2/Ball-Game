@@ -19,7 +19,7 @@ public class cServer {
                 for(Object id : thingMap.keySet()) {
                     gProp p = (gProp) thingMap.get(id);
                     if(p.isInt("int0", 1))
-                        return String.format("waypoints-%s", id);
+                        return String.format("waypoints-%s", p.get("tag"));
                 }
                 break;
             case cGameMode.KING_OF_FLAGS:

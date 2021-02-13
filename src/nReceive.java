@@ -152,12 +152,13 @@ public class nReceive {
                         }
                         cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
                     }
+                    //ugly if else for gamemodes
                     if(packArgs.get("state").contains("waypoints")) {
                         HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                         String[] args = packArgs.get("state").split("-");
                         for(Object id : scorepointsMap.keySet()) {
                             gProp pr = (gProp) scorepointsMap.get(id);
-                            if(pr.isVal("id", args[1]))
+                            if(pr.isVal("tag", args[1]))
                                 pr.put("int0", "1");
                             else
                                 pr.put("int0", "0");

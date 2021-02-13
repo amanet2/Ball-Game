@@ -12,6 +12,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* add "createpopup" console command for popups to appear synced on all clients
+* think about that queue for sendcmds
+    -> maybe be like: nServer.addSendCmd(String cmd) and they all go through on a queue
+        -> instead of setting sendcmd="" check for another msg on the queue
 * have to respawn manually but client is kinda like what we want when the server kills them
 * health not recharging anymore
     -> prolly tied up in cvars
