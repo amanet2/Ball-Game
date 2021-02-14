@@ -210,6 +210,16 @@ public class nReceive {
                     if(nServer.clientIds.contains(idload)) {
                         ctr ++;
                         foundIds.add(idload);
+                        String[] requiredFields = new String[]{"name", "x", "y", "vels"};
+                        boolean skip = false;
+                        for(String rf : requiredFields) {
+                            if(!nServer.clientArgsMap.get(idload).containsKey(rf)) {
+                                skip = true;
+                                break;
+                            }
+                        }
+                        if(skip)
+                            break;
                         String clientname = nServer.clientArgsMap.get(idload).get("name");
                         if(!clientname.equals(nameload))
                             gScene.getPlayerById(idload).put("name", nameload);

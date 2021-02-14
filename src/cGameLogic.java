@@ -381,13 +381,14 @@ public class cGameLogic {
     }
 
     public static void checkForMapChange() {
-        if((sSettings.net_server && cVars.getLong("intermissiontime") > 0 && cVars.getLong("intermissiontime") < System.currentTimeMillis())) {
+        if((sSettings.net_server && cVars.getLong("intermissiontime") > 0
+                && cVars.getLong("intermissiontime") < System.currentTimeMillis())) {
             cVars.put("intermissiontime", "-1");
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
-            while(rand == eManager.mapSelectionIndex) {
-                rand = (int)(Math.random()*eManager.mapsSelection.length);
-            }
+//            while(rand == eManager.mapSelectionIndex) {
+//                rand = (int)(Math.random()*eManager.mapsSelection.length);
+//            }
             eManager.mapSelectionIndex = rand;
             xCon.ex("load " + eManager.mapsSelection[rand]);
             xCon.ex("respawn");

@@ -81,11 +81,9 @@ public class nClient extends Thread {
                         receivedPackets.add(receivePacket);
                     }
                 }
-                uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateclient"));
-                if(sVars.getInt("rateclient") > 1000)
-                    sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
-                else
-                    sleep(uiInterface.networkTime-uiInterface.gameTime);
+                uiInterface.networkTime = System.currentTimeMillis()
+                        + (long)(1000.0/(double)sVars.getInt("rateclient"));
+                sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
                 retries = 0;
             }
             catch(Exception e) {

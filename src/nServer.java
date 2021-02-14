@@ -160,11 +160,9 @@ public class nServer extends Thread {
                 }
                 serverSocket.receive(receivePacket);
                 receivedPackets.add(receivePacket);
-                uiInterface.networkTime = uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("rateserver"));
-                if(sVars.getInt("rateserver") > 1000)
-                    sleep(0, (int)(uiInterface.networkTime-uiInterface.gameTime));
-                else
-                    sleep(uiInterface.networkTime-uiInterface.gameTime);
+                uiInterface.networkTime = System.currentTimeMillis()
+                        + (long)(1000.0/(double)sVars.getInt("rateserver"));
+                sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
             }
             catch (Exception e) {
                 eUtils.echoException(e);

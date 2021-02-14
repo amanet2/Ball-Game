@@ -3,6 +3,12 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* max allowable server/client rate is 1000
+* commented out hat and spawn protection
+* strip game down to base elements and see whats sending/receiving over network
+* sendcmd stuff needs to be improved
+* make players bounce off each other
+* removed weaponstatus stuff
 * damageplayer not reaching everyone
     -> the receipt of sendcmds needs to be managed better, look at the soundfx and fireweapon
 * spawnprotection should be on a per-player basis

@@ -200,9 +200,8 @@ public class sVars {
                 filelines.add(line);
                 if(keys.containsKey(argname))
                     keys.put(argname,line.replaceFirst(argname+" ", ""));
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#') {
+                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
                     sLaunchArgs.readLaunchArguments(argname,args);
-                }
             }
             xCon.instance().debug(keys.toString());
         }

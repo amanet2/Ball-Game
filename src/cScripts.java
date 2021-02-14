@@ -255,9 +255,9 @@ public class cScripts {
                 String.format("Score Limit [%s]", sVars.get("scorelimit"));
         }
         else if("New Time Limit".contains(optionTitle)) {
-            sVars.putInt("timelimit", (int)(Double.parseDouble(enteredText)*60000.0));
+            sVars.put("timelimit", enteredText);
             uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[3].text =
-                String.format("Time Limit [%s]", Double.toString((double)sVars.getInt("timelimit")/60000.0));
+                String.format("Time Limit [%s]", sVars.get("timelimit"));
         }
     }
 

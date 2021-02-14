@@ -5,7 +5,7 @@ public class uiMenusNewGame extends uiMenu {
                 String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
                         : eManager.mapsSelection[eManager.mapSelectionIndex]),
                 String.format("Score Limit [%s]", sVars.get("scorelimit")),
-                String.format("Time Limit [%s]", Double.toString((double)sVars.getInt("timelimit")/60000.0)),
+                String.format("Time Limit [%s]", sVars.get("timelimit")),
                 String.format("Number of Bots [%s]", sVars.get("botcount")),
                 String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay")),
                 String.format("Powerups on Map [%s]", cVars.get("powerupson")),
@@ -34,8 +34,7 @@ public class uiMenusNewGame extends uiMenu {
                         gMessages.enteringOptionText = "New Score Limit";
                     }
                 },
-                new uiMenuItem(String.format("Time Limit [%s]",
-                        Double.toString((double)sVars.getInt("timelimit")/60000.0))){
+                new uiMenuItem(String.format("Time Limit [%s]", sVars.get("timelimit"))){
                     public void doItem() {
                         gMessages.enteringMessage = true;
                         gMessages.enteringOptionText = "New Time Limit";
