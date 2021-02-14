@@ -1,8 +1,5 @@
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
@@ -61,7 +58,7 @@ public class nClient extends Thread {
                 }
                 if(receivedPackets.size() < 1 && hasDisconnected != 1) {
                     InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
-                    String sendDataString = nSend.createSendDataString();
+                    String sendDataString = createSendDataString();
                     byte[] clientSendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                             sVars.getInt("joinport"));
@@ -98,6 +95,53 @@ public class nClient extends Thread {
                 }
             }
         }
+    }
+
+    public static String createSendDataString() {
+        StringBuilder sendDataString;
+        nVars.update();
+        if(nSend.sendMap != null) {
+            for(String k : nVars.keySet()) {
+                if(k.equals("id") || !nSend.sendMap.containsKey(k) || !nSend.sendMap.get(k).equals(nVars.get(k)))
+                    nSend.sendMap.put(k, nVars.get(k));
+                else
+                    nSend.sendMap.remove(k);
+            }
+        }
+        else
+            nSend.sendMap = nVars.copy();
+
+        if(nClient.msgreceived != 0) {
+            nSend.sendMap.put("netmsgrcv","");
+            nClient.msgreceived = 0;
+        }
+        else
+            nSend.sendMap.remove("netmsgrcv");
+
+        if(nClient.sfxreceived != 0) {
+            nSend.sendMap.put("netsfxrcv","");
+            nClient.sfxreceived = 0;
+        }
+        else
+            nSend.sendMap.remove("netsfxrcv");
+
+        if(nClient.cmdreceived != 0) {
+            nSend.sendMap.put("netcmdrcv","");
+            nClient.cmdreceived = 0;
+        }
+        else
+            nSend.sendMap.remove("netcmdrcv");
+
+        sendDataString = new StringBuilder(nSend.sendMap.toString());
+        cVars.put("quitconfirmed", cVars.get("quitting"));
+        cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
+        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
+            nSend.sendMap.put("spawnprotected","");
+        else
+            nSend.sendMap.remove("spawnprotected");
+        cVars.put("exploded", "1");
+        cVars.put("sendsafezone", "0");
+        return sendDataString.toString();
     }
 
     public static void readData(String receiveDataString) {

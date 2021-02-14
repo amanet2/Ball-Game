@@ -3,9 +3,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class nSend {
-    public static String focus_id = ""; //for when you need to operate on a response to a specific id
+    static String focus_id = ""; //for when you need to operate on a response to a specific id
     static HashMap<String, String> sendMap = null;
-    private static String[] constantFields = {"map", "mode", "teams", "armed", "tick", "powerups", "scoremap", "scorelimit",
+    static String[] constantFields = {"map", "mode", "teams", "armed", "tick", "powerups", "scoremap", "scorelimit",
             "timeleft", "timelimit", "topscore", "state", "win", "vels", "dirs", "x", "y", "msg", "kick",
             "weapon", "spawnprotectionmaxtime"};
     private static List<String> constantsList = Arrays.asList(constantFields);
@@ -36,6 +36,7 @@ public class nSend {
             }
         }
         else {
+            System.out.println("YOU SHOULD NOT SEE THIS");
             if(nClient.msgreceived != 0) {
                 sendMap.put("netmsgrcv","");
                 nClient.msgreceived = 0;

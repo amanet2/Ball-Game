@@ -36,7 +36,8 @@ public class dHUD {
                 sSettings.height/64);
         g.setColor(new Color(220,0,30,255));
         g.fillRect(sSettings.width/64,58*sSettings.height/64,
-                sSettings.width/3*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),sSettings.height/64);
+                sSettings.width/3*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),
+                sSettings.height/64);
         g.setColor(new Color(150,0,0,255));
         g.drawRect(sSettings.width/64,58*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
