@@ -29,7 +29,16 @@ public class nVars {
             gMessages.networkMessage = "";
         }
         gPlayer userPlayer = cGameLogic.userPlayer();
+        //handle outgoing actions
         keys.put("act", cGameLogic.getActionLoad());
+        //hand outgoing msg
+        keys.put("msg", "");
+        if (sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
+                && gMessages.networkMessage.length() > 0
+                && nServer.clientArgsMap.containsKey(nSend.focus_id)
+                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
+            keys.put("msg", gMessages.networkMessage);
+        }
         //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
                 && cVars.get("sendsound").length() > 0
@@ -48,9 +57,9 @@ public class nVars {
                 && nServer.clientSendCmdQueues.get(nSend.focus_id).size() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
-            if(nSend.focus_id.contains("bot")) {
+            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+            if(nSend.focus_id.contains("bot"))
                 nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
-            }
             keys.put("cmd", nServer.clientSendCmdQueues.get(nSend.focus_id).peek());
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);

@@ -3,6 +3,7 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* overhaul chat messages to work like the cmd queue
 * clients need to be able to sendcmd's as well
     -> or rather "request" a cmd be run by the server on a fan-out basis
         -> dont run their own cmd until the server sends it back to them?
