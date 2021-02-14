@@ -3,6 +3,14 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* removed camera shake
+* in client onread, shake camera if readstock is less than current userplayer stock
+    -> dont update playerstocks unless ur the server
+    -> client will read stockhp from server and set its userplayer with that stockhp
+* return client stockhp from server
+    -> putting it in the style where
+* map change needs to work differently
+    -> clients dont respawn if map changes to same map
 * max allowable server/client rate is 1000
 * commented out hat and spawn protection
 * strip game down to base elements and see whats sending/receiving over network

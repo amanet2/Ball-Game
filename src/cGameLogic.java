@@ -348,13 +348,13 @@ public class cGameLogic {
                     p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
         }
-        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
-            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
-        }
-        else if(cVars.contains("shaketime")) {
-            cVars.putInt("cammode", gCamera.MODE_TRACKING);
-            cVars.remove("shaketime");
-        }
+//        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
+//            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
+//        }
+//        else if(cVars.contains("shaketime")) {
+//            cVars.putInt("cammode", gCamera.MODE_TRACKING);
+//            cVars.remove("shaketime");
+//        }
     }
 
     public static void checkSprintStatus() {

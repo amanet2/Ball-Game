@@ -4,38 +4,39 @@ import java.util.HashMap;
 
 public class nReceive {
     public static void processReceiveDataString(String receiveDataString) {
+        //trim data string, may or may not want forever
         String[] toks = receiveDataString.trim().split("@");
         if(sSettings.net_server) {
             if(toks[0].length() > 0) {
                 int isnewclient = 1;
                 String argload = toks[0];
-
-                //process new packet
+                //create score and packet maps
                 HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
                 HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
+                //get id from packet
                 String packId = packArgMap.get("id");
-                if(!nServer.clientArgsMap.containsKey(packId)) {
+                //insert new ids into the greater maps
+                if(!nServer.clientArgsMap.containsKey(packId))
                     nServer.clientArgsMap.put(packId, packArgMap);
-                }
-                if(!scoresMap.containsKey(packId)) {
+                if(!scoresMap.containsKey(packId))
                     cScoreboard.addId(packId);
-                }
-                String packName = packArgMap.get("name") != null ? packArgMap.get("name") : nServer.clientArgsMap.get(packId).get("name");
+                //get name
+                String packName = packArgMap.get("name") != null ? packArgMap.get("name")
+                        : nServer.clientArgsMap.get(packId).get("name");
                 String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
-                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
-
+//                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
                 //fetch old packet
                 HashMap<String, String> oldArgMap = nServer.clientArgsMap.get(packId);
-                String oldName = "";
+//                String oldName = "";
                 long oldTimestamp = 0;
                 if(oldArgMap != null) {
-                    oldName = oldArgMap.get("name");
+//                    oldName = oldArgMap.get("name");
                     oldTimestamp = oldArgMap.containsKey("time") ?
                             Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
                 }
                 for(String k : packArgMap.keySet()) {
                     if(!nServer.clientArgsMap.get(packId).containsKey(k)
-                            || nServer.clientArgsMap.get(packId).get(k) != packArgMap.get(k)) {
+                            || !nServer.clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {
                         nServer.clientArgsMap.get(packId).put(k, packArgMap.get(k));
                     }
                 }
@@ -45,8 +46,8 @@ public class nReceive {
                 if(nServer.clientIds.contains(packId)) {
                     isnewclient = 0;
                     scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
-                    if(oldName.length() > 0 && !oldName.equals(packName))
-                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
+//                    if(oldName.length() > 0 && !oldName.equals(packName))
+//                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
                     if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                         nServer.quitClientIds.add(packId);
                     }
@@ -86,14 +87,15 @@ public class nReceive {
                     if(!packId.contains("bot")) {
                         gPlayer player = new gPlayer(-6000, -6000,150,150,
                                 eUtils.getPath("animations/player_red/a03.png"));
-                        player.put("name", packName);
+//                        player.put("name", packName);
                         player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                         player.put("id", packId);
-                        player.putInt("weapon", packWeap);
+//                        player.putInt("weapon", packWeap);
                         eManager.currentMap.scene.playersMap().put(packId, player);
                     }
                     xCon.ex(String.format("say %s joined the game", packName));
                 }
+                nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
             }
         }
         else if(sSettings.net_client) {
@@ -253,7 +255,17 @@ public class nReceive {
                         eManager.currentMap.scene.playersMap().put(idload, player);
                     }
                 }
+                //handle our own player to get things like stockhp from server
+                if(idload.equals(uiInterface.uuid)) {
+                    gPlayer userPlayer = cGameLogic.userPlayer();
+                    int oldstockhp = userPlayer.getInt("stockhp");
+                    userPlayer.put("stockhp", packArgs.get("stockhp"));
+                    //detect old stockhp higher than recent
+                    if(userPlayer.getInt("stockhp") < oldstockhp) {
+                        cScripts.processUserPlayerHPLoss();
+                    }
 
+                }
                 if(idload.equals("server")) {
                     //this is where we update scores on client
                     cVars.put("scoremap", packArgs.get("scoremap"));
