@@ -11,10 +11,13 @@ public class nServer extends Thread {
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
     static boolean kickConfirmed = false;
-    static ArrayList<String> clientIds = new ArrayList<>();
+    static ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
+    //manage variables for use in the network game, sync to-and-from the actual map and objects
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
     static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
+    //id maps to queue of msgs we want to send to clients
+    static HashMap<String, Queue<String>> clientSendMsgQueues = new HashMap<>();
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
@@ -32,14 +35,28 @@ public class nServer extends Thread {
     }
 
     public static void addSendCmd(String id, String cmd) {
-        if(!clientSendCmdQueues.containsKey(id))
-            clientSendCmdQueues.put(id, new LinkedList<>());
-        clientSendCmdQueues.get(id).add(cmd);
+//        if(!clientSendCmdQueues.containsKey(id))
+//            clientSendCmdQueues.put(id, new LinkedList<>());
+//        clientSendCmdQueues.get(id).add(cmd);
+        addNetSendData(clientSendCmdQueues, id, cmd);
     }
 
     public static void addSendCmd(String cmd) {
-        for(String id : clientSendCmdQueues.keySet()) {
-            addSendCmd(id, cmd);
+//        for(String id : clientSendCmdQueues.keySet()) {
+//            addSendCmd(id, cmd);
+//        }
+        addNetSendData(clientSendCmdQueues, cmd);
+    }
+
+    public static void addNetSendData(HashMap<String, Queue<String>> sendMap, String id, String data) {
+        if(!sendMap.containsKey(id))
+            sendMap.put(id, new LinkedList<>());
+        sendMap.get(id).add(data);
+    }
+
+    public static void addNetSendData(HashMap<String, Queue<String>> sendMap, String data) {
+        for(String id: sendMap.keySet()) {
+            addNetSendData(sendMap, id, data);
         }
     }
 

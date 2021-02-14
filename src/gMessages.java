@@ -27,6 +27,7 @@ public class gMessages {
                 nServer.clientArgsMap.get(id).remove("netmsgrcv");
             }
         }
+        //check for sfx received
         if(sSettings.net_server && cScripts.allClientsReceivedMessage("netsfxrcv")
                 && cVars.get("sendsound").length() > 0) {
             cVars.put("sendsound", "");
