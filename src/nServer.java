@@ -8,7 +8,6 @@ import java.util.Queue;
 
 public class nServer extends Thread {
     private int netticks;
-    static ArrayList<String> newClientIds = new ArrayList<>(); //temporarily holds ids that needs full args
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
     static boolean kickConfirmed = false;
@@ -168,6 +167,99 @@ public class nServer extends Thread {
                 eUtils.echoException(e);
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void readData(String receiveDataString) {
+        String[] toks = receiveDataString.trim().split("@");
+        if(toks[0].length() > 0) {
+            int isnewclient = 1;
+            String argload = toks[0];
+            //create score and packet maps
+            HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
+            HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
+            //get id from packet
+            String packId = packArgMap.get("id");
+            //insert new ids into the greater maps
+            if(!nServer.clientArgsMap.containsKey(packId))
+                nServer.clientArgsMap.put(packId, packArgMap);
+            if(!scoresMap.containsKey(packId))
+                cScoreboard.addId(packId);
+            //get name
+            String packName = packArgMap.get("name") != null ? packArgMap.get("name")
+                    : nServer.clientArgsMap.get(packId).get("name");
+            String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
+//                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
+            //fetch old packet
+            HashMap<String, String> oldArgMap = nServer.clientArgsMap.get(packId);
+//                String oldName = "";
+            long oldTimestamp = 0;
+            if(oldArgMap != null) {
+//                    oldName = oldArgMap.get("name");
+                oldTimestamp = oldArgMap.containsKey("time") ?
+                        Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
+            }
+            for(String k : packArgMap.keySet()) {
+                if(!nServer.clientArgsMap.get(packId).containsKey(k)
+                        || !nServer.clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {
+                    nServer.clientArgsMap.get(packId).put(k, packArgMap.get(k));
+                }
+            }
+            //record time we last updated client args
+            nServer.clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
+            //parse and process the args from client packet
+            if(nServer.clientIds.contains(packId)) {
+                isnewclient = 0;
+                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+//                    if(oldName.length() > 0 && !oldName.equals(packName))
+//                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
+                if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
+                    nServer.quitClientIds.add(packId);
+                }
+                gPlayer packPlayer = gScene.getPlayerById(packId);
+                if(packPlayer != null) {
+                    if (nServer.clientArgsMap.get(packId).containsKey("vels")) {
+                        String[] veltoks = nServer.clientArgsMap.get(packId).get("vels").split("-");
+                        packPlayer.put("vel0", veltoks[0]);
+                        packPlayer.put("vel1", veltoks[1]);
+                        packPlayer.put("vel2", veltoks[2]);
+                        packPlayer.put("vel3", veltoks[3]);
+                    }
+                    if (sVars.isOne("smoothing")) {
+                        packPlayer.put("coordx", nServer.clientArgsMap.get(packId).get("x"));
+                        packPlayer.put("coordy", nServer.clientArgsMap.get(packId).get("y"));
+                    }
+                }
+                if(!packArgMap.containsKey("spawnprotected")
+                        && nServer.clientArgsMap.get(packId).containsKey("spawnprotected")) {
+                    nServer.clientArgsMap.get(packId).remove("spawnprotected");
+                }
+                cServer.processActionLoadServer(packActions, packName, packId);
+                if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
+                    nServer.quitClientIds.add(packId);
+                }
+                if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
+                    String msg = packArgMap.get("msg");
+                    xCon.ex(String.format("say %s", msg));
+                    String[] t = msg.split(" ");
+                    if(t.length > 1)
+                        cScripts.checkMsgSpecialFunction(t[1]);
+                }
+            }
+            if(isnewclient == 1) {
+                nServer.clientIds.add(packId);
+                if(!packId.contains("bot")) {
+                    gPlayer player = new gPlayer(-6000, -6000,150,150,
+                            eUtils.getPath("animations/player_red/a03.png"));
+//                        player.put("name", packName);
+                    player.putInt("tag", eManager.currentMap.scene.playersMap().size());
+                    player.put("id", packId);
+//                        player.putInt("weapon", packWeap);
+                    eManager.currentMap.scene.playersMap().put(packId, player);
+                }
+                xCon.ex(String.format("say %s joined the game", packName));
+            }
+            nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
         }
     }
 }
