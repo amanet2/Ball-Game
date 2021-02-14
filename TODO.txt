@@ -3,6 +3,8 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* damageplayer not reaching everyone
+    -> the receipt of sendcmds needs to be managed better, look at the soundfx and fireweapon
 * spawnprotection should be on a per-player basis
 * for new multiflag ctf use the flag's "str0" to store the former "flagmasterid"
     -> don't need a cvar for it if everything goes as planned

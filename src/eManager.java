@@ -33,27 +33,20 @@ public class eManager {
     }
 
 	public static void updateEntityPositions() {
-	    for(gTile tile : currentMap.scene.tiles()) {
-	        int tx = tile.getInt("coordx");
-	        int ty = tile.getInt("coordy");
-	        int tw = tile.getInt("dimw");
-	        int th = tile.getInt("dimh");
-            Rectangle2D tileBounds = new Rectangle(tx,ty,tw,th);
-	        for(String id : gScene.getPlayerIds()) {
-	            gPlayer player = gScene.getPlayerById(id);
-                int px = player.getInt("coordx");
-                int py = player.getInt("coordy");
-                int pw = player.getInt("dimw");
-                int ph = player.getInt("dimh");
-                Rectangle2D playerBounds = new Rectangle(px,py,pw,ph);
-                if(tileBounds.intersects(playerBounds) ||
-                (px+pw >= tx && px <= tx+tw && py+ph >= ty && py <= ty+th)) {
-                    tile.put("occupied", "1");
-                }
-            }
-        }
         for(String id : gScene.getPlayerIds()) {
             gPlayer obj = gScene.getPlayerById(id);
+            String[] requiredFields = new String[]{
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "tag", "mov0", "mov1",
+                    "mov2", "mov3", "crouch"};
+            boolean skip = false;
+            for(String rf : requiredFields) {
+                if(!obj.contains(rf)) {
+                    skip = true;
+                    break;
+                }
+            }
+            if(skip)
+                break;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
@@ -76,7 +69,7 @@ public class eManager {
                         else if(i != 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
-                    else {
+                    else if(nServer.clientArgsMap.get(obj.get("id")).containsKey("vels")){
                         obj.putInt("vel"+i,
                                 Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
                     }

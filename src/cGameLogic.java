@@ -34,7 +34,7 @@ public class cGameLogic {
                 checkNameStatus();
                 checkHatStatus();
                 checkColorStatus();
-                checkWeaponsStatus();
+//                checkWeaponsStatus();
                 checkHealthStatus();
                 checkSprintStatus();
                 checkPowerupsStatus();
@@ -170,10 +170,19 @@ public class cGameLogic {
             if(!id.equals(uiInterface.uuid) && nServer.clientArgsMap.containsKey(id)) {
                 gPlayer p = gScene.getPlayerById(id);
                 HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
+                String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
+                boolean skip = false;
+                for(String rf : requiredFields) {
+                    if(!cargs.containsKey(rf)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if(skip)
+                    break;
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
                 int ccrouch = Integer.parseInt(cargs.get("crouch"));
-//                int cfire = Integer.parseInt(cargs.get("fire"));
                 int cflashlight = Integer.parseInt(cargs.get("flashlight"));
                 if(sVars.isZero("smoothing")) {
                     p.put("coordx", cargs.get("x"));
@@ -189,11 +198,8 @@ public class cGameLogic {
                 }
                 if(!p.isInt("crouch", ccrouch))
                     p.putInt("crouch", ccrouch);
-//                if(!p.isInt("firing", cfire))
-//                    p.putInt("firing", cfire);
                 if(!p.isInt("flashlight", cflashlight))
                     p.putInt("flashlight", cflashlight);
-
             }
         }
     }
@@ -320,30 +326,28 @@ public class cGameLogic {
                 && userPlayer.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
             userPlayer.remove("spawnprotectiontime");
         }
-//        if(sSettings.net_server) {
-            HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
-            for(Object id : playersMap.keySet()) {
-                gPlayer p = (gPlayer) playersMap.get(id);
-                if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
-                        || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                    if(p.isBot())
-                        xCon.ex("botrespawn " + p.get("bottag"));
-                    else
-                        p.remove("respawntime");
-                }
-                if(p.contains("spawnprotectiontime")
-                        && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-                    p.remove("spawnprotectiontime");
-                }
-                if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                        p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                    if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                        p.put("stockhp", cVars.get("maxstockhp"));
-                    else
-                        p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
-                }
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        for(Object id : playersMap.keySet()) {
+            gPlayer p = (gPlayer) playersMap.get(id);
+            if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
+                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
+                if(p.isBot())
+                    xCon.ex("botrespawn " + p.get("bottag"));
+                else
+                    p.remove("respawntime");
             }
-//        }
+            if(p.contains("spawnprotectiontime")
+                    && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
+                p.remove("spawnprotectiontime");
+            }
+            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                    p.put("stockhp", cVars.get("maxstockhp"));
+                else
+                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
+            }
+        }
         if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
             cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
         }

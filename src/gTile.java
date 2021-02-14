@@ -24,7 +24,6 @@ public class gTile extends gThing {
         put("sprite0", tt);
         put("sprite1", mt);
         put("sprite2", bt);
-        put("occupied", "0");
 
         for(int j = 0; j < 5; j++) {
             if(getInt(String.format("dim%dh", j)) != 0)
