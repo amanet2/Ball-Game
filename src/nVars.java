@@ -51,9 +51,7 @@ public class nVars {
             if(nSend.focus_id.contains("bot")) {
                 nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
             }
-//            keys.put("act", "sendcmd_"+nServer.clientSendCmdQueues.get(nSend.focus_id).peek()+"-"+keys.get("act"));
             keys.put("cmd", nServer.clientSendCmdQueues.get(nSend.focus_id).peek());
-            System.out.println("SENDCMD: " + keys.get("cmd"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
         if(userPlayer != null) {
