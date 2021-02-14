@@ -116,7 +116,8 @@ public class cBotsLogic {
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
                 botPlayer.fireWeapon();
-                cVars.put("sendcmd", "fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
+                nServer.addSendCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
+//                cVars.put("sendcmd", "fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
             }
 //            else {
 ////                bot.put("sendshot", "0");

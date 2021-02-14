@@ -10,7 +10,8 @@ public class xComDropWeapon extends xCom {
             cVars.putInt("weaponstock"+p.get("weapon"), 0);
             cScripts.changeWeapon(gWeapons.type.NONE.code());
             xCon.ex(doString);
-            cVars.put("sendcmd", doString);
+            nServer.addSendCmd(doString);
+//            cVars.put("sendcmd", doString);
         }
         return "drop weapon";
     }

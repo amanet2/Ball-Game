@@ -14,7 +14,7 @@ public class nServer extends Thread {
     static ArrayList<String> clientIds = new ArrayList<>();
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
-    static HashMap<String, LinkedList<String>> clientSendCmdQueue = new HashMap<>();
+    static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
     static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
@@ -29,6 +29,18 @@ public class nServer extends Thread {
 
     private nServer() {
         netticks = 0;
+    }
+
+    public static void addSendCmd(String id, String cmd) {
+        if(!clientSendCmdQueues.containsKey(id))
+            clientSendCmdQueues.put(id, new LinkedList<>());
+        clientSendCmdQueues.get(id).add(cmd);
+    }
+
+    public static void addSendCmd(String cmd) {
+        for(String id : clientSendCmdQueues.keySet()) {
+            addSendCmd(id, cmd);
+        }
     }
 
     public void setMapvoteSelection() {
@@ -129,6 +141,7 @@ public class nServer extends Thread {
         }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
+        clientSendCmdQueues.remove(id);
         gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
@@ -251,12 +264,13 @@ public class nServer extends Thread {
                 if(!packId.contains("bot")) {
                     gPlayer player = new gPlayer(-6000, -6000,150,150,
                             eUtils.getPath("animations/player_red/a03.png"));
-//                        player.put("name", packName);
+                        player.put("name", packName);
                     player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                     player.put("id", packId);
 //                        player.putInt("weapon", packWeap);
                     eManager.currentMap.scene.playersMap().put(packId, player);
                 }
+                addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
                 xCon.ex(String.format("say %s joined the game", packName));
             }
             nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));

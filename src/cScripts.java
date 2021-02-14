@@ -401,7 +401,8 @@ public class cScripts {
             if(sSettings.net_server) {
                 String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
                 xCon.ex(damageplayer_cmdstring);
-                cVars.put("sendcmd", damageplayer_cmdstring);
+                nServer.addSendCmd(damageplayer_cmdstring);
+//                cVars.put("sendcmd", damageplayer_cmdstring);
             }
             //serverside actions on player death
             if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {

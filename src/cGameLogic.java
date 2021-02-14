@@ -408,10 +408,10 @@ public class cGameLogic {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
         }
-        if(cVars.get("sendcmd").length() > 0) {
-            actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
-            cVars.put("sendcmd","");
-        }
+//        if(cVars.get("sendcmd").length() > 0) {
+//            actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
+//            cVars.put("sendcmd","");
+//        }
         if(cVars.isZero("exploded"))
             actionload += String.format("explode:%s:%s|", cVars.get("explodex"), cVars.get("explodey"));
         if(actionload.length() > 0)

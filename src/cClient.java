@@ -17,7 +17,7 @@ public class cClient {
             }
             if(action.contains("sendcmd")) {
                 nClient.cmdreceived = 1;
-                xCon.ex(action.replaceFirst("sendcmd_",""));
+                xCon.ex(action.replaceFirst("sendcmd_","").replace("-",""));
             }
         }
     }

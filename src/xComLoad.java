@@ -9,9 +9,6 @@ public class xComLoad extends xCom {
         eManager.setScene();
         oDisplay.instance().createPanels();
         cScripts.setupGame();
-//        if(sSettings.net_server) {
-//            cVars.put("sendcmd", fullCommand);
-//        }
         return "";
     }
 }

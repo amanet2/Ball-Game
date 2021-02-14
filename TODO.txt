@@ -3,6 +3,7 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* use "sendcmd" arg online instead of "act"
 * redo map change so changing to same map enables player respawn
 * removed camera shake
 * in client onread, shake camera if readstock is less than current userplayer stock

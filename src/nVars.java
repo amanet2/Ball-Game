@@ -43,24 +43,20 @@ public class nVars {
         }
         //handle outgoing cmd
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && cVars.get("sendcmd").length() > 0
+                && nServer.clientSendCmdQueues.containsKey(nSend.focus_id)
+                && nServer.clientSendCmdQueues.get(nSend.focus_id).size() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
-            xCon.ex(cVars.get("sendcmd"));
             if(nSend.focus_id.contains("bot")) {
                 nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
             }
-            keys.put("act", "sendcmd_"+cVars.get("sendcmd")+"-"+keys.get("act"));
+            keys.put("act", "sendcmd_"+nServer.clientSendCmdQueues.get(nSend.focus_id).peek()+"-"+keys.get("act"));
         }
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
         if(userPlayer != null) {
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("crouch", userPlayer.get("crouch"));
-//        keys.put("fire", cVars.isOne("firing") && (cVars.getInt("weaponstock"+userPlayer.get("weapon")) > 0
-//                || userPlayer.get("sendshot").equals("1")
-//                || userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
-//                || userPlayer.isInt("weapon", gWeapons.type.NONE.code())) ? "1" : "0");
             keys.put("fv", userPlayer.get("fv"));
             keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
                     userPlayer.get("mov2"), userPlayer.get("mov3")));
