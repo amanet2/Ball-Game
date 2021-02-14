@@ -37,7 +37,8 @@ public class gMessages {
         //check individual ids in the cmd queue map
         if(sSettings.net_server) {
             for(String id : nServer.clientSendCmdQueues.keySet()) {
-                if(nServer.clientArgsMap.get(id).containsKey("netcmdrcv")) {
+                if(nServer.clientArgsMap.get(id).containsKey("netcmdrcv")
+                        && nServer.clientSendCmdQueues.get(id).size() > 0) {
                     nServer.clientSendCmdQueues.get(id).remove();
                     nServer.clientArgsMap.get(id).remove("netcmdrcv");
                 }

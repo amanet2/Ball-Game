@@ -38,7 +38,7 @@ public class nClient extends Thread {
                 String receiveDataString = new String(receivePacket.getData());
                 xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
                         receiveDataString.trim().length(), receiveDataString.trim()));
-                nReceive.processReceiveDataString(receiveDataString);
+                readData(receiveDataString);
                 receivedPackets.remove();
             }
         }
@@ -140,17 +140,10 @@ public class nClient extends Thread {
                 else if(cVars.get("winnerid").length() > 0){
                     cVars.put("winnerid", "");
                 }
+                //ugly if else for gamemodes
                 if(packArgs.containsKey("flagmasterid")) {
                     cVars.put("flagmasterid", packArgs.get("flagmasterid"));
                 }
-                //change map client side
-//                    if(!packArgs.get("map").contains(eManager.currentMap.mapName)) {
-//                        cVars.put("intermissiontime", "-1");
-//                        cVars.putInt("timeleft", sVars.getInt("timelimit"));
-//                        cGameLogic.resetGameState();
-//                        xCon.ex(String.format("load %s", packArgs.get("map") + sVars.get("mapextension")));
-//                        xCon.ex("respawn");
-//                    }
                 if(packArgs.get("state").contains("safezone")) {
                     HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                     String[] args = packArgs.get("state").split("-");
@@ -163,7 +156,6 @@ public class nClient extends Thread {
                     }
                     cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
                 }
-                //ugly if else for gamemodes
                 if(packArgs.get("state").contains("waypoints")) {
                     HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                     String[] args = packArgs.get("state").split("-");
@@ -191,6 +183,7 @@ public class nClient extends Thread {
                         }
                     }
                 }
+                //end ugly if else
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("gamemode", packArgs.get("mode"));
                 cVars.put("gameteam", packArgs.get("teams"));
@@ -201,6 +194,13 @@ public class nClient extends Thread {
                 cVars.put("gametick", packArgs.get("tick"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 cVars.put("spawnprotectionmaxtime", packArgs.get("spmaxtime"));
+                //check cmd from server only
+                String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
+                if(cmdload.length() > 0) {
+                    cClient.processCmd(cmdload);
+                    System.out.println(cmdload);
+                }
+                //check message from server
                 if(packArgs.get("msg") != null && packArgs.get("msg").length() > 0) {
                     nClient.msgreceived = 1;
                     String msg = packArgs.get("msg");

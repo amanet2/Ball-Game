@@ -82,7 +82,7 @@ public class nServer extends Thread {
                 String receiveDataString = new String(receivePacket.getData());
                 xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                         + receiveDataString.trim());
-                nReceive.processReceiveDataString(receiveDataString);
+                nServer.readData(receiveDataString);
                 //show the ip address of the client
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
@@ -114,7 +114,7 @@ public class nServer extends Thread {
                     String receiveDataString = botStateStr;
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
-                    nReceive.processReceiveDataString(receiveDataString);
+                    nServer.readData(receiveDataString);
                     //String k = String.format("%s:%d", addr.toString(), port);
                     //get player id of client
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
