@@ -86,13 +86,12 @@ public class nServer extends Thread {
                 //show the ip address of the client
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
-                //                String k = String.format("%s:%d", addr.toString(), port);
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
                 nSend.focus_id = clientId;
                 //create response
-                String sendDataString = nSend.createSendDataString();
+                String sendDataString = createSendDataString();
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket =
                         new DatagramPacket(sendData, sendData.length, addr, port);
@@ -115,13 +114,12 @@ public class nServer extends Thread {
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
                     nServer.readData(receiveDataString);
-                    //String k = String.format("%s:%d", addr.toString(), port);
                     //get player id of client
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
                     nSend.focus_id = clientId;
                     //act as if responding
-                    nSend.createSendDataString();
+                    createSendDataString();
                     if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
                         kickConfirmed = true;
                         break;
@@ -133,6 +131,37 @@ public class nServer extends Thread {
             eUtils.echoException(e);
             e.printStackTrace();
         }
+    }
+
+    public static String createSendDataString() {
+        StringBuilder sendDataString;
+        nVars.update();
+        if(nSend.sendMap != null) {
+            for(String k : nVars.keySet()) {
+                if(nSend.constantsList.contains(k) || k.equals("id") || !nSend.sendMap.containsKey(k)
+                        || !nSend.sendMap.get(k).equals(nVars.get(k)))
+                    nSend.sendMap.put(k, nVars.get(k));
+                else
+                    nSend.sendMap.remove(k);
+            }
+        }
+        else
+            nSend.sendMap = nVars.copy();
+
+        nServer.clientArgsMap.put(uiInterface.uuid, nVars.copy());
+        sendDataString = new StringBuilder(nVars.dump());
+        for(int i = 0; i < nServer.clientIds.size(); i++) {
+            String idload2 = nServer.clientIds.get(i);
+            if(nServer.clientArgsMap.get(idload2) != null)
+                sendDataString.append(String.format("@%s", nServer.clientArgsMap.get(idload2).toString()));
+        }
+        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
+            nSend.sendMap.put("spawnprotected","");
+        else
+            nSend.sendMap.remove("spawnprotected");
+        cVars.put("exploded", "1");
+        cVars.put("sendsafezone", "0");
+        return sendDataString.toString();
     }
 
     public static void removeNetClient(String id) {

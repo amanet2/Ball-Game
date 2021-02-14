@@ -46,7 +46,7 @@ public class uiInterface {
                     gCamera.updatePosition();
                     if(sSettings.net_server)
                         nServer.processPackets();
-                    if(sSettings.net_client)
+                    else if(sSettings.net_client)
                         nClient.processPackets();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
