@@ -34,27 +34,29 @@ public class nServer extends Thread {
         netticks = 0;
     }
 
+    public static void addSendMsg(String id, String msg) {
+        addNetSendData(clientSendMsgQueues, id, msg);
+    }
+
+    public static void addSendMsg(String msg) {
+        addNetSendData(clientSendMsgQueues, msg);
+    }
+
     public static void addSendCmd(String id, String cmd) {
-//        if(!clientSendCmdQueues.containsKey(id))
-//            clientSendCmdQueues.put(id, new LinkedList<>());
-//        clientSendCmdQueues.get(id).add(cmd);
         addNetSendData(clientSendCmdQueues, id, cmd);
     }
 
     public static void addSendCmd(String cmd) {
-//        for(String id : clientSendCmdQueues.keySet()) {
-//            addSendCmd(id, cmd);
-//        }
         addNetSendData(clientSendCmdQueues, cmd);
     }
 
-    public static void addNetSendData(HashMap<String, Queue<String>> sendMap, String id, String data) {
+    private static void addNetSendData(HashMap<String, Queue<String>> sendMap, String id, String data) {
         if(!sendMap.containsKey(id))
             sendMap.put(id, new LinkedList<>());
         sendMap.get(id).add(data);
     }
 
-    public static void addNetSendData(HashMap<String, Queue<String>> sendMap, String data) {
+    private static void addNetSendData(HashMap<String, Queue<String>> sendMap, String data) {
         for(String id: sendMap.keySet()) {
             addNetSendData(sendMap, id, data);
         }
@@ -188,6 +190,7 @@ public class nServer extends Thread {
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientSendCmdQueues.remove(id);
+        clientSendMsgQueues.remove(id);
         gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
@@ -307,6 +310,8 @@ public class nServer extends Thread {
             }
             if(isnewclient == 1) {
                 nServer.clientIds.add(packId);
+                clientSendCmdQueues.put(packId, new LinkedList<>());
+                clientSendMsgQueues.put(packId, new LinkedList<>());
                 if(!packId.contains("bot")) {
                     gPlayer player = new gPlayer(-6000, -6000,150,150,
                             eUtils.getPath("animations/player_red/a03.png"));

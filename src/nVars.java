@@ -32,12 +32,24 @@ public class nVars {
         //handle outgoing actions
         keys.put("act", cGameLogic.getActionLoad());
         //hand outgoing msg
+//        keys.put("msg", "");
+//        if (sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
+//                && gMessages.networkMessage.length() > 0
+//                && nServer.clientArgsMap.containsKey(nSend.focus_id)
+//                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
+//            keys.put("msg", gMessages.networkMessage);
+//        }
+        //handle outgoing msg
         keys.put("msg", "");
-        if (sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && gMessages.networkMessage.length() > 0
+        if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
+                && nServer.clientSendMsgQueues.containsKey(nSend.focus_id)
+                && nServer.clientSendMsgQueues.get(nSend.focus_id).size() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
-            keys.put("msg", gMessages.networkMessage);
+            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+            if(nSend.focus_id.contains("bot"))
+                nServer.clientArgsMap.get(nSend.focus_id).put("netmsgrcv", "1");
+            keys.put("msg", nServer.clientSendMsgQueues.get(nSend.focus_id).peek());
         }
         //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
@@ -76,13 +88,13 @@ public class nVars {
         }
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
-        keys.put("msg", nms);
-        if (sSettings.net_server && nSend.focus_id.length() > 0
-                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-                && !nSend.focus_id.equals(uiInterface.uuid)) {
-            keys.put("msg", !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")
-                    && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
-        }
+//        keys.put("msg", nms);
+//        if (sSettings.net_server && nSend.focus_id.length() > 0
+//                && nServer.clientArgsMap.containsKey(nSend.focus_id)
+//                && !nSend.focus_id.equals(uiInterface.uuid)) {
+//            keys.put("msg", !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")
+//                    && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
+//        }
         keys.put("name", sVars.get("playername"));
         keys.put("flashlight", xCon.ex("cv_flashlight"));
         if(cVars.isOne("quitting"))

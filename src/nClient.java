@@ -246,6 +246,7 @@ public class nClient extends Thread {
                 }
                 //check message from server
                 if(packArgs.get("msg") != null && packArgs.get("msg").length() > 0) {
+                    System.out.println(packArgs.get("msg"));
                     nClient.msgreceived = 1;
                     String msg = packArgs.get("msg");
                     gMessages.addScreenMessage(msg);
@@ -344,6 +345,7 @@ public class nClient extends Thread {
                 nServer.clientArgsMap.remove(tr);
                 cScoreboard.scoresMap.remove(tr);
                 nServer.clientSendCmdQueues.remove(tr);
+                nServer.clientSendMsgQueues.remove(tr);
                 nServer.clientIds.remove(tr);
                 eManager.currentMap.scene.playersMap().remove(tr);
             }
