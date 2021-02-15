@@ -16,7 +16,8 @@ public class eManager {
         File[] fpContents = fp.listFiles();
         for(File ffp : fpContents) {
             if(ffp.isFile() && !ffp.getName().toLowerCase().contains(sVars.get("defaultmap").toLowerCase())
-                    && ffp.getName().split("\\.")[1].equalsIgnoreCase("map")) {
+                    && ffp.getName().split("\\.")[1].equalsIgnoreCase(
+                            sVars.get("mapextension").replace(".",""))) {
                 mapsSelection = Arrays.copyOf(mapsSelection,mapsSelection.length+1);
                 mapsSelection[mapsSelection.length-1] = ffp.getName();
             }

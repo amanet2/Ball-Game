@@ -16,12 +16,7 @@ public class xComRespawn extends xCom {
                 - cGameLogic.userPlayer().getInt("dimw") / 2);
         userPlayer.putInt("coordy", spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
                 - cGameLogic.userPlayer().getInt("dimh") / 2);
-        if(cVars.getInt("gamespawnarmed") < 1) {
-            cScripts.clearWeaponStocks();
-        }
-        else {
-            cScripts.refillWeaponStocks();
-        }
+        cScripts.refillWeaponStocks();
         userPlayer.put("stockhp", cVars.get("maxstockhp"));
         userPlayer.put("alive", "1");
         xCon.ex("cv_flashlight 0");

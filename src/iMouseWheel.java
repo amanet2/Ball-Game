@@ -5,39 +5,29 @@ public class iMouseWheel implements MouseWheelListener {
     public void mouseWheelMoved(MouseWheelEvent e) {
         if (e.getWheelRotation() < 0) {
             if(sVars.isOne("inconsole")) {
-                if(xCon.instance().linesToShowStart > 0) {
-                    xCon.instance().linesToShowStart--;
+                if(xCon.linesToShowStart > 0) {
+                    xCon.linesToShowStart--;
                 }
             }
             else if(sSettings.show_mapmaker_ui) {
                 xCon.ex("-e_nextthing");
             }
             else {
-//                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
-                    xCon.ex("dropweapon");
-//                }
-//                else
-//                    cScripts.changeWeapon(cVars.getInt("currentweapon") > 0
-//                        ? cVars.getInt("currentweapon") - 1 : gWeapons.weaponSelection().size() - 1);
+                xCon.ex("dropweapon");
             }
         }
         else {
             if(sVars.isOne("inconsole")) {
-                if(xCon.instance().linesToShowStart <
-                    xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
-                    xCon.instance().linesToShowStart++;
+                if(xCon.linesToShowStart <
+                    xCon.stringLines.size() - xCon.linesToShow) {
+                    xCon.linesToShowStart++;
                 }
             }
             else if(sSettings.show_mapmaker_ui) {
                 xCon.ex("e_nextthing");
             }
             else {
-//                if(cVars.isZero("gamespawnarmed") && !cVars.isZero("currentweapon")) {
-                    xCon.ex("dropweapon");
-//                }
-//                else
-//                    cScripts.changeWeapon(cVars.getInt("currentweapon") < gWeapons.weaponSelection().size() - 1
-//                            ? cVars.getInt("currentweapon") + 1 : 0);
+                xCon.ex("dropweapon");
             }
         }
     }

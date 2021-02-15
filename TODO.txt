@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* we want to keep the logic that loads new map if map detected not the same as the previous one
+    -> look in the PR
+* remove reloading and spawn-armed
 * when map changes, server says wrong name when bots "leave"
 * restore vote to skip
 * use java gui elements for ui
@@ -10,7 +13,6 @@
     -> or rather "request" a cmd be run by the server on a fan-out basis
         -> dont run their own cmd until the server sends it back to them?
 * send "crouch" across network
-* make gravity of 0 work
 * in client onread, shake camera if readstock is less than current userplayer stock
     -> dont update playerstocks unless ur the server
     -> client will read stockhp from server and set its userplayer with that stockhp

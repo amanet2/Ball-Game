@@ -29,16 +29,18 @@ public class nVars {
         keys.put("act", cGameLogic.getActionLoad());
         //handle outgoing msg
         keys.put("msg", "");
+        //for server
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
                 && nServer.clientSendMsgQueues.containsKey(nSend.focus_id)
                 && nServer.clientSendMsgQueues.get(nSend.focus_id).size() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
-            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+            //act as if bot has instantly received outgoing msgs (bots dont have a "client" to exec things on)
             if(nSend.focus_id.contains("bot"))
                 nServer.clientArgsMap.get(nSend.focus_id).put("netmsgrcv", "1");
             keys.put("msg", nServer.clientSendMsgQueues.get(nSend.focus_id).peek());
         }
+        //for client
         if(sSettings.net_client && nClient.netSendMsgs.size() > 0) {
             keys.put("msg", nClient.netSendMsgs.remove());
         }
@@ -54,7 +56,9 @@ public class nVars {
                 nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
             keys.put("cmd", nServer.clientSendCmdQueues.get(nSend.focus_id).peek());
         }
+        //update id in net args
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
+        //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
@@ -66,45 +70,50 @@ public class nVars {
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
             keys.put("weapon", userPlayer.get("weapon"));
         }
+        //values that come from svars and cvars like name, color, etc
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
         keys.put("name", sVars.get("playername"));
-        keys.put("flashlight", xCon.ex("cv_flashlight"));
+        keys.put("flashlight", cVars.get("flashlight"));
+        //key whose presence depends on value of cvar like quitting, disconnecting
+        keys.remove("quit");
+        keys.remove("disconnect");
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
-        else
-            keys.remove("quit");
         if(cVars.isOne("disconnecting"))
             keys.put("disconnect", "");
-        else
-            keys.remove("disconnect");
+        //server-specific values, mostly for gamemode stuff
         if(sSettings.net_server) {
+            //flagmaster for ctf and flagmaster
             if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
                 keys.put("flagmasterid", cVars.get("flagmasterid"));
             }
-            if(keys.containsKey("armed") && !keys.get("armed").equals(cVars.get("gamespawnarmed"))) {
-                xCon.ex("say SPAWN ARMED: " + (cVars.isOne("gamespawnarmed") ? "ON" : "OFF"));
-            }
-            keys.put("armed", cVars.get("gamespawnarmed"));
+            //kicking clients
             keys.put("kick", nServer.kickClientIds.size() > 0 ? nServer.kickClientIds.peek() : "");
+            //the name of the current map
             keys.put("map", eManager.currentMap.mapName);
+            //the current gamemode
             keys.put("mode", cVars.get("gamemode"));
+            //describes the powerups that should be on map
             keys.put("powerups", cPowerups.createPowerupStringServer());
+            //team game stuff
             if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
                 xCon.ex("say TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
             }
             keys.put("teams", cVars.get("gameteam"));
+            //tickrate sync
             if(keys.containsKey("tick") && !keys.get("tick").equals(sVars.get("gametick"))) {
                 xCon.ex("say GAME SPEED: " + sVars.get("gametick"));
             }
             keys.put("tick", sVars.get("gametick"));
+            //send scores
             keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
             cVars.put("scoremap", keys.get("scoremap"));
+            //other gamemode stuff like scorelimit, gravity, etc
             if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
                 xCon.ex("say SCORE LIMIT: " + sVars.get("scorelimit"));
             }
-            keys.put("allowweaponreload", cVars.get("allowweaponreload"));
             keys.put("scorelimit", sVars.get("scorelimit"));
             keys.put("gravity", cVars.get("gravity"));
             if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
