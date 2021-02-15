@@ -108,16 +108,18 @@ public class nServer extends Thread {
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
-                nSend.focus_id = clientId;
-                //create response
-                String sendDataString = createSendDataString();
-                byte[] sendData = sendDataString.getBytes();
-                DatagramPacket sendPacket =
-                        new DatagramPacket(sendData, sendData.length, addr, port);
-                serverSocket.send(sendPacket);
-                xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
-                if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
-                    kickConfirmed = true;
+                if(clientId != null) {
+                    nSend.focus_id = clientId;
+                    //create response
+                    String sendDataString = createSendDataString();
+                    byte[] sendData = sendDataString.getBytes();
+                    DatagramPacket sendPacket =
+                            new DatagramPacket(sendData, sendData.length, addr, port);
+                    serverSocket.send(sendPacket);
+                    xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
+                    if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
+                        kickConfirmed = true;
+                    }
                 }
                 receivedPackets.remove();
             }
@@ -234,7 +236,6 @@ public class nServer extends Thread {
     }
 
     public static void readData(String receiveDataString) {
-        System.out.println(receiveDataString);
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
             int isnewclient = 1;
@@ -244,6 +245,9 @@ public class nServer extends Thread {
             HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
             //get id from packet
             String packId = packArgMap.get("id");
+            //dont proceed if id is null it means packet might be bad
+            if(packId == null)
+                return;
             //insert new ids into the greater maps
             if(!nServer.clientArgsMap.containsKey(packId))
                 nServer.clientArgsMap.put(packId, packArgMap);
@@ -340,7 +344,8 @@ public class nServer extends Thread {
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
-        checkMessageForVoteToSkip(testmsg);
+//        checkMessageForVoteToSkip(testmsg);
+
 //        //handle the vote-to-skip function
 //        if(msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
 //            cVars.addIntVal("voteskipctr", 1);
