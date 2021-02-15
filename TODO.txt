@@ -3,9 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* handle server getting NOTHING from client msg on first run
+* there's a chance that when clients join the server the packId is null
 * we want to keep the logic that loads new map if map detected not the same as the previous one
     -> look in the PR
-* remove reloading and spawn-armed
 * when map changes, server says wrong name when bots "leave"
 * restore vote to skip
 * use java gui elements for ui

@@ -234,6 +234,7 @@ public class nServer extends Thread {
     }
 
     public static void readData(String receiveDataString) {
+        System.out.println(receiveDataString);
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
             int isnewclient = 1;
@@ -323,6 +324,7 @@ public class nServer extends Thread {
             player.put("name", packName);
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
+            player.put("stockhp", cVars.get("maxstockhp"));
 //                        player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
@@ -338,6 +340,7 @@ public class nServer extends Thread {
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
+        checkMessageForVoteToSkip(testmsg);
 //        //handle the vote-to-skip function
 //        if(msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
 //            cVars.addIntVal("voteskipctr", 1);
@@ -362,6 +365,23 @@ public class nServer extends Thread {
                 addSendCmd(soundString);
                 break;
             }
+        }
+    }
+
+    public static void checkMessageForVoteToSkip(String testmsg) {
+        //handle the vote-to-skip function
+        testmsg = testmsg.strip();
+        System.out.println(testmsg);
+        if(testmsg.equalsIgnoreCase("skip")) {
+            cVars.addIntVal("voteskipctr", 1);
+            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
+                cVars.put("timeleft", "0");
+                addSendMsg(String.format("[VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
+                addSendMsg("[VOTE_SKIP] CHANGING MAP...");
+            }
+            else
+                addSendMsg(String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
         }
     }
 }
