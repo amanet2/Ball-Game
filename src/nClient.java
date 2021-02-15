@@ -283,10 +283,6 @@ public class nClient extends Thread {
                         gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
                     }
                     isnewclient = 0;
-                    if(packArgs.containsKey("kick") && packArgs.get("kick").equals(uiInterface.uuid)) {
-                        xCon.ex("disconnect");
-                        xCon.ex("echo you have been kicked by the server");
-                    }
                     if(!packArgs.containsKey("spawnprotected")
                             && nServer.clientArgsMap.get(idload).containsKey("spawnprotected")) {
                         nServer.clientArgsMap.get(idload).remove("spawnprotected");

@@ -67,15 +67,15 @@ public class cScripts {
         else {
             if(!p.get("pathsprite").contains("a05")) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-//                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-//                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-//                        "misc/bfg_flip.png";
-//                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-//                    gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-//                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+                        "misc/bfg_flip.png";
+                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+                    gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
             }
         }
     }

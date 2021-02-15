@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* debug issue of client loading into mainmenu then losing server
+    -> what exactly happens on client join?
+* broken in "remove old kick system" commit
 * server "kick" shouldnt require a msg being sent over network
     -> have ignoreIDList where all the ids we want to ignore in network will be
     -> remove ids from the list depending on the length of the ban we want

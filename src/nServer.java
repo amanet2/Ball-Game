@@ -88,13 +88,17 @@ public class nServer extends Thread {
                 String receiveDataString = new String(receivePacket.getData());
                 xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                         + receiveDataString.trim());
-                nServer.readData(receiveDataString);
-                //show the ip address of the client
+                //get the ip address of the client
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
+                //read data of packet
+                nServer.readData(receiveDataString);
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
+                //relieve bans
+                if(banClientIds.containsKey(clientId) && banClientIds.get(clientId) < System.currentTimeMillis())
+                    banClientIds.remove(clientId);
                 if(clientId != null && !banClientIds.containsKey(clientId)) {
                     nSend.focus_id = clientId;
                     //create response

@@ -69,7 +69,7 @@ public class sVars {
         keys.put("fontcolorhighlight", "220,175,0,255");
         keys.put("fontcolornormal", "255,255,255,255");
         keys.put("timelimit", "120000");
-        keys.put("timeout", "6600");
+        keys.put("timeout", "1000");
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
         keys.put("vfxenableshading", "1");
