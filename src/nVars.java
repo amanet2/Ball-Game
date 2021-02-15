@@ -5,6 +5,17 @@ public class nVars {
     //start with only player1
     private static HashMap<String, String> keys = null;
 
+    private static void refresh() {
+        if(keys == null) {
+            keys = new HashMap<>();
+            update();
+        }
+    }
+
+    public static void reset() {
+        keys = null;
+    }
+
     public static String get(String s) {
         refresh();
         return keys.get(s);
@@ -15,7 +26,7 @@ public class nVars {
     }
 
     public static HashMap<String, String> copy() {
-        return new HashMap<>(nVars.keys);
+        return keys != null ? new HashMap<>(keys) : new HashMap<>();
     }
 
     public static String dump() {
@@ -139,16 +150,4 @@ public class nVars {
         }
         return  toReturn;
     }
-
-    private static void refresh() {
-        if(keys == null) {
-            keys = new HashMap<>();
-            update();
-        }
-    }
-
-    public static void reset() {
-        keys = null;
-    }
-
 }
