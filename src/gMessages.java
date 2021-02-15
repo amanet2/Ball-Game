@@ -10,7 +10,6 @@ public class gMessages {
     static String msgInProgress = "";
     static boolean optionSet = false;
     static String enteringOptionText = "";
-    static Queue<String> sayMessages = new LinkedList<>();
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
@@ -18,14 +17,6 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        //check for sfx received
-        if(sSettings.net_server && cScripts.allClientsReceivedMessage("netsfxrcv")
-                && cVars.get("sendsound").length() > 0) {
-            cVars.put("sendsound", "");
-            for(String id : nServer.clientArgsMap.keySet()) {
-                nServer.clientArgsMap.get(id).remove("netsfxrcv");
-            }
-        }
         //check individual ids in the msg queue map
         if(sSettings.net_server) {
             for(String id : nServer.clientSendMsgQueues.keySet()) {

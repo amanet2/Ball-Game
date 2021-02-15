@@ -72,7 +72,6 @@ public class cVars {
         put("sendcmd", "");
         put("sendpowerup", "");
         put("sendsafezone", "0");
-        put("sendsound", "");
         put("serveraddbotstime", "0");
         put("shaketimemax", "500");
         put("showscore", "0");

@@ -385,9 +385,6 @@ public class cGameLogic {
             cVars.put("intermissiontime", "-1");
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
-//            while(rand == eManager.mapSelectionIndex) {
-//                rand = (int)(Math.random()*eManager.mapsSelection.length);
-//            }
             eManager.mapSelectionIndex = rand;
             xCon.ex("load " + eManager.mapsSelection[rand]);
             xCon.ex("respawn");
@@ -411,10 +408,6 @@ public class cGameLogic {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
         }
-//        if(cVars.get("sendcmd").length() > 0) {
-//            actionload+=("sendcmd_"+cVars.get("sendcmd")+"|");
-//            cVars.put("sendcmd","");
-//        }
         if(cVars.isZero("exploded"))
             actionload += String.format("explode:%s:%s|", cVars.get("explodex"), cVars.get("explodey"));
         if(actionload.length() > 0)

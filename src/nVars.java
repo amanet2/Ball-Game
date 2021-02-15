@@ -42,17 +42,6 @@ public class nVars {
         if(sSettings.net_client && nClient.netSendMsgs.size() > 0) {
             keys.put("msg", nClient.netSendMsgs.remove());
         }
-        //handle outgoing sfx
-        if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && cVars.get("sendsound").length() > 0
-                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netsfxrcv")) {
-            xCon.ex("playsound " + cVars.get("sendsound"));
-            if(nSend.focus_id.contains("bot")) {
-                nServer.clientArgsMap.get(nSend.focus_id).put("netsfxrcv", "1");
-            }
-            keys.put("act", "playsound"+cVars.get("sendsound")+"-"+keys.get("act"));
-        }
         //handle outgoing cmd
         keys.put("cmd", "");
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
