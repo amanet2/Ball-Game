@@ -174,6 +174,12 @@ public class nClient extends Thread {
             }
             //detect a win message from the server and cancel all movements
             if(idload.equals("server")) {
+//                //check if we're somehow on the wrong map
+//                if(!packArgs.get("map").contains(eManager.currentMap.mapName)) {
+//                    xCon.ex(String.format("load %s", packArgs.get("map") + sVars.get("mapextension")));
+//                    xCon.ex("respawn");
+//                }
+                //check for end of game
                 if(packArgs.get("win").length() > 0) {
                     cVars.put("winnerid", packArgs.get("win"));
                     gPlayer userPlayer = cGameLogic.userPlayer();

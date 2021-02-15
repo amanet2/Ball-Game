@@ -555,10 +555,6 @@ public class cScripts {
     public static void goToEndScreen() {
         cVars.putLong("intermissiontime",
                 System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
-        if(sSettings.net_server) {
-            nServer.instance().setMapvoteSelection();
-            xCon.instance().log("VOTE: "+Arrays.toString(nServer.mapvoteSelection));
-        }
     }
 
     public static boolean isNetworkGame() {

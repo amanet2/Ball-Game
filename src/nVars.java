@@ -100,8 +100,6 @@ public class nVars {
                     || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
                 keys.put("flagmasterid", cVars.get("flagmasterid"));
             }
-            //kicking clients
-            keys.put("kick", nServer.kickClientIds.size() > 0 ? nServer.kickClientIds.peek() : "");
             //the name of the current map
             keys.put("map", eManager.currentMap.mapName);
             //the current gamemode

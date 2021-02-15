@@ -117,6 +117,7 @@ public class xCon {
         commands.put("activateui", new xComActivateUI());
         commands.put("addbot", new xComAddBot());
         commands.put("attack", new xComAttack());
+        commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
         commands.put("botrespawn", new xComBotRespawn());
@@ -171,7 +172,6 @@ public class xCon {
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
         commands.put("jump", new xComJump());
-        commands.put("kick", new xComKick());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());

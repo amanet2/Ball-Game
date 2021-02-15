@@ -230,10 +230,6 @@ public class cGameLogic {
                 String quitterId = nServer.quitClientIds.remove();
                 nServer.removeNetClient(quitterId);
             }
-            while(nServer.kickClientIds.size() > 0 && nServer.kickConfirmed) {
-                nServer.kickClientIds.remove();
-                nServer.kickConfirmed = false;
-            }
         }
         if(sSettings.net_client) {
             checkDisconnectStatus();

@@ -3,12 +3,16 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* handle server getting NOTHING from client msg on first run
-* there's a chance that when clients join the server the packId is null
+* server "kick" shouldnt require a msg being sent over network
+    -> have ignoreIDList where all the ids we want to ignore in network will be
+    -> remove ids from the list depending on the length of the ban we want
+    -> "kick <id>" kicks id for 0 seconds
+    -> "kick <id> -1" infinite (or game close)
+    -> "kick <id> <val>" kicks for <val> millis
+* restore vote to skip
 * we want to keep the logic that loads new map if map detected not the same as the previous one
     -> look in the PR
 * when map changes, server says wrong name when bots "leave"
-* restore vote to skip
 * use java gui elements for ui
 * clients need to be able to sendcmd's as well
     -> or rather "request" a cmd be run by the server on a fan-out basis

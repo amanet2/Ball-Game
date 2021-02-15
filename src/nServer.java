@@ -9,8 +9,7 @@ import java.util.Queue;
 public class nServer extends Thread {
     private int netticks;
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
-    static Queue<String> kickClientIds = new LinkedList<>(); //temporarily holds ids that are being kicked
-    static boolean kickConfirmed = false;
+    static HashMap<String, Long> banClientIds = new HashMap<>(); // ids mapped to the time to be allowed back
     static ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
@@ -18,10 +17,9 @@ public class nServer extends Thread {
     static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
     //id maps to queue of msgs we want to send to clients
     static HashMap<String, Queue<String>> clientSendMsgQueues = new HashMap<>();
-    static String[] mapvoteSelection = new String[]{};
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
-    static DatagramSocket serverSocket = null;
+    private static DatagramSocket serverSocket = null;
 
 
     public static nServer instance() {
@@ -60,17 +58,6 @@ public class nServer extends Thread {
         for(String id: sendMap.keySet()) {
             addNetSendData(sendMap, id, data);
         }
-    }
-
-    public void setMapvoteSelection() {
-        nServer.mapvoteSelection = new String[7];
-        for(int i = 0; i < 5; i++) {
-            int tovote = (int)(Math.random()*eManager.mapsSelection.length);
-            nServer.mapvoteSelection[i] = eManager.mapsSelection[tovote];
-        }
-        nServer.mapvoteSelection[5] = "EXTEND " + (double)sVars.getInt("timelimit")/60000.0
-                + " MINUTES on " + eManager.mapsSelection[eManager.mapSelectionIndex];
-        nServer.mapvoteSelection[6] = "REMATCH on " + eManager.mapsSelection[eManager.mapSelectionIndex];
     }
 
     public static void clearBots() {
@@ -117,9 +104,6 @@ public class nServer extends Thread {
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
-                    if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
-                        kickConfirmed = true;
-                    }
                 }
                 receivedPackets.remove();
             }
@@ -141,10 +125,6 @@ public class nServer extends Thread {
                     nSend.focus_id = clientId;
                     //act as if responding
                     createSendDataString();
-                    if (kickClientIds.size() > 0 && kickClientIds.peek().equals(clientId)) {
-                        kickConfirmed = true;
-                        break;
-                    }
                 }
             }
         }
