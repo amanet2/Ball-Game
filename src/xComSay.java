@@ -1,21 +1,12 @@
 public class xComSay extends xCom {
     public String doCommand(String fullCommand) {
-//        if(fullCommand.length() > 0) {
-//            gMessages.msgInProgress = fullCommand.substring(fullCommand.indexOf(" ")+1);
-//            gMessages.messageSend = true;
-//            if(!gMessages.optionSet
-//                && gMessages.enteringOptionText.length() > 0)
-//                gMessages.optionSet = true;
-//        }
-//        if(fullCommand.length() > 0) {
-//            gMessages.sayMessages.add(fullCommand.substring(fullCommand.indexOf(" ")+1));
-//        }
         if(fullCommand.length() > 0) {
             String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
             msg = sVars.get("playername") + ": " + msg;
             if(sSettings.net_server) {
-                xCon.ex("echo "+msg);
-                nServer.addSendMsg(msg);
+                String echoString = "echo " + msg;
+                xCon.ex(echoString);
+                nServer.addSendCmd(echoString);
             }
             else if(sSettings.net_client)
                 nClient.addSendMsg(msg);

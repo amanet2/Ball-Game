@@ -64,10 +64,10 @@ public class gMessages {
             if (!optionSet && (!cScripts.isNetworkGame() || sSettings.net_server))
                 addScreenMessage(msg);
             networkMessage = msg;
-            if(sSettings.net_server) {
-                //check for sound
-                cScripts.checkMsgSpecialFunction(msg);
-            }
+//            if(sSettings.net_server) {
+//                //check for sound
+//                cScripts.checkMsgSpecialFunction(msg);
+//            }
         }
         if(messageSend) {
             if(optionSet) {

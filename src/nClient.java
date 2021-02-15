@@ -248,18 +248,9 @@ public class nClient extends Thread {
                 if(cmdload.length() > 0) {
                     cClient.processCmd(cmdload);
                     System.out.println(cmdload);
-                }
-                //check message from server
-                if(packArgs.get("msg") != null && packArgs.get("msg").length() > 0) {
-                    nClient.msgreceived = 1;
-                    String msg = packArgs.get("msg");
-                    System.out.println(msg);
-                    gMessages.addScreenMessage(msg);
-                    //probably split up to check functions in msgs from server and from players
-                    cScripts.checkMsgSpecialFunction(msg);
-                    String[] t = msg.split(" ");
-                    if(t.length > 1)
-                        cScripts.checkMsgSpecialFunction(t[1]);
+                    if(cmdload.contains(":")) {
+                        checkSpecialSound(cmdload);
+                    }
                 }
             }
             if(!idload.equals(uiInterface.uuid)) {
@@ -354,6 +345,20 @@ public class nClient extends Thread {
                 nServer.clientSendMsgQueues.remove(tr);
                 nServer.clientIds.remove(tr);
                 eManager.currentMap.scene.playersMap().remove(tr);
+            }
+        }
+    }
+
+    public static void checkSpecialSound(String msg) {
+        nClient.msgreceived = 1;
+        String testmsg = msg.substring(msg.indexOf(':')+2);
+        System.out.println(testmsg);
+        for(String s : eManager.winClipSelection) {
+            String[] ttoks = s.split("\\.");
+            if(testmsg.equalsIgnoreCase(ttoks[0])) {
+                String soundString = "playsound sounds/win/" + s;
+                xCon.ex(soundString);
+                break;
             }
         }
     }

@@ -211,28 +211,6 @@ public class cScripts {
         }
     }
 
-    public static void checkMsgSpecialFunction(String msg) {
-        for(String s : eManager.winClipSelection) {
-            String[] ttoks = s.split("\\.");
-            if(msg.equalsIgnoreCase(ttoks[0])) {
-                xCon.ex("playsound sounds/win/" + s);
-                break;
-            }
-        }
-        if(sSettings.net_server && msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
-            cVars.addIntVal("voteskipctr", 1);
-            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
-                cVars.put("timeleft", "0");
-                xCon.ex(String.format("say [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
-                xCon.ex("say [VOTE_SKIP] CHANGING MAP...");
-            }
-            else {
-                xCon.ex("say " + String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
-            }
-        }
-    }
-
     public static void processOptionText(String optionTitle, String enteredText) {
         if("New Name".contains(optionTitle)) {
             sVars.put("playername", enteredText);

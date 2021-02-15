@@ -303,13 +303,7 @@ public class nServer extends Thread {
                     nServer.quitClientIds.add(packId);
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
-                    xCon.ex("echo " + packArgMap.get("msg"));
-                    nServer.addSendCmd("echo " + packArgMap.get("msg"));
-//                    String msg = packArgMap.get("msg");
-//                    xCon.ex(String.format("say %s", msg));
-//                    String[] t = msg.split(" ");
-//                    if(t.length > 1)
-//                        cScripts.checkMsgSpecialFunction(t[1]);
+                    handleClientMessage(packArgMap.get("msg"));
                 }
             }
             if(isnewclient == 1) {
@@ -337,5 +331,38 @@ public class nServer extends Thread {
         String joinString = String.format("echo %s joined the game", packName);
         xCon.ex(joinString);
         addSendCmd(joinString);
+    }
+
+    public static void handleClientMessage(String msg) {
+        xCon.ex("echo " + msg);
+        nServer.addSendCmd("echo " + msg);
+        //handle special sounds
+        String testmsg = msg.substring(msg.indexOf(':')+2);
+        checkMessageForSpecialSound(testmsg);
+//        //handle the vote-to-skip function
+//        if(msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
+//            cVars.addIntVal("voteskipctr", 1);
+//            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
+//                cVars.put("timeleft", "0");
+//                xCon.ex(String.format("say [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
+//                xCon.ex("say [VOTE_SKIP] CHANGING MAP...");
+//            }
+//            else {
+//                xCon.ex("say " + String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+//                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
+//            }
+//        }
+    }
+
+    public static void checkMessageForSpecialSound(String testmsg) {
+        for(String s : eManager.winClipSelection) {
+            String[] ttoks = s.split("\\.");
+            if(testmsg.equalsIgnoreCase(ttoks[0])) {
+                String soundString = "playsound sounds/win/" + s;
+                xCon.ex(soundString);
+                addSendCmd(soundString);
+                break;
+            }
+        }
     }
 }

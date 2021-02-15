@@ -3,6 +3,13 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* netMSGrcv might not be needed anymore now
+    -> or the sfxrcv
+    -> replacing with cmdrcv
+* restore vote to skip
+* when server processes msg check if can play sound and do the sendcmd for playsound
+    -> use that for the other special sounds like on win
+* special sounds need to work when clients send that msg to the server
 * server use "echo " on the sendCMD queue to give the messages, and SAY will always have the playername attached
 * if server receives message, they can "say <name>: <msg>" in the fanout style
     -> clients need to send messages to server in same style
