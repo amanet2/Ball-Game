@@ -500,7 +500,7 @@ public class cGameLogic {
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-                cVars.put("sendsound", "sounds/win/"+eManager.winClipSelection[toplay]);
+                nServer.addSendCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cScripts.goToEndScreen();
             }
         }
