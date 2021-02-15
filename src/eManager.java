@@ -53,7 +53,7 @@ public class eManager {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     //user player
-                    if(obj.isZero("tag")) {
+                    if(cGameLogic.isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
                             double mod = 1;
                             if(i==0) {
@@ -66,7 +66,7 @@ public class eManager {
                                 obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
                                         obj.getInt("vel" + i) + 1)));
                         }
-                        else if(i != 1)
+                        else if(i != 1 || cVars.getInt("gravity") < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
                     else if(nServer.clientArgsMap.get(obj.get("id")).containsKey("vels")){

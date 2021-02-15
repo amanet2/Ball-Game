@@ -3,24 +3,14 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* netMSGrcv might not be needed anymore now
-    -> or the sfxrcv
-    -> replacing with cmdrcv
+* when map changes, server says wrong name when bots "leave"
 * restore vote to skip
-* when server processes msg check if can play sound and do the sendcmd for playsound
-    -> use that for the other special sounds like on win
-* special sounds need to work when clients send that msg to the server
-* server use "echo " on the sendCMD queue to give the messages, and SAY will always have the playername attached
-* if server receives message, they can "say <name>: <msg>" in the fanout style
-    -> clients need to send messages to server in same style
 * use java gui elements for ui
-* overhaul chat messages to work like the cmd queue
 * clients need to be able to sendcmd's as well
     -> or rather "request" a cmd be run by the server on a fan-out basis
         -> dont run their own cmd until the server sends it back to them?
 * send "crouch" across network
 * make gravity of 0 work
-* use "sendcmd" arg online instead of "act"
 * in client onread, shake camera if readstock is less than current userplayer stock
     -> dont update playerstocks unless ur the server
     -> client will read stockhp from server and set its userplayer with that stockhp
