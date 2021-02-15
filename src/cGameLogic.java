@@ -83,7 +83,7 @@ public class cGameLogic {
                 if(id.contains("bot")) {
                     gPlayer p = gScene.getPlayerById(id);
                     if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                        if (cVars.isZero("gamespawnarmed") && p.getInt("weapon") != gWeapons.type.NONE.code()) {
+                        if (p.getInt("weapon") != gWeapons.type.NONE.code()) {
                             cScripts.changeBotWeapon(p, gWeapons.type.NONE.code(), true);
                         }
                     }
@@ -402,8 +402,6 @@ public class cGameLogic {
 
     public static String getActionLoad() {
         String actionload = "";
-        if(sSettings.net_client && cVars.isOne("sendsafezone"))
-            actionload += "safezone|";
         if(sSettings.net_client && cVars.get("sendpowerup").length() > 0) {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
@@ -518,11 +516,6 @@ public class cGameLogic {
             if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
                 cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
                 cGameMode.refreshSafeZones();
-                if (cVars.isOne("survivesafezone")) {
-                    cVars.put("sendsafezone", "1");
-                    if(sSettings.net_server)
-                        xCon.ex("givepoint " + cl.get("id"));
-                }
                 cVars.put("exploded", "0");
                 cVars.putInt("explodex", cl.getInt("coordx") - 75);
                 cVars.putInt("explodey", cl.getInt("coordy") - 75);
@@ -535,8 +528,6 @@ public class cGameLogic {
                     xCon.ex("say " + cl.get("name") + " died");
                 xCon.ex("respawn");
             }
-            else
-                cVars.put("survivesafezone", "0");
         }
     }
 }

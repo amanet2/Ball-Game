@@ -145,7 +145,6 @@ public class nClient extends Thread {
         else
             nSend.sendMap.remove("spawnprotected");
         cVars.put("exploded", "1");
-        cVars.put("sendsafezone", "0");
         return sendDataString.toString();
     }
 
@@ -236,10 +235,8 @@ public class nClient extends Thread {
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("gamemode", packArgs.get("mode"));
                 cVars.put("gameteam", packArgs.get("teams"));
-                cVars.put("gamespawnarmed", packArgs.get("armed"));
                 cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("gravity", packArgs.get("gravity"));
-                cVars.put("allowweaponreload", packArgs.get("allowweaponreload"));
                 cVars.put("gametick", packArgs.get("tick"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 cVars.put("spawnprotectionmaxtime", packArgs.get("spmaxtime"));

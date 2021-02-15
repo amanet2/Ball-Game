@@ -380,7 +380,6 @@ public class cScripts {
                 String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
                 xCon.ex(damageplayer_cmdstring);
                 nServer.addSendCmd(damageplayer_cmdstring);
-//                cVars.put("sendcmd", damageplayer_cmdstring);
             }
             //serverside actions on player death
             if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
@@ -538,7 +537,7 @@ public class cScripts {
 
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
         HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
+        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
             nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }
@@ -546,7 +545,7 @@ public class cScripts {
 
     public static void changeWeapon(int newweapon) {
         if(eManager.currentMap.scene.playersMap().size() > 0
-                && !(newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
+                && newweapon == 0) {
             cGameLogic.userPlayer().putInt("weapon", newweapon);
             xCon.ex("playsound sounds/grenpinpull.wav");
             checkPlayerSpriteFlip(cGameLogic.userPlayer());

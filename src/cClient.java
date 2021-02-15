@@ -15,10 +15,6 @@ public class cClient {
                 xCon.ex(String.format("playsound %s",
                         action.split("-")[0].replace("playsound","")));
             }
-//            if(action.contains("sendcmd")) {
-//                nClient.cmdreceived = 1;
-//                xCon.ex(action.replaceFirst("sendcmd_","").replace("-",""));
-//            }
         }
     }
 

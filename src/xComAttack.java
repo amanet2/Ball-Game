@@ -8,7 +8,6 @@ public class xComAttack extends xCom {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 br.fireWeapon();
                 nServer.addSendCmd("fireweapon " + br.get("id") + " " + playerWeapon);
-//                cVars.put("sendcmd", "fireweapon " + br.get("id") + " " + playerWeapon);
                 br.putLong("cooldown", System.currentTimeMillis()
                         + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }

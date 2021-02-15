@@ -8,7 +8,6 @@ public class xComDropFlagRed extends xCom {
 //                    p.getInt("coordy") + p.getInt("dimh"), 300, 300);
 //            cVars.putInt("weaponstock"+p.get("weapon"), 0);
 //            xCon.ex(doString);
-//            cVars.put("sendcmd", doString);
         }
         return "drop weapon";
     }

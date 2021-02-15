@@ -185,7 +185,6 @@ public class xCon {
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("quit", new xComQuit());
-//        commands.put("reload", new xComReload());
         commands.put("respawn", new xComRespawn());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
@@ -193,12 +192,6 @@ public class xCon {
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
         commands.put("showscore", new xComShowScore());
-//        commands.put("slot0", new xComSlot0());
-//        commands.put("slot1", new xComSlot1());
-//        commands.put("slot2", new xComSlot2());
-//        commands.put("slot3", new xComSlot3());
-//        commands.put("slot4", new xComSlot4());
-//        commands.put("slot5", new xComSlot5());
         commands.put("soundlist", new xComSoundlist());
         commands.put("sspeed", new xComSuperSpeed());
         commands.put("status", new xComStatus());

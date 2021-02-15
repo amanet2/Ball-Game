@@ -108,9 +108,6 @@ public class cServer {
                 if(Integer.parseInt(p.get("int1")) < 1)
                     p.put("int0","0");
             }
-            if(action.contains("sendcmd")) {
-                xCon.ex(action.replaceFirst("sendcmd_",""));
-            }
         }
     }
 }

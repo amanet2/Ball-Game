@@ -58,16 +58,6 @@ public class dHUD {
         g.setColor(new Color(0,0,0,255));
         g.fillRect(sSettings.width/64,60*sSettings.height/64, sSettings.width/3,
                 sSettings.height/64);
-//        if(cScripts.isReloading()) {
-//            double reloadratio = (double)(
-//                    cVars.getLong("weapontime"+userPlayer.get("weapon"))+cVars.getInt("delayweap")
-//                            - System.currentTimeMillis())/cVars.getInt("delayweap");
-//            g.setColor(new Color(255,255,255,100));
-//            g.fillRect(sSettings.width/64,60*sSettings.height/64,
-//                    (int)(sSettings.width/3-(sSettings.width/3*reloadratio)),
-//                    sSettings.height/64);
-//        }
-//        else {
         g.setColor(new Color(30,50,220,255));
         if(gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo > 0)
             g.fillRect(sSettings.width/64,60*sSettings.height/64,
@@ -88,7 +78,6 @@ public class dHUD {
         g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
         g.setColor(new Color(200,200,200,255));
-//        g.drawString(cScripts.isReloading() ? "-- RELOADING --" :
         g.drawString(!userPlayer.isInt("weapon", gWeapons.type.NONE.code())
                         && !userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
                         ? (gWeapons.fromCode(userPlayer.getInt("weapon")).name.toUpperCase()

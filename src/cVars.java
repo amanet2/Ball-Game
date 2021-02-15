@@ -6,7 +6,6 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("allowweaponreload", "0");
         put("ballx", "0");
         put("bally", "0");
         putInt("cammode", gCamera.MODE_TRACKING);
@@ -38,7 +37,6 @@ public class cVars {
         put("gamewon", "0");
         putInt("gamemode", cGameMode.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
-        put("gamespawnarmed", "0");
         put("gameteam", "0");
         put("gametick", sVars.get("gametick"));
         putInt("gravity", 6);
@@ -64,14 +62,11 @@ public class cVars {
         put("quitting", "0");
         put("rechargepow", "12");
         put("rechargehp", "1");
-        put("reloading", "0");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scorelimit", sVars.get("scorelimit"));
         put("scoremap", "");
-        put("sendcmd", "");
         put("sendpowerup", "");
-        put("sendsafezone", "0");
         put("serveraddbotstime", "0");
         put("shaketimemax", "500");
         put("showscore", "0");
@@ -83,7 +78,6 @@ public class cVars {
         put("starttime", "0");
         put("stockspeed", get("maxstockspeed"));
         put("suppressknocksound", "0");
-        put("survivesafezone", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocitycam", "9");
         put("velocityplayerbase", "8");

@@ -179,7 +179,6 @@ public class nServer extends Thread {
         else
             nSend.sendMap.remove("spawnprotected");
         cVars.put("exploded", "1");
-        cVars.put("sendsafezone", "0");
         return sendDataString.toString();
     }
 
