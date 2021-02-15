@@ -309,9 +309,10 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                if(!s.contains(":")) {
-                    s = "server: " + s;
-                }
+                //special code to add "server: " to sender-less msgs
+//                if(!s.contains(":")) {
+//                    s = "server: " + s;
+//                }
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                     +(i*(sSettings.height/32)));
                 dFonts.setFontColorNormal(g);

@@ -11,7 +11,13 @@ public class xComSay extends xCom {
 //            gMessages.sayMessages.add(fullCommand.substring(fullCommand.indexOf(" ")+1));
 //        }
         if(fullCommand.length() > 0) {
-            nServer.addSendMsg(fullCommand.substring(fullCommand.indexOf(" ")+1));
+            String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
+            msg = sVars.get("playername") + ": " + msg;
+            xCon.ex("echo "+msg);
+            if(sSettings.net_server)
+                nServer.addSendMsg(msg);
+            else if(sSettings.net_client)
+                nClient.addSendMsg(msg);
         }
         return fullCommand;
     }

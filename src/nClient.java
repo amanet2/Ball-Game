@@ -8,6 +8,7 @@ public class nClient extends Thread {
     static int sfxreceived;
     static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    static Queue<String> netSendMsgs = new LinkedList<>();
     private static nClient instance = null;
     static DatagramSocket clientSocket = null;
 
@@ -22,6 +23,10 @@ public class nClient extends Thread {
         msgreceived = 0;
         sfxreceived = 0;
         cmdreceived = 0;
+    }
+
+    public static void addSendMsg(String msg) {
+        netSendMsgs.add(msg);
     }
 
     public static void processPackets() {
@@ -246,10 +251,11 @@ public class nClient extends Thread {
                 }
                 //check message from server
                 if(packArgs.get("msg") != null && packArgs.get("msg").length() > 0) {
-                    System.out.println(packArgs.get("msg"));
                     nClient.msgreceived = 1;
                     String msg = packArgs.get("msg");
+                    System.out.println(msg);
                     gMessages.addScreenMessage(msg);
+                    //probably split up to check functions in msgs from server and from players
                     cScripts.checkMsgSpecialFunction(msg);
                     String[] t = msg.split(" ");
                     if(t.length > 1)

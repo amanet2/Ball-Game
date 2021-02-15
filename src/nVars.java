@@ -51,6 +51,9 @@ public class nVars {
                 nServer.clientArgsMap.get(nSend.focus_id).put("netmsgrcv", "1");
             keys.put("msg", nServer.clientSendMsgQueues.get(nSend.focus_id).peek());
         }
+        if(sSettings.net_client && nClient.netSendMsgs.size() > 0) {
+            keys.put("msg", nClient.netSendMsgs.remove());
+        }
         //handle outgoing sfx
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
                 && cVars.get("sendsound").length() > 0

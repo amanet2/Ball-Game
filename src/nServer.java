@@ -322,7 +322,9 @@ public class nServer extends Thread {
                     eManager.currentMap.scene.playersMap().put(packId, player);
                 }
                 addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-                xCon.ex(String.format("say %s joined the game", packName));
+                String joinString = String.format("echo %s joined the game", packName);
+                xCon.ex(joinString);
+                addSendCmd(joinString);
             }
             nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
         }
