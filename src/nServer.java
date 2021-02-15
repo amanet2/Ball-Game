@@ -92,7 +92,7 @@ public class nServer extends Thread {
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
                 //read data of packet
-                nServer.readData(receiveDataString);
+                readData(receiveDataString);
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
@@ -230,7 +230,7 @@ public class nServer extends Thread {
             //get id from packet
             String packId = packArgMap.get("id");
             //dont proceed if id is null it means packet might be bad
-            if(packId == null)
+            if(packId == null || banClientIds.containsKey(packId))
                 return;
             //insert new ids into the greater maps
             if(!nServer.clientArgsMap.containsKey(packId))
