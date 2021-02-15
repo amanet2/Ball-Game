@@ -200,7 +200,9 @@ public class nServer extends Thread {
                 && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
         }
-        xCon.ex(String.format("say %s left the game", quitterName));
+        String quitString = String.format("echo %s left the game", quitterName);
+        xCon.ex(quitString);
+        addSendCmd(quitString);
     }
 
     public void run() {
@@ -301,32 +303,39 @@ public class nServer extends Thread {
                     nServer.quitClientIds.add(packId);
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
-                    String msg = packArgMap.get("msg");
-                    xCon.ex(String.format("say %s", msg));
-                    String[] t = msg.split(" ");
-                    if(t.length > 1)
-                        cScripts.checkMsgSpecialFunction(t[1]);
+                    xCon.ex("echo " + packArgMap.get("msg"));
+                    nServer.addSendCmd("echo " + packArgMap.get("msg"));
+//                    String msg = packArgMap.get("msg");
+//                    xCon.ex(String.format("say %s", msg));
+//                    String[] t = msg.split(" ");
+//                    if(t.length > 1)
+//                        cScripts.checkMsgSpecialFunction(t[1]);
                 }
             }
             if(isnewclient == 1) {
-                nServer.clientIds.add(packId);
-                clientSendCmdQueues.put(packId, new LinkedList<>());
-                clientSendMsgQueues.put(packId, new LinkedList<>());
-                if(!packId.contains("bot")) {
-                    gPlayer player = new gPlayer(-6000, -6000,150,150,
-                            eUtils.getPath("animations/player_red/a03.png"));
-                        player.put("name", packName);
-                    player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-                    player.put("id", packId);
-//                        player.putInt("weapon", packWeap);
-                    eManager.currentMap.scene.playersMap().put(packId, player);
-                }
-                addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-                String joinString = String.format("echo %s joined the game", packName);
-                xCon.ex(joinString);
-                addSendCmd(joinString);
+                handleNewClientJoin(packId, packName);
             }
+            //store player object's health in outgoing network arg map
             nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
         }
+    }
+
+    public static void handleNewClientJoin(String packId, String packName) {
+        nServer.clientIds.add(packId);
+        clientSendCmdQueues.put(packId, new LinkedList<>());
+        clientSendMsgQueues.put(packId, new LinkedList<>());
+        if(!packId.contains("bot")) {
+            gPlayer player = new gPlayer(-6000, -6000,150,150,
+                    eUtils.getPath("animations/player_red/a03.png"));
+            player.put("name", packName);
+            player.putInt("tag", eManager.currentMap.scene.playersMap().size());
+            player.put("id", packId);
+//                        player.putInt("weapon", packWeap);
+            eManager.currentMap.scene.playersMap().put(packId, player);
+        }
+        addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+        String joinString = String.format("echo %s joined the game", packName);
+        xCon.ex(joinString);
+        addSendCmd(joinString);
     }
 }

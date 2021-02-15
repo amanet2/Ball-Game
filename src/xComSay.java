@@ -13,9 +13,10 @@ public class xComSay extends xCom {
         if(fullCommand.length() > 0) {
             String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
             msg = sVars.get("playername") + ": " + msg;
-            xCon.ex("echo "+msg);
-            if(sSettings.net_server)
+            if(sSettings.net_server) {
+                xCon.ex("echo "+msg);
                 nServer.addSendMsg(msg);
+            }
             else if(sSettings.net_client)
                 nClient.addSendMsg(msg);
         }
