@@ -17,16 +17,6 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        //check individual ids in the msg queue map
-        if(sSettings.net_server) {
-            for(String id : nServer.clientSendMsgQueues.keySet()) {
-                if(nServer.clientArgsMap.get(id).containsKey("netmsgrcv")
-                        && nServer.clientSendMsgQueues.get(id).size() > 0) {
-                    nServer.clientSendMsgQueues.get(id).remove();
-                    nServer.clientArgsMap.get(id).remove("netmsgrcv");
-                }
-            }
-        }
         //check individual ids in the cmd queue map
         if(sSettings.net_server) {
             for(String id : nServer.clientSendCmdQueues.keySet()) {

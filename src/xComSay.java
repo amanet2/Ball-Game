@@ -4,6 +4,8 @@ public class xComSay extends xCom {
             String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
             msg = sVars.get("playername") + ": " + msg;
             if(sSettings.net_server) {
+                String testmsg = msg.substring(msg.indexOf(':')+2);
+                nServer.checkMessageForSpecialSound(testmsg);
                 String echoString = "echo " + msg;
                 xCon.ex(echoString);
                 nServer.addSendCmd(echoString);

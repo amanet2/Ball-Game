@@ -147,14 +147,14 @@ public class dScreenMessages {
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
-                sSettings.width/2, sSettings.height - sSettings.height / 6);
+                sSettings.width/2, 5 * sSettings.height / 6);
         //big font
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
             String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
             g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
-                0,sSettings.height/2-sSettings.height/64);
+                0,31 * sSettings.height/64);
         }
         //respawn
         if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("respawntime")) {
@@ -302,7 +302,7 @@ public class dScreenMessages {
         if(cScripts.isNetworkGame()) {
             if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
                 dFonts.drawCenteredString(g,
-                        "-- changing map --", sSettings.width / 2, 14*sSettings.height/15);
+                        "-- changing map --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
         //messages

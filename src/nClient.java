@@ -20,8 +20,6 @@ public class nClient extends Thread {
 
     private nClient() {
         netticks = 0;
-        msgreceived = 0;
-        sfxreceived = 0;
         cmdreceived = 0;
     }
 
@@ -116,23 +114,9 @@ public class nClient extends Thread {
         else
             nSend.sendMap = nVars.copy();
 
-        if(nClient.msgreceived != 0) {
-            nSend.sendMap.put("netmsgrcv","");
-            nClient.msgreceived = 0;
-        }
-        else
-            nSend.sendMap.remove("netmsgrcv");
-
-        if(nClient.sfxreceived != 0) {
-            nSend.sendMap.put("netsfxrcv","");
-            nClient.sfxreceived = 0;
-        }
-        else
-            nSend.sendMap.remove("netsfxrcv");
-
-        if(nClient.cmdreceived != 0) {
+        if(cmdreceived != 0) {
             nSend.sendMap.put("netcmdrcv","");
-            nClient.cmdreceived = 0;
+            cmdreceived = 0;
         }
         else
             nSend.sendMap.remove("netcmdrcv");
@@ -251,9 +235,6 @@ public class nClient extends Thread {
                 if(cmdload.length() > 0) {
                     cClient.processCmd(cmdload);
                     System.out.println(cmdload);
-                    if(cmdload.contains(":")) {
-                        checkSpecialSound(cmdload);
-                    }
                 }
             }
             if(!idload.equals(uiInterface.uuid)) {
@@ -341,23 +322,8 @@ public class nClient extends Thread {
                 nServer.clientArgsMap.remove(tr);
                 cScoreboard.scoresMap.remove(tr);
                 nServer.clientSendCmdQueues.remove(tr);
-                nServer.clientSendMsgQueues.remove(tr);
                 nServer.clientIds.remove(tr);
                 eManager.currentMap.scene.playersMap().remove(tr);
-            }
-        }
-    }
-
-    public static void checkSpecialSound(String msg) {
-        nClient.msgreceived = 1;
-        String testmsg = msg.substring(msg.indexOf(':')+2);
-        System.out.println(testmsg);
-        for(String s : eManager.winClipSelection) {
-            String[] ttoks = s.split("\\.");
-            if(testmsg.equalsIgnoreCase(ttoks[0])) {
-                String soundString = "playsound sounds/win/" + s;
-                xCon.ex(soundString);
-                break;
             }
         }
     }

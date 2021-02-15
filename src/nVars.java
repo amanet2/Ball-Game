@@ -40,17 +40,6 @@ public class nVars {
         keys.put("act", cGameLogic.getActionLoad());
         //handle outgoing msg
         keys.put("msg", "");
-        //for server
-        if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && nServer.clientSendMsgQueues.containsKey(nSend.focus_id)
-                && nServer.clientSendMsgQueues.get(nSend.focus_id).size() > 0
-                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
-            //act as if bot has instantly received outgoing msgs (bots dont have a "client" to exec things on)
-            if(nSend.focus_id.contains("bot"))
-                nServer.clientArgsMap.get(nSend.focus_id).put("netmsgrcv", "1");
-            keys.put("msg", nServer.clientSendMsgQueues.get(nSend.focus_id).peek());
-        }
         //for client
         if(sSettings.net_client && nClient.netSendMsgs.size() > 0) {
             keys.put("msg", nClient.netSendMsgs.remove());

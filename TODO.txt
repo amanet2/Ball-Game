@@ -3,9 +3,13 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* specialsounds can be handled server-side with a "playsound" command sent out on receipt of a special sound
+    -> server will have to detect its own special sounds to remove "detect special" from client code
+* for the server to "say" something to clients, "echo" the proper string (with or without "name:" ) in sendCMD
+* move "changing map" higher up
 * debug issue of client loading into mainmenu then losing server
     -> what exactly happens on client join?
-* broken in "remove old kick system" commit
+    -> broken in "remove old kick system" commit
 * server "kick" shouldnt require a msg being sent over network
     -> have ignoreIDList where all the ids we want to ignore in network will be
     -> remove ids from the list depending on the length of the ban we want

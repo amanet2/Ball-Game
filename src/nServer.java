@@ -15,8 +15,6 @@ public class nServer extends Thread {
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
     static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
-    //id maps to queue of msgs we want to send to clients
-    static HashMap<String, Queue<String>> clientSendMsgQueues = new HashMap<>();
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
     private static DatagramSocket serverSocket = null;
@@ -30,14 +28,6 @@ public class nServer extends Thread {
 
     private nServer() {
         netticks = 0;
-    }
-
-    public static void addSendMsg(String id, String msg) {
-        addNetSendData(clientSendMsgQueues, id, msg);
-    }
-
-    public static void addSendMsg(String msg) {
-        addNetSendData(clientSendMsgQueues, msg);
     }
 
     public static void addSendCmd(String id, String cmd) {
@@ -175,7 +165,6 @@ public class nServer extends Thread {
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientSendCmdQueues.remove(id);
-        clientSendMsgQueues.remove(id);
         gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
@@ -305,7 +294,6 @@ public class nServer extends Thread {
     public static void handleNewClientJoin(String packId, String packName) {
         nServer.clientIds.add(packId);
         clientSendCmdQueues.put(packId, new LinkedList<>());
-        clientSendMsgQueues.put(packId, new LinkedList<>());
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
@@ -328,21 +316,7 @@ public class nServer extends Thread {
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
-//        checkMessageForVoteToSkip(testmsg);
-
-//        //handle the vote-to-skip function
-//        if(msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
-//            cVars.addIntVal("voteskipctr", 1);
-//            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
-//                cVars.put("timeleft", "0");
-//                xCon.ex(String.format("say [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
-//                xCon.ex("say [VOTE_SKIP] CHANGING MAP...");
-//            }
-//            else {
-//                xCon.ex("say " + String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-//                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
-//            }
-//        }
+        checkMessageForVoteToSkip(testmsg);
     }
 
     public static void checkMessageForSpecialSound(String testmsg) {
@@ -360,16 +334,15 @@ public class nServer extends Thread {
     public static void checkMessageForVoteToSkip(String testmsg) {
         //handle the vote-to-skip function
         testmsg = testmsg.strip();
-        System.out.println(testmsg);
         if(testmsg.equalsIgnoreCase("skip")) {
             cVars.addIntVal("voteskipctr", 1);
             if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
                 cVars.put("timeleft", "0");
-                addSendMsg(String.format("[VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
-                addSendMsg("[VOTE_SKIP] CHANGING MAP...");
+                addSendCmd(String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
+                addSendCmd("echo [VOTE_SKIP] CHANGING MAP...");
             }
             else
-                addSendMsg(String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                addSendCmd(String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
                         cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
         }
     }
