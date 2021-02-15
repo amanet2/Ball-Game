@@ -95,7 +95,7 @@ public class nServer extends Thread {
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
-                if(clientId != null) {
+                if(clientId != null && !banClientIds.containsKey(clientId)) {
                     nSend.focus_id = clientId;
                     //create response
                     String sendDataString = createSendDataString();
