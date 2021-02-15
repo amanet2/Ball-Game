@@ -8,7 +8,6 @@ public class gMessages {
     static boolean messageSend = false;
     static boolean enteringMessage = false;
     static String msgInProgress = "";
-    static String networkMessage = "";
     static boolean optionSet = false;
     static String enteringOptionText = "";
     static Queue<String> sayMessages = new LinkedList<>();
@@ -19,14 +18,6 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        //reset msg/sfx/cmd
-        if(sSettings.net_server && cScripts.allClientsReceivedMessage("netmsgrcv")
-                && gMessages.networkMessage.length() > 0) {
-            gMessages.networkMessage = "";
-            for(String id : nServer.clientArgsMap.keySet()) {
-                nServer.clientArgsMap.get(id).remove("netmsgrcv");
-            }
-        }
         //check for sfx received
         if(sSettings.net_server && cScripts.allClientsReceivedMessage("netsfxrcv")
                 && cVars.get("sendsound").length() > 0) {
@@ -56,19 +47,6 @@ public class gMessages {
             }
         }
 
-        if(sayMessages.size() > 0 && networkMessage.length() < 1) {
-            String plr = sVars.get("playername");
-            String msg = String.format("%s: %s", plr, sayMessages.remove());
-            if (sSettings.net_server)
-                msg = msg.replaceFirst(plr + ": ", "");
-            if (!optionSet && (!cScripts.isNetworkGame() || sSettings.net_server))
-                addScreenMessage(msg);
-            networkMessage = msg;
-//            if(sSettings.net_server) {
-//                //check for sound
-//                cScripts.checkMsgSpecialFunction(msg);
-//            }
-        }
         if(messageSend) {
             if(optionSet) {
                 cScripts.processOptionText(enteringOptionText, msgInProgress);

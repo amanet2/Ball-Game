@@ -24,21 +24,9 @@ public class nVars {
 
     public static void update() {
         refresh();
-        String nms = gMessages.networkMessage.length() > 0 ? gMessages.networkMessage:"";
-        if(sSettings.net_client && nms.length() > 0) {
-            gMessages.networkMessage = "";
-        }
         gPlayer userPlayer = cGameLogic.userPlayer();
         //handle outgoing actions
         keys.put("act", cGameLogic.getActionLoad());
-        //hand outgoing msg
-//        keys.put("msg", "");
-//        if (sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-//                && gMessages.networkMessage.length() > 0
-//                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-//                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")) {
-//            keys.put("msg", gMessages.networkMessage);
-//        }
         //handle outgoing msg
         keys.put("msg", "");
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
@@ -91,13 +79,6 @@ public class nVars {
         }
         keys.put("color", sVars.get("playercolor"));
         keys.put("hat", sVars.get("playerhat"));
-//        keys.put("msg", nms);
-//        if (sSettings.net_server && nSend.focus_id.length() > 0
-//                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-//                && !nSend.focus_id.equals(uiInterface.uuid)) {
-//            keys.put("msg", !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netmsgrcv")
-//                    && gMessages.networkMessage.length() > 0 ? gMessages.networkMessage : "");
-//        }
         keys.put("name", sVars.get("playername"));
         keys.put("flashlight", xCon.ex("cv_flashlight"));
         if(cVars.isOne("quitting"))
