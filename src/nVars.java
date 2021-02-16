@@ -13,7 +13,7 @@ public class nVars {
     }
 
     public static void reset() {
-        keys = null;
+        keys = new HashMap<>();
     }
 
     public static String get(String s) {

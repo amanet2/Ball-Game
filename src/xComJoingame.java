@@ -10,7 +10,7 @@ public class xComJoingame extends xCom {
         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
         sSettings.net_client = true;
         sSettings.net_server = false;
-        sSettings.NET_MODE = sSettings.NET_MODE_CLIENT;
+        sSettings.NET_MODE = sSettings.NET_CLIENT;
         nClient.hasDisconnected = 0;
         cVars.put("quitconfirmed", "0");
         cVars.put("quitting", "0");

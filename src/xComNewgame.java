@@ -4,7 +4,7 @@ public class xComNewgame extends xCom {
         //server
         sSettings.net_client = false;
         sSettings.net_server = true;
-        sSettings.NET_MODE = sSettings.NET_MODE_SERVER;
+        sSettings.NET_MODE = sSettings.NET_SERVER;
         uiInterface.uuid = "server";
         int toplay = eManager.mapSelectionIndex > -1 ? eManager.mapSelectionIndex
                 : (int)(Math.random()*eManager.mapsSelection.length);

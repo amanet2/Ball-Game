@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class cGameLogic {
@@ -208,7 +206,7 @@ public class cGameLogic {
             cVars.put("disconnecting", "0");
             nClient.clientSocket.close();
             sSettings.net_client = false;
-            sSettings.NET_MODE = sSettings.NET_MODE_OFFLINE;
+            sSettings.NET_MODE = sSettings.NET_OFFLINE;
             xCon.ex("load " + sVars.get("defaultmap"));
             if (uiInterface.inplay)
                 xCon.ex("pause");
