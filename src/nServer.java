@@ -324,14 +324,20 @@ public class nServer extends Thread {
         checkMessageForSpecialSound(testmsg);
         checkMessageForVoteToSkip(testmsg);
     }
-
-    private static final String[] legal_client_commands = new String[]{"e_putprop"};
+    //VERY IMPORTANT LIST. whats allowed to be done by the clients
+    private static final String[] legal_client_commands = new String[]{
+            "e_putprop",
+            "fireweapon"
+    };
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(legal_client_commands));
     private static void handleClientCommand(String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
             xCon.ex(cmd);
             nServer.addSendCmd(cmd);
+        }
+        else {
+            System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);
         }
     }
 

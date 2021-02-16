@@ -7,7 +7,18 @@ public class xComAttack extends xCom {
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 br.fireWeapon();
-                nServer.addSendCmd("fireweapon " + br.get("id") + " " + playerWeapon);
+                String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
+                switch (sSettings.NET_MODE) {
+                    case sSettings.NET_SERVER:
+                        nServer.addSendCmd(fireString);
+                        break;
+                    case sSettings.NET_CLIENT:
+                        nClient.addSendCmd(fireString);
+                        break;
+                    default:
+                        xCon.ex(fireString);
+                        break;
+                }
                 br.putLong("cooldown", System.currentTimeMillis()
                         + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }
