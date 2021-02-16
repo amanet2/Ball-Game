@@ -208,6 +208,7 @@ public class cGameLogic {
             cVars.put("disconnecting", "0");
             nClient.clientSocket.close();
             sSettings.net_client = false;
+            sSettings.NET_MODE = sSettings.NET_MODE_OFFLINE;
             xCon.ex("load " + sVars.get("defaultmap"));
             if (uiInterface.inplay)
                 xCon.ex("pause");

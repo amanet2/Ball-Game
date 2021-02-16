@@ -5,6 +5,10 @@ public class sSettings {
 	static String CONFIG_FILE_LOCATION = "config/settings.cfg";
     static boolean net_server = false;
 	static boolean net_client = false;
+	static int NET_MODE_OFFLINE = 0;
+	static int NET_MODE_SERVER = 1;
+	static int NET_MODE_CLIENT = 2;
+	static int NET_MODE = NET_MODE_OFFLINE; //0 offline/mapeditor, 1 server, 2 client
 	static boolean show_mapmaker_ui = false;
 	static int create_map_mode = gMap.MAP_TOPVIEW;
 	/**
