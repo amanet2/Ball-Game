@@ -7,6 +7,7 @@ public class nClient extends Thread {
     static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     static Queue<String> netSendMsgs = new LinkedList<>();
+    static Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     static DatagramSocket clientSocket = null;
 
@@ -23,6 +24,10 @@ public class nClient extends Thread {
 
     public static void addSendMsg(String msg) {
         netSendMsgs.add(msg);
+    }
+
+    public static void addSendCmd(String cmd) {
+        netSendCmds.add(cmd);
     }
 
     public static void processPackets() {

@@ -288,6 +288,9 @@ public class nServer extends Thread {
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));
                 }
+                if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
+                    handleClientCommand(packArgMap.get("cmd"));
+                }
             }
             if(isnewclient == 1) {
                 handleNewClientJoin(packId, packName);
@@ -323,6 +326,11 @@ public class nServer extends Thread {
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
         checkMessageForVoteToSkip(testmsg);
+    }
+
+    public static void handleClientCommand(String cmd) {
+        xCon.ex(cmd);
+        nServer.addSendCmd(cmd);
     }
 
     public static void checkMessageForSpecialSound(String testmsg) {

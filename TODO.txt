@@ -3,10 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210216
+* instead of nVars ever becoming null I always make it a new hashmap
+* added userplayer nullcheck in dHud
 20210215
-* maybe client/server threads arent fully "realized" before we start making gamestate changes based on the assumption
-that they are
-    -> why would "nVar.keys" be null when the client calls it vs. what we see in the "offline" code
 * think about an int code for client/server so your avoid if/else
     -> the switch/case can be useful, DEFAULT will be offile/mapeditor instance
 * see about an architectur where every console command can have nServer.sendCmd(fullCommand) in it

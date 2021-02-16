@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 public class dHUD {
     public static void drawHUD(Graphics g) {
         gPlayer userPlayer = cGameLogic.userPlayer();
+        if(userPlayer == null)
+            return;
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
         //camera indicator
