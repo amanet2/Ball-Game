@@ -420,20 +420,21 @@ public class cScripts {
         if(userPlayer.getInt("stockhp") < 1 && !userPlayer.contains("respawntime")) {
             //user player
             if(cGameLogic.isUserPlayer(userPlayer)) {
+                //handle all of these serverside
                 xCon.ex("dropweapon");
                 cVars.remove("shaketime");
-                cVars.putInt("cammode", gCamera.MODE_FREE);
-                cVars.put("cammov0", "0");
-                cVars.put("cammov1", "0");
-                cVars.put("cammov2", "0");
-                cVars.put("cammov3", "0");
-                userPlayer.putInt("alive", 0);
-                userPlayer.putLong("respawntime",
-                        System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
-                userPlayer.put("stockhp", cVars.get("maxstockhp"));
-                userPlayer.put("exploded", "0");
-                userPlayer.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-                userPlayer.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
+//                cVars.putInt("cammode", gCamera.MODE_FREE);
+//                cVars.put("cammov0", "0");
+//                cVars.put("cammov1", "0");
+//                cVars.put("cammov2", "0");
+//                cVars.put("cammov3", "0");
+//                userPlayer.putInt("alive", 0);
+//                userPlayer.putLong("respawntime",
+//                        System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
+//                userPlayer.put("stockhp", cVars.get("maxstockhp"));
+//                userPlayer.put("exploded", "0");
+//                userPlayer.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
+//                userPlayer.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
             }
             //everyone does this
             cScripts.playPlayerDeathSound();
@@ -443,8 +444,8 @@ public class cScripts {
                         new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
                                 userPlayer.getInt("coordx") - 75, userPlayer.getInt("coordy") - 75));
             }
-            userPlayer.put("coordx", "-10000");
-            userPlayer.put("coordy", "-10000");
+//            userPlayer.put("coordx", "-10000");
+//            userPlayer.put("coordy", "-10000");
         }
     }
 

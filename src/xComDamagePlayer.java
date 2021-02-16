@@ -9,6 +9,25 @@ public class xComDamagePlayer extends xCom {
                 if(sSettings.net_server) {
                     player.putInt("stockhp", player.getInt("stockhp") - dmg);
                     nServer.clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
+                    //handle death
+                    if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
+                        //migrate all client death logic here
+                        nServer.addSendCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
+                                "cv_cammov2 0;cv_cammov3 0");
+
+
+
+                        //new userplayer stuff
+
+
+                        //console solution
+                        nServer.addSendCmd(id, "userplayer alive 0;userplayer respawntime "
+                                + System.currentTimeMillis() + cVars.getLong("respawnwaittime")
+                        + ";userplayer stockhp "+cVars.get("maxstockhp")+";userplayer exploded 0;userplayer explodex "
+                        + (cGameLogic.userPlayer().getInt("coordx") - 75) + ";userplayer explodey "
+                        + (cGameLogic.userPlayer().getInt("coordy") - 75));
+                        nServer.addSendCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+                    }
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());
                 return id + " took " + dmg + " dmg";

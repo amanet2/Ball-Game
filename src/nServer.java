@@ -358,7 +358,7 @@ public class nServer extends Thread {
         testmsg = testmsg.strip();
         if(testmsg.equalsIgnoreCase("skip")) {
             cVars.addIntVal("voteskipctr", 1);
-            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
+            if(cVars.getInt("voteskipctr") >= cVars.getInt("voteskiplimit")) {
                 cVars.put("timeleft", "0");
                 for(String s : new String[]{
                         String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),

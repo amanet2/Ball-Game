@@ -25,7 +25,13 @@ public class xCon {
     }
 
     public static String ex(String s) {
-        return doCommand(s);
+        String[] commandTokens = s.split(";");
+        StringBuilder result = new StringBuilder();
+        for(String com : commandTokens) {
+            result.append(doCommand(com)).append(";");
+        }
+        String resultString = result.toString();
+        return resultString.substring(0,resultString.length()-1);
     }
 
     public static String[] ex(String[] s) {
@@ -197,6 +203,7 @@ public class xCon {
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
+        commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
     }
 
