@@ -31,10 +31,12 @@ public class nServer extends Thread {
     }
 
     public static void addSendCmd(String id, String cmd) {
+        System.out.println(id + ": " + cmd);
         addNetSendData(clientSendCmdQueues, id, cmd);
     }
 
     public static void addSendCmd(String cmd) {
+        System.out.println("ALL_CLIENTS: " + cmd);
         addNetSendData(clientSendCmdQueues, cmd);
     }
 
@@ -338,12 +340,19 @@ public class nServer extends Thread {
             cVars.addIntVal("voteskipctr", 1);
             if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
                 cVars.put("timeleft", "0");
-                addSendCmd(String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
-                addSendCmd("echo [VOTE_SKIP] CHANGING MAP...");
+                for(String s : new String[]{
+                        String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
+                        "echo [VOTE_SKIP] CHANGING MAP..."}) {
+                    xCon.ex(s);
+                    addSendCmd(s);
+                }
             }
-            else
-                addSendCmd(String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
+            else {
+                String sendmsg = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                        cVars.get("voteskipctr"), cVars.get("voteskiplimit"));
+                xCon.ex(sendmsg);
+                addSendCmd(sendmsg);
+            }
         }
     }
 }

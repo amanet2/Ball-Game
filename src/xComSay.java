@@ -6,6 +6,7 @@ public class xComSay extends xCom {
             if(sSettings.net_server) {
                 String testmsg = msg.substring(msg.indexOf(':')+2);
                 nServer.checkMessageForSpecialSound(testmsg);
+                nServer.checkMessageForVoteToSkip(testmsg);
                 String echoString = "echo " + msg;
                 xCon.ex(echoString);
                 nServer.addSendCmd(echoString);

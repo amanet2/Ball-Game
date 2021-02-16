@@ -166,14 +166,6 @@ public class nClient extends Thread {
                 //check for end of game
                 if(packArgs.get("win").length() > 0) {
                     cVars.put("winnerid", packArgs.get("win"));
-                    gPlayer userPlayer = cGameLogic.userPlayer();
-                    for(int d = 0; d < 4; d++) {
-                        if(!(d == 1 && cVars.getInt("mapview") == gMap.MAP_SIDEVIEW)) {
-                            //disable the movements for sidescroller maps
-                            userPlayer.put("vel"+d, "0");
-                            userPlayer.put("mov"+d, "0");
-                        }
-                    }
                 }
                 else if(cVars.get("winnerid").length() > 0){
                     cVars.put("winnerid", "");
@@ -234,7 +226,7 @@ public class nClient extends Thread {
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {
                     cClient.processCmd(cmdload);
-                    System.out.println(cmdload);
+                    System.out.println("FROM_SERVER: " + cmdload);
                 }
             }
             if(!idload.equals(uiInterface.uuid)) {

@@ -3,7 +3,7 @@ import java.util.Set;
 
 public class nVars {
     //start with only player1
-    private static HashMap<String, String> keys = null;
+    private static HashMap<String, String> keys = new HashMap<>();
 
     private static void refresh() {
         if(keys == null) {

@@ -3,10 +3,13 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-* specialsounds can be handled server-side with a "playsound" command sent out on receipt of a special sound
-    -> server will have to detect its own special sounds to remove "detect special" from client code
+20210215
+* commented out the weaponsprite stuff in checkSpriteFlip()
+* client player death needs to happen server side
+    -> if client is not "alive", ignore their coord updates and substitute your own
+    -> gonna have to find a way for the client to sync the server's coords with its own
+        -> maybe it will be like the way smoothing works, but update to the argsmap coords instead of their own
 * for the server to "say" something to clients, "echo" the proper string (with or without "name:" ) in sendCMD
-* move "changing map" higher up
 * debug issue of client loading into mainmenu then losing server
     -> what exactly happens on client join?
     -> broken in "remove old kick system" commit
@@ -16,11 +19,14 @@
     -> "kick <id>" kicks id for 0 seconds
     -> "kick <id> -1" infinite (or game close)
     -> "kick <id> <val>" kicks for <val> millis
-* restore vote to skip
 * we want to keep the logic that loads new map if map detected not the same as the previous one
     -> look in the PR
 * when map changes, server says wrong name when bots "leave"
 * use java gui elements for ui
+    -> will make setting values for games a lot easier with drop-down menus, text boxes, etc
+    -> or just fix the old system
+        -> give people time limite with arrow keys from 1 to 15 minutes
+            -> incorporate that into the menus system
 * clients need to be able to sendcmd's as well
     -> or rather "request" a cmd be run by the server on a fan-out basis
         -> dont run their own cmd until the server sends it back to them?
