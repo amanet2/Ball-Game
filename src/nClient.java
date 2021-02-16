@@ -4,8 +4,6 @@ import java.util.*;
 public class nClient extends Thread {
     private int netticks;
     static int hasDisconnected;
-    static int msgreceived;
-    static int sfxreceived;
     static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     static Queue<String> netSendMsgs = new LinkedList<>();

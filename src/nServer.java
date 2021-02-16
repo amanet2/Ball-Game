@@ -9,7 +9,7 @@ import java.util.Queue;
 public class nServer extends Thread {
     private int netticks;
     static Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
-    static HashMap<String, Long> banClientIds = new HashMap<>(); // ids mapped to the time to be allowed back
+    static HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     static ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
@@ -89,9 +89,12 @@ public class nServer extends Thread {
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
                 //relieve bans
-                if(banClientIds.containsKey(clientId) && banClientIds.get(clientId) < System.currentTimeMillis())
-                    banClientIds.remove(clientId);
-                if(clientId != null && !banClientIds.containsKey(clientId)) {
+                if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
+                    banIds.remove(clientId);
+                if(banIds.containsKey(clientId))
+                    addSendCmd(clientId, "disconnect");
+//                if(clientId != null && !banIds.containsKey(clientId)) {
+                if(clientId != null) {
                     nSend.focus_id = clientId;
                     //create response
                     String sendDataString = createSendDataString();
@@ -221,7 +224,8 @@ public class nServer extends Thread {
             //get id from packet
             String packId = packArgMap.get("id");
             //dont proceed if id is null it means packet might be bad
-            if(packId == null || banClientIds.containsKey(packId))
+//            if(packId == null || banIds.containsKey(packId))
+            if(packId == null)
                 return;
             //insert new ids into the greater maps
             if(!nServer.clientArgsMap.containsKey(packId))

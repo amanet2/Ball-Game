@@ -10,11 +10,6 @@ public class cClient {
                                     Integer.parseInt(args[1]), Integer.parseInt(args[2])));
                 }
             }
-            if(action.contains("playsound")) {
-                nClient.sfxreceived = 1;
-                xCon.ex(String.format("playsound %s",
-                        action.split("-")[0].replace("playsound","")));
-            }
         }
     }
 

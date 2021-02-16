@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210215
+* see about an architectur where every console command can have nServer.sendCmd(fullCommand) in it
+* dont spawn a player until proper connection and comms established with server
+    -> server will spawn the player's character
 * commented out the weaponsprite stuff in checkSpriteFlip()
 * client player death needs to happen server side
     -> if client is not "alive", ignore their coord updates and substitute your own
