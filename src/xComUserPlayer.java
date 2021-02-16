@@ -7,8 +7,7 @@ public class xComUserPlayer extends xCom {
         if (toks.length > 2) {
             String userVar = toks[1];
             String userVal = toks[2];
-            if(userPlayer.contains(userVar))
-                userPlayer.put(userVar, userVal);
+            userPlayer.put(userVar, userVal);
         }
         return fullCommand;
     }

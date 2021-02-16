@@ -421,7 +421,6 @@ public class cScripts {
             //user player
             if(cGameLogic.isUserPlayer(userPlayer)) {
                 //handle all of these serverside
-                xCon.ex("dropweapon");
                 cVars.remove("shaketime");
 //                cVars.putInt("cammode", gCamera.MODE_FREE);
 //                cVars.put("cammov0", "0");
