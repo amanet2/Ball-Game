@@ -1,0 +1,16 @@
+public class xComSpawnAnimation extends xCom {
+    public String doCommand(String fullCommand) {
+        if(sVars.isOne("vfxenableanimations")) {
+            String[] toks = fullCommand.split(" ");
+            if (toks.length > 3) {
+                int animcode = Integer.parseInt(toks[1]);
+                int x = Integer.parseInt(toks[2]);
+                int y = Integer.parseInt(toks[3]);
+                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(cScripts.createID(8),
+                        new gAnimationEmitter(animcode, x, y));
+                return "spawned animation " + animcode + " at " + x + " " + y;
+            }
+        }
+        return "usage: spawnanimation <animation_code> <x> <y>";
+    }
+}

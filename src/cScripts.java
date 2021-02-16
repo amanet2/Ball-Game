@@ -437,12 +437,12 @@ public class cScripts {
             }
             //everyone does this
             cScripts.playPlayerDeathSound();
-            if(sVars.isOne("vfxenableanimations")) {
-                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                        cScripts.createID(8),
-                        new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                userPlayer.getInt("coordx") - 75, userPlayer.getInt("coordy") - 75));
-            }
+//            if(sVars.isOne("vfxenableanimations")) {
+//                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+//                        cScripts.createID(8),
+//                        new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+//                                userPlayer.getInt("coordx") - 75, userPlayer.getInt("coordy") - 75));
+//            }
 //            userPlayer.put("coordx", "-10000");
 //            userPlayer.put("coordy", "-10000");
         }

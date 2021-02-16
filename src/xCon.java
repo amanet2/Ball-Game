@@ -198,6 +198,7 @@ public class xCon {
         commands.put("selectup", new xComSelectUp());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
+        commands.put("spawnanimation", new xComSpawnAnimation());
         commands.put("sspeed", new xComSuperSpeed());
         commands.put("status", new xComStatus());
         commands.put("svarlist", new xComSVarlist());
