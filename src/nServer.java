@@ -1,10 +1,7 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
@@ -328,9 +325,14 @@ public class nServer extends Thread {
         checkMessageForVoteToSkip(testmsg);
     }
 
-    public static void handleClientCommand(String cmd) {
-        xCon.ex(cmd);
-        nServer.addSendCmd(cmd);
+    private static final String[] legal_client_commands = new String[]{"e_putprop"};
+    private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(legal_client_commands));
+    private static void handleClientCommand(String cmd) {
+        String ccmd = cmd.split(" ")[0];
+        if(legalClientCommands.contains(ccmd)) {
+            xCon.ex(cmd);
+            nServer.addSendCmd(cmd);
+        }
     }
 
     public static void checkMessageForSpecialSound(String testmsg) {
