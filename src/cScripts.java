@@ -361,8 +361,6 @@ public class cScripts {
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
         //get shooter details
         String killerid = bullet.get("srcid");
-        gPlayer killerPlayer = gScene.getPlayerById(killerid);
-        String killername = killerPlayer.get("name");
         if(!dmgvictim.contains("spawnprotectiontime")) {
             //calculate dmg
             int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
@@ -379,29 +377,19 @@ public class cScripts {
                                 bullet.getInt("coordx"), bullet.getInt("coordy")));
             //handle damage serverside
             if(sSettings.net_server) {
-                String damageplayer_cmdstring = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg;
-                xCon.ex(damageplayer_cmdstring);
-                nServer.addSendCmd(damageplayer_cmdstring);
+                String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
+                xCon.ex(cmdString);
+                nServer.addSendCmd(cmdString);
             }
             //serverside actions on player death
-            if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
-                cScripts.playPlayerDeathSound();
-                if (sSettings.net_server) {
-                    cScoreboard.incrementScoreFieldById(killerid, "kills");
-                    nServer.addSendCmd("echo " + killername + " killed " + dmgvictim.get("name"));
-                    xCon.ex("echo " + killername + " killed " + dmgvictim.get("name"));
-                    if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                        xCon.ex("givepoint " + killerid);
-                    }
-                    if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                            || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                        cVars.put("flagmasterid", "");
-                    }
-                }
-                dmgvictim.put("coordx", "-10000");
-                dmgvictim.put("coordy", "-10000");
-            }
+//            if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
+//                cScripts.playPlayerDeathSound();
+//                if (sSettings.net_server) {
+//
+//                }
+//                dmgvictim.put("coordx", "-10000");
+//                dmgvictim.put("coordy", "-10000");
+//            }
         }
     }
 

@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210216
+* sendcmds addressed to the server gotta be processed by the server
+    -> remove the msg after executing instead of waiting for a "rcv" message
+* make damageplaer work like: "damageplayer <victimID> <dmg> <optional-shootererID>"
+    -> server will default to say "God" killed them unless a shooterID is specified
 * made death explosion play for all clients
 * added "you have been kicked" message to the server kick process
 * server doesnt respawn automatically after dying
