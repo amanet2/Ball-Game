@@ -311,37 +311,40 @@ public class cGameLogic {
         return player.isVal("id", sSettings.net_server ? "server" : uiInterface.uuid);
     }
 
-    public static void checkHealthStatus() {
-        if(userPlayer.contains("respawntime") && (userPlayer.getLong("respawntime") < System.currentTimeMillis()
-        || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
+    public static void checkRespawnPlayer (gPlayer player) {
+        if(player.contains("respawntime") && (player.getLong("respawntime") < System.currentTimeMillis()
+                || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0))
             xCon.ex("respawn");
+    }
+    
+    public static void checkRespawnClientPlayer(gPlayer player) {
+        if(player.contains("respawntime") && (player.getLong("respawntime") < System.currentTimeMillis()
+                || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
+            if(player.isBot())
+                xCon.ex("botrespawn " + player.get("bottag"));
+            else
+                player.remove("respawntime");
         }
-        if(userPlayer.contains("spawnprotectiontime")
-                && userPlayer.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-            userPlayer.remove("spawnprotectiontime");
+    }
+
+    public static void checkSpawnProtection(gPlayer player) {
+        if(player.contains("spawnprotectiontime")
+                && player.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
+            player.remove("spawnprotectiontime");
         }
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
-        for(Object id : playersMap.keySet()) {
-            gPlayer p = (gPlayer) playersMap.get(id);
-            if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
-                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                if(p.isBot())
-                    xCon.ex("botrespawn " + p.get("bottag"));
-                else
-                    p.remove("respawntime");
-            }
-            if(p.contains("spawnprotectiontime")
-                    && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-                p.remove("spawnprotectiontime");
-            }
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
-                else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
-            }
+    }
+
+    public static void checkHealthRecharge(gPlayer player) {
+        if(player.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                player.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+            if(player.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                player.put("stockhp", cVars.get("maxstockhp"));
+            else
+                player.putInt("stockhp", player.getInt("stockhp") + cVars.getInt("rechargehp"));
         }
+    }
+
+    public static void checkCameraShake() {
 //        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
 //            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
 //        }
@@ -349,6 +352,21 @@ public class cGameLogic {
 //            cVars.putInt("cammode", gCamera.MODE_TRACKING);
 //            cVars.remove("shaketime");
 //        }
+    }
+
+    public static void checkHealthStatus() {
+        //server checks his own respawnability
+        checkRespawnPlayer(userPlayer);
+        checkSpawnProtection(userPlayer);
+        //check all other player objects on map (bots, clients)
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        for(Object id : playersMap.keySet()) {
+            gPlayer p = (gPlayer) playersMap.get(id);
+            checkRespawnClientPlayer(p);
+            checkSpawnProtection(p);
+            checkHealthRecharge(p);
+        }
+        checkCameraShake();
     }
 
     public static void checkSprintStatus() {
@@ -381,9 +399,11 @@ public class cGameLogic {
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
             eManager.mapSelectionIndex = rand;
+            //load map for server
             xCon.ex("load " + eManager.mapsSelection[rand]);
             xCon.ex("respawn");
             if(sSettings.net_server) {
+                //load map for clients
                 nServer.addSendCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
                 nServer.addSendCmd("respawn");
             }
@@ -498,6 +518,7 @@ public class cGameLogic {
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){
             if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
             && !cl.contains("respawntime")) {
+                //player falls to their death in sidescroller mode
                 cScripts.playPlayerDeathSound();
                 cl.put("stockhp", cVars.get("maxstockhp"));
                 xCon.ex("respawn");

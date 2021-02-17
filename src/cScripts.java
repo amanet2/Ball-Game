@@ -381,15 +381,6 @@ public class cScripts {
                 xCon.ex(cmdString);
                 nServer.addSendCmd(cmdString);
             }
-            //serverside actions on player death
-//            if(dmgvictim.getInt("stockhp") < 1 && !dmgvictim.contains("respawntime")) {
-//                cScripts.playPlayerDeathSound();
-//                if (sSettings.net_server) {
-//
-//                }
-//                dmgvictim.put("coordx", "-10000");
-//                dmgvictim.put("coordy", "-10000");
-//            }
         }
     }
 
@@ -410,29 +401,9 @@ public class cScripts {
             if(cGameLogic.isUserPlayer(userPlayer)) {
                 //handle all of these serverside
                 cVars.remove("shaketime");
-//                cVars.putInt("cammode", gCamera.MODE_FREE);
-//                cVars.put("cammov0", "0");
-//                cVars.put("cammov1", "0");
-//                cVars.put("cammov2", "0");
-//                cVars.put("cammov3", "0");
-//                userPlayer.putInt("alive", 0);
-//                userPlayer.putLong("respawntime",
-//                        System.currentTimeMillis() + cVars.getLong("respawnwaittime"));
-//                userPlayer.put("stockhp", cVars.get("maxstockhp"));
-//                userPlayer.put("exploded", "0");
-//                userPlayer.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-//                userPlayer.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
             }
             //everyone does this
             cScripts.playPlayerDeathSound();
-//            if(sVars.isOne("vfxenableanimations")) {
-//                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                        cScripts.createID(8),
-//                        new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-//                                userPlayer.getInt("coordx") - 75, userPlayer.getInt("coordy") - 75));
-//            }
-//            userPlayer.put("coordx", "-10000");
-//            userPlayer.put("coordy", "-10000");
         }
     }
 

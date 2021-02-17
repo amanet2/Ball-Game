@@ -4,6 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210216
+* server suddenly started shooting rocks 2-3 at a time
+    -> multiple "fireweapon" commands in the log
+* respawn needs to take an id so the server can "respawn" itself and any other player without client-side code
+    -> right now still using checkHealthStatus() client-side
+* take advantage of server cmd loopback
+    -> i.e. use addSendCmd("server", <command>) so things happen more naturally.  It could work who knows
+* clean up the code more, everything gotta be solid and no errors
+* client still loading into main menu instead of server a majority of time
+    -> but only on first join attempt by any client
 * sendcmds addressed to the server gotta be processed by the server
     -> remove the msg after executing instead of waiting for a "rcv" message
 * make damageplaer work like: "damageplayer <victimID> <dmg> <optional-shootererID>"
