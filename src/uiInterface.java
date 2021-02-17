@@ -31,14 +31,15 @@ public class uiInterface {
                 gameTimeNanos = System.nanoTime();
                 //game loop
                 if(sSettings.net_server && cVars.getInt("timeleft") > 0)
-                    xCon.ex(String.format("cv_timeleft %d",
-                            xCon.getLong("timelimit") - (int) (gameTime - xCon.getLong("cv_starttime"))));
+                    cVars.putLong("timeleft",
+                            xCon.getLong("timelimit") - (int) (gameTime - xCon.getLong("cv_starttime")));
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
                     nServer.addBots();
                     cVars.remove("serveraddbots");
                 }
                 while(tickTimeNanos < gameTimeNanos) {
+                    //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     oDisplay.instance().checkDisplay();
                     oAudio.instance().checkAudio();
