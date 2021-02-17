@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210216
+* made death explosion play for all clients
+* added "you have been kicked" message to the server kick process
+* server doesnt respawn automatically after dying
 * client occasionally dies the way it should othe times it tracks view to graveyard
 * working on migrating user-centric code from cScripts for playerdeath into xComDamagePlayer for server to tell client
 * re-introduce the ability to do "THING_PLAYER.X.doThing" bcause now the server can tell the userPlayer what to do

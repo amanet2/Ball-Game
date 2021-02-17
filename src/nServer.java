@@ -88,8 +88,11 @@ public class nServer extends Thread {
                 //relieve bans
                 if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
                     banIds.remove(clientId);
-                if(banIds.containsKey(clientId))
+                if(banIds.containsKey(clientId)) {
+                    addSendCmd(clientId, "echo You are banned for "
+                            + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
                     addSendCmd(clientId, "disconnect");
+                }
 //                if(clientId != null && !banIds.containsKey(clientId)) {
                 if(clientId != null) {
                     nSend.focus_id = clientId;
