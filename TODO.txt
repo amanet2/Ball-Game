@@ -4,8 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210217
-* create console command for sendCmd
-    -> if arg1 is an int, send to ID if not send to all
+* call console commands from the server.addSendCmd functions
+    -> NOT the ones to specific AIs
+    -> all occurences can be refactored this way, but "load" is unique
+        -> the console command itself calls addSendCmd
+    -> DRAWBACK: the offline mode may be affected
+        -> RISK: ACCEPTED
+* have a mode where server has control over clients instead of client x,y overriding server, server x,y override client
+* framerate is not what it should be after changing in ui
+    -> in console is fine
 * look into if server's "addSendCmd" should include running said command on the server itself
     -> applies to the non-specific-id version
 * refactor deaths and respawn

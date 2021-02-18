@@ -41,8 +41,10 @@ public class xComDamagePlayer extends xCom {
                         + (cGameLogic.userPlayer().getInt("coordx") - 75) + ";userplayer explodey "
                         + (cGameLogic.userPlayer().getInt("coordy") - 75));
                         //be sure not to send too much in one go
-                        nServer.addSendCmd( "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                        + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75));
+                        String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
+                                + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
+                        xCon.ex(animString);
+                        nServer.addSendCmd(animString);
                         nServer.addSendCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
                     }
                 }
