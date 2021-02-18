@@ -191,6 +191,7 @@ public class xCon {
         commands.put("playsound", new xComPlaySound());
         commands.put("quit", new xComQuit());
         commands.put("respawn", new xComRespawn());
+        commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
         commands.put("selectleft", new xComSelectLeft());
