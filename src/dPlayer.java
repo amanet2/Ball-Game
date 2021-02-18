@@ -60,6 +60,9 @@ public class dPlayer {
                 //player shadow
                 if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                     if(sVars.isOne("vfxenableshadows")) {
+                        //check null fields
+                        if(!e.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                            break;
                         int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
                         Rectangle2D shadowBounds = new Rectangle.Double(
                                 eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),

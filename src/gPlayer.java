@@ -84,7 +84,10 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoords(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
+        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null) {
+            //check null fields
+            if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                return false;
             Shape bounds = new Rectangle(
                 target.getInt("coordx"),
                 target.getInt("coordy"),
@@ -97,8 +100,10 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target.contains("coordx")
-                && target.contains("coordy") && target.contains("dimw") && target.contains("dimh")) {
+        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null ) {
+            //check null fields
+            if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                return false;
             Shape bounds = new Rectangle(
                     target.getInt("coordx") + target.getInt("dimw")/4,
                     target.getInt("coordy") + target.getInt("dimh")/4,

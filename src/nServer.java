@@ -174,9 +174,7 @@ public class nServer extends Thread {
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
-        if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
-                && cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
+        if(cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
         }
         String quitString = String.format("echo %s left the game", quitterName);

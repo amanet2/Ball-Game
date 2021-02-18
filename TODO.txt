@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210217
+* server needs to send "playsound" command as well for clients dying
 * for joining game server should send more cmds to client
 * look into if server's "addSendCmd" should include running said command on the server itself
     -> applies to the non-specific-id version

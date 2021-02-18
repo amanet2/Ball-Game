@@ -39,14 +39,8 @@ public class eManager {
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "tag", "mov0", "mov1",
                     "mov2", "mov3", "crouch"};
-            boolean skip = false;
-            for(String rf : requiredFields) {
-                if(!obj.contains(rf)) {
-                    skip = true;
-                    break;
-                }
-            }
-            if(skip)
+            //check null fields
+            if(!obj.containsFields(requiredFields))
                 break;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");

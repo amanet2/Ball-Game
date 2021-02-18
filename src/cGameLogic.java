@@ -443,6 +443,9 @@ public class cGameLogic {
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String playerId : playerMap.keySet()) {
                 gPlayer player = playerMap.get(playerId);
+                //check null fields
+                if(!player.containsFields(new String[]{"coordx", "coordy"}))
+                    break;
                 for (String propId : thingMap.keySet()) {
                     gProp prop = (gProp) thingMap.get(propId);
                     if(player.willCollideWithPropAtCoords(prop, player.getInt("coordx"),
