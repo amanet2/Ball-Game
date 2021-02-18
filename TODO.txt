@@ -3,13 +3,12 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210218
+* refactor respawn to be server side and in console command
+* when server dies, console commands in/out are doubled
+    -> investigate what happens when server dies
+    -> check out how "respawntime" is used as well
 20210217
-* call console commands from the server.addSendCmd functions
-    -> NOT the ones to specific AIs
-    -> all occurences can be refactored this way, but "load" is unique
-        -> the console command itself calls addSendCmd
-    -> DRAWBACK: the offline mode may be affected
-        -> RISK: ACCEPTED
 * have a mode where server has control over clients instead of client x,y overriding server, server x,y override client
 * framerate is not what it should be after changing in ui
     -> in console is fine

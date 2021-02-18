@@ -10,8 +10,7 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
                 if(sSettings.net_server) {
-                    System.out.println(player.getInt("stockhp"));
-                    player.putInt("stockhp", player.getInt("stockhp") - dmg);
+                    player.subtractVal("stockhp", dmg);
                     nServer.clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
