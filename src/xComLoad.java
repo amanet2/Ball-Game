@@ -1,7 +1,5 @@
 public class xComLoad extends xCom {
     public String doCommand(String fullCommand) {
-        if(sSettings.net_server)
-            nServer.addSendCmd(fullCommand);
         String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
         oDisplay.instance().clearAndRefresh();
         nServer.clearBots();
