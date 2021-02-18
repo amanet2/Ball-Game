@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210217
+* create console command for sendCmd
+    -> if arg1 is an int, send to ID if not send to all
 * look into if server's "addSendCmd" should include running said command on the server itself
     -> applies to the non-specific-id version
 * refactor deaths and respawn
