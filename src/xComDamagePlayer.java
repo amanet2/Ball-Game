@@ -32,12 +32,8 @@ public class xComDamagePlayer extends xCom {
                         nServer.addSendCmd(id, "dropweapon");
                         nServer.addSendCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
                                 "cv_cammov2 0;cv_cammov3 0");
-                        //console solution
-                        nServer.addSendCmd(id, "userplayer respawntime "
-                                + (System.currentTimeMillis() + cVars.getLong("respawnwaittime"))
-                        + ";userplayer stockhp "+cVars.get("maxstockhp")+";userplayer exploded 0;userplayer explodex "
-                        + (cGameLogic.userPlayer().getInt("coordx") - 75) + ";userplayer explodey "
-                        + (cGameLogic.userPlayer().getInt("coordy") - 75));
+                        player.putLong("respawntime",
+                                (System.currentTimeMillis() + cVars.getLong("respawnwaittime")));
                         //be sure not to send too much in one go
                         String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);

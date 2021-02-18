@@ -20,9 +20,8 @@ public class xComRespawnPlayer extends xCom {
                 nServer.addSendCmd(id, "userplayer coordx " +
                         (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
                         - cGameLogic.userPlayer().getInt("dimw") / 2)
-                + ";coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
-                        - cGameLogic.userPlayer().getInt("dimh") / 2)
-                + ";userplayer stockhp " + cVars.get("maxstockhp"));
+                + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
+                        - cGameLogic.userPlayer().getInt("dimh") / 2));
                 player.remove("respawntime");
                 nServer.addSendCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
                         "cv_camplayertrackingid " + id + ";centercamera");
