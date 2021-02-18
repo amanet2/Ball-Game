@@ -4,10 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210217
-* server needs to send "playsound" command as well for clients dying
-* for joining game server should send more cmds to client
 * look into if server's "addSendCmd" should include running said command on the server itself
     -> applies to the non-specific-id version
+* refactor deaths and respawn
+    -> on death, player gets key "dead" with val of time to respawn
+    -> check every tick for respawnable "dead" players
+* still have a bug where after time every shot becomes a one hit KO
+    -> happens after the first time server dies
+* server needs to send "playsound" command as well for clients dying
+* for joining game server should send more cmds to client
 ************************
 * no moving forward until you fix the "loading into main menu" bug **************
     -> only occurs on first attempt to join
@@ -32,8 +37,6 @@
 * server doesnt respawn automatically after dying
 * client occasionally dies the way it should othe times it tracks view to graveyard
 * working on migrating user-centric code from cScripts for playerdeath into xComDamagePlayer for server to tell client
-* re-introduce the ability to do "THING_PLAYER.X.doThing" bcause now the server can tell the userPlayer what to do
-and what coords to have
 * instead of nVars ever becoming null I always make it a new hashmap
 * added userplayer nullcheck in dHud
 20210215

@@ -14,7 +14,7 @@ public class uiInterface {
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
     static long lastFrameTime = 0;
-    static String uuid = cScripts.createID(8);
+    static String uuid = cScripts.createId();
 
 	public static void startTicker() {
 	    int ticks = 0;

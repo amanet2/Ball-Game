@@ -6,7 +6,7 @@ public class xComSpawnAnimation extends xCom {
                 int animcode = Integer.parseInt(toks[1]);
                 int x = Integer.parseInt(toks[2]);
                 int y = Integer.parseInt(toks[3]);
-                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(cScripts.createID(8),
+                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(cScripts.createId(),
                         new gAnimationEmitter(animcode, x, y));
                 return "spawned animation " + animcode + " at " + x + " " + y;
             }

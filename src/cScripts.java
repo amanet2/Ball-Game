@@ -272,7 +272,7 @@ public class cScripts {
                 bulletsToRemoveIds.add(id);
                 if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                     eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                            cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
                                     b.getInt("coordx"), b.getInt("coordy")));
                 }
                 //grenade explosion
@@ -288,7 +288,7 @@ public class cScripts {
                     bulletsToRemoveIds.add(id);
                     if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                         eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                                cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                                cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
                                         b.getInt("coordx"), b.getInt("coordy")));
                     }
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
@@ -314,8 +314,6 @@ public class cScripts {
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
             playPlayerDeathSound();
             createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
-            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(
-                    bulletsToRemovePlayerMap.get(p).get("id"));
         }
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
@@ -342,19 +340,24 @@ public class cScripts {
     }
 
     public static void createScorePopup(gPlayer p, int points) {
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(createID(8),
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(createId(),
                 new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                 p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                         String.format("+%d", points), 0.0));
     }
 
-    public static String createID(int length) {
-        StringBuilder id = new StringBuilder();
-        String[] vals = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-        for(int i = 0; i < length; i++) {
-            id.append(vals[(int) (Math.random() * 10.0)]);
-        }
-        return id.toString();
+    public static String createId() {
+        int min = 11111111;
+        int max = 99999999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
+    }
+
+    public static String createBotId() {
+        int min = 11111;
+        int max = 99999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
     }
 
     //call this everytime a bullet intersects a player
@@ -367,14 +370,15 @@ public class cScripts {
                     *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
             )/(double)bullet.getInt("ttl"))));
             //play animations on all clients
-            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
+            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
                     new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
                             dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
                             Integer.toString(adjusteddmg), 0.0));
             if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
                 eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                        createID(8), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                        createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                                 bullet.getInt("coordx"), bullet.getInt("coordy")));
+            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
             //handle damage serverside
             if(sSettings.net_server) {
                 String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;

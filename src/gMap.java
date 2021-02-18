@@ -67,7 +67,7 @@ public class gMap {
                 }
                 else if(propReturnFunction != null) {
                     gProp propToLoad = propReturnFunction.getProp(args);
-                    propToLoad.put("id", cScripts.createID(8));
+                    propToLoad.put("id", cScripts.createId());
                     propToLoad.putInt("tag", scene.getThingMap(putTitle).size());
                     propToLoad.putInt("native", 1);
                     propReturnFunction.storeProp(propToLoad, scene);

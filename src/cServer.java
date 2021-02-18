@@ -97,7 +97,7 @@ public class cServer {
                 String[] args = action.split(":");
                 if (sVars.isOne("vfxenableanimations")) {
                     eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            cScripts.createID(8), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
+                            cScripts.createId(), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
                                     Integer.parseInt(args[1]), Integer.parseInt(args[2])));
                 }
             }
