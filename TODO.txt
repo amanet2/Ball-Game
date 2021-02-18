@@ -3,6 +3,17 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210217
+* for joining game server should send more cmds to client
+* look into if server's "addSendCmd" should include running said command on the server itself
+    -> applies to the non-specific-id version
+************************
+* no moving forward until you fix the "loading into main menu" bug **************
+    -> only occurs on first attempt to join
+************************
+* go through EVERYTHING from program start to make sure it's efficient and sensible
+    -> xComNewGame checks out
+    -> client joingame seems a bit complicated maybe the server can do more of that work
 20210216
 * respawn needs to take an id so the server can "respawn" itself and any other player without client-side code
     -> right now still using checkHealthStatus() client-side

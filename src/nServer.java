@@ -216,25 +216,28 @@ public class nServer extends Thread {
     public static void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
-            int isnewclient = 1;
+            //track whether this client's id is already loaded into netargs map
+            //the actual stringified payload from client
             String argload = toks[0];
             //create score and packet maps
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
             HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
             //get id from packet
             String packId = packArgMap.get("id");
+            //get name from packet
+            String packName = packArgMap.get("name");
             //dont proceed if id is null it means packet might be bad
 //            if(packId == null || banIds.containsKey(packId))
             if(packId == null)
                 return;
             //insert new ids into the greater maps
-            if(!nServer.clientArgsMap.containsKey(packId))
-                nServer.clientArgsMap.put(packId, packArgMap);
             if(!scoresMap.containsKey(packId))
                 cScoreboard.addId(packId);
-            //get name
-            String packName = packArgMap.get("name") != null ? packArgMap.get("name")
-                    : nServer.clientArgsMap.get(packId).get("name");
+            if(!nServer.clientArgsMap.containsKey(packId)) {
+                nServer.clientArgsMap.put(packId, packArgMap);
+                handleNewClientJoin(packId, packName);
+            }
+            //get actions such as exploding
             String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
 //                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
@@ -256,7 +259,6 @@ public class nServer extends Thread {
             nServer.clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
             //parse and process the args from client packet
             if(nServer.clientIds.contains(packId)) {
-                isnewclient = 0;
                 scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
 //                    if(oldName.length() > 0 && !oldName.equals(packName))
 //                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
@@ -291,9 +293,6 @@ public class nServer extends Thread {
                 if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
                     handleClientCommand(packArgMap.get("cmd"));
                 }
-            }
-            if(isnewclient == 1) {
-                handleNewClientJoin(packId, packName);
             }
             //store player object's health in outgoing network arg map
             nServer.clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));

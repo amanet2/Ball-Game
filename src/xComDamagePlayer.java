@@ -34,7 +34,7 @@ public class xComDamagePlayer extends xCom {
                         nServer.addSendCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
                                 "cv_cammov2 0;cv_cammov3 0");
                         //console solution
-                        nServer.addSendCmd(id, "userplayer alive 0;userplayer respawntime "
+                        nServer.addSendCmd(id, "userplayer respawntime "
                                 + (System.currentTimeMillis() + cVars.getLong("respawnwaittime"))
                         + ";userplayer stockhp "+cVars.get("maxstockhp")+";userplayer exploded 0;userplayer explodex "
                         + (cGameLogic.userPlayer().getInt("coordx") - 75) + ";userplayer explodey "
