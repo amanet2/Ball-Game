@@ -20,7 +20,6 @@ public class xComDamagePlayer extends xCom {
                             String killername = gScene.getPlayerById(shooterid).get("name");
                             cScoreboard.incrementScoreFieldById(shooterid, "kills");
                             nServer.addSendCmd("echo " + killername + " killed " + player.get("name"));
-                            xCon.ex("echo " + killername + " killed " + player.get("name"));
                             if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                                 xCon.ex("givepoint " + shooterid);
                             }
@@ -43,7 +42,6 @@ public class xComDamagePlayer extends xCom {
                         //be sure not to send too much in one go
                         String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
-                        xCon.ex(animString);
                         nServer.addSendCmd(animString);
                         nServer.addSendCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
                     }

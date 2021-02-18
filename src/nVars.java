@@ -63,7 +63,10 @@ public class nVars {
             keys.put("cmd", nServer.clientSendCmdQueues.get(nSend.focus_id).peek());
         }
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
-                keys.put("cmd", nClient.netSendCmds.remove());
+            String cmdString = nClient.netSendCmds.peek();
+            xCon.ex(cmdString);
+            keys.put("cmd", cmdString);
+            nClient.netSendCmds.remove();
         }
         //update id in net args
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);

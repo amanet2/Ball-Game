@@ -6,7 +6,6 @@ public class xComAttack extends xCom {
             || playerWeapon == gWeapons.type.GLOVES.code()
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
-                br.fireWeapon();
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
                 switch (sSettings.NET_MODE) {
                     case sSettings.NET_SERVER:
@@ -16,6 +15,7 @@ public class xComAttack extends xCom {
                         nClient.addSendCmd(fireString);
                         break;
                     default:
+//                        br.fireWeapon();
                         xCon.ex(fireString);
                         break;
                 }

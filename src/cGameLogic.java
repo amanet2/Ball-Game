@@ -381,8 +381,6 @@ public class cGameLogic {
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
             eManager.mapSelectionIndex = rand;
-            xCon.ex("load " + eManager.mapsSelection[rand]);
-            xCon.ex("respawn");
             if(sSettings.net_server) {
                 nServer.addSendCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
                 nServer.addSendCmd("respawn");

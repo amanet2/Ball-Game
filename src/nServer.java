@@ -34,6 +34,7 @@ public class nServer extends Thread {
 
     public static void addSendCmd(String cmd) {
         System.out.println("ALL_CLIENTS: " + cmd);
+        xCon.ex(cmd);
         addNetSendData(clientSendCmdQueues, cmd);
     }
 
@@ -178,7 +179,6 @@ public class nServer extends Thread {
             cVars.put("flagmasterid", "");
         }
         String quitString = String.format("echo %s left the game", quitterName);
-        xCon.ex(quitString);
         addSendCmd(quitString);
     }
 
@@ -312,12 +312,10 @@ public class nServer extends Thread {
         }
         addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
         String joinString = String.format("echo %s joined the game", packName);
-        xCon.ex(joinString);
         addSendCmd(joinString);
     }
 
     public static void handleClientMessage(String msg) {
-        xCon.ex("echo " + msg);
         nServer.addSendCmd("echo " + msg);
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
@@ -333,7 +331,6 @@ public class nServer extends Thread {
     private static void handleClientCommand(String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
-            xCon.ex(cmd);
             nServer.addSendCmd(cmd);
         }
         else {
@@ -346,7 +343,6 @@ public class nServer extends Thread {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
                 String soundString = "playsound sounds/win/" + s;
-                xCon.ex(soundString);
                 addSendCmd(soundString);
                 break;
             }
@@ -363,14 +359,12 @@ public class nServer extends Thread {
                 for(String s : new String[]{
                         String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
                         "echo [VOTE_SKIP] CHANGING MAP..."}) {
-                    xCon.ex(s);
                     addSendCmd(s);
                 }
             }
             else {
                 String sendmsg = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
                         cVars.get("voteskipctr"), cVars.get("voteskiplimit"));
-                xCon.ex(sendmsg);
                 addSendCmd(sendmsg);
             }
         }

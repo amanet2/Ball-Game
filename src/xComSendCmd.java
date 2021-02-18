@@ -5,7 +5,9 @@ public class xComSendCmd extends xCom {
             if(toks.length > 1) {
                 String cmd = fullCommand.replace(toks[0]+" ", "");
                 try {
-                    int id = Integer.parseInt(toks[1]); //check if this is a valid int
+                    int id = 0;
+                    if(!toks[1].equalsIgnoreCase("server"))
+                        id = Integer.parseInt(toks[1]); //check if this is a valid int by triggering exception if not
                     nServer.addSendCmd(toks[1], cmd);
                 }
                 catch (Exception e) {
