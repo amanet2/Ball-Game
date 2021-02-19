@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* double fireweapon on local client on firing
+    -> everyone else sees one shot
 * fatal bug at cPowerups.71
 20210218
 * can see server firing two shots for one pull with pistol

@@ -18,6 +18,7 @@ public class xComSay extends xCom {
                     xCon.ex(echoString);
                     break;
             }
+            gMessages.msgInProgress = "";
         }
         return fullCommand;
     }
