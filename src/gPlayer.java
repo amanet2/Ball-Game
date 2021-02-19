@@ -6,10 +6,6 @@ public class gPlayer extends gThing {
     Image spriteHat;
     Image sprite;
 
-    public void fireWeapon() {
-        xCon.ex("fireweapon " + get("id") + " " + getInt("weapon"));
-    }
-
     public boolean canJump() {
         if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
             for(gTile t : eManager.currentMap.scene.tiles()) {

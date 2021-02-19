@@ -15,7 +15,6 @@ public class xComAttack extends xCom {
                         nClient.addSendCmd(fireString);
                         break;
                     default:
-//                        br.fireWeapon();
                         xCon.ex(fireString);
                         break;
                 }

@@ -14,7 +14,7 @@ public class cClient {
     }
 
     public static void processCmd(String cmdload) {
-        nClient.cmdreceived = 1;
+        nSend.sendMap.put("netcmdrcv","");
         xCon.ex(cmdload);
     }
 }

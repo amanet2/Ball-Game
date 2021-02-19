@@ -38,7 +38,7 @@ public class cGameLogic {
                 checkPowerupsStatus();
                 checkGameState();
                 checkPlayersFire();
-                checkForPlayerDeath();
+//                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
             }
             cScripts.checkBulletSplashes();
         }
@@ -507,7 +507,7 @@ public class cGameLogic {
     }
 
     public static void checkForPlayerDeath() {
-        //checks user player for death occuring from falling off sidescroller map and dying in old safezones
+        //OLD: checks user player for death occuring from falling off sidescroller map and dying in old safezones
         gPlayer cl = cGameLogic.userPlayer();
 //        cScripts.checkBulletSplashes();
         if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){

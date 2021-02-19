@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210218
+* can see server firing two shots for one pull with pistol
+    -> after first death
 * refactor respawn to be server side and in console command
 * when server dies, console commands in/out are doubled
     -> investigate what happens when server dies

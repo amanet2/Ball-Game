@@ -4,7 +4,6 @@ import java.util.*;
 public class nClient extends Thread {
     private int netticks;
     static int hasDisconnected;
-    static int cmdreceived;
     static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     static Queue<String> netSendMsgs = new LinkedList<>();
     static Queue<String> netSendCmds = new LinkedList<>();
@@ -19,7 +18,6 @@ public class nClient extends Thread {
 
     private nClient() {
         netticks = 0;
-        cmdreceived = 0;
     }
 
     public static void addSendMsg(String msg) {
@@ -117,14 +115,9 @@ public class nClient extends Thread {
         else
             nSend.sendMap = nVars.copy();
 
-        if(cmdreceived != 0) {
-            nSend.sendMap.put("netcmdrcv","");
-            cmdreceived = 0;
-        }
-        else
-            nSend.sendMap.remove("netcmdrcv");
-
         sendDataString = new StringBuilder(nSend.sendMap.toString());
+        //handle removing variables after the fact
+        nSend.sendMap.remove("netcmdrcv");
         cVars.put("quitconfirmed", cVars.get("quitting"));
         cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
