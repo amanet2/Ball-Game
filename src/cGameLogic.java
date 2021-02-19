@@ -412,8 +412,6 @@ public class cGameLogic {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
         }
-        if(cVars.isZero("exploded"))
-            actionload += String.format("explode:%s:%s|", cVars.get("explodex"), cVars.get("explodey"));
         if(actionload.length() > 0)
             actionload.substring(0,actionload.length()-1); //cutoff last separator
         return actionload;
@@ -526,13 +524,6 @@ public class cGameLogic {
             if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
                 cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
                 cGameMode.refreshSafeZones();
-                cVars.put("exploded", "0");
-                cVars.putInt("explodex", cl.getInt("coordx") - 75);
-                cVars.putInt("explodey", cl.getInt("coordy") - 75);
-                if (sVars.isOne("vfxenableanimations"))
-                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            cScripts.createId(), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                            cVars.getInt("explodex"), cVars.getInt("explodey")));
                 if(sSettings.net_server)
                     xCon.ex("say " + cl.get("name") + " died");
                 xCon.ex("respawn");

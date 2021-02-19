@@ -23,6 +23,7 @@ public class xComDamagePlayer extends xCom {
                                 xCon.ex("givepoint " + shooterid);
                             }
                         }
+                        //handle flag carrier dying
                         if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
                                 || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
                                 && cVars.isVal("flagmasterid", player.get("id"))) {

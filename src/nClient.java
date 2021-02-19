@@ -124,7 +124,6 @@ public class nClient extends Thread {
             nSend.sendMap.put("spawnprotected","");
         else
             nSend.sendMap.remove("spawnprotected");
-        cVars.put("exploded", "1");
         return sendDataString.toString();
     }
 

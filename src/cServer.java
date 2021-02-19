@@ -93,14 +93,6 @@ public class cServer {
             if(action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
                 xCon.ex("givepoint " + packId);
             }
-            if(action.contains("explode")) {
-                String[] args = action.split(":");
-                if (sVars.isOne("vfxenableanimations")) {
-                    eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            cScripts.createId(), new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                    Integer.parseInt(args[1]), Integer.parseInt(args[2])));
-                }
-            }
             if(action.contains("sendpowerup")) {
                 String[] sptoks = action.replace("sendpowerup", "").split(":");
                 gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(sptoks[0]);

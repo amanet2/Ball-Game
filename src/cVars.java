@@ -26,9 +26,6 @@ public class cVars {
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
         put("exitteleportertag", "-1");
-        put("explodex", "0");
-        put("explodey", "0");
-        put("exploded", "1");
         put("fallkilltime", "800");
         put("falltime", "0");
         put("flagmasterid", "");
