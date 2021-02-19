@@ -329,7 +329,7 @@ public class cGameLogic {
             //server-side respawn code to be enabled after refactoring completed
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                nServer.addSendCmd("server", "respawnplayer " + p.get("id"));
+                nServer.addSendCmd("respawnplayer " + p.get("id"));
 //                xCon.ex("respawnplayer " + p.get("id"));
             }
             if(p.contains("spawnprotectiontime")
@@ -412,8 +412,6 @@ public class cGameLogic {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
         }
-        if(actionload.length() > 0)
-            actionload.substring(0,actionload.length()-1); //cutoff last separator
         return actionload;
     }
 
@@ -504,30 +502,30 @@ public class cGameLogic {
         }
     }
 
-    public static void checkForPlayerDeath() {
-        //OLD: checks user player for death occuring from falling off sidescroller map and dying in old safezones
-        gPlayer cl = cGameLogic.userPlayer();
-//        cScripts.checkBulletSplashes();
-        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){
-            if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
-            && !cl.contains("respawntime")) {
-                cScripts.playPlayerDeathSound();
-                cl.put("stockhp", cVars.get("maxstockhp"));
-                xCon.ex("respawn");
-                cVars.put("falltime", "0");
-            }
-        }
-        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            if(cVars.getLong("safezonetime") < 0) {
-                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-            }
-            if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
-                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-                cGameMode.refreshSafeZones();
-                if(sSettings.net_server)
-                    xCon.ex("say " + cl.get("name") + " died");
-                xCon.ex("respawn");
-            }
-        }
-    }
+//    public static void checkForPlayerDeath() {
+//        //OLD: checks user player for death occuring from falling off sidescroller map and dying in old safezones
+//        gPlayer cl = cGameLogic.userPlayer();
+////        cScripts.checkBulletSplashes();
+//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){
+//            if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
+//            && !cl.contains("respawntime")) {
+//                cScripts.playPlayerDeathSound();
+//                cl.put("stockhp", cVars.get("maxstockhp"));
+//                xCon.ex("respawn");
+//                cVars.put("falltime", "0");
+//            }
+//        }
+//        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
+//            if(cVars.getLong("safezonetime") < 0) {
+//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
+//            }
+//            if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
+//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
+//                cGameMode.refreshSafeZones();
+//                if(sSettings.net_server)
+//                    xCon.ex("say " + cl.get("name") + " died");
+//                xCon.ex("respawn");
+//            }
+//        }
+//    }
 }

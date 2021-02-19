@@ -1,9 +1,9 @@
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class xComRespawn extends xCom {
     public String doCommand(String fullCommand) {
-        int randomSpawnpointIndex = ThreadLocalRandom.current().nextInt(0,
+        int randomSpawnpointIndex = new Random().nextInt(
                 eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
         ArrayList<String> spawnpointids =
                 new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());

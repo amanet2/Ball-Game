@@ -4,8 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* clients double shooting
+    -> check with autorifle
 * double fireweapon on local client on firing
-    -> everyone else sees one shot
+    -> happens after first RESPAWN, not first death
 * fatal bug at cPowerups.71
 20210218
 * can see server firing two shots for one pull with pistol

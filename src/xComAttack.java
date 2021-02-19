@@ -12,6 +12,7 @@ public class xComAttack extends xCom {
                         nServer.addSendCmd(fireString);
                         break;
                     case sSettings.NET_CLIENT:
+                        System.out.println("sendcmd " + fireString);
                         nClient.addSendCmd(fireString);
                         break;
                     default:

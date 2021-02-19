@@ -64,7 +64,6 @@ public class nVars {
         }
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
             String cmdString = nClient.netSendCmds.peek();
-            System.out.println("ASDF");
             xCon.ex(cmdString);
             keys.put("cmd", cmdString);
             nClient.netSendCmds.remove();
