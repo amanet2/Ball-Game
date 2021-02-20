@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* remove "HEALTH" "AMMO" "BOOST" from the HUD
+* add different boost directions
+    -> create new "BOOST" prop, int0 will be vel vector affected and also dictate the sprite
 * cvars not transmitting over the sendCMD arch
     -> do NEW cvars not work with the "cv_" prefix in console?
 * clients double-firing

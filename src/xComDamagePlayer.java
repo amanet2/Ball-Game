@@ -10,11 +10,6 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
                 if(sSettings.net_server) {
-                    //shake camera
-//                    long shaketime = System.currentTimeMillis()+cVars.getInt("shaketimemax");
-//                    int shakeintensity = cVars.getInt("velocitycam") + Math.min(cVars.getInt("camshakemax"),
-//                            cVars.getInt("camshakemax")*(int)((double)dmg/(double)player.getInt("stockhp")));
-//                    nServer.addNetCmd(id, String.format("cv_shaketime %d;nudgecamera %d", shaketime, shakeintensity));
                     player.subtractVal("stockhp", dmg);
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {

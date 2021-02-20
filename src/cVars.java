@@ -15,7 +15,6 @@ public class cVars {
         put("cammov3", "0");
         put("camplayertrackingid", uiInterface.uuid);
         put("camplayertrackingindex", "0");
-        put("camshakemax", "20");
         put("camx", "0");
         put("camy", "0");
         put("clipplayer", "1");
@@ -65,7 +64,6 @@ public class cVars {
         put("scoremap", "");
         put("sendpowerup", "");
         put("serveraddbotstime", "0");
-        put("shaketimemax", "500");
         put("showscore", "0");
         put("sicknessslow", "0");
         put("sicknessfast", "0");

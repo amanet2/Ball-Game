@@ -54,8 +54,6 @@ public class dHUD {
                     (int)(sSettings.width/3*reloadratio),
                     sSettings.height/64);
         }
-        g.setColor(new Color(200,200,200,255));
-        g.drawString("HEALTH", sSettings.width/62,58*sSettings.height/64);
         //ammo
         g.setColor(new Color(0,0,0,255));
         g.fillRect(sSettings.width/64,60*sSettings.height/64, sSettings.width/3,
@@ -79,13 +77,6 @@ public class dHUD {
         g.setColor(new Color(0,0,150,255));
         g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
-        g.setColor(new Color(200,200,200,255));
-        g.drawString(!userPlayer.isInt("weapon", gWeapons.type.NONE.code())
-                        && !userPlayer.isInt("weapon", gWeapons.type.GLOVES.code())
-                        ? (gWeapons.fromCode(userPlayer.getInt("weapon")).name.toUpperCase()
-                        + " ["+cVars.getInt("weaponstock"+userPlayer.getInt("weapon"))+ "]")
-                        : gWeapons.fromCode(userPlayer.getInt("weapon")).name.toUpperCase(),
-                sSettings.width/62,60*sSettings.height/64);
         //sprint
         g.setColor(new Color(0,0,0,255));
         g.fillRect(sSettings.width/64,62*sSettings.height/64,sSettings.width/3,
@@ -96,7 +87,5 @@ public class dHUD {
         g.setColor(new Color(0,100,25,255));
         g.drawRect(sSettings.width/64,62*sSettings.height/64,sSettings.width/3,
                 sSettings.height/64);
-        g.setColor(new Color(200,200,200,255));
-        g.drawString("BOOST", sSettings.width/62,62*sSettings.height/64);
     }
 }

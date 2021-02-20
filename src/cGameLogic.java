@@ -34,7 +34,6 @@ public class cGameLogic {
                 checkColorStatus();
 //                checkWeaponsStatus();
                 checkHealthStatus();
-//                checkCameraShake();
                 checkSprintStatus();
                 checkPowerupsStatus();
                 checkGameState();
@@ -304,16 +303,6 @@ public class cGameLogic {
     public static boolean isUserPlayer(gPlayer player) {
         return player.isVal("id", sSettings.net_server ? "server" : uiInterface.uuid);
     }
-
-//    public static void checkCameraShake() {
-//        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
-//            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
-//        }
-//        else if(cVars.contains("shaketime")) {
-//            cVars.putInt("cammode", gCamera.MODE_TRACKING);
-//            cVars.remove("shaketime");
-//        }
-//    }
 
     public static void checkHealthStatus() {
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
