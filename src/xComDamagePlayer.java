@@ -11,6 +11,8 @@ public class xComDamagePlayer extends xCom {
             if(player != null) {
                 if(sSettings.net_server) {
                     player.subtractVal("stockhp", dmg);
+                    if(cGameLogic.isUserPlayer(player))
+                        cScripts.processUserPlayerHPLoss(dmg);
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff

@@ -388,6 +388,7 @@ public class cScripts {
     }
 
     public static void processUserPlayerHPLoss(int dmg) {
+        //convert this to a send net command?
         gPlayer userPlayer = cGameLogic.userPlayer();
         //shake camera
         cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
