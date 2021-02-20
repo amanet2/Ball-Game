@@ -387,24 +387,18 @@ public class cScripts {
         }
     }
 
-    public static void processUserPlayerHPLoss() {
+    public static void processUserPlayerHPLoss(int dmg) {
         gPlayer userPlayer = cGameLogic.userPlayer();
         //shake camera
-//                        int dmg = oldstockhp - userPlayer.getInt("stockhp");
-//                        if(cGameLogic.isUserPlayer(userPlayer)) {
-//                            cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
-//                            int shakeintensity = Math.min(cVars.getInt("camshakemax"),
-//                                    cVars.getInt("camshakemax")*(int)((double)dmg/(double)userPlayer.getInt("stockhp")));
-//                            cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
-//                            cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
-//                        }
+        cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
+        int shakeintensity = Math.min(cVars.getInt("camshakemax"),
+                cVars.getInt("camshakemax")*(int)((double)dmg/(double)userPlayer.getInt("stockhp")));
+        cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
+        cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
         //handle death
         if(userPlayer.getInt("stockhp") < 1 && !userPlayer.contains("respawntime")) {
             //user player
-            if(cGameLogic.isUserPlayer(userPlayer)) {
-                //handle all of these serverside
-                cVars.remove("shaketime");
-            }
+            cVars.remove("shaketime");
             //everyone does this
             cScripts.playPlayerDeathSound();
         }
@@ -421,15 +415,6 @@ public class cScripts {
             eUtils.unscaleInt(mc[1])+cVars.getInt("camy")-h/2,
             cEditorLogic.state.snapToY);
         return new int[]{px,py};
-    }
-
-    public static boolean allClientsReceivedMessage(String msg) {
-        for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid) && !nServer.clientArgsMap.get(id).containsKey(msg)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void moveTileDown(int tag) {

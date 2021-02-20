@@ -5,3 +5,4 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> gamestate vars go into player objects
     -> netargs retained in netargmap
     -> temporary send/recv vars are in "packArgs" in net receive funcs
+* WORK ON UI LAST

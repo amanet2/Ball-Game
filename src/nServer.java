@@ -215,6 +215,17 @@ public class nServer extends Thread {
         }
     }
 
+    public static boolean containsArgsForId(String id, String[] fields) {
+        if(!nServer.clientArgsMap.containsKey(id))
+            return false;
+        HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
+        for(String rf : fields) {
+            if(!cargs.containsKey(rf))
+                return false;
+        }
+        return true;
+    }
+
     public static void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {

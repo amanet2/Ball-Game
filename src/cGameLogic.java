@@ -166,17 +166,10 @@ public class cGameLogic {
         for(String id : nServer.clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid) && nServer.clientArgsMap.containsKey(id)) {
                 gPlayer p = gScene.getPlayerById(id);
-                HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
-                boolean skip = false;
-                for(String rf : requiredFields) {
-                    if(!cargs.containsKey(rf)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if(skip)
-                    break;
+                if(!nServer.containsArgsForId(id, requiredFields))
+                    continue;
+                HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
                 int ccrouch = Integer.parseInt(cargs.get("crouch"));
@@ -319,7 +312,6 @@ public class cGameLogic {
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                 nServer.addNetCmd("respawnplayer " + p.get("id"));
-//                xCon.ex("respawnplayer " + p.get("id"));
             }
             if(p.contains("spawnprotectiontime")
                     && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
@@ -344,13 +336,13 @@ public class cGameLogic {
                     p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
         }
-//        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
-//            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
-//        }
-//        else if(cVars.contains("shaketime")) {
-//            cVars.putInt("cammode", gCamera.MODE_TRACKING);
-//            cVars.remove("shaketime");
-//        }
+        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
+            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
+        }
+        else if(cVars.contains("shaketime")) {
+            cVars.putInt("cammode", gCamera.MODE_TRACKING);
+            cVars.remove("shaketime");
+        }
     }
 
     public static void checkSprintStatus() {

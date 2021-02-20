@@ -275,7 +275,7 @@ public class nClient extends Thread {
                 userPlayer.put("stockhp", packArgs.get("stockhp"));
                 //detect old stockhp higher than recent
                 if(userPlayer.getInt("stockhp") < oldstockhp) {
-                    cScripts.processUserPlayerHPLoss();
+                    cScripts.processUserPlayerHPLoss(oldstockhp - userPlayer.getInt("stockhp"));
                 }
 
             }
