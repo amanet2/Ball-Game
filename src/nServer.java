@@ -12,6 +12,7 @@ public class nServer extends Thread {
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
     static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
+    static Queue<String> serverLocalCmdQueue = new LinkedList<>();
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;
     private static DatagramSocket serverSocket = null;
@@ -28,8 +29,11 @@ public class nServer extends Thread {
     }
 
     public static void addSendCmd(String id, String cmd) {
-        System.out.println(id + ": " + cmd);
-        addNetSendData(clientSendCmdQueues, id, cmd);
+        System.out.println("ID_"+id+" "+cmd);
+        if(id.equalsIgnoreCase("server"))
+            serverLocalCmdQueue.add(cmd);
+        else
+            addNetSendData(clientSendCmdQueues, id, cmd);
     }
 
     public static void addSendCmd(String cmd) {

@@ -47,9 +47,8 @@ public class nVars {
         //handle outgoing cmd
         keys.put("cmd", "");
         //handle outgoing cmds that loopback to the server
-        if(sSettings.net_server && nServer.clientSendCmdQueues.containsKey("server")
-        && nServer.clientSendCmdQueues.get("server").size() > 0) {
-            xCon.ex(nServer.clientSendCmdQueues.get("server").remove());
+        if(sSettings.net_server && nServer.serverLocalCmdQueue.size() > 0) {
+            xCon.ex(nServer.serverLocalCmdQueue.remove());
         }
         //handle outgoing cmd to clients
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)

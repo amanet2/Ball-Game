@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* i think addSendCmd(id,.. puts "server" in the sendcmd map, and everything happens twice after that
 * make "add nav pointer" console command when you start implementing that again
 * weird insta deaths start after server's first death
 * refactor sSettings.net_server/client into isServer() and isClient() and use the NET_MODE
