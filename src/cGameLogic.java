@@ -168,7 +168,14 @@ public class cGameLogic {
                 gPlayer p = gScene.getPlayerById(id);
                 HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
-                if(!p.containsFields(requiredFields))
+                boolean skip = false;
+                for(String rf : requiredFields) {
+                    if(!cargs.containsKey(rf)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if(skip)
                     break;
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
