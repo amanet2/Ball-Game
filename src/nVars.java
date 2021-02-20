@@ -52,14 +52,14 @@ public class nVars {
         }
         //handle outgoing cmd to clients
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && nServer.clientSendCmdQueues.containsKey(nSend.focus_id)
-                && nServer.clientSendCmdQueues.get(nSend.focus_id).size() > 0
+                && nServer.clientNetCmdMap.containsKey(nSend.focus_id)
+                && nServer.clientNetCmdMap.get(nSend.focus_id).size() > 0
                 && nServer.clientArgsMap.containsKey(nSend.focus_id)
                 && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
             if(nSend.focus_id.contains("bot"))
                 nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
-            keys.put("cmd", nServer.clientSendCmdQueues.get(nSend.focus_id).peek());
+            keys.put("cmd", nServer.clientNetCmdMap.get(nSend.focus_id).peek());
         }
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
             String cmdString = nClient.netSendCmds.peek();

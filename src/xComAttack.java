@@ -9,7 +9,7 @@ public class xComAttack extends xCom {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
                 switch (sSettings.NET_MODE) {
                     case sSettings.NET_SERVER:
-                        nServer.addSendCmd(fireString);
+                        nServer.addNetCmd(fireString);
                         break;
                     case sSettings.NET_CLIENT:
                         nClient.addSendCmd(fireString);

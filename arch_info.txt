@@ -1,3 +1,7 @@
 * game simulation is done directly on prop/player objects e.g. player.setInt("stockhp", 0);
 * only in network files should we deal with taking these values from the server and putting them into the hashmap
 of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT in nVars or nServer
+* keep in mind that only deltas are sent over in a nettick packet
+    -> gamestate vars go into player objects
+    -> netargs retained in netargmap
+    -> temporary send/recv vars are in "packArgs" in net receive funcs

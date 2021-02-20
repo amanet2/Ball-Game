@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -115,7 +114,7 @@ public class cBotsLogic {
                 cScripts.pointPlayerAtCoords(botPlayer,
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
-                nServer.addSendCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
+                nServer.addNetCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
             }
         }
     }

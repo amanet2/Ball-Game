@@ -11,12 +11,13 @@ public class nServer extends Thread {
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     static HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
-    static HashMap<String, Queue<String>> clientSendCmdQueues = new HashMap<>();
+    static HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    //queue for holding local cmds that the server user should run
     static Queue<String> serverLocalCmdQueue = new LinkedList<>();
+    //any incoming received packets go here
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    private static nServer instance = null;
-    private static DatagramSocket serverSocket = null;
-
+    private static nServer instance = null;    //singleton-instance
+    private static DatagramSocket serverSocket = null;    //socket object
 
     public static nServer instance() {
         if(instance == null)
@@ -28,18 +29,18 @@ public class nServer extends Thread {
         netticks = 0;
     }
 
-    public static void addSendCmd(String id, String cmd) {
+    public static void addNetCmd(String id, String cmd) {
         System.out.println("ID_"+id+" "+cmd);
         if(id.equalsIgnoreCase("server"))
             serverLocalCmdQueue.add(cmd);
         else
-            addNetSendData(clientSendCmdQueues, id, cmd);
+            addNetSendData(clientNetCmdMap, id, cmd);
     }
 
-    public static void addSendCmd(String cmd) {
+    public static void addNetCmd(String cmd) {
         System.out.println("ALL_CLIENTS: " + cmd);
         xCon.ex(cmd);
-        addNetSendData(clientSendCmdQueues, cmd);
+        addNetSendData(clientNetCmdMap, cmd);
     }
 
     private static void addNetSendData(HashMap<String, Queue<String>> sendMap, String id, String data) {
@@ -94,9 +95,9 @@ public class nServer extends Thread {
                 if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
                     banIds.remove(clientId);
                 if(banIds.containsKey(clientId)) {
-                    addSendCmd(clientId, "echo You are banned for "
+                    addNetCmd(clientId, "echo You are banned for "
                             + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
-                    addSendCmd(clientId, "disconnect");
+                    addNetCmd(clientId, "disconnect");
                 }
 //                if(clientId != null && !banIds.containsKey(clientId)) {
                 if(clientId != null) {
@@ -173,7 +174,7 @@ public class nServer extends Thread {
         }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
-        clientSendCmdQueues.remove(id);
+        clientNetCmdMap.remove(id);
         gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
         String quitterName = quittingPlayer.get("name");
@@ -182,7 +183,7 @@ public class nServer extends Thread {
             cVars.put("flagmasterid", "");
         }
         String quitString = String.format("echo %s left the game", quitterName);
-        addSendCmd(quitString);
+        addNetCmd(quitString);
     }
 
     public void run() {
@@ -243,13 +244,15 @@ public class nServer extends Thread {
 //                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = nServer.clientArgsMap.get(packId);
-//                String oldName = "";
+            //get old args for comparisons
+            String oldName = "";
             long oldTimestamp = 0;
             if(oldArgMap != null) {
-//                    oldName = oldArgMap.get("name");
+                oldName = oldArgMap.get("name");
                 oldTimestamp = oldArgMap.containsKey("time") ?
                         Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
             }
+            //only want to update keys that have changes
             for(String k : packArgMap.keySet()) {
                 if(!nServer.clientArgsMap.get(packId).containsKey(k)
                         || !nServer.clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {
@@ -260,9 +263,11 @@ public class nServer extends Thread {
             nServer.clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
             //parse and process the args from client packet
             if(nServer.clientIds.contains(packId)) {
+                //update ping
                 scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
-//                    if(oldName.length() > 0 && !oldName.equals(packName))
-//                        xCon.ex(String.format("say %s changed name to %s", oldName, packName));
+                //handle name change to notify
+                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
+                    nServer.addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
                 if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                     nServer.quitClientIds.add(packId);
                 }
@@ -302,7 +307,7 @@ public class nServer extends Thread {
 
     public static void handleNewClientJoin(String packId, String packName) {
         nServer.clientIds.add(packId);
-        clientSendCmdQueues.put(packId, new LinkedList<>());
+        clientNetCmdMap.put(packId, new LinkedList<>());
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
@@ -313,13 +318,13 @@ public class nServer extends Thread {
 //                        player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
-        addSendCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+        addNetCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
         String joinString = String.format("echo %s joined the game", packName);
-        addSendCmd(joinString);
+        addNetCmd(joinString);
     }
 
     public static void handleClientMessage(String msg) {
-        nServer.addSendCmd("echo " + msg);
+        nServer.addNetCmd("echo " + msg);
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
@@ -334,7 +339,7 @@ public class nServer extends Thread {
     private static void handleClientCommand(String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
-            nServer.addSendCmd(cmd);
+            nServer.addNetCmd(cmd);
         }
         else {
             System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);
@@ -346,7 +351,7 @@ public class nServer extends Thread {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
                 String soundString = "playsound sounds/win/" + s;
-                addSendCmd(soundString);
+                addNetCmd(soundString);
                 break;
             }
         }
@@ -362,13 +367,13 @@ public class nServer extends Thread {
                 for(String s : new String[]{
                         String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
                         "echo [VOTE_SKIP] CHANGING MAP..."}) {
-                    addSendCmd(s);
+                    addNetCmd(s);
                 }
             }
             else {
                 String sendmsg = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
                         cVars.get("voteskipctr"), cVars.get("voteskiplimit"));
-                addSendCmd(sendmsg);
+                addNetCmd(sendmsg);
             }
         }
     }

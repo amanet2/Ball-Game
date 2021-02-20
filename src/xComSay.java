@@ -9,7 +9,7 @@ public class xComSay extends xCom {
                     String testmsg = msg.substring(msg.indexOf(':')+2);
                     nServer.checkMessageForSpecialSound(testmsg);
                     nServer.checkMessageForVoteToSkip(testmsg);
-                    nServer.addSendCmd(echoString);
+                    nServer.addNetCmd(echoString);
                     break;
                 case sSettings.NET_CLIENT:
                     nClient.addSendMsg(msg);

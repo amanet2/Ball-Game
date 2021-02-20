@@ -168,14 +168,7 @@ public class cGameLogic {
                 gPlayer p = gScene.getPlayerById(id);
                 HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
-                boolean skip = false;
-                for(String rf : requiredFields) {
-                    if(!cargs.containsKey(rf)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if(skip)
+                if(!p.containsFields(requiredFields))
                     break;
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
@@ -318,7 +311,7 @@ public class cGameLogic {
             //server-side respawn code to be enabled after refactoring completed
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                nServer.addSendCmd("respawnplayer " + p.get("id"));
+                nServer.addNetCmd("respawnplayer " + p.get("id"));
 //                xCon.ex("respawnplayer " + p.get("id"));
             }
             if(p.contains("spawnprotectiontime")
@@ -384,8 +377,8 @@ public class cGameLogic {
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
             eManager.mapSelectionIndex = rand;
             if(sSettings.net_server) {
-                nServer.addSendCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-                nServer.addSendCmd("respawn");
+                nServer.addNetCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+                nServer.addNetCmd("respawn");
             }
         }
     }
@@ -485,7 +478,7 @@ public class cGameLogic {
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-                nServer.addSendCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
+                nServer.addNetCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cScripts.goToEndScreen();
             }
         }

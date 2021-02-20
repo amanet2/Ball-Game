@@ -19,12 +19,12 @@ public class xComRespawnPlayer extends xCom {
                         (gPropSpawnpoint) eManager.currentMap.scene.getThingMap(
                                 "PROP_SPAWNPOINT").get(randomId);
                 //server-side solution
-                nServer.addSendCmd(id, "userplayer coordx " +
+                nServer.addNetCmd(id, "userplayer coordx " +
                         (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
                         - cGameLogic.userPlayer().getInt("dimw") / 2)
                 + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
                         - cGameLogic.userPlayer().getInt("dimh") / 2));
-                nServer.addSendCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
+                nServer.addNetCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
                         "cv_camplayertrackingid " + id + ";centercamera");
                 //player-centric spawn comands
 //                cScripts.refillWeaponStocks();

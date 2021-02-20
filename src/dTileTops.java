@@ -201,21 +201,20 @@ public class dTileTops {
     }
 
     public static void drawPlayerNames(Graphics g, Graphics2D g2) {
-//        for(String id : nServer.clientArgsMap.keySet()) {
-//            System.out.println(nServer.clientArgsMap.get(id).toString());
-//        }
-//        for(String id : gScene.getPlayerIds()) {
-//            gPlayer p = gScene.getPlayerById(id);
-//            dFonts.setFontNormal(g);
-//            g.drawString(p.get("name"), eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
-//            int x = eUtils.scaleInt(p.getInt("coordx")-cVars.getInt("camx")
-//                    - p.getInt("dimw")/4);
-//            int y = eUtils.scaleInt(p.getInt("coordy")-cVars.getInt("camy") - p.getInt("dimh")/4);
-//            int w = eUtils.scaleInt(3*p.getInt("dimw")/2);
-//            int h = eUtils.scaleInt(3*p.getInt("dimh")/2);
-//            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight"))
-//                dFlares.drawFlare(g2,x,y,w,h,1,new int[]{255,255,255,255},new int[4]);
-//        }
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer p = gScene.getPlayerById(id);
+            if(!p.containsFields(new String[]{"name", "coordx", "coordy", "dimw", "dimh", "flashlight"}))
+                continue;
+            dFonts.setFontNormal(g);
+            g.drawString(p.get("name"), eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
+                    eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
+            int x = eUtils.scaleInt(p.getInt("coordx")-cVars.getInt("camx")
+                    - p.getInt("dimw")/4);
+            int y = eUtils.scaleInt(p.getInt("coordy")-cVars.getInt("camy") - p.getInt("dimh")/4);
+            int w = eUtils.scaleInt(3*p.getInt("dimw")/2);
+            int h = eUtils.scaleInt(3*p.getInt("dimh")/2);
+            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight"))
+                dFlares.drawFlare(g2,x,y,w,h,1,new int[]{255,255,255,255},new int[4]);
+        }
     }
 }

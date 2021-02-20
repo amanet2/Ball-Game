@@ -308,7 +308,7 @@ public class nClient extends Thread {
             if(tr.length() > 0) {
                 nServer.clientArgsMap.remove(tr);
                 cScoreboard.scoresMap.remove(tr);
-                nServer.clientSendCmdQueues.remove(tr);
+                nServer.clientNetCmdMap.remove(tr);
                 nServer.clientIds.remove(tr);
                 eManager.currentMap.scene.playersMap().remove(tr);
             }

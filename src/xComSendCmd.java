@@ -8,10 +8,10 @@ public class xComSendCmd extends xCom {
                     int id = 0;
                     if(!toks[1].equalsIgnoreCase("server"))
                         id = Integer.parseInt(toks[1].replace("bot", "")); //check if valid
-                    nServer.addSendCmd(toks[1], cmd);
+                    nServer.addNetCmd(toks[1], cmd);
                 }
                 catch (Exception e) {
-                    nServer.addSendCmd(cmd);
+                    nServer.addNetCmd(cmd);
                 }
             }
         }

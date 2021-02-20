@@ -17,7 +17,7 @@ public class xComDamagePlayer extends xCom {
                         if(shooterid.length() > 0) {
                             String killername = gScene.getPlayerById(shooterid).get("name");
                             cScoreboard.incrementScoreFieldById(shooterid, "kills");
-                            nServer.addSendCmd("echo " + killername + " killed " + player.get("name"));
+                            nServer.addNetCmd("echo " + killername + " killed " + player.get("name"));
                             if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                                 xCon.ex("givepoint " + shooterid);
                             }
@@ -32,11 +32,11 @@ public class xComDamagePlayer extends xCom {
                         String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                         //be sure not to send too much in one go, net comms
-                        nServer.addSendCmd(animString);
-                        nServer.addSendCmd(id, "dropweapon");
-                        nServer.addSendCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
+                        nServer.addNetCmd(animString);
+                        nServer.addNetCmd(id, "dropweapon");
+                        nServer.addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
                                 "cv_cammov2 0;cv_cammov3 0");
-                        nServer.addSendCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+                        nServer.addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
                     }
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());
