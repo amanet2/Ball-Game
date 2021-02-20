@@ -73,23 +73,23 @@ public class dTileTops {
         /*
         * players extra stuff
         * */
-//        for(String id : gScene.getPlayerIds()) {
-//            gPlayer e = gScene.getPlayerById(id);
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer e = gScene.getPlayerById(id);
 //            //player hat
 //            g2.drawImage(e.spriteHat,
 //                    eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
 //                    eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
 //                    null);
-//            //forbidden sign for spawn protection
-//            if(nServer.clientArgsMap.containsKey(e.get("id"))
-//                    && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
-//                    && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
-//                g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
-//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-//                        null);
-//            }
-//        }
+            //forbidden sign for spawn protection
+            if(nServer.clientArgsMap.containsKey(e.get("id"))
+                    && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
+                    && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
+                g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
+                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
+                        null);
+            }
+        }
         //flashlight overlay
         if(cVars.isOne("flashlight")) {
             int maxd = 900;

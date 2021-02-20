@@ -182,6 +182,7 @@ public class xCon {
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
+        commands.put("nudgecamera", new xComNudgeCamera());
         commands.put("pause", new xComPause());
         commands.put("playercrouch", new xComPlayerCrouch());
         commands.put("playerdown", new xComPlayerDown());

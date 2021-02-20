@@ -4,7 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* redo camera shakiness
+    -> gotta call through server architecture
+* make "delvar" console comm
+    -> check cv_, then svars
 * cmd-ify the shake commands
+    -> processUserPlayerHPLoss
 * i think addSendCmd(id,.. puts "server" in the sendcmd map, and everything happens twice after that
 * make "add nav pointer" console command when you start implementing that again
 * weird insta deaths start after server's first death

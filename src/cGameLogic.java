@@ -309,6 +309,9 @@ public class cGameLogic {
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             //server-side respawn code to be enabled after refactoring completed
+            if(sSettings.net_server) {
+
+            }
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                 nServer.addNetCmd("respawnplayer " + p.get("id"));

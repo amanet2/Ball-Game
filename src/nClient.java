@@ -271,13 +271,7 @@ public class nClient extends Thread {
             //handle our own player to get things like stockhp from server
             if(idload.equals(uiInterface.uuid)) {
                 gPlayer userPlayer = cGameLogic.userPlayer();
-                int oldstockhp = userPlayer.getInt("stockhp");
                 userPlayer.put("stockhp", packArgs.get("stockhp"));
-                //detect old stockhp higher than recent
-                if(userPlayer.getInt("stockhp") < oldstockhp) {
-                    cScripts.processUserPlayerHPLoss(oldstockhp - userPlayer.getInt("stockhp"));
-                }
-
             }
             if(idload.equals("server")) {
                 //this is where we update scores on client

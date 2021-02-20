@@ -387,24 +387,6 @@ public class cScripts {
         }
     }
 
-    public static void processUserPlayerHPLoss(int dmg) {
-        //convert this to a send net command?
-        gPlayer userPlayer = cGameLogic.userPlayer();
-        //shake camera
-        cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
-        int shakeintensity = Math.min(cVars.getInt("camshakemax"),
-                cVars.getInt("camshakemax")*(int)((double)dmg/(double)userPlayer.getInt("stockhp")));
-        cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
-        cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
-        //handle death
-        if(userPlayer.getInt("stockhp") < 1 && !userPlayer.contains("respawntime")) {
-            //user player
-            cVars.remove("shaketime");
-            //everyone does this
-            cScripts.playPlayerDeathSound();
-        }
-    }
-
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int w = cEditorLogic.state.newTile.getInt("dimw");
