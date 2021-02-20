@@ -220,8 +220,8 @@ public class nClient extends Thread {
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {
-                    cClient.processCmd(cmdload);
                     System.out.println("FROM_SERVER: " + cmdload);
+                    cClient.processCmd(cmdload);
                 }
             }
             if(!idload.equals(uiInterface.uuid)) {

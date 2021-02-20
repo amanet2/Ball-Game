@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.Random;
-
 public class xComNudgeCamera extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");

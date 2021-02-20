@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* cvars not transmitting over the sendCMD arch
+    -> do NEW cvars not work with the "cv_" prefix in console?
+* clients double-firing
 * redo camera shakiness
     -> gotta call through server architecture
 * make "delvar" console comm

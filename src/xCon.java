@@ -242,9 +242,10 @@ public class xCon {
                     }
                     return sVars.get(configval);
                 }
-                if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
+                if(configval.substring(0,3).equals("cv_")) {
                     if(args.length > 1) {
                         String val = args[1];
+                        //check if our "value" is a reference to svar or cvar
                         if(sVars.contains(val))
                             val = sVars.get(val);
                         if(val.length() > 3 && val.substring(0,3).equals("cv_") && cVars.contains(val.substring(3)))

@@ -9,7 +9,7 @@ public class dHUD {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
         //camera indicator
-        if(cVars.getInt("cammode") == gCamera.MODE_FREE) {
+        if(!cVars.isInt("cammode", gCamera.MODE_TRACKING)) {
             dFonts.setFontNormal(g);
             for(Integer i : xCon.instance().pressBinds.keySet()) {
                 if(xCon.instance().pressBinds.get(i).contains("centercamera")) {

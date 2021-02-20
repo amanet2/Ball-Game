@@ -34,6 +34,7 @@ public class cGameLogic {
                 checkColorStatus();
 //                checkWeaponsStatus();
                 checkHealthStatus();
+//                checkCameraShake();
                 checkSprintStatus();
                 checkPowerupsStatus();
                 checkGameState();
@@ -304,14 +305,21 @@ public class cGameLogic {
         return player.isVal("id", sSettings.net_server ? "server" : uiInterface.uuid);
     }
 
+//    public static void checkCameraShake() {
+//        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
+//            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
+//        }
+//        else if(cVars.contains("shaketime")) {
+//            cVars.putInt("cammode", gCamera.MODE_TRACKING);
+//            cVars.remove("shaketime");
+//        }
+//    }
+
     public static void checkHealthStatus() {
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             //server-side respawn code to be enabled after refactoring completed
-            if(sSettings.net_server) {
-
-            }
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                 nServer.addNetCmd("respawnplayer " + p.get("id"));
@@ -338,13 +346,6 @@ public class cGameLogic {
                 else
                     p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
-        }
-        if(cVars.contains("shaketime") && cVars.getLong("shaketime") > System.currentTimeMillis()) {
-            cVars.putInt("cammode", gCamera.MODE_SHAKYPROCEEDING);
-        }
-        else if(cVars.contains("shaketime")) {
-            cVars.putInt("cammode", gCamera.MODE_TRACKING);
-            cVars.remove("shaketime");
         }
     }
 

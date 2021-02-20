@@ -52,29 +52,32 @@ public class gCamera {
 	}
 
 	public static void updatePosition() {
-        if (cVars.isInt("cammode", MODE_TRACKING))
-            xCon.ex("centercamera");
-        else {
-        	gPlayer userPlayer = cGameLogic.userPlayer();
-			if(cVars.isInt("cammode", MODE_PROCEEDING)) {
+		gPlayer userPlayer = cGameLogic.userPlayer();
+		switch(cVars.getInt("cammode")) {
+			case MODE_TRACKING:
+				xCon.ex("centercamera");
+				break;
+			case MODE_PROCEEDING:
 				proceedTo((userPlayer.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
 								+ userPlayer.getInt("dimw")/2,
 						(userPlayer.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
 								+ userPlayer.getInt("dimh")/2);
-			}
-			if(cVars.isInt("cammode", MODE_SHAKYPROCEEDING)) {
+				break;
+			case MODE_SHAKYPROCEEDING:
 				shakyproceedto(
 						(userPlayer.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
 								+ userPlayer.getInt("dimw")/2,
 						(userPlayer.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
 								+ userPlayer.getInt("dimh")/2);
-			}
-			if(!cVars.isInt("cammode", MODE_LOCKED)){
+				break;
+			case MODE_LOCKED:
 				cVars.addIntVal("camx", cVars.getInt("velocitycam")*cVars.getInt("cammov3")
 						- cVars.getInt("velocitycam")*cVars.getInt("cammov2"));
 				cVars.addIntVal("camy", cVars.getInt("velocitycam")*cVars.getInt("cammov1")
 						- cVars.getInt("velocitycam")*cVars.getInt("cammov0"));
-			}
+				break;
+			default:
+				break;
 		}
 	}
 }

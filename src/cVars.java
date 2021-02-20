@@ -65,7 +65,6 @@ public class cVars {
         put("scoremap", "");
         put("sendpowerup", "");
         put("serveraddbotstime", "0");
-        put("shaketime", "0");
         put("shaketimemax", "500");
         put("showscore", "0");
         put("sicknessslow", "0");
