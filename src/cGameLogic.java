@@ -418,7 +418,7 @@ public class cGameLogic {
         //check ALL PROPS this is the best one
         //new way of checkingProps
         for(String checkThingType : new String[]{
-                "PROP_TELEPORTER", "PROP_BOOSTUP", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
+                "PROP_TELEPORTER", "PROP_BOOST", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
             HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);

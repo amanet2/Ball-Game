@@ -4,7 +4,7 @@ public class gProps {
     static final int FLAGRED = 2;
     static final int FLAGBLUE = 3;
     static final int POWERUP = 4;
-    static final int BOOSTUP = 5;
+    static final int BOOST = 5;
     static final int SPAWNPOINT = 6;
 
     static String[] spritesSelection = new String[]{
@@ -13,7 +13,7 @@ public class gProps {
             "misc/flag_red.png",
             "misc/flag_blue.png",
             "misc/powerup.png",
-            "misc/boostup.png",
+            "none",
             "none"
     };
 
@@ -23,7 +23,7 @@ public class gProps {
             "PROP_FLAGRED",
             "PROP_FLAGBLUE",
             "PROP_POWERUP",
-            "PROP_BOOSTUP",
+            "PROP_BOOST",
             "PROP_SPAWNPOINT"
     };
 

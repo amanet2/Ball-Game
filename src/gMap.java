@@ -27,7 +27,7 @@ public class gMap {
         wasLoaded = 0;
         propLoadMap = new HashMap<>();
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
-        propLoadMap.put("PROP_BOOSTUP", new gDoablePropReturnBoostup());
+        propLoadMap.put("PROP_BOOST", new gDoablePropReturnBoost());
         propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
         propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
         propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());

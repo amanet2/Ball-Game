@@ -3,8 +3,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class dProp {
-    public static void drawProps(Graphics2D g2)
-    {
+    public static void drawProps(Graphics2D g2) {
         for(gProp prop : eManager.currentMap.scene.props()) {
             if (prop.sprite != null) {
                 if (prop.isInt("code", gProps.TELEPORTER)) {
@@ -75,6 +74,15 @@ public class dProp {
                 }
                 g2.setTransform(backup);
             }
+            else {
+                switch (prop.getInt("code")) {
+                    case gProps.BOOST:
+                        drawBoostProp(g2, (gPropBoost) prop);
+                        break;
+                    default:
+                        break;
+                }
+            }
             if(sSettings.show_mapmaker_ui) {
                 switch(prop.getInt("code")) {
                     case gProps.POWERUP:
@@ -115,6 +123,51 @@ public class dProp {
                         break;
                 }
             }
+        }
+    }
+
+    public static void drawBoostProp(Graphics2D g2, gPropBoost prop) {
+        int[][][] polygonsBases = new int[][][]{
+                new int[][]{ //up
+                        new int[]{0,1,2},
+                        new int[]{2,0,2}
+                },
+                new int[][]{ //down
+                        new int[]{0,2,1},
+                        new int[]{0,0,1}
+                },
+                new int[][]{ //left
+                        new int[]{2,0,2},
+                        new int[]{0,1,2}
+                },
+                new int[][]{ //right
+                        new int[]{0,2,0},
+                        new int[]{0,1,2}
+                }
+
+        };
+        int polygonw = eUtils.scaleInt(prop.getInt("dimw"))/2;
+        int polygonh = eUtils.scaleInt(prop.getInt("dimh"))/2;
+        int velDir = prop.getInt("int0");
+        int[][] usePolygon = velDir > -1 && velDir < polygonsBases.length ? polygonsBases[velDir] : null;
+        if(usePolygon != null) {
+            int[][] polygon = new int[][]{
+                    new int[]{eUtils.scaleInt(prop.getInt("coordx")
+                            - cVars.getInt("camx")) + usePolygon[0][0] * polygonw,
+                            eUtils.scaleInt(prop.getInt("coordx")
+                                    - cVars.getInt("camx")) + usePolygon[0][1] * polygonw,
+                            eUtils.scaleInt(prop.getInt("coordx")
+                                    - cVars.getInt("camx")) + usePolygon[0][2] * polygonw},
+                    new int[]{eUtils.scaleInt(prop.getInt("coordy")
+                            - cVars.getInt("camy")) + usePolygon[1][0] * polygonh,
+                            eUtils.scaleInt(prop.getInt("coordy")
+                                    - cVars.getInt("camy")) + usePolygon[1][1] * polygonh,
+                            eUtils.scaleInt(prop.getInt("coordy")
+                                    - cVars.getInt("camy")) + usePolygon[1][2] * polygonh}
+            };
+            Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
+            g2.setColor(new Color(20, 200, 220, 100));
+            g2.fillPolygon(pg);
         }
     }
 }

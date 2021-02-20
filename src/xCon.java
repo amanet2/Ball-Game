@@ -234,6 +234,7 @@ public class xCon {
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
+                    //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
                         if(sVars.checkVal(configval, args[1]))
@@ -241,7 +242,8 @@ public class xCon {
                     }
                     return sVars.get(configval);
                 }
-                if(configval.substring(0,3).equals("cv_")) {
+                else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
+                    //if we're setting instead of getting
                     if(args.length > 1) {
                         String val = args[1];
                         //check if our "value" is a reference to svar or cvar
