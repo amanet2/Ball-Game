@@ -195,7 +195,7 @@ public class cGameLogic {
     }
 
     public static void checkDisconnectStatus() {
-        if(sSettings.net_client && cVars.isOne("disconnectconfirmed")) {
+        if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
             cVars.put("disconnecting", "0");
             nClient.clientSocket.close();
             sSettings.net_client = false;
@@ -207,24 +207,26 @@ public class cGameLogic {
     }
 
     public static void checkQuitterStatus() {
-        if(sSettings.net_server) {
-            //other players
-            for(String id : nServer.clientArgsMap.keySet()) {
-                if(!id.equals(uiInterface.uuid)) {
-                    //check currentTime vs last recorded checkin time
-                    long lastrecordedtime = Long.parseLong(nServer.clientArgsMap.get(id).get("time"));
-                    if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
-                        nServer.quitClientIds.add(id);
+        switch (sSettings.NET_MODE) {
+            case sSettings.NET_SERVER:
+                //other players
+                for(String id : nServer.clientArgsMap.keySet()) {
+                    if(!id.equals(uiInterface.uuid)) {
+                        //check currentTime vs last recorded checkin time
+                        long lastrecordedtime = Long.parseLong(nServer.clientArgsMap.get(id).get("time"));
+                        if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
+                            nServer.quitClientIds.add(id);
+                        }
                     }
                 }
-            }
-            while(nServer.quitClientIds.size() > 0) {
-                String quitterId = nServer.quitClientIds.remove();
-                nServer.removeNetClient(quitterId);
-            }
-        }
-        if(sSettings.net_client) {
-            checkDisconnectStatus();
+                while(nServer.quitClientIds.size() > 0) {
+                    String quitterId = nServer.quitClientIds.remove();
+                    nServer.removeNetClient(quitterId);
+                }
+                break;
+            case sSettings.NET_CLIENT:
+                checkDisconnectStatus();
+                break;
         }
     }
 
@@ -382,7 +384,7 @@ public class cGameLogic {
 
     public static String getActionLoad() {
         String actionload = "";
-        if(sSettings.net_client && cVars.get("sendpowerup").length() > 0) {
+        if(sSettings.isClient() && cVars.get("sendpowerup").length() > 0) {
             actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
             cVars.put("sendpowerup","");
         }
