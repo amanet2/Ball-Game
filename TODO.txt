@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210219
+* make "add nav pointer" console command when you start implementing that again
+* weird insta deaths start after server's first death
+* refactor sSettings.net_server/client into isServer() and isClient() and use the NET_MODE
 * clients double shooting
     -> check with autorifle
 * double fireweapon on local client on firing

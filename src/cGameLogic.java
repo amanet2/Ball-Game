@@ -312,17 +312,6 @@ public class cGameLogic {
     }
 
     public static void checkHealthStatus() {
-//        if(userPlayer.contains("respawntime") && (userPlayer.getLong("respawntime") < System.currentTimeMillis()
-//        || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-//            //---
-//            //client AND server exec this.  refactor to server
-//            //---
-//            xCon.ex("respawn");
-//        }
-//        if(userPlayer.contains("spawnprotectiontime")
-//                && userPlayer.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-//            userPlayer.remove("spawnprotectiontime");
-//        }
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);

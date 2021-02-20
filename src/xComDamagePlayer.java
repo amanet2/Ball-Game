@@ -11,7 +11,6 @@ public class xComDamagePlayer extends xCom {
             if(player != null) {
                 if(sSettings.net_server) {
                     player.subtractVal("stockhp", dmg);
-                    nServer.clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff
@@ -24,21 +23,19 @@ public class xComDamagePlayer extends xCom {
                             }
                         }
                         //handle flag carrier dying
-                        if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                                || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                                && cVars.isVal("flagmasterid", player.get("id"))) {
+                        if(cVars.isVal("flagmasterid", player.get("id"))) {
                             cVars.put("flagmasterid", "");
                         }
                         //migrate all client death logic here
+                        player.putLong("respawntime",
+                                (System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
+                        String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
+                                + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
+                        //be sure not to send too much in one go, net comms
+                        nServer.addSendCmd(animString);
                         nServer.addSendCmd(id, "dropweapon");
                         nServer.addSendCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
                                 "cv_cammov2 0;cv_cammov3 0");
-                        player.putLong("respawntime",
-                                (System.currentTimeMillis() + cVars.getLong("respawnwaittime")));
-                        //be sure not to send too much in one go
-                        String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                                + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
-                        nServer.addSendCmd(animString);
                         nServer.addSendCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
                     }
                 }
