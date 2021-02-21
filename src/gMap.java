@@ -58,14 +58,8 @@ public class gMap {
                 eManager.currentMap.mapName = s.split("\\.")[0];
             String line;
             while ((line = br.readLine()) != null) {
-                String[] lineToks = line.split(" ");
-                if(lineToks[0].toLowerCase().equals("cmd")) {
-                    if(lineToks.length > 1) {
-                        xCon.ex(line.replaceFirst("cmd ", ""));
-                        eManager.currentMap.mapLines.add(line);
-//                        eManager.currentMap.execLines.add(line);
-                    }
-                }
+                xCon.ex(line);
+                eManager.currentMap.mapLines.add(line);
             }
             eManager.currentMap.wasLoaded = 1;
             cVars.put("maploaded", "1");

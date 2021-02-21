@@ -24,7 +24,7 @@ public class gWeaponsPistol extends gWeapon {
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.type.PISTOL.code());
-        double randomOffset = (Math.random() * ((Math.PI/12))) - Math.PI/24;
+        double randomOffset = (Math.random() * ((Math.PI/10))) - Math.PI/20;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);

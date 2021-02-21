@@ -3,7 +3,11 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210221
+* client quitting while server is respawning breaks things
 20210220
+* replace exitteleportertag for client players with "teleportersafe" which changes from 0,1 if player in teleporter
+* ignore/or teleporters for now
 * IMPORTANT: joingame needs overhaul
 * IMPORTANT: server needs to be able to change map
 * future: make EDITOR a game mode, like DEATHMATCH
