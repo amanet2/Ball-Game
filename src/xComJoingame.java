@@ -21,7 +21,9 @@ public class xComJoingame extends xCom {
         nVars.reset();
         eManager.currentMap = new gMap();
         cVars.putLong("starttime", System.currentTimeMillis());
-        gPlayer player0 = cGameLogic.userPlayer();
+        gPlayer player0 = new gPlayer(-10000, -10000,150,150,
+                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
+        cGameLogic.setUserPlayer(player0);
         player0.put("tag", "0");
         player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
         player0.put("color", sVars.get("playercolor"));
