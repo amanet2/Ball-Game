@@ -332,12 +332,9 @@ public class nServer extends Thread {
         for(String line : eManager.currentMap.mapLines) {
             addNetCmd(packId, line.replace("cmd ", ""));
         }
-//        addNetCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-        // placeholder
-        //put all the new load lines here and test it out
-        // /placeholder
+        addNetCmd(packId, "cv_maploaded 1;respawn");
         String joinString = String.format("echo %s joined the game", packName);
-        addNetCmd("cv_maploaded 1;"+joinString+";respawn");
+        addNetCmd(joinString);
     }
 
     public static void handleClientMessage(String msg) {

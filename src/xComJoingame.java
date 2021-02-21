@@ -20,17 +20,14 @@ public class xComJoingame extends xCom {
         nSend.sendMap = null;
         nVars.reset();
         eManager.currentMap = new gMap();
-        int[] npcs = new int[] {-10000, -10000};
         cVars.putLong("starttime", System.currentTimeMillis());
-        gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
-                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
+        gPlayer player0 = cGameLogic.userPlayer();
         player0.put("tag", "0");
         player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-        cGameLogic.setUserPlayer(player0);
         player0.put("color", sVars.get("playercolor"));
         eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
         xCon.ex("centercamera");
-        xCon.ex("respawn");
+//        xCon.ex("respawn");
         cVars.put("canvoteskip", "");
         return "joined game";
     }
