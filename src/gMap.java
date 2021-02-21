@@ -76,9 +76,9 @@ public class gMap {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cmd cv_mapview %s\n", cVars.get("mapview")));
-            writer.write(String.format("cmd cv_gamemode %s\n", cVars.get("gamemode")));
-            writer.write(String.format("cmd cv_botbehavior %s\n", cVars.get("botbehavior")));
+            writer.write(String.format("cv_mapview %s\n", cVars.get("mapview")));
+            writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
+            writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
             //this one is dynamic
             for(String s : execLines) {
                 if(!s.contains("cv_mapview") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
@@ -86,7 +86,7 @@ public class gMap {
                 }
             }
             for(gTile t : scene.tiles()) {
-                String str = String.format("cmd puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
+                String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
                     t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
@@ -97,13 +97,13 @@ public class gMap {
             }
             for(gProp p : scene.props()) {
                 String savetitle = gProps.getTitleForProp(p);
-                String str = String.format("cmd putprop %s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
+                String str = String.format("putprop %s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
                     p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
                 writer.write(str);
             }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
-                String str = String.format("cmd putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
+                String str = String.format("putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
                         f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
                         f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
                         f.getInt("a2"), b);
