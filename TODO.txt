@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210220
+* flare flickering might be broken
 * IMPORTANT: stream map from server to client line-by-line for loading
     -> use cmds
 * add "suicide" button for when spawns go wrong or get stuck in map

@@ -12,3 +12,4 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * i think addSendCmd(id,.. puts "server" in the sendcmd map, and everything happens twice after that
 * for the server to "say" something to clients, "echo" the proper string (with or without "name:" ) in addSendCmd
 * max allowable server/client rate is 1000
+* use wasloaded map variable to avoid exceptions that may occur when net/gfx threads outpace map loading thread

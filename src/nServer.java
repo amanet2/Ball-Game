@@ -330,6 +330,9 @@ public class nServer extends Thread {
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
         addNetCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+        // placeholder
+        //put all the new load lines here and test it out
+        // /placeholder
         String joinString = String.format("echo %s joined the game", packName);
         addNetCmd(joinString);
     }

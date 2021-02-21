@@ -61,6 +61,7 @@ public class gMap {
                 gDoablePropReturn propReturnFunction = eManager.currentMap.propLoadMap.get(putTitle);
                 gDoableThingReturn thingReturnFunction = eManager.currentMap.thingLoadMap.get(putTitle);
                 if(thingReturnFunction != null) {
+                    System.out.println("ASDF");
                     gThing thingToLoad = thingReturnFunction.getThing(args);
                     thingToLoad.putInt("native", 1);
                     thingReturnFunction.storeThing(thingToLoad, eManager.currentMap.scene);
@@ -75,7 +76,7 @@ public class gMap {
                 else if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
                         xCon.ex(line.replaceFirst("cmd ", ""));
-                        eManager.currentMap.execLines.add(line);
+//                        eManager.currentMap.execLines.add(line);
                     }
                 }
                 else if (lineToks[0].toLowerCase().equals("tile")) {
