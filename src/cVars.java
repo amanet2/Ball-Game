@@ -8,7 +8,7 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
-        putInt("cammode", gCamera.MODE_TRACKING);
+        putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
         put("cammov1", "0");
         put("cammov2", "0");

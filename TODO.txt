@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210220
+* add "suicide" button for when spawns go wrong or get stuck in map
 * migrate "sendpowerup" and picking up powerups to serverside
 * exitteleporter cant be used until other teleporters been used
 * weapons not being "picked up" all around

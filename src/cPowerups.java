@@ -86,6 +86,7 @@ public class cPowerups {
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
         for(String id : thingMap.keySet()) {
             if(!powerupString.contains(id)) {
+//                thingMap.remove(id);
                 thingMap.get(id).put("int0", "0");
             }
         }
