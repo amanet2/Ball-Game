@@ -329,7 +329,10 @@ public class nServer extends Thread {
 //                        player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
-        addNetCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+        for(String line : eManager.currentMap.mapLines) {
+            addNetCmd(packId, line.replace("cmd ", ""));
+        }
+//        addNetCmd(packId, "load "+eManager.currentMap.mapName+sVars.get("mapextension"));
         // placeholder
         //put all the new load lines here and test it out
         // /placeholder

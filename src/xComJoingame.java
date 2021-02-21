@@ -18,6 +18,7 @@ public class xComJoingame extends xCom {
         cVars.put("disconnecting", "0");
         nSend.sendMap = null;
         nVars.reset();
+        eManager.currentMap = new gMap();
         cScripts.setupGame();
         return "joined game";
     }

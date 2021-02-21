@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210220
+* make mapLoaded a cvar
+    ->set this cvar at end of client loading
 * flare flickering might be broken
 * IMPORTANT: stream map from server to client line-by-line for loading
     -> use cmds

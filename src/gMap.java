@@ -13,6 +13,7 @@ public class gMap {
     };
     String mapName;
     ArrayList<String> execLines;
+    ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
     //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
@@ -23,6 +24,7 @@ public class gMap {
     private void basicInit() {
         gTextures.clear();
         execLines = new ArrayList<>();
+        mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
         propLoadMap = new HashMap<>();
@@ -59,6 +61,7 @@ public class gMap {
                 if(lineToks[0].toLowerCase().equals("cmd")) {
                     if(lineToks.length > 1) {
                         xCon.ex(line.replaceFirst("cmd ", ""));
+                        eManager.currentMap.mapLines.add(line);
 //                        eManager.currentMap.execLines.add(line);
                     }
                 }
