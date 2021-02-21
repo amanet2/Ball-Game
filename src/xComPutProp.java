@@ -3,7 +3,6 @@ public class xComPutProp extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 7) {
             String propString = toks[1];
-            System.out.println(propString);
             int int0 = Integer.parseInt(toks[2]);
             int int1 = Integer.parseInt(toks[3]);
             int x = Integer.parseInt(toks[4]);

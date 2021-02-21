@@ -101,7 +101,7 @@ public class cGameLogic {
                     if(!userPlayer.contains("respawntime")) {
                         if(userPlayer.isOne("crouch"))
                             userPlayer.subtractVal("vel1",
-                                    userPlayer.getInt("vel1") > 1 ? 1 : 0);
+                                    userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
                         else
                             userPlayer.addVal("vel1",
                                     userPlayer.getInt("vel1") < cVars.getInt("gravity")

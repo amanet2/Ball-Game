@@ -417,7 +417,7 @@ public class cScripts {
     }
 
     public static void setupGame() {
-        int[] npcs = new int[] {-6000,-6000};
+        int[] npcs = new int[] {-6000, -6000};
         cVars.putLong("starttime", System.currentTimeMillis());
         if(cScripts.isNetworkGame() || uiInterface.inplay) {
             gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
