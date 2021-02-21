@@ -1,7 +1,7 @@
 cmd cv_mapview 0
 cmd cv_gamemode 0
 cmd cv_botbehavior goto_player
-tile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -6000 3000 3000 100 150 3000 100 150 100 100 150
+cmd puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -5700 -6000 3000 3000 100 150 3000 100 150 100 100 150
 cmd putprop PROP_TELEPORTER 0 0 -4380 -5670 300 300
 cmd putprop PROP_TELEPORTER 0 0 -4350 -3660 300 300
 cmd putprop PROP_BOOST 0 16 -3120 -3570 300 300
