@@ -4,8 +4,9 @@ public class xComLoad extends xCom {
         oDisplay.instance().clearAndRefresh();
         nServer.clearBots();
         cVars.put("botbehavior", "");
-        eManager.currentMap = mapPath.length() > 0 ? new gMap(
-            mapPath.contains(sVars.get("datapath")) ? mapPath : eUtils.getPath(mapPath)) : new gMap();
+        if(!mapPath.contains(sVars.get("datapath")))
+            mapPath = eUtils.getPath(mapPath);
+        gMap.load(mapPath);
         eManager.setScene();
         oDisplay.instance().createPanels();
         cScripts.setupGame();

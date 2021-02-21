@@ -44,6 +44,71 @@ public class gMap {
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
+	public static void load(String s) {
+        eManager.currentMap = new gMap();
+        xCon.instance().debug("Loading Map: " + s);
+        long ct = System.currentTimeMillis();
+        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+            if(s.contains("/"))
+                eManager.currentMap.mapName = s.split("/")[1].split("\\.")[0];
+            else
+                eManager.currentMap.mapName = s.split("\\.")[0];
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] lineToks = line.split(" ");
+                String putTitle = lineToks[0];
+                String[] args = Arrays.copyOfRange(lineToks, 1, lineToks.length);
+                gDoablePropReturn propReturnFunction = eManager.currentMap.propLoadMap.get(putTitle);
+                gDoableThingReturn thingReturnFunction = eManager.currentMap.thingLoadMap.get(putTitle);
+                if(thingReturnFunction != null) {
+                    gThing thingToLoad = thingReturnFunction.getThing(args);
+                    thingToLoad.putInt("native", 1);
+                    thingReturnFunction.storeThing(thingToLoad, eManager.currentMap.scene);
+                }
+                else if(propReturnFunction != null) {
+                    gProp propToLoad = propReturnFunction.getProp(args);
+                    propToLoad.put("id", cScripts.createId());
+                    propToLoad.putInt("tag", eManager.currentMap.scene.getThingMap(putTitle).size());
+                    propToLoad.putInt("native", 1);
+                    propReturnFunction.storeProp(propToLoad, eManager.currentMap.scene);
+                }
+                else if(lineToks[0].toLowerCase().equals("cmd")) {
+                    if(lineToks.length > 1) {
+                        xCon.ex(line.replaceFirst("cmd ", ""));
+                        eManager.currentMap.execLines.add(line);
+                    }
+                }
+                else if (lineToks[0].toLowerCase().equals("tile")) {
+                    gTile tile = new gTile(
+                            Integer.parseInt(lineToks[4]),
+                            Integer.parseInt(lineToks[5]),
+                            Integer.parseInt(lineToks[6]),
+                            Integer.parseInt(lineToks[7]),
+                            Integer.parseInt(lineToks[8]),
+                            Integer.parseInt(lineToks[9]),
+                            Integer.parseInt(lineToks[10]),
+                            Integer.parseInt(lineToks[11]),
+                            Integer.parseInt(lineToks[12]),
+                            Integer.parseInt(lineToks[13]),
+                            Integer.parseInt(lineToks[14]),
+                            eUtils.getPath(lineToks[1]),
+                            eUtils.getPath(lineToks[2]),
+                            eUtils.getPath(lineToks[3]),
+                            Integer.parseInt(lineToks[15])
+                    );
+                    tile.putInt("id", eManager.currentMap.scene.tiles().size());
+                    eManager.currentMap.scene.tiles().add(tile);
+                }
+            }
+            eManager.currentMap.wasLoaded = 1;
+        }
+        catch (Exception e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
+        xCon.instance().debug("Loading time: " + (System.currentTimeMillis() - ct));
+    }
+
     public gMap(String s) {
 	    xCon.instance().debug("Loading Map: " + s);
         long ct = System.currentTimeMillis();
