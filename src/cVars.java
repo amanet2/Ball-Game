@@ -48,6 +48,7 @@ public class cVars {
         put("kingofflagstime", "0");
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
+        put("maploaded", "0");
         putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
         put("maxstockspeed", "1000");

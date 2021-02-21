@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class dFlares {
     public static void drawSceneFlares(Graphics2D g2){
-        if(eManager.currentMap.wasLoaded > 0) {
+        if(cVars.isOne("maploaded")) {
             ArrayList<gFlare> flareMap = eManager.currentMap.scene.flares();
             for(gFlare f : flareMap) {
                 drawFlare(g2, f);

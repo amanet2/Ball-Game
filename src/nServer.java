@@ -337,7 +337,7 @@ public class nServer extends Thread {
         //put all the new load lines here and test it out
         // /placeholder
         String joinString = String.format("echo %s joined the game", packName);
-        addNetCmd(joinString);
+        addNetCmd("cv_maploaded 1;"+joinString);
     }
 
     public static void handleClientMessage(String msg) {

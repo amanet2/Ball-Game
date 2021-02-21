@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 
 public class dProp {
     public static void drawProps(Graphics2D g2) {
-        if(eManager.currentMap.wasLoaded > 0) {
+        if(cVars.isOne("maploaded")) {
             for(gProp prop : eManager.currentMap.scene.props()) {
                 if (prop.sprite != null) {
                     if (prop.isInt("code", gProps.TELEPORTER)) {

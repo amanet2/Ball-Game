@@ -27,6 +27,7 @@ public class gMap {
         mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
+        cVars.put("maploaded", "0");
         propLoadMap = new HashMap<>();
         propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
         propLoadMap.put("PROP_BOOST", new gDoablePropReturnBoost());
@@ -67,6 +68,7 @@ public class gMap {
                 }
             }
             eManager.currentMap.wasLoaded = 1;
+            cVars.put("maploaded", "0");
         }
         catch (Exception e) {
             eUtils.echoException(e);
