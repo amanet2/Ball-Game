@@ -7,7 +7,6 @@ public class xComJoingame extends xCom {
             if(comps.length > 1)
                 sVars.put("joinport", comps[1]);
         }
-        xCon.ex("pause");
         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
         sSettings.net_client = true;
         sSettings.net_server = false;

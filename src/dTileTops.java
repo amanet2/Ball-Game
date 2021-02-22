@@ -76,10 +76,12 @@ public class dTileTops {
         for(String id : gScene.getPlayerIds()) {
             gPlayer e = gScene.getPlayerById(id);
 //            //player hat
-//            g2.drawImage(e.spriteHat,
-//                    eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
-//                    null);
+            if(e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
+                g2.drawImage(e.spriteHat,
+                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
+                        null);
+            }
             //forbidden sign for spawn protection
             if(nServer.clientArgsMap.containsKey(e.get("id"))
                     && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")

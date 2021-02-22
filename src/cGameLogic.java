@@ -251,7 +251,7 @@ public class cGameLogic {
     public static void checkHatStatus(){
         //player0
         gPlayer userPlayer = cGameLogic.userPlayer();
-        if(!userPlayer.isVal("pathspritehat", sVars.get("playerhat"))) {
+        if(!userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
             userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat"))));
         }
@@ -262,6 +262,7 @@ public class cGameLogic {
                 String chat = nServer.clientArgsMap.get(id).get("hat");
                 if(!p.get("pathspritehat").contains(chat)) {
                     p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
+                    p.put("hat", chat);
                 }
             }
         }

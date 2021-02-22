@@ -18,7 +18,7 @@ public class uiMenusNewGame extends uiMenu {
                 new uiMenuItem("-Start-"){
                     public void doItem() {
                         xCon.ex("newgame");
-                        xCon.ex("pause");
+//                        xCon.ex("pause");
                     }
                 },
                 new uiMenuItem("MAP [<random map>]"){
