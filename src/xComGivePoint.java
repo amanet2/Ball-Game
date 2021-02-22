@@ -32,8 +32,9 @@ public class xComGivePoint extends xCom {
                     Integer.toString(cGameMode.DEATHMATCH)
             };
             List<String> quietGameModesList = Arrays.asList(quietGameModesArray);
-            if(!quietGameModesList.contains(cVars.get("gamemode")))
-                xCon.ex("say " + gScene.getPlayerById(id).get("name") + " scored");
+            if(!quietGameModesList.contains(cVars.get("gamemode"))) {
+                nServer.addNetCmd("echo " + gScene.getPlayerById(id).get("name") + " scored");
+            }
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";

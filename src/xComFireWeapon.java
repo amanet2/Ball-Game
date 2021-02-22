@@ -8,7 +8,6 @@ public class xComFireWeapon extends xCom {
             if(player != null) {
                 gWeapons.fromCode(weapon).fireWeapon(player);
             }
-            System.out.println(id + " fired weapon " + weapon);
             return id + " fired weapon " + weapon;
         }
         return "usage: fireweapon <player_id> <weapon_code>";

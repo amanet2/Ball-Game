@@ -3,8 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210222
+* weapons.fromCode causes A LOT of frustrating exceptions.  fix it
+* give ability to manipulate for gets and checks like so: THING_PLAYER.<id>.<var> <value>
 20210221
-* fix hats
 * clients can't see bots (bad), but can get hit by them (that's very good)
 * client quitting while server is respawning breaks things
 20210220
