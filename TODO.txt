@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210222
+* save lines from server to a map file
+    -> changing map still uses the old "load this map" functionality instead of streaming
 * weapons.fromCode causes A LOT of frustrating exceptions.  fix it
 * give ability to manipulate for gets and checks like so: THING_PLAYER.<id>.<var> <value>
 20210221

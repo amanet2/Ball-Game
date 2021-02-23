@@ -295,11 +295,14 @@ public class dScreenMessages {
                 dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
+        //loading
+        if(cScripts.isNetworkGame() && eManager.currentMap != null && cVars.isZero("maploaded")) {
+                dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
+        }
         //timeleft
         if(cScripts.isNetworkGame()) {
             if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
-                dFonts.drawCenteredString(g,
-                        "-- changing map --", sSettings.width / 2, 9*sSettings.height/12);
+                dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
         //messages
