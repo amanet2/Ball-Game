@@ -18,6 +18,11 @@ public class nServer extends Thread {
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
     private static DatagramSocket serverSocket = null;    //socket object
+    //VERY IMPORTANT LIST. whats allowed to be done by the clients
+    private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
+            "e_putprop",
+            "fireweapon"
+    ));
 
     public static nServer instance() {
         if(instance == null)
@@ -329,12 +334,20 @@ public class nServer extends Thread {
 //                        player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
+        StringBuilder sendStringBuilder = new StringBuilder();
+        int linectr = 0;
         for(String line : eManager.currentMap.mapLines) {
-            addNetCmd(packId, line.replace("cmd ", ""));
+            sendStringBuilder.append(line.replace("cmd", "")).append(";");
+            linectr++;
+            if(linectr%cVars.getInt("serversendmapbatchsize") == 0
+                    || linectr == eManager.currentMap.mapLines.size()-1) {
+                String sendString = sendStringBuilder.toString();
+                addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
+                sendStringBuilder = new StringBuilder();
+            }
         }
-        addNetCmd(packId, "cv_maploaded 1;respawn");
         String joinString = String.format("echo %s joined the game", packName);
-        addNetCmd(joinString);
+        addNetCmd(packId, "cv_maploaded 1;respawn;" + joinString);
     }
 
     public static void handleClientMessage(String msg) {
@@ -344,12 +357,7 @@ public class nServer extends Thread {
         checkMessageForSpecialSound(testmsg);
         checkMessageForVoteToSkip(testmsg);
     }
-    //VERY IMPORTANT LIST. whats allowed to be done by the clients
-    private static final String[] legal_client_commands = new String[]{
-            "e_putprop",
-            "fireweapon"
-    };
-    private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(legal_client_commands));
+
     private static void handleClientCommand(String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {

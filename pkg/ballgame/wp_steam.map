@@ -10,7 +10,7 @@ puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bott
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -600 270 600 600 0 0 600 0 0 0 100 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -600 870 600 600 0 0 600 100 150 0 100 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3600 270 600 600 0 0 600 0 0 100 0 255
-puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3600 870 600 600 0 0 600 0 0 100 100 255
+puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3600 870 700 600 0 0 600 0 0 100 100 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3600 1470 600 1200 0 0 1200 100 150 100 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3000 1470 600 750 100 150 750 0 0 0 100 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3000 2520 600 150 0 0 550 0 0 100 100 255
@@ -23,7 +23,6 @@ puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bott
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg 270 -1230 1800 900 100 150 900 0 0 0 100 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3330 -1230 1800 900 100 150 900 0 0 100 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3600 -330 1200 600 0 0 600 0 0 100 0 255
-puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3100 1270 100 450 300 150 0 0 0 0 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1800 270 100 150 0 150 0 0 0 0 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1200 270 100 150 0 150 0 0 0 0 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3330 -330 100 150 0 150 0 0 0 0 0 255
@@ -78,7 +77,7 @@ puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -12000 4350 7500 6400 0 0 6400 0 0 0 0 200
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -12000 -2040 7500 6400 0 0 6400 0 0 0 0 200
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -12000 -8430 7500 6400 0 0 6400 0 0 0 0 200
-puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3090 750 700 600 450 150 0 0 0 0 0 255
+puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -3000 870 610 600 450 150 0 0 0 0 0 255
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -1140 2100 300 300 0 0 300 0 0 0 0 255
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -720 2100 300 300 0 0 300 0 0 0 0 255
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg -1140 2400 300 300 0 0 300 0 0 0 0 255

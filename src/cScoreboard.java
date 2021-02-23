@@ -69,8 +69,9 @@ public class cScoreboard {
                     }
                 }
             }
+            return scoresMap.get(id).get("score") > 0;
         }
-        return scoresMap.get(id).get("score") > 0;
+        return false;
     }
 
     public static String getTopScoreString() {

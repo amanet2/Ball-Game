@@ -64,6 +64,7 @@ public class cVars {
         put("scorelimit", sVars.get("scorelimit"));
         put("scoremap", "");
         put("sendpowerup", "");
+        put("serversendmapbatchsize", "4");
         put("serveraddbotstime", "0");
         put("showscore", "0");
         put("sicknessslow", "0");
