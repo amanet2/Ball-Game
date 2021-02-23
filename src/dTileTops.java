@@ -3,149 +3,146 @@ import java.util.HashMap;
 
 public class dTileTops {
     public static void drawTops(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        for(gTile t : eManager.currentMap.scene.tiles()) {
-            if(t.sprites[0] != null) {
-                g2.drawImage(t.sprites[0],
-                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        null
-                );
-            }
-            else {
-                g2.setColor(Color.LIGHT_GRAY);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dim0w")),
-                        eUtils.scaleInt(t.getInt("dim0h"))
-                );
-            }
-            if(t.sprites[3] != null) {
-                g2.drawImage(t.sprites[3],
-                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
-                        null);
-            }
-            else {
-                g2.setColor(Color.LIGHT_GRAY);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
-                        eUtils.scaleInt(t.getInt("dim3w")),
-                        eUtils.scaleInt(t.getInt("dim3h"))
-                );
-            }
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
-            g2.setColor(new Color(0, 0, 0, 255));
-            if(sVars.isOne("vfxenableshading")) {
-                dTileTopsShading.drawTileTopShadingPre(g2, t);
-            }
-            if(t.sprites[5] != null) {
-                g2.drawImage(t.sprites[5],
-                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                        null
-                );
-            }
-            else {
-                g2.setColor(Color.LIGHT_GRAY);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                        eUtils.scaleInt(t.getInt("dim5w")),
-                        eUtils.scaleInt(t.getInt("dim5h"))
-                );
-            }
-            int d6w = t.getInt("dim6w");
-            if(t.sprites[6] != null) {
-                if(d6w > -1)
-                    g2.drawImage(t.sprites[6],
-                        eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx") + t.getInt("dimw") - t.getInt("dim6w")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                        null
+        if (cVars.isOne("maploaded")) {
+            Graphics2D g2 = (Graphics2D) g;
+            for (gTile t : eManager.currentMap.scene.tiles()) {
+                if (t.sprites[0] != null) {
+                    g2.drawImage(t.sprites[0],
+                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                            null
                     );
+                } else {
+                    g2.setColor(Color.LIGHT_GRAY);
+                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(t.getInt("dim0w")),
+                            eUtils.scaleInt(t.getInt("dim0h"))
+                    );
+                }
+                if (t.sprites[3] != null) {
+                    g2.drawImage(t.sprites[3],
+                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
+                            null);
+                } else {
+                    g2.setColor(Color.LIGHT_GRAY);
+                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
+                            eUtils.scaleInt(t.getInt("dim3w")),
+                            eUtils.scaleInt(t.getInt("dim3h"))
+                    );
+                }
+                g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                g2.setColor(new Color(0, 0, 0, 255));
+                if (sVars.isOne("vfxenableshading")) {
+                    dTileTopsShading.drawTileTopShadingPre(g2, t);
+                }
+                if (t.sprites[5] != null) {
+                    g2.drawImage(t.sprites[5],
+                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                            null
+                    );
+                } else {
+                    g2.setColor(Color.LIGHT_GRAY);
+                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                            eUtils.scaleInt(t.getInt("dim5w")),
+                            eUtils.scaleInt(t.getInt("dim5h"))
+                    );
+                }
+                int d6w = t.getInt("dim6w");
+                if (t.sprites[6] != null) {
+                    if (d6w > -1)
+                        g2.drawImage(t.sprites[6],
+                                eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx") + t.getInt("dimw") - t.getInt("dim6w")),
+                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
+                                null
+                        );
+                } else {
+                    dTileTopsCorners.drawTileCorners(g2, t);
+                }
+                if (sVars.isOne("vfxenableshading")) {
+                    dTileTopsShading.drawTileTopShadingPost(g2, t);
+                }
             }
-            else {
-                dTileTopsCorners.drawTileCorners(g2, t);
-            }
-            if(sVars.isOne("vfxenableshading")) {
-                dTileTopsShading.drawTileTopShadingPost(g2, t);
-            }
-        }
-        /*
-        * players extra stuff
-        * */
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer e = gScene.getPlayerById(id);
+            /*
+             * players extra stuff
+             * */
+            for (String id : gScene.getPlayerIds()) {
+                gPlayer e = gScene.getPlayerById(id);
 //            //player hat
-            if(e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
-                g2.drawImage(e.spriteHat,
-                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
-                        null);
+                if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
+                    g2.drawImage(e.spriteHat,
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
+                            null);
+                }
+                //forbidden sign for spawn protection
+                if (nServer.clientArgsMap.containsKey(e.get("id"))
+                        && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
+                        && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
+                    g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150),
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
+                            null);
+                }
             }
-            //forbidden sign for spawn protection
-            if(nServer.clientArgsMap.containsKey(e.get("id"))
-                    && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
-                    && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
-                g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150,150),
-                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-                        null);
+            //flashlight overlay
+            if (cVars.isOne("flashlight")) {
+                int maxd = 900;
+                int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
+                int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
+                int cx = eUtils.unscaleInt(cVars.getInt("camx"));
+                int cy = eUtils.unscaleInt(cVars.getInt("camy"));
+                int snapX = aimerx + cx;
+                int snapY = aimery + cy;
+                snapX -= eUtils.unscaleInt(cVars.getInt("camx"));
+                snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
+                snapX = eUtils.scaleInt(snapX);
+                snapY = eUtils.scaleInt(snapY);
+                for (gTile t : eManager.currentMap.scene.tiles()) {
+                    RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY),
+                            eUtils.scaleInt(maxd / 2), new float[]{0f, 1f},
+                            new Color[]{new Color(0, 0, 0, 0), new Color(0, 0, 0, 255 - t.getInt("brightness"))}
+                    );
+                    g2.setPaint(df);
+                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh")));
+                }
+            } else {
+                for (gTile t : eManager.currentMap.scene.tiles()) {
+                    g2.setColor(new Color(0, 0, 0, 255 - t.getInt("brightness")));
+                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh"))
+                    );
+                }
             }
-        }
-        //flashlight overlay
-        if(cVars.isOne("flashlight")) {
-            int maxd = 900;
-            int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
-            int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
-            int cx = eUtils.unscaleInt(cVars.getInt("camx"));
-            int cy = eUtils.unscaleInt(cVars.getInt("camy"));
-            int snapX = aimerx + cx;
-            int snapY = aimery + cy;
-            snapX -= eUtils.unscaleInt(cVars.getInt("camx"));
-            snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
-            snapX = eUtils.scaleInt(snapX);
-            snapY = eUtils.scaleInt(snapY);
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY),
-                        eUtils.scaleInt(maxd/2), new float[]{0f, 1f},
-                        new Color[]{new Color(0,0,0,0), new Color(0,0,0,255-t.getInt("brightness"))}
-                );
-                g2.setPaint(df);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx")-cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy")-cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh")));
+            //flares
+            dFlares.drawSceneFlares(g2);
+            //bullets
+            HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+            for (Object id : bulletsMap.keySet()) {
+                gBullet t = (gBullet) bulletsMap.get(id);
+                g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")), null);
             }
+            //animations
+            dAnimations.drawAnimations(g2);
+            //mapmaker indicators
+            dMapmakerOverlay.drawSelectionBoxes(g2);
+            //safezone pointer
+            dWaypoints.drawWaypoints(g2);
+            //popups
+            drawPopups(g);
+            //player highlight
+            drawUserPlayerArrow(g2);
+            //playernames
+            drawPlayerNames(g, g2);
         }
-        else {
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                g2.setColor(new Color(0,0,0,255-t.getInt("brightness")));
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh"))
-                );
-            }
-        }
-        //flares
-        dFlares.drawSceneFlares(g2);
-        //bullets
-        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
-            gBullet t = (gBullet) bulletsMap.get(id);
-            g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")), null);
-        }
-        //animations
-        dAnimations.drawAnimations(g2);
-        //mapmaker indicators
-        dMapmakerOverlay.drawSelectionBoxes(g2);
-        //safezone pointer
-        dWaypoints.drawWaypoints(g2);
-        //popups
-        drawPopups(g);
-        //player highlight
-        drawUserPlayerArrow(g2);
-        //playernames
-        drawPlayerNames(g, g2);
     }
 
 
