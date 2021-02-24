@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class gPropScorepoint extends gProp {
-    HashMap<String, gDoableThing> gameModeEffects;
+    private HashMap<String, gDoableThing> gameModeEffects;
 
     public void propEffect(gPlayer p) {
         gDoableThing doable = gameModeEffects.get(cVars.get("gamemode"));
@@ -11,7 +11,22 @@ public class gPropScorepoint extends gProp {
 
     public gPropScorepoint(int ux, int uy, int x, int y, int w, int h) {
         super(gProps.SCOREPOINT, ux, uy, x, y, w, h);
+        put("waypointcapdelay", "500");
+        put("waypointcaptime", "0");
         gameModeEffects = new HashMap<>();
+        gameModeEffects.put(Integer.toString(cGameMode.WAYPOINTS), new gDoableThing() {
+            public void doItem(gThing p) {
+                long currentTime = System.currentTimeMillis();
+                if(getInt("int0") > 0) {
+                    put("int0", "0");
+                    if(sSettings.net_server && currentTime > getLong("waypointcaptime")) {
+                        putLong("waypointcaptime", currentTime + getInt("waypointcapdelay"));
+                        xCon.ex("givepoint " + p.get("id"));
+                        cGameMode.refreshWaypoints();
+                    }
+                }
+            }
+        });
         gameModeEffects.put(Integer.toString(cGameMode.RACE), new gDoableThing() {
             public void doItem(gThing p) {
                 HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
@@ -53,20 +68,6 @@ public class gPropScorepoint extends gProp {
                             }
                             cScripts.createScorePopup((gPlayer) p, 1);
                         }
-                    }
-                }
-            }
-        });
-        gameModeEffects.put(Integer.toString(cGameMode.WAYPOINTS), new gDoableThing() {
-            public void doItem(gThing p) {
-                if(getInt("int0") > 0) {
-                    put("int0", "0");
-                    if(sSettings.net_server) {
-                        xCon.ex("givepoint " + p.get("id"));
-                        cGameMode.checkWaypoints();
-                    }
-                    else {
-                        cScripts.createScorePopup((gPlayer) p,1);
                     }
                 }
             }

@@ -72,23 +72,8 @@ public class cGameMode {
         }
     }
 
-    public static void checkWaypoints() {
-        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        if(scorepoints.size() > 0) {
-            boolean noneActive = true;
-            for(Object id : scorepoints.keySet()) {
-                gProp scorepoint = (gProp) scorepoints.get(id);
-                if(scorepoint.getInt("int0") > 0) {
-                    noneActive = false;
-                    break;
-                }
-            }
-            if(noneActive)
-                refreshWaypoints();
-        }
-    }
-
     public static void refreshWaypoints() {
+        System.out.println("ASDF");
         String[] propids = new String[]{};
         HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         for(Object id : scorepoints.keySet()) {
@@ -98,7 +83,8 @@ public class cGameMode {
             tmp[tmp.length-1] = (String) id;
             propids = tmp;
         }
-        int rando = (int)(Math.random()*(double)(propids.length));
+        int rando = (int)(Math.random()*scorepoints.size());
+        System.out.println(rando + " " + propids[rando]);
         gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
         nextactivescorepoint.put("int0", "1");
     }

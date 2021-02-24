@@ -153,65 +153,65 @@ public class cScripts {
         }
     }
 
-    public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
-        HashMap<String, gThing> scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        //nonlinear race
-        if(cVars.getInt("gamemode") == cGameMode.RACE) {
-            if(sSettings.net_server && pla.get("id").contains("bot")) {
-                if(!scorepoint.get("racebotidcheckins").contains(pla.get("id"))) {
-                    scorepoint.put("racebotidcheckins", scorepoint.get("racebotidcheckins")+(pla.get("id")+":"));
-                }
-                int gonnaWin = 1;
-                for(String id : scorepointsMap.keySet()) {
-                    gProp p = (gProp) scorepointsMap.get(id);
-                    if(!p.get("racebotidcheckins").contains(pla.get("id"))) {
-                        gonnaWin = 0;
-                        break;
-                    }
-                }
-                if(gonnaWin > 0) {
-                    xCon.ex("givepoint "+pla.get("id"));
-                    for(String id : scorepointsMap.keySet()) {
-                        gProp p = (gProp) scorepointsMap.get(id);
-                        p.put("racebotidcheckins",
-                                p.get("racebotidcheckins").replace(pla.get("id")+":", ""));
-                    }
-                }
-            }
-            else {
-                if (scorepoint.isZero("int0")) {
-                    scorepoint.putInt("int0", 1);
-                    int gonnaWin = 1;
-                    for(String id : scorepointsMap.keySet()) {
-                        gProp scorepointa = (gProp) scorepointsMap.get(id);
-                        if (scorepointa.isZero("int0")) {
-                            gonnaWin = 0;
-                        }
-                    }
-                    if (gonnaWin > 0) {
-                        for(String id : scorepointsMap.keySet()) {
-                            gProp scorepointa = (gProp) scorepointsMap.get(id);
-                            scorepointa.put("int0", "0");
-                        }
-                        if (sSettings.net_server)
-                            xCon.ex("givepoint " + pla.get("id"));
-                        createScorePopup(pla, 1);
-                    }
-                }
-            }
-        }
-        // waypoints
-        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            if(scorepoint.getInt("int0") > 0) {
-                scorepoint.put("int0", "0");
-                createScorePopup(pla,1);
-                if(sSettings.net_server) {
-                    xCon.ex("givepoint " + pla.get("id"));
-                    cGameMode.checkWaypoints();
-                }
-            }
-        }
-    }
+//    public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
+//        HashMap<String, gThing> scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+//        //nonlinear race
+//        if(cVars.getInt("gamemode") == cGameMode.RACE) {
+//            if(sSettings.net_server && pla.get("id").contains("bot")) {
+//                if(!scorepoint.get("racebotidcheckins").contains(pla.get("id"))) {
+//                    scorepoint.put("racebotidcheckins", scorepoint.get("racebotidcheckins")+(pla.get("id")+":"));
+//                }
+//                int gonnaWin = 1;
+//                for(String id : scorepointsMap.keySet()) {
+//                    gProp p = (gProp) scorepointsMap.get(id);
+//                    if(!p.get("racebotidcheckins").contains(pla.get("id"))) {
+//                        gonnaWin = 0;
+//                        break;
+//                    }
+//                }
+//                if(gonnaWin > 0) {
+//                    xCon.ex("givepoint "+pla.get("id"));
+//                    for(String id : scorepointsMap.keySet()) {
+//                        gProp p = (gProp) scorepointsMap.get(id);
+//                        p.put("racebotidcheckins",
+//                                p.get("racebotidcheckins").replace(pla.get("id")+":", ""));
+//                    }
+//                }
+//            }
+//            else {
+//                if (scorepoint.isZero("int0")) {
+//                    scorepoint.putInt("int0", 1);
+//                    int gonnaWin = 1;
+//                    for(String id : scorepointsMap.keySet()) {
+//                        gProp scorepointa = (gProp) scorepointsMap.get(id);
+//                        if (scorepointa.isZero("int0")) {
+//                            gonnaWin = 0;
+//                        }
+//                    }
+//                    if (gonnaWin > 0) {
+//                        for(String id : scorepointsMap.keySet()) {
+//                            gProp scorepointa = (gProp) scorepointsMap.get(id);
+//                            scorepointa.put("int0", "0");
+//                        }
+//                        if (sSettings.net_server)
+//                            xCon.ex("givepoint " + pla.get("id"));
+//                        createScorePopup(pla, 1);
+//                    }
+//                }
+//            }
+//        }
+//        // waypoints
+//        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
+//            if(scorepoint.getInt("int0") > 0) {
+//                scorepoint.put("int0", "0");
+//                createScorePopup(pla,1);
+//                if(sSettings.net_server) {
+//                    xCon.ex("givepoint " + pla.get("id"));
+//                    cGameMode.checkWaypoints();
+//                }
+//            }
+//        }
+//    }
 
     public static void processOptionText(String optionTitle, String enteredText) {
         if("New Name".contains(optionTitle)) {

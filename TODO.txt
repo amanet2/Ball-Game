@@ -3,8 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210223
+* have cmd "setpause" where do pauses, and undo unpauses
+    -> use for finer control of loading, spawning, etc
 20210222
-* enable sending multiple lines of mapfile at a time
 * save lines from server to a map file
     -> changing map still uses the old "load this map" functionality instead of streaming
 * weapons.fromCode causes A LOT of frustrating exceptions.  fix it
