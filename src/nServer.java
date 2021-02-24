@@ -233,18 +233,11 @@ public class nServer extends Thread {
     public static void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
-            //track whether this client's id is already loaded into netargs map
-            //the actual stringified payload from client
             String argload = toks[0];
-            //create score and packet maps
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
             HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
-            //get id from packet
             String packId = packArgMap.get("id");
-            //get name from packet
             String packName = packArgMap.get("name");
-            //dont proceed if id is null it means packet might be bad
-//            if(packId == null || banIds.containsKey(packId))
             if(packId == null)
                 return;
             //insert new ids into the greater maps
@@ -259,7 +252,6 @@ public class nServer extends Thread {
 //                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = nServer.clientArgsMap.get(packId);
-            //get old args for comparisons
             String oldName = "";
             long oldTimestamp = 0;
             if(oldArgMap != null) {

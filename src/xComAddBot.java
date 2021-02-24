@@ -20,7 +20,9 @@ public class xComAddBot extends xCom {
         eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
         nVarsBot.update(p);
         nServer.clientArgsMap.put(p.get("id"), nVarsBot.copyArgsForId(p.get("id")));
+        nServer.clientIds.add(p.get("id"));
         cScoreboard.addId(p.get("id"));
+        nServer.addNetCmd("echo " + botname + " joined the game");
         xCon.ex("botrespawn " + p.getInt("bottag"));
         return "spawned bot";
     }

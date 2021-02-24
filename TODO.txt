@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210223
+* bots broken
+    -> need to be in nServer.clientIds (as seen in master branch)
 * new ctf, bring the white flag to the scorepoint
     -> spawn several white flags that are on/off like powerups depending on # players
 * fix bots
