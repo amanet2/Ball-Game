@@ -241,24 +241,6 @@ public class cScripts {
         }
     }
 
-    public static void refillWeaponStocks() {
-        cVars.putInt("weaponstock0", gWeapons.get(gWeapons.type.NONE).maxAmmo);
-        cVars.putInt("weaponstock1", gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
-        cVars.putInt("weaponstock2", gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
-        cVars.putInt("weaponstock3", gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
-        cVars.putInt("weaponstock4", gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
-        cVars.putInt("weaponstock5", gWeapons.get(gWeapons.type.GLOVES).maxAmmo);
-    }
-
-    public static void clearWeaponStocks() {
-        cVars.put("weaponstock0", "0");
-        cVars.put("weaponstock1", "0");
-        cVars.put("weaponstock2", "0");
-        cVars.put("weaponstock3", "0");
-        cVars.put("weaponstock4", "0");
-        cVars.put("weaponstock5", "0");
-    }
-
     public static void checkBulletSplashes() {
         ArrayList bulletsToRemoveIds = new ArrayList<>();
         ArrayList<String> animationIdsToRemove = new ArrayList<>();

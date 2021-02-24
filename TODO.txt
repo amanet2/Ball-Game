@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210223
+* fix bots
 * weapons breaking everything
+->cScripts.245
     -> dHud.62
 * have cmd "setpause" where do pauses, and undo unpauses
     -> use for finer control of loading, spawning, etc

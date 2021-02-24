@@ -55,28 +55,29 @@ public class dHUD {
                     sSettings.height/64);
         }
         //ammo
-        g.setColor(new Color(0,0,0,255));
-        g.fillRect(sSettings.width/64,60*sSettings.height/64, sSettings.width/3,
-                sSettings.height/64);
-        g.setColor(new Color(30,50,220,255));
-        if(gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo > 0)
-            g.fillRect(sSettings.width/64,60*sSettings.height/64,
-                    sSettings.width/3*cVars.getInt("weaponstock"+userPlayer.get("weapon"))
-                            /gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo,
-                    sSettings.height/64);
+        if(userPlayer.get("weapon") != null && gWeapons.fromCode(userPlayer.getInt("weapon")) != null) {
+            g.setColor(new Color(0, 0, 0, 255));
+            g.fillRect(sSettings.width / 64, 60 * sSettings.height / 64, sSettings.width / 3,
+                    sSettings.height / 64);
+            g.setColor(new Color(30, 50, 220, 255));
+            if (gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo > 0)
+                g.fillRect(sSettings.width / 64, 60 * sSettings.height / 64,
+                        sSettings.width / 3 * cVars.getInt("weaponstock" + userPlayer.get("weapon"))
+                                / gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo,
+                        sSettings.height / 64);
 //        }
-        g2.setColor(Color.BLACK);
-        for(int j = 0; j < gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo;j++) {
-            g2.drawRect(
-                    sSettings.width/64
-                            + (j*((sSettings.width/3)/gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo)),
-                    60*sSettings.height/64,
-                    ((sSettings.width/3)/gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo),
-                    sSettings.height/64);
+            g2.setColor(Color.BLACK);
+            for (int j = 0; j < gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo; j++) {
+                g2.drawRect(sSettings.width / 64
+                                + (j * ((sSettings.width / 3) / gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo)),
+                        60 * sSettings.height / 64,
+                        ((sSettings.width / 3) / gWeapons.fromCode(userPlayer.getInt("weapon")).maxAmmo),
+                        sSettings.height / 64);
+            }
+            g.setColor(new Color(0, 0, 150, 255));
+            g.drawRect(sSettings.width / 64, 60 * sSettings.height / 64, sSettings.width / 3,
+                    sSettings.height / 64);
         }
-        g.setColor(new Color(0,0,150,255));
-        g.drawRect(sSettings.width/64,60*sSettings.height/64,sSettings.width/3,
-                sSettings.height/64);
         //sprint
         g.setColor(new Color(0,0,0,255));
         g.fillRect(sSettings.width/64,62*sSettings.height/64,sSettings.width/3,
