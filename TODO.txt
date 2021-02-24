@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210223
+* weapons breaking everything
+    -> dHud.62
 * have cmd "setpause" where do pauses, and undo unpauses
     -> use for finer control of loading, spawning, etc
 20210222

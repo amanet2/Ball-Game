@@ -73,17 +73,15 @@ public class cGameMode {
     }
 
     public static void refreshWaypoints() {
-        String[] propids = new String[]{};
         HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+        String[] propids = new String[scorepoints.size()];
+        int i = 0;
         for(Object id : scorepoints.keySet()) {
             gProp scorepoint = (gProp) scorepoints.get(id);
             scorepoint.put("int0", "0");
-            String[] tmp = Arrays.copyOf(propids, propids.length+1);
-            tmp[tmp.length-1] = (String) id;
-            propids = tmp;
+            propids[i++] = (String) id;
         }
-        int rando = (int)(Math.random()*scorepoints.size());
-        System.out.println(rando + " " + propids[rando]);
+        int rando = (int)(Math.random()*(propids.length-1));
         gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
         nextactivescorepoint.put("int0", "1");
     }

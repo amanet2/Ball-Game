@@ -17,13 +17,10 @@ public class gPropScorepoint extends gProp {
         gameModeEffects.put(Integer.toString(cGameMode.WAYPOINTS), new gDoableThing() {
             public void doItem(gThing p) {
                 long currentTime = System.currentTimeMillis();
-                if(getInt("int0") > 0) {
-                    put("int0", "0");
-                    if(sSettings.net_server && currentTime > getLong("waypointcaptime")) {
-                        putLong("waypointcaptime", currentTime + getInt("waypointcapdelay"));
-                        xCon.ex("givepoint " + p.get("id"));
-                        cGameMode.refreshWaypoints();
-                    }
+                if(sSettings.net_server && getInt("int0") > 0 && currentTime > getLong("waypointcaptime")) {
+                    putLong("waypointcaptime", currentTime + getInt("waypointcapdelay"));
+                    cGameMode.refreshWaypoints();
+                    xCon.ex("givepoint " + p.get("id"));
                 }
             }
         });
