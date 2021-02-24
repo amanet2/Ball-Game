@@ -408,9 +408,6 @@ public class cGameLogic {
                 case cGameMode.KING_OF_FLAGS:
                     cGameMode.checkKingOfFlags();
                     break;
-//                case cGameMode.WAYPOINTS:
-//                    cGameMode.checkWaypoints();
-//                    break;
                 case cGameMode.VIRUS:
                     cGameMode.checkVirus();
                     break;

@@ -73,7 +73,6 @@ public class cGameMode {
     }
 
     public static void refreshWaypoints() {
-        System.out.println("ASDF");
         String[] propids = new String[]{};
         HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
         for(Object id : scorepoints.keySet()) {

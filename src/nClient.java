@@ -186,10 +186,9 @@ public class nClient extends Thread {
                     String[] args = packArgs.get("state").split("-");
                     for(Object id : scorepointsMap.keySet()) {
                         gProp pr = (gProp) scorepointsMap.get(id);
-                        if(pr.isVal("tag", args[1]) && pr.getInt("int0") != 1)
+                        pr.put("int0", "0");
+                        if(pr.isVal("tag", args[1]))
                             pr.put("int0", "1");
-                        else if(pr.getInt("int0") != 0)
-                            pr.put("int0", "0");
                     }
                 }
                 if(packArgs.get("state").contains("kingofflags")) {
