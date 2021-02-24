@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210223
+* new ctf, bring the white flag to the scorepoint
+    -> spawn several white flags that are on/off like powerups depending on # players
 * fix bots
 * weapons breaking everything
 ->cScripts.245

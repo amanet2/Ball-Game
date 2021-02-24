@@ -3,7 +3,6 @@ public class uiInterface {
 	static long gameTime = System.currentTimeMillis();
 	static long gameTimeNanos = System.nanoTime();
 	static long tickCounterTime = gameTime;
-	static long tickTime = gameTime;
 	static long tickTimeNanos = gameTimeNanos;
 	static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;

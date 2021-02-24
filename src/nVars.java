@@ -63,7 +63,6 @@ public class nVars {
         }
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
             String cmdString = nClient.netSendCmds.peek();
-//            xCon.ex(cmdString);
             keys.put("cmd", cmdString);
             nClient.netSendCmds.remove();
         }

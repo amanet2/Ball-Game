@@ -104,7 +104,6 @@ public class nServer extends Thread {
                             + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
                     addNetCmd(clientId, "disconnect");
                 }
-//                if(clientId != null && !banIds.containsKey(clientId)) {
                 if(clientId != null) {
                     nSend.focus_id = clientId;
                     //create response
@@ -113,7 +112,7 @@ public class nServer extends Thread {
                     DatagramPacket sendPacket =
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER SND [" + sendDataString.length() + "]: " + sendDataString);
+                    xCon.instance().debug("SERVER SEND [" + sendDataString.length() + "]: " + sendDataString);
                 }
                 receivedPackets.remove();
             }
