@@ -1,6 +1,7 @@
 cv_mapview 1
 cv_gamemode 0
 cv_botbehavior
+playsound sounds/bio_unit_steppe.mp3 -1
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/wood/more_rough_wood_6.jpg 900 -600 600 600 0 0 0 0 0 0 600 150
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg -300 -1200 600 600 0 0 600 0 0 0 0 255
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png objects/floor/dungeons_and_flagons3.jpg 300 -1200 600 600 0 0 600 0 0 0 0 255
