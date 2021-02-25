@@ -3,8 +3,16 @@ public class xComGoBackUI extends xCom {
         if(uiInterface.inplay)
             xCon.ex("pause");
         else {
-            if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0)
-                xCon.ex("pause");
+            if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
+                if(eManager.currentMap.mapName.contains(
+                        sVars.get("defaultmap").replaceFirst(".map",""))) {
+                    //in main menu do this
+                uiMenus.selectedMenu = uiMenus.MENU_QUIT;
+                xCon.ex("playsound sounds/splash.wav");
+                }
+                else
+                    xCon.ex("pause"); //sidescroller easter egg
+            }
             else {
                 uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                 xCon.ex("playsound sounds/splash.wav");

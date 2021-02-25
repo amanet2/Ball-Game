@@ -22,6 +22,11 @@ public class uiMenusHome extends uiMenu {
                         uiMenus.selectedMenu = (uiMenus.MENU_CREDITS);
                     }
                 },
+                new uiMenuItem("Disconnect") {
+                    public void doItem(){
+                        xCon.ex("disconnect");
+                    }
+                },
                 new uiMenuItem("Quit") {
                     public void doItem(){
                         uiMenus.selectedMenu = (uiMenus.MENU_QUIT);

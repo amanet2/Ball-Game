@@ -8,7 +8,7 @@
     -> when game over, stop music and player the winclip as usual
 * bots dont die
 * make the game exit normally when pressing esc on the main menu
-    -> find another way to activate "the mainmenu easter egg"
+    -> activate "main menu easter egg" by typing "pause" in console
 20210223
 * bots broken
     -> need to be in nServer.clientIds (as seen in master branch)
