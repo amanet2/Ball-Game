@@ -4,10 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210224
-* add music to the game while in session
-    -> when game over, stop music and player the winclip as usual
 * bots dont die
-* make the game exit normally when pressing esc on the main menu
+X add music to the game while in session
+X make the game exit normally when pressing esc on the main menu
     -> activate "main menu easter egg" by typing "pause" in console
 20210223
 * bots broken

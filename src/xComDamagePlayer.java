@@ -33,10 +33,16 @@ public class xComDamagePlayer extends xCom {
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                         //be sure not to send too much in one go, net comms
                         nServer.addNetCmd(animString);
-                        nServer.addNetCmd(id, "dropweapon");
-                        nServer.addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
-                                "cv_cammov2 0;cv_cammov3 0");
-                        nServer.addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+                        if(!id.contains("bot")) {
+                            nServer.addNetCmd(id, "dropweapon");
+                            nServer.addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
+                                    "cv_cammov2 0;cv_cammov3 0");
+                            nServer.addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+                        }
+                        else {
+                            player.putInt("coordx", -10000);
+                            player.putInt("coordy", -10000);
+                        }
                     }
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());

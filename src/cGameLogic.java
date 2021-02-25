@@ -317,7 +317,10 @@ public class cGameLogic {
             //server-side respawn code to be enabled after refactoring completed
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                nServer.addNetCmd("respawnplayer " + p.get("id"));
+                if(p.isBot())
+                    xCon.ex("botrespawn " + p.getInt("bottag"));
+                else
+                    nServer.addNetCmd("respawnplayer " + p.get("id"));
             }
             if(p.contains("spawnprotectiontime")
                     && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
@@ -325,9 +328,6 @@ public class cGameLogic {
             }
             if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                if(p.isBot())
-                    xCon.ex("botrespawn " + p.get("bottag"));
-                else
                     p.remove("respawntime");
             }
             if(p.contains("spawnprotectiontime")
