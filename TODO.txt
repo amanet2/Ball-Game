@@ -3,6 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210225
+* new ctf
+    -> if flag doesn't have <playerid> in its str0, then mark it as pickup
+    -> if carrier killed, str0 is set to "" and put into the netherworld
 20210224
 * bots dont die
 X add music to the game while in session

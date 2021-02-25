@@ -77,6 +77,14 @@ public class dWaypoints {
         if(uiInterface.inplay) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.CAPTURE_THE_FLAG:
+                    HashMap unheldflagsmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+                    for(Object id : unheldflagsmap.keySet()) {
+                        gPropFlagRed flag = (gPropFlagRed) unheldflagsmap.get(id);
+                        if(!flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
+                            dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
+                                flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
+                    }
+                    break;
                 case cGameMode.FLAG_MASTER:
                     if(!cVars.isVal("flagmasterid", "")) {
                         if(!cVars.get("flagmasterid").equals(uiInterface.uuid)) {

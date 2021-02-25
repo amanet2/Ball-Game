@@ -9,6 +9,15 @@ public class gPropFlagRed extends gProp {
             doable.doItem(p);
     }
 
+    gDoableThing ctfDoable = new gDoableThing() {
+        public void doItem(gThing p) {
+            if(sSettings.net_server && !get("str0").equalsIgnoreCase(p.get("id"))) {
+                put("str0", p.get("id"));
+                nServer.addNetCmd("echo " + p.get("name") + " has the flag!");
+            }
+        }
+    };
+
     gDoableThing flagMasterDoable = new gDoableThing() {
         public void doItem(gThing p) {
             if(sSettings.net_server) {
@@ -52,7 +61,7 @@ public class gPropFlagRed extends gProp {
     public gPropFlagRed(int ux, int uy, int x, int y, int w, int h) {
         super(gProps.FLAGRED, ux, uy, x, y, w, h);
         gameModeEffects = new HashMap<>();
-        gameModeEffects.put(Integer.toString(cGameMode.CAPTURE_THE_FLAG), flagMasterDoable);
+        gameModeEffects.put(Integer.toString(cGameMode.CAPTURE_THE_FLAG), ctfDoable);
         gameModeEffects.put(Integer.toString(cGameMode.FLAG_MASTER), flagMasterDoable);
         gameModeEffects.put(Integer.toString(cGameMode.KING_OF_FLAGS), kingOfFlagsDoable);
     }

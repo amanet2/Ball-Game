@@ -1,6 +1,6 @@
-cmd cv_mapview 0
-cmd cv_gamemode 3
-cmd cv_botbehavior ctf
+cv_mapview 0
+cv_gamemode 3
+cv_botbehavior ctf
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2400 -300 2400 2400 0 0 0 150 150 150 150 200 0
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg -2400 -2700 2400 2400 150 150 0 0 0 150 0 200 0
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock3_bottom.png objects/wood/more_rough_wood_6.jpg 0 -2700 2400 2400 0 0 0 150 150 0 150 200 0

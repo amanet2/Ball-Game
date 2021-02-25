@@ -31,8 +31,8 @@ public class cBotsLogic {
         });
         behaviors.put("ctf", new gDoableThing(){
             public void doItem(gThing p) {
-                if(cVars.isVal("flagmasterid", p.get("id")))
-                    cBotsLogic.goToFirstThing(p, "PROP_FLAGBLUE");
+                if(!cVars.isVal("flagmasterid", p.get("id")))
+                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
