@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -191,31 +192,34 @@ public class nServer extends Thread {
     }
 
     public void run() {
-        while(true) {
-            try {
-                netticks++;
-                if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                    uiInterface.netReport = netticks;
-                    netticks = 0;
-                    uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+        try {
+            uiInterface.uuid = "server";
+            serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+//            serverSocket.setSoTimeout(sVars.getInt("timeout"));
+            while (true) {
+                try {
+                    netticks++;
+                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
+                        uiInterface.netReport = netticks;
+                        netticks = 0;
+                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+                    }
+                    byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
+                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                    serverSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                    uiInterface.networkTime = System.currentTimeMillis()
+                            + (long) (1000.0 / (double) sVars.getInt("rateserver"));
+                    sleep(Math.max(0, uiInterface.networkTime - uiInterface.gameTime));
+                } catch (Exception e) {
+                    eUtils.echoException(e);
+                    e.printStackTrace();
                 }
-                byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                if(serverSocket == null || serverSocket.isClosed()) {
-                    uiInterface.uuid = "server";
-                    serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-                    serverSocket.setSoTimeout(sVars.getInt("timeout"));
-                }
-                serverSocket.receive(receivePacket);
-                receivedPackets.add(receivePacket);
-                uiInterface.networkTime = System.currentTimeMillis()
-                        + (long)(1000.0/(double)sVars.getInt("rateserver"));
-                sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
             }
-            catch (Exception e) {
-                eUtils.echoException(e);
-                e.printStackTrace();
-            }
+        }
+        catch (IOException ee) {
+            eUtils.echoException(ee);
+            ee.printStackTrace();
         }
     }
 
