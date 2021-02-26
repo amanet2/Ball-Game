@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210226
+* add removebot function
 * make sure ammo count btwn client and server are managed
     -> client ammo count goes down client side, but sync ammo count on nettick based on msg/cmd from server
 20210225
