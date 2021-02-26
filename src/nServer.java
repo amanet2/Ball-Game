@@ -17,7 +17,6 @@ public class nServer extends Thread {
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
     private static DatagramSocket serverListeningSocket = null;    //socket object
-//    private static ServerSocket serverListeningSocket = null;    //socket object
     private ArrayList<Socket> clientSockets = new ArrayList<>(); //one for each connected client
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
@@ -192,18 +191,6 @@ public class nServer extends Thread {
     }
 
     public void run() {
-//        try {
-//            serverListeningSocket = new ServerSocket(sVars.getInt("joinport"));
-//            while(true) {
-//                Socket clientSocket = serverListeningSocket.accept();
-//                System.out.println("ASDFASDF");
-//                Thread socketListenThread = new Thread(new nServerHandler(clientSocket));
-//                socketListenThread.start();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         try {
             uiInterface.uuid = "server";
             serverListeningSocket = new DatagramSocket(sVars.getInt("joinport"));
