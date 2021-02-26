@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210225
+* handle firing on client side for client user only, everyone else gets server msg and server handles score/kill still
 * add way for server to "quit" back to main menu and drop net resources
+    -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage
 * new ctf
     -> if flag doesn't have <playerid> in its str0, then mark it as pickup
     -> if carrier killed, str0 is set to "" and put into the netherworld
@@ -88,7 +90,7 @@ call the "damageplayer" console function
 * bot respawning is messed up bad but doesnt crash
 * setting "gravity" to 0 needs to work as expected
 * use "alive" server flag over net
-    -> if client sees that they're not supposed to be "alive" they go invisible and camera remains free mode at last coords
+    -> if client sees that they're not supposed to be "alive" they go invisible and noclip
 * console command for spawn animation as well
 * refactor cvars.respawntime into player
     -> also spawnprotectiontime
@@ -222,7 +224,6 @@ call the "damageplayer" console function
         -> due to timezones, system clock etc
     -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
 * bots wont go for flag in kof if another bot owns that flag
-* I think the first sent packet from the client has a chance of sending garbage for velocities and movedirs b/c a player isnt spawned yet
 * only draw gfx that will be seen
 * sounds are dragging down performance
     -> was better when javafx wasnt working

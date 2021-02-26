@@ -35,6 +35,15 @@ public class nServer extends Thread {
         netticks = 0;
     }
 
+    public static void addExcludingNetCmd(String excludedids, String cmd) {
+        //excludedids is comma-separated string of ids
+        for(String id : clientNetCmdMap.keySet()) {
+            if(!excludedids.contains(id)) {
+                addNetCmd(id, cmd);
+            }
+        }
+    }
+
     public static void addNetCmd(String id, String cmd) {
         System.out.println("ID_"+id+" "+cmd);
         if(id.equalsIgnoreCase("server"))
