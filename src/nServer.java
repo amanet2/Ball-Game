@@ -1,6 +1,5 @@
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.io.IOException;
+import java.net.*;
 import java.util.*;
 
 public class nServer extends Thread {
@@ -17,7 +16,9 @@ public class nServer extends Thread {
     //any incoming received packets go here
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
-    private static DatagramSocket serverSocket = null;    //socket object
+    private static DatagramSocket serverListeningSocket = null;    //socket object
+//    private static ServerSocket serverListeningSocket = null;    //socket object
+    private ArrayList<Socket> clientSockets = new ArrayList<>(); //one for each connected client
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "e_putprop",
@@ -82,65 +83,65 @@ public class nServer extends Thread {
     }
 
     public static void processPackets() {
-        try {
-            if(receivedPackets.size() > 0) {
-                DatagramPacket receivePacket = receivedPackets.peek();
-                String receiveDataString = new String(receivePacket.getData());
-                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                        + receiveDataString.trim());
-                //get the ip address of the client
-                InetAddress addr = receivePacket.getAddress();
-                int port = receivePacket.getPort();
-                //read data of packet
-                readData(receiveDataString);
-                //get player id of client
-                HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                String clientId = clientmap.get("id");
-                //relieve bans
-                if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
-                    banIds.remove(clientId);
-                if(banIds.containsKey(clientId)) {
-                    addNetCmd(clientId, "echo You are banned for "
-                            + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
-                    addNetCmd(clientId, "disconnect");
-                }
-                if(clientId != null) {
-                    nSend.focus_id = clientId;
-                    //create response
-                    String sendDataString = createSendDataString();
-                    byte[] sendData = sendDataString.getBytes();
-                    DatagramPacket sendPacket =
-                            new DatagramPacket(sendData, sendData.length, addr, port);
-                    serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER SEND [" + sendDataString.length() + "]: " + sendDataString);
-                }
-                receivedPackets.remove();
-            }
-            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
-                sVars.putLong("bottime",
-                        uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
-                for(Object id : botsMap.keySet()) {
-                    gPlayer p = (gPlayer) botsMap.get(id);
-                    nVarsBot.update(p);
-                    String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
-                    String receiveDataString = botStateStr;
-                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                            + receiveDataString.trim());
-                    nServer.readData(receiveDataString);
-                    //get player id of client
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                    String clientId = clientmap.get("id");
-                    nSend.focus_id = clientId;
-                    //act as if responding
-                    createSendDataString();
-                }
-            }
-        }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
+//        try {
+//            if(receivedPackets.size() > 0) {
+//                DatagramPacket receivePacket = receivedPackets.peek();
+//                String receiveDataString = new String(receivePacket.getData());
+//                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+//                        + receiveDataString.trim());
+//                //get the ip address of the client
+//                InetAddress addr = receivePacket.getAddress();
+//                int port = receivePacket.getPort();
+//                //read data of packet
+//                readData(receiveDataString);
+//                //get player id of client
+//                HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
+//                String clientId = clientmap.get("id");
+//                //relieve bans
+//                if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
+//                    banIds.remove(clientId);
+//                if(banIds.containsKey(clientId)) {
+//                    addNetCmd(clientId, "echo You are banned for "
+//                            + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
+//                    addNetCmd(clientId, "disconnect");
+//                }
+//                if(clientId != null) {
+//                    nSend.focus_id = clientId;
+//                    //create response
+//                    String sendDataString = createSendDataString();
+//                    byte[] sendData = sendDataString.getBytes();
+//                    DatagramPacket sendPacket =
+//                            new DatagramPacket(sendData, sendData.length, addr, port);
+//                    serverListeningSocket.send(sendPacket);
+//                    xCon.instance().debug("SERVER SEND [" + sendDataString.length() + "]: " + sendDataString);
+//                }
+//                receivedPackets.remove();
+//            }
+//            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+//            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
+//                sVars.putLong("bottime",
+//                        uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
+//                for(Object id : botsMap.keySet()) {
+//                    gPlayer p = (gPlayer) botsMap.get(id);
+//                    nVarsBot.update(p);
+//                    String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
+//                    String receiveDataString = botStateStr;
+//                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+//                            + receiveDataString.trim());
+//                    nServer.readData(receiveDataString);
+//                    //get player id of client
+//                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
+//                    String clientId = clientmap.get("id");
+//                    nSend.focus_id = clientId;
+//                    //act as if responding
+//                    createSendDataString();
+//                }
+//            }
+//        }
+//        catch (Exception e) {
+//            eUtils.echoException(e);
+//            e.printStackTrace();
+//        }
     }
 
     public static String createSendDataString() {
@@ -191,31 +192,47 @@ public class nServer extends Thread {
     }
 
     public void run() {
-        while(true) {
-            try {
-                netticks++;
-                if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                    uiInterface.netReport = netticks;
-                    netticks = 0;
-                    uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+//        try {
+//            serverListeningSocket = new ServerSocket(sVars.getInt("joinport"));
+//            while(true) {
+//                Socket clientSocket = serverListeningSocket.accept();
+//                System.out.println("ASDFASDF");
+//                Thread socketListenThread = new Thread(new nServerHandler(clientSocket));
+//                socketListenThread.start();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        try {
+            uiInterface.uuid = "server";
+            serverListeningSocket = new DatagramSocket(sVars.getInt("joinport"));
+//            serverListeningSocket.setSoTimeout(sVars.getInt("timeout"));
+            while(true) {
+                try {
+                    netticks++;
+                    if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
+                        uiInterface.netReport = netticks;
+                        netticks = 0;
+                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+                    }
+                    byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
+                    DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                    serverListeningSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                    uiInterface.networkTime = System.currentTimeMillis()
+                            + (long)(1000.0/(double)sVars.getInt("rateserver"));
+                    sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
                 }
-                byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                if(serverSocket == null || serverSocket.isClosed()) {
-                    uiInterface.uuid = "server";
-                    serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-                    serverSocket.setSoTimeout(sVars.getInt("timeout"));
+                catch (Exception e) {
+                    eUtils.echoException(e);
+                    e.printStackTrace();
                 }
-                serverSocket.receive(receivePacket);
-                receivedPackets.add(receivePacket);
-                uiInterface.networkTime = System.currentTimeMillis()
-                        + (long)(1000.0/(double)sVars.getInt("rateserver"));
-                sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
             }
-            catch (Exception e) {
-                eUtils.echoException(e);
-                e.printStackTrace();
-            }
+        }
+        catch (IOException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
         }
     }
 
