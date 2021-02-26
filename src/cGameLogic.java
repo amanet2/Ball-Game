@@ -198,9 +198,25 @@ public class cGameLogic {
     }
 
     public static void checkDisconnectStatus() {
-        if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
+        if(sSettings.isServer() && cVars.isOne("disconnecting")) {
+            System.out.println(nServer.clientIds.toString());
+            if(eManager.currentMap.scene.getThingMap("THING_PLAYER").size() < 2) {
+                sSettings.net_server = false;
+                sSettings.NET_MODE = sSettings.NET_OFFLINE;
+                if(nServer.instance().isAlive())
+                    nServer.instance().interrupt();
+//                nServer.serverSocket.close();
+                xCon.ex("load " + sVars.get("defaultmap"));
+                if (uiInterface.inplay)
+                    xCon.ex("pause");
+                cVars.put("disconnecting", "0");
+            }
+        }
+        else if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
             cVars.put("disconnecting", "0");
             nClient.clientSocket.close();
+            if(nClient.instance().isAlive())
+                nClient.instance().interrupt();
             sSettings.net_client = false;
             sSettings.NET_MODE = sSettings.NET_OFFLINE;
             xCon.ex("load " + sVars.get("defaultmap"));
@@ -212,6 +228,7 @@ public class cGameLogic {
     public static void checkQuitterStatus() {
         switch (sSettings.NET_MODE) {
             case sSettings.NET_SERVER:
+                checkDisconnectStatus();
                 //other players
                 for(String id : nServer.clientArgsMap.keySet()) {
                     if(!id.equals(uiInterface.uuid)) {

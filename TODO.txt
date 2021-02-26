@@ -4,13 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210226
-* add removebot function
+* add way for server to "quit" back to main menu and drop net resources
+    -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage
 * make sure ammo count btwn client and server are managed
     -> client ammo count goes down client side, but sync ammo count on nettick based on msg/cmd from server
 20210225
 * handle firing on client side for client user only, everyone else gets server msg and server handles score/kill still
-* add way for server to "quit" back to main menu and drop net resources
-    -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage
 * new ctf
     -> if flag doesn't have <playerid> in its str0, then mark it as pickup
     -> if carrier killed, str0 is set to "" and put into the netherworld

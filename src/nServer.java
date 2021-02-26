@@ -18,7 +18,7 @@ public class nServer extends Thread {
     //any incoming received packets go here
     private static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
-    private static DatagramSocket serverSocket = null;    //socket object
+    static DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "e_putprop",
