@@ -37,6 +37,8 @@ public class nServer extends Thread {
 
     public static void addExcludingNetCmd(String excludedids, String cmd) {
         //excludedids is comma-separated string of ids
+        if(!excludedids.contains("server"))
+            xCon.ex(cmd);
         for(String id : clientNetCmdMap.keySet()) {
             if(!excludedids.contains(id)) {
                 addNetCmd(id, cmd);
@@ -317,7 +319,7 @@ public class nServer extends Thread {
                     handleClientMessage(packArgMap.get("msg"));
                 }
                 if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
-                    handleClientCommand(packArgMap.get("cmd"));
+                    handleClientCommand(packId, packArgMap.get("cmd"));
                 }
             }
             //store player object's health in outgoing network arg map
@@ -362,10 +364,14 @@ public class nServer extends Thread {
         checkMessageForVoteToSkip(testmsg);
     }
 
-    private static void handleClientCommand(String cmd) {
+    private static void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
-            nServer.addNetCmd(cmd);
+            if(ccmd.contains("fireweapon")) { //handle special case for weapons
+                nServer.addExcludingNetCmd(id, cmd);
+            }
+            else
+                nServer.addNetCmd(cmd);
         }
         else {
             System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);

@@ -64,6 +64,9 @@ public class nVars {
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
             String cmdString = nClient.netSendCmds.peek();
             keys.put("cmd", cmdString);
+            if(cmdString.contains("fireweapon")) { //handle special firing case
+                xCon.ex(cmdString);
+            }
             nClient.netSendCmds.remove();
         }
         //update id in net args

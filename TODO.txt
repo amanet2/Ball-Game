@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210226
+* make sure ammo count btwn client and server are managed
+    -> client ammo count goes down client side, but sync ammo count on nettick based on msg/cmd from server
 20210225
 * handle firing on client side for client user only, everyone else gets server msg and server handles score/kill still
 * add way for server to "quit" back to main menu and drop net resources
