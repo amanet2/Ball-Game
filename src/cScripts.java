@@ -261,13 +261,6 @@ public class cScripts {
         }
     }
 
-    public static void createScorePopup(gPlayer p, int points) {
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(createId(),
-                new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-                p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
-                        String.format("+%d", points), 0.0));
-    }
-
     public static String createId() {
         int min = 11111111;
         int max = 99999999;

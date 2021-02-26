@@ -13,7 +13,7 @@ public class xComGivePoint extends xCom {
                         cScoreboard.incrementScoreFieldById(mapid, "score");
                         gPlayer givePointPlayer = gScene.getPlayerById(mapid);
                         if(givePointPlayer != null) {
-                            cScripts.createScorePopup(givePointPlayer, 1);
+                            nServer.addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
                         }
                     }
                 }
@@ -22,7 +22,7 @@ public class xComGivePoint extends xCom {
                 cScoreboard.incrementScoreFieldById(id, "score");
                 gPlayer givePointPlayer = gScene.getPlayerById(id);
                 if(givePointPlayer != null) {
-                    cScripts.createScorePopup(givePointPlayer, 1);
+                    nServer.addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
                 }
             }
             String[] quietGameModesArray = {
