@@ -12,6 +12,11 @@ public class uiMenusHome extends uiMenu {
                         uiMenus.selectedMenu = (uiMenus.MENU_JOINGAME);
                     }
                 },
+                new uiMenuItem("Disconnect") {
+                    public void doItem(){
+                        xCon.ex("disconnect");
+                    }
+                },
                 new uiMenuItem("Options") {
                     public void doItem(){
                         uiMenus.selectedMenu = (uiMenus.MENU_OPTIONS);
@@ -20,11 +25,6 @@ public class uiMenusHome extends uiMenu {
                 new uiMenuItem("Credits") {
                     public void doItem(){
                         uiMenus.selectedMenu = (uiMenus.MENU_CREDITS);
-                    }
-                },
-                new uiMenuItem("Disconnect") {
-                    public void doItem(){
-                        xCon.ex("disconnect");
                     }
                 },
                 new uiMenuItem("Quit") {

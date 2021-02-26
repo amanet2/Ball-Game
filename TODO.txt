@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210225
+* create new serversocket for each client connected
+    -> let this socket read and timeoutso our original one can listen for new clients in blocking state
 * new ctf
     -> if flag doesn't have <playerid> in its str0, then mark it as pickup
     -> if carrier killed, str0 is set to "" and put into the netherworld
