@@ -35,7 +35,7 @@ public class cVars {
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
         put("gameteam", "0");
         put("gametick", sVars.get("gametick"));
-        putInt("gravity", 6);
+        put("gravity", "0");
         put("blockmouseui", "0");
         put("inspawn", "1");
         put("intermissiontime", "-1");

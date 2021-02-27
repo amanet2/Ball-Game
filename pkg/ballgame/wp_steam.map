@@ -1,6 +1,7 @@
 cv_mapview 0
 cv_gamemode 5
 cv_botbehavior goto_scorepoint
+cv_gravity 6
 puttile objects/scenery/sceneryBlock_top.png objects/scenery/sceneryBlock_bottom.png misc/water.png -4500 -2040 7500 6400 0 0 6400 0 0 0 0 200
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1800 870 600 600 0 0 600 0 0 100 0 255
 puttile objects/scenery/sceneryBlock5_top.png objects/scenery/sceneryBlock5_bottom.png objects/wood/more_rough_wood_6.jpg -1200 870 600 600 0 0 600 100 150 100 0 255

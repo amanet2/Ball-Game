@@ -6,6 +6,7 @@
 20210226
 * add way for server to "quit" back to main menu and drop net resources
     -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage
+        -> everything works except closing the socket
 * make sure ammo count btwn client and server are managed
     -> client ammo count goes down client side, but sync ammo count on nettick based on msg/cmd from server
 20210225
