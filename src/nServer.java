@@ -14,7 +14,7 @@ public class nServer extends Thread {
     //id maps to queue of cmds we want to run on that client
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
-    Queue<String> serverLocalCmdQueue = new LinkedList<>();
+    private Queue<String> serverLocalCmdQueue = new LinkedList<>();
     //any incoming received packets go here
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
@@ -69,6 +69,22 @@ public class nServer extends Thread {
     private void addNetSendData(HashMap<String, Queue<String>> sendMap, String data) {
         for(String id: sendMap.keySet()) {
             addNetSendData(sendMap, id, data);
+        }
+    }
+
+    public void checkLocalCmds() {
+        if(serverLocalCmdQueue.size() > 0) {
+            xCon.ex(serverLocalCmdQueue.remove());
+        }
+    }
+
+    public void checkOutgoingCmdMap() {
+        //check clients
+        for(String id : clientNetCmdMap.keySet()) {
+            if(clientArgsMap.get(id).containsKey("netcmdrcv") && clientNetCmdMap.get(id).size() > 0) {
+                clientNetCmdMap.get(id).remove();
+                clientArgsMap.get(id).remove("netcmdrcv");
+            }
         }
     }
 

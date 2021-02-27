@@ -6,7 +6,7 @@ public class nClient extends Thread {
     int hasDisconnected;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     Queue<String> netSendMsgs = new LinkedList<>();
-    Queue<String> netSendCmds = new LinkedList<>();
+    private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
 
@@ -306,6 +306,16 @@ public class nClient extends Thread {
                 eManager.currentMap.scene.playersMap().remove(tr);
             }
         }
+    }
+
+    public String dequeueNetCmd() {
+        if(netSendCmds.size() > 0) {
+            String cmdString = netSendCmds.peek();
+            if(cmdString.contains("fireweapon")) //handle special firing case
+                xCon.ex(cmdString);
+            return netSendCmds.remove();
+        }
+        return null;
     }
 
     void disconnect() {
