@@ -3,6 +3,8 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210227
+*
 20210226
 * add way for server to "quit" back to main menu and drop net resources
     -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage

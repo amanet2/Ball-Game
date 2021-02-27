@@ -307,4 +307,18 @@ public class nClient extends Thread {
             }
         }
     }
+
+    public void disconnect() {
+        cVars.put("disconnecting", "0");
+        clientSocket.close();
+        if(isAlive())
+            interrupt();
+        sSettings.net_client = false;
+        sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        nServer.clientArgsMap = new HashMap<>();
+        nServer.clientIds = new ArrayList<>();
+        xCon.ex("load " + sVars.get("defaultmap"));
+        if (uiInterface.inplay)
+            xCon.ex("pause");
+    }
 }

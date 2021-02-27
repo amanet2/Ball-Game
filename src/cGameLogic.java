@@ -213,15 +213,7 @@ public class cGameLogic {
             }
         }
         else if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
-            cVars.put("disconnecting", "0");
-            nClient.clientSocket.close();
-            if(nClient.instance().isAlive())
-                nClient.instance().interrupt();
-            sSettings.net_client = false;
-            sSettings.NET_MODE = sSettings.NET_OFFLINE;
-            xCon.ex("load " + sVars.get("defaultmap"));
-            if (uiInterface.inplay)
-                xCon.ex("pause");
+            nClient.instance().disconnect();
         }
     }
 
