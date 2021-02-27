@@ -12,7 +12,7 @@ public class xComSay extends xCom {
                     nServer.instance().addNetCmd(echoString);
                     break;
                 case sSettings.NET_CLIENT:
-                    nClient.addSendMsg(msg);
+                    nClient.instance().addSendMsg(msg);
                     break;
                 default:
                     xCon.ex(echoString);

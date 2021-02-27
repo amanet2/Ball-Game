@@ -47,7 +47,7 @@ public class uiInterface {
                     if(sSettings.net_server)
                         nServer.instance().processPackets();
                     else if(sSettings.net_client)
-                        nClient.processPackets();
+                        nClient.instance().processPackets();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");

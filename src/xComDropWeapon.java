@@ -11,7 +11,7 @@ public class xComDropWeapon extends xCom {
             cScripts.changeWeapon(gWeapons.type.NONE.code());
             switch (sSettings.NET_MODE) {
                 case sSettings.NET_CLIENT:
-                    nClient.addSendCmd(doString);
+                    nClient.instance().addSendCmd(doString);
                     break;
                 case sSettings.NET_SERVER:
                     nServer.instance().addNetCmd(doString);

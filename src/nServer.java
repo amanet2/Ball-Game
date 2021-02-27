@@ -352,8 +352,8 @@ public class nServer extends Thread {
                 sendStringBuilder = new StringBuilder();
             }
         }
-        String joinString = String.format("echo %s joined the game", packName);
-        addNetCmd(packId, "cv_maploaded 1;respawn;" + joinString);
+        addNetCmd(packId, "cv_maploaded 1;respawn");
+        addNetCmd(String.format("echo %s joined the game", packName));
     }
 
     private void handleClientMessage(String msg) {

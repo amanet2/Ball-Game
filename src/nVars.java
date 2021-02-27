@@ -41,8 +41,8 @@ public class nVars {
         //handle outgoing msg
         keys.put("msg", "");
         //for client
-        if(sSettings.net_client && nClient.netSendMsgs.size() > 0) {
-            keys.put("msg", nClient.netSendMsgs.remove());
+        if(sSettings.net_client && nClient.instance().netSendMsgs.size() > 0) {
+            keys.put("msg", nClient.instance().netSendMsgs.remove());
         }
         //handle outgoing cmd
         keys.put("cmd", "");
@@ -61,13 +61,13 @@ public class nVars {
                 nServer.instance().clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
             keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
         }
-        else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
-            String cmdString = nClient.netSendCmds.peek();
+        else if(sSettings.net_client && nClient.instance().netSendCmds.size() > 0) { //for client
+            String cmdString = nClient.instance().netSendCmds.peek();
             keys.put("cmd", cmdString);
             if(cmdString.contains("fireweapon")) { //handle special firing case
                 xCon.ex(cmdString);
             }
-            nClient.netSendCmds.remove();
+            nClient.instance().netSendCmds.remove();
         }
         //update id in net args
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);

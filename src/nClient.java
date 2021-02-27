@@ -3,12 +3,12 @@ import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
-    static int hasDisconnected;
-    static Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    static Queue<String> netSendMsgs = new LinkedList<>();
-    static Queue<String> netSendCmds = new LinkedList<>();
+    int hasDisconnected;
+    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    Queue<String> netSendMsgs = new LinkedList<>();
+    Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
-    static DatagramSocket clientSocket = null;
+    private DatagramSocket clientSocket = null;
 
     public static nClient instance() {
         if(instance == null)
@@ -20,15 +20,15 @@ public class nClient extends Thread {
         netticks = 0;
     }
 
-    public static void addSendMsg(String msg) {
+    void addSendMsg(String msg) {
         netSendMsgs.add(msg);
     }
 
-    public static void addSendCmd(String cmd) {
+    void addSendCmd(String cmd) {
         netSendCmds.add(cmd);
     }
 
-    public static void processPackets() {
+    void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
                 //this means all other packets are thrown out, bad in long run
@@ -101,7 +101,7 @@ public class nClient extends Thread {
         }
     }
 
-    public static String createSendDataString() {
+    private String createSendDataString() {
         StringBuilder sendDataString;
         nVars.update();
         if(nSend.sendMap != null) {
@@ -127,7 +127,7 @@ public class nClient extends Thread {
         return sendDataString.toString();
     }
 
-    public static void readData(String receiveDataString) {
+    private void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         int ctr = 0;
         ArrayList<String> foundIds = new ArrayList<>();
@@ -308,7 +308,7 @@ public class nClient extends Thread {
         }
     }
 
-    public void disconnect() {
+    void disconnect() {
         cVars.put("disconnecting", "0");
         clientSocket.close();
         if(isAlive())
