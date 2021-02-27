@@ -256,11 +256,12 @@ public class cGameLogic {
     }
 
     public static void checkColorStatus(){
-        //player0
+        //player0 insert color into map
         if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
         && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("color").equals(sVars.get("playercolor"))) {
             nServer.instance().clientArgsMap.get(uiInterface.uuid).put("color", sVars.get("playercolor"));
         }
+        //check all id colors, including yours
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             gPlayer p = gScene.getPlayerById(id);
             String ccol = nServer.instance().clientArgsMap.get(id).get("color");
@@ -269,29 +270,6 @@ public class cGameLogic {
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
             }
         }
-
-
-
-//        //player0
-//        gPlayer userPlayer = cGameLogic.userPlayer();
-//        if(!userPlayer.isVal("color", sVars.get("playercolor"))) {
-//            userPlayer.put("color", sVars.get("playercolor"));
-//            userPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
-//                    sVars.get("playercolor"), userPlayer.get("pathsprite").substring(
-//                            userPlayer.get("pathsprite").lastIndexOf('/')))));
-//        }
-//        //others
-//        for(String id : nServer.instance().clientArgsMap.keySet()) {
-//            if(!id.equals(uiInterface.uuid)) {
-//                gPlayer p = gScene.getPlayerById(id);
-//                String ccol = nServer.instance().clientArgsMap.get(id).get("color");
-//                if(!p.get("color").contains(ccol) || !p.get("pathsprite").contains(ccol)) {
-//                    p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
-//                            p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
-//                    p.put("color", ccol);
-//                }
-//            }
-//        }
     }
 
     public static void checkWeaponsStatus() {
