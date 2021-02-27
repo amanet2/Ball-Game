@@ -1,7 +1,7 @@
 import java.net.*;
 import java.util.*;
 
-public class nClient extends Thread implements fNet {
+public class nClient extends Thread implements fNetBase {
     private int netticks;
     private int hasDisconnected = 0;
     private Queue<String> netSendMsgs = new LinkedList<>();
@@ -91,8 +91,7 @@ public class nClient extends Thread implements fNet {
                 eUtils.echoException(e);
                 retries++;
                 e.printStackTrace();
-                if(retries > sVars.getInt("netrcvretries"))
-                {
+                if(retries > sVars.getInt("netrcvretries")) {
                     xCon.ex("disconnect");
                     xCon.ex("echo Lost connection to server");
                 }
@@ -332,7 +331,7 @@ public class nClient extends Thread implements fNet {
         return hasDisconnected == 0;
     }
 
-    void disconnect() {
+    public void disconnect() {
         cVars.put("disconnecting", "0");
         clientSocket.close();
         if(isAlive())

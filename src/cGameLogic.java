@@ -209,21 +209,7 @@ public class cGameLogic {
     public static void checkQuitterStatus() {
         switch (sSettings.NET_MODE) {
             case sSettings.NET_SERVER:
-                checkDisconnectStatus();
-                //other players
-                for(String id : nServer.instance().clientArgsMap.keySet()) {
-                    if(!id.equals(uiInterface.uuid)) {
-                        //check currentTime vs last recorded checkin time
-                        long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
-                        if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
-                            nServer.instance().quitClientIds.add(id);
-                        }
-                    }
-                }
-                while(nServer.instance().quitClientIds.size() > 0) {
-                    String quitterId = nServer.instance().quitClientIds.remove();
-                    nServer.instance().removeNetClient(quitterId);
-                }
+                nServer.instance().checkForUnhandledQuitters();
                 break;
             case sSettings.NET_CLIENT:
                 checkDisconnectStatus();

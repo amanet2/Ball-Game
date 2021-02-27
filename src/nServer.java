@@ -4,9 +4,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.*;
 
-public class nServer extends Thread implements fNet {
+public class nServer extends Thread implements fNetBase, fNetGame {
     private int netticks;
-    Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
+    private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
@@ -31,6 +31,28 @@ public class nServer extends Thread implements fNet {
 
     private nServer() {
         netticks = 0;
+    }
+
+    public void addQuitClient(String id) {
+        quitClientIds.add(id);
+    }
+
+    public void checkForUnhandledQuitters() {
+        cGameLogic.checkDisconnectStatus();
+        //other players
+        for(String id : clientArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid)) {
+                //check currentTime vs last recorded checkin time
+                long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
+                if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
+                    nServer.instance().addQuitClient(id);
+                }
+            }
+        }
+        while(quitClientIds.size() > 0) {
+            String quitterId = quitClientIds.remove();
+            removeNetClient(quitterId);
+        }
     }
 
     void addExcludingNetCmd(String excludedids, String cmd) {
@@ -424,7 +446,7 @@ public class nServer extends Thread implements fNet {
         }
     }
 
-    void disconnect() {
+    public void disconnect() {
         if(eManager.currentMap.scene.getThingMap("THING_PLAYER").size() < 2) {
             sSettings.net_server = false;
             sSettings.NET_MODE = sSettings.NET_OFFLINE;

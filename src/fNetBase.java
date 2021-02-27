@@ -2,8 +2,8 @@ import java.net.DatagramPacket;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public interface fNet {
+public interface fNetBase {
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    void addNetCmd(String cmd);
     void processPackets();
+    void disconnect();
 }

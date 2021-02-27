@@ -126,7 +126,6 @@ public class xCon {
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
         commands.put("botrespawn", new xComBotRespawn());
-        commands.put("botremove", new xComBotRemove());
         commands.put("centercamera", new xComCentercamera());
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
@@ -195,6 +194,7 @@ public class xCon {
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
+        commands.put("removebot", new xComRemoveBot());
         commands.put("respawn", new xComRespawn());
         commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
