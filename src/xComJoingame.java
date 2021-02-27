@@ -11,7 +11,7 @@ public class xComJoingame extends xCom {
         sSettings.net_client = true;
         sSettings.net_server = false;
         sSettings.NET_MODE = sSettings.NET_CLIENT;
-        nClient.instance().hasDisconnected = 0;
+        nClient.instance().setDisconnected(0);
         cVars.put("quitconfirmed", "0");
         cVars.put("quitting", "0");
         cVars.put("disconnectconfirmed", "0");

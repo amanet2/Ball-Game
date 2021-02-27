@@ -3,7 +3,7 @@ import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
-    int hasDisconnected;
+    private int hasDisconnected = 0;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -323,6 +323,10 @@ public class nClient extends Thread {
             return netSendCmds.remove();
         }
         return null;
+    }
+
+    void setDisconnected(int v) { //needs to be here
+        hasDisconnected = v;
     }
 
     void disconnect() {
