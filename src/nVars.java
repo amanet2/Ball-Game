@@ -41,8 +41,10 @@ public class nVars {
         //handle outgoing msg
         keys.put("msg", "");
         //for client
-        if(sSettings.net_client && nClient.instance().netSendMsgs.size() > 0) {
-            keys.put("msg", nClient.instance().netSendMsgs.remove());
+        if(sSettings.net_client) {
+            String outgoingMsg = nClient.instance().dequeueNetMsg(); //dequeues w/ every call so call once a tick
+            if(outgoingMsg != null)
+                keys.put("msg", outgoingMsg);
         }
         //handle outgoing cmd
         keys.put("cmd", "");

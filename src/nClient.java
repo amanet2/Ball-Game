@@ -5,7 +5,7 @@ public class nClient extends Thread {
     private int netticks;
     int hasDisconnected;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    Queue<String> netSendMsgs = new LinkedList<>();
+    private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
@@ -306,6 +306,13 @@ public class nClient extends Thread {
                 eManager.currentMap.scene.playersMap().remove(tr);
             }
         }
+    }
+
+    public String dequeueNetMsg() {
+        if(netSendMsgs.size() > 0) {
+            return netSendMsgs.remove();
+        }
+        return null;
     }
 
     public String dequeueNetCmd() {
