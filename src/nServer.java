@@ -409,4 +409,18 @@ public class nServer extends Thread {
             }
         }
     }
+
+    public void disconnect() {
+        if(eManager.currentMap.scene.getThingMap("THING_PLAYER").size() < 2) {
+            sSettings.net_server = false;
+            sSettings.NET_MODE = sSettings.NET_OFFLINE;
+            if(isAlive())
+                interrupt();
+//                serverSocket.close();
+            xCon.ex("load " + sVars.get("defaultmap"));
+            if (uiInterface.inplay)
+                xCon.ex("pause");
+            cVars.put("disconnecting", "0");
+        }
+    }
 }

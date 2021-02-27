@@ -199,18 +199,7 @@ public class cGameLogic {
 
     public static void checkDisconnectStatus() {
         if(sSettings.isServer() && cVars.isOne("disconnecting")) {
-            System.out.println(nServer.clientIds.toString());
-            if(eManager.currentMap.scene.getThingMap("THING_PLAYER").size() < 2) {
-                sSettings.net_server = false;
-                sSettings.NET_MODE = sSettings.NET_OFFLINE;
-                if(nServer.instance().isAlive())
-                    nServer.instance().interrupt();
-//                nServer.serverSocket.close();
-                xCon.ex("load " + sVars.get("defaultmap"));
-                if (uiInterface.inplay)
-                    xCon.ex("pause");
-                cVars.put("disconnecting", "0");
-            }
+            nServer.instance().disconnect();
         }
         else if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
             nClient.instance().disconnect();
