@@ -27,7 +27,7 @@ public class nClient extends Thread implements fNet {
         netSendCmds.add(cmd);
     }
 
-    void processPackets() {
+    public void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
                 //this means all other packets are thrown out, bad in long run

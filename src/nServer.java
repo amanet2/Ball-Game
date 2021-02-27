@@ -107,7 +107,7 @@ public class nServer extends Thread implements fNet {
         }
     }
 
-    void processPackets() {
+    public void processPackets() {
         try {
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();

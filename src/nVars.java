@@ -43,16 +43,15 @@ public class nVars {
         //for client
         if(sSettings.net_client) {
             String outgoingMsg = nClient.instance().dequeueNetMsg(); //dequeues w/ every call so call once a tick
-            if(outgoingMsg != null)
-                keys.put("msg", outgoingMsg);
+            keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
         }
         //handle outgoing cmd
         keys.put("cmd", "");
-        //handle outgoing cmds that loopback to the server
+        //handle server outgoing cmds that loopback to the server
         if(sSettings.net_server) {
             nServer.instance().checkLocalCmds();
         }
-        //handle outgoing cmd to clients
+        //handle server outgoing cmd to clients
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
                 && nServer.instance().clientNetCmdMap.containsKey(nSend.focus_id)
                 && nServer.instance().clientNetCmdMap.get(nSend.focus_id).size() > 0
@@ -63,10 +62,9 @@ public class nVars {
                 nServer.instance().clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
             keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
         }
-        else if(sSettings.net_client) { //for client
+        else if(sSettings.net_client) { //handle client
             String outgoingCmd = nClient.instance().dequeueNetCmd(); //dequeues w/ every call so call once a tick
-            if(outgoingCmd != null)
-                keys.put("cmd", outgoingCmd);
+            keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         }
         //update id in net args
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
