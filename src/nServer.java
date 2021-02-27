@@ -4,7 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.*;
 
-public class nServer extends Thread {
+public class nServer extends Thread implements fNet {
     private int netticks;
     Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -15,8 +15,6 @@ public class nServer extends Thread {
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
     private Queue<String> serverLocalCmdQueue = new LinkedList<>();
-    //any incoming received packets go here
-    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients

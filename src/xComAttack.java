@@ -12,7 +12,7 @@ public class xComAttack extends xCom {
                         nServer.instance().addNetCmd(fireString);
                         break;
                     case sSettings.NET_CLIENT:
-                        nClient.instance().addSendCmd(fireString);
+                        nClient.instance().addNetCmd(fireString);
                         break;
                     default:
                         xCon.ex(fireString);

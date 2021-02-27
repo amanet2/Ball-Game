@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210227
+* convert creatSendData/etc to an interface used by server and client
 * Still getting crashes from checkHatStatus(), checkNameStatus(), etc.
 20210226
 * add way for server to "quit" back to main menu and drop net resources

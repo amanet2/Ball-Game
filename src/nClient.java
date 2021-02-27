@@ -1,10 +1,9 @@
 import java.net.*;
 import java.util.*;
 
-public class nClient extends Thread {
+public class nClient extends Thread implements fNet {
     private int netticks;
     private int hasDisconnected = 0;
-    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -24,7 +23,7 @@ public class nClient extends Thread {
         netSendMsgs.add(msg);
     }
 
-    void addSendCmd(String cmd) {
+    public void addNetCmd(String cmd) {
         netSendCmds.add(cmd);
     }
 
@@ -60,7 +59,7 @@ public class nClient extends Thread {
                     netticks = 0;
                     uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                 }
-                if(receivedPackets.size() < 1 && hasDisconnected != 1) {
+                if(receivedPackets.size() < 1 && isDisconnected()) {
                     InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
                     String sendDataString = createSendDataString();
                     byte[] clientSendData = sendDataString.getBytes();
@@ -74,7 +73,7 @@ public class nClient extends Thread {
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
                     if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
-                        hasDisconnected = 1;
+                        setDisconnected(1);
                     }
                     else {
                         byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
@@ -327,6 +326,10 @@ public class nClient extends Thread {
 
     void setDisconnected(int v) { //needs to be here
         hasDisconnected = v;
+    }
+
+    boolean isDisconnected() {
+        return hasDisconnected == 0;
     }
 
     void disconnect() {
