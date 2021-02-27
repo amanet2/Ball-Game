@@ -40,8 +40,10 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     public void checkForUnhandledQuitters() {
         cGameLogic.checkDisconnectStatus();
         //other players
+        System.out.println(clientArgsMap.toString());
         for(String id : clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
+            System.out.println(id);
+            if(!id.equals(uiInterface.uuid) && !id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
                 if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
@@ -131,6 +133,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
 
     public void processPackets() {
         try {
+            nVars.update();
+            nServer.instance().clientArgsMap.put(sSettings.net_server ? "server" : uiInterface.uuid, nVars.copy());
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -193,7 +197,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
 
     private String createSendDataString() {
         StringBuilder sendDataString;
-        nVars.update();
+//        nVars.update();
         if(nSend.sendMap != null) {
             for(String k : nVars.keySet()) {
                 if(nSend.constantsList.contains(k) || k.equals("id") || !nSend.sendMap.containsKey(k)
@@ -206,7 +210,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         else
             nSend.sendMap = nVars.copy();
 
-        clientArgsMap.put(uiInterface.uuid, nVars.copy());
+//        clientArgsMap.put(uiInterface.uuid, nVars.copy());
         sendDataString = new StringBuilder(nVars.dump());
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
