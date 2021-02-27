@@ -299,7 +299,7 @@ public class nClient extends Thread implements fNetBase {
             if(tr.length() > 0) {
                 nServer.instance().clientArgsMap.remove(tr);
                 cScoreboard.scoresMap.remove(tr);
-                nServer.instance().clientNetCmdMap.remove(tr);
+//                nServer.instance().clientNetCmdMap.remove(tr);
                 nServer.instance().clientIds.remove(tr);
                 eManager.currentMap.scene.playersMap().remove(tr);
             }

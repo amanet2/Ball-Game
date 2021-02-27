@@ -37,7 +37,8 @@ public class dScoreboard {
                     id = scoretoks[i].split("-")[0];
             }
             String playername = gScene.getPlayerById(id).get("name");
-            String playercolor = gScene.getPlayerById(id).get("color");
+//            String playercolor = gScene.getPlayerById(id).get("color");
+            String playercolor = nServer.instance().clientArgsMap.get(id).get("color");
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
             int playerwins = scoresMapIdMap.get("wins");
             int playerscore = scoresMapIdMap.get("score");

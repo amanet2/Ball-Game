@@ -25,7 +25,7 @@ public class xComJoingame extends xCom {
         cGameLogic.setUserPlayer(player0);
         player0.put("tag", "0");
         player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-        player0.put("color", sVars.get("playercolor"));
+//        player0.put("color", sVars.get("playercolor"));
         eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
         xCon.ex("centercamera");
 //        xCon.ex("respawn");

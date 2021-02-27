@@ -9,9 +9,8 @@ public class xComAddBot extends xCom {
 
         gPlayer p = new gPlayer(-6000,-6000,150,150,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
-        p.put("color", botcolor);
         p.put("name", botname);
-        p.put("color", botcolor);
+//        p.put("color", botcolor);
         p.putInt("tag", eManager.currentMap.scene.playersMap().size());
         p.putInt("bottag", eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").size());
         p.put("id", "bot"+cScripts.createBotId());
