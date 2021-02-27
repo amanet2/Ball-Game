@@ -14,7 +14,7 @@ public class xComDropWeapon extends xCom {
                     nClient.addSendCmd(doString);
                     break;
                 case sSettings.NET_SERVER:
-                    nServer.addNetCmd(doString);
+                    nServer.instance().addNetCmd(doString);
                     break;
             }
         }

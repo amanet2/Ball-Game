@@ -47,19 +47,19 @@ public class nVars {
         //handle outgoing cmd
         keys.put("cmd", "");
         //handle outgoing cmds that loopback to the server
-        if(sSettings.net_server && nServer.serverLocalCmdQueue.size() > 0) {
-            xCon.ex(nServer.serverLocalCmdQueue.remove());
+        if(sSettings.net_server && nServer.instance().serverLocalCmdQueue.size() > 0) {
+            xCon.ex(nServer.instance().serverLocalCmdQueue.remove());
         }
         //handle outgoing cmd to clients
         if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-                && nServer.clientNetCmdMap.containsKey(nSend.focus_id)
-                && nServer.clientNetCmdMap.get(nSend.focus_id).size() > 0
-                && nServer.clientArgsMap.containsKey(nSend.focus_id)
-                && !nServer.clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
+                && nServer.instance().clientNetCmdMap.containsKey(nSend.focus_id)
+                && nServer.instance().clientNetCmdMap.get(nSend.focus_id).size() > 0
+                && nServer.instance().clientArgsMap.containsKey(nSend.focus_id)
+                && !nServer.instance().clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
             if(nSend.focus_id.contains("bot"))
-                nServer.clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
-            keys.put("cmd", nServer.clientNetCmdMap.get(nSend.focus_id).peek());
+                nServer.instance().clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
+            keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
         }
         else if(sSettings.net_client && nClient.netSendCmds.size() > 0) { //for client
             String cmdString = nClient.netSendCmds.peek();

@@ -13,7 +13,7 @@ public class gPropFlagRed extends gProp {
         public void doItem(gThing p) {
             if(sSettings.net_server && !get("str0").equalsIgnoreCase(p.get("id"))) {
                 put("str0", p.get("id"));
-                nServer.addNetCmd("echo " + p.get("name") + " has the flag!");
+                nServer.instance().addNetCmd("echo " + p.get("name") + " has the flag!");
             }
         }
     };

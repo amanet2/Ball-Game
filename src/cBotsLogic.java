@@ -51,9 +51,9 @@ public class cBotsLogic {
         });
         behaviors.put("virus", new gDoableThing(){
             public void doItem(gThing p) {
-                if(nServer.clientArgsMap.containsKey("server")
-                        && nServer.clientArgsMap.get("server").containsKey("state")
-                        && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))){
+                if(nServer.instance().clientArgsMap.containsKey("server")
+                        && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(p.get("id"))){
                     cBotsLogic.runFromNearestVirusPlayer(p);
                 }
                 else {
@@ -63,9 +63,9 @@ public class cBotsLogic {
         });
         behaviors.put("goto_teleporter_virus", new gDoableThing(){
             public void doItem(gThing p) {
-                if(nServer.clientArgsMap.containsKey("server")
-                        && nServer.clientArgsMap.get("server").containsKey("state")
-                        && !nServer.clientArgsMap.get("server").get("state").contains(p.get("id"))){
+                if(nServer.instance().clientArgsMap.containsKey("server")
+                        && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(p.get("id"))){
                     if(!cBotsLogic.inVirusChaseRange(p))
                         cBotsLogic.goToNearestThingOfType(p, "PROP_TELEPORTER");
                     else
@@ -114,7 +114,7 @@ public class cBotsLogic {
                 cScripts.pointPlayerAtCoords(botPlayer,
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
-                nServer.addNetCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
+                nServer.instance().addNetCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
             }
         }
     }
@@ -249,13 +249,13 @@ public class cBotsLogic {
     }
 
     private static void actOnNearestVirusPlayer(gThing bot, boolean offense) {
-        if(nServer.clientArgsMap.containsKey("server")) {
+        if(nServer.instance().clientArgsMap.containsKey("server")) {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            if(nServer.clientArgsMap.get("server").containsKey("state")
-            && nServer.clientArgsMap.get("server").get("state").contains("virus")) {
-                String stateString = nServer.clientArgsMap.get("server").get("state").replace("virus", "");
+            if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+            && nServer.instance().clientArgsMap.get("server").get("state").contains("virus")) {
+                String stateString = nServer.instance().clientArgsMap.get("server").get("state").replace("virus", "");
                 if(offense) {
                     for(String id : gScene.getPlayerIds()) {
                         if(!stateString.contains(id)) {

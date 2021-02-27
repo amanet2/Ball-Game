@@ -34,7 +34,7 @@ public class uiInterface {
                             xCon.getLong("timelimit") - (int) (gameTime - xCon.getLong("cv_starttime")));
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
-                    nServer.addBots();
+                    nServer.instance().addBots();
                     cVars.remove("serveraddbots");
                 }
                 while(tickTimeNanos < gameTimeNanos) {
@@ -45,7 +45,7 @@ public class uiInterface {
                     iInput.readKeyInputs();
                     gCamera.updatePosition();
                     if(sSettings.net_server)
-                        nServer.processPackets();
+                        nServer.instance().processPackets();
                     else if(sSettings.net_client)
                         nClient.processPackets();
                     gMessages.checkMessages();

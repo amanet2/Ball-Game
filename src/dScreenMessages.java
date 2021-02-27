@@ -5,15 +5,15 @@ import java.awt.font.FontRenderContext;
 public class dScreenMessages {
 
     public static void drawVirusTagString(Graphics g) {
-        if(nServer.clientArgsMap != null
-                && nServer.clientArgsMap.containsKey("server")
-                && nServer.clientArgsMap.get("server").containsKey("state")) {
-            String statestr = nServer.clientArgsMap.get("server").get("state");
+        if(nServer.instance().clientArgsMap != null
+                && nServer.instance().clientArgsMap.containsKey("server")
+                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+            String statestr = nServer.instance().clientArgsMap.get("server").get("state");
             String[] stoks = statestr.replace("virus", "").split("-");
             String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
             if(stoks.length > 1) {
                 int infected = 0;
-                int total = nServer.clientArgsMap.size();
+                int total = nServer.instance().clientArgsMap.size();
                 for (int i = 0; i < stoks.length; i++) {
                     String id = stoks[i];
                     if(id.length() > 0) {
@@ -237,14 +237,14 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         else if(eManager.currentMap.scene.playersMap().size() > 0){
-            if(nServer.clientArgsMap.get("server") != null
-            && nServer.clientArgsMap.get("server").get("topscore") != null
-            && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {
+            if(nServer.instance().clientArgsMap.get("server") != null
+            && nServer.instance().clientArgsMap.get("server").get("topscore") != null
+            && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
                 if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
-                        + nServer.clientArgsMap.get("server").get("topscore"),
+                        + nServer.instance().clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
                 dFonts.setFontColorNormal(g);
             }
@@ -261,9 +261,9 @@ public class dScreenMessages {
         if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
             switch(cVars.getInt("gamemode")) {
                 case cGameMode.VIRUS:
-                    if(nServer.clientArgsMap.containsKey("server")
-                            && nServer.clientArgsMap.get("server").containsKey("state")
-                            && nServer.clientArgsMap.get("server").get("state").contains(
+                    if(nServer.instance().clientArgsMap.containsKey("server")
+                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
                                 cGameLogic.userPlayer().get("id"))) {
                         dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
@@ -286,13 +286,13 @@ public class dScreenMessages {
             }
         }
         //win lose
-        if((cVars.get("winnerid").length() > 0 && nServer.clientArgsMap.containsKey(cVars.get("winnerid")))) {
+        if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
             if(cVars.isOne("gameteam")) {
-                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
+                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
             else
-                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading

@@ -94,11 +94,11 @@ public class cGameMode {
     public static void checkVirus() {
         if(sSettings.net_server) {
             if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.clientArgsMap.containsKey("server")) {
+                if(nServer.instance().clientArgsMap.containsKey("server")) {
                     for(String id : gScene.getPlayerIds()) {
                         gPlayer p = gScene.getPlayerById(id);
-                        if(nServer.clientArgsMap.get("server").containsKey("state")
-                                && !nServer.clientArgsMap.get("server").get("state").contains(id)
+                        if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+                                && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
                                 && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
                             xCon.ex("givepoint " + p.get("id"));
                         }

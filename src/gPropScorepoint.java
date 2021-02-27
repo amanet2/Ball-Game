@@ -41,7 +41,7 @@ public class gPropScorepoint extends gProp {
                     }
                     if(gonnaWin > 0) {
                         xCon.ex("givepoint "+p.get("id"));
-//                        nServer.addNetCmd("spawnpopup " + p.get("id") + " 1");
+//                        nServer.instance().addNetCmd("spawnpopup " + p.get("id") + " 1");
                         for(Object id : scorepointsMap.keySet()) {
                             gProp pr = (gProp) scorepointsMap.get(id);
                             pr.put("racebotidcheckins",
@@ -63,7 +63,7 @@ public class gPropScorepoint extends gProp {
                                 gProp pr = (gProp) scorepointsMap.get(id);
                                 pr.put("int0", "0");
                             }
-//                            nServer.addNetCmd("spawnpopup " + p.get("id") + " 1");
+//                            nServer.instance().addNetCmd("spawnpopup " + p.get("id") + " 1");
                         }
                     }
                 }

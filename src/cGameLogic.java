@@ -166,13 +166,13 @@ public class cGameLogic {
 
     public static void checkMovementStatus() {
         //other players
-        for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid) && nServer.clientArgsMap.containsKey(id)) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid) && nServer.instance().clientArgsMap.containsKey(id)) {
                 gPlayer p = gScene.getPlayerById(id);
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
-                if(!nServer.containsArgsForId(id, requiredFields))
+                if(!nServer.instance().containsArgsForId(id, requiredFields))
                     continue;
-                HashMap<String, String> cargs = nServer.clientArgsMap.get(id);
+                HashMap<String, String> cargs = nServer.instance().clientArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
                 int ccrouch = Integer.parseInt(cargs.get("crouch"));
@@ -211,18 +211,18 @@ public class cGameLogic {
             case sSettings.NET_SERVER:
                 checkDisconnectStatus();
                 //other players
-                for(String id : nServer.clientArgsMap.keySet()) {
+                for(String id : nServer.instance().clientArgsMap.keySet()) {
                     if(!id.equals(uiInterface.uuid)) {
                         //check currentTime vs last recorded checkin time
-                        long lastrecordedtime = Long.parseLong(nServer.clientArgsMap.get(id).get("time"));
+                        long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
                         if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
-                            nServer.quitClientIds.add(id);
+                            nServer.instance().quitClientIds.add(id);
                         }
                     }
                 }
-                while(nServer.quitClientIds.size() > 0) {
-                    String quitterId = nServer.quitClientIds.remove();
-                    nServer.removeNetClient(quitterId);
+                while(nServer.instance().quitClientIds.size() > 0) {
+                    String quitterId = nServer.instance().quitClientIds.remove();
+                    nServer.instance().removeNetClient(quitterId);
                 }
                 break;
             case sSettings.NET_CLIENT:
@@ -238,10 +238,10 @@ public class cGameLogic {
             userPlayer.put("name", sVars.get("playername"));
         }
         //other players
-        for(String id : nServer.clientArgsMap.keySet()) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 gPlayer p = gScene.getPlayerById(id);
-                String cname = nServer.clientArgsMap.get(id).get("name");
+                String cname = nServer.instance().clientArgsMap.get(id).get("name");
                 if(!p.get("name").equals(cname)) {
                     p.put("name", cname);
                 }
@@ -257,10 +257,10 @@ public class cGameLogic {
                     sVars.get("playerhat"))));
         }
         //others
-        for(String id : nServer.clientArgsMap.keySet()) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 gPlayer p = gScene.getPlayerById(id);
-                String chat = nServer.clientArgsMap.get(id).get("hat");
+                String chat = nServer.instance().clientArgsMap.get(id).get("hat");
                 if(!p.get("pathspritehat").contains(chat)) {
                     p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
                     p.put("hat", chat);
@@ -279,10 +279,10 @@ public class cGameLogic {
                             userPlayer.get("pathsprite").lastIndexOf('/')))));
         }
         //others
-        for(String id : nServer.clientArgsMap.keySet()) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 gPlayer p = gScene.getPlayerById(id);
-                String ccol = nServer.clientArgsMap.get(id).get("color");
+                String ccol = nServer.instance().clientArgsMap.get(id).get("color");
                 if(!p.get("color").contains(ccol) || !p.get("pathsprite").contains(ccol)) {
                     p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
                             p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
@@ -294,10 +294,10 @@ public class cGameLogic {
 
     public static void checkWeaponsStatus() {
         //other players
-        for(String id : nServer.clientArgsMap.keySet()) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 gPlayer p = gScene.getPlayerById(id);
-                int cweap = Integer.parseInt(nServer.clientArgsMap.get(id).get("weapon"));
+                int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
                 if(!p.isInt("weapon", cweap))
                     p.putInt("weapon", cweap);
             }
@@ -318,7 +318,7 @@ public class cGameLogic {
                 if(p.isBot())
                     xCon.ex("botrespawn " + p.getInt("bottag"));
                 else
-                    nServer.addNetCmd("respawnplayer " + p.get("id"));
+                    nServer.instance().addNetCmd("respawnplayer " + p.get("id"));
             }
             if(p.contains("spawnprotectiontime")
                     && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
@@ -373,8 +373,8 @@ public class cGameLogic {
             int rand = (int)(Math.random()*eManager.mapsSelection.length);
             eManager.mapSelectionIndex = rand;
             if(sSettings.net_server) {
-                nServer.addNetCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-                nServer.addNetCmd("respawn");
+                nServer.instance().addNetCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
+                nServer.instance().addNetCmd("respawn");
             }
         }
     }
@@ -461,17 +461,17 @@ public class cGameLogic {
                         cVars.put("winnerid", highestId);
                         if(cVars.isOne("gameteam"))
                             xCon.ex("say "
-                                    + nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!");
+                                    + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!");
                         else
                             xCon.ex("say "
-                                    + nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
+                                    + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.net_server) {
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                         }
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-                nServer.addNetCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
+                nServer.instance().addNetCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cScripts.goToEndScreen();
             }
         }

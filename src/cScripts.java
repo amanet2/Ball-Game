@@ -297,7 +297,7 @@ public class cScripts {
             //handle damage serverside
             if(sSettings.net_server) {
                 String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-                nServer.addNetCmd(cmdString);
+                nServer.instance().addNetCmd(cmdString);
             }
         }
     }
@@ -346,7 +346,7 @@ public class cScripts {
         }
         //network
         if(isNetworkGame()) {
-            for(String s : nServer.clientIds) {
+            for(String s : nServer.instance().clientIds) {
                 gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
                 player.putInt("tag", eManager.currentMap.scene.playersMap().size());
@@ -383,7 +383,7 @@ public class cScripts {
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
         HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
         if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
-            nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
+            nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }
     }

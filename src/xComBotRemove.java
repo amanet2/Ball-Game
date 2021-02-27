@@ -4,7 +4,7 @@ public class xComBotRemove extends xCom {
 
         if(toks.length > 1) {
             String id = toks[1];
-            nServer.quitClientIds.add(id);
+            nServer.instance().quitClientIds.add(id);
             eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").remove(id);
         }
         return "bot removed";

@@ -80,8 +80,8 @@ public class dTileTops {
                             null);
                 }
                 //forbidden sign for spawn protection
-                if (nServer.clientArgsMap.containsKey(e.get("id"))
-                        && nServer.clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
+                if (nServer.instance().clientArgsMap.containsKey(e.get("id"))
+                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
                         && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
                     g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150),
                             eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),

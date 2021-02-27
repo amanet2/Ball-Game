@@ -64,9 +64,9 @@ public class eManager {
                         else if(i != 1 || cVars.getInt("gravity") < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
-                    else if(nServer.clientArgsMap.get(obj.get("id")).containsKey("vels")){
+                    else if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels")){
                         obj.putInt("vel"+i,
-                                Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
+                                Integer.parseInt(nServer.instance().clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
                     }
                 }
             }

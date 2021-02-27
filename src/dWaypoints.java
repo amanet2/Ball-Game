@@ -121,9 +121,9 @@ public class dWaypoints {
                     }
                     break;
                 case cGameMode.VIRUS:
-                    if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
-                            && nServer.clientArgsMap.get("server").containsKey("state")) {
-                        String statestr = nServer.clientArgsMap.get("server").get("state");
+                    if(nServer.instance().clientArgsMap != null && nServer.instance().clientArgsMap.containsKey("server")
+                            && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+                        String statestr = nServer.instance().clientArgsMap.get("server").get("state");
                         for (String id : gScene.getPlayerIds()) {
                             gPlayer p = gScene.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {

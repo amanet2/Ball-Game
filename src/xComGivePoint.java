@@ -13,7 +13,7 @@ public class xComGivePoint extends xCom {
                         cScoreboard.incrementScoreFieldById(mapid, "score");
                         gPlayer givePointPlayer = gScene.getPlayerById(mapid);
                         if(givePointPlayer != null) {
-                            nServer.addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
+                            nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
                         }
                     }
                 }
@@ -22,7 +22,7 @@ public class xComGivePoint extends xCom {
                 cScoreboard.incrementScoreFieldById(id, "score");
                 gPlayer givePointPlayer = gScene.getPlayerById(id);
                 if(givePointPlayer != null) {
-                    nServer.addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
+                    nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
                 }
             }
             String[] quietGameModesArray = {
@@ -33,7 +33,7 @@ public class xComGivePoint extends xCom {
             };
             List<String> quietGameModesList = Arrays.asList(quietGameModesArray);
             if(!quietGameModesList.contains(cVars.get("gamemode"))) {
-                nServer.addNetCmd("echo " + gScene.getPlayerById(id).get("name") + " scored");
+                nServer.instance().addNetCmd("echo " + gScene.getPlayerById(id).get("name") + " scored");
             }
             return "gave point to " + id;
         }

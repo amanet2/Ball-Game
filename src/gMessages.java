@@ -20,11 +20,11 @@ public class gMessages {
         //check individual ids in the cmd queue map
         if(sSettings.net_server) {
             //check clients
-            for(String id : nServer.clientNetCmdMap.keySet()) {
-                if(nServer.clientArgsMap.get(id).containsKey("netcmdrcv")
-                        && nServer.clientNetCmdMap.get(id).size() > 0) {
-                    nServer.clientNetCmdMap.get(id).remove();
-                    nServer.clientArgsMap.get(id).remove("netcmdrcv");
+            for(String id : nServer.instance().clientNetCmdMap.keySet()) {
+                if(nServer.instance().clientArgsMap.get(id).containsKey("netcmdrcv")
+                        && nServer.instance().clientNetCmdMap.get(id).size() > 0) {
+                    nServer.instance().clientNetCmdMap.get(id).remove();
+                    nServer.instance().clientArgsMap.get(id).remove("netcmdrcv");
                 }
             }
         }

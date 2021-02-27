@@ -17,7 +17,7 @@ public class dScoreboard {
                 Integer.parseInt(xCon.ex("fontcolornormal").split(",")[1]),
                 Integer.parseInt(xCon.ex("fontcolornormal").split(",")[2]),
                 Integer.parseInt(xCon.ex("fontcolornormal").split(",")[3])));
-        g.drawString("["+nServer.clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
+        g.drawString("["+nServer.instance().clientArgsMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                   Kills",
