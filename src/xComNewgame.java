@@ -1,6 +1,7 @@
 public class xComNewgame extends xCom {
     public String doCommand(String fullCommand) {
         sSettings.net_server = true;
+        sSettings.NET_MODE = sSettings.NET_SERVER;
         xCon.ex(String.format("load wp_steam.map"));
 //        uiMenus.selectedMenu = uiMenus.MENU_MAIN;
 //        //server

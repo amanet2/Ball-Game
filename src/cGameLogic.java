@@ -23,11 +23,15 @@ public class cGameLogic {
             if(cVars.isOne("quitconfirmed")) {
                 uiInterface.exit();
             }
+            if(sSettings.net_server) {
+                checkQuitterStatus();
+            }
             if(userPlayer() != null) {
+                // methods here need migrating to server
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
-                checkQuitterStatus();
+//                checkQuitterStatus();
                 checkMovementStatus();
                 checkNameStatus();
 //                checkHatStatus();

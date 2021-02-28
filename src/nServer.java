@@ -50,7 +50,9 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 }
             }
         }
+
         while(quitClientIds.size() > 0) {
+            System.out.println("REMOVE ");
             String quitterId = quitClientIds.remove();
             removeNetClient(quitterId);
         }
@@ -231,16 +233,17 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     }
 
     void removeNetClient(String id) {
+        gPlayer quittingPlayer = gScene.getPlayerById(id);
+        String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
+//        if(cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
+//            cVars.put("flagmasterid", "");
+//        }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
-        gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
-        String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
         clientIds.remove(id);
-        if(cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
-            cVars.put("flagmasterid", "");
-        }
+        //tell remaining players
         String quitString = String.format("echo %s left the game", quitterName);
         addNetCmd(quitString);
     }

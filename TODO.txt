@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210228
 * handle quits, disconnects, and timeouts, and bans
+    -> lots of "check" functions used to rely on player0 existing, refactor these
 * bots broken, kind of
 * player fvs not going accross
 X 3 windows
