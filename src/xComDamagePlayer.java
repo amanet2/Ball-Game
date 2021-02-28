@@ -15,9 +15,10 @@ public class xComDamagePlayer extends xCom {
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff
                         if(shooterid.length() > 0) {
-                            String killername = gScene.getPlayerById(shooterid).get("name");
+//                            String killername = gScene.getPlayerById(shooterid).get("name");
+                            String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                             cScoreboard.incrementScoreFieldById(shooterid, "kills");
-                            nServer.instance().addNetCmd("echo " + killername + " killed " + player.get("name"));
+                            nServer.instance().addNetCmd("echo " + killername + " killed " + nServer.instance().clientArgsMap.get(id).get("name"));
                             if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                                 xCon.ex("givepoint " + shooterid);
                             }

@@ -84,7 +84,7 @@ public class cScoreboard {
                 if(scoresMapIdMap.get("score") > topscore) {
                     tiectr = 0;
                     topscore = scoresMapIdMap.get("score");
-                    winnerName = gScene.getPlayerById(id).get("name") + " ("+topscore+")";
+                    winnerName = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
                 }
                 else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
                     tiectr++;

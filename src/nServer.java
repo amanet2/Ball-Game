@@ -233,7 +233,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         clientNetCmdMap.remove(id);
         gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
-        String quitterName = quittingPlayer.get("name");
+        String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
         clientIds.remove(id);
         if(cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
             cVars.put("flagmasterid", "");
@@ -307,10 +307,10 @@ public class nServer extends Thread implements fNetBase, fNetGame {
 //                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
-            String oldName = "";
+//            String oldName = "";
             long oldTimestamp = 0;
             if(oldArgMap != null) {
-                oldName = oldArgMap.get("name");
+//                oldName = oldArgMap.get("name");
                 oldTimestamp = oldArgMap.containsKey("time") ?
                         Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
             }
@@ -328,8 +328,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 //update ping
                 scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                 //handle name change to notify
-                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
-                    addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
+//                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
+//                    addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
                 if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                     quitClientIds.add(packId);
                 }
@@ -373,7 +373,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
-            player.put("name", packName);
+//            player.put("name", packName);
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
             player.put("stockhp", cVars.get("maxstockhp"));

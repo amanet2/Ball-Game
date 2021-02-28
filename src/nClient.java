@@ -134,9 +134,9 @@ public class nClient extends Thread implements fNetBase {
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
             HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
             String idload = packArgs.get("id");
-            String nameload = packArgs.get("name") != null ? packArgs.get("name")
-                    : nServer.instance().clientArgsMap.containsKey(idload) ? nServer.instance().clientArgsMap.get(idload).get("name")
-                    : "player";
+//            String nameload = packArgs.get("name") != null ? packArgs.get("name")
+//                    : nServer.instance().clientArgsMap.containsKey(idload) ? nServer.instance().clientArgsMap.get(idload).get("name")
+//                    : "player";
             String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
             if(!nServer.instance().clientArgsMap.containsKey(idload))
                 nServer.instance().clientArgsMap.put(idload, packArgs);
@@ -226,7 +226,8 @@ public class nClient extends Thread implements fNetBase {
                 if(nServer.instance().clientIds.contains(idload)) {
                     ctr ++;
                     foundIds.add(idload);
-                    String[] requiredFields = new String[]{"name", "x", "y", "vels"};
+//                    String[] requiredFields = new String[]{"name", "x", "y", "vels"};
+                    String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
                     for(String rf : requiredFields) {
                         if(!nServer.instance().clientArgsMap.get(idload).containsKey(rf)) {
@@ -236,9 +237,9 @@ public class nClient extends Thread implements fNetBase {
                     }
                     if(skip)
                         break;
-                    String clientname = nServer.instance().clientArgsMap.get(idload).get("name");
-                    if(!clientname.equals(nameload))
-                        gScene.getPlayerById(idload).put("name", nameload);
+//                    String clientname = nServer.instance().clientArgsMap.get(idload).get("name");
+//                    if(!clientname.equals(nameload))
+//                        gScene.getPlayerById(idload).put("name", nameload);
                     if(sVars.isOne("smoothing")) {
                         gScene.getPlayerById(idload).put("coordx", nServer.instance().clientArgsMap.get(idload).get("x"));
                         gScene.getPlayerById(idload).put("coordy", nServer.instance().clientArgsMap.get(idload).get("y"));
@@ -261,7 +262,7 @@ public class nClient extends Thread implements fNetBase {
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
                     player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-                    player.put("name", nameload);
+//                    player.put("name", nameload);
                     eManager.currentMap.scene.playersMap().put(idload, player);
                 }
             }

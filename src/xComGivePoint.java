@@ -33,7 +33,7 @@ public class xComGivePoint extends xCom {
             };
             List<String> quietGameModesList = Arrays.asList(quietGameModesArray);
             if(!quietGameModesList.contains(cVars.get("gamemode"))) {
-                nServer.instance().addNetCmd("echo " + gScene.getPlayerById(id).get("name") + " scored");
+                nServer.instance().addNetCmd("echo " + nServer.instance().clientArgsMap.get(id).get("name") + " scored");
             }
             return "gave point to " + id;
         }

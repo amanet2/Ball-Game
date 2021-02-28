@@ -21,7 +21,8 @@ public class nVarsBot {
         }
 
 //        for(String s : new String[]{"id","fv","name","color","crouch","hat","flashlight"}) {
-        for(String s : new String[]{"id","fv","name","crouch","hat","flashlight"}) {
+//        for(String s : new String[]{"id","fv","name","crouch","hat","flashlight"}) {
+        for(String s : new String[]{"id","fv","crouch","hat","flashlight"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
         if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)

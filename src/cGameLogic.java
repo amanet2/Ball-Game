@@ -218,21 +218,37 @@ public class cGameLogic {
     }
 
     public static void checkNameStatus() {
-        //player0
-        gPlayer userPlayer = cGameLogic.userPlayer();
-        if(!userPlayer.isVal("name", sVars.get("playername"))) {
-            userPlayer.put("name", sVars.get("playername"));
+        //player0 insert name into map
+        if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
+                && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("name").equals(sVars.get("playername"))) {
+            nServer.instance().clientArgsMap.get(uiInterface.uuid).put("name", sVars.get("playername"));
         }
-        //other players
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
-                String cname = nServer.instance().clientArgsMap.get(id).get("name");
-                if(!p.get("name").equals(cname)) {
-                    p.put("name", cname);
-                }
-            }
-        }
+//        //check all id names, including yours
+//        for(String id : nServer.instance().clientArgsMap.keySet()) {
+//            gPlayer p = gScene.getPlayerById(id);
+//            String cname = nServer.instance().clientArgsMap.get(id).get("name");
+//            if(!p.isVal("name", cname)) {
+//                p.put("name", cname);
+//            }
+//        }
+
+
+
+//        //player0
+//        gPlayer userPlayer = cGameLogic.userPlayer();
+//        if(!userPlayer.isVal("name", sVars.get("playername"))) {
+//            userPlayer.put("name", sVars.get("playername"));
+//        }
+//        //other players
+//        for(String id : nServer.instance().clientArgsMap.keySet()) {
+//            if(!id.equals(uiInterface.uuid)) {
+//                gPlayer p = gScene.getPlayerById(id);
+//                String cname = nServer.instance().clientArgsMap.get(id).get("name");
+//                if(!p.get("name").equals(cname)) {
+//                    p.put("name", cname);
+//                }
+//            }
+//        }
     }
 
     public static void checkHatStatus(){
