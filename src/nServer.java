@@ -313,9 +313,6 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                         Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
             }
             //only want to update keys that have changes
-            System.out.println(clientArgsMap.toString());
-            System.out.println("----------------");
-            System.out.println(packArgMap.toString());
             for(String k : packArgMap.keySet()) {
                 if(!clientArgsMap.get(packId).containsKey(k)
                         || !clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {

@@ -4,6 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210227
+* server holds gravity, mapname, etc
+    -> the player who starts the game creates a client, uses client cmd reqs while the server returns things like shoot
+    -> necessitates refactoring of "isCleint" and "isServer"
+        -> a UserInterface should not be a binary server/client
+        -> a UserInterface should always assume a server is running and act as a client
+            -> this will eliminate the blocking socket
+                -> use the socket locally and connect to the game
+                    -> adjust rates accordingly
+* "server" clientArg should hold all server-centric stuff, but for x,y,movs,etc. put that in a client for everyone
 * convert creatSendData/etc to an interface used by server and client
 * Still getting crashes from checkHatStatus(), checkNameStatus(), etc.
 20210226
