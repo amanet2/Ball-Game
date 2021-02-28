@@ -366,12 +366,13 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
+        System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
-//            player.put("name", packName);
+            player.put("name", packName);
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
             player.put("stockhp", cVars.get("maxstockhp"));

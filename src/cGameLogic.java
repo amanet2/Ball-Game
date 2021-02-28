@@ -218,11 +218,6 @@ public class cGameLogic {
     }
 
     public static void checkNameStatus() {
-        //player0 insert name into map
-        if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
-                && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("name").equals(sVars.get("playername"))) {
-            nServer.instance().clientArgsMap.get(uiInterface.uuid).put("name", sVars.get("playername"));
-        }
 //        //check all id names, including yours
 //        for(String id : nServer.instance().clientArgsMap.keySet()) {
 //            gPlayer p = gScene.getPlayerById(id);
@@ -272,11 +267,6 @@ public class cGameLogic {
     }
 
     public static void checkColorStatus(){
-        //player0 insert color into map
-//        if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
-//        && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("color").equals(sVars.get("playercolor"))) {
-//            nServer.instance().clientArgsMap.get(uiInterface.uuid).put("color", sVars.get("playercolor"));
-//        }
         //check all id colors, including yours
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             gPlayer p = gScene.getPlayerById(id);

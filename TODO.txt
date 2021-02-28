@@ -3,6 +3,15 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210228
+* 3 players is effed up
+    -> because of the reliance on client INDEX when reading string tokenized by @
+        -> server sending to wrong place
+* MOVING FORWARD
+    -> continue with the curent server behavior as a playerless "godview"
+    -> make sure all client and bot logic is sound in this view as well as in client
+    -> build from ground up, make sure overal arch is solid. dont make a game yet
+    -> the "color" stuff is a good start
 20210227
 * figure out why client's serverargmap doesnt have clients character in it
 * server holds gravity, mapname, etc

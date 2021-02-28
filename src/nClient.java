@@ -163,6 +163,21 @@ public class nClient extends Thread implements fNetBase {
                 else if(cVars.get("winnerid").length() > 0){
                     cVars.put("winnerid", "");
                 }
+                //important
+                cPowerups.processPowerupStringClient(packArgs.get("powerups"));
+                cVars.put("gamemode", packArgs.get("mode"));
+                cVars.put("gameteam", packArgs.get("teams"));
+                cVars.put("scorelimit", packArgs.get("scorelimit"));
+                cVars.put("gravity", packArgs.get("gravity"));
+                cVars.put("gametick", packArgs.get("tick"));
+                cVars.put("timeleft", packArgs.get("timeleft"));
+                cVars.put("spawnprotectionmaxtime", packArgs.get("spmaxtime"));
+                //check cmd from server only
+                String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
+                if(cmdload.length() > 0) {
+                    System.out.println("FROM_SERVER: " + cmdload);
+                    cClient.processCmd(cmdload);
+                }
                 //ugly if else for gamemodes
 //                if(packArgs.containsKey("flagmasterid")) {
 //                    cVars.put("flagmasterid", packArgs.get("flagmasterid"));
@@ -206,20 +221,6 @@ public class nClient extends Thread implements fNetBase {
 //                    }
 //                }
                 //end ugly if else
-                cPowerups.processPowerupStringClient(packArgs.get("powerups"));
-                cVars.put("gamemode", packArgs.get("mode"));
-                cVars.put("gameteam", packArgs.get("teams"));
-                cVars.put("scorelimit", packArgs.get("scorelimit"));
-                cVars.put("gravity", packArgs.get("gravity"));
-                cVars.put("gametick", packArgs.get("tick"));
-                cVars.put("timeleft", packArgs.get("timeleft"));
-                cVars.put("spawnprotectionmaxtime", packArgs.get("spmaxtime"));
-                //check cmd from server only
-                String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
-                if(cmdload.length() > 0) {
-                    System.out.println("FROM_SERVER: " + cmdload);
-                    cClient.processCmd(cmdload);
-                }
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 int isnewclient = 1;

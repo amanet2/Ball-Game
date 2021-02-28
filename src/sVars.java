@@ -63,7 +63,7 @@ public class sVars {
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
         keys.put("spawnprotectionmaxtime", "1000");
-        keys.put("startpaused", "1");
+        keys.put("startpaused", "0");
         keys.put("tagscorewaittime", "10000");
         keys.put("fontcoloralert", "200,0,50,200");
         keys.put("fontcolorbonus", "50,220,100,200");
@@ -71,6 +71,7 @@ public class sVars {
         keys.put("fontcolornormal", "255,255,255,255");
         keys.put("timelimit", "120000");
         keys.put("timeout", "1000");
+//        keys.put("uuid", uiInterface.uuid); //this breaks the startpaused setting somehow
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
         keys.put("vfxenableshading", "1");
