@@ -145,7 +145,7 @@ public class nClient extends Thread implements fNetBase {
             }
             for(String k : packArgs.keySet()) {
                 if(!nServer.instance().clientArgsMap.get(idload).containsKey(k)
-                        || nServer.instance().clientArgsMap.get(idload).get(k) != packArgs.get(k)) {
+                        || !nServer.instance().clientArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
                     nServer.instance().clientArgsMap.get(idload).put(k, packArgs.get(k));
                 }
             }
@@ -164,47 +164,47 @@ public class nClient extends Thread implements fNetBase {
                     cVars.put("winnerid", "");
                 }
                 //ugly if else for gamemodes
-                if(packArgs.containsKey("flagmasterid")) {
-                    cVars.put("flagmasterid", packArgs.get("flagmasterid"));
-                }
-                if(packArgs.get("state").contains("safezone")) {
-                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-                    String[] args = packArgs.get("state").split("-");
-                    for(Object id : scorepointsMap.keySet()) {
-                        gProp pr = (gProp) scorepointsMap.get(id);
-                        if(pr.isVal("tag", args[1]))
-                            pr.put("int0", "1");
-                        else
-                            pr.put("int0", "0");
-                    }
-                    cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
-                }
-                if(packArgs.get("state").contains("waypoints")) {
-                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-                    String[] args = packArgs.get("state").split("-");
-                    for(Object id : scorepointsMap.keySet()) {
-                        gProp pr = (gProp) scorepointsMap.get(id);
-                        pr.put("int0", "0");
-                        if(pr.isVal("tag", args[1]))
-                            pr.put("int0", "1");
-                    }
-                }
-                if(packArgs.get("state").contains("kingofflags")) {
-                    //read kingofflags for client
-                    String flagidstr = packArgs.get("state").replace("kingofflags","");
-                    String[] kingids = flagidstr.split(":");
-                    for(int c = 0; c < kingids.length;c++) {
-                        String[] kofidpair = kingids[c].split("-");
-                        HashMap<String, gThing> thingMap =
-                                eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                        for(String id : thingMap.keySet()) {
-                            if(thingMap.get(id).isVal("tag", kofidpair[0])
-                                    && !thingMap.get(id).isVal("str0", kofidpair[1])) {
-                                thingMap.get(id).put("str0", kofidpair[1]);
-                            }
-                        }
-                    }
-                }
+//                if(packArgs.containsKey("flagmasterid")) {
+//                    cVars.put("flagmasterid", packArgs.get("flagmasterid"));
+//                }
+//                if(packArgs.get("state").contains("safezone")) {
+//                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+//                    String[] args = packArgs.get("state").split("-");
+//                    for(Object id : scorepointsMap.keySet()) {
+//                        gProp pr = (gProp) scorepointsMap.get(id);
+//                        if(pr.isVal("tag", args[1]))
+//                            pr.put("int0", "1");
+//                        else
+//                            pr.put("int0", "0");
+//                    }
+//                    cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
+//                }
+//                if(packArgs.get("state").contains("waypoints")) {
+//                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+//                    String[] args = packArgs.get("state").split("-");
+//                    for(Object id : scorepointsMap.keySet()) {
+//                        gProp pr = (gProp) scorepointsMap.get(id);
+//                        pr.put("int0", "0");
+//                        if(pr.isVal("tag", args[1]))
+//                            pr.put("int0", "1");
+//                    }
+//                }
+//                if(packArgs.get("state").contains("kingofflags")) {
+//                    //read kingofflags for client
+//                    String flagidstr = packArgs.get("state").replace("kingofflags","");
+//                    String[] kingids = flagidstr.split(":");
+//                    for(int c = 0; c < kingids.length;c++) {
+//                        String[] kofidpair = kingids[c].split("-");
+//                        HashMap<String, gThing> thingMap =
+//                                eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+//                        for(String id : thingMap.keySet()) {
+//                            if(thingMap.get(id).isVal("tag", kofidpair[0])
+//                                    && !thingMap.get(id).isVal("str0", kofidpair[1])) {
+//                                thingMap.get(id).put("str0", kofidpair[1]);
+//                            }
+//                        }
+//                    }
+//                }
                 //end ugly if else
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("gamemode", packArgs.get("mode"));
@@ -221,7 +221,7 @@ public class nClient extends Thread implements fNetBase {
                     cClient.processCmd(cmdload);
                 }
             }
-            if(!idload.equals(uiInterface.uuid)) {
+            else if(!idload.equals(uiInterface.uuid)) {
                 int isnewclient = 1;
                 if(nServer.instance().clientIds.contains(idload)) {
                     ctr ++;
@@ -271,40 +271,40 @@ public class nClient extends Thread implements fNetBase {
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 userPlayer.put("stockhp", packArgs.get("stockhp"));
             }
-            if(idload.equals("server")) {
-                //this is where we update scores on client
-                cVars.put("scoremap", packArgs.get("scoremap"));
-                String[] stoks = packArgs.get("scoremap").split(":");
-                for (int j = 0; j < stoks.length; j++) {
-                    String scoreid = stoks[j].split("-")[0];
-                    if(!scoresMap.containsKey(scoreid)) {
-                        cScoreboard.addId(scoreid);
-                    }
-                    HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
-                    if(scoresMapIdMap != null) {
-                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
-                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
-                    }
-                }
-            }
+//            if(idload.equals("server")) {
+//                //this is where we update scores on client
+//                cVars.put("scoremap", packArgs.get("scoremap"));
+//                String[] stoks = packArgs.get("scoremap").split(":");
+//                for (int j = 0; j < stoks.length; j++) {
+//                    String scoreid = stoks[j].split("-")[0];
+//                    if(!scoresMap.containsKey(scoreid)) {
+//                        cScoreboard.addId(scoreid);
+//                    }
+//                    HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
+//                    if(scoresMapIdMap != null) {
+//                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
+//                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
+//                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
+//                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
+//                    }
+//                }
+//            }
         }
-        if(ctr < nServer.instance().clientIds.size()) {
-            String tr = "";
-            for(String s : nServer.instance().clientIds) {
-                if(!foundIds.contains(s)) {
-                    tr = s;
-                }
-            }
-            if(tr.length() > 0) {
-                nServer.instance().clientArgsMap.remove(tr);
-                cScoreboard.scoresMap.remove(tr);
-//                nServer.instance().clientNetCmdMap.remove(tr);
-                nServer.instance().clientIds.remove(tr);
-                eManager.currentMap.scene.playersMap().remove(tr);
-            }
-        }
+//        if(ctr < nServer.instance().clientIds.size()) {
+//            String tr = "";
+//            for(String s : nServer.instance().clientIds) {
+//                if(!foundIds.contains(s)) {
+//                    tr = s;
+//                }
+//            }
+//            if(tr.length() > 0) {
+//                nServer.instance().clientArgsMap.remove(tr);
+//                cScoreboard.scoresMap.remove(tr);
+////                nServer.instance().clientNetCmdMap.remove(tr);
+//                nServer.instance().clientIds.remove(tr);
+//                eManager.currentMap.scene.playersMap().remove(tr);
+//            }
+//        }
     }
 
     public String dequeueNetMsg() {

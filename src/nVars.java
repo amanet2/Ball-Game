@@ -70,6 +70,9 @@ public class nVars {
         keys.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
+            keys.put("color", sVars.get("playercolor"));
+            keys.put("hat", sVars.get("playerhat"));
+            keys.put("flashlight", cVars.get("flashlight"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("crouch", userPlayer.get("crouch"));
@@ -80,11 +83,8 @@ public class nVars {
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
             keys.put("weapon", userPlayer.get("weapon"));
         }
-        //values that come from svars and cvars like name, color, etc
-        keys.put("color", sVars.get("playercolor"));
-        keys.put("hat", sVars.get("playerhat"));
+        //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
-        keys.put("flashlight", cVars.get("flashlight"));
         //key whose presence depends on value of cvar like quitting, disconnecting
         keys.remove("quit");
         keys.remove("disconnect");
@@ -94,11 +94,11 @@ public class nVars {
             keys.put("disconnect", "");
         //server-specific values, mostly for gamemode stuff
         if(sSettings.net_server) {
-            //flagmaster for ctf and flagmaster
-            if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                    || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
-                keys.put("flagmasterid", cVars.get("flagmasterid"));
-            }
+//            //flagmaster for ctf and flagmaster
+//            if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
+//                    || cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
+//                keys.put("flagmasterid", cVars.get("flagmasterid"));
+//            }
             //the name of the current map
             keys.put("map", eManager.currentMap.mapName);
             //the current gamemode

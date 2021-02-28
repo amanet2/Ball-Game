@@ -273,14 +273,16 @@ public class cGameLogic {
 
     public static void checkColorStatus(){
         //player0 insert color into map
-        if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
-        && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("color").equals(sVars.get("playercolor"))) {
-            nServer.instance().clientArgsMap.get(uiInterface.uuid).put("color", sVars.get("playercolor"));
-        }
+//        if(nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)
+//        && !nServer.instance().clientArgsMap.get(uiInterface.uuid).get("color").equals(sVars.get("playercolor"))) {
+//            nServer.instance().clientArgsMap.get(uiInterface.uuid).put("color", sVars.get("playercolor"));
+//        }
         //check all id colors, including yours
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             gPlayer p = gScene.getPlayerById(id);
             String ccol = nServer.instance().clientArgsMap.get(id).get("color");
+            if(p == null || ccol == null)
+                continue;
             if(!p.get("pathsprite").contains(ccol)) {
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
