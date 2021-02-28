@@ -4,9 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210228
-* 3 players is effed up
-    -> because of the reliance on client INDEX when reading string tokenized by @
-        -> server sending to wrong place
+* 3 windows
+    -> 1: newgame
+    -> 2: joingame, normal
+    -> 3: joingame, broken until 2 quits
+        -> at this time, 2 is getting the first line of 3's mapstream forever, since server wants 3's rcv msg
 * MOVING FORWARD
     -> continue with the curent server behavior as a playerless "godview"
     -> make sure all client and bot logic is sound in this view as well as in client

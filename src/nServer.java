@@ -158,12 +158,12 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 if(clientId != null) {
                     nSend.focus_id = clientId;
                     //create response
-                    String sendDataString = createSendDataString();
+                    String sendDataString = createSendDataString(clientId);
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket =
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER SEND [" + sendDataString.length() + "]: " + sendDataString);
+                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
                 receivedPackets.remove();
             }
@@ -183,7 +183,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     String clientId = clientmap.get("id");
                     nSend.focus_id = clientId;
                     //act as if responding
-                    createSendDataString();
+                    createSendDataString(clientId);
                 }
             }
         }
@@ -193,7 +193,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         }
     }
 
-    private String createSendDataString() {
+    private String createSendDataString(String clientid) {
         StringBuilder sendDataString;
 //        nVars.update();
         if(nSend.sendMap != null) {
@@ -203,6 +203,16 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     nSend.sendMap.put(k, nVars.get(k));
                 else
                     nSend.sendMap.remove(k);
+            }
+            if(sSettings.net_server && clientid.length() > 0
+                    && nServer.instance().clientNetCmdMap.containsKey(clientid)
+                    && nServer.instance().clientNetCmdMap.get(clientid).size() > 0
+                    && nServer.instance().clientArgsMap.containsKey(clientid)
+                    && !nServer.instance().clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+                //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+                if(clientid.contains("bot"))
+                    nServer.instance().clientArgsMap.get(clientid).put("netcmdrcv", "1");
+                nVars.keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
             }
         }
         else
