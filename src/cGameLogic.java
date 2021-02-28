@@ -30,7 +30,7 @@ public class cGameLogic {
                 checkQuitterStatus();
                 checkMovementStatus();
                 checkNameStatus();
-                checkHatStatus();
+//                checkHatStatus();
                 checkColorStatus();
 //                checkWeaponsStatus();
                 checkHealthStatus();

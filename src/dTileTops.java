@@ -139,9 +139,9 @@ public class dTileTops {
             //popups
             drawPopups(g);
             //player highlight
-            drawUserPlayerArrow(g2);
+//            drawUserPlayerArrow(g2);
             //playernames
-            drawPlayerNames(g);
+//            drawPlayerNames(g);
         }
     }
 
@@ -167,28 +167,20 @@ public class dTileTops {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sVars.isOne("playerarrow") && eManager.currentMap.scene.playersMap().size() > 0) {
-            gPlayer userPlayer = cGameLogic.userPlayer();
+        if(sVars.isOne("playerarrow") && nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)) {
+            HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(uiInterface.uuid);
+            int coordx = eUtils.scaleInt(Integer.parseInt(clientMap.get("x")) - cVars.getInt("camx"));
+            int coordy = eUtils.scaleInt(Integer.parseInt(clientMap.get("y")) - cVars.getInt("camy") - 200);
             int[][] polygonBase = new int[][]{
                     new int[]{0,2,1},
                     new int[]{0,0,1}
             };
             int polygonSize = sSettings.width/32;
             int[][] polygon = new int[][]{
-                    new int[]{
-                            eUtils.scaleInt(userPlayer.getInt("coordx")
-                                    - cVars.getInt("camx")) + polygonBase[0][0]*polygonSize,
-                            eUtils.scaleInt(userPlayer.getInt("coordx")
-                                    - cVars.getInt("camx")) + polygonBase[0][1]*polygonSize,
-                            eUtils.scaleInt(userPlayer.getInt("coordx")
-                                    - cVars.getInt("camx")) + polygonBase[0][2]*polygonSize},
-                    new int[]{
-                            eUtils.scaleInt(userPlayer.getInt("coordy")
-                                    - cVars.getInt("camy")-200) + polygonBase[1][0]*polygonSize,
-                            eUtils.scaleInt(userPlayer.getInt("coordy")
-                                    - cVars.getInt("camy")-200) + polygonBase[1][1]*polygonSize,
-                            eUtils.scaleInt(userPlayer.getInt("coordy")
-                                    - cVars.getInt("camy")-200) + polygonBase[1][2]*polygonSize}
+                    new int[]{coordx + polygonBase[0][0]*polygonSize, coordx + polygonBase[0][1]*polygonSize,
+                            coordx + polygonBase[0][2]*polygonSize},
+                    new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
+                            coordy + polygonBase[1][2]*polygonSize}
             };
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
@@ -202,9 +194,8 @@ public class dTileTops {
     public static void drawPlayerNames(Graphics g) {
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(id);
-            if(!eUtils.containsFields(clientMap, new String[]{"name", "x", "y"})) {
+            if(!eUtils.containsFields(clientMap, new String[]{"name", "x", "y"}))
                 continue;
-            }
             dFonts.setFontNormal(g);
             String name = clientMap.get("name");
             int coordx = Integer.parseInt(clientMap.get("x")) - cVars.getInt("camx");

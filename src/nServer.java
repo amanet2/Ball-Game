@@ -40,9 +40,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     public void checkForUnhandledQuitters() {
         cGameLogic.checkDisconnectStatus();
         //other players
-        System.out.println(clientArgsMap.toString());
         for(String id : clientArgsMap.keySet()) {
-            System.out.println(id);
+//            System.out.println(id);
             if(!id.equals(uiInterface.uuid) && !id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
@@ -175,8 +174,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
-                    String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
-                    String receiveDataString = botStateStr;
+                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
                     readData(receiveDataString);
@@ -315,6 +313,9 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                         Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
             }
             //only want to update keys that have changes
+            System.out.println(clientArgsMap.toString());
+            System.out.println("----------------");
+            System.out.println(packArgMap.toString());
             for(String k : packArgMap.keySet()) {
                 if(!clientArgsMap.get(packId).containsKey(k)
                         || !clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {
