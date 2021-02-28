@@ -223,7 +223,6 @@ public class nClient extends Thread implements fNetBase {
                 //end ugly if else
             }
             else if(!idload.equals(uiInterface.uuid)) {
-                int isnewclient = 1;
                 if(nServer.instance().clientIds.contains(idload)) {
                     ctr ++;
                     foundIds.add(idload);
@@ -249,14 +248,13 @@ public class nClient extends Thread implements fNetBase {
                     for(int vel = 0; vel < veltoks.length; vel++) {
                         gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
                     }
-                    isnewclient = 0;
                     if(!packArgs.containsKey("spawnprotected")
                             && nServer.instance().clientArgsMap.get(idload).containsKey("spawnprotected")) {
                         nServer.instance().clientArgsMap.get(idload).remove("spawnprotected");
                     }
                     cClient.processActionLoadClient(actionload);
                 }
-                if(isnewclient == 1){
+                else {
                     nServer.instance().clientIds.add(idload);
                     ctr++;
                     gPlayer player = new gPlayer(-6000, -6000,150,150,
