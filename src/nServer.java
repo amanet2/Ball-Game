@@ -156,7 +156,6 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     addNetCmd(clientId, "disconnect");
                 }
                 if(clientId != null) {
-                    nSend.focus_id = clientId;
                     //create response
                     String sendDataString = createSendDataString(clientId);
                     byte[] sendData = sendDataString.getBytes();
@@ -181,7 +180,6 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     //get player id of client
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
-                    nSend.focus_id = clientId;
                     //act as if responding
                     createSendDataString(clientId);
                 }
@@ -212,7 +210,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
                 if(clientid.contains("bot"))
                     nServer.instance().clientArgsMap.get(clientid).put("netcmdrcv", "1");
-                nVars.keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
+                nVars.keys.put("cmd", nServer.instance().clientNetCmdMap.get(clientid).peek());
             }
         }
         else
@@ -233,9 +231,6 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     }
 
     void removeNetClient(String id) {
-        if(nSend.focus_id.equals(id)){
-            nSend.focus_id = "";
-        }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);

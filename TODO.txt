@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210228
-* 3 windows
+* handle quits, disconnects, and timeouts, and bans
+* bots broken, kind of
+* player fvs not going accross
+X 3 windows
     -> 1: newgame
     -> 2: joingame, normal
     -> 3: joingame, broken until 2 quits
