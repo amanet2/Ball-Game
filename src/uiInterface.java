@@ -88,7 +88,7 @@ public class uiInterface {
 		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
 	}
 
-	public static void startNew() {
+	public static void init() {
         eManager.getMapsSelection();
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
@@ -96,7 +96,9 @@ public class uiInterface {
             xCon.ex("cv_camy -6000");
         }
 	    else {
-            xCon.ex("load "+ sVars.get("defaultmap"));
+//            xCon.ex("load "+ sVars.get("defaultmap"));
+            xCon.ex("load");
+            sVars.put("inconsole", "1");
         }
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();

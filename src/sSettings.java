@@ -3,7 +3,7 @@ public class sSettings {
 	 * data source
 	 */
 	static String CONFIG_FILE_LOCATION = "config/settings.cfg";
-    static boolean net_server = true;
+    static boolean net_server = false;
 	static boolean net_client = false;
 	static final int NET_OFFLINE = 0;
 	static final int NET_SERVER = 1;

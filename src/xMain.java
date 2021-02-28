@@ -4,6 +4,6 @@ public class xMain {
 		eUtils.disableApplePressAndHold();
 		oDisplay.instance().showFrame();
 		uiInterface.addListeners();
-		uiInterface.startNew();
+		uiInterface.init();
 	}
 }

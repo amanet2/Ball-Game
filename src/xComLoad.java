@@ -7,9 +7,9 @@ public class xComLoad extends xCom {
         if(!mapPath.contains(sVars.get("datapath")))
             mapPath = eUtils.getPath(mapPath);
         gMap.load(mapPath);
-        eManager.setScene();
+//        eManager.setScene();
         oDisplay.instance().createPanels();
-        cScripts.setupGame();
+//        cScripts.setupGame();
         return "";
     }
 }
