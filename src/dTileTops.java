@@ -141,7 +141,7 @@ public class dTileTops {
             //player highlight
             drawUserPlayerArrow(g2);
             //playernames
-            drawPlayerNames(g, g2);
+            drawPlayerNames(g);
         }
     }
 
@@ -199,7 +199,19 @@ public class dTileTops {
         }
     }
 
-    public static void drawPlayerNames(Graphics g, Graphics2D g2) {
+    public static void drawPlayerNames(Graphics g) {
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
+            HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(id);
+            if(!eUtils.containsFields(clientMap, new String[]{"name", "x", "y"})) {
+                continue;
+            }
+            dFonts.setFontNormal(g);
+            String name = clientMap.get("name");
+            int coordx = Integer.parseInt(clientMap.get("x")) - cVars.getInt("camx");
+            int coordy = Integer.parseInt(clientMap.get("y")) - cVars.getInt("camy");
+            g.drawString(name, eUtils.scaleInt(coordx), eUtils.scaleInt(coordy));
+        }
+        //old flashlight otherplayer glow effect
 //        for(String id : gScene.getPlayerIds()) {
 //            gPlayer p = gScene.getPlayerById(id);
 //            if(!p.containsFields(new String[]{"name", "coordx", "coordy", "dimw", "dimh", "flashlight"}))
