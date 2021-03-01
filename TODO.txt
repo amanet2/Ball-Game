@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210301
+* why does "disconnecting = 1" work but calling disconenct() doesnt?
+    -> trace it
 20210228
 * looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
 * handle quits, disconnects, and timeouts, and bans
