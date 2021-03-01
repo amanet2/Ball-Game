@@ -21,9 +21,9 @@ public class xComRespawnPlayer extends xCom {
                 //server-side solution
                 nServer.instance().addNetCmd(id, "userplayer coordx " +
                         (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
-                        - cGameLogic.userPlayer().getInt("dimw") / 2)
+                        - player.getInt("dimw") / 2)
                 + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
-                        - cGameLogic.userPlayer().getInt("dimh") / 2));
+                        - player.getInt("dimh") / 2));
                 nServer.instance().addNetCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
                         "cv_camplayertrackingid " + id + ";centercamera");
                 //player-centric spawn comands

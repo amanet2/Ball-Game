@@ -25,6 +25,10 @@ public class cGameLogic {
             }
             if(sSettings.net_server) {
                 checkQuitterStatus();
+                checkHealthStatus();
+            }
+            else if(sSettings.net_client) {
+                checkQuitterStatus();
             }
             if(userPlayer() != null) {
                 // methods here need migrating to server
@@ -37,7 +41,7 @@ public class cGameLogic {
 //                checkHatStatus();
                 checkColorStatus();
 //                checkWeaponsStatus();
-                checkHealthStatus();
+//                checkHealthStatus();
                 checkSprintStatus();
                 checkPowerupsStatus();
                 checkGameState();

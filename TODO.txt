@@ -4,8 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210301
-* why does "disconnecting = 1" work but calling disconenct() doesnt?
+X why does "disconnecting = 1" work but calling disconnect() doesnt?
     -> trace it
+    -> it;s because the "checkQuitterStatus" fuction was restricted to server only
 20210228
 * looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
 * handle quits, disconnects, and timeouts, and bans
@@ -17,6 +18,7 @@ X 3 windows
     -> 2: joingame, normal
     -> 3: joingame, broken until 2 quits
         -> at this time, 2 is getting the first line of 3's mapstream forever, since server wants 3's rcv msg
+    -> fixed by getting rid of "focus id" in server
 * MOVING FORWARD
     -> continue with the curent server behavior as a playerless "godview"
     -> make sure all client and bot logic is sound in this view as well as in client
