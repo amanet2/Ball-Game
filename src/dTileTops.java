@@ -139,9 +139,9 @@ public class dTileTops {
             //popups
             drawPopups(g);
             //player highlight
-//            drawUserPlayerArrow(g2);
+            drawUserPlayerArrow(g2);
             //playernames
-//            drawPlayerNames(g);
+            drawPlayerNames(g, g2);
         }
     }
 
@@ -167,10 +167,13 @@ public class dTileTops {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sVars.isOne("playerarrow") && nServer.instance().clientArgsMap.containsKey(uiInterface.uuid)) {
-            HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(uiInterface.uuid);
-            int coordx = eUtils.scaleInt(Integer.parseInt(clientMap.get("x")) - cVars.getInt("camx"));
-            int coordy = eUtils.scaleInt(Integer.parseInt(clientMap.get("y")) - cVars.getInt("camy") - 200);
+        if(sVars.isOne("playerarrow")) {
+            gPlayer userPlayer = cGameLogic.userPlayer();
+            if(userPlayer == null)
+                return;
+            int coordx = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordx")) - cVars.getInt("camx"));
+            int coordy = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordy")) - cVars.getInt("camy")
+                    - 200);
             int[][] polygonBase = new int[][]{
                     new int[]{0,2,1},
                     new int[]{0,0,1}
@@ -191,16 +194,33 @@ public class dTileTops {
         }
     }
 
-    public static void drawPlayerNames(Graphics g) {
+    public static void drawPlayerNames(Graphics g, Graphics2D g2) {
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(id);
-            if(!eUtils.containsFields(clientMap, new String[]{"name", "x", "y"}))
+            gPlayer p = gScene.getPlayerById(id);
+            if(p == null || clientMap == null)
+                continue;
+            if(!p.containsFields(new String[]{"coordx", "coordy"}))
+                continue;
+            if(!eUtils.containsFields(clientMap, new String[]{"name"}))
                 continue;
             dFonts.setFontNormal(g);
             String name = clientMap.get("name");
-            int coordx = Integer.parseInt(clientMap.get("x")) - cVars.getInt("camx");
-            int coordy = Integer.parseInt(clientMap.get("y")) - cVars.getInt("camy");
+            int coordx = p.getInt("coordx") - cVars.getInt("camx");
+            int coordy = p.getInt("coordy") - cVars.getInt("camy");
             g.drawString(name, eUtils.scaleInt(coordx), eUtils.scaleInt(coordy));
+            //draw flashlight glow
+            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
+                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
+                    continue;
+                int x = eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")
+                        - p.getInt("dimw") / 4);
+                int y = eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")
+                        - p.getInt("dimh") / 4);
+                int w = eUtils.scaleInt(3 * p.getInt("dimw") / 2);
+                int h = eUtils.scaleInt(3 * p.getInt("dimh") / 2);
+                dFlares.drawFlare(g2, x, y, w, h, 1, new int[]{255, 255, 255, 255}, new int[4]);
+            }
         }
         //old flashlight otherplayer glow effect
 //        for(String id : gScene.getPlayerIds()) {

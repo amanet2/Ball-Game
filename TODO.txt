@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210301
+* REMEMBER THAT THE PERSON FIRING WILL --NOT-- SEE THE "fireweapon" COMM COME FROM THE SERVER
+* scoreboard showing two names when only one client playing
 X why does "disconnecting = 1" work but calling disconnect() doesnt?
     -> trace it
     -> it;s because the "checkQuitterStatus" fuction was restricted to server only
