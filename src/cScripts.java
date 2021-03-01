@@ -360,6 +360,7 @@ public class cScripts {
 //            xCon.ex("respawn");
 //        }
         if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
+            //spawns player for mapmaker testing
             gPlayer player0 = new gPlayer(-6000, -6000,150,150,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
             player0.put("tag", "0");
