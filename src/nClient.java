@@ -289,6 +289,7 @@ public class nClient extends Thread implements fNetBase {
 //                }
 //            }
         }
+        //check for ids that have been taken out of the server argmap
         if(ctr < nServer.instance().clientIds.size()) {
             String tr = "";
             for(String s : nServer.instance().clientIds) {
@@ -332,6 +333,7 @@ public class nClient extends Thread implements fNetBase {
     }
 
     public void disconnect() {
+        System.out.println("DISCONNECTING");
         cVars.put("disconnecting", "0");
         clientSocket.close();
         if(isAlive())

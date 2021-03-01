@@ -4,6 +4,9 @@ public class xComDisconnect extends xCom {
             xCon.ex("clearbots");
             nServer.instance().addExcludingNetCmd("server", "disconnect");
         }
+        if(sSettings.net_client) {
+            nClient.instance().disconnect();
+        }
         cVars.put("disconnecting", "1");
         return fullCommand;
     }

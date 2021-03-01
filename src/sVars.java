@@ -21,7 +21,7 @@ public class sVars {
         keys.put("debug", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
 //        keys.put("defaultmap", "mainmenu.map");
-        keys.put("defaultmap", "wp_steam.map");
+        keys.put("defaultmap", "mainmenu.map");
         keys.put("defaulttitle", "Ball Game");
         keys.put("displaymode", "0");
         keys.put("fontmode", "0");

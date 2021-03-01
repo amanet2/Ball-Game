@@ -350,6 +350,9 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
                     }
+                    if(clientArgsMap.get(packId).containsKey("fv")) {
+                        packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
+                    }
                 }
                 if(!packArgMap.containsKey("spawnprotected")
                         && clientArgsMap.get(packId).containsKey("spawnprotected")) {
