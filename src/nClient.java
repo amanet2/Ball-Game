@@ -289,21 +289,21 @@ public class nClient extends Thread implements fNetBase {
 //                }
 //            }
         }
-//        if(ctr < nServer.instance().clientIds.size()) {
-//            String tr = "";
-//            for(String s : nServer.instance().clientIds) {
-//                if(!foundIds.contains(s)) {
-//                    tr = s;
-//                }
-//            }
-//            if(tr.length() > 0) {
-//                nServer.instance().clientArgsMap.remove(tr);
-//                cScoreboard.scoresMap.remove(tr);
-////                nServer.instance().clientNetCmdMap.remove(tr);
-//                nServer.instance().clientIds.remove(tr);
-//                eManager.currentMap.scene.playersMap().remove(tr);
-//            }
-//        }
+        if(ctr < nServer.instance().clientIds.size()) {
+            String tr = "";
+            for(String s : nServer.instance().clientIds) {
+                if(!foundIds.contains(s)) {
+                    tr = s;
+                }
+            }
+            if(tr.length() > 0) {
+                nServer.instance().clientArgsMap.remove(tr);
+                cScoreboard.scoresMap.remove(tr);
+//                nServer.instance().clientNetCmdMap.remove(tr);
+                nServer.instance().clientIds.remove(tr);
+                eManager.currentMap.scene.playersMap().remove(tr);
+            }
+        }
     }
 
     public String dequeueNetMsg() {

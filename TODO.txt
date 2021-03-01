@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210228
+* looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
 * handle quits, disconnects, and timeouts, and bans
     -> lots of "check" functions used to rely on player0 existing, refactor these
 * bots broken, kind of
