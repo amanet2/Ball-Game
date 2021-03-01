@@ -132,7 +132,6 @@ public class nClient extends Thread implements fNetBase {
         for(int i = 0; i < toks.length; i++) {
             String argload = toks[i];
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
-            HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
             String idload = packArgs.get("id");
 //            String nameload = packArgs.get("name") != null ? packArgs.get("name")
 //                    : nServer.instance().clientArgsMap.containsKey(idload) ? nServer.instance().clientArgsMap.get(idload).get("name")
@@ -140,9 +139,6 @@ public class nClient extends Thread implements fNetBase {
             String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
             if(!nServer.instance().clientArgsMap.containsKey(idload))
                 nServer.instance().clientArgsMap.put(idload, packArgs);
-            if(!scoresMap.containsKey(idload)) {
-                cScoreboard.addId(idload);
-            }
             for(String k : packArgs.keySet()) {
                 if(!nServer.instance().clientArgsMap.get(idload).containsKey(k)
                         || !nServer.instance().clientArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
@@ -270,24 +266,28 @@ public class nClient extends Thread implements fNetBase {
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 userPlayer.put("stockhp", packArgs.get("stockhp"));
             }
-//            if(idload.equals("server")) {
-//                //this is where we update scores on client
-//                cVars.put("scoremap", packArgs.get("scoremap"));
-//                String[] stoks = packArgs.get("scoremap").split(":");
-//                for (int j = 0; j < stoks.length; j++) {
-//                    String scoreid = stoks[j].split("-")[0];
-//                    if(!scoresMap.containsKey(scoreid)) {
-//                        cScoreboard.addId(scoreid);
-//                    }
-//                    HashMap<String, Integer> scoresMapIdMap = scoresMap.get(scoreid);
-//                    if(scoresMapIdMap != null) {
-//                        scoresMapIdMap.put("wins", Integer.parseInt(stoks[j].split("-")[1]));
-//                        scoresMapIdMap.put("score", Integer.parseInt(stoks[j].split("-")[2]));
-//                        scoresMapIdMap.put("kills", Integer.parseInt(stoks[j].split("-")[3]));
-//                        scoresMapIdMap.put("ping", Integer.parseInt(stoks[j].split("-")[4]));
-//                    }
-//                }
-//            }
+            if(idload.equals("server")) {
+                //this is where we update scores on client
+//                HashMap<String, HashMap<String, Integer>> scoresMap = ;
+                cVars.put("scoremap", packArgs.get("scoremap"));
+                String[] stoks = packArgs.get("scoremap").split(":");
+                for (int j = 0; j < stoks.length; j++) {
+                    String[] sstoks = stoks[j].split("-");
+                    String scoreid = sstoks[0];
+                    if(scoreid.length() > 0) {
+                        if (!cScoreboard.scoresMap.containsKey(scoreid)) {
+                            cScoreboard.addId(scoreid);
+                        }
+                        HashMap<String, Integer> scoresMapIdMap = cScoreboard.scoresMap.get(scoreid);
+                        if (scoresMapIdMap != null) {
+                            scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
+                            scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
+                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
+                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
+                        }
+                    }
+                }
+            }
         }
         //check for ids that have been taken out of the server argmap
         if(ctr < nServer.instance().clientIds.size()) {
