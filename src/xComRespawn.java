@@ -3,19 +3,21 @@ import java.util.Random;
 
 public class xComRespawn extends xCom {
     public String doCommand(String fullCommand) {
-        int randomSpawnpointIndex = new Random().nextInt(
-                eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
         ArrayList<String> spawnpointids =
                 new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());
-        String randomId = spawnpointids.get(randomSpawnpointIndex);
-        gPropSpawnpoint spawnpoint =
-                (gPropSpawnpoint) eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").get(randomId);
         gPlayer userPlayer = cGameLogic.userPlayer();
-        //player-centric spawn comands
-        userPlayer.putInt("coordx", spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
-                - cGameLogic.userPlayer().getInt("dimw") / 2);
-        userPlayer.putInt("coordy", spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
-                - cGameLogic.userPlayer().getInt("dimh") / 2);
+        if(spawnpointids.size() > 0) {
+            int randomSpawnpointIndex = new Random().nextInt(
+                    eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
+            String randomId = spawnpointids.get(randomSpawnpointIndex);
+            gPropSpawnpoint spawnpoint =
+                    (gPropSpawnpoint) eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").get(randomId);
+            //player-centric spawn comands
+            userPlayer.putInt("coordx", spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
+                    - cGameLogic.userPlayer().getInt("dimw") / 2);
+            userPlayer.putInt("coordy", spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
+                    - cGameLogic.userPlayer().getInt("dimh") / 2);
+        }
         userPlayer.put("stockhp", cVars.get("maxstockhp"));
         userPlayer.remove("respawntime");
         xCon.ex("cv_flashlight 0");

@@ -359,6 +359,18 @@ public class cScripts {
 //        else if(uiInterface.inplay){
 //            xCon.ex("respawn");
 //        }
+        if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
+            gPlayer player0 = new gPlayer(-6000, -6000,150,150,
+                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
+            player0.put("tag", "0");
+            player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
+            cGameLogic.setUserPlayer(player0);
+//            nServer.instance().clientArgsMap.get(player0.get("id")).put("color", sVars.get("playercolor"));
+//            player0.put("color", sVars.get("playercolor"));
+            eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
+            xCon.ex("centercamera");
+            xCon.ex("respawn");
+        }
         cGameLogic.resetGameState();
 //        cVars.put("canvoteskip", "");
 //        cVars.put("voteskipctr", "0");
