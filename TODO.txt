@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210303
+* Be watchful for mem leaks
 * Get changing map while game in session working
+    -> seems to work but it was not a thought out solution
 20210301
 * REMEMBER THAT THE PERSON FIRING WILL --NOT-- SEE THE "fireweapon" COMM COME FROM THE SERVER
 * scoreboard showing two names when only one client playing

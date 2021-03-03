@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static gMap currentMap;
+	static gMap currentMap = new gMap();
 	static String[] mapsSelection = new String[]{};
 	static String[] winClipSelection = new String[]{};
 
