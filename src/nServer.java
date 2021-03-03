@@ -386,7 +386,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         addExcludingNetCmd("server", "cv_maploaded 0;load ");
         eManager.currentMap.scene.clearPlayers();
         for(String id : clientIds) {
-            createNewPlayer(id, clientArgsMap.get(id).get("name"));
+            createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
+            addNetCmd(id, "createuserplayer; cv_maploaded 1");
         }
     }
 
@@ -394,10 +395,12 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-        createNewPlayer(packId, packName);
+        createServersidePlayerAndSendMap(packId, packName);
+        addNetCmd(packId, "cv_maploaded 1;respawn");
+        addNetCmd(String.format("echo %s joined the game", packName));
     }
 
-    private void createNewPlayer(String packId, String packName) {
+    private void createServersidePlayerAndSendMap(String packId, String packName) {
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
@@ -420,8 +423,6 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 sendStringBuilder = new StringBuilder();
             }
         }
-        addNetCmd(packId, "cv_maploaded 1;respawn");
-        addNetCmd(String.format("echo %s joined the game", packName));
     }
 
     private void handleClientMessage(String msg) {

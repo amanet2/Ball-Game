@@ -133,6 +133,7 @@ public class xCon {
         commands.put("clientlist", new xComClientlist());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
+        commands.put("createuserplayer", new xComCreateUserPlayer());
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
