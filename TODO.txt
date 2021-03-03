@@ -3,6 +3,8 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210303
+* Get changing map while game in session working
 20210301
 * REMEMBER THAT THE PERSON FIRING WILL --NOT-- SEE THE "fireweapon" COMM COME FROM THE SERVER
 * scoreboard showing two names when only one client playing
