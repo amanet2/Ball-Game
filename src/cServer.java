@@ -22,6 +22,7 @@ public class cServer {
                         return String.format("waypoints-%s", p.get("tag"));
                 }
                 break;
+            case cGameMode.CAPTURE_THE_FLAG:
             case cGameMode.KING_OF_FLAGS:
                 StringBuilder s = new StringBuilder();
                 HashMap<String, gThing> kofThingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");

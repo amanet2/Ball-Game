@@ -14,6 +14,11 @@ public class dWaypoints {
                             + cGameLogic.userPlayer().getInt("dimw")/2,
                     dy - cGameLogic.userPlayer().getInt("coordy")
                             + cGameLogic.userPlayer().getInt("dimh")/2};
+//            double[] deltas = new double[]{
+//                    dx - cGameLogic.userPlayer().getInt("coordx")
+//                            + cGameLogic.userPlayer().getInt("dimw")/2,
+//                    dy - cGameLogic.userPlayer().getInt("coordy")
+//                            + cGameLogic.userPlayer().getInt("dimh")/2};
             g2.setColor(new Color(255,100,50,150));
             int[][] polygondims = new int[][]{
                     new int[]{
@@ -80,7 +85,8 @@ public class dWaypoints {
                     HashMap unheldflagsmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
                     for(Object id : unheldflagsmap.keySet()) {
                         gPropFlagRed flag = (gPropFlagRed) unheldflagsmap.get(id);
-                        if(!flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
+                        if(cGameLogic.userPlayer() != null
+                        && !flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
                             dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                                 flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
                     }
