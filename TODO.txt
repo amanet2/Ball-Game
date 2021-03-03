@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210303
+* EXCELLENT OFFLINE TEST: load ctf_bend.map;createuserplayer;respawn
 * Be watchful for mem leaks
 * Get changing map while game in session working
     -> seems to work but it was not a thought out solution

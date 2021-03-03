@@ -417,7 +417,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
             sendStringBuilder.append(line.replace("cmd", "")).append(";");
             linectr++;
             if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == eManager.currentMap.mapLines.size()-1) {
+                    || linectr == eManager.currentMap.mapLines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();

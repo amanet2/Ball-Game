@@ -14,11 +14,6 @@ public class dWaypoints {
                             + cGameLogic.userPlayer().getInt("dimw")/2,
                     dy - cGameLogic.userPlayer().getInt("coordy")
                             + cGameLogic.userPlayer().getInt("dimh")/2};
-//            double[] deltas = new double[]{
-//                    dx - cGameLogic.userPlayer().getInt("coordx")
-//                            + cGameLogic.userPlayer().getInt("dimw")/2,
-//                    dy - cGameLogic.userPlayer().getInt("coordy")
-//                            + cGameLogic.userPlayer().getInt("dimh")/2};
             g2.setColor(new Color(255,100,50,150));
             int[][] polygondims = new int[][]{
                     new int[]{
