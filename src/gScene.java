@@ -43,6 +43,10 @@ public class gScene {
 	    return toReturn;
     }
 
+    public void clearPlayers() {
+	    objectMaps.put("THING_PLAYER", new HashMap<>());
+    }
+
 	public ArrayList<gTile> tiles() {
 		return objectLists.get("THING_TILE");
 	}

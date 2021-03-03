@@ -353,6 +353,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     if(clientArgsMap.get(packId).containsKey("fv")) {
                         packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
                     }
+                    //store player object's health in outgoing network arg map
+                    clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
                 }
                 if(!packArgMap.containsKey("spawnprotected")
                         && clientArgsMap.get(packId).containsKey("spawnprotected")) {
@@ -369,8 +371,22 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     handleClientCommand(packId, packArgMap.get("cmd"));
                 }
             }
-            //store player object's health in outgoing network arg map
-            clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
+        }
+    }
+
+    public void changeMap(String mapPath) {
+        System.out.println("CHANGING MAP: " + mapPath);
+        clearBots();
+        oDisplay.instance().clearAndRefresh();
+        cVars.put("botbehavior", "");
+        if(!mapPath.contains(sVars.get("datapath")))
+            mapPath = eUtils.getPath(mapPath);
+        gMap.load(mapPath);
+        oDisplay.instance().createPanels();
+        addExcludingNetCmd("server", "cv_maploaded 0;load ");
+        eManager.currentMap.scene.clearPlayers();
+        for(String id : clientIds) {
+            createNewPlayer(id, clientArgsMap.get(id).get("name"));
         }
     }
 
@@ -378,6 +394,10 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
+        createNewPlayer(packId, packName);
+    }
+
+    private void createNewPlayer(String packId, String packName) {
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));

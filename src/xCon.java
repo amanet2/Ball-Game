@@ -127,6 +127,7 @@ public class xCon {
         commands.put("bindlist", new xComBindList());
         commands.put("botrespawn", new xComBotRespawn());
         commands.put("centercamera", new xComCentercamera());
+        commands.put("changemap", new xComChangeMap());
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
         commands.put("clientlist", new xComClientlist());

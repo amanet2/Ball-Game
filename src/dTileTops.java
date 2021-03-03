@@ -169,7 +169,7 @@ public class dTileTops {
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sVars.isOne("playerarrow")) {
             gPlayer userPlayer = cGameLogic.userPlayer();
-            if(userPlayer == null)
+            if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
             int coordx = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordx")) - cVars.getInt("camx"));
             int coordy = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordy")) - cVars.getInt("camy")
