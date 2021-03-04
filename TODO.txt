@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210303
+* track list of clientRestricted cmds that a client cant execute in an online match
+    - zoom, userplayer
 * EXCELLENT OFFLINE TEST: load ctf_bend.map;createuserplayer;respawn
 * Be watchful for mem leaks
 * Get changing map while game in session working

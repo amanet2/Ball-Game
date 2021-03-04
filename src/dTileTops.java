@@ -208,7 +208,8 @@ public class dTileTops {
             String name = clientMap.get("name");
             int coordx = p.getInt("coordx") - cVars.getInt("camx");
             int coordy = p.getInt("coordy") - cVars.getInt("camy");
-            g.drawString(name, eUtils.scaleInt(coordx), eUtils.scaleInt(coordy));
+            dFonts.drawCenteredString(g, name,
+                    eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
             //draw flashlight glow
             if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
                 if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))

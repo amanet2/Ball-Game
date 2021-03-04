@@ -6,6 +6,10 @@ public class dFonts {
             new FontRenderContext(null, false, true);
 
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
+        Color savedColor = g.getColor();
+        g.setColor(Color.BLACK);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
+        g.setColor(savedColor);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 

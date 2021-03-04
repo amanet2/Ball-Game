@@ -42,9 +42,8 @@ public class dWaypoints {
                     eUtils.scaleInt(dy - cVars.getInt("camy")));
             FontRenderContext frc =
                     new FontRenderContext(null, false, true);
-            g2.drawString(message,
-                    eUtils.scaleInt(dx - cVars.getInt("camx"))
-                            -(int)g2.getFont().getStringBounds(message,frc).getWidth()/2,
+            dFonts.drawCenteredString(g2, message,
+                    eUtils.scaleInt(dx - cVars.getInt("camx")),
                     eUtils.scaleInt(dy - cVars.getInt("camy"))
                             -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
             if(!cVars.isInt("gamemode", cGameMode.VIRUS)
