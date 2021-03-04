@@ -131,6 +131,8 @@ public class xCon {
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
         commands.put("clientlist", new xComClientlist());
+        commands.put("clientplayer", new xComClientPlayer());
+        commands.put("clientnetargs", new xComClientNetArgs());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
         commands.put("createuserplayer", new xComCreateUserPlayer());

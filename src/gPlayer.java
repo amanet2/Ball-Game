@@ -521,7 +521,6 @@ public class gPlayer extends gThing {
 //        put("color", "blue");
         put("accelrate", "100");
         put("clip", "1");
-        put("firing", "0");
         put("flashlight", "0");
         put("exitteleportertag", "-1");
         put("pathspritehat", "");
