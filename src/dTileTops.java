@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class dTileTops {
+    static Image forbiddenSign = gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150);
     public static void drawTops(Graphics g) {
         if (cVars.isOne("maploaded")) {
             Graphics2D g2 = (Graphics2D) g;
@@ -80,10 +81,9 @@ public class dTileTops {
                             null);
                 }
                 //forbidden sign for spawn protection
-                if (nServer.instance().clientArgsMap.containsKey(e.get("id"))
-                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")
-                        && (!cGameLogic.isUserPlayer(e) || cGameLogic.drawSpawnProtection())) {
-                    g2.drawImage(gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150),
+                if (!cGameLogic.isUserPlayer(e) && nServer.instance().clientArgsMap.containsKey(e.get("id"))
+                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
+                    g2.drawImage(forbiddenSign,
                             eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
                             eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
                             null);

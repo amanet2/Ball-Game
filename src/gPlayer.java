@@ -544,6 +544,8 @@ public class gPlayer extends gThing {
         put("stockhp", cVars.get("maxstockhp"));
         put("botthinktime", "0");
         put("powerupsusetime", "0");
+//        put("spawnprotection", "1");
+        put("spawnprotectiontime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("dropweapon", new gDoableThing(){

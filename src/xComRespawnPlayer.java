@@ -9,7 +9,7 @@ public class xComRespawnPlayer extends xCom {
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
                 //respawn code here
-//                player.put("stockhp", cVars.get("maxstockhp"));
+                player.put("stockhp", cVars.get("maxstockhp"));
                 int randomSpawnpointIndex = new Random().nextInt(
                         eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
                 ArrayList<String> spawnpointids =

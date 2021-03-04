@@ -140,7 +140,7 @@ public class cGameLogic {
             }
     }
 
-    public static boolean drawSpawnProtection() {
+    public static boolean drawLocalSpawnProtection() {
         gPlayer userplayer = cGameLogic.userPlayer();
         return userplayer != null && (userplayer.contains("spawnprotectiontime")
                 && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
@@ -315,14 +315,7 @@ public class cGameLogic {
                     xCon.ex("botrespawn " + p.getInt("bottag"));
                 else
                     nServer.instance().addNetCmd("respawnplayer " + p.get("id"));
-            }
-            if(p.contains("spawnprotectiontime")
-                    && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-                p.remove("spawnprotectiontime");
-            }
-            if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
-                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                    p.remove("respawntime");
+                p.remove("respawntime");
             }
             if(p.contains("spawnprotectiontime")
                     && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {

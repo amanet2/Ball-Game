@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210303
+* redo spawnprotection to be managed serverside
+    -> palyer var spawnprotectiontime is longtime when spanprotection goes to 0
+    -> net var spawnprotected used by clients to draw the forbidden sign or not
 * track list of clientRestricted cmds that a client cant execute in an online match
     - zoom, userplayer
 * EXCELLENT OFFLINE TEST: load ctf_bend.map;createuserplayer;respawn

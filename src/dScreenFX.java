@@ -1,13 +1,11 @@
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
         gPlayer userPlayer = cGameLogic.userPlayer();
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
-        if(cGameLogic.drawSpawnProtection()) {
+        if(cGameLogic.drawLocalSpawnProtection()) {
             int factors = sVars.getInt("vfxfactor");
             int maxl = cVars.getInt("vfxuialphaflashlight");
             for (int i = 0; i < factors; i++) {
