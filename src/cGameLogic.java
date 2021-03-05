@@ -38,7 +38,6 @@ public class cGameLogic {
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkMovementStatus();
-                checkNameStatus();
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
@@ -222,35 +221,6 @@ public class cGameLogic {
                 checkDisconnectStatus();
                 break;
         }
-    }
-
-    public static void checkNameStatus() {
-//        //check all id names, including yours
-//        for(String id : nServer.instance().clientArgsMap.keySet()) {
-//            gPlayer p = gScene.getPlayerById(id);
-//            String cname = nServer.instance().clientArgsMap.get(id).get("name");
-//            if(!p.isVal("name", cname)) {
-//                p.put("name", cname);
-//            }
-//        }
-
-
-
-//        //player0
-//        gPlayer userPlayer = cGameLogic.userPlayer();
-//        if(!userPlayer.isVal("name", sVars.get("playername"))) {
-//            userPlayer.put("name", sVars.get("playername"));
-//        }
-//        //other players
-//        for(String id : nServer.instance().clientArgsMap.keySet()) {
-//            if(!id.equals(uiInterface.uuid)) {
-//                gPlayer p = gScene.getPlayerById(id);
-//                String cname = nServer.instance().clientArgsMap.get(id).get("name");
-//                if(!p.get("name").equals(cname)) {
-//                    p.put("name", cname);
-//                }
-//            }
-//        }
     }
 
     public static void checkHatStatus(){
