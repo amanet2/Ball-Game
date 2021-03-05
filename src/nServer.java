@@ -308,13 +308,13 @@ public class nServer extends Thread implements fNetBase {
             }
             //get actions such as exploding
             String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
-//                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
+//            int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
-//            String oldName = "";
+            String oldName = "";
             long oldTimestamp = 0;
             if(oldArgMap != null) {
-//                oldName = oldArgMap.get("name");
+                oldName = oldArgMap.get("name");
                 oldTimestamp = oldArgMap.containsKey("time") ?
                         Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
             }
@@ -332,13 +332,15 @@ public class nServer extends Thread implements fNetBase {
                 //update ping
                 scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                 //handle name change to notify
-//                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
-//                    addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
+                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
+                    addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
                 if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                     quitClientIds.add(packId);
                 }
                 gPlayer packPlayer = gScene.getPlayerById(packId);
                 if(packPlayer != null) {
+//                    if(packPlayer.getInt("weapon") != packWeap)
+//                        xCon.ex("giveweapon " + packId + " " + packWeap);
                     if (clientArgsMap.get(packId).containsKey("vels")) {
                         String[] veltoks = clientArgsMap.get(packId).get("vels").split("-");
                         packPlayer.put("vel0", veltoks[0]);
@@ -408,7 +410,7 @@ public class nServer extends Thread implements fNetBase {
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
             player.put("stockhp", cVars.get("maxstockhp"));
-//                        player.putInt("weapon", packWeap);
+//          player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
         StringBuilder sendStringBuilder = new StringBuilder();
