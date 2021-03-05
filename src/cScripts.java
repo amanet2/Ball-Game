@@ -303,16 +303,29 @@ public class cScripts {
     }
 
     public static int[] getPlaceObjCoords() {
-        int[] mc = getMouseCoordinates();
-        int w = cEditorLogic.state.newTile.getInt("dimw");
-        int h = cEditorLogic.state.newTile.getInt("dimh");
-        int px = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[0])+cVars.getInt("camx")-w/2,
-            cEditorLogic.state.snapToX);
-        int py = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[1])+cVars.getInt("camy")-h/2,
-            cEditorLogic.state.snapToY);
-        return new int[]{px,py};
+        int[] mc = cScripts.getMouseCoordinates();
+        switch(cEditorLogic.state.createObjCode) {
+            case gScene.THING_PROP:
+                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
+            case gScene.THING_FLARE:
+                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
+                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
+                        cEditorLogic.state.snapToX);
+                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
+                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
+                        cEditorLogic.state.snapToY);
+                return new int[]{propx, propy};
+            default:
+                return new int[]{eUtils.roundToNearest(
+                        eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                                - cEditorLogic.state.newTile.getInt("dimh")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                        - cEditorLogic.state.newTile.getInt("dimh")/2,
+                                cEditorLogic.state.snapToY)};
+        }
     }
 
     public static void moveTileDown(int tag) {
