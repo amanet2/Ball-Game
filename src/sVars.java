@@ -17,6 +17,7 @@ public class sVars {
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
+        keys.put("debuglog", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
         keys.put("defaultmap", "mainmenu.map");
         keys.put("defaulttitle", "Ball Game");
@@ -64,7 +65,6 @@ public class sVars {
         keys.put("startpaused", "0");
         keys.put("timelimit", "120000");
         keys.put("timeout", "1000");
-//        keys.put("uuid", uiInterface.uuid); //this breaks the startpaused setting somehow
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
         keys.put("vfxenableshading", "1");

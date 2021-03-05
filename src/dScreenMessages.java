@@ -136,7 +136,8 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
+                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
+                                : cVars.get("scorelimit")) + " points to win | "
                                 + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                         29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }

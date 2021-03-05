@@ -31,7 +31,7 @@ public class uiInterface {
                 //game loop
                 if(sSettings.net_server && cVars.getInt("timeleft") > 0)
                     cVars.putLong("timeleft",
-                            xCon.getLong("timelimit") - (int) (gameTime - xCon.getLong("cv_starttime")));
+                            sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
                     nServer.instance().addBots();
@@ -108,6 +108,9 @@ public class uiInterface {
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
+        if(sVars.isOne("debuglog"))
+            xCon.instance().saveLog(sSettings.net_server
+                    ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

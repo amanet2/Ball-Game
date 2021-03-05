@@ -121,7 +121,7 @@ public class nVars {
             cVars.put("scoremap", keys.get("scoremap"));
             //other gamemode stuff like scorelimit, gravity, etc
             if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
-                xCon.ex("say SCORE LIMIT: " + sVars.get("scorelimit"));
+                nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
             }
             keys.put("scorelimit", sVars.get("scorelimit"));
             keys.put("gravity", cVars.get("gravity"));

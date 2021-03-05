@@ -5,8 +5,10 @@ public class xComSendCmd extends xCom {
             if(toks.length > 1) {
                 String id = toks[1];
                 String cmd = fullCommand.replace(toks[0]+" "+id+" ", "");
-                if(cmd.length() > 0)
+                if(cmd.length() > 0) {
                     nServer.instance().addNetCmd(toks[1], cmd);
+                    return cmd;
+                }
             }
         }
         return "usage: sendcmd <id> <any valid console command>";

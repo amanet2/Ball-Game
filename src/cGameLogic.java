@@ -353,8 +353,6 @@ public class cGameLogic {
 
     public static void checkGameState() {
         if(sSettings.net_server) {
-            if(!cVars.get("scorelimit").equals(sVars.get("scorelimit")))
-                cVars.put("scorelimit", sVars.get("scorelimit"));
             if(!cVars.get("spawnprotectionmaxtime").equals(sVars.get("spawnprotectionmaxtime")))
                 cVars.put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
 

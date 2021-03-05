@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -218,6 +220,18 @@ public class xCon {
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
+    }
+
+    public void saveLog(String s) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(s), StandardCharsets.UTF_8))) {
+            for(String line : stringLines) {
+                writer.write(line+"\n");
+            }
+        } catch (IOException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
     }
 
     public static Integer getKeyCodeForComm(String comm) {
