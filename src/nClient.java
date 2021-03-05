@@ -125,7 +125,7 @@ public class nClient extends Thread implements fNetBase {
         return sendDataString.toString();
     }
 
-    private void readData(String receiveDataString) {
+    public void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         int ctr = 0;
         ArrayList<String> foundIds = new ArrayList<>();

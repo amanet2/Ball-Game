@@ -4,7 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.*;
 
-public class nServer extends Thread implements fNetBase, fNetGame {
+public class nServer extends Thread implements fNetBase {
     private int netticks;
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -289,7 +289,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         return true;
     }
 
-    private void readData(String receiveDataString) {
+    public void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
             String argload = toks[0];
@@ -374,7 +374,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         }
     }
 
-    public void changeMap(String mapPath) {
+    void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
         clearBots();
         oDisplay.instance().clearAndRefresh();
