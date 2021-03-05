@@ -42,11 +42,11 @@ public class eUtils {
     }
 
 	public static int scaleInt(int inputInt) {
-		return (int) ((((double) inputInt / sVars.getDouble("gamescale")) * (double) sSettings.height));
+		return (int) ((((double) inputInt / cVars.getDouble("gamescale")) * (double) sSettings.height));
 	}
 
 	public static int unscaleInt(int inputInt) {
-		return (int) ((((double) inputInt * sVars.getDouble("gamescale")) / (double) sSettings.height));
+		return (int) ((((double) inputInt * cVars.getDouble("gamescale")) / (double) sSettings.height));
 	}
 
     public static Image getWeaponScaledSpriteForPath(String path, int x, int y) {

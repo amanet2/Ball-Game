@@ -112,10 +112,10 @@ public class nVars {
             }
             keys.put("teams", cVars.get("gameteam"));
             //tickrate sync
-            if(keys.containsKey("tick") && !keys.get("tick").equals(sVars.get("gametick"))) {
-                xCon.ex("say GAME SPEED: " + sVars.get("gametick"));
+            if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
+                xCon.ex("say GAME SPEED: " + cVars.get("gametick"));
             }
-            keys.put("tick", sVars.get("gametick"));
+            keys.put("tick", cVars.get("gametick"));
             //send scores
             keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
             cVars.put("scoremap", keys.get("scoremap"));

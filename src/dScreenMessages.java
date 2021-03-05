@@ -305,17 +305,16 @@ public class dScreenMessages {
                 dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
-        //messages
+        //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                //special code to add "server: " to sender-less msgs
-//                if(!s.contains(":")) {
-//                    s = "server: " + s;
-//                }
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                    +(i*(sSettings.height/32)));
+                g.setColor(Color.BLACK);
+                g.drawString(s,5,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32))+5);
                 dFonts.setFontColorNormal(g);
+                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32)));
             }
         }
     }

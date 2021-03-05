@@ -8,6 +8,7 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
+        put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
         put("cammov1", "0");
@@ -30,11 +31,12 @@ public class cVars {
         put("flagmasterid", "");
         put("flagmastertime", "0");
         put("flashlight", "0");
+        put("gamescale", "2160");
+        put("gametick", "240");
         put("gamewon", "0");
         putInt("gamemode", cGameMode.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
         put("gameteam", "0");
-        put("gametick", sVars.get("gametick"));
         put("gravity", "0");
         put("blockmouseui", "0");
         put("inspawn", "1");

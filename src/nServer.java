@@ -168,8 +168,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 receivedPackets.remove();
             }
             HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
-                sVars.putLong("bottime",
+            if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
+                cVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);

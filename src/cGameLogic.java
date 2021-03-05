@@ -26,6 +26,8 @@ public class cGameLogic {
             if(sSettings.net_server) {
                 checkQuitterStatus();
                 checkHealthStatus();
+                checkHatStatus();
+                checkColorStatus();
             }
             else if(sSettings.net_client) {
                 checkQuitterStatus();
@@ -35,13 +37,10 @@ public class cGameLogic {
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
-//                checkQuitterStatus();
                 checkMovementStatus();
                 checkNameStatus();
-//                checkHatStatus();
+                checkHatStatus();
                 checkColorStatus();
-//                checkWeaponsStatus();
-//                checkHealthStatus();
                 checkSprintStatus();
                 checkPowerupsStatus();
                 checkGameState();
@@ -257,19 +256,19 @@ public class cGameLogic {
     public static void checkHatStatus(){
         //player0
         gPlayer userPlayer = cGameLogic.userPlayer();
-        if(!userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
+        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
             userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat"))));
         }
         //others
         for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
-                String chat = nServer.instance().clientArgsMap.get(id).get("hat");
-                if(!p.get("pathspritehat").contains(chat)) {
-                    p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
-                    p.put("hat", chat);
-                }
+            gPlayer p = gScene.getPlayerById(id);
+            String chat = nServer.instance().clientArgsMap.get(id).get("hat");
+            if(p == null || chat == null)
+                continue;
+            if(!p.get("pathspritehat").contains(chat)) {
+                p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
+                p.put("hat", chat);
             }
         }
     }
@@ -386,8 +385,6 @@ public class cGameLogic {
         if(sSettings.net_server) {
             if(!cVars.get("scorelimit").equals(sVars.get("scorelimit")))
                 cVars.put("scorelimit", sVars.get("scorelimit"));
-            if(!cVars.get("gametick").equals(sVars.get("gametick")))
-                cVars.put("gametick", sVars.get("gametick"));
             if(!cVars.get("spawnprotectionmaxtime").equals(sVars.get("spawnprotectionmaxtime")))
                 cVars.put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
 

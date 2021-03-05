@@ -53,18 +53,18 @@ public class dFonts {
         setFontColorNormal(g);
         g.setFont(
                 new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                        sVars.getInt("fontsize") * sSettings.height / sVars.getInt("gamescale")
+                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
                 )
         );
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
         g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
+                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
     }
 
     public static void setFontConsole(Graphics g) {
         g.setFont(new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
+                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
     }
 }
