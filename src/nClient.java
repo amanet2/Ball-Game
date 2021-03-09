@@ -118,10 +118,6 @@ public class nClient extends Thread implements fNetBase {
         nSend.sendMap.remove("netcmdrcv");
         cVars.put("quitconfirmed", cVars.get("quitting"));
         cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
-            nSend.sendMap.put("spawnprotected","");
-        else
-            nSend.sendMap.remove("spawnprotected");
         return sendDataString.toString();
     }
 
@@ -167,7 +163,6 @@ public class nClient extends Thread implements fNetBase {
                 cVars.put("gravity", packArgs.get("gravity"));
                 cVars.put("gametick", packArgs.get("tick"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
-                cVars.put("spawnprotectionmaxtime", packArgs.get("spmaxtime"));
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {
@@ -244,8 +239,7 @@ public class nClient extends Thread implements fNetBase {
                     for(int vel = 0; vel < veltoks.length; vel++) {
                         gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
                     }
-                    if(!packArgs.containsKey("spawnprotected")
-                            && nServer.instance().clientArgsMap.get(idload).containsKey("spawnprotected")) {
+                    if(!packArgs.containsKey("spawnprotected")) {
                         nServer.instance().clientArgsMap.get(idload).remove("spawnprotected");
                     }
                     cClient.processActionLoadClient(actionload);
@@ -268,7 +262,6 @@ public class nClient extends Thread implements fNetBase {
             }
             if(idload.equals("server")) {
                 //this is where we update scores on client
-//                HashMap<String, HashMap<String, Integer>> scoresMap = ;
                 cVars.put("scoremap", packArgs.get("scoremap"));
                 String[] stoks = packArgs.get("scoremap").split(":");
                 for (int j = 0; j < stoks.length; j++) {

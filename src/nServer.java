@@ -224,10 +224,6 @@ public class nServer extends Thread implements fNetBase {
             if(clientArgsMap.get(idload2) != null)
                 sendDataString.append(String.format("@%s", clientArgsMap.get(idload2).toString()));
         }
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
-            nSend.sendMap.put("spawnprotected","");
-        else
-            nSend.sendMap.remove("spawnprotected");
         return sendDataString.toString();
     }
 
@@ -357,10 +353,6 @@ public class nServer extends Thread implements fNetBase {
                     }
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
-                }
-                if(!packArgMap.containsKey("spawnprotected")
-                        && clientArgsMap.get(packId).containsKey("spawnprotected")) {
-                    clientArgsMap.get(packId).remove("spawnprotected");
                 }
                 cServer.processActionLoadServer(packActions, packName, packId);
                 if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {

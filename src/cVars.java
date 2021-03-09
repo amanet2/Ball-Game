@@ -71,7 +71,7 @@ public class cVars {
         put("showscore", "0");
         put("sicknessslow", "0");
         put("sicknessfast", "0");
-        put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
+        put("spawnprotectionmaxtime", "1000");
         put("sprint", "0");
         put("sprinttime", "0");
         put("starttime", "0");

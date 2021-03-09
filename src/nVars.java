@@ -51,18 +51,6 @@ public class nVars {
         if(sSettings.net_server) {
             nServer.instance().checkLocalCmds();
         }
-        //handle server outgoing cmd to clients
-//        if(sSettings.net_server && nSend.focus_id.length() > 0 && !nSend.focus_id.equals(uiInterface.uuid)
-//                && nServer.instance().clientNetCmdMap.containsKey(nSend.focus_id)
-//                && nServer.instance().clientNetCmdMap.get(nSend.focus_id).size() > 0
-//                && nServer.instance().clientArgsMap.containsKey(nSend.focus_id)
-//                && !nServer.instance().clientArgsMap.get(nSend.focus_id).containsKey("netcmdrcv")) {
-//            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-//            if(nSend.focus_id.contains("bot"))
-//                nServer.instance().clientArgsMap.get(nSend.focus_id).put("netcmdrcv", "1");
-//            keys.put("cmd", nServer.instance().clientNetCmdMap.get(nSend.focus_id).peek());
-//        }
-//        else if(sSettings.net_client) { //handle client
         if(sSettings.net_client) { //handle client
             String outgoingCmd = nClient.instance().dequeueNetCmd(); //dequeues w/ every call so call once a tick
             keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
@@ -133,7 +121,6 @@ public class nVars {
             keys.put("timelimit", sVars.get("timelimit"));
             keys.put("timeleft", cVars.get("timeleft"));
             keys.put("topscore", cScoreboard.getTopScoreString());
-            keys.put("spmaxtime", cVars.get("spawnprotectionmaxtime"));
             keys.put("state", cServer.getGameStateServer());
             keys.put("win", cVars.get("winnerid"));
         }

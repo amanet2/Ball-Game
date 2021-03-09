@@ -61,7 +61,6 @@ public class sVars {
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("spawnprotectionmaxtime", "1000");
         keys.put("startpaused", "0");
         keys.put("timelimit", "120000");
         keys.put("timeout", "1000");
@@ -103,7 +102,7 @@ public class sVars {
                 || k.equals("powerupsusetimemax") || k.equals("powerupswaittime") || k.equals("rcvbytesclient")
                 || k.equals("rcvbytesserver") || k.equals("safezonetime")
                 || k.equals("scorelimit") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
-                || k.equals("smoothing") || k.equals("spawnprotectionmaxtime") || k.equals("startpaused")
+                || k.equals("smoothing") || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
                 || k.equals("vfxfactor") || k.equals("vfxfactordiv")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)

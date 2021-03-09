@@ -25,10 +25,6 @@ public class xComRespawn extends xCom {
         xCon.ex("cv_stockspeed cv_maxstockspeed");
         cVars.put("camplayertrackingid", sSettings.net_server ? "server" : uiInterface.uuid);
         xCon.ex("centercamera");
-        if(cVars.contains("spawnprotectionmaxtime") && cVars.getInt("spawnprotectionmaxtime") > 0) {
-            userPlayer.putLong("spawnprotectiontime",
-                    System.currentTimeMillis() + cVars.getInt("spawnprotectionmaxtime"));
-        }
         return "respawned";
     }
 }

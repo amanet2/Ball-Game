@@ -3,6 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210309
+* redo spawnprotection
+    -> track the spawntimestamp, compare to maxprotecttime (on server)
+    -> send a "spawnprotect" flag from server to client for drawing the forbidden sign
 20210304
 * add ability for console to be logged to file on exit
 20210303

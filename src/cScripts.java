@@ -279,26 +279,24 @@ public class cScripts {
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
         //get shooter details
         String killerid = bullet.get("srcid");
-        if(!dmgvictim.contains("spawnprotectiontime")) {
-            //calculate dmg
-            int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                    *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
-            )/(double)bullet.getInt("ttl"))));
-            //play animations on all clients
-            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
-                    new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
-                            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
-                            Integer.toString(adjusteddmg), 0.0));
-            if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                        createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                                bullet.getInt("coordx"), bullet.getInt("coordy")));
-            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
-            //handle damage serverside
-            if(sSettings.net_server) {
-                String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-                nServer.instance().addNetCmd(cmdString);
-            }
+        //calculate dmg
+        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
+        )/(double)bullet.getInt("ttl"))));
+        //play animations on all clients
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
+                new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
+                        dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
+                        Integer.toString(adjusteddmg), 0.0));
+        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                            bullet.getInt("coordx"), bullet.getInt("coordy")));
+        eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
+        //handle damage serverside
+        if(sSettings.net_server) {
+            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
+            nServer.instance().addNetCmd(cmdString);
         }
     }
 
@@ -416,10 +414,11 @@ public class cScripts {
     }
 
     public static void changeWeapon(int newweapon) {
-        if(eManager.currentMap.scene.playersMap().size() > 0
-                && newweapon == 0) {
-            cGameLogic.userPlayer().putInt("weapon", newweapon);
-            xCon.ex("playsound sounds/grenpinpull.wav");
+        gPlayer p = cGameLogic.userPlayer();
+        if(p != null) {
+            if(newweapon != p.getInt("weapon"))
+                xCon.ex("playsound sounds/grenpinpull.wav");
+            p.putInt("weapon", newweapon);
             checkPlayerSpriteFlip(cGameLogic.userPlayer());
         }
     }

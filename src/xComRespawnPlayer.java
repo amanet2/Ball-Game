@@ -29,10 +29,6 @@ public class xComRespawnPlayer extends xCom {
                 //player-centric spawn comands
 //                cScripts.refillWeaponStocks();
                 player.remove("respawntime");
-                if(cVars.contains("spawnprotectionmaxtime") && cVars.getInt("spawnprotectionmaxtime") > 0) {
-                    player.putLong("spawnprotectiontime",
-                            System.currentTimeMillis() + cVars.getInt("spawnprotectionmaxtime"));
-                }
             }
             return "respawned " + id;
         }

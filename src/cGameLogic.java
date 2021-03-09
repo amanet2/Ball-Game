@@ -138,11 +138,11 @@ public class cGameLogic {
             }
     }
 
-    public static boolean drawLocalSpawnProtection() {
-        gPlayer userplayer = cGameLogic.userPlayer();
-        return userplayer != null && (userplayer.contains("spawnprotectiontime")
-                && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
-    }
+//    public static boolean drawLocalSpawnProtection() {
+//        gPlayer userplayer = cGameLogic.userPlayer();
+//        return userplayer != null && (userplayer.contains("spawnprotectiontime")
+//                && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
+//    }
 
     public static void resetGameState() {
         cScoreboard.resetScoresMap();
@@ -286,10 +286,6 @@ public class cGameLogic {
                     nServer.instance().addNetCmd("respawnplayer " + p.get("id"));
                 p.remove("respawntime");
             }
-            if(p.contains("spawnprotectiontime")
-                    && p.getLong("spawnprotectiontime") < System.currentTimeMillis()) {
-                p.remove("spawnprotectiontime");
-            }
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
                     p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
                 if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
@@ -353,9 +349,6 @@ public class cGameLogic {
 
     public static void checkGameState() {
         if(sSettings.net_server) {
-            if(!cVars.get("spawnprotectionmaxtime").equals(sVars.get("spawnprotectionmaxtime")))
-                cVars.put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
-
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.KING_OF_FLAGS:
                     cGameMode.checkKingOfFlags();
