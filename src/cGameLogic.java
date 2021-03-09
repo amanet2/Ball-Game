@@ -32,12 +32,14 @@ public class cGameLogic {
             else if(sSettings.net_client) {
                 checkQuitterStatus();
             }
+            checkMovementStatus();
+
             if(userPlayer() != null) {
                 // methods here need migrating to server
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
-                checkMovementStatus();
+//                checkMovementStatus();
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
@@ -175,7 +177,7 @@ public class cGameLogic {
     public static void checkMovementStatus() {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid) && nServer.instance().clientArgsMap.containsKey(id)) {
+            if(!id.equals(uiInterface.uuid)) {
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
                 if(!nServer.instance().containsArgsForId(id, requiredFields))
                     continue;

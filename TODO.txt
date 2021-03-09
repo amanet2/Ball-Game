@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* redefine "debug" so that you see the rcv commands in console, and only see all the net packets when you enable
+    "nettrace" or something
 * client should be able to be in a game without a player on the field
     -> "spectator" mode
 * CRITICAL: FIX THAT 'FILE NOT FOUND' EXCEPTION NOW!!!!!
@@ -36,8 +38,6 @@ X why does "disconnecting = 1" work but calling disconnect() doesnt?
 * looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
 * handle quits, disconnects, and timeouts, and bans
     -> lots of "check" functions used to rely on player0 existing, refactor these
-* bots broken, kind of
-* player fvs not going accross
 X 3 windows
     -> 1: newgame
     -> 2: joingame, normal

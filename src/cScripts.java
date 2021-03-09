@@ -38,48 +38,50 @@ public class cScripts {
     }
 
     public static void checkPlayerSpriteFlip(gPlayer p) {
-//        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
-//                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
-//            if(!p.get("pathsprite").contains("a00")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
-//            }
-//        }
-//        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
-//            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
-//            if(!p.get("pathsprite").contains("a03")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-////                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-////                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-////                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-////                            "misc/bfg.png";
-////                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-////                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
-////                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-//            }
-//        }
-//        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
-//            if(!p.get("pathsprite").contains("a04")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
-//            }
-//        }
-//        else {
-//            if(!p.get("pathsprite").contains("a05")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-////                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-////                        "misc/bfg_flip.png";
-////                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
-////                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-////                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-////                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-////                }
-//            }
-//        }
+        if(p == null)
+            return;
+        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
+                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
+            if(!p.get("pathsprite").contains("a00")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
+            }
+        }
+        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
+            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
+            if(!p.get("pathsprite").contains("a03")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
+//                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+//                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+//                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+//                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+//                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
+//                            "misc/bfg.png";
+//                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+//                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
+//                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+            }
+        }
+        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
+            if(!p.get("pathsprite").contains("a04")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
+            }
+        }
+        else {
+            if(!p.get("pathsprite").contains("a05")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
+//                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+//                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+//                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+//                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+//                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+//                        "misc/bfg_flip.png";
+//                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
+//                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+//                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+//                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+//                }
+            }
+        }
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
