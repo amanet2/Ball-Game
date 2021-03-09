@@ -209,6 +209,7 @@ public class xCon {
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
         commands.put("sendcmd", new xComSendCmd());
+        commands.put("set", new xComSet());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());

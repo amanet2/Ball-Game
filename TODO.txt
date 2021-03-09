@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* CRITICAL: FIX THAT 'FILE NOT FOUND' EXCEPTION NOW!!!!!
+    -> really need a loading block on all game activity
+        -> because so many things get checked and return NULL!!!
+* remote exec: allow server to run a file of cmds on client
 * redo spawnprotection
     -> track the spawntimestamp, compare to maxprotecttime (on server)
     -> send a "spawnprotect" flag from server to client for drawing the forbidden sign

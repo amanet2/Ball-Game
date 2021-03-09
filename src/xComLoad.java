@@ -4,12 +4,16 @@ public class xComLoad extends xCom {
         oDisplay.instance().clearAndRefresh();
         nServer.instance().clearBots();
         cVars.put("botbehavior", "");
-        if(!mapPath.contains(sVars.get("datapath")))
-            mapPath = eUtils.getPath(mapPath);
-        gMap.load(mapPath);
-//        eManager.setScene();
+        if(mapPath.length() > 0) {
+            if (!mapPath.contains(sVars.get("datapath")))
+                mapPath = eUtils.getPath(mapPath);
+            gMap.load(mapPath);
+        }
+        else {
+            //load the most basic blank map
+//            eManager.currentMap = new gMap();
+        }
         oDisplay.instance().createPanels();
-//        cScripts.setupGame();
         return "";
     }
 }

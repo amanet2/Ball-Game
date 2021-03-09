@@ -183,6 +183,11 @@ public class sVars {
         }
     }
 
+    public static void remove(String s) {
+        refresh();
+        keys.remove(s);
+    }
+
     public static void loadFromFile(String s) {
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             xCon.instance().log("Loading Settings File Path: " + s);

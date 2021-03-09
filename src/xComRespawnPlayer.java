@@ -26,8 +26,6 @@ public class xComRespawnPlayer extends xCom {
                         - player.getInt("dimh") / 2));
                 nServer.instance().addNetCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
                         "cv_camplayertrackingid " + id + ";centercamera");
-                //player-centric spawn comands
-//                cScripts.refillWeaponStocks();
                 player.remove("respawntime");
             }
             return "respawned " + id;
