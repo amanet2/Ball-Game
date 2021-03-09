@@ -97,30 +97,4 @@ public class eManager {
                     - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
         }
 	}
-
-	public static void setScene() {
-		if (cVars.isInt("cammode", gCamera.MODE_TRACKING)
-                && currentMap.scene.playersMap().size() > 0)
-            xCon.ex("centercamera");
-		else {
-		    double rr = Math.random();
-            if(currentMap.scene.flares().size() > 0) {
-                gFlare r = currentMap.scene.flares().get((int)(Math.random() * (currentMap.scene.flares().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-		    }
-            if((rr > 0.5 && currentMap.scene.props().size() > 0)){
-                gProp r = eManager.currentMap.scene.props().get((int)(Math.random() * (currentMap.scene.props().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-            }
-            if((rr > 0.90 || (currentMap.scene.props().size() < 1 && currentMap.scene.flares().size() < 1))
-                && currentMap.scene.tiles().size() > 0){
-                gTile r = eManager.currentMap.scene.tiles().get((int)(Math.random() * (currentMap.scene.tiles().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-            }
-            cVars.putInt("cammode", gCamera.MODE_FREE);
-        }
-	}
 }

@@ -4,8 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* client should be able to be in a game without a player on the field
+    -> "spectator" mode
 * CRITICAL: FIX THAT 'FILE NOT FOUND' EXCEPTION NOW!!!!!
     -> really need a loading block on all game activity
+    -> uiInterface calls eManager.updateEntityPositions()
         -> because so many things get checked and return NULL!!!
 * remote exec: allow server to run a file of cmds on client
 * redo spawnprotection

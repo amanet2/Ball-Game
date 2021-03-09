@@ -11,7 +11,7 @@ public class xComLoad extends xCom {
         }
         else {
             //load the most basic blank map
-//            eManager.currentMap = new gMap();
+            eManager.currentMap = new gMap();
         }
         oDisplay.instance().createPanels();
         return "";

@@ -99,6 +99,8 @@ public class cGameLogic {
     public static void checkMapGravity() {
             if(cVars.isOne("clipplayer")) {
                 gPlayer userPlayer = cGameLogic.userPlayer();
+                if(userPlayer == null)
+                    return;
                 if (cVars.isOne("jumping")) {
                     userPlayer.putInt("mov1", 0);
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
@@ -174,7 +176,6 @@ public class cGameLogic {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid) && nServer.instance().clientArgsMap.containsKey(id)) {
-                gPlayer p = gScene.getPlayerById(id);
                 String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
                 if(!nServer.instance().containsArgsForId(id, requiredFields))
                     continue;
@@ -183,6 +184,9 @@ public class cGameLogic {
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
                 int ccrouch = Integer.parseInt(cargs.get("crouch"));
                 int cflashlight = Integer.parseInt(cargs.get("flashlight"));
+                gPlayer p = gScene.getPlayerById(id);
+                if(p == null)
+                    return;
                 if(sVars.isZero("smoothing")) {
                     p.put("coordx", cargs.get("x"));
                     p.put("coordy", cargs.get("y"));

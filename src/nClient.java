@@ -231,13 +231,15 @@ public class nClient extends Thread implements fNetBase {
 //                    String clientname = nServer.instance().clientArgsMap.get(idload).get("name");
 //                    if(!clientname.equals(nameload))
 //                        gScene.getPlayerById(idload).put("name", nameload);
-                    if(sVars.isOne("smoothing")) {
-                        gScene.getPlayerById(idload).put("coordx", nServer.instance().clientArgsMap.get(idload).get("x"));
-                        gScene.getPlayerById(idload).put("coordy", nServer.instance().clientArgsMap.get(idload).get("y"));
-                    }
-                    String[] veltoks = nServer.instance().clientArgsMap.get(idload).get("vels").split("-");
-                    for(int vel = 0; vel < veltoks.length; vel++) {
-                        gScene.getPlayerById(idload).put("vel"+vel, veltoks[vel]);
+                    if(gScene.getPlayerById(idload) != null) {
+                        if (sVars.isOne("smoothing")) {
+                            gScene.getPlayerById(idload).put("coordx", nServer.instance().clientArgsMap.get(idload).get("x"));
+                            gScene.getPlayerById(idload).put("coordy", nServer.instance().clientArgsMap.get(idload).get("y"));
+                        }
+                        String[] veltoks = nServer.instance().clientArgsMap.get(idload).get("vels").split("-");
+                        for (int vel = 0; vel < veltoks.length; vel++) {
+                            gScene.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                        }
                     }
                     if(!packArgs.containsKey("spawnprotected")) {
                         nServer.instance().clientArgsMap.get(idload).remove("spawnprotected");
