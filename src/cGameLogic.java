@@ -193,7 +193,8 @@ public class cGameLogic {
                     p.put("coordx", cargs.get("x"));
                     p.put("coordy", cargs.get("y"));
                 }
-                if(p.getDouble("fv") != cfv) {
+                if(p.getDouble("fv") != cfv || sSettings.net_server) {
+                    //when you're the server, p.getDouble("fv") ALWAYS == cfv
                     p.putDouble("fv", cfv);
                     cScripts.checkPlayerSpriteFlip(p);
                 }
