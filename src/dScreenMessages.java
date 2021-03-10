@@ -194,18 +194,18 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
-            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
+            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColorNormal(g);
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
-                i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
+                i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
                 int dd = 1;
                 if(i == xCon.instance().linesToShowStart && xCon.instance().linesToShowStart > 0) {
                     g.drawString(String.format("--- (%d) scroll up ---", xCon.instance().linesToShowStart),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(i == xCon.instance().linesToShowStart+ xCon.instance().linesToShow-1
+                if(i == xCon.instance().linesToShowStart + xCon.instance().linesToShow-1
                     && xCon.instance().linesToShowStart
                     < xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
                     g.drawString(String.format("--- (%d) scroll down ---",
@@ -214,9 +214,9 @@ public class dScreenMessages {
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(dd != 0){
-                    g.drawString(xCon.instance().stringLines.get(i),
-                        0, (ctr + 1) * sSettings.height / 64);
+                if(dd != 0) {
+                    if(xCon.instance().stringLines.size() > i)
+                        g.drawString(xCon.instance().stringLines.get(i), 0, (ctr + 1) * sSettings.height / 64);
                 }
                 ctr++;
             }
