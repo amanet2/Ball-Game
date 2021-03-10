@@ -67,6 +67,10 @@ public class gScene {
 	    return objectMaps.get(thing_title);
     }
 
+    public void setPlayersMap(HashMap<String, gPlayer> hm) {
+	    objectMaps.put("THING_PLAYER", hm);
+    }
+
     public HashMap<String, gPlayer> playersMap() {
 	    return objectMaps.get("THING_PLAYER");
     }
