@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* ISSUE: rotating player sprite makes it go invisble when offline or serverplayer
+    -> prolly have server at all times?  just dont wait for incoming connections in "offline" mode
 * make it so server can spawn a user player for themself
     -> has to work with all other players
     -> probably not a good idea to rely on tag==0 for anything userplayer related

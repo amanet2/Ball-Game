@@ -39,7 +39,6 @@ public class cGameLogic {
                 checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
-//                checkMovementStatus();
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
@@ -277,7 +276,7 @@ public class cGameLogic {
     }
 
     public static boolean isUserPlayer(gPlayer player) {
-        return player.isVal("id", sSettings.net_server ? "server" : uiInterface.uuid);
+        return player.isVal("id", uiInterface.uuid);
     }
 
     public static void checkHealthStatus() {
