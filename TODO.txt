@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* make it so server can spawn a user player for themself
+    -> has to work with all other players
+    -> probably not a good idea to rely on tag==0 for anything userplayer related
+    -> also the "server" uuid stuff isn't going to be compatible
 * redefine "debug" so that you see the rcv commands in console, and only see all the net packets when you enable
     "nettrace" or something
 * client should be able to be in a game without a player on the field
