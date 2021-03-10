@@ -345,45 +345,12 @@ public class cScripts {
     }
 
     public static void setupGame() {
-//        int[] npcs = new int[] {-6000, -6000};
         cVars.putLong("starttime", System.currentTimeMillis());
-//        if(cScripts.isNetworkGame() || uiInterface.inplay) {
-//            gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
-//                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
-//            player0.put("tag", "0");
-//            player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-//            cGameLogic.setUserPlayer(player0);
-////            nServer.instance().clientArgsMap.get(player0.get("id")).put("color", sVars.get("playercolor"));
-////            player0.put("color", sVars.get("playercolor"));
-//            eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
-//            xCon.ex("centercamera");
-//        }
-//        //network
-//        if(isNetworkGame()) {
-//            for(String s : nServer.instance().clientIds) {
-//                gPlayer player = new gPlayer(-6000, -6000,150,150,
-//                    eUtils.getPath("animations/player_red/a03.png"));
-//                player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-//                player.put("id", s);
-//                eManager.currentMap.scene.playersMap().put(s, player);
-//            }
-//            xCon.ex("respawn");
-//        }
-//        else if(uiInterface.inplay){
-//            xCon.ex("respawn");
-//        }
         if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
             //spawns player for mapmaker testing
-            xCon.ex("createuserplayer");
-            xCon.ex("respawn");
+            xCon.ex("createuserplayer;respawn");
         }
         cGameLogic.resetGameState();
-//        cVars.put("canvoteskip", "");
-//        cVars.put("voteskipctr", "0");
-//        if(sSettings.net_server) {
-//            cVars.put("serveraddbots", "");
-//            cVars.putLong("serveraddbotstime", System.currentTimeMillis() + 1000);
-//        }
         for(String s : eManager.currentMap.execLines) {
             xCon.ex(s.replaceFirst("cmd ", ""));
         }
