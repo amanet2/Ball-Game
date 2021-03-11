@@ -99,19 +99,58 @@ public class nClient extends Thread implements fNetBase {
         }
     }
 
+    public HashMap<String, String> getNetVars() {
+        HashMap<String, String> keys = new HashMap<>();
+        gPlayer userPlayer = cGameLogic.userPlayer();
+        //handle outgoing actions
+        keys.put("act", cGameLogic.getActionLoad());
+        //handle outgoing msg
+        String outgoingMsg = nClient.instance().dequeueNetMsg(); //dequeues w/ every call so call once a tick
+        keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
+        //handle outgoing cmd
+        keys.put("cmd", "");
+        String outgoingCmd = nClient.instance().dequeueNetCmd(); //dequeues w/ every call so call once a tick
+        keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
+        //update id in net args
+        keys.put("id", uiInterface.uuid);
+        //userplayer vars like coords and dirs and weapon
+        if(userPlayer != null) {
+            keys.put("color", sVars.get("playercolor"));
+            keys.put("hat", sVars.get("playerhat"));
+            keys.put("flashlight", cVars.get("flashlight"));
+            keys.put("x", userPlayer.get("coordx"));
+            keys.put("y", userPlayer.get("coordy"));
+            keys.put("crouch", userPlayer.get("crouch"));
+            keys.put("fv", userPlayer.get("fv"));
+            keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                    userPlayer.get("mov2"), userPlayer.get("mov3")));
+            keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                    userPlayer.get("vel2"), userPlayer.get("vel3")));
+            keys.put("weapon", userPlayer.get("weapon"));
+        }
+        //name for spectator and gameplay
+        keys.put("name", sVars.get("playername"));
+        //key whose presence depends on value of cvar like quitting, disconnecting
+        if(cVars.isOne("quitting"))
+            keys.put("quit", "");
+        if(cVars.isOne("disconnecting"))
+            keys.put("disconnect", "");
+        return keys;
+    }
+
     private String createSendDataString() {
         StringBuilder sendDataString;
-        nVars.update();
+        HashMap<String, String> netVars = getNetVars();
         if(nSend.sendMap != null) {
-            for(String k : nVars.keySet()) {
-                if(k.equals("id") || !nSend.sendMap.containsKey(k) || !nSend.sendMap.get(k).equals(nVars.get(k)))
-                    nSend.sendMap.put(k, nVars.get(k));
+            for(String k : netVars.keySet()) {
+                if(k.equals("id") || !nSend.sendMap.containsKey(k) || !nSend.sendMap.get(k).equals(netVars.get(k)))
+                    nSend.sendMap.put(k, netVars.get(k));
                 else
                     nSend.sendMap.remove(k);
             }
         }
         else
-            nSend.sendMap = nVars.copy();
+            nSend.sendMap = new HashMap<>(netVars);
 
         sendDataString = new StringBuilder(nSend.sendMap.toString());
         //handle removing variables after the fact
@@ -129,9 +168,6 @@ public class nClient extends Thread implements fNetBase {
             String argload = toks[i];
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
             String idload = packArgs.get("id");
-//            String nameload = packArgs.get("name") != null ? packArgs.get("name")
-//                    : nServer.instance().clientArgsMap.containsKey(idload) ? nServer.instance().clientArgsMap.get(idload).get("name")
-//                    : "player";
             String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
             if(!nServer.instance().clientArgsMap.containsKey(idload))
                 nServer.instance().clientArgsMap.put(idload, packArgs);

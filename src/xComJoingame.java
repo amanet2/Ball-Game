@@ -17,7 +17,6 @@ public class xComJoingame extends xCom {
         cVars.put("disconnectconfirmed", "0");
         cVars.put("disconnecting", "0");
         nSend.sendMap = null;
-        nVars.reset();
 //        eManager.currentMap = new gMap();
         cVars.putLong("starttime", System.currentTimeMillis());
         xCon.ex("createuserplayer");
