@@ -131,10 +131,68 @@ public class nServer extends Thread implements fNetBase {
         }
     }
 
+    public HashMap<String, String> getNetVars() {
+        HashMap<String, String> keys = new HashMap<>();
+        //handle outgoing cmd
+        keys.put("cmd", "");
+        //handle server outgoing cmds that loopback to the server
+        checkLocalCmds();
+        //update id in net args
+        keys.put("id", "server");
+        //name for spectator and gameplay
+        keys.put("name", sVars.get("playername"));
+        //key whose presence depends on value of cvar like quitting, disconnecting
+        keys.remove("quit");
+        keys.remove("disconnect");
+        if(cVars.isOne("quitting"))
+            keys.put("quit", "");
+        if(cVars.isOne("disconnecting"))
+            keys.put("disconnect", "");
+        //server-specific values, mostly for gamemode stuff
+        //the name of the current map
+        keys.put("map", eManager.currentMap.mapName);
+        //the current gamemode
+        keys.put("mode", cVars.get("gamemode"));
+        //describes the powerups that should be on map
+        keys.put("powerups", cPowerups.createPowerupStringServer());
+        //team game stuff
+        if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
+            xCon.ex("say TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
+        }
+        keys.put("teams", cVars.get("gameteam"));
+        //tickrate sync
+        if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
+            xCon.ex("say GAME SPEED: " + cVars.get("gametick"));
+        }
+        keys.put("tick", cVars.get("gametick"));
+        //send scores
+        keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
+        cVars.put("scoremap", keys.get("scoremap"));
+        //other gamemode stuff like scorelimit, gravity, etc
+        if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
+            nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
+        }
+        keys.put("scorelimit", sVars.get("scorelimit"));
+        keys.put("gravity", cVars.get("gravity"));
+        if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
+            xCon.ex("say TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
+            cVars.putLong("starttime", System.currentTimeMillis());
+            cVars.put("timeleft", sVars.get("timelimit"));
+        }
+        keys.put("timelimit", sVars.get("timelimit"));
+        keys.put("timeleft", cVars.get("timeleft"));
+        keys.put("topscore", cScoreboard.getTopScoreString());
+        keys.put("state", cServer.getGameStateServer());
+        keys.put("win", cVars.get("winnerid"));
+        return keys;
+    }
+
     public void processPackets() {
         try {
-            nVars.update();
-            nServer.instance().clientArgsMap.put("server", nVars.copy());
+//            nVars.update();
+            HashMap<String, String> netVars = getNetVars();
+            nServer.instance().clientArgsMap.put("server", netVars);
+//            nServer.instance().clientArgsMap.put("server", nVars.copy());
 //            nServer.instance().clientArgsMap.put(uiInterface.uuid, nVars.copy()); //put server's player in map
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
@@ -159,7 +217,7 @@ public class nServer extends Thread implements fNetBase {
                 }
                 if(clientId != null) {
                     //create response
-                    String sendDataString = createSendDataString(clientId);
+                    String sendDataString = createSendDataString(netVars, clientId);
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket =
                             new DatagramPacket(sendData, sendData.length, addr, port);
@@ -183,7 +241,7 @@ public class nServer extends Thread implements fNetBase {
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
                     //act as if responding
-                    createSendDataString(clientId);
+                    createSendDataString(netVars, clientId);
                 }
             }
         }
@@ -193,33 +251,18 @@ public class nServer extends Thread implements fNetBase {
         }
     }
 
-    private String createSendDataString(String clientid) {
+    private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         StringBuilder sendDataString;
-//        nVars.update();
-        if(nSend.sendMap != null) {
-            for(String k : nVars.keySet()) {
-                if(nSend.constantsList.contains(k) || k.equals("id") || !nSend.sendMap.containsKey(k)
-                        || !nSend.sendMap.get(k).equals(nVars.get(k)))
-                    nSend.sendMap.put(k, nVars.get(k));
-                else
-                    nSend.sendMap.remove(k);
-            }
-            if(sSettings.net_server && clientid.length() > 0
-                    && nServer.instance().clientNetCmdMap.containsKey(clientid)
-                    && nServer.instance().clientNetCmdMap.get(clientid).size() > 0
-                    && nServer.instance().clientArgsMap.containsKey(clientid)
-                    && !nServer.instance().clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
-                //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-                if(clientid.contains("bot"))
-                    nServer.instance().clientArgsMap.get(clientid).put("netcmdrcv", "1");
-                nVars.keys.put("cmd", nServer.instance().clientNetCmdMap.get(clientid).peek());
-            }
+        if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
+                && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)
+                && !clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+            if(clientid.contains("bot"))
+                clientArgsMap.get(clientid).put("netcmdrcv", "1");
+            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         }
-        else
-            nSend.sendMap = nVars.copy();
-
 //        clientArgsMap.put(uiInterface.uuid, nVars.copy());
-        sendDataString = new StringBuilder(nVars.dump());
+        sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.get(idload2) != null)

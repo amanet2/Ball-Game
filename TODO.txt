@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* split up nVars between client and server
 * make it so server can spawn a user player for themself
     -> has to work with all other players
     -> probably not a good idea to rely on tag==0 for anything userplayer related
