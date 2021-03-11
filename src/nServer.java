@@ -134,7 +134,8 @@ public class nServer extends Thread implements fNetBase {
     public void processPackets() {
         try {
             nVars.update();
-            nServer.instance().clientArgsMap.put(sSettings.net_server ? "server" : uiInterface.uuid, nVars.copy());
+            nServer.instance().clientArgsMap.put("server", nVars.copy());
+//            nServer.instance().clientArgsMap.put(uiInterface.uuid, nVars.copy()); //put server's player in map
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -244,7 +245,7 @@ public class nServer extends Thread implements fNetBase {
 
     public void run() {
         try {
-            uiInterface.uuid = "server";
+//            uiInterface.uuid = "server";
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
 //            serverSocket.setSoTimeout(sVars.getInt("timeout"));
             while (true) {

@@ -23,7 +23,7 @@ public class xComRespawn extends xCom {
         xCon.ex("cv_flashlight 0");
         xCon.ex("cv_sprint 0");
         xCon.ex("cv_stockspeed cv_maxstockspeed");
-        cVars.put("camplayertrackingid", sSettings.net_server ? "server" : uiInterface.uuid);
+        cVars.put("camplayertrackingid", uiInterface.uuid);
         xCon.ex("centercamera");
         return "respawned";
     }
