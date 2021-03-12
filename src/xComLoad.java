@@ -16,6 +16,8 @@ public class xComLoad extends xCom {
             HashMap<String, gPlayer> savedplayers = eManager.currentMap.scene.playersMap();
             eManager.currentMap = new gMap();
             eManager.currentMap.scene.setPlayersMap(savedplayers);
+            if(sSettings.show_mapmaker_ui)
+                cVars.put("maploaded", "1");
         }
         oDisplay.instance().createPanels();
         return "";

@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class dTileTops {
-    static Image forbiddenSign = gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150);
+//    static Image forbiddenSign = gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150);
     public static void drawTops(Graphics g) {
         if (cVars.isOne("maploaded")) {
             Graphics2D g2 = (Graphics2D) g;
