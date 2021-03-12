@@ -9,8 +9,8 @@ public class xComMouseLeft extends xCom {
                 int[] mc = cScripts.getMouseCoordinates();
                 switch(cEditorLogic.state.createObjCode) {
                     case gScene.THING_PROP:
-                        xCon.ex(String.format("e_putprop %s %d %d %d %d %s %s",
-                                cEditorLogic.state.newProp.get("code"),
+                        xCon.ex(String.format("putprop %s %d %d %d %d %s %s",
+                                gProps.getTitleForCode(cEditorLogic.state.newProp.getInt("code")),
                                 cEditorLogic.state.newProp.getInt("int0"),
                                 cEditorLogic.state.newProp.getInt("int1"),
                                 eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
