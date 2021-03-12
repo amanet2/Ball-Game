@@ -57,8 +57,9 @@ public class dTileFloors {
                                 eUtils.scaleInt(5), eUtils.scaleInt(5)
                         );
                     }
-                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0
-                        && !tile.get("sprite2").contains("none")) {
+                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0) {
+//                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0
+//                        && !tile.get("sprite2").contains("none")) {
                     //show light gray for null or broken tiles
 //                System.out.println(tile.get("sprite2"));
                     g2.setColor(Color.LIGHT_GRAY);

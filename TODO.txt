@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
-* split up nVars between client and server
+* improve corners
+* make it so prefabs can be created
+* make it so client can be in game without a player spawned
+    -> spectate/death
 * make it so server can spawn a user player for themself
     -> has to work with all other players
     -> probably not a good idea to rely on tag==0 for anything userplayer related

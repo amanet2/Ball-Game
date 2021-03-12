@@ -4,6 +4,7 @@ import java.util.*;
 public class nClient extends Thread implements fNetBase {
     private int netticks;
     private int hasDisconnected = 0;
+    HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -99,7 +100,7 @@ public class nClient extends Thread implements fNetBase {
         }
     }
 
-    public HashMap<String, String> getNetVars() {
+    private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         gPlayer userPlayer = cGameLogic.userPlayer();
         //handle outgoing actions
@@ -141,23 +142,28 @@ public class nClient extends Thread implements fNetBase {
     private String createSendDataString() {
         StringBuilder sendDataString;
         HashMap<String, String> netVars = getNetVars();
-        if(nSend.sendMap != null) {
+        if(sendMap != null) {
             for(String k : netVars.keySet()) {
-                if(k.equals("id") || !nSend.sendMap.containsKey(k) || !nSend.sendMap.get(k).equals(netVars.get(k)))
-                    nSend.sendMap.put(k, netVars.get(k));
+                if(k.equals("id") || !sendMap.containsKey(k) || !sendMap.get(k).equals(netVars.get(k)))
+                    sendMap.put(k, netVars.get(k));
                 else
-                    nSend.sendMap.remove(k);
+                    sendMap.remove(k);
             }
         }
         else
-            nSend.sendMap = new HashMap<>(netVars);
+            sendMap = new HashMap<>(netVars);
 
-        sendDataString = new StringBuilder(nSend.sendMap.toString());
+        sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
-        nSend.sendMap.remove("netcmdrcv");
+        sendMap.remove("netcmdrcv");
         cVars.put("quitconfirmed", cVars.get("quitting"));
         cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         return sendDataString.toString();
+    }
+
+    private void processCmd(String cmdload) {
+        nClient.instance().sendMap.put("netcmdrcv","");
+        xCon.ex(cmdload);
     }
 
     public void readData(String receiveDataString) {
@@ -168,7 +174,6 @@ public class nClient extends Thread implements fNetBase {
             String argload = toks[i];
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
             String idload = packArgs.get("id");
-            String actionload = packArgs.get("act") != null ? packArgs.get("act") : "";
             if(!nServer.instance().clientArgsMap.containsKey(idload))
                 nServer.instance().clientArgsMap.put(idload, packArgs);
             for(String k : packArgs.keySet()) {
@@ -203,7 +208,7 @@ public class nClient extends Thread implements fNetBase {
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {
                     System.out.println("FROM_SERVER: " + cmdload);
-                    cClient.processCmd(cmdload);
+                    processCmd(cmdload);
                 }
                 //ugly if else for gamemodes
 //                if(packArgs.containsKey("flagmasterid")) {
@@ -264,9 +269,6 @@ public class nClient extends Thread implements fNetBase {
                     }
                     if(skip)
                         break;
-//                    String clientname = nServer.instance().clientArgsMap.get(idload).get("name");
-//                    if(!clientname.equals(nameload))
-//                        gScene.getPlayerById(idload).put("name", nameload);
                     if(gScene.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
                             gScene.getPlayerById(idload).put("coordx", nServer.instance().clientArgsMap.get(idload).get("x"));
@@ -280,7 +282,6 @@ public class nClient extends Thread implements fNetBase {
                     if(!packArgs.containsKey("spawnprotected")) {
                         nServer.instance().clientArgsMap.get(idload).remove("spawnprotected");
                     }
-                    cClient.processActionLoadClient(actionload);
                 }
                 else {
                     nServer.instance().clientIds.add(idload);
@@ -289,7 +290,6 @@ public class nClient extends Thread implements fNetBase {
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
                     player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-//                    player.put("name", nameload);
                     eManager.currentMap.scene.playersMap().put(idload, player);
                 }
             }
