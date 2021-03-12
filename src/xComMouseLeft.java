@@ -29,10 +29,18 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.newFlare.get("b2"), cEditorLogic.state.newFlare.get("a2")));
                         break;
                     default:
+                        int w = cEditorLogic.state.newTile.getInt("dimw");
+                        int h = cEditorLogic.state.newTile.getInt("dimh");
+                        int x = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w/2,
+                                cEditorLogic.state.snapToX);
+                        int y = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h/2,
+                                cEditorLogic.state.snapToY);
                         xCon.ex(
-                            String.format("e_puttile %d %d %d %d %d %d %d %d %d %d %d %s %s %s %s",
-                                mc[0], mc[1], cEditorLogic.state.newTile.getInt("dimw"),
-                                    cEditorLogic.state.newTile.getInt("dimh"),
+                            String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %s",
+                                    cEditorLogic.state.newTile.get("sprite0"),
+                                    cEditorLogic.state.newTile.get("sprite1"),
+                                    cEditorLogic.state.newTile.get("sprite2"),
+                                    x, y, w, h,
                                     cEditorLogic.state.newTile.getInt("dim0h"),
                                     cEditorLogic.state.newTile.getInt("dim1h"),
                                     cEditorLogic.state.newTile.getInt("dim2h"),
@@ -40,9 +48,6 @@ public class xComMouseLeft extends xCom {
                                     cEditorLogic.state.newTile.getInt("dim4h"),
                                     cEditorLogic.state.newTile.getInt("dim5w"),
                                     cEditorLogic.state.newTile.getInt("dim6w"),
-                                    cEditorLogic.state.newTile.get("sprite0"),
-                                    cEditorLogic.state.newTile.get("sprite1"),
-                                    cEditorLogic.state.newTile.get("sprite2"),
                                     cEditorLogic.state.newTile.get("brightness")));
                         break;
                 }
