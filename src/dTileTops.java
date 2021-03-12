@@ -132,8 +132,6 @@ public class dTileTops {
             }
             //animations
             dAnimations.drawAnimations(g2);
-            //mapmaker indicators
-            dMapmakerOverlay.drawSelectionBoxes(g2);
             //safezone pointer
             dWaypoints.drawWaypoints(g2);
             //popups
