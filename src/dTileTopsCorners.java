@@ -21,13 +21,15 @@ public class dTileTopsCorners {
                                     + t.getInt("dimh"))
                     },
                     3);
-            Shape b = g2.getClip();
-            g2.setClip(p);
-            g2.drawImage(t.spriteT,
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                    null
-            );
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fillPolygon(p);
+//            Shape b = g2.getClip();
+//            g2.setClip(p);
+//            g2.drawImage(t.spriteT,
+//                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                    null
+//            );
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2
@@ -41,13 +43,14 @@ public class dTileTopsCorners {
                         new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
                 g2.setPaint(gradient);
                 g2.drawPolygon(p);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")),
-                        eUtils.scaleInt(t.getInt("dimh"))
-                );
+                g2.fillPolygon(p);
+//                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                        eUtils.scaleInt(t.getInt("dimw")),
+//                        eUtils.scaleInt(t.getInt("dimh"))
+//                );
             }
-            g2.setClip(b);
+//            g2.setClip(b);
         }
         else if(d6w == -2) { //BR
             Polygon p = new Polygon(
@@ -66,13 +69,15 @@ public class dTileTopsCorners {
                                     + t.getInt("dimh"))
                     },
                     3);
-            Shape b = g2.getClip();
-            g2.setClip(p);
-            g2.drawImage(t.spriteT,
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                    null
-            );
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fillPolygon(p);
+//            Shape b = g2.getClip();
+//            g2.setClip(p);
+//            g2.drawImage(t.spriteT,
+//                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                    null
+//            );
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
@@ -87,13 +92,14 @@ public class dTileTopsCorners {
                         new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
                 g2.setPaint(gradient);
                 g2.drawPolygon(p);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")),
-                        eUtils.scaleInt(t.getInt("dimh"))
-                );
+                g2.fillPolygon(p);
+//                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                        eUtils.scaleInt(t.getInt("dimw")),
+//                        eUtils.scaleInt(t.getInt("dimh"))
+//                );
             }
-            g2.setClip(b);
+//            g2.setClip(b);
         }
         else if(d6w == -3) { //BL
             Polygon p = new Polygon(
@@ -111,13 +117,15 @@ public class dTileTopsCorners {
                                     + t.getInt("dimh"))
                     },
                     3);
-            Shape b = g2.getClip();
-            g2.setClip(p);
-            g2.drawImage(t.spriteT,
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                    null
-            );
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fillPolygon(p);
+//            Shape b = g2.getClip();
+//            g2.setClip(p);
+//            g2.drawImage(t.spriteT,
+//                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                    null
+//            );
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
@@ -132,13 +140,14 @@ public class dTileTopsCorners {
                         new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
                 g2.setPaint(gradient);
                 g2.drawPolygon(p);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")),
-                        eUtils.scaleInt(t.getInt("dimh"))
-                );
+                g2.fillPolygon(p);
+//                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                        eUtils.scaleInt(t.getInt("dimw")),
+//                        eUtils.scaleInt(t.getInt("dimh"))
+//                );
             }
-            g2.setClip(b);
+//            g2.setClip(b);
         }
         else if(d6w == -4) { //UL
             Polygon p = new Polygon(
@@ -155,13 +164,15 @@ public class dTileTopsCorners {
                                     + t.getInt("dimh"))
                     },
                     3);
-            Shape b = g2.getClip();
-            g2.setClip(p);
-            g2.drawImage(t.spriteT,
-                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                    null
-            );
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fillPolygon(p);
+//            Shape b = g2.getClip();
+//            g2.setClip(p);
+//            g2.drawImage(t.spriteT,
+//                    eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                    null
+//            );
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
@@ -176,13 +187,15 @@ public class dTileTopsCorners {
                         new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
                 g2.setPaint(gradient);
                 g2.drawPolygon(p);
-                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                        eUtils.scaleInt(t.getInt("dimw")),
-                        eUtils.scaleInt(t.getInt("dimh"))
-                );
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.fillPolygon(p);
+//                g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                        eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                        eUtils.scaleInt(t.getInt("dimw")),
+//                        eUtils.scaleInt(t.getInt("dimh"))
+//                );
             }
-            g2.setClip(b);
+//            g2.setClip(b);
         }
     }
 }

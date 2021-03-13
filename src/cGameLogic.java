@@ -28,6 +28,7 @@ public class cGameLogic {
                 checkHealthStatus();
                 checkHatStatus();
                 checkColorStatus();
+                checkForMapChange();
             }
             else if(sSettings.net_client) {
                 checkQuitterStatus();
@@ -36,7 +37,6 @@ public class cGameLogic {
 
             if(userPlayer() != null) {
                 // methods here need migrating to server
-                checkForMapChange();
                 checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
@@ -330,12 +330,7 @@ public class cGameLogic {
                 && cVars.getLong("intermissiontime") < System.currentTimeMillis())) {
             cVars.put("intermissiontime", "-1");
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
-            int rand = (int)(Math.random()*eManager.mapsSelection.length);
-            eManager.mapSelectionIndex = rand;
-            if(sSettings.net_server) {
-                nServer.instance().addNetCmd("load "+eManager.currentMap.mapName+sVars.get("mapextension"));
-                nServer.instance().addNetCmd("respawn");
-            }
+            xCon.ex("changemaprandom");
         }
     }
 
