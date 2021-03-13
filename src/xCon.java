@@ -99,6 +99,7 @@ public class xCon {
         visibleCommands.add("joingame");
         visibleCommands.add("load");
         visibleCommands.add("newgame");
+        visibleCommands.add("newgamerandom");
 
         undoableCommands = new ArrayList<>();
         undoableCommands.add("e_copytile");
@@ -130,6 +131,7 @@ public class xCon {
         commands.put("botrespawn", new xComBotRespawn());
         commands.put("centercamera", new xComCentercamera());
         commands.put("changemap", new xComChangeMap());
+        commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
         commands.put("clientlist", new xComClientlist());
@@ -187,6 +189,7 @@ public class xCon {
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
+        commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
         commands.put("playercrouch", new xComPlayerCrouch());
         commands.put("playerdown", new xComPlayerDown());
