@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* change tiles to have 3 colors -> R,G,B,A
 * create timer object that contains a doable
     -> you enqueue it into a server "timed tasks" queue
         -> ideas: 10 seconds to show scorboard at game end
