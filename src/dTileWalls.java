@@ -85,13 +85,15 @@ public class dTileWalls {
                                     eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + 150)
                             },
                             4);
-                    Shape b = g2.getClip();
-                    g2.setClip(pw);
-                    g2.drawImage(t.spriteTW,
-                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            null
-                    );
+                    g2.setColor(Color.LIGHT_GRAY);
+                    g2.fillPolygon(pw);
+//                    Shape b = g2.getClip();
+//                    g2.setClip(pw);
+//                    g2.drawImage(t.spriteTW,
+//                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                            null
+//                    );
                     //corner wall shading
                     if (sVars.isOne("vfxenableshading")) {
                         GradientPaint gradient = new GradientPaint(
@@ -103,13 +105,14 @@ public class dTileWalls {
                                 new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
                         g2.setPaint(gradient);
                         g2.drawPolygon(pw);
-                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                                eUtils.scaleInt(t.getInt("dimw")),
-                                eUtils.scaleInt(t.getInt("dimh") + 150)
-                        );
+                        g2.fillPolygon(pw);
+//                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                                eUtils.scaleInt(t.getInt("dimw")),
+//                                eUtils.scaleInt(t.getInt("dimh") + 150)
+//                        );
                     }
-                    g2.setClip(b);
+//                    g2.setClip(b);
                     //corner wall shadows
                     if (sVars.isOne("vfxenableshadows")) {
                         Polygon ps = new Polygon(
@@ -157,13 +160,15 @@ public class dTileWalls {
                                     eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") + 150),
                             },
                             4);
-                    Shape b = g2.getClip();
-                    g2.setClip(pw);
-                    g2.drawImage(t.spriteTW,
-                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            null
-                    );
+                    g2.setColor(Color.LIGHT_GRAY);
+                    g2.fillPolygon(pw);
+//                    Shape b = g2.getClip();
+//                    g2.setClip(pw);
+//                    g2.drawImage(t.spriteTW,
+//                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                            null
+//                    );
                     //corner wall shading
                     if (sVars.isOne("vfxenableshading")) {
                         GradientPaint gradient = new GradientPaint(
@@ -175,13 +180,14 @@ public class dTileWalls {
                                 new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
                         g2.setPaint(gradient);
                         g2.drawPolygon(pw);
-                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                                eUtils.scaleInt(t.getInt("dimw")),
-                                eUtils.scaleInt(t.getInt("dimh") + 150)
-                        );
+                        g2.fillPolygon(pw);
+//                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
+//                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
+//                                eUtils.scaleInt(t.getInt("dimw")),
+//                                eUtils.scaleInt(t.getInt("dimh") + 150)
+//                        );
                     }
-                    g2.setClip(b);
+//                    g2.setClip(b);
                     //corner wall shadows
                     if (sVars.isOne("vfxenableshadows")) {
                         Polygon ps = new Polygon(

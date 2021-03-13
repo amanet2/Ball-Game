@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* create timer object that contains a doable
+    -> you enqueue it into a server "timed tasks" queue
+        -> ideas: 10 seconds to show scorboard at game end
+        -> 10 seconds to new map
 * redo textures system
     -> use colors or go with "none" and the grey
 * improve corners
