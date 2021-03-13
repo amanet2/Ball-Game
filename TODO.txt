@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* redo textures system
+    -> use colors or go with "none" and the grey
 * improve corners
 * make it so prefabs can be created
 * make it so client can be in game without a player spawned

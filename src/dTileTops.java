@@ -62,7 +62,19 @@ public class dTileTops {
                                 null
                         );
                 } else {
-                    dTileTopsCorners.drawTileCorners(g2, t);
+                    if (d6w > -1) {
+                        g2.setColor(Color.LIGHT_GRAY);
+                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")
+                                        + t.getInt("dimw") - t.getInt("dim6w")),
+                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")
+                                        + t.getInt("dim0h")),
+                                eUtils.scaleInt(t.getInt("dim6w")),
+                                eUtils.scaleInt(t.getInt("dim6h"))
+                        );
+                    }
+                    else {
+                        dTileTopsCorners.drawTileCorners(g2, t);
+                    }
                 }
                 if (sVars.isOne("vfxenableshading")) {
                     dTileTopsShading.drawTileTopShadingPost(g2, t);
