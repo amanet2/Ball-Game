@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* new race arch
+    -> clientmap for each client will have <tag>:<tag>:<tag> string made by server
+        -> if scorepoint's "tag" is in this list then draw the waypoint
+            -> on intersection server will remove that tag
 * change tiles to have 3 colors -> R,G,B,A
 * create timer object that contains a doable
     -> you enqueue it into a server "timed tasks" queue

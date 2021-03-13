@@ -311,8 +311,8 @@ public class dScreenMessages {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
                 g.setColor(Color.BLACK);
-                g.drawString(s,5,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                        +(i*(sSettings.height/32))+5);
+                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
                 g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32)));

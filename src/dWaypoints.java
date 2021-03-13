@@ -140,12 +140,8 @@ public class dWaypoints {
                     HashMap scorepointMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                     for(Object id : scorepointMap.keySet()) {
                         gPropScorepoint scorepoint = (gPropScorepoint) scorepointMap.get(id);
-                        if(((cVars.isInt("gamemode", cGameMode.WAYPOINTS)
-                                || cVars.isInt("gamemode", cGameMode.SAFE_ZONES))
-                                && scorepoint.getInt("int0") > 0)
-                                || (cVars.isInt("gamemode", cGameMode.RACE)
-                                && !scorepoint.get("racebotidcheckins").contains(cGameLogic.userPlayer().get("id")))) {
-                            //racebots is for server, int0 is for clients
+                        //racebots is for server, int0 is for clients
+                        if(scorepoint.isOne("int0")) {
                             dWaypoints.drawNavPointer(g2,
                                     scorepoint.getInt("coordx") + scorepoint.getInt("dimw") / 2,
                                     scorepoint.getInt("coordy") + scorepoint.getInt("dimh") / 2,
