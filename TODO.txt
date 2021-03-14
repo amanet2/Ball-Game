@@ -4,6 +4,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* work on making the console a more refined parser
+    -> take inspiration from compiler design
+* selecting prop under mouse broken
+    -> need to adapt to prop maps
+* props list and prop maps are fucky
+    -> get desynced easily when trying to clear/reset prop maps
+    -> maps stay, lists go
 * scorelimit is fucky
     -> probably can just be an svar on the server, no need for cvar stuff
 * do flagmaster gametype first
