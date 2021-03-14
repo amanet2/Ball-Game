@@ -211,9 +211,10 @@ public class nClient extends Thread implements fNetBase {
                     processCmd(cmdload);
                 }
                 //ugly if else for gamemodes
-//                if(packArgs.containsKey("flagmasterid")) {
-//                    cVars.put("flagmasterid", packArgs.get("flagmasterid"));
-//                }
+                if(packArgs.containsKey("state")) {
+                    if(!cVars.isVal("flagmasterid", packArgs.get("state")))
+                        cVars.put("flagmasterid", packArgs.get("state"));
+                }
 //                if(packArgs.get("state").contains("safezone")) {
 //                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
 //                    String[] args = packArgs.get("state").split("-");

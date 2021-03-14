@@ -22,6 +22,8 @@ public class cServer {
                         return String.format("waypoints-%s", p.get("tag"));
                 }
                 break;
+            case cGameMode.FLAG_MASTER:
+                return cVars.get("flagmasterid");
             case cGameMode.CAPTURE_THE_FLAG:
             case cGameMode.KING_OF_FLAGS:
                 StringBuilder s = new StringBuilder();

@@ -15,3 +15,4 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * use wasloaded map variable to avoid exceptions that may occur when net/gfx threads outpace map loading thread
 * for drawing gfx such as arrows, labels, etc.. use the player object. for vars, use the netmap
 * fun stuff: giveweapon 86011035 3;sendcmd 86011035 cv_weaponstock3 18;sendcmd 86011035 userplayer weapon 3
+* ISSUE: startpaused must be init as 1 in svars.java for mapmaker to work right

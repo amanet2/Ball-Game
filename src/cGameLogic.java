@@ -29,6 +29,7 @@ public class cGameLogic {
                 checkHatStatus();
                 checkColorStatus();
                 checkForMapChange();
+                checkGameState();
             }
             else if(sSettings.net_client) {
                 checkQuitterStatus();

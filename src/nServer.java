@@ -273,9 +273,9 @@ public class nServer extends Thread implements fNetBase {
 
     void removeNetClient(String id) {
         String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
-//        if(cVars.isVal("flagmasterid", id)) {
-//            cVars.put("flagmasterid", "");
-//        }
+        if(cVars.isVal("flagmasterid", id)) {
+            cVars.put("flagmasterid", "");
+        }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);

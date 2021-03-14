@@ -11,6 +11,16 @@ public class xComSendCmd extends xCom {
                 }
             }
         }
+        else if(sSettings.net_client) {
+            String[] toks = fullCommand.split(" ");
+            if(toks.length > 1) {
+                String cmd = fullCommand.replace(toks[0]+" ", "");
+                if(cmd.length() > 0) {
+                    nClient.instance().addNetCmd(cmd);
+                    return cmd;
+                }
+            }
+        }
         return "usage: sendcmd <id> <any valid console command>";
     }
 }

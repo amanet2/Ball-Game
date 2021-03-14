@@ -128,20 +128,18 @@ public class dWaypoints {
                             gPlayer p = gScene.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {
                                 dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                        p.getInt("coordy") + p.getInt("dimh") / 2,
-                                        "* INFECTED *");
+                                        p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
                             }
                         }
                     }
                     break;
                 case cGameMode.RACE:
                 case cGameMode.WAYPOINTS:
-                case cGameMode.SAFE_ZONES:
                     HashMap scorepointMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                     for(Object id : scorepointMap.keySet()) {
                         gPropScorepoint scorepoint = (gPropScorepoint) scorepointMap.get(id);
                         //racebots is for server, int0 is for clients
-                        if(scorepoint.isOne("int0")) {
+                        if(scorepoint.isZero("int0")) {
                             dWaypoints.drawNavPointer(g2,
                                     scorepoint.getInt("coordx") + scorepoint.getInt("dimw") / 2,
                                     scorepoint.getInt("coordy") + scorepoint.getInt("dimh") / 2,

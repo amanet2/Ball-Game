@@ -20,14 +20,10 @@ public class gPropFlagRed extends gProp {
 
     gDoableThing flagMasterDoable = new gDoableThing() {
         public void doItem(gThing p) {
-//            if(sSettings.net_server) {
-//                if(cVars.isVal("flagmasterid", "")) {
-//                    cVars.put("flagmasterid", p.get("id"));
-//                    if(sSettings.net_server) {
-//                        xCon.ex("say " + p.get("name") + " has the flag!");
-//                    }
-//                }
-//            }
+            if(sSettings.net_server && cVars.isVal("flagmasterid", "")) {
+                cVars.put("flagmasterid", p.get("id"));
+                xCon.ex("say " + p.get("name") + " has the flag!");
+            }
         }
     };
 

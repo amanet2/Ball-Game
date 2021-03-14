@@ -4,7 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* do flagmaster gametype first
+* GAMETYPES
+    -> race (any order)
+    -> race (in order)
+        -> server stores the current tag of the scorepoint (in order) that player has to go through
+            -> on intersection, server advances its stored tag, has to tell client to set prio pt to 0 and new pt to 1
+* make scripting language
+    -> "ballscript"
 * new race arch
+    -> server tracks <id>-<int0>:<id>-<int0> for scorepoints
+        -> change this when clients intersect scorepoint
     -> clientmap for each client will have <tag>:<tag>:<tag> string made by server
         -> if scorepoint's "tag" is in this list then draw the waypoint
             -> on intersection server will remove that tag

@@ -241,7 +241,7 @@ public class dScreenMessages {
             if(nServer.instance().clientArgsMap.get("server") != null
             && nServer.instance().clientArgsMap.get("server").get("topscore") != null
             && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
-                if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
+                if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
