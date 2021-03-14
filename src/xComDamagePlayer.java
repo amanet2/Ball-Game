@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class xComDamagePlayer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -26,6 +28,11 @@ public class xComDamagePlayer extends xCom {
                         //handle flag carrier dying
                         if(cVars.isVal("flagmasterid", player.get("id"))) {
                             cVars.put("flagmasterid", "");
+//                            eManager.currentMap.scene.setThingMap("PROP_FLAGRED", new HashMap<>());
+                            //this does the same thing as above
+                            nServer.instance().addNetCmd("clearthingmap PROP_FLAGRED");
+                            nServer.instance().addNetCmd(String.format("putprop PROP_FLAGRED 0 0 %d %d 300 300",
+                                    player.getInt("coordx"), player.getInt("coordy")));
                         }
                         //migrate all client death logic here
                         player.putLong("respawntime",

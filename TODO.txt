@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210309
+* scorelimit is fucky
+    -> probably can just be an svar on the server, no need for cvar stuff
 * do flagmaster gametype first
 * GAMETYPES
     -> race (any order)

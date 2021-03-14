@@ -134,6 +134,7 @@ public class xCon {
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
+        commands.put("clearthingmap", new xComClearThingMap());
         commands.put("clientlist", new xComClientlist());
         commands.put("clientplayer", new xComClientPlayer());
         commands.put("clientnetargs", new xComClientNetArgs());

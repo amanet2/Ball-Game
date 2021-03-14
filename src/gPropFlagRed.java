@@ -20,7 +20,7 @@ public class gPropFlagRed extends gProp {
 
     gDoableThing flagMasterDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(sSettings.net_server && cVars.isVal("flagmasterid", "")) {
+            if(sSettings.net_server && p.getInt("stockhp") > 0 && cVars.isVal("flagmasterid", "")) {
                 cVars.put("flagmasterid", p.get("id"));
                 xCon.ex("say " + p.get("name") + " has the flag!");
             }
