@@ -136,10 +136,13 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
-                                : cVars.get("scorelimit")) + " points to win | "
-                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+//                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
+//                                : cVars.get("scorelimit")) + " points to win | "
+//                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+//                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+                dFonts.drawRightJustifiedString(g,
+                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
         }
         //wip notice -> needs to be transparent

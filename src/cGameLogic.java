@@ -390,7 +390,7 @@ public class cGameLogic {
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
-            || (cScoreboard.getWinnerScore() >= cVars.getInt("scorelimit"))) {
+            || (cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {

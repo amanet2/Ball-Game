@@ -200,7 +200,6 @@ public class nClient extends Thread implements fNetBase {
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("gamemode", packArgs.get("mode"));
                 cVars.put("gameteam", packArgs.get("teams"));
-                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("gravity", packArgs.get("gravity"));
                 cVars.put("gametick", packArgs.get("tick"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
@@ -212,6 +211,7 @@ public class nClient extends Thread implements fNetBase {
                 }
                 //ugly if else for gamemodes
                 if(packArgs.containsKey("state")) {
+                    //need to split up by gametype
                     if(!cVars.isVal("flagmasterid", packArgs.get("state")))
                         cVars.put("flagmasterid", packArgs.get("state"));
                 }
