@@ -29,9 +29,10 @@ public class uiInterface {
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.net_server && cVars.getInt("timeleft") > 0)
+                if(sSettings.net_server) {
                     cVars.putLong("timeleft",
                             sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
+                }
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
                     nServer.instance().addBots();

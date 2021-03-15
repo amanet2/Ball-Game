@@ -19,6 +19,7 @@ public class xComLoad extends xCom {
             if(sSettings.show_mapmaker_ui)
                 cVars.put("maploaded", "1");
         }
+        cVars.putLong("starttime", System.currentTimeMillis());
         oDisplay.instance().createPanels();
         return "";
     }
