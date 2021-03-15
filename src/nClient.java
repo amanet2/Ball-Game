@@ -201,7 +201,7 @@ public class nClient extends Thread implements fNetBase {
                 cVars.put("gamemode", packArgs.get("mode"));
                 cVars.put("gameteam", packArgs.get("teams"));
                 cVars.put("gravity", packArgs.get("gravity"));
-                cVars.put("gametick", packArgs.get("tick"));
+//                cVars.put("gametick", packArgs.get("tick"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";

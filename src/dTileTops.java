@@ -159,8 +159,14 @@ public class dTileTops {
 
     public static void drawPopups(Graphics g) {
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        if(popupsMap.size() > 0)
+            dFonts.setFontNormal(g);
         for(Object id : popupsMap.keySet()) {
             gPopup p = (gPopup) popupsMap.get(id);
+            g.setColor(Color.BLACK);
+            g.drawString(p.get("text").substring(1),
+                    eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx") + 2),
+                    eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy") + 2));
             g.setColor(p.get("text").charAt(0) == '+' ?
                     new Color(Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[0]),
                             Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[1]),
@@ -170,7 +176,7 @@ public class dTileTops {
                     Integer.parseInt(xCon.ex("fontcoloralert").split(",")[1]),
                     Integer.parseInt(xCon.ex("fontcoloralert").split(",")[2]),
                     Integer.parseInt(xCon.ex("fontcoloralert").split(",")[3])));
-            g.drawString(p.get("text"),
+            g.drawString(p.get("text").substring(1),
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
         }

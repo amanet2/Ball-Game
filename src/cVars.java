@@ -21,7 +21,7 @@ public class cVars {
         put("clipplayer", "1");
         put("collideplayers", "1");
         put("delayhp", "2400");
-        put("delaypow", "1000");
+        put("delaypow", "500");
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
@@ -53,13 +53,13 @@ public class cVars {
         put("maploaded", "0");
         putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
-        put("maxstockspeed", "1000");
+        put("maxstockspeed", "200");
         put("popuplivetime", "2000");
         put("powerupson", sVars.get("powerupsmaxon"));
         put("powerupstime", "0");
         put("quitconfirmed", "0");
         put("quitting", "0");
-        put("rechargepow", "10");
+        put("rechargepow", "12");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
