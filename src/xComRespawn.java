@@ -6,6 +6,8 @@ public class xComRespawn extends xCom {
         ArrayList<String> spawnpointids =
                 new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());
         gPlayer userPlayer = cGameLogic.userPlayer();
+        if(userPlayer == null)
+            return "no userplayer to respawn";
         if(spawnpointids.size() > 0) {
             int randomSpawnpointIndex = new Random().nextInt(
                     eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());

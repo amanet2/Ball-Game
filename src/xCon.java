@@ -185,6 +185,7 @@ public class xCon {
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
+        commands.put("joingamespec", new xComJoingameSpec());
         commands.put("jump", new xComJump());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());

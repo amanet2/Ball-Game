@@ -1,4 +1,4 @@
-public class xComJoingame extends xCom {
+public class xComJoingameSpec extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
@@ -18,7 +18,7 @@ public class xComJoingame extends xCom {
         cVars.put("disconnecting", "0");
         nClient.instance().sendMap = null;
         cVars.putLong("starttime", System.currentTimeMillis());
-        xCon.ex("createuserplayer"); //SPECTATE HAS THIS OFF
+//        xCon.ex("createuserplayer"); //SPECTATE HAS THIS OFF
         cVars.put("canvoteskip", "");
         return "joined game";
     }

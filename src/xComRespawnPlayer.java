@@ -27,8 +27,11 @@ public class xComRespawnPlayer extends xCom {
                 nServer.instance().addNetCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
                         "cv_camplayertrackingid " + id + ";centercamera");
                 player.remove("respawntime");
+                return "respawned " + id;
             }
-            return "respawned " + id;
+            else {
+                return "can't remove player id: " + id;
+            }
         }
         return "usage: respawnplayer <player_id>";
     }

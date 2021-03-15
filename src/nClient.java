@@ -297,7 +297,8 @@ public class nClient extends Thread implements fNetBase {
             //handle our own player to get things like stockhp from server
             if(idload.equals(uiInterface.uuid)) {
                 gPlayer userPlayer = cGameLogic.userPlayer();
-                userPlayer.put("stockhp", packArgs.get("stockhp"));
+                if(userPlayer != null)
+                    userPlayer.put("stockhp", packArgs.get("stockhp"));
             }
             if(idload.equals("server")) {
                 //this is where we update scores on client
