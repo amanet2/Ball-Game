@@ -425,7 +425,10 @@ public class nServer extends Thread implements fNetBase {
         eManager.currentMap.scene.clearPlayers();
         for(String id : clientIds) {
             createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
-            addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
+            if(gScene.getPlayerById(id) != null)
+                addNetCmd(id, "cv_maploaded 1");
+            else
+                addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
         }
     }
 
