@@ -23,19 +23,22 @@ public class dProp {
                                     + prop.getInt("dimh") / 2)
                     );
                     g2.setTransform(a);
-                    if(!(prop.isInt("code", gProps.POWERUP) && prop.isInt("int0", 0))
-                    && !(prop.isInt("code", gProps.FLAGRED)) && !cVars.isVal("flagmasterid", "")) {
-//                        if(prop.isInt("code", gProps.FLAGRED) && cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)) {
-//                            if(cGameLogic.userPlayer() != null
-//                                    && prop.isVal("str0", cGameLogic.userPlayer().get("id"))
-//                                    && !prop.get("sprite").contains("flag_blue"))
-//                                prop.setSpriteFromPath(eUtils.getPath("misc/flag_blue.png"));
-//                            else if(cGameLogic.userPlayer() != null
-//                                    && !prop.isVal("str0", cGameLogic.userPlayer().get("id"))
-//                                    && !prop.get("sprite").contains("flag_red"))
-//                                prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
-//                        }
-                        if(prop.isInt("code", gProps.POWERUP) && prop.getInt("int0") > 0) {
+                    if(!(((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
+                            || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER)
+                            && prop.isInt("code", gProps.FLAGRED)
+                            && (!cVars.isVal("flagmasterid", ""))) ||
+                            (prop.isInt("code", gProps.POWERUP) && prop.isInt("int0", 0)))) {
+                        if(prop.isInt("code", gProps.FLAGRED) && cVars.isInt("gamemode", cGameMode.KING_OF_FLAGS)) {
+                            if(cGameLogic.userPlayer() != null
+                                    && prop.isVal("str0", cGameLogic.userPlayer().get("id"))
+                                    && !prop.get("sprite").contains("flag_blue"))
+                                prop.setSpriteFromPath(eUtils.getPath("misc/flag_blue.png"));
+                            else if(cGameLogic.userPlayer() != null
+                                    && !prop.isVal("str0", cGameLogic.userPlayer().get("id"))
+                                    && !prop.get("sprite").contains("flag_red"))
+                                prop.setSpriteFromPath(eUtils.getPath("misc/flag_red.png"));
+                        }
+                        if(prop != null && prop.isInt("code", gProps.POWERUP) && prop.getInt("int0") > 0) {
                             //propshadow
                             if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                                 if(sVars.isOne("vfxenableshadows")) {
