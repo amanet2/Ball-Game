@@ -11,6 +11,6 @@ public class xComDumpThingMap extends xCom {
                 return eManager.currentMap.scene.objectMaps.get(thing_title).toString();
             }
         }
-        return "usage: clearthingmap <thing_title>";
+        return "usage: dumpthingmap <thing_title>";
     }
 }

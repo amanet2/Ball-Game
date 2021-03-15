@@ -221,7 +221,8 @@ public class cScripts {
             }
             for(String playerId : gScene.getPlayerIds()) {
                 gPlayer t = gScene.getPlayerById(playerId);
-                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
+                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);

@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
+* when one client is spectating, server doesnt show body of the player'd client
+    -> probably an escape condition in drawPlayers() or somewhere around there
 * work on removing player and recreating them instead of the graveyard thing
     -> PROS: cleaner, remove dead players and respawn them with the same id
     -> MORE PROS: spectator mode is as easy as NOT creating players for clients
