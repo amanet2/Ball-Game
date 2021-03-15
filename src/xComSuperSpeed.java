@@ -2,6 +2,7 @@ public class xComSuperSpeed extends xCom {
     public String doCommand(String fullCommand) {
         if(cGameLogic.userPlayer() != null && uiInterface.inplay && cVars.isZero("sprint")
                 && cVars.getInt("stockspeed") == cVars.getInt("maxstockspeed")) {
+            cVars.put("stockspeed", "0");
             xCon.ex("cv_sprint 1");
             xCon.ex("cv_sprinttime " + (System.currentTimeMillis()+cVars.getInt("stockspeed")));
             xCon.ex("playsound sounds/goodwork.wav");

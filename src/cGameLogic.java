@@ -305,9 +305,10 @@ public class cGameLogic {
     }
 
     public static void checkSprintStatus() {
-        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed") &&
-            cVars.getLong("sprinttime")+cVars.getInt("delaypow") < System.currentTimeMillis()) {
-            if(cVars.getInt("stockspeed")+cVars.getInt("rechargepow") > cVars.getInt("maxstockspeed"))
+        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed")) {
+//        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed") &&
+//            cVars.getLong("sprinttime") + cVars.getInt("delaypow") < System.currentTimeMillis()) {
+            if(cVars.getInt("stockspeed") + cVars.getInt("rechargepow") > cVars.getInt("maxstockspeed"))
                 cVars.put("stockspeed", cVars.get("maxstockspeed"));
             else
                 cVars.putInt("stockspeed", cVars.getInt("stockspeed") + cVars.getInt("rechargepow"));
