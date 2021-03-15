@@ -3,6 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210315
+* work on removing player and recreating them instead of the graveyard thing
+    -> PROS: cleaner, remove dead players and respawn them with the same id
+    -> MORE PROS: spectator mode is as easy as NOT creating players for clients
 20210309
 * changing map after a win is broken
     -> timeleft never gets reset

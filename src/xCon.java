@@ -149,6 +149,7 @@ public class xCon {
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("dropflagred", new xComDropFlagRed());
         commands.put("dropweapon", new xComDropWeapon());
+        commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
         commands.put("e_copytile", new xComEditorCopyTile());
         commands.put("e_delthing", new xComEditorDelThing());
@@ -203,6 +204,7 @@ public class xCon {
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
         commands.put("removebot", new xComRemoveBot());
+        commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
         commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
