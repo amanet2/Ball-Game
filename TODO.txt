@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
+* flagmaster not working when spectator in game
+* see if we can remove "mode" outright due to gamemode being transmitted on initial map load
+* watch for double-calls of "checkHatStatus" (and similar) due to the 3 modes: server/client(playr)/client(spec)
 * when one client is spectating, server doesnt show body of the player'd client
     -> probably an escape condition in drawPlayers() or somewhere around there
 * work on removing player and recreating them instead of the graveyard thing

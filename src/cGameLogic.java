@@ -33,6 +33,10 @@ public class cGameLogic {
             }
             else if(sSettings.net_client) {
                 checkQuitterStatus();
+                if(userPlayer() == null) {
+                    checkHatStatus(); //for spectator mode
+                    checkColorStatus(); //for spectator
+                }
             }
             checkMovementStatus();
 
