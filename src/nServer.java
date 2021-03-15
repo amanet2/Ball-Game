@@ -152,7 +152,7 @@ public class nServer extends Thread implements fNetBase {
         //the name of the current map
 //        keys.put("map", eManager.currentMap.mapName);
         //the current gamemode
-        keys.put("mode", cVars.get("gamemode"));
+//        keys.put("mode", cVars.get("gamemode"));
         //describes the powerups that should be on map
         keys.put("powerups", cPowerups.createPowerupStringServer());
         //team game stuff
