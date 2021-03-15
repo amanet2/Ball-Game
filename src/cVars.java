@@ -59,7 +59,7 @@ public class cVars {
         put("powerupstime", "0");
         put("quitconfirmed", "0");
         put("quitting", "0");
-        put("rechargepow", "12");
+        put("rechargepow", "10");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");

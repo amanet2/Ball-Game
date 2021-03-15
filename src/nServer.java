@@ -157,12 +157,12 @@ public class nServer extends Thread implements fNetBase {
         keys.put("powerups", cPowerups.createPowerupStringServer());
         //team game stuff
         if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
-            xCon.ex("say TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
+            addNetCmd("echo TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
         }
         keys.put("teams", cVars.get("gameteam"));
         //tickrate sync
         if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
-            xCon.ex("say GAME SPEED: " + cVars.get("gametick"));
+            addNetCmd("echo GAME SPEED: " + cVars.get("gametick"));
         }
         keys.put("tick", cVars.get("gametick"));
         //send scores
@@ -172,14 +172,14 @@ public class nServer extends Thread implements fNetBase {
         if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
             nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
         }
-        keys.put("scorelimit", sVars.get("scorelimit"));
+//        keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("gravity", cVars.get("gravity"));
         if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
-            xCon.ex("say TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
+            addNetCmd("echo TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
             cVars.putLong("starttime", System.currentTimeMillis());
             cVars.put("timeleft", sVars.get("timelimit"));
         }
-        keys.put("timelimit", sVars.get("timelimit"));
+//        keys.put("timelimit", sVars.get("timelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", cScoreboard.getTopScoreString());
         keys.put("state", cServer.getGameStateServer());
