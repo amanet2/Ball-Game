@@ -1,6 +1,6 @@
 cv_mapview 0
-cv_gamemode 7
-cv_botbehavior flagmaster
+cv_gamemode 0
+cv_botbehavior goto_player
 puttile none none none -4500 -2040 7500 6400 0 0 6400 0 0 0 0 200
 puttile none none none -1800 870 600 600 0 0 600 0 0 100 0 255
 puttile none none none -1200 870 600 600 0 0 600 100 150 100 0 255
@@ -156,4 +156,3 @@ putprop PROP_SPAWNPOINT 0 0 1620 900 300 300
 putprop PROP_SPAWNPOINT 0 0 -1080 -720 300 300
 putprop PROP_SPAWNPOINT 0 0 -930 -30 300 300
 putprop PROP_SPAWNPOINT 0 0 -150 2940 300 300
-putprop PROP_FLAGRED 0 0 -1590 480 300 300

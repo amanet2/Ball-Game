@@ -16,14 +16,18 @@ public class xComDamagePlayer extends xCom {
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff
+                        String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                         if(shooterid.length() > 0) {
 //                            String killername = gScene.getPlayerById(shooterid).get("name");
                             String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                             cScoreboard.incrementScoreFieldById(shooterid, "kills");
-                            nServer.instance().addNetCmd("echo " + killername + " killed " + nServer.instance().clientArgsMap.get(id).get("name"));
+                            nServer.instance().addNetCmd("echo " + killername + " killed " + victimname);
                             if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
                                 xCon.ex("givepoint " + shooterid);
                             }
+                        }
+                        else {
+                            nServer.instance().addNetCmd("echo " + victimname + " died");
                         }
                         //handle flag carrier dying
                         if(cVars.isVal("flagmasterid", player.get("id"))) {
