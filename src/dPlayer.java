@@ -82,9 +82,8 @@ public class dPlayer {
                     }
                 }
                 //flag for ctf
-                if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
-                (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
+                if(cVars.contains("flagmasterid") &&
+                cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid)) {
                     gProp flag = null;
                     HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
                     for(String id : thingMap.keySet()) {
