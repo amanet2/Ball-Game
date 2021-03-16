@@ -269,6 +269,7 @@ public class nServer extends Thread implements fNetBase {
             if(clientArgsMap.containsKey(idload2)) {
                 HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
                 workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+                workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
                 sendDataString.append(String.format("@%s", workingmap.toString()));
             }
         }

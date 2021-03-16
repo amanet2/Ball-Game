@@ -41,14 +41,14 @@ public class xComDamagePlayer extends xCom {
                                     player.getInt("coordx"), player.getInt("coordy")));
                         }
                         //migrate all client death logic here
-                        player.putLong("respawntime",
-                                (System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
                         String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                         //be sure not to send too much in one go, net comms
                         nServer.instance().addNetCmd(animString);
                         if(!id.contains("bot")) {
 //                            nServer.instance().addNetCmd(id, "dropweapon"); //putprop here instead
+                            nServer.instance().clientArgsMap.get(id).put("respawntime",
+                                    Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
                             xCon.ex("removeplayer " + id);
 //                            nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
 //                                    "cv_cammov2 0;cv_cammov3 0");

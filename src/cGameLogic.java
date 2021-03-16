@@ -287,21 +287,23 @@ public class cGameLogic {
 
     public static void checkHealthStatus() {
         HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+        Long currentTime = System.currentTimeMillis();
         for(String id : argsMap.keySet()) {
-            if(!id.equals("server") && argsMap.get(id).containsKey("stockhp")) {
-
+            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
+            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
+                if(!id.contains("bot"))
+                    nServer.instance().addNetCmd("respawnplayer " + id);
+                argsMap.get(id).remove("respawntime");
             }
         }
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             //server-side respawn code to be enabled after refactoring completed
-            if(p.contains("respawntime") && (p.getLong("respawntime") < System.currentTimeMillis()
+            if(p.contains("respawntime") && (p.getLong("respawntime") < currentTime
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
                 if(p.isBot())
                     xCon.ex("botrespawn " + p.getInt("bottag"));
-                else
-                    nServer.instance().addNetCmd("respawnplayer " + p.get("id"));
                 p.remove("respawntime");
             }
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
