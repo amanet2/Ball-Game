@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
+* not sending TEAM MODE with the net packets
+    -> make teamgame a function of the mapfile?
+    -> or add a special "cv_gamemode" set arg on new client join/mapload
+        -> THIS SOUNDS BETTER
 * flagmaster not working when spectator in game
 * see if we can remove "mode" outright due to gamemode being transmitted on initial map load
 * watch for double-calls of "checkHatStatus" (and similar) due to the 3 modes: server/client(playr)/client(spec)

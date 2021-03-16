@@ -156,10 +156,10 @@ public class nServer extends Thread implements fNetBase {
         //describes the powerups that should be on map
         keys.put("powerups", cPowerups.createPowerupStringServer());
         //team game stuff
-        if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
-            addNetCmd("echo TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
-        }
-        keys.put("teams", cVars.get("gameteam"));
+//        if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
+//            addNetCmd("echo TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
+//        }
+//        keys.put("teams", cVars.get("gameteam"));
         //tickrate sync
 //        if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
 //            addNetCmd("echo GAME SPEED: " + cVars.get("gametick"));
@@ -254,19 +254,23 @@ public class nServer extends Thread implements fNetBase {
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         StringBuilder sendDataString;
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
-                && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)
-                && !clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+                && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-            if(clientid.contains("bot"))
-                clientArgsMap.get(clientid).put("netcmdrcv", "1");
-            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+            if(!clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+                if(clientid.contains("bot"))
+                    clientArgsMap.get(clientid).put("netcmdrcv", "1");
+                netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+            }
         }
 //        clientArgsMap.put(uiInterface.uuid, nVars.copy());
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
-            if(clientArgsMap.get(idload2) != null)
-                sendDataString.append(String.format("@%s", clientArgsMap.get(idload2).toString()));
+            if(clientArgsMap.containsKey(idload2)) {
+                HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
+                workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+                sendDataString.append(String.format("@%s", workingmap.toString()));
+            }
         }
         return sendDataString.toString();
     }
