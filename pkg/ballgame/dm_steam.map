@@ -1,6 +1,7 @@
 cv_mapview 0
 cv_gamemode 0
 cv_botbehavior goto_player
+cv_gravity 0
 puttile none none none -4500 -2040 7500 6400 0 0 6400 0 0 0 0 200
 puttile none none none -1800 870 600 600 0 0 600 0 0 100 0 255
 puttile none none none -1200 870 600 600 0 0 600 100 150 100 0 255

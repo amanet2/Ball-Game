@@ -169,11 +169,11 @@ public class nServer extends Thread implements fNetBase {
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
         //other gamemode stuff like scorelimit, gravity, etc
-        if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
-            nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
-        }
+//        if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
+//            nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
+//        }
 //        keys.put("scorelimit", sVars.get("scorelimit"));
-        keys.put("gravity", cVars.get("gravity"));
+//        keys.put("gravity", cVars.get("gravity"));
 //        if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
 //            addNetCmd("echo TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
 //            cVars.putLong("starttime", System.currentTimeMillis());
