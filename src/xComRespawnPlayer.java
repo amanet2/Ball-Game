@@ -29,8 +29,14 @@ public class xComRespawnPlayer extends xCom {
                 player.remove("respawntime");
                 return "respawned " + id;
             }
+            else if(nServer.instance().clientArgsMap.containsKey(id)
+            && nServer.instance().clientArgsMap.get(id).containsKey("name")) {
+                nServer.instance().createServersidePlayer(id, nServer.instance().clientArgsMap.get(id).get("name"));
+                nServer.instance().addNetCmd(id, "createuserplayer");
+                doCommand(fullCommand);
+            }
             else {
-                return "can't remove player id: " + id;
+                return "can't respawn player id: " + id;
             }
         }
         return "usage: respawnplayer <player_id>";

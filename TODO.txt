@@ -4,9 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
+* remove/respawn players for death/spec
+    -> console:~$ removeplayer <id>
+    -> console:~$ respawnplayer <id>
 * not sending TEAM MODE with the net packets
     -> make teamgame a function of the mapfile?
-    -> or add a special "cv_gamemode" set arg on new client join/mapload
+    -> or add a special "cv_gamemode" send cmd on new client join&changemap
         -> THIS SOUNDS BETTER
 * flagmaster not working when spectator in game
 * see if we can remove "mode" outright due to gamemode being transmitted on initial map load

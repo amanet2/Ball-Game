@@ -13,6 +13,7 @@ public class xComDamagePlayer extends xCom {
             if(player != null) {
                 if(sSettings.net_server) {
                     player.subtractVal("stockhp", dmg);
+                    System.out.println(player.get("stockhp"));
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff
@@ -46,14 +47,15 @@ public class xComDamagePlayer extends xCom {
                         //be sure not to send too much in one go, net comms
                         nServer.instance().addNetCmd(animString);
                         if(!id.contains("bot")) {
-                            nServer.instance().addNetCmd(id, "dropweapon");
-                            nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
-                                    "cv_cammov2 0;cv_cammov3 0");
-                            nServer.instance().addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+//                            nServer.instance().addNetCmd(id, "dropweapon"); //putprop here instead
+                            xCon.ex("removeplayer " + id);
+//                            nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE + ";cv_cammov0 0;cv_cammov1 0;" +
+//                                    "cv_cammov2 0;cv_cammov3 0");
+//                            nServer.instance().addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
                         }
                         else {
-                            player.putInt("coordx", -10000);
-                            player.putInt("coordy", -10000);
+                            player.putInt("coordx", -100000);
+                            player.putInt("coordy", -100000);
                         }
                     }
                 }
