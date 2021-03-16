@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
+* dead players not respawning
+    -> "respawntime" was tracked in player obj now needs to be in clientArgsMap
 * remove/respawn players for death/spec
     -> console:~$ removeplayer <id>
     -> console:~$ respawnplayer <id>

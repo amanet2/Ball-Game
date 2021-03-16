@@ -13,7 +13,8 @@ public class xComDamagePlayer extends xCom {
             if(player != null) {
                 if(sSettings.net_server) {
                     player.subtractVal("stockhp", dmg);
-                    System.out.println(player.get("stockhp"));
+                    //store player object's health in outgoing network arg map
+                    nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
                     //handle death
                     if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
                         //more server-side stuff

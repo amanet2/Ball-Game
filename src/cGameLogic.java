@@ -286,6 +286,12 @@ public class cGameLogic {
     }
 
     public static void checkHealthStatus() {
+        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+        for(String id : argsMap.keySet()) {
+            if(!id.equals("server") && argsMap.get(id).containsKey("stockhp")) {
+
+            }
+        }
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
