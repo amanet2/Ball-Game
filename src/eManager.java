@@ -37,7 +37,7 @@ public class eManager {
         for(String id : gScene.getPlayerIds()) {
             gPlayer obj = gScene.getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "tag", "mov0", "mov1",
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
                     "mov2", "mov3", "crouch"};
             //check null fields
             if(!obj.containsFields(requiredFields))
