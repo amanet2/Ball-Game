@@ -1,13 +1,13 @@
 import java.util.HashMap;
 
-public class gThingFactory {
+public class gPropFactory {
 //    HashMap<String, gDoableThingReturn> thingLoadMap;
     //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
     //of the prop types we'd like to feature in the game
     HashMap<String, gDoablePropReturn> propLoadMap;
-    static gThingFactory instance = null;
+    static gPropFactory instance = null;
 
-    private gThingFactory() {
+    private gPropFactory() {
 //        thingLoadMap = new HashMap<>();
 //        thingLoadMap.put("THING_FLARE", new gDoableThingReturnFlare());
         propLoadMap = new HashMap<>();
@@ -20,9 +20,9 @@ public class gThingFactory {
         propLoadMap.put("PROP_SPAWNPOINT", new gDoablePropReturnSpawnpoint());
     }
 
-    public static gThingFactory instance() {
+    public static gPropFactory instance() {
         if(instance == null)
-            instance = new gThingFactory();
+            instance = new gPropFactory();
         return instance;
     }
 }
