@@ -4,8 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210316
-* dead bots dont respawn, instead they quit after being dead several seconds
-    -> they are now sharing lots of code with client players for death/respawn handling
+* think about completely restricting the placeable scenery to topdown blocks and the corners
+    -> PRO: each component being much simpler will make the prefabs plans easier to implement
+    -> CON: in too deep with current design
+* dead bots respawn but dont do anything and dont appear on clients screen
+    -> they can still attack client if they get too close
 20210315
 * dead bots not respawning
 * flagmaster not working when spectator in game

@@ -304,8 +304,6 @@ public class cGameLogic {
             //server-side respawn code to be enabled after refactoring completed
             if(p.contains("respawntime") && (p.getLong("respawntime") < currentTime
                     || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-//                if(p.isBot())
-//                    xCon.ex("respawnbot " + p.getInt("bottag"));
                 p.remove("respawntime");
             }
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
