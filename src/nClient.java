@@ -290,7 +290,6 @@ public class nClient extends Thread implements fNetBase {
                     gPlayer player = new gPlayer(-6000, -6000,150,150,
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
-                    player.putInt("tag", eManager.currentMap.scene.playersMap().size());
                     eManager.currentMap.scene.playersMap().put(idload, player);
                 }
             }

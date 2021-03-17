@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210316
+* respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap
+    -> obv this means the removed botplayer wont come back
+        -> add servercommand for "createbotplayer" with all the necessary args
+            -> probably can get away with "createbotplayer <botid>"
 * think about completely restricting the placeable scenery to topdown blocks and the corners
     -> PRO: each component being much simpler will make the prefabs plans easier to implement
     -> CON: in too deep with current design
