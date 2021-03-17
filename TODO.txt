@@ -4,17 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210315
-* dead players not respawning
-    -> "respawntime" was tracked in player obj now needs to be in clientArgsMap
-* remove/respawn players for death/spec
-    -> console:~$ removeplayer <id>
-    -> console:~$ respawnplayer <id>
-* not sending TEAM MODE with the net packets
-    -> make teamgame a function of the mapfile?
-    -> or add a special "cv_gamemode" send cmd on new client join&changemap
-        -> THIS SOUNDS BETTER
+* dead bots not respawning
 * flagmaster not working when spectator in game
-* see if we can remove "mode" outright due to gamemode being transmitted on initial map load
 * watch for double-calls of "checkHatStatus" (and similar) due to the 3 modes: server/client(playr)/client(spec)
 * when one client is spectating, server doesnt show body of the player'd client
     -> probably an escape condition in drawPlayers() or somewhere around there
@@ -49,7 +40,7 @@
     -> clientmap for each client will have <tag>:<tag>:<tag> string made by server
         -> if scorepoint's "tag" is in this list then draw the waypoint
             -> on intersection server will remove that tag
-* change tiles to have 3 colors -> R,G,B,A
+* change tiles to have 3 colors (top,wall,floor) -> R,G,B,A
 * create timer object that contains a doable
     -> you enqueue it into a server "timed tasks" queue
         -> ideas: 10 seconds to show scorboard at game end

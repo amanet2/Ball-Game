@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class xComBotRespawn extends xCom {
+public class xComRespawnBot extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         int botIndex = 0;
