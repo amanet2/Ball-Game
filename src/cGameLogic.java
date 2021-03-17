@@ -291,7 +291,10 @@ public class cGameLogic {
         for(String id : argsMap.keySet()) {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
             && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                nServer.instance().addNetCmd("respawnplayer " + id);
+                if(!id.contains("bot"))
+                    nServer.instance().addNetCmd("respawnplayer " + id);
+                else
+                    xCon.ex("respawnplayer " + id);
                 argsMap.get(id).remove("respawntime");
             }
         }
