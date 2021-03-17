@@ -206,7 +206,6 @@ public class xCon {
         commands.put("removebot", new xComRemoveBot());
         commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
-        commands.put("respawnbot", new xComRespawnBot());
         commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());

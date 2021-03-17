@@ -24,7 +24,7 @@ public class xComAddBot extends xCom {
         nServer.instance().clientIds.add(p.get("id"));
         cScoreboard.addId(p.get("id"));
         nServer.instance().addNetCmd("echo " + botname + " joined the game");
-        xCon.ex("respawnbot " + p.getInt("bottag"));
+        xCon.ex("respawnplayer " + p.get("id"));
         return "spawned bot";
     }
 }
