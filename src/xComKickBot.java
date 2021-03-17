@@ -1,4 +1,4 @@
-public class xComRemoveBot extends xCom {
+public class xComKickBot extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {

@@ -44,15 +44,18 @@ public class xComRespawnPlayer extends xCom {
                     nServer.instance().addNetCmd(id, "createuserplayer");
                     doCommand(fullCommand);
                 }
-//                else {
-//                    gPlayer p = new gPlayer(-6000,-6000,150,150,
-//                            eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
-//                    p.put("id", id);
-//                    p.put("hat", bothat);
-//                    eManager.currentMap.scene.playersMap().put(p.get("id"), p);
-//                    eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
-//                    nVarsBot.update(p);
-//                }
+                else {
+                    String botcolor = nServer.instance().clientArgsMap.get(id).get("color");
+                    String bothat = nServer.instance().clientArgsMap.get(id).get("hat");
+                    gPlayer p = new gPlayer(-6000,-6000,150,150,
+                            eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
+                    p.put("id", id);
+                    p.put("hat", bothat);
+                    eManager.currentMap.scene.playersMap().put(p.get("id"), p);
+                    eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
+                    nVarsBot.update(p);
+                    doCommand(fullCommand);
+                }
                 return "created player for id: " + id;
             }
             else {

@@ -203,7 +203,7 @@ public class xCon {
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
-        commands.put("removebot", new xComRemoveBot());
+        commands.put("kickbot", new xComKickBot());
         commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
         commands.put("respawnplayer", new xComRespawnPlayer());
