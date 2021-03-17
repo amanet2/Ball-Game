@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210316
+* dead bots dont respawn, instead they quit after being dead several seconds
+    -> they are now sharing lots of code with client players for death/respawn handling
 20210315
 * dead bots not respawning
 * flagmaster not working when spectator in game
