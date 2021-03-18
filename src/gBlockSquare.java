@@ -3,9 +3,9 @@ import java.awt.*;
 public class gBlockSquare extends gBlock{
     Color colorWall;
 
-    public gBlockSquare(int x, int y, int w, int h, int toph, String colortop, String colorwall, int brightness) {
+    public gBlockSquare(int x, int y, int w, int h, int wallh, String colortop, String colorwall, int brightness) {
         super(gBlocks.SQUARE, x, y, w, h, colortop, brightness);
-        putInt("toph", toph); //"wallh" will be dimh - toph
+        putInt("wallh", wallh); //"toph" will be dimh - wallh
         put("colorwall", colorwall); //r,g,b,a
 
         String[] colortoks = colorwall.split(",");
