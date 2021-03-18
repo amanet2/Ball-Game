@@ -240,6 +240,8 @@ public class dTileTops {
                     dTileTopsShading.drawTileTopShadingPost(g2, t);
                 }
             }
+            //BLOCK BRIGHTNESS
+            dBlockBrightness.drawBlockBrightness(g2);
             //flashlight overlay
             if (cVars.isOne("flashlight")) {
                 int maxd = 900;

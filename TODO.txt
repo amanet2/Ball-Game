@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
-* finish all shading and vfx for new blocks
+* come up with a more intelligent way to layer things instead of rigid rules currently in place
+* add a final int for "clip" in the create_string of blocks
+* implement brightness for new blocks
 * draw hat under blocktop
 * be able to jump in all directions
 * prefab object
