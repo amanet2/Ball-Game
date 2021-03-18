@@ -22,6 +22,7 @@ public class dTileTops {
                             eUtils.scaleInt(block.getInt("dimw")),
                             eUtils.scaleInt(block.getInt("toph"))
                     );
+                    dBlockTopsShading.drawBlockTopShadingCube(g2, block);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");

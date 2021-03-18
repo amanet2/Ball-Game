@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* finish all shading and vfx for new blocks
+* draw hat under blocktop
 * be able to jump in all directions
 * prefab object
     -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords

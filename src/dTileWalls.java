@@ -23,6 +23,7 @@ public class dTileWalls {
                             eUtils.scaleInt(block.getInt("dimw")),
                             eUtils.scaleInt(block.getInt("wallh"))
                     );
+                    dBlockWallsShading.drawBlockWallsShadingCube(g2, block);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
