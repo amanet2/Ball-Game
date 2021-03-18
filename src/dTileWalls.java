@@ -56,6 +56,7 @@ public class dTileWalls {
                             },
                             4);
                     g2.fillPolygon(pw);
+                    dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
@@ -89,6 +90,7 @@ public class dTileWalls {
                             },
                             4);
                     g2.fillPolygon(pw);
+                    dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
                 }
             }
             //

@@ -19,11 +19,6 @@
 * creating new BLOCK class which will replace tiles.
     -> taking inspiration from prop and propfactory pattern
 * bots respawning properly for single client
-* think about chaning tiles to "blocks"
-    -> side block, topdown block, and corners only building blocks now
-        -> use an int for the block to rotate it 90 degrees (0,1,2,3)
-    -> will be way cleaner code for bounces, others
-    -> will have to make prefabs to handle L-bends, hallways, etc.
 20210316
 * respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap
     -> obv this means the removed botplayer wont come back
