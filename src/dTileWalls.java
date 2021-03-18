@@ -18,7 +18,8 @@ public class dTileWalls {
                             Integer.parseInt(colorvals[3])
                     ));
                     g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("toph")),
                             eUtils.scaleInt(block.getInt("dimw")),
                             eUtils.scaleInt(block.getInt("wallh"))
                     );

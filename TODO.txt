@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* prefab object
+    -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords
 * want both "toph" and "wallh" in block.
     -> so we can use a more snap-able size to build maps, and then we can say "cut out the top here" or
        "remove the wall there"
