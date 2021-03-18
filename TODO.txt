@@ -3,7 +3,10 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-2021
+20210317
+* props dont use the propDoable.getProp() function never
+* creating new BLOCK class which will replace tiles.
+    -> taking inspiration from prop and propfactory pattern
 * bots respawning properly for single client
 * think about chaning tiles to "blocks"
     -> side block, topdown block, and corners only building blocks now
