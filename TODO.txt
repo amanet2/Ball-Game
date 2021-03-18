@@ -4,9 +4,21 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
-* come up with a more intelligent way to layer things instead of rigid rules currently in place
+* GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
+    -> it should be a function of the element's Y value
+    -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
+     while everything lower is printed out first
+        -> enqueue objects to be drawn in order
+            -> start with floors, if(visible on screen) add to VISIBLE_FLOORS list
+                -> From VISIBLE_FLOORS, remove the lowest Y value and place in FIFO queue
+                    -> drain this queue when drawing floors
+                    -> BUT we need to do two drawings,
+                        -> 1. everything with a LOWER Y (behind) the player
+                        -> 2. everything with a HIGHER Y (in front of) the player
+                            -> goes for HAT too
+                                -> if(HatY < blockTopY) DrawHat behind blockTop
+                                -> if(HatY+HatH > blockTopY+blockTopH) DrawHat in front of blockTop
 * add a final int for "clip" in the create_string of blocks
-* implement brightness for new blocks
 * draw hat under blocktop
 * be able to jump in all directions
 * prefab object
