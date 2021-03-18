@@ -6,10 +6,12 @@ public class gBlockFactory {
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
-        blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnSquare());
+        blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnCube());
         blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturnFloor());
         blockLoadMap.put("BLOCK_CORNERUR", new gDoableBlockReturnCornerUR());
         blockLoadMap.put("BLOCK_CORNERUL", new gDoableBlockReturnCornerUL());
+        blockLoadMap.put("BLOCK_CORNERLR", new gDoableBlockReturnCornerLR());
+        blockLoadMap.put("BLOCK_CORNERLL", new gDoableBlockReturnCornerLL());
     }
 
     public static gBlockFactory instance() {
