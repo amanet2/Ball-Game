@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* try using tiles without any "top" to simulate wall of a bldng to walk inside
+    -> pass in "wallh" instead of "toph" (makes more sense, we want a consistent wall height in levels)
+        -> easier to enter "150" than figure out which toph results in a wallh of 150
 * props dont use the propDoable.getProp() function never
 * creating new BLOCK class which will replace tiles.
     -> taking inspiration from prop and propfactory pattern

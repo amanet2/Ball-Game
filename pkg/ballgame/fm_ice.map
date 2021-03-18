@@ -2,6 +2,8 @@ cv_mapview 0
 cv_gamemode 7
 cv_botbehavior flagmaster
 cv_gravity 6
+cv_camx 1500
+cv_camy -500
 puttile none none none 1200 2400 1200 1200 0 0 1200 0 0 0 0 255
 puttile none none none 0 2400 1200 1200 0 0 1200 0 0 0 0 255
 puttile none none none 0 1200 1200 1200 0 0 1200 0 0 0 0 255

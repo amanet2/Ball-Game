@@ -1,0 +1,4 @@
+cv_mapview 0
+cv_gamemode 0
+putblock BLOCK_SQUARE 0 0 1200 1200 1050 120,120,120,255 0,0,0,0 255
+putprop PROP_SPAWNPOINT 0 0 0 0 300 300

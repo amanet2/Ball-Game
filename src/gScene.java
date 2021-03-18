@@ -14,7 +14,7 @@ public class gScene {
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
             "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOST", "PROP_FLAGBLUE",
-            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK"
+            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK", "BLOCK_SQUARE"
     };
 
 	HashMap<String, ArrayList> objectLists;
