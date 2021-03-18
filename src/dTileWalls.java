@@ -6,9 +6,9 @@ public class dTileWalls {
         Graphics2D g2 = (Graphics2D) g;
         //two passes, first pass corners, second reg walls
         if(cVars.isOne("maploaded")) {
-            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_SQUARE");
+            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
             for(String tag : squareMap.keySet()) {
-                gBlockSquare block = (gBlockSquare) squareMap.get(tag);
+                gBlockCube block = (gBlockCube) squareMap.get(tag);
                 if(block.contains("wallh")) {
                     String[] colorvals = block.get("colorwall").split(",");
                     g2.setColor(new Color(

@@ -6,9 +6,9 @@ public class dTileTops {
     public static void drawTops(Graphics g) {
         if (cVars.isOne("maploaded")) {
             Graphics2D g2 = (Graphics2D) g;
-            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_SQUARE");
+            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
             for(String tag : squareMap.keySet()) {
-                gBlockSquare block = (gBlockSquare) squareMap.get(tag);
+                gBlockCube block = (gBlockCube) squareMap.get(tag);
                 if(block.contains("toph")) {
                     String[] colorvals = block.get("color").split(",");
                     g2.setColor(new Color(

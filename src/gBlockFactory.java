@@ -6,7 +6,7 @@ public class gBlockFactory {
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
-        blockLoadMap.put("BLOCK_SQUARE", new gDoableBlockReturnSquare());
+        blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnSquare());
         blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturnFloor());
     }
 

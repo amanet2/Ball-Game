@@ -1,5 +1,5 @@
 public class gBlocks {
-    static final int SQUARE = 0;
+    static final int CUBE = 0;
     static final int FLOOR = 1;
     static final int CORNERUR = 2;
     static final int CORNERLR = 3;
@@ -7,7 +7,7 @@ public class gBlocks {
     static final int CORNERUL = 5;
 
     static String[] titles = new String[]{
-            "BLOCK_SQUARE",
+            "BLOCK_CUBE",
             "BLOCK_FLOOR",
             "BLOCK_CORNERUR",
             "BLOCK_CORNERLR",

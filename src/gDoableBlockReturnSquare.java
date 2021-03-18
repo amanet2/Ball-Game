@@ -1,6 +1,6 @@
 public class gDoableBlockReturnSquare extends gDoableBlockReturn{
     public gBlock getBlock(String[] args) {
-        gBlockSquare block = new gBlockSquare(
+        gBlockCube block = new gBlockCube(
                 Integer.parseInt(args[0]),
                 Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]),
@@ -16,8 +16,8 @@ public class gDoableBlockReturnSquare extends gDoableBlockReturn{
 
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
         super.storeBlock(blockToLoad, sceneToStore);
-        sceneToStore.getThingMap("BLOCK_SQUARE").put(
-                Integer.toString(sceneToStore.getThingMap("BLOCK_SQUARE").size()),
+        sceneToStore.getThingMap("BLOCK_CUBE").put(
+                Integer.toString(sceneToStore.getThingMap("BLOCK_CUBE").size()),
                 blockToLoad
         );
     }

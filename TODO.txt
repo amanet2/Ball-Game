@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* be able to jump in all directions
 * prefab object
     -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords
 * want both "toph" and "wallh" in block.
