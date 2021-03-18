@@ -6,6 +6,27 @@ public class dTileTops {
     public static void drawTops(Graphics g) {
         if (cVars.isOne("maploaded")) {
             Graphics2D g2 = (Graphics2D) g;
+            /*
+             * players extra stuff
+             * */
+            for (String id : gScene.getPlayerIds()) {
+                gPlayer e = gScene.getPlayerById(id);
+//            //player hat
+                if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
+                    g2.drawImage(e.spriteHat,
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
+                            null);
+                }
+                //forbidden sign for spawn protection
+//                if (!cGameLogic.isUserPlayer(e) && nServer.instance().clientArgsMap.containsKey(e.get("id"))
+//                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
+//                    g2.drawImage(forbiddenSign,
+//                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+//                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
+//                            null);
+//                }
+            }
             HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
             for(String tag : squareMap.keySet()) {
                 gBlockCube block = (gBlockCube) squareMap.get(tag);
@@ -52,6 +73,7 @@ public class dTileTops {
                             },
                             3);
                     g2.fillPolygon(p);
+                    dBlockTopsShading.drawBlockTopShadingCorner(g2, block, p);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
@@ -80,6 +102,7 @@ public class dTileTops {
                             },
                             3);
                     g2.fillPolygon(p);
+                    dBlockTopsShading.drawBlockTopShadingCorner(g2, block, p);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLR");
@@ -109,6 +132,7 @@ public class dTileTops {
                         },
                         3);
                 g2.fillPolygon(p);
+                dBlockTopsShading.drawBlockTopShadingCorner(g2, block, p);
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLL");
             for(String tag : squareMap.keySet()) {
@@ -136,6 +160,7 @@ public class dTileTops {
                         },
                         3);
                 g2.fillPolygon(p);
+                dBlockTopsShading.drawBlockTopShadingCorner(g2, block, p);
             }
             //
             // --- NEW ABOVE OLD BELOW ---
@@ -214,27 +239,6 @@ public class dTileTops {
                 if (sVars.isOne("vfxenableshading")) {
                     dTileTopsShading.drawTileTopShadingPost(g2, t);
                 }
-            }
-            /*
-             * players extra stuff
-             * */
-            for (String id : gScene.getPlayerIds()) {
-                gPlayer e = gScene.getPlayerById(id);
-//            //player hat
-                if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
-                    g2.drawImage(e.spriteHat,
-                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
-                            null);
-                }
-                //forbidden sign for spawn protection
-//                if (!cGameLogic.isUserPlayer(e) && nServer.instance().clientArgsMap.containsKey(e.get("id"))
-//                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
-//                    g2.drawImage(forbiddenSign,
-//                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-//                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-//                            null);
-//                }
             }
             //flashlight overlay
             if (cVars.isOne("flashlight")) {

@@ -32,6 +32,7 @@ public class dTileFloors {
                         eUtils.scaleInt(block.getInt("dimw")),
                         eUtils.scaleInt(block.getInt("dimh"))
                 );
+                dBlockFloorsShading.drawBlockFloorShading(g2, block);
             }
 
 
