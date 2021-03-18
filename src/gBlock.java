@@ -1,9 +1,13 @@
+import java.awt.*;
+
 public class gBlock extends gThing {
+    Color colorBase;
+
     public gBlock load(String[] args) {
         return null;
     }
 
-    public gBlock(int t, int x, int y, int w, int h) {
+    public gBlock(int t, int x, int y, int w, int h, String color, int brightness) {
         super();
         put("type", "THING_BLOCK");
         putInt("code", t);
@@ -11,5 +15,11 @@ public class gBlock extends gThing {
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
+        put("color", color);
+        putInt("brightness", brightness);
+
+        String[] colortoks = get("color").split(",");
+        colorBase = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),
+                Integer.parseInt(colortoks[2]), Integer.parseInt(colortoks[3]));
     }
 }
