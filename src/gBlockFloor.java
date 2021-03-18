@@ -1,15 +1,10 @@
 import java.awt.*;
 
-public class gThingFloor extends gThing{
+public class gBlockFloor extends gBlock{
     Color colorFloor;
 
-    public gThingFloor(int x, int y, int w, int h, String colorfloor, int brightness) {
-        super();
-        put("type", "THING_FLOOR");
-        putInt("coordx", x);
-        putInt("coordy", y);
-        putInt("dimw", w);
-        putInt("dimh", h);
+    public gBlockFloor(int x, int y, int w, int h, String colorfloor, int brightness) {
+        super(gBlocks.FLOOR, x, y, w, h);
         putInt("brightness", brightness);
         put("colorfloor", colorfloor); //r,g,b,a
 

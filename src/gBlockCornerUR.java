@@ -1,17 +1,11 @@
 import java.awt.*;
 
-public class gThingBlock extends gThing{
+public class gBlockCornerUR extends gBlock{
     Color colorTop;
     Color colorWall;
 
-    public gThingBlock(int x, int y, int w, int h, int toph, String colortop,
-                       String colorwall, int brightness) {
-        super();
-        put("type", "THING_BLOCK");
-        putInt("coordx", x);
-        putInt("coordy", y);
-        putInt("dimw", w);
-        putInt("dimh", h);
+    public gBlockCornerUR(int x, int y, int w, int h, int toph, String colortop, String colorwall, int brightness) {
+        super(gBlocks.CORNERUR, x, y, w, h);
         putInt("brightness", brightness);
         putInt("toph", toph); //"wallh" will be dimh - toph
         put("colortop", colortop); //r,g,b,a
