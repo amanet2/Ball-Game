@@ -14,6 +14,7 @@ public class sVars {
         keys.put("botcountmax", "3");
         keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
+        keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");

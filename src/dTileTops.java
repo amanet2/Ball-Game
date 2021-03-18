@@ -6,6 +6,22 @@ public class dTileTops {
     public static void drawTops(Graphics g) {
         if (cVars.isOne("maploaded")) {
             Graphics2D g2 = (Graphics2D) g;
+            for(gBlock block : eManager.currentMap.scene.blocks()) {
+                if(block.contains("toph")) {
+                    String[] colorvals = block.get("color").split(",");
+                    g2.setColor(new Color(
+                            Integer.parseInt(colorvals[0]),
+                            Integer.parseInt(colorvals[1]),
+                            Integer.parseInt(colorvals[2]),
+                            Integer.parseInt(colorvals[3])
+                    ));
+                    g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(block.getInt("dimw")),
+                            eUtils.scaleInt(block.getInt("toph"))
+                    );
+                }
+            }
             for (gTile t : eManager.currentMap.scene.tiles()) {
                 if (t.sprites[0] != null) {
                     g2.drawImage(t.sprites[0],

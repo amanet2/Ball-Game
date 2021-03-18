@@ -112,6 +112,7 @@ public class xCon {
         undoableCommands.add("putflare");
         undoableCommands.add("putprop");
         undoableCommands.add("puttile");
+        undoableCommands.add("putblock");
         undoableCommands.add("e_selectflare");
         undoableCommands.add("e_selectprop");
         undoableCommands.add("e_selecttile");
@@ -199,7 +200,7 @@ public class xCon {
         commands.put("playerright", new xComPlayerRight());
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
-        commands.put("putBlock", new xComPutBlock());
+        commands.put("putblock", new xComPutBlock());
         commands.put("putflare", new xComPutFlare());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
