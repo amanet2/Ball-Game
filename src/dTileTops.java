@@ -24,6 +24,67 @@ public class dTileTops {
                     );
                 }
             }
+            squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
+            for(String tag : squareMap.keySet()) {
+                gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
+                if(block.contains("toph")) {
+                    String[] colorvals = block.get("color").split(",");
+                    g2.setColor(new Color(
+                            Integer.parseInt(colorvals[0]),
+                            Integer.parseInt(colorvals[1]),
+                            Integer.parseInt(colorvals[2]),
+                            Integer.parseInt(colorvals[3])
+                    ));
+                    Polygon p = new Polygon(
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw"))
+                            },
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph"))
+                            },
+                            3);
+                    g2.fillPolygon(p);
+                }
+            }
+            squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
+            for(String tag : squareMap.keySet()) {
+                gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
+                if(block.contains("toph")) {
+                    String[] colorvals = block.get("color").split(",");
+                    g2.setColor(new Color(
+                            Integer.parseInt(colorvals[0]),
+                            Integer.parseInt(colorvals[1]),
+                            Integer.parseInt(colorvals[2]),
+                            Integer.parseInt(colorvals[3])
+                    ));
+                    Polygon p = new Polygon(
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
+                            },
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph"))
+                            },
+                            3);
+                    g2.fillPolygon(p);
+                }
+            }
+            //
+            // --- NEW ABOVE OLD BELOW ---
+            //
+
             for (gTile t : eManager.currentMap.scene.tiles()) {
                 if (t.sprites[0] != null) {
                     g2.drawImage(t.sprites[0],
