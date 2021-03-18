@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* want both "toph" and "wallh" in block.
+    -> so we can use a more snap-able size to build maps, and then we can say "cut out the top here" or
+       "remove the wall there"
 * try using tiles without any "top" to simulate wall of a bldng to walk inside
     -> pass in "wallh" instead of "toph" (makes more sense, we want a consistent wall height in levels)
         -> easier to enter "150" than figure out which toph results in a wallh of 150

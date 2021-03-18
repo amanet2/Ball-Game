@@ -9,8 +9,7 @@ public class dTileTops {
             HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_SQUARE");
             for(String tag : squareMap.keySet()) {
                 gBlockSquare block = (gBlockSquare) squareMap.get(tag);
-                int toph = block.getInt("dimh") - block.getInt("wallh");
-                if(toph > 0) {
+                if(block.contains("toph")) {
                     String[] colorvals = block.get("color").split(",");
                     g2.setColor(new Color(
                             Integer.parseInt(colorvals[0]),
@@ -21,7 +20,7 @@ public class dTileTops {
                     g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
                             eUtils.scaleInt(block.getInt("dimw")),
-                            eUtils.scaleInt(toph)
+                            eUtils.scaleInt(block.getInt("toph"))
                     );
                 }
             }
