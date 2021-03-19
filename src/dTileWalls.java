@@ -30,7 +30,7 @@ public class dTileWalls {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
-                if(block.contains("wallh")) {
+                if(block.contains("wallh") && block.isZero("frontwall")) {
                     dBlockShadows.drawShadowBlockCornerUR(g2, block);
                     String[] colorvals = block.get("colorwall").split(",");
                     g2.setColor(new Color(
@@ -64,7 +64,7 @@ public class dTileWalls {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
-                if(block.contains("wallh")) {
+                if(block.contains("wallh") && block.isZero("frontwall")) {
                     dBlockShadows.drawShadowBlockCornerUL(g2, block);
                     String[] colorvals = block.get("colorwall").split(",");
                     g2.setColor(new Color(

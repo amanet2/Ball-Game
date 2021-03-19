@@ -49,6 +49,36 @@ public class dTileTops {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    dBlockShadows.drawShadowBlockCornerUR(g2, block);
+                    String[] colorvals = block.get("colorwall").split(",");
+                    g2.setColor(new Color(
+                            Integer.parseInt(colorvals[0]),
+                            Integer.parseInt(colorvals[1]),
+                            Integer.parseInt(colorvals[2]),
+                            Integer.parseInt(colorvals[3])
+                    ));
+                    Polygon pw = new Polygon(
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
+                            },
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph") + block.getInt("wallh")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy") + block.getInt("wallh"))
+                            },
+                            4);
+                    g2.fillPolygon(pw);
+                    dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+                }
                 if(block.contains("toph")) {
                     String[] colorvals = block.get("color").split(",");
                     g2.setColor(new Color(
@@ -79,6 +109,37 @@ public class dTileTops {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    dBlockShadows.drawShadowBlockCornerUL(g2, block);
+                    String[] colorvals = block.get("colorwall").split(",");
+                    g2.setColor(new Color(
+                            Integer.parseInt(colorvals[0]),
+                            Integer.parseInt(colorvals[1]),
+                            Integer.parseInt(colorvals[2]),
+                            Integer.parseInt(colorvals[3])
+                    ));
+                    Polygon pw = new Polygon(
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                            + block.getInt("dimw")),
+                                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
+                            },
+                            new int[]{
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("wallh")),
+                                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                            + block.getInt("toph") + block.getInt("wallh")),
+                            },
+                            4);
+                    g2.fillPolygon(pw);
+                    dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+                }
                 if(block.contains("toph")) {
                     String[] colorvals = block.get("color").split(",");
                     g2.setColor(new Color(

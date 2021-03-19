@@ -8,6 +8,7 @@ public class gBlockCornerUL extends gBlock{
         putInt("toph", toph);
         putInt("wallh", wallh);
         put("colorwall", colorwall); //r,g,b,a
+        put("frontwall", "0");
 
         String[] colortoks = colorwall.split(",");
         colorWall = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),
