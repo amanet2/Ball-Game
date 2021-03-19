@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* cube blocks need "front wall" capability too
+    -> looks like we should have "backtop" and "frontwall" for all not-floor blocks
+* cornerblock shading/shadows needs to be diagonal
 * add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
 * OPTION: change "frontwall" to "frontwallenabled" IN MAPFILE/CONSTRUCTORS
     -> if an item is "frontwallenabled" do a Y-coord check on whether to draw it behind or in front of player

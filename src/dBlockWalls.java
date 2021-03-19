@@ -97,7 +97,7 @@ public class dBlockWalls {
                 },
                 4);
         g2.fillPolygon(pw);
-        dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+        dBlockWallsShading.drawBlockWallsShadingCornerUR(g2, block, pw);
     }
 
     public static void drawBlockWallCornerLR(Graphics2D g2, gBlockCornerLR block) {
@@ -160,7 +160,7 @@ public class dBlockWalls {
                 },
                 4);
         g2.fillPolygon(pw);
-        dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+        dBlockWallsShading.drawBlockWallsShadingCornerUL(g2, block, pw);
     }
 
     public static void drawBlockWallCornerLL(Graphics2D g2, gBlockCornerLL block) {

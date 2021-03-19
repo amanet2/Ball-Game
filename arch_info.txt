@@ -16,3 +16,5 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * for drawing gfx such as arrows, labels, etc.. use the player object. for vars, use the netmap
 * fun stuff: giveweapon 86011035 3;sendcmd 86011035 cv_weaponstock3 18;sendcmd 86011035 userplayer weapon 3
 * ISSUE: startpaused must be init as 1 in svars.java for mapmaker to work right
+* for now, using the mousewheel creates powerups in a local game lol
+    -> good for demonstrations
