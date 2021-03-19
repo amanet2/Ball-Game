@@ -65,6 +65,7 @@ public class dTileWalls {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
                 if(block.contains("wallh")) {
+                    dBlockShadows.drawShadowBlockCornerUL(g2, block);
                     String[] colorvals = block.get("colorwall").split(",");
                     g2.setColor(new Color(
                             Integer.parseInt(colorvals[0]),
