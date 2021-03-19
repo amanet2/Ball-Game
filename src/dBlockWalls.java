@@ -7,7 +7,7 @@ public class dBlockWalls {
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             dBlockShadows.drawShadowBlockCube(g2, block);
-            dBlockWalls.drawBlockWallCube(g2, block);
+            drawBlockWallCube(g2, block);
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
         for(String tag : squareMap.keySet()) {
@@ -16,7 +16,7 @@ public class dBlockWalls {
                 dBlockShadows.drawShadowBlockCornerUR(g2, block);
                 if(block.isZero("frontwall"))
                     dBlockWalls.drawBlockWallCornerUR(g2, block);
-                dBlockWalls.drawBlockWallCornerUR(g2, block);
+                drawBlockWallCornerUR(g2, block);
             }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
@@ -25,7 +25,16 @@ public class dBlockWalls {
             if(block.contains("wallh")) {
                 dBlockShadows.drawShadowBlockCornerUL(g2, block);
                 if(block.isZero("frontwall"))
-                    dBlockWalls.drawBlockWallCornerUL(g2, block);
+                    drawBlockWallCornerUL(g2, block);
+            }
+        }
+        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLR");
+        for(String tag : squareMap.keySet()) {
+            gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
+            if(block.contains("wallh")) {
+//                dBlockShadows.drawShadowBlockCornerLR(g2, block);
+                if(block.isZero("frontwall"))
+                    drawBlockWallCornerLR(g2, block);
             }
         }
     }
@@ -76,6 +85,38 @@ public class dBlockWalls {
                 4);
         g2.fillPolygon(pw);
         dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+    }
+
+    public static void drawBlockWallCornerLR(Graphics2D g2, gBlockCornerLR block) {
+        String[] colorvals = block.get("colorwall").split(",");
+        g2.setColor(new Color(
+                Integer.parseInt(colorvals[0]),
+                Integer.parseInt(colorvals[1]),
+                Integer.parseInt(colorvals[2]),
+                Integer.parseInt(colorvals[3])
+        ));
+        Polygon pw = new Polygon(
+                new int[]{
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                + block.getInt("dimw")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                + block.getInt("dimw")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
+                },
+                new int[]{
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("toph")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("toph")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("toph") + block.getInt("wallh")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("toph") + block.getInt("wallh"))
+                },
+                4);
+        g2.fillPolygon(pw);
+//        dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
     }
 
     public static void drawBlockWallCornerUL(Graphics2D g2, gBlockCornerUL block) {
