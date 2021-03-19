@@ -33,6 +33,9 @@ public class dTileTops {
                 if(block.contains("toph") && block.isZero("backtop")) {
                     dBlockTops.drawBlockTopCube(g2, block);
                 }
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    dBlockWalls.drawBlockWallCube(g2, block);
+                }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
             for(String tag : squareMap.keySet()) {

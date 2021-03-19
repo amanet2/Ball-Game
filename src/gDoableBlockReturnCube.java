@@ -11,7 +11,9 @@ public class gDoableBlockReturnCube extends gDoableBlockReturn{
                 args[7]
         );
         if(args.length > 8)
-            block.put("backtop", args[8]);
+            block.put("frontwall", args[8]);
+        if(args.length > 9)
+            block.put("backtop", args[9]);
         return block;
     }
 
