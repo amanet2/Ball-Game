@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class dBlockWallsShading {
-    public static void drawBlockWallsShadingCube(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockWallsShadingFlat(Graphics2D g2, gBlock block) {
         g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {

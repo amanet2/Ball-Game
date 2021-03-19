@@ -63,7 +63,7 @@ public class dBlockWalls {
                     eUtils.scaleInt(block.getInt("dimw")),
                     eUtils.scaleInt(block.getInt("wallh"))
             );
-            dBlockWallsShading.drawBlockWallsShadingCube(g2, block);
+            dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
         }
     }
 
@@ -126,7 +126,7 @@ public class dBlockWalls {
                 },
                 4);
         g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+        dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
     }
 
     public static void drawBlockWallCornerUL(Graphics2D g2, gBlockCornerUL block) {
@@ -189,6 +189,6 @@ public class dBlockWalls {
                 },
                 4);
         g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingCorner(g2, block, pw);
+        dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
     }
 }
