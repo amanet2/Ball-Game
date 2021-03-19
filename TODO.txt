@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* FOR FUTURE
+    -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
+* for tilewalls that "pop out" at you, have a small section of the bottom that collides player, ensuring that they
+  never appear behind the wall when it will break the illusion of reality
+    -> use the same shape as the blockTop section
 * try to dyanmically set the "in front" wall variable based on y coord now
     -> if(should be front -> set infront to true)
     -> will need a "can be in front" flag of some kind to enable the setting of infront var

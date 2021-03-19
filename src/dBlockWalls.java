@@ -1,6 +1,53 @@
 import java.awt.*;
+import java.util.HashMap;
 
 public class dBlockWalls {
+    public static void drawBlockWalls(Graphics2D g2) {
+        HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
+        for(String tag : squareMap.keySet()) {
+            gBlockCube block = (gBlockCube) squareMap.get(tag);
+            dBlockShadows.drawShadowBlockCube(g2, block);
+            dBlockWalls.drawBlockWallCube(g2, block);
+        }
+        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
+        for(String tag : squareMap.keySet()) {
+            gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
+            if(block.contains("wallh")) {
+                dBlockShadows.drawShadowBlockCornerUR(g2, block);
+                if(block.isZero("frontwall"))
+                    dBlockWalls.drawBlockWallCornerUR(g2, block);
+                dBlockWalls.drawBlockWallCornerUR(g2, block);
+            }
+        }
+        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
+        for(String tag : squareMap.keySet()) {
+            gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
+            if(block.contains("wallh")) {
+                dBlockShadows.drawShadowBlockCornerUL(g2, block);
+                if(block.isZero("frontwall"))
+                    dBlockWalls.drawBlockWallCornerUL(g2, block);
+            }
+        }
+    }
+    public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
+        if (block.contains("wallh")) {
+            String[] colorvals = block.get("colorwall").split(",");
+            g2.setColor(new Color(
+                    Integer.parseInt(colorvals[0]),
+                    Integer.parseInt(colorvals[1]),
+                    Integer.parseInt(colorvals[2]),
+                    Integer.parseInt(colorvals[3])
+            ));
+            g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                            + block.getInt("toph")),
+                    eUtils.scaleInt(block.getInt("dimw")),
+                    eUtils.scaleInt(block.getInt("wallh"))
+            );
+            dBlockWallsShading.drawBlockWallsShadingCube(g2, block);
+        }
+    }
+
     public static void drawBlockWallCornerUR(Graphics2D g2, gBlockCornerUR block) {
         String[] colorvals = block.get("colorwall").split(",");
         g2.setColor(new Color(

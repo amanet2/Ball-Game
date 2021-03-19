@@ -50,7 +50,7 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockShadows.drawShadowBlockCornerUR(g2, block);
+//                    dBlockShadows.drawShadowBlockCornerUR(g2, block);
                     dBlockWalls.drawBlockWallCornerUR(g2, block);
                 }
                 if(block.contains("toph")) {
@@ -84,7 +84,7 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockShadows.drawShadowBlockCornerUL(g2, block);
+//                    dBlockShadows.drawShadowBlockCornerUL(g2, block);
                     dBlockWalls.drawBlockWallCornerUL(g2, block);
                 }
                 if(block.contains("toph")) {
