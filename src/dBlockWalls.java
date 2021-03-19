@@ -6,7 +6,7 @@ public class dBlockWalls {
         HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
-            dBlockShadows.drawShadowBlockCube(g2, block);
+            dBlockShadows.drawShadowBlockFlat(g2, block);
             drawBlockWallCube(g2, block);
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
@@ -32,7 +32,7 @@ public class dBlockWalls {
         for(String tag : squareMap.keySet()) {
             gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
             if(block.contains("wallh")) {
-//                dBlockShadows.drawShadowBlockCornerLR(g2, block);
+                dBlockShadows.drawShadowBlockFlat(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLR(g2, block);
             }
@@ -41,7 +41,7 @@ public class dBlockWalls {
         for(String tag : squareMap.keySet()) {
             gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
             if(block.contains("wallh")) {
-//                dBlockShadows.drawShadowBlockCornerLL(g2, block);
+                dBlockShadows.drawShadowBlockFlat(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLL(g2, block);
             }

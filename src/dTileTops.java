@@ -50,7 +50,6 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-//                    dBlockShadows.drawShadowBlockCornerUR(g2, block);
                     dBlockWalls.drawBlockWallCornerUR(g2, block);
                 }
                 if(block.contains("toph")) {
@@ -84,7 +83,6 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-//                    dBlockShadows.drawShadowBlockCornerUL(g2, block);
                     dBlockWalls.drawBlockWallCornerUL(g2, block);
                 }
                 if(block.contains("toph")) {
@@ -116,6 +114,9 @@ public class dTileTops {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLR");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    dBlockWalls.drawBlockWallCornerLR(g2, block);
+                }
                 String[] colorvals = block.get("color").split(",");
                 g2.setColor(new Color(
                         Integer.parseInt(colorvals[0]),
@@ -145,6 +146,9 @@ public class dTileTops {
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLL");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    dBlockWalls.drawBlockWallCornerLL(g2, block);
+                }
                 String[] colorvals = block.get("color").split(",");
                 g2.setColor(new Color(
                         Integer.parseInt(colorvals[0]),

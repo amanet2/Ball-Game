@@ -85,7 +85,7 @@ public class dBlockShadows {
         }    
     }
     
-    public static void drawShadowBlockCube(Graphics2D g2, gBlockCube block) {
+    public static void drawShadowBlockFlat(Graphics2D g2, gBlock block) {
         if(sVars.isOne("vfxenableshadows")) {
             g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
             if (block.getInt("wallh") > 0) {
