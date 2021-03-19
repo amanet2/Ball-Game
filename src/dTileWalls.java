@@ -9,6 +9,7 @@ public class dTileWalls {
             HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
             for(String tag : squareMap.keySet()) {
                 gBlockCube block = (gBlockCube) squareMap.get(tag);
+                dShadows.drawShadowBlockCube(g2, block);
                 if(block.contains("wallh")) {
                     String[] colorvals = block.get("colorwall").split(",");
                     g2.setColor(new Color(

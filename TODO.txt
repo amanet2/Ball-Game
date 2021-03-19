@@ -4,7 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
+    -> draw one gradient from clear->dark, then one directly under it from dark->clear
+* remove brightness from blocks
+    -> make a special "LIGHTING SQUARE" or "LIGHTING BLOCK" that will interact with flashlight and be applied
+    to maps manually
+    -> or use flares and cut the flashlight feature for now
+        -> we would repurpose the flashlight "glow" for the winner perhaps, or for spawn protection
 * GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
+    -> dBlocks.drawBlocksBackground
+    -> dBlocks.drawBlocksForeground
+        -> get the test map working, the walls need to be like beams
     -> it should be a function of the element's Y value
     -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
      while everything lower is printed out first
