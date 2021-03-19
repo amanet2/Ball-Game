@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
+* FOR FUTURE
+    -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
     -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
 * for tilewalls that "pop out" at you, have a small section of the bottom that collides player, ensuring that they

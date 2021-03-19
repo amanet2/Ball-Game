@@ -162,9 +162,9 @@ public class dTileTops {
                         new int[]{
                                 eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
                                 eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                        + block.getInt("dimh")),
+                                        + block.getInt("toph")),
                                 eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                        + block.getInt("dimh"))
+                                        + block.getInt("toph"))
                         },
                         3);
                 g2.fillPolygon(p);
