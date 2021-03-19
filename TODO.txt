@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* try to dyanmically set the "in front" wall variable based on y coord now
+    -> if(should be front -> set infront to true)
+    -> will need a "can be in front" flag of some kind to enable the setting of infront var
 * add "in front" or "in back" arg to relevant blocks
 * add "front wall" and "back top" args to blocks
     -> front wall == 1 //draw wall in front of player instead of behind
@@ -23,8 +26,8 @@
     -> or use flares and cut the flashlight feature for now
         -> we would repurpose the flashlight "glow" for the winner perhaps, or for spawn protection
 * GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
-    -> dBlocks.drawBlocksBackground
-    -> dBlocks.drawBlocksForeground
+    -> dBlockWalls.drawBlocksBackground
+    -> dBlockWalls.drawBlocksForeground
         -> get the test map working, the walls need to be like beams
     -> it should be a function of the element's Y value
     -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
