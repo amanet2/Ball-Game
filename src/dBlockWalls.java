@@ -8,6 +8,9 @@ public class dBlockWalls {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             dBlockShadows.drawShadowBlockFlat(g2, block);
             drawBlockWallCube(g2, block);
+            if(block.contains("toph") && block.isOne("backtop")) {
+                dBlockTops.drawBlockTopCube(g2, block);
+            }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
         for(String tag : squareMap.keySet()) {

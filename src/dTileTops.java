@@ -30,20 +30,8 @@ public class dTileTops {
             HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
             for(String tag : squareMap.keySet()) {
                 gBlockCube block = (gBlockCube) squareMap.get(tag);
-                if(block.contains("toph")) {
-                    String[] colorvals = block.get("color").split(",");
-                    g2.setColor(new Color(
-                            Integer.parseInt(colorvals[0]),
-                            Integer.parseInt(colorvals[1]),
-                            Integer.parseInt(colorvals[2]),
-                            Integer.parseInt(colorvals[3])
-                    ));
-                    g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                            eUtils.scaleInt(block.getInt("dimw")),
-                            eUtils.scaleInt(block.getInt("toph"))
-                    );
-                    dBlockTopsShading.drawBlockTopShadingCube(g2, block);
+                if(block.contains("toph") && block.isZero("backtop")) {
+                    dBlockTops.drawBlockTopCube(g2, block);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");

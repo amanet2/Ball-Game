@@ -5,27 +5,16 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
 * add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
+* OPTION: change "frontwall" to "frontwallenabled" IN MAPFILE/CONSTRUCTORS
+    -> if an item is "frontwallenabled" do a Y-coord check on whether to draw it behind or in front of player
+        -> THIS var will be "frontwall"
 * FOR FUTURE
     -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
     -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
-* for tilewalls that "pop out" at you, have a small section of the bottom that collides player, ensuring that they
-  never appear behind the wall when it will break the illusion of reality
+* OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
+ collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
     -> use the same shape as the blockTop section
-* try to dyanmically set the "in front" wall variable based on y coord now
-    -> if(should be front -> set infront to true)
-    -> will need a "can be in front" flag of some kind to enable the setting of infront var
-* add "in front" or "in back" arg to relevant blocks
-* add "front wall" and "back top" args to blocks
-    -> front wall == 1 //draw wall in front of player instead of behind
-    -> back top == 1 //draw top behind player instead of in front
-* maybe have a "layer" flag for objects
-    -> will be dynamically set to 0 (behind player) or 1 (in front of player) for floor/top/wall
-        -> can be overridden to a value of "1" (for walls that we want to be column-like
-            -> this might be the fastest/cleanest
-                -> gotta think about clipping
-* need ability for "wallh" in the LOWER corners
-    -> cause what if there's nothing there to block the view of it?
 * cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
     -> draw one gradient from clear->dark, then one directly under it from dark->clear
 * remove brightness from blocks
