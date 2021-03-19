@@ -7,7 +7,7 @@ public class gBlock extends gThing {
         return null;
     }
 
-    public gBlock(int t, int x, int y, int w, int h, String color, int brightness) {
+    public gBlock(int t, int x, int y, int w, int h, String color) {
         super();
         put("type", "THING_BLOCK");
         putInt("code", t);
@@ -16,7 +16,6 @@ public class gBlock extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("color", color);
-        putInt("brightness", brightness);
 
         String[] colortoks = get("color").split(",");
         colorBase = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),

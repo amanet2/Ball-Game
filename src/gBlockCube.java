@@ -3,8 +3,8 @@ import java.awt.*;
 public class gBlockCube extends gBlock{
     Color colorWall;
 
-    public gBlockCube(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall, int brightness) {
-        super(gBlocks.CUBE, x, y, w, h, colortop, brightness);
+    public gBlockCube(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall) {
+        super(gBlocks.CUBE, x, y, w, h, colortop);
         putInt("toph", toph); //"toph" will be dimh - wallh
         putInt("wallh", wallh); //"toph" will be dimh - wallh
         put("colorwall", colorwall); //r,g,b,a

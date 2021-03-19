@@ -8,8 +8,7 @@ public class gDoableBlockReturnCornerUR extends gDoableBlockReturn{
                 Integer.parseInt(args[4]),
                 Integer.parseInt(args[5]),
                 args[6],
-                args[7],
-                Integer.parseInt(args[8])
+                args[7]
         );
         return block;
     }

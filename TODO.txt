@@ -4,6 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* add "in front" or "in back" arg to relevant blocks
+* add "front wall" and "back top" args to blocks
+    -> front wall == 1 //draw wall in front of player instead of behind
+    -> back top == 1 //draw top behind player instead of in front
+* maybe have a "layer" flag for objects
+    -> will be dynamically set to 0 (behind player) or 1 (in front of player) for floor/top/wall
+        -> can be overridden to a value of "1" (for walls that we want to be column-like
+            -> this might be the fastest/cleanest
+                -> gotta think about clipping
+* need ability for "wallh" in the LOWER corners
+    -> cause what if there's nothing there to block the view of it?
 * cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
     -> draw one gradient from clear->dark, then one directly under it from dark->clear
 * remove brightness from blocks

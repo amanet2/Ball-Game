@@ -3,9 +3,8 @@ import java.awt.*;
 public class gBlockCornerUL extends gBlock{
     Color colorWall;
 
-    public gBlockCornerUL(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall,
-                          int brightness) {
-        super(gBlocks.CORNERUL, x, y, w, h, colortop, brightness);
+    public gBlockCornerUL(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall) {
+        super(gBlocks.CORNERUL, x, y, w, h, colortop);
         putInt("toph", toph);
         putInt("wallh", wallh);
         put("colorwall", colorwall); //r,g,b,a
