@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* draw where hitboxes will be on blocks
+    -> draw red shape
 * work on cage prefab with LowerCorners at the top and get rid of the wall stuff so it can be dropped anywhere
 * find way to make prefab from file
     -> follow console commands
