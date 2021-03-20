@@ -23,7 +23,7 @@ public class gBlocks {
         return -1;
     }
 
-    public static String getTitleForCode(int code) {
+    private static String getTitleForCode(int code) {
         return titles[code];
     }
 

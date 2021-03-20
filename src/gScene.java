@@ -56,9 +56,9 @@ public class gScene {
         return objectLists.get("THING_PROP");
     }
 
-    public ArrayList<gBlock> blocks() {
-        return objectLists.get("THING_BLOCK");
-    }
+//    public ArrayList<gBlock> blocks() {
+//        return objectLists.get("THING_BLOCK");
+//    }
 
     public ArrayList<gFlare> flares() {
         return objectLists.get("THING_FLARE");

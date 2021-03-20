@@ -3,6 +3,6 @@ public class gDoableBlockReturn {
         return null;
     }
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
-        sceneToStore.blocks().add(blockToLoad);
+//        sceneToStore.blocks().add(blockToLoad);
     }
 }

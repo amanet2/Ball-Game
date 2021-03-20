@@ -7,10 +7,9 @@ public class gBlock extends gThing {
         return null;
     }
 
-    public gBlock(int t, int x, int y, int w, int h, String color) {
+    public gBlock(int x, int y, int w, int h, String color) {
         super();
         put("type", "THING_BLOCK");
-        putInt("code", t);
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", w);

@@ -4,7 +4,8 @@ public class gBlockCube extends gBlock{
     Color colorWall;
 
     public gBlockCube(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall) {
-        super(gBlocks.CUBE, x, y, w, h, colortop);
+        super(x, y, w, h, colortop);
+        put("type", "BLOCK_CUBE");
         putInt("toph", toph); //"toph" will be dimh - wallh
         putInt("wallh", wallh); //"toph" will be dimh - wallh
         put("colorwall", colorwall); //r,g,b,a

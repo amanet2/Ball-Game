@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* implement "deleteblock"
+    -> blocks should be ID'd and in a greater blocks hashmap AS WELL AS their more exclusive hashmap
+        -> replace current arraylist with this new map
 * create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
     -> or just keep using the current form
 * cube blocks need "front wall" capability too

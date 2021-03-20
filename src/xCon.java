@@ -145,6 +145,7 @@ public class xCon {
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
+        commands.put("deleteblock", new xComDeleteBlock());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("dropflagred", new xComDropFlagRed());

@@ -4,7 +4,8 @@ public class gBlockCornerUR extends gBlock{
     Color colorWall;
 
     public gBlockCornerUR(int x, int y, int w, int h, int toph, int wallh, String colortop, String colorwall) {
-        super(gBlocks.CORNERUR, x, y, w, h, colortop);
+        super(x, y, w, h, colortop);
+        put("type", "BLOCK_CORNERUR");
         putInt("toph", toph);
         putInt("wallh", wallh);
         put("colorwall", colorwall); //r,g,b,a
