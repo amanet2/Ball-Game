@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
+    -> or just keep using the current form
 * cube blocks need "front wall" capability too
     -> looks like we should have "backtop" and "frontwall" for all not-floor blocks
 * cornerblock shading/shadows needs to be diagonal

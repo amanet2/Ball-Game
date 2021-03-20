@@ -23,6 +23,9 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerUR(g2, block);
             }
+            if(block.contains("toph") && block.isOne("backtop")) {
+                dBlockTops.drawBlockTopCornerUR(g2, block);
+            }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
         for(String tag : squareMap.keySet()) {
@@ -31,6 +34,9 @@ public class dBlockWalls {
                 dBlockShadows.drawShadowBlockCornerUL(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerUL(g2, block);
+            }
+            if(block.contains("toph") && block.isOne("backtop")) {
+                dBlockTops.drawBlockTopCornerUL(g2, block);
             }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLR");
@@ -41,6 +47,9 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLR(g2, block);
             }
+            if(block.contains("toph") && block.isOne("backtop")) {
+//                dBlockTops.drawBlockTopCornerLR(g2, block);
+            }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLL");
         for(String tag : squareMap.keySet()) {
@@ -49,6 +58,9 @@ public class dBlockWalls {
                 dBlockShadows.drawShadowBlockFlat(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLL(g2, block);
+            }
+            if(block.contains("toph") && block.isOne("backtop")) {
+//                dBlockTops.drawBlockTopCornerLL(g2, block);
             }
         }
     }
