@@ -14,20 +14,4 @@ public class gBlocks {
             "BLOCK_CORNERLL",
             "BLOCK_CORNERUL"
     };
-
-    static int getCodeForTitle(String title) {
-        for(int i = 0; i < titles.length; i++) {
-            if(title.equalsIgnoreCase(titles[i]))
-                return i;
-        }
-        return -1;
-    }
-
-    private static String getTitleForCode(int code) {
-        return titles[code];
-    }
-
-    public static String getTitleForBlock(gBlock block) {
-        return getTitleForCode(block.getInt("code"));
-    }
 }

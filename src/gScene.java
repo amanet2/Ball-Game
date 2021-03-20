@@ -20,13 +20,16 @@ public class gScene {
 
 	HashMap<String, ArrayList> objectLists;
 	HashMap<String, HashMap> objectMaps;
+    HashMap<String, Integer> objectIdCtrs;
 
 	public gScene() {
 		objectLists = new HashMap<>();
 		objectMaps = new HashMap<>();
+		objectIdCtrs = new HashMap<>();
 		for(String s : object_titles) {
 			objectLists.put(s, new ArrayList<>());
             objectMaps.put(s, new HashMap<>());
+            objectIdCtrs.put(s, 0);
         }
 	}
 

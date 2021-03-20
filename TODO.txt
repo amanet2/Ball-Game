@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* block draw ordering is lost due to random ids
+    -> keep a running ctr in SCENE object for each blocktype so we can use it as the key in blockmap
 * implement "deleteblock"
     -> blocks should be ID'd and in a greater blocks hashmap AS WELL AS their more exclusive hashmap
         -> replace current arraylist with this new map
