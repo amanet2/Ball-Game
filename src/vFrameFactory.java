@@ -17,6 +17,8 @@ public class vFrameFactory {
             dProp.drawProps(g2);
             dPlayer.drawPlayers(g2);
             dTileTops.drawTops(g2);
+            //mapmaker indicators
+            dMapmakerOverlay.drawSelectionBoxes(g2);
         }
         g2.dispose();
     }

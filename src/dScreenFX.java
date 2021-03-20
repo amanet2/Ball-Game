@@ -1,22 +1,20 @@
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
         gPlayer userPlayer = cGameLogic.userPlayer();
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
-        if(cGameLogic.drawSpawnProtection()) {
-            int factors = sVars.getInt("vfxfactor");
-            int maxl = cVars.getInt("vfxuialphaflashlight");
-            for (int i = 0; i < factors; i++) {
-                g.setColor(new Color(128, 128, 28,
-                        Math.abs((maxl /(factors/2)) * (Math.abs(((factors / 2) - i)) - (factors / 2)))));
-                g.fillRect(sSettings.width/factors * i, 0,sSettings.width/factors, sSettings.height);
-                g.fillRect(0, sSettings.height/factors * i, sSettings.width, sSettings.height/factors);
-            }
-        }
+//        if(cGameLogic.drawLocalSpawnProtection()) {
+//            int factors = sVars.getInt("vfxfactor");
+//            int maxl = cVars.getInt("vfxuialphaflashlight");
+//            for (int i = 0; i < factors; i++) {
+//                g.setColor(new Color(128, 128, 28,
+//                        Math.abs((maxl /(factors/2)) * (Math.abs(((factors / 2) - i)) - (factors / 2)))));
+//                g.fillRect(sSettings.width/factors * i, 0,sSettings.width/factors, sSettings.height);
+//                g.fillRect(0, sSettings.height/factors * i, sSettings.width, sSettings.height/factors);
+//            }
+//        }
         // sprint overlay
         if(cVars.isOne("sprint")) {
             int maxl = cVars.getInt("vfxuialphasprint");

@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static gMap currentMap;
+	static gMap currentMap = new gMap();
 	static String[] mapsSelection = new String[]{};
 	static String[] winClipSelection = new String[]{};
 
@@ -37,7 +37,7 @@ public class eManager {
         for(String id : gScene.getPlayerIds()) {
             gPlayer obj = gScene.getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "tag", "mov0", "mov1",
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
                     "mov2", "mov3", "crouch"};
             //check null fields
             if(!obj.containsFields(requiredFields))
@@ -64,9 +64,9 @@ public class eManager {
                         else if(i != 1 || cVars.getInt("gravity") < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
-                    else if(nServer.clientArgsMap.get(obj.get("id")).containsKey("vels")){
+                    else if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels")){
                         obj.putInt("vel"+i,
-                                Integer.parseInt(nServer.clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
+                                Integer.parseInt(nServer.instance().clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
                     }
                 }
             }
@@ -95,32 +95,6 @@ public class eManager {
                     - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
                     - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
-        }
-	}
-
-	public static void setScene() {
-		if (cVars.isInt("cammode", gCamera.MODE_TRACKING)
-                && currentMap.scene.playersMap().size() > 0)
-            xCon.ex("centercamera");
-		else {
-		    double rr = Math.random();
-            if(currentMap.scene.flares().size() > 0) {
-                gFlare r = currentMap.scene.flares().get((int)(Math.random() * (currentMap.scene.flares().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-		    }
-            if((rr > 0.5 && currentMap.scene.props().size() > 0)){
-                gProp r = eManager.currentMap.scene.props().get((int)(Math.random() * (currentMap.scene.props().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-            }
-            if((rr > 0.90 || (currentMap.scene.props().size() < 1 && currentMap.scene.flares().size() < 1))
-                && currentMap.scene.tiles().size() > 0){
-                gTile r = eManager.currentMap.scene.tiles().get((int)(Math.random() * (currentMap.scene.tiles().size()-1)));
-                cVars.putInt("camx", r.getInt("coordx")-sSettings.width/4);
-                cVars.putInt("camy", r.getInt("coordy")-sSettings.height/2);
-            }
-            cVars.putInt("cammode", gCamera.MODE_FREE);
         }
 	}
 }

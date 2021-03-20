@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.HashMap;
 
 public class xComPause extends xCom {
@@ -14,7 +15,9 @@ public class xComPause extends xCom {
                 if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame()) {
                     eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
                 }
-            }
+                if(sSettings.show_mapmaker_ui)
+                    oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
         return fullCommand;
     }
 }

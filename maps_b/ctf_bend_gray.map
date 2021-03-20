@@ -1,0 +1,60 @@
+cv_mapview 0
+cv_gamemode 3
+cv_botbehavior ctf
+cv_camx -1500
+cv_camy -2400
+puttile none none none -2400 -300 2400 2400 0 0 2400 150 150 150 150 255
+puttile none none none -2400 -2700 2400 2400 150 150 2400 0 0 150 0 255
+puttile none none none 0 -2700 2400 2400 0 0 2400 150 150 0 150 255
+puttile none none none 0 -5100 2400 2400 150 150 2400 0 0 150 150 255
+puttile none none none -1470 -600 600 600 450 150 0 0 0 0 0 200
+puttile none none none 870 -3030 600 600 450 150 0 0 0 0 0 200
+puttile none none none -1770 -2250 900 450 300 150 0 0 0 0 0 200
+puttile none none none 720 -1110 900 450 300 150 0 0 0 0 0 200
+puttile none none none -150 -1290 300 500 350 150 0 0 0 0 0 200
+puttile none none none -150 -2290 300 550 400 150 0 0 0 0 0 200
+puttile none none none 870 -4520 600 350 0 0 0 100 150 100 100 200
+puttile none none none -1440 1020 600 300 100 150 0 0 0 100 100 200
+puttile none none none -2040 1190 250 300 150 150 0 0 0 0 0 255
+puttile none none none -630 1190 250 300 150 150 0 0 0 0 0 255
+puttile none none none -150 -2850 300 450 0 0 0 150 150 0 150 255
+puttile none none none -1440 1320 100 150 0 150 0 0 0 0 0 220
+puttile none none none -940 1320 100 150 0 150 0 0 0 0 0 220
+puttile none none none -2040 240 250 300 150 150 0 0 0 0 0 255
+puttile none none none -630 210 250 300 150 150 0 0 0 0 0 255
+puttile none none none -1290 -1440 250 300 150 150 0 0 0 0 0 255
+puttile none none none 1020 -1950 250 300 150 150 0 0 0 0 0 255
+puttile none none none 400 -3780 250 300 150 150 0 0 0 0 0 255
+puttile none none none 1740 -3780 250 300 150 150 0 0 0 0 0 255
+puttile none none none 390 -4650 250 300 150 150 0 0 0 0 0 255
+puttile none none none 1800 -4650 250 300 150 150 0 0 0 0 0 255
+puttile none none none -2400 -450 150 300 300 0 0 0 0 0 0 255
+puttile none none none -150 -600 150 400 400 0 0 0 0 0 0 255
+puttile none none none 2250 -2910 150 400 400 0 0 0 0 0 0 255
+puttile none none none 870 -4620 100 100 100 0 0 0 0 0 0 255
+puttile none none none 1370 -4620 100 100 100 0 0 0 0 0 0 255
+putprop PROP_FLAGBLUE 0 0 1000 -4750 300 300
+putprop PROP_FLAGRED 1 0 -1320 330 300 300
+putprop PROP_POWERUP 0 0 -2160 -2220 300 300
+putprop PROP_POWERUP 0 0 1860 -990 300 300
+putprop PROP_POWERUP 0 0 -630 -2280 300 300
+putprop PROP_POWERUP 0 0 270 -1020 300 300
+putprop PROP_POWERUP 0 0 360 -4200 300 300
+putprop PROP_POWERUP 0 0 1740 -4200 300 300
+putprop PROP_POWERUP 0 0 -1290 1320 300 300
+putprop PROP_POWERUP 0 0 -2070 750 300 300
+putprop PROP_POWERUP 0 0 -600 750 300 300
+putprop PROP_POWERUP 0 0 -1350 -990 300 300
+putprop PROP_SPAWNPOINT 0 0 270 -2190 300 300
+putprop PROP_SPAWNPOINT 0 0 990 -2340 300 300
+putprop PROP_SPAWNPOINT 0 0 1020 -1470 300 300
+putprop PROP_SPAWNPOINT 0 0 1860 -1470 300 300
+putprop PROP_SPAWNPOINT 0 0 1410 -1890 300 300
+putprop PROP_SPAWNPOINT 0 0 270 -1440 300 300
+putprop PROP_SPAWNPOINT 0 0 1860 -2340 300 300
+putprop PROP_SPAWNPOINT 0 0 660 -1950 300 300
+putprop PROP_POWERUP 0 0 1050 -3810 300 300
+putflare -2400 -300 2400 2400 255 0 0 50 0 0 0 0 0
+putflare -2400 -2700 2400 2400 255 0 0 50 0 0 0 0 0
+putflare 0 -2700 2400 2400 0 0 255 50 0 0 0 0 0
+putflare 0 -5100 2400 2400 0 0 255 50 0 0 0 0 0

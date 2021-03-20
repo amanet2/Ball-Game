@@ -8,6 +8,7 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
+        put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
         put("cammov1", "0");
@@ -20,7 +21,7 @@ public class cVars {
         put("clipplayer", "1");
         put("collideplayers", "1");
         put("delayhp", "2400");
-        put("delaypow", "1000");
+        put("delaypow", "500");
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
@@ -30,11 +31,12 @@ public class cVars {
         put("flagmasterid", "");
         put("flagmastertime", "0");
         put("flashlight", "0");
+        put("gamescale", "2160");
+        put("gametick", "240");
         put("gamewon", "0");
         putInt("gamemode", cGameMode.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
         put("gameteam", "0");
-        put("gametick", sVars.get("gametick"));
         put("gravity", "0");
         put("blockmouseui", "0");
         put("inspawn", "1");
@@ -51,7 +53,7 @@ public class cVars {
         put("maploaded", "0");
         putInt("mapview", gMap.MAP_TOPVIEW);
         put("maxstockhp", "500");
-        put("maxstockspeed", "1000");
+        put("maxstockspeed", "200");
         put("popuplivetime", "2000");
         put("powerupson", sVars.get("powerupsmaxon"));
         put("powerupstime", "0");
@@ -61,7 +63,6 @@ public class cVars {
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
-        put("scorelimit", sVars.get("scorelimit"));
         put("scoremap", "");
         put("sendpowerup", "");
         put("serversendmapbatchsize", "4");
@@ -69,7 +70,7 @@ public class cVars {
         put("showscore", "0");
         put("sicknessslow", "0");
         put("sicknessfast", "0");
-        put("spawnprotectionmaxtime", sVars.get("spawnprotectionmaxtime"));
+        put("spawnprotectionmaxtime", "1000");
         put("sprint", "0");
         put("sprinttime", "0");
         put("starttime", "0");

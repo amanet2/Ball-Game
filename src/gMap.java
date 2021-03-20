@@ -16,10 +16,6 @@ public class gMap {
     ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
-    //the plan for this map is for each string to point to a unique doable that returns a prop configured to match one
-    //of the prop types we'd like to feature in the game
-    HashMap<String, gDoablePropReturn> propLoadMap;
-    HashMap<String, gDoableThingReturn> thingLoadMap;
 
     private void basicInit() {
         gTextures.clear();
@@ -28,16 +24,6 @@ public class gMap {
         scene = new gScene();
         wasLoaded = 0;
         cVars.put("maploaded", "0");
-        propLoadMap = new HashMap<>();
-        propLoadMap.put("PROP_TELEPORTER", new gDoablePropReturnTeleporter());
-        propLoadMap.put("PROP_BOOST", new gDoablePropReturnBoost());
-        propLoadMap.put("PROP_SCOREPOINT", new gDoablePropReturnScorepoint());
-        propLoadMap.put("PROP_FLAGBLUE", new gDoablePropReturnFlagBlue());
-        propLoadMap.put("PROP_FLAGRED", new gDoablePropReturnFlagRed());
-        propLoadMap.put("PROP_POWERUP", new gDoablePropReturnPowerup());
-        propLoadMap.put("PROP_SPAWNPOINT", new gDoablePropReturnSpawnpoint());
-        thingLoadMap = new HashMap<>();
-        thingLoadMap.put("THING_FLARE", new gDoableThingReturnFlare());
     }
 
 	public gMap() {

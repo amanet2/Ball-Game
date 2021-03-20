@@ -42,9 +42,8 @@ public class dWaypoints {
                     eUtils.scaleInt(dy - cVars.getInt("camy")));
             FontRenderContext frc =
                     new FontRenderContext(null, false, true);
-            g2.drawString(message,
-                    eUtils.scaleInt(dx - cVars.getInt("camx"))
-                            -(int)g2.getFont().getStringBounds(message,frc).getWidth()/2,
+            dFonts.drawCenteredString(g2, message,
+                    eUtils.scaleInt(dx - cVars.getInt("camx")),
                     eUtils.scaleInt(dy - cVars.getInt("camy"))
                             -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
             if(!cVars.isInt("gamemode", cGameMode.VIRUS)
@@ -80,7 +79,8 @@ public class dWaypoints {
                     HashMap unheldflagsmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
                     for(Object id : unheldflagsmap.keySet()) {
                         gPropFlagRed flag = (gPropFlagRed) unheldflagsmap.get(id);
-                        if(!flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
+                        if(cGameLogic.userPlayer() != null
+                        && !flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
                             dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                                 flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
                     }
@@ -121,31 +121,25 @@ public class dWaypoints {
                     }
                     break;
                 case cGameMode.VIRUS:
-                    if(nServer.clientArgsMap != null && nServer.clientArgsMap.containsKey("server")
-                            && nServer.clientArgsMap.get("server").containsKey("state")) {
-                        String statestr = nServer.clientArgsMap.get("server").get("state");
+                    if(nServer.instance().clientArgsMap != null && nServer.instance().clientArgsMap.containsKey("server")
+                            && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+                        String statestr = nServer.instance().clientArgsMap.get("server").get("state");
                         for (String id : gScene.getPlayerIds()) {
                             gPlayer p = gScene.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {
                                 dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                        p.getInt("coordy") + p.getInt("dimh") / 2,
-                                        "* INFECTED *");
+                                        p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
                             }
                         }
                     }
                     break;
                 case cGameMode.RACE:
                 case cGameMode.WAYPOINTS:
-                case cGameMode.SAFE_ZONES:
                     HashMap scorepointMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
                     for(Object id : scorepointMap.keySet()) {
                         gPropScorepoint scorepoint = (gPropScorepoint) scorepointMap.get(id);
-                        if(((cVars.isInt("gamemode", cGameMode.WAYPOINTS)
-                                || cVars.isInt("gamemode", cGameMode.SAFE_ZONES))
-                                && scorepoint.getInt("int0") > 0)
-                                || (cVars.isInt("gamemode", cGameMode.RACE)
-                                && !scorepoint.get("racebotidcheckins").contains(cGameLogic.userPlayer().get("id")))) {
-                            //racebots is for server, int0 is for clients
+                        //racebots is for server, int0 is for clients
+                        if(scorepoint.isZero("int0")) {
                             dWaypoints.drawNavPointer(g2,
                                     scorepoint.getInt("coordx") + scorepoint.getInt("dimw") / 2,
                                     scorepoint.getInt("coordy") + scorepoint.getInt("dimh") / 2,

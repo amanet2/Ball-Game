@@ -19,14 +19,7 @@ public class gMessages {
     public static void checkMessages() {
         //check individual ids in the cmd queue map
         if(sSettings.net_server) {
-            //check clients
-            for(String id : nServer.clientNetCmdMap.keySet()) {
-                if(nServer.clientArgsMap.get(id).containsKey("netcmdrcv")
-                        && nServer.clientNetCmdMap.get(id).size() > 0) {
-                    nServer.clientNetCmdMap.get(id).remove();
-                    nServer.clientArgsMap.get(id).remove("netcmdrcv");
-                }
-            }
+            nServer.instance().checkOutgoingCmdMap();
         }
 
         if(messageSend) {

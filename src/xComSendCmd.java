@@ -1,20 +1,16 @@
 public class xComSendCmd extends xCom {
     public String doCommand(String fullCommand) {
-        if(sSettings.net_server) {
-            String[] toks = fullCommand.split(" ");
-            if(toks.length > 1) {
-                String cmd = fullCommand.replace(toks[0]+" ", "");
-                try {
-                    int id = 0;
-                    if(!toks[1].equalsIgnoreCase("server"))
-                        id = Integer.parseInt(toks[1].replace("bot", "")); //check if valid
-                    nServer.addNetCmd(toks[1], cmd);
-                }
-                catch (Exception e) {
-                    nServer.addNetCmd(cmd);
-                }
+        String[] toks = fullCommand.split(" ");
+        if(toks.length > 1) {
+            String cmd = fullCommand.replace(toks[0]+" ", "");
+            if(cmd.length() > 0) {
+                if(sSettings.net_server)
+                    nServer.instance().addNetCmd(cmd);
+                else
+                    nClient.instance().addNetCmd(cmd);
+                return cmd;
             }
         }
-        return fullCommand;
+        return "usage: sendcmd <any valid console command>";
     }
 }

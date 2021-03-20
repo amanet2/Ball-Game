@@ -7,12 +7,12 @@ public class xComSay extends xCom {
             switch(sSettings.NET_MODE) {
                 case sSettings.NET_SERVER:
                     String testmsg = msg.substring(msg.indexOf(':')+2);
-                    nServer.checkMessageForSpecialSound(testmsg);
-                    nServer.checkMessageForVoteToSkip(testmsg);
-                    nServer.addNetCmd(echoString);
+                    nServer.instance().checkMessageForSpecialSound(testmsg);
+                    nServer.instance().checkMessageForVoteToSkip(testmsg);
+                    nServer.instance().addNetCmd(echoString);
                     break;
                 case sSettings.NET_CLIENT:
-                    nClient.addSendMsg(msg);
+                    nClient.instance().addSendMsg(msg);
                     break;
                 default:
                     xCon.ex(echoString);

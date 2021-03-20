@@ -12,31 +12,32 @@ public class sVars {
         keys.put("bgcolor", "0,0,0");
         keys.put("botcount", "0");
         keys.put("botcountmax", "3");
-        keys.put("bottime", "0");
         keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
-        keys.put("countdowntimeleft", "60000");
+        keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
+        keys.put("debuglog", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
         keys.put("defaultmap", "mainmenu.map");
         keys.put("defaulttitle", "Ball Game");
         keys.put("displaymode", "0");
+        keys.put("fontcoloralert", "200,0,50,200");
+        keys.put("fontcolorbonus", "50,220,100,200");
+        keys.put("fontcolorhighlight", "220,175,0,255");
+        keys.put("fontcolornormal", "255,255,255,200");
         keys.put("fontmode", "0");
         keys.put("fontsize", "90");
         keys.put("fontnameui", "None");
         keys.put("fontnameconsole", "Courier");
         keys.put("framerates", "24,30,60,75,100,120,144,240,320,1000");
-        keys.put("gamescale", "2160");
-        keys.put("gametick", "240");
         keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe_normal,stovepipe_irish,bow,witch,skull,boomer");
         keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("logopath", "misc/logo.png");
-        keys.put("lowpowermode", "1");
         keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
@@ -54,20 +55,14 @@ public class sVars {
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("safezonetime", "20000");
-        keys.put("scorelimit", "25");
+        keys.put("scorelimit", "1000");
         keys.put("sfxrange", "1800");
         keys.put("showtick", "0");
         keys.put("showfps", "0");
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("spawnprotectionmaxtime", "1000");
-        keys.put("startpaused", "1");
-        keys.put("tagscorewaittime", "10000");
-        keys.put("fontcoloralert", "200,0,50,200");
-        keys.put("fontcolorbonus", "50,220,100,200");
-        keys.put("fontcolorhighlight", "220,175,0,255");
-        keys.put("fontcolornormal", "255,255,255,255");
+        keys.put("startpaused", "0");
         keys.put("timelimit", "120000");
         keys.put("timeout", "1000");
         keys.put("vfxenableanimations", "1");
@@ -100,7 +95,7 @@ public class sVars {
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
                         && Integer.parseInt(toks[3]) < 256);
             }
-            else if(k.contains("time") || k.equals("audioenabled") || k.equals("countdowntimeleft")
+            else if(k.contains("time") || k.equals("audioenabled")
                 || k.equals("debug") || k.equals("displaymode") || k.equals("fontmode") || k.equals("fontsize")
                 || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
@@ -108,8 +103,8 @@ public class sVars {
                 || k.equals("powerupsusetimemax") || k.equals("powerupswaittime") || k.equals("rcvbytesclient")
                 || k.equals("rcvbytesserver") || k.equals("safezonetime")
                 || k.equals("scorelimit") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
-                || k.equals("smoothing") || k.equals("spawnprotectionmaxtime") || k.equals("startpaused")
-                || k.equals("tagscorewaittime") || k.equals("timelimit") || k.equals("timeout")
+                || k.equals("smoothing") || k.equals("startpaused")
+                || k.equals("timelimit") || k.equals("timeout")
                 || k.equals("vfxfactor") || k.equals("vfxfactordiv")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {
@@ -187,6 +182,11 @@ public class sVars {
             keys = new HashMap<>();
             init();
         }
+    }
+
+    public static void remove(String s) {
+        refresh();
+        keys.remove(s);
     }
 
     public static void loadFromFile(String s) {
