@@ -1,17 +1,13 @@
-import java.awt.*;
+import java.util.ArrayList;
 
 public class gPrefab extends gThing {
-    gBlock[] blocks;
+    ArrayList<gBlock> blocks;
 
-    public gPrefab load(String[] args) {
-        return null;
-    }
-
-    public gPrefab(int x, int y, gBlock[] blocksarray) {
+    public gPrefab(int x, int y) {
         super();
         put("type", "THING_PREFAB");
         putInt("coordx", x);
         putInt("coordy", y);
-        blocks = blocksarray;
+        blocks = new ArrayList<>();
     }
 }

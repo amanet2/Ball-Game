@@ -3,10 +3,6 @@ import java.awt.*;
 public class gBlock extends gThing {
     Color colorBase;
 
-    public gBlock load(String[] args) {
-        return null;
-    }
-
     public gBlock(int x, int y, int w, int h, String color) {
         super();
         put("type", "THING_BLOCK");
