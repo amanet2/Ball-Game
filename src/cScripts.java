@@ -38,48 +38,50 @@ public class cScripts {
     }
 
     public static void checkPlayerSpriteFlip(gPlayer p) {
-        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
-                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a00")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
-            }
-        }
-        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
-            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a03")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-//                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-//                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-//                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-//                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-//                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-//                            "misc/bfg.png";
-//                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-//                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
-//                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-            }
-        }
-        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
-            if(!p.get("pathsprite").contains("a04")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
-            }
-        }
-        else {
-            if(!p.get("pathsprite").contains("a05")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-//                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-//                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-//                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-//                        "misc/bfg_flip.png";
-//                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
-//                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-//                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-//                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-//                }
-            }
-        }
+//        if(p == null)
+//            return;
+//        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
+//                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
+//            if(!p.get("pathsprite").contains("a00")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
+//            }
+//        }
+//        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
+//            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
+//            if(!p.get("pathsprite").contains("a03")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
+////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+////                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+////                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+////                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
+////                            "misc/bfg.png";
+////                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+////                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
+////                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+//            }
+//        }
+//        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
+//            if(!p.get("pathsprite").contains("a04")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
+//            }
+//        }
+//        else {
+//            if(!p.get("pathsprite").contains("a05")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
+////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+////                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+////                        "misc/bfg_flip.png";
+////                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
+////                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+////                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+////                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+////                }
+//            }
+//        }
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
@@ -219,7 +221,8 @@ public class cScripts {
             }
             for(String playerId : gScene.getPlayerIds()) {
                 gPlayer t = gScene.getPlayerById(playerId);
-                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
+                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -279,40 +282,51 @@ public class cScripts {
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
         //get shooter details
         String killerid = bullet.get("srcid");
-        if(!dmgvictim.contains("spawnprotectiontime")) {
-            //calculate dmg
-            int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                    *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
-            )/(double)bullet.getInt("ttl"))));
-            //play animations on all clients
-            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
-                    new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
-                            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
-                            Integer.toString(adjusteddmg), 0.0));
-            if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                        createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                                bullet.getInt("coordx"), bullet.getInt("coordy")));
-            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
-            //handle damage serverside
-            if(sSettings.net_server) {
-                String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-                nServer.instance().addNetCmd(cmdString);
-            }
+        //calculate dmg
+        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
+        )/(double)bullet.getInt("ttl"))));
+        //play animations on all clients
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
+                new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
+                        dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
+                        Integer.toString(adjusteddmg), 0.0));
+        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                            bullet.getInt("coordx"), bullet.getInt("coordy")));
+        eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
+        //handle damage serverside
+        if(sSettings.net_server) {
+            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
+            nServer.instance().addNetCmd(cmdString);
         }
     }
 
     public static int[] getPlaceObjCoords() {
-        int[] mc = getMouseCoordinates();
-        int w = cEditorLogic.state.newTile.getInt("dimw");
-        int h = cEditorLogic.state.newTile.getInt("dimh");
-        int px = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[0])+cVars.getInt("camx")-w/2,
-            cEditorLogic.state.snapToX);
-        int py = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[1])+cVars.getInt("camy")-h/2,
-            cEditorLogic.state.snapToY);
-        return new int[]{px,py};
+        int[] mc = cScripts.getMouseCoordinates();
+        switch(cEditorLogic.state.createObjCode) {
+            case gScene.THING_PROP:
+                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
+            case gScene.THING_FLARE:
+                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
+                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
+                        cEditorLogic.state.snapToX);
+                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
+                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
+                        cEditorLogic.state.snapToY);
+                return new int[]{propx, propy};
+            default:
+                return new int[]{eUtils.roundToNearest(
+                        eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                                - cEditorLogic.state.newTile.getInt("dimh")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                        - cEditorLogic.state.newTile.getInt("dimh")/2,
+                                cEditorLogic.state.snapToY)};
+        }
     }
 
     public static void moveTileDown(int tag) {
@@ -332,39 +346,12 @@ public class cScripts {
     }
 
     public static void setupGame() {
-        int[] npcs = new int[] {-6000, -6000};
         cVars.putLong("starttime", System.currentTimeMillis());
-        if(cScripts.isNetworkGame() || uiInterface.inplay) {
-            gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
-                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
-            player0.put("tag", "0");
-            player0.put("id", sSettings.net_server ? "server" : uiInterface.uuid);
-            cGameLogic.setUserPlayer(player0);
-            player0.put("color", sVars.get("playercolor"));
-            eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
-            xCon.ex("centercamera");
-        }
-        //network
-        if(isNetworkGame()) {
-            for(String s : nServer.instance().clientIds) {
-                gPlayer player = new gPlayer(-6000, -6000,150,150,
-                    eUtils.getPath("animations/player_red/a03.png"));
-                player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-                player.put("id", s);
-                eManager.currentMap.scene.playersMap().put(s, player);
-            }
-            xCon.ex("respawn");
-        }
-        else if(uiInterface.inplay){
-            xCon.ex("respawn");
+        if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
+            //spawns player for mapmaker testing
+            xCon.ex("createuserplayer;respawn");
         }
         cGameLogic.resetGameState();
-        cVars.put("canvoteskip", "");
-        cVars.put("voteskipctr", "0");
-        if(sSettings.net_server) {
-            cVars.put("serveraddbots", "");
-            cVars.putLong("serveraddbotstime", System.currentTimeMillis() + 1000);
-        }
         for(String s : eManager.currentMap.execLines) {
             xCon.ex(s.replaceFirst("cmd ", ""));
         }
@@ -389,10 +376,11 @@ public class cScripts {
     }
 
     public static void changeWeapon(int newweapon) {
-        if(eManager.currentMap.scene.playersMap().size() > 0
-                && newweapon == 0) {
-            cGameLogic.userPlayer().putInt("weapon", newweapon);
-            xCon.ex("playsound sounds/grenpinpull.wav");
+        gPlayer p = cGameLogic.userPlayer();
+        if(p != null) {
+            if(newweapon != p.getInt("weapon"))
+                xCon.ex("playsound sounds/grenpinpull.wav");
+            p.putInt("weapon", newweapon);
             checkPlayerSpriteFlip(cGameLogic.userPlayer());
         }
     }

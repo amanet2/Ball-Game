@@ -11,7 +11,7 @@ public class cScoreboard {
         }
         scoresMap = new HashMap<>();
         if(sSettings.net_server) {
-            addId("server");
+//            addId("server");
             for(String id : savedWins.keySet()) {
                 if(!scoresMap.containsKey(id)) {
                     addId(id);
@@ -84,7 +84,7 @@ public class cScoreboard {
                 if(scoresMapIdMap.get("score") > topscore) {
                     tiectr = 0;
                     topscore = scoresMapIdMap.get("score");
-                    winnerName = gScene.getPlayerById(id).get("name") + " ("+topscore+")";
+                    winnerName = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
                 }
                 else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
                     tiectr++;
@@ -95,23 +95,23 @@ public class cScoreboard {
             }
         }
         else {
-            String[] colors = sVars.getArray("colorselection");
-            int[] colorscores = new int[colors.length];
-            Arrays.fill(colorscores, 0);
-            for(String id : scoresMap.keySet()) {
-                gPlayer p = gScene.getPlayerById(id);
-                for(int j = 0; j < colors.length; j++) {
-                    if(p.get("color").equals(colors[j])) {
-                        colorscores[j] = scoresMap.get(id).get("score");
-                    }
-                }
-            }
-            for(int i = 0; i < colorscores.length; i++) {
-                if(colorscores[i] > topscore) {
-                    topscore = colorscores[i];
-                    winnerName = colors[i] + " (" + colorscores[i]+")";
-                }
-            }
+//            String[] colors = sVars.getArray("colorselection");
+//            int[] colorscores = new int[colors.length];
+//            Arrays.fill(colorscores, 0);
+//            for(String id : scoresMap.keySet()) {
+//                gPlayer p = gScene.getPlayerById(id);
+//                for(int j = 0; j < colors.length; j++) {
+//                    if(p.get("color").equals(colors[j])) {
+//                        colorscores[j] = scoresMap.get(id).get("score");
+//                    }
+//                }
+//            }
+//            for(int i = 0; i < colorscores.length; i++) {
+//                if(colorscores[i] > topscore) {
+//                    topscore = colorscores[i];
+//                    winnerName = colors[i] + " (" + colorscores[i]+")";
+//                }
+//            }
         }
         return winnerName;
     }

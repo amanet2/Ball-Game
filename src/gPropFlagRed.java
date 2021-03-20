@@ -20,41 +20,37 @@ public class gPropFlagRed extends gProp {
 
     gDoableThing flagMasterDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(sSettings.net_server) {
-                if(cVars.isVal("flagmasterid", "")) {
-                    cVars.put("flagmasterid", p.get("id"));
-                    if(sSettings.net_server) {
-                        xCon.ex("say " + p.get("name") + " has the flag!");
-                    }
-                }
+            if(sSettings.net_server && p.getInt("stockhp") > 0 && cVars.isVal("flagmasterid", "")) {
+                cVars.put("flagmasterid", p.get("id"));
+                nServer.instance().addNetCmd("echo " + p.get("name") + " has the flag!");
             }
         }
     };
 
     gDoableThing kingOfFlagsDoable = new gDoableThing() {
         public void doItem(gThing p) {
-            if(!isVal("str0", p.get("id")) ) {
-                String myId = get("id");
-                gProp myProp = (gProp) eManager.currentMap.scene.getThingMap("PROP_FLAGRED").get(myId);
-                //handle kingofflag flagred intersection
-                int pass = 1;
-                for(String id2 : gScene.getPlayerIds()) {
-                    gPlayer p2 = gScene.getPlayerById(id2);
-                    //make sure no other players still on the flag
-                    if(!p2.get("id").equals(p.get("id")) && p2.willCollideWithPropAtCoords(
-                            myProp, p2.getInt("coordx"), p2.getInt("coordy"))) {
-                        pass = 0;
-                        break;
-                    }
-                }
-                if(pass > 0) {
-                    put("str0", p.get("id"));
-                    if (sSettings.net_server) {
-                        xCon.ex("say " + p.get("name") + " captured flag#" + getInt("tag"));
-                        xCon.ex("givepoint " + p.get("id"));
-                    }
-                }
-            }
+//            if(!isVal("str0", p.get("id")) ) {
+//                String myId = get("id");
+//                gProp myProp = (gProp) eManager.currentMap.scene.getThingMap("PROP_FLAGRED").get(myId);
+//                //handle kingofflag flagred intersection
+//                int pass = 1;
+//                for(String id2 : gScene.getPlayerIds()) {
+//                    gPlayer p2 = gScene.getPlayerById(id2);
+//                    //make sure no other players still on the flag
+//                    if(!p2.get("id").equals(p.get("id")) && p2.willCollideWithPropAtCoords(
+//                            myProp, p2.getInt("coordx"), p2.getInt("coordy"))) {
+//                        pass = 0;
+//                        break;
+//                    }
+//                }
+//                if(pass > 0) {
+//                    put("str0", p.get("id"));
+//                    if (sSettings.net_server) {
+//                        xCon.ex("say " + p.get("name") + " captured flag#" + getInt("tag"));
+//                        xCon.ex("givepoint " + p.get("id"));
+//                    }
+//                }
+//            }
         }
     };
 

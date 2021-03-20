@@ -3,7 +3,183 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210317
+* create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
+    -> or just keep using the current form
+* cube blocks need "front wall" capability too
+    -> looks like we should have "backtop" and "frontwall" for all not-floor blocks
+* cornerblock shading/shadows needs to be diagonal
+* add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
+* OPTION: change "frontwall" to "frontwallenabled" IN MAPFILE/CONSTRUCTORS
+    -> if an item is "frontwallenabled" do a Y-coord check on whether to draw it behind or in front of player
+        -> THIS var will be "frontwall"
+* FOR FUTURE
+    -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
+* FOR FUTURE
+    -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
+* OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
+ collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
+    -> use the same shape as the blockTop section
+* cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
+    -> draw one gradient from clear->dark, then one directly under it from dark->clear
+* remove brightness from blocks
+    -> make a special "LIGHTING SQUARE" or "LIGHTING BLOCK" that will interact with flashlight and be applied
+    to maps manually
+    -> or use flares and cut the flashlight feature for now
+        -> we would repurpose the flashlight "glow" for the winner perhaps, or for spawn protection
+* GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
+    -> dBlockWalls.drawBlocksBackground
+    -> dBlockWalls.drawBlocksForeground
+        -> get the test map working, the walls need to be like beams
+    -> it should be a function of the element's Y value
+    -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
+     while everything lower is printed out first
+        -> enqueue objects to be drawn in order
+            -> start with floors, if(visible on screen) add to VISIBLE_FLOORS list
+                -> From VISIBLE_FLOORS, remove the lowest Y value and place in FIFO queue
+                    -> drain this queue when drawing floors
+                    -> BUT we need to do two drawings,
+                        -> 1. everything with a LOWER Y (behind) the player
+                        -> 2. everything with a HIGHER Y (in front of) the player
+                            -> goes for HAT too
+                                -> if(HatY < blockTopY) DrawHat behind blockTop
+                                -> if(HatY+HatH > blockTopY+blockTopH) DrawHat in front of blockTop
+* add a final int for "clip" in the create_string of blocks
+* draw hat under blocktop
+* be able to jump in all directions
+* prefab object
+    -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords
+* want both "toph" and "wallh" in block.
+    -> so we can use a more snap-able size to build maps, and then we can say "cut out the top here" or
+       "remove the wall there"
+* try using tiles without any "top" to simulate wall of a bldng to walk inside
+    -> pass in "wallh" instead of "toph" (makes more sense, we want a consistent wall height in levels)
+        -> easier to enter "150" than figure out which toph results in a wallh of 150
+* props dont use the propDoable.getProp() function never
+* creating new BLOCK class which will replace tiles.
+    -> taking inspiration from prop and propfactory pattern
+* bots respawning properly for single client
+20210316
+* respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap
+    -> obv this means the removed botplayer wont come back
+        -> add servercommand for "createbotplayer" with all the necessary args
+            -> probably can get away with "createbotplayer <botid>"
+* think about completely restricting the placeable scenery to topdown blocks and the corners
+    -> PRO: each component being much simpler will make the prefabs plans easier to implement
+    -> CON: in too deep with current design
+* dead bots respawn but dont do anything and dont appear on clients screen
+    -> they can still attack client if they get too close
+20210315
+* dead bots not respawning
+* flagmaster not working when spectator in game
+* watch for double-calls of "checkHatStatus" (and similar) due to the 3 modes: server/client(playr)/client(spec)
+* when one client is spectating, server doesnt show body of the player'd client
+    -> probably an escape condition in drawPlayers() or somewhere around there
+* work on removing player and recreating them instead of the graveyard thing
+    -> PROS: cleaner, remove dead players and respawn them with the same id
+    -> MORE PROS: spectator mode is as easy as NOT creating players for clients
+20210309
+* changing map after a win is broken
+    -> timeleft never gets reset
+* have command for add_map_to_playlist
+    -> will load mapfile into the "mapselection" list
+        -> instead of adding all .map files into it
+* work on making the console a more refined parser
+    -> take inspiration from compiler design
+* selecting prop under mouse broken
+    -> need to adapt to prop maps
+* props list and prop maps are fucky
+    -> get desynced easily when trying to clear/reset prop maps
+* scorelimit is fucky
+    -> probably can just be an svar on the server, no need for cvar stuff
+* do flagmaster gametype first
+* GAMETYPES
+    -> race (any order)
+    -> race (in order)
+        -> server stores the current tag of the scorepoint (in order) that player has to go through
+            -> on intersection, server advances its stored tag, has to tell client to set prio pt to 0 and new pt to 1
+* make scripting language
+    -> "ballscript"
+* new race arch
+    -> server tracks <id>-<int0>:<id>-<int0> for scorepoints
+        -> change this when clients intersect scorepoint
+    -> clientmap for each client will have <tag>:<tag>:<tag> string made by server
+        -> if scorepoint's "tag" is in this list then draw the waypoint
+            -> on intersection server will remove that tag
+* change tiles to have 3 colors (top,wall,floor) -> R,G,B,A
+* create timer object that contains a doable
+    -> you enqueue it into a server "timed tasks" queue
+        -> ideas: 10 seconds to show scorboard at game end
+        -> 10 seconds to new map
+* redo textures system
+    -> use colors or go with "none" and the grey
+* improve corners
+* make it so prefabs can be created
+* make it so client can be in game without a player spawned
+    -> spectate/death
+* make it so server can spawn a user player for themself
+    -> has to work with all other players
+    -> probably not a good idea to rely on tag==0 for anything userplayer related
+    -> "server" as uuid isn't going to be compatible anymore
+* ISSUE: rotating player sprite makes it go invisble when offline or serverplayer
+    -> prolly have server at all times?  just dont wait for incoming connections in "offline" mode
+* redefine "debug" so that you see the rcv commands in console, and only see all the net packets when you enable
+    "nettrace" or something
+* client should be able to be in a game without a player on the field
+    -> "spectator" mode
+    -> try removing player when dies
+* CRITICAL: FIX THAT 'FILE NOT FOUND' EXCEPTION NOW!!!!!
+    -> really need a loading block on all game activity
+    -> uiInterface calls eManager.updateEntityPositions()
+        -> because so many things get checked and return NULL!!!
+* remote exec: allow server to run a file of cmds on client
+* redo spawnprotection
+    -> track the spawntimestamp, compare to maxprotecttime (on server)
+    -> send a "spawnprotect" flag from server to client for drawing the forbidden sign
+20210304
+* add ability for console to be logged to file on exit
+20210303
+* redo spawnprotection to be managed serverside
+    -> palyer var spawnprotectiontime is longtime when spanprotection goes to 0
+    -> net var spawnprotected used by clients to draw the forbidden sign or not
+* track list of clientRestricted cmds that a client cant execute in an online match
+    - zoom, userplayer
+* EXCELLENT OFFLINE TEST: load ctf_bend.map;createuserplayer;respawn
+* Be watchful for mem leaks
+* Get changing map while game in session working
+    -> seems to work but it was not a thought out solution
+20210301
+* REMEMBER THAT THE PERSON FIRING WILL --NOT-- SEE THE "fireweapon" COMM COME FROM THE SERVER
+* scoreboard showing two names when only one client playing
+X why does "disconnecting = 1" work but calling disconnect() doesnt?
+    -> trace it
+    -> it;s because the "checkQuitterStatus" fuction was restricted to server only
+20210228
+* looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
+* handle quits, disconnects, and timeouts, and bans
+    -> lots of "check" functions used to rely on player0 existing, refactor these
+X 3 windows
+    -> 1: newgame
+    -> 2: joingame, normal
+    -> 3: joingame, broken until 2 quits
+        -> at this time, 2 is getting the first line of 3's mapstream forever, since server wants 3's rcv msg
+    -> fixed by getting rid of "focus id" in server
+* MOVING FORWARD
+    -> continue with the curent server behavior as a playerless "godview"
+    -> make sure all client and bot logic is sound in this view as well as in client
+    -> build from ground up, make sure overal arch is solid. dont make a game yet
+    -> the "color" stuff is a good start
 20210227
+* figure out why client's serverargmap doesnt have clients character in it
+* server holds gravity, mapname, etc
+    -> the player who starts the game creates a client, uses client cmd reqs while the server returns things like shoot
+    -> necessitates refactoring of "isCleint" and "isServer"
+        -> a UserInterface should not be a binary server/client
+        -> a UserInterface should always assume a server is running and act as a client
+            -> this will eliminate the blocking socket
+                -> use the socket locally and connect to the game
+                    -> adjust rates accordingly
+* "server" clientArg should hold all server-centric stuff, but for x,y,movs,etc. put that in a client for everyone
 * convert creatSendData/etc to an interface used by server and client
 * Still getting crashes from checkHatStatus(), checkNameStatus(), etc.
 20210226
@@ -271,6 +447,7 @@ call the "damageplayer" console function
                                                 ==FEATURES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+* pong gametype but the players are human paddles
 * refactor mapfile so you can create objects with the kind of flexibility of hashmaps
     -> obv this means json
     -> obv this means everythings fucked

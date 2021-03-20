@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.HashMap;
 
 public class dTileFloors {
     public static void drawFloors(Graphics2D g2) {
@@ -16,6 +17,25 @@ public class dTileFloors {
             }
         }
         if(cVars.isOne("maploaded")) {
+            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_FLOOR");
+            for(String tag : squareMap.keySet()) {
+                gBlockFloor block = (gBlockFloor) squareMap.get(tag);
+                String[] colorvals = block.get("color").split(",");
+                g2.setColor(new Color(
+                        Integer.parseInt(colorvals[0]),
+                        Integer.parseInt(colorvals[1]),
+                        Integer.parseInt(colorvals[2]),
+                        Integer.parseInt(colorvals[3])
+                ));
+                g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                        eUtils.scaleInt(block.getInt("dimw")),
+                        eUtils.scaleInt(block.getInt("dimh"))
+                );
+                dBlockFloorsShading.drawBlockFloorShading(g2, block);
+            }
+
+
             for (gTile tile : eManager.currentMap.scene.tiles()) {
                 if (tile.sprites[2] != null) {
                     g2.drawImage(tile.sprites[2],
@@ -57,8 +77,9 @@ public class dTileFloors {
                                 eUtils.scaleInt(5), eUtils.scaleInt(5)
                         );
                     }
-                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0
-                        && !tile.get("sprite2").contains("none")) {
+                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0) {
+//                } else if (tile.getInt("dim2w") > 0 && tile.getInt("dim2h") > 0
+//                        && !tile.get("sprite2").contains("none")) {
                     //show light gray for null or broken tiles
 //                System.out.println(tile.get("sprite2"));
                     g2.setColor(Color.LIGHT_GRAY);

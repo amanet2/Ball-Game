@@ -136,9 +136,13 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
-                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+//                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
+//                                : cVars.get("scorelimit")) + " points to win | "
+//                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+//                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+                dFonts.drawRightJustifiedString(g,
+                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
         }
         //wip notice -> needs to be transparent
@@ -193,18 +197,18 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
-            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
+            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColorNormal(g);
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
-                i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
+                i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
                 int dd = 1;
                 if(i == xCon.instance().linesToShowStart && xCon.instance().linesToShowStart > 0) {
                     g.drawString(String.format("--- (%d) scroll up ---", xCon.instance().linesToShowStart),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(i == xCon.instance().linesToShowStart+ xCon.instance().linesToShow-1
+                if(i == xCon.instance().linesToShowStart + xCon.instance().linesToShow-1
                     && xCon.instance().linesToShowStart
                     < xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
                     g.drawString(String.format("--- (%d) scroll down ---",
@@ -213,9 +217,9 @@ public class dScreenMessages {
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(dd != 0){
-                    g.drawString(xCon.instance().stringLines.get(i),
-                        0, (ctr + 1) * sSettings.height / 64);
+                if(dd != 0) {
+                    if(xCon.instance().stringLines.size() > i)
+                        g.drawString(xCon.instance().stringLines.get(i), 0, (ctr + 1) * sSettings.height / 64);
                 }
                 ctr++;
             }
@@ -240,7 +244,7 @@ public class dScreenMessages {
             if(nServer.instance().clientArgsMap.get("server") != null
             && nServer.instance().clientArgsMap.get("server").get("topscore") != null
             && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
-                if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
+                if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
@@ -305,17 +309,16 @@ public class dScreenMessages {
                 dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
-        //messages
+        //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                //special code to add "server: " to sender-less msgs
-//                if(!s.contains(":")) {
-//                    s = "server: " + s;
-//                }
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                    +(i*(sSettings.height/32)));
+                g.setColor(Color.BLACK);
+                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
+                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32)));
             }
         }
     }

@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class xCon {
 
     public static int charlimit() {
         return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-            sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2).getStringBounds("_",
+            sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 
@@ -97,6 +99,7 @@ public class xCon {
         visibleCommands.add("joingame");
         visibleCommands.add("load");
         visibleCommands.add("newgame");
+        visibleCommands.add("newgamerandom");
 
         undoableCommands = new ArrayList<>();
         undoableCommands.add("e_copytile");
@@ -106,9 +109,10 @@ public class xCon {
         undoableCommands.add("e_newtilequick");
         undoableCommands.add("e_nextthing");
         undoableCommands.add("e_pastetile");
-        undoableCommands.add("e_putflare");
-        undoableCommands.add("e_putprop");
-        undoableCommands.add("e_puttile");
+        undoableCommands.add("putflare");
+        undoableCommands.add("putprop");
+        undoableCommands.add("puttile");
+        undoableCommands.add("putblock");
         undoableCommands.add("e_selectflare");
         undoableCommands.add("e_selectprop");
         undoableCommands.add("e_selecttile");
@@ -125,13 +129,19 @@ public class xCon {
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
-        commands.put("botrespawn", new xComBotRespawn());
         commands.put("centercamera", new xComCentercamera());
+        commands.put("changemap", new xComChangeMap());
+        commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
         commands.put("clearbots", new xComClearBots());
+        commands.put("clearthingmap", new xComClearThingMap());
         commands.put("clientlist", new xComClientlist());
+        commands.put("clientplayer", new xComClientPlayer());
+        commands.put("clientnetargs", new xComClientNetArgs());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
+        commands.put("createserverplayer", new xComCreateServerPlayer());
+        commands.put("createuserplayer", new xComCreateUserPlayer());
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
@@ -139,6 +149,7 @@ public class xCon {
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("dropflagred", new xComDropFlagRed());
         commands.put("dropweapon", new xComDropWeapon());
+        commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
         commands.put("e_copytile", new xComEditorCopyTile());
         commands.put("e_delthing", new xComEditorDelThing());
@@ -149,9 +160,6 @@ public class xCon {
         commands.put("e_nextthing", new xComEditorNextThing());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_pastetile", new xComEditorPasteTile());
-        commands.put("e_putflare", new xComEditorPutFlare());
-        commands.put("e_putprop", new xComEditorPutProp());
-        commands.put("e_puttile", new xComEditorPutTile());
         commands.put("e_save", new xComEditorSave());
         commands.put("e_saveas", new xComEditorSaveAs());
         commands.put("e_selectprop", new xComEditorSelectProp());
@@ -177,12 +185,14 @@ public class xCon {
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
+        commands.put("joingamespec", new xComJoingameSpec());
         commands.put("jump", new xComJump());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
+        commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
         commands.put("playercrouch", new xComPlayerCrouch());
         commands.put("playerdown", new xComPlayerDown());
@@ -190,12 +200,15 @@ public class xCon {
         commands.put("playerright", new xComPlayerRight());
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
+        commands.put("putblock", new xComPutBlock());
         commands.put("putflare", new xComPutFlare());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
-        commands.put("removebot", new xComRemoveBot());
+        commands.put("kickbot", new xComKickBot());
+        commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
+        commands.put("respawnclientbotplayer", new xComRespawnClientBotPlayer());
         commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
@@ -203,6 +216,7 @@ public class xCon {
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
         commands.put("sendcmd", new xComSendCmd());
+        commands.put("set", new xComSet());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
@@ -214,6 +228,18 @@ public class xCon {
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
+    }
+
+    public void saveLog(String s) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(s), StandardCharsets.UTF_8))) {
+            for(String line : stringLines) {
+                writer.write(line+"\n");
+            }
+        } catch (IOException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
     }
 
     public static Integer getKeyCodeForComm(String comm) {

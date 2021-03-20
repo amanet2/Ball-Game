@@ -4,7 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.*;
 
-public class nServer extends Thread implements fNetBase, fNetGame {
+public class nServer extends Thread implements fNetBase {
     private int netticks;
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -19,7 +19,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "e_putprop",
+            "putprop",
             "fireweapon"
     ));
 
@@ -41,7 +41,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         cGameLogic.checkDisconnectStatus();
         //other players
         for(String id : clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
+//            System.out.println(id);
+            if(!id.equals(uiInterface.uuid) && !id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
                 if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
@@ -49,6 +50,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 }
             }
         }
+
         while(quitClientIds.size() > 0) {
             String quitterId = quitClientIds.remove();
             removeNetClient(quitterId);
@@ -129,8 +131,69 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         }
     }
 
+    public HashMap<String, String> getNetVars() {
+        HashMap<String, String> keys = new HashMap<>();
+        //handle outgoing cmd
+        keys.put("cmd", "");
+        //handle server outgoing cmds that loopback to the server
+        checkLocalCmds();
+        //update id in net args
+        keys.put("id", "server");
+        //name for spectator and gameplay
+        keys.put("name", sVars.get("playername"));
+        //key whose presence depends on value of cvar like quitting, disconnecting
+        keys.remove("quit");
+        keys.remove("disconnect");
+        if(cVars.isOne("quitting"))
+            keys.put("quit", "");
+        if(cVars.isOne("disconnecting"))
+            keys.put("disconnect", "");
+        //server-specific values, mostly for gamemode stuff
+        //the name of the current map
+//        keys.put("map", eManager.currentMap.mapName);
+        //the current gamemode
+//        keys.put("mode", cVars.get("gamemode"));
+        //describes the powerups that should be on map
+        keys.put("powerups", cPowerups.createPowerupStringServer());
+        //team game stuff
+//        if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
+//            addNetCmd("echo TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
+//        }
+//        keys.put("teams", cVars.get("gameteam"));
+        //tickrate sync
+//        if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
+//            addNetCmd("echo GAME SPEED: " + cVars.get("gametick"));
+//        }
+//        keys.put("tick", cVars.get("gametick"));
+        //send scores
+        keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
+        cVars.put("scoremap", keys.get("scoremap"));
+        //other gamemode stuff like scorelimit, gravity, etc
+//        if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
+//            nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
+//        }
+//        keys.put("scorelimit", sVars.get("scorelimit"));
+//        keys.put("gravity", cVars.get("gravity"));
+//        if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
+//            addNetCmd("echo TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
+//            cVars.putLong("starttime", System.currentTimeMillis());
+//            cVars.put("timeleft", sVars.get("timelimit"));
+//        }
+//        keys.put("timelimit", sVars.get("timelimit"));
+        keys.put("timeleft", cVars.get("timeleft"));
+        keys.put("topscore", cScoreboard.getTopScoreString());
+        keys.put("state", cServer.getGameStateServer());
+        keys.put("win", cVars.get("winnerid"));
+        return keys;
+    }
+
     public void processPackets() {
         try {
+//            nVars.update();
+            HashMap<String, String> netVars = getNetVars();
+            nServer.instance().clientArgsMap.put("server", netVars);
+//            nServer.instance().clientArgsMap.put("server", nVars.copy());
+//            nServer.instance().clientArgsMap.put(uiInterface.uuid, nVars.copy()); //put server's player in map
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -153,35 +216,32 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     addNetCmd(clientId, "disconnect");
                 }
                 if(clientId != null) {
-                    nSend.focus_id = clientId;
                     //create response
-                    String sendDataString = createSendDataString();
+                    String sendDataString = createSendDataString(netVars, clientId);
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket =
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER SEND [" + sendDataString.length() + "]: " + sendDataString);
+                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
                 receivedPackets.remove();
             }
             HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && sVars.getLong("bottime") < uiInterface.gameTime) {
-                sVars.putLong("bottime",
+            if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
+                cVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
-                    String botStateStr = nVarsBot.dumpArgsForId(p.get("id"));
-                    String receiveDataString = botStateStr;
+                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
                     readData(receiveDataString);
                     //get player id of client
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
-                    nSend.focus_id = clientId;
                     //act as if responding
-                    createSendDataString();
+                    createSendDataString(netVars, clientId);
                 }
             }
         }
@@ -191,56 +251,49 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         }
     }
 
-    private String createSendDataString() {
+    private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         StringBuilder sendDataString;
-        nVars.update();
-        if(nSend.sendMap != null) {
-            for(String k : nVars.keySet()) {
-                if(nSend.constantsList.contains(k) || k.equals("id") || !nSend.sendMap.containsKey(k)
-                        || !nSend.sendMap.get(k).equals(nVars.get(k)))
-                    nSend.sendMap.put(k, nVars.get(k));
-                else
-                    nSend.sendMap.remove(k);
+        if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
+                && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
+            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
+            if(!clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+                if(clientid.contains("bot"))
+                    clientArgsMap.get(clientid).put("netcmdrcv", "1");
+                netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-        else
-            nSend.sendMap = nVars.copy();
-
-        clientArgsMap.put(uiInterface.uuid, nVars.copy());
-        sendDataString = new StringBuilder(nVars.dump());
+//        clientArgsMap.put(uiInterface.uuid, nVars.copy());
+        sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
-            if(clientArgsMap.get(idload2) != null)
-                sendDataString.append(String.format("@%s", clientArgsMap.get(idload2).toString()));
+            if(clientArgsMap.containsKey(idload2)) {
+                HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
+                workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+                workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+                sendDataString.append(String.format("@%s", workingmap.toString()));
+            }
         }
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("spawnprotectiontime"))
-            nSend.sendMap.put("spawnprotected","");
-        else
-            nSend.sendMap.remove("spawnprotected");
         return sendDataString.toString();
     }
 
     void removeNetClient(String id) {
-        if(nSend.focus_id.equals(id)){
-            nSend.focus_id = "";
+        String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
+        if(cVars.isVal("flagmasterid", id)) {
+            cVars.put("flagmasterid", "");
         }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
-        gPlayer quittingPlayer = gScene.getPlayerById(id);
         eManager.currentMap.scene.playersMap().remove(id);
-        String quitterName = quittingPlayer.get("name");
         clientIds.remove(id);
-        if(cVars.isVal("flagmasterid", quittingPlayer.get("id"))) {
-            cVars.put("flagmasterid", "");
-        }
+        //tell remaining players
         String quitString = String.format("echo %s left the game", quitterName);
         addNetCmd(quitString);
     }
 
     public void run() {
         try {
-            uiInterface.uuid = "server";
+//            uiInterface.uuid = "server";
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
 //            serverSocket.setSoTimeout(sVars.getInt("timeout"));
             while (true) {
@@ -281,7 +334,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
         return true;
     }
 
-    private void readData(String receiveDataString) {
+    public void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
         if(toks[0].length() > 0) {
             String argload = toks[0];
@@ -300,7 +353,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
             }
             //get actions such as exploding
             String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
-//                int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
+//            int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
             String oldName = "";
@@ -331,6 +384,8 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                 }
                 gPlayer packPlayer = gScene.getPlayerById(packId);
                 if(packPlayer != null) {
+//                    if(packPlayer.getInt("weapon") != packWeap)
+//                        xCon.ex("giveweapon " + packId + " " + packWeap);
                     if (clientArgsMap.get(packId).containsKey("vels")) {
                         String[] veltoks = clientArgsMap.get(packId).get("vels").split("-");
                         packPlayer.put("vel0", veltoks[0]);
@@ -342,10 +397,11 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
                     }
-                }
-                if(!packArgMap.containsKey("spawnprotected")
-                        && clientArgsMap.get(packId).containsKey("spawnprotected")) {
-                    clientArgsMap.get(packId).remove("spawnprotected");
+                    if(clientArgsMap.get(packId).containsKey("fv")) {
+                        packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
+                    }
+                    //store player object's health in outgoing network arg map
+                    clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
                 }
                 cServer.processActionLoadServer(packActions, packName, packId);
                 if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
@@ -358,14 +414,50 @@ public class nServer extends Thread implements fNetBase, fNetGame {
                     handleClientCommand(packId, packArgMap.get("cmd"));
                 }
             }
-            //store player object's health in outgoing network arg map
-            clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
+        }
+    }
+
+    void changeMap(String mapPath) {
+        System.out.println("CHANGING MAP: " + mapPath);
+        clearBots();
+        oDisplay.instance().clearAndRefresh();
+        cVars.put("botbehavior", "");
+        if(!mapPath.contains(sVars.get("datapath")))
+            mapPath = eUtils.getPath(mapPath);
+        gMap.load(mapPath);
+        oDisplay.instance().createPanels();
+        addExcludingNetCmd("server", "cv_maploaded 0;load ");
+        eManager.currentMap.scene.clearPlayers();
+        for(String id : clientIds) {
+            createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
+            if(gScene.getPlayerById(id) != null)
+                addNetCmd(id, "cv_maploaded 1");
+            else
+                addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
         }
     }
 
     private void handleNewClientJoin(String packId, String packName) {
+        System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
+        createServersidePlayerAndSendMap(packId, packName);
+        addNetCmd(packId, "cv_maploaded 1;respawn");
+        addNetCmd(String.format("echo %s joined the game", packName));
+    }
+
+    public void createServersidePlayer(String packId, String packName) {
+        gPlayer player = new gPlayer(-6000, -6000,150,150,
+                eUtils.getPath("animations/player_red/a03.png"));
+        player.put("name", packName);
+        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
+        player.put("id", packId);
+        player.put("stockhp", cVars.get("maxstockhp"));
+//          player.putInt("weapon", packWeap);
+        eManager.currentMap.scene.playersMap().put(packId, player);
+    }
+
+    private void createServersidePlayerAndSendMap(String packId, String packName) {
         if(!packId.contains("bot")) {
             gPlayer player = new gPlayer(-6000, -6000,150,150,
                     eUtils.getPath("animations/player_red/a03.png"));
@@ -373,7 +465,7 @@ public class nServer extends Thread implements fNetBase, fNetGame {
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
             player.put("stockhp", cVars.get("maxstockhp"));
-//                        player.putInt("weapon", packWeap);
+//          player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
         StringBuilder sendStringBuilder = new StringBuilder();
@@ -382,14 +474,12 @@ public class nServer extends Thread implements fNetBase, fNetGame {
             sendStringBuilder.append(line.replace("cmd", "")).append(";");
             linectr++;
             if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == eManager.currentMap.mapLines.size()-1) {
+                    || linectr == eManager.currentMap.mapLines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();
             }
         }
-        addNetCmd(packId, "cv_maploaded 1;respawn");
-        addNetCmd(String.format("echo %s joined the game", packName));
     }
 
     private void handleClientMessage(String msg) {
