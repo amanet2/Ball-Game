@@ -6,10 +6,6 @@ public class gPlayer extends gThing {
     Image spriteHat;
     Image sprite;
 
-    public void fireWeapon() {
-        gWeapons.fromCode(getInt("weapon")).fireWeapon(this);
-    }
-
     public boolean canJump() {
         if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
             for(gTile t : eManager.currentMap.scene.tiles()) {
@@ -84,7 +80,10 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoords(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
+        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null) {
+            //check null fields
+            if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                return false;
             Shape bounds = new Rectangle(
                 target.getInt("coordx"),
                 target.getInt("coordy"),
@@ -97,7 +96,10 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
+        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null ) {
+            //check null fields
+            if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                return false;
             Shape bounds = new Rectangle(
                     target.getInt("coordx") + target.getInt("dimw")/4,
                     target.getInt("coordy") + target.getInt("dimh")/4,
@@ -189,13 +191,10 @@ public class gPlayer extends gThing {
                 case 0:
                 case 1:
                 case 2:
+                    cVars.put("suppressknocksound", "1");
                     if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
-                        cVars.put("suppressknocksound", "1");
                         putInt("vel0", 3*getInt("vel1")/2 - 1);
                         put("vel1", "0");
-                    }
-                    else {
-                        cVars.put("suppressknocksound", "1");
                     }
                     break;
                 case 3:
@@ -268,7 +267,8 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", getInt("vel1") - 1);
+                        cVars.put("suppressknocksound", "1");
+                        putInt("vel0",3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
                 }
@@ -327,7 +327,7 @@ public class gPlayer extends gThing {
                 }
                 else {
                     if (getInt("vel3") > 0) {
-                        putInt("vel0", getInt("vel3") - 1);
+                        putInt("vel0", 3*getInt("vel3")/2 - 1);
                         put("vel3", "0");
                     }
                     if (getInt("vel1") > 0) {
@@ -357,7 +357,6 @@ public class gPlayer extends gThing {
             if(pb.intersects(cwb)) {
                 if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
                     if(getInt("vel0") > 0) {
-                        double mod = 1.5;
                         putInt("vel1", getInt("vel0") - 1);
                         putInt("vel0", 0);
                     }
@@ -373,7 +372,7 @@ public class gPlayer extends gThing {
                 }
                 else {
                     if (getInt("vel2") > 0) {
-                        putInt("vel0", getInt("vel2") - 1);
+                        putInt("vel0", 3*getInt("vel2")/2 - 1);
                         put("vel2", "0");
                     }
                     if (getInt("vel1") > 0) {
@@ -401,7 +400,8 @@ public class gPlayer extends gThing {
             if(cornerbounds.intersects(pb)) {
                 if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
                     if(getInt("vel1") > 0) {
-                        putInt("vel0", getInt("vel1") - 1);
+                        cVars.put("suppressknocksound", "1");
+                        putInt("vel0", 3*getInt("vel1")/2 - 1);
                         putInt("vel1", 0);
                     }
                 }
@@ -506,6 +506,10 @@ public class gPlayer extends gThing {
         xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
     }
 
+    public boolean isBot() {
+        return get("id") != null && get("id").contains("bot");
+    }
+
     public gPlayer(int x, int y, int w, int h, String tt) {
         super();
         putInt("coordx", x);
@@ -513,11 +517,8 @@ public class gPlayer extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("id", "");
-        put("name", "player");
-        put("color", "blue");
         put("accelrate", "100");
         put("clip", "1");
-        put("firing", "0");
         put("flashlight", "0");
         put("exitteleportertag", "-1");
         put("pathspritehat", "");
@@ -541,8 +542,6 @@ public class gPlayer extends gThing {
         put("stockhp", cVars.get("maxstockhp"));
         put("botthinktime", "0");
         put("powerupsusetime", "0");
-        put("sendshot", "0");
-        put("alive", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("dropweapon", new gDoableThing(){

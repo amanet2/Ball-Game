@@ -3,7 +3,6 @@ public class uiInterface {
 	static long gameTime = System.currentTimeMillis();
 	static long gameTimeNanos = System.nanoTime();
 	static long tickCounterTime = gameTime;
-	static long tickTime = gameTime;
 	static long tickTimeNanos = gameTimeNanos;
 	static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
@@ -14,7 +13,7 @@ public class uiInterface {
 	static int[] camReport = new int[]{0,0};
     static int frames = 0;
     static long lastFrameTime = 0;
-    static String uuid = cScripts.createID(8);
+    static String uuid = cScripts.createId();
 
 	public static void startTicker() {
 	    int ticks = 0;
@@ -30,24 +29,26 @@ public class uiInterface {
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.net_server && cVars.getInt("timeleft") > 0)
-                    xCon.ex(String.format("cv_timeleft %d",
-                            xCon.getLong("timelimit") - (int) (gameTime - xCon.getLong("cv_starttime"))));
+                if(sSettings.net_server) {
+                    cVars.putLong("timeleft",
+                            sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
+                }
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
-                    nServer.addBots();
+                    nServer.instance().addBots();
                     cVars.remove("serveraddbots");
                 }
                 while(tickTimeNanos < gameTimeNanos) {
+                    //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     oDisplay.instance().checkDisplay();
                     oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
                     gCamera.updatePosition();
                     if(sSettings.net_server)
-                        nServer.processPackets();
-                    if(sSettings.net_client)
-                        nClient.processPackets();
+                        nServer.instance().processPackets();
+                    else if(sSettings.net_client)
+                        nClient.instance().processPackets();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
@@ -88,7 +89,7 @@ public class uiInterface {
 		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
 	}
 
-	public static void startNew() {
+	public static void init() {
         eManager.getMapsSelection();
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
@@ -96,7 +97,9 @@ public class uiInterface {
             xCon.ex("cv_camy -6000");
         }
 	    else {
-            xCon.ex("load "+ sVars.get("defaultmap"));
+//            xCon.ex("load "+ sVars.get("defaultmap"));
+            xCon.ex("load");
+            sVars.put("inconsole", "1");
         }
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
@@ -106,6 +109,9 @@ public class uiInterface {
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
+        if(sVars.isOne("debuglog"))
+            xCon.instance().saveLog(sSettings.net_server
+                    ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

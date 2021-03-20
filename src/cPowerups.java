@@ -63,20 +63,22 @@ public class cPowerups {
                         prop.put("coordy", y);
                 }
                 else {
-                    gPropPowerup powerupSyncProp = new gPropPowerup(
-                            Integer.parseInt(int0),
-                            Integer.parseInt(int1),
-                            Integer.parseInt(x),
-                            Integer.parseInt(y),
-                            gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
-                            gWeapons.fromCode(Integer.parseInt(int0)).dims[1]
-                    );
-                    powerupSyncProp.putInt("tag",
-                            eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
-                    eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(id, powerupSyncProp);
-                    powerupSyncProp.put("id", id);
-                    eManager.currentMap.scene.props().add(powerupSyncProp);
+                    if(gWeapons.fromCode(Integer.parseInt(int0)) != null) {
+                        gPropPowerup powerupSyncProp = new gPropPowerup(
+                                Integer.parseInt(int0),
+                                Integer.parseInt(int1),
+                                Integer.parseInt(x),
+                                Integer.parseInt(y),
+                                gWeapons.fromCode(Integer.parseInt(int0)).dims[0],
+                                gWeapons.fromCode(Integer.parseInt(int0)).dims[1]
+                        );
+                        powerupSyncProp.putInt("tag",
+                                eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
+                        eManager.currentMap.scene.getThingMap("PROP_POWERUP").put(id, powerupSyncProp);
+                        powerupSyncProp.put("id", id);
+                        eManager.currentMap.scene.props().add(powerupSyncProp);
 //                    eManager.currentMap.scene.props().get(eManager.currentMap.scene.props().size()-1).put("id", id);
+                    }
                 }
             }
         }
@@ -84,6 +86,7 @@ public class cPowerups {
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
         for(String id : thingMap.keySet()) {
             if(!powerupString.contains(id)) {
+//                thingMap.remove(id);
                 thingMap.get(id).put("int0", "0");
             }
         }

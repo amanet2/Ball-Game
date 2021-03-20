@@ -1,26 +1,34 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        if(cVars.getInt("currentweapon") == gWeapons.type.NONE.code()
-            || cVars.getInt("currentweapon") == gWeapons.type.GLOVES.code()
-            || cVars.getInt("weaponstock"+cVars.getInt("currentweapon")) > 0) {
-            xCon.ex("cv_firing 1");
-            gPlayer br = cGameLogic.userPlayer();
+        gPlayer br = cGameLogic.userPlayer();
+        int playerWeapon = br.getInt("weapon");
+        if(playerWeapon == gWeapons.type.NONE.code()
+            || playerWeapon == gWeapons.type.GLOVES.code()
+            || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
-                br.fireWeapon();
-                br.putLong("cooldown",
-                        (System.currentTimeMillis()
-                                + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay * (
-                                cVars.isOne("sicknessfast") ? 0.5 : cVars.isOne("sicknessslow") ? 2 : 1))));
+                String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
+                switch (sSettings.NET_MODE) {
+                    case sSettings.NET_SERVER:
+                        nServer.instance().addNetCmd(fireString);
+                        break;
+                    case sSettings.NET_CLIENT:
+                        nClient.instance().addNetCmd(fireString);
+                        break;
+                    default:
+                        xCon.ex(fireString);
+                        break;
+                }
+                br.putLong("cooldown", System.currentTimeMillis()
+                        + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }
         }
-        else if(cVars.isZero("allowweaponreload") && cVars.isZero("gamespawnarmed")){
+        else {
             cScripts.changeWeapon(0);
         }
         return "attack";
     }
 
     public String undoCommand(String fullCommand) {
-        xCon.ex("cv_firing 0");
         return "-attack";
     }
 }

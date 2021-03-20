@@ -7,13 +7,13 @@ public class gWeaponsShotgun extends gWeapon {
         bulletSpritePath = eUtils.getPath("objects/misc/fireblue.png");
         soundFilePath = "sounds/shotgun.wav";
         refiredelay = 750;
-        damage = 2400;
-        maxAmmo = 8;
+        damage = 2100;
+        maxAmmo = 2;
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/shotgun.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
-        bulletTtl = 150;
-        bulletVel = 50;
+        bulletTtl = 140;
+        bulletVel = 60;
     }
 
     public void fireWeapon(gPlayer p) {

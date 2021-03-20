@@ -12,8 +12,8 @@ public class gWeaponsGloves extends gWeapon {
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
-        bulletTtl = 75;
-        bulletVel = 20;
+        bulletTtl = 50;
+        bulletVel = 30;
     }
 
     public void fireWeapon(gPlayer p){

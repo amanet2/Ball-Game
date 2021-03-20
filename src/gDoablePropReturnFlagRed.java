@@ -17,7 +17,7 @@ public class gDoablePropReturnFlagRed extends gDoablePropReturn {
 
     public void putProp(int int0, int int1, int x, int y, int w, int h) {
         gPropFlagRed flagred = new gPropFlagRed(int0, int1, x, y, w, h);
-        flagred.put("id", cScripts.createID(8));
+        flagred.put("id", cScripts.createId());
         flagred.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_FLAGRED").size());
         flagred.putInt("native", 1);
         eManager.currentMap.scene.props().add(flagred);

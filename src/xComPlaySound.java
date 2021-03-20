@@ -8,6 +8,8 @@ public class xComPlaySound extends xCom {
             if(toks.length > 2) {
                 int cycs = Integer.parseInt(toks[2]);
                 soundClip.setCycleCount(cycs);
+                if(cycs < 0)
+                    soundClip.setCycleCount(AudioClip.INDEFINITE);
             }
             if(toks.length > 4) {
                 int diffx = cVars.getInt("camx")+ eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);

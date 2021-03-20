@@ -4,10 +4,6 @@ import java.awt.geom.Ellipse2D;
 public class gProp extends gThing {
     Image sprite;
 
-    public boolean isType(int code) {
-        return isInt("code", code);
-    }
-
     public gProp load(String[] args) {
         return null;
     }
@@ -49,7 +45,7 @@ public class gProp extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         put("native","0");
-        put("id", cScripts.createID(8));
+        put("id", cScripts.createId());
         sprite = gTextures.getScaledImage(get("sprite"), getInt("dimw"), getInt("dimh"));
     }
 }

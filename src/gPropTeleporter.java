@@ -25,7 +25,7 @@ public class gPropTeleporter extends gProp {
                 p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);
                 p.put("exitteleportertag", exit.get("tag"));
             }
-            else if(p.isZero("tag") && !cVars.isVal("exitteleportertag", get("tag"))) {
+            else if(cGameLogic.isUserPlayer(p) && !cVars.isVal("exitteleportertag", get("tag"))) { // handle userplayer teleport
                 xCon.ex("playsound sounds/teleporter.wav");
                 p.putInt("coordx", exit.getInt("coordx") + exit.getInt("dimw")/2 - p.getInt("dimw")/2);
                 p.putInt("coordy", exit.getInt("coordy") + exit.getInt("dimh")/2 - p.getInt("dimh")/2);

@@ -4,12 +4,21 @@ import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class eUtils {
     static double zoomLevel = 1.0;
     private static int[] screendims = new int[]{Integer.parseInt(sVars.get("vidmode").split(",")[0]),
             Integer.parseInt(sVars.get("vidmode").split(",")[1])};
+
+    public static boolean containsFields(HashMap<String, String> map, String[] fields) {
+        for(String required : fields) {
+            if(map.get(required) == null)
+                return false;
+        }
+        return true;
+    }
 
     public static boolean resolutionChanged() {
         if(screendims[0] != Integer.parseInt(sVars.get("vidmode").split(",")[0])
@@ -33,11 +42,11 @@ public class eUtils {
     }
 
 	public static int scaleInt(int inputInt) {
-		return (int) ((((double) inputInt / sVars.getDouble("gamescale")) * (double) sSettings.height));
+		return (int) ((((double) inputInt / cVars.getDouble("gamescale")) * (double) sSettings.height));
 	}
 
 	public static int unscaleInt(int inputInt) {
-		return (int) ((((double) inputInt * sVars.getDouble("gamescale")) / (double) sSettings.height));
+		return (int) ((((double) inputInt * cVars.getDouble("gamescale")) / (double) sSettings.height));
 	}
 
     public static Image getWeaponScaledSpriteForPath(String path, int x, int y) {

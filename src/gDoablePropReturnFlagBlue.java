@@ -17,7 +17,7 @@ public class gDoablePropReturnFlagBlue extends gDoablePropReturn {
 
     public void putProp(int int0, int int1, int x, int y, int w, int h) {
         gPropFlagBlue flagblue = new gPropFlagBlue(int0, int1, x, y, w, h);
-        flagblue.put("id", cScripts.createID(8));
+        flagblue.put("id", cScripts.createId());
         flagblue.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_FLAGBLUE").size());
         flagblue.putInt("native", 1);
         eManager.currentMap.scene.props().add(flagblue);

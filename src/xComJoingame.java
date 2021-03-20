@@ -7,17 +7,19 @@ public class xComJoingame extends xCom {
             if(comps.length > 1)
                 sVars.put("joinport", comps[1]);
         }
-        uiMenus.selectedMenu = uiMenus.MENU_MAIN;
+//        uiMenus.selectedMenu = uiMenus.MENU_MAIN;
         sSettings.net_client = true;
-        sSettings.net_server = false;
-        nClient.hasDisconnected = 0;
+//        sSettings.net_server = false;
+        sSettings.NET_MODE = sSettings.NET_CLIENT;
+        nClient.instance().setDisconnected(0);
         cVars.put("quitconfirmed", "0");
         cVars.put("quitting", "0");
         cVars.put("disconnectconfirmed", "0");
         cVars.put("disconnecting", "0");
-        nSend.sendMap = null;
-        nVars.reset();
-        cScripts.setupGame();
+        nClient.instance().sendMap = null;
+        cVars.putLong("starttime", System.currentTimeMillis());
+        xCon.ex("createuserplayer"); //SPECTATE HAS THIS OFF
+        cVars.put("canvoteskip", "");
         return "joined game";
     }
 }

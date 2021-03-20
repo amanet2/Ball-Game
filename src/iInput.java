@@ -111,7 +111,7 @@ public class iInput {
                 xCon.instance().cursorIndex = xCon.instance().commandString.length();
                 return;
             }
-            if(xCon.instance().commandString.length() < 64){
+            if(xCon.instance().commandString.length() < sVars.getInt("consolemaxlinelength")){
                 String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
                 String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
                 String toAdd = KeyEvent.getKeyText(command).toLowerCase().contains("numpad")

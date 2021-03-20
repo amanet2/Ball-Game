@@ -72,33 +72,16 @@ public class cGameMode {
         }
     }
 
-    public static void checkWaypoints() {
-        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        if(scorepoints.size() > 0) {
-            boolean noneActive = true;
-            for(Object id : scorepoints.keySet()) {
-                gProp scorepoint = (gProp) scorepoints.get(id);
-                if(scorepoint.getInt("int0") > 0) {
-                    noneActive = false;
-                    break;
-                }
-            }
-            if(noneActive)
-                refreshWaypoints();
-        }
-    }
-
     public static void refreshWaypoints() {
-        String[] propids = new String[]{};
         HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
+        String[] propids = new String[scorepoints.size()];
+        int i = 0;
         for(Object id : scorepoints.keySet()) {
             gProp scorepoint = (gProp) scorepoints.get(id);
             scorepoint.put("int0", "0");
-            String[] tmp = Arrays.copyOf(propids, propids.length+1);
-            tmp[tmp.length-1] = (String) id;
-            propids = tmp;
+            propids[i++] = (String) id;
         }
-        int rando = (int)(Math.random()*(double)(propids.length));
+        int rando = (int)(Math.random()*(propids.length-1));
         gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
         nextactivescorepoint.put("int0", "1");
     }
@@ -111,11 +94,11 @@ public class cGameMode {
     public static void checkVirus() {
         if(sSettings.net_server) {
             if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.clientArgsMap.containsKey("server")) {
+                if(nServer.instance().clientArgsMap.containsKey("server")) {
                     for(String id : gScene.getPlayerIds()) {
                         gPlayer p = gScene.getPlayerById(id);
-                        if(nServer.clientArgsMap.get("server").containsKey("state")
-                                && !nServer.clientArgsMap.get("server").get("state").contains(id)
+                        if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+                                && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
                                 && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
                             xCon.ex("givepoint " + p.get("id"));
                         }

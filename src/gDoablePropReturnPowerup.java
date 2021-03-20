@@ -17,7 +17,7 @@ public class gDoablePropReturnPowerup extends gDoablePropReturn {
 
     public void putProp(int int0, int int1, int x, int y, int w, int h) {
         gPropPowerup powerup = new gPropPowerup(int0, int1, x, y, w, h);
-        powerup.put("id", cScripts.createID(8));
+        powerup.put("id", cScripts.createId());
         powerup.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_POWERUP").size());
         powerup.putInt("native", 1);
         eManager.currentMap.scene.props().add(powerup);
