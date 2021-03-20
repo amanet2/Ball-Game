@@ -12,7 +12,7 @@ public class gBlockCornerLR extends gBlock{
         put("frontwall", "0");
         put("backtop", "0");
 
-        String[] colortoks = colorwall.split(",");
+        String[] colortoks = colorwall.split("\\.");
         colorWall = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),
                 Integer.parseInt(colortoks[2]), Integer.parseInt(colortoks[3]));
     }

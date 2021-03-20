@@ -67,7 +67,7 @@ public class dBlockWalls {
 
     public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
-            String[] colorvals = block.get("colorwall").split(",");
+            String[] colorvals = block.get("colorwall").split("\\.");
             g2.setColor(new Color(
                     Integer.parseInt(colorvals[0]),
                     Integer.parseInt(colorvals[1]),
@@ -85,7 +85,7 @@ public class dBlockWalls {
     }
 
     public static void drawBlockWallCornerUR(Graphics2D g2, gBlockCornerUR block) {
-        String[] colorvals = block.get("colorwall").split(",");
+        String[] colorvals = block.get("colorwall").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -115,7 +115,7 @@ public class dBlockWalls {
     }
 
     public static void drawBlockWallCornerLR(Graphics2D g2, gBlockCornerLR block) {
-        String[] colorvals = block.get("colorwall").split(",");
+        String[] colorvals = block.get("colorwall").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -147,7 +147,7 @@ public class dBlockWalls {
     }
 
     public static void drawBlockWallCornerUL(Graphics2D g2, gBlockCornerUL block) {
-        String[] colorvals = block.get("colorwall").split(",");
+        String[] colorvals = block.get("colorwall").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -178,7 +178,7 @@ public class dBlockWalls {
     }
 
     public static void drawBlockWallCornerLL(Graphics2D g2, gBlockCornerLL block) {
-        String[] colorvals = block.get("colorwall").split(",");
+        String[] colorvals = block.get("colorwall").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),

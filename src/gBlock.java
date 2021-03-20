@@ -12,7 +12,7 @@ public class gBlock extends gThing {
         putInt("dimh", h);
         put("color", color);
 
-        String[] colortoks = get("color").split(",");
+        String[] colortoks = get("color").split("\\.");
         colorBase = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),
                 Integer.parseInt(colortoks[2]), Integer.parseInt(colortoks[3]));
     }

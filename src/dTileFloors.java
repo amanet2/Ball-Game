@@ -20,7 +20,7 @@ public class dTileFloors {
             HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_FLOOR");
             for(String tag : squareMap.keySet()) {
                 gBlockFloor block = (gBlockFloor) squareMap.get(tag);
-                String[] colorvals = block.get("color").split(",");
+                String[] colorvals = block.get("color").split("\\.");
                 g2.setColor(new Color(
                         Integer.parseInt(colorvals[0]),
                         Integer.parseInt(colorvals[1]),

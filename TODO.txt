@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* net streaming map with blocks doesnt work because COLOR var uses commas
+    -> use periods instead
 * draw where hitboxes will be on blocks
     -> draw red shape
 * work on cage prefab with LowerCorners at the top and get rid of the wall stuff so it can be dropped anywhere
