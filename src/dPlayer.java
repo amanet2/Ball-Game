@@ -60,6 +60,9 @@ public class dPlayer {
                 //player shadow
                 if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
                     if(sVars.isOne("vfxenableshadows")) {
+                        //check null fields
+                        if(!e.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                            break;
                         int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
                         Rectangle2D shadowBounds = new Rectangle.Double(
                                 eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
@@ -122,25 +125,25 @@ public class dPlayer {
                             eUtils.scaleInt(e.getInt("dimh")));
                 }
                 //player weapon
-                AffineTransform backup = g2.getTransform();
-                AffineTransform a = g2.getTransform();
-                a.rotate(e.getDouble("fv")-Math.PI/2,
-                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
-                                + e.getInt("dimw") / 2),
-                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                + e.getInt("dimh") / 2)
-                );
-                g2.setTransform(a);
-                int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
-                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
-                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
-                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
-                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
-                                - cVars.getInt("camx")),
-                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
-                                - cVars.getInt("camy")-diff),
-                        null);
-                g2.setTransform(backup);
+//                AffineTransform backup = g2.getTransform();
+//                AffineTransform a = g2.getTransform();
+//                a.rotate(e.getDouble("fv")-Math.PI/2,
+//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+//                                + e.getInt("dimw") / 2),
+//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+//                                + e.getInt("dimh") / 2)
+//                );
+//                g2.setTransform(a);
+//                int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
+//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
+//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
+//                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
+//                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
+//                                - cVars.getInt("camx")),
+//                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
+//                                - cVars.getInt("camy")-diff),
+//                        null);
+//                g2.setTransform(backup);
             }
         }
         catch (Exception e) {

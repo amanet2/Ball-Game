@@ -6,6 +6,10 @@ public class dFonts {
             new FontRenderContext(null, false, true);
 
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
+        Color savedColor = g.getColor();
+        g.setColor(Color.BLACK);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
+        g.setColor(savedColor);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
@@ -49,18 +53,18 @@ public class dFonts {
         setFontColorNormal(g);
         g.setFont(
                 new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                        sVars.getInt("fontsize") * sSettings.height / sVars.getInt("gamescale")
+                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
                 )
         );
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
         g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
+                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
     }
 
     public static void setFontConsole(Graphics g) {
         g.setFont(new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/sVars.getInt("gamescale")/2));
+                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
     }
 }

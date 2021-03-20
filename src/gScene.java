@@ -13,8 +13,9 @@ public class gScene {
 
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
-            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOSTUP", "PROP_FLAGBLUE",
-            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT"
+            "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOST", "PROP_FLAGBLUE",
+            "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK", "BLOCK_CUBE", "BLOCK_FLOOR",
+            "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL"
     };
 
 	HashMap<String, ArrayList> objectLists;
@@ -43,12 +44,20 @@ public class gScene {
 	    return toReturn;
     }
 
+    public void clearPlayers() {
+	    objectMaps.put("THING_PLAYER", new HashMap<>());
+    }
+
 	public ArrayList<gTile> tiles() {
 		return objectLists.get("THING_TILE");
 	}
 
     public ArrayList<gProp> props() {
         return objectLists.get("THING_PROP");
+    }
+
+    public ArrayList<gBlock> blocks() {
+        return objectLists.get("THING_BLOCK");
     }
 
     public ArrayList<gFlare> flares() {
@@ -61,6 +70,14 @@ public class gScene {
 
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
+    }
+
+    public void setThingMap(String thing_title, HashMap<String, String> nm) {
+	    objectMaps.put(thing_title, nm);
+    }
+
+    public void setPlayersMap(HashMap<String, gPlayer> hm) {
+	    objectMaps.put("THING_PLAYER", hm);
     }
 
     public HashMap<String, gPlayer> playersMap() {

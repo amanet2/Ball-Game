@@ -17,7 +17,7 @@ public class gDoablePropReturnTeleporter extends gDoablePropReturn {
 
     public void putProp(int int0, int int1, int x, int y, int w, int h) {
         gPropTeleporter teleporter = new gPropTeleporter(int0, int1, x, y, w, h);
-        teleporter.put("id", cScripts.createID(8));
+        teleporter.put("id", cScripts.createId());
         teleporter.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_TELEPORTER").size());
         teleporter.putInt("native", 1);
         eManager.currentMap.scene.props().add(teleporter);

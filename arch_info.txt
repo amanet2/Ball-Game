@@ -1,0 +1,20 @@
+* game simulation is done directly on prop/player objects e.g. player.setInt("stockhp", 0);
+* only in network files should we deal with taking these values from the server and putting them into the hashmap
+of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT in nVars or nServer
+* keep in mind that only deltas are sent over in a nettick packet
+    -> gamestate vars go into player objects
+    -> netargs retained in netargmap
+    -> temporary send/recv vars are in "packArgs" in net receive funcs
+* WORK ON UI LAST
+* NEW cvars do not work with the "cv_" prefix in console
+    -> lets leave it like this from now on... too many probs can arise
+        -> i.e. someone is able to create their own exploits by making up cvars for use with nefarious scripts or w/e
+* i think addSendCmd(id,.. puts "server" in the sendcmd map, and everything happens twice after that
+* for the server to "say" something to clients, "echo" the proper string (with or without "name:" ) in addSendCmd
+* max allowable server/client rate is 1000
+* use wasloaded map variable to avoid exceptions that may occur when net/gfx threads outpace map loading thread
+* for drawing gfx such as arrows, labels, etc.. use the player object. for vars, use the netmap
+* fun stuff: giveweapon 86011035 3;sendcmd 86011035 cv_weaponstock3 18;sendcmd 86011035 userplayer weapon 3
+* ISSUE: startpaused must be init as 1 in svars.java for mapmaker to work right
+* for now, using the mousewheel creates powerups in a local game lol
+    -> good for demonstrations

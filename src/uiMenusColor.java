@@ -18,7 +18,7 @@ public class uiMenusColor extends uiMenu {
                     uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text = String.format("Color: [%s]", color);
                     if(user != null) {
                         user.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", color)));
-                        user.put("color", color);
+//                        user.put("color", color);
                     }
                     uiMenus.selectedMenu = parentMenu;
                 }

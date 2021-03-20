@@ -55,6 +55,14 @@ public class gThing {
         return vars;
     }
 
+    public boolean containsFields(String[] fields) {
+        for(String required : fields) {
+            if(get(required) == null)
+                return false;
+        }
+        return true;
+    }
+
     public String keysString() {
         return vars().keySet().toString();
     }

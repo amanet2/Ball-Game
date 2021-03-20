@@ -13,8 +13,8 @@ public class gWeaponsNone extends gWeapon {
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath(""),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
-        bulletTtl = 50;
-        bulletVel = 20;
+        bulletTtl = 45;
+        bulletVel = 30;
     }
 
     public void fireWeapon(gPlayer p){

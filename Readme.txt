@@ -46,3 +46,7 @@ Editing a Map (Ball-Game-Mapmaker.exe)
 * Save changes in File->Save or exit without saving
 * Distribute your custom map to players
 * Save map to pkg\game\ballgame if you want it selectable in game
+---
+Map Design Thoughts
+* Design maps so players do not usually get killed by shooters off screen
+    -> it messes up the groove for everyone to have to switch mental gears and memorize "special spots" in a map

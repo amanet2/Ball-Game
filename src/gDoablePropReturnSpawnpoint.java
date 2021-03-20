@@ -17,7 +17,7 @@ public class gDoablePropReturnSpawnpoint extends gDoablePropReturn {
 
     public void putProp(int int0, int int1, int x, int y, int w, int h) {
         gPropSpawnpoint spawnpoint = new gPropSpawnpoint(int0, int1, x, y, w, h);
-        spawnpoint.put("id", cScripts.createID(8));
+        spawnpoint.put("id", cScripts.createId());
         spawnpoint.putInt("tag", eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
         spawnpoint.putInt("native", 1);
         eManager.currentMap.scene.props().add(spawnpoint);

@@ -38,46 +38,50 @@ public class cScripts {
     }
 
     public static void checkPlayerSpriteFlip(gPlayer p) {
-        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
-                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a00")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
-            }
-        }
-        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
-            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a03")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-                            "misc/bfg.png";
-                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
-                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-            }
-        }
-        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
-            if(!p.get("pathsprite").contains("a04")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
-            }
-        }
-        else {
-            if(!p.get("pathsprite").contains("a05")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-                        "misc/bfg_flip.png";
-                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-                    gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-            }
-        }
+//        if(p == null)
+//            return;
+//        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
+//                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
+//            if(!p.get("pathsprite").contains("a00")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
+//            }
+//        }
+//        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
+//            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
+//            if(!p.get("pathsprite").contains("a03")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
+////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+////                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+////                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+////                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
+////                            "misc/bfg.png";
+////                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+////                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
+////                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+//            }
+//        }
+//        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
+//            if(!p.get("pathsprite").contains("a04")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
+//            }
+//        }
+//        else {
+//            if(!p.get("pathsprite").contains("a05")) {
+//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
+////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+////                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+////                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+////                        "misc/bfg_flip.png";
+////                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
+////                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+////                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+////                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+////                }
+//            }
+//        }
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
@@ -151,98 +155,6 @@ public class cScripts {
         }
     }
 
-    public static void checkPlayerScorepoints(gProp scorepoint, gPlayer pla) {
-        HashMap<String, gThing> scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        //nonlinear race
-        if(cVars.getInt("gamemode") == cGameMode.RACE) {
-            if(sSettings.net_server && pla.get("id").contains("bot")) {
-                if(!scorepoint.get("racebotidcheckins").contains(pla.get("id"))) {
-                    scorepoint.put("racebotidcheckins", scorepoint.get("racebotidcheckins")+(pla.get("id")+":"));
-                }
-                int gonnaWin = 1;
-                for(String id : scorepointsMap.keySet()) {
-                    gProp p = (gProp) scorepointsMap.get(id);
-                    if(!p.get("racebotidcheckins").contains(pla.get("id"))) {
-                        gonnaWin = 0;
-                        break;
-                    }
-                }
-                if(gonnaWin > 0) {
-                    xCon.ex("givepoint "+pla.get("id"));
-                    for(String id : scorepointsMap.keySet()) {
-                        gProp p = (gProp) scorepointsMap.get(id);
-                        p.put("racebotidcheckins",
-                                p.get("racebotidcheckins").replace(pla.get("id")+":", ""));
-                    }
-                }
-            }
-            else {
-                if (scorepoint.isZero("int0")) {
-                    scorepoint.putInt("int0", 1);
-                    int gonnaWin = 1;
-                    for(String id : scorepointsMap.keySet()) {
-                        gProp scorepointa = (gProp) scorepointsMap.get(id);
-                        if (scorepointa.isZero("int0")) {
-                            gonnaWin = 0;
-                        }
-                    }
-                    if (gonnaWin > 0) {
-                        for(String id : scorepointsMap.keySet()) {
-                            gProp scorepointa = (gProp) scorepointsMap.get(id);
-                            scorepointa.put("int0", "0");
-                        }
-                        if (sSettings.net_server) {
-                            xCon.ex("givepoint " + pla.get("id"));
-                        } else if (sSettings.net_client) {
-                            xCon.ex("cv_lapcomplete 1");
-                        }
-                        createScorePopup(pla, 1);
-                    }
-                }
-            }
-        }
-        // waypoints
-        if(cVars.getInt("gamemode") == cGameMode.WAYPOINTS) {
-            if(scorepoint.getInt("int0") > 0) {
-                scorepoint.put("int0", "0");
-                createScorePopup(pla,1);
-                if(sSettings.net_server) {
-                    xCon.ex("givepoint " + pla.get("id"));
-                    cGameMode.checkWaypoints();
-                }
-            }
-        }
-    }
-
-    public static boolean isReloading() {
-//        return cVars.isOne("allowweaponreload")
-//                && cVars.getLong("weapontime"+cVars.get("currentweapon"))+cVars.getInt("delayweap")
-//                >= System.currentTimeMillis() && cVars.isZero("weaponstock"+cVars.get("currentweapon"));
-        return false;
-    }
-
-    public static void checkMsgSpecialFunction(String msg) {
-        for(String s : eManager.winClipSelection) {
-            String[] ttoks = s.split("\\.");
-            if(msg.equalsIgnoreCase(ttoks[0])) {
-                xCon.ex("playsound sounds/win/" + s);
-                break;
-            }
-        }
-        if(sSettings.net_server && msg.strip().length() > 0 && "skip".contains(msg.toLowerCase().strip())) {
-            cVars.addIntVal("voteskipctr", 1);
-            if(!(cVars.getInt("voteskipctr") < cVars.getInt("voteskiplimit"))) {
-                cVars.put("timeleft", "0");
-                xCon.ex(String.format("say [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")));
-                xCon.ex("say [VOTE_SKIP] CHANGING MAP...");
-            }
-            else {
-                xCon.ex("say " + String.format("[VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                        cVars.get("voteskipctr"), cVars.get("voteskiplimit")));
-            }
-        }
-    }
-
     public static void processOptionText(String optionTitle, String enteredText) {
         if("New Name".contains(optionTitle)) {
             sVars.put("playername", enteredText);
@@ -265,28 +177,10 @@ public class cScripts {
                 String.format("Score Limit [%s]", sVars.get("scorelimit"));
         }
         else if("New Time Limit".contains(optionTitle)) {
-            sVars.putInt("timelimit", (int)(Double.parseDouble(enteredText)*60000.0));
+            sVars.put("timelimit", enteredText);
             uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[3].text =
-                String.format("Time Limit [%s]", Double.toString((double)sVars.getInt("timelimit")/60000.0));
+                String.format("Time Limit [%s]", sVars.get("timelimit"));
         }
-    }
-
-    public static void refillWeaponStocks() {
-        cVars.putInt("weaponstock0", gWeapons.get(gWeapons.type.NONE).maxAmmo);
-        cVars.putInt("weaponstock1", gWeapons.get(gWeapons.type.PISTOL).maxAmmo);
-        cVars.putInt("weaponstock2", gWeapons.get(gWeapons.type.SHOTGUN).maxAmmo);
-        cVars.putInt("weaponstock3", gWeapons.get(gWeapons.type.AUTORIFLE).maxAmmo);
-        cVars.putInt("weaponstock4", gWeapons.get(gWeapons.type.LAUNCHER).maxAmmo);
-        cVars.putInt("weaponstock5", gWeapons.get(gWeapons.type.GLOVES).maxAmmo);
-    }
-
-    public static void clearWeaponStocks() {
-        cVars.put("weaponstock0", "0");
-        cVars.put("weaponstock1", "0");
-        cVars.put("weaponstock2", "0");
-        cVars.put("weaponstock3", "0");
-        cVars.put("weaponstock4", "0");
-        cVars.put("weaponstock5", "0");
     }
 
     public static void checkBulletSplashes() {
@@ -302,7 +196,7 @@ public class cScripts {
                 bulletsToRemoveIds.add(id);
                 if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                     eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                            cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
                                     b.getInt("coordx"), b.getInt("coordy")));
                 }
                 //grenade explosion
@@ -318,7 +212,7 @@ public class cScripts {
                     bulletsToRemoveIds.add(id);
                     if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
                         eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                                cScripts.createID(8), new gAnimationEmitter(b.getInt("anim"),
+                                cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
                                         b.getInt("coordx"), b.getInt("coordy")));
                     }
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
@@ -327,7 +221,8 @@ public class cScripts {
             }
             for(String playerId : gScene.getPlayerIds()) {
                 gPlayer t = gScene.getPlayerById(playerId);
-                if(b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
+                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -344,8 +239,6 @@ public class cScripts {
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
             playPlayerDeathSound();
             createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
-            eManager.currentMap.scene.getThingMap("THING_BULLET").remove(
-                    bulletsToRemovePlayerMap.get(p).get("id"));
         }
         HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
@@ -371,154 +264,69 @@ public class cScripts {
         }
     }
 
-    public static void createScorePopup(gPlayer p, int points) {
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(createID(8),
-                new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-                p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
-                        String.format("+%d", points), 0.0));
+    public static String createId() {
+        int min = 11111111;
+        int max = 99999999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
     }
 
-    public static String createID(int length) {
-        StringBuilder id = new StringBuilder();
-        String[] vals = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-        for(int i = 0; i < length; i++) {
-            id.append(vals[(int) (Math.random() * 10.0)]);
-        }
-        return id.toString();
+    public static String createBotId() {
+        int min = 11111;
+        int max = 99999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
     }
 
+    //call this everytime a bullet intersects a player
     public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
+        //get shooter details
+        String killerid = bullet.get("srcid");
+        //calculate dmg
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                *((Math.abs(System.currentTimeMillis()-bullet.getLong("timestamp"))/(double)bullet.getInt("ttl"))));
-        String s = String.format("%d", adjusteddmg);
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createID(8),
+                *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
+        )/(double)bullet.getInt("ttl"))));
+        //play animations on all clients
+        eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
                 new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
-            dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)), s, 0.0));
-        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1) {
-            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                    new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+                        dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
+                        Integer.toString(adjusteddmg), 0.0));
+        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
-        }
-        gPlayer killerPlayer = gScene.getPlayerById(bullet.get("srcid"));
-        String killerid = killerPlayer.get("id");
-        String killername = killerPlayer.get("name");
-        if(dmgvictim.get("id").contains("bot") && !dmgvictim.contains("spawnprotectiontime")) {
-            cGameLogic.damageBotHealth(dmgvictim, adjusteddmg);
-            if(dmgvictim.getInt("stockhp") < 1) {
-                if(!dmgvictim.contains("respawntime")) {
-                    dmgvictim.putLong("respawntime",
-                            System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
-                    dmgvictim.put("stockhp", cVars.get("maxstockhp"));
-                    cVars.put("botexploded", "0");
-                    cVars.putInt("botexplodex", dmgvictim.getInt("coordx") - 75);
-                    cVars.putInt("botexplodey", dmgvictim.getInt("coordy") - 75);
-                    cVars.put("botkillername", killername);
-                    cVars.put("botkillerid", killerid);
-                    if (sSettings.net_server) {
-                        cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        xCon.ex("say " + cVars.get("botkillername") + " killed " + dmgvictim.get("name"));
-                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                            cVars.put("flagmasterid", "");
-                        }
-                        if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
-                            && cVars.isVal("flagmasterid", dmgvictim.get("id"))) {
-                            //player dies holding flag
-                            cVars.put("flagmasterid", "");
-                        }
-                        if(cVars.isZero("gamespawnarmed")) {
-                            cScripts.changeBotWeapon(dmgvictim, gWeapons.type.NONE.code(),true);
-                        }
-                    }
-                    if(sVars.isOne("vfxenableanimations")) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
-                    }
-                    dmgvictim.put("coordx", "-10000");
-                    dmgvictim.put("coordy", "-10000");
-                }
-            }
-        }
-        if(cGameLogic.isUserPlayer(dmgvictim) && !cVars.contains("spawnprotectiontime")) {
-            cGameLogic.damageHealth(adjusteddmg);
-            if(cVars.getInt("stockhp") < 1) {
-                dmgvictim.putInt("alive", 0);
-                if(!cVars.contains("respawntime")) {
-                    xCon.ex("dropweapon");
-                    //drop flag on death if holding flag in flagmaster game mode
-                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)
-                    && cVars.isVal("flagmasterid", cGameLogic.userPlayer().get("id"))) {
-                        xCon.ex("dropflagred");
-                    }
-                    cVars.remove("shaketime");
-                    cVars.putInt("cammode", gCamera.MODE_TRACKING);
-                    cVars.put("camplayertrackingid", bullet.get("srcid"));
-                    xCon.ex("centercamera");
-                    cVars.putLong("respawntime", System.currentTimeMillis()+cVars.getLong("respawnwaittime"));
-                    playPlayerDeathSound();
-                    cVars.put("stockhp", cVars.get("maxstockhp"));
-                    cVars.put("exploded", "0");
-                    cVars.putInt("explodex", cGameLogic.userPlayer().getInt("coordx") - 75);
-                    cVars.putInt("explodey", cGameLogic.userPlayer().getInt("coordy") - 75);
-                    cVars.put("killername", killername);
-                    cVars.put("killerid", killerid);
-                    if (sSettings.net_server) {
-                        cScoreboard.incrementScoreFieldById(killerid, "kills");
-                        xCon.ex("say " + killername + " killed " + sVars.get("playername"));
-                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                            xCon.ex("givepoint " + killerid);
-                        }
-                        if((cVars.isInt("gamemode", cGameMode.CAPTURE_THE_FLAG)
-                                || cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
-                        && cVars.isVal("flagmasterid", "server")) {
-                            cVars.put("flagmasterid", "");
-                        }
-                    }
-                    if(sVars.isOne("vfxenableanimations")) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(createID(8),
-                                new gAnimationEmitter(gAnimations.ANIM_EXPLOSION_REG,
-                                        dmgvictim.getInt("coordx") - 75, dmgvictim.getInt("coordy") - 75));
-                    }
-                    dmgvictim.put("coordx", "-10000");
-                    dmgvictim.put("coordy", "-10000");
-                }
-            }
-            else {
-                cVars.putLong("shaketime", System.currentTimeMillis()+cVars.getInt("shaketimemax"));
-                int shakeintensity = Math.min(cVars.getInt("camshakemax"),
-                        cVars.getInt("camshakemax")*(int)((double)adjusteddmg/(double)cVars.getInt("stockhp")));
-                cVars.addIntVal("camx", cVars.getInt("velocitycam")+shakeintensity);
-                cVars.addIntVal("camy", cVars.getInt("velocitycam")+shakeintensity);
-            }
+        eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
+        //handle damage serverside
+        if(sSettings.net_server) {
+            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
+            nServer.instance().addNetCmd(cmdString);
         }
     }
 
     public static int[] getPlaceObjCoords() {
-        int[] mc = getMouseCoordinates();
-        int w = cEditorLogic.state.newTile.getInt("dimw");
-        int h = cEditorLogic.state.newTile.getInt("dimh");
-        int px = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[0])+cVars.getInt("camx")-w/2,
-            cEditorLogic.state.snapToX);
-        int py = eUtils.roundToNearest(
-            eUtils.unscaleInt(mc[1])+cVars.getInt("camy")-h/2,
-            cEditorLogic.state.snapToY);
-        return new int[]{px,py};
-    }
-
-    public static boolean allClientsReceivedMessage(String msg) {
-        for(String id : nServer.clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                if(!nServer.clientArgsMap.get(id).containsKey(msg)) {
-                    return false;
-                }
-            }
+        int[] mc = cScripts.getMouseCoordinates();
+        switch(cEditorLogic.state.createObjCode) {
+            case gScene.THING_PROP:
+                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
+            case gScene.THING_FLARE:
+                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
+                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
+                        cEditorLogic.state.snapToX);
+                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
+                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
+                        cEditorLogic.state.snapToY);
+                return new int[]{propx, propy};
+            default:
+                return new int[]{eUtils.roundToNearest(
+                        eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
+                                - cEditorLogic.state.newTile.getInt("dimh")/2, cEditorLogic.state.snapToX),
+                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
+                                        - cEditorLogic.state.newTile.getInt("dimh")/2,
+                                cEditorLogic.state.snapToY)};
         }
-        return true;
     }
 
     public static void moveTileDown(int tag) {
@@ -538,42 +346,12 @@ public class cScripts {
     }
 
     public static void setupGame() {
-        int[] npcs = new int[] {-6000,-6000};
         cVars.putLong("starttime", System.currentTimeMillis());
-        if(cScripts.isNetworkGame() || uiInterface.inplay) {
-            gPlayer player0 = new gPlayer(npcs[0], npcs[1],150,150,
-                eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
-            player0.put("tag", "0");
-            player0.put("id", uiInterface.uuid);
-            cGameLogic.setUserPlayer(player0);
-            if(sSettings.net_server) {
-                player0.put("id", "server");
-            }
-            player0.put("color", sVars.get("playercolor"));
-            eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
-            xCon.ex("centercamera");
-        }
-        //network
-        if(isNetworkGame()) {
-            for(String s : nServer.clientIds) {
-                gPlayer player = new gPlayer(-6000, -6000,150,150,
-                    eUtils.getPath("animations/player_red/a03.png"));
-                player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-                player.put("id", s);
-                eManager.currentMap.scene.playersMap().put(s, player);
-            }
-            xCon.ex("respawn");
-        }
-        else if(uiInterface.inplay){
-            xCon.ex("respawn");
+        if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
+            //spawns player for mapmaker testing
+            xCon.ex("createuserplayer;respawn");
         }
         cGameLogic.resetGameState();
-        cVars.put("canvoteskip", "");
-        cVars.put("voteskipctr", "0");
-        if(sSettings.net_server) {
-            cVars.put("serveraddbots", "");
-            cVars.putLong("serveraddbotstime", System.currentTimeMillis() + 1000);
-        }
         for(String s : eManager.currentMap.execLines) {
             xCon.ex(s.replaceFirst("cmd ", ""));
         }
@@ -591,17 +369,18 @@ public class cScripts {
 
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
         HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
-            nServer.clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
+        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
+            nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             checkPlayerSpriteFlip(cl);
         }
     }
 
     public static void changeWeapon(int newweapon) {
-        if(eManager.currentMap.scene.playersMap().size() > 0
-                && !(newweapon != 0 && cVars.isZero("gamespawnarmed"))) {
-            cGameLogic.userPlayer().putInt("weapon", newweapon);
-            xCon.ex("playsound sounds/grenpinpull.wav");
+        gPlayer p = cGameLogic.userPlayer();
+        if(p != null) {
+            if(newweapon != p.getInt("weapon"))
+                xCon.ex("playsound sounds/grenpinpull.wav");
+            p.putInt("weapon", newweapon);
             checkPlayerSpriteFlip(cGameLogic.userPlayer());
         }
     }
@@ -609,10 +388,6 @@ public class cScripts {
     public static void goToEndScreen() {
         cVars.putLong("intermissiontime",
                 System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
-        if(sSettings.net_server) {
-            nServer.instance().setMapvoteSelection();
-            xCon.instance().log("VOTE: "+Arrays.toString(nServer.mapvoteSelection));
-        }
     }
 
     public static boolean isNetworkGame() {

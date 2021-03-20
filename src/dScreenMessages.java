@@ -5,15 +5,15 @@ import java.awt.font.FontRenderContext;
 public class dScreenMessages {
 
     public static void drawVirusTagString(Graphics g) {
-        if(nServer.clientArgsMap != null
-                && nServer.clientArgsMap.containsKey("server")
-                && nServer.clientArgsMap.get("server").containsKey("state")) {
-            String statestr = nServer.clientArgsMap.get("server").get("state");
+        if(nServer.instance().clientArgsMap != null
+                && nServer.instance().clientArgsMap.containsKey("server")
+                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+            String statestr = nServer.instance().clientArgsMap.get("server").get("state");
             String[] stoks = statestr.replace("virus", "").split("-");
             String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
             if(stoks.length > 1) {
                 int infected = 0;
-                int total = nServer.clientArgsMap.size();
+                int total = nServer.instance().clientArgsMap.size();
                 for (int i = 0; i < stoks.length; i++) {
                     String id = stoks[i];
                     if(id.length() > 0) {
@@ -57,9 +57,6 @@ public class dScreenMessages {
             //camera
             String camstring = String.format("Cam: %d,%d",
                 uiInterface.camReport[0], uiInterface.camReport[1]);
-//            camstring += (uiInterface.inplay && cVars.isInt("cammode", gCamera.MODE_FREE))
-//                    && cGameLogic.userPlayer() != null
-//                    ? " (Press 'E' to re-center)" : "";
             g.drawString(camstring,0, 8 * sSettings.height / 64);
             //instance
             if(cGameLogic.userPlayer() != null) {
@@ -122,6 +119,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
+            gPlayer userPlayer = cGameLogic.userPlayer();
             if(cScripts.isNetworkGame()) {
                 dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
@@ -132,37 +130,41 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
-                if(cScoreboard.scoresMap.containsKey(cGameLogic.userPlayer().get("id"))) {
+                if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
                     dFonts.drawRightJustifiedString(g,
-                            cScoreboard.scoresMap.get(cGameLogic.userPlayer().get("id")).get("score") + " points",
+                            cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " points to win | "
-                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+//                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
+//                                : cVars.get("scorelimit")) + " points to win | "
+//                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+//                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+                dFonts.drawRightJustifiedString(g,
+                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
-                sSettings.width/2, sSettings.height - sSettings.height / 6);
+                sSettings.width/2, 5 * sSettings.height / 6);
         //big font
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
             String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
             g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
-                0,sSettings.height/2-sSettings.height/64);
+                0,31 * sSettings.height/64);
         }
         //respawn
-        if(cVars.contains("respawntime")) {
+        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("respawntime")) {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0, sSettings.width,sSettings.height/4);
             g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
             dFonts.setFontColorAlert(g);
             dFonts.drawCenteredString(g, "RESPAWN IN " +
-                            eUtils.getTimeString(cVars.getLong("respawntime") - System.currentTimeMillis()),
+                            eUtils.getTimeString(cGameLogic.userPlayer().getLong("respawntime") - System.currentTimeMillis()),
                     sSettings.width / 2, sSettings.height/6);
         }
         //sendmsg.. invisible?
@@ -195,18 +197,18 @@ public class dScreenMessages {
             g.setColor(new Color(0,0,0,100));
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(new Color(100,100,150, 100));
-            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow+2)*sSettings.height/64);
+            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColorNormal(g);
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
-                i < xCon.instance().linesToShowStart+ xCon.instance().linesToShow; i++) {
+                i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
                 int dd = 1;
                 if(i == xCon.instance().linesToShowStart && xCon.instance().linesToShowStart > 0) {
                     g.drawString(String.format("--- (%d) scroll up ---", xCon.instance().linesToShowStart),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(i == xCon.instance().linesToShowStart+ xCon.instance().linesToShow-1
+                if(i == xCon.instance().linesToShowStart + xCon.instance().linesToShow-1
                     && xCon.instance().linesToShowStart
                     < xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
                     g.drawString(String.format("--- (%d) scroll down ---",
@@ -215,9 +217,9 @@ public class dScreenMessages {
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(dd != 0){
-                    g.drawString(xCon.instance().stringLines.get(i),
-                        0, (ctr + 1) * sSettings.height / 64);
+                if(dd != 0) {
+                    if(xCon.instance().stringLines.size() > i)
+                        g.drawString(xCon.instance().stringLines.get(i), 0, (ctr + 1) * sSettings.height / 64);
                 }
                 ctr++;
             }
@@ -239,14 +241,14 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         else if(eManager.currentMap.scene.playersMap().size() > 0){
-            if(nServer.clientArgsMap.get("server") != null
-            && nServer.clientArgsMap.get("server").get("topscore") != null
-            && nServer.clientArgsMap.get("server").get("topscore").length() > 0) {
-                if(cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
+            if(nServer.instance().clientArgsMap.get("server") != null
+            && nServer.instance().clientArgsMap.get("server").get("topscore") != null
+            && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
+                if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
-                        + nServer.clientArgsMap.get("server").get("topscore"),
+                        + nServer.instance().clientArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
                 dFonts.setFontColorNormal(g);
             }
@@ -263,9 +265,9 @@ public class dScreenMessages {
         if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
             switch(cVars.getInt("gamemode")) {
                 case cGameMode.VIRUS:
-                    if(nServer.clientArgsMap.containsKey("server")
-                            && nServer.clientArgsMap.get("server").containsKey("state")
-                            && nServer.clientArgsMap.get("server").get("state").contains(
+                    if(nServer.instance().clientArgsMap.containsKey("server")
+                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
                                 cGameLogic.userPlayer().get("id"))) {
                         dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
@@ -288,32 +290,35 @@ public class dScreenMessages {
             }
         }
         //win lose
-        if((cVars.get("winnerid").length() > 0 && nServer.clientArgsMap.containsKey(cVars.get("winnerid")))) {
+        if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
             if(cVars.isOne("gameteam")) {
-                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
+                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
                         sSettings.width / 2, 5*sSettings.height/8);
             }
             else
-                dFonts.drawCenteredString(g, nServer.clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
+        }
+        //loading
+        if(cScripts.isNetworkGame() && eManager.currentMap != null && cVars.isZero("maploaded")) {
+                dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
             if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
-                dFonts.drawCenteredString(g,
-                        "-- changing map --", sSettings.width / 2, 14*sSettings.height/15);
+                dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
-        //messages
+        //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                if(!s.contains(":")) {
-                    s = "server: " + s;
-                }
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                    +(i*(sSettings.height/32)));
+                g.setColor(Color.BLACK);
+                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
+                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                        +(i*(sSettings.height/32)));
             }
         }
     }
