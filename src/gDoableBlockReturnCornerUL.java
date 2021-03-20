@@ -19,9 +19,5 @@ public class gDoableBlockReturnCornerUL extends gDoableBlockReturn{
 
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
         super.storeBlock(blockToLoad, sceneToStore);
-        sceneToStore.getThingMap("BLOCK_CORNERUL").put(
-                Integer.toString(sceneToStore.getThingMap("BLOCK_CORNERUL").size()),
-                blockToLoad
-        );
     }
 }
