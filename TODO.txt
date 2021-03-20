@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* use two gradients back to back for overhang shadows
 * block draw ordering is lost due to random ids
     -> keep a running ctr in SCENE object for each blocktype so we can use it as the key in blockmap
 * implement "deleteblock"
