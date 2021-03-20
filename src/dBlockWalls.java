@@ -48,7 +48,7 @@ public class dBlockWalls {
                     drawBlockWallCornerLR(g2, block);
             }
             if(block.contains("toph") && block.isOne("backtop")) {
-//                dBlockTops.drawBlockTopCornerLR(g2, block);
+                dBlockTops.drawBlockTopCornerLR(g2, block);
             }
         }
         squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLL");
@@ -60,7 +60,7 @@ public class dBlockWalls {
                     drawBlockWallCornerLL(g2, block);
             }
             if(block.contains("toph") && block.isOne("backtop")) {
-//                dBlockTops.drawBlockTopCornerLL(g2, block);
+                dBlockTops.drawBlockTopCornerLL(g2, block);
             }
         }
     }
