@@ -203,6 +203,7 @@ public class xCon {
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
         commands.put("putflare", new xComPutFlare());
+        commands.put("putprefab", new xComPutPrefab());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
