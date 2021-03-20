@@ -4,18 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
-* create the prefab object
-    -> array of objs
-    -> an overall x,y
-        -> w/h needs to be static, it is a PREfabricated object after all
-    -> array of blocks
-        -> for block in blocks: putblock <type> <args>
-* use two gradients back to back for overhang shadows
-* block draw ordering is lost due to random ids
-    -> keep a running ctr in SCENE object for each blocktype so we can use it as the key in blockmap
-* implement "deleteblock"
-    -> blocks should be ID'd and in a greater blocks hashmap AS WELL AS their more exclusive hashmap
-        -> replace current arraylist with this new map
+* work on cage prefab with LowerCorners at the top and get rid of the wall stuff so it can be dropped anywhere
+* find way to make prefab from file
+    -> follow console commands
 * create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
     -> or just keep using the current form
 * cube blocks need "front wall" capability too

@@ -5,16 +5,16 @@ public class gPrefabCage extends gPrefab {
         //add blocks to prefab array here, based on x y coords!
         blocks.add(new gBlockCube(x, y, 1200, 1200, 150, 1050, "120,120,120,255",
                 "120,120,200,255"));
-        blocks.add(new gBlockCube(x + 1200, y, 1200, 1200, 150, 1050, "120,120,120,255",
-                "120,120,200,255"));
-        blocks.add(new gBlockCube(x + 2400, y, 1200, 1200, 150, 1050, "120,120,120,255",
-                "120,120,200,255"));
+        blocks.add(new gBlockCube(x + 1200, y, 1200, 1200, 150, 1050,
+                "120,120,120,255", "120,120,200,255"));
+        blocks.add(new gBlockCube(x + 2400, y, 1200, 1200, 150, 1050,
+                "120,120,120,255", "120,120,200,255"));
         blocks.add(new gBlockCube(x + 900, y, 300, 1800, 1800, 0, "120,120,120,255",
                 "120,120,200,255"));
         blocks.add(new gBlockCube(x + 2400, y, 300, 1800, 1800, 0, "120,120,120,255",
                 "120,120,200,255"));
-        blocks.add(new gBlockCube(x + 1200, y + 1800, 1200, 1200, 150, 0, "120,120,120,255",
-                "120,120,200,255"));
+        blocks.add(new gBlockCube(x + 1200, y + 1800, 1200, 1200, 150, 0,
+                "120,120,120,255", "120,120,200,255"));
         gBlockCornerUR columnL = new gBlockCornerUR(x + 900, y + 1800, 300, 1200, 150, 1050,
                 "120,120,120,255", "120,120,200,255");
         columnL.put("frontwall", "1");
