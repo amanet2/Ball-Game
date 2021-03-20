@@ -10,6 +10,16 @@ public class dBlockWalls {
                 dBlockShadows.drawShadowBlockFlat(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCube(g2, block);
+                else {
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                <= userplayer.getInt("coordy"))
+                            drawBlockWallCube(g2, block);
+                    }
+                    else
+                        drawBlockWallCube(g2, block);
+                }
             }
             if(block.contains("toph") && block.isOne("backtop")) {
                 dBlockTops.drawBlockTopCube(g2, block);

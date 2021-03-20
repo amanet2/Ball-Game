@@ -34,7 +34,14 @@ public class dTileTops {
                     dBlockTops.drawBlockTopCube(g2, block);
                 }
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockWalls.drawBlockWallCube(g2, block);
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCube(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCube(g2, block);
                 }
             }
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
