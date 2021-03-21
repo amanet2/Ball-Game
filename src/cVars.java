@@ -92,8 +92,8 @@ public class cVars {
         put("vfxshadowfactor", "0.3");
         put("vfxflooroutlinealpha1", "0");
         put("vfxflooroutlinealpha2", "10");
-        put("vfxfloorshadingalpha1", "30");
-        put("vfxfloorshadingalpha2", "30");
+        put("vfxfloorshadingalpha1", "80");
+        put("vfxfloorshadingalpha2", "80");
         put("vfxroofvertoutlinealpha1", "20");
         put("vfxroofvertoutlinealpha2", "90");
         put("vfxroofvertshadingalpha1", "0");
@@ -101,10 +101,10 @@ public class cVars {
         put("vfxroofoutlinealpha1", "20");
         put("vfxroofoutlinealpha2", "90");
         put("vfxroofshadingalpha1", "0");
-        put("vfxroofshadingalpha2", "20");
+        put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "70");
         put("vfxwalloutlinealpha2", "200");
-        put("vfxwallshadingalpha1", "50");
+        put("vfxwallshadingalpha1", "100");
         put("vfxwallshadingalpha2", "200");
         put("virusids", "");
         put("virusresetwaittime", "5000");
