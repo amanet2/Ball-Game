@@ -12,7 +12,7 @@ public class gPrefabArchway extends gPrefab {
                 "120.120.120.255", "120.120.200.255");
         columnR.put("frontwall", "1");
         blocks.add(columnR);
-        gBlockCube archtop = new gBlockCube(x + 300, y, 600, 1200, 150, 300,
+        gBlockCube archtop = new gBlockCube(x + 300, y, 600, 1200, 150, 225,
                 "120.120.120.255", "120.120.200.255");
         archtop.put("frontwall", "1");
         blocks.add(archtop);

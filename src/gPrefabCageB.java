@@ -11,10 +11,14 @@ public class gPrefabCageB extends gPrefab {
                 "120.120.120.255", "120.120.200.255"));
         blocks.add(new gBlockCube(x + 2400, y + 150, 300, 1650, 1650, 0,
                 "120.120.120.255", "120.120.200.255"));
-        blocks.add(new gBlockCube(x + 1200, y, 1200, 1200, 150, 0,
-                "120.120.120.255", "120.120.200.255"));
-        blocks.add(new gBlockCube(x + 1200, y + 1800, 1200, 1200, 150, 0,
-                "120.120.120.255", "120.120.200.255"));
+        gBlockCube archtop = new gBlockCube(x + 1200, y, 1200, 1200, 150, 225,
+                "120.120.120.255", "120.120.200.255");
+        archtop.put("frontwall", "1");
+        blocks.add(archtop);
+        gBlockCube archbottom = new gBlockCube(x + 1200, y + 1800, 1200, 1200, 150, 225,
+                "120.120.120.255", "120.120.200.255");
+        archbottom.put("frontwall", "1");
+        blocks.add(archbottom);
         gBlockCornerUR columnL = new gBlockCornerUR(x + 900, y + 1800, 300, 1200, 150, 1050,
                 "120.120.120.255", "120.120.200.255");
         columnL.put("frontwall", "1");
