@@ -32,6 +32,16 @@ public class dBlockWalls {
                 dBlockShadows.drawShadowBlockCornerUR(g2, block);
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerUR(g2, block);
+                else {
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                <= userplayer.getInt("coordy"))
+                            drawBlockWallCornerUR(g2, block);
+                    }
+                    else
+                        drawBlockWallCornerUR(g2, block);
+                }
             }
             if(block.contains("toph") && block.isOne("backtop")) {
                 dBlockTops.drawBlockTopCornerUR(g2, block);

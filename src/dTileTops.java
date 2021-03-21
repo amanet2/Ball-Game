@@ -48,7 +48,15 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockWalls.drawBlockWallCornerUR(g2, block);
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCornerUR(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCornerUR(g2, block);
+//                    dBlockWalls.drawBlockWallCornerUR(g2, block);
                 }
                 if(block.contains("toph") && block.isZero("backtop")) {
                     dBlockTops.drawBlockTopCornerUR(g2, block);
