@@ -120,7 +120,14 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockWalls.drawBlockWallCornerLR(g2, block);
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCornerLR(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCornerLR(g2, block);
                 }
                 if(block.contains("toph") && block.isZero("backtop")) {
                     dBlockTops.drawBlockTopCornerLR(g2, block);
@@ -130,7 +137,14 @@ public class dTileTops {
             for(String tag : squareMap.keySet()) {
                 gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
                 if(block.contains("wallh") && block.isOne("frontwall")) {
-                    dBlockWalls.drawBlockWallCornerLL(g2, block);
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCornerLL(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCornerLL(g2, block);
                 }
                 if(block.contains("toph") && block.isZero("backtop")) {
                     dBlockTops.drawBlockTopCornerLL(g2, block);
