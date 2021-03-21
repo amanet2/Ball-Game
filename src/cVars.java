@@ -100,7 +100,7 @@ public class cVars {
         put("vfxroofvertshadingalpha2", "20");
         put("vfxroofoutlinealpha1", "20");
         put("vfxroofoutlinealpha2", "90");
-        put("vfxroofshadingalpha1", "0");
+        put("vfxroofshadingalpha1", "100");
         put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "70");
         put("vfxwalloutlinealpha2", "200");

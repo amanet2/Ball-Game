@@ -1,4 +1,8 @@
+import javax.sound.sampled.Line;
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 public class dBlockWalls {
@@ -35,8 +39,51 @@ public class dBlockWalls {
                 else {
                     gPlayer userplayer = cGameLogic.userPlayer();
                     if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy"))
+                        int[][] bottomSectionPoints = new int[][]{
+                                new int[] {
+                                        block.getInt("coordx"),
+                                        block.getInt("coordx") + block.getInt("dimw"),
+                                        block.getInt("coordx") + block.getInt("dimw"),
+                                        block.getInt("coordx")
+                                },
+                                new int[] {
+                                        block.getInt("coordy") + block.getInt("wallh") - block.getInt("toph"),
+                                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
+                                        block.getInt("coordy") + block.getInt("dimh"),
+                                        block.getInt("coordy") + block.getInt("wallh")
+                                }};
+                        int[][] playerPoints = new int[][]{
+                                new int[] {
+                                        userplayer.getInt("coordx"),
+                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
+                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
+                                        userplayer.getInt("coordx")
+                                },
+                                new int[] {
+                                        userplayer.getInt("coordy"),
+                                        userplayer.getInt("coordy"),
+                                        userplayer.getInt("coordy") + userplayer.getInt("dimh"),
+                                        userplayer.getInt("coordy") + userplayer.getInt("dimh")
+                                }};
+                        Line2D bs1 = new Line2D.Float(bottomSectionPoints[0][0], bottomSectionPoints[1][0],
+                                bottomSectionPoints[0][1], bottomSectionPoints[1][1]);
+                        Line2D bs2 = new Line2D.Float(bottomSectionPoints[0][1], bottomSectionPoints[1][1],
+                                bottomSectionPoints[0][2], bottomSectionPoints[1][2]);
+                        Line2D bs3 = new Line2D.Float(bottomSectionPoints[0][2], bottomSectionPoints[1][2],
+                                bottomSectionPoints[0][3], bottomSectionPoints[1][3]);
+                        Line2D bs4 = new Line2D.Float(bottomSectionPoints[0][3], bottomSectionPoints[1][3],
+                                bottomSectionPoints[0][0], bottomSectionPoints[1][0]);
+                        Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
+                                playerPoints[0][1], playerPoints[1][1]);
+                        Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
+                                playerPoints[0][2], playerPoints[1][2]);
+                        Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
+                                playerPoints[0][3], playerPoints[1][3]);
+                        Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
+                                playerPoints[0][0], playerPoints[1][0]);
+                        boolean indepth = block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                <= userplayer.getInt("coordy");
+                        if(ps2.intersectsLine(bs3) || ps4.intersectsLine(bs3) || indepth)
                             drawBlockWallCornerUR(g2, block);
                     }
                     else
