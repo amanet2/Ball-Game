@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210317
+* try a cage with 150-pt thick walls instead of 300
 * do the intelligent layering so you can bump up to walls
 * net streaming map with blocks doesnt work because COLOR var uses commas
     -> use periods instead
