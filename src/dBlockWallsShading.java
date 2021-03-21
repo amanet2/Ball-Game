@@ -15,7 +15,7 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                + block.getInt("toph") + block.getInt("wallh")),
+                                + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
                 g2.setPaint(gradient);
                 g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
@@ -33,7 +33,7 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                + block.getInt("toph") + block.getInt("wallh")),
+                                + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
                 g2.setPaint(gradient);
                 g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
