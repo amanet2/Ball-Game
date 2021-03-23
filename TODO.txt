@@ -3,6 +3,12 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210322
+* have 2 types of "save as"
+    -> save as MAP
+    -> save as PREFAB
+        -> it's that easy
+            -> need a function to convert cmds into a prefab
 20210317
 * try a cage with 150-pt thick walls instead of 300
 * do the intelligent layering so you can bump up to walls
