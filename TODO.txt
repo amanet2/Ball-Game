@@ -4,28 +4,16 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* LIGHTING: try tiles with block shadows moved up by <toph>
 * PREFAB FILE: be able to call "exec prefabs/column <x> <y>"
     -> in exec file, use $1 $2 for args
         -> these are stored in svars as svars.get("$1"), etc.
-    -> reading from file -> <x> <y> become the x,y from putprefab <PREFAB>
-    -> clicking in editor -> <x> <y> are world coords
-    -> THIS SHOULD WORK GREAT
-* PREFAB FILE: make x,y be able to be read as a String instead of hardtyped as int
-    -> lets us use the gblock constructor instead of every subblock
-* FIRST: have to be able to load prefab from a file
-    -> have it be like putblock <BLOCK> $<var> $<var>
-        -> loading prefab should call the console comm
-            -> need to be able to substiture in for $ vars
-                -> have a "X/Y" var that you set before calling PUT
-                -> also has to work from the .map file context
-                    -> have to call PREFAB object passing in the x,y in the mapfile
-                        -> done in the xComPutPrefab function
+    -> reading from file (exec prefabs/<prefab> <x> <y>) -> <x> <y> become the x,y from putprefab <PREFAB>
+    -> clicking in editor (click) -> <x> <y> are transformed mouse coords
 * make "block_editor" branch to start working on block-based editor
 * have 2 types of "save as"
     -> save as MAP
     -> save as PREFAB
-        -> it's that easy
-            -> need a function to convert cmds into a prefab
 20210317
 * try a cage with 150-pt thick walls instead of 300
 * do the intelligent layering so you can bump up to walls
