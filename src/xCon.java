@@ -268,6 +268,12 @@ public class xCon {
         System.out.println(fullCommand);
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
+            if(args.length > 1) {
+
+            }
+            //
+            // --- NEW ABOVE, OLD BELOW
+            //
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
