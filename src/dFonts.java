@@ -18,7 +18,7 @@ public class dFonts {
     }
 
     public static void setFontColorByTitleWithTransparancy(Graphics g, String fonttitle, int transparency) {
-        String[] fontStrings = xCon.ex(fonttitle).split(",");
+        String[] fontStrings = sVars.get(fonttitle).split(",");
         g.setColor(new Color(Integer.parseInt(fontStrings[0]),
                 Integer.parseInt(fontStrings[1]),
                 Integer.parseInt(fontStrings[2]),
@@ -26,7 +26,7 @@ public class dFonts {
     }
 
     public static void setFontColorByTitle(Graphics g, String fonttitle) {
-        String[] fontStrings = xCon.ex(fonttitle).split(",");
+        String[] fontStrings = sVars.get(fonttitle).split(",");
         g.setColor(new Color(Integer.parseInt(fontStrings[0]),
                 Integer.parseInt(fontStrings[1]),
                 Integer.parseInt(fontStrings[2]),

@@ -5,18 +5,18 @@ public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[0]),
-                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[1]),
-                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[2]),
-                Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[3])));
+        g.setColor(new Color(Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[0]),
+                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[1]),
+                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
+                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
         dFonts.drawCenteredString(g,
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
-        g.setColor(new Color(Integer.parseInt(xCon.ex("fontcolornormal").split(",")[0]),
-                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[1]),
-                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[2]),
-                Integer.parseInt(xCon.ex("fontcolornormal").split(",")[3])));
+        g.setColor(new Color(Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
+                Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
+                Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
+                Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
         g.drawString("["+cScoreboard.scoresMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
@@ -49,10 +49,10 @@ public class dScoreboard {
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
                 g.setColor(new Color(
-                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[0]),
-                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[1]),
-                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[2]),
-                        Integer.parseInt(xCon.ex("fontcolorhighlight").split(",")[3])));
+                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[0]),
+                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[1]),
+                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
+                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
             }
             int place = i;
             if(playerscore == prevscore)
@@ -73,10 +73,10 @@ public class dScoreboard {
                     sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(isMe) {
                 g.setColor(new Color(
-                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[0]),
-                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[1]),
-                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[2]),
-                        Integer.parseInt(xCon.ex("fontcolornormal").split(",")[3])));
+                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
+                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
+                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
+                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
             }
             i++;
         }

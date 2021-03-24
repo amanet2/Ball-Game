@@ -5,7 +5,7 @@ public class xComCreateServerPlayer extends xCom {
         cGameLogic.setUserPlayer(player);
         player.put("id", uiInterface.uuid);
         eManager.currentMap.scene.playersMap().put(player.get("id"), player);
-        xCon.ex("centercamera");
+        cScripts.centerCamera();
         return "created user player";
     }
 }

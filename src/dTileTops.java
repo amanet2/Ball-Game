@@ -348,14 +348,14 @@ public class dTileTops {
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx") + 2),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy") + 2));
             g.setColor(p.get("text").charAt(0) == '+' ?
-                    new Color(Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[0]),
-                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[1]),
-                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[2]),
-                            Integer.parseInt(xCon.ex("fontcolorbonus").split(",")[3]))
-                    : new Color(Integer.parseInt(xCon.ex("fontcoloralert").split(",")[0]),
-                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[1]),
-                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[2]),
-                    Integer.parseInt(xCon.ex("fontcoloralert").split(",")[3])));
+                    new Color(Integer.parseInt(sVars.get("fontcolorbonus").split(",")[0]),
+                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[1]),
+                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[2]),
+                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[3]))
+                    : new Color(Integer.parseInt(sVars.get("fontcoloralert").split(",")[0]),
+                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[1]),
+                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[2]),
+                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[3])));
             g.drawString(p.get("text").substring(1),
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));

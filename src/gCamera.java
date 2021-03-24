@@ -18,7 +18,7 @@ public class gCamera {
 	public static void updatePosition() {
 		switch(cVars.getInt("cammode")) {
 			case MODE_TRACKING:
-				xCon.ex("centercamera");
+				cScripts.centerCamera();
 				break;
 			case MODE_FREE:
 				cVars.addIntVal("camx", cVars.getInt("velocitycam")*cVars.getInt("cammov3")

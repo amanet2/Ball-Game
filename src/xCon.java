@@ -46,6 +46,7 @@ public class xCon {
     }
 
     public static int getInt(String s) {
+        System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
     }
 
@@ -54,6 +55,7 @@ public class xCon {
     }
 
     public static long getLong(String s) {
+        System.out.println("CONSOLE RETURNING LONG: " + s);
         return Long.parseLong(doCommand(s));
     }
 
@@ -263,11 +265,13 @@ public class xCon {
     }
 
     public static String doCommand(String fullCommand) {
+        System.out.println(fullCommand);
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
+                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
@@ -277,6 +281,7 @@ public class xCon {
                     return sVars.get(configval);
                 }
                 else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
+                    System.out.println("CONSOLE PARSING CVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         String val = args[1];
@@ -293,6 +298,7 @@ public class xCon {
                 }
                 String[] otoks = configval.split("\\.");
                 if(otoks.length > 2) {
+                    System.out.println("CONSOLE PARSING <THING>.<ID>.<VAR>: " + otoks[0] + "." + otoks[1] + "." + otoks[2]);
                     String type = otoks[0];
                     int tag = Integer.parseInt(otoks[1]);
                     String var = otoks[2];
@@ -315,6 +321,7 @@ public class xCon {
                     }
                 }
                 else if(otoks.length > 1) {
+                    System.out.println("CONSOLE PARSING <THING>.<ID>: " + otoks[0] + "." + otoks[1]);
                     String type = otoks[0];
                     int tag = Integer.parseInt(otoks[1]);
                     if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
