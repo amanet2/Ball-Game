@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* PREFAB: console command to delete prefab
+    -> need blocks to be associated with prefab
+        -> have prefab_id in each block that can be -1 or have an int
+    -> repurpose "putprefab" to take in the files, that will be a better entrypoint than "exec"
 * LIGHTING: reverse shading on top parts
 * LIGHTING: try tiles with block shadows moved up by <toph>
 * PREFAB FILE: be able to call "exec prefabs/column <x> <y>"
