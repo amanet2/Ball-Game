@@ -4,6 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* FIRST: have to be able to load prefab from a file
+    -> have it be like putblock <BLOCK> $<var> $<var>
+        -> loading prefab should call the console comm
+            -> need to be able to substiture in for $ vars
+                -> have a "X/Y" var that you set before calling PUT
+                -> also has to work from the .map file context
+                    -> have to call PREFAB object passing in the x,y in the mapfile
+                        -> done in the xComPutPrefab function
+* make "block_editor" branch to start working on block-based editor
 * have 2 types of "save as"
     -> save as MAP
     -> save as PREFAB
@@ -15,7 +24,8 @@
 * net streaming map with blocks doesnt work because COLOR var uses commas
     -> use periods instead
 * draw where hitboxes will be on blocks
-    -> draw red shape
+    -> draw red outline
+    -> make console svar flag
 * work on cage prefab with LowerCorners at the top and get rid of the wall stuff so it can be dropped anywhere
 * find way to make prefab from file
     -> follow console commands

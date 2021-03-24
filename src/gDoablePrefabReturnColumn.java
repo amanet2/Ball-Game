@@ -1,6 +1,6 @@
-public class gDoablePrefabReturnColumnPair extends  gDoablePrefabReturn {
-    public gPrefabColumnPair getPrefab(String[] args) {
-        gPrefabColumnPair prefab = new gPrefabColumnPair(
+public class gDoablePrefabReturnColumn extends  gDoablePrefabReturn {
+    public gPrefabColumn getPrefab(String[] args) {
+        gPrefabColumn prefab = new gPrefabColumn(
                 Integer.parseInt(args[0]),
                 Integer.parseInt(args[1])
         );
