@@ -265,7 +265,6 @@ public class xCon {
     }
 
     public static String doCommand(String fullCommand) {
-        System.out.println(fullCommand);
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 1) {

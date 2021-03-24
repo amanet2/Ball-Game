@@ -3,7 +3,6 @@ public class gPrefabArchway extends gPrefab {
         super(x, y);
         put("type", "PREFAB_ARCHWAY");
         //add blocks to prefab array here, based on x y coords!
-//        blocks.add(new gBlockFloor(x, y, 1200, 1200, "100.100.60.255"));
         gBlockCube columnL = new gBlockCube(x, y, 300, 1200, 150, 1050,
                 "120.120.120.255", "120.120.200.255");
         columnL.put("frontwall", "1");

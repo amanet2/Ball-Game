@@ -27,11 +27,5 @@ public class gPrefabCage extends gPrefab {
                 "120.120.120.255", "120.120.200.255");
         columnR.put("frontwall", "1");
         blocks.add(columnR);
-        blocks.add(new gBlockFloor(x, y + 1200, 1200, 1200, "100.100.60.255"));
-        blocks.add(new gBlockFloor(x + 1200, y + 1200, 1200, 1200, "100.100.60.255"));
-        blocks.add(new gBlockFloor(x + 2400, y + 1200, 1200, 1200, "100.100.60.255"));
-        blocks.add(new gBlockFloor(x, y + 2400, 1200, 1200, "100.100.60.255"));
-        blocks.add(new gBlockFloor(x + 1200, y + 2400, 1200, 1200, "100.100.60.255"));
-        blocks.add(new gBlockFloor(x + 2400, y + 2400, 1200, 1200, "100.100.60.255"));
     }
 }
