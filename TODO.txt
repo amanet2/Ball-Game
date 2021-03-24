@@ -4,6 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* PREFAB FILE: be able to call "exec prefabs/column <x> <y>"
+    -> in exec file, use $1 $2 for args
+        -> these are stored in svars as svars.get("$1"), etc.
+    -> reading from file -> <x> <y> become the x,y from putprefab <PREFAB>
+    -> clicking in editor -> <x> <y> are world coords
+    -> THIS SHOULD WORK GREAT
+* PREFAB FILE: make x,y be able to be read as a String instead of hardtyped as int
+    -> lets us use the gblock constructor instead of every subblock
 * FIRST: have to be able to load prefab from a file
     -> have it be like putblock <BLOCK> $<var> $<var>
         -> loading prefab should call the console comm
