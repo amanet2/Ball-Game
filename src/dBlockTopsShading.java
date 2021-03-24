@@ -9,12 +9,12 @@ public class dBlockTopsShading {
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha1")),
+                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha2")),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha2")));
+                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha1")));
             g2.setPaint(gradient);
             g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),

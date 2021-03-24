@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* LIGHTING: reverse shading on top parts
 * LIGHTING: try tiles with block shadows moved up by <toph>
 * PREFAB FILE: be able to call "exec prefabs/column <x> <y>"
     -> in exec file, use $1 $2 for args
