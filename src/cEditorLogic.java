@@ -138,7 +138,7 @@ public class cEditorLogic {
 
         exportasprefab.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_saveas");
+                xCon.ex("exportasprefab");
             }
         });
 

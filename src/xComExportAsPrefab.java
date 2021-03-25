@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.io.File;
 
-public class xComEditorExportAsPrefab extends xCom{
+public class xComExportAsPrefab extends xCom{
     public String doCommand(String fullcommand) {
         JFileChooser fileChooser = new JFileChooser();
-        File workingDirectory = new File(sVars.get("datapath"));
+        File workingDirectory = new File(sVars.get("prefabspath"));
         fileChooser.setCurrentDirectory(workingDirectory);
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();

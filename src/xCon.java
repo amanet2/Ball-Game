@@ -154,7 +154,7 @@ public class xCon {
         commands.put("dropweapon", new xComDropWeapon());
         commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
-        commands.put("exportasprefab", new xComEditorExportAsPrefab());
+        commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_copytile", new xComEditorCopyTile());
         commands.put("e_delthing", new xComEditorDelThing());
         commands.put("e_newflare", new xComEditorSetNewFlareDims());
