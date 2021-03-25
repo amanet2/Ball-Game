@@ -5,10 +5,10 @@ putblock BLOCK_FLOOR 1500 3000 1800 2400 100.100.60.255
 putblock BLOCK_FLOOR -1200 -600 7200 3600 100.100.60.255
 putblock BLOCK_CUBE -1200 -600 7200 1200 150 1050 120.120.120.255 120.120.200.255
 putblock BLOCK_CUBE 2100 450 600 450 300 150 120.120.120.255 120.120.200.255 0 1
-putprefab PREFAB_CAGE -1200 -600
+exec prefabs/cage -300 -600
 exec prefabs/archway 1800 3000
-putprefab PREFAB_CAGE 2400 -600
-putprefab PREFAB_CAGE -300 5400
+exec prefabs/cage 3300 -600
+exec prefabs/cage 600 5400
 exec prefabs/column -450 8400
 exec prefabs/column 2100 8400
 exec prefabs/column 3500 -400
