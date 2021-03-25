@@ -101,4 +101,24 @@ public class gMap {
             e.printStackTrace();
 		}
 	}
+
+    public void exportasprefab(String filename) {
+        System.out.println("EXPORTED AS PREFAB " + filename);
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
+//            for(gTile t : scene.getThingMap("THING_BLOCK")) {
+//                String str = String.format("putblock %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
+//                        t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
+//                        t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
+//                        t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
+//                        t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
+//                        t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
+//                        t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
+//                writer.write(str);
+//            }
+        } catch (IOException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
+    }
 }

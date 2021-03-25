@@ -50,6 +50,7 @@ public class cEditorLogic {
         JMenuItem open = new JMenuItem("Open");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem saveas = new JMenuItem("Save As...");
+        JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem newtopmap = new JMenuItem("Map (Topview)");
         JMenuItem newsidemap = new JMenuItem("Map (Sideview)");
@@ -74,6 +75,7 @@ public class cEditorLogic {
         menus.get("File").add(open);
         menus.get("File").add(save);
         menus.get("File").add(saveas);
+        menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
         menus.get("New").add(newtopmap);
         menus.get("New").add(newsidemap);
@@ -129,6 +131,12 @@ public class cEditorLogic {
         });
 
         saveas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_saveas");
+            }
+        });
+
+        exportasprefab.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("e_saveas");
             }

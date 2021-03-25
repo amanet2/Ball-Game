@@ -4,7 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
-* PREFAB: migrate all hardcoded prefabs into prefab files
+* PREFAB: work on editor exportasprefab
+    -> still use map editor
+    -> ids ctr for blocks need to be for ALL block types
+    -> also add to greater THING_BLOCK map
+        -> so we can iterate through these instead of the 6 different types for saving prefab/map
 * PREFAB: console command to delete prefab
     -> need blocks to be associated with prefab
         -> have prefab_id in each block that can be -1 or have an int

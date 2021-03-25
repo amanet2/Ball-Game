@@ -18,3 +18,5 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * ISSUE: startpaused must be init as 1 in svars.java for mapmaker to work right
 * for now, using the mousewheel creates powerups in a local game lol
     -> good for demonstrations
+* you CAN include commands in a prefab
+    -> so to make something happen, spawn a prefab containing the relevant code
