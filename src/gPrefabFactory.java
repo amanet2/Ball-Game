@@ -7,9 +7,6 @@ public class gPrefabFactory {
     private gPrefabFactory() {
         prefabLoadMap = new HashMap<>();
         prefabLoadMap.put("PREFAB_CAGE", new gDoablePrefabReturnCage());
-        prefabLoadMap.put("PREFAB_CAGEB", new gDoablePrefabReturnCageB());
-        prefabLoadMap.put("PREFAB_COLUMN", new gDoablePrefabReturnColumn());
-        prefabLoadMap.put("PREFAB_ARCHWAY", new gDoablePrefabReturnArchway());
     }
 
     public static gPrefabFactory instance() {
