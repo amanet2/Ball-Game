@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* EDITOR: save map with blocks
 * PREFAB: click-to-place prefab in map editor
 * PREFAB: console command to delete prefab
     -> need blocks to be associated with prefab

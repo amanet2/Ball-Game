@@ -66,6 +66,31 @@ public class gMap {
                     writer.write(s + "\n");
                 }
             }
+            HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
+            for(String id : blockMap.keySet()) {
+                gBlock block = (gBlock) blockMap.get(id);
+                String[] args = new String[]{
+                        block.get("type"),
+                        block.get("coordx"),
+                        block.get("coordy"),
+                        block.get("dimw"),
+                        block.get("dimh"),
+                        block.get("toph"),
+                        block.get("wallh"),
+                        block.get("color"),
+                        block.get("colorwall"),
+                        block.get("frontwall"),
+                        block.get("backtop")
+                };
+                StringBuilder str = new StringBuilder("putblock");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
             for(gTile t : scene.tiles()) {
                 String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
@@ -135,7 +160,7 @@ public class gMap {
                         block.get("color"),
                         block.get("colorwall"),
                         block.get("frontwall"),
-                        block.get("frontwall")
+                        block.get("backtop")
                 };
                 StringBuilder str = new StringBuilder("putblock");
                 for(String arg : args) {
