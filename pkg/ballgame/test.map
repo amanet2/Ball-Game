@@ -1,5 +1,6 @@
-cv_mapview 0
 cv_gamemode 0
+cv_camx 0
+cv_camy 0
 putblock BLOCK_FLOOR -300 5400 3600 3600 100.100.60.255
 putblock BLOCK_FLOOR 1500 3000 1800 2400 100.100.60.255
 putblock BLOCK_FLOOR -1200 -600 7200 3600 100.100.60.255

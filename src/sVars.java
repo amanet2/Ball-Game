@@ -68,6 +68,7 @@ public class sVars {
         keys.put("timeout", "1000");
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
+        keys.put("vfxenableplayershadow", "1");
         keys.put("vfxenableshading", "1");
         keys.put("vfxenableshadows", "1");
         keys.put("vfxfactor", "144");

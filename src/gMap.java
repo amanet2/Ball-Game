@@ -56,13 +56,12 @@ public class gMap {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cv_mapview %s\n", cVars.get("mapview")));
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
             if(cVars.get("botbehavior").length() > 0)
                 writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
             //this one is dynamic
             for(String s : execLines) {
-                if(!s.contains("cv_mapview") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
+                if(!s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
                     writer.write(s + "\n");
                 }
             }

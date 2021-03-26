@@ -58,28 +58,26 @@ public class dPlayer {
                     }
                 }
                 //player shadow
-                if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
-                    if(sVars.isOne("vfxenableshadows")) {
-                        //check null fields
-                        if(!e.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                            break;
-                        int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
-                        Rectangle2D shadowBounds = new Rectangle.Double(
-                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                        + yadj),
-                                eUtils.scaleInt(e.getInt("dimw")),
-                                eUtils.scaleInt(e.getInt("dimh")/3));
-                        RadialGradientPaint df = new RadialGradientPaint(
-                                shadowBounds, new float[]{0f, 1f},
-                                new Color[]{
-                                        new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
-                                        new Color(0, 0, 0, 0)
-                                }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-                        g2.setPaint(df);
-                        g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                                (int)shadowBounds.getHeight());
-                    }
+                if(sVars.isOne("vfxenableplayershadow")) {
+                    //check null fields
+                    if(!e.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                        break;
+                    int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
+                    Rectangle2D shadowBounds = new Rectangle.Double(
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                    + yadj),
+                            eUtils.scaleInt(e.getInt("dimw")),
+                            eUtils.scaleInt(e.getInt("dimh")/3));
+                    RadialGradientPaint df = new RadialGradientPaint(
+                            shadowBounds, new float[]{0f, 1f},
+                            new Color[]{
+                                    new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
+                                    new Color(0, 0, 0, 0)
+                            }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+                    g2.setPaint(df);
+                    g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
+                            (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
                 if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
