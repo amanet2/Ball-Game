@@ -7,10 +7,6 @@ import java.util.HashMap;
 public class gMap {
     static final int MAP_TOPVIEW = 0;
     static final int MAP_SIDEVIEW = 1;
-    static String[] mapview_selection = new String[] {
-            "top-down view",
-            "side-scrolling view"
-    };
     String mapName;
     ArrayList<String> execLines;
     ArrayList<String> mapLines;
@@ -29,7 +25,6 @@ public class gMap {
 	public gMap() {
         basicInit();
         mapName = "new";
-        cVars.putInt("mapview", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 

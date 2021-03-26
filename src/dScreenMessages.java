@@ -183,10 +183,17 @@ public class dScreenMessages {
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
             else {
-                g.drawString(String.format("{TILES : %d, PROPS: %d, FLARES: %d}",
-                    eManager.currentMap.scene.tiles().size(), eManager.currentMap.scene.props().size(),
-                    eManager.currentMap.scene.flares().size()),
+                StringBuilder thingString = new StringBuilder();
+                for(String s : gScene.object_titles) {
+                    if(eManager.currentMap.scene.getThingMap(s).size() > 0) {
+                        thingString.append(s.toUpperCase()).append(": ").append(
+                                eManager.currentMap.scene.getThingMap(s).size()).append(", ");
+                    }
+                }
+                dFonts.setFontSmall(g);
+                g.drawString(thingString.toString(),
                         0,15*sSettings.height/16);
+                dFonts.setFontNormal(g);
                 g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
                     31*sSettings.height/32);
             }

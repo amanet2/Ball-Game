@@ -23,7 +23,9 @@ public class cEditorLogic {
         createNewMenu("File");
         createNewMenu("Edit");
         createNewMenu("Parameters");
-        createNewMenu("Tiles");
+        createNewMenu("Blocks");
+        createNewMenu("Prefabs");
+        createNewMenu("Tiles"); //getting rid of you... eventually
         createNewMenu("Props");
         createNewMenu("Flares");
         createNewMenu("Scene");
@@ -37,7 +39,6 @@ public class cEditorLogic {
         createNewSubmenu("Textures", "top_textures");
         createNewSubmenu("Textures", "wall_textures");
         createNewSubmenu("Textures", "floor_textures");
-        createNewSubmenu("Scene", "Map View: " + gMap.mapview_selection[sSettings.create_map_mode]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
         createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
@@ -52,8 +53,7 @@ public class cEditorLogic {
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem newtopmap = new JMenuItem("Map (Topview)");
-        JMenuItem newsidemap = new JMenuItem("Map (Sideview)");
+        JMenuItem newtopmap = new JMenuItem("Map/Prefab");
         JMenuItem showControls = new JMenuItem("Show Controls");
         JMenuItem sceneObjs = new JMenuItem("Scene Tiles");
         JMenuItem sceneProps = new JMenuItem("Scene Props");
@@ -78,7 +78,6 @@ public class cEditorLogic {
         menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
         menus.get("New").add(newtopmap);
-        menus.get("New").add(newsidemap);
         menus.get("Edit").add(editorUndo);
         menus.get("Edit").add(editorRedo);
         menus.get("Scene").add(sceneObjs);
@@ -103,14 +102,6 @@ public class cEditorLogic {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                sSettings.create_map_mode = gMap.MAP_TOPVIEW;
-                xCon.ex("load");
-            }
-        });
-
-        newsidemap.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sSettings.create_map_mode = gMap.MAP_SIDEVIEW;
                 xCon.ex("load");
             }
         });
@@ -205,20 +196,6 @@ public class cEditorLogic {
                 menus.get("Parameters").getItem(1).setText("Create: "+gScene.getObjTitleForCode(state.createObjCode));
             });
             menus.get("Parameters").getItem(1).add(newmenuitem);
-        }
-        for(int i = 0; i < gMap.mapview_selection.length; i++) {
-            JMenuItem newmenuitem = new JMenuItem(gMap.mapview_selection[i]);
-            newmenuitem.addActionListener(e -> {
-                for(int j = 0; j < gMap.mapview_selection.length; j++) {
-                    if(gMap.mapview_selection[j].equals(newmenuitem.getText())) {
-                        cVars.putInt("mapview", j);
-                        sSettings.create_map_mode = cVars.getInt("mapview");
-                    }
-                }
-                menus.get("Scene").getItem(0).setText("Map View: "
-                        + gMap.mapview_selection[cVars.getInt("mapview")]);
-            });
-            menus.get("Scene").getItem(0).add(newmenuitem);
         }
         for(int i = 0; i < cGameMode.net_gamemode_texts.length; i++) {
             JMenuItem newmenuitem = new JMenuItem(cGameMode.net_gamemode_texts[i]);

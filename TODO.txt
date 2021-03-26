@@ -4,46 +4,18 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
-* PREFAB: work on editor exportasprefab
-    -> still use map editor
-    -> ids ctr for blocks need to be for ALL block types
-    -> also add to greater THING_BLOCK map
-        -> so we can iterate through these instead of the 6 different types for saving prefab/map
+* PREFAB: click-to-place prefab in map editor
 * PREFAB: console command to delete prefab
     -> need blocks to be associated with prefab
         -> have prefab_id in each block that can be -1 or have an int
     -> repurpose "putprefab" to take in the files, that will be a better entrypoint than "exec"
-* LIGHTING: reverse shading on top parts
-* LIGHTING: try tiles with block shadows moved up by <toph>
-* PREFAB FILE: be able to call "exec prefabs/column <x> <y>"
-    -> in exec file, use $1 $2 for args
-        -> these are stored in svars as svars.get("$1"), etc.
-    -> reading from file (exec prefabs/<prefab> <x> <y>) -> <x> <y> become the x,y from putprefab <PREFAB>
-    -> clicking in editor (click) -> <x> <y> are transformed mouse coords
-* make "block_editor" branch to start working on block-based editor
-* have 2 types of "save as"
-    -> save as MAP
-    -> save as PREFAB
 20210317
-* try a cage with 150-pt thick walls instead of 300
-* do the intelligent layering so you can bump up to walls
-* net streaming map with blocks doesnt work because COLOR var uses commas
-    -> use periods instead
 * draw where hitboxes will be on blocks
     -> draw red outline
     -> make console svar flag
-* work on cage prefab with LowerCorners at the top and get rid of the wall stuff so it can be dropped anywhere
-* find way to make prefab from file
-    -> follow console commands
 * create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
     -> or just keep using the current form
-* cube blocks need "front wall" capability too
-    -> looks like we should have "backtop" and "frontwall" for all not-floor blocks
-* cornerblock shading/shadows needs to be diagonal
 * add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
-* OPTION: change "frontwall" to "frontwallenabled" IN MAPFILE/CONSTRUCTORS
-    -> if an item is "frontwallenabled" do a Y-coord check on whether to draw it behind or in front of player
-        -> THIS var will be "frontwall"
 * FOR FUTURE
     -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
@@ -51,44 +23,10 @@
 * OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
  collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
     -> use the same shape as the blockTop section
-* cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
-    -> draw one gradient from clear->dark, then one directly under it from dark->clear
-* remove brightness from blocks
-    -> make a special "LIGHTING SQUARE" or "LIGHTING BLOCK" that will interact with flashlight and be applied
-    to maps manually
-    -> or use flares and cut the flashlight feature for now
-        -> we would repurpose the flashlight "glow" for the winner perhaps, or for spawn protection
-* GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
-    -> dBlockWalls.drawBlocksBackground
-    -> dBlockWalls.drawBlocksForeground
-        -> get the test map working, the walls need to be like beams
-    -> it should be a function of the element's Y value
-    -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
-     while everything lower is printed out first
-        -> enqueue objects to be drawn in order
-            -> start with floors, if(visible on screen) add to VISIBLE_FLOORS list
-                -> From VISIBLE_FLOORS, remove the lowest Y value and place in FIFO queue
-                    -> drain this queue when drawing floors
-                    -> BUT we need to do two drawings,
-                        -> 1. everything with a LOWER Y (behind) the player
-                        -> 2. everything with a HIGHER Y (in front of) the player
-                            -> goes for HAT too
-                                -> if(HatY < blockTopY) DrawHat behind blockTop
-                                -> if(HatY+HatH > blockTopY+blockTopH) DrawHat in front of blockTop
 * add a final int for "clip" in the create_string of blocks
 * draw hat under blocktop
 * be able to jump in all directions
-* prefab object
-    -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords
-* want both "toph" and "wallh" in block.
-    -> so we can use a more snap-able size to build maps, and then we can say "cut out the top here" or
-       "remove the wall there"
-* try using tiles without any "top" to simulate wall of a bldng to walk inside
-    -> pass in "wallh" instead of "toph" (makes more sense, we want a consistent wall height in levels)
-        -> easier to enter "150" than figure out which toph results in a wallh of 150
 * props dont use the propDoable.getProp() function never
-* creating new BLOCK class which will replace tiles.
-    -> taking inspiration from prop and propfactory pattern
 * bots respawning properly for single client
 20210316
 * respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap
