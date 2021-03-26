@@ -4,7 +4,7 @@ import java.awt.font.FontRenderContext;
 public class dFonts {
     static FontRenderContext fontrendercontext =
             new FontRenderContext(null, false, true);
-
+    static Stroke defaultStroke = new BasicStroke(1);
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);

@@ -201,6 +201,21 @@ public class dTileTops {
                     dBlockTops.drawBlockTopCornerLL(g2, block);
                 }
             }
+            //draw the grid OVER everything
+            if(sSettings.show_mapmaker_ui) {
+                g2.setColor(Color.YELLOW);
+                g2.setStroke(dFonts.defaultStroke);
+                for(int i = -12000; i <= 12000; i+=300) {
+                    g2.drawLine(eUtils.scaleInt(-12000 - cVars.getInt("camx")),
+                            eUtils.scaleInt(i - cVars.getInt("camy")),
+                            eUtils.scaleInt(12000 - cVars.getInt("camx")),
+                            eUtils.scaleInt(i - cVars.getInt("camy")));
+                    g2.drawLine(eUtils.scaleInt(i - cVars.getInt("camx")),
+                            eUtils.scaleInt(-12000 - cVars.getInt("camy")),
+                            eUtils.scaleInt(i - cVars.getInt("camx")),
+                            eUtils.scaleInt(12000 - cVars.getInt("camy")));
+                }
+            }
             //
             // --- NEW ABOVE OLD BELOW ---
             //
