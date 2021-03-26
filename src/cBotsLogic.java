@@ -398,20 +398,15 @@ public class cBotsLogic {
                     Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
             bot.putInt("vel2", modspeed);
         }
-        if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
-            if(y2 > y1) {
-                int modspeed = speed + (int)(
-                        Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-                bot.putInt("vel1", modspeed);
-            }
-            if(y1 > y2) {
-                int modspeed = speed + (int)(
-                        Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-                bot.putInt("vel0", modspeed);
-            }
+        if(y2 > y1) {
+            int modspeed = speed + (int)(
+                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+            bot.putInt("vel1", modspeed);
         }
-        else {
-            bot.putInt("vel1", cVars.getInt("velocityplayerbase")/2);
+        if(y1 > y2) {
+            int modspeed = speed + (int)(
+                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+            bot.putInt("vel0", modspeed);
         }
         if(bot.getInt("vel1") > 0 && bot.getInt("vel3") > 0)
             bot.put("fv", Double.toString(Math.PI/2));

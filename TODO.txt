@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
-* EDITOR: save map with blocks
+* keep gravity, but only kick in when player is on "backwall" sections of blocks
+    -> could simulate dropping down from a backtop to the floor or another backtop
+* get rid of "falltime" cvar
+* get rid of the "mapview" distinction
 * PREFAB: click-to-place prefab in map editor
 * PREFAB: console command to delete prefab
     -> need blocks to be associated with prefab

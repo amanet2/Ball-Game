@@ -198,7 +198,6 @@ public class xCon {
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
-        commands.put("playercrouch", new xComPlayerCrouch());
         commands.put("playerdown", new xComPlayerDown());
         commands.put("playerleft", new xComPlayerLeft());
         commands.put("playerright", new xComPlayerRight());

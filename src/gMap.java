@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 public class gMap {
     static final int MAP_TOPVIEW = 0;
-    static final int MAP_SIDEVIEW = 1;
     String mapName;
     ArrayList<String> execLines;
     ArrayList<String> mapLines;
@@ -59,7 +58,8 @@ public class gMap {
 		    //these three are always here
             writer.write(String.format("cv_mapview %s\n", cVars.get("mapview")));
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
-            writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
+            if(cVars.get("botbehavior").length() > 0)
+                writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
             //this one is dynamic
             for(String s : execLines) {
                 if(!s.contains("cv_mapview") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {

@@ -122,25 +122,19 @@ public class cGameLogic {
                                             && cVars.getInt("gravity") > 0
                             ? 1 : 0);
                     }
-                    if (!userPlayer().canJump())
-                        cVars.increment("falltime");
-                    else
-                        cVars.put("falltime", "0");
                     cVars.put("jumpheight", "0");
                 }
             }
             //jumping
             if(cVars.isOne("clipplayer")) {
-                int jumpmax = cVars.isInt("mapview", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
-                        : cVars.getInt("jumptimemax")/4;
-                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < jumpmax) {
+                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < cVars.getInt("jumptimemax")) {
                     cVars.increment("jumpheight");
                     if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))
                         xCon.ex("-crouch");
                 }
                 else if(cVars.isOne("jumping")) {
-                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
-                        userPlayer().putInt("mov0", 0);
+//                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
+//                        userPlayer().putInt("mov0", 0);
                     cVars.putInt("jumping", 0);
                 }
             }
@@ -439,31 +433,4 @@ public class cGameLogic {
             }
         }
     }
-
-//    public static void checkForPlayerDeath() {
-//        //OLD: checks user player for death occuring from falling off sidescroller map and dying in old safezones
-//        gPlayer cl = cGameLogic.userPlayer();
-////        cScripts.checkBulletSplashes();
-//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){
-//            if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
-//            && !cl.contains("respawntime")) {
-//                cScripts.playPlayerDeathSound();
-//                cl.put("stockhp", cVars.get("maxstockhp"));
-//                xCon.ex("respawn");
-//                cVars.put("falltime", "0");
-//            }
-//        }
-//        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-//            if(cVars.getLong("safezonetime") < 0) {
-//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-//            }
-//            if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
-//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-//                cGameMode.refreshSafeZones();
-//                if(sSettings.net_server)
-//                    xCon.ex("say " + cl.get("name") + " died");
-//                xCon.ex("respawn");
-//            }
-//        }
-//    }
 }

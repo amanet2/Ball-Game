@@ -6,37 +6,6 @@ public class gPlayer extends gThing {
     Image spriteHat;
     Image sprite;
 
-    public boolean canJump() {
-        if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
-                        && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
-                        && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
-                        || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
-                        && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
-                        && (t.getInt("dim0h") > 0
-                        || t.getInt("dim3h") > 0
-                        || t.getInt("dim5w") > 0
-                        || t.getInt("dim6w") > 0)
-                ) {
-                    return true;
-                }
-                if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
-                ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
-                )){
-                    return true;
-                }
-            }
-        }
-        else {
-            return true;
-        }
-        return false;
-    }
-
-
     public boolean wontClipOnMove(int coord, int coord2) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
@@ -50,15 +19,7 @@ public class gPlayer extends gThing {
                 return false;
             }
         }
-        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            for(String id : gScene.getPlayerIds()) {
-                gPlayer target = gScene.getPlayerById(id);
-                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
-                    return false;
-                }
-            }
-        }
-        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
+        if(cVars.isOne("collideplayers")) {
             for(String id : gScene.getPlayerIds()) {
                 gPlayer target = gScene.getPlayerById(id);
                 if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
@@ -116,17 +77,18 @@ public class gPlayer extends gThing {
         xCon.ex("cv_jumping 0");
     }
 
-    public boolean checkBump(Shape bounds, int ystart) {
-        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
-                    < bounds.getBounds().getHeight()/2+10) {
-                putInt("coordy", (int) (getInt("coordy")
-                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
-                return false;
-            }
-        }
-        return true;
-    }
+//    public boolean checkBump(Shape bounds, int ystart) {
+//        //for sidescrolling maps, automatically go up over bumps in stairs, etc.
+//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
+//                    < bounds.getBounds().getHeight()/2+10) {
+//                putInt("coordy", (int) (getInt("coordy")
+//                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public boolean bounceWithinBounds(Shape bounds, Rectangle targetbounds,
                                    int xstart, int ystart, int xend, int yend) {
@@ -155,17 +117,17 @@ public class gPlayer extends gThing {
                     situation = 5;
                 else if(xend > getInt("coordx") && getInt("coordy")+getInt("dimh") > yend) {
                     situation = 6;
-                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                        cancelJump();
-                    }
+//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                        cancelJump();
+//                    }
                 }
             }
             else if(getInt("vel0") > getInt("vel1") && getInt("vel3") > getInt("vel2")) {
                 if(getInt("coordy")+getInt("dimh") > yend && getInt("coordx")+getInt("dimw") > xstart) {
                     situation = 8;
-                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                        cancelJump();
-                    }
+//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                        cancelJump();
+//                    }
                 }
                 else if(yend > getInt("coordy")+getInt("dimh") && getInt("coordx") < xstart)
                     situation = 9;
@@ -177,9 +139,9 @@ public class gPlayer extends gThing {
                 situation = 4;
             if(getInt("vel0") > getInt("vel1") && getInt("vel3") == 0 && getInt("vel2") == 0) {
                 situation = 7;
-                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                    cancelJump();
-                }
+//                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                    cancelJump();
+//                }
             }
             if((getInt("vel3") > getInt("vel2") && getInt("vel0") == 0 && getInt("vel1") == 0)
                     && getInt("coordx") < xstart) {
@@ -192,17 +154,15 @@ public class gPlayer extends gThing {
                 case 1:
                 case 2:
                     cVars.put("suppressknocksound", "1");
-                    if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
-                        putInt("vel0", 3*getInt("vel1")/2 - 1);
-                        put("vel1", "0");
-                    }
+                    putInt("vel0", 3*getInt("vel1")/2 - 1);
+                    put("vel1", "0");
                     break;
                 case 3:
                 case 5:
                 case 4:
-                    //check for bump
-                    if(!checkBump(bounds, ystart))
-                        return false;
+                    //check for bump in sidescrollers
+//                    if(!checkBump(bounds, ystart))
+//                        return false;
                     putInt("vel3", getInt("vel2") - 1);
                     put("vel2", "0");
                     break;
@@ -216,9 +176,9 @@ public class gPlayer extends gThing {
                 case 9:
                 case 10:
                 case 11:
-                    //check for bump
-                    if(!checkBump(bounds, ystart))
-                        return false;
+                    //check for bump in sidescrollers
+//                    if(!checkBump(bounds, ystart))
+//                        return false;
                     putInt("vel2", getInt("vel3") - 1);
                     put("vel3", "0");
                     break;
