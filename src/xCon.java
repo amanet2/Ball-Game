@@ -204,6 +204,7 @@ public class xCon {
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
+        commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());

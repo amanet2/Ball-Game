@@ -1,11 +1,9 @@
-import java.util.HashMap;
-
 public class gCollisionFactory {
-    HashMap<String, gDoableCollisionReturn> collisionLoadMap;
+    gDoableCollisionReturn collisionLoader;
     private static gCollisionFactory instance = null;
 
     private gCollisionFactory() {
-        collisionLoadMap = new HashMap<>();
+        collisionLoader = new gDoableCollisionReturn();
     }
 
     public static gCollisionFactory instance() {

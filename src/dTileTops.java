@@ -216,6 +216,22 @@ public class dTileTops {
                             eUtils.scaleInt(12000 - cVars.getInt("camy")));
                 }
             }
+            //draw hitboxes
+            for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+                gCollision collision =
+                        (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                g2.setColor(Color.RED);
+                int[] transformedXarr = new int[collision.xarr.length];
+                int[] transformedYarr = new int[collision.yarr.length];
+                for(int i = 0; i < collision.xarr.length; i++) {
+                    transformedXarr[i] = eUtils.scaleInt(collision.xarr[i] - cVars.getInt("camx"));
+                }
+                for(int i = 0; i < collision.yarr.length; i++) {
+                    transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
+                }
+                g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
+
+            }
             //
             // --- NEW ABOVE OLD BELOW ---
             //
