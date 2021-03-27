@@ -24,6 +24,7 @@ public class cEditorLogic {
         createNewMenu("Edit");
         createNewMenu("Parameters");
         createNewMenu("Blocks");
+        createNewMenu("Collisions");
         createNewMenu("Prefabs");
         createNewMenu("Tiles"); //getting rid of you... eventually
         createNewMenu("Props");
