@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
@@ -18,6 +19,50 @@ public class gPlayer extends gThing {
                 }
                 return false;
             }
+        }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+            gCollision collision =
+                    (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+            int[][] collisionPoints = new int[][]{
+                    collision.xarr,
+                    collision.yarr
+            };
+            int[][] playerPoints = new int[][]{
+                    new int[] {
+                            dx,
+                            dx + getInt("dimw"),
+                            dx + getInt("dimw"),
+                            dx
+                    },
+                    new int[] {
+                            dy,
+                            dy,
+                            dy + getInt("dimh"),
+                            dy + getInt("dimh")
+                    }};
+            Line2D bs1 = new Line2D.Float(collisionPoints[0][0], collisionPoints[1][0],
+                    collisionPoints[0][1], collisionPoints[1][1]);
+            Line2D bs2 = new Line2D.Float(collisionPoints[0][1], collisionPoints[1][1],
+                    collisionPoints[0][2], collisionPoints[1][2]);
+            Line2D bs3 = new Line2D.Float(collisionPoints[0][2], collisionPoints[1][2],
+                    collisionPoints[0][3], collisionPoints[1][3]);
+            Line2D bs4 = new Line2D.Float(collisionPoints[0][3], collisionPoints[1][3],
+                    collisionPoints[0][0], collisionPoints[1][0]);
+            Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
+                    playerPoints[0][1], playerPoints[1][1]);
+            Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
+                    playerPoints[0][2], playerPoints[1][2]);
+            Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
+                    playerPoints[0][3], playerPoints[1][3]);
+            Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
+                    playerPoints[0][0], playerPoints[1][0]);
+            if(
+                    ps2.intersectsLine(bs1) || ps4.intersectsLine(bs1)
+                || ps1.intersectsLine(bs2) || ps3.intersectsLine(bs2)
+                || ps2.intersectsLine(bs3) || ps4.intersectsLine(bs3)
+                || ps1.intersectsLine(bs4) || ps3.intersectsLine(bs4)
+            )
+                return false;
         }
         if(cVars.isOne("collideplayers")) {
             for(String id : gScene.getPlayerIds()) {
