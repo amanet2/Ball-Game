@@ -218,20 +218,33 @@ public class dTileTops {
                 }
             }
             //draw hitboxes
-            for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
-                gCollision collision =
-                        (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+            if(sVars.isOne("drawhitboxes")) {
                 g2.setColor(Color.RED);
-                int[] transformedXarr = new int[collision.xarr.length];
-                int[] transformedYarr = new int[collision.yarr.length];
-                for(int i = 0; i < collision.xarr.length; i++) {
-                    transformedXarr[i] = eUtils.scaleInt(collision.xarr[i] - cVars.getInt("camx"));
-                }
-                for(int i = 0; i < collision.yarr.length; i++) {
-                    transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
-                }
-                g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
+                for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+                    gCollision collision =
+                            (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                    int[] transformedXarr = new int[collision.xarr.length];
+                    int[] transformedYarr = new int[collision.yarr.length];
+                    for(int i = 0; i < collision.xarr.length; i++) {
+                        transformedXarr[i] = eUtils.scaleInt(collision.xarr[i] - cVars.getInt("camx"));
+                    }
+                    for(int i = 0; i < collision.yarr.length; i++) {
+                        transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
+                    }
+                    g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
 
+                }
+                if(cGameLogic.userPlayer() != null) {
+                    g2.setColor(Color.RED);
+                    int x1 = cGameLogic.userPlayer().getInt("coordx");
+                    int y1 = cGameLogic.userPlayer().getInt("coordy");
+                    g2.drawRect(
+                            eUtils.scaleInt(x1 - cVars.getInt("camx")),
+                            eUtils.scaleInt(y1 - cVars.getInt("camy")),
+                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimw")),
+                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimh"))
+                    );
+                }
             }
             //
             // --- NEW ABOVE OLD BELOW ---
