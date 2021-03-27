@@ -202,7 +202,7 @@ public class dTileTops {
                 }
             }
             //draw the grid OVER everything
-            if(sSettings.show_mapmaker_ui) {
+            if(sSettings.show_mapmaker_ui && sVars.isOne("drawmapmakergrid")) {
                 g2.setColor(Color.YELLOW);
                 g2.setStroke(dFonts.defaultStroke);
                 for(int i = -12000; i <= 12000; i+=300) {

@@ -23,6 +23,7 @@ public class sVars {
         keys.put("defaultexec", "config/autoexec.cfg");
         keys.put("defaultmap", "mainmenu.map");
         keys.put("defaulttitle", "Ball Game");
+        keys.put("drawmapmakergrid", "1");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
         keys.put("fontcolorbonus", "50,220,100,200");
