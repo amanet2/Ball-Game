@@ -8,16 +8,57 @@ import java.util.TreeMap;
 public class eManager {
 	static int mapSelectionIndex = -1;
 	static gMap currentMap = new gMap();
-	static String[] mapsSelection = new String[]{};
-	static String[] winClipSelection = new String[]{};
+	static String[] mapsSelection;
+	static String[] winClipSelection;
+
+
+	public static String[] getFilesSelection(String dirPath) {
+	    String[] selectionArray = new String[]{};
+        File fp = new File(dirPath);
+        File[] fpContents = fp.listFiles();
+        for(File ffp : fpContents) {
+            if(ffp.isFile()) {
+                selectionArray = Arrays.copyOf(selectionArray,selectionArray.length+1);
+                selectionArray[selectionArray.length-1] = ffp.getName();
+            }
+        }
+        return selectionArray;
+    }
+
+    public static String[] getFilesSelection(String dirPath, String extension) {
+        String[] selectionArray = new String[]{};
+        File fp = new File(dirPath);
+        File[] fpContents = fp.listFiles();
+        for(File ffp : fpContents) {
+            if(ffp.isFile() && ffp.getName().split("\\.")[1].equalsIgnoreCase(
+                    extension.replace(".",""))) {
+                selectionArray = Arrays.copyOf(selectionArray,selectionArray.length+1);
+                selectionArray[selectionArray.length-1] = ffp.getName();
+            }
+        }
+        return selectionArray;
+    }
 
 	public static void getMapsSelection() {
         File fp = new File(eUtils.getPath(""));
         File[] fpContents = fp.listFiles();
         for(File ffp : fpContents) {
+            if(ffp.isFile() && ffp.getName().split("\\.")[1].equalsIgnoreCase(
+                            sVars.get("mapextension").replace(".",""))) {
+                mapsSelection = Arrays.copyOf(mapsSelection,mapsSelection.length+1);
+                mapsSelection[mapsSelection.length-1] = ffp.getName();
+            }
+        }
+        uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
+    }
+
+    public static void getPrefabsSelection() {
+        File fp = new File(eUtils.getPath(""));
+        File[] fpContents = fp.listFiles();
+        for(File ffp : fpContents) {
             if(ffp.isFile() && !ffp.getName().toLowerCase().contains(sVars.get("defaultmap").toLowerCase())
                     && ffp.getName().split("\\.")[1].equalsIgnoreCase(
-                            sVars.get("mapextension").replace(".",""))) {
+                    sVars.get("mapextension").replace(".",""))) {
                 mapsSelection = Arrays.copyOf(mapsSelection,mapsSelection.length+1);
                 mapsSelection[mapsSelection.length-1] = ffp.getName();
             }

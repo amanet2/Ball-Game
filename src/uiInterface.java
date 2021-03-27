@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
@@ -90,7 +92,11 @@ public class uiInterface {
 	}
 
 	public static void init() {
-        eManager.getMapsSelection();
+	    eManager.mapsSelection = eManager.getFilesSelection(eUtils.getPath(""),sVars.get("mapextension"));
+        uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
+        eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
+        System.out.println(Arrays.toString(eManager.mapsSelection));
+        System.out.println(Arrays.toString(eManager.winClipSelection));
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
             xCon.ex("cv_camx -6000");
