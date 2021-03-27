@@ -90,6 +90,54 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
+            HashMap<String, gThing> collisionMap = scene.getThingMap("THING_COLLISION");
+            for(String id : collisionMap.keySet()) {
+                gCollision collision = (gCollision) collisionMap.get(id);
+                String xString = "";
+                String yString = "";
+                for(int i = 0; i < collision.xarr.length; i++) {
+                    String ws = "$1";
+                    int coordx = collision.xarr[i];
+                    if(coordx < 0) {
+                        ws += Integer.toString(coordx);
+                    }
+                    else if(coordx > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordx);
+                    }
+                    ws += ".";
+                    xString += ws;
+                }
+                xString = xString.substring(0, xString.lastIndexOf("."));
+                for(int i = 0; i < collision.yarr.length; i++) {
+                    String ws = "$2";
+                    int coordy = collision.yarr[i];
+                    if(coordy < 0) {
+                        ws += Integer.toString(coordy);
+                    }
+                    else if(coordy > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordy);
+                    }
+                    ws += ".";
+                    yString += ws;
+                }
+                yString = yString.substring(0, yString.lastIndexOf("."));
+
+                String[] args = new String[]{
+                        xString,
+                        yString,
+                        Integer.toString(collision.npoints)
+                };
+                StringBuilder str = new StringBuilder("putcollision");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
             for(gTile t : scene.tiles()) {
                 String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
@@ -162,6 +210,53 @@ public class gMap {
                         block.get("backtop")
                 };
                 StringBuilder str = new StringBuilder("putblock");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
+            for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
+                gCollision collision = (gCollision) scene.getThingMap("THING_COLLISION").get(id);
+                String xString = "";
+                String yString = "";
+                for(int i = 0; i < collision.xarr.length; i++) {
+                    String ws = "$1";
+                    int coordx = collision.xarr[i];
+                    if(coordx < 0) {
+                        ws += Integer.toString(coordx);
+                    }
+                    else if(coordx > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordx);
+                    }
+                    ws += ".";
+                    xString += ws;
+                }
+                xString = xString.substring(0, xString.lastIndexOf("."));
+                for(int i = 0; i < collision.yarr.length; i++) {
+                    String ws = "$2";
+                    int coordy = collision.yarr[i];
+                    if(coordy < 0) {
+                        ws += Integer.toString(coordy);
+                    }
+                    else if(coordy > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordy);
+                    }
+                    ws += ".";
+                    yString += ws;
+                }
+                yString = yString.substring(0, yString.lastIndexOf("."));
+
+                String[] args = new String[]{
+                        xString,
+                        yString,
+                        Integer.toString(collision.npoints)
+                };
+                StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
                     if(arg != null) {
                         str.append(" ").append(arg);

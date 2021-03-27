@@ -17,7 +17,7 @@ public class sVars {
         keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
-        keys.put("prefabspath", "prefabs");
+        keys.put("prefabspath", "ballgame/prefabs");
         keys.put("debug", "0");
         keys.put("debuglog", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
