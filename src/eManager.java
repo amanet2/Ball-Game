@@ -39,41 +39,6 @@ public class eManager {
         return selectionArray;
     }
 
-	public static void getMapsSelection() {
-        File fp = new File(eUtils.getPath(""));
-        File[] fpContents = fp.listFiles();
-        for(File ffp : fpContents) {
-            if(ffp.isFile() && ffp.getName().split("\\.")[1].equalsIgnoreCase(
-                            sVars.get("mapextension").replace(".",""))) {
-                mapsSelection = Arrays.copyOf(mapsSelection,mapsSelection.length+1);
-                mapsSelection[mapsSelection.length-1] = ffp.getName();
-            }
-        }
-        uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
-    }
-
-    public static void getPrefabsSelection() {
-        File fp = new File(eUtils.getPath(""));
-        File[] fpContents = fp.listFiles();
-        for(File ffp : fpContents) {
-            if(ffp.isFile() && !ffp.getName().toLowerCase().contains(sVars.get("defaultmap").toLowerCase())
-                    && ffp.getName().split("\\.")[1].equalsIgnoreCase(
-                    sVars.get("mapextension").replace(".",""))) {
-                mapsSelection = Arrays.copyOf(mapsSelection,mapsSelection.length+1);
-                mapsSelection[mapsSelection.length-1] = ffp.getName();
-            }
-        }
-        uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
-        fp = new File(eUtils.getPath("sounds/win"));
-        fpContents = fp.listFiles();
-        for(File ffp : fpContents) {
-            if(ffp.isFile()) {
-                winClipSelection = Arrays.copyOf(winClipSelection,winClipSelection.length+1);
-                winClipSelection[winClipSelection.length-1] = ffp.getName();
-            }
-        }
-    }
-
 	public static void updateEntityPositions() {
         for(String id : gScene.getPlayerIds()) {
             gPlayer obj = gScene.getPlayerById(id);
