@@ -6,6 +6,7 @@ public class xComPutCollision extends xCom {
             String xarrString = toks[1];
             String yarrString = toks[2];
             String npointsString = toks[3];
+
             String[] args = new String[]{xarrString, yarrString, npointsString};
             gDoableCollisionReturn collisionReturn = factory.collisionLoader;
             collisionReturn.storeCollision(collisionReturn.getCollision(args), eManager.currentMap.scene);
