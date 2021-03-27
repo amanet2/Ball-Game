@@ -28,23 +28,7 @@ public class dTileTops {
 //                            null);
 //                }
             }
-            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
-            for(String tag : squareMap.keySet()) {
-                gBlockCube block = (gBlockCube) squareMap.get(tag);
-                if(block.contains("toph") && block.isZero("backtop")) {
-                    dBlockTops.drawBlockTopCube(g2, block);
-                }
-                if(block.contains("wallh") && block.isOne("frontwall")) {
-                    gPlayer userplayer = cGameLogic.userPlayer();
-                    if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                > userplayer.getInt("coordy"))
-                            dBlockWalls.drawBlockWallCube(g2, block);
-                    }
-                    else
-                        dBlockWalls.drawBlockWallCube(g2, block);
-                }
-            }
+            HashMap<String, gThing> squareMap;
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
@@ -199,6 +183,23 @@ public class dTileTops {
                 }
                 if(block.contains("toph") && block.isZero("backtop")) {
                     dBlockTops.drawBlockTopCornerLL(g2, block);
+                }
+            }
+            squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
+            for(String tag : squareMap.keySet()) {
+                gBlockCube block = (gBlockCube) squareMap.get(tag);
+                if(block.contains("toph") && block.isZero("backtop")) {
+                    dBlockTops.drawBlockTopCube(g2, block);
+                }
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCube(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCube(g2, block);
                 }
             }
             //draw the grid OVER everything
