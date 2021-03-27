@@ -93,40 +93,21 @@ public class gMap {
             HashMap<String, gThing> collisionMap = scene.getThingMap("THING_COLLISION");
             for(String id : collisionMap.keySet()) {
                 gCollision collision = (gCollision) collisionMap.get(id);
-                String xString = "";
-                String yString = "";
+                StringBuilder xString = new StringBuilder();
+                StringBuilder yString = new StringBuilder();
                 for(int i = 0; i < collision.xarr.length; i++) {
-                    String ws = "$1";
                     int coordx = collision.xarr[i];
-                    if(coordx < 0) {
-                        ws += Integer.toString(coordx);
-                    }
-                    else if(coordx > 0) {
-                        ws += "+";
-                        ws += Integer.toString(coordx);
-                    }
-                    ws += ".";
-                    xString += ws;
+                    xString.append(coordx).append(".");
                 }
-                xString = xString.substring(0, xString.lastIndexOf("."));
+                xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
                 for(int i = 0; i < collision.yarr.length; i++) {
-                    String ws = "$2";
                     int coordy = collision.yarr[i];
-                    if(coordy < 0) {
-                        ws += Integer.toString(coordy);
-                    }
-                    else if(coordy > 0) {
-                        ws += "+";
-                        ws += Integer.toString(coordy);
-                    }
-                    ws += ".";
-                    yString += ws;
+                    yString.append(coordy).append(".");
                 }
-                yString = yString.substring(0, yString.lastIndexOf("."));
-
+                yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
                 String[] args = new String[]{
-                        xString,
-                        yString,
+                        xString.toString(),
+                        yString.toString(),
                         Integer.toString(collision.npoints)
                 };
                 StringBuilder str = new StringBuilder("putcollision");
@@ -172,7 +153,7 @@ public class gMap {
     public void exportasprefab(String filename) {
         System.out.println("EXPORTED AS PREFAB " + filename);
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(sVars.get("prefabspath") + "/" + filename), StandardCharsets.UTF_8))) {
+                new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
                 gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
                 int coordx = block.getInt("coordx");
