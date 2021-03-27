@@ -16,12 +16,13 @@ public class gScene {
             "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOST", "PROP_FLAGBLUE",
             "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK", "BLOCK_CUBE", "BLOCK_FLOOR",
             "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL", "THING_PREFAB", "PREFAB_CAGE",
-            "PREFAB_CAGEB"
+            "PREFAB_CAGEB", "THING_COLLISION"
     };
 
 	HashMap<String, ArrayList> objectLists;
 	HashMap<String, HashMap> objectMaps;
 	int blockIdCtr;
+	int collisionIdCtr;
 
 	public gScene() {
 		objectLists = new HashMap<>();
@@ -30,6 +31,7 @@ public class gScene {
 			objectLists.put(s, new ArrayList<>());
             objectMaps.put(s, new HashMap<>());
             blockIdCtr = 0;
+            collisionIdCtr = 0;
         }
 	}
 
