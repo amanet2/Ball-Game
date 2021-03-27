@@ -1,15 +1,13 @@
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
 	static gMap currentMap = new gMap();
 	static String[] mapsSelection;
 	static String[] winClipSelection;
+	static String[] prefabSelection;
 
 
 	public static String[] getFilesSelection(String dirPath) {
