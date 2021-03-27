@@ -30,7 +30,7 @@ public class dWaypoints {
                     }
             };
             g2.fillPolygon(polygondims[0],polygondims[1], 4);
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             g2.setColor(new Color(255,100,50,220));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
@@ -66,7 +66,7 @@ public class dWaypoints {
                 g2.setColor(new Color(255,100,50,150));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.setColor(new Color(255,100,50,220));
-                g2.setStroke(new BasicStroke(eUtils.scaleInt(8)));
+                g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.setTransform(backup);
             }

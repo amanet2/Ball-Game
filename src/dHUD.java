@@ -7,7 +7,7 @@ public class dHUD {
         if(userPlayer == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(10)));
+        g2.setStroke(dFonts.hudStroke);
         //camera indicator
         if(!cVars.isInt("cammode", gCamera.MODE_TRACKING)) {
             dFonts.setFontNormal(g);

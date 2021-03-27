@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dBlockTopsShading {
     public static void drawBlockTopShadingCube(Graphics2D g2, gBlockCube block) {
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+        g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
             GradientPaint gradient = new GradientPaint(
@@ -43,7 +43,7 @@ public class dBlockTopsShading {
     }
 
     public static void drawBlockTopShadingCorner(Graphics2D g2, gBlock block, Polygon p) {
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+        g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
             GradientPaint gradient = new GradientPaint(

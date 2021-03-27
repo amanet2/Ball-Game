@@ -85,7 +85,7 @@ public class dBlockShadows {
     
     public static void drawShadowBlockFlat(Graphics2D g2, gBlock block) {
         if(sVars.isOne("vfxenableshadows")) {
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             if (block.getInt("wallh") + block.getInt("toph") == block.getInt("dimh")) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2

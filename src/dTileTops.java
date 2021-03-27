@@ -248,7 +248,7 @@ public class dTileTops {
                             eUtils.scaleInt(t.getInt("dim3h"))
                     );
                 }
-                g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                g2.setStroke(dFonts.thickStroke);
                 g2.setColor(new Color(0, 0, 0, 255));
                 if (sVars.isOne("vfxenableshading")) {
                     dTileTopsShading.drawTileTopShadingPre(g2, t);
@@ -396,7 +396,7 @@ public class dTileTops {
                     new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
                             coordy + polygonBase[1][2]*polygonSize}
             };
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
             g2.setColor(new Color(0,150,50, 255));
             g2.drawPolygon(pg);

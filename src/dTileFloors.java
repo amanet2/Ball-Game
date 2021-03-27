@@ -26,7 +26,7 @@ public class dTileFloors {
                                 eUtils.scaleInt(tile.getInt("dimw")),
                                 eUtils.scaleInt(tile.getInt("dimh"))
                         );
-                        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                        g2.setStroke(dFonts.thickStroke);
                         gradient = new GradientPaint(
                                 eUtils.scaleInt(tile.getInt("coordx") + tile.getInt("dimw") / 2
                                         - cVars.getInt("camx")),

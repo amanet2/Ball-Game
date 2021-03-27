@@ -27,7 +27,6 @@ public class cVars {
         put("disconnecting", "0");
         put("exitteleportertag", "-1");
         put("fallkilltime", "800");
-        put("falltime", "0");
         put("flagmasterid", "");
         put("flagmastertime", "0");
         put("flashlight", "0");

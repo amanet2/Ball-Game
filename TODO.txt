@@ -4,22 +4,22 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
 * keep gravity, but only kick in when player is on "backwall" sections of blocks
-    -> could simulate dropping down from a backtop to the floor or another backtop
-* get rid of "falltime" cvar
-* get rid of the "mapview" distinction
+    -> could simulate dropping down from a backtop to the floor below
 * PREFAB: click-to-place prefab in map editor
 * PREFAB: console command to delete prefab
     -> need blocks to be associated with prefab
         -> have prefab_id in each block that can be -1 or have an int
     -> repurpose "putprefab" to take in the files, that will be a better entrypoint than "exec"
+        -> we will do the "prefabid" assignment in there
 20210317
 * draw where hitboxes will be on blocks
     -> draw red outline
     -> make console svar flag
 * create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
     -> or just keep using the current form
-* add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
+* add a "backtop" arg for raised elements we want to walk on top of (like the pyramid in bomberman64)
 * FOR FUTURE
     -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
