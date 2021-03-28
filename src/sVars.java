@@ -24,6 +24,7 @@ public class sVars {
         keys.put("defaulttitle", "Ball Game");
         keys.put("drawmapmakergrid", "1");
         keys.put("drawhitboxes", "1");
+        keys.put("drawplayerarrow", "0");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
         keys.put("fontcolorbonus", "50,220,100,200");
@@ -46,7 +47,6 @@ public class sVars {
         keys.put("ratebots", "30");
         keys.put("rateclient", "30");
         keys.put("rateserver", "500");
-        keys.put("playerarrow", "0");
         keys.put("playercolor", "blue");
         keys.put("playerhat", "none");
         keys.put("playername", "player");

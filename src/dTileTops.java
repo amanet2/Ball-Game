@@ -408,21 +408,24 @@ public class dTileTops {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sVars.isOne("playerarrow")) {
+        if(sVars.isOne("drawplayerarrow")) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
-            int coordx = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordx")) - cVars.getInt("camx"));
-            int coordy = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordy")) - cVars.getInt("camy")
+            int midx = eUtils.scaleInt(userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2
+                    - cVars.getInt("camx"));
+            int coordy = eUtils.scaleInt(userPlayer.getInt("coordy") - cVars.getInt("camy")
                     - 200);
             int[][] polygonBase = new int[][]{
-                    new int[]{0,2,1},
+                    new int[]{1,1,1},
                     new int[]{0,0,1}
             };
             int polygonSize = sSettings.width/32;
             int[][] polygon = new int[][]{
-                    new int[]{coordx + polygonBase[0][0]*polygonSize, coordx + polygonBase[0][1]*polygonSize,
-                            coordx + polygonBase[0][2]*polygonSize},
+                    new int[]{midx - polygonBase[0][0]*polygonSize,
+                            midx + polygonBase[0][1]*polygonSize,
+                            midx
+                    },
                     new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
                             coordy + polygonBase[1][2]*polygonSize}
             };
