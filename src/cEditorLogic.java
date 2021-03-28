@@ -56,9 +56,10 @@ public class cEditorLogic {
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem newtopmap = new JMenuItem("Map/Prefab");
         JMenuItem showControls = new JMenuItem("Show Controls");
-        JMenuItem sceneObjs = new JMenuItem("Scene Tiles");
         JMenuItem sceneProps = new JMenuItem("Scene Props");
         JMenuItem sceneFlares = new JMenuItem("Scene Flares");
+        JMenuItem sceneBlocks = new JMenuItem("Scene Blocks");
+        JMenuItem sceneCollisions = new JMenuItem("Scene Collisions");
         JMenuItem setNewTileDimensions = new JMenuItem("Set New Tile Dimensions");
         JMenuItem setSelectedTileDimensions = new JMenuItem("Set Selected Tile Dimensions");
         JMenuItem transferThingDimensions = new JMenuItem("Inject Copied Dimensions Into Selected Tile");
@@ -81,7 +82,8 @@ public class cEditorLogic {
         menus.get("New").add(newtopmap);
         menus.get("Edit").add(editorUndo);
         menus.get("Edit").add(editorRedo);
-        menus.get("Scene").add(sceneObjs);
+        menus.get("Scene").add(sceneBlocks);
+        menus.get("Scene").add(sceneCollisions);
         menus.get("Scene").add(sceneProps);
         menus.get("Scene").add(sceneFlares);
         menus.get("Current Tile").add(state.selectedTileMenuItem);
@@ -146,9 +148,10 @@ public class cEditorLogic {
         addConsoleActionToJMenuItem(setCreateFlareDims,"e_newflare");
         addConsoleActionToJMenuItem(setSelectedFlareDims,"e_setselectedflare");
         addConsoleActionToJMenuItem(showControls,"e_showcontrols");
-        addConsoleActionToJMenuItem(sceneObjs,"e_showtiles");
         addConsoleActionToJMenuItem(sceneProps,"e_showprops");
         addConsoleActionToJMenuItem(sceneFlares,"e_showflares");
+        addConsoleActionToJMenuItem(sceneBlocks,"showblocks");
+        addConsoleActionToJMenuItem(sceneCollisions,"showcollisions");
         addConsoleActionToJMenuItem(editorUndo,"e_undo");
         addConsoleActionToJMenuItem(editorRedo,"-e_undo");
         addConsoleActionToJMenuItem(setSVarsEditor,"e_setsvars");

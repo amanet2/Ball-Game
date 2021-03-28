@@ -178,7 +178,6 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("e_showprops", new xComEditorShowProps());
         commands.put("e_showexecs", new xComEditorShowExecs());
-        commands.put("e_showtiles", new xComEditorShowTiles());
         commands.put("e_tiledown", new xComEditorTileDown());
         commands.put("e_tileup", new xComEditorTileUp());
         commands.put("e_undo", new xComEditorUndo());
@@ -221,6 +220,8 @@ public class xCon {
         commands.put("selectup", new xComSelectUp());
         commands.put("sendcmd", new xComSendCmd());
         commands.put("set", new xComSet());
+        commands.put("showblocks", new xComShowBlocks());
+        commands.put("showcollisions", new xComShowCollisions());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
