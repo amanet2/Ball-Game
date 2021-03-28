@@ -26,20 +26,12 @@ public class cEditorLogic {
         createNewMenu("Blocks");
         createNewMenu("Collisions");
         createNewMenu("Prefabs");
-        createNewMenu("Tiles"); //getting rid of you... eventually
         createNewMenu("Props");
         createNewMenu("Flares");
         createNewMenu("Scene");
         createNewMenu("Settings");
         createNewSubmenu("File", "New");
-        createNewSubmenu("Tiles", "Current Tile");
-        createNewSubmenu("Tiles","Tile Selection");
-        createNewSubmenu("Tiles", "Textures");
         createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
-        createNewSubmenu("Textures", "Current Textures");
-        createNewSubmenu("Textures", "top_textures");
-        createNewSubmenu("Textures", "wall_textures");
-        createNewSubmenu("Textures", "floor_textures");
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
         createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
@@ -60,12 +52,6 @@ public class cEditorLogic {
         JMenuItem sceneFlares = new JMenuItem("Scene Flares");
         JMenuItem sceneBlocks = new JMenuItem("Scene Blocks");
         JMenuItem sceneCollisions = new JMenuItem("Scene Collisions");
-        JMenuItem setNewTileDimensions = new JMenuItem("Set New Tile Dimensions");
-        JMenuItem setSelectedTileDimensions = new JMenuItem("Set Selected Tile Dimensions");
-        JMenuItem transferThingDimensions = new JMenuItem("Inject Copied Dimensions Into Selected Tile");
-        JMenuItem moveTileDown = new JMenuItem("Move Selected Tile Down 1 Layer");
-        JMenuItem moveTileUp = new JMenuItem("Move Selected Tile Up 1 Layer");
-        JMenuItem copySelectedThingDimensions = new JMenuItem("Copy Selected Tile Dimensions");
         JMenuItem setCreatePropInts = new JMenuItem("Set New Prop Settings");
         JMenuItem setSelectedPropInts = new JMenuItem("Edit Selected Prop Settings");
         JMenuItem setCreateFlareDims = new JMenuItem("Set New Flare Dimensions");
@@ -86,16 +72,6 @@ public class cEditorLogic {
         menus.get("Scene").add(sceneCollisions);
         menus.get("Scene").add(sceneProps);
         menus.get("Scene").add(sceneFlares);
-        menus.get("Current Tile").add(state.selectedTileMenuItem);
-        menus.get("Current Textures").add(state.selectedTextureMenuItems[0]);
-        menus.get("Current Textures").add(state.selectedTextureMenuItems[1]);
-        menus.get("Current Textures").add(state.selectedTextureMenuItems[2]);
-        menus.get("Tiles").add(setNewTileDimensions);
-        menus.get("Tiles").add(setSelectedTileDimensions);
-        menus.get("Tiles").add(copySelectedThingDimensions);
-        menus.get("Tiles").add(transferThingDimensions);
-        menus.get("Tiles").add(moveTileDown);
-        menus.get("Tiles").add(moveTileUp);
         menus.get("Props").add(setCreatePropInts);
         menus.get("Props").add(setSelectedPropInts);
         menus.get("Flares").add(setCreateFlareDims);
@@ -137,12 +113,6 @@ public class cEditorLogic {
         });
 
         addConsoleActionToJMenuItem(exit,"quit");
-        addConsoleActionToJMenuItem(setNewTileDimensions,"e_newtile");
-        addConsoleActionToJMenuItem(setSelectedTileDimensions,"e_setselectedtile");
-        addConsoleActionToJMenuItem(copySelectedThingDimensions,"e_copytile");
-        addConsoleActionToJMenuItem(transferThingDimensions,"e_pastetile");
-        addConsoleActionToJMenuItem(moveTileDown,"e_tiledown");
-        addConsoleActionToJMenuItem(moveTileUp,"e_tileup");
         addConsoleActionToJMenuItem(setCreatePropInts,"e_newprop");
         addConsoleActionToJMenuItem(setSelectedPropInts,"e_setselectedprop");
         addConsoleActionToJMenuItem(setCreateFlareDims,"e_newflare");
@@ -167,24 +137,6 @@ public class cEditorLogic {
         addPrefMenuItem("Nearest Y Coord","15");
         addPrefMenuItem("Nearest Y Coord","30");
 
-        for(String s : gTiles.tile_selection) {
-            JMenuItem newmenuitem = new JMenuItem(s);
-            newmenuitem.addActionListener(e -> {
-                state.selectedTitle = s;
-                state.selectedTileMenuItem.setText(state.selectedTitle);
-                gTiles.setCreateDimsForTile(s);
-            });
-            menus.get("Tile Selection").add(newmenuitem);
-        }
-        for(String s : gTextures.selection_top) {
-            addTextureMenuItem("top_textures",s);
-        }
-        for(String s : gTextures.selection_wall) {
-            addTextureMenuItem("wall_textures",s);
-        }
-        for(String s : gTextures.selection_floor) {
-            addTextureMenuItem("floor_textures",s);
-        }
         for(String s : gProps.titles) {
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
@@ -193,7 +145,7 @@ public class cEditorLogic {
             });
             menus.get("Props").getItem(0).add(newmenuitem);
         }
-        for(String s : new String[]{"THING_TILE", "THING_PROP", "THING_FLARE"}){
+        for(String s : new String[]{"THING_BLOCK", "THING_COLLISION", "THING_PROP", "THING_FLARE"}){
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);
