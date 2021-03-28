@@ -48,9 +48,9 @@ public class dPlayer {
                         //solid ring
                         g2.setColor(new Color(rgb[0], rgb[1], rgb[2]));
                         g2.fillOval(
-                                eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx")
+                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
                                         - e.getInt("dimw")/16),
-                                eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy")
+                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
                                         - e.getInt("dimw")/16),
                                 eUtils.scaleInt(e.getInt("dimw") + e.getInt("dimw")/8),
                                 eUtils.scaleInt(e.getInt("dimh") + e.getInt("dimw")/8)
@@ -123,25 +123,25 @@ public class dPlayer {
                             eUtils.scaleInt(e.getInt("dimh")));
                 }
                 //player weapon
-//                AffineTransform backup = g2.getTransform();
-//                AffineTransform a = g2.getTransform();
-//                a.rotate(e.getDouble("fv")-Math.PI/2,
-//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
-//                                + e.getInt("dimw") / 2),
-//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-//                                + e.getInt("dimh") / 2)
-//                );
-//                g2.setTransform(a);
-//                int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
-//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
-//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
-//                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
-//                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
-//                                - cVars.getInt("camy")-diff),
-//                        null);
-//                g2.setTransform(backup);
+                AffineTransform backup = g2.getTransform();
+                AffineTransform a = g2.getTransform();
+                a.rotate(e.getDouble("fv")-Math.PI/2,
+                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+                                + e.getInt("dimw") / 2),
+                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                + e.getInt("dimh") / 2)
+                );
+                g2.setTransform(a);
+                int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
+                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
+                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
+                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
+                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
+                                - cVars.getInt("camx")),
+                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
+                                - cVars.getInt("camy")-diff),
+                        null);
+                g2.setTransform(backup);
             }
         }
         catch (Exception e) {

@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* console parsing while weapon in player hand
+    -> dont want this
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
 * add "collision shape" that you can place in the map -> free yourself from rigid block-based bounds

@@ -96,8 +96,8 @@ public class uiInterface {
         eManager.prefabSelection = eManager.getFilesSelection(eUtils.getPath("prefabs"));
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
-            xCon.ex("cv_camx -6000");
-            xCon.ex("cv_camy -6000");
+            cVars.putInt("camx", -6000);
+            cVars.putInt("camy", -6000);
         }
 	    else {
 //            xCon.ex("load "+ sVars.get("defaultmap"));
