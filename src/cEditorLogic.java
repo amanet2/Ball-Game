@@ -205,17 +205,17 @@ public class cEditorLogic {
                     if(cGameMode.net_gamemode_texts[j].equals(newmenuitem.getText()))
                         cVars.putInt("gamemode", j);
                 }
-                menus.get("Scene").getItem(1).setText("Game Mode: "
+                menus.get("Scene").getItem(0).setText("Game Mode: "
                         + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
             });
-            menus.get("Scene").getItem(1).add(newmenuitem);
+            menus.get("Scene").getItem(0).add(newmenuitem);
         }
         JMenuItem addexecmenuitem = new JMenuItem("Add New Exec");
         JMenuItem showexecsmenuitem = new JMenuItem("View All");
         addConsoleActionToJMenuItem(showexecsmenuitem, "e_showexecs");
         addConsoleActionToJMenuItem(addexecmenuitem, "-e_showexecs");
-        menus.get("Scene").getItem(3).add(addexecmenuitem);
-        menus.get("Scene").getItem(3).add(showexecsmenuitem);
+        menus.get("Scene").getItem(2).add(addexecmenuitem);
+        menus.get("Scene").getItem(2).add(showexecsmenuitem);
         for(String s : cBotsLogic.behaviors()) {
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
@@ -226,9 +226,9 @@ public class cEditorLogic {
                         cVars.put("botbehavior", b);
                     }
                 }
-                menus.get("Scene").getItem(2).setText("Bot Behavior: " + b);
+                menus.get("Scene").getItem(1).setText("Bot Behavior: " + b);
             });
-            menus.get("Scene").getItem(2).add(newmenuitem);
+            menus.get("Scene").getItem(1).add(newmenuitem);
         }
     }
 
