@@ -136,15 +136,6 @@ public class cScripts {
     public static synchronized void selectThingUnderMouse(int objType) {
         int[] mc = getMouseCoordinates();
         switch (objType) {
-            case gScene.THING_TILE:
-                for (int i=eManager.currentMap.scene.tiles().size()-1; i >= 0; i--) {
-                    gTile t = eManager.currentMap.scene.tiles().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedTileId != i)) {
-                        xCon.ex(String.format("e_selecttile %d", i));
-                        return;
-                    }
-                }
-                break;
             case gScene.THING_PROP:
                 for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
                     gProp t = eManager.currentMap.scene.props().get(i);
@@ -162,8 +153,6 @@ public class cScripts {
                         return;
                     }
                 }
-                break;
-            default:
                 break;
         }
     }
@@ -332,30 +321,8 @@ public class cScripts {
                                 -cEditorLogic.state.newFlare.getInt("dimh")/2,
                         cEditorLogic.state.snapToY);
                 return new int[]{propx, propy};
-            default:
-                return new int[]{eUtils.roundToNearest(
-                        eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                                - cEditorLogic.state.newTile.getInt("dimh")/2, cEditorLogic.state.snapToX),
-                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                        - cEditorLogic.state.newTile.getInt("dimh")/2,
-                                cEditorLogic.state.snapToY)};
         }
-    }
-
-    public static void moveTileDown(int tag) {
-        if(tag > 0) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag-1);
-            eManager.currentMap.scene.tiles().set(tag-1, eManager.currentMap.scene.tiles().get(tag));
-            eManager.currentMap.scene.tiles().set(tag, tmp);
-        }
-    }
-
-    public static void movetileUp(int tag) {
-        if(tag < eManager.currentMap.scene.tiles().size()-1) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag+1);
-            eManager.currentMap.scene.tiles().set(tag+1, eManager.currentMap.scene.tiles().get(tag));
-            eManager.currentMap.scene.tiles().set(tag, tmp);
-        }
+        return mc;
     }
 
     public static void setupGame() {

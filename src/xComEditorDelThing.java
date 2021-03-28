@@ -31,20 +31,6 @@ public class xComEditorDelThing extends xCom {
                     }
                 }
                 break;
-            default:
-                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedTileId;
-                if(eManager.currentMap.scene.tiles().size() > toRemove) {
-                    try {
-                        eManager.currentMap.scene.tiles().remove(eManager.currentMap.scene.tiles().get(toRemove));
-                        if(eManager.currentMap.scene.tiles().size() > 0)
-                            xCon.ex(String.format("HIDDEN e_selecttile %d",
-                                    eManager.currentMap.scene.tiles().size() - 1));
-                    } catch (Exception e) {
-                        eUtils.echoException(e);
-                        e.printStackTrace();
-                    }
-                }
-                break;
         }
         return "deleted " + toRemove;
     }

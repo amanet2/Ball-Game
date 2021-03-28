@@ -9,10 +9,7 @@ public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(30,30, "",
-            new JMenuItem(""),0,0,0, gScene.THING_TILE,
-            new gTile(0, 0, 1200, 1200,  100, 150, 1200, 100, 150, 100,
-                    100, "none", "none", "none", 255),
+    static cEditorLogicState state = new cEditorLogicState(30,30,0,0, gScene.THING_TILE,
             new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
@@ -45,7 +42,7 @@ public class cEditorLogic {
         JMenuItem save = new JMenuItem("Save");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
         JMenuItem newtopmap = new JMenuItem("Map/Prefab");
         JMenuItem showControls = new JMenuItem("Show Controls");
         JMenuItem sceneProps = new JMenuItem("Scene Props");
@@ -199,25 +196,6 @@ public class cEditorLogic {
         menus.get(title).add(newmenu);
     }
 
-    private static void addTextureMenuItem(String menutitle, String title) {
-        JMenuItem newmenuitem = new JMenuItem(title);
-        newmenuitem.addActionListener(e -> {
-            if(menutitle.contains("top")) {
-                state.newTile.put("sprite0", title);
-                state.selectedTextureMenuItems[0].setText(title);
-            }
-            else if(menutitle.contains("wall")) {
-                state.newTile.put("sprite1", title);
-                state.selectedTextureMenuItems[1].setText(title);
-            }
-            else if(menutitle.contains("floor")) {
-                state.newTile.put("sprite2", title);
-                state.selectedTextureMenuItems[2].setText(title);
-            }
-        });
-        menus.get(menutitle).add(newmenuitem);
-    }
-
     private static void addPrefMenuItem(String menutitle, String title) {
         JMenuItem newmenuitem = new JMenuItem(title);
         newmenuitem.addActionListener(e -> {
@@ -242,22 +220,16 @@ public class cEditorLogic {
     public static void setEditorState(cEditorLogicState newstate) {
         state.snapToX = newstate.snapToX;
         state.snapToY = newstate.snapToY;
-        state.selectedTitle = newstate.selectedTitle;
-        state.selectedTileMenuItem = newstate.selectedTileMenuItem;
-        state.selectedTextureMenuItems = newstate.selectedTextureMenuItems;
-        state.selectedTileId = newstate.selectedTileId;
         state.selectedPropId = newstate.selectedPropId;
         state.selectedFlareTag = newstate.selectedFlareTag;
         state.createObjCode = newstate.createObjCode;
-        state.newTile = newstate.newTile;
         state.newProp = newstate.newProp;
         state.newFlare = newstate.newFlare;
         eManager.currentMap.scene = newstate.mapScene;
     }
 
     public static cEditorLogicState getEditorState() {
-        return new cEditorLogicState(state.snapToX, state.snapToY, state.selectedTitle, state.selectedTileMenuItem,
-                state.selectedTileId, state.selectedPropId, state.selectedFlareTag, state.createObjCode, state.newTile,
-                state.newProp, state.newFlare, eManager.currentMap.scene.copy());
+        return new cEditorLogicState(state.snapToX, state.snapToY, state.selectedPropId, state.selectedFlareTag,
+                state.createObjCode, state.newProp, state.newFlare, eManager.currentMap.scene.copy());
     }
 }

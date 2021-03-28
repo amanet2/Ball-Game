@@ -33,28 +33,6 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.newFlare.get("r2"), cEditorLogic.state.newFlare.get("g2"),
                                 cEditorLogic.state.newFlare.get("b2"), cEditorLogic.state.newFlare.get("a2")));
                         break;
-                    default:
-                        int tw = cEditorLogic.state.newTile.getInt("dimw");
-                        int th = cEditorLogic.state.newTile.getInt("dimh");
-                        int tx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - tw/2,
-                                cEditorLogic.state.snapToX);
-                        int ty = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - th/2,
-                                cEditorLogic.state.snapToY);
-                        xCon.ex(
-                            String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %s",
-                                    cEditorLogic.state.newTile.get("sprite0"),
-                                    cEditorLogic.state.newTile.get("sprite1"),
-                                    cEditorLogic.state.newTile.get("sprite2"),
-                                    tx, ty, tw, th,
-                                    cEditorLogic.state.newTile.getInt("dim0h"),
-                                    cEditorLogic.state.newTile.getInt("dim1h"),
-                                    cEditorLogic.state.newTile.getInt("dim2h"),
-                                    cEditorLogic.state.newTile.getInt("dim3h"),
-                                    cEditorLogic.state.newTile.getInt("dim4h"),
-                                    cEditorLogic.state.newTile.getInt("dim5w"),
-                                    cEditorLogic.state.newTile.getInt("dim6w"),
-                                    cEditorLogic.state.newTile.get("brightness")));
-                        break;
                 }
             }
             else if(uiMenus.gobackSelected) {

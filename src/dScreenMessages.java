@@ -68,28 +68,9 @@ public class dScreenMessages {
             // create tile
             g.drawString("New Thing Type: " + gScene.object_titles[cEditorLogic.state.createObjCode],
                     0, 11 * sSettings.height / 64);
-            String thingdims = String.format("[%s,%s]", cEditorLogic.state.newTile.get("dimw"),
-                    cEditorLogic.state.newTile.get("dimh"));
-            if(cEditorLogic.state.createObjCode == gScene.THING_PROP)
-                thingdims = String.format("[%s,%s]", cEditorLogic.state.newProp.get("dimw"),
-                        cEditorLogic.state.newProp.get("dimh"));
-            if(cEditorLogic.state.createObjCode == gScene.THING_FLARE)
-                thingdims = String.format("[%s,%s]", cEditorLogic.state.newFlare.get("dimw"),
-                        cEditorLogic.state.newFlare.get("dimh"));
-            g.drawString(String.format("New Thing Dims: %s", thingdims), 0, 12 * sSettings.height / 64);
             // selected tile
             g.drawString("Selected Thing Details:",0,14*sSettings.height/64);
             g.drawString("---",0,15*sSettings.height/64);
-            if(cEditorLogic.state.createObjCode == gScene.THING_TILE
-            && cEditorLogic.state.selectedTileId < eManager.currentMap.scene.tiles().size()) {
-                gTile t = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
-                int c = 0;
-                for(String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)),0,(16+c)*sSettings.height/64);
-                    c++;
-                }
-            }
             if(cEditorLogic.state.createObjCode == gScene.THING_PROP
                     && cEditorLogic.state.selectedPropId < eManager.currentMap.scene.props().size()) {
                 gProp t = eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId);
