@@ -6,9 +6,6 @@
 20210322
 * MAPMAKER: objects need to be placed at topleft corner of that box on click
 * need to be able to delete collisions
-* look at old "addtexturemenuitem" to see how to fill prefabs menu with prefabs
-    -> use a checkmark or a "current" arg?
-        -> checkmark
 * weapons dont appear on other clients' screen
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
