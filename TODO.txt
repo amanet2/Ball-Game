@@ -4,12 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
-* console parsing while weapon in player hand
-    -> dont want this
+* MAPMAKER: objects need to be placed at topleft corner of that box on click
+* need to be able to delete collisions
+* look at old "addtexturemenuitem" to see how to fill prefabs menu with prefabs
+    -> use a checkmark or a "current" arg?
+        -> checkmark
+* weapons dont appear on other clients' screen
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
-* add "collision shape" that you can place in the map -> free yourself from rigid block-based bounds
-    -> shapes: FLAT, CORNERUR, CORNERUL
 * add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
 * keep gravity, but only kick in when player is on "backwall" sections of blocks
     -> could simulate dropping down from a backtop to the floor below
@@ -33,8 +35,6 @@
 * OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
  collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
     -> use the same shape as the blockTop section
-* add a final int for "clip" in the create_string of blocks
-* draw hat under blocktop
 * be able to jump in all directions
 * props dont use the propDoable.getProp() function never
 * bots respawning properly for single client

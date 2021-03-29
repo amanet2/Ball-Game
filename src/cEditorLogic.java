@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -9,10 +10,11 @@ public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(30,30,0,0, gScene.THING_TILE,
+    static cEditorLogicState state = new cEditorLogicState(25,25,0,0, gScene.THING_PROP,
             new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
+    static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
 
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
@@ -109,6 +111,22 @@ public class cEditorLogic {
             }
         });
 
+        //fill prefabs menu
+        for(String prefabname : eManager.prefabSelection) {
+            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
+            prefabmenuitem.addActionListener(e -> {
+                cVars.put("mapmaker_selectedprefabname", prefabname);
+                for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
+                    checkBoxMenuItem.setSelected(false);
+                    if(checkBoxMenuItem.getText().equals(cVars.get("mapmaker_selectedprefabname"))) {
+                        checkBoxMenuItem.setSelected(true);
+                    }
+                }
+            });
+            prefabCheckboxMenuItems.add(prefabmenuitem);
+            menus.get("Prefabs").add(prefabmenuitem);
+        }
+
         addConsoleActionToJMenuItem(exit,"quit");
         addConsoleActionToJMenuItem(setCreatePropInts,"e_newprop");
         addConsoleActionToJMenuItem(setSelectedPropInts,"e_setselectedprop");
@@ -126,13 +144,15 @@ public class cEditorLogic {
         addPrefMenuItem("Nearest X Coord","1");
         addPrefMenuItem("Nearest X Coord","5");
         addPrefMenuItem("Nearest X Coord","10");
-        addPrefMenuItem("Nearest X Coord","15");
-        addPrefMenuItem("Nearest X Coord","30");
+        addPrefMenuItem("Nearest X Coord","25");
+        addPrefMenuItem("Nearest X Coord","50");
+        addPrefMenuItem("Nearest X Coord","100");
         addPrefMenuItem("Nearest Y Coord","1");
         addPrefMenuItem("Nearest Y Coord","5");
         addPrefMenuItem("Nearest Y Coord","10");
-        addPrefMenuItem("Nearest Y Coord","15");
-        addPrefMenuItem("Nearest Y Coord","30");
+        addPrefMenuItem("Nearest Y Coord","25");
+        addPrefMenuItem("Nearest Y Coord","50");
+        addPrefMenuItem("Nearest Y Coord","100");
 
         for(String s : gProps.titles) {
             JMenuItem newmenuitem = new JMenuItem(s);
@@ -142,7 +162,7 @@ public class cEditorLogic {
             });
             menus.get("Props").getItem(0).add(newmenuitem);
         }
-        for(String s : new String[]{"THING_BLOCK", "THING_COLLISION", "THING_PROP", "THING_FLARE"}){
+        for(String s : new String[]{"THING_BLOCK", "THING_COLLISION", "THING_PREFAB", "THING_PROP", "THING_FLARE"}){
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);

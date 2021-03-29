@@ -33,6 +33,15 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.newFlare.get("r2"), cEditorLogic.state.newFlare.get("g2"),
                                 cEditorLogic.state.newFlare.get("b2"), cEditorLogic.state.newFlare.get("a2")));
                         break;
+                    case gScene.THING_PREFAB:
+                        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx"),
+                                cEditorLogic.state.snapToX);
+                        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy"),
+                                cEditorLogic.state.snapToY);
+                        xCon.ex(String.format("exec %s/prefabs/%s %d %d",
+                                sVars.get("datapath"), cVars.get("mapmaker_selectedprefabname"),
+                                pfx, pfy));
+                        break;
                 }
             }
             else if(uiMenus.gobackSelected) {

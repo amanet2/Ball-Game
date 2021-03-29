@@ -7,13 +7,14 @@ public class dProp {
         if(cVars.isOne("maploaded")) {
             for(gProp prop : eManager.currentMap.scene.props()) {
                 if (prop.sprite != null) {
-                    if (prop.isInt("code", gProps.TELEPORTER)) {
-                        if (prop.getDouble("fv") < 2 * Math.PI) {
-                            prop.putDouble("fv", prop.getDouble("fv")+0.1);
-                        } else {
-                            prop.putDouble("fv", 0.0);
-                        }
-                    }
+//                    //rotate teleporter
+//                    if (prop.isInt("code", gProps.TELEPORTER)) {
+//                        if (prop.getDouble("fv") < 2 * Math.PI) {
+//                            prop.putDouble("fv", prop.getDouble("fv")+0.1);
+//                        } else {
+//                            prop.putDouble("fv", 0.0);
+//                        }
+//                    }
                     AffineTransform backup = g2.getTransform();
                     AffineTransform a = g2.getTransform();
                     a.rotate(prop.getDouble("fv"),
