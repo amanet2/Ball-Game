@@ -13,10 +13,7 @@ public class dPanel extends JPanel {
         removeAll();
         //drawpanel
         Graphics2D g2 = (Graphics2D) g;
-        if(panelLevel == 1)
-            drawFrame(g2, 1);
-        else
-            drawFrame(g2, 0);
+        drawFrame(g2, panelLevel);
         g2.dispose();
         g.dispose();
     }
