@@ -18,7 +18,9 @@ public class vFrameFactory {
             dPlayer.drawPlayers(g2);
             dTileTops.drawTops(g2);
             //mapmaker indicators
-            dMapmakerOverlay.drawSelectionBoxes(g2);
+            if(sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                dMapmakerOverlay.drawSelectionBoxes(g2);
+            }
         }
         g2.dispose();
     }
