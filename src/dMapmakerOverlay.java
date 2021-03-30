@@ -38,9 +38,9 @@ public class dMapmakerOverlay {
         int wf = cEditorLogic.state.newFlare.getInt("dimw");
         int hf = cEditorLogic.state.newFlare.getInt("dimh");
         int w = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? wf
-                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? wp : 300;
+                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? wp : 1200;
         int h = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? hf
-                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? hp : 300;
+                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? hp : 1200;
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
                 +cVars.getInt("camx")-w/2, cEditorLogic.state.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
