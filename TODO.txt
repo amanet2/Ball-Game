@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* prefabs
+    -> come up with adapters,caps,and endpieces to round out new prefabs
+* undo is broken
+    -> I think blockIds start overlapping
 * wall thickness:
     -> Left to Right: 150
     -> Top to Bottom: 300
