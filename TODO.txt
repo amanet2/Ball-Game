@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* new tops shading:
+    -> from top to bottom ~ of the screen ~ draw the shading on the tops
+        -> so wherever we are, we see the gradient from dark to light
+* track down the commit with the original prefabs set, and compare to the new ones
 * prefabs
     -> come up with adapters,caps,and endpieces to round out new prefabs
 * undo is broken
