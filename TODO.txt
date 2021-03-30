@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* wall thickness:
+    -> Left to Right: 150
+    -> Top to Bottom: 300
+* FUTURE: we can make "themes" for prefabs
 * PREFABS:
     -> redo prefabs to be like the room_small prefab (dont draw bottom wall so we can use it for better snapping together)
     -> maybe don't draw top's top so they snap together at THAT end
