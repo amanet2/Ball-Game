@@ -11,11 +11,9 @@
 * track down the commit with the original prefabs set, and compare to the new ones
 * prefabs
     -> come up with adapters,caps,and endpieces to round out new prefabs
+    -> user corner pieces too
 * undo is broken
     -> I think blockIds start overlapping
-* wall thickness:
-    -> Left to Right: 150
-    -> Top to Bottom: 300
 * FUTURE: we can make "themes" for prefabs
 * PREFABS:
     -> redo prefabs to be like the room_small prefab (dont draw bottom wall so we can use it for better snapping together)
