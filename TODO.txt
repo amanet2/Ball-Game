@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* SERVER: starting new game w/ map selected seems to not let clients join
 * new tops shading:
     -> from top to bottom ~ of the screen ~ draw the shading on the tops
         -> so wherever we are, we see the gradient from dark to light

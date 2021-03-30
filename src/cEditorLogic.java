@@ -114,6 +114,9 @@ public class cEditorLogic {
         //fill prefabs menu
         for(String prefabname : eManager.prefabSelection) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
+            if(prefabmenuitem.getText().equals(cVars.get("mapmaker_selectedprefabname"))) {
+                prefabmenuitem.setSelected(true);
+            }
             prefabmenuitem.addActionListener(e -> {
                 cVars.put("mapmaker_selectedprefabname", prefabname);
                 for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
@@ -141,18 +144,18 @@ public class cEditorLogic {
         addConsoleActionToJMenuItem(editorRedo,"-e_undo");
         addConsoleActionToJMenuItem(setSVarsEditor,"e_setsvars");
 
-        addPrefMenuItem("Nearest X Coord","1");
-        addPrefMenuItem("Nearest X Coord","5");
-        addPrefMenuItem("Nearest X Coord","10");
-        addPrefMenuItem("Nearest X Coord","25");
-        addPrefMenuItem("Nearest X Coord","50");
-        addPrefMenuItem("Nearest X Coord","100");
-        addPrefMenuItem("Nearest Y Coord","1");
-        addPrefMenuItem("Nearest Y Coord","5");
-        addPrefMenuItem("Nearest Y Coord","10");
-        addPrefMenuItem("Nearest Y Coord","25");
-        addPrefMenuItem("Nearest Y Coord","50");
-        addPrefMenuItem("Nearest Y Coord","100");
+        addSnapToMenuItem("Nearest X Coord","1");
+        addSnapToMenuItem("Nearest X Coord","5");
+        addSnapToMenuItem("Nearest X Coord","10");
+        addSnapToMenuItem("Nearest X Coord","25");
+        addSnapToMenuItem("Nearest X Coord","50");
+        addSnapToMenuItem("Nearest X Coord","100");
+        addSnapToMenuItem("Nearest Y Coord","1");
+        addSnapToMenuItem("Nearest Y Coord","5");
+        addSnapToMenuItem("Nearest Y Coord","10");
+        addSnapToMenuItem("Nearest Y Coord","25");
+        addSnapToMenuItem("Nearest Y Coord","50");
+        addSnapToMenuItem("Nearest Y Coord","100");
 
         for(String s : gProps.titles) {
             JMenuItem newmenuitem = new JMenuItem(s);
@@ -216,7 +219,7 @@ public class cEditorLogic {
         menus.get(title).add(newmenu);
     }
 
-    private static void addPrefMenuItem(String menutitle, String title) {
+    private static void addSnapToMenuItem(String menutitle, String title) {
         JMenuItem newmenuitem = new JMenuItem(title);
         newmenuitem.addActionListener(e -> {
             if(menutitle.contains("Nearest X Coord"))

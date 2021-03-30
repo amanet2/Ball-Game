@@ -102,7 +102,6 @@ public class uiInterface {
 	    else {
 //            xCon.ex("load "+ sVars.get("defaultmap"));
             xCon.ex("load");
-            sVars.put("inconsole", "1");
         }
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
