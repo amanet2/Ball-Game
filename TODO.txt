@@ -4,13 +4,21 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
-* MAPMAKER: copy timesplitters 2 tiles
-    -> refer to ign bookmark
-    -> numbers: 4, 8, 13, 14, 16
+* new Prefab: post
+    -> all 4 corners make a diamond, then wall will be a V shape
+* NEW TELEPORTER:
+    -> color-coded
+    -> a separate prop for each
+        -> need unique sprites
+* NEW PROPS: SPAWNPOINT_RED, SPAWNPOINT_BLUE
+    -> for "team" games
+        -> in "team" mode, player's colors are restricted to red/blue in-game,
+* MAPMAKER: copy timesplitters 2 tiles (for single-level maps)
 * weapons dont appear on other clients' screen
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
 * add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
+    -> like how TS2 mapmaker handles floors/levels
 * keep gravity, but only kick in when player is on "backwall" sections of blocks
     -> could simulate dropping down from a backtop to the floor below
 * PREFAB: click-to-place prefab in map editor
