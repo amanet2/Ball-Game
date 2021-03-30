@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* PREFABS:
+    -> redo prefabs to be like the room_small prefab (dont draw bottom wall so we can use it for better snapping together)
+    -> maybe don't draw top's top so they snap together at THAT end
 * new Prefab: post
     -> all 4 corners make a diamond, then wall will be a V shape
 * NEW TELEPORTER:

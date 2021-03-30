@@ -50,7 +50,7 @@ public class cVars {
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
         put("maploaded", "0");
-        put("mapmaker_selectedprefabname", "corridor");
+        put("mapmaker_selectedprefabname", "room_small");
         put("maxstockhp", "500");
         put("maxstockspeed", "200");
         put("popuplivetime", "2000");
