@@ -43,7 +43,7 @@ public class cEditorLogic {
         JMenuItem open = new JMenuItem("Open");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem saveas = new JMenuItem("Save As...");
-        JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
+//        JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
         JMenuItem newtopmap = new JMenuItem("Map/Prefab");
         JMenuItem showControls = new JMenuItem("Show Controls");
@@ -62,7 +62,7 @@ public class cEditorLogic {
         menus.get("File").add(open);
         menus.get("File").add(save);
         menus.get("File").add(saveas);
-        menus.get("File").add(exportasprefab);
+//        menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
         menus.get("New").add(newtopmap);
         menus.get("Edit").add(editorUndo);
@@ -105,11 +105,11 @@ public class cEditorLogic {
             }
         });
 
-        exportasprefab.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("exportasprefab");
-            }
-        });
+//        exportasprefab.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                xCon.ex("exportasprefab");
+//            }
+//        });
 
         //fill prefabs menu
         for(String prefabname : eManager.prefabSelection) {

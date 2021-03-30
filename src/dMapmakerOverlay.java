@@ -41,6 +41,10 @@ public class dMapmakerOverlay {
                 : cEditorLogic.state.createObjCode == gScene.THING_PROP ? wp : 1200;
         int h = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? hf
                 : cEditorLogic.state.createObjCode == gScene.THING_PROP ? hp : 1200;
+        if(cVars.isVal("mapmaker_selectedprefabname", "room_large")) {
+            w = 2400;
+            h = 2400;
+        }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
                 +cVars.getInt("camx")-w/2, cEditorLogic.state.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
