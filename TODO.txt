@@ -4,16 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* EDITOR: redo props ui
+    -> dont edit them directly
+    -> props should be ready to go on default
 * PREFABS: we need more of them from TS2
     -> big rooms, double length/wide halls, etc
+    -> end pieces/caps
 * CLIENT: need timeout joining serverless game
 * new tops shading:
     -> from top to bottom ~ of the screen ~ draw the shading on the tops
         -> so wherever we are, we see the gradient from dark to light
 * track down the commit with the original prefabs set, and compare to the new ones
-* prefabs
-    -> come up with adapters,caps,and endpieces to round out new prefabs
-    -> user corner pieces too
 * undo is broken
     -> I think blockIds start overlapping
 * FUTURE: we can make "themes" for prefabs

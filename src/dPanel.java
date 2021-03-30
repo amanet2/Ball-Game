@@ -14,11 +14,32 @@ public class dPanel extends JPanel {
         //drawpanel
         Graphics2D g2 = (Graphics2D) g;
         if(panelLevel == 1)
-            vFrameFactory.drawFrame(g2, 1);
+            drawFrame(g2, 1);
         else
-            vFrameFactory.drawFrame(g2, 0);
+            drawFrame(g2, 0);
         g2.dispose();
         g.dispose();
+    }
+
+    public void drawFrame(Graphics2D g2, int panelLevel) {
+        if (panelLevel == 1) {
+            dScreenFX.drawScreenFX(g2);
+            dScreenMessages.displayScreenMessages(g2);
+        } else {
+            g2.translate(sSettings.width / 2, sSettings.height / 2);
+            g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
+            g2.translate(-sSettings.width / 2, -sSettings.height / 2);
+            dTileFloors.drawFloors(g2);
+            dTileWalls.drawWalls(g2);
+            dProp.drawProps(g2);
+            dPlayer.drawPlayers(g2);
+            dTileTops.drawTops(g2);
+            //mapmaker indicators
+            if(sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                dMapmakerOverlay.drawSelectionBoxes(g2);
+            }
+        }
+        g2.dispose();
     }
 
     public dPanel() {
