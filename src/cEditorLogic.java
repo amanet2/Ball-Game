@@ -10,7 +10,7 @@ public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(25,25,0,0, gScene.THING_PROP,
+    static cEditorLogicState state = new cEditorLogicState(25,25,0,0, gScene.THING_PREFAB,
             new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
@@ -22,8 +22,8 @@ public class cEditorLogic {
         createNewMenu("File");
         createNewMenu("Edit");
         createNewMenu("Parameters");
-        createNewMenu("Blocks");
-        createNewMenu("Collisions");
+//        createNewMenu("Blocks");
+//        createNewMenu("Collisions");
         createNewMenu("Prefabs");
         createNewMenu("Props");
         createNewMenu("Flares");
@@ -162,7 +162,7 @@ public class cEditorLogic {
             });
             menus.get("Props").getItem(0).add(newmenuitem);
         }
-        for(String s : new String[]{"THING_BLOCK", "THING_COLLISION", "THING_PREFAB", "THING_PROP", "THING_FLARE"}){
+        for(String s : new String[]{"THING_PREFAB", "THING_PROP", "THING_FLARE"}){
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);
