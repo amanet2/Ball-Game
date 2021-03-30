@@ -6,8 +6,7 @@
 20210322
 * MAPMAKER: copy timesplitters 2 tiles
     -> refer to ign bookmark
-    -> numbers: 2, 3, 4, 5, 6, 8, 13, 14, 16, and 17.
-* MAPMAKER: objects need to be placed at topleft corner of that box on click
+    -> numbers: 4, 8, 13, 14, 16
 * weapons dont appear on other clients' screen
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
