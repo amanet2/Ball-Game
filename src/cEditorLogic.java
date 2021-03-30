@@ -10,7 +10,7 @@ public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(25,25,0,0, gScene.THING_PREFAB,
+    static cEditorLogicState state = new cEditorLogicState(50,50,0,0, gScene.THING_PREFAB,
             new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
