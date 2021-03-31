@@ -304,6 +304,19 @@ public class cScripts {
         }
     }
 
+    public static int[] getNewPrefabDims() {
+        if(cVars.get("mapmaker_selectedprefabname").contains("room_large")) {
+            return new int[]{2400, 2400};
+        }
+        if(cVars.isVal("mapmaker_selectedprefabname", "end_wall")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("mapmaker_selectedprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        return new int[]{1200, 1200};
+    }
+
     public static int[] getPlaceObjCoords() {
         int[] mc = cScripts.getMouseCoordinates();
         switch(cEditorLogic.state.createObjCode) {
@@ -320,6 +333,13 @@ public class cScripts {
                                 -cEditorLogic.state.newFlare.getInt("dimh")/2,
                         cEditorLogic.state.snapToY);
                 return new int[]{propx, propy};
+            case gScene.THING_PREFAB:
+                int[] fabdims = getNewPrefabDims();
+                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+                        cEditorLogic.state.snapToX);
+                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+                        cEditorLogic.state.snapToY);
+                return new int[]{pfx, pfy};
         }
         return mc;
     }

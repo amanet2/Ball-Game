@@ -33,7 +33,7 @@ public class dBlockTopsShading {
                     eUtils.scaleInt(5),
                     eUtils.scaleInt(5)
             );
-//            gradient = new GradientPaint(
+//          GradientPaint  gradient2 = new GradientPaint(
 //                    eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
 //                            - cVars.getInt("camx")),
 //                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),

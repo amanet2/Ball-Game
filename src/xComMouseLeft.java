@@ -34,12 +34,9 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.newFlare.get("b2"), cEditorLogic.state.newFlare.get("a2")));
                         break;
                     case gScene.THING_PREFAB:
-                        int w = 1200;
-                        int h = 1200;
-                        if(cVars.isVal("mapmaker_selectedprefabname", "room_large")) {
-                            w = 2400;
-                            h = 2400;
-                        }
+                        int[] pfd = cScripts.getNewPrefabDims();
+                        int w = pfd[0];
+                        int h = pfd[1];
                         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w/2,
                                 cEditorLogic.state.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h/2,
