@@ -20,7 +20,7 @@ public class cEditorLogic {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
         createNewMenu("File");
-        createNewMenu("Edit");
+//        createNewMenu("Edit");
         createNewMenu("Parameters");
 //        createNewMenu("Blocks");
 //        createNewMenu("Collisions");
@@ -65,8 +65,8 @@ public class cEditorLogic {
         menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
         menus.get("New").add(newtopmap);
-        menus.get("Edit").add(editorUndo);
-        menus.get("Edit").add(editorRedo);
+//        menus.get("Edit").add(editorUndo);
+//        menus.get("Edit").add(editorRedo);
         menus.get("Scene").add(sceneBlocks);
         menus.get("Scene").add(sceneCollisions);
         menus.get("Scene").add(sceneProps);

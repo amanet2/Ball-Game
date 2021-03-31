@@ -23,3 +23,10 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * testing weapons
     -> SERVER: giveweapon <id> 3
     -> CLIENT: cv_weaponstock3 18;userplayer weapon 3
+* fun situation
+    -> see enemy on other side of wall, you either have to PURSUE or you have to FLEE
+        -> FLAGMASTER:
+            -> PURSURE: you see the flag/carrier
+            -> FLEE: you are the carrier
+        -> POWERUPS:
+            -> PURSUE: superspeed, superdmg, supershield, invisibility
