@@ -104,7 +104,7 @@ public class cVars {
         put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "0");
         put("vfxwalloutlinealpha2", "0");
-        put("vfxwallshadingalpha1", "50");
+        put("vfxwallshadingalpha1", "30");
         put("vfxwallshadingalpha2", "220");
         put("virusids", "");
         put("virusresetwaittime", "5000");
