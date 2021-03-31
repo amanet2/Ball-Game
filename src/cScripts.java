@@ -317,6 +317,9 @@ public class cScripts {
         if(cVars.isVal("mapmaker_selectedprefabname", "cube")) {
             return new int[]{300, 300};
         }
+        if(cVars.isVal("mapmaker_selectedprefabname", "cube_large")) {
+            return new int[]{600, 600};
+        }
         return new int[]{1200, 1200};
     }
 

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -29,6 +31,29 @@ public class xComEditorDelThing extends xCom {
                         eUtils.echoException(e);
                         e.printStackTrace();
                     }
+                }
+                break;
+            case gScene.THING_PREFAB:
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("prefabid");
+                ArrayList<String> toRemoveBlockIds = new ArrayList<>();
+                ArrayList<String> toRemoveCollisionIds = new ArrayList<>();
+                for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+                    gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+                    if(block.isVal("prefabid", cVars.get("prefabid"))) {
+                        toRemoveBlockIds.add(id);
+                    }
+                }
+                for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+                    gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                    if(collision.isVal("prefabid", cVars.get("prefabid"))) {
+                        toRemoveCollisionIds.add(id);
+                    }
+                }
+                for(String id : toRemoveBlockIds) {
+                    xCon.ex("deleteblock " + id);
+                }
+                for(String id : toRemoveCollisionIds) {
+                    xCon.ex("deletecollision " + id);
                 }
                 break;
         }

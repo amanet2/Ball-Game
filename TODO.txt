@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
 * for the "enter value here" main menu elements, use a uiDialog like in showTiles
 * redo room prefab to use corner blocks at corner
 * EDITOR: redo props ui

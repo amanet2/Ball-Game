@@ -9,7 +9,9 @@ public class xComPutCollision extends xCom {
 
             String[] args = new String[]{xarrString, yarrString, npointsString};
             gDoableCollisionReturn collisionReturn = factory.collisionLoader;
-            collisionReturn.storeCollision(collisionReturn.getCollision(args), eManager.currentMap.scene);
+            gCollision newCollision = collisionReturn.getCollision(args);
+            newCollision.put("prefabid", cVars.get("prefabid"));
+            collisionReturn.storeCollision(newCollision, eManager.currentMap.scene);
         }
         return "usage: putcollision <xarr> <yarr> <npoints>";
     }
