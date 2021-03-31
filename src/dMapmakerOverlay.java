@@ -7,6 +7,16 @@ public class dMapmakerOverlay {
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
         int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
         int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
+        // -- selected prefab (blocks)
+        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.isInt("prefabid", cVars.getInt("prefabid"))) {
+                g2.setColor(new Color(255, 100, 255));
+                g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
+                        eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
+            }
+        }
         // -- selected prop
         if(eManager.currentMap.scene.props().size() > cEditorLogic.state.selectedPropId) {
             int st = cEditorLogic.state.selectedPropId;

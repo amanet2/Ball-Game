@@ -41,9 +41,11 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h/2,
                                 cEditorLogic.state.snapToY);
+                        cVars.putInt("prefabid", eManager.currentMap.scene.prefabIdCtr);
                         xCon.ex(String.format("exec %s/prefabs/%s %d %d",
                                 sVars.get("datapath"), cVars.get("mapmaker_selectedprefabname"),
                                 pfx, pfy));
+                        eManager.currentMap.scene.prefabIdCtr++;
                         break;
                 }
             }

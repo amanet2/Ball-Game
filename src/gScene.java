@@ -23,6 +23,7 @@ public class gScene {
 	HashMap<String, HashMap> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
+	int prefabIdCtr;
 
 	public gScene() {
 		objectLists = new HashMap<>();
@@ -32,6 +33,7 @@ public class gScene {
             objectMaps.put(s, new HashMap<>());
             blockIdCtr = 0;
             collisionIdCtr = 0;
+            prefabIdCtr = 0;
         }
 	}
 
