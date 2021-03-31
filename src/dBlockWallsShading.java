@@ -61,9 +61,19 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
+                GradientPaint gradient2 = new GradientPaint(
+                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")
+                                - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha1")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("dimh")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
                 g2.setPaint(gradient);
-                g2.drawPolygon(pw);
                 g2.fillPolygon(pw);
+                g2.setPaint(gradient2);
+                g2.drawPolygon(pw);
             }
         }
     }
@@ -82,9 +92,19 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
+                GradientPaint gradient2 = new GradientPaint(
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha1")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                + block.getInt("dimw")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("dimh")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
                 g2.setPaint(gradient);
-                g2.drawPolygon(pw);
                 g2.fillPolygon(pw);
+                g2.setPaint(gradient2);
+                g2.drawPolygon(pw);
             }
         }
     }
