@@ -3,7 +3,7 @@ import javax.swing.*;
 public class xComMouseRight extends xCom {
     public String doCommand(String fullCommand) {
         if (uiInterface.inplay ) {
-            xCon.ex("sspeed");
+//            xCon.ex("sspeed");
         }
         else {
             if(sSettings.show_mapmaker_ui) {

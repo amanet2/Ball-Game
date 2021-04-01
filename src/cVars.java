@@ -92,15 +92,15 @@ public class cVars {
         put("vfxshadowfactor", "0.3");
         put("vfxflooroutlinealpha1", "0");
         put("vfxflooroutlinealpha2", "0");
-        put("vfxfloorshadingalpha1", "55");
-        put("vfxfloorshadingalpha2", "50");
+        put("vfxfloorshadingalpha1", "10");
+        put("vfxfloorshadingalpha2", "0");
         put("vfxroofvertoutlinealpha1", "20");
         put("vfxroofvertoutlinealpha2", "90");
         put("vfxroofvertshadingalpha1", "0");
         put("vfxroofvertshadingalpha2", "20");
         put("vfxroofoutlinealpha1", "0");
         put("vfxroofoutlinealpha2", "0");
-        put("vfxroofshadingalpha1", "10");
+        put("vfxroofshadingalpha1", "0");
         put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "0");
         put("vfxwalloutlinealpha2", "0");
