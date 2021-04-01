@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* GFX: instead of box around whole roof, try drawing the top line only
 * EDITOR: use the cv_prefabid example to assign prefab_type, and other vars to blocks put down as part of a prefab
+    -> use prefab_name to do copy-prefab function with ctrl+c, ctrl+v can replace selected prefab with copied name
 * EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
 * EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
 * for the "enter value here" main menu elements, use a uiDialog like in showTiles
