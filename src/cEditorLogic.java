@@ -114,14 +114,14 @@ public class cEditorLogic {
         //fill prefabs menu
         for(String prefabname : eManager.prefabSelection) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
-            if(prefabmenuitem.getText().equals(cVars.get("mapmaker_selectedprefabname"))) {
+            if(prefabmenuitem.getText().equals(cVars.get("newprefabname"))) {
                 prefabmenuitem.setSelected(true);
             }
             prefabmenuitem.addActionListener(e -> {
-                cVars.put("mapmaker_selectedprefabname", prefabname);
+                cVars.put("newprefabname", prefabname);
                 for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
                     checkBoxMenuItem.setSelected(false);
-                    if(checkBoxMenuItem.getText().equals(cVars.get("mapmaker_selectedprefabname"))) {
+                    if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
                         checkBoxMenuItem.setSelected(true);
                     }
                 }

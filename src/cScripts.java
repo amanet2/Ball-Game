@@ -314,19 +314,19 @@ public class cScripts {
     }
 
     public static int[] getNewPrefabDims() {
-        if(cVars.get("mapmaker_selectedprefabname").contains("room_large")) {
+        if(cVars.get("newprefabname").contains("room_large")) {
             return new int[]{2400, 2400};
         }
-        if(cVars.isVal("mapmaker_selectedprefabname", "end_wall")) {
+        if(cVars.isVal("newprefabname", "end_wall")) {
             return new int[]{300, 300};
         }
-        if(cVars.isVal("mapmaker_selectedprefabname", "end_cap")) {
+        if(cVars.isVal("newprefabname", "end_cap")) {
             return new int[]{300, 150};
         }
-        if(cVars.isVal("mapmaker_selectedprefabname", "cube")) {
+        if(cVars.isVal("newprefabname", "cube")) {
             return new int[]{300, 300};
         }
-        if(cVars.isVal("mapmaker_selectedprefabname", "cube_large")) {
+        if(cVars.isVal("newprefabname", "cube_large")) {
             return new int[]{600, 600};
         }
         return new int[]{1200, 1200};
