@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
 * EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
 * for the "enter value here" main menu elements, use a uiDialog like in showTiles
 * redo room prefab to use corner blocks at corner
@@ -41,12 +42,6 @@
     -> like how TS2 mapmaker handles floors/levels
 * keep gravity, but only kick in when player is on "backwall" sections of blocks
     -> could simulate dropping down from a backtop to the floor below
-* PREFAB: click-to-place prefab in map editor
-* PREFAB: console command to delete prefab
-    -> need blocks to be associated with prefab
-        -> have prefab_id in each block that can be -1 or have an int
-    -> repurpose "putprefab" to take in the files, that will be a better entrypoint than "exec"
-        -> we will do the "prefabid" assignment in there
 20210317
 * draw where hitboxes will be on blocks
     -> draw red outline
