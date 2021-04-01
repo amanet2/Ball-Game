@@ -1,5 +1,3 @@
-import javax.swing.*;
-
 public class xComMouseRight extends xCom {
     public String doCommand(String fullCommand) {
         if (uiInterface.inplay ) {
