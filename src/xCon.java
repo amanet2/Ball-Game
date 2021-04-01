@@ -102,6 +102,9 @@ public class xCon {
         visibleCommands.add("load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
+        visibleCommands.add("putblock");
+        visibleCommands.add("putprop");
+        visibleCommands.add("putflare");
 
         undoableCommands = new ArrayList<>();
         undoableCommands.add("e_newflare");

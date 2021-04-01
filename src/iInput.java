@@ -228,15 +228,15 @@ public class iInput {
                                 xCon.ex("load");
                         }
                         break;
-                    case KeyEvent.VK_S:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            if(eManager.currentMap.wasLoaded < 1)
-                                xCon.ex("e_saveas");
-                            else
-                                xCon.ex("e_save");
-                        }
-                        break;
+//                    case KeyEvent.VK_S:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            if(eManager.currentMap.wasLoaded < 1)
+//                                xCon.ex("e_saveas");
+//                            else
+//                                xCon.ex("e_save");
+//                        }
+//                        break;
                     case KeyEvent.VK_C:
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;

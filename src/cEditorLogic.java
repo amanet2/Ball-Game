@@ -29,7 +29,7 @@ public class cEditorLogic {
         createNewMenu("Flares");
         createNewMenu("Scene");
         createNewMenu("Settings");
-        createNewSubmenu("File", "New");
+//        createNewSubmenu("File", "New");
         createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
@@ -45,7 +45,7 @@ public class cEditorLogic {
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
-        JMenuItem newtopmap = new JMenuItem("Map/Prefab");
+        JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem showControls = new JMenuItem("Show Controls");
         JMenuItem sceneProps = new JMenuItem("Scene Props");
         JMenuItem sceneFlares = new JMenuItem("Scene Flares");
@@ -59,12 +59,13 @@ public class cEditorLogic {
         JMenuItem editorRedo = new JMenuItem("Redo (ctrl+shift+z)");
         JMenuItem setSVarsEditor = new JMenuItem("Set SVars");
 
+        menus.get("File").add(newtopmap);
         menus.get("File").add(open);
-        menus.get("File").add(save);
+//        menus.get("File").add(save);
         menus.get("File").add(saveas);
         menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
-        menus.get("New").add(newtopmap);
+//        menus.get("New").add(newtopmap);
 //        menus.get("Edit").add(editorUndo);
 //        menus.get("Edit").add(editorRedo);
         menus.get("Scene").add(sceneBlocks);
@@ -80,7 +81,9 @@ public class cEditorLogic {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                xCon.ex("load");
+                if(xCon.getInt("e_showlossalert") <= 0) {
+                    xCon.ex("load");
+                }
             }
         });
 
