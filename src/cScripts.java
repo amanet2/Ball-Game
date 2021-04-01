@@ -153,6 +153,15 @@ public class cScripts {
                     }
                 }
                 break;
+            case gScene.THING_PREFAB:
+                for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+                    gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+                    if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                        cVars.put("prefabid", block.get("prefabid"));
+                        return;
+                    }
+                }
+                break;
         }
     }
 

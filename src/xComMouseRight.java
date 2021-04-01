@@ -7,14 +7,7 @@ public class xComMouseRight extends xCom {
         }
         else {
             if(sSettings.show_mapmaker_ui) {
-//                int o = cEditorLogic.state.selectedTileId;
                 cScripts.selectThingUnderMouse(cEditorLogic.getEditorState().createObjCode);
-//                int n = cEditorLogic.state.selectedTileId;
-//                if(o == n) {
-//                    JPopupMenu cm = new JPopupMenu();
-//                    cm.add(new JMenuItem("Copy"));
-//                    cm.show(oDisplay.instance().frame, iMouse.px, iMouse.py);
-//                }
             }
         }
         return fullCommand;
