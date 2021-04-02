@@ -98,13 +98,13 @@ public class cVars {
         put("vfxroofvertoutlinealpha2", "90");
         put("vfxroofvertshadingalpha1", "0");
         put("vfxroofvertshadingalpha2", "20");
-        put("vfxroofoutlinealpha1", "20");
+        put("vfxroofoutlinealpha1", "100");
         put("vfxroofoutlinealpha2", "0");
-        put("vfxroofshadingalpha1", "25");
+        put("vfxroofshadingalpha1", "100");
         put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "80");
         put("vfxwalloutlinealpha2", "255");
-        put("vfxwallshadingalpha1", "50");
+        put("vfxwallshadingalpha1", "80");
         put("vfxwallshadingalpha2", "220");
         put("virusids", "");
         put("virusresetwaittime", "5000");
