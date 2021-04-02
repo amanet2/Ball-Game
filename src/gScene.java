@@ -24,6 +24,7 @@ public class gScene {
 	int blockIdCtr;
 	int collisionIdCtr;
 	int prefabIdCtr;
+	int itemIdCtr;
 
 	public gScene() {
 		objectLists = new HashMap<>();

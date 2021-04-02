@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* NEW ITEM CLASS:
+    -> need to be able to add/delete to scene cleanly
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
 * NEW PROPS:
     -> have a scripts dir for props like with prefabs
