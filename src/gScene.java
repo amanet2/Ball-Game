@@ -10,6 +10,7 @@ public class gScene {
     static final int THING_PROP = 4;
     static final int THING_FLARE = 5;
     static final int THING_PREFAB = 22;
+    static final int THING_ITEM = 26;
 
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",

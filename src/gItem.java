@@ -8,11 +8,6 @@ public class gItem extends gThing {
         System.out.println("no activation method");
     }
 
-    public void setSpriteFromPath(String newpath) {
-        put("sprite", newpath);
-        sprite = gTextures.getScaledImage(get("sprite"), getInt("dimw"), getInt("dimh"));
-    }
-
     public gItem(int x, int y, int w, int h) {
         super();
         put("type", "THING_ITEM");
