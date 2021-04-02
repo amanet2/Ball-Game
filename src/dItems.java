@@ -8,7 +8,11 @@ public class dItems {
             for(String itemId : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
                 gItem item = (gItem) eManager.currentMap.scene.getThingMap("THING_ITEM").get(itemId);
                 if(item.sprite != null) {
-
+                    g2.drawImage(item.sprite,
+                            eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),
+                            null
+                    );
                 }
                 else {
                     g2.setColor(new Color(255, 150, 80, 150));

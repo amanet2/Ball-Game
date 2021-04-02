@@ -7,6 +7,7 @@ public class gItemFactory {
     private gItemFactory() {
         itemLoadMap = new HashMap<>();
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturnSpawnPoint());
+        itemLoadMap.put("ITEM_FLAGRED", new gDoableItemReturnFlagRed());
     }
 
     public static gItemFactory instance() {
