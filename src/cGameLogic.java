@@ -373,12 +373,33 @@ public class cGameLogic {
                     break;
             }
         }
+        // NEW ITEMS CHECKING.  ACTUALLY WORKS
+        if(sSettings.net_server || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
+            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
+            for(String checkType : new String[] { "ITEM_FLAGRED" }) {
+                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkType);
+                for(String playerId : playerMap.keySet()) {
+                    gPlayer player = playerMap.get(playerId);
+                    //check null fields
+                    if(!player.containsFields(new String[]{"coordx", "coordy"}))
+                        break;
+                    for (String itemId : thingMap.keySet()) {
+                        gItem item = (gItem) thingMap.get(itemId);
+                        if(player.willCollideWithThingAtCoords(item,
+                                player.getInt("coordx"),
+                                player.getInt("coordy"))) {
+                            item.activateItem(player);
+                        }
+                    }
+                }
+            }
+        }
         //check ALL PROPS this is the best one
         //new way of checkingProps
+        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
         for(String checkThingType : new String[]{
                 "PROP_TELEPORTER", "PROP_BOOST", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
-            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String playerId : playerMap.keySet()) {
                 gPlayer player = playerMap.get(playerId);

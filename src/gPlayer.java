@@ -90,6 +90,16 @@ public class gPlayer extends gThing {
         return true;
     }
 
+    public boolean willCollideWithThingAtCoords(gThing target, int dx, int dy) {
+        Shape bounds = new Rectangle(
+                target.getInt("coordx"),
+                target.getInt("coordy"),
+                target.getInt("dimw"),
+                target.getInt("dimh")
+        );
+        return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
+    }
+
     public boolean willCollideWithPropAtCoords(gProp target, int dx, int dy) {
             Shape bounds = new Ellipse2D.Double(
                 target.getInt("coordx"),
