@@ -11,13 +11,13 @@ public class xComRespawnPlayer extends xCom {
                 //respawn code here
                 player.put("stockhp", cVars.get("maxstockhp"));
                 int randomSpawnpointIndex = new Random().nextInt(
-                        eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").size());
+                        eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").size());
                 ArrayList<String> spawnpointids =
-                        new ArrayList<>(eManager.currentMap.scene.getThingMap("PROP_SPAWNPOINT").keySet());
+                        new ArrayList<>(eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
                 String randomId = spawnpointids.get(randomSpawnpointIndex);
-                gPropSpawnpoint spawnpoint =
-                        (gPropSpawnpoint) eManager.currentMap.scene.getThingMap(
-                                "PROP_SPAWNPOINT").get(randomId);
+                gItemSpawnPoint spawnpoint =
+                        (gItemSpawnPoint) eManager.currentMap.scene.getThingMap(
+                                "ITEM_SPAWNPOINT").get(randomId);
                 //server-side solution
                 if(!id.contains("bot")) {
                     nServer.instance().addNetCmd(id, "userplayer coordx " +
