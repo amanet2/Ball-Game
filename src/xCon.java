@@ -103,6 +103,7 @@ public class xCon {
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
         visibleCommands.add("putblock");
+        visibleCommands.add("putitem");
         visibleCommands.add("putprop");
         visibleCommands.add("putflare");
 
@@ -114,6 +115,7 @@ public class xCon {
         undoableCommands.add("putprop");
         undoableCommands.add("puttile");
         undoableCommands.add("putblock");
+        undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");
         undoableCommands.add("e_selectprop");
         undoableCommands.add("e_setselectedflare");
@@ -193,6 +195,7 @@ public class xCon {
         commands.put("putblock", new xComPutBlock());
         commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
+        commands.put("putitem", new xComPutItem());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
