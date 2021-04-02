@@ -3,6 +3,7 @@ public class gItemFlagRed extends gItem {
         if(player.getInt("stockhp") > 0 && !cVars.isVal("redflagmasterid", player.get("id"))) {
             cVars.put("redflagmasterid", player.get("id"));
             nServer.instance().addNetCmd("echo " + player.get("name") + " has the red flag!");
+            nServer.instance().addNetCmd("deleteitem " + get("id"));
         }
     }
     public gItemFlagRed(int x, int y) {
