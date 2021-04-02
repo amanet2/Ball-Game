@@ -1,7 +1,7 @@
 public class gItemFlagRed extends gItem {
     public void activateItem(gPlayer player) {
-        if(player.getInt("stockhp") > 0 && !cVars.isVal("flagmasterid", player.get("id"))) {
-            cVars.put("flagmasterid", player.get("id"));
+        if(player.getInt("stockhp") > 0 && !cVars.isVal("redflagmasterid", player.get("id"))) {
+            cVars.put("redflagmasterid", player.get("id"));
             nServer.instance().addNetCmd("echo " + player.get("name") + " has the flag!");
         }
     }

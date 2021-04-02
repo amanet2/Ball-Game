@@ -15,6 +15,7 @@ public class cEditorLogic {
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
     static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
+    static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
 
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
@@ -25,6 +26,7 @@ public class cEditorLogic {
 //        createNewMenu("Blocks");
 //        createNewMenu("Collisions");
         createNewMenu("Prefabs");
+        createNewMenu("Items");
         createNewMenu("Props");
         createNewMenu("Flares");
         createNewMenu("Scene");
@@ -131,6 +133,24 @@ public class cEditorLogic {
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
+        }
+        //fill items menu
+        for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
+            JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
+            if(itemMenuItem.getText().equals(cVars.get("newitemname"))) {
+                itemMenuItem.setSelected(true);
+            }
+            itemMenuItem.addActionListener(e -> {
+                cVars.put("newitemname", itemname);
+                for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
+                    checkBoxMenuItem.setSelected(false);
+                    if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+                        checkBoxMenuItem.setSelected(true);
+                    }
+                }
+            });
+            itemCheckBoxMenuItems.add(itemMenuItem);
+            menus.get("Items").add(itemMenuItem);
         }
 
         addConsoleActionToJMenuItem(exit,"quit");
