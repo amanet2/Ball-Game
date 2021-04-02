@@ -119,6 +119,23 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
+            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
+            for(String id : itemMap.keySet()) {
+                gItem item = (gItem) itemMap.get(id);
+                String[] args = new String[]{
+                        item.get("type"),
+                        item.get("coordx"),
+                        item.get("coordy")
+                };
+                StringBuilder str = new StringBuilder("putitem");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
             for(gTile t : scene.tiles()) {
                 String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
                     t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
