@@ -62,6 +62,8 @@ public class cVars {
         put("prefabid", "0");
         put("selecteditemid", "");
         put("selectedprefabid", "");
+        put("selecteditemname", "");
+        put("selectedprefabname", "");
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");

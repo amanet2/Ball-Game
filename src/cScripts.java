@@ -138,7 +138,9 @@ public class cScripts {
             gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selecteditemid", item.get("itemid"));
+                cVars.put("selecteditemname", item.get("type"));
                 cVars.put("selectedprefabid", "");
+                cVars.put("selectedprefabname", "");
 //                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
                 return;
             }
@@ -147,7 +149,9 @@ public class cScripts {
             gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selectedprefabname", block.get("prefabname"));
                 cVars.put("selecteditemid", "");
+                cVars.put("selecteditemname", "");
 //                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
                 return;
             }

@@ -2,8 +2,29 @@ import java.util.ArrayList;
 
 public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
-        String[] toks = fullCommand.split(" ");
-        int toRemove = -1;
+        if(cVars.get("selectedprefabid").length() > 0) {
+                ArrayList<String> toRemoveBlockIds = new ArrayList<>();
+                ArrayList<String> toRemoveCollisionIds = new ArrayList<>();
+                for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+                    gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+                    if(block.isVal("prefabid", cVars.get("selectedprefabid"))) {
+                        toRemoveBlockIds.add(id);
+                    }
+                }
+                for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+                    gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                    if(collision.isVal("prefabid", cVars.get("selectedprefabid"))) {
+                        toRemoveCollisionIds.add(id);
+                    }
+                }
+                for(String id : toRemoveBlockIds) {
+                    xCon.ex("deleteblock " + id);
+                }
+                for(String id : toRemoveCollisionIds) {
+                    xCon.ex("deletecollision " + id);
+                }
+                return "deleted prefab " + cVars.get("selectedprefabid");
+        }
 //        switch (cEditorLogic.state.createObjCode) {
 //            case gScene.THING_FLARE:
 //                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedFlareTag;
@@ -55,6 +76,6 @@ public class xComEditorDelThing extends xCom {
 //                }
 //                break;
 //        }
-        return "deleted " + toRemove;
+        return "nothing to delete";
     }
 }
