@@ -4,6 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* deleting and selecting things need to be redone to accomodate the new paradigm
+* Teleporter item
+    -> color-coded
+        -> start with purple (obv cause thats the existing sprite)
+            -> the first teleporter looks for the second teleporter on intersection and vice versa
+            -> need additional "in teleporter" argument for the player to avoid endless teleportation
 * CREATE ITEM FOR SPAWNING FLAGS
     -> on intersection, will set "flagmasterid" to and empty string, and put a new flag in the opposing spawner
     -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place

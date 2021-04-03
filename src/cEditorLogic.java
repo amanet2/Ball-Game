@@ -14,8 +14,8 @@ public class cEditorLogic {
             new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
             new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
             new gScene());
-    static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
-    static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
+    private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
+    private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
@@ -50,8 +50,8 @@ public class cEditorLogic {
 //        createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
-        createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
-        createNewSubmenu("Scene", "Map Execs: 0");
+//        createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
+//        createNewSubmenu("Scene", "Map Execs: 0");
         createNewSubmenu("Parameters", "Snap-To: " + state.snapToX + "," + state.snapToY);
 //        createNewSubmenu("Parameters", "Create: " + gScene.getObjTitleForCode(state.createObjCode));
         createNewSubmenu(menus.get("Parameters").getItem(0).getText(),"Nearest X Coord");
@@ -74,7 +74,7 @@ public class cEditorLogic {
 //        JMenuItem setSelectedFlareDims = new JMenuItem("Edit Selected Flare Dimensions");
 //        JMenuItem editorUndo = new JMenuItem("Undo (ctrl+z)");
 //        JMenuItem editorRedo = new JMenuItem("Redo (ctrl+shift+z)");
-        JMenuItem setSVarsEditor = new JMenuItem("Set SVars");
+//        JMenuItem setSVarsEditor = new JMenuItem("Set SVars");
 
         menus.get("File").add(newtopmap);
         menus.get("File").add(open);
@@ -94,7 +94,7 @@ public class cEditorLogic {
 //        menus.get("Flares").add(setCreateFlareDims);
 //        menus.get("Flares").add(setSelectedFlareDims);
         menus.get("Settings").add(showControls);
-        menus.get("Settings").add(setSVarsEditor);
+//        menus.get("Settings").add(setSVarsEditor);
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -174,7 +174,7 @@ public class cEditorLogic {
         addConsoleActionToJMenuItem(sceneCollisions,"showcollisions");
 //        addConsoleActionToJMenuItem(editorUndo,"e_undo");
 //        addConsoleActionToJMenuItem(editorRedo,"-e_undo");
-        addConsoleActionToJMenuItem(setSVarsEditor,"e_setsvars");
+//        addConsoleActionToJMenuItem(setSVarsEditor,"e_setsvars");
 
         addSnapToMenuItem("Nearest X Coord","1");
         addSnapToMenuItem("Nearest X Coord","5");
@@ -209,26 +209,26 @@ public class cEditorLogic {
             });
             menus.get("Scene").getItem(0).add(newmenuitem);
         }
-        JMenuItem addexecmenuitem = new JMenuItem("Add New Exec");
-        JMenuItem showexecsmenuitem = new JMenuItem("View All");
-        addConsoleActionToJMenuItem(showexecsmenuitem, "e_showexecs");
-        addConsoleActionToJMenuItem(addexecmenuitem, "-e_showexecs");
-        menus.get("Scene").getItem(2).add(addexecmenuitem);
-        menus.get("Scene").getItem(2).add(showexecsmenuitem);
-        for(String s : cBotsLogic.behaviors()) {
-            JMenuItem newmenuitem = new JMenuItem(s);
-            newmenuitem.addActionListener(e -> {
-                String b = "";
-                for(String ss : cBotsLogic.behaviors()) {
-                    if(ss.equals(newmenuitem.getText())) {
-                        b = ss;
-                        cVars.put("botbehavior", b);
-                    }
-                }
-                menus.get("Scene").getItem(1).setText("Bot Behavior: " + b);
-            });
-            menus.get("Scene").getItem(1).add(newmenuitem);
-        }
+//        JMenuItem addexecmenuitem = new JMenuItem("Add New Exec");
+//        JMenuItem showexecsmenuitem = new JMenuItem("View All");
+//        addConsoleActionToJMenuItem(showexecsmenuitem, "e_showexecs");
+//        addConsoleActionToJMenuItem(addexecmenuitem, "-e_showexecs");
+//        menus.get("Scene").getItem(2).add(addexecmenuitem);
+//        menus.get("Scene").getItem(2).add(showexecsmenuitem);
+//        for(String s : cBotsLogic.behaviors()) {
+//            JMenuItem newmenuitem = new JMenuItem(s);
+//            newmenuitem.addActionListener(e -> {
+//                String b = "";
+//                for(String ss : cBotsLogic.behaviors()) {
+//                    if(ss.equals(newmenuitem.getText())) {
+//                        b = ss;
+//                        cVars.put("botbehavior", b);
+//                    }
+//                }
+//                menus.get("Scene").getItem(1).setText("Bot Behavior: " + b);
+//            });
+//            menus.get("Scene").getItem(1).add(newmenuitem);
+//        }
     }
 
     private static void createNewMenu(String title) {
