@@ -137,8 +137,8 @@ public class cScripts {
         for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("itemid", item.get("itemid"));
-//                cVars.put("prefabid", "");
+                cVars.put("selecteditemid", item.get("itemid"));
+                cVars.put("selectedprefabid", "");
 //                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
                 return;
             }
@@ -146,12 +146,14 @@ public class cScripts {
         for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("prefabid", block.get("prefabid"));
-//                cVars.put("itemid", "");
+                cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selecteditemid", "");
 //                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
                 return;
             }
         }
+        cVars.put("selectedprefabid", "");
+        cVars.put("selecteditemid", "");
     }
 
     public static void processOptionText(String optionTitle, String enteredText) {

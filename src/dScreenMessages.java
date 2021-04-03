@@ -142,9 +142,8 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
-                if(cVars.getInt("prefabid") > 0 || cVars.getInt("itemid")> 0)
-                    g.drawString("[BACKSPACE] - DELETE SELECTED THING",0,25*sSettings.height/32);
-//                g.drawString("[RIGHT MOUSE] - SELECT THING",0,25*sSettings.height/32);
+                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
+                    g.drawString("[BACKSPACE] - DELETE " + newThingString,0,25*sSettings.height/32);
                 g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
                 g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
                         29*sSettings.height/32);

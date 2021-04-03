@@ -11,7 +11,7 @@ public class dMapmakerOverlay {
         for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
             if(cEditorLogic.state.createObjCode == gScene.THING_PREFAB
-            && block.contains("prefabid") && block.isVal("prefabid", cVars.get("prefabid"))) {
+            && block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
                 g2.setColor(new Color(255, 100, 255));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),

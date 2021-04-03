@@ -19,11 +19,11 @@ public class xComEditorDelThing extends xCom {
                 }
                 break;
             case gScene.THING_ITEM:
-                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("itemid");
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("selecteditemid");
                 String toRemoveItemId = "";
                 for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
                     gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-                    if(item.isVal("itemid", cVars.get("itemid"))) {
+                    if(item.isVal("itemid", cVars.get("selecteditemid"))) {
                         toRemoveItemId = id;
                     }
                 }
@@ -32,18 +32,18 @@ public class xComEditorDelThing extends xCom {
                 cVars.put("newitemname", "");
                 break;
             case gScene.THING_PREFAB:
-                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("prefabid");
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("selectedprefabid");
                 ArrayList<String> toRemoveBlockIds = new ArrayList<>();
                 ArrayList<String> toRemoveCollisionIds = new ArrayList<>();
                 for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
                     gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.isVal("prefabid", cVars.get("prefabid"))) {
+                    if(block.isVal("prefabid", cVars.get("selectedprefabid"))) {
                         toRemoveBlockIds.add(id);
                     }
                 }
                 for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
                     gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
-                    if(collision.isVal("prefabid", cVars.get("prefabid"))) {
+                    if(collision.isVal("prefabid", cVars.get("selectedprefabid"))) {
                         toRemoveCollisionIds.add(id);
                     }
                 }

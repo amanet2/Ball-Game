@@ -140,7 +140,7 @@ public class cEditorLogic {
             prefabmenuitem.addActionListener(e -> {
                 cVars.put("newprefabname", prefabname);
                 cVars.put("newitemname", "");
-                state.createObjCode = gScene.THING_PREFAB;
+//                state.createObjCode = gScene.THING_PREFAB;
                 refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
@@ -155,7 +155,7 @@ public class cEditorLogic {
             itemMenuItem.addActionListener(e -> {
                 cVars.put("newprefabname", "");
                 cVars.put("newitemname", itemname);
-                state.createObjCode = gScene.THING_ITEM;
+//                state.createObjCode = gScene.THING_ITEM;
                 refreshCheckBoxItems();
             });
             itemCheckBoxMenuItems.add(itemMenuItem);
@@ -269,7 +269,7 @@ public class cEditorLogic {
         state.snapToY = newstate.snapToY;
         state.selectedPropId = newstate.selectedPropId;
         state.selectedFlareTag = newstate.selectedFlareTag;
-        state.createObjCode = newstate.createObjCode;
+//        state.createObjCode = newstate.createObjCode;
         state.newProp = newstate.newProp;
         state.newFlare = newstate.newFlare;
         eManager.currentMap.scene = newstate.mapScene;
