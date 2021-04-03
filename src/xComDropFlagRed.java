@@ -5,8 +5,8 @@ public class xComDropFlagRed extends xCom {
             String id = toks[1];
             gPlayer p = gScene.getPlayerById(id);
             xCon.ex("putitem ITEM_FLAGRED " + p.get("coordx") + " " + p.get("coordy"));
+            return "dropped flagred";
         }
-
-        return "dropped flagred";
+        return "usage: dropflagred <dropper_id>";
     }
 }
