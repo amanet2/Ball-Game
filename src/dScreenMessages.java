@@ -71,16 +71,6 @@ public class dScreenMessages {
             // selected tile
             g.drawString("Selected Thing Details:",0,14*sSettings.height/64);
             g.drawString("---",0,15*sSettings.height/64);
-            if(cEditorLogic.state.createObjCode == gScene.THING_PROP
-                    && cEditorLogic.state.selectedPropId < eManager.currentMap.scene.props().size()) {
-                gProp t = eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId);
-                int c = 0;
-                for(String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)),0,(16+c)*sSettings.height/64);
-                    c++;
-                }
-            }
             if(cEditorLogic.state.createObjCode == gScene.THING_FLARE
                     && cEditorLogic.state.selectedFlareTag< eManager.currentMap.scene.flares().size()) {
                 gFlare t = eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareTag);

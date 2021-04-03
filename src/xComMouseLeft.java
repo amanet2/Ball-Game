@@ -8,17 +8,6 @@ public class xComMouseLeft extends xCom {
             if(sSettings.show_mapmaker_ui) {
                 int[] mc = cScripts.getMouseCoordinates();
                 switch(cEditorLogic.state.createObjCode) {
-                    case gScene.THING_PROP:
-                        xCon.ex(String.format("putprop %s %d %d %d %d %s %s",
-                                gProps.getTitleForCode(cEditorLogic.state.newProp.getInt("code")),
-                                cEditorLogic.state.newProp.getInt("int0"),
-                                cEditorLogic.state.newProp.getInt("int1"),
-                                eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
-                                eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                        - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY),
-                                cEditorLogic.state.newProp.get("dimw"), cEditorLogic.state.newProp.get("dimh")));
-                        break;
                     case gScene.THING_FLARE:
                         int fw = cEditorLogic.state.newFlare.getInt("dimw");
                         int fh = cEditorLogic.state.newFlare.getInt("dimh");

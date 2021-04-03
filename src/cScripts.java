@@ -135,15 +135,6 @@ public class cScripts {
     public static synchronized void selectThingUnderMouse(int objType) {
         int[] mc = getMouseCoordinates();
         switch (objType) {
-            case gScene.THING_PROP:
-                for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
-                    gProp t = eManager.currentMap.scene.props().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedPropId != i)) {
-                        xCon.ex(String.format("e_selectprop %d", i));
-                        return;
-                    }
-                }
-                break;
             case gScene.THING_FLARE:
                 for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
                     gFlare t = eManager.currentMap.scene.flares().get(i);
@@ -335,11 +326,6 @@ public class cScripts {
     public static int[] getPlaceObjCoords() {
         int[] mc = cScripts.getMouseCoordinates();
         switch(cEditorLogic.state.createObjCode) {
-            case gScene.THING_PROP:
-                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
-                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
             case gScene.THING_FLARE:
                 int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
                                 -cEditorLogic.state.newFlare.getInt("dimw")/2,

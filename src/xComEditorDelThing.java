@@ -19,20 +19,6 @@ public class xComEditorDelThing extends xCom {
                     e.printStackTrace();
                 }
                 break;
-            case gScene.THING_PROP:
-                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedPropId;
-                if(eManager.currentMap.scene.props().size() > toRemove) {
-                    try {
-                        eManager.currentMap.scene.props().remove(eManager.currentMap.scene.props().get(toRemove));
-                        if(eManager.currentMap.scene.props().size() > 0)
-                            xCon.ex(String.format("HIDDEN e_selectprop %d",
-                                    eManager.currentMap.scene.props().size() - 1));
-                    } catch (Exception e) {
-                        eUtils.echoException(e);
-                        e.printStackTrace();
-                    }
-                }
-                break;
             case gScene.THING_PREFAB:
                 toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("prefabid");
                 ArrayList<String> toRemoveBlockIds = new ArrayList<>();

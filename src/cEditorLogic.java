@@ -27,12 +27,12 @@ public class cEditorLogic {
 //        createNewMenu("Collisions");
         createNewMenu("Prefabs");
         createNewMenu("Items");
-        createNewMenu("Props");
+//        createNewMenu("Props");
         createNewMenu("Flares");
         createNewMenu("Scene");
         createNewMenu("Settings");
 //        createNewSubmenu("File", "New");
-        createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
+//        createNewSubmenu("Props","Create: " + gProps.titles[state.newProp.getInt("code")]);
         createNewSubmenu("Scene", "Game Mode: " +
                 cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
         createNewSubmenu("Scene", "Bot Behavior: " + cVars.get("botbehavior"));
@@ -49,7 +49,7 @@ public class cEditorLogic {
         JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
         JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem showControls = new JMenuItem("Show Controls");
-        JMenuItem sceneProps = new JMenuItem("Scene Props");
+//        JMenuItem sceneProps = new JMenuItem("Scene Props");
         JMenuItem sceneFlares = new JMenuItem("Scene Flares");
         JMenuItem sceneBlocks = new JMenuItem("Scene Blocks");
         JMenuItem sceneCollisions = new JMenuItem("Scene Collisions");
@@ -72,10 +72,10 @@ public class cEditorLogic {
 //        menus.get("Edit").add(editorRedo);
         menus.get("Scene").add(sceneBlocks);
         menus.get("Scene").add(sceneCollisions);
-        menus.get("Scene").add(sceneProps);
+//        menus.get("Scene").add(sceneProps);
         menus.get("Scene").add(sceneFlares);
-        menus.get("Props").add(setCreatePropInts);
-        menus.get("Props").add(setSelectedPropInts);
+//        menus.get("Props").add(setCreatePropInts);
+//        menus.get("Props").add(setSelectedPropInts);
         menus.get("Flares").add(setCreateFlareDims);
         menus.get("Flares").add(setSelectedFlareDims);
         menus.get("Settings").add(showControls);
@@ -155,11 +155,11 @@ public class cEditorLogic {
 
         addConsoleActionToJMenuItem(exit,"quit");
         addConsoleActionToJMenuItem(setCreatePropInts,"e_newprop");
-        addConsoleActionToJMenuItem(setSelectedPropInts,"e_setselectedprop");
+//        addConsoleActionToJMenuItem(setSelectedPropInts,"e_setselectedprop");
         addConsoleActionToJMenuItem(setCreateFlareDims,"e_newflare");
         addConsoleActionToJMenuItem(setSelectedFlareDims,"e_setselectedflare");
         addConsoleActionToJMenuItem(showControls,"e_showcontrols");
-        addConsoleActionToJMenuItem(sceneProps,"e_showprops");
+//        addConsoleActionToJMenuItem(sceneProps,"e_showprops");
         addConsoleActionToJMenuItem(sceneFlares,"e_showflares");
         addConsoleActionToJMenuItem(sceneBlocks,"showblocks");
         addConsoleActionToJMenuItem(sceneCollisions,"showcollisions");
@@ -180,15 +180,7 @@ public class cEditorLogic {
         addSnapToMenuItem("Nearest Y Coord","50");
         addSnapToMenuItem("Nearest Y Coord","100");
 
-        for(String s : gProps.titles) {
-            JMenuItem newmenuitem = new JMenuItem(s);
-            newmenuitem.addActionListener(e -> {
-                state.newProp.putInt("code", gProps.getCodeForTitle(s));
-                menus.get("Props").getItem(0).setText("Create: " + s);
-            });
-            menus.get("Props").getItem(0).add(newmenuitem);
-        }
-        for(String s : new String[]{"THING_PREFAB", "THING_PROP", "THING_FLARE"}){
+        for(String s : new String[]{"THING_PREFAB", "THING_ITEM", "THING_FLARE"}){
             JMenuItem newmenuitem = new JMenuItem(s);
             newmenuitem.addActionListener(e -> {
                 state.createObjCode = gScene.getObjCodeForTitle(s);

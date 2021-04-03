@@ -43,16 +43,12 @@ public class dMapmakerOverlay {
                     eUtils.scaleInt(sw), eUtils.scaleInt(sh));
         }
         // -- preview rect
-        int wp = cEditorLogic.state.newProp.getInt("dimw");
-        int hp = cEditorLogic.state.newProp.getInt("dimh");
         int wf = cEditorLogic.state.newFlare.getInt("dimw");
         int hf = cEditorLogic.state.newFlare.getInt("dimh");
         int[] pfd = cScripts.getNewPrefabDims();
         int w = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? wf
-                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? wp
                 : cEditorLogic.state.createObjCode == gScene.THING_PREFAB ? pfd[0] : 300;
         int h = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? hf
-                : cEditorLogic.state.createObjCode == gScene.THING_PROP ? hp
                 : cEditorLogic.state.createObjCode == gScene.THING_PREFAB ? pfd[1] : 300;
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
                 +cVars.getInt("camx")-w/2, cEditorLogic.state.snapToX) - cVars.getInt("camx");

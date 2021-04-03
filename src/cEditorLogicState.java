@@ -1,5 +1,3 @@
-import javax.swing.JMenuItem;
-
 public class cEditorLogicState {
     int snapToX;
     int snapToY;
