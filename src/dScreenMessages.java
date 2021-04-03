@@ -65,22 +65,6 @@ public class dScreenMessages {
                         cGameLogic.userPlayer().getInt("coordy")),
                         0,9*sSettings.height/64);
             }
-            // create tile
-            g.drawString("New Thing Type: " + gScene.object_titles[cEditorLogic.state.createObjCode],
-                    0, 11 * sSettings.height / 64);
-            // selected tile
-            g.drawString("Selected Thing Details:",0,14*sSettings.height/64);
-            g.drawString("---",0,15*sSettings.height/64);
-            if(cEditorLogic.state.createObjCode == gScene.THING_FLARE
-                    && cEditorLogic.state.selectedFlareTag< eManager.currentMap.scene.flares().size()) {
-                gFlare t = eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareTag);
-                int c = 0;
-                for (String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)), 0, (16 + c) * sSettings.height / 64);
-                    c++;
-                }
-            }
         }
         //ingame messages
         dFonts.setFontColorNormal(g);
@@ -155,6 +139,15 @@ public class dScreenMessages {
             }
             else {
                 dFonts.setFontNormal(g);
+                String newThingString = cVars.get("newprefabname");
+                if(cVars.get("newitemname").length() > 0)
+                    newThingString = cVars.get("newitemname");
+                if(cVars.get("prefabid").length() > 0 || cVars.get("itemid").length() > 0)
+                    g.drawString("[BACKSPACE] - DELETE SELECTED THING",0,25*sSettings.height/32);
+//                g.drawString("[RIGHT MOUSE] - SELECT THING",0,25*sSettings.height/32);
+                g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
+                g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
+                        29*sSettings.height/32);
                 g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
                     31*sSettings.height/32);
             }

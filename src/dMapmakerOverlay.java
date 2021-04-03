@@ -11,7 +11,7 @@ public class dMapmakerOverlay {
         for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
             if(cEditorLogic.state.createObjCode == gScene.THING_PREFAB
-            && block.contains("prefabid") && block.isInt("prefabid", cVars.getInt("prefabid"))) {
+            && block.contains("prefabid") && block.isVal("prefabid", cVars.get("prefabid"))) {
                 g2.setColor(new Color(255, 100, 255));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
@@ -22,7 +22,7 @@ public class dMapmakerOverlay {
         for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
             if(cEditorLogic.state.createObjCode == gScene.THING_ITEM
-                    && item.contains("itemid") && item.isInt("itemid", cVars.getInt("itemid"))) {
+                    && item.contains("itemid") && item.isVal("itemid", cVars.get("itemid"))) {
                 g2.setColor(new Color(255, 150, 0));
                 g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),

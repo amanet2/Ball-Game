@@ -29,6 +29,7 @@ public class xComEditorDelThing extends xCom {
                 }
                 if(toRemoveItemId.length() > 0)
                     xCon.ex("deleteitem " + toRemoveItemId);
+                cVars.put("newitemname", "");
                 break;
             case gScene.THING_PREFAB:
                 toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("prefabid");

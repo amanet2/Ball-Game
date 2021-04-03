@@ -4,11 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* dont let player spawn without a spawnpoint
+    -> show a message or something
+        -> preferably a JDialog
+* constantly check "selectthignundermouse" to you can delete without manually right clicking
 * call the engine the boxcutter engine
-* deleting and selecting things need to be redone to accomodate the new paradigm
-    -> SELECTING
-        -> first try to select items under mouse, then tiles. regardless of create object code
-            -> easy
+* EDITOR: replace Thing_details sidebar with the important controls
+    -> Left-click: place item
+    -> backspace: delete selected
+    -> right click: select item
+    -> WASD: move camera
+* EDITOR: deleting and selecting things need to be redone to accomodate the new paradigm
 * Teleporter item
     -> color-coded
         -> start with purple (obv cause thats the existing sprite)

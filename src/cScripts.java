@@ -139,7 +139,7 @@ public class cScripts {
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("itemid", item.get("itemid"));
                 cVars.put("prefabid", "");
-                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
+//                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
                 return;
             }
         }
@@ -148,7 +148,7 @@ public class cScripts {
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("prefabid", block.get("prefabid"));
                 cVars.put("itemid", "");
-                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
+//                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
                 return;
             }
         }

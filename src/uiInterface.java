@@ -49,6 +49,9 @@ public class uiInterface {
                         nServer.instance().processPackets();
                     else if(sSettings.net_client)
                         nClient.instance().processPackets();
+                    else if(sSettings.show_mapmaker_ui) {
+                        cScripts.selectThingUnderMouse();
+                    }
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
