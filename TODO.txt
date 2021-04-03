@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* GFX: default zoom level should be 1.5x
 * dont let player spawn without a spawnpoint
     -> show a message or something
         -> preferably a JDialog

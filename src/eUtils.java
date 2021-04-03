@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class eUtils {
-    static double zoomLevel = 1.0;
+    static double zoomLevel = 1.5;
     private static int[] screendims = new int[]{Integer.parseInt(sVars.get("vidmode").split(",")[0]),
             Integer.parseInt(sVars.get("vidmode").split(",")[1])};
 
