@@ -155,16 +155,9 @@ public class xCon {
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_delthing", new xComEditorDelThing());
-        commands.put("e_newflare", new xComEditorSetNewFlareDims());
-        commands.put("e_newprop", new xComEditorSetNewPropDims());
-        commands.put("e_nextthing", new xComEditorNextThing());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_save", new xComEditorSave());
         commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_selectprop", new xComEditorSelectProp());
-        commands.put("e_selectflare", new xComEditorSelectFlare());
-        commands.put("e_setselectedflare", new xComEditorSetSelectedFlareDims());
-        commands.put("e_setselectedprop", new xComEditorSetSelectedPropDims());
         commands.put("e_setsvars", new xComEditorSetSVars());
         commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showflares", new xComEditorShowFlares());

@@ -10,8 +10,7 @@ public class dMapmakerOverlay {
         // -- selected prefab (blocks)
         for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-            if(cEditorLogic.state.createObjCode == gScene.THING_PREFAB
-            && block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
+            if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
                 g2.setColor(new Color(255, 100, 255));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
@@ -21,35 +20,17 @@ public class dMapmakerOverlay {
         // -- selected item
         for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-            if(cEditorLogic.state.createObjCode == gScene.THING_ITEM
-                    && item.contains("itemid") && item.isVal("itemid", cVars.get("itemid"))) {
+            if(item.contains("itemid") && item.isVal("itemid", cVars.get("itemid"))) {
                 g2.setColor(new Color(255, 150, 0));
                 g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),
                         eUtils.scaleInt(item.getInt("dimw")), eUtils.scaleInt(item.getInt("dimh")));
             }
         }
-        // -- selected flare
-        ArrayList<gFlare> flareList = eManager.currentMap.scene.flares();
-        if(flareList.size() > cEditorLogic.state.selectedFlareTag) {
-            gFlare selectedFlare = flareList.get(cEditorLogic.state.selectedFlareTag);
-            int sx = selectedFlare.getInt("coordx");
-            int sy = selectedFlare.getInt("coordy");
-            int sw = selectedFlare.getInt("dimw");
-            int sh = selectedFlare.getInt("dimh");
-            g2.setColor(new Color(50, 100, 255));
-            g2.drawRect(eUtils.scaleInt(sx-cVars.getInt("camx")),
-                    eUtils.scaleInt(sy-cVars.getInt("camy")),
-                    eUtils.scaleInt(sw), eUtils.scaleInt(sh));
-        }
         // -- preview rect
-        int wf = cEditorLogic.state.newFlare.getInt("dimw");
-        int hf = cEditorLogic.state.newFlare.getInt("dimh");
         int[] pfd = cScripts.getNewPrefabDims();
-        int w = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? wf
-                : cEditorLogic.state.createObjCode == gScene.THING_PREFAB ? pfd[0] : 300;
-        int h = cEditorLogic.state.createObjCode == gScene.THING_FLARE ? hf
-                : cEditorLogic.state.createObjCode == gScene.THING_PREFAB ? pfd[1] : 300;
+        int w = pfd[0];
+        int h = pfd[1];
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
                 +cVars.getInt("camx")-w/2, cEditorLogic.state.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)

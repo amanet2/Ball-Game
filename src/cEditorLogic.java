@@ -10,10 +10,7 @@ public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(50,50,0,0, gScene.THING_PREFAB,
-            new gProp(gProps.TELEPORTER, 0, 0, 0, 0, 300, 300),
-            new gFlare(0, 0, 300, 300, 255, 255, 255, 255, 0, 0, 0, 0),
-            new gScene());
+    static cEditorLogicState state = new cEditorLogicState(50,50, new gScene());
     private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
 
@@ -267,16 +264,10 @@ public class cEditorLogic {
     public static void setEditorState(cEditorLogicState newstate) {
         state.snapToX = newstate.snapToX;
         state.snapToY = newstate.snapToY;
-        state.selectedPropId = newstate.selectedPropId;
-        state.selectedFlareTag = newstate.selectedFlareTag;
-//        state.createObjCode = newstate.createObjCode;
-        state.newProp = newstate.newProp;
-        state.newFlare = newstate.newFlare;
         eManager.currentMap.scene = newstate.mapScene;
     }
 
     public static cEditorLogicState getEditorState() {
-        return new cEditorLogicState(state.snapToX, state.snapToY, state.selectedPropId, state.selectedFlareTag,
-                state.createObjCode, state.newProp, state.newFlare, eManager.currentMap.scene.copy());
+        return new cEditorLogicState(state.snapToX, state.snapToY, eManager.currentMap.scene.copy());
     }
 }

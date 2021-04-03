@@ -20,15 +20,15 @@ public class xComEditorShowFlares extends xCom {
         scrollPane.setPreferredSize(new Dimension(500,500));
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         JOptionPane.showMessageDialog(null, scrollPane, titles.length + " Props in Scene", JOptionPane.OK_OPTION);
-        if(list.getSelectedIndex() >= 0) {
-            xCon.ex(String.format("e_selectflare %d", list.getSelectedIndex()));
-            gFlare selectedFlare = eManager.currentMap.scene.flares().get(
-                    cEditorLogic.state.selectedFlareTag);
-            cVars.putInt("camx", (selectedFlare.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
-                    + selectedFlare.getInt("dimw")/2);
-            cVars.putInt("camy", (selectedFlare.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
-                    + selectedFlare.getInt("dimh")/2);
-        }
+//        if(list.getSelectedIndex() >= 0) {
+//            xCon.ex(String.format("e_selectflare %d", list.getSelectedIndex()));
+//            gFlare selectedFlare = eManager.currentMap.scene.flares().get(
+//                    cEditorLogic.state.selectedFlareTag);
+//            cVars.putInt("camx", (selectedFlare.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2)
+//                    + selectedFlare.getInt("dimw")/2);
+//            cVars.putInt("camy", (selectedFlare.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2)
+//                    + selectedFlare.getInt("dimh")/2);
+//        }
         return "";
     }
 }

@@ -16,17 +16,17 @@ public class xComEditorShowProps extends xCom {
         scrollPane.setPreferredSize(new Dimension(500,500));
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         JOptionPane.showMessageDialog(null, scrollPane, titles.length + " Props in Scene", JOptionPane.OK_OPTION);
-        if(list.getSelectedIndex() >= 0) {
-            xCon.ex(String.format("e_selectprop %d", list.getSelectedIndex()));
-            cVars.putInt("camx",
-                    (eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("coordx")
-                    - eUtils.unscaleInt(sSettings.width)/2)
-                    + eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("dimw")/2);
-            cVars.putInt("camy",
-                    (eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("coordy")
-                    - eUtils.unscaleInt(sSettings.height)/2)
-                    + eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("dimw")/2);
-        }
+//        if(list.getSelectedIndex() >= 0) {
+//            xCon.ex(String.format("e_selectprop %d", list.getSelectedIndex()));
+//            cVars.putInt("camx",
+//                    (eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("coordx")
+//                    - eUtils.unscaleInt(sSettings.width)/2)
+//                    + eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("dimw")/2);
+//            cVars.putInt("camy",
+//                    (eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("coordy")
+//                    - eUtils.unscaleInt(sSettings.height)/2)
+//                    + eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId).getInt("dimw")/2);
+//        }
         return "";
     }
 }
