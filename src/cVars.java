@@ -51,7 +51,7 @@ public class cVars {
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
         put("maploaded", "0");
-        put("newitemname", "ITEM_SPAWNPOINT");
+        put("newitemname", "");
         put("newprefabname", "room_small");
         put("maxstockhp", "500");
         put("maxstockspeed", "200");

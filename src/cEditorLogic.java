@@ -17,6 +17,23 @@ public class cEditorLogic {
     static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
 
+    public void refreshCheckBoxItems() {
+        for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
+            checkBoxMenuItem.setSelected(false);
+            if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+                state.createObjCode = gScene.THING_PREFAB;
+                checkBoxMenuItem.setSelected(true);
+            }
+        }
+        for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
+            checkBoxMenuItem.setSelected(false);
+            if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+                state.createObjCode = gScene.THING_ITEM;
+                checkBoxMenuItem.setSelected(true);
+            }
+        }
+    }
+
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
@@ -54,7 +71,7 @@ public class cEditorLogic {
         JMenuItem sceneBlocks = new JMenuItem("Scene Blocks");
         JMenuItem sceneCollisions = new JMenuItem("Scene Collisions");
         JMenuItem setCreatePropInts = new JMenuItem("Set New Prop Settings");
-        JMenuItem setSelectedPropInts = new JMenuItem("Edit Selected Prop Settings");
+//        JMenuItem setSelectedPropInts = new JMenuItem("Edit Selected Prop Settings");
         JMenuItem setCreateFlareDims = new JMenuItem("Set New Flare Dimensions");
         JMenuItem setSelectedFlareDims = new JMenuItem("Edit Selected Flare Dimensions");
         JMenuItem editorUndo = new JMenuItem("Undo (ctrl+z)");
@@ -127,6 +144,7 @@ public class cEditorLogic {
                 for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
                     checkBoxMenuItem.setSelected(false);
                     if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+                        state.createObjCode = gScene.THING_PREFAB;
                         checkBoxMenuItem.setSelected(true);
                     }
                 }
@@ -144,7 +162,8 @@ public class cEditorLogic {
                 cVars.put("newitemname", itemname);
                 for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
                     checkBoxMenuItem.setSelected(false);
-                    if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+                    if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+                        state.createObjCode = gScene.THING_ITEM;
                         checkBoxMenuItem.setSelected(true);
                     }
                 }

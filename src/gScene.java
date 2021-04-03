@@ -7,7 +7,6 @@ import java.util.HashMap;
  * play scenario.
  */
 public class gScene {
-    static final int THING_PROP = 4;
     static final int THING_FLARE = 5;
     static final int THING_PREFAB = 22;
     static final int THING_ITEM = 26;

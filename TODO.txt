@@ -5,10 +5,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
 * CREATE ITEM FOR SPAWNING FLAGS
-    -> useful when flag goes off map bounds, or gets capped or times out and needs to return to its original location
-    -> the spawn point cant be moved or interacted with like a player spawnpoint
-        -> include the spawn location in the placement/putting of flagred/flagblue item
-            -> dont need to resort to the prefab-style $1,$2 syntax... yet
+    -> on intersection, will set "flagmasterid" to and empty string, and put a new flag in the opposing spawner
+    -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place
+        -> storeItem() can be like a prefab, spawning all necessary objects
+    -> the spawn point cant be moved or interacted with (like the player spawnpoint)
 * NEW ITEM CLASS:
     -> need to be able to add/delete to scene cleanly
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
