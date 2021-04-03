@@ -36,6 +36,17 @@ public class xComMouseLeft extends xCom {
                                 pfx, pfy));
                         eManager.currentMap.scene.prefabIdCtr++;
                         break;
+                    case gScene.THING_ITEM:
+                        int iw = 300;
+                        int ih = 300;
+                        int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - iw/2,
+                                cEditorLogic.state.snapToX);
+                        int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
+                                cEditorLogic.state.snapToY);
+                        cVars.putInt("itemid", eManager.currentMap.scene.itemIdCtr);
+                        xCon.ex(String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy));
+                        eManager.currentMap.scene.itemIdCtr++;
+                        break;
                 }
             }
             else if(uiMenus.gobackSelected) {

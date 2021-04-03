@@ -10,6 +10,7 @@ public class xComPutItem extends xCom {
                         "").replace(toks[1] + " ", "");
                 String[] args = argString.split(" ");
                 gItem newItem = itemReturn.getItem(args);
+                newItem.put("itemid", cVars.get("itemid"));
                 itemReturn.storeItem(newItem, eManager.currentMap.scene);
             }
         }

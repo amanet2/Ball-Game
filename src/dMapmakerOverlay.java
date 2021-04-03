@@ -17,17 +17,15 @@ public class dMapmakerOverlay {
                         eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
             }
         }
-        // -- selected prop
-        if(eManager.currentMap.scene.props().size() > cEditorLogic.state.selectedPropId) {
-            int st = cEditorLogic.state.selectedPropId;
-            int sx = eManager.currentMap.scene.props().get(st).getInt("coordx");
-            int sy = eManager.currentMap.scene.props().get(st).getInt("coordy");
-            int sw = eManager.currentMap.scene.props().get(st).getInt("dimw");
-            int sh = eManager.currentMap.scene.props().get(st).getInt("dimh");
-            g2.setColor(new Color(255, 150, 0));
-            g2.drawRect(eUtils.scaleInt(sx-cVars.getInt("camx")),
-                    eUtils.scaleInt(sy-cVars.getInt("camy")),
-                    eUtils.scaleInt(sw), eUtils.scaleInt(sh));
+        // -- selected item
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.isInt("itemid", cVars.getInt("itemid"))) {
+                g2.setColor(new Color(255, 150, 0));
+                g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
+                        eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),
+                        eUtils.scaleInt(item.getInt("dimw")), eUtils.scaleInt(item.getInt("dimh")));
+            }
         }
         // -- selected flare
         ArrayList<gFlare> flareList = eManager.currentMap.scene.flares();

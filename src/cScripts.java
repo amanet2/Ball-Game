@@ -153,6 +153,15 @@ public class cScripts {
                     }
                 }
                 break;
+            case gScene.THING_ITEM:
+                for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+                    gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+                    if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
+                        cVars.put("itemid", item.get("itemid"));
+                        return;
+                    }
+                }
+                break;
         }
     }
 

@@ -4,7 +4,6 @@ public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         int toRemove = -1;
-        String toRemoveId = "";
         switch (cEditorLogic.state.createObjCode) {
             case gScene.THING_FLARE:
                 toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cEditorLogic.state.selectedFlareTag;
@@ -18,6 +17,18 @@ public class xComEditorDelThing extends xCom {
                     eUtils.echoException(e);
                     e.printStackTrace();
                 }
+                break;
+            case gScene.THING_ITEM:
+                toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("itemid");
+                String toRemoveItemId = "";
+                for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+                    gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+                    if(item.isVal("itemid", cVars.get("itemid"))) {
+                        toRemoveItemId = id;
+                    }
+                }
+                if(toRemoveItemId.length() > 0)
+                    xCon.ex("deleteitem " + toRemoveItemId);
                 break;
             case gScene.THING_PREFAB:
                 toRemove = toks.length > 1 ? Integer.parseInt(toks[1]) : cVars.getInt("prefabid");

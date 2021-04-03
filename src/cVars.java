@@ -59,6 +59,7 @@ public class cVars {
         put("powerupson", sVars.get("powerupsmaxon"));
         put("powerupstime", "0");
         put("prefabid", "0");
+        put("itemid", "0");
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
