@@ -1,13 +1,15 @@
+import java.awt.*;
 import java.util.HashMap;
 
 public class gItemFactory {
     HashMap<String, gDoableItemReturn> itemLoadMap;
     private static gItemFactory instance = null;
-
+    Image redFlagSprite;
     private gItemFactory() {
         itemLoadMap = new HashMap<>();
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturnSpawnPoint());
         itemLoadMap.put("ITEM_FLAGRED", new gDoableItemReturnFlagRed());
+        redFlagSprite = gTextures.getScaledImage(eUtils.getPath("misc/flag_red.png"), 300, 300);
     }
 
     public static gItemFactory instance() {

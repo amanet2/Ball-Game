@@ -30,3 +30,6 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
             -> FLEE: you are the carrier
         -> POWERUPS:
             -> PURSUE: superspeed, superdmg, supershield, invisibility
+* go over red flag item, it disappears
+    -> get id: userplayer id
+    -> do: dropflagred <userplayer id>

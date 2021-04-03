@@ -80,6 +80,15 @@ public class dPlayer {
                             (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
+                if(cVars.isVal("redflagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().redFlagSprite,
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+                                    - e.getInt("dimw")/2),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                    - e.getInt("dimh")),
+                            null
+                    );
+                }
                 if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                 (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
