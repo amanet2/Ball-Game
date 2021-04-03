@@ -89,6 +89,18 @@ public class dPlayer {
                             null
                     );
                 }
+                if(cVars.isVal("blueflagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().blueFlagSprite,
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+                                    - e.getInt("dimw")/2),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                    - e.getInt("dimh")),
+                            null
+                    );
+                }
+                //
+                // NEW ABOVE, OLD BELOW
+                //
                 if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
                 || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
                 (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {

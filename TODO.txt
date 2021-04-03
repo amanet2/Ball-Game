@@ -4,12 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* CREATE ITEM FOR SPAWNING FLAGS
+    -> useful when flag goes off map bounds, or gets capped or times out and needs to return to its original location
+    -> the spawn point cant be moved or interacted with like a player spawnpoint
+        -> include the spawn location in the placement/putting of flagred/flagblue item
+            -> dont need to resort to the prefab-style $1,$2 syntax... yet
 * NEW ITEM CLASS:
     -> need to be able to add/delete to scene cleanly
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
-* NEW PROPS:
-    -> have a scripts dir for props like with prefabs
-        -> these will put down preconfigured props with the $1 $2 syntax
 * GFX: instead of box around whole roof, try drawing the top line only
 * EDITOR: use the cv_prefabid example to assign prefab_type, and other vars to blocks put down as part of a prefab
     -> use prefab_name to do copy-prefab function with ctrl+c, ctrl+v can replace selected prefab with copied name

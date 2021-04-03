@@ -8,6 +8,7 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
+        put("blueflagmasterid", "0");
         put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
