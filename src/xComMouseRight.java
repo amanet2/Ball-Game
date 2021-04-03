@@ -5,7 +5,7 @@ public class xComMouseRight extends xCom {
         }
         else {
             if(sSettings.show_mapmaker_ui) {
-                cScripts.selectThingUnderMouse(cEditorLogic.getEditorState().createObjCode);
+                cScripts.selectThingUnderMouse();
             }
         }
         return fullCommand;

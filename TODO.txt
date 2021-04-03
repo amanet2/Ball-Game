@@ -4,7 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210322
+* call the engine the boxcutter engine
 * deleting and selecting things need to be redone to accomodate the new paradigm
+    -> SELECTING
+        -> first try to select items under mouse, then tiles. regardless of create object code
+            -> easy
 * Teleporter item
     -> color-coded
         -> start with purple (obv cause thats the existing sprite)

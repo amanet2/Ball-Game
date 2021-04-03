@@ -132,36 +132,25 @@ public class cScripts {
         }
     }
 
-    public static synchronized void selectThingUnderMouse(int objType) {
+    public static synchronized void selectThingUnderMouse() {
         int[] mc = getMouseCoordinates();
-        switch (objType) {
-            case gScene.THING_FLARE:
-                for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
-                    gFlare t = eManager.currentMap.scene.flares().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && cEditorLogic.state.selectedFlareTag != i) {
-                        xCon.ex(String.format("e_selectflare %d", i));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_PREFAB:
-                for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-                    gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                        cVars.put("prefabid", block.get("prefabid"));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_ITEM:
-                for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-                    gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-                    if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                        cVars.put("itemid", item.get("itemid"));
-                        return;
-                    }
-                }
-                break;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("itemid", item.get("itemid"));
+                cVars.put("prefabid", "");
+                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
+                return;
+            }
+        }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("prefabid", block.get("prefabid"));
+                cVars.put("itemid", "");
+                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
+                return;
+            }
         }
     }
 
