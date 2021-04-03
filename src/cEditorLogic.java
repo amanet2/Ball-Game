@@ -17,18 +17,16 @@ public class cEditorLogic {
     static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
 
-    public void refreshCheckBoxItems() {
+    public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
-                state.createObjCode = gScene.THING_PREFAB;
                 checkBoxMenuItem.setSelected(true);
             }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
-                state.createObjCode = gScene.THING_ITEM;
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -141,13 +139,9 @@ public class cEditorLogic {
             }
             prefabmenuitem.addActionListener(e -> {
                 cVars.put("newprefabname", prefabname);
-                for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
-                    checkBoxMenuItem.setSelected(false);
-                    if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
-                        state.createObjCode = gScene.THING_PREFAB;
-                        checkBoxMenuItem.setSelected(true);
-                    }
-                }
+                cVars.put("newitemname", "");
+                state.createObjCode = gScene.THING_PREFAB;
+                refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
@@ -159,14 +153,10 @@ public class cEditorLogic {
                 itemMenuItem.setSelected(true);
             }
             itemMenuItem.addActionListener(e -> {
+                cVars.put("newprefabname", "");
                 cVars.put("newitemname", itemname);
-                for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
-                    checkBoxMenuItem.setSelected(false);
-                    if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
-                        state.createObjCode = gScene.THING_ITEM;
-                        checkBoxMenuItem.setSelected(true);
-                    }
-                }
+                state.createObjCode = gScene.THING_ITEM;
+                refreshCheckBoxItems();
             });
             itemCheckBoxMenuItems.add(itemMenuItem);
             menus.get("Items").add(itemMenuItem);
