@@ -399,6 +399,7 @@ public class cGameLogic {
                         }
                     }
                 }
+                //after checking all items
                 if(clearTeleporterFlag > 0) {
                     player.put("inteleporter", "0");
                 }
