@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* redo gamemode interface in map editor
+* for flagmaster, you can put the flag down without a base
+* for ctf, put the flag base down
+    -> and also need the red/blue spawnpoints
 * dont let player spawn without a spawnpoint
     -> show a message or something
         -> preferably a JDialog
