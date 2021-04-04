@@ -7,15 +7,13 @@ public class xComEditorDelThing extends xCom {
                 ArrayList<String> toRemoveCollisionIds = new ArrayList<>();
                 for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
                     gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.isVal("prefabid", cVars.get("selectedprefabid"))) {
+                    if(block.isVal("prefabid", cVars.get("selectedprefabid")))
                         toRemoveBlockIds.add(id);
-                    }
                 }
                 for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
                     gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
-                    if(collision.isVal("prefabid", cVars.get("selectedprefabid"))) {
+                    if(collision.isVal("prefabid", cVars.get("selectedprefabid")))
                         toRemoveCollisionIds.add(id);
-                    }
                 }
                 for(String id : toRemoveBlockIds) {
                     xCon.ex("deleteblock " + id);
@@ -24,6 +22,18 @@ public class xComEditorDelThing extends xCom {
                     xCon.ex("deletecollision " + id);
                 }
                 return "deleted prefab " + cVars.get("selectedprefabid");
+        }
+        if(cVars.get("selecteditemid").length() > 0) {
+                String toRemoveItemId = "";
+                for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+                    gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+                    if(item.isVal("itemid", cVars.get("selecteditemid"))) {
+                        toRemoveItemId = id;
+                    }
+                }
+                if(toRemoveItemId.length() > 0)
+                    xCon.ex("deleteitem " + toRemoveItemId);
+                return "deleted item " + cVars.get("selecteditemid");
         }
 //        switch (cEditorLogic.state.createObjCode) {
 //            case gScene.THING_FLARE:

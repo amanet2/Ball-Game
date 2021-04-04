@@ -28,9 +28,13 @@ public class dMapmakerOverlay {
             }
         }
         // -- preview rect
-        int[] pfd = cScripts.getNewPrefabDims();
-        int w = pfd[0];
-        int h = pfd[1];
+        int w = 300;
+        int h = 300;
+        if(cVars.get("newprefabname").length() > 0) {
+            int[] pfd = cScripts.getNewPrefabDims();
+            w = pfd[0];
+            h = pfd[1];
+        }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
                 +cVars.getInt("camx")-w/2, cEditorLogic.state.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
