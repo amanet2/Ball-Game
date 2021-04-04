@@ -32,8 +32,8 @@ public class xComDamagePlayer extends xCom {
                         if(cVars.isVal("flagmasterid", player.get("id"))) {
                             cVars.put("flagmasterid", "");
                             //this does the same thing as above
-                            nServer.instance().addNetCmd("clearthingmap PROP_FLAGRED");
-                            nServer.instance().addNetCmd(String.format("putprop PROP_FLAGRED 0 0 %d %d 300 300",
+                            nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
+                            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                                     player.getInt("coordx"), player.getInt("coordy")));
                         }
                         //migrate all client death logic here

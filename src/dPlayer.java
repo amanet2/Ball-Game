@@ -80,6 +80,16 @@ public class dPlayer {
                             (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
+                if(cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().flagSprite,
+                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+                                    - e.getInt("dimw")/2),
+                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+                                    - e.getInt("dimh")),
+                            null
+                    );
+                }
+                //flag for ctf
                 if(cVars.isVal("redflagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid)) {
                     g2.drawImage(gItemFactory.instance().redFlagSprite,
                             eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
@@ -101,24 +111,24 @@ public class dPlayer {
                 //
                 // NEW ABOVE, OLD BELOW
                 //
-                if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
-                (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
-                    gProp flag = null;
-                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                    for(String id : thingMap.keySet()) {
-                        flag = (gProp) thingMap.get(id);
-                    }
-                    if(flag != null) {
-                        g2.drawImage(flag.sprite,
-                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
-                                        - e.getInt("dimw")/2),
-                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                - e.getInt("dimh")),
-                                null
-                        );
-                    }
-                }
+//                if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
+//                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
+//                (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
+//                    gProp flag = null;
+//                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+//                    for(String id : thingMap.keySet()) {
+//                        flag = (gProp) thingMap.get(id);
+//                    }
+//                    if(flag != null) {
+//                        g2.drawImage(flag.sprite,
+//                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
+//                                        - e.getInt("dimw")/2),
+//                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
+//                                - e.getInt("dimh")),
+//                                null
+//                        );
+//                    }
+//                }
                 //player itself
                 g2.drawImage(
                     e.sprite,

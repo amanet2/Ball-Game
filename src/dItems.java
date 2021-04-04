@@ -8,13 +8,19 @@ public class dItems {
             for(String itemId : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
                 gItem item = (gItem) eManager.currentMap.scene.getThingMap("THING_ITEM").get(itemId);
                 if(item.sprite != null) {
-                    g2.drawImage(item.sprite,
-                            eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),
-                            null
-                    );
+                    //check to delete flags that should not be present anymore
+                    if(item.get("type").contains("ITEM_FLAG") && cVars.get("flagmasterid").length() > 1) {
+                        xCon.ex("deleteitem " + item.get("id"));
+                        break;
+                    }
+                    else
+                        g2.drawImage(item.sprite,
+                                eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
+                                eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),
+                                null
+                        );
                 }
-                else {
+                else if(sSettings.show_mapmaker_ui){
                     g2.setColor(new Color(255, 150, 80, 150));
                     g2.fillRect(eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
                             eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),
