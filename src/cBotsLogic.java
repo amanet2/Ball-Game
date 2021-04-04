@@ -46,7 +46,7 @@ public class cBotsLogic {
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
+                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
             }
         });
         behaviors.put("virus", new gDoableThing(){

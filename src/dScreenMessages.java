@@ -237,7 +237,6 @@ public class dScreenMessages {
                     }
                     drawVirusTagString(g);
                     break;
-                case cGameMode.CAPTURE_THE_FLAG:
                 case cGameMode.FLAG_MASTER:
                     if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
                         dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",

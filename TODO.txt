@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* proceed with the shotgunmasterid approach to weapons (since the existing weapons dont work now anyway)
+* item: have a "zone object"
+    -> will be either red or blue
+    -> team game
 * redo gamemode interface in map editor
 * for flagmaster, you can put the flag down without a base
 * for ctf, put the flag base down
@@ -11,11 +15,6 @@
 * dont let player spawn without a spawnpoint
     -> show a message or something
         -> preferably a JDialog
-* Teleporter item
-    -> color-coded
-        -> start with purple (obv cause thats the existing sprite)
-            -> the first teleporter looks for the second teleporter on intersection and vice versa
-            -> need additional "in teleporter" argument for the player to avoid endless teleportation
 * CREATE ITEM FOR SPAWNING FLAGS
     -> on intersection, if player has flag, will set "flagmasterid" to "", and put a flag in the opposing spawn
     -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place
