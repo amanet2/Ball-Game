@@ -3,20 +3,12 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-20210322
-* we need to not have anything selected when mapmaker cursor is not over a thing
-* GFX: default zoom level should be 1.5x
+20210403
+* EDITOR: every block on a loaded map gets treated like its prefab 0
 * dont let player spawn without a spawnpoint
     -> show a message or something
         -> preferably a JDialog
-* constantly check "selectthignundermouse" to you can delete without manually right clicking
 * call the engine the boxcutter engine
-* EDITOR: replace Thing_details sidebar with the important controls
-    -> Left-click: place item
-    -> backspace: delete selected
-    -> right click: select item
-    -> WASD: move camera
-* EDITOR: deleting and selecting things need to be redone to accomodate the new paradigm
 * Teleporter item
     -> color-coded
         -> start with purple (obv cause thats the existing sprite)
@@ -27,44 +19,21 @@
     -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place
         -> storeItem() can be like a prefab, spawning all necessary objects
     -> the spawn point cant be moved or interacted with (like the player spawnpoint)
-* NEW ITEM CLASS:
-    -> need to be able to add/delete to scene cleanly
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
 * GFX: instead of box around whole roof, try drawing the top line only
-* EDITOR: use the cv_prefabid example to assign prefab_type, and other vars to blocks put down as part of a prefab
-    -> use prefab_name to do copy-prefab function with ctrl+c, ctrl+v can replace selected prefab with copied name
 * EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
+    -> so that when we load a map we can resume editing by prefabs, instead of everything becoming a basic block
 * EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
 * for the "enter value here" main menu elements, use a uiDialog like in showTiles
-* redo room prefab to use corner blocks at corner
-* EDITOR: redo props ui
-    -> dont edit them directly
-    -> props should be ready to go on default
 * PREFABS: we need more of them from TS2
     -> big rooms, double length/wide halls, etc
     -> end pieces/caps
 * CLIENT: need timeout joining serverless game
-* new tops shading:
-    -> from top to bottom ~ of the screen ~ draw the shading on the tops
-        -> so wherever we are, we see the gradient from dark to light
-* track down the commit with the original prefabs set, and compare to the new ones
-* undo is broken
-    -> I think blockIds start overlapping
 * FUTURE: we can make "themes" for prefabs
-* PREFABS:
-    -> redo prefabs to be like the room_small prefab (dont draw bottom wall so we can use it for better snapping together)
-    -> maybe don't draw top's top so they snap together at THAT end
-* new Prefab: post
-    -> all 4 corners make a diamond, then wall will be a V shape
-* NEW TELEPORTER:
-    -> color-coded
-    -> a separate prop for each
-        -> need unique sprites
-* NEW PROPS: SPAWNPOINT_RED, SPAWNPOINT_BLUE
+* NEW ITEMS: SPAWNPOINT_RED, SPAWNPOINT_BLUE
     -> for "team" games
         -> in "team" mode, player's colors are restricted to red/blue in-game,
-* MAPMAKER: copy timesplitters 2 tiles (for single-level maps)
-* weapons dont appear on other clients' screen
+* weapons in players hands dont appear on other clients' screen
 * find out what causes the high cpu usage in mapmaker
 * find a way to have things dynamically load into the scene objects without the object_titles array
 * add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
