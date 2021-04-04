@@ -11,6 +11,17 @@ public class cGameMode {
     static final int VIRUS = 6;
     static final int FLAG_MASTER = 7;
 
+    static String[] net_gamemode_strings = {
+            "Deathmatch",
+            "Race",
+            "Safe Zone",
+            "Capture the Flag",
+            "King of Flags",
+            "Waypoints",
+            "Virus",
+            "flagmaster"
+    };
+
     static String[] net_gamemode_texts = {
             "Deathmatch",
             "Race",

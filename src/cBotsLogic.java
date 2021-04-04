@@ -150,10 +150,10 @@ public class cBotsLogic {
     }
 
     public static void goToFirstThing(gThing bot, String thingType) {
-        gProp waypoint = null;
+        gThing waypoint = null;
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
         for(String id : thingMap.keySet()) {
-            waypoint = (gProp) thingMap.get(id);
+            waypoint = thingMap.get(id);
             break;
         }
         if(waypoint != null) {
