@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class gMap {
-    static final int MAP_TOPVIEW = 0;
     String mapName;
     ArrayList<String> execLines;
     ArrayList<String> mapLines;
@@ -136,22 +135,6 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
-            for(gTile t : scene.tiles()) {
-                String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
-                    t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
-                    t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
-                    t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
-                writer.write(str);
-            }
-            for(gProp p : scene.props()) {
-                String savetitle = gProps.getTitleForProp(p);
-                String str = String.format("putprop %s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
-                    p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
-                writer.write(str);
-            }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
                 String str = String.format("putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
@@ -168,7 +151,6 @@ public class gMap {
 	}
 
     public void exportasprefab(String filename) {
-        System.out.println("EXPORTED AS PREFAB " + filename);
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
@@ -263,6 +245,7 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
+            System.out.println("EXPORTED AS PREFAB " + filename);
         } catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();

@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
+    -> so that when we load a map we can resume editing by prefabs, instead of everything becoming a basic block
+    -> maybe saving map with "cv_prefabid X" over every block/collision with a prefabid will work
 * EDITOR: every block on a loaded map gets treated like its prefab 0
 * dont let player spawn without a spawnpoint
     -> show a message or something
@@ -21,8 +24,6 @@
     -> the spawn point cant be moved or interacted with (like the player spawnpoint)
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
 * GFX: instead of box around whole roof, try drawing the top line only
-* EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
-    -> so that when we load a map we can resume editing by prefabs, instead of everything becoming a basic block
 * EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
 * for the "enter value here" main menu elements, use a uiDialog like in showTiles
 * PREFABS: we need more of them from TS2
@@ -51,9 +52,6 @@
     -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
     -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
-* OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
- collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
-    -> use the same shape as the blockTop section
 * be able to jump in all directions
 * props dont use the propDoable.getProp() function never
 * bots respawning properly for single client
