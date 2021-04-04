@@ -20,7 +20,7 @@ public class dMapmakerOverlay {
         // -- selected item
         for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.isVal("itemid", cVars.get("itemid"))) {
+            if(item.contains("itemid") && item.isVal("itemid", cVars.get("selecteditemid"))) {
                 g2.setColor(new Color(255, 150, 0));
                 g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),

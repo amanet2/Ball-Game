@@ -148,38 +148,10 @@ public class nServer extends Thread implements fNetBase {
             keys.put("quit", "");
         if(cVars.isOne("disconnecting"))
             keys.put("disconnect", "");
-        //server-specific values, mostly for gamemode stuff
-        //the name of the current map
-//        keys.put("map", eManager.currentMap.mapName);
-        //the current gamemode
-//        keys.put("mode", cVars.get("gamemode"));
-        //describes the powerups that should be on map
         keys.put("powerups", cPowerups.createPowerupStringServer());
-        //team game stuff
-//        if(keys.containsKey("teams") && !keys.get("teams").equals(cVars.get("gameteam"))) {
-//            addNetCmd("echo TEAM GAME: " + (cVars.isOne("gameteam") ? "ON" : "OFF"));
-//        }
-//        keys.put("teams", cVars.get("gameteam"));
-        //tickrate sync
-//        if(keys.containsKey("tick") && !keys.get("tick").equals(cVars.get("gametick"))) {
-//            addNetCmd("echo GAME SPEED: " + cVars.get("gametick"));
-//        }
-//        keys.put("tick", cVars.get("gametick"));
         //send scores
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
-        //other gamemode stuff like scorelimit, gravity, etc
-//        if(keys.containsKey("scorelimit") && !keys.get("scorelimit").equals(sVars.get("scorelimit"))) {
-//            nServer.instance().addNetCmd("echo SCORE LIMIT: " + sVars.get("scorelimit"));
-//        }
-//        keys.put("scorelimit", sVars.get("scorelimit"));
-//        keys.put("gravity", cVars.get("gravity"));
-//        if(keys.containsKey("timelimit") && !keys.get("timelimit").equals(sVars.get("timelimit"))) {
-//            addNetCmd("echo TIME LIMIT: " + eUtils.getTimeString(sVars.getLong("timelimit")));
-//            cVars.putLong("starttime", System.currentTimeMillis());
-//            cVars.put("timeleft", sVars.get("timelimit"));
-//        }
-//        keys.put("timelimit", sVars.get("timelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", cScoreboard.getTopScoreString());
         keys.put("state", cServer.getGameStateServer());
