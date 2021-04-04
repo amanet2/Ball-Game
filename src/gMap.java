@@ -51,7 +51,6 @@ public class gMap {
     }
 
 	public void save(String filename) {
-	    System.out.println("SAVED " + filename);
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
@@ -80,14 +79,19 @@ public class gMap {
                         block.get("frontwall"),
                         block.get("backtop")
                 };
-                StringBuilder str = new StringBuilder("putblock");
+                String prefabString = "";
+                if(block.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + block.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
+                StringBuilder blockString = new StringBuilder("putblock");
                 for(String arg : args) {
                     if(arg != null) {
-                        str.append(" ").append(arg);
+                        blockString.append(" ").append(arg);
                     }
                 }
-                str.append('\n');
-                writer.write(str.toString());
+                blockString.append('\n');
+                writer.write(blockString.toString());
             }
             HashMap<String, gThing> collisionMap = scene.getThingMap("THING_COLLISION");
             for(String id : collisionMap.keySet()) {
@@ -109,6 +113,11 @@ public class gMap {
                         yString.toString(),
                         Integer.toString(collision.npoints)
                 };
+                String prefabString = "";
+                if(collision.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + collision.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
                     if(arg != null) {
@@ -143,6 +152,7 @@ public class gMap {
                         f.getInt("a2"), b);
                 writer.write(str);
             }
+            System.out.println("SAVED " + filename);
             wasLoaded = 1;
 		} catch (IOException e) {
             eUtils.echoException(e);
