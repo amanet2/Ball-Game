@@ -4,10 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
-* EDITOR: in saved mapfiles, find way to place "cv_prefabid" on line above where prefabs are loaded block-by-block
-    -> so that when we load a map we can resume editing by prefabs, instead of everything becoming a basic block
-    -> maybe saving map with "cv_prefabid X" over every block/collision with a prefabid will work
-* EDITOR: every block on a loaded map gets treated like its prefab 0
 * dont let player spawn without a spawnpoint
     -> show a message or something
         -> preferably a JDialog

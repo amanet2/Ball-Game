@@ -7,16 +7,13 @@ import java.util.HashMap;
  * play scenario.
  */
 public class gScene {
-    static final int THING_FLARE = 5;
-    static final int THING_PREFAB = 22;
-    static final int THING_ITEM = 26;
-
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
             "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOST", "PROP_FLAGBLUE",
             "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK", "BLOCK_CUBE", "BLOCK_FLOOR",
             "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL", "THING_PREFAB", "PREFAB_CAGE",
-            "PREFAB_CAGEB", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE"
+            "PREFAB_CAGEB", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE",
+            "ITEM_SHOTGUN"
     };
 
 	HashMap<String, ArrayList> objectLists;
@@ -79,10 +76,6 @@ public class gScene {
         return objectLists.get("THING_PROP");
     }
 
-//    public ArrayList<gBlock> blocks() {
-//        return objectLists.get("THING_BLOCK");
-//    }
-
     public ArrayList<gFlare> flares() {
         return objectLists.get("THING_FLARE");
     }
@@ -113,19 +106,5 @@ public class gScene {
 
     public static gPlayer getPlayerById(String id) {
         return eManager.currentMap.scene.playersMap().get(id);
-    }
-
-    static String getObjTitleForCode(int code) {
-	    return object_titles[code];
-    }
-
-    static int getObjCodeForTitle(String title) {
-	    int i = 0;
-        for(String s : object_titles) {
-            if(s.equals(title))
-                return i;
-            i++;
-        }
-        return i;
     }
 }
