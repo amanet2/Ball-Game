@@ -1,9 +1,21 @@
 public class gItemTeleporterBlue extends gItem {
     public void activateItem(gPlayer player) {
         if(player.getInt("stockhp") > 0 && player.isZero("inteleporter")) {
-            player.put("inteleporter", "1");
-            nServer.instance().addNetCmd("echo " + player.get("name") + " entered the blue teleporter");
+            gThing exit = null;
+            for(String id : eManager.currentMap.scene.getThingMap("ITEM_TELEPORTER_BLUE").keySet()) {
+                gThing teleporter = eManager.currentMap.scene.getThingMap("ITEM_TELEPORTER_BLUE").get(id);
+                if(!isVal("id", teleporter.get("id")))
+                    exit = teleporter;
+            }
+            if(exit != null) {
+                player.put("inteleporter", "1");
+                player.put("coordx", exit.get("coordx"));
+                player.put("coordy", exit.get("coordy"));
+                nServer.instance().addNetCmd("echo " + player.get("name") + " entered the blue teleporter");
+            }
         }
+        else
+            player.put("inteleporter", "1");
     }
     public gItemTeleporterBlue(int x, int y) {
         super(x, y, 300, 300);
