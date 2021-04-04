@@ -547,6 +547,7 @@ public class gPlayer extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("id", "");
+        put("inteleporter", "0");
         put("accelrate", "100");
         put("clip", "1");
         put("flashlight", "0");

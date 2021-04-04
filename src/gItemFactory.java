@@ -13,6 +13,7 @@ public class gItemFactory {
         itemLoadMap.put("ITEM_FLAGRED", new gDoableItemReturnFlagRed());
         itemLoadMap.put("ITEM_FLAGBLUE", new gDoableItemReturnFlagBlue());
         itemLoadMap.put("ITEM_SHOTGUN", new gDoableItemReturnShotgun());
+        itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturnTeleporterRed());
         redFlagSprite = gTextures.getScaledImage(eUtils.getPath("misc/flag_red.png"), 300, 300);
         blueFlagSprite = gTextures.getScaledImage(eUtils.getPath("misc/flag_blue.png"), 300, 300);
         shotgunSprite = gTextures.getScaledImage(eUtils.getPath("misc/shotgun.png"), 200, 100);
