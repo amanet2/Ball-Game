@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* FLAGMASTER BUG: former master respawns WITH flag
+    -> it even steals the flag away in front of others!
 * item: shrink mode
 *item: big mode
 * game modes you should have
