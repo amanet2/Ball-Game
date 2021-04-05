@@ -4,6 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* item: shrink mode
+*item: big mode
+* game modes you should have
+    -> deathmatch
+    -> flagmaster
+    -> virus
+    -> zones (king of flags)
+* remove old gProp type.  not needed anymore, only legacy map left is the dm_steam map
 * proceed with the shotgunmasterid approach to weapons (since the existing weapons dont work now anyway)
 * item: have a "zone object"
     -> will be either red or blue
