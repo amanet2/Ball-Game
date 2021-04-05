@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* TELEPORTER: needs to be rewritten in the online paradigm
+    -> have server set user coords and stuff
 * FLAGMASTER BUG: former master respawns WITH flag
+    -> ITS BECAUSE FOR A SPLIT SECOND THE PLAYER RETURNS TO HIS DEATH LOCATION ON RESPAWN
     -> it even steals the flag away in front of others!
 * item: shrink mode
 *item: big mode
