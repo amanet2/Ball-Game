@@ -35,7 +35,7 @@ public class xComRespawnPlayer extends xCom {
                             - player.getInt("dimh") / 2));
                     nServer.instance().addExcludingNetCmd("server", "respawnclientbotplayer " + id);
                 }
-                player.remove("respawntime");
+//                player.remove("respawntime");
                 return "respawned " + id;
             }
             else if(nServer.instance().clientArgsMap.containsKey(id)

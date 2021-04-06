@@ -43,7 +43,8 @@ public class xComDamagePlayer extends xCom {
                         nServer.instance().addNetCmd(animString);
                         nServer.instance().clientArgsMap.get(id).put("respawntime",
                                 Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-//                        nServer.instance().addNetCmd(id, "userplayer coordx -10000;userplayer coordy -10000");
+                        nServer.instance().addNetCmd(id,
+                                "cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
                         xCon.ex("removeplayer " + id);
                     }
                 }
