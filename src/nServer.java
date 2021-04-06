@@ -403,7 +403,7 @@ public class nServer extends Thread implements fNetBase {
         for(String id : clientIds) {
             createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
             if(gScene.getPlayerById(id) != null)
-                addNetCmd(id, "cv_maploaded 1");
+                addNetCmd(id, "cv_maploaded 1;respawn");
             else
                 addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
         }
