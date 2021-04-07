@@ -357,14 +357,23 @@ public class cGameLogic {
     public static void checkGameState() {
         if(sSettings.net_server) {
             switch (cVars.getInt("gamemode")) {
+                case cGameMode.FLAG_MASTER:
+                    //check to delete flags that should not be present anymore
+                    if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() < 1)
+                        break;
+                    if(cVars.get("flagmasterid").length() > 1)
+                        nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
+                    if(cVars.get("flagmasterid").length() > 0
+                            && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                        xCon.ex("givepoint " + cVars.get("flagmasterid"));
+                        cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                    }
+                    break;
                 case cGameMode.KING_OF_FLAGS:
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.VIRUS:
                     cGameMode.checkVirus();
-                    break;
-                case cGameMode.FLAG_MASTER:
-                    cGameMode.checkFlagMaster();
                     break;
                 default:
                     break;

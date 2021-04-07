@@ -119,14 +119,4 @@ public class cGameMode {
             }
         }
     }
-
-    public static void checkFlagMaster() {
-        if(sSettings.net_server) {
-            if(cVars.get("flagmasterid").length() > 0
-                    && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                xCon.ex("givepoint " + cVars.get("flagmasterid"));
-                cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
 }
