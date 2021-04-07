@@ -4,19 +4,25 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* clearthingmap doesn't work because items are in the greater THING_ITEM map as well as ITEM_<TYPE>
+* flagmaster: players joining server when flag already taken have extra vestigial flag at spawn coords
+    -> maybe client can report a flag?
+    -> maybe client can check on its own?
+* support unlimited timelimit
+* UI: new timelimit menu
+    -> time limits:
+        -> None, 2:00, 5:00, 10:00, 15:00, 20:00, 30:00
+* UI: create left/right uiItems
+    -> for things like volume up/down. etc
+* UI: add bots in newgame screen not working
 * GRAPHICS: fix hats going behind small cube tops (prefab)
     -> have y-coord limit for when to draw block tops under/over player (for backtop blocks)
-* SERVER: changing map while player has flag results in no flag on map reload, but only for server
-* FLAGMASTER BUG: former master respawns WITH flag
-    -> ITS BECAUSE FOR A SPLIT SECOND THE PLAYER RETURNS TO HIS DEATH LOCATION ON RESPAWN
-    -> it even steals the flag away in front of others!
 * item: shrink mode
 * item: big mode
-* game modes you should have
+* game modes you should have for mvp
     -> deathmatch
     -> flagmaster
     -> virus
-    -> zones (king of flags)
 * proceed with the shotgunmasterid approach to weapons (since the existing weapons dont work now anyway)
 * item: have a "zone object"
     -> will be either red or blue

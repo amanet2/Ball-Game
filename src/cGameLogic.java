@@ -358,10 +358,8 @@ public class cGameLogic {
         if(sSettings.net_server) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
-                    //check to delete flags that should not be present anymore
-                    if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() < 1)
-                        break;
-                    if(cVars.get("flagmasterid").length() > 1)
+                    if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                            && cVars.get("flagmasterid").length() > 0)
                         nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
                     if(cVars.get("flagmasterid").length() > 0
                             && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
@@ -378,6 +376,13 @@ public class cGameLogic {
                 default:
                     break;
             }
+        }
+        else if(sSettings.isClient()) {
+            //gamestate checks, for server AND clients
+            //check to delete flags that should not be present anymore
+            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    && cVars.get("flagmasterid").length() > 0)
+                xCon.ex("clearthingmap ITEM_FLAG");
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         if(sSettings.net_server || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
