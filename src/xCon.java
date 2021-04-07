@@ -147,7 +147,7 @@ public class xCon {
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());
-        commands.put("disconnect", new xComDeleteItem());
+        commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("dropitem", new xComDropItem());
         commands.put("dropweapon", new xComDropWeapon());
