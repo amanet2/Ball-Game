@@ -89,6 +89,8 @@ public class dWaypoints {
                     if(!cVars.isVal("flagmasterid", "")) {
                         if(!cVars.get("flagmasterid").equals(uiInterface.uuid)) {
                             gPlayer p = gScene.getPlayerById(cVars.get("flagmasterid"));
+                            if(p == null)
+                                break;
                             dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                     p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
                         }

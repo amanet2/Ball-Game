@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* SERVER: changing map while player has flag results in no flag on map reload
 * TELEPORTER: needs to be rewritten in the online paradigm
     -> have server set user coords and stuff
 * FLAGMASTER BUG: former master respawns WITH flag

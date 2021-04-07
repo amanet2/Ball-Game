@@ -151,11 +151,8 @@ public class cGameLogic {
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
+        cVars.put("flagmasterid", "");
         switch (cVars.getInt("gamemode")) {
-            case cGameMode.CAPTURE_THE_FLAG:
-            case cGameMode.FLAG_MASTER:
-                cVars.put("flagmasterid", "");
-                break;
             case cGameMode.KING_OF_FLAGS:
                 cGameMode.resetKingOfFlags();
                 break;
