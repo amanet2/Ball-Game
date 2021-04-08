@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* FLAGMASTER: player quits holding flag, new joiner ends up with flag desync
+    -> server should send some sort of arg to the client in the gamestate to indicate flag location
 * enable unlimited score limit
 * create ability for server to have a player
 * show some indication that timelimit is unlimited
