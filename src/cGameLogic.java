@@ -443,7 +443,7 @@ public class cGameLogic {
         //check for winlose
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
-            if((cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
+            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
             || (cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }

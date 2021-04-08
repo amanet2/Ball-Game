@@ -4,12 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
-* player with flag quitting takes the flag with him
-* clearthingmap doesn't work because items are in the greater THING_ITEM map as well as ITEM_<TYPE>
-* flagmaster: players joining server when flag already taken have extra vestigial flag at spawn coords
-    -> maybe client can report a flag?
-    -> maybe client can check on its own?
-* support unlimited timelimit
+* show some indication that timelimit is unlimited
 * UI: new timelimit menu
     -> time limits:
         -> None, 2:00, 5:00, 10:00, 15:00, 20:00, 30:00

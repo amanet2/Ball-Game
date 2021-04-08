@@ -82,7 +82,8 @@ public class dScreenMessages {
                 if(timeleft < 30000) {
                     dFonts.setFontColorAlert(g);
                 }
-                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
+                if(timeleft > -1)
+                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
                 if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
@@ -267,7 +268,8 @@ public class dScreenMessages {
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
-            if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
+            if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
+                    || cVars.get("winnerid").length() > 0) {
                 dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }
