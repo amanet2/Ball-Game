@@ -79,11 +79,15 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
-                if(timeleft < 30000) {
-                    dFonts.setFontColorAlert(g);
-                }
-                if(timeleft > -1)
+                if(timeleft > -1) {
+                    if(timeleft < 30000) {
+                        dFonts.setFontColorAlert(g);
+                    }
                     dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
+                            29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+                }
+                else
+                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
                 if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {

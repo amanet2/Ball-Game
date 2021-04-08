@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* enable unlimited score limit
+* create ability for server to have a player
 * show some indication that timelimit is unlimited
 * UI: new timelimit menu
     -> time limits:

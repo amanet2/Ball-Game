@@ -345,15 +345,6 @@ public class cGameLogic {
                 xCon.ex("attack");
     }
 
-    public static String getActionLoad() {
-        String actionload = "";
-        if(sSettings.isClient() && cVars.get("sendpowerup").length() > 0) {
-            actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
-            cVars.put("sendpowerup","");
-        }
-        return actionload;
-    }
-
     public static void checkGameState() {
         if(sSettings.net_server) {
             switch (cVars.getInt("gamemode")) {
