@@ -252,6 +252,9 @@ public class nServer extends Thread implements fNetBase {
         String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
         if(cVars.isVal("flagmasterid", id)) {
             cVars.put("flagmasterid", "");
+            gPlayer player = gScene.getPlayerById(id);
+            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
+                    player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);
         cScoreboard.scoresMap.remove(id);

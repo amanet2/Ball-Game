@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
+* player with flag quitting takes the flag with him
 * clearthingmap doesn't work because items are in the greater THING_ITEM map as well as ITEM_<TYPE>
 * flagmaster: players joining server when flag already taken have extra vestigial flag at spawn coords
     -> maybe client can report a flag?
