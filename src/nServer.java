@@ -152,7 +152,7 @@ public class nServer extends Thread implements fNetBase {
         //send scores
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
-        keys.put("scorelimit", sVars.get("scorelimit"));
+//        keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", cScoreboard.getTopScoreString());
         keys.put("state", cServer.getGameStateServer());

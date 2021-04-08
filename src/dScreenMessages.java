@@ -86,9 +86,9 @@ public class dScreenMessages {
                     dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                             29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 }
-                else
-                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
-                        29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+//                else
+//                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
+//                        29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
                 if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
                     dFonts.drawRightJustifiedString(g,
