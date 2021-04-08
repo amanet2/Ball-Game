@@ -89,20 +89,4 @@ public class cServer {
         }
         return "";
     }
-
-    public static void processActionLoadServer(String packActions, String packName, String packId) {
-        String[] actions = packActions.split("\\|");
-        for(String action : actions) {
-            if(action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-                xCon.ex("givepoint " + packId);
-            }
-            if(action.contains("sendpowerup")) {
-                String[] sptoks = action.replace("sendpowerup", "").split(":");
-                gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(sptoks[0]);
-                p.put("int1", sptoks[1]);
-                if(Integer.parseInt(p.get("int1")) < 1)
-                    p.put("int0","0");
-            }
-        }
-    }
 }

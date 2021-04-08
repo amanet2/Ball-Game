@@ -327,9 +327,6 @@ public class nServer extends Thread implements fNetBase {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);
             }
-            //get actions such as exploding
-            String packActions = packArgMap.get("act") != null ? packArgMap.get("act") : "";
-//            int packWeap = packArgMap.get("weapon") != null ? Integer.parseInt(packArgMap.get("weapon")) : 0;
             //fetch old packet
             HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
             String oldName = "";
@@ -379,7 +376,6 @@ public class nServer extends Thread implements fNetBase {
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
                 }
-                cServer.processActionLoadServer(packActions, packName, packId);
                 if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
                     quitClientIds.add(packId);
                 }
