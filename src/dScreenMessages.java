@@ -86,7 +86,7 @@ public class dScreenMessages {
                     dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                             29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 }
-                else
+                else if(sSettings.net_server ? sVars.getInt("scorelimit") > 0 : cVars.getInt("scorelimit") > 0)
                     dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);

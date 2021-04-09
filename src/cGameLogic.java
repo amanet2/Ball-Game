@@ -434,8 +434,9 @@ public class cGameLogic {
         //check for winlose
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
-            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
-            || (cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
+            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
+                    && cVars.getLong("intermissiontime") < 0)
+            || (sVars.getInt("scorelimit") > 0 && cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
