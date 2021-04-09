@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
 * create ability for server to have a player
+    -> make new branch: server_player
     -> look at how "joingamespec" handles joining game as a spectator
     -> decouple the if/else relationship that net_client and net_server settings vars have
         -> no more sharing methods and having if(server) inside method

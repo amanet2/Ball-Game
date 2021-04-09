@@ -8,13 +8,14 @@ public class xComAttack extends xCom {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
                 switch (sSettings.NET_MODE) {
-                    case sSettings.NET_SERVER:
-                        nServer.instance().addNetCmd(fireString);
-                        break;
+                    // server shouldn't attack
+//                    case sSettings.NET_SERVER:
+//                        nServer.instance().addNetCmd(fireString);
+//                        break;
                     case sSettings.NET_CLIENT:
                         nClient.instance().addNetCmd(fireString);
                         break;
-                    default:
+                    case sSettings.NET_OFFLINE:
                         xCon.ex(fireString);
                         break;
                 }

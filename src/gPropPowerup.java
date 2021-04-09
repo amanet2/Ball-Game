@@ -10,17 +10,17 @@ public class gPropPowerup extends gProp {
                 put("int0", "0");
             }
         }
-        if(cGameLogic.isUserPlayer(p)) {
-            if (int0 > 0) {
-                if (p.isZero("weapon")) {
-                    xCon.ex("giveweapon " + p.get("id") + " " + int0);
-                    cPowerups.takepowerupammo(this);
-                } else if (p.isInt("weapon", int0)
-                        && cVars.getInt("weaponstock" + int0) < gWeapons.fromCode(int0).maxAmmo) {
-                    cPowerups.takepowerupammo(this);
-                }
-            }
-        }
+//        if(cGameLogic.isUserPlayer(p)) {
+//            if (int0 > 0) {
+//                if (p.isZero("weapon")) {
+//                    xCon.ex("giveweapon " + p.get("id") + " " + int0);
+//                    cPowerups.takepowerupammo(this);
+//                } else if (p.isInt("weapon", int0)
+//                        && cVars.getInt("weaponstock" + int0) < gWeapons.fromCode(int0).maxAmmo) {
+//                    cPowerups.takepowerupammo(this);
+//                }
+//            }
+//        }
     }
 
     public gPropPowerup(int ux, int uy, int x, int y, int w, int h) {
