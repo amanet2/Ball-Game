@@ -24,7 +24,7 @@ public class cGameLogic {
                 uiInterface.exit();
             }
             if(sSettings.net_server) {
-                checkQuitterStatus();
+                nServer.instance().checkForUnhandledQuitters();
                 checkHealthStatus();
                 checkHatStatus();
                 checkColorStatus();
@@ -32,7 +32,7 @@ public class cGameLogic {
                 checkGameState();
             }
             else if(sSettings.net_client) {
-                checkQuitterStatus();
+                checkDisconnectStatus();
                 if(userPlayer() == null) {
                     checkHatStatus(); //for spectator mode
                     checkColorStatus(); //for spectator
@@ -212,17 +212,6 @@ public class cGameLogic {
         }
         else if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
             nClient.instance().disconnect();
-        }
-    }
-
-    public static void checkQuitterStatus() {
-        switch (sSettings.NET_MODE) {
-            case sSettings.NET_SERVER:
-                nServer.instance().checkForUnhandledQuitters();
-                break;
-            case sSettings.NET_CLIENT:
-                checkDisconnectStatus();
-                break;
         }
     }
 
