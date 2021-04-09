@@ -6,18 +6,10 @@ public class iMouseWheel implements MouseWheelListener {
         if (e.getWheelRotation() < 0) {
             if(sVars.isOne("inconsole"))
                 xCon.linesToShowStart = Math.max(0, xCon.linesToShowStart-1);
-//            else if(sSettings.show_mapmaker_ui)
-//                xCon.ex("-e_nextthing");
-//            else
-//                xCon.ex("dropweapon");
         }
         else {
             if(sVars.isOne("inconsole"))
                 xCon.linesToShowStart = Math.min(xCon.stringLines.size() - xCon.linesToShow, xCon.linesToShowStart + 1);
-//            else if(sSettings.show_mapmaker_ui)
-//                xCon.ex("e_nextthing");
-//            else
-//                xCon.ex("dropweapon");
         }
     }
 }

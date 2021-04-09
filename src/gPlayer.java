@@ -532,12 +532,12 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public void dropWeapon() {
-        xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
-    }
-
     public boolean isBot() {
         return get("id") != null && get("id").contains("bot");
+    }
+
+    public void testDoable() {
+        System.out.println("TEST DOABLE");
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
@@ -575,9 +575,9 @@ public class gPlayer extends gThing {
         put("powerupsusetime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
-        registerDoable("dropweapon", new gDoableThing(){
+        registerDoable("test", new gDoableThing(){
             public void doItem(gThing thing) {
-                dropWeapon();
+                testDoable();
             }
         });
     }
