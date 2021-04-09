@@ -192,7 +192,7 @@ public class nClient extends Thread implements fNetBase {
                 }
                 //important
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
-//                cVars.put("scorelimit", packArgs.get("scorelimit"));
+                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
