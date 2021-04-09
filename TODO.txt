@@ -5,8 +5,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210403
 * create ability for server to have a player
+    -> look at how "joingamespec" handles joining game as a spectator
     -> decouple the if/else relationship that net_client and net_server settings vars have
-        -> no more sharing methods and having if(serveR) inside method
+        -> no more sharing methods and having if(server) inside method
+    -> maybe make server completely headless in order to be sure
 * FLAGMASTER: player quits holding flag, new joiner ends up with flag desync
     -> server should send some sort of arg to the client in the gamestate to indicate flag location
 * show some indication that timelimit is unlimited
