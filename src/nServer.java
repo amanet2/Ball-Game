@@ -22,6 +22,7 @@ public class nServer extends Thread implements fNetBase {
             "putprop",
             "fireweapon"
     ));
+    boolean isPlaying = false;
 
     public static nServer instance() {
         if(instance == null)
@@ -165,25 +166,28 @@ public class nServer extends Thread implements fNetBase {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
             nServer.instance().clientArgsMap.put("server", netVars);
-            gPlayer userPlayer = cGameLogic.userPlayer();
-            if(userPlayer != null) {
+            if(isPlaying) {
                 HashMap<String, String> keys = new HashMap<>();
                 keys.put("id", uiInterface.uuid);
                 //userplayer vars like coords and dirs and weapon
                 keys.put("color", sVars.get("playercolor"));
                 keys.put("hat", sVars.get("playerhat"));
                 keys.put("flashlight", cVars.get("flashlight"));
-                keys.put("x", userPlayer.get("coordx"));
-                keys.put("y", userPlayer.get("coordy"));
-                keys.put("crouch", userPlayer.get("crouch"));
-                keys.put("fv", userPlayer.get("fv"));
-                keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
-                        userPlayer.get("mov2"), userPlayer.get("mov3")));
-                keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
-                        userPlayer.get("vel2"), userPlayer.get("vel3")));
-                keys.put("weapon", userPlayer.get("weapon"));
                 //name for spectator and gameplay
                 keys.put("name", sVars.get("playername"));
+
+                gPlayer userPlayer = cGameLogic.userPlayer();
+                if(userPlayer != null) {
+                    keys.put("x", userPlayer.get("coordx"));
+                    keys.put("y", userPlayer.get("coordy"));
+                    keys.put("crouch", userPlayer.get("crouch"));
+                    keys.put("fv", userPlayer.get("fv"));
+                    keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                            userPlayer.get("mov2"), userPlayer.get("mov3")));
+                    keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                            userPlayer.get("vel2"), userPlayer.get("vel3")));
+                    keys.put("weapon", userPlayer.get("weapon"));
+                }
                 nServer.instance().clientArgsMap.put(uiInterface.uuid, keys);
             }
             if(receivedPackets.size() > 0) {

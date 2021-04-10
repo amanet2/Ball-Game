@@ -139,7 +139,6 @@ public class xCon {
         commands.put("clientnetargs", new xComClientNetArgs());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
-        commands.put("createserverplayer", new xComCreateServerPlayer());
         commands.put("createuserplayer", new xComCreateUserPlayer());
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());

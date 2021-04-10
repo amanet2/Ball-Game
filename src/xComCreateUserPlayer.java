@@ -7,6 +7,8 @@ public class xComCreateUserPlayer extends xCom {
         player0.put("color", sVars.get("playercolor"));
         eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
         cScripts.centerCamera();
+        if(sSettings.net_server)
+            nServer.instance().isPlaying = true;
         return "created user player";
     }
 }

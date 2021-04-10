@@ -3,6 +3,9 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210410
+* server player needs to be non-dependent on existence of user player
+    -> userplayer gets deleted on death
 20210403
 * creating server player:
     ->createuserplayer;respawn
