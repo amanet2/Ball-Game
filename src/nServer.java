@@ -165,8 +165,27 @@ public class nServer extends Thread implements fNetBase {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
             nServer.instance().clientArgsMap.put("server", netVars);
-//            nServer.instance().clientArgsMap.put("server", nVars.copy());
-//            nServer.instance().clientArgsMap.put(uiInterface.uuid, nVars.copy()); //put server's player in map
+            gPlayer userPlayer = cGameLogic.userPlayer();
+            if(userPlayer != null) {
+                HashMap<String, String> keys = new HashMap<>();
+                keys.put("id", uiInterface.uuid);
+                //userplayer vars like coords and dirs and weapon
+                keys.put("color", sVars.get("playercolor"));
+                keys.put("hat", sVars.get("playerhat"));
+                keys.put("flashlight", cVars.get("flashlight"));
+                keys.put("x", userPlayer.get("coordx"));
+                keys.put("y", userPlayer.get("coordy"));
+                keys.put("crouch", userPlayer.get("crouch"));
+                keys.put("fv", userPlayer.get("fv"));
+                keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                        userPlayer.get("mov2"), userPlayer.get("mov3")));
+                keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                        userPlayer.get("vel2"), userPlayer.get("vel3")));
+                keys.put("weapon", userPlayer.get("weapon"));
+                //name for spectator and gameplay
+                keys.put("name", sVars.get("playername"));
+                nServer.instance().clientArgsMap.put(uiInterface.uuid, keys);
+            }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -235,8 +254,10 @@ public class nServer extends Thread implements fNetBase {
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-//        clientArgsMap.put(uiInterface.uuid, nVars.copy());
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
+        if(clientArgsMap.containsKey(uiInterface.uuid)) {
+            sendDataString.append(String.format("@%s", clientArgsMap.get(uiInterface.uuid).toString()));
+        }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {
