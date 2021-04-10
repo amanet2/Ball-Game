@@ -113,16 +113,6 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
                 0,31 * sSettings.height/64);
         }
-        //respawn
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("respawntime")) {
-            g.setColor(new Color(0,0,0,100));
-            g.fillRect(0,0, sSettings.width,sSettings.height/4);
-            g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            dFonts.setFontColorAlert(g);
-            dFonts.drawCenteredString(g, "RESPAWN IN " +
-                            eUtils.getTimeString(cGameLogic.userPlayer().getLong("respawntime") - System.currentTimeMillis()),
-                    sSettings.width / 2, sSettings.height/6);
-        }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
         //menus

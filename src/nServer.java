@@ -165,10 +165,11 @@ public class nServer extends Thread implements fNetBase {
         try {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
-            nServer.instance().clientArgsMap.put("server", netVars);
+            clientArgsMap.put("server", netVars);
             if(isPlaying) {
                 if(!cScoreboard.scoresMap.containsKey(uiInterface.uuid))
                     cScoreboard.addId(uiInterface.uuid);
+
                 HashMap<String, String> keys = new HashMap<>();
                 keys.put("id", uiInterface.uuid);
                 //userplayer vars like coords and dirs and weapon
@@ -180,6 +181,9 @@ public class nServer extends Thread implements fNetBase {
 
                 gPlayer userPlayer = cGameLogic.userPlayer();
                 if(userPlayer != null) {
+//                    if(clientArgsMap.containsKey(uiInterface.uuid)) {
+//                        clientArgsMap.get(uiInterface.uuid).put("stockhp", userPlayer.get("stockhp"));
+//                    }
                     keys.put("x", userPlayer.get("coordx"));
                     keys.put("y", userPlayer.get("coordy"));
                     keys.put("crouch", userPlayer.get("crouch"));
@@ -190,7 +194,7 @@ public class nServer extends Thread implements fNetBase {
                             userPlayer.get("vel2"), userPlayer.get("vel3")));
                     keys.put("weapon", userPlayer.get("weapon"));
                 }
-                nServer.instance().clientArgsMap.put(uiInterface.uuid, keys);
+                clientArgsMap.put(uiInterface.uuid, keys);
             }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
@@ -262,7 +266,10 @@ public class nServer extends Thread implements fNetBase {
         }
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
         if(clientArgsMap.containsKey(uiInterface.uuid)) {
-            sendDataString.append(String.format("@%s", clientArgsMap.get(uiInterface.uuid).toString()));
+            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(uiInterface.uuid));
+            workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+            workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+            sendDataString.append(String.format("@%s", workingmap.toString()));
         }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);

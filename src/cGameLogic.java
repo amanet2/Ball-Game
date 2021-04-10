@@ -42,7 +42,7 @@ public class cGameLogic {
 
             if(userPlayer() != null) {
                 // methods here need migrating to server
-                checkMapGravity();
+//                checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
@@ -112,16 +112,14 @@ public class cGameLogic {
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
-                    if(!userPlayer.contains("respawntime")) {
-                        if(userPlayer.isOne("crouch"))
-                            userPlayer.subtractVal("vel1",
-                                    userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
-                        else
-                            userPlayer.addVal("vel1",
-                                    userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                                            && cVars.getInt("gravity") > 0
-                            ? 1 : 0);
-                    }
+                    if(userPlayer.isOne("crouch"))
+                        userPlayer.subtractVal("vel1",
+                                userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
+                    else
+                        userPlayer.addVal("vel1",
+                                userPlayer.getInt("vel1") < cVars.getInt("gravity")
+                                        && cVars.getInt("gravity") > 0
+                        ? 1 : 0);
                     cVars.put("jumpheight", "0");
                 }
             }
@@ -281,11 +279,6 @@ public class cGameLogic {
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            //server-side respawn code to be enabled after refactoring completed
-            if(p.contains("respawntime") && (p.getLong("respawntime") < currentTime
-                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                p.remove("respawntime");
-            }
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
                     p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
                 if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))

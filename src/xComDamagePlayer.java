@@ -14,7 +14,7 @@ public class xComDamagePlayer extends xCom {
                     //store player object's health in outgoing network arg map
                     nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
                     //handle death
-                    if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
+                    if(player.getInt("stockhp") < 1) {
                         //more server-side stuff
                         String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                         if(shooterid.length() > 0) {
@@ -32,7 +32,6 @@ public class xComDamagePlayer extends xCom {
                         if(cVars.isVal("flagmasterid", player.get("id"))) {
                             cVars.put("flagmasterid", "");
                             //this does the same thing as above
-//                            nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
                             nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                                     player.getInt("coordx"), player.getInt("coordy")));
                         }
