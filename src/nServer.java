@@ -167,6 +167,8 @@ public class nServer extends Thread implements fNetBase {
             HashMap<String, String> netVars = getNetVars();
             nServer.instance().clientArgsMap.put("server", netVars);
             if(isPlaying) {
+                if(!cScoreboard.scoresMap.containsKey(uiInterface.uuid))
+                    cScoreboard.addId(uiInterface.uuid);
                 HashMap<String, String> keys = new HashMap<>();
                 keys.put("id", uiInterface.uuid);
                 //userplayer vars like coords and dirs and weapon
