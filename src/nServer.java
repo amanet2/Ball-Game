@@ -189,6 +189,10 @@ public class nServer extends Thread implements fNetBase {
                     keys.put("weapon", userPlayer.get("weapon"));
                     keys.put("stockhp", userPlayer.get("stockhp"));
                 }
+                if(clientArgsMap.containsKey(uiInterface.uuid)
+                        && clientArgsMap.get(uiInterface.uuid).containsKey("respawntime")) {
+                    keys.put("respawntime", clientArgsMap.get(uiInterface.uuid).get("respawntime"));
+                }
                 clientArgsMap.put(uiInterface.uuid, keys);
             }
             if(receivedPackets.size() > 0) {
@@ -260,12 +264,12 @@ public class nServer extends Thread implements fNetBase {
             }
         }
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
-//        if(clientArgsMap.containsKey(uiInterface.uuid)) {
-//            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(uiInterface.uuid));
-//            workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-//            workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-//            sendDataString.append(String.format("@%s", workingmap.toString()));
-//        }
+        if(isPlaying) {
+            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(uiInterface.uuid));
+            workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+            workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+            sendDataString.append(String.format("@%s", workingmap.toString()));
+        }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {

@@ -47,7 +47,6 @@ public class cGameLogic {
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
-                checkPowerupsStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
@@ -57,48 +56,6 @@ public class cGameLogic {
         catch(Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-        }
-    }
-
-    public static void checkPowerupsStatus() {
-        if(sSettings.net_server || !cScripts.isNetworkGame()) {
-            if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-                int powerupson = 0;
-                ArrayList<gProp> powerupcandidates = new ArrayList<>();
-                HashMap<String, gThing> powerupsMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
-                for (String id : powerupsMap.keySet()) {
-                    gProp p = (gProp) powerupsMap.get(id);
-                    if (!p.isZero("int0")) {
-                        powerupson++;
-                    }
-                    else if(p.isOne("native")){
-                        powerupcandidates.add(p);
-                    }
-                }
-                int ctr = 0;
-                int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
-                while (ctr < limit) {
-                    int r = (int) (Math.random() * powerupcandidates.size());
-                    int rr = (int) (Math.random() * gWeapons.weaponSelection().size()-1)+1;
-                    powerupcandidates.get(r).put("int0", Integer.toString(rr));
-                    powerupcandidates.get(r).putInt("int1", gWeapons.fromCode(rr).maxAmmo);
-                    powerupcandidates.remove(r);
-                    ctr++;
-                }
-                cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
-            }
-        }
-        if(sSettings.net_server) {
-            for(String id : gScene.getPlayerIds()) {
-                if(id.contains("bot")) {
-                    gPlayer p = gScene.getPlayerById(id);
-                    if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                        if (p.getInt("weapon") != gWeapons.type.NONE.code()) {
-                            cScripts.changeBotWeapon(p, gWeapons.type.NONE.code(), true);
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -263,19 +220,7 @@ public class cGameLogic {
         return player.isVal("id", uiInterface.uuid);
     }
 
-    public static void checkHealthStatus() {
-        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
-        Long currentTime = System.currentTimeMillis();
-        for(String id : argsMap.keySet()) {
-            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
-            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                if(!id.contains("bot"))
-                    nServer.instance().addNetCmd("respawnplayer " + id);
-                else
-                    xCon.ex("respawnplayer " + id);
-                argsMap.get(id).remove("respawntime");
-            }
-        }
+    public static void rechargePlayersHealth() {
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
@@ -287,6 +232,23 @@ public class cGameLogic {
                     p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
         }
+    }
+
+    public static void checkHealthStatus() {
+        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+        Long currentTime = System.currentTimeMillis();
+        for(String id : argsMap.keySet()) {
+            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
+            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
+                if(!id.contains("bot"))
+                    nServer.instance().addNetCmd("respawnplayer " + id);
+                else
+                    xCon.ex("respawnplayer " + id);
+                System.out.println("removed respawntime");
+                argsMap.get(id).remove("respawntime");
+            }
+        }
+        rechargePlayersHealth();
     }
 
     public static void checkSprintStatus() {

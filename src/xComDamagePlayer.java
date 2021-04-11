@@ -40,11 +40,19 @@ public class xComDamagePlayer extends xCom {
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                         //be sure not to send too much in one go, net comms
                         nServer.instance().addNetCmd(animString);
+                        System.out.println("kill server");
                         nServer.instance().clientArgsMap.get(id).put("respawntime",
                                 Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-                        nServer.instance().addNetCmd(id,
-                                "cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
-                        xCon.ex("removeplayer " + id);
+                        System.out.println(nServer.instance().clientArgsMap.get(id).toString());
+                        if(id.equals(uiInterface.uuid)) {
+                            xCon.ex("cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
+                            xCon.ex("removeplayer " + id);
+                        }
+                        else {
+                            nServer.instance().addNetCmd(id,
+                                    "cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
+                            xCon.ex("removeplayer " + id);
+                        }
                     }
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());

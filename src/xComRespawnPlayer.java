@@ -25,8 +25,7 @@ public class xComRespawnPlayer extends xCom {
                                     - player.getInt("dimw") / 2)
                             + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
                             - player.getInt("dimh") / 2));
-                    nServer.instance().addNetCmd(id, "cv_flashlight 0;cv_sprint 0;cv_stockspeed cv_maxstockspeed;" +
-                            "cv_camplayertrackingid " + id + ";centercamera");
+                    nServer.instance().addNetCmd(id, "cv_camplayertrackingid " + id + ";centercamera");
                 }
                 else {
                     player.putInt("coordx", (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
@@ -40,9 +39,14 @@ public class xComRespawnPlayer extends xCom {
             else if(nServer.instance().clientArgsMap.containsKey(id)
             && nServer.instance().clientArgsMap.get(id).containsKey("name")) {
                 if(!id.contains("bot")) {
-                    nServer.instance().createServersidePlayer(id, nServer.instance().clientArgsMap.get(id).get("name"));
-                    nServer.instance().addNetCmd(id, "createuserplayer");
-                    doCommand(fullCommand);
+                    if(id.equals(uiInterface.uuid)) {
+                        xCon.ex("createuserplayer;respawn");
+                    }
+                    else {
+                        nServer.instance().createServersidePlayer(id, nServer.instance().clientArgsMap.get(id).get("name"));
+                        nServer.instance().addNetCmd(id, "createuserplayer");
+                        doCommand(fullCommand);
+                    }
                 }
                 else {
                     String botcolor = nServer.instance().clientArgsMap.get(id).get("color");
