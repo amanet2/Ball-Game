@@ -253,9 +253,8 @@ public class cBotsLogic {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-            && nServer.instance().clientArgsMap.get("server").get("state").contains("virus")) {
-                String stateString = nServer.instance().clientArgsMap.get("server").get("state").replace("virus", "");
+            if(nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+                String stateString = nServer.instance().clientArgsMap.get("server").get("state");
                 if(offense) {
                     for(String id : gScene.getPlayerIds()) {
                         if(!stateString.contains(id)) {
