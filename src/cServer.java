@@ -92,7 +92,9 @@ public class cServer {
 //                                System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
 //                    }
 //                }
-                return String.format("virus-%s", cVars.get("virusids"));
+                if(nServer.instance().clientArgsMap.containsKey("server"))
+                    return nServer.instance().clientArgsMap.get("server").get("state");
+                return "";
             default:
                 break;
         }

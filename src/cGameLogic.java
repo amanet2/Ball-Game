@@ -306,7 +306,22 @@ public class cGameLogic {
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.VIRUS:
-                    cGameMode.checkVirus();
+                    if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                        if(nServer.instance().clientArgsMap.containsKey("server")) {
+                            if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
+                                cGameMode.resetVirusPlayers();
+                            }
+                            for(String id : gScene.getPlayerIds()) {
+                                gPlayer p = gScene.getPlayerById(id);
+                                if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
+                                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
+                                    xCon.ex("givepoint " + p.get("id"));
+                                }
+                            }
+                        }
+                        cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    }
                     break;
                 default:
                     break;
