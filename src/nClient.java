@@ -203,8 +203,10 @@ public class nClient extends Thread implements fNetBase {
                 //ugly if else for gamemodes
                 if(packArgs.containsKey("state")) {
                     //need to split up by gametype
-                    if (!cVars.isVal("flagmasterid", packArgs.get("state")))
-                        cVars.put("flagmasterid", packArgs.get("state"));
+                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
+                        if (!cVars.isVal("flagmasterid", packArgs.get("state")))
+                            cVars.put("flagmasterid", packArgs.get("state"));
+                    }
 //                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
 //                        String stateString = packArgs.get("state");
 //                        if(stateString.contains(":")) {

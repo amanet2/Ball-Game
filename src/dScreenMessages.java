@@ -4,30 +4,6 @@ import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
 
-    public static void drawVirusTagString(Graphics g) {
-        if(nServer.instance().clientArgsMap != null
-                && nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            String statestr = nServer.instance().clientArgsMap.get("server").get("state");
-            String[] stoks = statestr.replace("virus", "").split("-");
-            String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
-            if(stoks.length > 1) {
-                int infected = 0;
-                int total = nServer.instance().clientArgsMap.size();
-                for (int i = 0; i < stoks.length; i++) {
-                    String id = stoks[i];
-                    if(id.length() > 0) {
-                        if(statestr.contains(id))
-                            infected++;
-                    }
-                }
-                virusString = String.format("%d/%d PLAYERS INFECTED",infected,total);
-            }
-            dFonts.drawCenteredString(g, virusString,
-                    sSettings.width/2,14*sSettings.height/15);
-        }
-    }
-
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
@@ -226,7 +202,6 @@ public class dScreenMessages {
                         dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
-                    drawVirusTagString(g);
                     break;
                 case cGameMode.FLAG_MASTER:
                     if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
