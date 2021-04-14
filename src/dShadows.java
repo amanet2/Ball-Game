@@ -4,7 +4,7 @@ public class dShadows {
 
     public static void drawTileShadows(Graphics2D g2, gTile t) {
         if(sVars.isOne("vfxenableshadows")) {
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             if(t.getInt("dim1h") > 0) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2 - cVars.getInt("camx")),

@@ -18,3 +18,18 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * ISSUE: startpaused must be init as 1 in svars.java for mapmaker to work right
 * for now, using the mousewheel creates powerups in a local game lol
     -> good for demonstrations
+* you CAN include commands in a prefab
+    -> so to make something happen, spawn a prefab containing the relevant code
+* testing weapons
+    -> SERVER: giveweapon <id> 3
+    -> CLIENT: cv_weaponstock3 18;userplayer weapon 3
+* fun situation
+    -> see enemy on other side of wall, you either have to PURSUE or you have to FLEE
+        -> FLAGMASTER:
+            -> PURSURE: you see the flag/carrier
+            -> FLEE: you are the carrier
+        -> POWERUPS:
+            -> PURSUE: superspeed, superdmg, supershield, invisibility
+* go over red flag item, it disappears
+    -> get id: userplayer id
+    -> do: dropflagred <userplayer id>

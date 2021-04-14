@@ -3,6 +3,9 @@ public class gDoableBlockReturn {
         return null;
     }
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
-        sceneToStore.blocks().add(blockToLoad);
+        int blockId = eManager.currentMap.scene.blockIdCtr;
+        sceneToStore.getThingMap("THING_BLOCK").put(Integer.toString(blockId), blockToLoad);
+        sceneToStore.getThingMap(blockToLoad.get("type")).put(Integer.toString(blockId), blockToLoad);
+        eManager.currentMap.scene.blockIdCtr += 1;
     }
 }

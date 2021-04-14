@@ -103,8 +103,6 @@ public class nClient extends Thread implements fNetBase {
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         gPlayer userPlayer = cGameLogic.userPlayer();
-        //handle outgoing actions
-        keys.put("act", cGameLogic.getActionLoad());
         //handle outgoing msg
         String outgoingMsg = nClient.instance().dequeueNetMsg(); //dequeues w/ every call so call once a tick
         keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
@@ -184,11 +182,7 @@ public class nClient extends Thread implements fNetBase {
             }
             //detect a win message from the server and cancel all movements
             if(idload.equals("server")) {
-//                //check if we're somehow on the wrong map
-//                if(!packArgs.get("map").contains(eManager.currentMap.mapName)) {
-//                    xCon.ex(String.format("load %s", packArgs.get("map") + sVars.get("mapextension")));
-//                    xCon.ex("respawn");
-//                }
+                //scorelimit
                 //check for end of game
                 if(packArgs.get("win").length() > 0) {
                     cVars.put("winnerid", packArgs.get("win"));
@@ -198,10 +192,7 @@ public class nClient extends Thread implements fNetBase {
                 }
                 //important
                 cPowerups.processPowerupStringClient(packArgs.get("powerups"));
-//                cVars.put("gamemode", packArgs.get("mode"));
-//                cVars.put("gameteam", packArgs.get("teams"));
-//                cVars.put("gravity", packArgs.get("gravity"));
-//                cVars.put("gametick", packArgs.get("tick"));
+                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
@@ -212,54 +203,16 @@ public class nClient extends Thread implements fNetBase {
                 //ugly if else for gamemodes
                 if(packArgs.containsKey("state")) {
                     //need to split up by gametype
-                    if(!cVars.isVal("flagmasterid", packArgs.get("state")))
-                        cVars.put("flagmasterid", packArgs.get("state"));
+                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
+                        if (!cVars.isVal("flagmasterid", packArgs.get("state")))
+                            cVars.put("flagmasterid", packArgs.get("state"));
+                    }
                 }
-//                if(packArgs.get("state").contains("safezone")) {
-//                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-//                    String[] args = packArgs.get("state").split("-");
-//                    for(Object id : scorepointsMap.keySet()) {
-//                        gProp pr = (gProp) scorepointsMap.get(id);
-//                        if(pr.isVal("tag", args[1]))
-//                            pr.put("int0", "1");
-//                        else
-//                            pr.put("int0", "0");
-//                    }
-//                    cVars.put("safezonetime", packArgs.get("state").split("-")[2]);
-//                }
-//                if(packArgs.get("state").contains("waypoints")) {
-//                    HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-//                    String[] args = packArgs.get("state").split("-");
-//                    for(Object id : scorepointsMap.keySet()) {
-//                        gProp pr = (gProp) scorepointsMap.get(id);
-//                        pr.put("int0", "0");
-//                        if(pr.isVal("tag", args[1]))
-//                            pr.put("int0", "1");
-//                    }
-//                }
-//                if(packArgs.get("state").contains("kingofflags")) {
-//                    //read kingofflags for client
-//                    String flagidstr = packArgs.get("state").replace("kingofflags","");
-//                    String[] kingids = flagidstr.split(":");
-//                    for(int c = 0; c < kingids.length;c++) {
-//                        String[] kofidpair = kingids[c].split("-");
-//                        HashMap<String, gThing> thingMap =
-//                                eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-//                        for(String id : thingMap.keySet()) {
-//                            if(thingMap.get(id).isVal("tag", kofidpair[0])
-//                                    && !thingMap.get(id).isVal("str0", kofidpair[1])) {
-//                                thingMap.get(id).put("str0", kofidpair[1]);
-//                            }
-//                        }
-//                    }
-//                }
-                //end ugly if else
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(nServer.instance().clientIds.contains(idload)) {
                     ctr ++;
                     foundIds.add(idload);
-//                    String[] requiredFields = new String[]{"name", "x", "y", "vels"};
                     String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
                     for(String rf : requiredFields) {

@@ -1,41 +1,11 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     Image spriteHat;
     Image sprite;
-
-    public boolean canJump() {
-        if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW)) {
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                if((!(getInt("coordx")+getInt("dimw") < t.getInt("coordx"))
-                        && !(getInt("coordx") > t.getInt("coordx")+t.getInt("dimw"))
-                        && (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 10)
-                        || (Math.abs((getInt("coordy")+getInt("dimh"))-t.getInt("coordy")) < 85)
-                        && (t.getInt("dim0h") > 0 || t.getInt("dim3h")>0))
-                        && (t.getInt("dim0h") > 0
-                        || t.getInt("dim3h") > 0
-                        || t.getInt("dim5w") > 0
-                        || t.getInt("dim6w") > 0)
-                ) {
-                    return true;
-                }
-                if(new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim5w"),t.getInt("dim5h"))
-                ) || (new Rectangle2D.Double(getInt("coordx")-10,getInt("coordy")-10,getInt("dimw")+20,getInt("dimh")+20).intersects(
-                        new Rectangle2D.Double(t.getInt("coordx"),t.getInt("coordy"),t.getInt("dim6w"),t.getInt("dim6h")))
-                )){
-                    return true;
-                }
-            }
-        }
-        else {
-            return true;
-        }
-        return false;
-    }
-
 
     public boolean wontClipOnMove(int coord, int coord2) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
@@ -50,15 +20,66 @@ public class gPlayer extends gThing {
                 return false;
             }
         }
-        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            for(String id : gScene.getPlayerIds()) {
-                gPlayer target = gScene.getPlayerById(id);
-                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoords(target, dx, dy)) {
-                    return false;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+            gCollision collision =
+                    (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+            int[][] collisionPoints = new int[][]{
+                    collision.xarr,
+                    collision.yarr
+            };
+            int[][] playerPoints = new int[][]{
+                    new int[] {
+                            dx,
+                            dx + getInt("dimw"),
+                            dx + getInt("dimw"),
+                            dx
+                    },
+                    new int[] {
+                            dy,
+                            dy,
+                            dy + getInt("dimh"),
+                            dy + getInt("dimh")
+                    }};
+            Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
+                    playerPoints[0][1], playerPoints[1][1]);
+            Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
+                    playerPoints[0][2], playerPoints[1][2]);
+            Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
+                    playerPoints[0][3], playerPoints[1][3]);
+            Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
+                    playerPoints[0][0], playerPoints[1][0]);
+            int[] cplen = collisionPoints[0];
+            Line2D[] playerLines = new Line2D[]{ps1, ps2, ps3, ps4};
+            if(cplen.length > 3) {
+                Line2D bs1 = new Line2D.Float(collisionPoints[0][0], collisionPoints[1][0],
+                        collisionPoints[0][1], collisionPoints[1][1]);
+                Line2D bs2 = new Line2D.Float(collisionPoints[0][1], collisionPoints[1][1],
+                        collisionPoints[0][2], collisionPoints[1][2]);
+                Line2D bs3 = new Line2D.Float(collisionPoints[0][2], collisionPoints[1][2],
+                        collisionPoints[0][3], collisionPoints[1][3]);
+                Line2D bs4 = new Line2D.Float(collisionPoints[0][3], collisionPoints[1][3],
+                        collisionPoints[0][0], collisionPoints[1][0]);
+                for(Line2D pl : playerLines) {
+                    if (pl.intersectsLine(bs1) || pl.intersectsLine(bs2) || pl.intersectsLine(bs3)
+                            || pl.intersectsLine(bs4)
+                    )
+                        return false;
+                }
+            }
+            else if(cplen.length > 2) {
+                Line2D bs1 = new Line2D.Float(collisionPoints[0][0], collisionPoints[1][0],
+                        collisionPoints[0][1], collisionPoints[1][1]);
+                Line2D bs2 = new Line2D.Float(collisionPoints[0][1], collisionPoints[1][1],
+                        collisionPoints[0][2], collisionPoints[1][2]);
+                Line2D bs3 = new Line2D.Float(collisionPoints[0][2], collisionPoints[1][2],
+                        collisionPoints[0][0], collisionPoints[1][0]);
+                for(Line2D pl : playerLines) {
+                    if (pl.intersectsLine(bs1) || pl.intersectsLine(bs2) || pl.intersectsLine(bs3))
+                        return false;
                 }
             }
         }
-        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && cVars.isOne("collideplayers")) {
+        if(cVars.isOne("collideplayers")) {
             for(String id : gScene.getPlayerIds()) {
                 gPlayer target = gScene.getPlayerById(id);
                 if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
@@ -67,6 +88,16 @@ public class gPlayer extends gThing {
             }
         }
         return true;
+    }
+
+    public boolean willCollideWithThingAtCoords(gThing target, int dx, int dy) {
+        Shape bounds = new Rectangle(
+                target.getInt("coordx"),
+                target.getInt("coordy"),
+                target.getInt("dimw"),
+                target.getInt("dimh")
+        );
+        return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
     }
 
     public boolean willCollideWithPropAtCoords(gProp target, int dx, int dy) {
@@ -116,17 +147,18 @@ public class gPlayer extends gThing {
         xCon.ex("cv_jumping 0");
     }
 
-    public boolean checkBump(Shape bounds, int ystart) {
-        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
-                    < bounds.getBounds().getHeight()/2+10) {
-                putInt("coordy", (int) (getInt("coordy")
-                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
-                return false;
-            }
-        }
-        return true;
-    }
+//    public boolean checkBump(Shape bounds, int ystart) {
+//        //for sidescrolling maps, automatically go up over bumps in stairs, etc.
+//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
+//                    < bounds.getBounds().getHeight()/2+10) {
+//                putInt("coordy", (int) (getInt("coordy")
+//                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public boolean bounceWithinBounds(Shape bounds, Rectangle targetbounds,
                                    int xstart, int ystart, int xend, int yend) {
@@ -155,17 +187,17 @@ public class gPlayer extends gThing {
                     situation = 5;
                 else if(xend > getInt("coordx") && getInt("coordy")+getInt("dimh") > yend) {
                     situation = 6;
-                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                        cancelJump();
-                    }
+//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                        cancelJump();
+//                    }
                 }
             }
             else if(getInt("vel0") > getInt("vel1") && getInt("vel3") > getInt("vel2")) {
                 if(getInt("coordy")+getInt("dimh") > yend && getInt("coordx")+getInt("dimw") > xstart) {
                     situation = 8;
-                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                        cancelJump();
-                    }
+//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                        cancelJump();
+//                    }
                 }
                 else if(yend > getInt("coordy")+getInt("dimh") && getInt("coordx") < xstart)
                     situation = 9;
@@ -177,9 +209,9 @@ public class gPlayer extends gThing {
                 situation = 4;
             if(getInt("vel0") > getInt("vel1") && getInt("vel3") == 0 && getInt("vel2") == 0) {
                 situation = 7;
-                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-                    cancelJump();
-                }
+//                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
+//                    cancelJump();
+//                }
             }
             if((getInt("vel3") > getInt("vel2") && getInt("vel0") == 0 && getInt("vel1") == 0)
                     && getInt("coordx") < xstart) {
@@ -192,17 +224,15 @@ public class gPlayer extends gThing {
                 case 1:
                 case 2:
                     cVars.put("suppressknocksound", "1");
-                    if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
-                        putInt("vel0", 3*getInt("vel1")/2 - 1);
-                        put("vel1", "0");
-                    }
+                    putInt("vel0", 3*getInt("vel1")/2 - 1);
+                    put("vel1", "0");
                     break;
                 case 3:
                 case 5:
                 case 4:
-                    //check for bump
-                    if(!checkBump(bounds, ystart))
-                        return false;
+                    //check for bump in sidescrollers
+//                    if(!checkBump(bounds, ystart))
+//                        return false;
                     putInt("vel3", getInt("vel2") - 1);
                     put("vel2", "0");
                     break;
@@ -216,9 +246,9 @@ public class gPlayer extends gThing {
                 case 9:
                 case 10:
                 case 11:
-                    //check for bump
-                    if(!checkBump(bounds, ystart))
-                        return false;
+                    //check for bump in sidescrollers
+//                    if(!checkBump(bounds, ystart))
+//                        return false;
                     putInt("vel2", getInt("vel3") - 1);
                     put("vel3", "0");
                     break;
@@ -502,12 +532,12 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public void dropWeapon() {
-        xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
-    }
-
     public boolean isBot() {
         return get("id") != null && get("id").contains("bot");
+    }
+
+    public void testDoable() {
+        System.out.println("TEST DOABLE");
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
@@ -517,6 +547,7 @@ public class gPlayer extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("id", "");
+        put("inteleporter", "0");
         put("accelrate", "100");
         put("clip", "1");
         put("flashlight", "0");
@@ -544,9 +575,9 @@ public class gPlayer extends gThing {
         put("powerupsusetime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
-        registerDoable("dropweapon", new gDoableThing(){
+        registerDoable("test", new gDoableThing(){
             public void doItem(gThing thing) {
-                dropWeapon();
+                testDoable();
             }
         });
     }

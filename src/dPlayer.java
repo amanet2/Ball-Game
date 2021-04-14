@@ -8,12 +8,12 @@ public class dPlayer {
         Graphics2D g2 = (Graphics2D) g;
         try {
             for (String playerId : gScene.getPlayerIds()) {
-                gPlayer e = gScene.getPlayerById(playerId);
+                gPlayer player = gScene.getPlayerById(playerId);
                 //player gun
-                if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
+                if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
                     int[] rgb = new int[4];
                     rgb[3] = 255;
-                    switch (e.getInt("weapon")) {
+                    switch (player.getInt("weapon")) {
                         case gWeapons.type.pistol:
                             rgb[0] = 100;
                             rgb[1] = 255;
@@ -36,114 +36,122 @@ public class dPlayer {
                         default:
                             break;
                     }
-                    if(e.getInt("weapon") != gWeapons.type.NONE.code()) {
-                        int x = eUtils.scaleInt(e.getInt("coordx")-cVars.getInt("camx")
-                                - e.getInt("dimw")/4);
-                        int y = eUtils.scaleInt(e.getInt("coordy")-cVars.getInt("camy")
-                                - e.getInt("dimh")/4);
-                        int w = eUtils.scaleInt(3*e.getInt("dimw")/2);
-                        int h = eUtils.scaleInt(3*e.getInt("dimh")/2);
+                    if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
+                        int x = eUtils.scaleInt(player.getInt("coordx")-cVars.getInt("camx")
+                                - player.getInt("dimw")/4);
+                        int y = eUtils.scaleInt(player.getInt("coordy")-cVars.getInt("camy")
+                                - player.getInt("dimh")/4);
+                        int w = eUtils.scaleInt(3*player.getInt("dimw")/2);
+                        int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
                         if(sVars.isOne("vfxenableflares"))
                             dFlares.drawFlare(g2,x,y,w,h,1,rgb,new int[4]);
                         //solid ring
                         g2.setColor(new Color(rgb[0], rgb[1], rgb[2]));
                         g2.fillOval(
-                                eUtils.scaleInt(e.getInt("coordx") - xCon.getInt("cv_camx")
-                                        - e.getInt("dimw")/16),
-                                eUtils.scaleInt(e.getInt("coordy") - xCon.getInt("cv_camy")
-                                        - e.getInt("dimw")/16),
-                                eUtils.scaleInt(e.getInt("dimw") + e.getInt("dimw")/8),
-                                eUtils.scaleInt(e.getInt("dimh") + e.getInt("dimw")/8)
+                                eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                        - player.getInt("dimw")/16),
+                                eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                        - player.getInt("dimw")/16),
+                                eUtils.scaleInt(player.getInt("dimw") + player.getInt("dimw")/8),
+                                eUtils.scaleInt(player.getInt("dimh") + player.getInt("dimw")/8)
                         );
                     }
                 }
                 //player shadow
-                if (cVars.getInt("mapview") == gMap.MAP_TOPVIEW) {
-                    if(sVars.isOne("vfxenableshadows")) {
-                        //check null fields
-                        if(!e.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                            break;
-                        int yadj = 5*e.getInt("dimh")/6 + cVars.getInt("jumpheight");
-                        Rectangle2D shadowBounds = new Rectangle.Double(
-                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                        + yadj),
-                                eUtils.scaleInt(e.getInt("dimw")),
-                                eUtils.scaleInt(e.getInt("dimh")/3));
-                        RadialGradientPaint df = new RadialGradientPaint(
-                                shadowBounds, new float[]{0f, 1f},
-                                new Color[]{
-                                        new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
-                                        new Color(0, 0, 0, 0)
-                                }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-                        g2.setPaint(df);
-                        g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                                (int)shadowBounds.getHeight());
-                    }
+                if(sVars.isOne("vfxenableplayershadow")) {
+                    //check null fields
+                    if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                        break;
+                    int yadj = 5*player.getInt("dimh")/6 + cVars.getInt("jumpheight");
+                    Rectangle2D shadowBounds = new Rectangle.Double(
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                    + yadj),
+                            eUtils.scaleInt(player.getInt("dimw")),
+                            eUtils.scaleInt(player.getInt("dimh")/3));
+                    RadialGradientPaint df = new RadialGradientPaint(
+                            shadowBounds, new float[]{0f, 1f},
+                            new Color[]{
+                                    new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
+                                    new Color(0, 0, 0, 0)
+                            }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+                    g2.setPaint(df);
+                    g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
+                            (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
-                if((cVars.getInt("gamemode") == cGameMode.CAPTURE_THE_FLAG
-                || cVars.getInt("gamemode") == cGameMode.FLAG_MASTER) &&
-                (cVars.isVal("flagmasterid", e.get("id").length() > 0 ? e.get("id") : uiInterface.uuid))) {
-                    gProp flag = null;
-                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                    for(String id : thingMap.keySet()) {
-                        flag = (gProp) thingMap.get(id);
-                    }
-                    if(flag != null) {
-                        g2.drawImage(flag.sprite,
-                                eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
-                                        - e.getInt("dimw")/2),
-                                eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-                                - e.getInt("dimh")),
-                                null
-                        );
-                    }
+                if(cVars.isVal("flagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().flagSprite,
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                    - player.getInt("dimw")/2),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                    - player.getInt("dimh")),
+                            null
+                    );
+                }
+                //flag for ctf
+                if(cVars.isVal("redflagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().redFlagSprite,
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                    - player.getInt("dimw")/2),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                    - player.getInt("dimh")),
+                            null
+                    );
+                }
+                if(cVars.isVal("blueflagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
+                    g2.drawImage(gItemFactory.instance().blueFlagSprite,
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                    - player.getInt("dimw")/2),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                    - player.getInt("dimh")),
+                            null
+                    );
                 }
                 //player itself
                 g2.drawImage(
-                    e.sprite,
-                    eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
+                    player.sprite,
+                    eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                    eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")),
                     null
                 );
                 //shading
                 if(sVars.isOne("vfxenableshading")) {
                     GradientPaint df = new GradientPaint(
-                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") + 2*e.getInt("dimh")/3
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") + 2*player.getInt("dimh")/3
                                     - cVars.getInt("camy")),
                             new Color(0,0, 0,0),
-                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") + player.getInt("dimh")
                                     - cVars.getInt("camy")),
                             new Color(0,0, 0,cVars.getInt("vfxshadowalpha1")/2));
                     g2.setPaint(df);
-                    g2.fillOval(eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-                            eUtils.scaleInt(e.getInt("dimw")),
-                            eUtils.scaleInt(e.getInt("dimh")));
+                    g2.fillOval(eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(player.getInt("dimw")),
+                            eUtils.scaleInt(player.getInt("dimh")));
                 }
                 //player weapon
-//                AffineTransform backup = g2.getTransform();
-//                AffineTransform a = g2.getTransform();
-//                a.rotate(e.getDouble("fv")-Math.PI/2,
-//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")
-//                                + e.getInt("dimw") / 2),
-//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")
-//                                + e.getInt("dimh") / 2)
-//                );
-//                g2.setTransform(a);
-//                int diff = e.getDouble("fv") >= 2*Math.PI || e.getDouble("fv") <= Math.PI ?
-//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2:
-//                        gWeapons.fromCode(e.getInt("weapon")).dims[1]/2;
-//                g2.drawImage(gWeapons.fromCode(e.getInt("weapon")).sprite,
-//                        eUtils.scaleInt(e.getInt("coordx") + e.getInt("dimw")/2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(e.getInt("coordy") + e.getInt("dimh")/2
-//                                - cVars.getInt("camy")-diff),
-//                        null);
-//                g2.setTransform(backup);
+                AffineTransform backup = g2.getTransform();
+                AffineTransform a = g2.getTransform();
+                a.rotate(player.getDouble("fv")-Math.PI/2,
+                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                + player.getInt("dimw") / 2),
+                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                + player.getInt("dimh") / 2)
+                );
+                g2.setTransform(a);
+                int diff = player.getDouble("fv") >= 2*Math.PI || player.getDouble("fv") <= Math.PI ?
+                        gWeapons.fromCode(player.getInt("weapon")).dims[1]/2:
+                        gWeapons.fromCode(player.getInt("weapon")).dims[1]/2;
+                g2.drawImage(gWeapons.fromCode(player.getInt("weapon")).sprite,
+                        eUtils.scaleInt(player.getInt("coordx") + player.getInt("dimw")/2
+                                - cVars.getInt("camx")),
+                        eUtils.scaleInt(player.getInt("coordy") + player.getInt("dimh")/2
+                                - cVars.getInt("camy")-diff),
+                        null);
+                g2.setTransform(backup);
             }
         }
         catch (Exception e) {

@@ -3,61 +3,91 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210411
+* ALTERNATE STRATEGY:
+    -> make server completely headless, then run a server instance in the background when done through the ui
+        -> do in a different branch, HEADLESS_SERVER
+        -> we get our dedicated server out of this as well
+20210410
+* server player needs to be non-dependent on existence of user player
+    -> userplayer gets deleted on death
+20210403
+* creating server player:
+    ->createuserplayer;respawn
+    -> server player is compatible with cGamelogic.getUserPlayer()
+        -> IMPORTANT, VERY VERY GOOD!!!
+* create ability for server to have a player
+    -> make new branch: server_player
+    -> createuserplayer creates a movable character but they dont show on other player's screens nor can they attack
+    -> look at how "joingamespec" handles joining game as a spectator
+    -> decouple the if/else relationship that net_client and net_server settings vars have
+        -> no more sharing methods and having if(server) inside method
+    -> maybe make server completely headless in order to be sure
+* FLAGMASTER: player quits holding flag, new joiner ends up with flag desync
+    -> server should send some sort of arg to the client in the gamestate to indicate flag location
+* show some indication that timelimit is unlimited
+* UI: new timelimit menu
+    -> time limits:
+        -> None, 2:00, 5:00, 10:00, 15:00, 20:00, 30:00
+* UI: create left/right uiItems
+    -> for things like volume up/down. etc
+* UI: add bots in newgame screen not working
+* GRAPHICS: fix hats going behind small cube tops (prefab)
+    -> have y-coord limit for when to draw block tops under/over player (for backtop blocks)
+* item: shrink mode
+* item: big mode
+* game modes you should have for mvp
+    -> deathmatch
+    -> flagmaster
+    -> virus
+* proceed with the shotgunmasterid approach to weapons (since the existing weapons dont work now anyway)
+* item: have a "zone object"
+    -> will be either red or blue
+    -> team game
+* redo gamemode interface in map editor
+* for flagmaster, you can put the flag down without a base
+* for ctf, put the flag base down
+    -> and also need the red/blue spawnpoints
+* dont let player spawn without a spawnpoint
+    -> show a message or something
+        -> preferably a JDialog
+* CREATE ITEM FOR SPAWNING FLAGS
+    -> on intersection, if player has flag, will set "flagmasterid" to "", and put a flag in the opposing spawn
+    -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place
+        -> storeItem() can be like a prefab, spawning all necessary objects
+    -> the spawn point cant be moved or interacted with (like the player spawnpoint)
+* CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
+* GFX: instead of box around whole roof, try drawing the top line only
+* EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
+* for the "enter value here" main menu elements, use a uiDialog like in showTiles
+* PREFABS: we need more of them from TS2
+    -> big rooms, double length/wide halls, etc
+    -> end pieces/caps
+* CLIENT: need timeout joining serverless game
+* FUTURE: we can make "themes" for prefabs
+* NEW ITEMS: SPAWNPOINT_RED, SPAWNPOINT_BLUE
+    -> for "team" games
+        -> in "team" mode, player's colors are restricted to red/blue in-game,
+* weapons in players hands dont appear on other clients' screen
+* find out what causes the high cpu usage in mapmaker
+* find a way to have things dynamically load into the scene objects without the object_titles array
+* add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
+    -> like how TS2 mapmaker handles floors/levels
+* keep gravity, but only kick in when player is on "backwall" sections of blocks
+    -> could simulate dropping down from a backtop to the floor below
 20210317
+* draw where hitboxes will be on blocks
+    -> draw red outline
+    -> make console svar flag
 * create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
     -> or just keep using the current form
-* cube blocks need "front wall" capability too
-    -> looks like we should have "backtop" and "frontwall" for all not-floor blocks
-* cornerblock shading/shadows needs to be diagonal
-* add a "backtop" arg for raised elements we want to walk on top of (like a pyramid in bomberman64)
-* OPTION: change "frontwall" to "frontwallenabled" IN MAPFILE/CONSTRUCTORS
-    -> if an item is "frontwallenabled" do a Y-coord check on whether to draw it behind or in front of player
-        -> THIS var will be "frontwall"
+* add a "backtop" arg for raised elements we want to walk on top of (like the pyramid in bomberman64)
 * FOR FUTURE
     -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
 * FOR FUTURE
     -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
-* OPTION (OVERRIDE Y BUFFER OPTION) for tilewalls that "pop out" at you, have a small section of the bottom that
- collides player, ensuring that they never appear behind the wall when it will break the illusion of reality
-    -> use the same shape as the blockTop section
-* cube top shadows (which should draw when wall not present) have too hard of lines where shadows begin
-    -> draw one gradient from clear->dark, then one directly under it from dark->clear
-* remove brightness from blocks
-    -> make a special "LIGHTING SQUARE" or "LIGHTING BLOCK" that will interact with flashlight and be applied
-    to maps manually
-    -> or use flares and cut the flashlight feature for now
-        -> we would repurpose the flashlight "glow" for the winner perhaps, or for spawn protection
-* GOOD GOAL: come up with a more intelligent way to layer things instead of rigid rules currently in place
-    -> dBlockWalls.drawBlocksBackground
-    -> dBlockWalls.drawBlocksForeground
-        -> get the test map working, the walls need to be like beams
-    -> it should be a function of the element's Y value
-    -> iterate through all floors and place the highest Ys ( they appear lower on the screen though) LAST,
-     while everything lower is printed out first
-        -> enqueue objects to be drawn in order
-            -> start with floors, if(visible on screen) add to VISIBLE_FLOORS list
-                -> From VISIBLE_FLOORS, remove the lowest Y value and place in FIFO queue
-                    -> drain this queue when drawing floors
-                    -> BUT we need to do two drawings,
-                        -> 1. everything with a LOWER Y (behind) the player
-                        -> 2. everything with a HIGHER Y (in front of) the player
-                            -> goes for HAT too
-                                -> if(HatY < blockTopY) DrawHat behind blockTop
-                                -> if(HatY+HatH > blockTopY+blockTopH) DrawHat in front of blockTop
-* add a final int for "clip" in the create_string of blocks
-* draw hat under blocktop
 * be able to jump in all directions
-* prefab object
-    -> has relative 0->W and 0->H coords which will drop relevant blocks into world coords
-* want both "toph" and "wallh" in block.
-    -> so we can use a more snap-able size to build maps, and then we can say "cut out the top here" or
-       "remove the wall there"
-* try using tiles without any "top" to simulate wall of a bldng to walk inside
-    -> pass in "wallh" instead of "toph" (makes more sense, we want a consistent wall height in levels)
-        -> easier to enter "150" than figure out which toph results in a wallh of 150
 * props dont use the propDoable.getProp() function never
-* creating new BLOCK class which will replace tiles.
-    -> taking inspiration from prop and propfactory pattern
 * bots respawning properly for single client
 20210316
 * respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap

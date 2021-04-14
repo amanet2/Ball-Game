@@ -46,6 +46,7 @@ public class xCon {
     }
 
     public static int getInt(String s) {
+        System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
     }
 
@@ -54,6 +55,7 @@ public class xCon {
     }
 
     public static long getLong(String s) {
+        System.out.println("CONSOLE RETURNING LONG: " + s);
         return Long.parseLong(doCommand(s));
     }
 
@@ -100,27 +102,24 @@ public class xCon {
         visibleCommands.add("load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
+        visibleCommands.add("putblock");
+        visibleCommands.add("putitem");
+        visibleCommands.add("putprop");
+        visibleCommands.add("putflare");
 
         undoableCommands = new ArrayList<>();
-        undoableCommands.add("e_copytile");
         undoableCommands.add("e_newflare");
         undoableCommands.add("e_newprop");
-        undoableCommands.add("e_newtile");
-        undoableCommands.add("e_newtilequick");
         undoableCommands.add("e_nextthing");
-        undoableCommands.add("e_pastetile");
         undoableCommands.add("putflare");
         undoableCommands.add("putprop");
         undoableCommands.add("puttile");
         undoableCommands.add("putblock");
+        undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");
         undoableCommands.add("e_selectprop");
-        undoableCommands.add("e_selecttile");
         undoableCommands.add("e_setselectedflare");
         undoableCommands.add("e_setselectedprop");
-        undoableCommands.add("e_setselectedtile");
-        undoableCommands.add("e_tiledown");
-        undoableCommands.add("e_tileup");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
@@ -145,38 +144,24 @@ public class xCon {
         commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
+        commands.put("deleteblock", new xComDeleteBlock());
+        commands.put("deletecollision", new xComDeleteCollision());
+        commands.put("deleteitem", new xComDeleteItem());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
-        commands.put("dropflagred", new xComDropFlagRed());
-        commands.put("dropweapon", new xComDropWeapon());
+        commands.put("dropitem", new xComDropItem());
         commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
-        commands.put("e_copytile", new xComEditorCopyTile());
+        commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_delthing", new xComEditorDelThing());
-        commands.put("e_newflare", new xComEditorSetNewFlareDims());
-        commands.put("e_newprop", new xComEditorSetNewPropDims());
-        commands.put("e_newtile", new xComEditorSetNewTileDims());
-        commands.put("e_newtilequick", new xComEditorSetNewTileQuickDims());
-        commands.put("e_nextthing", new xComEditorNextThing());
         commands.put("e_openfile", new xComEditorOpenFile());
-        commands.put("e_pastetile", new xComEditorPasteTile());
         commands.put("e_save", new xComEditorSave());
         commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_selectprop", new xComEditorSelectProp());
-        commands.put("e_selecttile", new xComEditorSelectTile());
-        commands.put("e_selectflare", new xComEditorSelectFlare());
-        commands.put("e_setselectedflare", new xComEditorSetSelectedFlareDims());
-        commands.put("e_setselectedprop", new xComEditorSetSelectedPropDims());
-        commands.put("e_setselectedtile", new xComEditorSetSelectedTileDims());
         commands.put("e_setsvars", new xComEditorSetSVars());
         commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showflares", new xComEditorShowFlares());
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
-        commands.put("e_showprops", new xComEditorShowProps());
         commands.put("e_showexecs", new xComEditorShowExecs());
-        commands.put("e_showtiles", new xComEditorShowTiles());
-        commands.put("e_tiledown", new xComEditorTileDown());
-        commands.put("e_tileup", new xComEditorTileUp());
         commands.put("e_undo", new xComEditorUndo());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
@@ -194,14 +179,15 @@ public class xCon {
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
-        commands.put("playercrouch", new xComPlayerCrouch());
         commands.put("playerdown", new xComPlayerDown());
         commands.put("playerleft", new xComPlayerLeft());
         commands.put("playerright", new xComPlayerRight());
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
+        commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
+        commands.put("putitem", new xComPutItem());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
@@ -217,6 +203,8 @@ public class xCon {
         commands.put("selectup", new xComSelectUp());
         commands.put("sendcmd", new xComSendCmd());
         commands.put("set", new xComSet());
+        commands.put("showblocks", new xComShowBlocks());
+        commands.put("showcollisions", new xComShowCollisions());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
@@ -263,9 +251,16 @@ public class xCon {
     public static String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
+            if(args.length > 1) {
+
+            }
+            //
+            // --- NEW ABOVE, OLD BELOW
+            //
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
+                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
@@ -275,6 +270,7 @@ public class xCon {
                     return sVars.get(configval);
                 }
                 else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
+                    System.out.println("CONSOLE PARSING CVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         String val = args[1];
@@ -291,6 +287,7 @@ public class xCon {
                 }
                 String[] otoks = configval.split("\\.");
                 if(otoks.length > 2) {
+                    System.out.println("CONSOLE PARSING <THING>.<ID>.<VAR>: " + otoks[0] + "." + otoks[1] + "." + otoks[2]);
                     String type = otoks[0];
                     int tag = Integer.parseInt(otoks[1]);
                     String var = otoks[2];
@@ -313,6 +310,7 @@ public class xCon {
                     }
                 }
                 else if(otoks.length > 1) {
+                    System.out.println("CONSOLE PARSING <THING>.<ID>: " + otoks[0] + "." + otoks[1]);
                     String type = otoks[0];
                     int tag = Integer.parseInt(otoks[1]);
                     if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {

@@ -3,8 +3,14 @@ import java.io.FileReader;
 
 public class xComExec extends xCom {
     public String doCommand(String fullcommand) {
-        String s = fullcommand.split(" ")[1];
+        String[] args = fullcommand.split(" ");
+        String s = args[1];
         xCon.instance().debug("Loading exec: " + s);
+        if(args.length > 2) {
+            for(int i = 2; i < args.length; i++) {
+                sVars.put(String.format("$%d", i-1), args[i]);
+            }
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             String line;
             while ((line = br.readLine()) != null) {

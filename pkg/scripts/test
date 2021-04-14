@@ -1,1 +1,1 @@
-load test.map;createuserplayer;respawn
+load fm_1.map;createuserplayer;respawn;pause

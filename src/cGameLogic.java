@@ -24,7 +24,7 @@ public class cGameLogic {
                 uiInterface.exit();
             }
             if(sSettings.net_server) {
-                checkQuitterStatus();
+                nServer.instance().checkForUnhandledQuitters();
                 checkHealthStatus();
                 checkHatStatus();
                 checkColorStatus();
@@ -32,7 +32,7 @@ public class cGameLogic {
                 checkGameState();
             }
             else if(sSettings.net_client) {
-                checkQuitterStatus();
+                checkDisconnectStatus();
                 if(userPlayer() == null) {
                     checkHatStatus(); //for spectator mode
                     checkColorStatus(); //for spectator
@@ -42,12 +42,11 @@ public class cGameLogic {
 
             if(userPlayer() != null) {
                 // methods here need migrating to server
-                checkMapGravity();
+//                checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
-                checkPowerupsStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
@@ -57,48 +56,6 @@ public class cGameLogic {
         catch(Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-        }
-    }
-
-    public static void checkPowerupsStatus() {
-        if(sSettings.net_server || !cScripts.isNetworkGame()) {
-            if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-                int powerupson = 0;
-                ArrayList<gProp> powerupcandidates = new ArrayList<>();
-                HashMap<String, gThing> powerupsMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
-                for (String id : powerupsMap.keySet()) {
-                    gProp p = (gProp) powerupsMap.get(id);
-                    if (!p.isZero("int0")) {
-                        powerupson++;
-                    }
-                    else if(p.isOne("native")){
-                        powerupcandidates.add(p);
-                    }
-                }
-                int ctr = 0;
-                int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
-                while (ctr < limit) {
-                    int r = (int) (Math.random() * powerupcandidates.size());
-                    int rr = (int) (Math.random() * gWeapons.weaponSelection().size()-1)+1;
-                    powerupcandidates.get(r).put("int0", Integer.toString(rr));
-                    powerupcandidates.get(r).putInt("int1", gWeapons.fromCode(rr).maxAmmo);
-                    powerupcandidates.remove(r);
-                    ctr++;
-                }
-                cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
-            }
-        }
-        if(sSettings.net_server) {
-            for(String id : gScene.getPlayerIds()) {
-                if(id.contains("bot")) {
-                    gPlayer p = gScene.getPlayerById(id);
-                    if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                        if (p.getInt("weapon") != gWeapons.type.NONE.code()) {
-                            cScripts.changeBotWeapon(p, gWeapons.type.NONE.code(), true);
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -112,35 +69,27 @@ public class cGameLogic {
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
-                    if(!userPlayer.contains("respawntime")) {
-                        if(userPlayer.isOne("crouch"))
-                            userPlayer.subtractVal("vel1",
-                                    userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
-                        else
-                            userPlayer.addVal("vel1",
-                                    userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                                            && cVars.getInt("gravity") > 0
-                            ? 1 : 0);
-                    }
-                    if (!userPlayer().canJump())
-                        cVars.increment("falltime");
+                    if(userPlayer.isOne("crouch"))
+                        userPlayer.subtractVal("vel1",
+                                userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
                     else
-                        cVars.put("falltime", "0");
+                        userPlayer.addVal("vel1",
+                                userPlayer.getInt("vel1") < cVars.getInt("gravity")
+                                        && cVars.getInt("gravity") > 0
+                        ? 1 : 0);
                     cVars.put("jumpheight", "0");
                 }
             }
             //jumping
             if(cVars.isOne("clipplayer")) {
-                int jumpmax = cVars.isInt("mapview", gMap.MAP_SIDEVIEW) ? cVars.getInt("jumptimemax")
-                        : cVars.getInt("jumptimemax")/4;
-                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < jumpmax) {
+                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < cVars.getInt("jumptimemax")) {
                     cVars.increment("jumpheight");
                     if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))
                         xCon.ex("-crouch");
                 }
                 else if(cVars.isOne("jumping")) {
-                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
-                        userPlayer().putInt("mov0", 0);
+//                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
+//                        userPlayer().putInt("mov0", 0);
                     cVars.putInt("jumping", 0);
                 }
             }
@@ -157,11 +106,8 @@ public class cGameLogic {
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
+        cVars.put("flagmasterid", "");
         switch (cVars.getInt("gamemode")) {
-            case cGameMode.CAPTURE_THE_FLAG:
-            case cGameMode.FLAG_MASTER:
-                cVars.put("flagmasterid", "");
-                break;
             case cGameMode.KING_OF_FLAGS:
                 cGameMode.resetKingOfFlags();
                 break;
@@ -224,17 +170,6 @@ public class cGameLogic {
         }
     }
 
-    public static void checkQuitterStatus() {
-        switch (sSettings.NET_MODE) {
-            case sSettings.NET_SERVER:
-                nServer.instance().checkForUnhandledQuitters();
-                break;
-            case sSettings.NET_CLIENT:
-                checkDisconnectStatus();
-                break;
-        }
-    }
-
     public static void checkHatStatus(){
         //player0
         gPlayer userPlayer = cGameLogic.userPlayer();
@@ -285,6 +220,20 @@ public class cGameLogic {
         return player.isVal("id", uiInterface.uuid);
     }
 
+    public static void rechargePlayersHealth() {
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        for(Object id : playersMap.keySet()) {
+            gPlayer p = (gPlayer) playersMap.get(id);
+            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                    p.put("stockhp", cVars.get("maxstockhp"));
+                else
+                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
+            }
+        }
+    }
+
     public static void checkHealthStatus() {
         HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
         Long currentTime = System.currentTimeMillis();
@@ -295,25 +244,11 @@ public class cGameLogic {
                     nServer.instance().addNetCmd("respawnplayer " + id);
                 else
                     xCon.ex("respawnplayer " + id);
+                System.out.println("removed respawntime");
                 argsMap.get(id).remove("respawntime");
             }
         }
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
-        for(Object id : playersMap.keySet()) {
-            gPlayer p = (gPlayer) playersMap.get(id);
-            //server-side respawn code to be enabled after refactoring completed
-            if(p.contains("respawntime") && (p.getLong("respawntime") < currentTime
-                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                p.remove("respawntime");
-            }
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
-                else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
-            }
-        }
+        rechargePlayersHealth();
     }
 
     public static void checkSprintStatus() {
@@ -354,37 +289,92 @@ public class cGameLogic {
                 xCon.ex("attack");
     }
 
-    public static String getActionLoad() {
-        String actionload = "";
-        if(sSettings.isClient() && cVars.get("sendpowerup").length() > 0) {
-            actionload += ("sendpowerup"+cVars.get("sendpowerup")+"|");
-            cVars.put("sendpowerup","");
-        }
-        return actionload;
-    }
-
     public static void checkGameState() {
         if(sSettings.net_server) {
             switch (cVars.getInt("gamemode")) {
+                case cGameMode.FLAG_MASTER:
+                    if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                            && cVars.get("flagmasterid").length() > 0)
+                        nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
+                    if(cVars.get("flagmasterid").length() > 0
+                            && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                        xCon.ex("givepoint " + cVars.get("flagmasterid"));
+                        cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                    }
+                    break;
                 case cGameMode.KING_OF_FLAGS:
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.VIRUS:
-                    cGameMode.checkVirus();
-                    break;
-                case cGameMode.FLAG_MASTER:
-                    cGameMode.checkFlagMaster();
+                    if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                        if(nServer.instance().clientArgsMap.containsKey("server")) {
+                            if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
+                                cGameMode.resetVirusPlayers();
+                            }
+                            for(String id : gScene.getPlayerIds()) {
+                                gPlayer p = gScene.getPlayerById(id);
+                                if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
+                                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
+                                    xCon.ex("givepoint " + p.get("id"));
+                                }
+                            }
+                        }
+                        cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    }
                     break;
                 default:
                     break;
             }
         }
+        else if(sSettings.isClient()) {
+            //gamestate checks, for server AND clients
+            //check to delete flags that should not be present anymore
+            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    && cVars.get("flagmasterid").length() > 0)
+                xCon.ex("clearthingmap ITEM_FLAG");
+        }
+        // NEW ITEMS CHECKING.  ACTUALLY WORKS
+        if(sSettings.net_server || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
+            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
+            for (String playerId : playerMap.keySet()) {
+                gPlayer player = playerMap.get(playerId);
+                //check null fields
+                if (!player.containsFields(new String[]{"coordx", "coordy"}))
+                    break;
+                //check player teleporters
+                int clearTeleporterFlag = 1;
+                for(String checkType : eManager.currentMap.scene.objectMaps.keySet()) {
+                    if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
+                        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkType);
+                        for (String itemId : thingMap.keySet()) {
+                            gItem item = (gItem) thingMap.get(itemId);
+                            if (player.willCollideWithThingAtCoords(item,
+                                    player.getInt("coordx"),
+                                    player.getInt("coordy"))) {
+                                item.activateItem(player);
+                                if(checkType.contains("ITEM_TELEPORTER"))  {
+                                    clearTeleporterFlag = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                //after checking all items
+                if(clearTeleporterFlag > 0) {
+                    player.put("inteleporter", "0");
+                }
+            }
+        }
+        //
+        // NEW ABOVE, OLD BELOW
+        //
         //check ALL PROPS this is the best one
         //new way of checkingProps
+        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
         for(String checkThingType : new String[]{
                 "PROP_TELEPORTER", "PROP_BOOST", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
         }) {
-            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
             for(String playerId : playerMap.keySet()) {
                 gPlayer player = playerMap.get(playerId);
@@ -403,8 +393,9 @@ public class cGameLogic {
         //check for winlose
         if(sSettings.net_server && cVars.isZero("gamewon")) {
             //conditions
-            if((cVars.getInt("timeleft") < 1 && cVars.getLong("intermissiontime") < 0)
-            || (cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
+            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
+                    && cVars.getLong("intermissiontime") < 0)
+            || (sVars.getInt("scorelimit") > 0 && cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
@@ -439,31 +430,4 @@ public class cGameLogic {
             }
         }
     }
-
-//    public static void checkForPlayerDeath() {
-//        //OLD: checks user player for death occuring from falling off sidescroller map and dying in old safezones
-//        gPlayer cl = cGameLogic.userPlayer();
-////        cScripts.checkBulletSplashes();
-//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW){
-//            if(cVars.getInt("falltime") > cVars.getInt("fallkilltime")
-//            && !cl.contains("respawntime")) {
-//                cScripts.playPlayerDeathSound();
-//                cl.put("stockhp", cVars.get("maxstockhp"));
-//                xCon.ex("respawn");
-//                cVars.put("falltime", "0");
-//            }
-//        }
-//        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-//            if(cVars.getLong("safezonetime") < 0) {
-//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-//            }
-//            if(cVars.getLong("safezonetime") < System.currentTimeMillis()) {
-//                cVars.putLong("safezonetime", System.currentTimeMillis() + sVars.getInt("safezonetime"));
-//                cGameMode.refreshSafeZones();
-//                if(sSettings.net_server)
-//                    xCon.ex("say " + cl.get("name") + " died");
-//                xCon.ex("respawn");
-//            }
-//        }
-//    }
 }

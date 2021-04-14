@@ -12,9 +12,5 @@ public class gDoableBlockReturnFloor extends gDoableBlockReturn{
 
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
         super.storeBlock(blockToLoad, sceneToStore);
-        sceneToStore.getThingMap("BLOCK_FLOOR").put(
-                Integer.toString(sceneToStore.getThingMap("BLOCK_FLOOR").size()),
-                blockToLoad
-        );
     }
 }
