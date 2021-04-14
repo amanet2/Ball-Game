@@ -327,38 +327,6 @@ public class dTileTops {
             }
             //BLOCK BRIGHTNESS
             dBlockBrightness.drawBlockBrightness(g2);
-            //flashlight overlay
-            if (cVars.isOne("flashlight")) {
-                int maxd = 900;
-                int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
-                int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
-                int cx = eUtils.unscaleInt(cVars.getInt("camx"));
-                int cy = eUtils.unscaleInt(cVars.getInt("camy"));
-                int snapX = aimerx + cx;
-                int snapY = aimery + cy;
-                snapX -= eUtils.unscaleInt(cVars.getInt("camx"));
-                snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
-                snapX = eUtils.scaleInt(snapX);
-                snapY = eUtils.scaleInt(snapY);
-                for (gTile t : eManager.currentMap.scene.tiles()) {
-                    RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY),
-                            eUtils.scaleInt(maxd / 2), new float[]{0f, 1f},
-                            new Color[]{new Color(0, 0, 0, 0), new Color(0, 0, 0, 255 - t.getInt("brightness"))}
-                    );
-                    g2.setPaint(df);
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh")));
-                }
-            } else {
-                for (gTile t : eManager.currentMap.scene.tiles()) {
-                    g2.setColor(new Color(0, 0, 0, 255 - t.getInt("brightness")));
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            eUtils.scaleInt(t.getInt("dimw")), eUtils.scaleInt(t.getInt("dimh"))
-                    );
-                }
-            }
             //flares
             dFlares.drawSceneFlares(g2);
             //bullets
@@ -455,18 +423,18 @@ public class dTileTops {
             int coordy = p.getInt("coordy") - cVars.getInt("camy");
             dFonts.drawCenteredString(g, name,
                     eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
-            //draw flashlight glow
-            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
-                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
-                    continue;
-                int x = eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")
-                        - p.getInt("dimw") / 4);
-                int y = eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")
-                        - p.getInt("dimh") / 4);
-                int w = eUtils.scaleInt(3 * p.getInt("dimw") / 2);
-                int h = eUtils.scaleInt(3 * p.getInt("dimh") / 2);
-                dFlares.drawFlare(g2, x, y, w, h, 1, new int[]{255, 255, 255, 255}, new int[4]);
-            }
+            //draw flashlight/spawnprotection glow
+//            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
+//                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
+//                    continue;
+//                int x = eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")
+//                        - p.getInt("dimw") / 4);
+//                int y = eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")
+//                        - p.getInt("dimh") / 4);
+//                int w = eUtils.scaleInt(3 * p.getInt("dimw") / 2);
+//                int h = eUtils.scaleInt(3 * p.getInt("dimh") / 2);
+//                dFlares.drawFlare(g2, x, y, w, h, 1, new int[]{255, 255, 255, 255}, new int[4]);
+//            }
         }
     }
 }

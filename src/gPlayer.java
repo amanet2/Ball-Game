@@ -540,11 +540,9 @@ public class gPlayer extends gThing {
         put("inteleporter", "0");
         put("accelrate", "100");
         put("clip", "1");
-        put("flashlight", "0");
         put("exitteleportertag", "-1");
         put("pathspritehat", "");
         put("pathsprite", "");
-        put("crouch", "0");
         put("weapon", "0");
         put("cooldown", "0");
         put("acceltick", "0");

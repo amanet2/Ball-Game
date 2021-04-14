@@ -42,7 +42,7 @@ public class eManager {
             gPlayer obj = gScene.getPlayerById(id);
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3", "crouch"};
+                    "mov2", "mov3"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;
@@ -58,12 +58,8 @@ public class eManager {
                             if(i==0) {
                                 mod = 1.5;
                             }
-                            if(obj.isOne("crouch"))
-                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")/4),
-                                        obj.getInt("vel"+i) + 1)));
-                            else
-                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
-                                        obj.getInt("vel" + i) + 1)));
+                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
+                                    obj.getInt("vel" + i) + 1)));
                         }
                         else if(i != 1 || cVars.getInt("gravity") < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));

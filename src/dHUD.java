@@ -18,20 +18,6 @@ public class dHUD {
                 }
             }
         }
-        //flashlight
-//        if(cVars.isOne("flashlight")) {
-//            g.setColor(new Color(0,0,0,255));
-//            g.fillRect(sSettings.width/64,56*sSettings.height/64,sSettings.width/3,
-//                    sSettings.height/64);
-//            g.setColor(new Color(210,160,0,255));
-//            g.fillRect(sSettings.width/64,56*sSettings.height/64,
-//                    sSettings.width/3,sSettings.height/64);
-//            g.setColor(new Color(150,130,0,255));
-//            g.drawRect(sSettings.width/64,56*sSettings.height/64,sSettings.width/3,
-//                    sSettings.height/64);
-//            g.setColor(new Color(200,200,200,255));
-//            g.drawString("FLASHLIGHT", sSettings.width/62,56*sSettings.height/64);
-//        }
         //health
         g.setColor(new Color(0,0,0,255));
         g.fillRect(sSettings.width/64,60 * sSettings.height/64,sSettings.width/3,

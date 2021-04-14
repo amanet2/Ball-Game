@@ -69,14 +69,8 @@ public class cGameLogic {
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
-                    if(userPlayer.isOne("crouch"))
-                        userPlayer.subtractVal("vel1",
-                                userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
-                    else
-                        userPlayer.addVal("vel1",
-                                userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                                        && cVars.getInt("gravity") > 0
-                        ? 1 : 0);
+                    userPlayer.addVal("vel1", userPlayer.getInt("vel1") < cVars.getInt("gravity")
+                            && cVars.getInt("gravity") > 0 ? 1 : 0);
                     cVars.put("jumpheight", "0");
                 }
             }
@@ -120,14 +114,12 @@ public class cGameLogic {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
+                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
                 if(!nServer.instance().containsArgsForId(id, requiredFields))
                     continue;
                 HashMap<String, String> cargs = nServer.instance().clientArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
-                int ccrouch = Integer.parseInt(cargs.get("crouch"));
-                int cflashlight = Integer.parseInt(cargs.get("flashlight"));
                 gPlayer p = gScene.getPlayerById(id);
                 if(p == null)
                     return;
@@ -144,10 +136,6 @@ public class cGameLogic {
                     if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
                         p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
                 }
-                if(!p.isInt("crouch", ccrouch))
-                    p.putInt("crouch", ccrouch);
-                if(!p.isInt("flashlight", cflashlight))
-                    p.putInt("flashlight", cflashlight);
             }
         }
     }
