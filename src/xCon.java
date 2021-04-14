@@ -141,7 +141,6 @@ public class xCon {
         commands.put("console", new xComConsole());
         commands.put("createserverplayer", new xComCreateServerPlayer());
         commands.put("createuserplayer", new xComCreateUserPlayer());
-        commands.put("crouch", new xComCrouch());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
@@ -165,13 +164,11 @@ public class xCon {
         commands.put("e_undo", new xComEditorUndo());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
-        commands.put("flashlight", new xComFlashlight());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
         commands.put("joingamespec", new xComJoingameSpec());
-        commands.put("jump", new xComJump());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());
@@ -208,7 +205,6 @@ public class xCon {
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
         commands.put("spawnpopup", new xComSpawnPopup());
-        commands.put("sspeed", new xComSuperSpeed());
         commands.put("status", new xComStatus());
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
