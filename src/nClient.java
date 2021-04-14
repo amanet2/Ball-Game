@@ -207,21 +207,6 @@ public class nClient extends Thread implements fNetBase {
                         if (!cVars.isVal("flagmasterid", packArgs.get("state")))
                             cVars.put("flagmasterid", packArgs.get("state"));
                     }
-//                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
-//                        String stateString = packArgs.get("state");
-//                        if(stateString.contains(":")) {
-//                            String[] stateToks = stateString.split(":");
-//                            if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").keySet().size() > 0) {
-//                                for(String flagId : eManager.currentMap.scene.getThingMap("ITEM_FLAG").keySet()) {
-//                                    gThing flag = eManager.currentMap.scene.getThingMap("ITEM_FLAG").get(flagId);
-//                                    flag.put("coordx", stateToks[0]);
-//                                    flag.put("coordy", stateToks[1]);
-//                                }
-//                            }
-//                        }
-//                        else if (!cVars.isVal("flagmasterid", packArgs.get("state")))
-//                            cVars.put("flagmasterid", packArgs.get("state"));
-//                    }
                 }
             }
             else if(!idload.equals(uiInterface.uuid)) {
