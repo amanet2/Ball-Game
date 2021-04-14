@@ -4,30 +4,6 @@ import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
 
-    public static void drawVirusTagString(Graphics g) {
-        if(nServer.instance().clientArgsMap != null
-                && nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            String statestr = nServer.instance().clientArgsMap.get("server").get("state");
-            String[] stoks = statestr.replace("virus", "").split("-");
-            String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
-            if(stoks.length > 1) {
-                int infected = 0;
-                int total = nServer.instance().clientArgsMap.size();
-                for (int i = 0; i < stoks.length; i++) {
-                    String id = stoks[i];
-                    if(id.length() > 0) {
-                        if(statestr.contains(id))
-                            infected++;
-                    }
-                }
-                virusString = String.format("%d/%d PLAYERS INFECTED",infected,total);
-            }
-            dFonts.drawCenteredString(g, virusString,
-                    sSettings.width/2,14*sSettings.height/15);
-        }
-    }
-
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
@@ -65,51 +41,6 @@ public class dScreenMessages {
                         cGameLogic.userPlayer().getInt("coordy")),
                         0,9*sSettings.height/64);
             }
-            // create tile
-            g.drawString("New Thing Type: " + gScene.object_titles[cEditorLogic.state.createObjCode],
-                    0, 11 * sSettings.height / 64);
-            String thingdims = String.format("[%s,%s]", cEditorLogic.state.newTile.get("dimw"),
-                    cEditorLogic.state.newTile.get("dimh"));
-            if(cEditorLogic.state.createObjCode == gScene.THING_PROP)
-                thingdims = String.format("[%s,%s]", cEditorLogic.state.newProp.get("dimw"),
-                        cEditorLogic.state.newProp.get("dimh"));
-            if(cEditorLogic.state.createObjCode == gScene.THING_FLARE)
-                thingdims = String.format("[%s,%s]", cEditorLogic.state.newFlare.get("dimw"),
-                        cEditorLogic.state.newFlare.get("dimh"));
-            g.drawString(String.format("New Thing Dims: %s", thingdims), 0, 12 * sSettings.height / 64);
-            // selected tile
-            g.drawString("Selected Thing Details:",0,14*sSettings.height/64);
-            g.drawString("---",0,15*sSettings.height/64);
-            if(cEditorLogic.state.createObjCode == gScene.THING_TILE
-            && cEditorLogic.state.selectedTileId < eManager.currentMap.scene.tiles().size()) {
-                gTile t = eManager.currentMap.scene.tiles().get(cEditorLogic.state.selectedTileId);
-                int c = 0;
-                for(String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)),0,(16+c)*sSettings.height/64);
-                    c++;
-                }
-            }
-            if(cEditorLogic.state.createObjCode == gScene.THING_PROP
-                    && cEditorLogic.state.selectedPropId < eManager.currentMap.scene.props().size()) {
-                gProp t = eManager.currentMap.scene.props().get(cEditorLogic.state.selectedPropId);
-                int c = 0;
-                for(String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)),0,(16+c)*sSettings.height/64);
-                    c++;
-                }
-            }
-            if(cEditorLogic.state.createObjCode == gScene.THING_FLARE
-                    && cEditorLogic.state.selectedFlareTag< eManager.currentMap.scene.flares().size()) {
-                gFlare t = eManager.currentMap.scene.flares().get(cEditorLogic.state.selectedFlareTag);
-                int c = 0;
-                for (String s : t.vars().keySet()) {
-                    g.drawString(
-                            String.format("%s: %s", s, t.get(s)), 0, (16 + c) * sSettings.height / 64);
-                    c++;
-                }
-            }
         }
         //ingame messages
         dFonts.setFontColorNormal(g);
@@ -124,10 +55,15 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
                         29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
-                if(timeleft < 30000) {
-                    dFonts.setFontColorAlert(g);
+                if(timeleft > -1) {
+                    if(timeleft < 30000) {
+                        dFonts.setFontColorAlert(g);
+                    }
+                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
+                            29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 }
-                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cVars.getLong("timeleft")),
+                else if(sSettings.net_server ? sVars.getInt("scorelimit") > 0 : cVars.getInt("scorelimit") > 0)
+                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
                 if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
@@ -136,10 +72,6 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
                 }
                 dFonts.setFontColorNormal(g);
-//                dFonts.drawRightJustifiedString(g, (sSettings.net_server ? sVars.get("scorelimit")
-//                                : cVars.get("scorelimit")) + " points to win | "
-//                                + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-//                        29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
                 dFonts.drawRightJustifiedString(g,
                         cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                     29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
@@ -157,16 +89,6 @@ public class dScreenMessages {
             g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
                 0,31 * sSettings.height/64);
         }
-        //respawn
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("respawntime")) {
-            g.setColor(new Color(0,0,0,100));
-            g.fillRect(0,0, sSettings.width,sSettings.height/4);
-            g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            dFonts.setFontColorAlert(g);
-            dFonts.drawCenteredString(g, "RESPAWN IN " +
-                            eUtils.getTimeString(cGameLogic.userPlayer().getLong("respawntime") - System.currentTimeMillis()),
-                    sSettings.width / 2, sSettings.height/6);
-        }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
         //menus
@@ -183,10 +105,18 @@ public class dScreenMessages {
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
             else {
-                g.drawString(String.format("{TILES : %d, PROPS: %d, FLARES: %d}",
-                    eManager.currentMap.scene.tiles().size(), eManager.currentMap.scene.props().size(),
-                    eManager.currentMap.scene.flares().size()),
-                        0,15*sSettings.height/16);
+                dFonts.setFontNormal(g);
+                String newThingString = cVars.get("newprefabname");
+                if(cVars.get("newitemname").length() > 0)
+                    newThingString = cVars.get("newitemname");
+                String selectedThingString = cVars.get("selectedprefabname");
+                if(cVars.get("selecteditemname").length() > 0)
+                    selectedThingString = cVars.get("selecteditemname");
+                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
+                    g.drawString("[BACKSPACE] - DELETE " + selectedThingString,0,25*sSettings.height/32);
+                g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
+                g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
+                        29*sSettings.height/32);
                 g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
                     31*sSettings.height/32);
             }
@@ -272,9 +202,7 @@ public class dScreenMessages {
                         dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
-                    drawVirusTagString(g);
                     break;
-                case cGameMode.CAPTURE_THE_FLAG:
                 case cGameMode.FLAG_MASTER:
                     if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
                         dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
@@ -305,7 +233,8 @@ public class dScreenMessages {
         }
         //timeleft
         if(cScripts.isNetworkGame()) {
-            if(cVars.getInt("timeleft") <= 0 || cVars.get("winnerid").length() > 0) {
+            if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
+                    || cVars.get("winnerid").length() > 0) {
                 dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
             }
         }

@@ -2,19 +2,6 @@ import java.awt.*;
 
 public class dTileFloors {
     public static void drawFloors(Graphics2D g2) {
-        g2.setColor(Color.YELLOW);
-        if(sSettings.show_mapmaker_ui) {
-            for(int i = -6000; i <= 6000; i+=300) {
-                g2.drawLine(eUtils.scaleInt(-6000 - cVars.getInt("camx")),
-                    eUtils.scaleInt(i - cVars.getInt("camy")),
-                    eUtils.scaleInt(6000 - cVars.getInt("camx")),
-                    eUtils.scaleInt(i - cVars.getInt("camy")));
-                g2.drawLine(eUtils.scaleInt(i - cVars.getInt("camx")),
-                    eUtils.scaleInt(-6000 - cVars.getInt("camy")),
-                    eUtils.scaleInt(i - cVars.getInt("camx")),
-                    eUtils.scaleInt(6000 - cVars.getInt("camy")));
-            }
-        }
         if(cVars.isOne("maploaded")) {
             dBlockFloors.drawBlockFloors(g2);
             for (gTile tile : eManager.currentMap.scene.tiles()) {
@@ -39,7 +26,7 @@ public class dTileFloors {
                                 eUtils.scaleInt(tile.getInt("dimw")),
                                 eUtils.scaleInt(tile.getInt("dimh"))
                         );
-                        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                        g2.setStroke(dFonts.thickStroke);
                         gradient = new GradientPaint(
                                 eUtils.scaleInt(tile.getInt("coordx") + tile.getInt("dimw") / 2
                                         - cVars.getInt("camx")),

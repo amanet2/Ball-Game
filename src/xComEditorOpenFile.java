@@ -13,9 +13,7 @@ public class xComEditorOpenFile extends xCom {
                 }
                 File file = fileChooser.getSelectedFile();
                 xCon.ex("load " + file.getPath());
-                cEditorLogic.menus.get("Scene").getItem(1).setText("Game Mode: " +
-                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
-                cEditorLogic.menus.get("Scene").getItem(3).setText("Map Execs: " + eManager.currentMap.execLines.size());
+                cEditorLogic.refreshGametypeCheckBoxMenuItems();
             }
         }
         return "";

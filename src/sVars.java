@@ -22,6 +22,9 @@ public class sVars {
         keys.put("defaultexec", "config/autoexec.cfg");
         keys.put("defaultmap", "mainmenu.map");
         keys.put("defaulttitle", "Ball Game");
+        keys.put("drawmapmakergrid", "1");
+        keys.put("drawhitboxes", "1");
+        keys.put("drawplayerarrow", "0");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
         keys.put("fontcolorbonus", "50,220,100,200");
@@ -44,7 +47,6 @@ public class sVars {
         keys.put("ratebots", "30");
         keys.put("rateclient", "30");
         keys.put("rateserver", "500");
-        keys.put("playerarrow", "0");
         keys.put("playercolor", "blue");
         keys.put("playerhat", "none");
         keys.put("playername", "player");
@@ -62,11 +64,12 @@ public class sVars {
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("startpaused", "0");
+        keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");
         keys.put("timeout", "1000");
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
+        keys.put("vfxenableplayershadow", "1");
         keys.put("vfxenableshading", "1");
         keys.put("vfxenableshadows", "1");
         keys.put("vfxfactor", "144");

@@ -5,12 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class gMap {
-    static final int MAP_TOPVIEW = 0;
-    static final int MAP_SIDEVIEW = 1;
-    static String[] mapview_selection = new String[] {
-            "top-down view",
-            "side-scrolling view"
-    };
     String mapName;
     ArrayList<String> execLines;
     ArrayList<String> mapLines;
@@ -29,7 +23,6 @@ public class gMap {
 	public gMap() {
         basicInit();
         mapName = "new";
-        cVars.putInt("mapview", sSettings.create_map_mode);
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
@@ -58,34 +51,98 @@ public class gMap {
     }
 
 	public void save(String filename) {
-	    System.out.println("SAVED " + filename);
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cv_mapview %s\n", cVars.get("mapview")));
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
-            writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
+            if(cVars.get("botbehavior").length() > 0)
+                writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
             //this one is dynamic
             for(String s : execLines) {
-                if(!s.contains("cv_mapview") && !s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
+                if(!s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
                     writer.write(s + "\n");
                 }
             }
-            for(gTile t : scene.tiles()) {
-                String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
-                    t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
-                    t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
-                    t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
-                writer.write(str);
+            HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
+            for(String id : blockMap.keySet()) {
+                gBlock block = (gBlock) blockMap.get(id);
+                String[] args = new String[]{
+                        block.get("type"),
+                        block.get("coordx"),
+                        block.get("coordy"),
+                        block.get("dimw"),
+                        block.get("dimh"),
+                        block.get("toph"),
+                        block.get("wallh"),
+                        block.get("color"),
+                        block.get("colorwall"),
+                        block.get("frontwall"),
+                        block.get("backtop")
+                };
+                String prefabString = "";
+                if(block.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + block.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
+                StringBuilder blockString = new StringBuilder("putblock");
+                for(String arg : args) {
+                    if(arg != null) {
+                        blockString.append(" ").append(arg);
+                    }
+                }
+                blockString.append('\n');
+                writer.write(blockString.toString());
             }
-            for(gProp p : scene.props()) {
-                String savetitle = gProps.getTitleForProp(p);
-                String str = String.format("putprop %s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
-                    p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
-                writer.write(str);
+            HashMap<String, gThing> collisionMap = scene.getThingMap("THING_COLLISION");
+            for(String id : collisionMap.keySet()) {
+                gCollision collision = (gCollision) collisionMap.get(id);
+                StringBuilder xString = new StringBuilder();
+                StringBuilder yString = new StringBuilder();
+                for(int i = 0; i < collision.xarr.length; i++) {
+                    int coordx = collision.xarr[i];
+                    xString.append(coordx).append(".");
+                }
+                xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
+                for(int i = 0; i < collision.yarr.length; i++) {
+                    int coordy = collision.yarr[i];
+                    yString.append(coordy).append(".");
+                }
+                yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
+                String[] args = new String[]{
+                        xString.toString(),
+                        yString.toString(),
+                        Integer.toString(collision.npoints)
+                };
+                String prefabString = "";
+                if(collision.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + collision.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
+                StringBuilder str = new StringBuilder("putcollision");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
+            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
+            for(String id : itemMap.keySet()) {
+                gItem item = (gItem) itemMap.get(id);
+                String[] args = new String[]{
+                        item.get("type"),
+                        item.get("coordx"),
+                        item.get("coordy")
+                };
+                StringBuilder str = new StringBuilder("putitem");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
             }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
@@ -95,10 +152,113 @@ public class gMap {
                         f.getInt("a2"), b);
                 writer.write(str);
             }
+            System.out.println("SAVED " + filename);
             wasLoaded = 1;
 		} catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();
 		}
 	}
+
+    public void exportasprefab(String filename) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
+            for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
+                gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
+                int coordx = block.getInt("coordx");
+                int coordy = block.getInt("coordy");
+                String xString = "$1";
+                String yString = "$2";
+
+                if(coordx < 0) {
+                    xString += Integer.toString(coordx);
+                }
+                else if(coordx > 0) {
+                    xString += "+";
+                    xString += Integer.toString(coordx);
+                }
+
+                if(coordy < 0) {
+                    yString += Integer.toString(coordy);
+                }
+                else if(coordy > 0) {
+                    yString += "+";
+                    yString += Integer.toString(coordy);
+                }
+
+                String[] args = new String[]{
+                        block.get("type"),
+                        xString,
+                        yString,
+                        block.get("dimw"),
+                        block.get("dimh"),
+                        block.get("toph"),
+                        block.get("wallh"),
+                        block.get("color"),
+                        block.get("colorwall"),
+                        block.get("frontwall"),
+                        block.get("backtop")
+                };
+                StringBuilder str = new StringBuilder("putblock");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
+            for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
+                gCollision collision = (gCollision) scene.getThingMap("THING_COLLISION").get(id);
+                String xString = "";
+                String yString = "";
+                for(int i = 0; i < collision.xarr.length; i++) {
+                    String ws = "$1";
+                    int coordx = collision.xarr[i];
+                    if(coordx < 0) {
+                        ws += Integer.toString(coordx);
+                    }
+                    else if(coordx > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordx);
+                    }
+                    ws += ".";
+                    xString += ws;
+                }
+                xString = xString.substring(0, xString.lastIndexOf("."));
+                for(int i = 0; i < collision.yarr.length; i++) {
+                    String ws = "$2";
+                    int coordy = collision.yarr[i];
+                    if(coordy < 0) {
+                        ws += Integer.toString(coordy);
+                    }
+                    else if(coordy > 0) {
+                        ws += "+";
+                        ws += Integer.toString(coordy);
+                    }
+                    ws += ".";
+                    yString += ws;
+                }
+                yString = yString.substring(0, yString.lastIndexOf("."));
+
+                String[] args = new String[]{
+                        xString,
+                        yString,
+                        Integer.toString(collision.npoints)
+                };
+                StringBuilder str = new StringBuilder("putcollision");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
+            }
+            System.out.println("EXPORTED AS PREFAB " + filename);
+        } catch (IOException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
+    }
 }

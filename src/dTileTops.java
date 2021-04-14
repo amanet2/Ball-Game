@@ -28,23 +28,7 @@ public class dTileTops {
 //                            null);
 //                }
             }
-            HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
-            for(String tag : squareMap.keySet()) {
-                gBlockCube block = (gBlockCube) squareMap.get(tag);
-                if(block.contains("toph") && block.isZero("backtop")) {
-                    dBlockTops.drawBlockTopCube(g2, block);
-                }
-                if(block.contains("wallh") && block.isOne("frontwall")) {
-                    gPlayer userplayer = cGameLogic.userPlayer();
-                    if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                > userplayer.getInt("coordy"))
-                            dBlockWalls.drawBlockWallCube(g2, block);
-                    }
-                    else
-                        dBlockWalls.drawBlockWallCube(g2, block);
-                }
-            }
+            HashMap<String, gThing> squareMap;
             squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
             for(String tag : squareMap.keySet()) {
                 gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
@@ -201,6 +185,68 @@ public class dTileTops {
                     dBlockTops.drawBlockTopCornerLL(g2, block);
                 }
             }
+            squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
+            for(String tag : squareMap.keySet()) {
+                gBlockCube block = (gBlockCube) squareMap.get(tag);
+                if(block.contains("toph") && block.isZero("backtop")) {
+                    dBlockTops.drawBlockTopCube(g2, block);
+                }
+                if(block.contains("wallh") && block.isOne("frontwall")) {
+                    gPlayer userplayer = cGameLogic.userPlayer();
+                    if(userplayer != null) {
+                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
+                                > userplayer.getInt("coordy"))
+                            dBlockWalls.drawBlockWallCube(g2, block);
+                    }
+                    else
+                        dBlockWalls.drawBlockWallCube(g2, block);
+                }
+            }
+            //draw the grid OVER everything
+            if(sSettings.show_mapmaker_ui && sVars.isOne("drawmapmakergrid")) {
+//                g2.setColor(Color.YELLOW);
+                g2.setColor(new Color(255,255,0,125));
+                g2.setStroke(dFonts.defaultStroke);
+                for(int i = -12000; i <= 12000; i+=300) {
+                    g2.drawLine(eUtils.scaleInt(-12000 - cVars.getInt("camx")),
+                            eUtils.scaleInt(i - cVars.getInt("camy")),
+                            eUtils.scaleInt(12000 - cVars.getInt("camx")),
+                            eUtils.scaleInt(i - cVars.getInt("camy")));
+                    g2.drawLine(eUtils.scaleInt(i - cVars.getInt("camx")),
+                            eUtils.scaleInt(-12000 - cVars.getInt("camy")),
+                            eUtils.scaleInt(i - cVars.getInt("camx")),
+                            eUtils.scaleInt(12000 - cVars.getInt("camy")));
+                }
+            }
+            //draw hitboxes
+            if(sSettings.show_mapmaker_ui && sVars.isOne("drawhitboxes")) {
+                g2.setColor(Color.RED);
+                for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+                    gCollision collision =
+                            (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                    int[] transformedXarr = new int[collision.xarr.length];
+                    int[] transformedYarr = new int[collision.yarr.length];
+                    for(int i = 0; i < collision.xarr.length; i++) {
+                        transformedXarr[i] = eUtils.scaleInt(collision.xarr[i] - cVars.getInt("camx"));
+                    }
+                    for(int i = 0; i < collision.yarr.length; i++) {
+                        transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
+                    }
+                    g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
+
+                }
+                if(cGameLogic.userPlayer() != null) {
+                    g2.setColor(Color.RED);
+                    int x1 = cGameLogic.userPlayer().getInt("coordx");
+                    int y1 = cGameLogic.userPlayer().getInt("coordy");
+                    g2.drawRect(
+                            eUtils.scaleInt(x1 - cVars.getInt("camx")),
+                            eUtils.scaleInt(y1 - cVars.getInt("camy")),
+                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimw")),
+                            eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimh"))
+                    );
+                }
+            }
             //
             // --- NEW ABOVE OLD BELOW ---
             //
@@ -233,7 +279,7 @@ public class dTileTops {
                             eUtils.scaleInt(t.getInt("dim3h"))
                     );
                 }
-                g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                g2.setStroke(dFonts.thickStroke);
                 g2.setColor(new Color(0, 0, 0, 255));
                 if (sVars.isOne("vfxenableshading")) {
                     dTileTopsShading.drawTileTopShadingPre(g2, t);
@@ -363,25 +409,28 @@ public class dTileTops {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sVars.isOne("playerarrow")) {
+        if(sVars.isOne("drawplayerarrow")) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
-            int coordx = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordx")) - cVars.getInt("camx"));
-            int coordy = eUtils.scaleInt(Integer.parseInt(userPlayer.get("coordy")) - cVars.getInt("camy")
+            int midx = eUtils.scaleInt(userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2
+                    - cVars.getInt("camx"));
+            int coordy = eUtils.scaleInt(userPlayer.getInt("coordy") - cVars.getInt("camy")
                     - 200);
             int[][] polygonBase = new int[][]{
-                    new int[]{0,2,1},
+                    new int[]{1,1,1},
                     new int[]{0,0,1}
             };
             int polygonSize = sSettings.width/32;
             int[][] polygon = new int[][]{
-                    new int[]{coordx + polygonBase[0][0]*polygonSize, coordx + polygonBase[0][1]*polygonSize,
-                            coordx + polygonBase[0][2]*polygonSize},
+                    new int[]{midx - polygonBase[0][0]*polygonSize,
+                            midx + polygonBase[0][1]*polygonSize,
+                            midx
+                    },
                     new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
                             coordy + polygonBase[1][2]*polygonSize}
             };
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
             g2.setColor(new Color(0,150,50, 255));
             g2.drawPolygon(pg);

@@ -51,50 +51,49 @@ public class cScripts {
     }
 
     public static void checkPlayerSpriteFlip(gPlayer p) {
-//        if(p == null)
-//            return;
-//        if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW
-//                && (p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
-//            if(!p.get("pathsprite").contains("a00")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
-//            }
-//        }
-//        else if((cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 3*Math.PI/4)
-//            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
-//            if(!p.get("pathsprite").contains("a03")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-////                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-////                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-////                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-////                            "misc/bfg.png";
-////                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-////                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
-////                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-//            }
-//        }
-//        else if(cVars.getInt("mapview") == gMap.MAP_TOPVIEW && p.getDouble("fv") <= 5*Math.PI/4) {
-//            if(!p.get("pathsprite").contains("a04")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
-//            }
-//        }
-//        else {
-//            if(!p.get("pathsprite").contains("a05")) {
-//                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-////                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-////                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-////                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-////                        "misc/bfg_flip.png";
-////                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
-////                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-////                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-////                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-////                }
-//            }
-//        }
+        if(p == null)
+            return;
+        if((p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
+            if(!p.get("pathsprite").contains("a00")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
+            }
+        }
+        else if((p.getDouble("fv") <= 3*Math.PI/4)
+            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
+            if(!p.get("pathsprite").contains("a03")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
+                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
+                            "misc/bfg.png";
+                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
+                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+            }
+        }
+        else if(p.getDouble("fv") <= 5*Math.PI/4) {
+            if(!p.get("pathsprite").contains("a04")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
+            }
+        }
+        else {
+            if(!p.get("pathsprite").contains("a05")) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
+                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
+                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+                        "misc/bfg_flip.png";
+                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
+                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
+                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
+                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+                }
+            }
+        }
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
@@ -133,39 +132,32 @@ public class cScripts {
         }
     }
 
-    public static synchronized void selectThingUnderMouse(int objType) {
+    public static synchronized void selectThingUnderMouse() {
         int[] mc = getMouseCoordinates();
-        switch (objType) {
-            case gScene.THING_TILE:
-                for (int i=eManager.currentMap.scene.tiles().size()-1; i >= 0; i--) {
-                    gTile t = eManager.currentMap.scene.tiles().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedTileId != i)) {
-                        xCon.ex(String.format("e_selecttile %d", i));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_PROP:
-                for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
-                    gProp t = eManager.currentMap.scene.props().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedPropId != i)) {
-                        xCon.ex(String.format("e_selectprop %d", i));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_FLARE:
-                for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
-                    gFlare t = eManager.currentMap.scene.flares().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && cEditorLogic.state.selectedFlareTag != i) {
-                        xCon.ex(String.format("e_selectflare %d", i));
-                        return;
-                    }
-                }
-                break;
-            default:
-                break;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selecteditemid", item.get("itemid"));
+                cVars.put("selecteditemname", item.get("type"));
+                cVars.put("selectedprefabid", "");
+                cVars.put("selectedprefabname", "");
+//                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
+                return;
+            }
         }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selectedprefabname", block.get("prefabname"));
+                cVars.put("selecteditemid", "");
+                cVars.put("selecteditemname", "");
+//                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
+                return;
+            }
+        }
+        cVars.put("selectedprefabid", "");
+        cVars.put("selecteditemid", "");
     }
 
     public static void processOptionText(String optionTitle, String enteredText) {
@@ -316,46 +308,51 @@ public class cScripts {
         }
     }
 
+    public static int[] getNewPrefabDims() {
+        if(cVars.get("newprefabname").contains("room_large")) {
+            return new int[]{2400, 2400};
+        }
+        if(cVars.isVal("newprefabname", "end_wall")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        if(cVars.isVal("newprefabname", "cube")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "cube_large")) {
+            return new int[]{600, 600};
+        }
+        return new int[]{1200, 1200};
+    }
+
     public static int[] getPlaceObjCoords() {
         int[] mc = cScripts.getMouseCoordinates();
-        switch(cEditorLogic.state.createObjCode) {
-            case gScene.THING_PROP:
-                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
-                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
-            case gScene.THING_FLARE:
-                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
-                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
-                        cEditorLogic.state.snapToX);
-                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
-                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
-                        cEditorLogic.state.snapToY);
-                return new int[]{propx, propy};
-            default:
-                return new int[]{eUtils.roundToNearest(
-                        eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                                - cEditorLogic.state.newTile.getInt("dimh")/2, cEditorLogic.state.snapToX),
-                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                        - cEditorLogic.state.newTile.getInt("dimh")/2,
-                                cEditorLogic.state.snapToY)};
-        }
-    }
-
-    public static void moveTileDown(int tag) {
-        if(tag > 0) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag-1);
-            eManager.currentMap.scene.tiles().set(tag-1, eManager.currentMap.scene.tiles().get(tag));
-            eManager.currentMap.scene.tiles().set(tag, tmp);
-        }
-    }
-
-    public static void movetileUp(int tag) {
-        if(tag < eManager.currentMap.scene.tiles().size()-1) {
-            gTile tmp = eManager.currentMap.scene.tiles().get(tag+1);
-            eManager.currentMap.scene.tiles().set(tag+1, eManager.currentMap.scene.tiles().get(tag));
-            eManager.currentMap.scene.tiles().set(tag, tmp);
-        }
+        int[] fabdims = getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+                cEditorLogic.state.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+                cEditorLogic.state.snapToY);
+        return new int[]{pfx, pfy};
+//        switch(cEditorLogic.state.createObjCode) {
+//            case gScene.THING_FLARE:
+//                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
+//                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
+//                        cEditorLogic.state.snapToX);
+//                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
+//                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
+//                        cEditorLogic.state.snapToY);
+//                return new int[]{propx, propy};
+//            case gScene.THING_PREFAB:
+//                int[] fabdims = getNewPrefabDims();
+//                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+//                        cEditorLogic.state.snapToX);
+//                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+//                        cEditorLogic.state.snapToY);
+//                return new int[]{pfx, pfy};
+//        }
+//        return mc;
     }
 
     public static void setupGame() {

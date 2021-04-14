@@ -78,7 +78,7 @@ public class dTileTopsCorners {
 //                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
 //                    null
 //            );
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2
@@ -126,7 +126,7 @@ public class dTileTopsCorners {
 //                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
 //                    null
 //            );
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2
@@ -173,7 +173,7 @@ public class dTileTopsCorners {
 //                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
 //                    null
 //            );
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             if(sVars.isOne("vfxenableshading")) {
                 GradientPaint gradient = new GradientPaint(
                         eUtils.scaleInt(t.getInt("coordx") + t.getInt("dimw")/2

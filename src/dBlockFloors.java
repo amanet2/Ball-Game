@@ -13,10 +13,17 @@ public class dBlockFloors {
                     Integer.parseInt(colorvals[2]),
                     Integer.parseInt(colorvals[3])
             ));
-            g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    eUtils.scaleInt(block.getInt("dimw")),
-                    eUtils.scaleInt(block.getInt("dimh"))
+//            g2.fillRect(
+//                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+//                    eUtils.scaleInt(block.getInt("dimw")),
+//                    eUtils.scaleInt(block.getInt("dimh"))
+//            );
+            g2.fillRect(
+                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
+                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5,
+                    eUtils.scaleInt(block.getInt("dimw")) + 10,
+                    eUtils.scaleInt(block.getInt("dimh")) + 10
             );
             dBlockFloorsShading.drawBlockFloorShading(g2, block);
         }

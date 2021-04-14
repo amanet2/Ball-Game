@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class cScoreboard {
@@ -11,7 +10,6 @@ public class cScoreboard {
         }
         scoresMap = new HashMap<>();
         if(sSettings.net_server) {
-//            addId("server");
             for(String id : savedWins.keySet()) {
                 if(!scoresMap.containsKey(id)) {
                     addId(id);

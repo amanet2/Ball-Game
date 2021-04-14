@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dBlockWallsShading {
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gBlock block) {
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+        g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
             if (block.getInt("wallh") > 0) {
@@ -48,7 +48,7 @@ public class dBlockWallsShading {
     }
 
     public static void drawBlockWallsShadingCornerUR(Graphics2D g2, gBlockCornerUR block, Polygon pw) {
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+        g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
             if (block.getInt("wallh") > 0) {
@@ -61,15 +61,25 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
+                GradientPaint gradient2 = new GradientPaint(
+                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")
+                                - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha1")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("dimh")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
                 g2.setPaint(gradient);
-                g2.drawPolygon(pw);
                 g2.fillPolygon(pw);
+                g2.setPaint(gradient2);
+                g2.drawPolygon(pw);
             }
         }
     }
 
     public static void drawBlockWallsShadingCornerUL(Graphics2D g2, gBlockCornerUL block, Polygon pw) {
-        g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+        g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
             if (block.getInt("wallh") > 0) {
@@ -82,9 +92,19 @@ public class dBlockWallsShading {
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")),
                         new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
+                GradientPaint gradient2 = new GradientPaint(
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha1")),
+                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
+                                + block.getInt("dimw")),
+                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                + block.getInt("dimh")),
+                        new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
                 g2.setPaint(gradient);
-                g2.drawPolygon(pw);
                 g2.fillPolygon(pw);
+                g2.setPaint(gradient2);
+                g2.drawPolygon(pw);
             }
         }
     }

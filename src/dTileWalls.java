@@ -75,7 +75,7 @@ public class dTileWalls {
                     );
                 }
                 if (d6w == -1) { //UR
-                    g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                    g2.setStroke(dFonts.thickStroke);
                     Polygon pw = new Polygon(
                             new int[]{
                                     eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
@@ -150,7 +150,7 @@ public class dTileWalls {
                         g2.fillPolygon(ps);
                     }
                 } else if (d6w == -4) { //UL
-                    g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                    g2.setStroke(dFonts.thickStroke);
                     Polygon pw = new Polygon(
                             new int[]{
                                     eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
@@ -224,7 +224,7 @@ public class dTileWalls {
                         g2.fillPolygon(ps);
                     }
                 }
-                g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+                g2.setStroke(dFonts.thickStroke);
                 g2.setColor(new Color(0, 0, 0, 255));
                 if (sVars.isOne("vfxenableshading")) {
                     if (t.getInt("dim1h") > 0) {

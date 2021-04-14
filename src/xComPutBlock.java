@@ -52,8 +52,11 @@ public class xComPutBlock extends xCom {
                     }
                     args[1] = Integer.toString(transformedY);
                 }
+                gBlock newBlock = blockReturn.getBlock(args);
+                newBlock.put("prefabid", cVars.get("prefabid"));
+                newBlock.put("prefabname", cVars.get("newprefabname"));
+                blockReturn.storeBlock(newBlock, eManager.currentMap.scene);
 
-                blockReturn.storeBlock(blockReturn.getBlock(args), eManager.currentMap.scene);
             }
         }
         return "usage: putblock <BLOCK_TITLE> <args>";

@@ -7,32 +7,6 @@ public class gTextures {
     private static Map<String, ImageIcon> base_sprites = new HashMap<>();
     private static HashMap<String, Image> scaled_sprites = new HashMap<>();
 
-    static String[] selection_top = new String[]{
-        "objects/scenery/sceneryBlock_top.png",
-        "objects/scenery/sceneryBlock2_top.png",
-        "objects/scenery/sceneryBlock3_top.png",
-        "objects/scenery/sceneryBlock5_top.png",
-        "none"
-    };
-    static String[] selection_wall = new String[]{
-        "objects/scenery/sceneryBlock_bottom.png",
-        "objects/scenery/sceneryBlock2_bottom.png",
-        "objects/scenery/sceneryBlock3_bottom.png",
-        "objects/scenery/sceneryBlock5_bottom.png",
-        "none"
-    };
-    static String[] selection_floor = new String[]{
-        "objects/wood/more_rough_wood_6.jpg",
-        "objects/metal/brushed_metal1.jpg",
-        "objects/floor/dungeons_and_flagons3.jpg",
-        "misc/grass.png",
-        "misc/water.png",
-        "misc/sand.png",
-        "misc/spookybg.jpg",
-        "misc/horror.jpg",
-        "none"
-    };
-
     public static Image getScaledImage(String s, int w, int h) {
         if(w < 1 || h < 1 || s.replace(sVars.get("datapath")+"/", "").equalsIgnoreCase("none"))
             return null;
