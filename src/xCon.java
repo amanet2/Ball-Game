@@ -104,22 +104,17 @@ public class xCon {
         visibleCommands.add("newgamerandom");
         visibleCommands.add("putblock");
         visibleCommands.add("putitem");
-        visibleCommands.add("putprop");
         visibleCommands.add("putflare");
 
         undoableCommands = new ArrayList<>();
         undoableCommands.add("e_newflare");
-        undoableCommands.add("e_newprop");
         undoableCommands.add("e_nextthing");
         undoableCommands.add("putflare");
-        undoableCommands.add("putprop");
         undoableCommands.add("puttile");
         undoableCommands.add("putblock");
         undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");
-        undoableCommands.add("e_selectprop");
         undoableCommands.add("e_setselectedflare");
-        undoableCommands.add("e_setselectedprop");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());

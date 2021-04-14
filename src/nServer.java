@@ -19,7 +19,6 @@ public class nServer extends Thread implements fNetBase {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "putprop",
             "fireweapon"
     ));
     boolean isPlaying = false;

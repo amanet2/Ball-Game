@@ -19,7 +19,8 @@ public class xComEditorShowFlares extends xCom {
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setPreferredSize(new Dimension(500,500));
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        JOptionPane.showMessageDialog(null, scrollPane, titles.length + " Props in Scene", JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(null, scrollPane, titles.length + " Flares in Scene",
+                JOptionPane.OK_OPTION);
 //        if(list.getSelectedIndex() >= 0) {
 //            xCon.ex(String.format("e_selectflare %d", list.getSelectedIndex()));
 //            gFlare selectedFlare = eManager.currentMap.scene.flares().get(

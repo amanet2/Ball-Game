@@ -335,24 +335,6 @@ public class cScripts {
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
                 cEditorLogic.state.snapToY);
         return new int[]{pfx, pfy};
-//        switch(cEditorLogic.state.createObjCode) {
-//            case gScene.THING_FLARE:
-//                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
-//                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
-//                        cEditorLogic.state.snapToX);
-//                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
-//                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
-//                        cEditorLogic.state.snapToY);
-//                return new int[]{propx, propy};
-//            case gScene.THING_PREFAB:
-//                int[] fabdims = getNewPrefabDims();
-//                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-//                        cEditorLogic.state.snapToX);
-//                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-//                        cEditorLogic.state.snapToY);
-//                return new int[]{pfx, pfy};
-//        }
-//        return mc;
     }
 
     public static void setupGame() {
