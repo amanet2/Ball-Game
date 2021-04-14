@@ -14,7 +14,7 @@ public class xComDamagePlayer extends xCom {
                     //store player object's health in outgoing network arg map
                     nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
                     //handle death
-                    if(player.getInt("stockhp") < 1 && !player.contains("respawntime")) {
+                    if(player.getInt("stockhp") < 1) {
                         //more server-side stuff
                         String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                         if(shooterid.length() > 0) {
@@ -32,7 +32,6 @@ public class xComDamagePlayer extends xCom {
                         if(cVars.isVal("flagmasterid", player.get("id"))) {
                             cVars.put("flagmasterid", "");
                             //this does the same thing as above
-//                            nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
                             nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                                     player.getInt("coordx"), player.getInt("coordy")));
                         }
@@ -41,11 +40,19 @@ public class xComDamagePlayer extends xCom {
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                         //be sure not to send too much in one go, net comms
                         nServer.instance().addNetCmd(animString);
+                        System.out.println("kill server");
                         nServer.instance().clientArgsMap.get(id).put("respawntime",
                                 Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-                        nServer.instance().addNetCmd(id,
-                                "cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
-                        xCon.ex("removeplayer " + id);
+                        System.out.println(nServer.instance().clientArgsMap.get(id).toString());
+                        if(id.equals(uiInterface.uuid)) {
+                            xCon.ex("cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
+                            xCon.ex("removeplayer " + id);
+                        }
+                        else {
+                            nServer.instance().addNetCmd(id,
+                                    "cv_cammode " + gCamera.MODE_FREE + ";userplayer coordx -10000;userplayer coordy -10000");
+                            xCon.ex("removeplayer " + id);
+                        }
                     }
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());

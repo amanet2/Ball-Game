@@ -80,6 +80,9 @@ public class uiInterface {
                     }
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
+//                while(nextFrameTime >= System.nanoTime()) {
+//                    Thread.sleep(0, 500);
+//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();

@@ -42,12 +42,11 @@ public class cGameLogic {
 
             if(userPlayer() != null) {
                 // methods here need migrating to server
-                checkMapGravity();
+//                checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
                 checkSprintStatus();
-                checkPowerupsStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
@@ -57,48 +56,6 @@ public class cGameLogic {
         catch(Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-        }
-    }
-
-    public static void checkPowerupsStatus() {
-        if(sSettings.net_server || !cScripts.isNetworkGame()) {
-            if (cVars.getLong("powerupstime") < System.currentTimeMillis()) {
-                int powerupson = 0;
-                ArrayList<gProp> powerupcandidates = new ArrayList<>();
-                HashMap<String, gThing> powerupsMap = eManager.currentMap.scene.getThingMap("PROP_POWERUP");
-                for (String id : powerupsMap.keySet()) {
-                    gProp p = (gProp) powerupsMap.get(id);
-                    if (!p.isZero("int0")) {
-                        powerupson++;
-                    }
-                    else if(p.isOne("native")){
-                        powerupcandidates.add(p);
-                    }
-                }
-                int ctr = 0;
-                int limit = Math.min(powerupcandidates.size(), cVars.getInt("powerupson")-powerupson);
-                while (ctr < limit) {
-                    int r = (int) (Math.random() * powerupcandidates.size());
-                    int rr = (int) (Math.random() * gWeapons.weaponSelection().size()-1)+1;
-                    powerupcandidates.get(r).put("int0", Integer.toString(rr));
-                    powerupcandidates.get(r).putInt("int1", gWeapons.fromCode(rr).maxAmmo);
-                    powerupcandidates.remove(r);
-                    ctr++;
-                }
-                cVars.putLong("powerupstime", System.currentTimeMillis() + sVars.getLong("powerupswaittime"));
-            }
-        }
-        if(sSettings.net_server) {
-            for(String id : gScene.getPlayerIds()) {
-                if(id.contains("bot")) {
-                    gPlayer p = gScene.getPlayerById(id);
-                    if (p.getLong("powerupsusetime") < System.currentTimeMillis()) {
-                        if (p.getInt("weapon") != gWeapons.type.NONE.code()) {
-                            cScripts.changeBotWeapon(p, gWeapons.type.NONE.code(), true);
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -112,16 +69,14 @@ public class cGameLogic {
                     userPlayer.putInt("vel0", cVars.getInt("gravity"));
                 }
                 else {
-                    if(!userPlayer.contains("respawntime")) {
-                        if(userPlayer.isOne("crouch"))
-                            userPlayer.subtractVal("vel1",
-                                    userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
-                        else
-                            userPlayer.addVal("vel1",
-                                    userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                                            && cVars.getInt("gravity") > 0
-                            ? 1 : 0);
-                    }
+                    if(userPlayer.isOne("crouch"))
+                        userPlayer.subtractVal("vel1",
+                                userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
+                    else
+                        userPlayer.addVal("vel1",
+                                userPlayer.getInt("vel1") < cVars.getInt("gravity")
+                                        && cVars.getInt("gravity") > 0
+                        ? 1 : 0);
                     cVars.put("jumpheight", "0");
                 }
             }
@@ -265,6 +220,20 @@ public class cGameLogic {
         return player.isVal("id", uiInterface.uuid);
     }
 
+    public static void rechargePlayersHealth() {
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        for(Object id : playersMap.keySet()) {
+            gPlayer p = (gPlayer) playersMap.get(id);
+            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                    p.put("stockhp", cVars.get("maxstockhp"));
+                else
+                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
+            }
+        }
+    }
+
     public static void checkHealthStatus() {
         HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
         Long currentTime = System.currentTimeMillis();
@@ -275,25 +244,11 @@ public class cGameLogic {
                     nServer.instance().addNetCmd("respawnplayer " + id);
                 else
                     xCon.ex("respawnplayer " + id);
+                System.out.println("removed respawntime");
                 argsMap.get(id).remove("respawntime");
             }
         }
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
-        for(Object id : playersMap.keySet()) {
-            gPlayer p = (gPlayer) playersMap.get(id);
-            //server-side respawn code to be enabled after refactoring completed
-            if(p.contains("respawntime") && (p.getLong("respawntime") < currentTime
-                    || cVars.get("winnerid").length() > 0 || cVars.getInt("timeleft") <= 0)) {
-                p.remove("respawntime");
-            }
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
-                else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
-            }
-        }
+        rechargePlayersHealth();
     }
 
     public static void checkSprintStatus() {
@@ -351,7 +306,22 @@ public class cGameLogic {
                     cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.VIRUS:
-                    cGameMode.checkVirus();
+                    if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                        if(nServer.instance().clientArgsMap.containsKey("server")) {
+                            if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
+                                cGameMode.resetVirusPlayers();
+                            }
+                            for(String id : gScene.getPlayerIds()) {
+                                gPlayer p = gScene.getPlayerById(id);
+                                if(nServer.instance().clientArgsMap.get("server").containsKey("state")
+                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
+                                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
+                                    xCon.ex("givepoint " + p.get("id"));
+                                }
+                            }
+                        }
+                        cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    }
                     break;
                 default:
                     break;

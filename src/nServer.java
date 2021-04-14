@@ -22,6 +22,7 @@ public class nServer extends Thread implements fNetBase {
             "putprop",
             "fireweapon"
     ));
+    boolean isPlaying = false;
 
     public static nServer instance() {
         if(instance == null)
@@ -164,9 +165,36 @@ public class nServer extends Thread implements fNetBase {
         try {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
-            nServer.instance().clientArgsMap.put("server", netVars);
-//            nServer.instance().clientArgsMap.put("server", nVars.copy());
-//            nServer.instance().clientArgsMap.put(uiInterface.uuid, nVars.copy()); //put server's player in map
+            clientArgsMap.put("server", netVars);
+            if(isPlaying) {
+                HashMap<String, String> keys = new HashMap<>();
+                keys.put("id", uiInterface.uuid);
+                //userplayer vars like coords and dirs and weapon
+                keys.put("color", sVars.get("playercolor"));
+                keys.put("hat", sVars.get("playerhat"));
+                keys.put("flashlight", cVars.get("flashlight"));
+                //name for spectator and gameplay
+                keys.put("name", sVars.get("playername"));
+
+                gPlayer userPlayer = cGameLogic.userPlayer();
+                if(userPlayer != null) {
+                    keys.put("x", userPlayer.get("coordx"));
+                    keys.put("y", userPlayer.get("coordy"));
+                    keys.put("crouch", userPlayer.get("crouch"));
+                    keys.put("fv", userPlayer.get("fv"));
+                    keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+                            userPlayer.get("mov2"), userPlayer.get("mov3")));
+                    keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
+                            userPlayer.get("vel2"), userPlayer.get("vel3")));
+                    keys.put("weapon", userPlayer.get("weapon"));
+                    keys.put("stockhp", userPlayer.get("stockhp"));
+                }
+                if(clientArgsMap.containsKey(uiInterface.uuid)
+                        && clientArgsMap.get(uiInterface.uuid).containsKey("respawntime")) {
+                    keys.put("respawntime", clientArgsMap.get(uiInterface.uuid).get("respawntime"));
+                }
+                clientArgsMap.put(uiInterface.uuid, keys);
+            }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -235,8 +263,13 @@ public class nServer extends Thread implements fNetBase {
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-//        clientArgsMap.put(uiInterface.uuid, nVars.copy());
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
+        if(isPlaying) {
+            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(uiInterface.uuid));
+            workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+            workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+            sendDataString.append(String.format("@%s", workingmap.toString()));
+        }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {

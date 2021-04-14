@@ -4,30 +4,6 @@ import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
 
-    public static void drawVirusTagString(Graphics g) {
-        if(nServer.instance().clientArgsMap != null
-                && nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            String statestr = nServer.instance().clientArgsMap.get("server").get("state");
-            String[] stoks = statestr.replace("virus", "").split("-");
-            String virusString = ">>VIRUS STRING NOT AVAILABLE<<";
-            if(stoks.length > 1) {
-                int infected = 0;
-                int total = nServer.instance().clientArgsMap.size();
-                for (int i = 0; i < stoks.length; i++) {
-                    String id = stoks[i];
-                    if(id.length() > 0) {
-                        if(statestr.contains(id))
-                            infected++;
-                    }
-                }
-                virusString = String.format("%d/%d PLAYERS INFECTED",infected,total);
-            }
-            dFonts.drawCenteredString(g, virusString,
-                    sSettings.width/2,14*sSettings.height/15);
-        }
-    }
-
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
@@ -112,16 +88,6 @@ public class dScreenMessages {
             String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
             g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
                 0,31 * sSettings.height/64);
-        }
-        //respawn
-        if(cGameLogic.userPlayer() != null && cGameLogic.userPlayer().contains("respawntime")) {
-            g.setColor(new Color(0,0,0,100));
-            g.fillRect(0,0, sSettings.width,sSettings.height/4);
-            g.fillRect(0,3*sSettings.height/4, sSettings.width,sSettings.height/4);
-            dFonts.setFontColorAlert(g);
-            dFonts.drawCenteredString(g, "RESPAWN IN " +
-                            eUtils.getTimeString(cGameLogic.userPlayer().getLong("respawntime") - System.currentTimeMillis()),
-                    sSettings.width / 2, sSettings.height/6);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -236,7 +202,6 @@ public class dScreenMessages {
                         dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
                                 sSettings.width / 2, 5*sSettings.height/8);
                     }
-                    drawVirusTagString(g);
                     break;
                 case cGameMode.FLAG_MASTER:
                     if(cVars.isVal("flagmasterid", uiInterface.uuid)) {

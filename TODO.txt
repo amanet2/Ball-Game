@@ -3,9 +3,22 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210411
+* ALTERNATE STRATEGY:
+    -> make server completely headless, then run a server instance in the background when done through the ui
+        -> do in a different branch, HEADLESS_SERVER
+        -> we get our dedicated server out of this as well
+20210410
+* server player needs to be non-dependent on existence of user player
+    -> userplayer gets deleted on death
 20210403
+* creating server player:
+    ->createuserplayer;respawn
+    -> server player is compatible with cGamelogic.getUserPlayer()
+        -> IMPORTANT, VERY VERY GOOD!!!
 * create ability for server to have a player
     -> make new branch: server_player
+    -> createuserplayer creates a movable character but they dont show on other player's screens nor can they attack
     -> look at how "joingamespec" handles joining game as a spectator
     -> decouple the if/else relationship that net_client and net_server settings vars have
         -> no more sharing methods and having if(server) inside method
