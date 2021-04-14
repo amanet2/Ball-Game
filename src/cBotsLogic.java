@@ -46,7 +46,7 @@ public class cBotsLogic {
                 else if(cVars.get("flagmasterid").length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
-                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
+                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
             }
         });
         behaviors.put("virus", new gDoableThing(){
@@ -150,10 +150,10 @@ public class cBotsLogic {
     }
 
     public static void goToFirstThing(gThing bot, String thingType) {
-        gProp waypoint = null;
+        gThing waypoint = null;
         HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
         for(String id : thingMap.keySet()) {
-            waypoint = (gProp) thingMap.get(id);
+            waypoint = thingMap.get(id);
             break;
         }
         if(waypoint != null) {
@@ -253,9 +253,8 @@ public class cBotsLogic {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-            && nServer.instance().clientArgsMap.get("server").get("state").contains("virus")) {
-                String stateString = nServer.instance().clientArgsMap.get("server").get("state").replace("virus", "");
+            if(nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+                String stateString = nServer.instance().clientArgsMap.get("server").get("state");
                 if(offense) {
                     for(String id : gScene.getPlayerIds()) {
                         if(!stateString.contains(id)) {
@@ -398,20 +397,15 @@ public class cBotsLogic {
                     Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
             bot.putInt("vel2", modspeed);
         }
-        if(cVars.getInt("mapview") != gMap.MAP_SIDEVIEW) {
-            if(y2 > y1) {
-                int modspeed = speed + (int)(
-                        Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-                bot.putInt("vel1", modspeed);
-            }
-            if(y1 > y2) {
-                int modspeed = speed + (int)(
-                        Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-                bot.putInt("vel0", modspeed);
-            }
+        if(y2 > y1) {
+            int modspeed = speed + (int)(
+                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+            bot.putInt("vel1", modspeed);
         }
-        else {
-            bot.putInt("vel1", cVars.getInt("velocityplayerbase")/2);
+        if(y1 > y2) {
+            int modspeed = speed + (int)(
+                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+            bot.putInt("vel0", modspeed);
         }
         if(bot.getInt("vel1") > 0 && bot.getInt("vel3") > 0)
             bot.put("fv", Double.toString(Math.PI/2));

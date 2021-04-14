@@ -23,15 +23,24 @@ public class cServer {
                 }
                 break;
             case cGameMode.FLAG_MASTER:
+//                if(cVars.get("flagmasterid").length() > 0) {
+//                    return cVars.get("flagmasterid");
+//                }
+//                if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0) {
+//                    for(String flagId : eManager.currentMap.scene.getThingMap("ITEM_FLAG").keySet()) {
+//                        gThing flag = eManager.currentMap.scene.getThingMap("ITEM_FLAG").get(flagId);
+//                        return String.format("%s:%s", flag.get("coordx"), flag.get("coordy"));
+//                    }
+//                }
                 return cVars.get("flagmasterid");
-            case cGameMode.CAPTURE_THE_FLAG:
-            case cGameMode.KING_OF_FLAGS:
-                StringBuilder s = new StringBuilder();
-                HashMap<String, gThing> kofThingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                for(String id : kofThingMap.keySet()) {
-                    s.append(String.format("%s-%s:", id, kofThingMap.get(id).get("str0")));
-                }
-                return String.format("kingofflags%s", s);
+//            case cGameMode.CAPTURE_THE_FLAG:
+//            case cGameMode.KING_OF_FLAGS:
+//                StringBuilder s = new StringBuilder();
+//                HashMap<String, gThing> kofThingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
+//                for(String id : kofThingMap.keySet()) {
+//                    s.append(String.format("%s-%s:", id, kofThingMap.get(id).get("str0")));
+//                }
+//                return String.format("kingofflags%s", s);
             case cGameMode.VIRUS:
 //                //check
 //                if(cVars.get("virusids").length() < 1)
@@ -83,26 +92,12 @@ public class cServer {
 //                                System.currentTimeMillis()+cVars.getInt("virusresetwaittime"));
 //                    }
 //                }
-                return String.format("virus-%s", cVars.get("virusids"));
+                if(nServer.instance().clientArgsMap.containsKey("server"))
+                    return nServer.instance().clientArgsMap.get("server").get("state");
+                return "";
             default:
                 break;
         }
         return "";
-    }
-
-    public static void processActionLoadServer(String packActions, String packName, String packId) {
-        String[] actions = packActions.split("\\|");
-        for(String action : actions) {
-            if(action.contains("safezone") && cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-                xCon.ex("givepoint " + packId);
-            }
-            if(action.contains("sendpowerup")) {
-                String[] sptoks = action.replace("sendpowerup", "").split(":");
-                gProp p = (gProp) eManager.currentMap.scene.getThingMap("PROP_POWERUP").get(sptoks[0]);
-                p.put("int1", sptoks[1]);
-                if(Integer.parseInt(p.get("int1")) < 1)
-                    p.put("int0","0");
-            }
-        }
     }
 }

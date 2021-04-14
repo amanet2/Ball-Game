@@ -7,19 +7,20 @@ import java.util.HashMap;
  * play scenario.
  */
 public class gScene {
-    static final int THING_TILE = 0;
-    static final int THING_PROP = 4;
-    static final int THING_FLARE = 5;
-
     static final String[] object_titles = new String[]{
         "THING_TILE","THING_PLAYER","THING_BULLET","THING_POPUP","THING_PROP","THING_FLARE","THING_ANIMATION",
             "THING_BOTPLAYER", "PROP_TELEPORTER", "PROP_SCOREPOINT", "PROP_BOOST", "PROP_FLAGBLUE",
             "PROP_FLAGRED", "PROP_POWERUP", "PROP_SPAWNPOINT", "THING_BLOCK", "BLOCK_CUBE", "BLOCK_FLOOR",
-            "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL"
+            "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL", "THING_PREFAB", "PREFAB_CAGE",
+            "PREFAB_CAGEB", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE",
+            "ITEM_SHOTGUN", "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
 	HashMap<String, ArrayList> objectLists;
 	HashMap<String, HashMap> objectMaps;
+	int blockIdCtr;
+	int collisionIdCtr;
+	int itemIdCtr;
 
 	public gScene() {
 		objectLists = new HashMap<>();
@@ -27,8 +28,27 @@ public class gScene {
 		for(String s : object_titles) {
 			objectLists.put(s, new ArrayList<>());
             objectMaps.put(s, new HashMap<>());
+            blockIdCtr = 0;
+            collisionIdCtr = 0;
         }
 	}
+
+	public int getHighestPrefabId() {
+	    int idctr = 0;
+	    for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+	        gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+	        if(block.contains("prefabid") && block.getInt("prefabid") >= idctr) {
+	            idctr = block.getInt("prefabid") + 1;
+            }
+        }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+            gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr) {
+                idctr = collision.getInt("prefabid") + 1;
+            }
+        }
+	    return idctr;
+    }
 
 	public gScene copy() {
 	    gScene toReturn = new gScene();
@@ -54,10 +74,6 @@ public class gScene {
 
     public ArrayList<gProp> props() {
         return objectLists.get("THING_PROP");
-    }
-
-    public ArrayList<gBlock> blocks() {
-        return objectLists.get("THING_BLOCK");
     }
 
     public ArrayList<gFlare> flares() {
@@ -90,19 +106,5 @@ public class gScene {
 
     public static gPlayer getPlayerById(String id) {
         return eManager.currentMap.scene.playersMap().get(id);
-    }
-
-    static String getObjTitleForCode(int code) {
-	    return object_titles[code];
-    }
-
-    static int getObjCodeForTitle(String title) {
-	    int i = 0;
-        for(String s : object_titles) {
-            if(s.equals(title))
-                return i;
-            i++;
-        }
-        return i;
     }
 }

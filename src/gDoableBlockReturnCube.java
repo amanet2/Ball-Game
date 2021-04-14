@@ -19,9 +19,5 @@ public class gDoableBlockReturnCube extends gDoableBlockReturn{
 
     public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
         super.storeBlock(blockToLoad, sceneToStore);
-        sceneToStore.getThingMap("BLOCK_CUBE").put(
-                Integer.toString(sceneToStore.getThingMap("BLOCK_CUBE").size()),
-                blockToLoad
-        );
     }
 }

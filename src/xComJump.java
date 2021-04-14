@@ -1,7 +1,7 @@
 public class xComJump extends xCom {
     public String doCommand(String fullCommand) {
         if(cGameLogic.userPlayer() != null) {
-            if(cVars.getLong("jumptime") < System.currentTimeMillis() && cGameLogic.userPlayer().canJump()) {
+            if(cVars.getLong("jumptime") < System.currentTimeMillis()) {
                 xCon.ex("crouch");
                 cVars.put("jumping", "1");
                 cVars.putLong("jumptime", System.currentTimeMillis() + cVars.getInt("delayjump"));

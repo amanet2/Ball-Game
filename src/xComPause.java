@@ -5,18 +5,20 @@ public class xComPause extends xCom {
     public String doCommand(String fullCommand) {
         uiInterface.inplay = !uiInterface.inplay;
         if(uiInterface.inplay) {
-                oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-                xCon.ex("playsound sounds/clampdown.wav");
-                if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame())
-                        cScripts.setupGame();
-            }
+            oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+            xCon.ex("playsound sounds/clampdown.wav");
+            if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame())
+                cScripts.setupGame();
+        }
         else {
-                xCon.ex("playsound sounds/grenpinpull.wav");
-                if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame()) {
-                    eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
-                }
-                if(sSettings.show_mapmaker_ui)
-                    oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            //delete user player
+            xCon.ex("playsound sounds/grenpinpull.wav");
+            if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame()) {
+                cGameLogic.setUserPlayer(null);
+                eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
+            }
+            if(sSettings.show_mapmaker_ui)
+                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
         return fullCommand;
     }

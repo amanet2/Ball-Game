@@ -30,7 +30,7 @@ public class dWaypoints {
                     }
             };
             g2.fillPolygon(polygondims[0],polygondims[1], 4);
-            g2.setStroke(new BasicStroke(eUtils.scaleInt(16)));
+            g2.setStroke(dFonts.thickStroke);
             g2.setColor(new Color(255,100,50,220));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
@@ -66,7 +66,7 @@ public class dWaypoints {
                 g2.setColor(new Color(255,100,50,150));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.setColor(new Color(255,100,50,220));
-                g2.setStroke(new BasicStroke(eUtils.scaleInt(8)));
+                g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.setTransform(backup);
             }
@@ -89,22 +89,16 @@ public class dWaypoints {
                     if(!cVars.isVal("flagmasterid", "")) {
                         if(!cVars.get("flagmasterid").equals(uiInterface.uuid)) {
                             gPlayer p = gScene.getPlayerById(cVars.get("flagmasterid"));
+                            if(p == null)
+                                break;
                             dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                     p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
                         }
-                        else {
-                            HashMap flagbluemap = eManager.currentMap.scene.getThingMap("PROP_FLAGBLUE");
-                            for(Object id : flagbluemap.keySet()) {
-                                gPropFlagBlue flag = (gPropFlagBlue) flagbluemap.get(id);
-                                dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                                        flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
-                            }
-                        }
                     }
                     else {
-                        HashMap flagredmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                        for(Object id : flagredmap.keySet()) {
-                            gPropFlagRed flag = (gPropFlagRed) flagredmap.get(id);
+                        HashMap flagmap = eManager.currentMap.scene.getThingMap("ITEM_FLAG");
+                        for(Object id : flagmap.keySet()) {
+                            gItemFlag flag = (gItemFlag) flagmap.get(id);
                             dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                                     flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
                         }

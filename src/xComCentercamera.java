@@ -1,15 +1,6 @@
 public class xComCentercamera extends xCom {
     public String doCommand(String fullCommand) {
-        gThing p = gScene.getPlayerById(cVars.get("camplayertrackingid"));
-        if(p == null)
-            p = cGameLogic.userPlayer();
-        if(p != null) {
-            cVars.putInt("cammode", gCamera.MODE_TRACKING);
-            cVars.putInt("camx",
-                    ((p.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2) + p.getInt("dimw")/2));
-            cVars.putInt("camy",
-                    ((p.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2) + p.getInt("dimh")/2));
-        }
+        cScripts.centerCamera();
         return "camera centered";
     }
 }

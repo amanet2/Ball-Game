@@ -11,6 +11,17 @@ public class cGameMode {
     static final int VIRUS = 6;
     static final int FLAG_MASTER = 7;
 
+    static String[] net_gamemode_strings = {
+            "Deathmatch",
+            "Race",
+            "Safe Zone",
+            "Capture the Flag",
+            "King of Flags",
+            "Waypoints",
+            "Virus",
+            "flagmaster"
+    };
+
     static String[] net_gamemode_texts = {
             "Deathmatch",
             "Race",
@@ -87,35 +98,10 @@ public class cGameMode {
     }
 
     public static void resetVirusPlayers() {
-        cVars.assignRandomPlayerIdToVar("virusids");
-        cVars.put("virusids", cVars.get("virusids")+"-");
-    }
-
-    public static void checkVirus() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.instance().clientArgsMap.containsKey("server")) {
-                    for(String id : gScene.getPlayerIds()) {
-                        gPlayer p = gScene.getPlayerById(id);
-                        if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-                                && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
-                                && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
-                            xCon.ex("givepoint " + p.get("id"));
-                        }
-                    }
-                }
-                cVars.putLong("virustime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
-    public static void checkFlagMaster() {
-        if(sSettings.net_server) {
-            if(cVars.get("flagmasterid").length() > 0
-                    && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                xCon.ex("givepoint " + cVars.get("flagmasterid"));
-                cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
-            }
+        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
+            int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());
+            nServer.instance().clientArgsMap.get("server").put("state",
+                    nServer.instance().clientIds.get(randomClientIndex));
         }
     }
 }

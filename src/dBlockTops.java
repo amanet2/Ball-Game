@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dBlockTops {
     public static void drawBlockTopCube(Graphics2D g2, gBlockCube block) {
-        String[] colorvals = block.get("color").split(",");
+        String[] colorvals = block.get("color").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -18,7 +18,7 @@ public class dBlockTops {
     }
 
     public static void drawBlockTopCornerUR(Graphics2D g2, gBlockCornerUR block) {
-        String[] colorvals = block.get("color").split(",");
+        String[] colorvals = block.get("color").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -45,7 +45,7 @@ public class dBlockTops {
     }
 
     public static void drawBlockTopCornerUL(Graphics2D g2, gBlockCornerUL block) {
-        String[] colorvals = block.get("color").split(",");
+        String[] colorvals = block.get("color").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -71,7 +71,7 @@ public class dBlockTops {
     }
 
     public static void drawBlockTopCornerLR(Graphics2D g2, gBlockCornerLR block) {
-        String[] colorvals = block.get("color").split(",");
+        String[] colorvals = block.get("color").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
@@ -99,7 +99,7 @@ public class dBlockTops {
     }
 
     public static void drawBlockTopCornerLL(Graphics2D g2, gBlockCornerLL block) {
-        String[] colorvals = block.get("color").split(",");
+        String[] colorvals = block.get("color").split("\\.");
         g2.setColor(new Color(
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),

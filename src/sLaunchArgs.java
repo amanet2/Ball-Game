@@ -17,6 +17,7 @@ public class sLaunchArgs {
 	    sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
 		for (int i = 0; i < args.length; i++) {
             if (args[i].equalsIgnoreCase("-editor")) {
+                eUtils.zoomLevel = 0.5;
                 sSettings.show_mapmaker_ui = true;
                 sVars.put("startpaused", "1");
             }
