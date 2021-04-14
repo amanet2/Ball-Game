@@ -51,8 +51,5 @@ public class gTextures {
             gPlayer p = gScene.getPlayerById(id);
             p.sprite = getScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
         }
-        for (gProp t : eManager.currentMap.scene.props()) {
-            t.sprite = getScaledImage(t.get("sprite"), t.getInt("dimw"), t.getInt("dimh"));
-        }
     }
 }

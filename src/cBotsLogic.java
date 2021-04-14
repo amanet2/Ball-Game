@@ -24,21 +24,6 @@ public class cBotsLogic {
                 cBotsLogic.goToNearestPlayer(p);
             }
         });
-        behaviors.put("goto_scorepoint", new gDoableThing(){
-            public void doItem(gThing p) {
-                cBotsLogic.goToNearestThingOfType(p, "PROP_SCOREPOINT");
-            }
-        });
-        behaviors.put("ctf", new gDoableThing(){
-            public void doItem(gThing p) {
-                if(!cVars.isVal("flagmasterid", p.get("id")))
-                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
-                else if(cVars.get("flagmasterid").length() > 0)
-                    cBotsLogic.goToFlagPlayer(p);
-                else
-                    cBotsLogic.goToFirstThing(p, "PROP_FLAGRED");
-            }
-        });
         behaviors.put("flagmaster", new gDoableThing(){
             public void doItem(gThing p) {
                 if(cVars.isVal("flagmasterid", p.get("id")))
@@ -59,34 +44,6 @@ public class cBotsLogic {
                 else {
                     cBotsLogic.goToNearestVirusPlayer(p);
                 }
-            }
-        });
-        behaviors.put("goto_teleporter_virus", new gDoableThing(){
-            public void doItem(gThing p) {
-                if(nServer.instance().clientArgsMap.containsKey("server")
-                        && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(p.get("id"))){
-                    if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestThingOfType(p, "PROP_TELEPORTER");
-                    else
-                        cBotsLogic.runFromNearestVirusPlayer(p);
-                }
-                else {
-                    if(!cBotsLogic.inVirusChaseRange(p))
-                        cBotsLogic.goToNearestThingOfType(p, "PROP_TELEPORTER");
-                    else
-                        cBotsLogic.goToNearestVirusPlayer(p);
-                }
-            }
-        });
-        behaviors.put("goto_safezone", new gDoableThing(){
-            public void doItem(gThing p) {
-                cBotsLogic.goToSafeZone(p);
-            }
-        });
-        behaviors.put("goto_kofflag", new gDoableThing(){
-            public void doItem(gThing p) {
-                cBotsLogic.goToNearestThingOfType(p, "PROP_FLAGRED");
             }
         });
     }
@@ -162,34 +119,6 @@ public class cBotsLogic {
         }
     }
 
-    public static void goToSafeZone(gThing bot) {
-        gProp waypoint = null;
-        HashMap scorepointsMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        for(Object id : scorepointsMap.keySet()) {
-            gProp safezone = (gProp) scorepointsMap.get(id);
-            if(safezone.isOne("int0")) {
-                waypoint = safezone;
-                break;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    private static boolean goToWaypointPropVerification(gThing bot, gThing p) {
-        int propcode = p.getInt("code");
-        switch (propcode) {
-            case gProps.TELEPORTER: //generic teleporter operation
-                return !p.isVal("tag", bot.get("exitteleportertag"));
-            case gProps.SCOREPOINT: //waypoints game mode
-                return p.isOne("int0");
-            default:
-                break;
-        }
-        return true;
-    }
 
     public static void goToNearestPlayer(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
@@ -203,43 +132,6 @@ public class cBotsLogic {
                     && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
                 if(!p.get("id").equals(bot.get("id")))
                     waypoint = p;
-            }
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
-        }
-    }
-
-    public static void goToNearestThingOfType(gThing bot, String thingType) {
-        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
-        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gThing waypoint = null;
-        HashMap thingMap = eManager.currentMap.scene.getThingMap(thingType);
-        for(Object id: thingMap.keySet()) {
-            gThing p = (gThing) thingMap.get(id);
-            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                //this str0 value is used in KOF
-                int gameMode = cVars.getInt("gamemode");
-                switch (gameMode) {
-                    case cGameMode.KING_OF_FLAGS:
-                        if(!p.isVal("str0", bot.get("id"))) {
-                            if (goToWaypointPropVerification(bot, p))
-                                waypoint = p;
-                        }
-                        break;
-                    case cGameMode.RACE:
-                        if(!p.get("racebotidcheckins").contains(bot.get("id")))
-                            waypoint = p;
-                        break;
-                    default:
-                        if(goToWaypointPropVerification(bot, p))
-                            waypoint = p;
-                        break;
-                }
             }
         }
         if(waypoint != null) {

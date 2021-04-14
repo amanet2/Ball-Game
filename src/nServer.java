@@ -149,7 +149,6 @@ public class nServer extends Thread implements fNetBase {
             keys.put("quit", "");
         if(cVars.isOne("disconnecting"))
             keys.put("disconnect", "");
-        keys.put("powerups", cPowerups.createPowerupStringServer());
         //send scores
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));

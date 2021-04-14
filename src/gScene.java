@@ -72,10 +72,6 @@ public class gScene {
 		return objectLists.get("THING_TILE");
 	}
 
-    public ArrayList<gProp> props() {
-        return objectLists.get("THING_PROP");
-    }
-
     public ArrayList<gFlare> flares() {
         return objectLists.get("THING_FLARE");
     }

@@ -43,60 +43,6 @@ public class cGameMode {
             "Hold onto the flag for the longest time"
     };
 
-    public static void refreshSafeZones() {
-        String[] propids = new String[]{};
-        HashMap safezones = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        if(safezones.size() > 0) {
-            for(Object id : safezones.keySet()) {
-                gProp safezone = (gProp) safezones.get(id);
-                safezone.put("int0", "0");
-                String[] tmp = Arrays.copyOf(propids, propids.length+1);
-                tmp[tmp.length-1] = (String) id;
-                propids = tmp;
-            }
-            int rando = (int)(Math.random()*(double)(propids.length));
-            gProp nextactiveszone = (gProp) safezones.get(propids[rando]);
-            nextactiveszone.put("int0", "1");
-        }
-    }
-
-    public static void resetKingOfFlags() {
-        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-        for(String id : thingMap.keySet()) {
-            thingMap.get(id).put("str0", "null");
-        }
-    }
-
-    public static void checkKingOfFlags() {
-        if(sSettings.net_server) {
-            if(cVars.getLong("kingofflagstime") < uiInterface.gameTime) {
-                HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                for(String id : thingMap.keySet()) {
-                    gProp flag = (gProp) thingMap.get(id);
-                    gPlayer givePointPlayer = gScene.getPlayerById(flag.get("str0"));
-                    if(givePointPlayer != null) {
-                        xCon.ex("givepoint " + flag.get("str0"));
-                    }
-                }
-                cVars.putLong("kingofflagstime", uiInterface.gameTime + 1000);
-            }
-        }
-    }
-
-    public static void refreshWaypoints() {
-        HashMap scorepoints = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-        String[] propids = new String[scorepoints.size()];
-        int i = 0;
-        for(Object id : scorepoints.keySet()) {
-            gProp scorepoint = (gProp) scorepoints.get(id);
-            scorepoint.put("int0", "0");
-            propids[i++] = (String) id;
-        }
-        int rando = (int)(Math.random()*(propids.length-1));
-        gProp nextactivescorepoint = (gProp) scorepoints.get(propids[rando]);
-        nextactivescorepoint.put("int0", "1");
-    }
-
     public static void resetVirusPlayers() {
         if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
             int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());

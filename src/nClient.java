@@ -191,7 +191,6 @@ public class nClient extends Thread implements fNetBase {
                     cVars.put("winnerid", "");
                 }
                 //important
-                cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check cmd from server only

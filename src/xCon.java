@@ -188,7 +188,6 @@ public class xCon {
         commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
         commands.put("putitem", new xComPutItem());
-        commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
         commands.put("kickbot", new xComKickBot());

@@ -108,15 +108,6 @@ public class cGameLogic {
         cVars.put("winnerid","");
         cVars.put("flagmasterid", "");
         switch (cVars.getInt("gamemode")) {
-            case cGameMode.KING_OF_FLAGS:
-                cGameMode.resetKingOfFlags();
-                break;
-            case cGameMode.WAYPOINTS:
-                cGameMode.refreshWaypoints();
-                break;
-            case cGameMode.SAFE_ZONES:
-                cGameMode.refreshSafeZones();
-                break;
             case cGameMode.VIRUS:
                 cGameMode.resetVirusPlayers();
                 break;
@@ -302,9 +293,6 @@ public class cGameLogic {
                         cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                     }
                     break;
-                case cGameMode.KING_OF_FLAGS:
-                    cGameMode.checkKingOfFlags();
-                    break;
                 case cGameMode.VIRUS:
                     if(cVars.getLong("virustime") < uiInterface.gameTime) {
                         if(nServer.instance().clientArgsMap.containsKey("server")) {
@@ -363,30 +351,6 @@ public class cGameLogic {
                 //after checking all items
                 if(clearTeleporterFlag > 0) {
                     player.put("inteleporter", "0");
-                }
-            }
-        }
-        //
-        // NEW ABOVE, OLD BELOW
-        //
-        //check ALL PROPS this is the best one
-        //new way of checkingProps
-        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
-        for(String checkThingType : new String[]{
-                "PROP_TELEPORTER", "PROP_BOOST", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
-        }) {
-            HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
-            for(String playerId : playerMap.keySet()) {
-                gPlayer player = playerMap.get(playerId);
-                //check null fields
-                if(!player.containsFields(new String[]{"coordx", "coordy"}))
-                    break;
-                for (String propId : thingMap.keySet()) {
-                    gProp prop = (gProp) thingMap.get(propId);
-                    if(player.willCollideWithPropAtCoords(prop, player.getInt("coordx"),
-                            player.getInt("coordy"))) {
-                        prop.propEffect(player);
-                    }
                 }
             }
         }

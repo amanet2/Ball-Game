@@ -30,7 +30,6 @@ public class dPanel extends JPanel {
             dTileFloors.drawFloors(g2);
             dTileWalls.drawWalls(g2);
             dItems.drawItems(g2);
-            dProp.drawProps(g2);
             dPlayer.drawPlayers(g2);
             dTileTops.drawTops(g2);
             //mapmaker indicators
