@@ -132,37 +132,32 @@ public class cScripts {
         }
     }
 
-    public static synchronized void selectThingUnderMouse(int objType) {
+    public static synchronized void selectThingUnderMouse() {
         int[] mc = getMouseCoordinates();
-        switch (objType) {
-            case gScene.THING_PROP:
-                for (int i=eManager.currentMap.scene.props().size()-1; i >= 0; i--) {
-                    gProp t = eManager.currentMap.scene.props().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && (cEditorLogic.state.selectedPropId != i)) {
-                        xCon.ex(String.format("e_selectprop %d", i));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_FLARE:
-                for (int i=eManager.currentMap.scene.flares().size()-1; i >= 0; i--) {
-                    gFlare t = eManager.currentMap.scene.flares().get(i);
-                    if(t.coordsWithinBounds(mc[0], mc[1]) && cEditorLogic.state.selectedFlareTag != i) {
-                        xCon.ex(String.format("e_selectflare %d", i));
-                        return;
-                    }
-                }
-                break;
-            case gScene.THING_PREFAB:
-                for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-                    gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                        cVars.put("prefabid", block.get("prefabid"));
-                        return;
-                    }
-                }
-                break;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selecteditemid", item.get("itemid"));
+                cVars.put("selecteditemname", item.get("type"));
+                cVars.put("selectedprefabid", "");
+                cVars.put("selectedprefabname", "");
+//                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
+                return;
+            }
         }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selectedprefabname", block.get("prefabname"));
+                cVars.put("selecteditemid", "");
+                cVars.put("selecteditemname", "");
+//                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
+                return;
+            }
+        }
+        cVars.put("selectedprefabid", "");
+        cVars.put("selecteditemid", "");
     }
 
     public static void processOptionText(String optionTitle, String enteredText) {
@@ -334,29 +329,30 @@ public class cScripts {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = cScripts.getMouseCoordinates();
-        switch(cEditorLogic.state.createObjCode) {
-            case gScene.THING_PROP:
-                return new int[]{eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx")
-                        - cEditorLogic.state.newProp.getInt("dimw")/2, cEditorLogic.state.snapToX),
-                        eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")
-                                - cEditorLogic.state.newProp.getInt("dimh")/2, cEditorLogic.state.snapToY)};
-            case gScene.THING_FLARE:
-                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
-                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
-                        cEditorLogic.state.snapToX);
-                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
-                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
-                        cEditorLogic.state.snapToY);
-                return new int[]{propx, propy};
-            case gScene.THING_PREFAB:
-                int[] fabdims = getNewPrefabDims();
-                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-                        cEditorLogic.state.snapToX);
-                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-                        cEditorLogic.state.snapToY);
-                return new int[]{pfx, pfy};
-        }
-        return mc;
+        int[] fabdims = getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+                cEditorLogic.state.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+                cEditorLogic.state.snapToY);
+        return new int[]{pfx, pfy};
+//        switch(cEditorLogic.state.createObjCode) {
+//            case gScene.THING_FLARE:
+//                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
+//                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
+//                        cEditorLogic.state.snapToX);
+//                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
+//                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
+//                        cEditorLogic.state.snapToY);
+//                return new int[]{propx, propy};
+//            case gScene.THING_PREFAB:
+//                int[] fabdims = getNewPrefabDims();
+//                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+//                        cEditorLogic.state.snapToX);
+//                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+//                        cEditorLogic.state.snapToY);
+//                return new int[]{pfx, pfy};
+//        }
+//        return mc;
     }
 
     public static void setupGame() {

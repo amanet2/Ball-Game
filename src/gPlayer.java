@@ -90,6 +90,16 @@ public class gPlayer extends gThing {
         return true;
     }
 
+    public boolean willCollideWithThingAtCoords(gThing target, int dx, int dy) {
+        Shape bounds = new Rectangle(
+                target.getInt("coordx"),
+                target.getInt("coordy"),
+                target.getInt("dimw"),
+                target.getInt("dimh")
+        );
+        return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
+    }
+
     public boolean willCollideWithPropAtCoords(gProp target, int dx, int dy) {
             Shape bounds = new Ellipse2D.Double(
                 target.getInt("coordx"),
@@ -522,12 +532,12 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public void dropWeapon() {
-        xCon.ex("echo THING_PLAYER.dropweapon is deprecated.  Use global 'dropweapon' command");
-    }
-
     public boolean isBot() {
         return get("id") != null && get("id").contains("bot");
+    }
+
+    public void testDoable() {
+        System.out.println("TEST DOABLE");
     }
 
     public gPlayer(int x, int y, int w, int h, String tt) {
@@ -537,6 +547,7 @@ public class gPlayer extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("id", "");
+        put("inteleporter", "0");
         put("accelrate", "100");
         put("clip", "1");
         put("flashlight", "0");
@@ -564,9 +575,9 @@ public class gPlayer extends gThing {
         put("powerupsusetime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
-        registerDoable("dropweapon", new gDoableThing(){
+        registerDoable("test", new gDoableThing(){
             public void doItem(gThing thing) {
-                dropWeapon();
+                testDoable();
             }
         });
     }

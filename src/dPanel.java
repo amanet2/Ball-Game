@@ -29,6 +29,7 @@ public class dPanel extends JPanel {
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             dTileFloors.drawFloors(g2);
             dTileWalls.drawWalls(g2);
+            dItems.drawItems(g2);
             dProp.drawProps(g2);
             dPlayer.drawPlayers(g2);
             dTileTops.drawTops(g2);

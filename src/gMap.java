@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class gMap {
-    static final int MAP_TOPVIEW = 0;
     String mapName;
     ArrayList<String> execLines;
     ArrayList<String> mapLines;
@@ -52,7 +51,6 @@ public class gMap {
     }
 
 	public void save(String filename) {
-	    System.out.println("SAVED " + filename);
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
@@ -81,14 +79,19 @@ public class gMap {
                         block.get("frontwall"),
                         block.get("backtop")
                 };
-                StringBuilder str = new StringBuilder("putblock");
+                String prefabString = "";
+                if(block.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + block.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
+                StringBuilder blockString = new StringBuilder("putblock");
                 for(String arg : args) {
                     if(arg != null) {
-                        str.append(" ").append(arg);
+                        blockString.append(" ").append(arg);
                     }
                 }
-                str.append('\n');
-                writer.write(str.toString());
+                blockString.append('\n');
+                writer.write(blockString.toString());
             }
             HashMap<String, gThing> collisionMap = scene.getThingMap("THING_COLLISION");
             for(String id : collisionMap.keySet()) {
@@ -110,6 +113,11 @@ public class gMap {
                         yString.toString(),
                         Integer.toString(collision.npoints)
                 };
+                String prefabString = "";
+                if(collision.contains("prefabid")) {
+                    prefabString = "cv_prefabid " + collision.get("prefabid");
+                    writer.write(prefabString + '\n');
+                }
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
                     if(arg != null) {
@@ -119,21 +127,22 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
-            for(gTile t : scene.tiles()) {
-                String str = String.format("puttile %s %s %s %d %d %d %d %d %d %d %d %d %d %d %d\n",
-                    t.get("sprite0").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite1").replace(xCon.ex("datapath")+"/",""),
-                    t.get("sprite2").replace(xCon.ex("datapath")+"/",""),
-                    t.getInt("coordx"), t.getInt("coordy"), t.getInt("dimw"), t.getInt("dimh"), t.getInt("dim0h"),
-                    t.getInt("dim1h"), t.getInt("dim2h"), t.getInt("dim3h"), t.getInt("dim4h"),
-                    t.getInt("dim5w"), t.getInt("dim6w"), t.getInt("brightness"));
-                writer.write(str);
-            }
-            for(gProp p : scene.props()) {
-                String savetitle = gProps.getTitleForProp(p);
-                String str = String.format("putprop %s %d %d %d %d %d %d\n", savetitle, p.getInt("int0"), p.getInt("int1"),
-                    p.getInt("coordx"), p.getInt("coordy"), p.getInt("dimw"), p.getInt("dimh"));
-                writer.write(str);
+            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
+            for(String id : itemMap.keySet()) {
+                gItem item = (gItem) itemMap.get(id);
+                String[] args = new String[]{
+                        item.get("type"),
+                        item.get("coordx"),
+                        item.get("coordy")
+                };
+                StringBuilder str = new StringBuilder("putitem");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
             }
             for(gFlare f : scene.flares()) {
                 int b = f.getInt("flicker");
@@ -143,6 +152,7 @@ public class gMap {
                         f.getInt("a2"), b);
                 writer.write(str);
             }
+            System.out.println("SAVED " + filename);
             wasLoaded = 1;
 		} catch (IOException e) {
             eUtils.echoException(e);
@@ -151,7 +161,6 @@ public class gMap {
 	}
 
     public void exportasprefab(String filename) {
-        System.out.println("EXPORTED AS PREFAB " + filename);
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
@@ -246,6 +255,7 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
+            System.out.println("EXPORTED AS PREFAB " + filename);
         } catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();

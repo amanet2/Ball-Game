@@ -14,7 +14,7 @@ public class xComAttack extends xCom {
                     case sSettings.NET_CLIENT:
                         nClient.instance().addNetCmd(fireString);
                         break;
-                    default:
+                    case sSettings.NET_OFFLINE:
                         xCon.ex(fireString);
                         break;
                 }

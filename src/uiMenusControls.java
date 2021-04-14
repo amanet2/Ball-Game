@@ -9,7 +9,6 @@ public class uiMenusControls extends uiMenu {
                 new uiMenuItem("move right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
                 new uiMenuItem("attack: MOUSE_LEFT"),
                 new uiMenuItem("speed boost: MOUSE_RIGHT"),
-                new uiMenuItem("drop weapon: " + (char)(int)xCon.getKeyCodeForComm("dropweapon")),
                 new uiMenuItem("crouch: SHIFT"),
                 new uiMenuItem("flashlight: "+(char)(int)xCon.getKeyCodeForComm("flashlight")),
                 new uiMenuItem("center camera: "+(char)(int)xCon.getKeyCodeForComm("centercamera")),

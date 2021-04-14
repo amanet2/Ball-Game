@@ -30,8 +30,11 @@ public class uiInterface {
                 gameTimeNanos = System.nanoTime();
                 //game loop
                 if(sSettings.net_server) {
-                    cVars.putLong("timeleft",
+                    if(sVars.getInt("timelimit") > 0)
+                        cVars.putLong("timeleft",
                             sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
+                    else
+                        cVars.putLong("timeleft", -1);
                 }
                 if(sSettings.net_server && cVars.contains("serveraddbots")
                         && cVars.getLong("serveraddbotstime") < gameTime) {
@@ -49,6 +52,9 @@ public class uiInterface {
                         nServer.instance().processPackets();
                     else if(sSettings.net_client)
                         nClient.instance().processPackets();
+                    else if(sSettings.show_mapmaker_ui) {
+                        cScripts.selectThingUnderMouse();
+                    }
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
@@ -74,6 +80,9 @@ public class uiInterface {
                     }
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
+//                while(nextFrameTime >= System.nanoTime()) {
+//                    Thread.sleep(0, 500);
+//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();

@@ -8,6 +8,7 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
+        put("blueflagmasterid", "0");
         put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
@@ -50,17 +51,25 @@ public class cVars {
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
         put("maploaded", "0");
+        put("newitemname", "");
         put("newprefabname", "room_small");
         put("maxstockhp", "500");
         put("maxstockspeed", "200");
         put("popuplivetime", "2000");
         put("powerupson", sVars.get("powerupsmaxon"));
         put("powerupstime", "0");
+        put("itemid", "0");
         put("prefabid", "0");
+        put("selecteditemid", "");
+        put("selectedprefabid", "");
+        put("selecteditemname", "");
+        put("selectedprefabname", "");
+        put("shotgunmasterids", "");
         put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
         put("rechargehp", "1");
+        put("redflagmasterid", "");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scoremap", "");
@@ -90,9 +99,9 @@ public class cVars {
         put("vfxcornershadowalpha1", "200");
         put("vfxcornershadowalpha2", "0");
         put("vfxshadowfactor", "0.3");
-        put("vfxflooroutlinealpha1", "10");
+        put("vfxflooroutlinealpha1", "0");
         put("vfxflooroutlinealpha2", "0");
-        put("vfxfloorshadingalpha1", "5");
+        put("vfxfloorshadingalpha1", "0");
         put("vfxfloorshadingalpha2", "0");
         put("vfxroofvertoutlinealpha1", "20");
         put("vfxroofvertoutlinealpha2", "90");

@@ -103,6 +103,7 @@ public class xCon {
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
         visibleCommands.add("putblock");
+        visibleCommands.add("putitem");
         visibleCommands.add("putprop");
         visibleCommands.add("putflare");
 
@@ -114,6 +115,7 @@ public class xCon {
         undoableCommands.add("putprop");
         undoableCommands.add("puttile");
         undoableCommands.add("putblock");
+        undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");
         undoableCommands.add("e_selectprop");
         undoableCommands.add("e_setselectedflare");
@@ -144,29 +146,21 @@ public class xCon {
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
+        commands.put("deleteitem", new xComDeleteItem());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
-        commands.put("dropflagred", new xComDropFlagRed());
-        commands.put("dropweapon", new xComDropWeapon());
+        commands.put("dropitem", new xComDropItem());
         commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_delthing", new xComEditorDelThing());
-        commands.put("e_newflare", new xComEditorSetNewFlareDims());
-        commands.put("e_newprop", new xComEditorSetNewPropDims());
-        commands.put("e_nextthing", new xComEditorNextThing());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_save", new xComEditorSave());
         commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_selectprop", new xComEditorSelectProp());
-        commands.put("e_selectflare", new xComEditorSelectFlare());
-        commands.put("e_setselectedflare", new xComEditorSetSelectedFlareDims());
-        commands.put("e_setselectedprop", new xComEditorSetSelectedPropDims());
         commands.put("e_setsvars", new xComEditorSetSVars());
         commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showflares", new xComEditorShowFlares());
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
-        commands.put("e_showprops", new xComEditorShowProps());
         commands.put("e_showexecs", new xComEditorShowExecs());
         commands.put("e_undo", new xComEditorUndo());
         commands.put("echo", new xComEcho());
@@ -193,6 +187,7 @@ public class xCon {
         commands.put("putblock", new xComPutBlock());
         commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
+        commands.put("putitem", new xComPutItem());
         commands.put("putprop", new xComPutProp());
         commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
