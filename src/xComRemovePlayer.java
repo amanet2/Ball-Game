@@ -4,6 +4,9 @@ public class xComRemovePlayer extends xCom {
         if(toks.length > 1) {
             String id = toks[1];
             eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
+            if(id.equals(uiInterface.uuid)) {
+                cGameLogic.setUserPlayer(null);
+            }
             if(id.contains("bot"))
                 eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").remove(id);
             if(sSettings.net_server) {

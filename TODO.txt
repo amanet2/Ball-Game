@@ -6,6 +6,9 @@
 20210417
 * feature: player/server can go spec at anytime
     -> why does the playerarrow appear still after calling removeplayer
+        -> fix this by calling setUserPlayer(null) in xComremovePlayer if args.id == interface.uuid
+    -> simply removing the player should work for enter spec
+        -> create/respawn to re-enter game
 * feature: online mapmaker
 * new Item: bonusblock
     -> get its health to 0 and it has a change to spawn a powerup
