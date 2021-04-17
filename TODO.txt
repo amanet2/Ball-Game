@@ -3,11 +3,27 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210417
+* feature: player/server can go spec at anytime
+    -> why does the playerarrow appear still after calling removeplayer
+* feature: online mapmaker
+* new Item: bonusblock
+    -> get its health to 0 and it has a change to spawn a powerup
+        -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate +/-
+        -> this will be the powerup delivery system.  no placing shotties on map, etc
+20210415
+* Interesting attack:
+    -> hold mouse to increase size of projectile
+    -> click mouse to start blowing up a bubble. click again to launch it before it pops
+        -> can get a bigger bubble, skillfully make small ones etc
 20210411
 * ALTERNATE STRATEGY:
     -> make server completely headless, then run a server instance in the background when done through the ui
         -> do in a different branch, HEADLESS_SERVER
         -> we get our dedicated server out of this as well
+###
+### POWER GAP
+###
 20210410
 * server player needs to be non-dependent on existence of user player
     -> userplayer gets deleted on death
@@ -28,7 +44,7 @@
 * show some indication that timelimit is unlimited
 * UI: new timelimit menu
     -> time limits:
-        -> None, 2:00, 5:00, 10:00, 15:00, 20:00, 30:00
+        -> None, 1:00, 2:00, 3:00, 4:00, 5:00
 * UI: create left/right uiItems
     -> for things like volume up/down. etc
 * UI: add bots in newgame screen not working

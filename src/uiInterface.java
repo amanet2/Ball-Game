@@ -70,14 +70,14 @@ public class uiInterface {
                     }
                 }
                 //draw gfx
-                    oDisplay.instance().frame.repaint();
-                    frames += 1;
-                    lastFrameTime = System.currentTimeMillis();
-                    if (framecounterTime < lastFrameTime) {
-                        fpsReport = frames;
-                        frames = 0;
-                        framecounterTime = lastFrameTime + 1000;
-                    }
+                oDisplay.instance().frame.repaint();
+                frames += 1;
+                lastFrameTime = System.currentTimeMillis();
+                if (framecounterTime < lastFrameTime) {
+                    fpsReport = frames;
+                    frames = 0;
+                    framecounterTime = lastFrameTime + 1000;
+                }
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
 //                while(nextFrameTime >= System.nanoTime()) {
