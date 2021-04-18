@@ -59,9 +59,12 @@ public class dScoreboard {
                 place = prevplace;
             prevplace = place;
             prevscore = playerscore;
-            g.drawString(String.format("%d. ", place+1)
+            String spectatorstring = "";
+            if(gScene.getPlayerById(id) == null)
+                spectatorstring = "[SPECTATE] ";
+            g.drawString(String.format("%s%d. ", spectatorstring, place+1)
                             + (cVars.isOne("gameteam") ? "(" +playercolor+")" : "")
-                            + playername, sSettings.width/4,
+                            + playername, sSettings.width/4 - dFonts.getStringWidth(g, spectatorstring),
                     7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                           " + playerwins,
                     sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
