@@ -19,7 +19,8 @@ public class nServer extends Thread implements fNetBase {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "fireweapon"
+            "fireweapon",
+            "removeplayer"
     ));
     boolean isPlaying = false;
 
@@ -494,8 +495,16 @@ public class nServer extends Thread implements fNetBase {
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.contains("fireweapon")) { //handle special case for weapons
+            if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
+            else if(ccmd.contains("removeplayer")) { //handle special case for removeplayer
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    String reqid = toks[1];
+                    if(reqid.equals(id)) { //client can only remove itself
+                        addExcludingNetCmd(id, cmd);
+                    }
+                }
             }
             else
                 addNetCmd(cmd);

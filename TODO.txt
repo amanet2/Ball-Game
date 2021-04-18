@@ -3,6 +3,8 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+20210418
+* issue: when server changes map w/ spectators, it still spawns player instances for those spectators on the server
 20210417
 * feature: player/server can go spec at anytime
     -> why does the playerarrow appear still after calling removeplayer
