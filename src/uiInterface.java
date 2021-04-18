@@ -104,6 +104,7 @@ public class uiInterface {
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection(eUtils.getPath("prefabs"));
 	    if(sSettings.show_mapmaker_ui) {
+            cEditorLogic.setupMapMakerWindow();
             xCon.ex("load");
             cVars.putInt("camx", 0);
             cVars.putInt("camy", 0);
