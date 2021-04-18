@@ -46,7 +46,7 @@ public class cGameLogic {
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
-                checkSprintStatus();
+//                checkSprintStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
