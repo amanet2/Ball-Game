@@ -20,7 +20,8 @@ public class nServer extends Thread implements fNetBase {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "fireweapon",
-            "removeplayer"
+            "removeplayer",
+            "respawnplayer"
     ));
     boolean isPlaying = false;
 
@@ -455,7 +456,6 @@ public class nServer extends Thread implements fNetBase {
         player.putInt("tag", eManager.currentMap.scene.playersMap().size());
         player.put("id", packId);
         player.put("stockhp", cVars.get("maxstockhp"));
-//          player.putInt("weapon", packWeap);
         eManager.currentMap.scene.playersMap().put(packId, player);
     }
 
@@ -467,7 +467,6 @@ public class nServer extends Thread implements fNetBase {
             player.putInt("tag", eManager.currentMap.scene.playersMap().size());
             player.put("id", packId);
             player.put("stockhp", cVars.get("maxstockhp"));
-//          player.putInt("weapon", packWeap);
             eManager.currentMap.scene.playersMap().put(packId, player);
         }
         StringBuilder sendStringBuilder = new StringBuilder();
@@ -497,7 +496,8 @@ public class nServer extends Thread implements fNetBase {
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
-            else if(ccmd.contains("removeplayer")) { //handle special case for removeplayer
+            else if(ccmd.contains("removeplayer")
+                    || ccmd.contains("respawnplayer")) { //handle special case for remove/respawn player
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
                     String reqid = toks[1];

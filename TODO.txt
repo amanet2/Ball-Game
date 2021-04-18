@@ -16,6 +16,7 @@
     -> get its health to 0 and it has a change to spawn a powerup
         -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate +/-
         -> this will be the powerup delivery system.  no placing shotties on map, etc
+    -> will respawn after X time
 20210415
 * Interesting attack:
     -> hold mouse to increase size of projectile

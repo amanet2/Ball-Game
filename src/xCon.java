@@ -162,6 +162,7 @@ public class xCon {
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("gospectate", new xComGoSpectate());
+        commands.put("gounspectate", new xComGoUnspectate());
         commands.put("joingame", new xComJoingame());
         commands.put("joingamespec", new xComJoingameSpec());
         commands.put("load", new xComLoad());
