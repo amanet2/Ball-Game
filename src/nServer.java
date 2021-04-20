@@ -438,8 +438,8 @@ public class nServer extends Thread implements fNetBase {
 //                addNetCmd(id, "cv_maploaded 1;respawn");
 //            else
 //                addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
-            String postString = "cv_maploaded 1;gounspectate";
             sendMap(id);
+            String postString = "cv_maploaded 1;gounspectate";
             addNetCmd(id, postString);
         }
     }
@@ -465,26 +465,9 @@ public class nServer extends Thread implements fNetBase {
 
     private void createServersidePlayerAndSendMap(String packId, String packName) {
         if(!packId.contains("bot")) {
-            gPlayer player = new gPlayer(-6000, -6000,150,150,
-                    eUtils.getPath("animations/player_red/a03.png"));
-            player.put("name", packName);
-            player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-            player.put("id", packId);
-            player.put("stockhp", cVars.get("maxstockhp"));
-            eManager.currentMap.scene.playersMap().put(packId, player);
+            createServersidePlayer(packId, packName);
         }
-        StringBuilder sendStringBuilder = new StringBuilder();
-        int linectr = 0;
-        for(String line : eManager.currentMap.mapLines) {
-            sendStringBuilder.append(line.replace("cmd", "")).append(";");
-            linectr++;
-            if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == eManager.currentMap.mapLines.size()) {
-                String sendString = sendStringBuilder.toString();
-                addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
-                sendStringBuilder = new StringBuilder();
-            }
-        }
+        sendMap(packId);
     }
 
     private void sendMap(String packId) {
