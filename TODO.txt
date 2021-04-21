@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 20210418
-* issue: when changing map and players map gets cleared, clients dont know to add back players
+* issue: when changing map and players map gets cleared, clients dont know to add back server player
 * feature: online mapmaker
 * new Item: bonusblock
     -> get its health to 0 and it has a change to spawn a powerup

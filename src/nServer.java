@@ -431,7 +431,7 @@ public class nServer extends Thread implements fNetBase {
         oDisplay.instance().createPanels();
         addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
         eManager.currentMap.scene.clearPlayers();
-        xCon.ex("createuserplayer;respawn");
+        xCon.ex("gounspectate");
         for(String id : clientIds) {
 //            createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
 //            if(gScene.getPlayerById(id) != null)

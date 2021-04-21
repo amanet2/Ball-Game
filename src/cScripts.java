@@ -341,7 +341,7 @@ public class cScripts {
         cVars.putLong("starttime", System.currentTimeMillis());
         if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
             //spawns player for mapmaker testing
-            xCon.ex("createuserplayer;respawn");
+            xCon.ex("gounspectate");
         }
         cGameLogic.resetGameState();
         for(String s : eManager.currentMap.execLines) {
