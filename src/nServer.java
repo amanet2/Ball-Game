@@ -429,7 +429,7 @@ public class nServer extends Thread implements fNetBase {
             mapPath = eUtils.getPath(mapPath);
         gMap.load(mapPath);
         oDisplay.instance().createPanels();
-        addExcludingNetCmd("server", "cv_maploaded 0;load ");
+        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
         eManager.currentMap.scene.clearPlayers();
         xCon.ex("createuserplayer;respawn");
         for(String id : clientIds) {

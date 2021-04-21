@@ -66,6 +66,7 @@ public class gScene {
 
     public void clearPlayers() {
 	    objectMaps.put("THING_PLAYER", new HashMap<>());
+	    cGameLogic.setUserPlayer(null);
     }
 
 	public ArrayList<gTile> tiles() {
