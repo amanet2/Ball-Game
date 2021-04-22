@@ -13,6 +13,7 @@ public class eManager {
 
 	public static void loadMap(String mapPath) {
         eManager.currentMap = new gMap();
+        cGameLogic.setUserPlayer(null);
         xCon.instance().debug("Loading: " + mapPath);
         long ct = System.currentTimeMillis();
         try (BufferedReader br = new BufferedReader(new FileReader(mapPath))) {

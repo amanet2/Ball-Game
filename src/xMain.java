@@ -3,7 +3,5 @@ public class xMain {
 		sLaunchArgs.setLaunchArguments(args);
 		eUtils.disableApplePressAndHold();
 		uiInterface.init();
-//		oDisplay.instance().showFrame();
-//		uiInterface.addListeners();
 	}
 }
