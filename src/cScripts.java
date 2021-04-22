@@ -344,9 +344,6 @@ public class cScripts {
             xCon.ex("gounspectate");
         }
         cGameLogic.resetGameState();
-        for(String s : eManager.currentMap.execLines) {
-            xCon.ex(s.replaceFirst("cmd ", ""));
-        }
     }
 
     public static void playPlayerDeathSound() {

@@ -154,7 +154,6 @@ public class xCon {
         commands.put("e_setsvars", new xComEditorSetSVars());
         commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
-        commands.put("e_showexecs", new xComEditorShowExecs());
         commands.put("e_undo", new xComEditorUndo());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());

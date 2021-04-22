@@ -3,20 +3,25 @@
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-20210418
+FOCUS ITEMS
+* make de-loading and loading maps much simpler and more airtight
 * issue: when changing map and players map gets cleared, clients dont know to add back server player
 * feature: online mapmaker
 * new Item: bonusblock
+    -> (make them look like regular blocks)
     -> get its health to 0 and it has a change to spawn a powerup
         -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate +/-
         -> this will be the powerup delivery system.  no placing shotties on map, etc
     -> will respawn after X time
-20210415
 * Interesting attack:
     -> hold mouse to increase size of projectile
     -> click mouse to start blowing up a bubble. click again to launch it before it pops
         -> can get a bigger bubble, skillfully make small ones etc
-20210411
+* other attack:
+    -> rock lazily flies for a time
+        -> stopped/bounces by walls/players
+    -> explodes on a timer
+    -> right click could leave a bomb at player loc, left click launches it
 * ALTERNATE STRATEGY:
     -> make server completely headless, then run a server instance in the background when done through the ui
         -> do in a different branch, HEADLESS_SERVER

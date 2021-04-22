@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 public class gMap {
     String mapName;
-    ArrayList<String> execLines;
     ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
@@ -14,7 +13,6 @@ public class gMap {
     private void basicInit() {
         eManager.currentMap = null;
         gTextures.clear();
-        execLines = new ArrayList<>();
         mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
@@ -58,12 +56,6 @@ public class gMap {
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
             if(cVars.get("botbehavior").length() > 0)
                 writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
-            //this one is dynamic
-            for(String s : execLines) {
-                if(!s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
-                    writer.write(s + "\n");
-                }
-            }
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
