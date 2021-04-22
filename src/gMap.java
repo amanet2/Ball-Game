@@ -12,6 +12,7 @@ public class gMap {
     gScene scene;
 
     private void basicInit() {
+        eManager.currentMap = null;
         gTextures.clear();
         execLines = new ArrayList<>();
         mapLines = new ArrayList<>();

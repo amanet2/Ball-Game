@@ -422,6 +422,7 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
+        eManager.currentMap = null;
         clearBots();
         oDisplay.instance().clearAndRefresh();
         cVars.put("botbehavior", "");
