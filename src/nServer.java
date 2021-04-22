@@ -422,7 +422,7 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
-        eManager.currentMap = null;
+//        eManager.currentMap = null;
         clearBots();
         oDisplay.instance().clearAndRefresh();
         cVars.put("botbehavior", "");
@@ -434,11 +434,6 @@ public class nServer extends Thread implements fNetBase {
         eManager.currentMap.scene.clearPlayers();
         xCon.ex("gounspectate");
         for(String id : clientIds) {
-//            createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
-//            if(gScene.getPlayerById(id) != null)
-//                addNetCmd(id, "cv_maploaded 1;respawn");
-//            else
-//                addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
             sendMap(id);
             String postString = "cv_maploaded 1;gounspectate";
             addNetCmd(id, postString);
