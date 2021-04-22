@@ -9,13 +9,11 @@ public class xComLoad extends xCom {
         if(mapPath.length() > 0) {
             if (!mapPath.contains(sVars.get("datapath")))
                 mapPath = eUtils.getPath(mapPath);
-            gMap.load(mapPath);
+            eManager.loadMap(mapPath);
         }
         else {
             //load the most basic blank map
-            HashMap<String, gPlayer> savedplayers = eManager.currentMap.scene.playersMap();
             eManager.currentMap = new gMap();
-            eManager.currentMap.scene.setPlayersMap(savedplayers);
             if(sSettings.show_mapmaker_ui)
                 cVars.put("maploaded", "1");
         }

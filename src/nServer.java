@@ -428,7 +428,7 @@ public class nServer extends Thread implements fNetBase {
         cVars.put("botbehavior", "");
         if(!mapPath.contains(sVars.get("datapath")))
             mapPath = eUtils.getPath(mapPath);
-        gMap.load(mapPath);
+        eManager.loadMap(mapPath);
         oDisplay.instance().createPanels();
         addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
         eManager.currentMap.scene.clearPlayers();
