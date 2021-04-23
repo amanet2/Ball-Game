@@ -50,7 +50,7 @@ public class xComRespawnPlayer extends xCom {
                 else {
                     String botcolor = nServer.instance().clientArgsMap.get(id).get("color");
                     String bothat = nServer.instance().clientArgsMap.get(id).get("hat");
-                    gPlayer p = new gPlayer(-6000,-6000,150,150,
+                    gPlayer p = new gPlayer(-6000,-6000,
                             eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
                     p.put("id", id);
                     p.put("hat", bothat);

@@ -7,7 +7,7 @@ public class xComAddBot extends xCom {
         String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
         String bothat = hatselection[(int)(Math.random()*(hatselection.length))];
 
-        gPlayer p = new gPlayer(-6000,-6000,150,150,
+        gPlayer p = new gPlayer(-6000,-6000,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
 //        p.putInt("tag", eManager.currentMap.scene.playersMap().size());
         p.put("id", "bot"+cScripts.createBotId());

@@ -1,6 +1,6 @@
 public class xComCreateUserPlayer extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer player0 = new gPlayer(-10000, -10000,150,150,
+        gPlayer player0 = new gPlayer(-10000, -10000,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", sVars.get("playercolor"))));
         cGameLogic.setUserPlayer(player0);
         player0.put("id", uiInterface.uuid);

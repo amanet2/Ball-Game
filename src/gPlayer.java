@@ -530,12 +530,12 @@ public class gPlayer extends gThing {
         System.out.println("TEST DOABLE");
     }
 
-    public gPlayer(int x, int y, int w, int h, String tt) {
+    public gPlayer(int x, int y, String tt) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
-        putInt("dimw", w);
-        putInt("dimh", h);
+        putInt("dimw", 200);
+        putInt("dimh", 200);
         put("id", "");
         put("inteleporter", "0");
         put("accelrate", "100");

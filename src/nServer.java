@@ -450,8 +450,7 @@ public class nServer extends Thread implements fNetBase {
     }
 
     public void createServersidePlayer(String packId, String packName) {
-        gPlayer player = new gPlayer(-6000, -6000,150,150,
-                eUtils.getPath("animations/player_red/a03.png"));
+        gPlayer player = new gPlayer(-6000, -6000, eUtils.getPath("animations/player_red/a03.png"));
         player.put("name", packName);
         player.putInt("tag", eManager.currentMap.scene.playersMap().size());
         player.put("id", packId);
