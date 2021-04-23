@@ -219,7 +219,8 @@ public class dTileTops {
                 }
             }
             //draw hitboxes
-            if(sSettings.show_mapmaker_ui && sVars.isOne("drawhitboxes")) {
+//            if(sSettings.show_mapmaker_ui && sVars.isOne("drawhitboxes")) {
+            if(sVars.isOne("drawhitboxes")) {
                 g2.setColor(Color.RED);
                 for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
                     gCollision collision =

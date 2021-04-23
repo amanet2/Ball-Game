@@ -20,7 +20,7 @@ public class xComRespawnPlayer extends xCom {
                                 "ITEM_SPAWNPOINT").get(randomId);
                 //server-side solution
                 if(!id.contains("bot")) {
-                    nServer.instance().addNetCmd(id, "userplayer coordx " +
+                    nServer.instance().addNetCmd(id, "createuserplayer;userplayer coordx " +
                             (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
                                     - player.getInt("dimw") / 2)
                             + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
@@ -44,7 +44,6 @@ public class xComRespawnPlayer extends xCom {
                     }
                     else {
                         nServer.instance().createServersidePlayer(id, nServer.instance().clientArgsMap.get(id).get("name"));
-                        nServer.instance().addNetCmd(id, "createuserplayer");
                         doCommand(fullCommand);
                     }
                 }

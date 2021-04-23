@@ -6,7 +6,9 @@
 FOCUS ITEMS
 * ISSUE:
     -> clients once again "flash" at a random (prolly not) location before spawning in on map change
-    -> maybe have server wipe out clientargs on map change as well
+    -> maybe players should be initialized without an x,y value
+        -> players should have a lot of hardcoded vals not needed in constructor
+        -> make function "createplayer X Y" for future
 * make de-loading and loading maps much simpler and more airtight
     -> server should instruct client to set currentmap to map(), since client doesnt call "load"
 * issue: when changing map and players map gets cleared, clients dont know to add back server player
