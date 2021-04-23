@@ -162,7 +162,6 @@ public class xCon {
         commands.put("gospectate", new xComGoSpectate());
         commands.put("gounspectate", new xComGoUnspectate());
         commands.put("joingame", new xComJoingame());
-        commands.put("joingamespec", new xComJoingameSpec());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());

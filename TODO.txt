@@ -4,7 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* make server.isplaying a cvar?
 * NEW PLAYER RESPAWN
     -> server will select spawn point and create player
         -> make function "createplayer X Y" for clients, server will activate this on clients remotely
