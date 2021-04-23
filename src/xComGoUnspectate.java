@@ -5,7 +5,7 @@ public class xComGoUnspectate extends xCom {
                 nClient.instance().addNetCmd("respawnplayer " + uiInterface.uuid);
                 break;
             default:
-                xCon.ex("createuserplayer;respawn");
+                xCon.ex("respawn");
                 break;
         }
         return "left spectator mode";
