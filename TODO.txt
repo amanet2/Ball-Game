@@ -4,8 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
+they just joined the game again.
+    -> takes a lot of the headache out of changing map after end of each round
+* sometimes movement smoothing breaks down for other players on client's screen
 * make de-loading and loading maps much simpler and more airtight
-* issue: when changing map and players map gets cleared, clients dont know to add back server player
+    -> server should instruct client to set currentmap to map(), since client doesnt call "load"
 * feature: online mapmaker
 * new Item: bonusblock
     -> (make them look like regular blocks)

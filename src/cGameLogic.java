@@ -7,6 +7,7 @@ public class cGameLogic {
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
         userPlayer = newUserPlayer;
+        cScripts.centerCamera();
     }
 
     public static gPlayer userPlayer() {
@@ -183,11 +184,7 @@ public class cGameLogic {
         for(String id : argsMap.keySet()) {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
             && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                if(!id.contains("bot"))
-                    nServer.instance().addNetCmd("respawnplayer " + id);
-                else
-                    xCon.ex("respawnplayer " + id);
-                System.out.println("removed respawntime");
+                nServer.instance().addNetCmd("respawnnetplayer " + id);
                 argsMap.get(id).remove("respawntime");
             }
         }

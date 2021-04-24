@@ -9,7 +9,7 @@ public class xComEditorSaveAs extends xCom{
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String filename = file.getName();
-            eManager.currentMap.save(filename);
+            eManager.currentMap.saveAs(filename);
             eManager.currentMap.mapName = filename.split("\\.")[0];
         }
         return fullcommand;

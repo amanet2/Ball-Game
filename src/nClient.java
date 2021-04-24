@@ -235,7 +235,7 @@ public class nClient extends Thread implements fNetBase {
                 else {
                     nServer.instance().clientIds.add(idload);
                     foundIds.add(idload);
-                    gPlayer player = new gPlayer(-6000, -6000,150,150,
+                    gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
                     eManager.currentMap.scene.playersMap().put(idload, player);

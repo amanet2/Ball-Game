@@ -6,7 +6,6 @@ public class xComDisconnect extends xCom {
             cVars.put("disconnecting", "1");
         }
         if(sSettings.net_client) {
-//            nClient.instance().disconnect();
             cVars.put("disconnecting", "1");
         }
         return fullCommand;
