@@ -26,7 +26,6 @@ public class cVars {
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
-        put("exitteleportertag", "-1");
         put("fallkilltime", "800");
         put("flagmasterid", "");
         put("flagmastertime", "0");
