@@ -7,6 +7,7 @@ public class cGameLogic {
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
         userPlayer = newUserPlayer;
+        cScripts.centerCamera();
     }
 
     public static gPlayer userPlayer() {
@@ -46,7 +47,7 @@ public class cGameLogic {
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
-                checkSprintStatus();
+//                checkSprintStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
@@ -58,42 +59,6 @@ public class cGameLogic {
             e.printStackTrace();
         }
     }
-
-    public static void checkMapGravity() {
-            if(cVars.isOne("clipplayer")) {
-                gPlayer userPlayer = cGameLogic.userPlayer();
-                if(userPlayer == null)
-                    return;
-                if (cVars.isOne("jumping")) {
-                    userPlayer.putInt("mov1", 0);
-                    userPlayer.putInt("vel0", cVars.getInt("gravity"));
-                }
-                else {
-                    userPlayer.addVal("vel1", userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                            && cVars.getInt("gravity") > 0 ? 1 : 0);
-                    cVars.put("jumpheight", "0");
-                }
-            }
-            //jumping
-            if(cVars.isOne("clipplayer")) {
-                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < cVars.getInt("jumptimemax")) {
-                    cVars.increment("jumpheight");
-                    if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))
-                        xCon.ex("-crouch");
-                }
-                else if(cVars.isOne("jumping")) {
-//                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
-//                        userPlayer().putInt("mov0", 0);
-                    cVars.putInt("jumping", 0);
-                }
-            }
-    }
-
-//    public static boolean drawLocalSpawnProtection() {
-//        gPlayer userplayer = cGameLogic.userPlayer();
-//        return userplayer != null && (userplayer.contains("spawnprotectiontime")
-//                && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
-//    }
 
     public static void resetGameState() {
         cScoreboard.resetScoresMap();
@@ -219,39 +184,11 @@ public class cGameLogic {
         for(String id : argsMap.keySet()) {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
             && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                if(!id.contains("bot"))
-                    nServer.instance().addNetCmd("respawnplayer " + id);
-                else
-                    xCon.ex("respawnplayer " + id);
-                System.out.println("removed respawntime");
+                nServer.instance().addNetCmd("respawnnetplayer " + id);
                 argsMap.get(id).remove("respawntime");
             }
         }
         rechargePlayersHealth();
-    }
-
-    public static void checkSprintStatus() {
-//        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed")) {
-        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed") &&
-            cVars.getLong("sprinttime") + cVars.getInt("delaypow") < System.currentTimeMillis()) {
-            if(cVars.getInt("stockspeed") + cVars.getInt("rechargepow") > cVars.getInt("maxstockspeed"))
-                cVars.put("stockspeed", cVars.get("maxstockspeed"));
-            else
-                cVars.putInt("stockspeed", cVars.getInt("stockspeed") + cVars.getInt("rechargepow"));
-        }
-        else if(cVars.isOne("sprint") && cVars.getInt("stockspeed") > 0) {
-            if(cVars.getLong("sprinttime") < System.currentTimeMillis() || cVars.getInt("stockspeed") < 1) {
-                cVars.put("sprint", "0");
-                cVars.put("stockspeed", "0");
-            }
-            else {
-                cVars.putInt("stockspeed", (int)(cVars.getLong("sprinttime")-System.currentTimeMillis()));
-            }
-        }
-        else if(cVars.getInt("stockspeed") < 1) {
-            cVars.put("sprint", "0");
-            cVars.put("stockspeed", "0");
-        }
     }
 
     public static void checkForMapChange() {

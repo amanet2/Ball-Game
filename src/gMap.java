@@ -6,14 +6,13 @@ import java.util.HashMap;
 
 public class gMap {
     String mapName;
-    ArrayList<String> execLines;
     ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
 
     private void basicInit() {
+        eManager.currentMap = null;
         gTextures.clear();
-        execLines = new ArrayList<>();
         mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
@@ -26,43 +25,13 @@ public class gMap {
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
-	public static void load(String s) {
-        eManager.currentMap = new gMap();
-        xCon.instance().debug("Loading Map: " + s);
-        long ct = System.currentTimeMillis();
-        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            if(s.contains("/"))
-                eManager.currentMap.mapName = s.split("/")[1].split("\\.")[0];
-            else
-                eManager.currentMap.mapName = s.split("\\.")[0];
-            String line;
-            while ((line = br.readLine()) != null) {
-                xCon.ex(line);
-                eManager.currentMap.mapLines.add(line);
-            }
-            eManager.currentMap.wasLoaded = 1;
-            cVars.put("maploaded", "1");
-        }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
-        xCon.instance().debug("Loading time: " + (System.currentTimeMillis() - ct));
-    }
-
-	public void save(String filename) {
+	public void saveAs(String filename) {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
             if(cVars.get("botbehavior").length() > 0)
                 writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
-            //this one is dynamic
-            for(String s : execLines) {
-                if(!s.contains("cv_gamemode") && !s.contains("cv_botbehavior")) {
-                    writer.write(s + "\n");
-                }
-            }
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);

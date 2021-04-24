@@ -114,6 +114,8 @@ public class uiInterface {
         }
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
+        oDisplay.instance().showFrame();
+        addListeners();
         startTicker();
 	}
 

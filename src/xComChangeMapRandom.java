@@ -4,7 +4,7 @@ public class xComChangeMapRandom extends xCom {
             return "no maps found for changemap (random)";
         }
         else if(eManager.mapsSelection.length > 1) {
-            int rand = (int)(Math.random()*eManager.mapsSelection.length);
+            int rand = eManager.mapSelectionIndex;
             while(rand == eManager.mapSelectionIndex) {
                 rand = (int)(Math.random()*eManager.mapsSelection.length);
             }

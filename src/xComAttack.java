@@ -7,6 +7,15 @@ public class xComAttack extends xCom {
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
+                boolean isflagmaster = false;
+                if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER) && nServer.instance().clientArgsMap != null
+                        && nServer.instance().clientArgsMap.containsKey("server")
+                        && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                        && nServer.instance().clientArgsMap.get("server").get("state").contains(uiInterface.uuid)) {
+                    isflagmaster = true;
+                }
+                if(isflagmaster)
+                    return "can't attack while flagmaster";
                 switch (sSettings.NET_MODE) {
                     case sSettings.NET_SERVER:
                         nServer.instance().addNetCmd(fireString);
