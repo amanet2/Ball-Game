@@ -181,9 +181,7 @@ public class xCon {
         commands.put("kickbot", new xComKickBot());
         commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
-        commands.put("respawnclientbotplayer", new xComRespawnClientBotPlayer());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
-        commands.put("respawnplayer", new xComRespawnPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
         commands.put("selectleft", new xComSelectLeft());
