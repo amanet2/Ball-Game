@@ -110,7 +110,6 @@ public class xCon {
         undoableCommands.add("e_newflare");
         undoableCommands.add("e_nextthing");
         undoableCommands.add("putflare");
-        undoableCommands.add("puttile");
         undoableCommands.add("putblock");
         undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");

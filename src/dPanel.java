@@ -27,11 +27,13 @@ public class dPanel extends JPanel {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
-            dTileFloors.drawFloors(g2);
-            dTileWalls.drawWalls(g2);
-            dItems.drawItems(g2);
-            dPlayer.drawPlayers(g2);
-            dTileTops.drawTops(g2);
+            if(cVars.isOne("maploaded")) {
+                dBlockFloors.drawBlockFloors(g2);
+                dBlockWalls.drawBlockWalls(g2);
+                dItems.drawItems(g2);
+                dPlayer.drawPlayers(g2);
+                dTileTops.drawTops(g2);
+            }
             //mapmaker indicators
             if(sSettings.show_mapmaker_ui && !uiInterface.inplay) {
                 dMapmakerOverlay.drawSelectionBoxes(g2);
