@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * JPanel
@@ -19,7 +18,6 @@ public class dPanel extends JPanel {
     }
 
     public void drawFrame(Graphics2D g2, int panelLevel) {
-//        Toolkit.getDefaultToolkit().sync();
         if (panelLevel == 1) {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
