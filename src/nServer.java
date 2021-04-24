@@ -435,8 +435,13 @@ public class nServer extends Thread implements fNetBase {
         xCon.ex("gounspectate");
         for(String id : clientIds) {
             sendMap(id);
-            String postString = "cv_maploaded 1;gounspectate";
+            String postString = String.format("cv_maploaded 1;spawnplayer %s %s %s",
+                    cGameLogic.userPlayer().get("id"),
+                    cGameLogic.userPlayer().get("coordx"),
+                    cGameLogic.userPlayer().get("coordy")
+            );
             addNetCmd(id, postString);
+            xCon.ex("respawnnetplayer " + id);
         }
     }
 
