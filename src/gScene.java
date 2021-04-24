@@ -69,10 +69,6 @@ public class gScene {
 	    cGameLogic.setUserPlayer(null);
     }
 
-	public ArrayList<gTile> tiles() {
-		return objectLists.get("THING_TILE");
-	}
-
     public ArrayList<gFlare> flares() {
         return objectLists.get("THING_FLARE");
     }

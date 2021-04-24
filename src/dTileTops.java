@@ -203,7 +203,7 @@ public class dTileTops {
                 }
             }
             //draw the grid OVER everything
-            if(sSettings.show_mapmaker_ui && sVars.isOne("drawmapmakergrid")) {
+            if(sVars.isOne("drawmapmakergrid")) {
 //                g2.setColor(Color.YELLOW);
                 g2.setColor(new Color(255,255,0,125));
                 g2.setStroke(dFonts.defaultStroke);
@@ -246,84 +246,6 @@ public class dTileTops {
                             eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimw")),
                             eUtils.scaleInt(cGameLogic.userPlayer().getInt("dimh"))
                     );
-                }
-            }
-            //
-            // --- NEW ABOVE OLD BELOW ---
-            //
-
-            for (gTile t : eManager.currentMap.scene.tiles()) {
-                if (t.sprites[0] != null) {
-                    g2.drawImage(t.sprites[0],
-                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            null
-                    );
-                } else {
-                    g2.setColor(Color.LIGHT_GRAY);
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")),
-                            eUtils.scaleInt(t.getInt("dim0w")),
-                            eUtils.scaleInt(t.getInt("dim0h"))
-                    );
-                }
-                if (t.sprites[3] != null) {
-                    g2.drawImage(t.sprites[3],
-                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
-                            null);
-                } else {
-                    g2.setColor(Color.LIGHT_GRAY);
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dimh") - t.getInt("dim3h") - t.getInt("dim4h")),
-                            eUtils.scaleInt(t.getInt("dim3w")),
-                            eUtils.scaleInt(t.getInt("dim3h"))
-                    );
-                }
-                g2.setStroke(dFonts.thickStroke);
-                g2.setColor(new Color(0, 0, 0, 255));
-                if (sVars.isOne("vfxenableshading")) {
-                    dTileTopsShading.drawTileTopShadingPre(g2, t);
-                }
-                if (t.sprites[5] != null) {
-                    g2.drawImage(t.sprites[5],
-                            eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                            null
-                    );
-                } else {
-                    g2.setColor(Color.LIGHT_GRAY);
-                    g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                            eUtils.scaleInt(t.getInt("dim5w")),
-                            eUtils.scaleInt(t.getInt("dim5h"))
-                    );
-                }
-                int d6w = t.getInt("dim6w");
-                if (t.sprites[6] != null) {
-                    if (d6w > -1)
-                        g2.drawImage(t.sprites[6],
-                                eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx") + t.getInt("dimw") - t.getInt("dim6w")),
-                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy") + t.getInt("dim0h")),
-                                null
-                        );
-                } else {
-                    if (d6w > -1) {
-                        g2.setColor(Color.LIGHT_GRAY);
-                        g2.fillRect(eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")
-                                        + t.getInt("dimw") - t.getInt("dim6w")),
-                                eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")
-                                        + t.getInt("dim0h")),
-                                eUtils.scaleInt(t.getInt("dim6w")),
-                                eUtils.scaleInt(t.getInt("dim6h"))
-                        );
-                    }
-                    else {
-                        dTileTopsCorners.drawTileCorners(g2, t);
-                    }
-                }
-                if (sVars.isOne("vfxenableshading")) {
-                    dTileTopsShading.drawTileTopShadingPost(g2, t);
                 }
             }
             //BLOCK BRIGHTNESS

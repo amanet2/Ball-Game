@@ -20,11 +20,12 @@ public class xComRespawnPlayer extends xCom {
                                 "ITEM_SPAWNPOINT").get(randomId);
                 //server-side solution
                 if(!id.contains("bot")) {
-                    nServer.instance().addNetCmd(id, "createuserplayer;userplayer coordx " +
-                            (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
-                                    - player.getInt("dimw") / 2)
-                            + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
-                            - player.getInt("dimh") / 2));
+//                    nServer.instance().addNetCmd(id, "createuserplayer;userplayer coordx " +
+//                            (spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw") / 2
+//                                    - player.getInt("dimw") / 2)
+//                            + ";userplayer coordy " + (spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh") / 2
+//                            - player.getInt("dimh") / 2));
+                    nServer.instance().addNetCmd(id, "respawn");
                     nServer.instance().addNetCmd(id, "cv_camplayertrackingid " + id + ";centercamera");
                 }
                 else {
@@ -40,7 +41,7 @@ public class xComRespawnPlayer extends xCom {
             && nServer.instance().clientArgsMap.get(id).containsKey("name")) {
                 if(!id.contains("bot")) {
                     if(id.equals(uiInterface.uuid)) {
-                        xCon.ex("createuserplayer;respawn");
+                        xCon.ex("respawn");
                     }
                     else {
                         nServer.instance().createServersidePlayer(id, nServer.instance().clientArgsMap.get(id).get("name"));
