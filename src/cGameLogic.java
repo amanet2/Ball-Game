@@ -7,6 +7,7 @@ public class cGameLogic {
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
         userPlayer = newUserPlayer;
+        cScripts.centerCamera();
     }
 
     public static gPlayer userPlayer() {

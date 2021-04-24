@@ -5,8 +5,12 @@ public class xComSpawnPlayer extends xCom {
             String playerId = toks[1];
             int x = Integer.parseInt(toks[2]);
             int y = Integer.parseInt(toks[3]);
+            eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(playerId);
             gPlayer newPlayer = new gPlayer(x, y, eUtils.getPath("animations/player_red/a03.png"));
             newPlayer.put("id", playerId);
+            if(playerId.equals(uiInterface.uuid)) {
+                cGameLogic.setUserPlayer(newPlayer);
+            }
             eManager.currentMap.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
             return "spawned player " + playerId + " at " + x + " " + y;
         }
