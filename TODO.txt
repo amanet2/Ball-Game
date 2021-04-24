@@ -4,12 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* NEW PLAYER RESPAWN
-    -> server will select spawn point and create player
-        -> make function "createplayer X Y" for clients, server will activate this on clients remotely
+* SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
+they just joined the game again.
+    -> takes a lot of the headache out of changing map after end of each round
+* sometimes movement smoothing breaks down for other players on client's screen
 * make de-loading and loading maps much simpler and more airtight
     -> server should instruct client to set currentmap to map(), since client doesnt call "load"
-* issue: when changing map and players map gets cleared, clients dont know to add back server player
 * feature: online mapmaker
 * new Item: bonusblock
     -> (make them look like regular blocks)
