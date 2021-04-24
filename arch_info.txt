@@ -33,3 +33,16 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
 * go over red flag item, it disappears
     -> get id: userplayer id
     -> do: dropflagred <userplayer id>
+* weird issue where game totally breaks if "uiInterface.init" is called before "display.showframe" AND
+    -> AND settings.width == config.width
+    -> i think it has to do with "checkresolution" not triggering the display/frame init/refresh in this case
+* spawn in with 'createuserplayer;respawn;pause'
+* enter spectate with removeplayer <id>
+    -> calling this on client only removes from client's screen
+    -> the client should "request" this command from the server
+        -> client will have command called "removeuserplayer" that will reach out to server, who will run
+            removeplayer <id>
+* respawning
+    -> (SERVER/LOCAL) spawn server/local with "respawn".  calls "spawnplayer"
+    -> (SERVER) "respawnnetplayer" handles clients/bots respawning, calls "spawnplayer" locally and fanout for clients
+    -> (ALL) "spawnplayer" actually creates player object at coords determined by server (prev call)

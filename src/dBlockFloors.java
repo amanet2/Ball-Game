@@ -3,9 +3,9 @@ import java.util.HashMap;
 
 public class dBlockFloors {
     public static void drawBlockFloors(Graphics2D g2) {
-        HashMap<String, gThing> squareMap = eManager.currentMap.scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : squareMap.keySet()) {
-            gBlockFloor block = (gBlockFloor) squareMap.get(tag);
+        HashMap<String, gThing> floorMap = eManager.currentMap.scene.getThingMap("BLOCK_FLOOR");
+        for(String tag : floorMap.keySet()) {
+            gBlockFloor block = (gBlockFloor) floorMap.get(tag);
             String[] colorvals = block.get("color").split("\\.");
             g2.setColor(new Color(
                     Integer.parseInt(colorvals[0]),

@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -8,6 +10,31 @@ public class eManager {
 	static String[] mapsSelection;
 	static String[] winClipSelection;
 	static String[] prefabSelection;
+
+	public static void loadMap(String mapPath) {
+        eManager.currentMap = new gMap();
+        cGameLogic.setUserPlayer(null);
+        xCon.instance().debug("Loading: " + mapPath);
+        long ct = System.currentTimeMillis();
+        try (BufferedReader br = new BufferedReader(new FileReader(mapPath))) {
+            if(mapPath.contains("/"))
+                eManager.currentMap.mapName = mapPath.split("/")[1].split("\\.")[0];
+            else
+                eManager.currentMap.mapName = mapPath.split("\\.")[0];
+            String line;
+            while ((line = br.readLine()) != null) {
+                xCon.ex(line);
+                eManager.currentMap.mapLines.add(line);
+            }
+            eManager.currentMap.wasLoaded = 1;
+            cVars.put("maploaded", "1");
+        }
+        catch (Exception e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
+        xCon.instance().debug("Loading time: " + (System.currentTimeMillis() - ct));
+    }
 
 
 	public static String[] getFilesSelection(String dirPath) {
@@ -42,7 +69,7 @@ public class eManager {
             gPlayer obj = gScene.getPlayerById(id);
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3", "crouch"};
+                    "mov2", "mov3"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;
@@ -58,12 +85,8 @@ public class eManager {
                             if(i==0) {
                                 mod = 1.5;
                             }
-                            if(obj.isOne("crouch"))
-                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")/4),
-                                        obj.getInt("vel"+i) + 1)));
-                            else
-                                obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
-                                        obj.getInt("vel" + i) + 1)));
+                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
+                                    obj.getInt("vel" + i) + 1)));
                         }
                         else if(i != 1 || cVars.getInt("gravity") < 1)
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));

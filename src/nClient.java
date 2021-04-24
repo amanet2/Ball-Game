@@ -116,10 +116,8 @@ public class nClient extends Thread implements fNetBase {
         if(userPlayer != null) {
             keys.put("color", sVars.get("playercolor"));
             keys.put("hat", sVars.get("playerhat"));
-            keys.put("flashlight", cVars.get("flashlight"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
-            keys.put("crouch", userPlayer.get("crouch"));
             keys.put("fv", userPlayer.get("fv"));
             keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
                     userPlayer.get("mov2"), userPlayer.get("mov3")));
@@ -166,7 +164,6 @@ public class nClient extends Thread implements fNetBase {
 
     public void readData(String receiveDataString) {
         String[] toks = receiveDataString.trim().split("@");
-        int ctr = 0;
         ArrayList<String> foundIds = new ArrayList<>();
         for(int i = 0; i < toks.length; i++) {
             String argload = toks[i];
@@ -191,7 +188,6 @@ public class nClient extends Thread implements fNetBase {
                     cVars.put("winnerid", "");
                 }
                 //important
-                cPowerups.processPowerupStringClient(packArgs.get("powerups"));
                 cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check cmd from server only
@@ -211,7 +207,6 @@ public class nClient extends Thread implements fNetBase {
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(nServer.instance().clientIds.contains(idload)) {
-                    ctr ++;
                     foundIds.add(idload);
                     String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
@@ -239,8 +234,8 @@ public class nClient extends Thread implements fNetBase {
                 }
                 else {
                     nServer.instance().clientIds.add(idload);
-                    ctr++;
-                    gPlayer player = new gPlayer(-6000, -6000,150,150,
+                    foundIds.add(idload);
+                    gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
                     eManager.currentMap.scene.playersMap().put(idload, player);
@@ -275,20 +270,17 @@ public class nClient extends Thread implements fNetBase {
             }
         }
         //check for ids that have been taken out of the server argmap
-        if(ctr < nServer.instance().clientIds.size()) {
-            String tr = "";
-            for(String s : nServer.instance().clientIds) {
-                if(!foundIds.contains(s)) {
-                    tr = s;
-                }
+        String tr = "";
+        for(String s : nServer.instance().clientIds) {
+            if(!foundIds.contains(s)) {
+                tr = s;
             }
-            if(tr.length() > 0) {
-                nServer.instance().clientArgsMap.remove(tr);
-                cScoreboard.scoresMap.remove(tr);
-//                nServer.instance().clientNetCmdMap.remove(tr);
-                nServer.instance().clientIds.remove(tr);
-                eManager.currentMap.scene.playersMap().remove(tr);
-            }
+        }
+        if(tr.length() > 0) {
+            nServer.instance().clientArgsMap.remove(tr);
+            cScoreboard.scoresMap.remove(tr);
+            nServer.instance().clientIds.remove(tr);
+            eManager.currentMap.scene.playersMap().remove(tr);
         }
     }
 

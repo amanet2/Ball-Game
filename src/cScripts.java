@@ -210,20 +210,6 @@ public class cScripts {
                 }
                 continue;
             }
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
-                        && b.getInt("src") != gWeapons.type.GLOVES.code()
-                && b.isZero("isexplosionpart")) {
-                    bulletsToRemoveIds.add(id);
-                    if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                                cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
-                                        b.getInt("coordx"), b.getInt("coordy")));
-                    }
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
-                        pseeds.add(b);
-                }
-            }
             for(String playerId : gScene.getPlayerIds()) {
                 gPlayer t = gScene.getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
@@ -335,36 +321,15 @@ public class cScripts {
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
                 cEditorLogic.state.snapToY);
         return new int[]{pfx, pfy};
-//        switch(cEditorLogic.state.createObjCode) {
-//            case gScene.THING_FLARE:
-//                int propx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx")
-//                                -cEditorLogic.state.newFlare.getInt("dimw")/2,
-//                        cEditorLogic.state.snapToX);
-//                int propy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy")
-//                                -cEditorLogic.state.newFlare.getInt("dimh")/2,
-//                        cEditorLogic.state.snapToY);
-//                return new int[]{propx, propy};
-//            case gScene.THING_PREFAB:
-//                int[] fabdims = getNewPrefabDims();
-//                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-//                        cEditorLogic.state.snapToX);
-//                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-//                        cEditorLogic.state.snapToY);
-//                return new int[]{pfx, pfy};
-//        }
-//        return mc;
     }
 
     public static void setupGame() {
         cVars.putLong("starttime", System.currentTimeMillis());
         if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
             //spawns player for mapmaker testing
-            xCon.ex("createuserplayer;respawn");
+            xCon.ex("gounspectate");
         }
         cGameLogic.resetGameState();
-        for(String s : eManager.currentMap.execLines) {
-            xCon.ex(s.replaceFirst("cmd ", ""));
-        }
     }
 
     public static void playPlayerDeathSound() {
