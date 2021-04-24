@@ -4,14 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ISSUE:
-    -> clients once again "flash" at a random (prolly not) location before spawning in on map change
-    -> maybe players should be initialized without an x,y value
-        -> players should have a lot of hardcoded vals not needed in constructor
-        -> make function "createplayer X Y" for future
+* SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
+they just joined the game again.
+    -> takes a lot of the headache out of changing map after end of each round
+* sometimes movement smoothing breaks down for other players on client's screen
 * make de-loading and loading maps much simpler and more airtight
     -> server should instruct client to set currentmap to map(), since client doesnt call "load"
-* issue: when changing map and players map gets cleared, clients dont know to add back server player
 * feature: online mapmaker
 * new Item: bonusblock
     -> (make them look like regular blocks)

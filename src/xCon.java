@@ -110,7 +110,6 @@ public class xCon {
         undoableCommands.add("e_newflare");
         undoableCommands.add("e_nextthing");
         undoableCommands.add("putflare");
-        undoableCommands.add("puttile");
         undoableCommands.add("putblock");
         undoableCommands.add("putitem");
         undoableCommands.add("e_selectflare");
@@ -134,7 +133,6 @@ public class xCon {
         commands.put("clientnetargs", new xComClientNetArgs());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
-        commands.put("createserverplayer", new xComCreateServerPlayer());
         commands.put("createuserplayer", new xComCreateUserPlayer());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
@@ -163,7 +161,6 @@ public class xCon {
         commands.put("gospectate", new xComGoSpectate());
         commands.put("gounspectate", new xComGoUnspectate());
         commands.put("joingame", new xComJoingame());
-        commands.put("joingamespec", new xComJoingameSpec());
         commands.put("load", new xComLoad());
         commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());
@@ -180,13 +177,11 @@ public class xCon {
         commands.put("putcollision", new xComPutCollision());
         commands.put("putflare", new xComPutFlare());
         commands.put("putitem", new xComPutItem());
-        commands.put("puttile", new xComPutTile());
         commands.put("quit", new xComQuit());
         commands.put("kickbot", new xComKickBot());
         commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
-        commands.put("respawnclientbotplayer", new xComRespawnClientBotPlayer());
-        commands.put("respawnplayer", new xComRespawnPlayer());
+        commands.put("respawnnetplayer", new xComRespawnNetPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
         commands.put("selectleft", new xComSelectLeft());
@@ -197,6 +192,7 @@ public class xCon {
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
+        commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpopup", new xComSpawnPopup());
         commands.put("status", new xComStatus());
         commands.put("svarlist", new xComSVarlist());

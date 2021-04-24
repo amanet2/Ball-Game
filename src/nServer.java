@@ -21,7 +21,7 @@ public class nServer extends Thread implements fNetBase {
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "fireweapon",
             "removeplayer",
-            "respawnplayer"
+            "respawnnetplayer"
     ));
     boolean isPlaying = false;
 
@@ -432,11 +432,16 @@ public class nServer extends Thread implements fNetBase {
         eManager.loadMap(mapPath);
         oDisplay.instance().createPanels();
         addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
-        xCon.ex("gounspectate");
+        xCon.ex("respawn");
         for(String id : clientIds) {
             sendMap(id);
-            String postString = "cv_maploaded 1;gounspectate";
+            String postString = String.format("cv_maploaded 1;spawnplayer %s %s %s",
+                    cGameLogic.userPlayer().get("id"),
+                    cGameLogic.userPlayer().get("coordx"),
+                    cGameLogic.userPlayer().get("coordy")
+            );
             addNetCmd(id, postString);
+            xCon.ex("respawnnetplayer " + id);
         }
     }
 
@@ -444,25 +449,10 @@ public class nServer extends Thread implements fNetBase {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-        createServersidePlayerAndSendMap(packId, packName);
-        addNetCmd(packId, "cv_maploaded 1;respawn");
-        addNetCmd(String.format("echo %s joined the game", packName));
-    }
-
-    public void createServersidePlayer(String packId, String packName) {
-        gPlayer player = new gPlayer(-6000, -6000, eUtils.getPath("animations/player_red/a03.png"));
-        player.put("name", packName);
-        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-        player.put("id", packId);
-        player.put("stockhp", cVars.get("maxstockhp"));
-        eManager.currentMap.scene.playersMap().put(packId, player);
-    }
-
-    private void createServersidePlayerAndSendMap(String packId, String packName) {
-        if(!packId.contains("bot")) {
-            createServersidePlayer(packId, packName);
-        }
         sendMap(packId);
+        addNetCmd(packId, "cv_maploaded 1");
+        xCon.ex(String.format("respawnnetplayer %s", packId));
+        addNetCmd(String.format("echo %s joined the game", packName));
     }
 
     private void sendMap(String packId) {
@@ -494,7 +484,7 @@ public class nServer extends Thread implements fNetBase {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
             else if(ccmd.contains("removeplayer")
-                    || ccmd.contains("respawnplayer")) { //handle special case for remove/respawn player
+                    || ccmd.contains("respawnnetplayer")) { //handle special case for remove/respawn player
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
                     String reqid = toks[1];

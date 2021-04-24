@@ -180,35 +180,6 @@ public class iInput {
                     case KeyEvent.VK_CONTROL:
                         iKeyboard.ctrlMode = true;
                         return;
-//                    case KeyEvent.VK_LEFT:
-//                        xCon.ex(String.format("e_newtilequick %d %d",
-//                                cEditorLogic.state.newTile.getInt("dimw") > 50
-//                                        ? cEditorLogic.state.newTile.getInt("dimw") - 50 : 50,
-//                                cEditorLogic.state.newTile.getInt("dimh")));
-//                        return;
-//                    case KeyEvent.VK_RIGHT:
-//                        xCon.ex(String.format("e_newtilequick %d %d",
-//                                cEditorLogic.state.newTile.getInt("dimw") + 50, cEditorLogic.state.newTile.getInt("dimh")));
-//                        return;
-//                    case KeyEvent.VK_UP:
-//                        xCon.ex(String.format("e_newtilequick %d %d", cEditorLogic.state.newTile.getInt("dimw"),
-//                                cEditorLogic.state.newTile.getInt("dimh") > 50 ?
-//                                        cEditorLogic.state.newTile.getInt("dimh") - 50 : 50));
-//                        return;
-//                    case KeyEvent.VK_DOWN:
-//                        xCon.ex(String.format("e_newtilequick %d %d", cEditorLogic.state.newTile.getInt("dimw"),
-//                                cEditorLogic.state.newTile.getInt("dimh") + 50));
-//                        return;
-                    case KeyEvent.VK_Z:
-                        if(iKeyboard.shiftMode && iKeyboard.ctrlMode) {
-                            xCon.ex("-e_undo");
-                            return;
-                        }
-                        else if(iKeyboard.ctrlMode) {
-                            xCon.ex("e_undo");
-                            return;
-                        }
-                        break;
                     case KeyEvent.VK_Q:
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
@@ -228,32 +199,10 @@ public class iInput {
                                 xCon.ex("load");
                         }
                         break;
-//                    case KeyEvent.VK_S:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            if(eManager.currentMap.wasLoaded < 1)
-//                                xCon.ex("e_saveas");
-//                            else
-//                                xCon.ex("e_save");
-//                        }
-//                        break;
-                    case KeyEvent.VK_C:
+                    case KeyEvent.VK_S:
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
-                            xCon.ex("e_copytile");
-                        }
-                        break;
-                    case KeyEvent.VK_X:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("e_copytile");
-                            xCon.ex("e_delthing");
-                        }
-                        break;
-                    case KeyEvent.VK_V:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("e_pastetile");
+                            xCon.ex("e_saveas");
                         }
                         break;
                     default:

@@ -210,20 +210,6 @@ public class cScripts {
                 }
                 continue;
             }
-            for(gTile t : eManager.currentMap.scene.tiles()) {
-                if((b.doesCollideWithinTile(t) || b.doesCollideWithinCornerTile(t))
-                        && b.getInt("src") != gWeapons.type.GLOVES.code()
-                && b.isZero("isexplosionpart")) {
-                    bulletsToRemoveIds.add(id);
-                    if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-                        eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                                cScripts.createId(), new gAnimationEmitter(b.getInt("anim"),
-                                        b.getInt("coordx"), b.getInt("coordy")));
-                    }
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
-                        pseeds.add(b);
-                }
-            }
             for(String playerId : gScene.getPlayerIds()) {
                 gPlayer t = gScene.getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
