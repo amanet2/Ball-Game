@@ -18,7 +18,7 @@ public class xComClearThingMap extends xCom {
                 }
             }
             if(eManager.currentMap.scene.objectMaps.containsKey(thing_title)) {
-                eManager.currentMap.scene.setThingMap(thing_title, new HashMap<>());
+                eManager.currentMap.scene.objectMaps.put(thing_title, new HashMap<>());
                 if(thing_title.equals("THING_PLAYER"))
                     cGameLogic.setUserPlayer(null);
             }
