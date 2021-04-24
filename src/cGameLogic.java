@@ -185,7 +185,7 @@ public class cGameLogic {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
             && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
                 if(!id.contains("bot"))
-                    nServer.instance().addNetCmd("respawnplayer " + id);
+                    nServer.instance().addNetCmd("respawnnetplayer " + id);
                 else
                     xCon.ex("respawnplayer " + id);
                 System.out.println("removed respawntime");
