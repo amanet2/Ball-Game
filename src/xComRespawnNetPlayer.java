@@ -5,8 +5,8 @@ public class xComRespawnNetPlayer extends xCom {
             String playerId = toks[1];
             gThing spawnpoint = eManager.currentMap.scene.getRandomSpawnpoint();
             if(spawnpoint != null) {
-                nServer.instance().addNetCmd(xCon.ex(String.format("spawnplayer %s %s %s", playerId,
-                        spawnpoint.get("coordx"), spawnpoint.get("coordy"))));
+                nServer.instance().addNetCmd(String.format("spawnplayer %s %s %s", playerId,
+                        spawnpoint.get("coordx"), spawnpoint.get("coordy")));
                 return "respawned net player " + playerId;
             }
         }

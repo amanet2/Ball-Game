@@ -446,7 +446,7 @@ public class nServer extends Thread implements fNetBase {
         clientNetCmdMap.put(packId, new LinkedList<>());
         createServersidePlayerAndSendMap(packId, packName);
         addNetCmd(packId, "cv_maploaded 1");
-        addNetCmd(String.format("respawnnetplayer %s", packId));
+        xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
