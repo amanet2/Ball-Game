@@ -46,17 +46,9 @@ public class cEditorLogic {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
         createNewMenu("File");
-//        createNewMenu("Parameters");
         createNewMenu("Prefabs");
         createNewMenu("Items");
-//        createNewMenu("Scene");
         createNewMenu("Gametype");
-//        createNewMenu("Settings");
-//        createNewSubmenu("Settings", "Game Mode: " +
-//                cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
-//        createNewSubmenu("Parameters", "Snap-To: " + state.snapToX + "," + state.snapToY);
-//        createNewSubmenu(menus.get("Parameters").getItem(0).getText(),"Nearest X Coord");
-//        createNewSubmenu(menus.get("Parameters").getItem(0).getText(),"Nearest Y Coord");
 
         JMenuItem open = new JMenuItem("Open");
         JMenuItem save = new JMenuItem("Save");
@@ -160,32 +152,6 @@ public class cEditorLogic {
 
         addConsoleActionToJMenuItem(exit,"quit");
         addConsoleActionToJMenuItem(showControls,"e_showcontrols");
-
-//        addSnapToMenuItem("Nearest X Coord","1");
-//        addSnapToMenuItem("Nearest X Coord","5");
-//        addSnapToMenuItem("Nearest X Coord","10");
-//        addSnapToMenuItem("Nearest X Coord","25");
-//        addSnapToMenuItem("Nearest X Coord","50");
-//        addSnapToMenuItem("Nearest X Coord","100");
-//        addSnapToMenuItem("Nearest Y Coord","1");
-//        addSnapToMenuItem("Nearest Y Coord","5");
-//        addSnapToMenuItem("Nearest Y Coord","10");
-//        addSnapToMenuItem("Nearest Y Coord","25");
-//        addSnapToMenuItem("Nearest Y Coord","50");
-//        addSnapToMenuItem("Nearest Y Coord","100");
-
-//        for(int i = 0; i < cGameMode.net_gamemode_texts.length; i++) {
-//            JMenuItem newmenuitem = new JMenuItem(cGameMode.net_gamemode_texts[i]);
-//            newmenuitem.addActionListener(e -> {
-//                for(int j = 0; j < cGameMode.net_gamemode_texts.length; j++) {
-//                    if(cGameMode.net_gamemode_texts[j].equals(newmenuitem.getText()))
-//                        cVars.putInt("gamemode", j);
-//                }
-//                menus.get("Settings").getItem(0).setText("Game Mode: "
-//                        + cGameMode.net_gamemode_texts[cVars.getInt("gamemode")]);
-//            });
-//            menus.get("Settings").getItem(0).add(newmenuitem);
-//        }
     }
 
     private static void createNewMenu(String title) {
@@ -199,19 +165,6 @@ public class cEditorLogic {
         menus.put(subtitle,newmenu);
         menus.get(title).add(newmenu);
     }
-
-//    private static void addSnapToMenuItem(String menutitle, String title) {
-//        JMenuItem newmenuitem = new JMenuItem(title);
-//        newmenuitem.addActionListener(e -> {
-//            if(menutitle.contains("Nearest X Coord"))
-//                state.snapToX = Integer.parseInt(title);
-//            else if(menutitle.contains("Nearest Y Coord"))
-//                state.snapToY = Integer.parseInt(title);
-//            menus.get("Parameters").getItem(0).setText(String.format("Snap-To: %d,%d",
-//                    state.snapToX, state.snapToY));
-//        });
-//        menus.get(menutitle).add(newmenuitem);
-//    }
 
     private static void addConsoleActionToJMenuItem(JMenuItem item, String fullCommand) {
         item.addActionListener(new ActionListener() {

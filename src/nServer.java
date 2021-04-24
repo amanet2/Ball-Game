@@ -19,8 +19,9 @@ public class nServer extends Thread implements fNetBase {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "putprop",
-            "fireweapon"
+            "fireweapon",
+            "removeplayer",
+            "respawnnetplayer"
     ));
     boolean isPlaying = false;
 
@@ -149,7 +150,6 @@ public class nServer extends Thread implements fNetBase {
             keys.put("quit", "");
         if(cVars.isOne("disconnecting"))
             keys.put("disconnect", "");
-        keys.put("powerups", cPowerups.createPowerupStringServer());
         //send scores
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
@@ -172,7 +172,6 @@ public class nServer extends Thread implements fNetBase {
                 //userplayer vars like coords and dirs and weapon
                 keys.put("color", sVars.get("playercolor"));
                 keys.put("hat", sVars.get("playerhat"));
-                keys.put("flashlight", cVars.get("flashlight"));
                 //name for spectator and gameplay
                 keys.put("name", sVars.get("playername"));
 
@@ -180,7 +179,6 @@ public class nServer extends Thread implements fNetBase {
                 if(userPlayer != null) {
                     keys.put("x", userPlayer.get("coordx"));
                     keys.put("y", userPlayer.get("coordy"));
-                    keys.put("crouch", userPlayer.get("crouch"));
                     keys.put("fv", userPlayer.get("fv"));
                     keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
                             userPlayer.get("mov2"), userPlayer.get("mov3")));
@@ -424,21 +422,26 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
+//        eManager.currentMap = null;
         clearBots();
         oDisplay.instance().clearAndRefresh();
         cVars.put("botbehavior", "");
         if(!mapPath.contains(sVars.get("datapath")))
             mapPath = eUtils.getPath(mapPath);
-        gMap.load(mapPath);
-        oDisplay.instance().createPanels();
-        addExcludingNetCmd("server", "cv_maploaded 0;load ");
         eManager.currentMap.scene.clearPlayers();
+        eManager.loadMap(mapPath);
+        oDisplay.instance().createPanels();
+        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
+        xCon.ex("respawn");
         for(String id : clientIds) {
-            createServersidePlayerAndSendMap(id, clientArgsMap.get(id).get("name"));
-            if(gScene.getPlayerById(id) != null)
-                addNetCmd(id, "cv_maploaded 1;respawn");
-            else
-                addNetCmd(id, "createuserplayer;cv_maploaded 1;respawn");
+            sendMap(id);
+            String postString = String.format("cv_maploaded 1;spawnplayer %s %s %s",
+                    cGameLogic.userPlayer().get("id"),
+                    cGameLogic.userPlayer().get("coordx"),
+                    cGameLogic.userPlayer().get("coordy")
+            );
+            addNetCmd(id, postString);
+            xCon.ex("respawnnetplayer " + id);
         }
     }
 
@@ -446,33 +449,13 @@ public class nServer extends Thread implements fNetBase {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-        createServersidePlayerAndSendMap(packId, packName);
-        addNetCmd(packId, "cv_maploaded 1;respawn");
+        sendMap(packId);
+        addNetCmd(packId, "cv_maploaded 1");
+        xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
-    public void createServersidePlayer(String packId, String packName) {
-        gPlayer player = new gPlayer(-6000, -6000,150,150,
-                eUtils.getPath("animations/player_red/a03.png"));
-        player.put("name", packName);
-        player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-        player.put("id", packId);
-        player.put("stockhp", cVars.get("maxstockhp"));
-//          player.putInt("weapon", packWeap);
-        eManager.currentMap.scene.playersMap().put(packId, player);
-    }
-
-    private void createServersidePlayerAndSendMap(String packId, String packName) {
-        if(!packId.contains("bot")) {
-            gPlayer player = new gPlayer(-6000, -6000,150,150,
-                    eUtils.getPath("animations/player_red/a03.png"));
-            player.put("name", packName);
-            player.putInt("tag", eManager.currentMap.scene.playersMap().size());
-            player.put("id", packId);
-            player.put("stockhp", cVars.get("maxstockhp"));
-//          player.putInt("weapon", packWeap);
-            eManager.currentMap.scene.playersMap().put(packId, player);
-        }
+    private void sendMap(String packId) {
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
         for(String line : eManager.currentMap.mapLines) {
@@ -498,8 +481,17 @@ public class nServer extends Thread implements fNetBase {
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.contains("fireweapon")) { //handle special case for weapons
+            if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
+            else if(ccmd.contains("removeplayer")
+                    || ccmd.contains("respawnnetplayer")) { //handle special case for remove/respawn player
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    String reqid = toks[1];
+                    if(reqid.equals(id)) { //client can only remove itself
+                        addExcludingNetCmd(id, cmd);
+                    }
+                }
             }
             else
                 addNetCmd(cmd);

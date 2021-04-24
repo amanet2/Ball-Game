@@ -20,9 +20,7 @@ public class nVarsBot {
             p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
         }
 
-//        for(String s : new String[]{"id","fv","name","color","crouch","hat","flashlight"}) {
-//        for(String s : new String[]{"id","fv","name","crouch","hat","flashlight"}) {
-        for(String s : new String[]{"id","fv","crouch","hat","flashlight"}) {
+        for(String s : new String[]{"id","fv","hat"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
         if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)
@@ -40,7 +38,6 @@ public class nVarsBot {
                 String.format("%s-%s-%s-%s", p.get("vel0"), p.get("vel1"), p.get("vel2"), p.get("vel3")));
         map.get(p.get("id")).put("weapon", p.get("weapon"));
         map.get(p.get("id")).put("netmsgrcv", "");
-//        map.get(p.get("id")).put("fire", p.get("sendshot").equals("1")? "1" : "0");
     }
 
     private static void refreshForId(String id) {

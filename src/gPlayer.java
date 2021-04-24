@@ -10,16 +10,6 @@ public class gPlayer extends gThing {
     public boolean wontClipOnMove(int coord, int coord2) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
-        for (gTile target : eManager.currentMap.scene.tiles()) {
-            if(willCollideWithinTileAtCoords(target, dx, dy) || willCollideWithinCornerTileAtCoords(target, dx, dy)) {
-                if(cVars.getLong("knocksoundtime") < uiInterface.gameTime && !cVars.isOne("suppressknocksound")) {
-                    cVars.putLong("knocksoundtime", uiInterface.gameTime + cVars.getInt("knocksoundtimegap"));
-                    xCon.ex(String.format("playsound sounds/knock.wav 1 %d %d",
-                        getInt("coordx"),getInt("coordy")));
-                }
-                return false;
-            }
-        }
         for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
             gCollision collision =
                     (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
@@ -100,32 +90,6 @@ public class gPlayer extends gThing {
         return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
     }
 
-    public boolean willCollideWithPropAtCoords(gProp target, int dx, int dy) {
-            Shape bounds = new Ellipse2D.Double(
-                target.getInt("coordx"),
-                target.getInt("coordy"),
-                target.getInt("dimw"),
-                target.getInt("dimh")
-            );
-            return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
-    }
-
-    public boolean willCollideWithPlayerAtCoords(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null) {
-            //check null fields
-            if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                return false;
-            Shape bounds = new Rectangle(
-                target.getInt("coordx"),
-                target.getInt("coordy"),
-                target.getInt("dimw"),
-                target.getInt("dimh")
-            );
-            return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
-        }
-        return false;
-    }
-
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
         if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null ) {
             //check null fields
@@ -142,11 +106,6 @@ public class gPlayer extends gThing {
         return false;
     }
 
-    public void cancelJump() {
-        put("mov0", "0");
-        xCon.ex("cv_jumping 0");
-    }
-
 //    public boolean checkBump(Shape bounds, int ystart) {
 //        //for sidescrolling maps, automatically go up over bumps in stairs, etc.
 //        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
@@ -159,368 +118,6 @@ public class gPlayer extends gThing {
 //        }
 //        return true;
 //    }
-
-    public boolean bounceWithinBounds(Shape bounds, Rectangle targetbounds,
-                                   int xstart, int ystart, int xend, int yend) {
-        //bouncing
-        //from top left, CL 0-11
-        //12 situations: \|/
-        //              -> <-
-        //               /|\
-        // 6 colliding tile components
-        int situation = -1;
-        if(bounds.intersects(targetbounds)) {
-            if(getInt("vel1") > getInt("vel0") && getInt("vel3") > getInt("vel2")) {
-                if(getInt("coordy") + getInt("dimh") > ystart && getInt("coordx") < xstart)
-                    situation = 11;
-                else if(ystart > getInt("coordy") && getInt("coordx") < xend)
-                    situation = 0;
-            }
-            else if(getInt("vel1") > getInt("vel0") && getInt("vel2") > getInt("vel3")) {
-                if(getInt("coordy") + getInt("dimh") > ystart && getInt("coordx") > xstart)
-                    situation = 3;
-                else if(ystart > getInt("coordy") + getInt("dimh"))
-                    situation = 2;
-            }
-            else if(getInt("vel0") > getInt("vel1") && getInt("vel2") > getInt("vel3")) {
-                if(getInt("coordy") < yend && getInt("coordx") + getInt("dimw") > xend)
-                    situation = 5;
-                else if(xend > getInt("coordx") && getInt("coordy")+getInt("dimh") > yend) {
-                    situation = 6;
-//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-//                        cancelJump();
-//                    }
-                }
-            }
-            else if(getInt("vel0") > getInt("vel1") && getInt("vel3") > getInt("vel2")) {
-                if(getInt("coordy")+getInt("dimh") > yend && getInt("coordx")+getInt("dimw") > xstart) {
-                    situation = 8;
-//                    if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-//                        cancelJump();
-//                    }
-                }
-                else if(yend > getInt("coordy")+getInt("dimh") && getInt("coordx") < xstart)
-                    situation = 9;
-            }
-            if(getInt("vel1") > getInt("vel0") && getInt("vel3") == 0 && getInt("vel2") == 0)
-                situation = 1;
-            if((getInt("vel2") > getInt("vel3") && getInt("vel0") == 0 && getInt("vel1") == 0)
-                    && getInt("coordx") > xstart)
-                situation = 4;
-            if(getInt("vel0") > getInt("vel1") && getInt("vel3") == 0 && getInt("vel2") == 0) {
-                situation = 7;
-//                if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-//                    cancelJump();
-//                }
-            }
-            if((getInt("vel3") > getInt("vel2") && getInt("vel0") == 0 && getInt("vel1") == 0)
-                    && getInt("coordx") < xstart) {
-                situation = 10;
-            }
-        }
-        if(situation > -1) {
-            switch (situation) {
-                case 0:
-                case 1:
-                case 2:
-                    cVars.put("suppressknocksound", "1");
-                    putInt("vel0", 3*getInt("vel1")/2 - 1);
-                    put("vel1", "0");
-                    break;
-                case 3:
-                case 5:
-                case 4:
-                    //check for bump in sidescrollers
-//                    if(!checkBump(bounds, ystart))
-//                        return false;
-                    putInt("vel3", getInt("vel2") - 1);
-                    put("vel2", "0");
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                    //special case for modifier of upward movement
-                    putInt("vel1", 2*getInt("vel0")/3);
-                    put("vel0", "0");
-                    break;
-                case 9:
-                case 10:
-                case 11:
-                    //check for bump in sidescrollers
-//                    if(!checkBump(bounds, ystart))
-//                        return false;
-                    putInt("vel2", getInt("vel3") - 1);
-                    put("vel3", "0");
-                    break;
-                default:
-                    break;
-            }
-        }
-        return true;
-    }
-
-    public boolean bouncesBounds(Shape bounds, gTile target) {
-        return bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75,
-                target.getInt("dim0w"), target.getInt("dim0h")-75))
-                || bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")+75+target.getInt("dimh")
-                - target.getInt("dim3h")-target.getInt("dim4h"),
-                target.getInt("dim3w"), target.getInt("dim3h")-75))
-                || bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")
-                + target.getInt("dim0h"), target.getInt("dim1w"), target.getInt("dim1h")-100))
-                || bounds.intersects(new Rectangle(target.getInt("coordx"),
-                target.getInt("coordy")+target.getInt("dimh")-target.getInt("dim4h"),
-                target.getInt("dim4w"), target.getInt("dim4h")-100))
-                || bounds.intersects(new Rectangle(target.getInt("coordx"), target.getInt("coordy")
-                + target.getInt("dim0h"), target.getInt("dim5w"), target.getInt("dim5h")
-                + target.getInt("dim3h")))
-                || bounds.intersects(new Rectangle(target.getInt("coordx")+target.getInt("dimw")-target.getInt("dim6w"),
-                target.getInt("coordy")+target.getInt("dim0h"), target.getInt("dim6w"),
-                target.getInt("dim6h")+target.getInt("dim3h")));
-    }
-
-    public boolean willCollideWithinCornerTileAtCoords(gTile t, int dx, int dy) {
-        Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));
-        if(t.getInt("dim6w") == -1) {  //cornerUR
-            Polygon cornerbounds = new Polygon(
-                    new int[]{
-                            t.getInt("coordx"),
-                            t.getInt("coordx") + t.getInt("dimw"),
-                            t.getInt("coordx") + t.getInt("dimw")
-                    },
-                    new int[]{
-                            t.getInt("coordy"),
-                            t.getInt("coordy"),
-                            t.getInt("coordy") + t.getInt("dimh")
-                    },
-                    3);
-            Rectangle pb = bounds.getBounds();
-            if(cornerbounds.intersects(pb)) {
-                if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
-                    if(getInt("vel1") > 0) {
-                        cVars.put("suppressknocksound", "1");
-                        putInt("vel0",3*getInt("vel1")/2 - 1);
-                        putInt("vel1", 0);
-                    }
-                }
-                else if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
-                    if(getInt("vel2") > 0) {
-                        putInt("vel3", getInt("vel2") - 1);
-                        putInt("vel2", 0);
-                    }
-                }
-                else {
-                    if (getInt("vel3") > 0) {
-                        putInt("vel1", getInt("vel3") - 1);
-                        put("vel3", "0");
-                    }
-                    if (getInt("vel0") > 0) {
-                        double mod = 1.5;
-                        putInt("vel2", getInt("vel0") - 1);
-                        put("vel0", "0");
-                    }
-                }
-                return true;
-            }
-        }
-        if(t.getInt("dim6w") == -2) {  //cornerBR
-            Polygon cornerbounds = new Polygon(
-                    new int[]{
-                            t.getInt("coordx") + t.getInt("dimw"),
-                            t.getInt("coordx") + t.getInt("dimw"),
-                            t.getInt("coordx")
-                    },
-                    new int[]{
-                            t.getInt("coordy") + 75,
-                            t.getInt("coordy") + t.getInt("dimh"),
-                            t.getInt("coordy") + t.getInt("dimh")
-                    },
-                    3);
-            Rectangle pb = bounds.getBounds();
-            Rectangle cwb = new Rectangle(t.getInt("coordx"), t.getInt("coordy") + t.getInt("dimh"),
-                    t.getInt("dimw"),50);
-            if(pb.intersects(cwb)) {
-                if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
-                    if(getInt("vel0") > 0) {
-                        double mod = 1.5;
-                        putInt("vel1", getInt("vel0") - 1);
-                        putInt("vel0", 0);
-                    }
-                }
-                return true;
-            }
-            if(cornerbounds.intersects(pb)) {
-                if(getInt("coordx") > cornerbounds.getBounds().getX() + cornerbounds.getBounds().getWidth() - 5) {
-                    if(getInt("vel2") > 0) {
-                        putInt("vel3", getInt("vel2") - 1);
-                        putInt("vel2", 0);
-                    }
-                }
-                else {
-                    if (getInt("vel3") > 0) {
-                        putInt("vel0", 3*getInt("vel3")/2 - 1);
-                        put("vel3", "0");
-                    }
-                    if (getInt("vel1") > 0) {
-                        putInt("vel2", getInt("vel1") - 1);
-                        put("vel1", "0");
-                    }
-                }
-                return true;
-            }
-        }
-        if(t.getInt("dim6w") == -3) {  //cornerBL
-            Polygon cornerbounds = new Polygon(
-                    new int[]{
-                            t.getInt("coordx"),
-                            t.getInt("coordx") + t.getInt("dimw"),
-                            t.getInt("coordx")
-                    },
-                    new int[]{
-                            t.getInt("coordy") + 75,
-                            t.getInt("coordy") + t.getInt("dimh"),
-                            t.getInt("coordy") + t.getInt("dimh")
-                    },
-                    3);
-            Rectangle pb = bounds.getBounds();
-            Rectangle cwb = new Rectangle(t.getInt("coordx"), t.getInt("coordy") + t.getInt("dimh"),
-                    t.getInt("dimw"),50);
-            if(pb.intersects(cwb)) {
-                if(getInt("coordy") > cornerbounds.getBounds().getY() + cornerbounds.getBounds().getHeight() + 45) {
-                    if(getInt("vel0") > 0) {
-                        putInt("vel1", getInt("vel0") - 1);
-                        putInt("vel0", 0);
-                    }
-                }
-                return true;
-            }
-            if(cornerbounds.intersects(pb)) {
-                if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
-                    if(getInt("vel3") > 0) {
-                        putInt("vel2", getInt("vel3") - 1);
-                        putInt("vel3", 0);
-                    }
-                }
-                else {
-                    if (getInt("vel2") > 0) {
-                        putInt("vel0", 3*getInt("vel2")/2 - 1);
-                        put("vel2", "0");
-                    }
-                    if (getInt("vel1") > 0) {
-                        putInt("vel3", getInt("vel1") - 1);
-                        put("vel1", "0");
-                    }
-                }
-                return true;
-            }
-        }
-        if(t.getInt("dim6w") == -4) {  //cornerUL
-            Polygon cornerbounds = new Polygon(
-                    new int[]{
-                            t.getInt("coordx"),
-                            t.getInt("coordx") + t.getInt("dimw"),
-                            t.getInt("coordx")
-                    },
-                    new int[]{
-                            t.getInt("coordy"),
-                            t.getInt("coordy"),
-                            t.getInt("coordy") + t.getInt("dimh")
-                    },
-                    3);
-            Rectangle pb = bounds.getBounds();
-            if(cornerbounds.intersects(pb)) {
-                if(getInt("coordy") + getInt("dimh") < cornerbounds.getBounds().getY() + 5) {
-                    if(getInt("vel1") > 0) {
-                        cVars.put("suppressknocksound", "1");
-                        putInt("vel0", 3*getInt("vel1")/2 - 1);
-                        putInt("vel1", 0);
-                    }
-                }
-                else if(getInt("coordx") < cornerbounds.getBounds().getX() - 5) {
-                    if(getInt("vel3") > 0) {
-                        putInt("vel2", getInt("vel3") - 1);
-                        putInt("vel3", 0);
-                    }
-                }
-                else{
-                    if (getInt("vel0") > 0) {
-                        double mod = 1.5;
-                        putInt("vel3", getInt("vel0") - 1);
-                        put("vel0", "0");
-                    }
-                    if (getInt("vel2") > 0) {
-                        putInt("vel1", getInt("vel2") - 1);
-                        put("vel2", "0");
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean willCollideWithinTileAtCoords(gTile target, int dx, int dy) {
-        int xstart;
-        int ystart;
-        int xend;
-        int yend;
-        boolean bounceOverSafe = true;
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer")) {
-            cVars.put("suppressknocksound", "0");
-            Shape bounds = new Ellipse2D.Double(dx, dy, getInt("dimw"), getInt("dimh"));
-            Rectangle targetbounds = new Rectangle(target.getInt("coordx"), target.getInt("coordy") + 75,
-                    target.getInt("dim0w"), target.getInt("dim0h") - 75);
-            xstart = target.getInt("coordx");
-            ystart = target.getInt("coordy")+75;
-            xend = target.getInt("coordx")+target.getInt("dim0w");
-            yend = target.getInt("coordy") + target.getInt("dim0h");
-            bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); //0 (the tile component)
-            targetbounds = new Rectangle(target.getInt("coordx"),
-                    target.getInt("coordy") + target.getInt("dim0h"),
-                    target.getInt("dim1w"), target.getInt("dim1h") - 100);
-            xstart = target.getInt("coordx");
-            ystart = target.getInt("coordy")+target.getInt("dim0h");
-            xend = target.getInt("coordx")+target.getInt("dim1w");
-            yend = target.getInt("coordy") + target.getInt("dim0h") + target.getInt("dim1h")-100;
-            bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); // 1
-            targetbounds = new Rectangle(target.getInt("coordx"),
-                    target.getInt("coordy") + target.getInt("dimh")-target.getInt("dim4h") - target.getInt("dim3h") + 75,
-                    target.getInt("dim3w"), target.getInt("dim3h") - 75);
-            xstart = target.getInt("coordx");
-            ystart = target.getInt("coordy") + target.getInt("dimh") - target.getInt("dim4h") - target.getInt("dim3h") + 75;
-            xend = target.getInt("coordx")+target.getInt("dim3w");
-            yend = target.getInt("coordy") + target.getInt("dimh") - target.getInt("dim4h");
-            bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); // 3
-            targetbounds = new Rectangle(target.getInt("coordx"),
-                    target.getInt("coordy") + target.getInt("dimh")-target.getInt("dim4h"),
-                    target.getInt("dim4w"), target.getInt("dim4h") - 100);
-            xstart = target.getInt("coordx");
-            ystart = target.getInt("coordy") + target.getInt("dimh") - target.getInt("dim4h");
-            xend = target.getInt("coordx")+target.getInt("dim4w");
-            yend = target.getInt("coordy") + target.getInt("dimh") - 100;
-            bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend); // 4
-            targetbounds = new Rectangle(target.getInt("coordx"),
-                    target.getInt("coordy") + target.getInt("dim0h"),
-                    target.getInt("dim5w"), target.getInt("dim5h"));
-            xstart = target.getInt("coordx");
-            ystart = target.getInt("coordy") + target.getInt("dim0h");
-            xend = target.getInt("coordx")+target.getInt("dim5w");
-            yend = target.getInt("coordy") + target.getInt("dim0h") + target.getInt("dim5h");
-            if(!bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend))// 5
-                bounceOverSafe = false;
-            targetbounds = new Rectangle(target.getInt("coordx") + target.getInt("dimw") - target.getInt("dim6w"),
-                    target.getInt("coordy") + target.getInt("dim0h"),
-                    target.getInt("dim6w"), target.getInt("dim6h"));
-            xstart = target.getInt("coordx") + target.getInt("dimw") - target.getInt("dim6w");
-            ystart = target.getInt("coordy") + target.getInt("dim0h");
-            xend = target.getInt("coordx") + target.getInt("dimw");
-            yend = target.getInt("coordy") + target.getInt("dim0h") + target.getInt("dim6h");
-            if(!bounceWithinBounds(bounds, targetbounds, xstart, ystart, xend, yend)) // 6
-                bounceOverSafe = false;
-
-            return bounceOverSafe && bouncesBounds(bounds, target);
-        }
-        return false;
-    }
 
     public void setHatSpriteFromPath(String newpath) {
         put("pathspritehat", newpath);
@@ -540,21 +137,19 @@ public class gPlayer extends gThing {
         System.out.println("TEST DOABLE");
     }
 
-    public gPlayer(int x, int y, int w, int h, String tt) {
+    public gPlayer(int x, int y, String tt) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
-        putInt("dimw", w);
-        putInt("dimh", h);
+        putInt("dimw", 200);
+        putInt("dimh", 200);
         put("id", "");
         put("inteleporter", "0");
         put("accelrate", "100");
         put("clip", "1");
-        put("flashlight", "0");
         put("exitteleportertag", "-1");
         put("pathspritehat", "");
         put("pathsprite", "");
-        put("crouch", "0");
         put("weapon", "0");
         put("cooldown", "0");
         put("acceltick", "0");

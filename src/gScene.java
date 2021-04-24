@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * A scene holds the background and objects for a game
@@ -66,26 +67,27 @@ public class gScene {
 
     public void clearPlayers() {
 	    objectMaps.put("THING_PLAYER", new HashMap<>());
-    }
-
-	public ArrayList<gTile> tiles() {
-		return objectLists.get("THING_TILE");
-	}
-
-    public ArrayList<gProp> props() {
-        return objectLists.get("THING_PROP");
+	    cGameLogic.setUserPlayer(null);
     }
 
     public ArrayList<gFlare> flares() {
         return objectLists.get("THING_FLARE");
     }
 
-    public ArrayList<gThing> getThingList(String thing_title) {
-        return objectLists.get(thing_title);
-    }
-
     public HashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
+    }
+
+    public gThing getRandomSpawnpoint() {
+	    int size = eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").size();
+	    if(size > 0) {
+            int randomSpawnpointIndex = new Random().nextInt(size);
+            ArrayList<String> spawnpointids =
+                    new ArrayList<>(eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
+            String randomId = spawnpointids.get(randomSpawnpointIndex);
+            return eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+        }
+        return null;
     }
 
     public void setThingMap(String thing_title, HashMap<String, String> nm) {

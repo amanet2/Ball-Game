@@ -9,6 +9,10 @@ public class dFonts {
     static Stroke hudStroke = new BasicStroke(eUtils.scaleInt(10));
     static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
 
+    public static int getStringWidth(Graphics g, String s) {
+        return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
+    }
+
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);

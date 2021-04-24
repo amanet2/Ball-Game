@@ -75,16 +75,6 @@ public class dWaypoints {
     public static void drawWaypoints(Graphics2D g2) {
         if(uiInterface.inplay) {
             switch (cVars.getInt("gamemode")) {
-                case cGameMode.CAPTURE_THE_FLAG:
-                    HashMap unheldflagsmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                    for(Object id : unheldflagsmap.keySet()) {
-                        gPropFlagRed flag = (gPropFlagRed) unheldflagsmap.get(id);
-                        if(cGameLogic.userPlayer() != null
-                        && !flag.get("str0").equals(cGameLogic.userPlayer().get("id")))
-                            dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                                flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
-                    }
-                    break;
                 case cGameMode.FLAG_MASTER:
                     if(!cVars.isVal("flagmasterid", "")) {
                         if(!cVars.get("flagmasterid").equals(uiInterface.uuid)) {
@@ -104,16 +94,6 @@ public class dWaypoints {
                         }
                     }
                     break;
-                case cGameMode.KING_OF_FLAGS:
-                    HashMap flagredmap = eManager.currentMap.scene.getThingMap("PROP_FLAGRED");
-                    for(Object id : flagredmap.keySet()) {
-                        gPropFlagRed flag = (gPropFlagRed) flagredmap.get(id);
-                        if(!flag.isVal("str0", cGameLogic.userPlayer().get("id"))) {
-                            dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                                    flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
-                        }
-                    }
-                    break;
                 case cGameMode.VIRUS:
                     if(nServer.instance().clientArgsMap != null && nServer.instance().clientArgsMap.containsKey("server")
                             && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
@@ -124,20 +104,6 @@ public class dWaypoints {
                                 dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                         p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
                             }
-                        }
-                    }
-                    break;
-                case cGameMode.RACE:
-                case cGameMode.WAYPOINTS:
-                    HashMap scorepointMap = eManager.currentMap.scene.getThingMap("PROP_SCOREPOINT");
-                    for(Object id : scorepointMap.keySet()) {
-                        gPropScorepoint scorepoint = (gPropScorepoint) scorepointMap.get(id);
-                        //racebots is for server, int0 is for clients
-                        if(scorepoint.isZero("int0")) {
-                            dWaypoints.drawNavPointer(g2,
-                                    scorepoint.getInt("coordx") + scorepoint.getInt("dimw") / 2,
-                                    scorepoint.getInt("coordy") + scorepoint.getInt("dimh") / 2,
-                                    "* GO HERE *");
                         }
                     }
                     break;

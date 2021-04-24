@@ -7,6 +7,7 @@ public class cGameLogic {
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
         userPlayer = newUserPlayer;
+        cScripts.centerCamera();
     }
 
     public static gPlayer userPlayer() {
@@ -46,7 +47,7 @@ public class cGameLogic {
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
-                checkSprintStatus();
+//                checkSprintStatus();
                 checkGameState();
                 checkPlayersFire();
 //                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
@@ -59,48 +60,6 @@ public class cGameLogic {
         }
     }
 
-    public static void checkMapGravity() {
-            if(cVars.isOne("clipplayer")) {
-                gPlayer userPlayer = cGameLogic.userPlayer();
-                if(userPlayer == null)
-                    return;
-                if (cVars.isOne("jumping")) {
-                    userPlayer.putInt("mov1", 0);
-                    userPlayer.putInt("vel0", cVars.getInt("gravity"));
-                }
-                else {
-                    if(userPlayer.isOne("crouch"))
-                        userPlayer.subtractVal("vel1",
-                                userPlayer.getInt("vel1") > 1 ? 1 : 0); //want vel1 to be 1 while crouching
-                    else
-                        userPlayer.addVal("vel1",
-                                userPlayer.getInt("vel1") < cVars.getInt("gravity")
-                                        && cVars.getInt("gravity") > 0
-                        ? 1 : 0);
-                    cVars.put("jumpheight", "0");
-                }
-            }
-            //jumping
-            if(cVars.isOne("clipplayer")) {
-                if(cVars.isOne("jumping") && cVars.getInt("jumpheight") < cVars.getInt("jumptimemax")) {
-                    cVars.increment("jumpheight");
-                    if(cVars.getInt("jumpheight") > cVars.getInt("jumpsquish"))
-                        xCon.ex("-crouch");
-                }
-                else if(cVars.isOne("jumping")) {
-//                    if(cVars.isInt("mapview", gMap.MAP_SIDEVIEW))
-//                        userPlayer().putInt("mov0", 0);
-                    cVars.putInt("jumping", 0);
-                }
-            }
-    }
-
-//    public static boolean drawLocalSpawnProtection() {
-//        gPlayer userplayer = cGameLogic.userPlayer();
-//        return userplayer != null && (userplayer.contains("spawnprotectiontime")
-//                && userplayer.getLong("spawnprotectiontime") > System.currentTimeMillis());
-//    }
-
     public static void resetGameState() {
         cScoreboard.resetScoresMap();
         cVars.putLong("starttime", System.currentTimeMillis());
@@ -108,15 +67,6 @@ public class cGameLogic {
         cVars.put("winnerid","");
         cVars.put("flagmasterid", "");
         switch (cVars.getInt("gamemode")) {
-            case cGameMode.KING_OF_FLAGS:
-                cGameMode.resetKingOfFlags();
-                break;
-            case cGameMode.WAYPOINTS:
-                cGameMode.refreshWaypoints();
-                break;
-            case cGameMode.SAFE_ZONES:
-                cGameMode.refreshSafeZones();
-                break;
             case cGameMode.VIRUS:
                 cGameMode.resetVirusPlayers();
                 break;
@@ -129,14 +79,12 @@ public class cGameLogic {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "dirs", "crouch", "flashlight", "x", "y"};
+                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
                 if(!nServer.instance().containsArgsForId(id, requiredFields))
                     continue;
                 HashMap<String, String> cargs = nServer.instance().clientArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
-                int ccrouch = Integer.parseInt(cargs.get("crouch"));
-                int cflashlight = Integer.parseInt(cargs.get("flashlight"));
                 gPlayer p = gScene.getPlayerById(id);
                 if(p == null)
                     return;
@@ -153,10 +101,6 @@ public class cGameLogic {
                     if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
                         p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
                 }
-                if(!p.isInt("crouch", ccrouch))
-                    p.putInt("crouch", ccrouch);
-                if(!p.isInt("flashlight", cflashlight))
-                    p.putInt("flashlight", cflashlight);
             }
         }
     }
@@ -240,39 +184,11 @@ public class cGameLogic {
         for(String id : argsMap.keySet()) {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
             && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                if(!id.contains("bot"))
-                    nServer.instance().addNetCmd("respawnplayer " + id);
-                else
-                    xCon.ex("respawnplayer " + id);
-                System.out.println("removed respawntime");
+                nServer.instance().addNetCmd("respawnnetplayer " + id);
                 argsMap.get(id).remove("respawntime");
             }
         }
         rechargePlayersHealth();
-    }
-
-    public static void checkSprintStatus() {
-//        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed")) {
-        if(cVars.isZero("sprint") && cVars.getInt("stockspeed") < cVars.getInt("maxstockspeed") &&
-            cVars.getLong("sprinttime") + cVars.getInt("delaypow") < System.currentTimeMillis()) {
-            if(cVars.getInt("stockspeed") + cVars.getInt("rechargepow") > cVars.getInt("maxstockspeed"))
-                cVars.put("stockspeed", cVars.get("maxstockspeed"));
-            else
-                cVars.putInt("stockspeed", cVars.getInt("stockspeed") + cVars.getInt("rechargepow"));
-        }
-        else if(cVars.isOne("sprint") && cVars.getInt("stockspeed") > 0) {
-            if(cVars.getLong("sprinttime") < System.currentTimeMillis() || cVars.getInt("stockspeed") < 1) {
-                cVars.put("sprint", "0");
-                cVars.put("stockspeed", "0");
-            }
-            else {
-                cVars.putInt("stockspeed", (int)(cVars.getLong("sprinttime")-System.currentTimeMillis()));
-            }
-        }
-        else if(cVars.getInt("stockspeed") < 1) {
-            cVars.put("sprint", "0");
-            cVars.put("stockspeed", "0");
-        }
     }
 
     public static void checkForMapChange() {
@@ -301,9 +217,6 @@ public class cGameLogic {
                         xCon.ex("givepoint " + cVars.get("flagmasterid"));
                         cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                     }
-                    break;
-                case cGameMode.KING_OF_FLAGS:
-                    cGameMode.checkKingOfFlags();
                     break;
                 case cGameMode.VIRUS:
                     if(cVars.getLong("virustime") < uiInterface.gameTime) {
@@ -363,30 +276,6 @@ public class cGameLogic {
                 //after checking all items
                 if(clearTeleporterFlag > 0) {
                     player.put("inteleporter", "0");
-                }
-            }
-        }
-        //
-        // NEW ABOVE, OLD BELOW
-        //
-        //check ALL PROPS this is the best one
-        //new way of checkingProps
-        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
-        for(String checkThingType : new String[]{
-                "PROP_TELEPORTER", "PROP_BOOST", "PROP_POWERUP", "PROP_SCOREPOINT", "PROP_FLAGRED", "PROP_FLAGBLUE"
-        }) {
-            HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkThingType);
-            for(String playerId : playerMap.keySet()) {
-                gPlayer player = playerMap.get(playerId);
-                //check null fields
-                if(!player.containsFields(new String[]{"coordx", "coordy"}))
-                    break;
-                for (String propId : thingMap.keySet()) {
-                    gProp prop = (gProp) thingMap.get(propId);
-                    if(player.willCollideWithPropAtCoords(prop, player.getInt("coordx"),
-                            player.getInt("coordy"))) {
-                        prop.propEffect(player);
-                    }
                 }
             }
         }
