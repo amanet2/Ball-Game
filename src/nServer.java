@@ -455,19 +455,6 @@ public class nServer extends Thread implements fNetBase {
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
-    public void createServersidePlayer(String packId, String packName) {
-        gPlayer player = new gPlayer(-6000, -6000, eUtils.getPath("animations/player_red/a03.png"));
-        player.put("name", packName);
-        player.put("id", packId);
-        eManager.currentMap.scene.playersMap().put(packId, player);
-    }
-
-    private void createServersidePlayerAndSendMap(String packId, String packName) {
-        if(!packId.contains("bot")) {
-            createServersidePlayer(packId, packName);
-        }
-    }
-
     private void sendMap(String packId) {
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;

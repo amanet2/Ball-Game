@@ -42,3 +42,7 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> the client should "request" this command from the server
         -> client will have command called "removeuserplayer" that will reach out to server, who will run
             removeplayer <id>
+* respawning
+    -> (SERVER/LOCAL) spawn server/local with "respawn".  calls "spawnplayer"
+    -> (SERVER) "respawnnetplayer" handles clients/bots respawning, calls "spawnplayer" locally and fanout for clients
+    -> (ALL) "spawnplayer" actually creates player object at coords determined by server (prev call)
