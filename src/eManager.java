@@ -81,7 +81,7 @@ public class eManager {
                     //user player
                     if(cGameLogic.isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min((int)(cVars.getInt("velocityplayer")),
+                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
                                     obj.getInt("vel" + i) + 1)));
                         }
                         else
