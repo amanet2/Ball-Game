@@ -49,6 +49,7 @@ public class xComDamagePlayer extends xCom {
                             nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
                         }
                         nServer.instance().addNetCmd("removeplayer " + id);
+
                         eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
                     }
                 }
