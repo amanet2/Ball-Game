@@ -26,9 +26,10 @@ public class cBotsLogic {
         });
         behaviors.put("flagmaster", new gDoableThing(){
             public void doItem(gThing p) {
-                if(cVars.isVal("flagmasterid", p.get("id")))
+                String flagmasterid = nServer.instance().clientArgsMap.get("server").get("state");
+                if(flagmasterid.equals(p.get("id")))
                     cBotsLogic.runFromNearestPlayer(p);
-                else if(cVars.get("flagmasterid").length() > 0)
+                else if(flagmasterid.length() > 0)
                     cBotsLogic.goToFlagPlayer(p);
                 else
                     cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
@@ -99,7 +100,7 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        gPlayer waypoint = gScene.getPlayerById(cVars.get("flagmasterid"));
+        gPlayer waypoint = gScene.getPlayerById(nServer.instance().clientArgsMap.get("server").get("state"));
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
             goToWaypoint(bot, waypoint);

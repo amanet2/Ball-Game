@@ -192,31 +192,31 @@ public class dScreenMessages {
         }
 
         //game alerts
-        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
-            switch(cVars.getInt("gamemode")) {
-                case cGameMode.VIRUS:
-                    if(nServer.instance().clientArgsMap.containsKey("server")
-                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
-                                cGameLogic.userPlayer().get("id"))) {
-                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    break;
-                case cGameMode.FLAG_MASTER:
-                    if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    else if(cVars.get("flagmasterid").length() > 0){
-                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+//        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
+//            switch(cVars.getInt("gamemode")) {
+//                case cGameMode.VIRUS:
+//                    if(nServer.instance().clientArgsMap.containsKey("server")
+//                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
+//                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
+//                                cGameLogic.userPlayer().get("id"))) {
+//                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    break;
+//                case cGameMode.FLAG_MASTER:
+//                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
+//                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    else if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0){
+//                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
         //win lose
         if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
             if(cVars.isOne("gameteam")) {

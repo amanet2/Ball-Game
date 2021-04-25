@@ -29,8 +29,8 @@ public class xComDamagePlayer extends xCom {
                             nServer.instance().addNetCmd("echo " + victimname + " died");
                         }
                         //handle flag carrier dying
-                        if(cVars.isVal("flagmasterid", player.get("id"))) {
-                            cVars.put("flagmasterid", "");
+                        if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
+                            nServer.instance().clientArgsMap.get("server").put("state", "");
                             //this does the same thing as above
                             nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                                     player.getInt("coordx"), player.getInt("coordy")));

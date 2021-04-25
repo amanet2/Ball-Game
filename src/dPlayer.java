@@ -80,27 +80,10 @@ public class dPlayer {
                             (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
-                if(cVars.isVal("flagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
+                if(nServer.instance().clientArgsMap.containsKey("server")
+                && nServer.instance().clientArgsMap.get("server").containsKey("state")
+                && nServer.instance().clientArgsMap.get("server").get("state").equals(playerId)) {
                     g2.drawImage(gItemFactory.instance().flagSprite,
-                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
-                                    - player.getInt("dimw")/2),
-                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
-                                    - player.getInt("dimh")),
-                            null
-                    );
-                }
-                //flag for ctf
-                if(cVars.isVal("redflagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
-                    g2.drawImage(gItemFactory.instance().redFlagSprite,
-                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
-                                    - player.getInt("dimw")/2),
-                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
-                                    - player.getInt("dimh")),
-                            null
-                    );
-                }
-                if(cVars.isVal("blueflagmasterid", player.get("id").length() > 0 ? player.get("id") : uiInterface.uuid)) {
-                    g2.drawImage(gItemFactory.instance().blueFlagSprite,
                             eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
                                     - player.getInt("dimw")/2),
                             eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")

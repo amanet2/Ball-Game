@@ -156,7 +156,9 @@ public class nServer extends Thread implements fNetBase {
         keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", cScoreboard.getTopScoreString());
-        keys.put("state", cServer.getGameStateServer());
+        if(nServer.instance().clientArgsMap.containsKey("server")
+        && nServer.instance().clientArgsMap.get("server").containsKey("state"))
+            keys.put("state", clientArgsMap.get("server").get("state"));
         keys.put("win", cVars.get("winnerid"));
         return keys;
     }
@@ -281,9 +283,9 @@ public class nServer extends Thread implements fNetBase {
     }
 
     void removeNetClient(String id) {
-        String quitterName = nServer.instance().clientArgsMap.get(id).get("name");
-        if(cVars.isVal("flagmasterid", id)) {
-            cVars.put("flagmasterid", "");
+        String quitterName = clientArgsMap.get(id).get("name");
+        if(clientArgsMap.get("server").get("state").equals(id)) {
+            clientArgsMap.get("server").put("state", "");
             gPlayer player = gScene.getPlayerById(id);
             nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                     player.getInt("coordx"), player.getInt("coordy")));

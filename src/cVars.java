@@ -8,7 +8,6 @@ public class cVars {
     private static void init() {
         put("ballx", "0");
         put("bally", "0");
-        put("blueflagmasterid", "0");
         put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
@@ -27,7 +26,6 @@ public class cVars {
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
         put("fallkilltime", "800");
-        put("flagmasterid", "");
         put("flagmastertime", "0");
         put("flashlight", "0");
         put("gamescale", "2160");
@@ -68,7 +66,6 @@ public class cVars {
         put("quitting", "0");
         put("rechargepow", "12");
         put("rechargehp", "1");
-        put("redflagmasterid", "");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scoremap", "");
