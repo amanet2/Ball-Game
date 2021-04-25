@@ -129,7 +129,6 @@ public class xCon {
         commands.put("clearbots", new xComClearBots());
         commands.put("clearthingmap", new xComClearThingMap());
         commands.put("clientlist", new xComClientlist());
-        commands.put("clientplayer", new xComClientPlayer());
         commands.put("clientnetargs", new xComClientNetArgs());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());

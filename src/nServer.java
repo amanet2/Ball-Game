@@ -284,7 +284,8 @@ public class nServer extends Thread implements fNetBase {
 
     void removeNetClient(String id) {
         String quitterName = clientArgsMap.get(id).get("name");
-        if(clientArgsMap.get("server").get("state").equals(id)) {
+        if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("state")
+                && clientArgsMap.get("server").get("state").equals(id)) {
             clientArgsMap.get("server").put("state", "");
             gPlayer player = gScene.getPlayerById(id);
             nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
