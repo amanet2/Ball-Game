@@ -87,6 +87,7 @@ public class cVars {
         put("vfxwalloutlinealpha2", "255");
         put("vfxwallshadingalpha1", "80");
         put("vfxwallshadingalpha2", "220");
+        put("virustime", "0");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");
         put("weaponbotrange2", "400");

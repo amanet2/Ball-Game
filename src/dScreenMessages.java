@@ -52,8 +52,6 @@ public class dScreenMessages {
         if(uiInterface.inplay) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             if(cScripts.isNetworkGame()) {
-//                dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
-//                        29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft > -1) {
                     if(timeleft < 30000) {
@@ -219,12 +217,7 @@ public class dScreenMessages {
 //        }
         //win lose
         if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
-            if(cVars.isOne("gameteam")) {
-                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
-                        sSettings.width / 2, 5*sSettings.height/8);
-            }
-            else
-                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+            dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading
