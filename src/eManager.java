@@ -81,14 +81,10 @@ public class eManager {
                     //user player
                     if(cGameLogic.isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
-                            double mod = 1;
-                            if(i==0) {
-                                mod = 1.5;
-                            }
-                            obj.putInt("vel" + i, (Math.min((int)(mod*cVars.getInt("velocityplayer")),
+                            obj.putInt("vel" + i, (Math.min((int)(cVars.getInt("velocityplayer")),
                                     obj.getInt("vel" + i) + 1)));
                         }
-                        else if(i != 1 || cVars.getInt("gravity") < 1)
+                        else
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
                     else if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels")){

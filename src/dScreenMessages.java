@@ -52,8 +52,8 @@ public class dScreenMessages {
         if(uiInterface.inplay) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             if(cScripts.isNetworkGame()) {
-                dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
-                        29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
+//                dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
+//                        29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft > -1) {
                     if(timeleft < 30000) {

@@ -76,40 +76,19 @@ public class cScoreboard {
         int topscore = 0;
         int tiectr = 0;
         String winnerName = "";
-        if(cVars.isZero("gameteam")) {
-            for(String id : scoresMap.keySet()) {
-                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-                if(scoresMapIdMap.get("score") > topscore) {
-                    tiectr = 0;
-                    topscore = scoresMapIdMap.get("score");
-                    winnerName = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
-                }
-                else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
-                    tiectr++;
-                }
+        for(String id : scoresMap.keySet()) {
+            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+            if(scoresMapIdMap.get("score") > topscore) {
+                tiectr = 0;
+                topscore = scoresMapIdMap.get("score");
+                winnerName = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
             }
-            if(tiectr > 0) {
-                winnerName = winnerName + " + " + tiectr + " others";
+            else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
+                tiectr++;
             }
         }
-        else {
-//            String[] colors = sVars.getArray("colorselection");
-//            int[] colorscores = new int[colors.length];
-//            Arrays.fill(colorscores, 0);
-//            for(String id : scoresMap.keySet()) {
-//                gPlayer p = gScene.getPlayerById(id);
-//                for(int j = 0; j < colors.length; j++) {
-//                    if(p.get("color").equals(colors[j])) {
-//                        colorscores[j] = scoresMap.get(id).get("score");
-//                    }
-//                }
-//            }
-//            for(int i = 0; i < colorscores.length; i++) {
-//                if(colorscores[i] > topscore) {
-//                    topscore = colorscores[i];
-//                    winnerName = colors[i] + " (" + colorscores[i]+")";
-//                }
-//            }
+        if(tiectr > 0) {
+            winnerName = winnerName + " + " + tiectr + " others";
         }
         return winnerName;
     }

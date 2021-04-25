@@ -110,6 +110,8 @@ public class uiInterface {
         }
 	    else {
 //            xCon.ex("load "+ sVars.get("defaultmap"));
+            sVars.putInt("drawhitboxes", 0);
+            sVars.putInt("drawmapmakergrid", 0);
             xCon.ex("load");
         }
         xCon.ex("exec " + sVars.get("defaultexec"));

@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
 * SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
 they just joined the game again.
     -> takes a lot of the headache out of changing map after end of each round

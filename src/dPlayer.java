@@ -62,7 +62,7 @@ public class dPlayer {
                     //check null fields
                     if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                         break;
-                    int yadj = 5*player.getInt("dimh")/6 + cVars.getInt("jumpheight");
+                    int yadj = 5*player.getInt("dimh")/6;
                     Rectangle2D shadowBounds = new Rectangle.Double(
                             eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                             eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
