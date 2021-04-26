@@ -196,14 +196,6 @@ public class nClient extends Thread implements fNetBase {
                     System.out.println("FROM_SERVER: " + cmdload);
                     processCmd(cmdload);
                 }
-                //ugly if else for gamemodes
-                if(packArgs.containsKey("state")) {
-                    //need to split up by gametype
-                    if(cVars.isInt("gamemode", cGameMode.FLAG_MASTER)) {
-                        if (!cVars.isVal("flagmasterid", packArgs.get("state")))
-                            cVars.put("flagmasterid", packArgs.get("state"));
-                    }
-                }
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(nServer.instance().clientIds.contains(idload)) {

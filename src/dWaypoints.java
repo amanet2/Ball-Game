@@ -73,12 +73,14 @@ public class dWaypoints {
         }
     }
     public static void drawWaypoints(Graphics2D g2) {
-        if(uiInterface.inplay) {
+        if(uiInterface.inplay && nServer.instance().clientArgsMap.containsKey("server")
+        && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
-                    if(!cVars.isVal("flagmasterid", "")) {
-                        if(!cVars.get("flagmasterid").equals(uiInterface.uuid)) {
-                            gPlayer p = gScene.getPlayerById(cVars.get("flagmasterid"));
+                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0) {
+                        if(!nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
+                            gPlayer p = gScene.getPlayerById(
+                                    nServer.instance().clientArgsMap.get("server").get("state"));
                             if(p == null)
                                 break;
                             dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,

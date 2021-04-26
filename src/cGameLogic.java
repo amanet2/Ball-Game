@@ -65,7 +65,6 @@ public class cGameLogic {
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
-        cVars.put("flagmasterid", "");
         switch (cVars.getInt("gamemode")) {
             case cGameMode.VIRUS:
                 cGameMode.resetVirusPlayers();
@@ -206,15 +205,16 @@ public class cGameLogic {
     }
 
     public static void checkGameState() {
-        if(sSettings.net_server) {
+        if(sSettings.net_server && nServer.instance().clientArgsMap.containsKey("server")
+        && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
                     if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
-                            && cVars.get("flagmasterid").length() > 0)
+                            && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
                         nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
-                    if(cVars.get("flagmasterid").length() > 0
+                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0
                             && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                        xCon.ex("givepoint " + cVars.get("flagmasterid"));
+                        xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("state"));
                         cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                     }
                     break;
@@ -240,11 +240,12 @@ public class cGameLogic {
                     break;
             }
         }
-        else if(sSettings.isClient()) {
+        else if(sSettings.isClient() && nServer.instance().clientArgsMap.containsKey("server")
+                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             //gamestate checks, for server AND clients
             //check to delete flags that should not be present anymore
             if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
-                    && cVars.get("flagmasterid").length() > 0)
+                    && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
                 xCon.ex("clearthingmap ITEM_FLAG");
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -291,10 +292,7 @@ public class cGameLogic {
                 //check for server win
                 if(cScoreboard.isTopScoreId("server")) {
                     cVars.put("winnerid", "server");
-                    if(cVars.isOne("gameteam"))
-                        xCon.ex("say " + sVars.get("playercolor") + " team wins!");
-                    else
-                        xCon.ex("say " + sVars.get("playername") + " wins!");
+                    xCon.ex("say " + sVars.get("playername") + " wins!");
                     cScoreboard.incrementScoreFieldById("server", "wins");
                 }
                 else {
@@ -302,11 +300,7 @@ public class cGameLogic {
                     String highestId = cScoreboard.getWinnerId();
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
-                        if(cVars.isOne("gameteam"))
-                            xCon.ex("say "
-                                    + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!");
-                        else
-                            xCon.ex("say "
+                        xCon.ex("say "
                                     + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.net_server) {
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");

@@ -15,25 +15,25 @@ public class dScreenFX {
 //                g.fillRect(0, sSettings.height/factors * i, sSettings.width, sSettings.height/factors);
 //            }
 //        }
-        // sprint overlay
-        if(cVars.isOne("sprint")) {
-            int maxl = cVars.getInt("vfxuialphasprint");
-            int factorsw = sSettings.width/sVars.getInt("vfxfactordiv");
-            int factorsh = sSettings.height/sVars.getInt("vfxfactordiv");
-            for (int i = 0; i < factorsw; i++) {
-                g.setColor(new Color(50, 220, 100,
-                        Math.abs(Math.abs((maxl / (factorsw/2)) * (Math.abs(((factorsw/2) - i))-(factorsw/2))) - maxl)
-                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
-                g.fillRect(sSettings.width/factorsw * i, 0,sSettings.width/factorsw, sSettings.height);
-            }
-            for (int i = 0; i < factorsh; i++) {
-                g.setColor(new Color(50, 220, 100,
-                        Math.abs(Math.abs((maxl / (factorsh/2)) * (Math.abs(((factorsh/2) - i))-(factorsh/2))) - maxl)
-                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
-                g.fillRect(0, sSettings.height/factorsh * i, sSettings.width, sSettings.height/factorsh);
-            }
-
-        }
+//        // sprint overlay
+//        if(cVars.isOne("sprint")) {
+//            int maxl = cVars.getInt("vfxuialphasprint");
+//            int factorsw = sSettings.width/sVars.getInt("vfxfactordiv");
+//            int factorsh = sSettings.height/sVars.getInt("vfxfactordiv");
+//            for (int i = 0; i < factorsw; i++) {
+//                g.setColor(new Color(50, 220, 100,
+//                        Math.abs(Math.abs((maxl / (factorsw/2)) * (Math.abs(((factorsw/2) - i))-(factorsw/2))) - maxl)
+//                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
+//                g.fillRect(sSettings.width/factorsw * i, 0,sSettings.width/factorsw, sSettings.height);
+//            }
+//            for (int i = 0; i < factorsh; i++) {
+//                g.setColor(new Color(50, 220, 100,
+//                        Math.abs(Math.abs((maxl / (factorsh/2)) * (Math.abs(((factorsh/2) - i))-(factorsh/2))) - maxl)
+//                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
+//                g.fillRect(0, sSettings.height/factorsh * i, sSettings.width, sSettings.height/factorsh);
+//            }
+//
+//        }
         // health overlay
         if(userPlayer != null) {
             //threshold to turn on screen fx

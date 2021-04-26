@@ -7,7 +7,6 @@ public class uiMenusNewGame extends uiMenu {
 //                String.format("Time Limit [%s]", sVars.get("timelimit"))
 //                String.format("Score Limit [%s]", sVars.get("scorelimit")),
 //                String.format("Number of Bots [%s]", sVars.get("botcount")),
-//                String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  ")
 //                String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay")),
 //                String.format("Powerups on Map [%s]", cVars.get("powerupson")),
         });
@@ -65,12 +64,6 @@ public class uiMenusNewGame extends uiMenu {
 //                        int cc = cVars.getInt("powerupson");
 //                        cVars.putInt("powerupson", cc + 1 > sVars.getInt("powerupsmaxon") ? 0 : cc + 1);
 //                        text = String.format("Powerups on Map [%s]", cVars.get("powerupson"));
-//                    }
-//                },
-//                new uiMenuItem(String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  ")){
-//                    public void doItem() {
-//                        cVars.put("gameteam", cVars.isOne("gameteam") ? "0" : "1");
-//                        text = String.format("Team Game [%s]", cVars.isOne("gameteam") ? "X" : "  ");
 //                    }
 //                }
             },

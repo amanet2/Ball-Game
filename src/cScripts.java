@@ -141,7 +141,6 @@ public class cScripts {
                 cVars.put("selecteditemname", item.get("type"));
                 cVars.put("selectedprefabid", "");
                 cVars.put("selectedprefabname", "");
-//                cEditorLogic.state.createObjCode = gScene.THING_ITEM;
                 return;
             }
         }
@@ -152,7 +151,6 @@ public class cScripts {
                 cVars.put("selectedprefabname", block.get("prefabname"));
                 cVars.put("selecteditemid", "");
                 cVars.put("selecteditemname", "");
-//                cEditorLogic.state.createObjCode = gScene.THING_PREFAB;
                 return;
             }
         }
