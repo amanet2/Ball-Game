@@ -27,7 +27,9 @@ public class cBotsLogic {
         behaviors.put("flagmaster", new gDoableThing(){
             public void doItem(gThing p) {
                 String flagmasterid = nServer.instance().clientArgsMap.get("server").get("state");
-                if(flagmasterid.equals(p.get("id")))
+                if(flagmasterid == null)
+                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
+                else if(p.contains("id") && flagmasterid.equals(p.get("id")))
                     cBotsLogic.runFromNearestPlayer(p);
                 else if(flagmasterid.length() > 0)
                     cBotsLogic.goToFlagPlayer(p);

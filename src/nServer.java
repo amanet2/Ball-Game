@@ -159,6 +159,8 @@ public class nServer extends Thread implements fNetBase {
         if(nServer.instance().clientArgsMap.containsKey("server")
         && nServer.instance().clientArgsMap.get("server").containsKey("state"))
             keys.put("state", clientArgsMap.get("server").get("state"));
+        else
+            keys.put("state", "");
         keys.put("win", cVars.get("winnerid"));
         return keys;
     }
