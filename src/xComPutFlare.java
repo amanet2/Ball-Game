@@ -16,7 +16,6 @@ public class xComPutFlare extends xCom {
                 Integer.parseInt(toks[11]),
                 Integer.parseInt(toks[12])
             );
-            p.put("tag", Integer.toString(eManager.currentMap.scene.flares().size()));
             eManager.currentMap.scene.flares().add(p);
             return "";
         }

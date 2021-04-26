@@ -6,9 +6,6 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("ballx", "0");
-        put("bally", "0");
-        put("blueflagmasterid", "0");
         put("bottime", "0");
         putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
@@ -26,9 +23,6 @@ public class cVars {
         put("delayweap", "1800");
         put("disconnectconfirmed", "0");
         put("disconnecting", "0");
-        put("exitteleportertag", "-1");
-        put("fallkilltime", "800");
-        put("flagmasterid", "");
         put("flagmastertime", "0");
         put("flashlight", "0");
         put("gamescale", "2160");
@@ -36,18 +30,9 @@ public class cVars {
         put("gamewon", "0");
         putInt("gamemode", cGameMode.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
-        put("gameteam", "0");
-        put("gravity", "0");
         put("blockmouseui", "0");
         put("inspawn", "1");
         put("intermissiontime", "-1");
-        put("jumptime", "0");
-        put("jumpheight", "0");
-        put("jumping", "0");
-        put("jumpsquish", "20");
-        put("jumptimemax", "100");
-        put("delayjump", "600");
-        put("kingofflagstime", "0");
         put("knocksoundtime", "0");
         put("knocksoundtimegap", "150");
         put("maploaded", "0");
@@ -56,8 +41,6 @@ public class cVars {
         put("maxstockhp", "500");
         put("maxstockspeed", "200");
         put("popuplivetime", "2000");
-        put("powerupson", sVars.get("powerupsmaxon"));
-        put("powerupstime", "0");
         put("itemid", "0");
         put("prefabid", "0");
         put("selecteditemid", "");
@@ -69,30 +52,19 @@ public class cVars {
         put("quitting", "0");
         put("rechargepow", "12");
         put("rechargehp", "1");
-        put("redflagmasterid", "");
         put("respawnwaittime", "3000");
         put("safezonetime", "-1");
         put("scoremap", "");
-        put("sendpowerup", "");
         put("serversendmapbatchsize", "4");
         put("serveraddbotstime", "0");
         put("showscore", "0");
-        put("sicknessslow", "0");
-        put("sicknessfast", "0");
-        put("spawnprotectionmaxtime", "1000");
-        put("sprint", "0");
-        put("sprinttime", "0");
         put("starttime", "0");
-        put("stockspeed", get("maxstockspeed"));
         put("suppressknocksound", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocitycam", "9");
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
-        put("velocitysuperspeed", "16");
-        put("vfxuialphaflashlight", "128");
-        put("vfxuialphasprint", "128");
         put("vfxuialphahp", "230");
         put("vfxshadowalpha1", "200");
         put("vfxshadowalpha2", "0");
@@ -115,8 +87,6 @@ public class cVars {
         put("vfxwalloutlinealpha2", "255");
         put("vfxwallshadingalpha1", "80");
         put("vfxwallshadingalpha2", "220");
-        put("virusids", "");
-        put("virusresetwaittime", "5000");
         put("virustime", "0");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");

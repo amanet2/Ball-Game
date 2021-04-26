@@ -6,24 +6,10 @@ public class xComGivePoint extends xCom {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String id = toks[1];
-            if (cVars.isOne("gameteam")) {
-//                String color = gScene.getPlayerById(id).get("color");
-//                for (String mapid : cScoreboard.scoresMap.keySet()) {
-//                    if (color.equals(gScene.getPlayerById(mapid).get("color"))) {
-//                        cScoreboard.incrementScoreFieldById(mapid, "score");
-//                        gPlayer givePointPlayer = gScene.getPlayerById(mapid);
-//                        if(givePointPlayer != null) {
-//                            nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
-//                        }
-//                    }
-//                }
-            }
-            else {
-                cScoreboard.incrementScoreFieldById(id, "score");
-                gPlayer givePointPlayer = gScene.getPlayerById(id);
-                if(givePointPlayer != null) {
-                    nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
-                }
+            cScoreboard.incrementScoreFieldById(id, "score");
+            gPlayer givePointPlayer = gScene.getPlayerById(id);
+            if(givePointPlayer != null) {
+                nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
             }
             String[] quietGameModesArray = {
                     Integer.toString(cGameMode.KING_OF_FLAGS),

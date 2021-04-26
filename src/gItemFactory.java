@@ -12,8 +12,6 @@ public class gItemFactory {
         itemLoadMap = new HashMap<>();
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturnSpawnPoint());
         itemLoadMap.put("ITEM_FLAG", new gDoableItemReturnFlag());
-//        itemLoadMap.put("ITEM_FLAGRED", new gDoableItemReturnFlagRed());
-//        itemLoadMap.put("ITEM_FLAGBLUE", new gDoableItemReturnFlagBlue());
 //        itemLoadMap.put("ITEM_SHOTGUN", new gDoableItemReturnShotgun());
         itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturnTeleporterRed());
         itemLoadMap.put("ITEM_TELEPORTER_BLUE", new gDoableItemReturnTeleporterBlue());

@@ -52,8 +52,6 @@ public class dScreenMessages {
         if(uiInterface.inplay) {
             gPlayer userPlayer = cGameLogic.userPlayer();
             if(cScripts.isNetworkGame()) {
-                dFonts.drawRightJustifiedString(g, String.format("%s", cVars.isOne("gameteam") ? "-- TEAM GAME --" : ""),
-                        29 * sSettings.width / 30, sSettings.height - 4 * sSettings.height / 30);
                 long timeleft = cVars.getLong("timeleft");
                 if(timeleft > -1) {
                     if(timeleft < 30000) {
@@ -192,39 +190,34 @@ public class dScreenMessages {
         }
 
         //game alerts
-        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
-            switch(cVars.getInt("gamemode")) {
-                case cGameMode.VIRUS:
-                    if(nServer.instance().clientArgsMap.containsKey("server")
-                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
-                                cGameLogic.userPlayer().get("id"))) {
-                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    break;
-                case cGameMode.FLAG_MASTER:
-                    if(cVars.isVal("flagmasterid", uiInterface.uuid)) {
-                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    else if(cVars.get("flagmasterid").length() > 0){
-                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
-                                sSettings.width / 2, 5*sSettings.height/8);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+//        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
+//            switch(cVars.getInt("gamemode")) {
+//                case cGameMode.VIRUS:
+//                    if(nServer.instance().clientArgsMap.containsKey("server")
+//                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
+//                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
+//                                cGameLogic.userPlayer().get("id"))) {
+//                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    break;
+//                case cGameMode.FLAG_MASTER:
+//                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
+//                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    else if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0){
+//                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
+//                                sSettings.width / 2, 5*sSettings.height/8);
+//                    }
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
         //win lose
         if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
-            if(cVars.isOne("gameteam")) {
-                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("color") + " team wins!",
-                        sSettings.width / 2, 5*sSettings.height/8);
-            }
-            else
-                dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+            dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading
