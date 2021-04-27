@@ -63,7 +63,7 @@ public class sVars {
         keys.put("smoothing", "1");
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");
-        keys.put("timeout", "1000");
+        keys.put("timeout", "3000");
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
         keys.put("vfxenableplayershadow", "1");

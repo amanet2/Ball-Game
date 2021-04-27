@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* for client disconnecting, let the server have a remove_client function that client requests for its id
+    -> like removeplayer/respawnplayer
 * i dont think clearbots needs to be a command
 * WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
 * SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
