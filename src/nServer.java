@@ -21,7 +21,8 @@ public class nServer extends Thread implements fNetBase {
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "fireweapon",
             "removeplayer",
-            "respawnnetplayer"
+            "respawnnetplayer",
+            "requestdisconnect"
     ));
     boolean isPlaying = false;
 
@@ -488,6 +489,9 @@ public class nServer extends Thread implements fNetBase {
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
+            else if(ccmd.contains("requestdisconnect")) {
+                quitClientIds.add(id);
+            }
             else if(ccmd.contains("removeplayer")
                     || ccmd.contains("respawnnetplayer")) { //handle special case for remove/respawn player
                 String[] toks = cmd.split(" ");
