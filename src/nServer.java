@@ -41,7 +41,9 @@ public class nServer extends Thread implements fNetBase {
     }
 
     public void checkForUnhandledQuitters() {
-        cGameLogic.checkDisconnectStatus();
+        if(cVars.isOne("disconnecting")) {
+            disconnect();
+        }
         //other players
         for(String id : clientArgsMap.keySet()) {
 //            System.out.println(id);

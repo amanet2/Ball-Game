@@ -60,7 +60,7 @@ public class nClient extends Thread implements fNetBase {
                     netticks = 0;
                     uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                 }
-                if(receivedPackets.size() < 1 && isDisconnected()) {
+                if(receivedPackets.size() < 1 && isNotDisconnected()) {
                     InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
                     String sendDataString = createSendDataString();
                     byte[] clientSendData = sendDataString.getBytes();
@@ -72,16 +72,10 @@ public class nClient extends Thread implements fNetBase {
                     }
                     clientSocket.send(sendPacket);
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
-                    if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
-                        setDisconnected(1);
-                    }
-                    else {
-                        byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
-                        DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        clientSocket.receive(receivePacket);
-                        receivedPackets.add(receivePacket);
-                    }
+                    byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
                 }
                 uiInterface.networkTime = System.currentTimeMillis()
                         + (long)(1000.0/(double)sVars.getInt("rateclient"));
@@ -130,8 +124,6 @@ public class nClient extends Thread implements fNetBase {
         //key whose presence depends on value of cvar like quitting, disconnecting
         if(cVars.isOne("quitting"))
             keys.put("quit", "");
-        if(cVars.isOne("disconnecting"))
-            keys.put("disconnect", "");
         return keys;
     }
 
@@ -153,7 +145,6 @@ public class nClient extends Thread implements fNetBase {
         //handle removing variables after the fact
         sendMap.remove("netcmdrcv");
         cVars.put("quitconfirmed", cVars.get("quitting"));
-        cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         return sendDataString.toString();
     }
 
@@ -297,7 +288,7 @@ public class nClient extends Thread implements fNetBase {
         hasDisconnected = v;
     }
 
-    boolean isDisconnected() {
+    boolean isNotDisconnected() {
         return hasDisconnected == 0;
     }
 
@@ -311,7 +302,8 @@ public class nClient extends Thread implements fNetBase {
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
         nServer.instance().clientArgsMap = new HashMap<>();
         nServer.instance().clientIds = new ArrayList<>();
-        xCon.ex("load " + sVars.get("defaultmap"));
+//        xCon.ex("load " + sVars.get("defaultmap"));
+        xCon.ex("load ");
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

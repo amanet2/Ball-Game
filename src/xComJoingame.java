@@ -12,8 +12,6 @@ public class xComJoingame extends xCom {
         nClient.instance().setDisconnected(0);
         cVars.put("quitconfirmed", "0");
         cVars.put("quitting", "0");
-        cVars.put("disconnectconfirmed", "0");
-        cVars.put("disconnecting", "0");
         nClient.instance().sendMap = null;
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("canvoteskip", "");

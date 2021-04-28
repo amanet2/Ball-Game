@@ -33,7 +33,6 @@ public class cGameLogic {
                 checkGameState();
             }
             else if(sSettings.net_client) {
-                checkDisconnectStatus();
                 if(userPlayer() == null) {
                     checkHatStatus(); //for spectator mode
                     checkColorStatus(); //for spectator
@@ -101,15 +100,6 @@ public class cGameLogic {
                         p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
                 }
             }
-        }
-    }
-
-    public static void checkDisconnectStatus() {
-        if(sSettings.isServer() && cVars.isOne("disconnecting")) {
-            nServer.instance().disconnect();
-        }
-        else if(sSettings.isClient() && cVars.isOne("disconnectconfirmed")) {
-            nClient.instance().disconnect();
         }
     }
 
