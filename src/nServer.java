@@ -146,9 +146,6 @@ public class nServer extends Thread implements fNetBase {
         keys.put("id", "server");
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
-        keys.remove("disconnect");
-        if(cVars.isOne("disconnecting"))
-            keys.put("disconnect", "");
         //send scores
         keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
