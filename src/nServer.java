@@ -146,11 +146,7 @@ public class nServer extends Thread implements fNetBase {
         keys.put("id", "server");
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
-        //key whose presence depends on value of cvar like quitting, disconnecting
-        keys.remove("quit");
         keys.remove("disconnect");
-        if(cVars.isOne("quitting"))
-            keys.put("quit", "");
         if(cVars.isOne("disconnecting"))
             keys.put("disconnect", "");
         //send scores
@@ -414,9 +410,6 @@ public class nServer extends Thread implements fNetBase {
                     }
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
-                }
-                if(packArgMap.containsKey("quit") || packArgMap.containsKey("disconnect")) {
-                    quitClientIds.add(packId);
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));

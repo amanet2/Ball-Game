@@ -9,7 +9,6 @@ public class xComJoingame extends xCom {
         }
         sSettings.net_client = true;
         sSettings.NET_MODE = sSettings.NET_CLIENT;
-        cVars.put("quitting", "0");
         nClient.instance().sendMap = null;
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("canvoteskip", "");

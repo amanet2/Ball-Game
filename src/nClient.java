@@ -120,9 +120,6 @@ public class nClient extends Thread implements fNetBase {
         }
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
-        //key whose presence depends on value of cvar like quitting, disconnecting
-        if(cVars.isOne("quitting"))
-            keys.put("quit", "");
         return keys;
     }
 

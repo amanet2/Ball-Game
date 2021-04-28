@@ -5,13 +5,7 @@ public class xComQuit extends xCom {
                 return "";
             }
         }
-        if(sSettings.net_client) {
-            xCon.ex("disconnect");
-            xCon.ex("cv_quitting 1");
-        }
-        else {
-            uiInterface.exit();
-        }
+        uiInterface.exit();
         return "";
     }
 }
