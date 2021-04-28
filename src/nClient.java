@@ -303,7 +303,7 @@ public class nClient extends Thread implements fNetBase {
 
     public void disconnect() {
         System.out.println("DISCONNECTING");
-        cVars.put("disconnecting", "0");
+        nClient.instance().addNetCmd("requestdisconnect");
         clientSocket.close();
         if(isAlive())
             interrupt();

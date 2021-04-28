@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* have
+* player doesnt drop flag in flagmaster
+    -> what will this game really be? is flagmaster even necessary?
+        -> We HAVE to use the waypoints for something
 * for client disconnecting, let the server have a remove_client function that client requests for its id
     -> like removeplayer/respawnplayer
 * i dont think clearbots needs to be a command
