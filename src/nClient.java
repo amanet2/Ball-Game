@@ -3,7 +3,6 @@ import java.util.*;
 
 public class nClient extends Thread implements fNetBase {
     private int netticks;
-    private int hasDisconnected = 0;
     HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -60,7 +59,7 @@ public class nClient extends Thread implements fNetBase {
                     netticks = 0;
                     uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                 }
-                if(receivedPackets.size() < 1 && isNotDisconnected()) {
+                if(receivedPackets.size() < 1) {
                     InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
                     String sendDataString = createSendDataString();
                     byte[] clientSendData = sendDataString.getBytes();
@@ -284,16 +283,7 @@ public class nClient extends Thread implements fNetBase {
         return null;
     }
 
-    void setDisconnected(int v) { //needs to be here
-        hasDisconnected = v;
-    }
-
-    boolean isNotDisconnected() {
-        return hasDisconnected == 0;
-    }
-
     public void disconnect() {
-        System.out.println("DISCONNECTING");
         nClient.instance().addNetCmd("requestdisconnect");
         clientSocket.close();
         if(isAlive())

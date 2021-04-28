@@ -21,9 +21,7 @@ public class cVars {
         put("delayhp", "2400");
         put("delaypow", "500");
         put("delayweap", "1800");
-        put("disconnectconfirmed", "0");
         put("disconnecting", "0");
-        put("disconnectclient", "0");
         put("flagmastertime", "0");
         put("flashlight", "0");
         put("gamescale", "2160");

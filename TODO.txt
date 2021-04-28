@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* have
+* DISCONNECT: maybe server can order client to call disconnect when server receives "requestdisconnect"
 * player doesnt drop flag in flagmaster
     -> what will this game really be? is flagmaster even necessary?
         -> We HAVE to use the waypoints for something
