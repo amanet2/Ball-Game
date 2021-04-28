@@ -53,7 +53,6 @@ public class cVars {
         put("safezonetime", "-1");
         put("scoremap", "");
         put("serversendmapbatchsize", "4");
-        put("serveraddbotstime", "0");
         put("showscore", "0");
         put("starttime", "0");
         put("suppressknocksound", "0");

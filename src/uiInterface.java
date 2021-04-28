@@ -36,11 +36,6 @@ public class uiInterface {
                     else
                         cVars.putLong("timeleft", -1);
                 }
-                if(sSettings.net_server && cVars.contains("serveraddbots")
-                        && cVars.getLong("serveraddbotstime") < gameTime) {
-                    nServer.instance().addBots();
-                    cVars.remove("serveraddbots");
-                }
                 while(tickTimeNanos < gameTimeNanos) {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
