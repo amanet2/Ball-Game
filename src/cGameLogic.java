@@ -21,9 +21,6 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            if(cVars.isOne("quitconfirmed")) {
-                uiInterface.exit();
-            }
             if(sSettings.net_server) {
                 nServer.instance().checkForUnhandledQuitters();
                 checkHealthStatus();

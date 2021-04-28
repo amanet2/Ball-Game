@@ -10,7 +10,6 @@ public class xComQuit extends xCom {
             xCon.ex("cv_quitting 1");
         }
         else {
-            xCon.ex("cv_quitconfirmed 1");
             uiInterface.exit();
         }
         return "";

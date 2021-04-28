@@ -143,7 +143,6 @@ public class nClient extends Thread implements fNetBase {
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
         sendMap.remove("netcmdrcv");
-        cVars.put("quitconfirmed", cVars.get("quitting"));
         return sendDataString.toString();
     }
 

@@ -47,7 +47,6 @@ public class cVars {
         put("selecteditemname", "");
         put("selectedprefabname", "");
         put("shotgunmasterids", "");
-        put("quitconfirmed", "0");
         put("quitting", "0");
         put("rechargepow", "12");
         put("rechargehp", "1");
