@@ -181,13 +181,6 @@ public class dScreenMessages {
                 dFonts.setFontColorNormal(g);
             }
         }
-        //safezone timer
-        if(cVars.getInt("gamemode") == cGameMode.SAFE_ZONES) {
-            dFonts.drawCenteredString(g,">>SELF-DESTRUCT IN "+
-                    eUtils.getTimeString(cVars.getLong("safezonetime")-System.currentTimeMillis())
-                    + "<<",
-                    sSettings.width / 2, 5*sSettings.height/8);
-        }
 
         //game alerts
 //        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {

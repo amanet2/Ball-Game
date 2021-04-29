@@ -27,13 +27,11 @@ public class cVars {
         putInt("gamemode", cGameMode.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
         put("blockmouseui", "0");
-        put("inspawn", "1");
         put("intermissiontime", "-1");
         put("maploaded", "0");
         put("newitemname", "");
         put("newprefabname", "room_small");
         put("maxstockhp", "500");
-        put("maxstockspeed", "200");
         put("popuplivetime", "2000");
         put("itemid", "0");
         put("prefabid", "0");
@@ -45,7 +43,6 @@ public class cVars {
         put("rechargepow", "12");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
-        put("safezonetime", "-1");
         put("scoremap", "");
         put("serversendmapbatchsize", "4");
         put("showscore", "0");

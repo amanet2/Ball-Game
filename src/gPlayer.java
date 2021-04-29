@@ -105,19 +105,6 @@ public class gPlayer extends gThing {
         return false;
     }
 
-//    public boolean checkBump(Shape bounds, int ystart) {
-//        //for sidescrolling maps, automatically go up over bumps in stairs, etc.
-//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-//            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
-//                    < bounds.getBounds().getHeight()/2+10) {
-//                putInt("coordy", (int) (getInt("coordy")
-//                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
     public void setHatSpriteFromPath(String newpath) {
         put("pathspritehat", newpath);
         spriteHat = gTextures.getScaledImage(get("pathspritehat"), 150, 300);
@@ -150,8 +137,6 @@ public class gPlayer extends gThing {
         put("weapon", "0");
         put("cooldown", "0");
         put("acceltick", "0");
-        put("sicknessfast", "0");
-        put("sicknessslow", "0");
         put("fv", "0.0");
         put("vel0", "0");
         put("vel1", "0");
