@@ -107,13 +107,9 @@ public class xCon {
         visibleCommands.add("putflare");
 
         undoableCommands = new ArrayList<>();
-        undoableCommands.add("e_newflare");
-        undoableCommands.add("e_nextthing");
         undoableCommands.add("putflare");
         undoableCommands.add("putblock");
         undoableCommands.add("putitem");
-        undoableCommands.add("e_selectflare");
-        undoableCommands.add("e_setselectedflare");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
@@ -131,7 +127,6 @@ public class xCon {
         commands.put("clientlist", new xComClientlist());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
-        commands.put("createuserplayer", new xComCreateUserPlayer());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
@@ -139,7 +134,6 @@ public class xCon {
         commands.put("deleteitem", new xComDeleteItem());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
-        commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_delthing", new xComEditorDelThing());
@@ -172,7 +166,6 @@ public class xCon {
         commands.put("putflare", new xComPutFlare());
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
-        commands.put("kickbot", new xComKickBot());
         commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawn", new xComRespawn());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
