@@ -3,7 +3,7 @@ public class xComDisconnect extends xCom {
 
         if(sSettings.net_server) {
             nServer.instance().addExcludingNetCmd("server", "disconnect");
-            cVars.put("disconnecting", "1");
+            nServer.instance().disconnect();
         }
         if(sSettings.net_client) {
             nClient.instance().disconnect(); //leaves it to the server timeout to remove player

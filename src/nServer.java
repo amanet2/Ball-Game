@@ -41,9 +41,6 @@ public class nServer extends Thread implements fNetBase {
     }
 
     public void checkForUnhandledQuitters() {
-        if(cVars.isOne("disconnecting")) {
-            disconnect();
-        }
         //other players
         for(String id : clientArgsMap.keySet()) {
 //            System.out.println(id);
@@ -535,16 +532,13 @@ public class nServer extends Thread implements fNetBase {
     }
 
     public void disconnect() {
-        if(eManager.currentMap.scene.getThingMap("THING_PLAYER").size() < 2) {
-            sSettings.net_server = false;
-            sSettings.NET_MODE = sSettings.NET_OFFLINE;
-            if(isAlive())
-                interrupt();
+        sSettings.net_server = false;
+        sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        if(isAlive())
+            interrupt();
 //                serverSocket.close();
-            xCon.ex("load " + sVars.get("defaultmap"));
-            if (uiInterface.inplay)
-                xCon.ex("pause");
-            cVars.put("disconnecting", "0");
-        }
+        xCon.ex("load " + sVars.get("defaultmap"));
+        if (uiInterface.inplay)
+            xCon.ex("pause");
     }
 }
