@@ -16,8 +16,6 @@ public class cVars {
         put("camplayertrackingindex", "0");
         put("camx", "0");
         put("camy", "0");
-        put("clipplayer", "1");
-        put("collideplayers", "1");
         put("delayhp", "2400");
         put("delaypow", "500");
         put("delayweap", "1800");
@@ -31,8 +29,6 @@ public class cVars {
         put("blockmouseui", "0");
         put("inspawn", "1");
         put("intermissiontime", "-1");
-        put("knocksoundtime", "0");
-        put("knocksoundtimegap", "150");
         put("maploaded", "0");
         put("newitemname", "");
         put("newprefabname", "room_small");
@@ -54,7 +50,6 @@ public class cVars {
         put("serversendmapbatchsize", "4");
         put("showscore", "0");
         put("starttime", "0");
-        put("suppressknocksound", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocitycam", "9");
         put("velocityplayerbase", "8");

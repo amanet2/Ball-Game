@@ -69,12 +69,10 @@ public class gPlayer extends gThing {
                 }
             }
         }
-        if(cVars.isOne("collideplayers")) {
-            for(String id : gScene.getPlayerIds()) {
-                gPlayer target = gScene.getPlayerById(id);
-                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
-                    return false;
-                }
+        for(String id : gScene.getPlayerIds()) {
+            gPlayer target = gScene.getPlayerById(id);
+            if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
+                return false;
             }
         }
         return true;
@@ -91,7 +89,7 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null ) {
+        if(target != null ) {
             //check null fields
             if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                 return false;
@@ -146,7 +144,6 @@ public class gPlayer extends gThing {
         put("id", "");
         put("inteleporter", "0");
         put("accelrate", "100");
-        put("clip", "1");
         put("pathspritehat", "");
         put("pathsprite", "");
         put("weapon", "0");
