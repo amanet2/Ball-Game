@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GFX: players should follow a Y-based "draw in front, draw behind" logic as well
 * DISCONNECT: have server check for requested disconnects in the unhandled quitters loop
 * ISSUE: requestdisconnect doesnt reach the server sometimes
 * DISCONNECT: maybe server can order client to call disconnect when server receives "requestdisconnect"

@@ -70,8 +70,9 @@ public class gPlayer extends gThing {
             }
         }
         for(String id : gScene.getPlayerIds()) {
-            gPlayer target = gScene.getPlayerById(id);
-            if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
+            if(get("id").equals(id))
+                continue;
+            if (willCollideWithPlayerAtCoordsTopDown(gScene.getPlayerById(id), dx, dy)) {
                 return false;
             }
         }
