@@ -1,4 +1,4 @@
-cv_gamemode 7
+cv_gamemode 2
 cv_prefabid 10
 putblock BLOCK_CUBE -1200 2250 1200 150 150 0 190.190.180.255 120.120.200.255 0 0
 cv_prefabid 10

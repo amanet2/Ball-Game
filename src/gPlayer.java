@@ -72,9 +72,8 @@ public class gPlayer extends gThing {
         for(String id : gScene.getPlayerIds()) {
             if(get("id").equals(id))
                 continue;
-            if (willCollideWithPlayerAtCoordsTopDown(gScene.getPlayerById(id), dx, dy)) {
+            if (willCollideWithPlayerAtCoordsTopDown(gScene.getPlayerById(id), dx, dy))
                 return false;
-            }
         }
         return true;
     }
@@ -113,10 +112,6 @@ public class gPlayer extends gThing {
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
-    }
-
-    public boolean isBot() {
-        return get("id") != null && get("id").contains("bot");
     }
 
     public void testDoable() {

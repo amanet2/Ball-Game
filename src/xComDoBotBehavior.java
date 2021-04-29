@@ -3,16 +3,21 @@ public class xComDoBotBehavior extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
             String botid = toks[1];
-            String botbehavior = toks[2];
+            StringBuilder botbehavior = new StringBuilder();
+            for(int i = 2; i < toks.length; i++) {
+                botbehavior.append(" " + toks[i]);
+            }
+            String behaviorString = botbehavior.toString().substring(1);
             gPlayer botPlayer = gScene.getPlayerById(botid);
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
             if(cVars.get("winnerid").length() < 1) {
-                gDoableThing behavior = cBotsLogic.getBehavior(botbehavior);
+                System.out.println(botbehavior.toString());
+                gDoableThing behavior = cBotsLogic.getBehavior(behaviorString);
                 if(behavior != null)
                     behavior.doItem(botPlayer);
                 else
-                    return "botbehavior does not exist: " + botbehavior;
+                    return "botbehavior does not exist: " + botbehavior.toString();
             }
             else {
                 botPlayer.put("mov0", "0");

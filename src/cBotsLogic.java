@@ -19,12 +19,12 @@ public class cBotsLogic {
 
     private static void init() {
         behaviors = new HashMap<>();
-        behaviors.put("goto_player", new gDoableThing(){
+        behaviors.put("Kill Master", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestPlayer(p);
             }
         });
-        behaviors.put("flagmaster", new gDoableThing(){
+        behaviors.put("Flag Master", new gDoableThing(){
             public void doItem(gThing p) {
                 String flagmasterid = nServer.instance().clientArgsMap.get("server").get("state");
                 if(flagmasterid == null)
@@ -37,7 +37,7 @@ public class cBotsLogic {
                     cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
             }
         });
-        behaviors.put("virus", new gDoableThing(){
+        behaviors.put("Virus Master", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.instance().clientArgsMap.containsKey("server")
                         && nServer.instance().clientArgsMap.get("server").containsKey("state")

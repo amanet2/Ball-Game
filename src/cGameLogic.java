@@ -36,17 +36,12 @@ public class cGameLogic {
                 }
             }
             checkMovementStatus();
-
             if(userPlayer() != null) {
-                // methods here need migrating to server
-//                checkMapGravity();
                 cScripts.pointPlayerAtMousePointer();
                 checkHatStatus();
                 checkColorStatus();
-//                checkSprintStatus();
                 checkGameState();
                 checkPlayersFire();
-//                checkForPlayerDeath(); //OLD used for sidescroller falling and safezones
             }
             cScripts.checkBulletSplashes();
         }
