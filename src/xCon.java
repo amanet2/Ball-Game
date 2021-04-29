@@ -12,7 +12,6 @@ public class xCon {
     HashMap<Integer, String> pressBinds;
     static ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
-    static ArrayList<String> undoableCommands;
     static ArrayList<String> stringLines;
     int prevCommandIndex;
     String commandString;
@@ -106,11 +105,6 @@ public class xCon {
         visibleCommands.add("putitem");
         visibleCommands.add("putflare");
 
-        undoableCommands = new ArrayList<>();
-        undoableCommands.add("putflare");
-        undoableCommands.add("putblock");
-        undoableCommands.add("putitem");
-
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
         commands.put("addbot", new xComAddBot());
@@ -175,7 +169,6 @@ public class xCon {
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
         commands.put("sendcmd", new xComSendCmd());
-        commands.put("set", new xComSet());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnanimation", new xComSpawnAnimation());
@@ -297,11 +290,11 @@ public class xCon {
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
             if (cp != null) {
-                if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
-                    cEditorLogic.undoStateStack.push(cEditorLogic.getEditorState());
-                    eManager.currentMap.wasLoaded = 1;
-                    cEditorLogic.redoStateStack.clear();
-                }
+//                if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
+//                    cEditorLogic.undoStateStack.push(cEditorLogic.getEditorState());
+//                    eManager.currentMap.wasLoaded = 1;
+//                    cEditorLogic.redoStateStack.clear();
+//                }
                 if (!visibleCommands.contains(command)) {
                     if (fullCommand.charAt(0) == '-')
                         return cp.undoCommand(fullCommand);
