@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Set;
 
 public class cBotsLogic {
     private static HashMap<String, gDoableThing> behaviors = null;
@@ -8,13 +7,6 @@ public class cBotsLogic {
             init();
         }
         return behaviors.get(key);
-    }
-
-    public static Set<String> behaviors() {
-        if(behaviors == null) {
-            init();
-        }
-        return behaviors.keySet();
     }
 
     private static void init() {

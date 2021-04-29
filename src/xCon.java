@@ -139,15 +139,12 @@ public class xCon {
         commands.put("deleteitem", new xComDeleteItem());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
-        commands.put("dropitem", new xComDropItem());
         commands.put("dumpthingmap", new xComDumpThingMap());
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_delthing", new xComEditorDelThing());
         commands.put("e_openfile", new xComEditorOpenFile());
-        commands.put("e_save", new xComEditorSave());
         commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_setsvars", new xComEditorSetSVars());
         commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("e_undo", new xComEditorUndo());
@@ -160,7 +157,6 @@ public class xCon {
         commands.put("gounspectate", new xComGoUnspectate());
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
-        commands.put("maplist", new xComMaplist());
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
