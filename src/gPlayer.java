@@ -149,7 +149,6 @@ public class gPlayer extends gThing {
         put("hprechargetime", "0");
         put("stockhp", cVars.get("maxstockhp"));
         put("botthinktime", "0");
-        put("powerupsusetime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("test", new gDoableThing(){
