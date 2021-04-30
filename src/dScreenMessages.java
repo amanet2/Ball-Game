@@ -24,7 +24,7 @@ public class dScreenMessages {
                 cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,4*sSettings.height/64);
         }
         //net
-        if(sVars.isOne("shownet")) {
+        if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
             g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
                     0, 6 * sSettings.height / 64);

@@ -1,23 +1,21 @@
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
-	static long gameTimeNanos = System.nanoTime();
-	static long tickCounterTime = gameTime;
-	static long tickTimeNanos = gameTimeNanos;
-	static long framecounterTime = gameTime;
+	private static long gameTimeNanos = System.nanoTime();
+	private static long tickCounterTime = gameTime;
+	private static long tickTimeNanos = gameTimeNanos;
+	private static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
 	static long networkTime = gameTime;
 	static int tickReport = 0;
 	static int fpsReport = 0;
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
-    static int frames = 0;
-    static long lastFrameTime = 0;
+    private static int frames = 0;
     static String uuid = cScripts.createId();
 
-	public static void startTicker() {
+	public static void startGame() {
 	    int ticks = 0;
-
         cScripts.setupGame();
 		while(true) {
             try {
@@ -67,7 +65,7 @@ public class uiInterface {
                 //draw gfx
                 oDisplay.instance().frame.repaint();
                 frames += 1;
-                lastFrameTime = System.currentTimeMillis();
+                long lastFrameTime = System.currentTimeMillis();
                 if (framecounterTime < lastFrameTime) {
                     fpsReport = frames;
                     frames = 0;
@@ -75,9 +73,6 @@ public class uiInterface {
                 }
                 long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                 while(nextFrameTime >= System.nanoTime()); //do nothing
-//                while(nextFrameTime >= System.nanoTime()) {
-//                    Thread.sleep(0, 500);
-//                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
@@ -104,7 +99,6 @@ public class uiInterface {
             cVars.putInt("camy", 0);
         }
 	    else {
-//            xCon.ex("load "+ sVars.get("defaultmap"));
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
             xCon.ex("load");
@@ -113,7 +107,7 @@ public class uiInterface {
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
         addListeners();
-        startTicker();
+        startGame();
 	}
 
 	public static void exit() {

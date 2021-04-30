@@ -274,7 +274,7 @@ public class cGameLogic {
                 //check for server win
                 if(cScoreboard.isTopScoreId("server")) {
                     cVars.put("winnerid", "server");
-                    xCon.ex("say " + sVars.get("playername") + " wins!");
+                    nServer.instance().addNetCmd("echo " + sVars.get("playername") + " wins!");
                     cScoreboard.incrementScoreFieldById("server", "wins");
                 }
                 else {
@@ -282,7 +282,7 @@ public class cGameLogic {
                     String highestId = cScoreboard.getWinnerId();
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
-                        xCon.ex("say "
+                        nServer.instance().addNetCmd("echo "
                                     + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.net_server) {
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");

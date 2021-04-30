@@ -16,7 +16,6 @@ public class uiMenus {
     static final int MENU_HAT = 13;
     static final int MENU_COLOR = 14;
     static final int MENU_CREDITS = 15;
-    static final int MENU_TIMELIMIT = 16;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -36,8 +35,7 @@ public class uiMenus {
         new uiMenusVolume(),
         new uiMenusHat(),
         new uiMenusColor(),
-        new uiMenusCredits(),
-        new uiMenusTimeLimit()
+        new uiMenusCredits()
     };
 
     public static void nextItem() {

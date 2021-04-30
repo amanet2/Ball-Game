@@ -322,7 +322,6 @@ public class cScripts {
     }
 
     public static void setupGame() {
-        cVars.putLong("starttime", System.currentTimeMillis());
         if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
             //spawns player for mapmaker testing
             xCon.ex("gounspectate");

@@ -189,9 +189,9 @@ public class sVars {
     }
 
     public static void loadFromFile(String s) {
+        refresh();
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             xCon.instance().log("Loading Settings File Path: " + s);
-            refresh();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] args = line.split(" ");
