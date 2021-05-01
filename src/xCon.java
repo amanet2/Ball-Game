@@ -146,7 +146,6 @@ public class xCon {
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
         commands.put("mouseleft", new xComMouseLeft());
-        commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());

@@ -1,7 +1,6 @@
 public class xComMouseLeft extends xCom {
     public String doCommand(String fullCommand) {
         if (uiInterface.inplay) {
-//            xCon.ex("attack");
             iMouse.holdingMouseLeft = true;
         }
         else {

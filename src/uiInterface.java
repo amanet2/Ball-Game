@@ -47,11 +47,9 @@ public class uiInterface {
                             break;
                         case sSettings.NET_CLIENT:
                             nClient.instance().processPackets();
-                            break;
-                        default:
-                            if(sSettings.show_mapmaker_ui)
-                                cScripts.selectThingUnderMouse();
                     }
+                    if(sSettings.show_mapmaker_ui)
+                        cScripts.selectThingUnderMouse();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
