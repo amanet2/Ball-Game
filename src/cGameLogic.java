@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class cGameLogic {
@@ -29,7 +28,7 @@ public class cGameLogic {
                 checkForMapChange();
                 checkGameState();
             }
-            else if(sSettings.net_client) {
+            else if(sSettings.NET_MODE == sSettings.NET_CLIENT) {
                 if(userPlayer() == null) {
                     checkHatStatus(); //for spectator mode
                     checkColorStatus(); //for spectator

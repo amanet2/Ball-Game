@@ -22,7 +22,7 @@ public class uiInterface {
                 //inits
                 if(sSettings.net_server && !nServer.instance().isAlive())
                     nServer.instance().start();
-                else if(sSettings.net_client && !nClient.instance().isAlive())
+                else if(sSettings.NET_MODE == sSettings.NET_CLIENT && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
@@ -41,12 +41,16 @@ public class uiInterface {
                     oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
                     gCamera.updatePosition();
-                    if(sSettings.net_server)
-                        nServer.instance().processPackets();
-                    else if(sSettings.net_client)
-                        nClient.instance().processPackets();
-                    else if(sSettings.show_mapmaker_ui) {
-                        cScripts.selectThingUnderMouse();
+                    switch (sSettings.NET_MODE) {
+                        case sSettings.NET_SERVER:
+                            nServer.instance().processPackets();
+                            break;
+                        case sSettings.NET_CLIENT:
+                            nClient.instance().processPackets();
+                            break;
+                        default:
+                            if(sSettings.show_mapmaker_ui)
+                                cScripts.selectThingUnderMouse();
                     }
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");

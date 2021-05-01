@@ -355,6 +355,6 @@ public class cScripts {
     }
 
     public static boolean isNetworkGame() {
-        return sSettings.net_server || sSettings.net_client;
+        return sSettings.net_server || sSettings.NET_MODE == sSettings.NET_CLIENT;
     }
 }

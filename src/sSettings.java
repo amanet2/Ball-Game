@@ -5,8 +5,7 @@ public class sSettings {
 	static String CONFIG_FILE_LOCATION = "config/settings.cfg";
 	static String CONSOLE_LOG_LOCATION_SERVER = "_console_log_server.txt";
 	static String CONSOLE_LOG_LOCATION_CLIENT = "_console_log_client.txt";
-    static boolean net_server = false;
-	static boolean net_client = false;
+    static boolean net_server = false; //legacy
 	static final int NET_OFFLINE = 0;
 	static final int NET_SERVER = 1;
 	static final int NET_CLIENT = 2;
