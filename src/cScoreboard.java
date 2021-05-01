@@ -9,7 +9,7 @@ public class cScoreboard {
             savedWins.put(id, scoresMap.get(id).get("wins"));
         }
         scoresMap = new HashMap<>();
-        if(sSettings.net_server) {
+        if(sSettings.isServer()) {
             for(String id : savedWins.keySet()) {
                 if(!scoresMap.containsKey(id)) {
                     addId(id);

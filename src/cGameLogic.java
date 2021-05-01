@@ -20,19 +20,21 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            if(sSettings.net_server) {
-                nServer.instance().checkForUnhandledQuitters();
-                checkHealthStatus();
-                checkHatStatus();
-                checkColorStatus();
-                checkForMapChange();
-                checkGameState();
-            }
-            else if(sSettings.NET_MODE == sSettings.NET_CLIENT) {
-                if(userPlayer() == null) {
-                    checkHatStatus(); //for spectator mode
-                    checkColorStatus(); //for spectator
-                }
+            switch (sSettings.NET_MODE) {
+                case sSettings.NET_SERVER:
+                    nServer.instance().checkForUnhandledQuitters();
+                    checkHealthStatus();
+                    checkHatStatus();
+                    checkColorStatus();
+                    checkForMapChange();
+                    checkGameState();
+                    break;
+                case sSettings.NET_CLIENT:
+                    if(userPlayer() == null) {
+                        checkHatStatus(); //for spectator mode
+                        checkColorStatus(); //for spectator
+                    }
+                    break;
             }
             checkMovementStatus();
             if(userPlayer() != null) {
@@ -81,7 +83,7 @@ public class cGameLogic {
                     p.put("coordx", cargs.get("x"));
                     p.put("coordy", cargs.get("y"));
                 }
-                if(p.getDouble("fv") != cfv || sSettings.net_server) {
+                if(p.getDouble("fv") != cfv || sSettings.isServer()) {
                     //when you're the server, p.getDouble("fv") ALWAYS == cfv
                     p.putDouble("fv", cfv);
                     cScripts.checkPlayerSpriteFlip(p);
@@ -172,11 +174,13 @@ public class cGameLogic {
     }
 
     public static void checkForMapChange() {
-        if((sSettings.net_server && cVars.getLong("intermissiontime") > 0
-                && cVars.getLong("intermissiontime") < System.currentTimeMillis())) {
-            cVars.put("intermissiontime", "-1");
-            cVars.putInt("timeleft", sVars.getInt("timelimit"));
-            xCon.ex("changemaprandom");
+        if (sSettings.isServer()) {
+            if (cVars.getLong("intermissiontime") > 0
+                    && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
+                cVars.put("intermissiontime", "-1");
+                cVars.putInt("timeleft", sVars.getInt("timelimit"));
+                xCon.ex("changemaprandom");
+            }
         }
     }
 
@@ -186,7 +190,7 @@ public class cGameLogic {
     }
 
     public static void checkGameState() {
-        if(sSettings.net_server && nServer.instance().clientArgsMap.containsKey("server")
+        if(sSettings.isServer() && nServer.instance().clientArgsMap.containsKey("server")
         && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
@@ -230,7 +234,7 @@ public class cGameLogic {
                 xCon.ex("clearthingmap ITEM_FLAG");
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
-        if(sSettings.net_server || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
+        if(sSettings.isServer() || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
             HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             for (String playerId : playerMap.keySet()) {
                 gPlayer player = playerMap.get(playerId);
@@ -262,7 +266,7 @@ public class cGameLogic {
             }
         }
         //check for winlose
-        if(sSettings.net_server && cVars.isZero("gamewon")) {
+        if(sSettings.isServer() && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)
@@ -283,7 +287,7 @@ public class cGameLogic {
                         cVars.put("winnerid", highestId);
                         nServer.instance().addNetCmd("echo "
                                     + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        if(sSettings.net_server) {
+                        if(sSettings.isServer()) {
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                         }
                     }

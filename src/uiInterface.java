@@ -20,14 +20,14 @@ public class uiInterface {
         while(true) {
             try {
                 //inits
-                if(sSettings.net_server && !nServer.instance().isAlive())
+                if(sSettings.isServer() && !nServer.instance().isAlive())
                     nServer.instance().start();
-                else if(sSettings.NET_MODE == sSettings.NET_CLIENT && !nClient.instance().isAlive())
+                else if(sSettings.isClient() && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.net_server) {
+                if(sSettings.isServer()) {
                     if(sVars.getInt("timelimit") > 0)
                         cVars.putLong("timeleft",
                             sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
@@ -118,7 +118,7 @@ public class uiInterface {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
-            xCon.instance().saveLog(sSettings.net_server
+            xCon.instance().saveLog(sSettings.isServer()
                     ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
         try {
             Thread.sleep(500);
