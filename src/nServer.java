@@ -22,7 +22,8 @@ public class nServer extends Thread implements fNetBase {
             "fireweapon",
             "removeplayer",
             "respawnnetplayer",
-            "requestdisconnect"
+            "requestdisconnect",
+            "exec"
     ));
     boolean isPlaying = false;
 
