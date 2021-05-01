@@ -24,4 +24,8 @@ public class sSettings {
 	public static boolean isClient() {
 		return NET_MODE == NET_CLIENT;
 	}
+
+	public static boolean isOffline() {
+		return NET_MODE == NET_OFFLINE;
+	}
 }

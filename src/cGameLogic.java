@@ -234,7 +234,7 @@ public class cGameLogic {
                 xCon.ex("clearthingmap ITEM_FLAG");
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
-        if(sSettings.isServer() || (sSettings.NET_MODE == sSettings.NET_OFFLINE && cGameLogic.userPlayer() != null)) {
+        if(sSettings.isServer() || (sSettings.isOffline()  && cGameLogic.userPlayer() != null)) {
             HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
             for (String playerId : playerMap.keySet()) {
                 gPlayer player = playerMap.get(playerId);
