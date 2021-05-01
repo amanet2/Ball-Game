@@ -7,13 +7,13 @@ public class xComPause extends xCom {
         if(uiInterface.inplay) {
             oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
             xCon.ex("playsound sounds/clampdown.wav");
-            if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame())
-                cScripts.setupGame();
+            if(sSettings.show_mapmaker_ui)
+                xCon.ex("respawn");
         }
         else {
             //delete user player
             xCon.ex("playsound sounds/grenpinpull.wav");
-            if(sSettings.show_mapmaker_ui || !cScripts.isNetworkGame()) {
+            if(sSettings.show_mapmaker_ui) {
                 cGameLogic.setUserPlayer(null);
                 eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
             }

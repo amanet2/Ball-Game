@@ -16,8 +16,8 @@ public class uiInterface {
 
 	public static void startGame() {
 	    int ticks = 0;
-        cScripts.setupGame();
-		while(true) {
+        cGameLogic.resetGameState();
+        while(true) {
             try {
                 //inits
                 if(sSettings.net_server && !nServer.instance().isAlive())

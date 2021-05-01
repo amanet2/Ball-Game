@@ -321,14 +321,6 @@ public class cScripts {
         return new int[]{pfx, pfy};
     }
 
-    public static void setupGame() {
-        if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
-            //spawns player for mapmaker testing
-            xCon.ex("gounspectate");
-        }
-        cGameLogic.resetGameState();
-    }
-
     public static void playPlayerDeathSound() {
         double r = Math.random();
         if(r > .99)
