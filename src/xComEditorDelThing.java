@@ -16,10 +16,30 @@ public class xComEditorDelThing extends xCom {
                         toRemoveCollisionIds.add(id);
                 }
                 for(String id : toRemoveBlockIds) {
-                    xCon.ex("deleteblock " + id);
+                    String cmd = "deleteblock " + id;
+                    switch (sSettings.NET_MODE) {
+                        case sSettings.NET_SERVER:
+                            nServer.instance().addNetCmd(cmd);
+                            break;
+                        case sSettings.NET_CLIENT:
+                            nClient.instance().addNetCmd(cmd);
+                            break;
+                        default:
+                            xCon.ex(cmd);
+                    }
                 }
                 for(String id : toRemoveCollisionIds) {
-                    xCon.ex("deletecollision " + id);
+                    String cmd = "deletecollision " + id;
+                    switch (sSettings.NET_MODE) {
+                        case sSettings.NET_SERVER:
+                            nServer.instance().addNetCmd(cmd);
+                            break;
+                        case sSettings.NET_CLIENT:
+                            nClient.instance().addNetCmd(cmd);
+                            break;
+                        default:
+                            xCon.ex(cmd);
+                    }
                 }
                 return "deleted prefab " + cVars.get("selectedprefabid");
         }
@@ -31,8 +51,19 @@ public class xComEditorDelThing extends xCom {
                         toRemoveItemId = id;
                     }
                 }
-                if(toRemoveItemId.length() > 0)
-                    xCon.ex("deleteitem " + toRemoveItemId);
+                if(toRemoveItemId.length() > 0) {
+                    String cmd = "deleteitem " + toRemoveItemId;
+                    switch (sSettings.NET_MODE) {
+                        case sSettings.NET_SERVER:
+                            nServer.instance().addNetCmd(cmd);
+                            break;
+                        case sSettings.NET_CLIENT:
+                            nClient.instance().addNetCmd(cmd);
+                            break;
+                        default:
+                            xCon.ex(cmd);
+                    }
+                }
                 return "deleted item " + cVars.get("selecteditemid");
         }
         return "nothing to delete";

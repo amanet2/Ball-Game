@@ -24,7 +24,9 @@ public class nServer extends Thread implements fNetBase {
             "respawnnetplayer",
             "requestdisconnect",
             "exec",
-            "e_delthing"
+            "deleteblock",
+            "deletecollision",
+            "deleteitem"
     ));
     boolean isPlaying = false;
 

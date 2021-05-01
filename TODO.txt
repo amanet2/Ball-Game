@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* NET_MAPMAKER: need to refactor the removal of things to be net-compatible
 * NET_MAPMAKER: why wont the selectprefab overlay display/work in online mapmaker
 * ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
 * GAME: in virus, give players infinite ammo
