@@ -20,27 +20,17 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            switch (sSettings.NET_MODE) {
-                case sSettings.NET_SERVER:
-                    nServer.instance().checkForUnhandledQuitters();
-                    checkHealthStatus();
-                    checkHatStatus();
-                    checkColorStatus();
-                    checkForMapChange();
-                    checkGameState();
-                    break;
-                case sSettings.NET_CLIENT:
-                    if(userPlayer() == null) {
-                        checkHatStatus(); //for spectator mode
-                        checkColorStatus(); //for spectator
-                    }
-                    break;
+            if (sSettings.NET_MODE == sSettings.NET_SERVER) {
+                nServer.instance().checkForUnhandledQuitters();
+                checkHealthStatus();
+                checkForMapChange();
+                checkGameState();
             }
+            checkHatStatus();
+            checkColorStatus();
             checkMovementStatus();
             if(userPlayer() != null) {
                 cScripts.pointPlayerAtMousePointer();
-                checkHatStatus();
-                checkColorStatus();
                 checkGameState();
                 checkPlayersFire();
             }

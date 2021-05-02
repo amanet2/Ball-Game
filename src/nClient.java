@@ -46,7 +46,6 @@ public class nClient extends Thread implements fNetBase {
             eUtils.echoException(e);
             e.printStackTrace();
         }
-
     }
 
     public void run() {

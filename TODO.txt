@@ -4,8 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* NET_MAPMAKER: need to refactor the removal of things to be net-compatible
-* NET_MAPMAKER: why wont the selectprefab overlay display/work in online mapmaker
+* NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
+    -> when starting new game, the player will act as a client on a local, single-machine network
+* NET_MAPMAKER: show all user's preview rect on all clients
+    -> make a client netvar: {..."preview": "x:y:w:h"...}
 * ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
 * GAME: in virus, give players infinite ammo
     -> infected have boxing glove
