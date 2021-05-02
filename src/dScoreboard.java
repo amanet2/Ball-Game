@@ -24,7 +24,7 @@ public class dScoreboard {
                 sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                               Ping",
                 sSettings.width/4,5*sSettings.height/30);
-        g.drawString("-------------------------------------------------------------------",
+        g.drawString("-----------------------------------------------------------",
                 sSettings.width/4, 6*sSettings.height/30);
         int i = 0;
         int prevscore=-1000000;
