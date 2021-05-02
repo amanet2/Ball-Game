@@ -269,7 +269,7 @@ public class cGameLogic {
             }
         }
         //check for winlose
-        if(sSettings.isServer() && cVars.isZero("gamewon")) {
+        if(sSettings.isServer() && !sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)

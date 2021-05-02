@@ -50,3 +50,4 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> start game with "-editor" flag
     -> start server with "newgame"
     -> join with "joingame"
+    -> gospectate/gounspectate work great for dynamic testing

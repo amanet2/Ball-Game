@@ -421,7 +421,6 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
-//        eManager.currentMap = null;
         clearBots();
         oDisplay.instance().clearAndRefresh();
         cVars.put("botbehavior", "");
@@ -450,7 +449,8 @@ public class nServer extends Thread implements fNetBase {
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
-        xCon.ex(String.format("respawnnetplayer %s", packId));
+        if(!sSettings.show_mapmaker_ui)
+            xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
@@ -479,7 +479,6 @@ public class nServer extends Thread implements fNetBase {
             String prefabString = "";
             if(block.contains("prefabid")) {
                 prefabString = "cv_prefabid " + block.get("prefabid");
-//                maplines.add(prefabString + '\n');
                 maplines.add(prefabString);
             }
             StringBuilder blockString = new StringBuilder("putblock");
@@ -488,7 +487,6 @@ public class nServer extends Thread implements fNetBase {
                     blockString.append(" ").append(arg);
                 }
             }
-//            blockString.append('\n');
             maplines.add(blockString.toString());
         }
         HashMap<String, gThing> collisionMap = eManager.currentMap.scene.getThingMap("THING_COLLISION");
@@ -514,7 +512,6 @@ public class nServer extends Thread implements fNetBase {
             String prefabString = "";
             if(collision.contains("prefabid")) {
                 prefabString = "cv_prefabid " + collision.get("prefabid");
-//                maplines.add(prefabString + '\n');
                 maplines.add(prefabString);
             }
             StringBuilder str = new StringBuilder("putcollision");
@@ -523,7 +520,6 @@ public class nServer extends Thread implements fNetBase {
                     str.append(" ").append(arg);
                 }
             }
-//            str.append('\n');
             maplines.add(str.toString());
         }
         HashMap<String, gThing> itemMap = eManager.currentMap.scene.getThingMap("THING_ITEM");
@@ -540,7 +536,6 @@ public class nServer extends Thread implements fNetBase {
                     str.append(" ").append(arg);
                 }
             }
-//            str.append('\n');
             maplines.add(str.toString());
         }
         for(gFlare f : eManager.currentMap.scene.flares()) {
