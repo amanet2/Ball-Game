@@ -17,29 +17,11 @@ public class xComEditorDelThing extends xCom {
                 }
                 for(String id : toRemoveBlockIds) {
                     String cmd = "deleteblock " + id;
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().addNetCmd(cmd);
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().addNetCmd(cmd);
-                            break;
-                        default:
-                            xCon.ex(cmd);
-                    }
+                    cGameLogic.doCommand(cmd);
                 }
                 for(String id : toRemoveCollisionIds) {
                     String cmd = "deletecollision " + id;
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().addNetCmd(cmd);
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().addNetCmd(cmd);
-                            break;
-                        default:
-                            xCon.ex(cmd);
-                    }
+                    cGameLogic.doCommand(cmd);
                 }
                 return "deleted prefab " + cVars.get("selectedprefabid");
         }
@@ -53,16 +35,7 @@ public class xComEditorDelThing extends xCom {
                 }
                 if(toRemoveItemId.length() > 0) {
                     String cmd = "deleteitem " + toRemoveItemId;
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().addNetCmd(cmd);
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().addNetCmd(cmd);
-                            break;
-                        default:
-                            xCon.ex(cmd);
-                    }
+                    cGameLogic.doCommand(cmd);
                 }
                 return "deleted item " + cVars.get("selecteditemid");
         }

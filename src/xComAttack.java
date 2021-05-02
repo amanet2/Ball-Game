@@ -16,17 +16,7 @@ public class xComAttack extends xCom {
                 }
                 if(isflagmaster)
                     return "can't attack while flagmaster";
-                switch (sSettings.NET_MODE) {
-                    case sSettings.NET_SERVER:
-                        nServer.instance().addNetCmd(fireString);
-                        break;
-                    case sSettings.NET_CLIENT:
-                        nClient.instance().addNetCmd(fireString);
-                        break;
-                    case sSettings.NET_OFFLINE:
-                        xCon.ex(fireString);
-                        break;
-                }
+                cGameLogic.doCommand(fireString);
                 br.putLong("cooldown", System.currentTimeMillis()
                         + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }

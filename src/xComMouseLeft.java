@@ -18,16 +18,7 @@ public class xComMouseLeft extends xCom {
                     String cmd = String.format("exec %s/prefabs/%s %d %d",
                             sVars.get("datapath"), cVars.get("newprefabname"),
                             pfx, pfy);
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().addNetCmd(cmd);
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().addNetCmd(cmd);
-                            break;
-                        default:
-                            xCon.ex(cmd);
-                    }
+                    cGameLogic.doCommand(cmd);
                     return "put prefab " + cVars.get("newprefabname");
                 }
                 if(cVars.get("newitemname").length() > 0) {
