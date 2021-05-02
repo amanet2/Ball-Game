@@ -4,9 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GFX: somethings messed up with gfx not 720p
-    -> have config be 1080p, try to open console
-        -> gets fixed when newgame is selected
+* NET_MAPMAKER: edit sendMap to be like saveMap (I LIKE MORE)
+    -> gives us ability to join in the middle of an editing sesh
+    -> could probably replace the existing "savemap" command when its done
 * NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
     -> when starting new game, the player will act as a client on a local, single-machine network
 * NET_MAPMAKER: show all user's preview rect on all clients

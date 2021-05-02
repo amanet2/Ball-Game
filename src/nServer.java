@@ -455,13 +455,112 @@ public class nServer extends Thread implements fNetBase {
     }
 
     private void sendMap(String packId) {
+        //these three are always here
+        ArrayList<String> maplines = new ArrayList<>();
+        maplines.add(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
+        if(cVars.get("botbehavior").length() > 0)
+            maplines.add(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
+        HashMap<String, gThing> blockMap = eManager.currentMap.scene.getThingMap("THING_BLOCK");
+        for(String id : blockMap.keySet()) {
+            gBlock block = (gBlock) blockMap.get(id);
+            String[] args = new String[]{
+                    block.get("type"),
+                    block.get("coordx"),
+                    block.get("coordy"),
+                    block.get("dimw"),
+                    block.get("dimh"),
+                    block.get("toph"),
+                    block.get("wallh"),
+                    block.get("color"),
+                    block.get("colorwall"),
+                    block.get("frontwall"),
+                    block.get("backtop")
+            };
+            String prefabString = "";
+            if(block.contains("prefabid")) {
+                prefabString = "cv_prefabid " + block.get("prefabid");
+//                maplines.add(prefabString + '\n');
+                maplines.add(prefabString);
+            }
+            StringBuilder blockString = new StringBuilder("putblock");
+            for(String arg : args) {
+                if(arg != null) {
+                    blockString.append(" ").append(arg);
+                }
+            }
+//            blockString.append('\n');
+            maplines.add(blockString.toString());
+        }
+        HashMap<String, gThing> collisionMap = eManager.currentMap.scene.getThingMap("THING_COLLISION");
+        for(String id : collisionMap.keySet()) {
+            gCollision collision = (gCollision) collisionMap.get(id);
+            StringBuilder xString = new StringBuilder();
+            StringBuilder yString = new StringBuilder();
+            for(int i = 0; i < collision.xarr.length; i++) {
+                int coordx = collision.xarr[i];
+                xString.append(coordx).append(".");
+            }
+            xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
+            for(int i = 0; i < collision.yarr.length; i++) {
+                int coordy = collision.yarr[i];
+                yString.append(coordy).append(".");
+            }
+            yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
+            String[] args = new String[]{
+                    xString.toString(),
+                    yString.toString(),
+                    Integer.toString(collision.npoints)
+            };
+            String prefabString = "";
+            if(collision.contains("prefabid")) {
+                prefabString = "cv_prefabid " + collision.get("prefabid");
+//                maplines.add(prefabString + '\n');
+                maplines.add(prefabString);
+            }
+            StringBuilder str = new StringBuilder("putcollision");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+//            str.append('\n');
+            maplines.add(str.toString());
+        }
+        HashMap<String, gThing> itemMap = eManager.currentMap.scene.getThingMap("THING_ITEM");
+        for(String id : itemMap.keySet()) {
+            gItem item = (gItem) itemMap.get(id);
+            String[] args = new String[]{
+                    item.get("type"),
+                    item.get("coordx"),
+                    item.get("coordy")
+            };
+            StringBuilder str = new StringBuilder("putitem");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+//            str.append('\n');
+            maplines.add(str.toString());
+        }
+        for(gFlare f : eManager.currentMap.scene.flares()) {
+            int b = f.getInt("flicker");
+            String str = String.format("putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
+                    f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
+                    f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
+                    f.getInt("a2"), b);
+            maplines.add(str);
+        }
+        //
+        // NEW ABOVE, OLD BELOW
+        //
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
-        for(String line : eManager.currentMap.mapLines) {
-            sendStringBuilder.append(line.replace("cmd", "")).append(";");
+        for(String line : maplines) {
+            sendStringBuilder.append(line).append(";");
             linectr++;
             if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == eManager.currentMap.mapLines.size()) {
+                    || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();

@@ -24,7 +24,6 @@ public class eManager {
             String line;
             while ((line = br.readLine()) != null) {
                 xCon.ex(line);
-                eManager.currentMap.mapLines.add(line);
             }
             eManager.currentMap.wasLoaded = 1;
             cVars.put("maploaded", "1");

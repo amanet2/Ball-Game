@@ -6,14 +6,12 @@ import java.util.HashMap;
 
 public class gMap {
     String mapName;
-    ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
 
     private void basicInit() {
         eManager.currentMap = null;
         gTextures.clear();
-        mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
         cVars.put("maploaded", "0");
