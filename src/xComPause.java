@@ -5,21 +5,29 @@ import java.util.LinkedHashMap;
 public class xComPause extends xCom {
     public String doCommand(String fullCommand) {
         uiInterface.inplay = !uiInterface.inplay;
-        if(uiInterface.inplay) {
-            oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-            xCon.ex("playsound sounds/clampdown.wav");
-            if(sSettings.show_mapmaker_ui)
-                xCon.ex("respawn");
-        }
-        else {
-            //delete user player
-            xCon.ex("playsound sounds/grenpinpull.wav");
-            if(sSettings.show_mapmaker_ui) {
-                cGameLogic.setUserPlayer(null);
-                eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
-            }
-            if(sSettings.show_mapmaker_ui)
-                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        switch (sSettings.NET_MODE) {
+            case sSettings.NET_OFFLINE:
+                if (uiInterface.inplay) {
+                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+                    xCon.ex("playsound sounds/clampdown.wav");
+                    if (sSettings.show_mapmaker_ui)
+                        xCon.ex("respawn");
+                } else {
+                    //delete user player
+                    xCon.ex("playsound sounds/grenpinpull.wav");
+                    if (sSettings.show_mapmaker_ui) {
+                        cGameLogic.setUserPlayer(null);
+                        eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
+                    }
+                    if (sSettings.show_mapmaker_ui)
+                        oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+                break;
+            default:
+                if(cGameLogic.userPlayer() != null)
+                    xCon.ex("gospectate");
+                else
+                    xCon.ex("gounspectate");
         }
         return fullCommand;
     }
