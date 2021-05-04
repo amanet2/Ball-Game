@@ -458,8 +458,6 @@ public class nServer extends Thread implements fNetBase {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
-        if(cVars.get("botbehavior").length() > 0)
-            maplines.add(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
         HashMap<String, gThing> blockMap = eManager.currentMap.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -478,8 +476,8 @@ public class nServer extends Thread implements fNetBase {
             };
             String prefabString = "";
             if(block.contains("prefabid")) {
-                prefabString = "cv_prefabid " + block.get("prefabid");
-                maplines.add(prefabString);
+                prefabString = "cv_prefabid " + block.get("prefabid") +";";
+//                maplines.add(prefabString);
             }
             StringBuilder blockString = new StringBuilder("putblock");
             for(String arg : args) {
@@ -487,7 +485,8 @@ public class nServer extends Thread implements fNetBase {
                     blockString.append(" ").append(arg);
                 }
             }
-            maplines.add(blockString.toString());
+//            maplines.add(blockString.toString());
+            maplines.add(prefabString + blockString.toString());
         }
         HashMap<String, gThing> collisionMap = eManager.currentMap.scene.getThingMap("THING_COLLISION");
         for(String id : collisionMap.keySet()) {
@@ -546,9 +545,7 @@ public class nServer extends Thread implements fNetBase {
                     f.getInt("a2"), b);
             maplines.add(str);
         }
-        //
-        // NEW ABOVE, OLD BELOW
-        //
+        //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
         for(String line : maplines) {
@@ -573,6 +570,7 @@ public class nServer extends Thread implements fNetBase {
 
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
+        System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);

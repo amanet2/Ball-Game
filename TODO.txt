@@ -4,7 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* NET_MAPMAKER: blocks deleting/ids get de-synced
+* GAME: why is gounspectate different from the ESC-command in mapmaker
+* NET_MAPMAKER: deleting stuff doesn't match up between server, clients
+    -> it matches on all clients though, when a client does the deleting
+    -> block refresher: blocks are hashed by an ever-incrementing CTR, while multiple blocks can have a prefabid var
+    -> I THINK: maps being loaded in any line order from file has something to do with it
+* NET_PLAY: server should override the client "coords" every so often to keep everything in sync
 * NET_MAPMAKER: after changemap, player state of spawned or not is messed up leading to bad situations
 * NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
     -> when starting new game, the player will act as a client on a local, single-machine network
@@ -19,8 +24,6 @@ FOCUS ITEMS
     -> have server check for requested disconnects in the unhandled quitters loop
     -> maybe server can order client to call disconnect when server receives "requestdisconnect"
         -> client will wait a time before eventually calling "disconnect" on itself
-* player doesnt drop flag in flagmaster
-* i dont think clearbots needs to be a command
 * WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
 * SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
 they just joined the game again.

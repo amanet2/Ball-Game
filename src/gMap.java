@@ -28,8 +28,6 @@ public class gMap {
 				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
-            if(cVars.get("botbehavior").length() > 0)
-                writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
