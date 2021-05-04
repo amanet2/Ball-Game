@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class xComClearThingMap extends xCom {
     public String doCommand(String fullCommand) {
@@ -18,7 +15,7 @@ public class xComClearThingMap extends xCom {
                 }
             }
             if(eManager.currentMap.scene.objectMaps.containsKey(thing_title)) {
-                eManager.currentMap.scene.objectMaps.put(thing_title, new HashMap<>());
+                eManager.currentMap.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
                 if(thing_title.equals("THING_PLAYER"))
                     cGameLogic.setUserPlayer(null);
             }

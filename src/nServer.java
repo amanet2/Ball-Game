@@ -457,7 +457,7 @@ public class nServer extends Thread implements fNetBase {
     private void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
+        maplines.add(String.format("cv_maploaded 0;cv_gamemode %s\n", cVars.get("gamemode")));
         HashMap<String, gThing> blockMap = eManager.currentMap.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -545,6 +545,7 @@ public class nServer extends Thread implements fNetBase {
                     f.getInt("a2"), b);
             maplines.add(str);
         }
+        maplines.add("cv_maploaded 1");
         //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;

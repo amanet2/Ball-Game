@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class xComPause extends xCom {
     public String doCommand(String fullCommand) {
@@ -15,7 +16,7 @@ public class xComPause extends xCom {
             xCon.ex("playsound sounds/grenpinpull.wav");
             if(sSettings.show_mapmaker_ui) {
                 cGameLogic.setUserPlayer(null);
-                eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new HashMap<>());
+                eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
             }
             if(sSettings.show_mapmaker_ui)
                 oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

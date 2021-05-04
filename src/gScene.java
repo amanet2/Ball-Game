@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A scene holds the background and objects for a game
@@ -16,7 +13,7 @@ public class gScene {
     };
 
 	HashMap<String, ArrayList> objectLists;
-	HashMap<String, HashMap> objectMaps;
+	HashMap<String, LinkedHashMap> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
@@ -26,7 +23,7 @@ public class gScene {
 		objectMaps = new HashMap<>();
 		for(String s : object_titles) {
 			objectLists.put(s, new ArrayList<>());
-            objectMaps.put(s, new HashMap<>());
+            objectMaps.put(s, new LinkedHashMap());
             blockIdCtr = 0;
             collisionIdCtr = 0;
         }
@@ -58,13 +55,13 @@ public class gScene {
         }
 	    //OBJECTMAP BELOW
         for(String objectType : objectMaps.keySet()) {
-            toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
+            toReturn.objectMaps.put(objectType, new LinkedHashMap(objectMaps.get(objectType)));
         }
 	    return toReturn;
     }
 
     public void clearPlayers() {
-	    objectMaps.put("THING_PLAYER", new HashMap<>());
+	    objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
 	    cGameLogic.setUserPlayer(null);
     }
 
@@ -72,7 +69,7 @@ public class gScene {
         return objectLists.get("THING_FLARE");
     }
 
-    public HashMap<String, gThing> getThingMap(String thing_title) {
+    public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
     }
 
@@ -86,14 +83,6 @@ public class gScene {
             return eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
         }
         return null;
-    }
-
-    public void setThingMap(String thing_title, HashMap<String, String> nm) {
-	    objectMaps.put(thing_title, nm);
-    }
-
-    public void setPlayersMap(HashMap<String, gPlayer> hm) {
-	    objectMaps.put("THING_PLAYER", hm);
     }
 
     public HashMap<String, gPlayer> playersMap() {

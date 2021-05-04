@@ -4,11 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GAME: why is gounspectate different from the ESC-command in mapmaker
+* GAME: why is gounspectate different from the ESC-command in mapmaker, combine em?
 * NET_MAPMAKER: deleting stuff doesn't match up between server, clients
     -> it matches on all clients though, when a client does the deleting
     -> block refresher: blocks are hashed by an ever-incrementing CTR, while multiple blocks can have a prefabid var
-    -> I THINK: maps being loaded in any line order from file has something to do with it
+    -> I THINK: maps load in different order for server, but sendMap maintains line order for all clients
+        -> try making the blocks an ordered map
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
 * NET_MAPMAKER: after changemap, player state of spawned or not is messed up leading to bad situations
 * NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
