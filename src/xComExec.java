@@ -7,6 +7,7 @@ public class xComExec extends xCom {
         String s = args[1];
         xCon.instance().debug("Loading exec: " + s);
         if(args.length > 2) {
+            //parse the $ vars for placing prefabs
             for(int i = 2; i < args.length; i++) {
                 sVars.put(String.format("$%d", i-1), args[i]);
             }

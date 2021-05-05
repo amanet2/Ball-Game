@@ -650,7 +650,6 @@ public class nServer extends Thread implements fNetBase {
         if(isAlive())
             interrupt();
 //                serverSocket.close();
-        xCon.ex("load " + sVars.get("defaultmap"));
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

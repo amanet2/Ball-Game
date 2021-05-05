@@ -25,6 +25,8 @@ public class gScene {
         }
         blockIdCtr = 0;
         collisionIdCtr = 0;
+        itemIdCtr = 0;
+        flareIdCtr = 0;
 	}
 
 	public int getHighestPrefabId() {

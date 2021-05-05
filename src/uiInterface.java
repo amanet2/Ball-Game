@@ -91,7 +91,7 @@ public class uiInterface {
 	}
 
 	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection(eUtils.getPath(""),sVars.get("mapextension"));
+	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection(eUtils.getPath("prefabs"));
