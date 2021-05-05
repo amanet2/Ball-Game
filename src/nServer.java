@@ -537,13 +537,30 @@ public class nServer extends Thread implements fNetBase {
             }
             maplines.add(str.toString());
         }
-        for(gFlare f : eManager.currentMap.scene.flares()) {
-            int b = f.getInt("flicker");
-            String str = String.format("putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
-                    f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
-                    f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
-                    f.getInt("a2"), b);
-            maplines.add(str);
+        HashMap<String, gThing> flareMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+        for(String id : flareMap.keySet()) {
+            gFlare flare = (gFlare) flareMap.get(id);
+            String[] args = new String[]{
+                    flare.get("coordx"),
+                    flare.get("coordy"),
+                    flare.get("dimw"),
+                    flare.get("dimh"),
+                    flare.get("r1"),
+                    flare.get("g1"),
+                    flare.get("b1"),
+                    flare.get("a1"),
+                    flare.get("r2"),
+                    flare.get("g2"),
+                    flare.get("b2"),
+                    flare.get("a2")
+            };
+            StringBuilder str = new StringBuilder("putflare");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+            maplines.add(str.toString());
         }
         maplines.add("cv_maploaded 1");
         //iterate through the maplines and send in batches

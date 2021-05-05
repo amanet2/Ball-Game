@@ -5,28 +5,26 @@ import java.util.*;
  * play scenario.
  */
 public class gScene {
-    static final String[] object_titles = new String[]{
+    private static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL",
         "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE", "ITEM_SHOTGUN",
         "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
-	HashMap<String, ArrayList> objectLists;
 	HashMap<String, LinkedHashMap> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
+	int flareIdCtr;
 
 	public gScene() {
-		objectLists = new HashMap<>();
 		objectMaps = new HashMap<>();
 		for(String s : object_titles) {
-			objectLists.put(s, new ArrayList<>());
             objectMaps.put(s, new LinkedHashMap());
-            blockIdCtr = 0;
-            collisionIdCtr = 0;
         }
+        blockIdCtr = 0;
+        collisionIdCtr = 0;
 	}
 
 	public int getHighestPrefabId() {
@@ -48,11 +46,7 @@ public class gScene {
 
 	public gScene copy() {
 	    gScene toReturn = new gScene();
-	    toReturn.objectLists = new HashMap<>();
 	    toReturn.objectMaps = new HashMap<>();
-	    for(String s : object_titles) {
-	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
-        }
 	    //OBJECTMAP BELOW
         for(String objectType : objectMaps.keySet()) {
             toReturn.objectMaps.put(objectType, new LinkedHashMap(objectMaps.get(objectType)));
@@ -63,10 +57,6 @@ public class gScene {
     public void clearPlayers() {
 	    objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
 	    cGameLogic.setUserPlayer(null);
-    }
-
-    public ArrayList<gFlare> flares() {
-        return objectLists.get("THING_FLARE");
     }
 
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
