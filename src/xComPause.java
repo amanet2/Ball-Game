@@ -24,10 +24,12 @@ public class xComPause extends xCom {
                 }
                 break;
             default:
-                if(cGameLogic.userPlayer() != null)
-                    xCon.ex("gospectate");
-                else
-                    xCon.ex("gounspectate");
+                if(sSettings.show_mapmaker_ui) {
+                    if(cGameLogic.userPlayer() != null)
+                        xCon.ex("gospectate");
+                    else
+                        xCon.ex("gounspectate");
+                }
         }
         return fullCommand;
     }

@@ -205,6 +205,12 @@ public class iInput {
                             xCon.ex("e_saveas");
                         }
                         break;
+                    case KeyEvent.VK_E:
+                        if(iKeyboard.ctrlMode) {
+                            iKeyboard.ctrlMode = false;
+                            xCon.ex("exportasprefab");
+                        }
+                        break;
                     default:
                         break;
                 }

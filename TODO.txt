@@ -4,7 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GENERAL: move prefabs out to "prefabs" folder
 * GAME: squish on respawn
 * GAME: starts in the normal game are messed up
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
@@ -27,6 +26,7 @@ FOCUS ITEMS
     -> maybe server can order client to call disconnect when server receives "requestdisconnect"
         -> client will wait a time before eventually calling "disconnect" on itself
 * WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
+    -> ..., "waypoints": "x:y:arrow/x:y:arrow", ...
 * SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
 they just joined the game again.
     -> takes a lot of the headache out of changing map after end of each round
