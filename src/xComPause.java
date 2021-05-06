@@ -12,7 +12,8 @@ public class xComPause extends xCom {
                     xCon.ex("playsound sounds/clampdown.wav");
                     if (sSettings.show_mapmaker_ui)
                         xCon.ex("respawn");
-                } else {
+                }
+                else {
                     //delete user player
                     xCon.ex("playsound sounds/grenpinpull.wav");
                     if (sSettings.show_mapmaker_ui) {
@@ -23,12 +24,20 @@ public class xComPause extends xCom {
                         oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
                 break;
-            default:
+            case sSettings.NET_CLIENT:
                 if(sSettings.show_mapmaker_ui) {
                     if(cGameLogic.userPlayer() != null)
                         xCon.ex("gospectate");
                     else
                         xCon.ex("gounspectate");
+                }
+                break;
+            case sSettings.NET_SERVER:
+                if(sSettings.show_mapmaker_ui) {
+                    if(cGameLogic.userPlayer() != null)
+                        xCon.ex("gospectate");
+                    else
+                        xCon.ex("respawn");
                 }
         }
         return fullCommand;

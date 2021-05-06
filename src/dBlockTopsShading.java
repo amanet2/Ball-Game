@@ -25,16 +25,28 @@ public class dBlockTopsShading {
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),
                     new Color(0, 0, 0, cVars.getInt("vfxroofshadingalpha2")));
-//            GradientPaint gradient = new GradientPaint(
-//                    sSettings.width/2,0,
-//                    new Color(0,0,0, cVars.getInt("vfxroofoutlinealpha1")),
-//                    sSettings.width/2, sSettings.height,
-//                    new Color(0,0,0,cVars.getInt("vfxroofoutlinealpha2")));
-//            GradientPaint gradient2 = new GradientPaint(
-//                    sSettings.width/2,0,
-//                    new Color(0,0,0, cVars.getInt("vfxroofshadingalpha1")),
-//                    sSettings.width/2, sSettings.height,
-//                    new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
+//            if(block.getInt("wallh") < 200) {
+//                gradient = new GradientPaint(
+//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
+//                                - cVars.getInt("camx")),
+//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowoutlinealpha1")),
+//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
+//                                - cVars.getInt("camx")),
+//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+//                                + block.getInt("toph")),
+//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowoutlinealpha2")));
+//                gradient2 = new GradientPaint(
+//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
+//                                - cVars.getInt("camx")),
+//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowshadingalpha1")),
+//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
+//                                - cVars.getInt("camx")),
+//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+//                                + block.getInt("toph")),
+//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowshadingalpha2")));
+//            }
             g2.setPaint(gradient);
             g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
@@ -43,11 +55,6 @@ public class dBlockTopsShading {
                     eUtils.scaleInt(5),
                     eUtils.scaleInt(5)
             );
-//            g2.drawLine(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx") + block.getInt("dimw")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy"))
-//            );
             g2.setPaint(gradient2);
             g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
@@ -61,16 +68,6 @@ public class dBlockTopsShading {
         g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
         if (sVars.isOne("vfxenableshading")) {
-//            GradientPaint gradient = new GradientPaint(
-//                    sSettings.width/2,0,
-//                    new Color(0,0,0, cVars.getInt("vfxroofoutlinealpha1")),
-//                    sSettings.width/2, sSettings.height,
-//                    new Color(0,0,0,cVars.getInt("vfxroofoutlinealpha2")));
-//            GradientPaint gradient2 = new GradientPaint(
-//                    sSettings.width/2,0,
-//                    new Color(0,0,0, cVars.getInt("vfxroofshadingalpha1")),
-//                    sSettings.width/2, sSettings.height,
-//                    new Color(0,0,0,cVars.getInt("vfxroofshadingalpha2")));
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
                             - cVars.getInt("camx")),
