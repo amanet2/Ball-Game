@@ -25,7 +25,7 @@ public class gMap {
 
 	public void saveAs(String filename) {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
+				new FileOutputStream("maps/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
             writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");

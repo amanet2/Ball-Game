@@ -4,10 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* MAPS: maps should load from "maps" folder
-    -> REPLACE load with exec for loading maps e.g. in xcomEditorOpenFile (choose file)
-        -> keep "load" as an argless console command for clearing everything
-        -> for "newgame" usage, have to redo how mapselection is built up
 * EDITOR: only place/delete items if mapmaker already in focus
 * GAME: squish on respawn
 * GAME: starts in the normal game are messed up
