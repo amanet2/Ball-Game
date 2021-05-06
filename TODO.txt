@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* EDITOR: only place/delete items if mapmaker already in focus
+* GENERAL: move prefabs out to "prefabs" folder
 * GAME: squish on respawn
 * GAME: starts in the normal game are messed up
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)

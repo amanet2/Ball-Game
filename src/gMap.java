@@ -146,7 +146,7 @@ public class gMap {
 
     public void exportasprefab(String filename) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
+                new FileOutputStream("prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
                 gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
                 int coordx = block.getInt("coordx");

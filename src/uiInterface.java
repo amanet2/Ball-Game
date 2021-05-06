@@ -94,7 +94,7 @@ public class uiInterface {
 	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
-        eManager.prefabSelection = eManager.getFilesSelection(eUtils.getPath("prefabs"));
+        eManager.prefabSelection = eManager.getFilesSelection("prefabs");
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
             cVars.putInt("camx", 0);

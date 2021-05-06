@@ -16,9 +16,7 @@ public class xComMouseLeft extends xCom {
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h / 2,
                                 cEditorLogic.state.snapToY);
                         cVars.putInt("prefabid", eManager.currentMap.scene.getHighestPrefabId());
-                        String cmd = String.format("exec %s/prefabs/%s %d %d",
-                                sVars.get("datapath"), cVars.get("newprefabname"),
-                                pfx, pfy);
+                        String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
                         cGameLogic.doCommand(cmd);
                         return "put prefab " + cVars.get("newprefabname");
                     }
