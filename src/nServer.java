@@ -421,19 +421,12 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
-        clearBots();
-        oDisplay.instance().clearAndRefresh();
-        cVars.put("botbehavior", "");
-        if(!mapPath.contains(sVars.get("datapath")))
-            mapPath = eUtils.getPath(mapPath);
-        eManager.currentMap.scene.clearPlayers();
-        eManager.loadMap(mapPath);
-        oDisplay.instance().createPanels();
-        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
+        xCon.ex("exec maps/" + mapPath);
+        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
         xCon.ex("respawn");
         for(String id : clientIds) {
             sendMap(id);
-            String postString = String.format("cv_maploaded 1;spawnplayer %s %s %s",
+            String postString = String.format("spawnplayer %s %s %s",
                     cGameLogic.userPlayer().get("id"),
                     cGameLogic.userPlayer().get("coordx"),
                     cGameLogic.userPlayer().get("coordy")
