@@ -4,7 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* NET_MAPMAKER: have server sync its IdCtr vars with all clients
 * EDITOR: only place/delete items if mapmaker already in focus
 * GAME: squish on respawn
 * GAME: starts in the normal game are messed up
