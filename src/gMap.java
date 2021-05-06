@@ -27,7 +27,7 @@ public class gMap {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream("maps/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
+            writer.write(String.format("load\ncv_maploaded 0\ncv_gamemode %s\n", cVars.get("gamemode")));
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
@@ -135,6 +135,7 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
+            writer.write("cv_maploaded 1\n");
             System.out.println("SAVED " + filename);
             wasLoaded = 1;
 		} catch (IOException e) {
