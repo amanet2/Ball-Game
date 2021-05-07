@@ -289,7 +289,7 @@ public class cGameLogic {
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
                         nServer.instance().addNetCmd("echo "
-                                    + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
+                                + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
                         if(sSettings.isServer())
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                     }

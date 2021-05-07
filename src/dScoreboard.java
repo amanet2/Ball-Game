@@ -36,6 +36,8 @@ public class dScoreboard {
                 if(scoretoks[i].split("-")[0].length() > 0)
                     id = scoretoks[i].split("-")[0];
             }
+            if(!nServer.instance().clientArgsMap.containsKey(id))
+                continue;
             String playername = nServer.instance().clientArgsMap.get(id).get("name");
             String playercolor = nServer.instance().clientArgsMap.get(id).get("color");
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
