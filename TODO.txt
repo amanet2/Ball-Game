@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * ISSUE: lots of stuff is broken because the server has an isplaying() flag
+    -> needs to turn on/off with presence of server player
     -> server needs to be headless and clients need to be the "player" part
         -> no "server player".  there are "servers" and "players" exclusively
 * ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
