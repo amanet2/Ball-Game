@@ -23,9 +23,11 @@ public class gMap {
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
-	public void saveAs(String filename) {
+	public void saveAs(String filename, String foldername) {
+        if(foldername == null || foldername.strip().length() < 1)
+            foldername="maps";
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream("maps/" + filename), StandardCharsets.UTF_8))) {
+				new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
             writer.write(String.format("load\ncv_maploaded 0\ncv_gamemode %s\n", cVars.get("gamemode")));
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
