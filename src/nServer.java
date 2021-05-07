@@ -24,6 +24,7 @@ public class nServer extends Thread implements fNetBase {
             "respawnnetplayer",
             "requestdisconnect",
             "exec",
+            "putitem",
             "deleteblock",
             "deletecollision",
             "deleteitem"

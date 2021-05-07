@@ -239,14 +239,6 @@ cv_prefabid 57
 putblock BLOCK_CUBE -1200 -2400 1200 300 0 300 190.190.180.255 120.120.200.255 0 0
 cv_prefabid 57
 putblock BLOCK_CUBE -300 -1350 300 150 150 0 190.190.180.255 120.120.200.255 0 0
-cv_prefabid 58
-putblock BLOCK_FLOOR -1200 -1200 1200 1200 100.100.60.255
-cv_prefabid 58
-putblock BLOCK_CUBE -1200 -1200 300 1200 1200 0 190.190.180.255 120.120.200.255 0 0
-cv_prefabid 58
-putblock BLOCK_CUBE -1200 -150 1200 150 150 0 190.190.180.255 120.120.200.255 0 0
-cv_prefabid 58
-putblock BLOCK_CUBE -300 -1200 300 300 0 300 190.190.180.255 120.120.200.255 0 0
 cv_prefabid 59
 putblock BLOCK_FLOOR -1200 -3600 1200 1200 100.100.60.255
 cv_prefabid 59
@@ -267,6 +259,24 @@ cv_prefabid 63
 putblock BLOCK_CUBE -150 -1800 300 300 0 300 190.190.180.255 120.120.200.255 0 0
 cv_prefabid 64
 putblock BLOCK_CORNERLL -900 -300 300 150 150 0 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 67
+putblock BLOCK_CUBE -450 -550 300 150 150 0 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 67
+putblock BLOCK_CUBE -450 -550 300 300 0 300 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 68
+putblock BLOCK_CUBE -750 -1950 300 150 150 0 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 68
+putblock BLOCK_CUBE -750 -1950 300 300 0 300 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 69
+putblock BLOCK_CORNERUR -300 -1200 300 450 150 300 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 70
+putblock BLOCK_FLOOR -1200 -1200 1200 1200 100.100.60.255
+cv_prefabid 70
+putblock BLOCK_CUBE -1200 -1200 300 1200 1200 0 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 70
+putblock BLOCK_CUBE -1200 -150 1200 150 150 0 190.190.180.255 120.120.200.255 0 0
+cv_prefabid 70
+putblock BLOCK_CUBE -300 -1200 300 300 0 300 190.190.180.255 120.120.200.255 0 0
 cv_prefabid 42
 putcollision -450.-150.-150.-450 1450.1450.1600.1600 4
 cv_prefabid 43
@@ -373,10 +383,6 @@ cv_prefabid 57
 putcollision -1200.-900.-900.-1200 -2400.-2400.-1200.-1200 4
 cv_prefabid 57
 putcollision -1200.0.0.-1200 -2350.-2350.-2200.-2200 4
-cv_prefabid 58
-putcollision -1200.-900.-900.-1200 -1200.-1200.0.0 4
-cv_prefabid 58
-putcollision -300.0.0.-300 -1150.-1150.-1000.-1000 4
 cv_prefabid 60
 putcollision -900.-600.-900 -2200.-2200.-2050 3
 cv_prefabid 61
@@ -385,9 +391,20 @@ cv_prefabid 62
 putcollision -150.150.150.-150 -1950.-1950.-1800.-1800 4
 cv_prefabid 63
 putcollision -150.150.150.-150 -1750.-1750.-1600.-1600 4
+cv_prefabid 67
+putcollision -450.-150.-150.-450 -500.-500.-350.-350 4
+cv_prefabid 68
+putcollision -750.-450.-450.-750 -1900.-1900.-1750.-1750 4
+cv_prefabid 69
+putcollision -300.0.0 -1000.-1000.-850 3
+cv_prefabid 70
+putcollision -1200.-900.-900.-1200 -1200.-1200.0.0 4
+cv_prefabid 70
+putcollision -300.0.0.-300 -1150.-1150.-1000.-1000 4
 putitem ITEM_SPAWNPOINT 2850 1650
 putitem ITEM_SPAWNPOINT 2850 -1950
 putitem ITEM_SPAWNPOINT 450 -1950
 putitem ITEM_SPAWNPOINT -750 450
 putitem ITEM_FLAG 1600 -50
+putitem ITEM_SPAWNPOINT -750 -1350
 cv_maploaded 1
