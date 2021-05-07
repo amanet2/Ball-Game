@@ -34,10 +34,14 @@ public class xComPause extends xCom {
                 break;
             case sSettings.NET_SERVER:
                 if(sSettings.show_mapmaker_ui) {
-                    if(cGameLogic.userPlayer() != null)
+                    if(cGameLogic.userPlayer() != null) {
+                        nServer.instance().isPlaying = false;
                         xCon.ex("gospectate");
-                    else
+                    }
+                    else {
                         xCon.ex("respawn");
+                        nServer.instance().isPlaying = true;
+                    }
                 }
         }
         return fullCommand;
