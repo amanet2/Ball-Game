@@ -22,7 +22,7 @@ public class uiInterface {
                 //inits
                 if(sSettings.isServer() && !nServer.instance().isAlive())
                     nServer.instance().start();
-                else if(sSettings.isClient() && !nClient.instance().isAlive())
+                if(sSettings.isClient() && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();

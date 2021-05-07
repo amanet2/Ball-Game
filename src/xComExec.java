@@ -15,9 +15,8 @@ public class xComExec extends xCom {
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#') {
+                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
                     xCon.ex(line);
-                }
             }
         }
         catch (Exception e) {

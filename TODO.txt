@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
 * GFX: shade the lower boxes/cubs a little darker than the high walls
 * NET_MAPMAKER: server doesnt appear doing the esc-to-enter thing
 * GAME: squish on respawn

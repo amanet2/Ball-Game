@@ -8,11 +8,9 @@ public class xComEditorOpenFile extends xCom {
             File workingDirectory = new File("maps");
             fileChooser.setCurrentDirectory(workingDirectory);
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                if(xCon.getInt("e_showlossalert") > 0) {
+                if(xCon.getInt("e_showlossalert") > 0)
                     return "";
-                }
                 File file = fileChooser.getSelectedFile();
-//                xCon.ex("load " + file.getPath());
                 xCon.ex("exec " + file.getPath());
                 cEditorLogic.refreshGametypeCheckBoxMenuItems();
             }
