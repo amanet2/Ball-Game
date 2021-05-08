@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 public class xCon {
     private static xCon instance = null;
-    static HashMap<String, xCom> commands;
+    HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
-    static ArrayList<String> visibleCommands;
+    private ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
-    static ArrayList<String> stringLines;
+    ArrayList<String> stringLines;
     int prevCommandIndex;
     String commandString;
-    static int linesToShowStart;
-    static int linesToShow;
+    int linesToShowStart;
+    int linesToShow;
     int cursorIndex;
 
     public static xCon instance() {
@@ -29,33 +29,15 @@ public class xCon {
         String[] commandTokens = s.split(";");
         StringBuilder result = new StringBuilder();
         for(String com : commandTokens) {
-            result.append(doCommand(com)).append(";");
+            result.append(instance().doCommand(com)).append(";");
         }
         String resultString = result.toString();
         return resultString.substring(0,resultString.length()-1);
     }
 
-    public static String[] ex(String[] s) {
-        String[] r = new String[s.length];
-        r[0] = "No Result: "+ Arrays.toString(s);
-        for(int i = 0; i < s.length; i++) {
-            r[i] = ex(s[i]);
-        }
-        return r;
-    }
-
-    public static int getInt(String s) {
+    public int getInt(String s) {
         System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
-    }
-
-    public static boolean isOne(String s) {
-        return getInt(s) == 1;
-    }
-
-    public static long getLong(String s) {
-        System.out.println("CONSOLE RETURNING LONG: " + s);
-        return Long.parseLong(doCommand(s));
     }
 
     public static int charlimit() {
@@ -197,29 +179,21 @@ public class xCon {
         if(comm.length() > 0) {
             if(comm.charAt(0) == '-') {
                 for(Integer j : xCon.instance().releaseBinds.keySet()) {
-                    if(xCon.instance().releaseBinds.get(j).equals(comm)) {
+                    if(xCon.instance().releaseBinds.get(j).equals(comm))
                         return j;
-                    }
                 }
             }
             for(Integer j : xCon.instance().pressBinds.keySet()) {
-                if(xCon.instance().pressBinds.get(j).equals(comm)) {
+                if(xCon.instance().pressBinds.get(j).equals(comm))
                     return j;
-                }
             }
         }
         return -1;
     }
 
-    public static String doCommand(String fullCommand) {
+    public String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
-            if(args.length > 1) {
-
-            }
-            //
-            // --- NEW ABOVE, OLD BELOW
-            //
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
@@ -261,7 +235,7 @@ public class xCon {
 //                    eManager.currentMap.wasLoaded = 1;
 //                    cEditorLogic.redoStateStack.clear();
 //                }
-                if (!visibleCommands.contains(command)) {
+                if(!visibleCommands.contains(command)) {
                     if (fullCommand.charAt(0) == '-')
                         return cp.undoCommand(fullCommand);
                     else
@@ -271,9 +245,8 @@ public class xCon {
                     stringLines.add(String.format("console:~$ %s", fullCommand));
                     String result = fullCommand.charAt(0) == '-' ? cp.undoCommand(fullCommand)
                         : cp.doCommand(fullCommand);
-                    if (result.length() > 0) {
+                    if (result.length() > 0)
                         stringLines.add(result);
-                    }
                     linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                     return result;
                 }

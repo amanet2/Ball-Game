@@ -24,11 +24,12 @@ public class dScreenMessages {
                 cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
         }
         //net
-        if(cScripts.isNetworkGame() && cScoreboard.scoresMap.containsKey(uiInterface.uuid)
-        && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping") && sVars.isOne("shownet")) {
+        if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-                    0, 6 * sSettings.height / 64);
+            if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
+                    && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+                g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+                        0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
             //camera

@@ -27,9 +27,10 @@ public class xComMouseLeft extends xCom {
                                 cEditorLogic.state.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
                                 cEditorLogic.state.snapToY);
-                        cVars.putInt("itemid", eManager.currentMap.scene.itemIdCtr);
-                        xCon.ex(String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy));
-                        eManager.currentMap.scene.itemIdCtr++;
+                        cVars.putInt("itemid", eManager.currentMap.scene.getHighestItemId());
+                        String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
+                        cGameLogic.doCommand(cmd);
+//                        eManager.currentMap.scene.itemIdCtr++;
                         return "put item " + cVars.get("newitemname");
                     }
                 }

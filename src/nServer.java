@@ -24,6 +24,7 @@ public class nServer extends Thread implements fNetBase {
             "respawnnetplayer",
             "requestdisconnect",
             "exec",
+            "putitem",
             "deleteblock",
             "deletecollision",
             "deleteitem"
@@ -166,7 +167,6 @@ public class nServer extends Thread implements fNetBase {
         try {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
-            clientArgsMap.put("server", netVars);
             if(isPlaying) {
                 HashMap<String, String> keys = new HashMap<>();
                 keys.put("id", uiInterface.uuid);

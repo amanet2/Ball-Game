@@ -66,7 +66,7 @@ public class cEditorLogic {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(xCon.getInt("e_showlossalert") <= 0) {
+                if(xCon.instance().getInt("e_showlossalert") <= 0) {
                     xCon.ex("load");
                 }
             }

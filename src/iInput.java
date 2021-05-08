@@ -195,7 +195,7 @@ public class iInput {
                     case KeyEvent.VK_N:
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
-                            if(xCon.getInt("e_showlossalert") > 0)
+                            if(xCon.instance().getInt("e_showlossalert") > 0)
                                 xCon.ex("load");
                         }
                         break;

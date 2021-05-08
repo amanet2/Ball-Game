@@ -46,6 +46,17 @@ public class gScene {
 	    return idctr;
     }
 
+    public int getHighestItemId() {
+        int idctr = 0;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
+                idctr = item.getInt("itemid") + 1;
+            }
+        }
+        return idctr;
+    }
+
 	public gScene copy() {
 	    gScene toReturn = new gScene();
 	    toReturn.objectMaps = new HashMap<>();
