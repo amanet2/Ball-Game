@@ -286,8 +286,7 @@ public class nClient extends Thread implements fNetBase {
         clientSocket.close();
         nServer.instance().clientArgsMap = new HashMap<>();
         nServer.instance().clientIds = new ArrayList<>();
-//        xCon.ex("load " + sVars.get("defaultmap"));
-        xCon.ex("load ");
+        xCon.ex("load");
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

@@ -53,7 +53,7 @@ public class cEditorLogic {
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
+        JMenuItem exit = new JMenuItem("Exit");
         JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem showControls = new JMenuItem("Show Controls");
 
@@ -66,7 +66,7 @@ public class cEditorLogic {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(xCon.getInt("e_showlossalert") <= 0) {
+                if(xCon.instance().getInt("e_showlossalert") <= 0) {
                     xCon.ex("load");
                 }
             }

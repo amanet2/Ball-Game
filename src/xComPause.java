@@ -12,7 +12,8 @@ public class xComPause extends xCom {
                     xCon.ex("playsound sounds/clampdown.wav");
                     if (sSettings.show_mapmaker_ui)
                         xCon.ex("respawn");
-                } else {
+                }
+                else {
                     //delete user player
                     xCon.ex("playsound sounds/grenpinpull.wav");
                     if (sSettings.show_mapmaker_ui) {
@@ -23,11 +24,34 @@ public class xComPause extends xCom {
                         oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
                 break;
-            default:
-                if(cGameLogic.userPlayer() != null)
-                    xCon.ex("gospectate");
-                else
-                    xCon.ex("gounspectate");
+            case sSettings.NET_CLIENT:
+                if (uiInterface.inplay) {
+                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+                    xCon.ex("playsound sounds/clampdown.wav");
+                }
+                if(sSettings.show_mapmaker_ui) {
+                    if(cGameLogic.userPlayer() != null)
+                        xCon.ex("gospectate");
+                    else {
+                        xCon.ex("gounspectate");
+                    }
+                }
+                break;
+            case sSettings.NET_SERVER:
+                if (uiInterface.inplay) {
+                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+                    xCon.ex("playsound sounds/clampdown.wav");
+                }
+                if(sSettings.show_mapmaker_ui) {
+                    if(cGameLogic.userPlayer() != null) {
+                        nServer.instance().isPlaying = false;
+                        xCon.ex("gospectate");
+                    }
+                    else {
+                        xCon.ex("respawn");
+                        nServer.instance().isPlaying = true;
+                    }
+                }
         }
         return fullCommand;
     }

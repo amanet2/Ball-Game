@@ -195,7 +195,7 @@ public class iInput {
                     case KeyEvent.VK_N:
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
-                            if(xCon.getInt("e_showlossalert") > 0)
+                            if(xCon.instance().getInt("e_showlossalert") > 0)
                                 xCon.ex("load");
                         }
                         break;
@@ -203,6 +203,12 @@ public class iInput {
                         if(iKeyboard.ctrlMode) {
                             iKeyboard.ctrlMode = false;
                             xCon.ex("e_saveas");
+                        }
+                        break;
+                    case KeyEvent.VK_E:
+                        if(iKeyboard.ctrlMode) {
+                            iKeyboard.ctrlMode = false;
+                            xCon.ex("exportasprefab");
                         }
                         break;
                     default:

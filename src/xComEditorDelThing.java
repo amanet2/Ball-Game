@@ -29,9 +29,8 @@ public class xComEditorDelThing extends xCom {
                 String toRemoveItemId = "";
                 for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
                     gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-                    if(item.isVal("itemid", cVars.get("selecteditemid"))) {
+                    if(item.isVal("itemid", cVars.get("selecteditemid")))
                         toRemoveItemId = id;
-                    }
                 }
                 if(toRemoveItemId.length() > 0) {
                     String cmd = "deleteitem " + toRemoveItemId;
