@@ -51,10 +51,9 @@ public class cEditorLogic {
         createNewMenu("Gametype");
 
         JMenuItem open = new JMenuItem("Open");
-        JMenuItem save = new JMenuItem("Save");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem exit = new JMenuItem("Exit (ctrl+q)");
+        JMenuItem exit = new JMenuItem("Exit");
         JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem showControls = new JMenuItem("Show Controls");
 
@@ -67,7 +66,7 @@ public class cEditorLogic {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(xCon.getInt("e_showlossalert") <= 0) {
+                if(xCon.instance().getInt("e_showlossalert") <= 0) {
                     xCon.ex("load");
                 }
             }
@@ -76,15 +75,6 @@ public class cEditorLogic {
         open.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("e_openfile");
-            }
-        });
-
-        save.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(eManager.currentMap.wasLoaded < 1)
-                    xCon.ex("e_saveas");
-                else
-                    xCon.ex("e_save");
             }
         });
 

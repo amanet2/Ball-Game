@@ -4,19 +4,45 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* i dont think clearbots needs to be a command
-* WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
-* SERVER: maybe de-load EVERYTHING in the server on round end and re-init everything with clients acting like
-they just joined the game again.
-    -> takes a lot of the headache out of changing map after end of each round
+* ISSUE: lots of stuff is broken because the server has an isplaying() flag
+    -> needs to turn on/off with presence of server player
+    -> server needs to be headless and clients need to be the "player" part
+        -> no "server player".  there are "servers" and "players" exclusively
+* GAME: starts in the normal game are messed up
+* NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
+    -> limit the "fv" netvar to 2 decimals
+* NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress
+    -> i.e. everyone has to start at the same time or it doesnt look right
+* NET_PLAY: server should override the client "coords" every so often to keep everything in sync
+* NET_MAPMAKER: after changemap, player state of spawned or not is messed up leading to bad situations
+* NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
+    -> when starting new game, the player will act as a client on a local, single-machine network
+* NET_MAPMAKER: show all user's preview rect on all clients
+    -> make a client netvar: {..., "preview": "x:y:w:h", ...}
+* ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
+* GFX: players should follow a Y-based "draw in front, draw behind" logic as well
+* ISSUE: client sendcmd requestdisconnect doesnt reach the server sometimes
+    -> client should wait 1000ms before initiating its quit/disconnect routine
 * sometimes movement smoothing breaks down for other players on client's screen
-* make de-loading and loading maps much simpler and more airtight
-    -> server should instruct client to set currentmap to map(), since client doesnt call "load"
-* feature: online mapmaker
+* ALTERNATE STRATEGY:
+    -> make server completely headless, then run a server instance in the background when done through the ui
+        -> do in a different branch, HEADLESS_SERVER
+        -> we get our dedicated server out of this as well
+###
+### POWER GAP
+###
+* GAME: squish on respawn
+* ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
+* GFX: shade the lower boxes/cubes a little darker than the high walls
+* GAME: in virus, give players infinite ammo
+    -> infected have boxing glove
+    -> survivors have shotguns
+* WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
+    -> ..., "waypoints": "x:y:arrow/x:y:arrow", ...
 * new Item: bonusblock
     -> (make them look like regular blocks)
     -> get its health to 0 and it has a change to spawn a powerup
-        -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate +/-
+        -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
         -> this will be the powerup delivery system.  no placing shotties on map, etc
     -> will respawn after X time
 * Interesting attack:
@@ -28,13 +54,6 @@ they just joined the game again.
         -> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* ALTERNATE STRATEGY:
-    -> make server completely headless, then run a server instance in the background when done through the ui
-        -> do in a different branch, HEADLESS_SERVER
-        -> we get our dedicated server out of this as well
-###
-### POWER GAP
-###
 * FLAGMASTER: player quits holding flag, new joiner ends up with flag desync
     -> server should send some sort of arg to the client in the gamestate to indicate flag location
 * show some indication that timelimit is unlimited

@@ -1,1 +1,1 @@
-load fm_1.map;createuserplayer;respawn;pause
+pause;exec maps/vr1.map;respawn

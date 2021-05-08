@@ -9,7 +9,7 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
-                if(sSettings.net_server) {
+                if(sSettings.isServer()) {
                     player.subtractVal("stockhp", dmg);
                     //store player object's health in outgoing network arg map
                     nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
@@ -28,13 +28,13 @@ public class xComDamagePlayer extends xCom {
                         else {
                             nServer.instance().addNetCmd("echo " + victimname + " died");
                         }
-                        //handle flag carrier dying
-//                        if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
-//                            nServer.instance().clientArgsMap.get("server").put("state", "");
-//                            //this does the same thing as above
-//                            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
-//                                    player.getInt("coordx"), player.getInt("coordy")));
-//                        }
+//                        handle flag carrier dying
+                        if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
+                            nServer.instance().clientArgsMap.get("server").put("state", "");
+                            //this does the same thing as above
+                            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
+                                    player.getInt("coordx"), player.getInt("coordy")));
+                        }
                         //migrate all client death logic here
                         String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                                 + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
@@ -43,7 +43,7 @@ public class xComDamagePlayer extends xCom {
                         nServer.instance().clientArgsMap.get(id).put("respawntime",
                                 Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
                         if(id.equals(uiInterface.uuid)) {
-                            xCon.ex("cv_cammode " + gCamera.MODE_FREE);
+                            cVars.putInt("cammode", gCamera.MODE_FREE);
                         }
                         else {
                             nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);

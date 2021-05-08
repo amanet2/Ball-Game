@@ -6,9 +6,8 @@ public class xComBindList extends xCom {
         xCon.instance().stringLines.add("Current Bindings: ");
         int size = xCon.instance().pressBinds.keySet().size() + xCon.instance().releaseBinds.keySet().size();
         for(Integer j : xCon.instance().releaseBinds.keySet()) {
-            if(xCon.instance().pressBinds.containsKey(j)) {
+            if(xCon.instance().pressBinds.containsKey(j))
                 size--;
-            }
         }
         String[] items = new String[size];
         int ctr = 0;

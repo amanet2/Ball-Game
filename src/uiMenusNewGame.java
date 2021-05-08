@@ -8,7 +8,6 @@ public class uiMenusNewGame extends uiMenu {
 //                String.format("Score Limit [%s]", sVars.get("scorelimit")),
 //                String.format("Number of Bots [%s]", sVars.get("botcount")),
 //                String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay")),
-//                String.format("Powerups on Map [%s]", cVars.get("powerupson")),
         });
     }
     public uiMenusNewGame() {
@@ -16,7 +15,8 @@ public class uiMenusNewGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("newgame;respawn;pause");
+                        xCon.ex("newgame;pause;respawn");
+                        uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                         nServer.instance().isPlaying = true;
                         cScoreboard.addId(uiInterface.uuid);
                     }
@@ -59,13 +59,6 @@ public class uiMenusNewGame extends uiMenu {
 //                        text = String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay"));
 //                    }
 //                },
-//                new uiMenuItem(String.format("Powerups on Map [%s]", cVars.get("powerupson"))){
-//                    public void doItem() {
-//                        int cc = cVars.getInt("powerupson");
-//                        cVars.putInt("powerupson", cc + 1 > sVars.getInt("powerupsmaxon") ? 0 : cc + 1);
-//                        text = String.format("Powerups on Map [%s]", cVars.get("powerupson"));
-//                    }
-//                }
             },
             uiMenus.MENU_MAIN);
     }

@@ -1,12 +1,11 @@
 public class xComDisconnect extends xCom {
     public String doCommand(String fullCommand) {
-        if(sSettings.net_server) {
-//            xCon.ex("clearbots");
-            nServer.instance().addExcludingNetCmd("server", "disconnect");
-            cVars.put("disconnecting", "1");
-        }
-        if(sSettings.net_client) {
-            cVars.put("disconnecting", "1");
+        switch (sSettings.NET_MODE) {
+            case sSettings.NET_SERVER:
+                nServer.instance().addExcludingNetCmd("server", "disconnect");
+                break;
+            case sSettings.NET_CLIENT:
+                nClient.instance().disconnect(); //leaves it to the server timeout to remove player
         }
         return fullCommand;
     }

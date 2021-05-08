@@ -53,7 +53,6 @@ public class sVars {
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
-        keys.put("safezonetime", "20000");
         keys.put("scorelimit", "1000");
         keys.put("sfxrange", "1800");
         keys.put("showtick", "0");
@@ -63,7 +62,7 @@ public class sVars {
         keys.put("smoothing", "1");
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");
-        keys.put("timeout", "1000");
+        keys.put("timeout", "10000");
         keys.put("vfxenableanimations", "1");
         keys.put("vfxenableflares", "1");
         keys.put("vfxenableplayershadow", "1");
@@ -99,9 +98,9 @@ public class sVars {
                 || k.equals("debug") || k.equals("displaymode") || k.equals("fontmode") || k.equals("fontsize")
                 || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
-                || k.equals("rateclient") || k.equals("rateserver") || k.equals("powerupsmaxon")
-                || k.equals("powerupsusetimemax") || k.equals("powerupswaittime") || k.equals("rcvbytesclient")
-                || k.equals("rcvbytesserver") || k.equals("safezonetime")
+                || k.equals("rateclient") || k.equals("rateserver")
+                || k.equals("rcvbytesclient")
+                || k.equals("rcvbytesserver")
                 || k.equals("scorelimit") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
                 || k.equals("smoothing") || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
@@ -190,9 +189,9 @@ public class sVars {
     }
 
     public static void loadFromFile(String s) {
+        refresh();
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             xCon.instance().log("Loading Settings File Path: " + s);
-            refresh();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] args = line.split(" ");

@@ -69,13 +69,11 @@ public class gPlayer extends gThing {
                 }
             }
         }
-        if(cVars.isOne("collideplayers")) {
-            for(String id : gScene.getPlayerIds()) {
-                gPlayer target = gScene.getPlayerById(id);
-                if (!(target.isVal("id", get("id"))) && willCollideWithPlayerAtCoordsTopDown(target, dx, dy)) {
-                    return false;
-                }
-            }
+        for(String id : gScene.getPlayerIds()) {
+            if(get("id").equals(id))
+                continue;
+            if (willCollideWithPlayerAtCoordsTopDown(gScene.getPlayerById(id), dx, dy))
+                return false;
         }
         return true;
     }
@@ -91,7 +89,7 @@ public class gPlayer extends gThing {
     }
 
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
-        if(getInt("clip") == 1 && cVars.isOne("clipplayer") && target != null ) {
+        if(target != null ) {
             //check null fields
             if(!target.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                 return false;
@@ -106,19 +104,6 @@ public class gPlayer extends gThing {
         return false;
     }
 
-//    public boolean checkBump(Shape bounds, int ystart) {
-//        //for sidescrolling maps, automatically go up over bumps in stairs, etc.
-//        if(cVars.getInt("mapview") == gMap.MAP_SIDEVIEW) {
-//            if(bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart
-//                    < bounds.getBounds().getHeight()/2+10) {
-//                putInt("coordy", (int) (getInt("coordy")
-//                        - (bounds.getBounds().getY() + bounds.getBounds().getHeight() - ystart)));
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
     public void setHatSpriteFromPath(String newpath) {
         put("pathspritehat", newpath);
         spriteHat = gTextures.getScaledImage(get("pathspritehat"), 150, 300);
@@ -127,10 +112,6 @@ public class gPlayer extends gThing {
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
-    }
-
-    public boolean isBot() {
-        return get("id") != null && get("id").contains("bot");
     }
 
     public void testDoable() {
@@ -146,14 +127,11 @@ public class gPlayer extends gThing {
         put("id", "");
         put("inteleporter", "0");
         put("accelrate", "100");
-        put("clip", "1");
         put("pathspritehat", "");
         put("pathsprite", "");
         put("weapon", "0");
         put("cooldown", "0");
         put("acceltick", "0");
-        put("sicknessfast", "0");
-        put("sicknessslow", "0");
         put("fv", "0.0");
         put("vel0", "0");
         put("vel1", "0");
@@ -166,7 +144,6 @@ public class gPlayer extends gThing {
         put("hprechargetime", "0");
         put("stockhp", cVars.get("maxstockhp"));
         put("botthinktime", "0");
-        put("powerupsusetime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
         registerDoable("test", new gDoableThing(){
