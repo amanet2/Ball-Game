@@ -37,21 +37,21 @@ public class xComPause extends xCom {
                     }
                 }
                 break;
-            case sSettings.NET_SERVER:
-                if (uiInterface.inplay) {
-                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-                    xCon.ex("playsound sounds/clampdown.wav");
-                }
-                if(sSettings.show_mapmaker_ui) {
-                    if(cGameLogic.userPlayer() != null) {
-                        nServer.instance().isPlaying = false;
-                        xCon.ex("gospectate");
-                    }
-                    else {
-                        xCon.ex("respawn");
-                        nServer.instance().isPlaying = true;
-                    }
-                }
+//            case sSettings.NET_SERVER:
+//                if (uiInterface.inplay) {
+//                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+//                    xCon.ex("playsound sounds/clampdown.wav");
+//                }
+//                if(sSettings.show_mapmaker_ui) {
+//                    if(cGameLogic.userPlayer() != null) {
+//                        nServer.instance().isPlaying = false;
+//                        xCon.ex("gospectate");
+//                    }
+//                    else {
+//                        xCon.ex("respawn");
+//                        nServer.instance().isPlaying = true;
+//                    }
+//                }
         }
         return fullCommand;
     }

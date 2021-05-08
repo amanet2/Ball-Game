@@ -144,9 +144,9 @@ public class cGameLogic {
 
     public static void doCommand(String cmd) {
         switch (sSettings.NET_MODE) {
-            case sSettings.NET_SERVER:
-                nServer.instance().addNetCmd(cmd);
-                break;
+//            case sSettings.NET_SERVER:
+//                nServer.instance().addNetCmd(cmd);
+//                break;
             case sSettings.NET_CLIENT:
                 nClient.instance().addNetCmd(cmd);
                 break;
