@@ -10,6 +10,7 @@ public class xComNewgame extends xCom {
         else {
             xCon.ex(String.format("exec maps/%s", eManager.mapsSelection[toplay]));
         }
+        nServer.instance().start();
         return "new game started";
     }
 }

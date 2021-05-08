@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* ENGINE: Go over server/client relationship
+    -> want server thread dedicated to running game, client thread dedicated to drawing it
+    -> the way quake 3 is described, server, client, and ui should have their own consoles
 * ISSUE: lots of stuff is broken because the server has an isplaying() flag
     -> needs to turn on/off with presence of server player
     -> server needs to be headless and clients need to be the "player" part

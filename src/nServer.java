@@ -165,7 +165,6 @@ public class nServer extends Thread implements fNetBase {
 
     public void processPackets() {
         try {
-//            nVars.update();
             HashMap<String, String> netVars = getNetVars();
             if(isPlaying) {
                 HashMap<String, String> keys = new HashMap<>();
@@ -302,9 +301,7 @@ public class nServer extends Thread implements fNetBase {
 
     public void run() {
         try {
-//            uiInterface.uuid = "server";
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-//            serverSocket.setSoTimeout(sVars.getInt("timeout"));
             while (true) {
                 try {
                     netticks++;

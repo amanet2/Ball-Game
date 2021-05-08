@@ -11,6 +11,7 @@ public class xComJoingame extends xCom {
         nClient.instance().sendMap = null;
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("canvoteskip", "");
+        nClient.instance().start();
         return "joined game";
     }
 }

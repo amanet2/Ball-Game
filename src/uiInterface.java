@@ -20,10 +20,10 @@ public class uiInterface {
         while(true) {
             try {
                 //inits
-                if(sSettings.isServer() && !nServer.instance().isAlive())
-                    nServer.instance().start();
-                if(sSettings.isClient() && !nClient.instance().isAlive())
-                    nClient.instance().start();
+//                if(sSettings.isServer() && !nServer.instance().isAlive())
+//                    nServer.instance().start();
+//                if(sSettings.isClient() && !nClient.instance().isAlive())
+//                    nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
