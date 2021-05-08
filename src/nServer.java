@@ -385,7 +385,7 @@ public class nServer extends Thread {
         System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("exec maps/" + mapPath);
         addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
-        xCon.ex("respawn");
+//        xCon.ex("respawn");
         for(String id : clientIds) {
             sendMap(id);
             String postString = String.format("spawnplayer %s %s %s",
