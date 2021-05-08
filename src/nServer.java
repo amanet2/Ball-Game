@@ -30,7 +30,6 @@ public class nServer extends Thread {
             "deletecollision",
             "deleteitem"
     ));
-    boolean isPlaying = false;
 
     public static nServer instance() {
         if(instance == null)
@@ -165,33 +164,6 @@ public class nServer extends Thread {
     public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
-            if(isPlaying) {
-                HashMap<String, String> keys = new HashMap<>();
-                keys.put("id", uiInterface.uuid);
-                //userplayer vars like coords and dirs and weapon
-                keys.put("color", sVars.get("playercolor"));
-                keys.put("hat", sVars.get("playerhat"));
-                //name for spectator and gameplay
-                keys.put("name", sVars.get("playername"));
-
-                gPlayer userPlayer = cGameLogic.userPlayer();
-                if(userPlayer != null) {
-                    keys.put("x", userPlayer.get("coordx"));
-                    keys.put("y", userPlayer.get("coordy"));
-                    keys.put("fv", userPlayer.get("fv"));
-                    keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
-                            userPlayer.get("mov2"), userPlayer.get("mov3")));
-                    keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
-                            userPlayer.get("vel2"), userPlayer.get("vel3")));
-                    keys.put("weapon", userPlayer.get("weapon"));
-                    keys.put("stockhp", userPlayer.get("stockhp"));
-                }
-                if(clientArgsMap.containsKey(uiInterface.uuid)
-                        && clientArgsMap.get(uiInterface.uuid).containsKey("respawntime")) {
-                    keys.put("respawntime", clientArgsMap.get(uiInterface.uuid).get("respawntime"));
-                }
-                clientArgsMap.put(uiInterface.uuid, keys);
-            }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
                 String receiveDataString = new String(receivePacket.getData());
@@ -261,12 +233,6 @@ public class nServer extends Thread {
             }
         }
         sendDataString = new StringBuilder(netVars.toString()); //using sendmap doesnt work
-        if(isPlaying) {
-            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(uiInterface.uuid));
-            workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-            workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-            sendDataString.append(String.format("@%s", workingmap.toString()));
-        }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {
@@ -438,8 +404,8 @@ public class nServer extends Thread {
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
-//        if(!sSettings.show_mapmaker_ui)
-//            xCon.ex(String.format("respawnnetplayer %s", packId));
+        if(!sSettings.show_mapmaker_ui)
+            xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 

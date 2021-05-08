@@ -28,7 +28,7 @@ public class cGameLogic {
             }
 //            checkHatStatus();
 //            checkColorStatus();
-//            checkMovementStatus();
+            checkMovementStatus();
             if(userPlayer() != null) {
 //                cScripts.pointPlayerAtMousePointer();
                 checkGameStateClient();

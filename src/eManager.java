@@ -68,7 +68,7 @@ public class eManager {
                     }
                     else if(sSettings.IS_CLIENT && nClient.instance().serverArgsMap.get(obj.get("id")).containsKey("vels")){
                         obj.putInt("vel"+i,
-                                Integer.parseInt(nServer.instance().clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
+                                Integer.parseInt(nClient.instance().serverArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
                     }
                 }
             }

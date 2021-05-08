@@ -17,7 +17,6 @@ public class uiMenusNewGame extends uiMenu {
                     public void doItem() {
                         xCon.ex("newgame;pause;respawn");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
-                        nServer.instance().isPlaying = true;
                         cScoreboard.addId(uiInterface.uuid);
                     }
                 },
