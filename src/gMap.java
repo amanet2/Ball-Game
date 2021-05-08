@@ -6,14 +6,12 @@ import java.util.HashMap;
 
 public class gMap {
     String mapName;
-    ArrayList<String> mapLines;
     int wasLoaded;
     gScene scene;
 
     private void basicInit() {
         eManager.currentMap = null;
         gTextures.clear();
-        mapLines = new ArrayList<>();
         scene = new gScene();
         wasLoaded = 0;
         cVars.put("maploaded", "0");
@@ -25,13 +23,13 @@ public class gMap {
 		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
 	}
 
-	public void saveAs(String filename) {
+	public void saveAs(String filename, String foldername) {
+        if(foldername == null || foldername.strip().length() < 1)
+            foldername="maps";
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(sVars.get("datapath") + "/" + filename), StandardCharsets.UTF_8))) {
+				new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
 		    //these three are always here
-            writer.write(String.format("cv_gamemode %s\n", cVars.get("gamemode")));
-            if(cVars.get("botbehavior").length() > 0)
-                writer.write(String.format("cv_botbehavior %s\n", cVars.get("botbehavior")));
+            writer.write(String.format("load\ncv_maploaded 0\ncv_gamemode %s\n", cVars.get("gamemode")));
             HashMap<String, gThing> blockMap = scene.getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
@@ -113,14 +111,33 @@ public class gMap {
                 str.append('\n');
                 writer.write(str.toString());
             }
-            for(gFlare f : scene.flares()) {
-                int b = f.getInt("flicker");
-                String str = String.format("putflare %d %d %d %d %d %d %d %d %d %d %d %d %d\n", f.getInt("coordx"),
-                        f.getInt("coordy"), f.getInt("dimw"), f.getInt("dimh"), f.getInt("r1"), f.getInt("g1"),
-                        f.getInt("b1"), f.getInt("a1"), f.getInt("r2"), f.getInt("g2"), f.getInt("b2"),
-                        f.getInt("a2"), b);
-                writer.write(str);
+            HashMap<String, gThing> flareMap = scene.getThingMap("THING_FLARE");
+            for(String id : flareMap.keySet()) {
+                gFlare flare = (gFlare) flareMap.get(id);
+                String[] args = new String[]{
+                        flare.get("coordx"),
+                        flare.get("coordy"),
+                        flare.get("dimw"),
+                        flare.get("dimh"),
+                        flare.get("r1"),
+                        flare.get("g1"),
+                        flare.get("b1"),
+                        flare.get("a1"),
+                        flare.get("r2"),
+                        flare.get("g2"),
+                        flare.get("b2"),
+                        flare.get("a2")
+                };
+                StringBuilder str = new StringBuilder("putflare");
+                for(String arg : args) {
+                    if(arg != null) {
+                        str.append(" ").append(arg);
+                    }
+                }
+                str.append('\n');
+                writer.write(str.toString());
             }
+            writer.write("cv_maploaded 1\n");
             System.out.println("SAVED " + filename);
             wasLoaded = 1;
 		} catch (IOException e) {
@@ -131,7 +148,7 @@ public class gMap {
 
     public void exportasprefab(String filename) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(sVars.get("datapath") + "/prefabs/" + filename), StandardCharsets.UTF_8))) {
+                new FileOutputStream("prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
                 gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
                 int coordx = block.getInt("coordx");

@@ -33,7 +33,7 @@ public class dPanel extends JPanel {
                 dTileTops.drawTops(g2);
             }
             //mapmaker indicators
-            if(sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+            if(sSettings.show_mapmaker_ui) {
                 dMapmakerOverlay.drawSelectionBoxes(g2);
             }
         }

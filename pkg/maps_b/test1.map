@@ -1,3 +1,5 @@
+load
+cv_maploaded 0
 cv_gamemode 0
 cv_prefabid 8
 putblock BLOCK_CUBE -2100 -1200 300 1200 1200 0 190.190.180.255 120.120.200.255 0 0
@@ -199,3 +201,4 @@ cv_prefabid 8
 putcollision -900.-600.-600.-900 -1150.-1150.-1000.-1000 4
 cv_prefabid 8
 putcollision 0.300.300.0 -1150.-1150.-1000.-1000 4
+cv_maploaded 1

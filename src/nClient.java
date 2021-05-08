@@ -3,7 +3,6 @@ import java.util.*;
 
 public class nClient extends Thread implements fNetBase {
     private int netticks;
-    private int hasDisconnected = 0;
     HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -47,7 +46,6 @@ public class nClient extends Thread implements fNetBase {
             eUtils.echoException(e);
             e.printStackTrace();
         }
-
     }
 
     public void run() {
@@ -60,7 +58,7 @@ public class nClient extends Thread implements fNetBase {
                     netticks = 0;
                     uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                 }
-                if(receivedPackets.size() < 1 && isDisconnected()) {
+                if(receivedPackets.size() < 1) {
                     InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
                     String sendDataString = createSendDataString();
                     byte[] clientSendData = sendDataString.getBytes();
@@ -72,16 +70,10 @@ public class nClient extends Thread implements fNetBase {
                     }
                     clientSocket.send(sendPacket);
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(sendDataString);
-                    if(clientmap.keySet().contains("quit") || clientmap.keySet().contains("disconnect")) {
-                        setDisconnected(1);
-                    }
-                    else {
-                        byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
-                        DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        clientSocket.receive(receivePacket);
-                        receivedPackets.add(receivePacket);
-                    }
+                    byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
                 }
                 uiInterface.networkTime = System.currentTimeMillis()
                         + (long)(1000.0/(double)sVars.getInt("rateclient"));
@@ -127,11 +119,6 @@ public class nClient extends Thread implements fNetBase {
         }
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
-        //key whose presence depends on value of cvar like quitting, disconnecting
-        if(cVars.isOne("quitting"))
-            keys.put("quit", "");
-        if(cVars.isOne("disconnecting"))
-            keys.put("disconnect", "");
         return keys;
     }
 
@@ -152,8 +139,6 @@ public class nClient extends Thread implements fNetBase {
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
         sendMap.remove("netcmdrcv");
-        cVars.put("quitconfirmed", cVars.get("quitting"));
-        cVars.put("disconnectconfirmed", cVars.get("disconnecting"));
         return sendDataString.toString();
     }
 
@@ -293,25 +278,15 @@ public class nClient extends Thread implements fNetBase {
         return null;
     }
 
-    void setDisconnected(int v) { //needs to be here
-        hasDisconnected = v;
-    }
-
-    boolean isDisconnected() {
-        return hasDisconnected == 0;
-    }
-
     public void disconnect() {
-        System.out.println("DISCONNECTING");
-        cVars.put("disconnecting", "0");
-        clientSocket.close();
+        nClient.instance().addNetCmd("requestdisconnect");
         if(isAlive())
             interrupt();
-        sSettings.net_client = false;
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        clientSocket.close();
         nServer.instance().clientArgsMap = new HashMap<>();
         nServer.instance().clientIds = new ArrayList<>();
-        xCon.ex("load " + sVars.get("defaultmap"));
+        xCon.ex("load");
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

@@ -286,7 +286,7 @@ public class cScripts {
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
-        if(sSettings.net_server) {
+        if(sSettings.isServer()) {
             String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
             nServer.instance().addNetCmd(cmdString);
         }
@@ -319,15 +319,6 @@ public class cScripts {
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
                 cEditorLogic.state.snapToY);
         return new int[]{pfx, pfy};
-    }
-
-    public static void setupGame() {
-        cVars.putLong("starttime", System.currentTimeMillis());
-        if(sSettings.show_mapmaker_ui && uiInterface.inplay) {
-            //spawns player for mapmaker testing
-            xCon.ex("gounspectate");
-        }
-        cGameLogic.resetGameState();
     }
 
     public static void playPlayerDeathSound() {
@@ -364,6 +355,6 @@ public class cScripts {
     }
 
     public static boolean isNetworkGame() {
-        return sSettings.net_server || sSettings.net_client;
+        return sSettings.isServer() || sSettings.isClient();
     }
 }

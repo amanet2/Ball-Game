@@ -18,9 +18,8 @@ public class gMessages {
 
     public static void checkMessages() {
         //check individual ids in the cmd queue map
-        if(sSettings.net_server) {
+        if(sSettings.isServer())
             nServer.instance().checkOutgoingCmdMap();
-        }
 
         if(messageSend) {
             if(optionSet) {
