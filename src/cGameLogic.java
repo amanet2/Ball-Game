@@ -20,7 +20,7 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            if (sSettings.NET_MODE == sSettings.NET_SERVER) {
+            if (sSettings.IS_SERVER) {
                 nServer.instance().checkForUnhandledQuitters();
                 checkHealthStatus();
                 checkForMapChange();
@@ -31,7 +31,7 @@ public class cGameLogic {
             checkMovementStatus();
             if(userPlayer() != null) {
                 cScripts.pointPlayerAtMousePointer();
-                checkGameState();
+                checkGameStateClient();
                 checkPlayersFire();
             }
             cScripts.checkBulletSplashes();
@@ -56,6 +56,17 @@ public class cGameLogic {
         }
     }
 
+    public static void checkGameStateClient() {
+        if(sSettings.isClient() && nServer.instance().clientArgsMap.containsKey("server")
+                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+            //gamestate checks, for server AND clients
+            //check to delete flags that should not be present anymore
+            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
+                xCon.ex("clearthingmap ITEM_FLAG");
+        }
+    }
+
     public static void checkMovementStatus() {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
@@ -73,8 +84,7 @@ public class cGameLogic {
                     p.put("coordx", cargs.get("x"));
                     p.put("coordy", cargs.get("y"));
                 }
-                if(p.getDouble("fv") != cfv || sSettings.isServer()) {
-                    //when you're the server, p.getDouble("fv") ALWAYS == cfv
+                if(p.getDouble("fv") != cfv) {
                     p.putDouble("fv", cfv);
                     cScripts.checkPlayerSpriteFlip(p);
                 }
@@ -177,13 +187,11 @@ public class cGameLogic {
     }
 
     public static void checkForMapChange() {
-        if (sSettings.isServer()) {
-            if (cVars.getLong("intermissiontime") > 0
-                    && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
-                cVars.put("intermissiontime", "-1");
-                cVars.putInt("timeleft", sVars.getInt("timelimit"));
-                xCon.ex("changemaprandom");
-            }
+        if (cVars.getLong("intermissiontime") > 0
+                && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
+            cVars.put("intermissiontime", "-1");
+            cVars.putInt("timeleft", sVars.getInt("timelimit"));
+            xCon.ex("changemaprandom");
         }
     }
 
@@ -193,7 +201,7 @@ public class cGameLogic {
     }
 
     public static void checkGameState() {
-        if(sSettings.isServer() && nServer.instance().clientArgsMap.containsKey("server")
+        if(nServer.instance().clientArgsMap.containsKey("server")
         && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
@@ -228,48 +236,38 @@ public class cGameLogic {
                     break;
             }
         }
-        else if(sSettings.isClient() && nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            //gamestate checks, for server AND clients
-            //check to delete flags that should not be present anymore
-            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
-                    && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
-                xCon.ex("clearthingmap ITEM_FLAG");
-        }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
-        if(sSettings.isServer() || (sSettings.isOffline()  && cGameLogic.userPlayer() != null)) {
-            HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
-            for (String playerId : playerMap.keySet()) {
-                gPlayer player = playerMap.get(playerId);
-                //check null fields
-                if (!player.containsFields(new String[]{"coordx", "coordy"}))
-                    break;
-                //check player teleporters
-                int clearTeleporterFlag = 1;
-                for(String checkType : eManager.currentMap.scene.objectMaps.keySet()) {
-                    if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
-                        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkType);
-                        for (String itemId : thingMap.keySet()) {
-                            gItem item = (gItem) thingMap.get(itemId);
-                            if (player.willCollideWithThingAtCoords(item,
-                                    player.getInt("coordx"),
-                                    player.getInt("coordy"))) {
-                                item.activateItem(player);
-                                if(checkType.contains("ITEM_TELEPORTER"))  {
-                                    clearTeleporterFlag = 0;
-                                }
+        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
+        for (String playerId : playerMap.keySet()) {
+            gPlayer player = playerMap.get(playerId);
+            //check null fields
+            if (!player.containsFields(new String[]{"coordx", "coordy"}))
+                break;
+            //check player teleporters
+            int clearTeleporterFlag = 1;
+            for(String checkType : eManager.currentMap.scene.objectMaps.keySet()) {
+                if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
+                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkType);
+                    for (String itemId : thingMap.keySet()) {
+                        gItem item = (gItem) thingMap.get(itemId);
+                        if (player.willCollideWithThingAtCoords(item,
+                                player.getInt("coordx"),
+                                player.getInt("coordy"))) {
+                            item.activateItem(player);
+                            if(checkType.contains("ITEM_TELEPORTER"))  {
+                                clearTeleporterFlag = 0;
                             }
                         }
                     }
                 }
-                //after checking all items
-                if(clearTeleporterFlag > 0) {
-                    player.put("inteleporter", "0");
-                }
+            }
+            //after checking all items
+            if(clearTeleporterFlag > 0) {
+                player.put("inteleporter", "0");
             }
         }
         //check for winlose
-        if(sSettings.isServer() && !sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
+        if(!sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)
@@ -290,8 +288,7 @@ public class cGameLogic {
                         cVars.put("winnerid", highestId);
                         nServer.instance().addNetCmd("echo "
                                 + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        if(sSettings.isServer())
-                            cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
+                        cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);

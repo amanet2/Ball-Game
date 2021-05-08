@@ -11,7 +11,7 @@ public class xComRemovePlayer extends xCom {
             }
             if(id.contains("bot"))
                 eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").remove(id);
-            if(sSettings.isServer()) {
+            if(sSettings.IS_SERVER) {
                 nServer.instance().addExcludingNetCmd("server", fullCommand);
             }
         }

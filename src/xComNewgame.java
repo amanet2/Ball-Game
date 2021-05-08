@@ -11,6 +11,7 @@ public class xComNewgame extends xCom {
             xCon.ex(String.format("exec maps/%s", eManager.mapsSelection[toplay]));
         }
         nServer.instance().start();
+        sSettings.IS_SERVER = true;
         return "new game started";
     }
 }

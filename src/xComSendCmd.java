@@ -7,7 +7,7 @@ public class xComSendCmd extends xCom {
                 pid = "";
             String cmd = fullCommand.replace(toks[0]+" ", "");
             if(cmd.length() > 0) {
-                if (sSettings.isServer()) {
+                if (sSettings.IS_SERVER) {
                     if (pid.length() > 0)
                         nServer.instance().addNetCmd(pid, cmd.replace(pid + " ", ""));
                     else

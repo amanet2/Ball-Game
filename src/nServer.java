@@ -120,7 +120,7 @@ public class nServer extends Thread implements fNetBase {
     void clearBots() {
         if(eManager.currentMap != null) {
             HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(sSettings.isServer() && botsMap.size() > 0) {
+            if(sSettings.IS_SERVER && botsMap.size() > 0) {
                 for(Object id : botsMap.keySet()) {
                     quitClientIds.add((String) id);
                 }
@@ -129,12 +129,10 @@ public class nServer extends Thread implements fNetBase {
     }
 
     void addBots() {
-        if(sSettings.isServer()) {
-            int i = 0;
-            while (i < sVars.getInt("botcount")) {
-                xCon.ex("addbot");
-                i++;
-            }
+        int i = 0;
+        while (i < sVars.getInt("botcount")) {
+            xCon.ex("addbot");
+            i++;
         }
     }
 

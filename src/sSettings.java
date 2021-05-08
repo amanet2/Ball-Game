@@ -17,11 +17,7 @@ public class sSettings {
 	static int width = 1280;
 	static int height = 720;
 	static int framerate = 60;
-
-	public static boolean isServer() {
-		return NET_MODE == NET_SERVER;
-	}
-
+	
 	public static boolean isClient() {
 		return NET_MODE == NET_CLIENT;
 	}

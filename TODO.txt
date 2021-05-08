@@ -5,6 +5,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * ENGINE: Go over server/client relationship
+    -> STEP 1: Get rid of player/respawn ability in server.  Get rid of isServer() and replace with boolean IS_SERVER
+    -> STEP 2: Make client and server threads run in one exe and communicate
     -> want server thread dedicated to running game, client thread dedicated to drawing it
     -> the way quake 3 is described, server, client, and ui should have their own consoles
 * ISSUE: lots of stuff is broken because the server has an isplaying() flag

@@ -19,15 +19,10 @@ public class uiInterface {
         cGameLogic.resetGameState();
         while(true) {
             try {
-                //inits
-//                if(sSettings.isServer() && !nServer.instance().isAlive())
-//                    nServer.instance().start();
-//                if(sSettings.isClient() && !nClient.instance().isAlive())
-//                    nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.isServer()) {
+                if(sSettings.IS_SERVER) {
                     if(sVars.getInt("timelimit") > 0)
                         cVars.putLong("timeleft",
                             sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
@@ -41,22 +36,19 @@ public class uiInterface {
                     oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
                     gCamera.updatePosition();
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().processPackets();
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().processPackets();
-                    }
+                    if(sSettings.IS_SERVER)
+                        nServer.instance().processPackets();
+                    if (sSettings.NET_MODE == sSettings.NET_CLIENT)
+                        nClient.instance().processPackets();
                     if(sSettings.show_mapmaker_ui)
                         cScripts.selectThingUnderMouse();
                     gMessages.checkMessages();
+                    if(sSettings.IS_SERVER)
+                        nServer.instance().checkOutgoingCmdMap();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
-                    if (inplay || cScripts.isNetworkGame()) {
-                        eManager.updateEntityPositions();
-                        cGameLogic.customLoop();
-                    }
+                    eManager.updateEntityPositions();
+                    cGameLogic.customLoop();
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;
@@ -120,7 +112,7 @@ public class uiInterface {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
-            xCon.instance().saveLog(sSettings.isServer()
+            xCon.instance().saveLog(sSettings.IS_SERVER
                     ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
         try {
             Thread.sleep(500);
