@@ -171,14 +171,14 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         else if(eManager.currentMap.scene.playersMap().size() > 0){
-            if(nServer.instance().clientArgsMap.get("server") != null
-            && nServer.instance().clientArgsMap.get("server").get("topscore") != null
-            && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
+            if(nClient.instance().serverArgsMap.get("server") != null
+            && nClient.instance().serverArgsMap.get("server").get("topscore") != null
+            && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
                 if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
-                        + nServer.instance().clientArgsMap.get("server").get("topscore"),
+                        + nClient.instance().serverArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
                 dFonts.setFontColorNormal(g);
             }
@@ -211,8 +211,8 @@ public class dScreenMessages {
 //            }
 //        }
         //win lose
-        if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
-            dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+        if((cVars.get("winnerid").length() > 0 && nClient.instance().serverArgsMap.containsKey(cVars.get("winnerid")))) {
+            dFonts.drawCenteredString(g, nClient.instance().serverArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading

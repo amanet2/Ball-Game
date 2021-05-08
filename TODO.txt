@@ -6,6 +6,7 @@
 FOCUS ITEMS
 * ENGINE: Get Server/Client to run at the same time
     -> Look into the clientargsmap and see where overlap occurs between client and server
+        -> migrate client stuff to client.serverArgsMap
 * ENGINE: Go over server/client relationship
     -> STEP 1: Get rid of player/respawn ability in server.  Get rid of isServer() and replace with boolean IS_SERVER
     -> STEP 2: Make client and server threads run in one exe and communicate

@@ -438,8 +438,8 @@ public class nServer extends Thread {
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
-        if(!sSettings.show_mapmaker_ui)
-            xCon.ex(String.format("respawnnetplayer %s", packId));
+//        if(!sSettings.show_mapmaker_ui)
+//            xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 

@@ -80,9 +80,9 @@ public class dPlayer {
                             (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
-                if(nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                && nServer.instance().clientArgsMap.get("server").get("state").equals(playerId)) {
+                if(nClient.instance().serverArgsMap.containsKey("server")
+                && nClient.instance().serverArgsMap.get("server").containsKey("state")
+                && nClient.instance().serverArgsMap.get("server").get("state").equals(playerId)) {
                     g2.drawImage(gItemFactory.instance().flagSprite,
                             eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
                                     - player.getInt("dimw")/2),

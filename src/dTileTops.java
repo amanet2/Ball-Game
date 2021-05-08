@@ -260,7 +260,7 @@ public class dTileTops {
         //animations
         dAnimations.drawAnimations(g2);
         //safezone pointer
-        dWaypoints.drawWaypoints(g2);
+//        dWaypoints.drawWaypoints(g2);
         //popups
         drawPopups(g);
         //player highlight
@@ -328,8 +328,8 @@ public class dTileTops {
     }
 
     public static void drawPlayerNames(Graphics g, Graphics2D g2) {
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            HashMap<String, String> clientMap = nServer.instance().clientArgsMap.get(id);
+        for(String id : nClient.instance().serverArgsMap.keySet()) {
+            HashMap<String, String> clientMap = nClient.instance().serverArgsMap.get(id);
             gPlayer p = gScene.getPlayerById(id);
             if(p == null || clientMap == null)
                 continue;

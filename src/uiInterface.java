@@ -41,9 +41,9 @@ public class uiInterface {
                         nClient.instance().processPackets();
                     if(sSettings.show_mapmaker_ui)
                         cScripts.selectThingUnderMouse();
-                    gMessages.checkMessages();
                     if(sSettings.IS_SERVER)
                         nServer.instance().checkOutgoingCmdMap();
+                    gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
                     eManager.updateEntityPositions();

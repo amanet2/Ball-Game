@@ -4,6 +4,7 @@ import java.util.*;
 public class nClient extends Thread {
     private int netticks;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -155,12 +156,12 @@ public class nClient extends Thread {
             String argload = toks[i];
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
             String idload = packArgs.get("id");
-            if(!nServer.instance().clientArgsMap.containsKey(idload))
-                nServer.instance().clientArgsMap.put(idload, packArgs);
+            if(!serverArgsMap.containsKey(idload))
+                serverArgsMap.put(idload, packArgs);
             for(String k : packArgs.keySet()) {
-                if(!nServer.instance().clientArgsMap.get(idload).containsKey(k)
-                        || !nServer.instance().clientArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
-                    nServer.instance().clientArgsMap.get(idload).put(k, packArgs.get(k));
+                if(!serverArgsMap.get(idload).containsKey(k)
+                        || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
+                    serverArgsMap.get(idload).put(k, packArgs.get(k));
                 }
             }
             //detect a win message from the server and cancel all movements
@@ -189,7 +190,7 @@ public class nClient extends Thread {
                     String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
                     for(String rf : requiredFields) {
-                        if(!nServer.instance().clientArgsMap.get(idload).containsKey(rf)) {
+                        if(!serverArgsMap.get(idload).containsKey(rf)) {
                             skip = true;
                             break;
                         }
@@ -198,16 +199,16 @@ public class nClient extends Thread {
                         break;
                     if(gScene.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
-                            gScene.getPlayerById(idload).put("coordx", nServer.instance().clientArgsMap.get(idload).get("x"));
-                            gScene.getPlayerById(idload).put("coordy", nServer.instance().clientArgsMap.get(idload).get("y"));
+                            gScene.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            gScene.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
-                        String[] veltoks = nServer.instance().clientArgsMap.get(idload).get("vels").split("-");
+                        String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
                         for (int vel = 0; vel < veltoks.length; vel++) {
                             gScene.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
                         }
                     }
                     if(!packArgs.containsKey("spawnprotected")) {
-                        nServer.instance().clientArgsMap.get(idload).remove("spawnprotected");
+                        serverArgsMap.get(idload).remove("spawnprotected");
                     }
                 }
                 else {
@@ -255,7 +256,7 @@ public class nClient extends Thread {
             }
         }
         if(tr.length() > 0) {
-            nServer.instance().clientArgsMap.remove(tr);
+            serverArgsMap.remove(tr);
             cScoreboard.scoresMap.remove(tr);
             nServer.instance().clientIds.remove(tr);
             eManager.currentMap.scene.playersMap().remove(tr);
@@ -285,7 +286,7 @@ public class nClient extends Thread {
             interrupt();
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
         clientSocket.close();
-        nServer.instance().clientArgsMap = new HashMap<>();
+        serverArgsMap = new HashMap<>();
         nServer.instance().clientIds = new ArrayList<>();
         xCon.ex("load");
         if (uiInterface.inplay)

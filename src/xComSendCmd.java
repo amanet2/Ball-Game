@@ -3,7 +3,8 @@ public class xComSendCmd extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
             String pid = toks[1];
-            if(!nServer.instance().clientArgsMap.containsKey(pid))
+            if((sSettings.IS_SERVER && !nServer.instance().clientArgsMap.containsKey(pid))
+            || (sSettings.IS_CLIENT && !nClient.instance().serverArgsMap.containsKey(pid)))
                 pid = "";
             String cmd = fullCommand.replace(toks[0]+" ", "");
             if(cmd.length() > 0) {
