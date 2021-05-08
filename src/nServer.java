@@ -22,7 +22,12 @@ public class nServer extends Thread implements fNetBase {
             "fireweapon",
             "removeplayer",
             "respawnnetplayer",
-            "requestdisconnect"
+            "requestdisconnect",
+            "exec",
+            "putitem",
+            "deleteblock",
+            "deletecollision",
+            "deleteitem"
     ));
     boolean isPlaying = false;
 
@@ -115,7 +120,7 @@ public class nServer extends Thread implements fNetBase {
     void clearBots() {
         if(eManager.currentMap != null) {
             HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(sSettings.net_server && botsMap.size() > 0) {
+            if(sSettings.isServer() && botsMap.size() > 0) {
                 for(Object id : botsMap.keySet()) {
                     quitClientIds.add((String) id);
                 }
@@ -124,7 +129,7 @@ public class nServer extends Thread implements fNetBase {
     }
 
     void addBots() {
-        if(sSettings.net_server) {
+        if(sSettings.isServer()) {
             int i = 0;
             while (i < sVars.getInt("botcount")) {
                 xCon.ex("addbot");
@@ -162,7 +167,6 @@ public class nServer extends Thread implements fNetBase {
         try {
 //            nVars.update();
             HashMap<String, String> netVars = getNetVars();
-            clientArgsMap.put("server", netVars);
             if(isPlaying) {
                 HashMap<String, String> keys = new HashMap<>();
                 keys.put("id", uiInterface.uuid);
@@ -417,20 +421,12 @@ public class nServer extends Thread implements fNetBase {
 
     void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
-//        eManager.currentMap = null;
-        clearBots();
-        oDisplay.instance().clearAndRefresh();
-        cVars.put("botbehavior", "");
-        if(!mapPath.contains(sVars.get("datapath")))
-            mapPath = eUtils.getPath(mapPath);
-        eManager.currentMap.scene.clearPlayers();
-        eManager.loadMap(mapPath);
-        oDisplay.instance().createPanels();
-        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load ");
+        xCon.ex("exec maps/" + mapPath);
+        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
         xCon.ex("respawn");
         for(String id : clientIds) {
             sendMap(id);
-            String postString = String.format("cv_maploaded 1;spawnplayer %s %s %s",
+            String postString = String.format("spawnplayer %s %s %s",
                     cGameLogic.userPlayer().get("id"),
                     cGameLogic.userPlayer().get("coordx"),
                     cGameLogic.userPlayer().get("coordy")
@@ -446,18 +442,128 @@ public class nServer extends Thread implements fNetBase {
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
-        xCon.ex(String.format("respawnnetplayer %s", packId));
+        if(!sSettings.show_mapmaker_ui)
+            xCon.ex(String.format("respawnnetplayer %s", packId));
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
     private void sendMap(String packId) {
+        //these three are always here
+        ArrayList<String> maplines = new ArrayList<>();
+        maplines.add(String.format("cv_maploaded 0;cv_gamemode %s\n", cVars.get("gamemode")));
+        HashMap<String, gThing> blockMap = eManager.currentMap.scene.getThingMap("THING_BLOCK");
+        for(String id : blockMap.keySet()) {
+            gBlock block = (gBlock) blockMap.get(id);
+            String[] args = new String[]{
+                    block.get("type"),
+                    block.get("coordx"),
+                    block.get("coordy"),
+                    block.get("dimw"),
+                    block.get("dimh"),
+                    block.get("toph"),
+                    block.get("wallh"),
+                    block.get("color"),
+                    block.get("colorwall"),
+                    block.get("frontwall"),
+                    block.get("backtop")
+            };
+            String prefabString = "";
+            if(block.contains("prefabid")) {
+                prefabString = "cv_prefabid " + block.get("prefabid") +";";
+//                maplines.add(prefabString);
+            }
+            StringBuilder blockString = new StringBuilder("putblock");
+            for(String arg : args) {
+                if(arg != null) {
+                    blockString.append(" ").append(arg);
+                }
+            }
+//            maplines.add(blockString.toString());
+            maplines.add(prefabString + blockString.toString());
+        }
+        HashMap<String, gThing> collisionMap = eManager.currentMap.scene.getThingMap("THING_COLLISION");
+        for(String id : collisionMap.keySet()) {
+            gCollision collision = (gCollision) collisionMap.get(id);
+            StringBuilder xString = new StringBuilder();
+            StringBuilder yString = new StringBuilder();
+            for(int i = 0; i < collision.xarr.length; i++) {
+                int coordx = collision.xarr[i];
+                xString.append(coordx).append(".");
+            }
+            xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
+            for(int i = 0; i < collision.yarr.length; i++) {
+                int coordy = collision.yarr[i];
+                yString.append(coordy).append(".");
+            }
+            yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
+            String[] args = new String[]{
+                    xString.toString(),
+                    yString.toString(),
+                    Integer.toString(collision.npoints)
+            };
+            String prefabString = "";
+            if(collision.contains("prefabid")) {
+                prefabString = "cv_prefabid " + collision.get("prefabid");
+                maplines.add(prefabString);
+            }
+            StringBuilder str = new StringBuilder("putcollision");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+            maplines.add(str.toString());
+        }
+        HashMap<String, gThing> itemMap = eManager.currentMap.scene.getThingMap("THING_ITEM");
+        for(String id : itemMap.keySet()) {
+            gItem item = (gItem) itemMap.get(id);
+            String[] args = new String[]{
+                    item.get("type"),
+                    item.get("coordx"),
+                    item.get("coordy")
+            };
+            StringBuilder str = new StringBuilder("putitem");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+            maplines.add(str.toString());
+        }
+        HashMap<String, gThing> flareMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+        for(String id : flareMap.keySet()) {
+            gFlare flare = (gFlare) flareMap.get(id);
+            String[] args = new String[]{
+                    flare.get("coordx"),
+                    flare.get("coordy"),
+                    flare.get("dimw"),
+                    flare.get("dimh"),
+                    flare.get("r1"),
+                    flare.get("g1"),
+                    flare.get("b1"),
+                    flare.get("a1"),
+                    flare.get("r2"),
+                    flare.get("g2"),
+                    flare.get("b2"),
+                    flare.get("a2")
+            };
+            StringBuilder str = new StringBuilder("putflare");
+            for(String arg : args) {
+                if(arg != null) {
+                    str.append(" ").append(arg);
+                }
+            }
+            maplines.add(str.toString());
+        }
+        maplines.add("cv_maploaded 1");
+        //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
-        for(String line : eManager.currentMap.mapLines) {
-            sendStringBuilder.append(line.replace("cmd", "")).append(";");
+        for(String line : maplines) {
+            sendStringBuilder.append(line).append(";");
             linectr++;
             if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == eManager.currentMap.mapLines.size()) {
+                    || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();
@@ -475,6 +581,7 @@ public class nServer extends Thread implements fNetBase {
 
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
+        System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
                 addExcludingNetCmd(id, cmd);
@@ -532,12 +639,10 @@ public class nServer extends Thread implements fNetBase {
     }
 
     public void disconnect() {
-        sSettings.net_server = false;
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
         if(isAlive())
             interrupt();
 //                serverSocket.close();
-        xCon.ex("load " + sVars.get("defaultmap"));
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

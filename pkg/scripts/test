@@ -1,1 +1,1 @@
-load fm2.map;respawn;pause
+pause;exec maps/vr1.map;respawn

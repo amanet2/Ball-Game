@@ -286,7 +286,7 @@ public class cScripts {
                             bullet.getInt("coordx"), bullet.getInt("coordy")));
         eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
-        if(sSettings.net_server) {
+        if(sSettings.isServer()) {
             String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
             nServer.instance().addNetCmd(cmdString);
         }
@@ -355,6 +355,6 @@ public class cScripts {
     }
 
     public static boolean isNetworkGame() {
-        return sSettings.net_server || sSettings.net_client;
+        return sSettings.isServer() || sSettings.isClient();
     }
 }

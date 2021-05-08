@@ -9,7 +9,7 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
-                if(sSettings.net_server) {
+                if(sSettings.isServer()) {
                     player.subtractVal("stockhp", dmg);
                     //store player object's health in outgoing network arg map
                     nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));

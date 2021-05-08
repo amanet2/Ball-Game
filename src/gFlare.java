@@ -15,8 +15,6 @@ public class gFlare extends gThing {
         putInt("g2", g2);
         putInt("b2", b2);
         putInt("a2", a2);
-        putInt("flicker", 0);
         putInt("mode", 1);
-        put("id", cScripts.createId());
     }
 }

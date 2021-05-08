@@ -1,3 +1,5 @@
+load
+cv_maploaded 0
 cv_gamemode 0
 cv_prefabid 7
 putblock BLOCK_FLOOR -1500 1200 1200 1200 100.100.60.255
@@ -172,3 +174,4 @@ putcollision 1800.2100.2100.1800 2450.2450.2600.2600 4
 cv_prefabid 7
 putcollision -1500.-1200.-1200.-1500 1200.1200.2400.2400 4
 putitem ITEM_SPAWNPOINT 0 1800
+cv_maploaded 1

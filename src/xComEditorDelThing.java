@@ -16,10 +16,12 @@ public class xComEditorDelThing extends xCom {
                         toRemoveCollisionIds.add(id);
                 }
                 for(String id : toRemoveBlockIds) {
-                    xCon.ex("deleteblock " + id);
+                    String cmd = "deleteblock " + id;
+                    cGameLogic.doCommand(cmd);
                 }
                 for(String id : toRemoveCollisionIds) {
-                    xCon.ex("deletecollision " + id);
+                    String cmd = "deletecollision " + id;
+                    cGameLogic.doCommand(cmd);
                 }
                 return "deleted prefab " + cVars.get("selectedprefabid");
         }
@@ -27,12 +29,13 @@ public class xComEditorDelThing extends xCom {
                 String toRemoveItemId = "";
                 for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
                     gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-                    if(item.isVal("itemid", cVars.get("selecteditemid"))) {
+                    if(item.isVal("itemid", cVars.get("selecteditemid")))
                         toRemoveItemId = id;
-                    }
                 }
-                if(toRemoveItemId.length() > 0)
-                    xCon.ex("deleteitem " + toRemoveItemId);
+                if(toRemoveItemId.length() > 0) {
+                    String cmd = "deleteitem " + toRemoveItemId;
+                    cGameLogic.doCommand(cmd);
+                }
                 return "deleted item " + cVars.get("selecteditemid");
         }
         return "nothing to delete";

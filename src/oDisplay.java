@@ -87,6 +87,7 @@ public class oDisplay extends JLayeredPane {
                 Integer.parseInt(sVars.get("bgcolor").split(",")[1]),
                 Integer.parseInt(sVars.get("bgcolor").split(",")[2])
         ));
+        createPanels();
 		frame.setContentPane(this);
 		frame.pack();
         frame.setLocationRelativeTo(null);

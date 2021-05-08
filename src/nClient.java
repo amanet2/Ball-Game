@@ -46,7 +46,6 @@ public class nClient extends Thread implements fNetBase {
             eUtils.echoException(e);
             e.printStackTrace();
         }
-
     }
 
     public void run() {
@@ -281,15 +280,13 @@ public class nClient extends Thread implements fNetBase {
 
     public void disconnect() {
         nClient.instance().addNetCmd("requestdisconnect");
-        clientSocket.close();
         if(isAlive())
             interrupt();
-        sSettings.net_client = false;
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        clientSocket.close();
         nServer.instance().clientArgsMap = new HashMap<>();
         nServer.instance().clientIds = new ArrayList<>();
-//        xCon.ex("load " + sVars.get("defaultmap"));
-        xCon.ex("load ");
+        xCon.ex("load");
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

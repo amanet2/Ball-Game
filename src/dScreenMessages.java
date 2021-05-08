@@ -21,13 +21,15 @@ public class dScreenMessages {
         //mousexy for editor
         if(sSettings.show_mapmaker_ui) {
             g.drawString(String.format("Mouse: %d,%d",
-                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,4*sSettings.height/64);
+                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
         }
         //net
         if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-                    0, 6 * sSettings.height / 64);
+            if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
+                    && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+                g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+                        0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
             //camera
@@ -39,7 +41,7 @@ public class dScreenMessages {
                 g.drawString(String.format("Player: %d,%d",
                         cGameLogic.userPlayer().getInt("coordx"),
                         cGameLogic.userPlayer().getInt("coordy")),
-                        0,9*sSettings.height/64);
+                        0,10*sSettings.height/64);
             }
         }
         //ingame messages
@@ -60,7 +62,7 @@ public class dScreenMessages {
                     dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                             29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 }
-                else if(sSettings.net_server ? sVars.getInt("scorelimit") > 0 : cVars.getInt("scorelimit") > 0)
+                else if(sSettings.isServer() ? sVars.getInt("scorelimit") > 0 : cVars.getInt("scorelimit") > 0)
                     dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
                 dFonts.setFontColorHighlight(g);
