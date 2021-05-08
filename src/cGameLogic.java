@@ -20,27 +20,17 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            switch (sSettings.NET_MODE) {
-                case sSettings.NET_SERVER:
-                    nServer.instance().checkForUnhandledQuitters();
-                    checkHealthStatus();
-                    checkHatStatus();
-                    checkColorStatus();
-                    checkForMapChange();
-                    checkGameState();
-                    break;
-                case sSettings.NET_CLIENT:
-                    if(userPlayer() == null) {
-                        checkHatStatus(); //for spectator mode
-                        checkColorStatus(); //for spectator
-                    }
-                    break;
+            if (sSettings.NET_MODE == sSettings.NET_SERVER) {
+                nServer.instance().checkForUnhandledQuitters();
+                checkHealthStatus();
+                checkForMapChange();
+                checkGameState();
             }
+            checkHatStatus();
+            checkColorStatus();
             checkMovementStatus();
             if(userPlayer() != null) {
                 cScripts.pointPlayerAtMousePointer();
-                checkHatStatus();
-                checkColorStatus();
                 checkGameState();
                 checkPlayersFire();
             }
@@ -139,6 +129,19 @@ public class cGameLogic {
                 if(!p.isInt("weapon", cweap))
                     p.putInt("weapon", cweap);
             }
+        }
+    }
+
+    public static void doCommand(String cmd) {
+        switch (sSettings.NET_MODE) {
+            case sSettings.NET_SERVER:
+                nServer.instance().addNetCmd(cmd);
+                break;
+            case sSettings.NET_CLIENT:
+                nClient.instance().addNetCmd(cmd);
+                break;
+            case sSettings.NET_OFFLINE:
+                xCon.ex(cmd);
         }
     }
 
@@ -266,7 +269,7 @@ public class cGameLogic {
             }
         }
         //check for winlose
-        if(sSettings.isServer() && cVars.isZero("gamewon")) {
+        if(sSettings.isServer() && !sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)
@@ -286,10 +289,9 @@ public class cGameLogic {
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
                         nServer.instance().addNetCmd("echo "
-                                    + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        if(sSettings.isServer()) {
+                                + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
+                        if(sSettings.isServer())
                             cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
-                        }
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);

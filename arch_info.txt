@@ -46,3 +46,8 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> (SERVER/LOCAL) spawn server/local with "respawn".  calls "spawnplayer"
     -> (SERVER) "respawnnetplayer" handles clients/bots respawning, calls "spawnplayer" locally and fanout for clients
     -> (ALL) "spawnplayer" actually creates player object at coords determined by server (prev call)
+* online mapmaker
+    -> start game with "-editor" flag
+    -> start server with "newgame"
+    -> join with "joingame"
+    -> gospectate/gounspectate work great for dynamic testing

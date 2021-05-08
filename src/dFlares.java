@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class dFlares {
     public static void drawSceneFlares(Graphics2D g2){
-        ArrayList<gFlare> flareMap = eManager.currentMap.scene.flares();
         if(sVars.isOne("vfxenableflares")) {
-            for (gFlare f : flareMap) {
+            for(String id : eManager.currentMap.scene.getThingMap("THING_FLARE").keySet()) {
+                gFlare f = (gFlare) eManager.currentMap.scene.getThingMap("THING_FLARE").get(id);
                 drawFlare(g2, f);
             }
         }

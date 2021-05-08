@@ -5,9 +5,8 @@ public class xComFireWeapon extends xCom {
             String id = toks[1];
             int weapon = Integer.parseInt(toks[2]);
             gPlayer player = gScene.getPlayerById(id);
-            if(player != null) {
+            if(player != null)
                 gWeapons.fromCode(weapon).fireWeapon(player);
-            }
             return id + " fired weapon " + weapon;
         }
         return "usage: fireweapon <player_id> <weapon_code>";

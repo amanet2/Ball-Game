@@ -21,14 +21,15 @@ public class dScreenMessages {
         //mousexy for editor
         if(sSettings.show_mapmaker_ui) {
             g.drawString(String.format("Mouse: %d,%d",
-                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,4*sSettings.height/64);
+                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
         }
         //net
-        if(cScripts.isNetworkGame() && cScoreboard.scoresMap.containsKey(uiInterface.uuid)
-        && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping") && sVars.isOne("shownet")) {
+        if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-                    0, 6 * sSettings.height / 64);
+            if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
+                    && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+                g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+                        0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
             //camera
@@ -40,7 +41,7 @@ public class dScreenMessages {
                 g.drawString(String.format("Player: %d,%d",
                         cGameLogic.userPlayer().getInt("coordx"),
                         cGameLogic.userPlayer().getInt("coordy")),
-                        0,9*sSettings.height/64);
+                        0,10*sSettings.height/64);
             }
         }
         //ingame messages

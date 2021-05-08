@@ -10,11 +10,11 @@ public class xComNewgameRandom extends xCom {
                 rand = (int)(Math.random()*eManager.mapsSelection.length);
             }
             eManager.mapSelectionIndex = rand;
-            xCon.ex(String.format("load %s", eManager.mapsSelection[rand]));
+            xCon.ex(String.format("exec maps/%s", eManager.mapsSelection[rand]));
         }
         else {
             eManager.mapSelectionIndex = 0;
-            xCon.ex(String.format("load %s", eManager.mapsSelection[0]));
+            xCon.ex(String.format("exec maps/%s", eManager.mapsSelection[0]));
         }
         return "new game (random) started";
     }

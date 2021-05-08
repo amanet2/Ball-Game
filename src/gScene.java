@@ -1,35 +1,32 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A scene holds the background and objects for a game
  * play scenario.
  */
 public class gScene {
-    static final String[] object_titles = new String[]{
+    private static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL",
         "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE", "ITEM_SHOTGUN",
         "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
-	HashMap<String, ArrayList> objectLists;
-	HashMap<String, HashMap> objectMaps;
+	HashMap<String, LinkedHashMap> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
+	int flareIdCtr;
 
 	public gScene() {
-		objectLists = new HashMap<>();
 		objectMaps = new HashMap<>();
 		for(String s : object_titles) {
-			objectLists.put(s, new ArrayList<>());
-            objectMaps.put(s, new HashMap<>());
-            blockIdCtr = 0;
-            collisionIdCtr = 0;
+            objectMaps.put(s, new LinkedHashMap());
         }
+        blockIdCtr = 0;
+        collisionIdCtr = 0;
+        itemIdCtr = 0;
+        flareIdCtr = 0;
 	}
 
 	public int getHighestPrefabId() {
@@ -49,30 +46,33 @@ public class gScene {
 	    return idctr;
     }
 
+    public int getHighestItemId() {
+        int idctr = 0;
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
+                idctr = item.getInt("itemid") + 1;
+            }
+        }
+        return idctr;
+    }
+
 	public gScene copy() {
 	    gScene toReturn = new gScene();
-	    toReturn.objectLists = new HashMap<>();
 	    toReturn.objectMaps = new HashMap<>();
-	    for(String s : object_titles) {
-	        toReturn.objectLists.put(s, new ArrayList<>(objectLists.get(s)));
-        }
 	    //OBJECTMAP BELOW
         for(String objectType : objectMaps.keySet()) {
-            toReturn.objectMaps.put(objectType, new HashMap<>(objectMaps.get(objectType)));
+            toReturn.objectMaps.put(objectType, new LinkedHashMap(objectMaps.get(objectType)));
         }
 	    return toReturn;
     }
 
     public void clearPlayers() {
-	    objectMaps.put("THING_PLAYER", new HashMap<>());
+	    objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
 	    cGameLogic.setUserPlayer(null);
     }
 
-    public ArrayList<gFlare> flares() {
-        return objectLists.get("THING_FLARE");
-    }
-
-    public HashMap<String, gThing> getThingMap(String thing_title) {
+    public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
     }
 
@@ -86,14 +86,6 @@ public class gScene {
             return eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
         }
         return null;
-    }
-
-    public void setThingMap(String thing_title, HashMap<String, String> nm) {
-	    objectMaps.put(thing_title, nm);
-    }
-
-    public void setPlayersMap(HashMap<String, gPlayer> hm) {
-	    objectMaps.put("THING_PLAYER", hm);
     }
 
     public HashMap<String, gPlayer> playersMap() {

@@ -11,31 +11,6 @@ public class eManager {
 	static String[] winClipSelection;
 	static String[] prefabSelection;
 
-	public static void loadMap(String mapPath) {
-        eManager.currentMap = new gMap();
-        cGameLogic.setUserPlayer(null);
-        xCon.instance().debug("Loading: " + mapPath);
-        long ct = System.currentTimeMillis();
-        try (BufferedReader br = new BufferedReader(new FileReader(mapPath))) {
-            if(mapPath.contains("/"))
-                eManager.currentMap.mapName = mapPath.split("/")[1].split("\\.")[0];
-            else
-                eManager.currentMap.mapName = mapPath.split("\\.")[0];
-            String line;
-            while ((line = br.readLine()) != null) {
-                xCon.ex(line);
-                eManager.currentMap.mapLines.add(line);
-            }
-            eManager.currentMap.wasLoaded = 1;
-            cVars.put("maploaded", "1");
-        }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
-        xCon.instance().debug("Loading time: " + (System.currentTimeMillis() - ct));
-    }
-
 
 	public static String[] getFilesSelection(String dirPath) {
 	    String[] selectionArray = new String[]{};

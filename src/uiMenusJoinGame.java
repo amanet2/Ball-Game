@@ -6,6 +6,7 @@ public class uiMenusJoinGame extends uiMenu {
                     public void doItem() {
                         xCon.ex("joingame");
                         xCon.ex("pause");
+                        uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },
                 new uiMenuItem(String.format("Server IP [%s]", sVars.get("joinip"))) {

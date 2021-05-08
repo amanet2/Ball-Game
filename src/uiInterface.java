@@ -22,7 +22,7 @@ public class uiInterface {
                 //inits
                 if(sSettings.isServer() && !nServer.instance().isAlive())
                     nServer.instance().start();
-                else if(sSettings.isClient() && !nClient.instance().isAlive())
+                if(sSettings.isClient() && !nClient.instance().isAlive())
                     nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
@@ -47,11 +47,9 @@ public class uiInterface {
                             break;
                         case sSettings.NET_CLIENT:
                             nClient.instance().processPackets();
-                            break;
-                        default:
-                            if(sSettings.show_mapmaker_ui)
-                                cScripts.selectThingUnderMouse();
                     }
+                    if(sSettings.show_mapmaker_ui)
+                        cScripts.selectThingUnderMouse();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
@@ -75,8 +73,12 @@ public class uiInterface {
                     frames = 0;
                     framecounterTime = lastFrameTime + 1000;
                 }
-                long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
-                while(nextFrameTime >= System.nanoTime()); //do nothing
+                if(sSettings.framerate > 0) {
+                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+                    while (nextFrameTime >= System.nanoTime()) {
+//                        Thread.sleep(0,1);//do nothing
+                    }
+                }
             } catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
@@ -93,10 +95,10 @@ public class uiInterface {
 	}
 
 	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection(eUtils.getPath(""),sVars.get("mapextension"));
+	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
-        eManager.prefabSelection = eManager.getFilesSelection(eUtils.getPath("prefabs"));
+        eManager.prefabSelection = eManager.getFilesSelection("prefabs");
 	    if(sSettings.show_mapmaker_ui) {
             xCon.ex("load");
             cVars.putInt("camx", 0);

@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 public class xCon {
     private static xCon instance = null;
-    static HashMap<String, xCom> commands;
+    HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
-    static ArrayList<String> visibleCommands;
+    private ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
-    static ArrayList<String> stringLines;
+    ArrayList<String> stringLines;
     int prevCommandIndex;
     String commandString;
-    static int linesToShowStart;
-    static int linesToShow;
+    int linesToShowStart;
+    int linesToShow;
     int cursorIndex;
 
     public static xCon instance() {
@@ -29,33 +29,15 @@ public class xCon {
         String[] commandTokens = s.split(";");
         StringBuilder result = new StringBuilder();
         for(String com : commandTokens) {
-            result.append(doCommand(com)).append(";");
+            result.append(instance().doCommand(com)).append(";");
         }
         String resultString = result.toString();
         return resultString.substring(0,resultString.length()-1);
     }
 
-    public static String[] ex(String[] s) {
-        String[] r = new String[s.length];
-        r[0] = "No Result: "+ Arrays.toString(s);
-        for(int i = 0; i < s.length; i++) {
-            r[i] = ex(s[i]);
-        }
-        return r;
-    }
-
-    public static int getInt(String s) {
+    public int getInt(String s) {
         System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
-    }
-
-    public static boolean isOne(String s) {
-        return getInt(s) == 1;
-    }
-
-    public static long getLong(String s) {
-        System.out.println("CONSOLE RETURNING LONG: " + s);
-        return Long.parseLong(doCommand(s));
     }
 
     public static int charlimit() {
@@ -146,7 +128,6 @@ public class xCon {
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
         commands.put("mouseleft", new xComMouseLeft());
-        commands.put("mouseright", new xComMouseRight());
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
@@ -198,29 +179,21 @@ public class xCon {
         if(comm.length() > 0) {
             if(comm.charAt(0) == '-') {
                 for(Integer j : xCon.instance().releaseBinds.keySet()) {
-                    if(xCon.instance().releaseBinds.get(j).equals(comm)) {
+                    if(xCon.instance().releaseBinds.get(j).equals(comm))
                         return j;
-                    }
                 }
             }
             for(Integer j : xCon.instance().pressBinds.keySet()) {
-                if(xCon.instance().pressBinds.get(j).equals(comm)) {
+                if(xCon.instance().pressBinds.get(j).equals(comm))
                     return j;
-                }
             }
         }
         return -1;
     }
 
-    public static String doCommand(String fullCommand) {
+    public String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
-            if(args.length > 1) {
-
-            }
-            //
-            // --- NEW ABOVE, OLD BELOW
-            //
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
@@ -249,39 +222,6 @@ public class xCon {
                     }
                     return cVars.get(configval.substring(3));
                 }
-                String[] otoks = configval.split("\\.");
-                if(otoks.length > 2) {
-                    System.out.println("CONSOLE PARSING <THING>.<ID>.<VAR>: " + otoks[0] + "." + otoks[1] + "." + otoks[2]);
-                    String type = otoks[0];
-                    int tag = Integer.parseInt(otoks[1]);
-                    String var = otoks[2];
-                    if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
-                        gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
-                        if(args.length > 1) {
-                            //process the arg by checking if svar or cvar can be subbed in
-                            String val = args[1];
-                            if(sVars.contains(val))
-                                val = sVars.get(val);
-                            if(val.length() > 3 && val.substring(0,3).equals("cv_")
-                                    && cVars.contains(val.substring(0,3)))
-                                val = cVars.get(val.substring(3));
-                            g.put(var, val);
-                        }
-                        else if(g.canDo(var)) {
-                            g.doDoable(var);
-                        }
-                        return g.get(var);
-                    }
-                }
-                else if(otoks.length > 1) {
-                    System.out.println("CONSOLE PARSING <THING>.<ID>: " + otoks[0] + "." + otoks[1]);
-                    String type = otoks[0];
-                    int tag = Integer.parseInt(otoks[1]);
-                    if(eManager.currentMap.scene.objectLists.get(type).size() > tag) {
-                        gThing g = (gThing) eManager.currentMap.scene.objectLists.get(type).get(tag);
-                        return g.vars().toString();
-                    }
-                }
             }
             boolean isHidden = fullCommand.split(" ")[0].toLowerCase().equals("hidden");
             fullCommand = isHidden ? fullCommand.substring(fullCommand.indexOf(" ") + 1) : fullCommand;
@@ -295,7 +235,7 @@ public class xCon {
 //                    eManager.currentMap.wasLoaded = 1;
 //                    cEditorLogic.redoStateStack.clear();
 //                }
-                if (!visibleCommands.contains(command)) {
+                if(!visibleCommands.contains(command)) {
                     if (fullCommand.charAt(0) == '-')
                         return cp.undoCommand(fullCommand);
                     else
@@ -305,9 +245,8 @@ public class xCon {
                     stringLines.add(String.format("console:~$ %s", fullCommand));
                     String result = fullCommand.charAt(0) == '-' ? cp.undoCommand(fullCommand)
                         : cp.doCommand(fullCommand);
-                    if (result.length() > 0) {
+                    if (result.length() > 0)
                         stringLines.add(result);
-                    }
                     linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                     return result;
                 }
