@@ -4,8 +4,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.*;
 
-public class nServer extends Thread implements fNetBase {
+public class nServer extends Thread {
     private int netticks;
+    Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
@@ -302,19 +303,19 @@ public class nServer extends Thread implements fNetBase {
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
             while (true) {
                 try {
-                    netticks++;
-                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                        uiInterface.netReport = netticks;
-                        netticks = 0;
-                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
-                    }
+//                    netticks++;
+//                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
+//                        uiInterface.netReport = netticks;
+//                        netticks = 0;
+//                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+//                    }
                     byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
-                    uiInterface.networkTime = System.currentTimeMillis()
+                    long networkTime = System.currentTimeMillis()
                             + (long) (1000.0 / (double) sVars.getInt("rateserver"));
-                    sleep(Math.max(0, uiInterface.networkTime - uiInterface.gameTime));
+                    sleep(Math.max(0, networkTime - uiInterface.gameTime));
                 } catch (Exception e) {
                     eUtils.echoException(e);
                     e.printStackTrace();

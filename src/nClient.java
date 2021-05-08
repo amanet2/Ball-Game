@@ -1,8 +1,9 @@
 import java.net.*;
 import java.util.*;
 
-public class nClient extends Thread implements fNetBase {
+public class nClient extends Thread {
     private int netticks;
+    Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -75,9 +76,9 @@ public class nClient extends Thread implements fNetBase {
                     clientSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
                 }
-                uiInterface.networkTime = System.currentTimeMillis()
+                long networkTime = System.currentTimeMillis()
                         + (long)(1000.0/(double)sVars.getInt("rateclient"));
-                sleep(Math.max(0, uiInterface.networkTime-uiInterface.gameTime));
+                sleep(Math.max(0, networkTime-uiInterface.gameTime));
                 retries = 0;
             }
             catch(Exception e) {

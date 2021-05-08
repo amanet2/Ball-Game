@@ -6,7 +6,6 @@ public class uiInterface {
 	private static long tickTimeNanos = gameTimeNanos;
 	private static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
-	static long networkTime = gameTime;
 	static int tickReport = 0;
 	static int fpsReport = 0;
 	static int netReport = 0;

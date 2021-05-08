@@ -1,1 +1,1 @@
-pause;exec maps/vr1.map;respawn
+pause;newgame;joingame
