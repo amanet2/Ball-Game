@@ -21,7 +21,9 @@ public class dPanel extends JPanel {
         if (panelLevel == 1) {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
-        } else {
+        }
+        else if(!(sSettings.IS_SERVER && !sSettings.IS_CLIENT)
+                && (sSettings.IS_CLIENT || sSettings.NET_MODE == sSettings.NET_OFFLINE)){
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);

@@ -6,6 +6,7 @@
 FOCUS ITEMS
 * ENGINE: Get Server/Client to run at the same time
     -> find where we double-up on making console commands due to old "player on server" logic
+    -> make sure cvars and svars are free from overlap
 * ENGINE: refactor console commands to have sv_ or c_ prefixes depending on use
 * ENGINE: Go over server/client relationship
     -> STEP 1: Get rid of player/respawn ability in server.  Get rid of isServer() and replace with boolean IS_SERVER
