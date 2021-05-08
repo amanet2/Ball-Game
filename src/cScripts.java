@@ -355,6 +355,6 @@ public class cScripts {
     }
 
     public static boolean isNetworkGame() {
-        return sSettings.IS_SERVER || sSettings.isClient();
+        return sSettings.IS_SERVER || sSettings.IS_CLIENT;
     }
 }

@@ -57,7 +57,7 @@ public class cGameLogic {
     }
 
     public static void checkGameStateClient() {
-        if(sSettings.isClient() && nServer.instance().clientArgsMap.containsKey("server")
+        if(nServer.instance().clientArgsMap.containsKey("server")
                 && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             //gamestate checks, for server AND clients
             //check to delete flags that should not be present anymore

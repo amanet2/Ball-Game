@@ -1,7 +1,7 @@
 public class xComNewgame extends xCom {
     public String doCommand(String fullCommand) {
         nServer.instance().clientArgsMap.put("server", nServer.instance().getNetVars());
-        cScoreboard.addId(uiInterface.uuid);
+//        cScoreboard.addId(uiInterface.uuid);
         int toplay = eManager.mapSelectionIndex;
         if(toplay < 0) {
             xCon.ex("newgamerandom");
