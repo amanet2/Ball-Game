@@ -5,6 +5,7 @@ public class nClient extends Thread {
     private int netticks;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
+    ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = null;
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
@@ -185,7 +186,7 @@ public class nClient extends Thread {
                 }
             }
             else if(!idload.equals(uiInterface.uuid)) {
-                if(nServer.instance().clientIds.contains(idload)) {
+                if(nClient.instance().serverIds.contains(idload)) {
                     foundIds.add(idload);
                     String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
@@ -212,7 +213,7 @@ public class nClient extends Thread {
                     }
                 }
                 else {
-                    nServer.instance().clientIds.add(idload);
+                    nClient.instance().serverIds.add(idload);
                     foundIds.add(idload);
                     gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
@@ -250,7 +251,7 @@ public class nClient extends Thread {
         }
         //check for ids that have been taken out of the server argmap
         String tr = "";
-        for(String s : nServer.instance().clientIds) {
+        for(String s : nClient.instance().serverIds) {
             if(!foundIds.contains(s)) {
                 tr = s;
             }
@@ -258,7 +259,7 @@ public class nClient extends Thread {
         if(tr.length() > 0) {
             serverArgsMap.remove(tr);
             cScoreboard.scoresMap.remove(tr);
-            nServer.instance().clientIds.remove(tr);
+            nClient.instance().serverIds.remove(tr);
             eManager.currentMap.scene.playersMap().remove(tr);
         }
     }
@@ -287,7 +288,7 @@ public class nClient extends Thread {
         sSettings.NET_MODE = sSettings.NET_OFFLINE;
         clientSocket.close();
         serverArgsMap = new HashMap<>();
-        nServer.instance().clientIds = new ArrayList<>();
+        nClient.instance().serverIds = new ArrayList<>();
         xCon.ex("load");
         if (uiInterface.inplay)
             xCon.ex("pause");

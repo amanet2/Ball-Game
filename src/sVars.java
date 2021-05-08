@@ -60,7 +60,7 @@ public class sVars {
         keys.put("shownet", "0");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
-        keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
+        keys.put("startpaused", "0"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vfxenableanimations", "1");
