@@ -22,7 +22,6 @@ public class cGameLogic {
         try {
 //            checkHatStatus();
 //            checkColorStatus();
-            checkMovementStatus();
             if(userPlayer() != null) {
 //                cScripts.pointPlayerAtMousePointer();
                 checkGameStateClient();
@@ -58,35 +57,6 @@ public class cGameLogic {
             if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
                     && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
                 xCon.ex("clearthingmap ITEM_FLAG");
-        }
-    }
-
-    public static void checkMovementStatus() {
-        //other players
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
-                if(!nServer.instance().containsArgsForId(id, requiredFields))
-                    continue;
-                HashMap<String, String> cargs = nServer.instance().clientArgsMap.get(id);
-                double cfv = Double.parseDouble(cargs.get("fv"));
-                char[] cmovedirs = cargs.get("dirs").toCharArray();
-                gPlayer p = gScene.getPlayerById(id);
-                if(p == null)
-                    return;
-                if(sVars.isZero("smoothing")) {
-                    p.put("coordx", cargs.get("x"));
-                    p.put("coordy", cargs.get("y"));
-                }
-                if(p.getDouble("fv") != cfv) {
-                    p.putDouble("fv", cfv);
-                    cScripts.checkPlayerSpriteFlip(p);
-                }
-                for(int i = 0; i < cmovedirs.length; i++) {
-                    if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
-                        p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
-                }
-            }
         }
     }
 

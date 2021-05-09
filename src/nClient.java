@@ -281,6 +281,17 @@ public class nClient extends Thread {
         return null;
     }
 
+    boolean containsArgsForId(String id, String[] fields) {
+        if(!serverArgsMap.containsKey(id))
+            return false;
+        HashMap<String, String> cargs = serverArgsMap.get(id);
+        for(String rf : fields) {
+            if(!cargs.containsKey(rf))
+                return false;
+        }
+        return true;
+    }
+
     public void disconnect() {
         nClient.instance().addNetCmd("requestdisconnect");
         if(isAlive())
