@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * ENGINE: hone Server/Client roles
+    -> FOCUS: remove the need for IS_CLIENT and IS_SERVER
     -> server should do all world simulations
     -> client should receive world states and do prediction
     -> OVERLAPS:

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -155,7 +154,8 @@ public class xCon {
         commands.put("spawnanimation", new xComSpawnAnimation());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpopup", new xComSpawnPopup());
-        commands.put("status", new xComStatus());
+        commands.put("cl_status", new xComStatusClient());
+        commands.put("sv_status", new xComStatusServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
