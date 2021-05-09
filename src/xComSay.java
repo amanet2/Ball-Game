@@ -11,13 +11,10 @@ public class xComSay extends xCom {
                 nServer.instance().addNetCmd(echoString);
             }
             else {
-                switch (sSettings.NET_MODE) {
-                    case sSettings.NET_CLIENT:
-                        nClient.instance().addSendMsg(msg);
-                        break;
-                    case sSettings.NET_OFFLINE:
-                        xCon.ex(echoString);
-                }
+                if(sSettings.IS_CLIENT)
+                    nClient.instance().addSendMsg(msg);
+                else
+                    xCon.ex(echoString);
             }
             gMessages.msgInProgress = "";
         }

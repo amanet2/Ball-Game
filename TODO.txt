@@ -4,19 +4,20 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ENGINE: Get Server/Client to run at the same time
-    -> find where we double-up on making console commands due to old "player on server" logic
-    -> make sure cvars and svars are free from overlap
+* ENGINE: hone Server/Client roles
+    -> REPLACE net_client with is_client
+    -> server should do all world simulations
+    -> client should receive world states and do prediction
+    -> OVERLAPS:
+        -> eManager.updateEntityPositions
+        -> cGameLogic.customLoop
+        -> xComSay
 * ENGINE: refactor console commands to have sv_ or c_ prefixes depending on use
 * ENGINE: Go over server/client relationship
     -> STEP 1: Get rid of player/respawn ability in server.  Get rid of isServer() and replace with boolean IS_SERVER
     -> STEP 2: Make client and server threads run in one exe and communicate
     -> want server thread dedicated to running game, client thread dedicated to drawing it
     -> the way quake 3 is described, server, client, and ui should have their own consoles
-* ISSUE: lots of stuff is broken because the server has an isplaying() flag
-    -> needs to turn on/off with presence of server player
-    -> server needs to be headless and clients need to be the "player" part
-        -> no "server player".  there are "servers" and "players" exclusively
 * GAME: starts in the normal game are messed up
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
     -> limit the "fv" netvar to 2 decimals

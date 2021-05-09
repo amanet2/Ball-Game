@@ -37,7 +37,7 @@ public class uiInterface {
                     gCamera.updatePosition();
                     if(sSettings.IS_SERVER)
                         nServer.instance().processPackets();
-                    if (sSettings.NET_MODE == sSettings.NET_CLIENT)
+                    if (sSettings.IS_CLIENT)
                         nClient.instance().processPackets();
                     if(sSettings.show_mapmaker_ui)
                         cScripts.selectThingUnderMouse();

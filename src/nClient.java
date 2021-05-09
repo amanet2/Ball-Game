@@ -285,7 +285,7 @@ public class nClient extends Thread {
         nClient.instance().addNetCmd("requestdisconnect");
         if(isAlive())
             interrupt();
-        sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        sSettings.IS_CLIENT = false;
         clientSocket.close();
         serverArgsMap = new HashMap<>();
         nClient.instance().serverIds = new ArrayList<>();

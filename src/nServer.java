@@ -601,7 +601,7 @@ public class nServer extends Thread {
     }
 
     public void disconnect() {
-        sSettings.NET_MODE = sSettings.NET_OFFLINE;
+        sSettings.IS_SERVER = false;
         if(isAlive())
             interrupt();
 //                serverSocket.close();
