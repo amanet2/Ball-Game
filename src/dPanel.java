@@ -22,7 +22,7 @@ public class dPanel extends JPanel {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
         }
-        else if(!(sSettings.IS_SERVER && !sSettings.IS_CLIENT)){
+        else if(sSettings.IS_CLIENT) {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
