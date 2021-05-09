@@ -117,16 +117,16 @@ public class nServer extends Thread {
         }
     }
 
-    void clearBots() {
-        if(eManager.currentMap != null) {
-            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-            if(sSettings.IS_SERVER && botsMap.size() > 0) {
-                for(Object id : botsMap.keySet()) {
-                    quitClientIds.add((String) id);
-                }
-            }
-        }
-    }
+//    void clearBots() {
+//        if(eManager.currentMap != null) {
+//            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+//            if(sSettings.IS_SERVER && botsMap.size() > 0) {
+//                for(Object id : botsMap.keySet()) {
+//                    quitClientIds.add((String) id);
+//                }
+//            }
+//        }
+//    }
 
     void addBots() {
         int i = 0;

@@ -97,8 +97,7 @@ public class uiInterface {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
-            xCon.instance().saveLog(sSettings.IS_SERVER
-                    ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
+            xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
