@@ -31,18 +31,13 @@ public class uiInterface {
                 while(tickTimeNanos < gameTimeNanos) {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
-                    oDisplay.instance().checkDisplay();
-                    oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
-                    gCamera.updatePosition();
-                    if(sSettings.IS_SERVER)
-                        nServer.instance().processPackets();
-                    if (sSettings.IS_CLIENT)
-                        nClient.instance().processPackets();
-                    if(sSettings.show_mapmaker_ui)
-                        cScripts.selectThingUnderMouse();
-                    if(sSettings.IS_SERVER)
-                        nServer.instance().checkOutgoingCmdMap();
+                    if(sSettings.IS_SERVER) {
+                        gServerLogic.gameLoop();
+                    }
+                    if (sSettings.IS_CLIENT) {
+                        gClientLogic.gameLoop();
+                    }
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");

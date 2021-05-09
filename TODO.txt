@@ -5,7 +5,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * ENGINE: hone Server/Client roles
-    -> REPLACE net_client with is_client
     -> server should do all world simulations
     -> client should receive world states and do prediction
     -> OVERLAPS:

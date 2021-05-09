@@ -20,12 +20,6 @@ public class cGameLogic {
      */
     public static void customLoop() {
         try {
-            if (sSettings.IS_SERVER) {
-                nServer.instance().checkForUnhandledQuitters();
-//                checkHealthStatus();
-                checkForMapChange();
-                cServerLogic.checkGameState();
-            }
 //            checkHatStatus();
 //            checkColorStatus();
             checkMovementStatus();
