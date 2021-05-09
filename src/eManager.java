@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static gMap currentMap = new gMap();
+	static gMap currentMap = null;
 	static String[] mapsSelection;
 	static String[] winClipSelection;
 	static String[] prefabSelection;

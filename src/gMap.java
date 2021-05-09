@@ -6,14 +6,11 @@ import java.util.HashMap;
 
 public class gMap {
     String mapName;
-    int wasLoaded;
     gScene scene;
 
     private void basicInit() {
-        eManager.currentMap = null;
         gTextures.clear();
         scene = new gScene();
-        wasLoaded = 0;
         cVars.put("maploaded", "0");
     }
 
@@ -139,7 +136,6 @@ public class gMap {
             }
             writer.write("cv_maploaded 1\n");
             System.out.println("SAVED " + filename);
-            wasLoaded = 1;
 		} catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();
