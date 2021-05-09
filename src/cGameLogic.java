@@ -137,10 +137,7 @@ public class cGameLogic {
     }
 
     public static void doCommand(String cmd) {
-        if(sSettings.IS_CLIENT)
-            nClient.instance().addNetCmd(cmd);
-        else
-            xCon.ex(cmd);
+        nClient.instance().addNetCmd(cmd);
     }
 
     public static boolean isUserPlayer(gPlayer player) {

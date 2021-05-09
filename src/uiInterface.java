@@ -21,23 +21,14 @@ public class uiInterface {
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.IS_SERVER) {
-                    if(sVars.getInt("timelimit") > 0)
-                        cVars.putLong("timeleft",
-                            sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
-                    else
-                        cVars.putLong("timeleft", -1);
-                }
                 while(tickTimeNanos < gameTimeNanos) {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     iInput.readKeyInputs();
-                    if(sSettings.IS_SERVER) {
+                    if(sSettings.IS_SERVER)
                         gServerLogic.gameLoop();
-                    }
-                    if (sSettings.IS_CLIENT) {
+                    if (sSettings.IS_CLIENT)
                         gClientLogic.gameLoop();
-                    }
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");

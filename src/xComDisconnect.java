@@ -1,7 +1,6 @@
 public class xComDisconnect extends xCom {
     public String doCommand(String fullCommand) {
-        if(sSettings.IS_CLIENT)
-            nClient.instance().disconnect();
+        nClient.instance().disconnect();
 //        switch (sSettings.NET_MODE) {
 ////            case sSettings.NET_SERVER:
 ////                nServer.instance().addExcludingNetCmd("server", "disconnect");
