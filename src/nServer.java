@@ -556,7 +556,7 @@ public class nServer extends Thread {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
                 String soundString = "playsound sounds/win/" + s;
-                addNetCmd(soundString);
+                addExcludingNetCmd("server", soundString);
                 break;
             }
         }

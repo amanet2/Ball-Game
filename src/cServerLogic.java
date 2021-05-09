@@ -2,6 +2,18 @@ import java.util.HashMap;
 
 public class cServerLogic {
     public static void checkGameState() {
+        for(String id : gScene.getPlayerIds()) {
+            //this shouldnt be needed, but when server user joins his own games, it is
+            if(id.equals(uiInterface.uuid))
+                continue;
+            gPlayer obj = gScene.getPlayerById(id);
+            for (int i = 0; i < 4; i++) {
+                if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(nServer.instance().clientArgsMap.get(
+                            obj.get("id")).get("vels").split("-")[i]));
+            }
+        }
+
         if(nServer.instance().clientArgsMap.containsKey("server")
                 && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {

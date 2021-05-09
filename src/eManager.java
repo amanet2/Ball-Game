@@ -62,24 +62,11 @@ public class eManager {
                         else
                             obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
                     }
-                    else
-                    {
-                        if(sSettings.IS_SERVER && nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels")){
-                            obj.putInt("vel"+i,
-                                    Integer.parseInt(nServer.instance().clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
-                        }
-                        else if(sSettings.IS_CLIENT && nClient.instance().serverArgsMap.get(obj.get("id")).containsKey("vels")){
-                            obj.putInt("vel"+i,
-                                    Integer.parseInt(nClient.instance().serverArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
-                        }
-                    }
                 }
             }
-
             if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
                 obj.putInt("coordx", dx);
             }
-
             if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
                 obj.putInt("coordy", dy);
             }
