@@ -381,23 +381,6 @@ public class nServer extends Thread {
         }
     }
 
-    void changeMap(String mapPath) {
-        System.out.println("CHANGING MAP: " + mapPath);
-        xCon.ex("exec maps/" + mapPath);
-        addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
-//        xCon.ex("respawn");
-        for(String id : clientIds) {
-            sendMap(id);
-            String postString = String.format("spawnplayer %s %s %s",
-                    cGameLogic.userPlayer().get("id"),
-                    cGameLogic.userPlayer().get("coordx"),
-                    cGameLogic.userPlayer().get("coordy")
-            );
-            addNetCmd(id, postString);
-            xCon.ex("respawnnetplayer " + id);
-        }
-    }
-
     private void handleNewClientJoin(String packId, String packName) {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
@@ -409,7 +392,7 @@ public class nServer extends Thread {
         addNetCmd(String.format("echo %s joined the game", packName));
     }
 
-    private void sendMap(String packId) {
+    public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cv_maploaded 0;cv_gamemode %s\n", cVars.get("gamemode")));

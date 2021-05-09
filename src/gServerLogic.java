@@ -13,4 +13,20 @@ public class gServerLogic {
         cGameLogic.checkForMapChange();
         cServerLogic.checkGameState();
     }
+
+    static void changeMap(String mapPath) {
+        System.out.println("CHANGING MAP: " + mapPath);
+        xCon.ex("exec maps/" + mapPath);
+        nServer.instance().addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
+        for(String id : nServer.instance().clientIds) {
+            nServer.instance().sendMap(id);
+            String postString = String.format("spawnplayer %s %s %s",
+                    cGameLogic.userPlayer().get("id"),
+                    cGameLogic.userPlayer().get("coordx"),
+                    cGameLogic.userPlayer().get("coordy")
+            );
+            nServer.instance().addNetCmd(id, postString);
+            xCon.ex("respawnnetplayer " + id);
+        }
+    }
 }
