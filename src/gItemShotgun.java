@@ -1,7 +1,6 @@
 public class gItemShotgun extends gItem {
     public void activateItem(gPlayer player) {
-        if(sSettings.IS_SERVER
-                && player.getInt("stockhp") > 0 && !cVars.get("shotgunmasterids").contains(player.get("id"))) {
+        if(player.getInt("stockhp") > 0 && !cVars.get("shotgunmasterids").contains(player.get("id"))) {
             String masters = cVars.get("shotgunmasterids");
             masters += (player.get("id") + "-");
             cVars.put("shotgunmasterids", masters);

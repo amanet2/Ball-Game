@@ -5,6 +5,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * ENGINE: hone Server/Client roles
+    -> Don't even have "offline player", a client is NEEDED to interact with the server.
+        -> a client is the "user" represented
     -> FOCUS: remove the need for IS_CLIENT and IS_SERVER
     -> server should do all world simulations
     -> client should receive world states and do prediction
