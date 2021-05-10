@@ -13,7 +13,6 @@ public class gItemTeleporterBlue extends gItem {
                 player.put("coordy", exit.get("coordy"));
                 nServer.instance().addNetCmd(player.get("id"), "userplayer coordx " + exit.get("coordx")
                         + ";userplayer coordy " + exit.get("coordy"));
-                nServer.instance().addNetCmd("echo " + player.get("name") + " entered the blue teleporter");
             }
         }
         else

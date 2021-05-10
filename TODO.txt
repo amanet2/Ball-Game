@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* SERVER: if something is called with AddNetCmd, make sure it should be exec'd by the host player
+    -> otherwise go with AddExcludingCmd(uiInterface.uuid...
 * SPAWN: players flash at death location again
 * CLIENT: make sure, if hosting server, that client doesnt do bad things (eManager.scene)
     -> createdamagepopup, i think gets called twice
