@@ -279,6 +279,7 @@ public class nClient extends Thread {
             String cmdString = netSendCmds.peek();
             if(!sSettings.IS_SERVER && cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString);
+            System.out.println("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;

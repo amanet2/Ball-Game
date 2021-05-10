@@ -550,7 +550,7 @@ public class nServer extends Thread {
                 }
             }
             else
-                addNetCmd(cmd);
+                addExcludingNetCmd(uiInterface.uuid, cmd);
         }
         else {
             System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);

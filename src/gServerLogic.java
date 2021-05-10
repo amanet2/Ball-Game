@@ -40,7 +40,6 @@ public class gServerLogic {
                             obj.get("id")).get("vels").split("-")[i]));
             }
         }
-
         if(nServer.instance().clientArgsMap.containsKey("server")
                 && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
@@ -63,8 +62,7 @@ public class gServerLogic {
                             for(String id : gScene.getPlayerIds()) {
                                 gPlayer p = gScene.getPlayerById(id);
                                 if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)
-                                        && p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000) {
+                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)) {
                                     xCon.ex("givepoint " + p.get("id"));
                                 }
                             }
@@ -173,7 +171,7 @@ public class gServerLogic {
     }
 
     public static void checkForMapChange() {
-        if (cVars.getLong("intermissiontime") > 0
+        if(cVars.getLong("intermissiontime") > 0
                 && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
             cVars.put("intermissiontime", "-1");
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
@@ -185,7 +183,7 @@ public class gServerLogic {
         System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec maps/" + mapPath);
-        nServer.instance().addExcludingNetCmd(String.format("server,%s", uiInterface.uuid),
+        nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
                 "clearthingmap THING_PLAYER;load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             if(!id.equals(uiInterface.uuid))
