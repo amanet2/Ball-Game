@@ -1,7 +1,6 @@
 import java.util.HashMap;
 
 public class cServerLogic {
-    gScene scene;
     public static void gameLoop() {
         if(sVars.getInt("timelimit") > 0)
             cVars.putLong("timeleft",

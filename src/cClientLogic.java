@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class cClientLogic {
-    static gScene scene;
     private static gPlayer userPlayer;
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
@@ -47,7 +46,7 @@ public class cClientLogic {
     public static void checkFinishedAnimations() {
         ArrayList<String> animationIdsToRemove = new ArrayList<>();
         //remove finished animations
-        HashMap animationMap = scene.getThingMap("THING_ANIMATION");
+        HashMap animationMap = eManager.currentMap.scene.getThingMap("THING_ANIMATION");
         for(Object id : animationMap.keySet()) {
             gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
             if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
@@ -55,7 +54,7 @@ public class cClientLogic {
             }
         }
         for(String aid : animationIdsToRemove) {
-            scene.getThingMap("THING_ANIMATION").remove(aid);
+            eManager.currentMap.scene.getThingMap("THING_ANIMATION").remove(aid);
         }
     }
 
