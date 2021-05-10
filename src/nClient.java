@@ -200,7 +200,8 @@ public class nClient extends Thread {
                     }
                     if(skip)
                         break;
-                    if(gScene.getPlayerById(idload) != null) {
+                    //here we avoid client and server fighting over the player coords when hosting and playing
+                    if(!sSettings.IS_SERVER && gScene.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
                             gScene.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
                             gScene.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));

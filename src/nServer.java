@@ -269,12 +269,12 @@ public class nServer extends Thread {
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
             while (sSettings.IS_SERVER) {
                 try {
-//                    netticks++;
-//                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
-//                        uiInterface.netReport = netticks;
-//                        netticks = 0;
-//                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
-//                    }
+                    netticks++;
+                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
+                        uiInterface.netReport = netticks;
+                        netticks = 0;
+                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+                    }
                     byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
