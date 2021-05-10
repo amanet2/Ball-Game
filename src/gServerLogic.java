@@ -132,8 +132,17 @@ public class gServerLogic {
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addNetCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
-                cScripts.goToEndScreen();
+                cVars.putLong("intermissiontime",
+                        System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
             }
+        }
+    }
+
+    public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
+        HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
+            nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
+            cl.checkSpriteFlip();
         }
     }
 

@@ -8,9 +8,10 @@ import java.util.Stack;
 
 public class cEditorLogic {
     static Map<String,JMenu> menus = new HashMap<>();
-    static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
-    static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(50,50, new gScene());
+    static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
+    static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
+    static int snapToX = 50;
+    static int snapToY = 50;
     private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
@@ -162,15 +163,5 @@ public class cEditorLogic {
                 xCon.ex(fullCommand);
             }
         });
-    }
-
-    public static void setEditorState(cEditorLogicState newstate) {
-        state.snapToX = newstate.snapToX;
-        state.snapToY = newstate.snapToY;
-        eManager.currentMap.scene = newstate.mapScene;
-    }
-
-    public static cEditorLogicState getEditorState() {
-        return new cEditorLogicState(state.snapToX, state.snapToY, eManager.currentMap.scene.copy());
     }
 }

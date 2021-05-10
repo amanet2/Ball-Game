@@ -246,9 +246,9 @@ public class cScripts {
         int[] mc = cScripts.getMouseCoordinates();
         int[] fabdims = getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-                cEditorLogic.state.snapToX);
+                cEditorLogic.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-                cEditorLogic.state.snapToY);
+                cEditorLogic.snapToY);
         return new int[]{pfx, pfy};
     }
 
@@ -262,14 +262,6 @@ public class cScripts {
             xCon.ex("playsound sounds/death.wav");
     }
 
-    public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
-        HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
-        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
-            nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
-            cl.checkSpriteFlip();
-        }
-    }
-
     public static void changeWeapon(int newweapon) {
         gPlayer p = gClientLogic.getUserPlayer();
         if(p != null) {
@@ -278,10 +270,5 @@ public class cScripts {
             p.putInt("weapon", newweapon);
             gClientLogic.getUserPlayer().checkSpriteFlip();
         }
-    }
-
-    public static void goToEndScreen() {
-        cVars.putLong("intermissiontime",
-                System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
     }
 }
