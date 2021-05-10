@@ -39,6 +39,21 @@ public class gClientLogic {
         }
     }
 
+    public static void pointPlayerAtMousePointer() {
+        gPlayer p = getUserPlayer();
+        int[] mc = uiInterface.getMouseCoordinates();
+        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
+                - cVars.getInt("camx"));
+        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2
+                - cVars.getInt("camy"));
+        double angle = Math.atan2(dy, dx);
+        if (angle < 0)
+            angle += 2*Math.PI;
+        angle += Math.PI/2;
+        p.putDouble("fv", angle);
+        p.checkSpriteFlip();
+    }
+
     public static void checkGameStateClient() {
         if(nClient.instance().serverArgsMap.containsKey("server")
                 && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
@@ -78,6 +93,10 @@ public class gClientLogic {
                 }
             }
         }
+    }
+
+    public static void doCommand(String cmd) {
+        nClient.instance().addNetCmd(cmd);
     }
 
     static void checkGameState() {

@@ -1,7 +1,6 @@
 import java.util.HashMap;
 
 public class cGameLogic {
-
     public static void checkHatStatus(){
         //player0
         gPlayer userPlayer = gClientLogic.getUserPlayer();
@@ -48,11 +47,17 @@ public class cGameLogic {
         }
     }
 
-    public static void doCommand(String cmd) {
-        nClient.instance().addNetCmd(cmd);
-    }
-
-    public static void rechargePlayersHealth() {
+    public static void checkHealthStatus() {
+        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+        Long currentTime = System.currentTimeMillis();
+        for(String id : argsMap.keySet()) {
+            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
+            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
+                nServer.instance().addNetCmd("respawnnetplayer " + id);
+                argsMap.get(id).remove("respawntime");
+            }
+        }
+        //recharge players health
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
@@ -64,19 +69,6 @@ public class cGameLogic {
                     p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
         }
-    }
-
-    public static void checkHealthStatus() {
-        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
-        Long currentTime = System.currentTimeMillis();
-        for(String id : argsMap.keySet()) {
-            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
-            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                nServer.instance().addNetCmd("respawnnetplayer " + id);
-                argsMap.get(id).remove("respawntime");
-            }
-        }
-        rechargePlayersHealth();
     }
 
 

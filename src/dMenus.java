@@ -18,7 +18,7 @@ public class dMenus {
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
@@ -50,7 +50,7 @@ public class dMenus {
     }
 
     public static void showControlsMenu(Graphics g) {
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
@@ -96,7 +96,7 @@ public class dMenus {
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);

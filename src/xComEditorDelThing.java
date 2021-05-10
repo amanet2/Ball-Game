@@ -17,11 +17,11 @@ public class xComEditorDelThing extends xCom {
                 }
                 for(String id : toRemoveBlockIds) {
                     String cmd = "deleteblock " + id;
-                    cGameLogic.doCommand(cmd);
+                    gClientLogic.doCommand(cmd);
                 }
                 for(String id : toRemoveCollisionIds) {
                     String cmd = "deletecollision " + id;
-                    cGameLogic.doCommand(cmd);
+                    gClientLogic.doCommand(cmd);
                 }
                 return "deleted prefab " + cVars.get("selectedprefabid");
         }
@@ -34,7 +34,7 @@ public class xComEditorDelThing extends xCom {
                 }
                 if(toRemoveItemId.length() > 0) {
                     String cmd = "deleteitem " + toRemoveItemId;
-                    cGameLogic.doCommand(cmd);
+                    gClientLogic.doCommand(cmd);
                 }
                 return "deleted item " + cVars.get("selecteditemid");
         }

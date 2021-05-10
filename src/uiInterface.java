@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
@@ -92,6 +94,51 @@ public class uiInterface {
         addListeners();
         startGame();
 	}
+
+    public static int[] getMouseCoordinates() {
+        return new int[]{
+                MouseInfo.getPointerInfo().getLocation().x - oDisplay.instance().frame.getLocationOnScreen().x
+                        - oDisplay.instance().getContentPaneOffsetDimension()[0],
+                MouseInfo.getPointerInfo().getLocation().y - oDisplay.instance().frame.getLocationOnScreen().y
+                        - oDisplay.instance().getContentPaneOffsetDimension()[1]
+        };
+    }
+
+    public static synchronized void getUIMenuItemUnderMouse() {
+        if(cVars.isZero("blockmouseui")) {
+            int[] mc = uiInterface.getMouseCoordinates();
+            int[] xBounds = new int[]{0, sSettings.width / 4};
+            int[] yBounds = sVars.getInt("displaymode") > 0
+                    ? new int[]{14 * sSettings.height / 16, 15 * sSettings.height / 16}
+                    : new int[]{15 * sSettings.height / 16, sSettings.height};
+            if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                if (!uiMenus.gobackSelected) {
+                    uiMenus.gobackSelected = true;
+                    uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+                }
+                return;
+            } else
+                uiMenus.gobackSelected = false;
+            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
+                            sSettings.width / 2 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if (sVars.isIntVal("displaymode", oDisplay.displaymode_windowed)) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+        }
+    }
 
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));

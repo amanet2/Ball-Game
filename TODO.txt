@@ -372,7 +372,6 @@ call the "damageplayer" console function
 * wasd shouldnt work in pause menu during a game
 * bouncing off of stuff still feels too harsh
 * look for //ugly if else markers in code
-* messy //old props in cGameLogic, in 800s
 * have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
     -> as I think the gfx has a race condition with the internal manager
 * dont cancel W on jump
@@ -416,7 +415,6 @@ call the "damageplayer" console function
 * have bots eventually go back to exit teleporter after X seconds
 * save old functions to aid in rebuilding the broken functionality
 * goToNearestThing() function has explicit reference to flagmaster stuff
-* get rid of the scorepoints() array in the cGameLogic file
 * make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
 * get rid of the ladder prop
 * make sure propmap id pointers are dereferenced/removed along with the arraylist
@@ -452,7 +450,6 @@ call the "damageplayer" console function
 * figure a way to measure your functions for optimization
 * incorporate enums where possible
     -> replace weapon_selection with weaponSelection()
-* why does cGameLogic.getMovementStatus() have a double for-loop for all ids
 * need sound effects for hitting sorepoints, capping flags, surviving safezones, grabbing flags, completing laps
 * player should drop flag in flagmaster, but ctf shoud go back to starting spot
 * introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
@@ -484,16 +481,6 @@ call the "damageplayer" console function
     -> 'addbot' and many more to be sure
 * editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
-* ISSUE: SERVER NOT GOING TO THE PROPER COORDS AFTER DYING, AFTER A CLIENT QUITS
-    -> java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
-               at cScripts.createDamagePopup(cScripts.java:529)
-               at cScripts.checkProjectileSplashes(cScripts.java:459)
-               at cGameLogic.checkForPlayerDeath(cGameLogic.java:732)
-               at cGameLogic.customLoop(cGameLogic.java:49)
-               at uiInterface.startTicker(uiInterface.java:51)
-               at uiInterface.startNew(uiInterface.java:97)
-               at xMain.main(xMain.java:7)
-   -> doing calls like matchKills[getInt("tag")] dont work because tags arent changed when ppl quit
 * CRASH: handle characters who are it/viral quitting
     -> virus: remove player from the virus state string, if nobody infected after quit then re-assign virus
     -> tag: re-assign "itness"

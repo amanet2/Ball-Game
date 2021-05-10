@@ -25,28 +25,6 @@ public class dBlockTopsShading {
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),
                     new Color(0, 0, 0, cVars.getInt("vfxroofshadingalpha2")));
-//            if(block.getInt("wallh") < 200) {
-//                gradient = new GradientPaint(
-//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowoutlinealpha1")),
-//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowoutlinealpha2")));
-//                gradient2 = new GradientPaint(
-//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowshadingalpha1")),
-//                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                                - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        new Color(0, 0, 0, cVars.getInt("vfxrooflowshadingalpha2")));
-//            }
             g2.setPaint(gradient);
             g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),

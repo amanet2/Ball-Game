@@ -71,8 +71,8 @@ public class dScreenFX {
         }
         // -- aimer
         if(uiInterface.inplay) {
-            int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
-            int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
+            int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
+            int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
             int cx = eUtils.unscaleInt(cVars.getInt("camx"));
             int cy = eUtils.unscaleInt(cVars.getInt("camy"));
             int snapX = aimerx + cx;
