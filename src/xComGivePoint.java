@@ -7,8 +7,7 @@ public class xComGivePoint extends xCom {
             gPlayer givePointPlayer = gScene.getPlayerById(id);
             if(givePointPlayer != null)
                 nServer.instance().addExcludingNetCmd("server",
-                        "spawnpopup " + givePointPlayer.get("id") + " 1");
-//                nServer.instance().addNetCmd("echo " + nServer.instance().clientArgsMap.get(id).get("name") + " scored");
+                        "spawnpopup " + givePointPlayer.get("id") + " +1");
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";

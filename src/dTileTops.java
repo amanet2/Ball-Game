@@ -278,19 +278,15 @@ public class dTileTops {
         for(Object id : popupsMap.keySet()) {
             gPopup p = (gPopup) popupsMap.get(id);
             g.setColor(Color.BLACK);
-            g.drawString(p.get("text").substring(1),
+            g.drawString(p.get("text"),
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx") + 2),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy") + 2));
-            g.setColor(p.get("text").charAt(0) == '+' ?
-                    new Color(Integer.parseInt(sVars.get("fontcolorbonus").split(",")[0]),
-                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[1]),
-                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[2]),
-                            Integer.parseInt(sVars.get("fontcolorbonus").split(",")[3]))
-                    : new Color(Integer.parseInt(sVars.get("fontcoloralert").split(",")[0]),
-                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[1]),
-                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[2]),
-                    Integer.parseInt(sVars.get("fontcoloralert").split(",")[3])));
-            g.drawString(p.get("text").substring(1),
+            dFonts.setFontColorNormal(g);
+            if(p.get("text").charAt(0) == '+')
+                dFonts.setFontColorBonus(g);
+            else if(p.get("text").charAt(0) == '-')
+                dFonts.setFontColorAlert(g);
+            g.drawString(p.get("text"),
                     eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
         }
