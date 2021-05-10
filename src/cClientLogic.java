@@ -137,10 +137,6 @@ public class cClientLogic {
         }
     }
 
-    public static void doCommand(String cmd) {
-        nClient.instance().addNetCmd(cmd);
-    }
-
     static void checkGameState() {
         for(String id : gScene.getPlayerIds()) {
             if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))

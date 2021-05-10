@@ -7,7 +7,7 @@ public class xComAttack extends xCom {
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
-                cClientLogic.doCommand(fireString);
+                nClient.instance().addNetCmd(fireString);
                 br.putLong("cooldown", System.currentTimeMillis()
                         + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }
