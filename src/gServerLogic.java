@@ -158,16 +158,13 @@ public class gServerLogic {
 
     static void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
+        xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec maps/" + mapPath);
-        nServer.instance().addExcludingNetCmd("server", "clearthingmap THING_PLAYER;cv_maploaded 0;load");
+        nServer.instance().addExcludingNetCmd(String.format("server,%s", uiInterface.uuid),
+                "clearthingmap THING_PLAYER;load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
-            nServer.instance().sendMap(id);
-            String postString = String.format("spawnplayer %s %s %s",
-                    gClientLogic.getUserPlayer().get("id"),
-                    gClientLogic.getUserPlayer().get("coordx"),
-                    gClientLogic.getUserPlayer().get("coordy")
-            );
-            nServer.instance().addNetCmd(id, postString);
+            if(!id.equals(uiInterface.uuid))
+                nServer.instance().sendMap(id);
             xCon.ex("respawnnetplayer " + id);
         }
     }
