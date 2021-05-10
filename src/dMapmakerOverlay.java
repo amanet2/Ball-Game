@@ -31,7 +31,7 @@ public class dMapmakerOverlay {
         int w = 300;
         int h = 300;
         if(cVars.get("newprefabname").length() > 0) {
-            int[] pfd = cScripts.getNewPrefabDims();
+            int[] pfd = cEditorLogic.getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
         }

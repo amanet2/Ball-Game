@@ -19,7 +19,7 @@ public class dScreenMessages {
         //mousexy for editor
         if(sSettings.show_mapmaker_ui) {
             g.drawString(String.format("Mouse: %d,%d",
-                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
+                uiInterface.getPlaceObjCoords()[0],uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
         }
         //net
         if(sVars.isOne("shownet")) {

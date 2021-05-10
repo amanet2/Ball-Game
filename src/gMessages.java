@@ -19,7 +19,7 @@ public class gMessages {
     public static void checkMessages() {
         if(messageSend) {
             if(optionSet) {
-                cScripts.processOptionText(enteringOptionText, msgInProgress);
+                uiInterface.processOptionText(enteringOptionText, msgInProgress);
             }
             else {
                 if(msgInProgress.toLowerCase().equals("thetime")) {

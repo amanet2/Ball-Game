@@ -8,7 +8,7 @@ public class xComMouseLeft extends xCom {
                 if(sSettings.show_mapmaker_ui) {
                     int[] mc = uiInterface.getMouseCoordinates();
                     if(cVars.get("newprefabname").length() > 0) {
-                        int[] pfd = cScripts.getNewPrefabDims();
+                        int[] pfd = cEditorLogic.getNewPrefabDims();
                         int w = pfd[0];
                         int h = pfd[1];
                         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w / 2,

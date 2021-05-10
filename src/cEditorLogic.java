@@ -31,6 +31,25 @@ public class cEditorLogic {
         }
     }
 
+    public static int[] getNewPrefabDims() {
+        if(cVars.get("newprefabname").contains("room_large")) {
+            return new int[]{2400, 2400};
+        }
+        if(cVars.isVal("newprefabname", "end_wall")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        if(cVars.isVal("newprefabname", "cube")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "cube_large")) {
+            return new int[]{600, 600};
+        }
+        return new int[]{1200, 1200};
+    }
+
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);

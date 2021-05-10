@@ -100,6 +100,16 @@ public class uiInterface {
         };
     }
 
+    public static int[] getPlaceObjCoords() {
+        int[] mc = getMouseCoordinates();
+        int[] fabdims = cEditorLogic.getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+                cEditorLogic.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+                cEditorLogic.snapToY);
+        return new int[]{pfx, pfy};
+    }
+
     public static synchronized void getUIMenuItemUnderMouse() {
         if(cVars.isZero("blockmouseui")) {
             int[] mc = uiInterface.getMouseCoordinates();
@@ -133,6 +143,60 @@ public class uiInterface {
                 }
             }
             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+        }
+    }
+
+    public static synchronized void selectThingUnderMouse() {
+        int[] mc = uiInterface.getMouseCoordinates();
+        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selecteditemid", item.get("itemid"));
+                cVars.put("selecteditemname", item.get("type"));
+                cVars.put("selectedprefabid", "");
+                cVars.put("selectedprefabname", "");
+                return;
+            }
+        }
+        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selectedprefabname", block.get("prefabname"));
+                cVars.put("selecteditemid", "");
+                cVars.put("selecteditemname", "");
+                return;
+            }
+        }
+        cVars.put("selectedprefabid", "");
+        cVars.put("selecteditemid", "");
+    }
+
+    public static void processOptionText(String optionTitle, String enteredText) {
+        if("New Name".contains(optionTitle)) {
+            sVars.put("playername", enteredText);
+            uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[0].text =
+                    String.format("Name [%s]", sVars.get("playername"));
+        }
+        else if("New IP".contains(optionTitle)) {
+            sVars.put("joinip", enteredText);
+            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[1].text =
+                    String.format("Server IP [%s]", sVars.get("joinip"));
+        }
+        else if("New Port".contains(optionTitle)) {
+            sVars.put("joinport", enteredText);
+            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[2].text =
+                    String.format("Server Port [%s]", sVars.get("joinport"));
+        }
+        else if("New Score Limit".contains(optionTitle)) {
+            sVars.put("scorelimit", enteredText);
+            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[2].text =
+                    String.format("Score Limit [%s]", sVars.get("scorelimit"));
+        }
+        else if("New Time Limit".contains(optionTitle)) {
+            sVars.put("timelimit", enteredText);
+            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[3].text =
+                    String.format("Time Limit [%s]", sVars.get("timelimit"));
         }
     }
 

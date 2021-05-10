@@ -29,7 +29,7 @@ public class gClientLogic {
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         if(sSettings.show_mapmaker_ui)
-            cScripts.selectThingUnderMouse();
+            uiInterface.selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();
         if(getUserPlayer() != null) {
