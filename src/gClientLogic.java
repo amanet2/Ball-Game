@@ -38,6 +38,8 @@ public class gClientLogic {
             checkGameStateClient();
             checkPlayerFire();
         }
+        if(!sSettings.IS_SERVER)
+            eManager.updateEntityPositions();
     }
 
     public static void changeWeapon(int newweapon) {

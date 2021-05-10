@@ -11,6 +11,7 @@ public class gServerLogic {
         checkHealthStatus();
         checkForMapChange();
         checkGameState();
+        eManager.updateEntityPositions();
     }
 
     public static void resetGameState() {

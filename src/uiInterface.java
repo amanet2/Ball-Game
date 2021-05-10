@@ -33,7 +33,6 @@ public class uiInterface {
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
-                    eManager.updateEntityPositions();
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;
