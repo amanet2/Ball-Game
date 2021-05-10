@@ -157,8 +157,6 @@ public class eManager {
                 *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
         )/(double)bullet.getInt("ttl"))));
         //play animations on all clients
-        nServer.instance().addExcludingNetCmd("server",
-                "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
 //        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
 //            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
 //                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
@@ -168,6 +166,8 @@ public class eManager {
         if(sSettings.IS_SERVER) {
             String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
             nServer.instance().addNetCmd("server", cmdString);
+            nServer.instance().addExcludingNetCmd("server",
+                    "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
         }
     }
 }
