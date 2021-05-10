@@ -35,7 +35,6 @@ public class gClientLogic {
         checkColorStatus();
         if(getUserPlayer() != null) {
             pointPlayerAtMousePointer();
-            checkGameStateClient();
             checkPlayerFire();
         }
         if(!sSettings.IS_SERVER)
@@ -92,17 +91,6 @@ public class gClientLogic {
         p.checkSpriteFlip();
     }
 
-    public static void checkGameStateClient() {
-        if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
-            //gamestate checks, for server AND clients
-            //check to delete flags that should not be present anymore
-            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
-                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
-                xCon.ex("clearthingmap ITEM_FLAG");
-        }
-    }
-
     //clientside prediction for movement aka smoothing
     public static void checkMovementStatus() {
         //other players
@@ -147,6 +135,14 @@ public class gClientLogic {
                     obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
                             obj.get("id")).get("vels").split("-")[i]));
             }
+        }
+        if(nClient.instance().serverArgsMap.containsKey("server")
+                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
+            //gamestate checks, for server AND clients
+            //check to delete flags that should not be present anymore
+            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
+                xCon.ex("clearthingmap ITEM_FLAG");
         }
     }
 }
