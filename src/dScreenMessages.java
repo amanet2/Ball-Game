@@ -212,7 +212,7 @@ public class dScreenMessages {
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading
-        if(eManager.currentMap != null && cVars.isZero("maploaded")) {
+        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
         }
         //timeleft
