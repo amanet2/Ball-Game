@@ -6,13 +6,22 @@ public class gClientLogic {
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
         userPlayer = newUserPlayer;
-        cScripts.centerCamera();
+        gCamera.centerCamera();
     }
 
     public static gPlayer getUserPlayer() {
         if(userPlayer == null)
             userPlayer = gScene.getPlayerById(uiInterface.uuid);
         return userPlayer;
+    }
+
+    public static boolean isUserPlayer(gPlayer player) {
+        return player.isVal("id", uiInterface.uuid);
+    }
+
+    public static void checkPlayerFire() {
+        if(getUserPlayer() != null && iMouse.holdingMouseLeft)
+            xCon.ex("attack");
     }
 
     public static void gameLoop() {
@@ -23,6 +32,22 @@ public class gClientLogic {
             cScripts.selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();
+        if(getUserPlayer() != null) {
+//                cScripts.pointPlayerAtMousePointer();
+            checkGameStateClient();
+//                checkPlayersFire();
+        }
+    }
+
+    public static void checkGameStateClient() {
+        if(nClient.instance().serverArgsMap.containsKey("server")
+                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
+            //gamestate checks, for server AND clients
+            //check to delete flags that should not be present anymore
+            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
+                xCon.ex("clearthingmap ITEM_FLAG");
+        }
     }
 
     //clientside prediction for movement aka smoothing

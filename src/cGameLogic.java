@@ -9,11 +9,6 @@ public class cGameLogic {
         try {
 //            checkHatStatus();
 //            checkColorStatus();
-            if(gClientLogic.getUserPlayer() != null) {
-//                cScripts.pointPlayerAtMousePointer();
-                checkGameStateClient();
-//                checkPlayersFire();
-            }
 //            cScripts.checkBulletSplashes();
         }
         catch(Exception e) {
@@ -36,16 +31,7 @@ public class cGameLogic {
         }
     }
 
-    public static void checkGameStateClient() {
-        if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
-            //gamestate checks, for server AND clients
-            //check to delete flags that should not be present anymore
-            if (eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
-                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
-                xCon.ex("clearthingmap ITEM_FLAG");
-        }
-    }
+
 
     public static void checkHatStatus(){
         //player0
@@ -97,10 +83,6 @@ public class cGameLogic {
         nClient.instance().addNetCmd(cmd);
     }
 
-    public static boolean isUserPlayer(gPlayer player) {
-        return player.isVal("id", uiInterface.uuid);
-    }
-
     public static void rechargePlayersHealth() {
         HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
@@ -128,17 +110,5 @@ public class cGameLogic {
         rechargePlayersHealth();
     }
 
-    public static void checkForMapChange() {
-        if (cVars.getLong("intermissiontime") > 0
-                && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
-            cVars.put("intermissiontime", "-1");
-            cVars.putInt("timeleft", sVars.getInt("timelimit"));
-            xCon.ex("changemaprandom");
-        }
-    }
 
-    public static void checkPlayersFire() {
-        if(gClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft)
-                xCon.ex("attack");
-    }
 }

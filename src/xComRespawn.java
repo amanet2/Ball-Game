@@ -24,7 +24,7 @@ public class xComRespawn extends xCom {
             eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
             gClientLogic.setUserPlayer(player0);
             cVars.put("camplayertrackingid", uiInterface.uuid);
-            cScripts.centerCamera();
+            gCamera.centerCamera();
         }
         return "respawned";
     }
