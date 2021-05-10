@@ -4,8 +4,7 @@ public class uiMenusJoinGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("joingame");
-                        xCon.ex("pause");
+                        xCon.ex("joingame;pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },

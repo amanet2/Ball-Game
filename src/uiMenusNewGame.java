@@ -17,7 +17,6 @@ public class uiMenusNewGame extends uiMenu {
                     public void doItem() {
                         xCon.ex("newgame;joingame;pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
-                        cScoreboard.addId(uiInterface.uuid);
                     }
                 },
                 new uiMenuItem("MAP [<random map>]"){
