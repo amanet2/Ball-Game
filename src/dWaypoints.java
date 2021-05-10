@@ -46,7 +46,7 @@ public class dWaypoints {
                     eUtils.scaleInt(dx - cVars.getInt("camx")),
                     eUtils.scaleInt(dy - cVars.getInt("camy"))
                             -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
-            if(!cVars.isInt("gamemode", cGameMode.VIRUS)
+            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
                     && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
                 double angle = Math.atan2(deltas[1], deltas[0]);
                 if (angle < 0)
@@ -76,7 +76,7 @@ public class dWaypoints {
         if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")
         && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
-                case cGameMode.FLAG_MASTER:
+                case cGameLogic.FLAG_MASTER:
                     if(nClient.instance().serverArgsMap.get("server").get("state").length() > 0) {
                         if(!nClient.instance().serverArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
                             gPlayer p = gScene.getPlayerById(
@@ -96,7 +96,7 @@ public class dWaypoints {
                         }
                     }
                     break;
-                case cGameMode.VIRUS:
+                case cGameLogic.VIRUS:
                     if(nClient.instance().serverArgsMap != null && nClient.instance().serverArgsMap.containsKey("server")
                             && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
                         String statestr = nClient.instance().serverArgsMap.get("server").get("state");

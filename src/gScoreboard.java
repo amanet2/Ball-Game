@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class cScoreboard {
+public class gScoreboard {
     static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
 
     public static void resetScoresMap() {

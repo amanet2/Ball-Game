@@ -53,11 +53,11 @@ public class cEditorLogic {
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameMode.DEATHMATCH))
+            if(checkBoxMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameMode.VIRUS))
+            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameLogic.VIRUS))
                 checkBoxMenuItem.setSelected(true);
         }
     }
@@ -141,19 +141,19 @@ public class cEditorLogic {
         //fill gametypes menu
         for(String gametype : new String[]{"Killmaster", "Flagmaster", "Virusmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
-            if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameMode.DEATHMATCH))
+            if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+            else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameMode.VIRUS))
+            else if(gametypeMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameLogic.VIRUS))
                 gametypeMenuItem.setSelected(true);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Killmaster"))
-                    cVars.putInt("gamemode", cGameMode.DEATHMATCH);
+                    cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
                 else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    cVars.putInt("gamemode", cGameMode.FLAG_MASTER);
+                    cVars.putInt("gamemode", cGameLogic.FLAG_MASTER);
                 else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    cVars.putInt("gamemode", cGameMode.VIRUS);
+                    cVars.putInt("gamemode", cGameLogic.VIRUS);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

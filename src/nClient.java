@@ -238,10 +238,10 @@ public class nClient extends Thread {
                     String[] sstoks = stoks[j].split("-");
                     String scoreid = sstoks[0];
                     if(scoreid.length() > 0) {
-                        if (!cScoreboard.scoresMap.containsKey(scoreid)) {
-                            cScoreboard.addId(scoreid);
+                        if (!gScoreboard.scoresMap.containsKey(scoreid)) {
+                            gScoreboard.addId(scoreid);
                         }
-                        HashMap<String, Integer> scoresMapIdMap = cScoreboard.scoresMap.get(scoreid);
+                        HashMap<String, Integer> scoresMapIdMap = gScoreboard.scoresMap.get(scoreid);
                         if (scoresMapIdMap != null) {
                             scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
                             scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
@@ -261,7 +261,7 @@ public class nClient extends Thread {
         }
         if(tr.length() > 0) {
             serverArgsMap.remove(tr);
-            cScoreboard.scoresMap.remove(tr);
+            gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
             eManager.currentMap.scene.playersMap().remove(tr);
         }

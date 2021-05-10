@@ -1,7 +1,5 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class gMap {
@@ -17,7 +15,7 @@ public class gMap {
 	public gMap() {
         basicInit();
         mapName = "new";
-		cVars.putInt("gamemode", cGameMode.DEATHMATCH);
+		cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
 	}
 
 	public void saveAs(String filename, String foldername) {

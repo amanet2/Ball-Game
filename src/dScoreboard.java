@@ -10,14 +10,14 @@ public class dScoreboard {
                 Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
                 Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
         dFonts.drawCenteredString(g,
-                cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
-                        + cGameMode.net_gamemode_descriptions[cVars.getInt("gamemode")],
+                cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
+                        + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
         g.setColor(new Color(Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
-        g.drawString("["+cScoreboard.scoresMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
+        g.drawString("["+ gScoreboard.scoresMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                   Kills",
@@ -30,7 +30,7 @@ public class dScoreboard {
         int prevscore=-1000000;
         int prevplace = 0;
         String[] scoretoks = cVars.get("scoremap").split(":");
-        HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
+        HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
         for(String id : scoresMap.keySet()) {
             if(scoretoks.length > 0 && scoretoks.length == scoresMap.size()) {
                 if(scoretoks[i].split("-")[0].length() > 0)

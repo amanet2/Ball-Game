@@ -15,13 +15,13 @@ public class cServerLogic {
     }
 
     public static void resetGameState() {
-        cScoreboard.resetScoresMap();
+        gScoreboard.resetScoresMap();
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
         cVars.put("winnerid","");
         switch (cVars.getInt("gamemode")) {
-            case cGameMode.VIRUS:
-                cGameMode.resetVirusPlayers();
+            case cGameLogic.VIRUS:
+                cGameLogic.resetVirusPlayers();
                 break;
             default:
                 break;
@@ -43,7 +43,7 @@ public class cServerLogic {
         if(nServer.instance().clientArgsMap.containsKey("server")
                 && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
-                case cGameMode.FLAG_MASTER:
+                case cGameLogic.FLAG_MASTER:
                     if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
                             && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
                         nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
@@ -53,11 +53,11 @@ public class cServerLogic {
                         cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                     }
                     break;
-                case cGameMode.VIRUS:
+                case cGameLogic.VIRUS:
                     if(cVars.getLong("virustime") < uiInterface.gameTime) {
                         if(nServer.instance().clientArgsMap.containsKey("server")) {
                             if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
-                                cGameMode.resetVirusPlayers();
+                                cGameLogic.resetVirusPlayers();
                             }
                             for(String id : gScene.getPlayerIds()) {
                                 gPlayer p = gScene.getPlayerById(id);
@@ -109,24 +109,24 @@ public class cServerLogic {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)
-                    || (sVars.getInt("scorelimit") > 0 && cScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
+                    || (sVars.getInt("scorelimit") > 0 && gScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
                 //check for server win
-                if(cScoreboard.isTopScoreId("server")) {
+                if(gScoreboard.isTopScoreId("server")) {
                     cVars.put("winnerid", "server");
                     nServer.instance().addNetCmd("echo " + sVars.get("playername") + " wins!");
-                    cScoreboard.incrementScoreFieldById("server", "wins");
+                    gScoreboard.incrementScoreFieldById("server", "wins");
                 }
                 else {
                     //someone beats score
-                    String highestId = cScoreboard.getWinnerId();
+                    String highestId = gScoreboard.getWinnerId();
                     if(highestId.length() > 0) {
                         cVars.put("winnerid", highestId);
                         nServer.instance().addNetCmd("echo "
                                 + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        cScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
+                        gScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
@@ -167,6 +167,38 @@ public class cServerLogic {
         if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
             nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             cl.checkSpriteFlip();
+        }
+    }
+
+    public static void checkHatStatus(){
+        //player0
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
+        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
+            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+                    sVars.get("playerhat"))));
+        }
+        //others
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
+            gPlayer p = gScene.getPlayerById(id);
+            String chat = nServer.instance().clientArgsMap.get(id).get("hat");
+            if(p == null || chat == null)
+                continue;
+            if(!p.get("pathspritehat").contains(chat)) {
+                p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
+                p.put("hat", chat);
+            }
+        }
+    }
+
+    public static void checkWeaponsStatus() {
+        //other players
+        for(String id : nServer.instance().clientArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid)) {
+                gPlayer p = gScene.getPlayerById(id);
+                int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
+                if(!p.isInt("weapon", cweap))
+                    p.putInt("weapon", cweap);
+            }
         }
     }
 

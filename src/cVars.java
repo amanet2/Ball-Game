@@ -24,8 +24,8 @@ public class cVars {
         put("gamescale", "2160");
         put("gametick", "240");
         put("gamewon", "0");
-        putInt("gamemode", cGameMode.DEATHMATCH);
-        put("gamemodelist", Arrays.toString(cGameMode.net_gamemode_texts));
+        putInt("gamemode", cGameLogic.DEATHMATCH);
+        put("gamemodelist", Arrays.toString(cGameLogic.net_gamemode_texts));
         put("blockmouseui", "0");
         put("intermissiontime", "-1");
         put("maploaded", "0");

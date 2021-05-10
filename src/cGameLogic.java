@@ -1,33 +1,25 @@
 public class cGameLogic {
-    public static void checkHatStatus(){
-        //player0
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
-        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
-            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
-                    sVars.get("playerhat"))));
-        }
-        //others
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            gPlayer p = gScene.getPlayerById(id);
-            String chat = nServer.instance().clientArgsMap.get(id).get("hat");
-            if(p == null || chat == null)
-                continue;
-            if(!p.get("pathspritehat").contains(chat)) {
-                p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
-                p.put("hat", chat);
-            }
-        }
-    }
+    static final int DEATHMATCH = 0;
+    static final int VIRUS = 1;
+    static final int FLAG_MASTER = 2;
 
-    public static void checkWeaponsStatus() {
-        //other players
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
-                int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
-                if(!p.isInt("weapon", cweap))
-                    p.putInt("weapon", cweap);
-            }
+    static String[] net_gamemode_texts = {
+            "Kill Master",
+            "Virus Master",
+            "Flag Master"
+    };
+
+    static String[] net_gamemode_descriptions = {
+            "Kill other players",
+            "Don't catch the virus",
+            "Hold onto the flag"
+    };
+
+    public static void resetVirusPlayers() {
+        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
+            int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());
+            nServer.instance().clientArgsMap.get("server").put("state",
+                    nServer.instance().clientIds.get(randomClientIndex));
         }
     }
 }

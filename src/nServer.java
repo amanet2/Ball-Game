@@ -147,11 +147,11 @@ public class nServer extends Thread {
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
         //send scores
-        keys.put("scoremap", cScoreboard.createSortedScoreMapStringServer());
+        keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
         keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
-        keys.put("topscore", cScoreboard.getTopScoreString());
+        keys.put("topscore", gScoreboard.getTopScoreString());
         if(clientArgsMap.containsKey("server")
         && clientArgsMap.get("server").containsKey("state"))
             keys.put("state", clientArgsMap.get("server").get("state"));
@@ -255,7 +255,7 @@ public class nServer extends Thread {
                     player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);
-        cScoreboard.scoresMap.remove(id);
+        gScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
         eManager.currentMap.scene.playersMap().remove(id);
         clientIds.remove(id);
@@ -314,14 +314,14 @@ public class nServer extends Thread {
         if(toks[0].length() > 0) {
             String argload = toks[0];
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
-            HashMap<String, HashMap<String, Integer>> scoresMap = cScoreboard.scoresMap;
+            HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
             String packId = packArgMap.get("id");
             String packName = packArgMap.get("name");
             if(packId == null)
                 return;
             //insert new ids into the greater maps
             if(!scoresMap.containsKey(packId))
-                cScoreboard.addId(packId);
+                gScoreboard.addId(packId);
             if(!clientArgsMap.containsKey(packId)) {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);

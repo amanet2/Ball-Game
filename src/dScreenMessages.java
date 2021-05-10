@@ -24,9 +24,9 @@ public class dScreenMessages {
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
-                    && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
-                g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
+                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
                         0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
@@ -63,14 +63,14 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
                     29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
             dFonts.setFontColorHighlight(g);
-            if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
+            if(userPlayer != null && gScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
                 dFonts.drawRightJustifiedString(g,
-                        cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
+                        gScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
                         29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
             }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
-                    cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                 29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
         }
         //wip notice -> needs to be transparent
@@ -170,7 +170,7 @@ public class dScreenMessages {
             if(nClient.instance().serverArgsMap.get("server") != null
             && nClient.instance().serverArgsMap.get("server").get("topscore") != null
             && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
-                if(cClientLogic.getUserPlayer() != null && cScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id"))) {
+                if(cClientLogic.getUserPlayer() != null && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
@@ -183,7 +183,7 @@ public class dScreenMessages {
         //game alerts
 //        if(cClientLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
 //            switch(cVars.getInt("gamemode")) {
-//                case cGameMode.VIRUS:
+//                case cGameLogic.VIRUS:
 //                    if(nServer.instance().clientArgsMap.containsKey("server")
 //                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
 //                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
@@ -192,7 +192,7 @@ public class dScreenMessages {
 //                                sSettings.width / 2, 5*sSettings.height/8);
 //                    }
 //                    break;
-//                case cGameMode.FLAG_MASTER:
+//                case cGameLogic.FLAG_MASTER:
 //                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
 //                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
 //                                sSettings.width / 2, 5*sSettings.height/8);
