@@ -90,6 +90,7 @@ public class eManager {
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
                     - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
         }
+        checkBulletSplashes();
 	}
 
     public static void checkBulletSplashes() {

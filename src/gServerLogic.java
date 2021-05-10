@@ -8,7 +8,7 @@ public class gServerLogic {
                     sVars.getLong("timelimit") - (int) (uiInterface.gameTime - cVars.getLong("starttime")));
         else
             cVars.putLong("timeleft", -1);
-//        cGameLogic.checkHealthStatus();
+        checkHealthStatus();
         checkForMapChange();
         checkGameState();
     }
@@ -135,6 +135,30 @@ public class gServerLogic {
                         "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+            }
+        }
+    }
+
+    public static void checkHealthStatus() {
+        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+        Long currentTime = System.currentTimeMillis();
+        for(String id : argsMap.keySet()) {
+            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
+                    && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
+                xCon.ex("respawnnetplayer " + id);
+                argsMap.get(id).remove("respawntime");
+            }
+        }
+        //recharge players health
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        for(Object id : playersMap.keySet()) {
+            gPlayer p = (gPlayer) playersMap.get(id);
+            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                    p.put("stockhp", cVars.get("maxstockhp"));
+                else
+                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
             }
         }
     }

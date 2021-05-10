@@ -32,28 +32,4 @@ public class cGameLogic {
             }
         }
     }
-
-    public static void checkHealthStatus() {
-        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
-        Long currentTime = System.currentTimeMillis();
-        for(String id : argsMap.keySet()) {
-            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
-            && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                nServer.instance().addNetCmd("respawnnetplayer " + id);
-                argsMap.get(id).remove("respawntime");
-            }
-        }
-        //recharge players health
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
-        for(Object id : playersMap.keySet()) {
-            gPlayer p = (gPlayer) playersMap.get(id);
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
-                else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
-            }
-        }
-    }
 }

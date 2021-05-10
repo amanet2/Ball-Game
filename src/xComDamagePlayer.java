@@ -9,11 +9,11 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = gScene.getPlayerById(id);
             if(player != null) {
-                    player.subtractVal("stockhp", dmg);
-                    //store player object's health in outgoing network arg map
-                    nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
-                    //handle death
-                    if(player.getInt("stockhp") < 1) {
+                player.subtractVal("stockhp", dmg);
+                //store player object's health in outgoing network arg map
+                nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
+                //handle death
+                if(player.getInt("stockhp") < 1) {
                     //more server-side stuff
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                     if(shooterid.length() > 0) {
@@ -48,7 +48,6 @@ public class xComDamagePlayer extends xCom {
                         nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
                     }
                     nServer.instance().addNetCmd("removeplayer " + id);
-
                     eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());

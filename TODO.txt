@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* BRING BACK: respawning dead players
+    -> why doesnt it work properly when serverplayer gets involved?
 * ENGINE: hone Server/Client roles
     -> don't even have "offline player", a client is NEEDED to interact with the server.
         -> a client is the "user" represented

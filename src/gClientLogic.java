@@ -36,7 +36,7 @@ public class gClientLogic {
         if(getUserPlayer() != null) {
             pointPlayerAtMousePointer();
             checkGameStateClient();
-//                checkPlayersFire();
+            checkPlayerFire();
         }
     }
 
