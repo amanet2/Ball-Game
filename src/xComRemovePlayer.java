@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class xComRemovePlayer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
