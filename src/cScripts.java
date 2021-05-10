@@ -288,7 +288,7 @@ public class cScripts {
         //handle damage serverside
         if(sSettings.IS_SERVER) {
             String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-            nServer.instance().addNetCmd(cmdString);
+            nServer.instance().addNetCmd("server", cmdString);
         }
     }
 

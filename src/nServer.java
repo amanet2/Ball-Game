@@ -267,7 +267,7 @@ public class nServer extends Thread {
     public void run() {
         try {
             serverSocket = new DatagramSocket(sVars.getInt("joinport"));
-            while (true) {
+            while (sSettings.IS_SERVER) {
                 try {
 //                    netticks++;
 //                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
@@ -287,6 +287,7 @@ public class nServer extends Thread {
                     e.printStackTrace();
                 }
             }
+            interrupt();
         }
         catch (IOException ee) {
             eUtils.echoException(ee);
@@ -585,8 +586,6 @@ public class nServer extends Thread {
 
     public void disconnect() {
         sSettings.IS_SERVER = false;
-        if(isAlive())
-            interrupt();
 //                serverSocket.close();
         if (uiInterface.inplay)
             xCon.ex("pause");
