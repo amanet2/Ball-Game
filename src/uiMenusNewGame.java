@@ -15,7 +15,7 @@ public class uiMenusNewGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("newgame;pause;respawn");
+                        xCon.ex("newgame;joingame;pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                         cScoreboard.addId(uiInterface.uuid);
                     }

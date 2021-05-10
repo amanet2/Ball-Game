@@ -140,7 +140,6 @@ public class xCon {
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
         commands.put("removeplayer", new xComRemovePlayer());
-        commands.put("respawn", new xComRespawn());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
