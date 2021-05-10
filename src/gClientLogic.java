@@ -70,7 +70,7 @@ public class gClientLogic {
                 }
                 if(p.getDouble("fv") != cfv) {
                     p.putDouble("fv", cfv);
-                    cScripts.checkPlayerSpriteFlip(p);
+                    p.checkSpriteFlip();
                 }
                 for(int i = 0; i < cmovedirs.length; i++) {
                     if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))

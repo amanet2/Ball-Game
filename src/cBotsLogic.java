@@ -63,7 +63,7 @@ public class cBotsLogic {
                 int waypointErrorMargin = eUtils.scaleInt(300);
                 int rx = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
                 int ry = (int)(Math.random()*waypointErrorMargin-waypointErrorMargin/2);
-                cScripts.pointPlayerAtCoords(botPlayer,
+                botPlayer.pointAtCoords(
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
                 nServer.instance().addNetCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));

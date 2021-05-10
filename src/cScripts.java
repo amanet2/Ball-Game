@@ -15,18 +15,7 @@ public class cScripts {
             angle += 2*Math.PI;
         angle += Math.PI/2;
         p.putDouble("fv", angle);
-        checkPlayerSpriteFlip(p);
-    }
-
-    public static void pointPlayerAtCoords(gPlayer p, int x, int y) {
-        double dx = x - p.getInt("coordx") + p.getInt("dimw")/2;
-        double dy = y - p.getInt("coordy") + p.getInt("dimh")/2;
-        double angle = Math.atan2(dy, dx);
-        if (angle < 0)
-            angle += 2*Math.PI;
-        angle += Math.PI/2;
-        p.putDouble("fv", angle);
-        checkPlayerSpriteFlip(p);
+        p.checkSpriteFlip();
     }
 
     public static int[] getMouseCoordinates() {
@@ -36,52 +25,6 @@ public class cScripts {
             MouseInfo.getPointerInfo().getLocation().y - oDisplay.instance().frame.getLocationOnScreen().y
                 - oDisplay.instance().getContentPaneOffsetDimension()[1]
         };
-    }
-
-    public static void checkPlayerSpriteFlip(gPlayer p) {
-        if(p == null)
-            return;
-        if((p.getDouble("fv") >= 7*Math.PI/4 && p.getDouble("fv") <= 9*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a00")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", p.get("color"))));
-            }
-        }
-        else if((p.getDouble("fv") <= 3*Math.PI/4)
-            || (p.getDouble("fv") >= 2*Math.PI || p.getDouble("fv") <= 3*Math.PI/4)) {
-            if(!p.get("pathsprite").contains("a03")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-                        p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-                        p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                        p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-                            "misc/bfg.png";
-                gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-                    gWeapons.fromCode(p.getInt("weapon")).flipdimr;
-                gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-            }
-        }
-        else if(p.getDouble("fv") <= 5*Math.PI/4) {
-            if(!p.get("pathsprite").contains("a04")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",p.get("color"))));
-            }
-        }
-        else {
-            if(!p.get("pathsprite").contains("a05")) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",p.get("color"))));
-                String sprite = p.isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-                    p.isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-                    p.isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-                    p.isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                    p.isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-                        "misc/bfg_flip.png";
-                if(gWeapons.fromCode(p.getInt("weapon")) != null) {
-                    gWeapons.fromCode(p.getInt("weapon")).dims[1] =
-                            gWeapons.fromCode(p.getInt("weapon")).flipdiml;
-                    gWeapons.fromCode(p.getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-                }
-            }
-        }
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
@@ -323,7 +266,7 @@ public class cScripts {
         HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
         if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
             nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
-            checkPlayerSpriteFlip(cl);
+            cl.checkSpriteFlip();
         }
     }
 
@@ -333,7 +276,7 @@ public class cScripts {
             if(newweapon != p.getInt("weapon"))
                 xCon.ex("playsound sounds/grenpinpull.wav");
             p.putInt("weapon", newweapon);
-            checkPlayerSpriteFlip(gClientLogic.getUserPlayer());
+            gClientLogic.getUserPlayer().checkSpriteFlip();
         }
     }
 

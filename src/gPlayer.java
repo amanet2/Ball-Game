@@ -104,6 +104,61 @@ public class gPlayer extends gThing {
         return false;
     }
 
+    public void pointAtCoords(int x, int y) {
+        double dx = x - getInt("coordx") + getInt("dimw")/2;
+        double dy = y - getInt("coordy") + getInt("dimh")/2;
+        double angle = Math.atan2(dy, dx);
+        if (angle < 0)
+            angle += 2*Math.PI;
+        angle += Math.PI/2;
+        putDouble("fv", angle);
+        checkSpriteFlip();
+    }
+
+    public void checkSpriteFlip() {
+        if((getDouble("fv") >= 7*Math.PI/4 && getDouble("fv") <= 9*Math.PI/4)) {
+            if(!get("pathsprite").contains("a00")) {
+                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", get("color"))));
+            }
+        }
+        else if((getDouble("fv") <= 3*Math.PI/4)
+                || (getDouble("fv") >= 2*Math.PI || getDouble("fv") <= 3*Math.PI/4)) {
+            if(!get("pathsprite").contains("a03")) {
+                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",get("color"))));
+                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
+                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
+                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
+                                        isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
+                                                        "misc/bfg.png";
+                gWeapons.fromCode(getInt("weapon")).dims[1] =
+                        gWeapons.fromCode(getInt("weapon")).flipdimr;
+                gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+            }
+        }
+        else if(getDouble("fv") <= 5*Math.PI/4) {
+            if(!get("pathsprite").contains("a04")) {
+                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",get("color"))));
+            }
+        }
+        else {
+            if(!get("pathsprite").contains("a05")) {
+                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
+                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flipng" :
+                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flipng" :
+                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flipng" :
+                                        isInt("weapon", gWeapons.type.NONE.code()) ? "" :
+                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flipng" :
+                                                        "misc/bfg_flipng";
+                if(gWeapons.fromCode(getInt("weapon")) != null) {
+                    gWeapons.fromCode(getInt("weapon")).dims[1] =
+                            gWeapons.fromCode(getInt("weapon")).flipdiml;
+                    gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
+                }
+            }
+        }
+    }
+
     public void setHatSpriteFromPath(String newpath) {
         put("pathspritehat", newpath);
         spriteHat = gTextures.getScaledImage(get("pathspritehat"), 150, 300);
