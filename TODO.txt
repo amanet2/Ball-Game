@@ -8,6 +8,7 @@ FOCUS ITEMS
     -> don't even have "offline player", a client is NEEDED to interact with the server.
         -> a client is the "user" represented
     -> nServer and nClient ops should be audited to make sure they happen in the appropriate thread
+        -> same with the "cXXX" files
     -> server should do all world simulations
     -> client should receive world states and do prediction
 * ENGINE: refactor console commands to have sv_ or c_ prefixes depending on use

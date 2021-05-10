@@ -10,12 +10,12 @@ public class xComChangeMapRandom extends xCom {
             }
             gServerLogic.changeMap(eManager.mapsSelection[rand]);
             eManager.mapSelectionIndex = rand;
-            cGameLogic.resetGameState();
+            gServerLogic.resetGameState();
         }
         else {
             gServerLogic.changeMap(eManager.mapsSelection[0]);
             eManager.mapSelectionIndex = 0;
-            cGameLogic.resetGameState();
+            gServerLogic.resetGameState();
         }
         return "changed map (random)";
     }

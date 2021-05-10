@@ -15,7 +15,6 @@ public class uiInterface {
 
 	public static void startGame() {
 	    int ticks = 0;
-        cGameLogic.resetGameState();
         while(true) {
             try {
                 gameTime = System.currentTimeMillis();
@@ -35,7 +34,6 @@ public class uiInterface {
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
                     eManager.updateEntityPositions();
-                    cGameLogic.customLoop();
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;

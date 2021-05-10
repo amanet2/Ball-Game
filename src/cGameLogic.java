@@ -2,37 +2,6 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
-    /**
-     * executed at every game tick
-     */
-    public static void customLoop() {
-        try {
-//            checkHatStatus();
-//            checkColorStatus();
-//            cScripts.checkBulletSplashes();
-        }
-        catch(Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
-    }
-
-    public static void resetGameState() {
-        cScoreboard.resetScoresMap();
-        cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gamewon", "0");
-        cVars.put("winnerid","");
-        switch (cVars.getInt("gamemode")) {
-            case cGameMode.VIRUS:
-                cGameMode.resetVirusPlayers();
-                break;
-            default:
-                break;
-        }
-    }
-
-
-
     public static void checkHatStatus(){
         //player0
         gPlayer userPlayer = gClientLogic.getUserPlayer();

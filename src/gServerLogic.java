@@ -13,6 +13,20 @@ public class gServerLogic {
         checkGameState();
     }
 
+    public static void resetGameState() {
+        cScoreboard.resetScoresMap();
+        cVars.putLong("starttime", System.currentTimeMillis());
+        cVars.put("gamewon", "0");
+        cVars.put("winnerid","");
+        switch (cVars.getInt("gamemode")) {
+            case cGameMode.VIRUS:
+                cGameMode.resetVirusPlayers();
+                break;
+            default:
+                break;
+        }
+    }
+
     public static void checkGameState() {
         for(String id : gScene.getPlayerIds()) {
             //this shouldnt be needed, but when server user joins his own games, it is
