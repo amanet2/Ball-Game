@@ -6,7 +6,6 @@ public class gClientLogic {
         oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        nClient.instance().processPackets();
         if(sSettings.show_mapmaker_ui)
             cScripts.selectThingUnderMouse();
         checkGameState();

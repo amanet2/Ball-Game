@@ -78,6 +78,7 @@ public class nClient extends Thread {
                     clientSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
                 }
+                processPackets();
                 long networkTime = System.currentTimeMillis()
                         + (long)(1000.0/(double)sVars.getInt("rateclient"));
                 sleep(Math.max(0, networkTime-uiInterface.gameTime));
