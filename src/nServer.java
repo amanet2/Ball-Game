@@ -281,6 +281,9 @@ public class nServer extends Thread {
                     receivedPackets.add(receivePacket);
                     long networkTime = System.currentTimeMillis()
                             + (long) (1000.0 / (double) sVars.getInt("rateserver"));
+                    processPackets();
+                    checkOutgoingCmdMap();
+                    checkForUnhandledQuitters();
                     sleep(Math.max(0, networkTime - uiInterface.gameTime));
                 } catch (Exception e) {
                     eUtils.echoException(e);
