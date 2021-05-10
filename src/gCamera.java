@@ -34,7 +34,7 @@ public class gCamera {
 	public static void centerCamera() {
 		gThing p = gScene.getPlayerById(cVars.get("camplayertrackingid"));
 		if(p == null)
-			p = gClientLogic.getUserPlayer();
+			p = cClientLogic.getUserPlayer();
 		if(p != null) {
 			cVars.putInt("cammode", gCamera.MODE_TRACKING);
 			cVars.putInt("camx",

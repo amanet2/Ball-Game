@@ -8,12 +8,12 @@ public class dWaypoints {
         if(dx < -9000 && dy < -9000) {
             return;
         }
-        if(uiInterface.inplay && gClientLogic.getUserPlayer() != null) {
+        if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
-                    dx - gClientLogic.getUserPlayer().getInt("coordx")
-                            + gClientLogic.getUserPlayer().getInt("dimw")/2,
-                    dy - gClientLogic.getUserPlayer().getInt("coordy")
-                            + gClientLogic.getUserPlayer().getInt("dimh")/2};
+                    dx - cClientLogic.getUserPlayer().getInt("coordx")
+                            + cClientLogic.getUserPlayer().getInt("dimw")/2,
+                    dy - cClientLogic.getUserPlayer().getInt("coordy")
+                            + cClientLogic.getUserPlayer().getInt("dimh")/2};
             g2.setColor(new Color(255,100,50,150));
             int[][] polygondims = new int[][]{
                     new int[]{

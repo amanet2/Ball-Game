@@ -28,7 +28,7 @@ public class gWeaponsAutorifle extends gWeapon {
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
         eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
-        if(p == gClientLogic.getUserPlayer()) {
+        if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.AUTORIFLE.code());
             cVars.putLong("weapontime"+ gWeapons.type.AUTORIFLE.code(), System.currentTimeMillis());
         }

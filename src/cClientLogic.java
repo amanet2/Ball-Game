@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class gClientLogic {
+public class cClientLogic {
     static gScene scene;
     private static gPlayer userPlayer;
 
@@ -60,12 +60,12 @@ public class gClientLogic {
     }
 
     public static void changeWeapon(int newweapon) {
-        gPlayer p = gClientLogic.getUserPlayer();
+        gPlayer p = cClientLogic.getUserPlayer();
         if(p != null) {
             if(newweapon != p.getInt("weapon"))
                 xCon.ex("playsound sounds/grenpinpull.wav");
             p.putInt("weapon", newweapon);
-            gClientLogic.getUserPlayer().checkSpriteFlip();
+            cClientLogic.getUserPlayer().checkSpriteFlip();
         }
     }
 

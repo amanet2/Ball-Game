@@ -1,6 +1,6 @@
 public class xComUserPlayer extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer userPlayer = gClientLogic.getUserPlayer();
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer == null)
             return "no user player";
         String[] toks = fullCommand.split(" ");

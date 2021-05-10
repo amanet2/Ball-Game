@@ -13,7 +13,7 @@ public class uiMenusColor extends uiMenu {
             items[items.length-1] = new uiMenuItem(selection[i]){
                 public void doItem() {
                     String color = text;
-                    gPlayer user = gClientLogic.getUserPlayer();
+                    gPlayer user = cClientLogic.getUserPlayer();
                     sVars.put("playercolor", color);
                     uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text = String.format("Color: [%s]", color);
                     if(user != null) {

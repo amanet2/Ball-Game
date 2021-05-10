@@ -27,9 +27,9 @@ public class uiInterface {
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     iInput.readKeyInputs();
                     if(sSettings.IS_SERVER)
-                        gServerLogic.gameLoop();
+                        cServerLogic.gameLoop();
                     if(sSettings.IS_CLIENT)
-                        gClientLogic.gameLoop();
+                        cClientLogic.gameLoop();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
                     ticks += 1;

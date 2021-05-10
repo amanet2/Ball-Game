@@ -1,19 +1,19 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer br = gClientLogic.getUserPlayer();
+        gPlayer br = cClientLogic.getUserPlayer();
         int playerWeapon = br.getInt("weapon");
         if(playerWeapon == gWeapons.type.NONE.code()
             || playerWeapon == gWeapons.type.GLOVES.code()
             || cVars.getInt("weaponstock"+playerWeapon) > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
-                gClientLogic.doCommand(fireString);
+                cClientLogic.doCommand(fireString);
                 br.putLong("cooldown", System.currentTimeMillis()
                         + (long)(gWeapons.fromCode(br.getInt("weapon")).refiredelay));
             }
         }
         else {
-            gClientLogic.changeWeapon(0);
+            cClientLogic.changeWeapon(0);
         }
         return "attack";
     }

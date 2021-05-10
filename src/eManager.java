@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,7 +54,7 @@ public class eManager {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     //user player
-                    if(gClientLogic.isUserPlayer(obj)) {
+                    if(cClientLogic.isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
                             obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
                                     obj.getInt("vel" + i) + 1)));
@@ -133,7 +131,7 @@ public class eManager {
             currentMap.scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            gClientLogic.playPlayerDeathSound();
+            cClientLogic.playPlayerDeathSound();
             createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
         }
         HashMap popupsMap = currentMap.scene.getThingMap("THING_POPUP");

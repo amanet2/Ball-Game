@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class gServerLogic {
+public class cServerLogic {
     gScene scene;
     public static void gameLoop() {
         if(sVars.getInt("timelimit") > 0)

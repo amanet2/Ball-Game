@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class dAnimations {
     public static void drawAnimations(Graphics2D g2){
-        HashMap animationsMap = gClientLogic.scene.getThingMap("THING_ANIMATION");
+        HashMap animationsMap = cClientLogic.scene.getThingMap("THING_ANIMATION");
         for(Object id : animationsMap.keySet()) {
             gAnimationEmitter a = (gAnimationEmitter) animationsMap.get(id);
             if(a.getInt("frame") < gAnimations.animation_selection[a.getInt("animation")

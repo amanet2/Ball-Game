@@ -1,9 +1,7 @@
-import java.util.HashMap;
-
 public class cGameLogic {
     public static void checkHatStatus(){
         //player0
-        gPlayer userPlayer = gClientLogic.getUserPlayer();
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
             userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat"))));

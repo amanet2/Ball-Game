@@ -99,7 +99,7 @@ public class nClient extends Thread {
 
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
-        gPlayer userPlayer = gClientLogic.getUserPlayer();
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         //handle outgoing msg
         String outgoingMsg = dequeueNetMsg(); //dequeues w/ every call so call once a tick
         keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
@@ -226,7 +226,7 @@ public class nClient extends Thread {
             }
             //handle our own player to get things like stockhp from server
             if(idload.equals(uiInterface.uuid)) {
-                gPlayer userPlayer = gClientLogic.getUserPlayer();
+                gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null)
                     userPlayer.put("stockhp", packArgs.get("stockhp"));
             }

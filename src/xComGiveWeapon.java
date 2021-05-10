@@ -8,7 +8,7 @@ public class xComGiveWeapon extends xCom {
             if(player != null) {
                 player.putInt("weapon", weapon);
                 xCon.ex("playsound sounds/grenpinpull.wav");
-                gClientLogic.getUserPlayer().checkSpriteFlip();
+                cClientLogic.getUserPlayer().checkSpriteFlip();
             }
             return "gave weapon" + weapon + " to " + id;
         }

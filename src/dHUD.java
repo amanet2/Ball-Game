@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 
 public class dHUD {
     public static void drawHUD(Graphics g) {
-        gPlayer userPlayer = gClientLogic.getUserPlayer();
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
