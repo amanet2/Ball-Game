@@ -51,9 +51,9 @@ public class nServer extends Thread {
 //            System.out.println(id);
             if(!id.equals(uiInterface.uuid) && !id.equals("server")) {
                 //check currentTime vs last recorded checkin time
-                long lastrecordedtime = Long.parseLong(nServer.instance().clientArgsMap.get(id).get("time"));
+                long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
                 if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
-                    nServer.instance().addQuitClient(id);
+                    addQuitClient(id);
                 }
             }
         }
@@ -152,8 +152,8 @@ public class nServer extends Thread {
         keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", cScoreboard.getTopScoreString());
-        if(nServer.instance().clientArgsMap.containsKey("server")
-        && nServer.instance().clientArgsMap.get("server").containsKey("state"))
+        if(clientArgsMap.containsKey("server")
+        && clientArgsMap.get("server").containsKey("state"))
             keys.put("state", clientArgsMap.get("server").get("state"));
         else
             keys.put("state", "");
@@ -251,7 +251,7 @@ public class nServer extends Thread {
                 && clientArgsMap.get("server").get("state").equals(id)) {
             clientArgsMap.get("server").put("state", "");
             gPlayer player = gScene.getPlayerById(id);
-            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
+            addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                     player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);

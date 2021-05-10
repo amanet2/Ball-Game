@@ -101,11 +101,11 @@ public class nClient extends Thread {
         HashMap<String, String> keys = new HashMap<>();
         gPlayer userPlayer = cGameLogic.userPlayer();
         //handle outgoing msg
-        String outgoingMsg = nClient.instance().dequeueNetMsg(); //dequeues w/ every call so call once a tick
+        String outgoingMsg = dequeueNetMsg(); //dequeues w/ every call so call once a tick
         keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
         //handle outgoing cmd
         keys.put("cmd", "");
-        String outgoingCmd = nClient.instance().dequeueNetCmd(); //dequeues w/ every call so call once a tick
+        String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         //update id in net args
         keys.put("id", uiInterface.uuid);
@@ -148,7 +148,7 @@ public class nClient extends Thread {
     }
 
     private void processCmd(String cmdload) {
-        nClient.instance().sendMap.put("netcmdrcv","");
+        sendMap.put("netcmdrcv","");
         xCon.ex(cmdload);
     }
 
@@ -188,7 +188,7 @@ public class nClient extends Thread {
                 }
             }
             else if(!idload.equals(uiInterface.uuid)) {
-                if(nClient.instance().serverIds.contains(idload)) {
+                if(serverIds.contains(idload)) {
                     foundIds.add(idload);
                     String[] requiredFields = new String[]{"x", "y", "vels"};
                     boolean skip = false;
@@ -215,7 +215,7 @@ public class nClient extends Thread {
                     }
                 }
                 else {
-                    nClient.instance().serverIds.add(idload);
+                    serverIds.add(idload);
                     foundIds.add(idload);
                     gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
@@ -253,7 +253,7 @@ public class nClient extends Thread {
         }
         //check for ids that have been taken out of the server argmap
         String tr = "";
-        for(String s : nClient.instance().serverIds) {
+        for(String s : serverIds) {
             if(!foundIds.contains(s)) {
                 tr = s;
             }
@@ -261,7 +261,7 @@ public class nClient extends Thread {
         if(tr.length() > 0) {
             serverArgsMap.remove(tr);
             cScoreboard.scoresMap.remove(tr);
-            nClient.instance().serverIds.remove(tr);
+            serverIds.remove(tr);
             eManager.currentMap.scene.playersMap().remove(tr);
         }
     }
@@ -295,11 +295,11 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        nClient.instance().addNetCmd("requestdisconnect");
+        addNetCmd("requestdisconnect");
         sSettings.IS_CLIENT = false;
         clientSocket.close();
         serverArgsMap = new HashMap<>();
-        nClient.instance().serverIds = new ArrayList<>();
+        serverIds = new ArrayList<>();
         xCon.ex("load");
         if (uiInterface.inplay)
             xCon.ex("pause");
