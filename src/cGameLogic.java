@@ -21,20 +21,6 @@ public class cGameLogic {
         }
     }
 
-    public static void checkColorStatus(){
-        //check all id colors, including yours
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            gPlayer p = gScene.getPlayerById(id);
-            String ccol = nServer.instance().clientArgsMap.get(id).get("color");
-            if(p == null || ccol == null)
-                continue;
-            if(!p.get("pathsprite").contains(ccol)) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
-                        p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
-            }
-        }
-    }
-
     public static void checkWeaponsStatus() {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {

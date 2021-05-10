@@ -32,6 +32,7 @@ public class gClientLogic {
             uiInterface.selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();
+        checkColorStatus();
         if(getUserPlayer() != null) {
 //                cScripts.pointPlayerAtMousePointer();
             checkGameStateClient();
@@ -57,6 +58,20 @@ public class gClientLogic {
             xCon.ex("playsound sounds/shout.wav");
         else
             xCon.ex("playsound sounds/death.wav");
+    }
+
+    public static void checkColorStatus(){
+        //check all id colors, including yours
+        for(String id : nClient.instance().serverArgsMap.keySet()) {
+            gPlayer p = gScene.getPlayerById(id);
+            String ccol = nClient.instance().serverArgsMap.get(id).get("color");
+            if(p == null || ccol == null)
+                continue;
+            if(!p.get("pathsprite").contains(ccol)) {
+                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
+                        p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
+            }
+        }
     }
 
     public static void pointPlayerAtMousePointer() {
