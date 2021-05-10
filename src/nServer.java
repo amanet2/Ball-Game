@@ -390,12 +390,12 @@ public class nServer extends Thread {
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         //don't want to send the map AGAIN when we already are the server (hosting)
-        if(!sSettings.IS_CLIENT)
+        if(!packId.equals(uiInterface.uuid))
             sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui)
             xCon.ex(String.format("respawnnetplayer %s", packId));
-        addNetCmd(String.format("echo %s joined the game", packName));
+        addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
     }
 
     public void sendMap(String packId) {
