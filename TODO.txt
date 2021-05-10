@@ -4,8 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* BRING BACK: respawning dead players
-    -> why doesnt it work properly when serverplayer gets involved?
+* Make sure server & client are not doubling up on console commands
+    -> STEP 1: look at how game is initially started and how characters are spawned in
+    -> look at echo msgs
+    -> look at editor
+    -> look at emanager
 * ENGINE: hone Server/Client roles
     -> don't even have "offline player", a client is NEEDED to interact with the server.
         -> a client is the "user" represented

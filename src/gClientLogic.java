@@ -40,6 +40,7 @@ public class gClientLogic {
         }
         if(!sSettings.IS_SERVER)
             eManager.updateEntityPositions();
+        gMessages.checkMessages();
     }
 
     public static void changeWeapon(int newweapon) {

@@ -30,7 +30,6 @@ public class uiInterface {
                         gServerLogic.gameLoop();
                     if(sSettings.IS_CLIENT)
                         gClientLogic.gameLoop();
-                    gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
                     ticks += 1;
