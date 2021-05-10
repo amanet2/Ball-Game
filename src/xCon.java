@@ -151,13 +151,15 @@ public class xCon {
         commands.put("spawnanimation", new xComSpawnAnimation());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpopup", new xComSpawnPopup());
-        commands.put("cl_status", new xComStatusClient());
-        commands.put("sv_status", new xComStatusServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
+        commands.put("cl_status", new xComStatusClient());
+        commands.put("cl_sendcmd", new xComSendCmdClient());
+        commands.put("sv_status", new xComStatusServer());
+        commands.put("sv_sendcmd", new xComSendCmdServer());
     }
 
     public void saveLog(String s) {

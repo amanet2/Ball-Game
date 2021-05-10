@@ -212,9 +212,8 @@ public class dScreenMessages {
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading
-        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
+        if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
-        }
         //timeleft
         if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
                 || cVars.get("winnerid").length() > 0) {

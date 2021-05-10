@@ -20,13 +20,11 @@ public class xComDamagePlayer extends xCom {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                         cScoreboard.incrementScoreFieldById(shooterid, "kills");
                         nServer.instance().addNetCmd("echo " + killername + " killed " + victimname);
-                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
+                        if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH)
                             xCon.ex("givepoint " + shooterid);
-                        }
                     }
-                    else {
+                    else
                         nServer.instance().addNetCmd("echo " + victimname + " died");
-                    }
 //                        handle flag carrier dying
                     if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
                         nServer.instance().clientArgsMap.get("server").put("state", "");
