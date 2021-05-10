@@ -12,6 +12,7 @@ public class xComJoingame extends xCom {
         cVars.put("canvoteskip", "");
         nClient.instance().start();
         sSettings.IS_CLIENT = true;
+        gClientLogic.scene = new gScene();
         return "joined game";
     }
 }

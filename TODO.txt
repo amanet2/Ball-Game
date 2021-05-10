@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* See about having client and server each having their own scene/state
+    -> will relly help with the server-manage, client-display ideal
 * Make sure server & client are not doubling up on console commands
     -> STEP 1: look at how game is initially started and how characters are spawned in
     -> look at echo msgs

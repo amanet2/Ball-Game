@@ -104,11 +104,11 @@ public class eManager {
             gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);
-                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-                            eManager.createId(), new gAnimationEmitter(b.getInt("anim"),
-                                    b.getInt("coordx"), b.getInt("coordy")));
-                }
+//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
+//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
+//                            eManager.createId(), new gAnimationEmitter(b.getInt("anim"),
+//                                    b.getInt("coordx"), b.getInt("coordy")));
+//                }
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
                     pseeds.add(b);
@@ -147,17 +147,6 @@ public class eManager {
         if(popupIdToRemove.length() > 0) {
             popupsMap.remove(popupIdToRemove);
         }
-        //remove finished animations
-        HashMap animationMap = currentMap.scene.getThingMap("THING_ANIMATION");
-        for(Object id : animationMap.keySet()) {
-            gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
-            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
-                animationIdsToRemove.add((String) id);
-            }
-        }
-        for(String aid : animationIdsToRemove) {
-            currentMap.scene.getThingMap("THING_ANIMATION").remove(aid);
-        }
     }
 
     public static String createId() {
@@ -187,10 +176,10 @@ public class eManager {
                 new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
                         dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
                         Integer.toString(adjusteddmg), 0.0));
-        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
-                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-                            bullet.getInt("coordx"), bullet.getInt("coordy")));
+//        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+//            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+//                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+//                            bullet.getInt("coordx"), bullet.getInt("coordy")));
         eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
         if(sSettings.IS_SERVER) {

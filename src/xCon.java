@@ -148,7 +148,6 @@ public class xCon {
         commands.put("selectup", new xComSelectUp());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
-        commands.put("spawnanimation", new xComSpawnAnimation());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpopup", new xComSpawnPopup());
         commands.put("svarlist", new xComSVarlist());
@@ -156,10 +155,11 @@ public class xCon {
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
-        commands.put("cl_status", new xComStatusClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
-        commands.put("sv_status", new xComStatusServer());
+        commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
+        commands.put("cl_status", new xComStatusClient());
         commands.put("sv_sendcmd", new xComSendCmdServer());
+        commands.put("sv_status", new xComStatusServer());
     }
 
     public void saveLog(String s) {

@@ -33,10 +33,10 @@ public class xComDamagePlayer extends xCom {
                                 player.getInt("coordx"), player.getInt("coordy")));
                     }
                     //migrate all client death logic here
-                    String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
+                    String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
                             + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
                     //be sure not to send too much in one go, net comms
-                    nServer.instance().addNetCmd(animString);
+                    nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
                             Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
                     if(id.equals(uiInterface.uuid)) {

@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class gClientLogic {
-    gScene scene;
+    static gScene scene;
     private static gPlayer userPlayer;
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
@@ -37,9 +38,25 @@ public class gClientLogic {
             pointPlayerAtMousePointer();
             checkPlayerFire();
         }
+        checkFinishedAnimations();
         if(!sSettings.IS_SERVER)
             eManager.updateEntityPositions();
         gMessages.checkMessages();
+    }
+
+    public static void checkFinishedAnimations() {
+        ArrayList<String> animationIdsToRemove = new ArrayList<>();
+        //remove finished animations
+        HashMap animationMap = scene.getThingMap("THING_ANIMATION");
+        for(Object id : animationMap.keySet()) {
+            gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
+            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
+                animationIdsToRemove.add((String) id);
+            }
+        }
+        for(String aid : animationIdsToRemove) {
+            scene.getThingMap("THING_ANIMATION").remove(aid);
+        }
     }
 
     public static void changeWeapon(int newweapon) {
