@@ -26,10 +26,8 @@ public class uiInterface {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     iInput.readKeyInputs();
-//                    if(nServer.instance().isAlive())
                     if(sSettings.IS_SERVER)
                         gServerLogic.gameLoop();
-//                    if(nClient.instance().isAlive())
                     if(sSettings.IS_CLIENT)
                         gClientLogic.gameLoop();
                     gMessages.checkMessages();
@@ -54,9 +52,7 @@ public class uiInterface {
                 }
                 if(sSettings.framerate > 0) {
                     long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
-                    while (nextFrameTime >= System.nanoTime()) {
-//                        Thread.sleep(0,1);//do nothing
-                    }
+                    while (nextFrameTime >= System.nanoTime()); // do nothing
                 }
             } catch (Exception e) {
                 eUtils.echoException(e);

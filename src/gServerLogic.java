@@ -131,7 +131,8 @@ public class gServerLogic {
                     }
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-                nServer.instance().addNetCmd("playsound sounds/win/"+eManager.winClipSelection[toplay]);
+                nServer.instance().addExcludingNetCmd("server",
+                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
             }
