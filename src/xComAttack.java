@@ -1,6 +1,6 @@
 public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
-        gPlayer br = cGameLogic.userPlayer();
+        gPlayer br = gClientLogic.getUserPlayer();
         int playerWeapon = br.getInt("weapon");
         if(playerWeapon == gWeapons.type.NONE.code()
             || playerWeapon == gWeapons.type.GLOVES.code()

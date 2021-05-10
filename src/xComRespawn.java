@@ -5,7 +5,7 @@ public class xComRespawn extends xCom {
     public String doCommand(String fullCommand) {
         ArrayList<String> spawnpointids =
                 new ArrayList<>(eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
-        cGameLogic.setUserPlayer(null);
+        gClientLogic.setUserPlayer(null);
         eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(uiInterface.uuid);
         if(spawnpointids.size() > 0) {
             int randomSpawnpointIndex = new Random().nextInt(
@@ -22,7 +22,7 @@ public class xComRespawn extends xCom {
             player0.put("color", sVars.get("playercolor"));
             player0.put("stockhp", cVars.get("maxstockhp"));
             eManager.currentMap.scene.playersMap().put(player0.get("id"), player0);
-            cGameLogic.setUserPlayer(player0);
+            gClientLogic.setUserPlayer(player0);
             cVars.put("camplayertrackingid", uiInterface.uuid);
             cScripts.centerCamera();
         }

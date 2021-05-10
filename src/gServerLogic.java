@@ -18,9 +18,9 @@ public class gServerLogic {
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
             String postString = String.format("spawnplayer %s %s %s",
-                    cGameLogic.userPlayer().get("id"),
-                    cGameLogic.userPlayer().get("coordx"),
-                    cGameLogic.userPlayer().get("coordy")
+                    gClientLogic.getUserPlayer().get("id"),
+                    gClientLogic.getUserPlayer().get("coordx"),
+                    gClientLogic.getUserPlayer().get("coordy")
             );
             nServer.instance().addNetCmd(id, postString);
             xCon.ex("respawnnetplayer " + id);

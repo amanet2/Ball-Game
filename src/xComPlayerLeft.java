@@ -1,7 +1,7 @@
 public class xComPlayerLeft extends xCom {
     public String doCommand(String fullCommand) {
-        if(cGameLogic.userPlayer() != null) {
-            cGameLogic.userPlayer().putInt("mov2", 1);
+        if(gClientLogic.getUserPlayer() != null) {
+            gClientLogic.getUserPlayer().putInt("mov2", 1);
         }
         else {
             gCamera.move(2);
@@ -10,8 +10,8 @@ public class xComPlayerLeft extends xCom {
     }
 
     public String undoCommand(String fullCommand) {
-        if(cGameLogic.userPlayer() != null) {
-            cGameLogic.userPlayer().putInt("mov2", 0);
+        if(gClientLogic.getUserPlayer() != null) {
+            gClientLogic.getUserPlayer().putInt("mov2", 0);
         }
         else {
             gCamera.stopMove(2);

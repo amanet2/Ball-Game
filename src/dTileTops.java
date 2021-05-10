@@ -32,7 +32,7 @@ public class dTileTops {
         for(String tag : squareMap.keySet()) {
             gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cGameLogic.userPlayer();
+                gPlayer userplayer = gClientLogic.getUserPlayer();
                 if(userplayer != null) {
                     boolean indepth = block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                             > userplayer.getInt("coordy");
@@ -92,7 +92,7 @@ public class dTileTops {
         for(String tag : squareMap.keySet()) {
             gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cGameLogic.userPlayer();
+                gPlayer userplayer = gClientLogic.getUserPlayer();
                 if(userplayer != null) {
                     boolean indepth = block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                             > userplayer.getInt("coordy");
@@ -152,7 +152,7 @@ public class dTileTops {
         for(String tag : squareMap.keySet()) {
             gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cGameLogic.userPlayer();
+                gPlayer userplayer = gClientLogic.getUserPlayer();
                 if(userplayer != null) {
                     if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                             > userplayer.getInt("coordy"))
@@ -169,7 +169,7 @@ public class dTileTops {
         for(String tag : squareMap.keySet()) {
             gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cGameLogic.userPlayer();
+                gPlayer userplayer = gClientLogic.getUserPlayer();
                 if(userplayer != null) {
                     if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                             > userplayer.getInt("coordy"))
@@ -189,7 +189,7 @@ public class dTileTops {
                 dBlockTops.drawBlockTopCube(g2, block);
             }
             if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cGameLogic.userPlayer();
+                gPlayer userplayer = gClientLogic.getUserPlayer();
                 if(userplayer != null) {
                     if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                             > userplayer.getInt("coordy"))
@@ -298,7 +298,7 @@ public class dTileTops {
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sVars.isOne("drawplayerarrow")) {
-            gPlayer userPlayer = cGameLogic.userPlayer();
+            gPlayer userPlayer = gClientLogic.getUserPlayer();
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
             int midx = eUtils.scaleInt(userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2

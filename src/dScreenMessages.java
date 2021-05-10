@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
 
@@ -37,10 +35,10 @@ public class dScreenMessages {
                 uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
             //instance
-            if(cGameLogic.userPlayer() != null) {
+            if(gClientLogic.getUserPlayer() != null) {
                 g.drawString(String.format("Player: %d,%d",
-                        cGameLogic.userPlayer().getInt("coordx"),
-                        cGameLogic.userPlayer().getInt("coordy")),
+                        gClientLogic.getUserPlayer().getInt("coordx"),
+                        gClientLogic.getUserPlayer().getInt("coordy")),
                         0,10*sSettings.height/64);
             }
         }
@@ -52,7 +50,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
-            gPlayer userPlayer = cGameLogic.userPlayer();
+            gPlayer userPlayer = gClientLogic.getUserPlayer();
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {
@@ -172,7 +170,7 @@ public class dScreenMessages {
             if(nClient.instance().serverArgsMap.get("server") != null
             && nClient.instance().serverArgsMap.get("server").get("topscore") != null
             && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
-                if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
+                if(gClientLogic.getUserPlayer() != null && cScoreboard.isTopScoreId(gClientLogic.getUserPlayer().get("id"))) {
                     dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawCenteredString(g, "Leader: "
@@ -183,13 +181,13 @@ public class dScreenMessages {
         }
 
         //game alerts
-//        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
+//        if(gClientLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
 //            switch(cVars.getInt("gamemode")) {
 //                case cGameMode.VIRUS:
 //                    if(nServer.instance().clientArgsMap.containsKey("server")
 //                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
 //                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
-//                                cGameLogic.userPlayer().get("id"))) {
+//                                gClientLogic.userPlayer().get("id"))) {
 //                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
 //                                sSettings.width / 2, 5*sSettings.height/8);
 //                    }

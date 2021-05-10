@@ -5,7 +5,7 @@ public class cScripts {
     public static void centerCamera() {
         gThing p = gScene.getPlayerById(cVars.get("camplayertrackingid"));
         if(p == null)
-            p = cGameLogic.userPlayer();
+            p = gClientLogic.getUserPlayer();
         if(p != null) {
             cVars.putInt("cammode", gCamera.MODE_TRACKING);
             cVars.putInt("camx",
@@ -16,7 +16,7 @@ public class cScripts {
     }
 
     public static void pointPlayerAtMousePointer() {
-        gPlayer p = cGameLogic.userPlayer();
+        gPlayer p = gClientLogic.getUserPlayer();
         int[] mc = getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
                 - cVars.getInt("camx"));
@@ -340,12 +340,12 @@ public class cScripts {
     }
 
     public static void changeWeapon(int newweapon) {
-        gPlayer p = cGameLogic.userPlayer();
+        gPlayer p = gClientLogic.getUserPlayer();
         if(p != null) {
             if(newweapon != p.getInt("weapon"))
                 xCon.ex("playsound sounds/grenpinpull.wav");
             p.putInt("weapon", newweapon);
-            checkPlayerSpriteFlip(cGameLogic.userPlayer());
+            checkPlayerSpriteFlip(gClientLogic.getUserPlayer());
         }
     }
 

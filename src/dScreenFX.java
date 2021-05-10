@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
-        gPlayer userPlayer = cGameLogic.userPlayer();
+        gPlayer userPlayer = gClientLogic.getUserPlayer();
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {

@@ -13,7 +13,7 @@ public class xComSpawnPlayer extends xCom {
             if(playerId.contains("bot"))
                 eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             if(playerId.equals(uiInterface.uuid))
-                cGameLogic.setUserPlayer(newPlayer);
+                gClientLogic.setUserPlayer(newPlayer);
             return "spawned player " + playerId + " at " + x + " " + y;
         }
         return "usage: spawnplayer <player_id> <x> <y>";

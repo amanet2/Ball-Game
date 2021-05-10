@@ -2,19 +2,6 @@ import java.util.HashMap;
 
 public class cGameLogic {
 
-    private static gPlayer userPlayer;
-
-    public static void setUserPlayer(gPlayer newUserPlayer) {
-        userPlayer = newUserPlayer;
-        cScripts.centerCamera();
-    }
-
-    public static gPlayer userPlayer() {
-        if(userPlayer == null)
-            userPlayer = gScene.getPlayerById(uiInterface.uuid);
-        return userPlayer;
-    }
-
     /**
      * executed at every game tick
      */
@@ -22,7 +9,7 @@ public class cGameLogic {
         try {
 //            checkHatStatus();
 //            checkColorStatus();
-            if(userPlayer() != null) {
+            if(gClientLogic.getUserPlayer() != null) {
 //                cScripts.pointPlayerAtMousePointer();
                 checkGameStateClient();
 //                checkPlayersFire();
@@ -62,7 +49,7 @@ public class cGameLogic {
 
     public static void checkHatStatus(){
         //player0
-        gPlayer userPlayer = cGameLogic.userPlayer();
+        gPlayer userPlayer = gClientLogic.getUserPlayer();
         if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
             userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
                     sVars.get("playerhat"))));
@@ -151,7 +138,7 @@ public class cGameLogic {
     }
 
     public static void checkPlayersFire() {
-        if(cGameLogic.userPlayer() != null && iMouse.holdingMouseLeft)
+        if(gClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft)
                 xCon.ex("attack");
     }
 }

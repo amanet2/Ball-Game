@@ -2,6 +2,19 @@ import java.util.HashMap;
 
 public class gClientLogic {
     gScene scene;
+    private static gPlayer userPlayer;
+
+    public static void setUserPlayer(gPlayer newUserPlayer) {
+        userPlayer = newUserPlayer;
+        cScripts.centerCamera();
+    }
+
+    public static gPlayer getUserPlayer() {
+        if(userPlayer == null)
+            userPlayer = gScene.getPlayerById(uiInterface.uuid);
+        return userPlayer;
+    }
+
     public static void gameLoop() {
         oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();

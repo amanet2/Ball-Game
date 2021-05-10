@@ -15,7 +15,7 @@ public class xComPause extends xCom {
 //                //delete user player
 //                xCon.ex("playsound sounds/grenpinpull.wav");
 //                if (sSettings.show_mapmaker_ui) {
-//                    cGameLogic.setUserPlayer(null);
+//                    gClientLogic.setUserPlayer(null);
 //                    eManager.currentMap.scene.objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
 //                }
 //                if (sSettings.show_mapmaker_ui)
@@ -27,7 +27,7 @@ public class xComPause extends xCom {
 ////                    xCon.ex("playsound sounds/clampdown.wav");
 ////                }
 ////                if(sSettings.show_mapmaker_ui) {
-////                    if(cGameLogic.userPlayer() != null)
+////                    if(gClientLogic.userPlayer() != null)
 ////                        xCon.ex("gospectate");
 ////                    else {
 ////                        xCon.ex("gounspectate");
@@ -40,7 +40,7 @@ public class xComPause extends xCom {
 ////                    xCon.ex("playsound sounds/clampdown.wav");
 ////                }
 ////                if(sSettings.show_mapmaker_ui) {
-////                    if(cGameLogic.userPlayer() != null) {
+////                    if(gClientLogic.userPlayer() != null) {
 ////                        nServer.instance().isPlaying = false;
 ////                        xCon.ex("gospectate");
 ////                    }

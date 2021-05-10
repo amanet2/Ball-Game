@@ -69,7 +69,7 @@ public class gScene {
 
     public void clearPlayers() {
 	    objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
-	    cGameLogic.setUserPlayer(null);
+	    gClientLogic.setUserPlayer(null);
     }
 
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {

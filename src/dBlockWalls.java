@@ -12,7 +12,7 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCube(g2, block);
                 else {
-                    gPlayer userplayer = cGameLogic.userPlayer();
+                    gPlayer userplayer = gClientLogic.getUserPlayer();
                     if(userplayer != null) {
                         if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                                 <= userplayer.getInt("coordy"))
@@ -34,7 +34,7 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerUR(g2, block);
                 else {
-                    gPlayer userplayer = cGameLogic.userPlayer();
+                    gPlayer userplayer = gClientLogic.getUserPlayer();
                     if(userplayer != null) {
                         int[][] bottomSectionPoints = new int[][]{
                                 new int[] {
@@ -99,7 +99,7 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerUL(g2, block);
                 else {
-                    gPlayer userplayer = cGameLogic.userPlayer();
+                    gPlayer userplayer = gClientLogic.getUserPlayer();
                     if(userplayer != null) {
                         int[][] bottomSectionPoints = new int[][]{
                                 new int[] {
@@ -164,7 +164,7 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLR(g2, block);
                 else {
-                    gPlayer userplayer = cGameLogic.userPlayer();
+                    gPlayer userplayer = gClientLogic.getUserPlayer();
                     if(userplayer != null) {
                         if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                                 <= userplayer.getInt("coordy"))
@@ -186,7 +186,7 @@ public class dBlockWalls {
                 if(block.isZero("frontwall"))
                     drawBlockWallCornerLL(g2, block);
                 else {
-                    gPlayer userplayer = cGameLogic.userPlayer();
+                    gPlayer userplayer = gClientLogic.getUserPlayer();
                     if(userplayer != null) {
                         if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
                                 <= userplayer.getInt("coordy"))
