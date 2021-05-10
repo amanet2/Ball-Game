@@ -39,6 +39,26 @@ public class gClientLogic {
         }
     }
 
+    public static void changeWeapon(int newweapon) {
+        gPlayer p = gClientLogic.getUserPlayer();
+        if(p != null) {
+            if(newweapon != p.getInt("weapon"))
+                xCon.ex("playsound sounds/grenpinpull.wav");
+            p.putInt("weapon", newweapon);
+            gClientLogic.getUserPlayer().checkSpriteFlip();
+        }
+    }
+
+    public static void playPlayerDeathSound() {
+        double r = Math.random();
+        if(r > .99)
+            xCon.ex("playsound sounds/growl.wav");
+        else if(r > .49)
+            xCon.ex("playsound sounds/shout.wav");
+        else
+            xCon.ex("playsound sounds/death.wav");
+    }
+
     public static void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();

@@ -13,7 +13,7 @@ public class xComAttack extends xCom {
             }
         }
         else {
-            cScripts.changeWeapon(0);
+            gClientLogic.changeWeapon(0);
         }
         return "attack";
     }

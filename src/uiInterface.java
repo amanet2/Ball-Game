@@ -13,7 +13,7 @@ public class uiInterface {
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
     private static int frames = 0;
-    static String uuid = cScripts.createId();
+    static String uuid = eManager.createId();
 
 	public static void startGame() {
 	    int ticks = 0;

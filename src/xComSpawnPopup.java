@@ -6,7 +6,7 @@ public class xComSpawnPopup extends xCom {
             if(p == null)
                 return "no player for id: " + toks[1];
             int points = Integer.parseInt(toks[2]);
-            eManager.currentMap.scene.getThingMap("THING_POPUP").put(cScripts.createId(),
+            eManager.currentMap.scene.getThingMap("THING_POPUP").put(eManager.createId(),
                     new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                             p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                             String.format("+%d", points), 0.0));
