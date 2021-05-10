@@ -389,7 +389,9 @@ public class nServer extends Thread {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-        sendMap(packId);
+        //don't want to send the map AGAIN when we already are the server (hosting)
+        if(!sSettings.IS_CLIENT)
+            sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui)
             xCon.ex(String.format("respawnnetplayer %s", packId));
