@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* CLIENT: make sure, if hosting server, that client doesnt touch emanager scene
+* ENGINE: thing_popup can only exist on client
+    -> dedicated to display, so server doesnt need
+* CLIENT: make sure, if hosting server, that client doesnt do bad things (eManager.scene)
+    -> createdamagepopup, i think gets called twice
 * GAME: focus on flagmaster for first gametype
     -> support multiple flags/masters e.g. 4 players, 3 flags
 * Make sure server & client are not doubling up on console commands

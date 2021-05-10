@@ -6,7 +6,8 @@ public class xComGivePoint extends xCom {
             gScoreboard.incrementScoreFieldById(id, "score");
             gPlayer givePointPlayer = gScene.getPlayerById(id);
             if(givePointPlayer != null)
-                nServer.instance().addNetCmd("spawnpopup " + givePointPlayer.get("id") + " 1");
+                nServer.instance().addExcludingNetCmd("server",
+                        "spawnpopup " + givePointPlayer.get("id") + " 1");
 //                nServer.instance().addNetCmd("echo " + nServer.instance().clientArgsMap.get(id).get("name") + " scored");
             return "gave point to " + id;
         }

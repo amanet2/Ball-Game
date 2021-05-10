@@ -38,6 +38,7 @@ public class cClientLogic {
             checkPlayerFire();
         }
         checkFinishedAnimations();
+        checkExpiredPopups();
         if(!sSettings.IS_SERVER)
             eManager.updateEntityPositions();
         gMessages.checkMessages();
@@ -55,6 +56,21 @@ public class cClientLogic {
         }
         for(String aid : animationIdsToRemove) {
             eManager.currentMap.scene.getThingMap("THING_ANIMATION").remove(aid);
+        }
+    }
+
+    public static void checkExpiredPopups() {
+        String popupIdToRemove = "";
+        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup g = (gPopup) popupsMap.get(id);
+            if(g.getLong("timestamp") < System.currentTimeMillis() - cVars.getInt("popuplivetime")) {
+                popupIdToRemove = (String) id;
+                break;
+            }
+        }
+        if(popupIdToRemove.length() > 0) {
+            popupsMap.remove(popupIdToRemove);
         }
     }
 

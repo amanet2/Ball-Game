@@ -93,9 +93,7 @@ public class eManager {
 
     public static void checkBulletSplashes() {
         ArrayList bulletsToRemoveIds = new ArrayList<>();
-        ArrayList<String> animationIdsToRemove = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
-        String popupIdToRemove = "";
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap bulletsMap = currentMap.scene.getThingMap("THING_BULLET");
         for(Object id : bulletsMap.keySet()) {
@@ -134,17 +132,6 @@ public class eManager {
             cClientLogic.playPlayerDeathSound();
             createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
         }
-        HashMap popupsMap = currentMap.scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup g = (gPopup) popupsMap.get(id);
-            if(g.getLong("timestamp") < System.currentTimeMillis() - cVars.getInt("popuplivetime")) {
-                popupIdToRemove = (String) id;
-                break;
-            }
-        }
-        if(popupIdToRemove.length() > 0) {
-            popupsMap.remove(popupIdToRemove);
-        }
     }
 
     public static String createId() {
@@ -170,10 +157,8 @@ public class eManager {
                 *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
         )/(double)bullet.getInt("ttl"))));
         //play animations on all clients
-        eManager.currentMap.scene.getThingMap("THING_POPUP").put(eManager.createId(),
-                new gPopup(dmgvictim.getInt("coordx") + (int)(Math.random()*(dmgvictim.getInt("dimw")+1)),
-                        dmgvictim.getInt("coordy") + (int)(Math.random()*(dmgvictim.getInt("dimh")+1)),
-                        Integer.toString(adjusteddmg), 0.0));
+        nServer.instance().addExcludingNetCmd("server",
+                "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
 //        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
 //            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
 //                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
