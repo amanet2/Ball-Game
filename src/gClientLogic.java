@@ -34,7 +34,7 @@ public class gClientLogic {
         checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null) {
-//                cScripts.pointPlayerAtMousePointer();
+            pointPlayerAtMousePointer();
             checkGameStateClient();
 //                checkPlayersFire();
         }
