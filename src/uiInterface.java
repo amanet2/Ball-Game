@@ -25,9 +25,11 @@ public class uiInterface {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
                     iInput.readKeyInputs();
+//                    if(nServer.instance().isAlive())
                     if(sSettings.IS_SERVER)
                         gServerLogic.gameLoop();
-                    if (sSettings.IS_CLIENT)
+//                    if(nClient.instance().isAlive())
+                    if(sSettings.IS_CLIENT)
                         gClientLogic.gameLoop();
                     gMessages.checkMessages();
                     camReport[0] = cVars.getInt("camx");

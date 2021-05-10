@@ -53,7 +53,7 @@ public class nClient extends Thread {
 
     public void run() {
         int retries = 0;
-        while(true) {
+        while(sSettings.IS_CLIENT) {
             try {
                 netticks += 1;
                 if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
@@ -93,6 +93,7 @@ public class nClient extends Thread {
                 }
             }
         }
+        interrupt();
     }
 
     private HashMap<String, String> getNetVars() {
@@ -294,8 +295,6 @@ public class nClient extends Thread {
 
     public void disconnect() {
         nClient.instance().addNetCmd("requestdisconnect");
-        if(isAlive())
-            interrupt();
         sSettings.IS_CLIENT = false;
         clientSocket.close();
         serverArgsMap = new HashMap<>();

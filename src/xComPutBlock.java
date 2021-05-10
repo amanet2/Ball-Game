@@ -56,7 +56,6 @@ public class xComPutBlock extends xCom {
                 newBlock.put("prefabid", cVars.get("prefabid"));
                 newBlock.put("prefabname", cVars.get("newprefabname"));
                 blockReturn.storeBlock(newBlock, eManager.currentMap.scene);
-
             }
         }
         return "usage: putblock <BLOCK_TITLE> <args>";

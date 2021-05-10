@@ -24,7 +24,7 @@ public class dScreenMessages {
                 cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
         }
         //net
-        if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
+        if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
             if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
                     && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
@@ -53,29 +53,27 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
             gPlayer userPlayer = cGameLogic.userPlayer();
-            if(cScripts.isNetworkGame()) {
-                long timeleft = cVars.getLong("timeleft");
-                if(timeleft > -1) {
-                    if(timeleft < 30000) {
-                        dFonts.setFontColorAlert(g);
-                    }
-                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                            29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+            long timeleft = cVars.getLong("timeleft");
+            if(timeleft > -1) {
+                if(timeleft < 30000) {
+                    dFonts.setFontColorAlert(g);
                 }
-                else if(cVars.getInt("scorelimit") > 0)
-                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
+                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-                dFonts.setFontColorHighlight(g);
-                if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
-                    dFonts.drawRightJustifiedString(g,
-                            cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
-                            29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
-                }
-                dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g,
-                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                    29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
+            else if(cVars.contains("scorelimit") && cVars.getInt("scorelimit") > 0)
+                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
+                    29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+            dFonts.setFontColorHighlight(g);
+            if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
+                dFonts.drawRightJustifiedString(g,
+                        cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
+                        29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+            }
+            dFonts.setFontColorNormal(g);
+            dFonts.drawRightJustifiedString(g,
+                    cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
@@ -216,15 +214,13 @@ public class dScreenMessages {
                     sSettings.width / 2, 5*sSettings.height/8);
         }
         //loading
-        if(cScripts.isNetworkGame() && eManager.currentMap != null && cVars.isZero("maploaded")) {
+        if(eManager.currentMap != null && cVars.isZero("maploaded")) {
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
         }
         //timeleft
-        if(cScripts.isNetworkGame()) {
-            if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
-                    || cVars.get("winnerid").length() > 0) {
-                dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
-            }
+        if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
+                || cVars.get("winnerid").length() > 0) {
+            dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
         }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {

@@ -45,11 +45,11 @@ public class gClientLogic {
 
     static void checkGameState() {
         for(String id : gScene.getPlayerIds()) {
-            if(id.equals(uiInterface.uuid))
+            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
                 continue;
             gPlayer obj = gScene.getPlayerById(id);
             for (int i = 0; i < 4; i++) {
-                if(nClient.instance().serverArgsMap.get(obj.get("id")).containsKey("vels"))
+                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
                             obj.get("id")).get("vels").split("-")[i]));
             }

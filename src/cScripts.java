@@ -353,8 +353,4 @@ public class cScripts {
         cVars.putLong("intermissiontime",
                 System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
     }
-
-    public static boolean isNetworkGame() {
-        return sSettings.IS_SERVER || sSettings.IS_CLIENT;
-    }
 }
