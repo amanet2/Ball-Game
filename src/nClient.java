@@ -277,7 +277,7 @@ public class nClient extends Thread {
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-            if(cmdString.contains("fireweapon")) //handle special firing case
+            if(!sSettings.IS_SERVER && cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString);
             return netSendCmds.remove();
         }
