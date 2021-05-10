@@ -46,7 +46,7 @@ public class xComDamagePlayer extends xCom {
                         nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
                     }
                     xCon.ex("removeplayer " + id);
-                    eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
+                    eManager.currentMap.scene.playersMap().remove(id);
                 }
                 player.putLong("hprechargetime", System.currentTimeMillis());
                 return id + " took " + dmg + " dmg from " + shooterid;

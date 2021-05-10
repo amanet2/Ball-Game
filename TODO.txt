@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GAME: focus on flagmaster for first gametype
+    -> support multiple flags/masters e.g. 4 players, 3 flags
 * See about having client and server each having their own scene/state
     -> will relly help with the server-manage, client-display ideal
 * Make sure server & client are not doubling up on console commands

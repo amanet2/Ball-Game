@@ -3,7 +3,7 @@ public class xComRemovePlayer extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
             String id = toks[1];
-            eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
+            eManager.currentMap.scene.playersMap().remove(id);
             if(id.equals(uiInterface.uuid)) {
                 cClientLogic.setUserPlayer(null);
             }

@@ -149,7 +149,7 @@ public class cServerLogic {
             }
         }
         //recharge players health
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        HashMap playersMap = eManager.currentMap.scene.playersMap();
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&

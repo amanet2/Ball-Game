@@ -5,11 +5,11 @@ public class xComSpawnPlayer extends xCom {
             String playerId = toks[1];
             int x = Integer.parseInt(toks[2]);
             int y = Integer.parseInt(toks[3]);
-            eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(playerId);
+            eManager.currentMap.scene.playersMap().remove(playerId);
             eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").remove(playerId);
             gPlayer newPlayer = new gPlayer(x, y, eUtils.getPath("animations/player_red/a03.png"));
             newPlayer.put("id", playerId);
-            eManager.currentMap.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+            eManager.currentMap.scene.playersMap().put(playerId, newPlayer);
             if(playerId.contains("bot"))
                 eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             if(playerId.equals(uiInterface.uuid))
