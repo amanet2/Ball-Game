@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class gWeapon implements fWeapon{
+public class gWeapon {
     String name;
     Image sprite;
     int maxAmmo;
