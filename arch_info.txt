@@ -51,3 +51,5 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> start server with "newgame"
     -> join with "joingame"
     -> gospectate/gounspectate work great for dynamic testing
+* for server's user, sending cmds to the server should result in server executing it on itself
+    -> the server user's client doesnt need to execute, just see what happens on the server

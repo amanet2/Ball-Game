@@ -73,14 +73,14 @@ public class dWaypoints {
         }
     }
     public static void drawWaypoints(Graphics2D g2) {
-        if(uiInterface.inplay && nServer.instance().clientArgsMap.containsKey("server")
-        && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
+        if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")
+        && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameMode.FLAG_MASTER:
-                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0) {
-                        if(!nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
+                    if(nClient.instance().serverArgsMap.get("server").get("state").length() > 0) {
+                        if(!nClient.instance().serverArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
                             gPlayer p = gScene.getPlayerById(
-                                    nServer.instance().clientArgsMap.get("server").get("state"));
+                                    nClient.instance().serverArgsMap.get("server").get("state"));
                             if(p == null)
                                 break;
                             dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
@@ -97,9 +97,9 @@ public class dWaypoints {
                     }
                     break;
                 case cGameMode.VIRUS:
-                    if(nServer.instance().clientArgsMap != null && nServer.instance().clientArgsMap.containsKey("server")
-                            && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-                        String statestr = nServer.instance().clientArgsMap.get("server").get("state");
+                    if(nClient.instance().serverArgsMap != null && nClient.instance().serverArgsMap.containsKey("server")
+                            && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
+                        String statestr = nClient.instance().serverArgsMap.get("server").get("state");
                         for (String id : gScene.getPlayerIds()) {
                             gPlayer p = gScene.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {

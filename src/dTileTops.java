@@ -260,7 +260,7 @@ public class dTileTops {
         //animations
         dAnimations.drawAnimations(g2);
         //safezone pointer
-//        dWaypoints.drawWaypoints(g2);
+        dWaypoints.drawWaypoints(g2);
         //popups
         drawPopups(g);
         //player highlight
