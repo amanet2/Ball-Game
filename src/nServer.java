@@ -521,7 +521,7 @@ public class nServer extends Thread {
     }
 
     private void handleClientMessage(String msg) {
-        addNetCmd("echo " + msg);
+        addExcludingNetCmd("server", "echo " + msg);
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
