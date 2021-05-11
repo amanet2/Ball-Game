@@ -218,9 +218,9 @@ public class cVars {
     }
 
     public static void assignRandomPlayerIdToVar(String cvar) {
-        int r = (int) (Math.random()*((double)gScene.getPlayerIds().size()));
+        int r = (int) (Math.random()*((double)eManager.getPlayerIds().size()));
         int c = 0;
-        for(String id : gScene.getPlayerIds()) {
+        for(String id : eManager.getPlayerIds()) {
             if(c==r)
                 cVars.put(cvar, id);
             c++;

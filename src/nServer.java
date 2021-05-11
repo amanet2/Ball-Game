@@ -250,7 +250,7 @@ public class nServer extends Thread {
         if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("state")
                 && clientArgsMap.get("server").get("state").equals(id)) {
             clientArgsMap.get("server").put("state", "");
-            gPlayer player = gScene.getPlayerById(id);
+            gPlayer player = eManager.getPlayerById(id);
             addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                     player.getInt("coordx"), player.getInt("coordy")));
         }
@@ -354,7 +354,7 @@ public class nServer extends Thread {
                 if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
                     quitClientIds.add(packId);
                 }
-                gPlayer packPlayer = gScene.getPlayerById(packId);
+                gPlayer packPlayer = eManager.getPlayerById(packId);
                 if(packPlayer != null) {
 //                    if(packPlayer.getInt("weapon") != packWeap)
 //                        xCon.ex("giveweapon " + packId + " " + packWeap);
@@ -373,7 +373,7 @@ public class nServer extends Thread {
                         packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
                     }
                     //store player object's health in outgoing network arg map
-                    clientArgsMap.get(packId).put("stockhp", gScene.getPlayerById(packId).get("stockhp"));
+                    clientArgsMap.get(packId).put("stockhp", eManager.getPlayerById(packId).get("stockhp"));
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));

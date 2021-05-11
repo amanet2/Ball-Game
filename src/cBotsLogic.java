@@ -47,8 +47,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer p = gScene.getPlayerById(id);
+        for(String id : eManager.getPlayerIds()) {
+            gPlayer p = eManager.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -75,8 +75,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer p = gScene.getPlayerById(id);
+        for(String id : eManager.getPlayerIds()) {
+            gPlayer p = eManager.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.get("id").equals(bot.get("id"))) {
@@ -94,7 +94,7 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        gPlayer waypoint = gScene.getPlayerById(nServer.instance().clientArgsMap.get("server").get("state"));
+        gPlayer waypoint = eManager.getPlayerById(nServer.instance().clientArgsMap.get("server").get("state"));
         if(waypoint != null) {
             shootAtNearestPlayer(bot);
             goToWaypoint(bot, waypoint);
@@ -119,8 +119,8 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer p = gScene.getPlayerById(id);
+        for(String id : eManager.getPlayerIds()) {
+            gPlayer p = eManager.getPlayerById(id);
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -143,9 +143,9 @@ public class cBotsLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("state")) {
                 String stateString = nServer.instance().clientArgsMap.get("server").get("state");
                 if(offense) {
-                    for(String id : gScene.getPlayerIds()) {
+                    for(String id : eManager.getPlayerIds()) {
                         if(!stateString.contains(id)) {
-                            gPlayer p = gScene.getPlayerById(id);
+                            gPlayer p = eManager.getPlayerById(id);
                             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
                             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
                             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -161,7 +161,7 @@ public class cBotsLogic {
                     String[] virusIds = stateString.split("-");
                     for(String id : virusIds) {
                         if(id.length() > 0) {
-                            gPlayer p = gScene.getPlayerById(id);
+                            gPlayer p = eManager.getPlayerById(id);
                             if(p != null) {
                                 int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
                                 int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
@@ -210,8 +210,8 @@ public class cBotsLogic {
     public static boolean inVirusChaseRange(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer waypoint = gScene.getPlayerById(id);
+        for(String id : eManager.getPlayerIds()) {
+            gPlayer waypoint = eManager.getPlayerById(id);
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;

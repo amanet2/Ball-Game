@@ -48,27 +48,7 @@ public class gScene {
 	    return objectMaps.get(thing_title);
     }
 
-    public gThing getRandomSpawnpoint() {
-	    int size = eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").size();
-	    if(size > 0) {
-            int randomSpawnpointIndex = new Random().nextInt(size);
-            ArrayList<String> spawnpointids =
-                    new ArrayList<>(eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
-            String randomId = spawnpointids.get(randomSpawnpointIndex);
-            return eManager.currentMap.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
-        }
-        return null;
-    }
-
     public HashMap<String, gPlayer> playersMap() {
 	    return objectMaps.get("THING_PLAYER");
-    }
-
-    public static Collection<String> getPlayerIds() {
-        return eManager.currentMap.scene.playersMap().keySet();
-    }
-
-    public static gPlayer getPlayerById(String id) {
-        return eManager.currentMap.scene.playersMap().get(id);
     }
 }

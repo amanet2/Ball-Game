@@ -28,11 +28,11 @@ public class cServerLogic {
     }
 
     public static void checkGameState() {
-        for(String id : gScene.getPlayerIds()) {
+        for(String id : eManager.getPlayerIds()) {
             //this shouldnt be needed, but when server user joins his own games, it is
             if(id.equals(uiInterface.uuid))
                 continue;
-            gPlayer obj = gScene.getPlayerById(id);
+            gPlayer obj = eManager.getPlayerById(id);
             for (int i = 0; i < 4; i++) {
                 if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(nServer.instance().clientArgsMap.get(
@@ -58,8 +58,8 @@ public class cServerLogic {
                             if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
                                 cGameLogic.resetVirusPlayers();
                             }
-                            for(String id : gScene.getPlayerIds()) {
-                                gPlayer p = gScene.getPlayerById(id);
+                            for(String id : eManager.getPlayerIds()) {
+                                gPlayer p = eManager.getPlayerById(id);
                                 if(nServer.instance().clientArgsMap.get("server").containsKey("state")
                                         && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)) {
                                     xCon.ex("givepoint " + p.get("id"));
@@ -178,7 +178,7 @@ public class cServerLogic {
         }
         //others
         for(String id : nServer.instance().clientArgsMap.keySet()) {
-            gPlayer p = gScene.getPlayerById(id);
+            gPlayer p = eManager.getPlayerById(id);
             String chat = nServer.instance().clientArgsMap.get(id).get("hat");
             if(p == null || chat == null)
                 continue;
@@ -193,7 +193,7 @@ public class cServerLogic {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = gScene.getPlayerById(id);
+                gPlayer p = eManager.getPlayerById(id);
                 int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
                 if(!p.isInt("weapon", cweap))
                     p.putInt("weapon", cweap);

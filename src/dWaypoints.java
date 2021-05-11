@@ -5,9 +5,6 @@ import java.util.HashMap;
 
 public class dWaypoints {
     public static void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
-        if(dx < -9000 && dy < -9000) {
-            return;
-        }
         if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - cClientLogic.getUserPlayer().getInt("coordx")
@@ -34,18 +31,10 @@ public class dWaypoints {
             g2.setColor(new Color(255,100,50,220));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
-            String waypointdistance = String.format("%dm",(int)Math.sqrt((deltas[0]*deltas[0])+(deltas[1]*deltas[1])));
             dFonts.setFontNormal(g2);
-            dFonts.drawCenteredString(g2,
-                    waypointdistance,
-                    eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy")));
-            FontRenderContext frc =
-                    new FontRenderContext(null, false, true);
             dFonts.drawCenteredString(g2, message,
                     eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy"))
-                            -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
+                    eUtils.scaleInt(dy - cVars.getInt("camy")));
             if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
                     && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
                 double angle = Math.atan2(deltas[1], deltas[0]);
@@ -79,7 +68,7 @@ public class dWaypoints {
                 case cGameLogic.FLAG_MASTER:
                     if(nClient.instance().serverArgsMap.get("server").get("state").length() > 0) {
                         if(!nClient.instance().serverArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
-                            gPlayer p = gScene.getPlayerById(
+                            gPlayer p = eManager.getPlayerById(
                                     nClient.instance().serverArgsMap.get("server").get("state"));
                             if(p == null)
                                 break;
@@ -100,8 +89,8 @@ public class dWaypoints {
                     if(nClient.instance().serverArgsMap != null && nClient.instance().serverArgsMap.containsKey("server")
                             && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
                         String statestr = nClient.instance().serverArgsMap.get("server").get("state");
-                        for (String id : gScene.getPlayerIds()) {
-                            gPlayer p = gScene.getPlayerById(id);
+                        for (String id : eManager.getPlayerIds()) {
+                            gPlayer p = eManager.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {
                                 dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                         p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");

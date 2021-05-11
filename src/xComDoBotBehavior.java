@@ -8,7 +8,7 @@ public class xComDoBotBehavior extends xCom {
                 botbehavior.append(" " + toks[i]);
             }
             String behaviorString = botbehavior.toString().substring(1);
-            gPlayer botPlayer = gScene.getPlayerById(botid);
+            gPlayer botPlayer = eManager.getPlayerById(botid);
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
             if(cVars.get("winnerid").length() < 1) {

@@ -6,8 +6,8 @@ public class dPlayer {
     public static void drawPlayers(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         try {
-            for (String playerId : gScene.getPlayerIds()) {
-                gPlayer player = gScene.getPlayerById(playerId);
+            for (String playerId : eManager.getPlayerIds()) {
+                gPlayer player = eManager.getPlayerById(playerId);
                 //player gun
                 if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
                     int[] rgb = new int[4];

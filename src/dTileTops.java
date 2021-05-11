@@ -9,8 +9,8 @@ public class dTileTops {
         /*
          * players extra stuff
          * */
-        for (String id : gScene.getPlayerIds()) {
-            gPlayer e = gScene.getPlayerById(id);
+        for (String id : eManager.getPlayerIds()) {
+            gPlayer e = eManager.getPlayerById(id);
 //            //player hat
             if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
                 g2.drawImage(e.spriteHat,
@@ -312,7 +312,7 @@ public class dTileTops {
     public static void drawPlayerNames(Graphics g) {
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             HashMap<String, String> clientMap = nClient.instance().serverArgsMap.get(id);
-            gPlayer p = gScene.getPlayerById(id);
+            gPlayer p = eManager.getPlayerById(id);
             if(p == null || clientMap == null)
                 continue;
             if(!p.containsFields(new String[]{"coordx", "coordy"}))

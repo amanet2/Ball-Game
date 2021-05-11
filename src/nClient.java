@@ -201,14 +201,14 @@ public class nClient extends Thread {
                     if(skip)
                         break;
                     //here we avoid client and server fighting over the player coords when hosting and playing
-                    if(!sSettings.IS_SERVER && gScene.getPlayerById(idload) != null) {
+                    if(!sSettings.IS_SERVER && eManager.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
-                            gScene.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            gScene.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
+                            eManager.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            eManager.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
                         String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
                         for (int vel = 0; vel < veltoks.length; vel++) {
-                            gScene.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                            eManager.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
                         }
                     }
                     if(!packArgs.containsKey("spawnprotected")) {

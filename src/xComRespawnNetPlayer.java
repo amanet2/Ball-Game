@@ -3,7 +3,7 @@ public class xComRespawnNetPlayer extends xCom {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String playerId = toks[1];
-            gThing spawnpoint = eManager.currentMap.scene.getRandomSpawnpoint();
+            gThing spawnpoint = eManager.getRandomSpawnpoint();
             if(spawnpoint != null) {
                 nServer.instance().clientArgsMap.get(playerId).put("x", spawnpoint.get("coordx"));
                 nServer.instance().clientArgsMap.get(playerId).put("y", spawnpoint.get("coordy"));

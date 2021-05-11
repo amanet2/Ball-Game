@@ -11,7 +11,7 @@ public class cClientLogic {
 
     public static gPlayer getUserPlayer() {
         if(userPlayer == null)
-            userPlayer = gScene.getPlayerById(uiInterface.uuid);
+            userPlayer = eManager.getPlayerById(uiInterface.uuid);
         return userPlayer;
     }
 
@@ -97,7 +97,7 @@ public class cClientLogic {
     public static void checkColorStatus(){
         //check all id colors, including yours
         for(String id : nClient.instance().serverArgsMap.keySet()) {
-            gPlayer p = gScene.getPlayerById(id);
+            gPlayer p = eManager.getPlayerById(id);
             String ccol = nClient.instance().serverArgsMap.get(id).get("color");
             if(p == null || ccol == null)
                 continue;
@@ -134,7 +134,7 @@ public class cClientLogic {
                 HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
                 char[] cmovedirs = cargs.get("dirs").toCharArray();
-                gPlayer p = gScene.getPlayerById(id);
+                gPlayer p = eManager.getPlayerById(id);
                 if(p == null)
                     return;
                 if(sVars.isZero("smoothing")) {
@@ -154,10 +154,10 @@ public class cClientLogic {
     }
 
     static void checkGameState() {
-        for(String id : gScene.getPlayerIds()) {
+        for(String id : eManager.getPlayerIds()) {
             if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
                 continue;
-            gPlayer obj = gScene.getPlayerById(id);
+            gPlayer obj = eManager.getPlayerById(id);
             for (int i = 0; i < 4; i++) {
                 if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(

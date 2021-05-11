@@ -2,7 +2,7 @@ public class xComSpawnPopup extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 2) {
-            gPlayer p = gScene.getPlayerById(toks[1]);
+            gPlayer p = eManager.getPlayerById(toks[1]);
             if(p == null)
                 return "no player for id: " + toks[1];
             String msg = toks[2];

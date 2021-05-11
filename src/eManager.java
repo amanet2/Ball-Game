@@ -1,8 +1,5 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -40,8 +37,8 @@ public class eManager {
     }
 
 	public static void updateEntityPositions() {
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer obj = gScene.getPlayerById(id);
+        for(String id : getPlayerIds()) {
+            gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
                     "mov2", "mov3"};
@@ -102,7 +99,7 @@ public class eManager {
                 bulletsToRemoveIds.add(id);
 //                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
 //                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                            eManager.createId(), new gAnimationEmitter(b.getInt("anim"),
+//                            createId(), new gAnimationEmitter(b.getInt("anim"),
 //                                    b.getInt("coordx"), b.getInt("coordy")));
 //                }
                 //grenade explosion
@@ -111,8 +108,8 @@ public class eManager {
                 }
                 continue;
             }
-            for(String playerId : gScene.getPlayerIds()) {
-                gPlayer t = gScene.getPlayerById(playerId);
+            for(String playerId : getPlayerIds()) {
+                gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
@@ -186,10 +183,10 @@ public class eManager {
         )/(double)bullet.getInt("ttl"))));
         //play animations on all clients
 //        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-//            eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(
+//            currentMap.scene.getThingMap("THING_ANIMATION").put(
 //                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
 //                            bullet.getInt("coordx"), bullet.getInt("coordy")));
-        eManager.currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
+        currentMap.scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
         if(sSettings.IS_SERVER) {
             String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
@@ -197,5 +194,25 @@ public class eManager {
             nServer.instance().addExcludingNetCmd("server",
                     "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
         }
+    }
+
+    public static gThing getRandomSpawnpoint() {
+        int size = currentMap.scene.getThingMap("ITEM_SPAWNPOINT").size();
+        if(size > 0) {
+            int randomSpawnpointIndex = new Random().nextInt(size);
+            ArrayList<String> spawnpointids =
+                    new ArrayList<>(currentMap.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
+            String randomId = spawnpointids.get(randomSpawnpointIndex);
+            return currentMap.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+        }
+        return null;
+    }
+
+    public static Collection<String> getPlayerIds() {
+        return currentMap.scene.playersMap().keySet();
+    }
+
+    public static gPlayer getPlayerById(String id) {
+        return currentMap.scene.playersMap().get(id);
     }
 }
