@@ -3,14 +3,13 @@ import java.awt.event.KeyEvent;
 public class uiMenusControls extends uiMenu {
     public static uiMenuItem[] getControlsMenuItems() {
         uiMenuItem[] gameControls = new uiMenuItem[] {
+                new uiMenuItem("attack: MOUSE_LEFT"),
+                new uiMenuItem("chat: "+(char)(int)xCon.getKeyCodeForComm("chat")),
                 new uiMenuItem("move up: "+(char)(int)xCon.getKeyCodeForComm("playerup")),
                 new uiMenuItem("move down: "+(char)(int)xCon.getKeyCodeForComm("playerdown")),
                 new uiMenuItem("move left: "+(char)(int)xCon.getKeyCodeForComm("playerleft")),
                 new uiMenuItem("move right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
-                new uiMenuItem("attack: MOUSE_LEFT"),
-                new uiMenuItem("center camera: "+(char)(int)xCon.getKeyCodeForComm("centercamera")),
                 new uiMenuItem("show scoreboard: TAB"),
-                new uiMenuItem("chat: "+(char)(int)xCon.getKeyCodeForComm("chat")),
                 new uiMenuItem("zoom in: "+(char)(int)xCon.getKeyCodeForComm("zoom")),
                 new uiMenuItem("zoom out: "+(char)(int)xCon.getKeyCodeForComm("-zoom")),
         };

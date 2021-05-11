@@ -6,18 +6,18 @@ public class dHUD {
         gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer == null)
             return;
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(dFonts.hudStroke);
-        //camera indicator
-        if(!cVars.isInt("cammode", gCamera.MODE_TRACKING)) {
-            dFonts.setFontNormal(g);
-            for(Integer i : xCon.instance().pressBinds.keySet()) {
-                if(xCon.instance().pressBinds.get(i).contains("centercamera")) {
-                    dFonts.drawCenteredString(g,">>PRESS ["+ KeyEvent.getKeyText(i)+"] TO RE-CENTER CAMERA<<",
-                            sSettings.width / 2, 2*sSettings.height/3);
-                }
-            }
-        }
+//        Graphics2D g2 = (Graphics2D) g;
+//        g2.setStroke(dFonts.hudStroke);
+//        //camera indicator
+//        if(!cVars.isInt("cammode", gCamera.MODE_TRACKING)) {
+//            dFonts.setFontNormal(g);
+//            for(Integer i : xCon.instance().pressBinds.keySet()) {
+//                if(xCon.instance().pressBinds.get(i).contains("centercamera")) {
+//                    dFonts.drawCenteredString(g,">>PRESS ["+ KeyEvent.getKeyText(i)+"] TO RE-CENTER CAMERA<<",
+//                            sSettings.width / 2, 2*sSettings.height/3);
+//                }
+//            }
+//        }
         //health
 //        g.setColor(new Color(0,0,0,255));
 //        g.fillRect(sSettings.width/64,60 * sSettings.height/64,sSettings.width/3,

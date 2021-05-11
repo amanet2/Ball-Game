@@ -4,21 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* SERVER: if something is called with AddNetCmd, make sure it should be exec'd by the host player
-    -> otherwise go with AddExcludingCmd(uiInterface.uuid...
-* Make sure server & client are not doubling up on console commands
-    -> STEP 1: look at how game is initially started and how characters are spawned in
-    -> look at echo msgs
-    -> look at editor
-    -> look at emanager
-* ENGINE: hone Server/Client roles
-    -> don't even have "offline player", a client is NEEDED to interact with the server.
-        -> a client is the "user" represented
-    -> nServer and nClient ops should be audited to make sure they happen in the appropriate thread
-        -> same with the "cXXX" files
-    -> server should do all world simulations
-    -> client should receive world states and do prediction
-* ENGINE: refactor console commands to have sv_ or c_ prefixes depending on use
+* MAPMAKER: make it work online again with new arch
+    -> currently in singleplayer, respawnnetplayer <userid> and removeplayer <userid> work for testing
+* ENGINE: Make sure server & serveruser client are not doubling up on console commands
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
     -> limit the "fv" netvar to 2 decimals
 * NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress
@@ -29,12 +17,13 @@ FOCUS ITEMS
     -> make a client netvar: {..., "preview": "x:y:w:h", ...}
 * ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
 * GFX: players should follow a Y-based "draw in front, draw behind" logic as well
+    -> same with walls
 * ISSUE: client sendcmd requestdisconnect doesnt reach the server sometimes
     -> client should wait 1000ms before initiating its quit/disconnect routine
 ###
 ### POWER GAP
 ###
-* GAME: squish on respawn
+* GAME: bring back squish effect for something
 * ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
 * GFX: shade the lower boxes/cubes a little darker than the high walls
 * GAME: in virus, give players infinite ammo
@@ -76,12 +65,6 @@ FOCUS ITEMS
 * only draw gfx that will be seen
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
-                                                ==FEATURES==
-/////////////////////                                                                 /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * pong gametype but the players are human paddles
 * put little representation of the lead character next to the leader string
     -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
