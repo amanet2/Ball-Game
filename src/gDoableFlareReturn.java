@@ -17,8 +17,8 @@ public class gDoableFlareReturn {
     }
 
     public void storeFlare(gFlare flareToLoad, gScene sceneToStore) {
-        String flareId = Integer.toString(eManager.currentMap.scene.flareIdCtr);
+        String flareId = Integer.toString(sceneToStore.flareIdCtr);
         sceneToStore.getThingMap("THING_FLARE").put(flareId, flareToLoad);
-        eManager.currentMap.scene.flareIdCtr += 1;
+        sceneToStore.flareIdCtr += 1;
     }
 }

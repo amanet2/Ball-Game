@@ -166,18 +166,16 @@ public class dScreenMessages {
         if(cVars.isOne("showscore")) {
             dScoreboard.showScoreBoard(g);
         }
-        else if(eManager.currentMap.scene.playersMap().size() > 0){
-            if(nClient.instance().serverArgsMap.get("server") != null
-            && nClient.instance().serverArgsMap.get("server").get("topscore") != null
-            && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
-                if(cClientLogic.getUserPlayer() != null && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id"))) {
+        else if(nClient.instance().serverArgsMap.get("server") != null
+                && nClient.instance().serverArgsMap.get("server").get("topscore") != null
+                && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
+                if(cClientLogic.getUserPlayer() != null
+                        && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id")))
                     dFonts.setFontColorHighlight(g);
-                }
                 dFonts.drawCenteredString(g, "Leader: "
-                        + nClient.instance().serverArgsMap.get("server").get("topscore"),
+                                + nClient.instance().serverArgsMap.get("server").get("topscore"),
                         sSettings.width / 2, sSettings.height / 30);
                 dFonts.setFontColorNormal(g);
-            }
         }
 
         //game alerts

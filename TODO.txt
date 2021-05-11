@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GAME: work on make scenes swappable on demand
+    -> helps us to make serverstate and clientstate stat objs
 * GAME: refactor display files to take a scene as parameter
 * SERVER: if something is called with AddNetCmd, make sure it should be exec'd by the host player
     -> otherwise go with AddExcludingCmd(uiInterface.uuid...

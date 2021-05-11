@@ -29,34 +29,6 @@ public class gScene {
         flareIdCtr = 0;
 	}
 
-	public int getHighestPrefabId() {
-	    int idctr = 0;
-	    for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-	        gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-	        if(block.contains("prefabid") && block.getInt("prefabid") >= idctr) {
-	            idctr = block.getInt("prefabid") + 1;
-            }
-        }
-        for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
-            gThing collision = eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
-            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr) {
-                idctr = collision.getInt("prefabid") + 1;
-            }
-        }
-	    return idctr;
-    }
-
-    public int getHighestItemId() {
-        int idctr = 0;
-        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
-                idctr = item.getInt("itemid") + 1;
-            }
-        }
-        return idctr;
-    }
-
 	public gScene copy() {
 	    gScene toReturn = new gScene();
 	    toReturn.objectMaps = new HashMap<>();

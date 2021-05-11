@@ -3,11 +3,11 @@ public class gDoableItemReturn {
         return null;
     }
     public void storeItem(gItem itemToLoad, gScene sceneToStore) {
-        int itemId = eManager.currentMap.scene.itemIdCtr;
+        int itemId = sceneToStore.itemIdCtr;
         itemToLoad.putInt("id", itemId);
         itemToLoad.putInt("itemid", itemId);
         sceneToStore.getThingMap("THING_ITEM").put(Integer.toString(itemId), itemToLoad);
         sceneToStore.getThingMap(itemToLoad.get("type")).put(Integer.toString(itemId), itemToLoad);
-        eManager.currentMap.scene.itemIdCtr += 1;
+        sceneToStore.itemIdCtr += 1;
     }
 }

@@ -28,23 +28,24 @@ public class dPanel extends JPanel {
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
-                dBlockFloors.drawBlockFloors(g2, eManager.currentMap.scene);
-                dBlockWalls.drawBlockWalls(g2, eManager.currentMap.scene);
-                dItems.drawItems(g2, eManager.currentMap.scene);
+                gScene scene = eManager.currentMap.scene;
+                dBlockFloors.drawBlockFloors(g2, scene);
+                dBlockWalls.drawBlockWalls(g2, scene);
+                dItems.drawItems(g2, scene);
                 dPlayer.drawPlayers(g2);
-                dTileTops.drawTops(g2, eManager.currentMap.scene);
+                dTileTops.drawTops(g2, scene);
                 //BLOCK BRIGHTNESS
-                dBlockBrightness.drawBlockBrightness(g2, eManager.currentMap.scene);
+                dBlockBrightness.drawBlockBrightness(g2, scene);
                 //flares
-                dFlares.drawSceneFlares(g2, eManager.currentMap.scene);
+                dFlares.drawSceneFlares(g2, scene);
                 //bullets
-                dTileTops.drawBullets(g2, eManager.currentMap.scene);
+                dTileTops.drawBullets(g2, scene);
                 //animations
-                dAnimations.drawAnimations(g2, eManager.currentMap.scene);
+                dAnimations.drawAnimations(g2, scene);
                 //safezone pointer
-                dWaypoints.drawWaypoints(g2, eManager.currentMap.scene);
+                dWaypoints.drawWaypoints(g2, scene);
                 //popups
-                dTileTops.drawPopups(g2, eManager.currentMap.scene);
+                dTileTops.drawPopups(g2, scene);
                 //player highlight
                 dTileTops.drawUserPlayerArrow(g2);
                 //playernames
