@@ -12,7 +12,7 @@ public class cClientLogic {
 
     public static gPlayer getUserPlayer() {
         if(userPlayer == null)
-            userPlayer = eManager.getPlayerById(uiInterface.uuid);
+            userPlayer = scene.getPlayerById(uiInterface.uuid);
         return userPlayer;
     }
 

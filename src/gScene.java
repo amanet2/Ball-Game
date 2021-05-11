@@ -19,17 +19,21 @@ public class gScene {
 	int flareIdCtr;
 
 	public gScene() {
-		objectMaps = new HashMap<>();
-		for(String s : object_titles) {
+        objectMaps = new HashMap<>();
+        for(String s : object_titles) {
             objectMaps.put(s, new LinkedHashMap());
         }
         blockIdCtr = 0;
         collisionIdCtr = 0;
         itemIdCtr = 0;
         flareIdCtr = 0;
-	}
+    }
 
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
+    }
+
+    public gPlayer getPlayerById(String id) {
+        return (gPlayer) getThingMap("THING_PLAYER").get(id);
     }
 }

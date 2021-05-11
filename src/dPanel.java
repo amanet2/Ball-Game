@@ -20,7 +20,8 @@ public class dPanel extends JPanel {
 
     public void drawFrame(Graphics2D g2, int panelLevel) {
         if (panelLevel == 1) {
-            dScreenFX.drawScreenFX(g2);
+//            if(sSettings.IS_CLIENT)
+//                dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
         }
         else if(sSettings.IS_CLIENT) {
@@ -28,8 +29,8 @@ public class dPanel extends JPanel {
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
-                gScene scene = eManager.currentMap.scene;
-//                gScene scene = cClientLogic.scene;
+//                gScene scene = eManager.currentMap.scene;
+                gScene scene = cClientLogic.scene;
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWalls(g2, scene);
                 dItems.drawItems(g2, scene);

@@ -11,7 +11,10 @@ public class xComPutCollision extends xCom {
             gDoableCollisionReturn collisionReturn = factory.collisionLoader;
             gCollision newCollision = collisionReturn.getCollision(args);
             newCollision.put("prefabid", cVars.get("prefabid"));
-            collisionReturn.storeCollision(newCollision, eManager.currentMap.scene);
+            if(sSettings.IS_CLIENT)
+                collisionReturn.storeCollision(newCollision, cClientLogic.scene);
+            if(sSettings.IS_SERVER)
+                collisionReturn.storeCollision(newCollision, eManager.currentMap.scene);
         }
         return "usage: putcollision <xarr> <yarr> <npoints>";
     }
