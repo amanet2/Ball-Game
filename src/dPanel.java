@@ -20,8 +20,8 @@ public class dPanel extends JPanel {
 
     public void drawFrame(Graphics2D g2, int panelLevel) {
         if (panelLevel == 1) {
-//            if(sSettings.IS_CLIENT)
-//                dScreenFX.drawScreenFX(g2);
+            if(sSettings.IS_CLIENT)
+                dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
         }
         else if(sSettings.IS_CLIENT) {

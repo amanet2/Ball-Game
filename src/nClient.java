@@ -200,15 +200,16 @@ public class nClient extends Thread {
                     }
                     if(skip)
                         break;
-                    //here we avoid client and server fighting over the player coords when hosting and playing
-                    if(!sSettings.IS_SERVER && eManager.getPlayerById(idload) != null) {
+//                    //here we avoid client and server fighting over the player coords when hosting and playing
+//                    if(!sSettings.IS_SERVER && eManager.getPlayerById(idload) != null) {
+                    if(eManager.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
-                            eManager.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            eManager.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
+                            cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
                         String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
                         for (int vel = 0; vel < veltoks.length; vel++) {
-                            eManager.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                            cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
                         }
                     }
                     if(!packArgs.containsKey("spawnprotected")) {
@@ -221,7 +222,7 @@ public class nClient extends Thread {
                     gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
-                    eManager.currentMap.scene.getThingMap("THING_PLAYER").put(idload, player);
+                    cClientLogic.scene.getThingMap("THING_PLAYER").put(idload, player);
                 }
             }
             //handle our own player to get things like stockhp from server
@@ -263,7 +264,7 @@ public class nClient extends Thread {
             serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
-            eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(tr);
+            cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
         }
     }
 

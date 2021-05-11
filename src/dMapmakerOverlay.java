@@ -7,8 +7,8 @@ public class dMapmakerOverlay {
         int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
         int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
-        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
                 g2.setColor(new Color(255, 100, 255));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
@@ -17,8 +17,8 @@ public class dMapmakerOverlay {
             }
         }
         // -- selected item
-        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+        for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.isVal("itemid", cVars.get("selecteditemid"))) {
                 g2.setColor(new Color(255, 150, 0));
                 g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),

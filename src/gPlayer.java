@@ -5,12 +5,12 @@ public class gPlayer extends gThing {
     Image spriteHat;
     Image sprite;
 
-    public boolean wontClipOnMove(int coord, int coord2) {
+    public boolean wontClipOnMove(int coord, int coord2, gScene scene) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
-        for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+        for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
             gCollision collision =
-                    (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                    (gCollision) scene.getThingMap("THING_COLLISION").get(id);
             int[][] collisionPoints = new int[][]{
                     collision.xarr,
                     collision.yarr
@@ -67,10 +67,11 @@ public class gPlayer extends gThing {
                 }
             }
         }
-        for(String id : eManager.getPlayerIds()) {
+        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(get("id").equals(id))
                 continue;
-            if (willCollideWithPlayerAtCoordsTopDown(eManager.getPlayerById(id), dx, dy))
+            if (willCollideWithPlayerAtCoordsTopDown(
+                    (gPlayer) scene.getThingMap("THING_PLAYER").get(id), dx, dy))
                 return false;
         }
         return true;

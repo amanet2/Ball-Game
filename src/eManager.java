@@ -61,10 +61,10 @@ public class eManager {
                     }
                 }
             }
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
+            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, currentMap.scene)) {
                 obj.putInt("coordx", dx);
             }
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
+            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, currentMap.scene)) {
                 obj.putInt("coordy", dy);
             }
         }
