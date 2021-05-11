@@ -153,6 +153,7 @@ public class xCon {
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpopup", new xComSpawnPopup());
+        commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());

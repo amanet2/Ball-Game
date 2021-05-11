@@ -34,21 +34,12 @@ public class dPanel extends JPanel {
                 dItems.drawItems(g2, scene);
                 dPlayer.drawPlayers(g2);
                 dTileTops.drawTops(g2, scene);
-                //BLOCK BRIGHTNESS
-                dBlockBrightness.drawBlockBrightness(g2, scene);
-                //flares
                 dFlares.drawSceneFlares(g2, scene);
-                //bullets
                 dTileTops.drawBullets(g2, scene);
-                //animations
                 dAnimations.drawAnimations(g2, scene);
-                //safezone pointer
                 dWaypoints.drawWaypoints(g2, scene);
-                //popups
                 dTileTops.drawPopups(g2, scene);
-                //player highlight
                 dTileTops.drawUserPlayerArrow(g2);
-                //playernames
                 dTileTops.drawPlayerNames(g2);
             }
             //mapmaker indicators

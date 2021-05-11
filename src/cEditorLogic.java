@@ -87,7 +87,14 @@ public class cEditorLogic {
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(xCon.instance().getInt("e_showlossalert") <= 0) {
+                    boolean join = false;
+                    if(!sSettings.IS_SERVER) {
+                        xCon.ex("startserver");
+                        join = true;
+                    }
                     xCon.ex("load");
+                    if(join)
+                        xCon.ex("joingame localhost 5555");
                 }
             }
         });
