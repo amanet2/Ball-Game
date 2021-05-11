@@ -32,7 +32,7 @@ public class gCamera {
 	}
 
 	public static void centerCamera() {
-		gThing p = eManager.getPlayerById(cVars.get("camplayertrackingid"));
+		gThing p = cClientLogic.getPlayerById(cVars.get("camplayertrackingid"));
 		if(p == null)
 			p = cClientLogic.getUserPlayer();
 		if(p != null) {
