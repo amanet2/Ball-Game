@@ -33,11 +33,6 @@ public class oDisplay extends JLayeredPane {
         showFrame();
         uiInterface.addListeners();
         clearAndRefresh();
-        setBackground(new Color(
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[0]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[1]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[2])
-        ));
         createPanels();
         gTextures.refreshObjectSprites();
     }
@@ -95,18 +90,14 @@ public class oDisplay extends JLayeredPane {
 		frame.setVisible(true);
     }
 
-	public double[] getScreenHardwareDimensions() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        return new double[]{screenSize.getWidth(), screenSize.getHeight()};
-    }
-
 	public int[] getContentPaneOffsetDimension(){
-	    double[] screenDims = getScreenHardwareDimensions();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double[] screenDims = new double[]{screenSize.getWidth(), screenSize.getHeight()};
         return new int[]{
-        sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
-                ? Math.max(0, (int)((screenDims[0]-sSettings.width)/2.0)) : 0,
-        sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
-                ? Math.max(0,(int)((screenDims[1]-sSettings.height)/2.0)) : 0
+            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+                    ? Math.max(0, (int)((screenDims[0]-sSettings.width)/2.0)) : 0,
+            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+                    ? Math.max(0,(int)((screenDims[1]-sSettings.height)/2.0)) : 0
         };
     }
 

@@ -6,14 +6,9 @@ public class gMap {
     String mapName;
     gScene scene;
 
-    private void basicInit() {
+	public gMap() {
         gTextures.clear();
         scene = new gScene();
-        cVars.put("maploaded", "0");
-    }
-
-	public gMap() {
-        basicInit();
         mapName = "new";
 		cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
 	}
@@ -41,11 +36,8 @@ public class gMap {
                         block.get("frontwall"),
                         block.get("backtop")
                 };
-                String prefabString = "";
-                if(block.contains("prefabid")) {
-                    prefabString = "cv_prefabid " + block.get("prefabid");
-                    writer.write(prefabString + '\n');
-                }
+                if(block.contains("prefabid"))
+                    writer.write("cv_prefabid " + block.get("prefabid") + '\n');
                 StringBuilder blockString = new StringBuilder("putblock");
                 for(String arg : args) {
                     if(arg != null) {
@@ -75,11 +67,8 @@ public class gMap {
                         yString.toString(),
                         Integer.toString(collision.npoints)
                 };
-                String prefabString = "";
-                if(collision.contains("prefabid")) {
-                    prefabString = "cv_prefabid " + collision.get("prefabid");
-                    writer.write(prefabString + '\n');
-                }
+                if(collision.contains("prefabid"))
+                    writer.write("cv_prefabid " + collision.get("prefabid") + '\n');
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
                     if(arg != null) {
