@@ -325,7 +325,7 @@ public class dTileTops {
             int coordy = p.getInt("coordy") - cVars.getInt("camy");
             dFonts.drawCenteredString(g, name,
                     eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
-            //draw flashlight/spawnprotection glow
+            //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
 //                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
 //                    continue;
