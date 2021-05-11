@@ -221,7 +221,7 @@ public class nClient extends Thread {
                     gPlayer player = new gPlayer(-6000, -6000,
                             eUtils.getPath("animations/player_red/a03.png"));
                     player.put("id", idload);
-                    eManager.currentMap.scene.playersMap().put(idload, player);
+                    eManager.currentMap.scene.getThingMap("THING_PLAYER").put(idload, player);
                 }
             }
             //handle our own player to get things like stockhp from server
@@ -263,7 +263,7 @@ public class nClient extends Thread {
             serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
-            eManager.currentMap.scene.playersMap().remove(tr);
+            eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(tr);
         }
     }
 

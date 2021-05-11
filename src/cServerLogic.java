@@ -74,9 +74,9 @@ public class cServerLogic {
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
-        HashMap<String, gPlayer> playerMap = eManager.currentMap.scene.playersMap();
+        HashMap<String, gThing> playerMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for (String playerId : playerMap.keySet()) {
-            gPlayer player = playerMap.get(playerId);
+            gPlayer player = (gPlayer) playerMap.get(playerId);
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
                 break;
@@ -148,7 +148,7 @@ public class cServerLogic {
             }
         }
         //recharge players health
-        HashMap playersMap = eManager.currentMap.scene.playersMap();
+        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&

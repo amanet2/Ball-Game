@@ -126,7 +126,7 @@ public class cClientLogic {
     //clientside prediction for movement aka smoothing
     public static void checkMovementStatus() {
         //other players
-        for(String id : eManager.currentMap.scene.playersMap().keySet()) {
+        for(String id : eManager.currentMap.scene.getThingMap("THING_PLAYER").keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
                 if(!nClient.instance().containsArgsForId(id, requiredFields))

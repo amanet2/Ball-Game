@@ -39,16 +39,7 @@ public class gScene {
 	    return toReturn;
     }
 
-    public void clearPlayers() {
-	    objectMaps.put("THING_PLAYER", new LinkedHashMap<>());
-	    cClientLogic.setUserPlayer(null);
-    }
-
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
-    }
-
-    public HashMap<String, gPlayer> playersMap() {
-	    return objectMaps.get("THING_PLAYER");
     }
 }

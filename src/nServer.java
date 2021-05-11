@@ -257,7 +257,7 @@ public class nServer extends Thread {
         clientArgsMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
-        eManager.currentMap.scene.playersMap().remove(id);
+        eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
         clientIds.remove(id);
         //tell remaining players
         String quitString = String.format("echo %s left the game", quitterName);

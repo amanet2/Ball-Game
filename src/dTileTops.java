@@ -231,8 +231,8 @@ public class dTileTops {
                 g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
 
             }
-            for(String id : scene.playersMap().keySet()) {
-                gThing player = scene.playersMap().get(id);
+            for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
+                gThing player = scene.getThingMap("THING_PLAYER").get(id);
                 g2.setColor(Color.RED);
                 if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                     continue;

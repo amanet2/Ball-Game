@@ -209,10 +209,10 @@ public class eManager {
     }
 
     public static Collection<String> getPlayerIds() {
-        return currentMap.scene.playersMap().keySet();
+        return currentMap.scene.getThingMap("THING_PLAYER").keySet();
     }
 
     public static gPlayer getPlayerById(String id) {
-        return currentMap.scene.playersMap().get(id);
+        return (gPlayer) currentMap.scene.getThingMap("THING_PLAYER").get(id);
     }
 }
