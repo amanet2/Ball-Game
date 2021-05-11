@@ -1,5 +1,5 @@
 import java.awt.*;
-import gScene;
+
 public class dItems {
     public static void drawItems(Graphics2D g2, gScene scene) {
         for(String itemId : scene.getThingMap("THING_ITEM").keySet()) {
