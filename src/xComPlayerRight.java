@@ -3,7 +3,7 @@ public class xComPlayerRight extends xCom {
         if(cClientLogic.getUserPlayer() != null) {
             cClientLogic.getUserPlayer().putInt("mov3", 1);
         }
-        else {
+        else if(sSettings.show_mapmaker_ui){
             gCamera.move(3);
         }
         return fullCommand;

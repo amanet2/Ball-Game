@@ -3,7 +3,7 @@ public class xComPlayerDown extends xCom {
         if(cClientLogic.getUserPlayer() != null) {
             cClientLogic.getUserPlayer().putInt("mov1", 1);
         }
-        else {
+        else if(sSettings.show_mapmaker_ui){
             gCamera.move(1);
         }
         return fullCommand;
