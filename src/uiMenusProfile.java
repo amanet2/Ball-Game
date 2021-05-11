@@ -11,8 +11,8 @@ public class uiMenusProfile extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem(String.format("Name [%s]", sVars.get("playername"))) {
                     public void doItem() {
-                        xCon.ex("e_changename");
-                        uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
+                        xCon.ex("e_changeplayername");
+                        text = String.format("Name [%s]", sVars.get("playername"));
                     }
                 },
                 new uiMenuItem(String.format("Color [%s]", sVars.get("playercolor"))) {
