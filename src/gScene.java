@@ -29,16 +29,6 @@ public class gScene {
         flareIdCtr = 0;
 	}
 
-	public gScene copy() {
-	    gScene toReturn = new gScene();
-	    toReturn.objectMaps = new HashMap<>();
-	    //OBJECTMAP BELOW
-        for(String objectType : objectMaps.keySet()) {
-            toReturn.objectMaps.put(objectType, new LinkedHashMap(objectMaps.get(objectType)));
-        }
-	    return toReturn;
-    }
-
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
     }
