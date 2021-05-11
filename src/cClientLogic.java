@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class cClientLogic {
-    static gScene scene;
+    static gScene scene = new gScene();
     private static gPlayer userPlayer;
 
     public static void setUserPlayer(gPlayer newUserPlayer) {
