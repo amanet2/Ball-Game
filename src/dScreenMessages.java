@@ -81,8 +81,7 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
-            String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
-            g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
+            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
                 0,31 * sSettings.height/64);
         }
         //sendmsg.. invisible?

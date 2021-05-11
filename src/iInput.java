@@ -239,7 +239,6 @@ public class iInput {
                 case KeyEvent.VK_ESCAPE:
                     gMessages.msgInProgress = "";
                     gMessages.enteringMessage = false;
-                    gMessages.enteringOptionText = "";
                     return;
                 case KeyEvent.VK_SHIFT:
                     iKeyboard.shiftMode = false;

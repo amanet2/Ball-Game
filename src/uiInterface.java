@@ -170,34 +170,6 @@ public class uiInterface {
         cVars.put("selecteditemid", "");
     }
 
-    public static void processOptionText(String optionTitle, String enteredText) {
-        if("New Name".contains(optionTitle)) {
-            sVars.put("playername", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[0].text =
-                    String.format("Name [%s]", sVars.get("playername"));
-        }
-        else if("New IP".contains(optionTitle)) {
-            sVars.put("joinip", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[1].text =
-                    String.format("Server IP [%s]", sVars.get("joinip"));
-        }
-        else if("New Port".contains(optionTitle)) {
-            sVars.put("joinport", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[2].text =
-                    String.format("Server Port [%s]", sVars.get("joinport"));
-        }
-        else if("New Score Limit".contains(optionTitle)) {
-            sVars.put("scorelimit", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[2].text =
-                    String.format("Score Limit [%s]", sVars.get("scorelimit"));
-        }
-        else if("New Time Limit".contains(optionTitle)) {
-            sVars.put("timelimit", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[3].text =
-                    String.format("Time Limit [%s]", sVars.get("timelimit"));
-        }
-    }
-
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
