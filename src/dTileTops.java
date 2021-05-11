@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class dTileTops {
 //    static Image forbiddenSign = gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150);
-    public static void drawTops(Graphics g) {
+    public static void drawTops(Graphics g, gScene scene) {
         Graphics2D g2 = (Graphics2D) g;
         /*
          * players extra stuff
@@ -28,7 +28,7 @@ public class dTileTops {
 //                }
         }
         HashMap<String, gThing> squareMap;
-        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUR");
+        squareMap = scene.getThingMap("BLOCK_CORNERUR");
         for(String tag : squareMap.keySet()) {
             gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
@@ -88,7 +88,7 @@ public class dTileTops {
                 dBlockTops.drawBlockTopCornerUR(g2, block);
             }
         }
-        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERUL");
+        squareMap = scene.getThingMap("BLOCK_CORNERUL");
         for(String tag : squareMap.keySet()) {
             gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
@@ -148,7 +148,7 @@ public class dTileTops {
                 dBlockTops.drawBlockTopCornerUL(g2, block);
             }
         }
-        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLR");
+        squareMap = scene.getThingMap("BLOCK_CORNERLR");
         for(String tag : squareMap.keySet()) {
             gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
@@ -165,7 +165,7 @@ public class dTileTops {
                 dBlockTops.drawBlockTopCornerLR(g2, block);
             }
         }
-        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CORNERLL");
+        squareMap = scene.getThingMap("BLOCK_CORNERLL");
         for(String tag : squareMap.keySet()) {
             gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
             if(block.contains("wallh") && block.isOne("frontwall")) {
@@ -182,7 +182,7 @@ public class dTileTops {
                 dBlockTops.drawBlockTopCornerLL(g2, block);
             }
         }
-        squareMap = eManager.currentMap.scene.getThingMap("BLOCK_CUBE");
+        squareMap = scene.getThingMap("BLOCK_CUBE");
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("toph") && block.isZero("backtop")) {
@@ -217,9 +217,9 @@ public class dTileTops {
         //draw hitboxes
         if(sVars.isOne("drawhitboxes")) {
             g2.setColor(Color.RED);
-            for(String id : eManager.currentMap.scene.getThingMap("THING_COLLISION").keySet()) {
+            for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
                 gCollision collision =
-                        (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
+                        (gCollision) scene.getThingMap("THING_COLLISION").get(id);
                 int[] transformedXarr = new int[collision.xarr.length];
                 int[] transformedYarr = new int[collision.yarr.length];
                 for(int i = 0; i < collision.xarr.length; i++) {
@@ -231,8 +231,8 @@ public class dTileTops {
                 g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
 
             }
-            for(String id : eManager.currentMap.scene.playersMap().keySet()) {
-                gThing player = eManager.currentMap.scene.playersMap().get(id);
+            for(String id : scene.playersMap().keySet()) {
+                gThing player = scene.playersMap().get(id);
                 g2.setColor(Color.RED);
                 if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                     continue;
@@ -246,33 +246,19 @@ public class dTileTops {
                 );
             }
         }
-        //BLOCK BRIGHTNESS
-        dBlockBrightness.drawBlockBrightness(g2);
-        //flares
-        dFlares.drawSceneFlares(g2);
-        //bullets
-        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
+    }
+
+    public static void drawBullets(Graphics2D g2, gScene scene) {
+        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
         for (Object id : bulletsMap.keySet()) {
             gBullet t = (gBullet) bulletsMap.get(id);
             g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")), null);
         }
-        //animations
-        dAnimations.drawAnimations(g2);
-        //safezone pointer
-        dWaypoints.drawWaypoints(g2);
-        //popups
-        drawPopups(g);
-        //player highlight
-        drawUserPlayerArrow(g2);
-        //playernames
-        drawPlayerNames(g, g2);
     }
 
-
-
-    public static void drawPopups(Graphics g) {
-        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
+    public static void drawPopups(Graphics g, gScene scene) {
+        HashMap popupsMap = scene.getThingMap("THING_POPUP");
         if(popupsMap.size() > 0)
             dFonts.setFontNormal(g);
         for(Object id : popupsMap.keySet()) {
@@ -323,7 +309,7 @@ public class dTileTops {
         }
     }
 
-    public static void drawPlayerNames(Graphics g, Graphics2D g2) {
+    public static void drawPlayerNames(Graphics g) {
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             HashMap<String, String> clientMap = nClient.instance().serverArgsMap.get(id);
             gPlayer p = gScene.getPlayerById(id);

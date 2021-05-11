@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * JPanel
@@ -27,11 +28,27 @@ public class dPanel extends JPanel {
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
-                dBlockFloors.drawBlockFloors(g2);
-                dBlockWalls.drawBlockWalls(g2);
+                dBlockFloors.drawBlockFloors(g2, eManager.currentMap.scene);
+                dBlockWalls.drawBlockWalls(g2, eManager.currentMap.scene);
                 dItems.drawItems(g2, eManager.currentMap.scene);
                 dPlayer.drawPlayers(g2);
-                dTileTops.drawTops(g2);
+                dTileTops.drawTops(g2, eManager.currentMap.scene);
+                //BLOCK BRIGHTNESS
+                dBlockBrightness.drawBlockBrightness(g2, eManager.currentMap.scene);
+                //flares
+                dFlares.drawSceneFlares(g2, eManager.currentMap.scene);
+                //bullets
+                dTileTops.drawBullets(g2, eManager.currentMap.scene);
+                //animations
+                dAnimations.drawAnimations(g2, eManager.currentMap.scene);
+                //safezone pointer
+                dWaypoints.drawWaypoints(g2, eManager.currentMap.scene);
+                //popups
+                dTileTops.drawPopups(g2, eManager.currentMap.scene);
+                //player highlight
+                dTileTops.drawUserPlayerArrow(g2);
+                //playernames
+                dTileTops.drawPlayerNames(g2);
             }
             //mapmaker indicators
             if(sSettings.show_mapmaker_ui) {

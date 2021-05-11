@@ -1,10 +1,10 @@
 import java.awt.*;
 
 public class dFlares {
-    public static void drawSceneFlares(Graphics2D g2){
+    public static void drawSceneFlares(Graphics2D g2, gScene scene){
         if(sVars.isOne("vfxenableflares")) {
-            for(String id : eManager.currentMap.scene.getThingMap("THING_FLARE").keySet()) {
-                gFlare f = (gFlare) eManager.currentMap.scene.getThingMap("THING_FLARE").get(id);
+            for(String id : scene.getThingMap("THING_FLARE").keySet()) {
+                gFlare f = (gFlare) scene.getThingMap("THING_FLARE").get(id);
                 drawFlare(g2, f);
             }
         }

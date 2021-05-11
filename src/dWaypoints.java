@@ -72,7 +72,7 @@ public class dWaypoints {
             }
         }
     }
-    public static void drawWaypoints(Graphics2D g2) {
+    public static void drawWaypoints(Graphics2D g2, gScene scene) {
         if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")
         && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
@@ -88,7 +88,7 @@ public class dWaypoints {
                         }
                     }
                     else {
-                        HashMap flagmap = eManager.currentMap.scene.getThingMap("ITEM_FLAG");
+                        HashMap flagmap = scene.getThingMap("ITEM_FLAG");
                         for(Object id : flagmap.keySet()) {
                             gItemFlag flag = (gItemFlag) flagmap.get(id);
                             dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
