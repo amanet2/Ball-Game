@@ -11,8 +11,8 @@ public class uiMenusProfile extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem(String.format("Name [%s]", sVars.get("playername"))) {
                     public void doItem() {
-                        gMessages.enteringMessage = true;
-                        gMessages.enteringOptionText = "New Name";
+                        xCon.ex("e_changename");
+                        uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                     }
                 },
                 new uiMenuItem(String.format("Color [%s]", sVars.get("playercolor"))) {

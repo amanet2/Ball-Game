@@ -111,6 +111,7 @@ public class xCon {
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
+        commands.put("e_changename", new xComEditorChangeName());
         commands.put("e_delthing", new xComEditorDelThing());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_saveas", new xComEditorSaveAs());
