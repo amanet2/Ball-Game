@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     Image spriteHat;

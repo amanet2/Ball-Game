@@ -1,5 +1,3 @@
-import java.awt.event.KeyEvent;
-
 public class uiMenusCredits extends uiMenu {
     public static uiMenuItem[] getCreditsMenuItems() {
         uiMenuItem[] gameCredits = new uiMenuItem[] {

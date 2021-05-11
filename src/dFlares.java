@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 
 public class dFlares {
     public static void drawSceneFlares(Graphics2D g2){

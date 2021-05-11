@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class xComPause extends xCom {
     public String doCommand(String fullCommand) {

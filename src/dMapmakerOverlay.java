@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
 
 public class dMapmakerOverlay {
     public static void drawSelectionBoxes(Graphics2D g2) {

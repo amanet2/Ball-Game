@@ -1,11 +1,9 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-
+import gScene;
 public class dItems {
-    public static void drawItems(Graphics2D g2) {
-        for(String itemId : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-            gItem item = (gItem) eManager.currentMap.scene.getThingMap("THING_ITEM").get(itemId);
+    public static void drawItems(Graphics2D g2, gScene scene) {
+        for(String itemId : scene.getThingMap("THING_ITEM").keySet()) {
+            gItem item = (gItem) scene.getThingMap("THING_ITEM").get(itemId);
             if(item.sprite != null) {
                 g2.drawImage(item.sprite,
                         eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayers(Graphics g) {

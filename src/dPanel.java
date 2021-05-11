@@ -29,7 +29,7 @@ public class dPanel extends JPanel {
             if(cVars.isOne("maploaded")) {
                 dBlockFloors.drawBlockFloors(g2);
                 dBlockWalls.drawBlockWalls(g2);
-                dItems.drawItems(g2);
+                dItems.drawItems(g2, eManager.currentMap.scene);
                 dPlayer.drawPlayers(g2);
                 dTileTops.drawTops(g2);
             }
