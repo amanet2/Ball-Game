@@ -7,7 +7,7 @@ public class xComDeletePlayer extends xCom {
                 cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
                 if(id.contains("bot"))
                     cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
-                nServer.instance().addExcludingNetCmd("server,", fullCommand);
+                nServer.instance().addExcludingNetCmd("server,"+uiInterface.uuid, fullCommand);
             }
             if(sSettings.IS_CLIENT) {
                 cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
