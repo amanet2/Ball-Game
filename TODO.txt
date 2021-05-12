@@ -4,9 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* ENGINE: Make sure server & serveruser client are not doubling up on console commands
+    -> make console commands sv_XXX and cl_XXX
 * MAPMAKER: make it work online again with new arch
     -> currently in singleplayer, respawnnetplayer <userid> and removeplayer <userid> work for testing
-* ENGINE: Make sure server & serveruser client are not doubling up on console commands
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
     -> limit the "fv" netvar to 2 decimals
 * NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress

@@ -4,8 +4,12 @@ public class xComFireWeapon extends xCom {
         if (toks.length > 2) {
             String id = toks[1];
             int weapon = Integer.parseInt(toks[2]);
-            gPlayer player = eManager.getPlayerById(id);
-            if(player != null)
+            gPlayer player = null;
+            if(sSettings.IS_SERVER)
+                player = eManager.getPlayerById(id);
+            if(sSettings.IS_CLIENT)
+                player = cClientLogic.getPlayerById(id);
+            if (player != null)
                 gWeapons.fromCode(weapon).fireWeapon(player);
             return id + " fired weapon " + weapon;
         }

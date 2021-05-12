@@ -68,7 +68,7 @@ public class dWaypoints {
                 case cGameLogic.FLAG_MASTER:
                     if(nClient.instance().serverArgsMap.get("server").get("state").length() > 0) {
                         if(!nClient.instance().serverArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
-                            gPlayer p = eManager.getPlayerById(
+                            gPlayer p = cClientLogic.getPlayerById(
                                     nClient.instance().serverArgsMap.get("server").get("state"));
                             if(p == null)
                                 break;
@@ -89,8 +89,8 @@ public class dWaypoints {
                     if(nClient.instance().serverArgsMap != null && nClient.instance().serverArgsMap.containsKey("server")
                             && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
                         String statestr = nClient.instance().serverArgsMap.get("server").get("state");
-                        for (String id : eManager.getPlayerIds()) {
-                            gPlayer p = eManager.getPlayerById(id);
+                        for (String id : cClientLogic.getPlayerIds()) {
+                            gPlayer p = cClientLogic.getPlayerById(id);
                             if (statestr.contains(p.get("id"))) {
                                 dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                         p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
