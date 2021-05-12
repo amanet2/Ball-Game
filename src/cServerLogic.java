@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Random;
 
 public class cServerLogic {
     static gScene scene = new gScene();
@@ -11,7 +14,7 @@ public class cServerLogic {
         checkHealthStatus();
         checkForMapChange();
         checkGameState();
-        eManager.updateEntityPositions();
+        updateEntityPositions();
     }
 
     public static void resetGameState() {
@@ -29,11 +32,11 @@ public class cServerLogic {
     }
 
     public static void checkGameState() {
-        for(String id : eManager.getPlayerIds()) {
+        for(String id : getPlayerIds()) {
             //this shouldnt be needed, but when server user joins his own games, it is
             if(id.equals(uiInterface.uuid))
                 continue;
-            gPlayer obj = eManager.getPlayerById(id);
+            gPlayer obj = getPlayerById(id);
             for (int i = 0; i < 4; i++) {
                 if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(nServer.instance().clientArgsMap.get(
@@ -59,8 +62,8 @@ public class cServerLogic {
                             if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
                                 cGameLogic.resetVirusPlayers();
                             }
-                            for(String id : eManager.getPlayerIds()) {
-                                gPlayer p = eManager.getPlayerById(id);
+                            for(String id : getPlayerIds()) {
+                                gPlayer p = getPlayerById(id);
                                 if(nServer.instance().clientArgsMap.get("server").containsKey("state")
                                         && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)) {
                                     xCon.ex("givepoint " + p.get("id"));
@@ -138,6 +141,18 @@ public class cServerLogic {
         }
     }
 
+    public static gThing getRandomSpawnpoint() {
+        int size = scene.getThingMap("ITEM_SPAWNPOINT").size();
+        if(size > 0) {
+            int randomSpawnpointIndex = new Random().nextInt(size);
+            ArrayList<String> spawnpointids =
+                    new ArrayList<>(scene.getThingMap("ITEM_SPAWNPOINT").keySet());
+            String randomId = spawnpointids.get(randomSpawnpointIndex);
+            return scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+        }
+        return null;
+    }
+
     public static void checkHealthStatus() {
         HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
         Long currentTime = System.currentTimeMillis();
@@ -179,7 +194,7 @@ public class cServerLogic {
         }
         //others
         for(String id : nServer.instance().clientArgsMap.keySet()) {
-            gPlayer p = eManager.getPlayerById(id);
+            gPlayer p = getPlayerById(id);
             String chat = nServer.instance().clientArgsMap.get(id).get("hat");
             if(p == null || chat == null)
                 continue;
@@ -194,7 +209,7 @@ public class cServerLogic {
         //other players
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = eManager.getPlayerById(id);
+                gPlayer p = getPlayerById(id);
                 int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
                 if(!p.isInt("weapon", cweap))
                     p.putInt("weapon", cweap);
@@ -221,5 +236,131 @@ public class cServerLogic {
             nServer.instance().sendMap(id);
             xCon.ex("respawnnetplayer " + id);
         }
+    }
+
+    public static void updateEntityPositions() {
+        for(String id : getPlayerIds()) {
+            gPlayer obj = getPlayerById(id);
+            String[] requiredFields = new String[]{
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
+                    "mov2", "mov3"};
+            //check null fields
+            if(!obj.containsFields(requiredFields))
+                break;
+            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
+            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
+            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
+                obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
+                for (int i = 0; i < 4; i++) {
+                    //user player
+                    if(cClientLogic.isUserPlayer(obj)) {
+                        if (obj.getInt("mov"+i) > 0) {
+                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
+                                    obj.getInt("vel" + i) + 1)));
+                        }
+                        else
+                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
+                    }
+                }
+            }
+            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene)) {
+                obj.putInt("coordx", dx);
+            }
+            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene)) {
+                obj.putInt("coordy", dy);
+            }
+        }
+
+        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet obj = (gBullet) bulletsMap.get(id);
+            obj.putInt("coordx", obj.getInt("coordx")
+                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
+            obj.putInt("coordy", obj.getInt("coordy")
+                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+        }
+        HashMap popupsMap = scene.getThingMap("THING_POPUP");
+        for(Object id : popupsMap.keySet()) {
+            gPopup obj = (gPopup) popupsMap.get(id);
+            obj.put("coordx", Integer.toString(obj.getInt("coordx")
+                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
+            obj.put("coordy", Integer.toString(obj.getInt("coordy")
+                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
+        }
+        checkBulletSplashes();
+    }
+
+    public static void checkBulletSplashes() {
+        ArrayList bulletsToRemoveIds = new ArrayList<>();
+        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
+        ArrayList<gBullet> pseeds = new ArrayList<>();
+        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
+        for(Object id : bulletsMap.keySet()) {
+            gBullet b = (gBullet) bulletsMap.get(id);
+            if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
+                bulletsToRemoveIds.add(id);
+//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
+//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
+//                            createId(), new gAnimationEmitter(b.getInt("anim"),
+//                                    b.getInt("coordx"), b.getInt("coordy")));
+//                }
+                //grenade explosion
+                if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
+                    pseeds.add(b);
+                }
+                continue;
+            }
+            for(String playerId : getPlayerIds()) {
+                gPlayer t = getPlayerById(playerId);
+                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
+                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                    bulletsToRemovePlayerMap.put(t, b);
+                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                        pseeds.add(b);
+                }
+            }
+        }
+        if(pseeds.size() > 0) {
+            for(gBullet pseed : pseeds)
+                gWeaponsLauncher.createGrenadeExplosion(pseed);
+        }
+        for(Object bulletId : bulletsToRemoveIds) {
+            scene.getThingMap("THING_BULLET").remove(bulletId);
+        }
+        for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
+            cClientLogic.playPlayerDeathSound();
+            createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
+        }
+    }
+
+    //call this everytime a bullet intersects a player
+    public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet) {
+        //get shooter details
+        String killerid = bullet.get("srcid");
+        //calculate dmg
+        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
+        )/(double)bullet.getInt("ttl"))));
+        //play animations on all clients
+//        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
+//            currentMap.scene.getThingMap("THING_ANIMATION").put(
+//                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
+//                            bullet.getInt("coordx"), bullet.getInt("coordy")));
+        scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
+        //handle damage serverside
+        if(sSettings.IS_SERVER) {
+            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
+            nServer.instance().addNetCmd("server", cmdString);
+            nServer.instance().addExcludingNetCmd("server",
+                    "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
+        }
+    }
+
+    public static Collection<String> getPlayerIds() {
+        return scene.getThingMap("THING_PLAYER").keySet();
+    }
+
+    public static gPlayer getPlayerById(String id) {
+        return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
     }
 }

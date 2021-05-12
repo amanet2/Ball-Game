@@ -7,7 +7,7 @@ public class xComDamagePlayer extends xCom {
             String shooterid = "";
             if(toks.length > 3)
                 shooterid = toks[3];
-            gPlayer player = eManager.getPlayerById(id);
+            gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", System.currentTimeMillis());

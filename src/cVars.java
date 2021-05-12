@@ -16,6 +16,7 @@ public class cVars {
         put("camplayertrackingindex", "0");
         put("camx", "0");
         put("camy", "0");
+        put("mapname", "new");
         put("delayhp", "2400");
         put("delaypow", "500");
         put("delayweap", "1800");
@@ -218,9 +219,9 @@ public class cVars {
     }
 
     public static void assignRandomPlayerIdToVar(String cvar) {
-        int r = (int) (Math.random()*((double)eManager.getPlayerIds().size()));
+        int r = (int) (Math.random()*((double)cServerLogic.getPlayerIds().size()));
         int c = 0;
-        for(String id : eManager.getPlayerIds()) {
+        for(String id : cServerLogic.getPlayerIds()) {
             if(c==r)
                 cVars.put(cvar, id);
             c++;

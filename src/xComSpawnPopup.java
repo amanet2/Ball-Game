@@ -4,7 +4,7 @@ public class xComSpawnPopup extends xCom {
             return "'spawnpopup' can only be called by active clients";
         String[] toks = fullCommand.split(" ");
         if (toks.length > 2) {
-            gPlayer p = eManager.getPlayerById(toks[1]);
+            gPlayer p = cServerLogic.getPlayerById(toks[1]);
             if(p == null)
                 return "no player for id: " + toks[1];
             String msg = toks[2];

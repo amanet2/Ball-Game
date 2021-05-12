@@ -9,8 +9,8 @@ public class dTileTops {
         /*
          * players extra stuff
          * */
-//        for (String id : eManager.getPlayerIds()) {
-//            gPlayer e = eManager.getPlayerById(id);
+//        for (String id : cServerLogic.getPlayerIds()) {
+//            gPlayer e = cServerLogic.getPlayerById(id);
 ////            //player hat
 //            if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
 //                g2.drawImage(e.spriteHat,

@@ -4,7 +4,7 @@ public class xComGivePoint extends xCom {
         if (toks.length > 1) {
             String id = toks[1];
             gScoreboard.incrementScoreFieldById(id, "score");
-//            gPlayer givePointPlayer = eManager.getPlayerById(id);
+//            gPlayer givePointPlayer = cServerLogic.getPlayerById(id);
 //            if(givePointPlayer != null)
 //                nServer.instance().addExcludingNetCmd("server",
 //                        "spawnpopup " + givePointPlayer.get("id") + " +1");
