@@ -4,11 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ENGINE: think of how to save/export maps now
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
 * NET: double shoot on server's machine
     -> because of our if/if gate in "fireWeapon"
+        -> since we are both a client AND server, we will fire the weapon off in both scenes
         -> we should probably split up into cl and sv versions
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
     -> limit the "fv" netvar to 2 decimals

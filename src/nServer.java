@@ -539,8 +539,7 @@ public class nServer extends Thread {
             else if(ccmd.contains("requestdisconnect")) {
                 quitClientIds.add(id);
             }
-            else if(ccmd.contains("deleteplayer")
-                    || ccmd.contains("respawnnetplayer")) { //handle special case for remove/respawn player
+            else if(ccmd.contains("deleteplayer") || ccmd.contains("respawnnetplayer")) {
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
                     String reqid = toks[1];
