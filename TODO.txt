@@ -4,8 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GAME: refactor eManager scene to be cServerLogic.scene
-* NET_MAPMAKER: highlighting overlaps in online mode
+* NET: still have to filter out user id in "deleteplayer"
+    -> because this function is run on both server and client machines
 * NET: double shoot on server's machine
     -> because of our if/if gate in "fireWeapon"
         -> we should probably split up into cl and sv versions
