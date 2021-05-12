@@ -49,7 +49,7 @@ public class nServer extends Thread {
         //other players
         for(String id : clientArgsMap.keySet()) {
 //            System.out.println(id);
-            if(!id.equals(uiInterface.uuid) && !id.equals("server")) {
+            if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
                 if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
@@ -550,7 +550,7 @@ public class nServer extends Thread {
                 }
             }
             else
-                addExcludingNetCmd(uiInterface.uuid, cmd);
+                addNetCmd(cmd);
         }
         else {
             System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);

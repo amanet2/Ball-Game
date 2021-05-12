@@ -217,8 +217,7 @@ public class cServerLogic {
         nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
                 "clearthingmap THING_PLAYER;load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
-            if(!id.equals(uiInterface.uuid))
-                nServer.instance().sendMap(id);
+            nServer.instance().sendMap(id);
             xCon.ex("respawnnetplayer " + id);
         }
     }
