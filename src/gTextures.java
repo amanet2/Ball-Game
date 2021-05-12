@@ -36,8 +36,8 @@ public class gTextures {
 
     public static void refreshObjectSprites() {
         scaled_sprites.clear();
-        for(String id : eManager.getPlayerIds()) {
-            gPlayer p = eManager.getPlayerById(id);
+        for(String id : cClientLogic.getPlayerIds()) {
+            gPlayer p = cClientLogic.getPlayerById(id);
             p.sprite = getScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
         }
     }

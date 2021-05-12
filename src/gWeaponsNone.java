@@ -25,6 +25,9 @@ public class gWeaponsNone extends gWeapon {
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        if(sSettings.IS_CLIENT)
+            cClientLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        if(sSettings.IS_SERVER)
+            eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
     }
 }

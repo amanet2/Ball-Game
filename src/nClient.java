@@ -202,7 +202,7 @@ public class nClient extends Thread {
                         break;
 //                    //here we avoid client and server fighting over the player coords when hosting and playing
 //                    if(!sSettings.IS_SERVER && eManager.getPlayerById(idload) != null) {
-                    if(eManager.getPlayerById(idload) != null) {
+                    if(cClientLogic.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
                             cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
                             cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
