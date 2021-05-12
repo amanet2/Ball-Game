@@ -144,32 +144,6 @@ public class uiInterface {
         }
     }
 
-    public static synchronized void selectThingUnderMouse(gScene scene) {
-        int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selecteditemid", item.get("itemid"));
-                cVars.put("selecteditemname", item.get("type"));
-                cVars.put("selectedprefabid", "");
-                cVars.put("selectedprefabname", "");
-                return;
-            }
-        }
-        for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = scene.getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
-                cVars.put("selecteditemname", "");
-                return;
-            }
-        }
-        cVars.put("selectedprefabid", "");
-        cVars.put("selecteditemid", "");
-    }
-
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);

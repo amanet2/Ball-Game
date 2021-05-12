@@ -535,7 +535,7 @@ public class nServer extends Thread {
         System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) //handle special case for weapons
-                addExcludingNetCmd(uiInterface.uuid+","+id, cmd);
+                addExcludingNetCmd(id, cmd);
             else if(ccmd.contains("requestdisconnect")) {
                 quitClientIds.add(id);
             }
