@@ -186,12 +186,12 @@ public class cServerLogic {
     }
 
     public static void checkHatStatus(){
-        //player0
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
-        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
-            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
-                    sVars.get("playerhat"))));
-        }
+//        //player0
+//        gPlayer userPlayer = cClientLogic.getUserPlayer();
+//        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
+//            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
+//                    sVars.get("playerhat"))));
+//        }
         //others
         for(String id : nServer.instance().clientArgsMap.keySet()) {
             gPlayer p = getPlayerById(id);
@@ -251,17 +251,6 @@ public class cServerLogic {
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < System.currentTimeMillis()) {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-                for (int i = 0; i < 4; i++) {
-                    //user player
-                    if(cClientLogic.isUserPlayer(obj)) {
-                        if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
-                                    obj.getInt("vel" + i) + 1)));
-                        }
-                        else
-                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
-                    }
-                }
             }
             if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
@@ -328,7 +317,6 @@ public class cServerLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            cClientLogic.playPlayerDeathSound();
             createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
         }
     }
