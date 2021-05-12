@@ -14,7 +14,7 @@ public class xComPutCollision extends xCom {
             if(sSettings.IS_CLIENT)
                 collisionReturn.storeCollision(newCollision, cClientLogic.scene);
             if(sSettings.IS_SERVER)
-                collisionReturn.storeCollision(newCollision, eManager.currentMap.scene);
+                collisionReturn.storeCollision(newCollision, cServerLogic.scene);
         }
         return "usage: putcollision <xarr> <yarr> <npoints>";
     }

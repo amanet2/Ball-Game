@@ -29,7 +29,6 @@ public class dPanel extends JPanel {
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
-//                gScene scene = eManager.currentMap.scene;
                 gScene scene = cClientLogic.scene;
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWalls(g2, scene);

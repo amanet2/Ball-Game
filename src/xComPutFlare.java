@@ -11,7 +11,7 @@ public class xComPutFlare extends xCom {
             if(sSettings.IS_CLIENT)
                 flareReturn.storeFlare(newFlare, cClientLogic.scene);
             if(sSettings.IS_SERVER)
-                flareReturn.storeFlare(newFlare, eManager.currentMap.scene);
+                flareReturn.storeFlare(newFlare, cServerLogic.scene);
         }
         return "usage: putflare <x> <y> <w> <h> <r1> <g1> <b1> <a1> <r2> <g2> <b2> <a2>";
     }

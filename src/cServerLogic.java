@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 public class cServerLogic {
+    static gScene scene = new gScene();
     public static void gameLoop() {
         if(sVars.getInt("timelimit") > 0)
             cVars.putLong("timeleft",
@@ -43,7 +44,7 @@ public class cServerLogic {
                 && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
             switch (cVars.getInt("gamemode")) {
                 case cGameLogic.FLAG_MASTER:
-                    if(eManager.currentMap.scene.getThingMap("ITEM_FLAG").size() > 0
+                    if(scene.getThingMap("ITEM_FLAG").size() > 0
                             && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
                         nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
                     if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0
@@ -74,7 +75,7 @@ public class cServerLogic {
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
-        HashMap<String, gThing> playerMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
         for (String playerId : playerMap.keySet()) {
             gPlayer player = (gPlayer) playerMap.get(playerId);
             //check null fields
@@ -82,9 +83,9 @@ public class cServerLogic {
                 break;
             //check player teleporters
             int clearTeleporterFlag = 1;
-            for(String checkType : eManager.currentMap.scene.objectMaps.keySet()) {
+            for(String checkType : scene.objectMaps.keySet()) {
                 if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
-                    HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(checkType);
+                    HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
                     for (String itemId : thingMap.keySet()) {
                         gItem item = (gItem) thingMap.get(itemId);
                         if (player.willCollideWithThingAtCoords(item,
@@ -148,7 +149,7 @@ public class cServerLogic {
             }
         }
         //recharge players health
-        HashMap playersMap = eManager.currentMap.scene.getThingMap("THING_PLAYER");
+        HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
@@ -162,7 +163,7 @@ public class cServerLogic {
     }
 
     public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
-        HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+        HashMap botsMap = scene.getThingMap("THING_BOTPLAYER");
         if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
             nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             cl.checkSpriteFlip();

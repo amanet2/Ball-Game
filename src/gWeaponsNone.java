@@ -28,6 +28,6 @@ public class gWeaponsNone extends gWeapon {
         if(sSettings.IS_CLIENT)
             cClientLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(sSettings.IS_SERVER)
-            eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+            cServerLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
     }
 }

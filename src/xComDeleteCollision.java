@@ -4,8 +4,8 @@ public class xComDeleteCollision extends xCom {
         if(toks.length > 1) {
             String id = toks[1];
             if(sSettings.IS_SERVER) {
-                if(eManager.currentMap.scene.getThingMap("THING_COLLISION").containsKey(id))
-                    eManager.currentMap.scene.getThingMap("THING_COLLISION").remove(id);
+                if(cServerLogic.scene.getThingMap("THING_COLLISION").containsKey(id))
+                    cServerLogic.scene.getThingMap("THING_COLLISION").remove(id);
             }
             if(sSettings.IS_CLIENT) {
                 if(cClientLogic.scene.getThingMap("THING_COLLISION").containsKey(id))

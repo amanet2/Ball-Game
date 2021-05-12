@@ -58,7 +58,7 @@ public class xComPutBlock extends xCom {
                 if(sSettings.IS_CLIENT)
                     blockReturn.storeBlock(newBlock, cClientLogic.scene);
                 if(sSettings.IS_SERVER)
-                    blockReturn.storeBlock(newBlock, eManager.currentMap.scene);
+                    blockReturn.storeBlock(newBlock, cServerLogic.scene);
             }
         }
         return "usage: putblock <BLOCK_TITLE> <args>";

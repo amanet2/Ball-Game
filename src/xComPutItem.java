@@ -14,7 +14,7 @@ public class xComPutItem extends xCom {
                 if(sSettings.IS_CLIENT)
                     itemReturn.storeItem(newItem, cClientLogic.scene);
                 if(sSettings.IS_SERVER)
-                    itemReturn.storeItem(newItem, eManager.currentMap.scene);
+                    itemReturn.storeItem(newItem, cServerLogic.scene);
             }
         }
         return "usage: putitem <ITEM_TITLE> <args>";

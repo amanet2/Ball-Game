@@ -29,7 +29,7 @@ public class gWeaponsShotgun extends gWeapon {
             double randomOffset = (Math.random() * ((Math.PI / 16)))-Math.PI/32;
             b.putDouble("fv", b.getDouble("fv") + (i*Math.PI/32-(numpellets/2)*Math.PI/32+randomOffset));
             b.putInt("anim", gAnimations.ANIM_SPLASH_BLUE);
-            eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+            cServerLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         }
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.SHOTGUN.code());

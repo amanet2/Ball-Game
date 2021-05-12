@@ -119,7 +119,7 @@ public class nServer extends Thread {
 
 //    void clearBots() {
 //        if(eManager.currentMap != null) {
-//            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+//            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
 //            if(sSettings.IS_SERVER && botsMap.size() > 0) {
 //                for(Object id : botsMap.keySet()) {
 //                    quitClientIds.add((String) id);
@@ -196,7 +196,7 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            HashMap botsMap = eManager.currentMap.scene.getThingMap("THING_BOTPLAYER");
+            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
             if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
                 cVars.putLong("bottime",
                         uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
@@ -257,7 +257,7 @@ public class nServer extends Thread {
         clientArgsMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
-        eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
+        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
         clientIds.remove(id);
         //tell remaining players
         String quitString = String.format("echo %s left the game", quitterName);
@@ -402,7 +402,7 @@ public class nServer extends Thread {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cv_maploaded 0;cv_gamemode %s\n", cVars.get("gamemode")));
-        HashMap<String, gThing> blockMap = eManager.currentMap.scene.getThingMap("THING_BLOCK");
+        HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
             String[] args = new String[]{
@@ -432,7 +432,7 @@ public class nServer extends Thread {
 //            maplines.add(blockString.toString());
             maplines.add(prefabString + blockString.toString());
         }
-        HashMap<String, gThing> collisionMap = eManager.currentMap.scene.getThingMap("THING_COLLISION");
+        HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
         for(String id : collisionMap.keySet()) {
             gCollision collision = (gCollision) collisionMap.get(id);
             StringBuilder xString = new StringBuilder();
@@ -465,7 +465,7 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        HashMap<String, gThing> itemMap = eManager.currentMap.scene.getThingMap("THING_ITEM");
+        HashMap<String, gThing> itemMap = cServerLogic.scene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{
@@ -481,7 +481,7 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        HashMap<String, gThing> flareMap = eManager.currentMap.scene.getThingMap("THING_FLARE");
+        HashMap<String, gThing> flareMap = cServerLogic.scene.getThingMap("THING_FLARE");
         for(String id : flareMap.keySet()) {
             gFlare flare = (gFlare) flareMap.get(id);
             String[] args = new String[]{

@@ -6,7 +6,7 @@ public class xComSpawnPlayer extends xCom {
             int x = Integer.parseInt(toks[2]);
             int y = Integer.parseInt(toks[3]);
             if(sSettings.IS_SERVER) {
-                gScene scene = eManager.currentMap.scene;
+                gScene scene = cServerLogic.scene;
                 scene.getThingMap("THING_PLAYER").remove(playerId);
                 scene.getThingMap("THING_BOTPLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(x, y, eUtils.getPath("animations/player_red/a03.png"));

@@ -103,7 +103,7 @@ public class cBotsLogic {
 
     public static void goToFirstThing(gThing bot, String thingType) {
         gThing waypoint = null;
-        HashMap<String, gThing> thingMap = eManager.currentMap.scene.getThingMap(thingType);
+        HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(thingType);
         for(String id : thingMap.keySet()) {
             waypoint = thingMap.get(id);
             break;

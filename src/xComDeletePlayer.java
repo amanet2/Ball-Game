@@ -4,9 +4,9 @@ public class xComDeletePlayer extends xCom {
         if(toks.length > 1) {
             String id = toks[1];
             if(sSettings.IS_SERVER) {
-                eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
+                cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
                 if(id.contains("bot"))
-                    eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").remove(id);
+                    cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
                 nServer.instance().addExcludingNetCmd("server,", fullCommand);
             }
             if(sSettings.IS_CLIENT) {
