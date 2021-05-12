@@ -5,6 +5,8 @@ public class xComLoad extends xCom {
         cVars.put("botbehavior", "");
         //load the most basic blank map
         gTextures.clear();
+        cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
+        cVars.put("mapname", "new");
         if(sSettings.IS_SERVER)
             cServerLogic.scene = new gScene();
         if(sSettings.IS_CLIENT) {
