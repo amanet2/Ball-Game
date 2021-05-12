@@ -4,22 +4,19 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* ENGINE: think of how to save/export maps now
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
 * NET: double shoot on server's machine
     -> because of our if/if gate in "fireWeapon"
         -> we should probably split up into cl and sv versions
-* MAPMAKER: make it work online again with new arch
-    -> currently in singleplayer, respawnnetplayer <userid> and removeplayer <userid> work for testing
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
     -> limit the "fv" netvar to 2 decimals
 * NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress
     -> i.e. everyone has to start at the same time or it doesnt look right
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
-* NET_MAPMAKER: after changemap, player state of spawned or not is messed up leading to bad situations
 * NET_MAPMAKER: show all user's preview rect on all clients
     -> make a client netvar: {..., "preview": "x:y:w:h", ...}
-* ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
 * GFX: players should follow a Y-based "draw in front, draw behind" logic as well
     -> same with walls
 * ISSUE: client sendcmd requestdisconnect doesnt reach the server sometimes

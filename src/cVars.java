@@ -16,7 +16,6 @@ public class cVars {
         put("camplayertrackingindex", "0");
         put("camx", "0");
         put("camy", "0");
-        put("mapname", "new");
         put("delayhp", "2400");
         put("delaypow", "500");
         put("delayweap", "1800");
@@ -30,6 +29,7 @@ public class cVars {
         put("blockmouseui", "0");
         put("intermissiontime", "-1");
         put("maploaded", "0");
+        put("mapname", "new");
         put("newitemname", "");
         put("newprefabname", "room_small");
         put("maxstockhp", "500");

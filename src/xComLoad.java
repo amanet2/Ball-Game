@@ -5,7 +5,6 @@ public class xComLoad extends xCom {
         cVars.put("botbehavior", "");
         //load the most basic blank map
         gTextures.clear();
-        eManager.currentMap = new gMap();
         if(sSettings.IS_SERVER)
             cServerLogic.scene = new gScene();
         if(sSettings.IS_CLIENT) {

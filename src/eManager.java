@@ -3,7 +3,6 @@ import java.util.*;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static gMap currentMap = null;
 	static String[] mapsSelection;
 	static String[] winClipSelection;
 	static String[] prefabSelection;

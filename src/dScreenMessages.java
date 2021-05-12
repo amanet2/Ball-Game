@@ -112,7 +112,7 @@ public class dScreenMessages {
                 g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
                 g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
                         29*sSettings.height/32);
-                g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
+                g.drawString(String.format("press [Esc] to test %s", cVars.get("mapname")), 0,
                     31*sSettings.height/32);
             }
         }

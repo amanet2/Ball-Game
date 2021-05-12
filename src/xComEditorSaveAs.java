@@ -10,8 +10,11 @@ public class xComEditorSaveAs extends xCom{
             File file = fileChooser.getSelectedFile();
             String filename = file.getName();
             String foldername = file.getParent();
-            eManager.currentMap.saveAs(filename, foldername);
-            eManager.currentMap.mapName = filename.split("\\.")[0];
+            if(sSettings.IS_SERVER)
+                cServerLogic.scene.saveAs(filename, foldername);
+            else if(sSettings.IS_CLIENT)
+                cClientLogic.scene.saveAs(filename, foldername);
+            cVars.put("mapname", filename.split("\\.")[0]);
         }
         return fullcommand;
     }
