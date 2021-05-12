@@ -4,8 +4,6 @@ public class xComDeleteCollision extends xCom {
         if(toks.length > 1) {
             String id = toks[1];
             if(eManager.currentMap.scene.getThingMap("THING_COLLISION").containsKey(id)) {
-                gCollision collisionToDelete =
-                        (gCollision) eManager.currentMap.scene.getThingMap("THING_COLLISION").get(id);
                 eManager.currentMap.scene.getThingMap("THING_COLLISION").remove(id);
                 return "removed collision id: " + id;
             }

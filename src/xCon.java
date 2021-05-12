@@ -107,6 +107,7 @@ public class xCon {
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());
+        commands.put("deleteplayer", new xComDeletePlayer());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("exec", new xComExec());
@@ -142,7 +143,6 @@ public class xCon {
         commands.put("putflare", new xComPutFlare());
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
-        commands.put("removeplayer", new xComRemovePlayer());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());

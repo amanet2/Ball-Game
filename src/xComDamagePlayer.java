@@ -18,7 +18,7 @@ public class xComDamagePlayer extends xCom {
                     //more server-side stuff
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
-                    xCon.ex("removeplayer " + id);
+                    xCon.ex("deleteplayer " + id);
                     eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                     if(shooterid.length() > 0) {

@@ -21,7 +21,7 @@ public class nServer extends Thread {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "fireweapon",
-            "removeplayer",
+            "deleteplayer",
             "respawnnetplayer",
             "requestdisconnect",
             "exec",
@@ -539,7 +539,7 @@ public class nServer extends Thread {
             else if(ccmd.contains("requestdisconnect")) {
                 quitClientIds.add(id);
             }
-            else if(ccmd.contains("removeplayer")
+            else if(ccmd.contains("deleteplayer")
                     || ccmd.contains("respawnnetplayer")) { //handle special case for remove/respawn player
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
