@@ -144,10 +144,10 @@ public class uiInterface {
         }
     }
 
-    public static synchronized void selectThingUnderMouse() {
+    public static synchronized void selectThingUnderMouse(gScene scene) {
         int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
+        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selecteditemid", item.get("itemid"));
                 cVars.put("selecteditemname", item.get("type"));
@@ -156,8 +156,8 @@ public class uiInterface {
                 return;
             }
         }
-        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
+        for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = scene.getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
                 cVars.put("selectedprefabname", block.get("prefabname"));

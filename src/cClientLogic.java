@@ -35,7 +35,7 @@ public class cClientLogic {
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         if(sSettings.show_mapmaker_ui)
-            uiInterface.selectThingUnderMouse();
+            uiInterface.selectThingUnderMouse(scene);
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
@@ -182,6 +182,34 @@ public class cClientLogic {
             p.putInt("weapon", newweapon);
             cClientLogic.getUserPlayer().checkSpriteFlip();
         }
+    }
+
+    public static int getHighestPrefabId() {
+        int idctr = 0;
+        for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = scene.getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr) {
+                idctr = block.getInt("prefabid") + 1;
+            }
+        }
+        for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
+            gThing collision = scene.getThingMap("THING_COLLISION").get(id);
+            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr) {
+                idctr = collision.getInt("prefabid") + 1;
+            }
+        }
+        return idctr;
+    }
+
+    public static int getHighestItemId() {
+        int idctr = 0;
+        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = scene.getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
+                idctr = item.getInt("itemid") + 1;
+            }
+        }
+        return idctr;
     }
 
     public static void playPlayerDeathSound() {
