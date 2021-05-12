@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* See where addNetCmd is better than xcon.ex
+* Move isServer calls out of xCom files and into gDoables for putItem, putPlayer, etc
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines

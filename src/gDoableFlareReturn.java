@@ -16,9 +16,18 @@ public class gDoableFlareReturn {
         );
     }
 
-    public void storeFlare(gFlare flareToLoad, gScene sceneToStore) {
-        String flareId = Integer.toString(sceneToStore.flareIdCtr);
-        sceneToStore.getThingMap("THING_FLARE").put(flareId, flareToLoad);
-        sceneToStore.flareIdCtr += 1;
+    public void storeFlare(gFlare flareToLoad) {
+        if(sSettings.IS_SERVER) {
+            gScene sceneToStore = cServerLogic.scene;
+            String flareId = Integer.toString(sceneToStore.flareIdCtr);
+            sceneToStore.getThingMap("THING_FLARE").put(flareId, flareToLoad);
+            sceneToStore.flareIdCtr += 1;
+        }
+        if(sSettings.IS_CLIENT) {
+            gScene sceneToStore = cClientLogic.scene;
+            String flareId = Integer.toString(sceneToStore.flareIdCtr);
+            sceneToStore.getThingMap("THING_FLARE").put(flareId, flareToLoad);
+            sceneToStore.flareIdCtr += 1;
+        }
     }
 }

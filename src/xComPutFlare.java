@@ -8,10 +8,7 @@ public class xComPutFlare extends xCom {
             gDoableFlareReturn flareReturn = factory.flareLoader;
             gFlare newFlare = flareReturn.getFlare(args);
             newFlare.put("flareid", cVars.get("flareid"));
-            if(sSettings.IS_CLIENT)
-                flareReturn.storeFlare(newFlare, cClientLogic.scene);
-            if(sSettings.IS_SERVER)
-                flareReturn.storeFlare(newFlare, cServerLogic.scene);
+            flareReturn.storeFlare(newFlare);
         }
         return "usage: putflare <x> <y> <w> <h> <r1> <g1> <b1> <a1> <r2> <g2> <b2> <a2>";
     }

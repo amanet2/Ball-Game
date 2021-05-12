@@ -62,9 +62,18 @@ public class gDoableCollisionReturn {
         return new gCollision(xarr, yarr, npoints);
     }
 
-    public void storeCollision(gCollision collisionToLoad, gScene sceneToStore) {
-        String collisionId = Integer.toString(sceneToStore.collisionIdCtr);
-        sceneToStore.getThingMap("THING_COLLISION").put(collisionId, collisionToLoad);
-        sceneToStore.collisionIdCtr += 1;
+    public void storeCollision(gCollision collisionToLoad) {
+        if(sSettings.IS_SERVER) {
+            gScene sceneToStore = cServerLogic.scene;
+            String collisionId = Integer.toString(sceneToStore.collisionIdCtr);
+            sceneToStore.getThingMap("THING_COLLISION").put(collisionId, collisionToLoad);
+            sceneToStore.collisionIdCtr += 1;
+        }
+        if(sSettings.IS_CLIENT) {
+            gScene sceneToStore = cClientLogic.scene;
+            String collisionId = Integer.toString(sceneToStore.collisionIdCtr);
+            sceneToStore.getThingMap("THING_COLLISION").put(collisionId, collisionToLoad);
+            sceneToStore.collisionIdCtr += 1;
+        }
     }
 }
