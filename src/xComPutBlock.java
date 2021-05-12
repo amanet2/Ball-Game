@@ -55,10 +55,7 @@ public class xComPutBlock extends xCom {
                 gBlock newBlock = blockReturn.getBlock(args);
                 newBlock.put("prefabid", cVars.get("prefabid"));
                 newBlock.put("prefabname", cVars.get("newprefabname"));
-                if(sSettings.IS_CLIENT)
-                    blockReturn.storeBlock(newBlock, cClientLogic.scene);
-                if(sSettings.IS_SERVER)
-                    blockReturn.storeBlock(newBlock, cServerLogic.scene);
+                blockReturn.storeBlock(newBlock);
             }
         }
         return "usage: putblock <BLOCK_TITLE> <args>";

@@ -9,7 +9,6 @@ public class gWeaponsNone extends gWeapon {
         damage = 200;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
-//        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
         sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath(""),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
