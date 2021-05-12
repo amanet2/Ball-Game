@@ -7,7 +7,6 @@ public class gMap {
     gScene scene;
 
 	public gMap() {
-        gTextures.clear();
         scene = new gScene();
         mapName = "new";
 		cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
