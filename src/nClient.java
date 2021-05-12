@@ -120,7 +120,7 @@ public class nClient extends Thread {
                     userPlayer.get("mov2"), userPlayer.get("mov3")));
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
-            keys.put("weapon", userPlayer.get("weapon"));
+//            keys.put("weapon", userPlayer.get("weapon"));
         }
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));

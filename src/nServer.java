@@ -117,25 +117,6 @@ public class nServer extends Thread {
         }
     }
 
-//    void clearBots() {
-//        if(eManager.currentMap != null) {
-//            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-//            if(sSettings.IS_SERVER && botsMap.size() > 0) {
-//                for(Object id : botsMap.keySet()) {
-//                    quitClientIds.add((String) id);
-//                }
-//            }
-//        }
-//    }
-
-    void addBots() {
-        int i = 0;
-        while (i < sVars.getInt("botcount")) {
-            xCon.ex("addbot");
-            i++;
-        }
-    }
-
     public HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         //handle outgoing cmd
@@ -356,8 +337,6 @@ public class nServer extends Thread {
                 }
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
-//                    if(packPlayer.getInt("weapon") != packWeap)
-//                        xCon.ex("giveweapon " + packId + " " + packWeap);
                     if (clientArgsMap.get(packId).containsKey("vels")) {
                         String[] veltoks = clientArgsMap.get(packId).get("vels").split("-");
                         packPlayer.put("vel0", veltoks[0]);
