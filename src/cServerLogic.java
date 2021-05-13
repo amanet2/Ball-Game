@@ -256,14 +256,6 @@ public class cServerLogic {
             obj.putInt("coordy", obj.getInt("coordy")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup obj = (gPopup) popupsMap.get(id);
-            obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
-            obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
-        }
         checkBulletSplashes();
     }
 
@@ -324,12 +316,9 @@ public class cServerLogic {
 //                            bullet.getInt("coordx"), bullet.getInt("coordy")));
         scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
-        if(sSettings.IS_SERVER) {
-            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-            nServer.instance().addNetCmd("server", cmdString);
-            nServer.instance().addExcludingNetCmd("server",
-                    "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
-        }
+        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
+        nServer.instance().addExcludingNetCmd("server",
+                "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
     }
 
     public static Collection<String> getPlayerIds() {

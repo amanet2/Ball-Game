@@ -25,6 +25,7 @@ FOCUS ITEMS
 ###
 ### POWER GAP
 ###
+* GAME: edit popups to say things like "#%&@!" when player takes dmg
 * GAME: bring back squish effect for something
 * ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
 * GFX: shade the lower boxes/cubes a little darker than the high walls

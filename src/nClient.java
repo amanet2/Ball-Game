@@ -144,7 +144,7 @@ public class nClient extends Thread {
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmdrcv");
-        return sendDataString.toString();
+        return sendDataString.toString().replace(", ", ",");
     }
 
     private void processCmd(String cmdload) {

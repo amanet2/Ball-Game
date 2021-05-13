@@ -223,7 +223,7 @@ public class nServer extends Thread {
                 sendDataString.append(String.format("@%s", workingmap.toString()));
             }
         }
-        return sendDataString.toString();
+        return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
     void removeNetClient(String id) {
