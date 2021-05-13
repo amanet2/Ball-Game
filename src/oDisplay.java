@@ -31,7 +31,6 @@ public class oDisplay extends JLayeredPane {
         uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[0].text =
                 String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
         showFrame();
-        clearAndRefresh();
         createPanels();
         gTextures.refreshObjectSprites();
     }
@@ -106,6 +105,11 @@ public class oDisplay extends JLayeredPane {
 
 	public void createPanels() {
 	    removeAll();
+        setBackground(new Color(
+                Integer.parseInt(xCon.ex("bgcolor").split(",")[0]),
+                Integer.parseInt(xCon.ex("bgcolor").split(",")[1]),
+                Integer.parseInt(xCon.ex("bgcolor").split(",")[2])
+        ));
         int ox = getContentPaneOffsetDimension()[0];
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;
@@ -118,13 +122,4 @@ public class oDisplay extends JLayeredPane {
         uiPanel.setBounds(ox,oy,ow,oh);
         add(uiPanel, 1, 0);
     }
-
-	public void clearAndRefresh() {
-        removeAll();
-        setBackground(new Color(
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[0]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[1]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[2])
-        ));
-	}
 }

@@ -1,6 +1,5 @@
 public class xComLoad extends xCom {
     public String doCommand(String fullCommand) {
-        oDisplay.instance().clearAndRefresh();
         cVars.put("botbehavior", "");
         //load the most basic blank map
         gTextures.clear();
@@ -9,6 +8,7 @@ public class xComLoad extends xCom {
         if(sSettings.IS_SERVER) {
             cServerLogic.scene = new gScene();
             nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+            nServer.instance().clientArgsMap.get("server").remove("virusids");
         }
         if(sSettings.IS_CLIENT) {
             cClientLogic.scene = new gScene();
@@ -16,7 +16,6 @@ public class xComLoad extends xCom {
             cVars.put("canvoteskip", "");
         }
         cVars.putLong("starttime", System.currentTimeMillis());
-        oDisplay.instance().createPanels();
         return "";
     }
 }
