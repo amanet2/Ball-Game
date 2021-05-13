@@ -263,14 +263,15 @@ public class nServer extends Thread {
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
                     sleep(Math.max(0, networkTime - uiInterface.gameTime));
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     eUtils.echoException(e);
                     e.printStackTrace();
                 }
             }
             interrupt();
         }
-        catch (IOException ee) {
+        catch (Exception ee) {
             eUtils.echoException(ee);
             ee.printStackTrace();
         }

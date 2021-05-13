@@ -11,6 +11,7 @@ public class cServerLogic {
         checkForMapChange();
         checkGameState();
         updateEntityPositions();
+        checkBulletSplashes();
     }
 
     public static void checkTimeRemaining() {
@@ -246,7 +247,6 @@ public class cServerLogic {
             obj.putInt("coordy", obj.getInt("coordy")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        checkBulletSplashes();
     }
 
     public static void checkBulletSplashes() {
