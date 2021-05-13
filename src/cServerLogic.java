@@ -6,30 +6,19 @@ import java.util.Random;
 public class cServerLogic {
     static gScene scene = new gScene();
     public static void gameLoop() {
-        if(sVars.getInt("timelimit") > 0)
-            cVars.putLong("timeleft",
-                    Math.max(0, sVars.getLong("timelimit")
-                            - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
-        else
-            cVars.putLong("timeleft", -1);
+        checkTimeRemaining();
         checkHealthStatus();
         checkForMapChange();
         checkGameState();
         updateEntityPositions();
     }
 
-    public static void resetGameState() {
-        gScoreboard.resetScoresMap();
-        cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gamewon", "0");
-//        cVars.put("winnerid","");
-        switch (cVars.getInt("gamemode")) {
-            case cGameLogic.VIRUS:
-                cGameLogic.resetVirusPlayers();
-                break;
-            default:
-                break;
-        }
+    public static void checkTimeRemaining() {
+        if(sVars.getInt("timelimit") > 0)
+            cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
+                    - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
+        else
+            cVars.putLong("timeleft", -1);
     }
 
     public static void checkGameState() {
@@ -225,6 +214,12 @@ public class cServerLogic {
             nServer.instance().sendMap(id);
             xCon.ex("respawnnetplayer " + id);
         }
+        //reset game state
+        gScoreboard.resetScoresMap();
+        cVars.putLong("starttime", System.currentTimeMillis());
+        cVars.put("gamewon", "0");
+        if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
+            cGameLogic.resetVirusPlayers();
     }
 
     public static void updateEntityPositions() {
