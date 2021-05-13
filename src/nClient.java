@@ -115,7 +115,7 @@ public class nClient extends Thread {
 //            keys.put("hat", sVars.get("playerhat"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
-            keys.put("fv", userPlayer.get("fv"));
+            keys.put("fv", userPlayer.get("fv").substring(0,4));
             keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
                     userPlayer.get("mov2"), userPlayer.get("mov3")));
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
@@ -143,12 +143,12 @@ public class nClient extends Thread {
 
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
-        sendMap.remove("netcmdrcv");
+        sendMap.remove("cmdrcv");
         return sendDataString.toString();
     }
 
     private void processCmd(String cmdload) {
-        sendMap.put("netcmdrcv","");
+        sendMap.put("cmdrcv","");
         xCon.ex(cmdload);
     }
 
@@ -171,12 +171,10 @@ public class nClient extends Thread {
             if(idload.equals("server")) {
                 //scorelimit
                 //check for end of game
-                if(packArgs.get("win").length() > 0) {
-                    cVars.put("winnerid", packArgs.get("win"));
-                }
-                else if(cVars.get("winnerid").length() > 0){
-                    cVars.put("winnerid", "");
-                }
+//                if(packArgs.get("winnerid").length() > 0)
+//                    cVars.put("winnerid", packArgs.get("winnerid"));
+//                else if(cVars.get("winnerid").length() > 0)
+//                    cVars.put("winnerid", "");
                 //important
 //                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
@@ -250,7 +248,7 @@ public class nClient extends Thread {
                             scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
                             scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
                             scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
-                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
+//                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
                         }
                     }
                 }

@@ -110,9 +110,9 @@ public class nServer extends Thread {
     public void checkOutgoingCmdMap() {
         //check clients
         for(String id : clientNetCmdMap.keySet()) {
-            if(clientArgsMap.get(id).containsKey("netcmdrcv") && clientNetCmdMap.get(id).size() > 0) {
+            if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
                 clientNetCmdMap.get(id).remove();
-                clientArgsMap.get(id).remove("netcmdrcv");
+                clientArgsMap.get(id).remove("cmdrcv");
             }
         }
     }
@@ -134,14 +134,11 @@ public class nServer extends Thread {
         keys.put("timeleft", cVars.get("timeleft"));
 //        keys.put("topscore", gScoreboard.getTopScoreString());
         if(clientArgsMap.containsKey("server")) {
-            for(String s : new String[]{"flagmasterid", "virusids"}) {
+            for(String s : new String[]{"flagmasterid", "virusids", "winnerid"}) {
                 if(clientArgsMap.get("server").containsKey(s))
                     keys.put(s, clientArgsMap.get("server").get(s));
-                else
-                    clientArgsMap.get("server").remove(s);
             }
         }
-        keys.put("win", cVars.get("winnerid"));
         return keys;
     }
 
@@ -210,9 +207,9 @@ public class nServer extends Thread {
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
                 && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-            if(!clientArgsMap.get(clientid).containsKey("netcmdrcv")) {
+            if(!clientArgsMap.get(clientid).containsKey("cmdrcv")) {
                 if(clientid.contains("bot"))
-                    clientArgsMap.get(clientid).put("netcmdrcv", "1");
+                    clientArgsMap.get(clientid).put("cmdrcv", "1");
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
@@ -330,7 +327,7 @@ public class nServer extends Thread {
             //parse and process the args from client packet
             if(clientIds.contains(packId)) {
                 //update ping
-                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+//                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                 //handle name change to notify
                 if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
                     addNetCmd(String.format("echo %s changed name to %s", oldName, packName));

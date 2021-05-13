@@ -21,7 +21,7 @@ public class cServerLogic {
         gScoreboard.resetScoresMap();
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
-        cVars.put("winnerid","");
+//        cVars.put("winnerid","");
         switch (cVars.getInt("gamemode")) {
             case cGameLogic.VIRUS:
                 cGameLogic.resetVirusPlayers();
@@ -115,10 +115,10 @@ public class cServerLogic {
                 //someone beats score
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
-                    cVars.put("winnerid", highestId);
+//                    nServer.instance().clientArgsMap.get("server").put("winnerid", highestId);
                     nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                    gScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
+                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
+                    gScoreboard.incrementScoreFieldById(highestId, "wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",

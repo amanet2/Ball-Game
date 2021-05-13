@@ -22,9 +22,10 @@ public class dScoreboard {
         g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
         g.drawString("                                                   Kills",
                 sSettings.width/4,5*sSettings.height/30);
-        g.drawString("                                                               Ping",
-                sSettings.width/4,5*sSettings.height/30);
-        g.drawString("-----------------------------------------------------------",
+//        g.drawString("                                                               Ping",
+//                sSettings.width/4,5*sSettings.height/30);
+//        g.drawString("-----------------------------------------------------------",
+        g.drawString("----------------------------------------------------",
                 sSettings.width/4, 6*sSettings.height/30);
         int i = 0;
         int prevscore=-1000000;
@@ -44,7 +45,7 @@ public class dScoreboard {
             int playerwins = scoresMapIdMap.get("wins");
             int playerscore = scoresMapIdMap.get("score");
             int playerkills = scoresMapIdMap.get("kills");
-            int playerping = scoresMapIdMap.get("ping");
+//            int playerping = scoresMapIdMap.get("ping");
             boolean isMe = false;
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
@@ -71,8 +72,8 @@ public class dScoreboard {
                     sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                   " + playerkills,
                     sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                               " + playerping,
-                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
+//            g.drawString("                                                               " + playerping,
+//                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(isMe) {
                 g.setColor(new Color(
                         Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),

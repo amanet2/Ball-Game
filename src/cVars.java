@@ -98,7 +98,7 @@ public class cVars {
         put("weaponstock3", "0");
         put("weaponstock4", "0");
         put("weaponstock5", "0");
-        put("winnerid", "");
+//        put("winnerid", "");
         //bots
         put("botbehavior", "NONE");
         put("botthinkdelay", "1000");

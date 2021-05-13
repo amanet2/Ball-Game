@@ -24,10 +24,10 @@ public class dScreenMessages {
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
-                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
-                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-                        0, 6 * sSettings.height / 64);
+//            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
+//                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+//                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+//                        0, 6 * sSettings.height / 64);
         }
         if(sSettings.show_mapmaker_ui) {
             //camera
@@ -204,18 +204,18 @@ public class dScreenMessages {
 //            }
 //        }
         //win lose
-        if((cVars.get("winnerid").length() > 0 && nClient.instance().serverArgsMap.containsKey(cVars.get("winnerid")))) {
-            dFonts.drawCenteredString(g, nClient.instance().serverArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
-                    sSettings.width / 2, 5*sSettings.height/8);
-        }
+//        if((cVars.get("winnerid").length() > 0 && nClient.instance().serverArgsMap.containsKey(cVars.get("winnerid")))) {
+//            dFonts.drawCenteredString(g, nClient.instance().serverArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
+//                    sSettings.width / 2, 5*sSettings.height/8);
+//        }
         //loading
         if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
         //timeleft
-        if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
-                || cVars.get("winnerid").length() > 0) {
-            dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
-        }
+//        if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
+//                || cVars.get("winnerid").length() > 0) {
+//            dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
+//        }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
