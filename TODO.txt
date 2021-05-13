@@ -6,6 +6,7 @@
 FOCUS ITEMS
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
+    -> outside of uiInterface, shouldnt have to have the if/else
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
 * NET: double shoot on server's machine

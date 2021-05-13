@@ -309,12 +309,8 @@ public class nServer extends Thread {
             //fetch old packet
             HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
             String oldName = "";
-            long oldTimestamp = 0;
-            if(oldArgMap != null) {
+            if(oldArgMap != null)
                 oldName = oldArgMap.get("name");
-                oldTimestamp = oldArgMap.containsKey("time") ?
-                        Long.parseLong(oldArgMap.get("time")) : System.currentTimeMillis();
-            }
             //only want to update keys that have changes
             for(String k : packArgMap.keySet()) {
                 if(!clientArgsMap.get(packId).containsKey(k)
@@ -331,9 +327,6 @@ public class nServer extends Thread {
                 //handle name change to notify
                 if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
                     addNetCmd(String.format("echo %s changed name to %s", oldName, packName));
-                if(System.currentTimeMillis() > oldTimestamp + sVars.getInt("timeout")) {
-                    quitClientIds.add(packId);
-                }
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
                     if (clientArgsMap.get(packId).containsKey("vels")) {
