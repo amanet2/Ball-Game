@@ -68,7 +68,6 @@ public class uiInterface {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
         }
-        xCon.ex("load");
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
