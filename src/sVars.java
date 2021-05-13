@@ -10,20 +10,16 @@ public class sVars {
     private static void init() {
         keys.put("audioenabled", "1");
         keys.put("bgcolor", "0,0,0");
-        keys.put("botcount", "0");
-        keys.put("botcountmax", "3");
-        keys.put("botnameselection", "sneed,chuck,based,janny,CIA,dunnhier,dubs,trips,quads,digits");
+        keys.put("botnameselection", "Eddie,Frankie,Joey,Johnny,Vinny,Tony,Phil");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
         keys.put("debuglog", "0");
-        keys.put("defaultexec", "config/autoexec.cfg");
-        keys.put("defaultmap", "mainmenu.map");
         keys.put("drawmapmakergrid", "1");
         keys.put("drawhitboxes", "1");
-        keys.put("drawplayerarrow", "0");
+        keys.put("drawplayerarrow", "1");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
         keys.put("fontcolorbonus", "50,220,100,200");
@@ -33,14 +29,14 @@ public class sVars {
         keys.put("fontsize", "90");
         keys.put("fontnameui", "None");
         keys.put("fontnameconsole", "Courier");
-        keys.put("framerates", "24,30,60,75,100,120,144,240,320,1000");
+        keys.put("framerates", "24,30,60,75,100,120,144,240,320");
         keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe_normal,stovepipe_irish,bow,witch,skull,boomer");
         keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("logopath", "misc/logo.png");
-        keys.put("msgfadetime", "6000");
+        keys.put("msgfadetime", "10000");
         keys.put("netrcvretries", "0");
         keys.put("ratebots", "30");
         keys.put("rateclient", "30");
@@ -51,11 +47,11 @@ public class sVars {
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
-        keys.put("scorelimit", "1000");
+        keys.put("scorelimit", "0");
         keys.put("sfxrange", "1800");
-        keys.put("showtick", "0");
-        keys.put("showfps", "0");
-        keys.put("shownet", "0");
+        keys.put("showtick", "1");
+        keys.put("showfps", "1");
+        keys.put("shownet", "1");
         keys.put("showscale", "1");
         keys.put("smoothing", "1");
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp

@@ -68,7 +68,7 @@ public class uiInterface {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
         }
-        xCon.ex("exec " + sVars.get("defaultexec"));
+        xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
         startGame();
