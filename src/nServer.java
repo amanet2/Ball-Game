@@ -125,8 +125,6 @@ public class nServer extends Thread {
         checkLocalCmds();
         //update id in net args
         keys.put("id", "server");
-        //name for spectator and gameplay
-//        keys.put("name", sVars.get("playername"));
         //send scores
         keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
@@ -544,12 +542,13 @@ public class nServer extends Thread {
         if(testmsg.equalsIgnoreCase("skip")) {
             cVars.addIntVal("voteskipctr", 1);
             if(cVars.getInt("voteskipctr") >= cVars.getInt("voteskiplimit")) {
-                cVars.putLong("intermissiontime", System.currentTimeMillis() + 5000);
+                cVars.putLong("intermissiontime",
+                        System.currentTimeMillis() + sVars.getInt("intermissiontime"));
                 for(String s : new String[]{
                         "playsound sounds/win/"+eManager.winClipSelection[
                                 (int) (Math.random() * eManager.winClipSelection.length)],
                         String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
-                        "echo [VOTE_SKIP] CHANGING MAP..."}) {
+                        "echo [VOTE_SKIP] CHANGING MAP IN 10s..."}) {
                     addExcludingNetCmd("server", s);
                 }
             }

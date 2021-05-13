@@ -104,7 +104,6 @@ public class nClient extends Thread {
         String outgoingMsg = dequeueNetMsg(); //dequeues w/ every call so call once a tick
         keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
         //handle outgoing cmd
-        keys.put("cmd", "");
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         //update id in net args
@@ -300,7 +299,7 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        addNetCmd("requestdisconnect");
+//        addNetCmd("requestdisconnect");
         sSettings.IS_CLIENT = false;
         clientSocket.close();
         serverArgsMap = new HashMap<>();
