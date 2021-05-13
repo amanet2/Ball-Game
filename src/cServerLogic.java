@@ -23,7 +23,7 @@ public class cServerLogic {
 
     public static void checkGameState() {
         for(String id : getPlayerIds()) {
-            //this shouldnt be needed, but when server user joins his own games, it is
+            //this is needed when server user joins his own games
             if(id.equals(uiInterface.uuid))
                 continue;
             gPlayer obj = getPlayerById(id);
@@ -44,22 +44,21 @@ public class cServerLogic {
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                 }
             }
-            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                    if(nServer.instance().clientArgsMap.containsKey("server")) {
-                        if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1) {
-                            cGameLogic.resetVirusPlayers();
-                        }
-                        for(String id : getPlayerIds()) {
-                            gPlayer p = getPlayerById(id);
-                            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                                    && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
-                                xCon.ex("givepoint " + p.get("id"));
-                            }
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                    && cVars.getLong("virustime") < uiInterface.gameTime) {
+                if(nServer.instance().clientArgsMap.containsKey("server")) {
+                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1) {
+                        cGameLogic.resetVirusPlayers();
+                    }
+                    for(String id : getPlayerIds()) {
+                        gPlayer p = getPlayerById(id);
+                        if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                            xCon.ex("givepoint " + p.get("id"));
                         }
                     }
-                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
                 }
+                cVars.putLong("virustime", uiInterface.gameTime + 1000);
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -105,7 +104,6 @@ public class cServerLogic {
                 //someone beats score
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
-//                    nServer.instance().clientArgsMap.get("server").put("winnerid", highestId);
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
@@ -232,15 +230,12 @@ public class cServerLogic {
                 break;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
+            if(obj.getLong("acceltick") < System.currentTimeMillis())
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-            }
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene)) {
+            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene))
                 obj.putInt("coordx", dx);
-            }
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene)) {
+            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene))
                 obj.putInt("coordy", dy);
-            }
         }
 
         HashMap bulletsMap = scene.getThingMap("THING_BULLET");
@@ -263,11 +258,6 @@ public class cServerLogic {
             gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);
-//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                            createId(), new gAnimationEmitter(b.getInt("anim"),
-//                                    b.getInt("coordx"), b.getInt("coordy")));
-//                }
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
                     pseeds.add(b);
@@ -304,11 +294,6 @@ public class cServerLogic {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
         )/(double)bullet.getInt("ttl"))));
-        //play animations on all clients
-//        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-//            currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-//                            bullet.getInt("coordx"), bullet.getInt("coordy")));
         scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
         xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
