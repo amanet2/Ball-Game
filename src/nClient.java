@@ -53,48 +53,54 @@ public class nClient extends Thread {
 
     public void run() {
         int retries = 0;
-        while(sSettings.IS_CLIENT) {
-            try {
-                netticks += 1;
-                if(uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                    uiInterface.netReport = netticks;
-                    netticks = 0;
-                    uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
-                }
-                if(receivedPackets.size() < 1) {
-                    InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
-                    String sendDataString = createSendDataString();
-                    byte[] clientSendData = sendDataString.getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                            sVars.getInt("joinport"));
-                    if(clientSocket == null || clientSocket.isClosed()) {
-                        clientSocket = new DatagramSocket();
-                        clientSocket.setSoTimeout(sVars.getInt("timeout"));
+        try {
+            while(sSettings.IS_CLIENT) {
+                try {
+                    netticks += 1;
+                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
+                        uiInterface.netReport = netticks;
+                        netticks = 0;
+                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                     }
-                    clientSocket.send(sendPacket);
-                    xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                    byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
-                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                    clientSocket.receive(receivePacket);
-                    receivedPackets.add(receivePacket);
+                    if (receivedPackets.size() < 1) {
+                        InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
+                        String sendDataString = createSendDataString();
+                        byte[] clientSendData = sendDataString.getBytes();
+                        DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                                sVars.getInt("joinport"));
+                        if (clientSocket == null || clientSocket.isClosed()) {
+                            clientSocket = new DatagramSocket();
+                            clientSocket.setSoTimeout(sVars.getInt("timeout"));
+                        }
+                        clientSocket.send(sendPacket);
+                        xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+                        byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
+                        DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                        clientSocket.receive(receivePacket);
+                        receivedPackets.add(receivePacket);
+                    }
+                    processPackets();
+                    long networkTime = System.currentTimeMillis()
+                            + (long) (1000.0 / (double) sVars.getInt("rateclient"));
+                    sleep(Math.max(0, networkTime - uiInterface.gameTime));
+                    retries = 0;
                 }
-                processPackets();
-                long networkTime = System.currentTimeMillis()
-                        + (long)(1000.0/(double)sVars.getInt("rateclient"));
-                sleep(Math.max(0, networkTime-uiInterface.gameTime));
-                retries = 0;
-            }
-            catch(Exception e) {
-                eUtils.echoException(e);
-                retries++;
-                e.printStackTrace();
-                if(retries > sVars.getInt("netrcvretries")) {
-                    xCon.ex("disconnect");
-                    xCon.ex("echo Lost connection to server");
+                catch (Exception ee) {
+                    eUtils.echoException(ee);
+                    ee.printStackTrace();
+                    retries++;
+                    if(retries > sVars.getInt("netrcvretries")) {
+                        xCon.ex("disconnect");
+                        xCon.ex("echo Lost connection to server");
+                    }
                 }
             }
+            interrupt();
         }
-        interrupt();
+        catch(Exception e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
     }
 
     private HashMap<String, String> getNetVars() {
@@ -111,15 +117,11 @@ public class nClient extends Thread {
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("color", sVars.get("playercolor"));
-//            keys.put("hat", sVars.get("playerhat"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0,4));
-//            keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
-//                    userPlayer.get("mov2"), userPlayer.get("mov3")));
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
-//            keys.put("weapon", userPlayer.get("weapon"));
         }
         //name for spectator and gameplay
         keys.put("name", sVars.get("playername"));
