@@ -24,16 +24,16 @@ public class xComDamagePlayer extends xCom {
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                         gScoreboard.incrementScoreFieldById(shooterid, "kills");
-                        nServer.instance().addNetCmd("echo " + killername + " killed " + victimname);
+                        nServer.instance().addExcludingNetCmd("server", "echo " + killername + " killed " + victimname);
                         if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
                             xCon.ex("givepoint " + shooterid);
                     }
                     else
-                        nServer.instance().addNetCmd("echo " + victimname + " died");
+                        nServer.instance().addExcludingNetCmd("server", "echo " + victimname + " died");
 //                        handle flag carrier dying
-                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
-                        nServer.instance().clientArgsMap.get("server").put("state", "");
-                        //this does the same thing as above
+                    if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
+                    && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
+                        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
                         nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
                     }
                     //migrate all client death logic here

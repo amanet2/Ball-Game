@@ -323,11 +323,10 @@ public class cClientLogic {
             }
         }
         if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
-            //gamestate checks, for server AND clients
+                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").length() > 0) {
             //check to delete flags that should not be present anymore
-            if (scene.getThingMap("ITEM_FLAG").size() > 0
-                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
+            if (scene.getThingMap("ITEM_FLAG").size() > 0)
                 xCon.ex("clearthingmap ITEM_FLAG");
         }
     }

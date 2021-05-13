@@ -180,6 +180,11 @@ public class nClient extends Thread {
                 //important
                 cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
+                //check flag and virus
+                for(String s : new String[]{"flagmasterid", "virusids"}) {
+                    if(!packArgs.containsKey(s))
+                        nClient.instance().serverArgsMap.get("server").remove(s);
+                }
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {

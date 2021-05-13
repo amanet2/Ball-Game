@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* Instead of sending "state" have server send "flagmasterid" for its arg
+    -> this will make it so no flag is draw in virus mode
+        -> obv make it so we have "virusids" instead of "state"
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines

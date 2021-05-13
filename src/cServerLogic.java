@@ -43,38 +43,33 @@ public class cServerLogic {
                             obj.get("id")).get("vels").split("-")[i]));
             }
         }
-        if(nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            switch (cVars.getInt("gamemode")) {
-                case cGameLogic.FLAG_MASTER:
-                    if(scene.getThingMap("ITEM_FLAG").size() > 0
-                            && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
-                        nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
-                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0
-                            && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                        xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("state"));
-                        cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
-                    }
-                    break;
-                case cGameLogic.VIRUS:
-                    if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                        if(nServer.instance().clientArgsMap.containsKey("server")) {
-                            if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
-                                cGameLogic.resetVirusPlayers();
-                            }
-                            for(String id : getPlayerIds()) {
-                                gPlayer p = getPlayerById(id);
-                                if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)) {
-                                    xCon.ex("givepoint " + p.get("id"));
-                                }
+        if(nServer.instance().clientArgsMap.containsKey("server")) {
+            if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
+                if(scene.getThingMap("ITEM_FLAG").size() > 0
+                        && nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0)
+                    nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
+                if(nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0
+                        && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                    xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
+                    cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                }
+            }
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                    if(nServer.instance().clientArgsMap.containsKey("server")) {
+                        if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1) {
+                            cGameLogic.resetVirusPlayers();
+                        }
+                        for(String id : getPlayerIds()) {
+                            gPlayer p = getPlayerById(id);
+                            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                                    && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                                xCon.ex("givepoint " + p.get("id"));
                             }
                         }
-                        cVars.putLong("virustime", uiInterface.gameTime + 1000);
                     }
-                    break;
-                default:
-                    break;
+                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                }
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -116,21 +111,13 @@ public class cServerLogic {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {
-                //check for server win
-                if(gScoreboard.isTopScoreId("server")) {
-                    cVars.put("winnerid", "server");
-                    nServer.instance().addNetCmd("echo " + sVars.get("playername") + " wins!");
-                    gScoreboard.incrementScoreFieldById("server", "wins");
-                }
-                else {
-                    //someone beats score
-                    String highestId = gScoreboard.getWinnerId();
-                    if(highestId.length() > 0) {
-                        cVars.put("winnerid", highestId);
-                        nServer.instance().addNetCmd("echo "
-                                + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        gScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
-                    }
+                //someone beats score
+                String highestId = gScoreboard.getWinnerId();
+                if(highestId.length() > 0) {
+                    cVars.put("winnerid", highestId);
+                    nServer.instance().addExcludingNetCmd("server", "echo "
+                            + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
+                    gScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",

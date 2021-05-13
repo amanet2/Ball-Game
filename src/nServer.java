@@ -126,18 +126,21 @@ public class nServer extends Thread {
         //update id in net args
         keys.put("id", "server");
         //name for spectator and gameplay
-        keys.put("name", sVars.get("playername"));
+//        keys.put("name", sVars.get("playername"));
         //send scores
         keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
         keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", gScoreboard.getTopScoreString());
-        if(clientArgsMap.containsKey("server")
-        && clientArgsMap.get("server").containsKey("state"))
-            keys.put("state", clientArgsMap.get("server").get("state"));
-        else
-            keys.put("state", "");
+        if(clientArgsMap.containsKey("server")) {
+            for(String s : new String[]{"flagmasterid", "virusids"}) {
+                if(clientArgsMap.get("server").containsKey(s))
+                    keys.put(s, clientArgsMap.get("server").get(s));
+                else
+                    clientArgsMap.get("server").remove(s);
+            }
+        }
         keys.put("win", cVars.get("winnerid"));
         return keys;
     }
@@ -228,9 +231,9 @@ public class nServer extends Thread {
 
     void removeNetClient(String id) {
         String quitterName = clientArgsMap.get(id).get("name");
-        if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("state")
-                && clientArgsMap.get("server").get("state").equals(id)) {
-            clientArgsMap.get("server").put("state", "");
+        if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("flagmasterid")
+                && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
+            clientArgsMap.get("server").put("flagmasterid", "");
             gPlayer player = cServerLogic.getPlayerById(id);
             addNetCmd(String.format("putitem ITEM_FLAG %d %d",
                     player.getInt("coordx"), player.getInt("coordy")));
@@ -241,8 +244,7 @@ public class nServer extends Thread {
         cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
         clientIds.remove(id);
         //tell remaining players
-        String quitString = String.format("echo %s left the game", quitterName);
-        addNetCmd(quitString);
+        addExcludingNetCmd("server", String.format("echo %s left the game", quitterName));
     }
 
     public void run() {
