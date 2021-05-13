@@ -165,17 +165,17 @@ public class dScreenMessages {
         if(cVars.isOne("showscore")) {
             dScoreboard.showScoreBoard(g);
         }
-        else if(nClient.instance().serverArgsMap.get("server") != null
-                && nClient.instance().serverArgsMap.get("server").get("topscore") != null
-                && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
-                if(cClientLogic.getUserPlayer() != null
-                        && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id")))
-                    dFonts.setFontColorHighlight(g);
-                dFonts.drawCenteredString(g, "Leader: "
-                                + nClient.instance().serverArgsMap.get("server").get("topscore"),
-                        sSettings.width / 2, sSettings.height / 30);
-                dFonts.setFontColorNormal(g);
-        }
+//        else if(nClient.instance().serverArgsMap.get("server") != null
+//                && nClient.instance().serverArgsMap.get("server").get("topscore") != null
+//                && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
+//                if(cClientLogic.getUserPlayer() != null
+//                        && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id")))
+//                    dFonts.setFontColorHighlight(g);
+//                dFonts.drawCenteredString(g, "Leader: "
+//                                + nClient.instance().serverArgsMap.get("server").get("topscore"),
+//                        sSettings.width / 2, sSettings.height / 30);
+//                dFonts.setFontColorNormal(g);
+//        }
 
         //game alerts
 //        if(cClientLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {

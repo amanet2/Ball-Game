@@ -60,7 +60,7 @@ public class dScoreboard {
             prevplace = place;
             prevscore = playerscore;
             String spectatorstring = "";
-            if(cServerLogic.getPlayerById(id) == null)
+            if(cClientLogic.getPlayerById(id) == null)
                 spectatorstring = "[SPECTATE] ";
             g.drawString(String.format("%s%d. ", spectatorstring, place+1)
                             + playername, sSettings.width/4 - dFonts.getStringWidth(g, spectatorstring),

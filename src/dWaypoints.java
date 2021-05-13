@@ -64,25 +64,24 @@ public class dWaypoints {
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
         if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")) {
             if(nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")) {
-                if(nClient.instance().serverArgsMap.get("server").get("flagmasterid").length() > 0) {
-                    if(!nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(uiInterface.uuid)) {
-                        gPlayer p = cClientLogic.getPlayerById(
-                                nClient.instance().serverArgsMap.get("server").get("flagmasterid"));
-                        if(p == null)
-                            return;
-                        dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
-                    }
-                }
-                else {
-                    HashMap flagmap = scene.getThingMap("ITEM_FLAG");
-                    for(Object id : flagmap.keySet()) {
-                        gItemFlag flag = (gItemFlag) flagmap.get(id);
-                        dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                                flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
-                    }
+                if(!nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(uiInterface.uuid)) {
+                    gPlayer p = cClientLogic.getPlayerById(
+                            nClient.instance().serverArgsMap.get("server").get("flagmasterid"));
+                    if(p == null)
+                        return;
+                    dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
                 }
             }
+            else {
+                HashMap flagmap = scene.getThingMap("ITEM_FLAG");
+                for(Object id : flagmap.keySet()) {
+                    gItemFlag flag = (gItemFlag) flagmap.get(id);
+                    dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
+                            flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
+                }
+            }
+
             if(nClient.instance().serverArgsMap.get("server").containsKey("virusids")) {
                 String statestr = nClient.instance().serverArgsMap.get("server").get("virusids");
                 for (String id : cClientLogic.getPlayerIds()) {

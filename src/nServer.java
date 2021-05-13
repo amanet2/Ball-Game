@@ -132,7 +132,7 @@ public class nServer extends Thread {
         cVars.put("scoremap", keys.get("scoremap"));
 //        keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
-        keys.put("topscore", gScoreboard.getTopScoreString());
+//        keys.put("topscore", gScoreboard.getTopScoreString());
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
                 if(clientArgsMap.get("server").containsKey(s))
