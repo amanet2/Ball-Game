@@ -21,7 +21,6 @@ public class sVars {
         keys.put("debuglog", "0");
         keys.put("defaultexec", "config/autoexec.cfg");
         keys.put("defaultmap", "mainmenu.map");
-        keys.put("defaulttitle", "Ball Game");
         keys.put("drawmapmakergrid", "1");
         keys.put("drawhitboxes", "1");
         keys.put("drawplayerarrow", "0");
@@ -41,7 +40,6 @@ public class sVars {
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("logopath", "misc/logo.png");
-        keys.put("mapextension", ".map");
         keys.put("msgfadetime", "6000");
         keys.put("netrcvretries", "0");
         keys.put("ratebots", "30");

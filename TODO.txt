@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* VOTE_SKIP:
+    -> change counter into a hashmap.
+        -> once the keycount exceeds limit, change map
+            -> remove the keys on client disconnect or map change
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of uiInterface, shouldnt have to have the if/else

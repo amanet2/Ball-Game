@@ -31,7 +31,6 @@ public class oDisplay extends JLayeredPane {
         uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[0].text =
                 String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
         showFrame();
-        uiInterface.addListeners();
         clearAndRefresh();
         createPanels();
         gTextures.refreshObjectSprites();
@@ -56,11 +55,9 @@ public class oDisplay extends JLayeredPane {
     }
 
 	public void showFrame() {
-        if(frame != null) {
+        if(frame != null)
             frame.dispose();
-        }
-		frame = new JFrame(String.format("%s%s", sVars.get("defaulttitle"),
-                sSettings.show_mapmaker_ui ? " -editor" : ""));
+		frame = new JFrame(String.format("Ball Game%s", sSettings.show_mapmaker_ui ? " [EDITOR]" : ""));
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter()
         {
@@ -88,6 +85,12 @@ public class oDisplay extends JLayeredPane {
         if(sVars.isIntVal("displaymode", displaymode_fullscreen))
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
+		//add listeners
+        frame.addKeyListener(iInput.keyboardInput);
+        frame.addMouseListener(iInput.mouseInput);
+        frame.addMouseMotionListener(iInput.mouseMotion);
+        frame.addMouseWheelListener(iInput.mouseWheelInput);
+        frame.setFocusTraversalKeysEnabled(false);
     }
 
 	public int[] getContentPaneOffsetDimension(){

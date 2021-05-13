@@ -59,33 +59,19 @@ public class uiInterface {
 		}
 	}
 
-	public static void addListeners() {
-		oDisplay.instance().frame.addKeyListener(iInput.keyboardInput);
-		oDisplay.instance().frame.addMouseListener(iInput.mouseInput);
-		oDisplay.instance().frame.addMouseMotionListener(iInput.mouseMotion);
-		oDisplay.instance().frame.addMouseWheelListener(iInput.mouseWheelInput);
-		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
-	}
-
 	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
+	    eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-	    if(sSettings.show_mapmaker_ui) {
-            xCon.ex("load");
-            cVars.putInt("camx", 0);
-            cVars.putInt("camy", 0);
-        }
-	    else {
+	    if(!sSettings.show_mapmaker_ui) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
-            xCon.ex("load");
         }
+        xCon.ex("load");
         xCon.ex("exec " + sVars.get("defaultexec"));
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
-        addListeners();
         startGame();
 	}
 
