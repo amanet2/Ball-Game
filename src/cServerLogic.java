@@ -8,7 +8,8 @@ public class cServerLogic {
     public static void gameLoop() {
         if(sVars.getInt("timelimit") > 0)
             cVars.putLong("timeleft",
-                    sVars.getLong("timelimit") - (int) (uiInterface.gameTime - cVars.getLong("starttime")));
+                    Math.max(0, sVars.getLong("timelimit")
+                            - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
         else
             cVars.putLong("timeleft", -1);
         checkHealthStatus();
