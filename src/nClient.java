@@ -112,7 +112,7 @@ public class nClient extends Thread {
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("color", sVars.get("playercolor"));
-            keys.put("hat", sVars.get("playerhat"));
+//            keys.put("hat", sVars.get("playerhat"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv"));
@@ -178,7 +178,7 @@ public class nClient extends Thread {
                     cVars.put("winnerid", "");
                 }
                 //important
-                cVars.put("scorelimit", packArgs.get("scorelimit"));
+//                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {

@@ -130,7 +130,7 @@ public class nServer extends Thread {
         //send scores
         keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
-        keys.put("scorelimit", sVars.get("scorelimit"));
+//        keys.put("scorelimit", sVars.get("scorelimit"));
         keys.put("timeleft", cVars.get("timeleft"));
         keys.put("topscore", gScoreboard.getTopScoreString());
         if(clientArgsMap.containsKey("server")) {
