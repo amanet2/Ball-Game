@@ -551,25 +551,20 @@ public class nServer extends Thread {
         if(testmsg.equalsIgnoreCase("skip")) {
             cVars.addIntVal("voteskipctr", 1);
             if(cVars.getInt("voteskipctr") >= cVars.getInt("voteskiplimit")) {
-                cVars.put("timeleft", "0");
+                cVars.putLong("intermissiontime", System.currentTimeMillis() + 5000);
                 for(String s : new String[]{
+                        "playsound sounds/win/"+eManager.winClipSelection[
+                                (int) (Math.random() * eManager.winClipSelection.length)],
                         String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
                         "echo [VOTE_SKIP] CHANGING MAP..."}) {
-                    addNetCmd(s);
+                    addExcludingNetCmd("server", s);
                 }
             }
             else {
-                String sendmsg = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
                         cVars.get("voteskipctr"), cVars.get("voteskiplimit"));
-                addNetCmd(sendmsg);
+                addExcludingNetCmd("server", s);
             }
         }
-    }
-
-    public void disconnect() {
-        sSettings.IS_SERVER = false;
-//                serverSocket.close();
-        if (uiInterface.inplay)
-            xCon.ex("pause");
     }
 }
