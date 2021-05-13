@@ -4,11 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* try to get # of bytes sent per net cycle down
-    -> get rid of ping in scoremap
-    -> rename some fields
-    -> limit FV to 2 decimals
-    -> save bytes by not sending the clientId's own netvars back to him
+* GAME: see why "mov" and "vels" are both needed in net args
+* try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines

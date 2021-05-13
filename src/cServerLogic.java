@@ -230,8 +230,7 @@ public class cServerLogic {
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3"};
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;

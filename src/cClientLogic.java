@@ -79,8 +79,7 @@ public class cClientLogic {
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3"};
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;
@@ -282,12 +281,13 @@ public class cClientLogic {
         //other players
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
+//                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
+                String[] requiredFields = new String[]{"fv", "x", "y"};
                 if(!nClient.instance().containsArgsForId(id, requiredFields))
                     continue;
                 HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
-                char[] cmovedirs = cargs.get("dirs").toCharArray();
+//                char[] cmovedirs = cargs.get("dirs").toCharArray();
                 gPlayer p = getPlayerById(id);
                 if(p == null)
                     return;
@@ -299,10 +299,10 @@ public class cClientLogic {
                     p.putDouble("fv", cfv);
                     p.checkSpriteFlip();
                 }
-                for(int i = 0; i < cmovedirs.length; i++) {
-                    if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
-                        p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
-                }
+//                for(int i = 0; i < cmovedirs.length; i++) {
+//                    if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
+//                        p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
+//                }
             }
         }
     }

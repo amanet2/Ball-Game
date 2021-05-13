@@ -116,8 +116,8 @@ public class nClient extends Thread {
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0,4));
-            keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
-                    userPlayer.get("mov2"), userPlayer.get("mov3")));
+//            keys.put("dirs", String.format("%s%s%s%s", userPlayer.get("mov0"), userPlayer.get("mov1"),
+//                    userPlayer.get("mov2"), userPlayer.get("mov3")));
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
 //            keys.put("weapon", userPlayer.get("weapon"));
