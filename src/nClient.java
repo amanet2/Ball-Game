@@ -170,14 +170,6 @@ public class nClient extends Thread {
             }
             //detect a win message from the server and cancel all movements
             if(idload.equals("server")) {
-                //scorelimit
-                //check for end of game
-//                if(packArgs.get("winnerid").length() > 0)
-//                    cVars.put("winnerid", packArgs.get("winnerid"));
-//                else if(cVars.get("winnerid").length() > 0)
-//                    cVars.put("winnerid", "");
-                //important
-//                cVars.put("scorelimit", packArgs.get("scorelimit"));
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {

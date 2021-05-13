@@ -96,9 +96,7 @@ public class cServerLogic {
         if(!sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
-                    && cVars.getLong("intermissiontime") < 0)
-                    || (sVars.getInt("scorelimit") > 0
-                    && gScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
+                    && cVars.getLong("intermissiontime") < 0)) {
                 cVars.put("gamewon", "1");
             }
             if(cVars.isOne("gamewon")) {

@@ -29,18 +29,17 @@ public class dScreenMessages {
 //                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
 //                        0, 6 * sSettings.height / 64);
         }
-        if(sSettings.show_mapmaker_ui) {
+        if(sVars.isOne("showcam")) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                uiInterface.camReport[0], uiInterface.camReport[1]);
+                    uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
-            //instance
-            if(cClientLogic.getUserPlayer() != null) {
-                g.drawString(String.format("Player: %d,%d",
-                        cClientLogic.getUserPlayer().getInt("coordx"),
-                        cClientLogic.getUserPlayer().getInt("coordy")),
-                        0,10*sSettings.height/64);
-            }
+        }
+        if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
+            g.drawString(String.format("Player: %d,%d",
+                    cClientLogic.getUserPlayer().getInt("coordx"),
+                    cClientLogic.getUserPlayer().getInt("coordy")),
+                    0,10*sSettings.height/64);
         }
         //ingame messages
         dFonts.setFontColorNormal(g);
@@ -59,9 +58,6 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
             }
-//            else if(cVars.contains("scorelimit") && cVars.getInt("scorelimit") > 0)
-//                dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
-//                    29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
             dFonts.setFontColorHighlight(g);
             if(userPlayer != null && gScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
                 dFonts.drawRightJustifiedString(g,
@@ -176,46 +172,9 @@ public class dScreenMessages {
 //                        sSettings.width / 2, sSettings.height / 30);
 //                dFonts.setFontColorNormal(g);
 //        }
-
-        //game alerts
-//        if(cClientLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
-//            switch(cVars.getInt("gamemode")) {
-//                case cGameLogic.VIRUS:
-//                    if(nServer.instance().clientArgsMap.containsKey("server")
-//                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
-//                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
-//                                cClientLogic.userPlayer().get("id"))) {
-//                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    break;
-//                case cGameLogic.FLAG_MASTER:
-//                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
-//                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    else if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0){
-//                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-        //win lose
-//        if((cVars.get("winnerid").length() > 0 && nClient.instance().serverArgsMap.containsKey(cVars.get("winnerid")))) {
-//            dFonts.drawCenteredString(g, nClient.instance().serverArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
-//                    sSettings.width / 2, 5*sSettings.height/8);
-//        }
         //loading
         if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
-        //timeleft
-//        if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
-//                || cVars.get("winnerid").length() > 0) {
-//            dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
-//        }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
