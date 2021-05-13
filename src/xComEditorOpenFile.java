@@ -12,7 +12,7 @@ public class xComEditorOpenFile extends xCom {
                     return "";
                 File file = fileChooser.getSelectedFile();
                 xCon.ex("exec " + file.getPath());
-                cEditorLogic.refreshGametypeCheckBoxMenuItems();
+                uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         }
         return "";

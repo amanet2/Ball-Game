@@ -233,9 +233,9 @@ public class xCon {
             xCom cp = commands.get(command);
             if (cp != null) {
 //                if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
-//                    cEditorLogic.undoStateStack.push(cEditorLogic.getEditorState());
+//                    uiEditorMenus.undoStateStack.push(uiEditorMenus.getEditorState());
 //                    eManager.currentMap.wasLoaded = 1;
-//                    cEditorLogic.redoStateStack.clear();
+//                    uiEditorMenus.redoStateStack.clear();
 //                }
                 if(!visibleCommands.contains(command)) {
                     if (fullCommand.charAt(0) == '-')

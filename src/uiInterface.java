@@ -85,11 +85,11 @@ public class uiInterface {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = cEditorLogic.getNewPrefabDims();
+        int[] fabdims = uiEditorMenus.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-                cEditorLogic.snapToX);
+                uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-                cEditorLogic.snapToY);
+                uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class cEditorLogic {
+public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo

@@ -68,7 +68,7 @@ public class oDisplay extends JLayeredPane {
         });
         frame.setUndecorated(!sVars.isIntVal("displaymode", displaymode_windowed));
 		if(sSettings.show_mapmaker_ui)
-			cEditorLogic.setupMapMakerWindow();
+			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
         sSettings.width = Integer.parseInt(sVars.get("vidmode").split(",")[0]);
         sSettings.height = Integer.parseInt(sVars.get("vidmode").split(",")[1]);

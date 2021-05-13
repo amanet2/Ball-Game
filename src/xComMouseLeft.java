@@ -8,13 +8,13 @@ public class xComMouseLeft extends xCom {
                 if(sSettings.show_mapmaker_ui) {
                     int[] mc = uiInterface.getMouseCoordinates();
                     if(cVars.get("newprefabname").length() > 0) {
-                        int[] pfd = cEditorLogic.getNewPrefabDims();
+                        int[] pfd = uiEditorMenus.getNewPrefabDims();
                         int w = pfd[0];
                         int h = pfd[1];
                         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w / 2,
-                                cEditorLogic.snapToX);
+                                uiEditorMenus.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h / 2,
-                                cEditorLogic.snapToY);
+                                uiEditorMenus.snapToY);
                         cVars.putInt("prefabid", cClientLogic.getHighestPrefabId());
                         String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
@@ -24,9 +24,9 @@ public class xComMouseLeft extends xCom {
                         int iw = 300;
                         int ih = 300;
                         int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - iw/2,
-                                cEditorLogic.snapToX);
+                                uiEditorMenus.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
-                                cEditorLogic.snapToY);
+                                uiEditorMenus.snapToY);
                         cVars.putInt("itemid", cClientLogic.getHighestItemId());
                         String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
                         nClient.instance().addNetCmd(cmd);
