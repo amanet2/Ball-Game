@@ -7,6 +7,7 @@ FOCUS ITEMS
 * NET: migrate blockidctr, etc. from scene into cvar so it can be sync'd online
     -> or do SOMETHING to make it work online
     -> sync it with netvar "ctrs" = "<blockctr>:<itemctr>:<collisionctr>:<flarectr>"
+    -> OR send an arg "cv_blockidctr <val>" like we send "cv_prefabid X"
 * VOTE_SKIP:
     -> change counter into a hashmap.
         -> once the keycount exceeds limit, change map
