@@ -4,8 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ISSUE NET MAPMAKER: prefabid losing sync
-    -> prolly cause server/client will do it twice, and prefabid is a cvar
+* ISSUE NET MAPMAKER: i think we're getting a "double put prefab" on the serverside
+    -> from IS_SERVER/IS_CLIENT in put/delete
+        -> gets called once on server, gets called again when local client receives cmd
+        -> also explains the shooting
 * NET: to save space, dont send name, and other non-sync related vals every tick
     -> send every OTHER tick, create a cycle of 2 phases
         -> sync stuff
