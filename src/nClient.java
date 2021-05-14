@@ -163,12 +163,13 @@ public class nClient extends Thread {
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
             for(String k : packArgs.keySet()) {
-                if(!serverArgsMap.get(idload).containsKey(k)
-                        || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
-                    serverArgsMap.get(idload).put(k, packArgs.get(k));
-                }
+//                if(!serverArgsMap.get(idload).containsKey(k)
+//                        || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k))) {
+//                    serverArgsMap.get(idload).put(k, packArgs.get(k));
+//                }
+                //not sure what's faster, below or above
+                serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
-            //detect a win message from the server and cancel all movements
             if(idload.equals("server")) {
                 cVars.put("timeleft", packArgs.get("timeleft"));
                 //check flag and virus

@@ -219,7 +219,7 @@ public class cClientLogic {
             xCon.ex("playsound sounds/death.wav");
     }
 
-    public static void checkColorStatus(){
+    public static void checkColorStatus() {
         //check all id colors, including yours
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             gPlayer p = getPlayerById(id);
