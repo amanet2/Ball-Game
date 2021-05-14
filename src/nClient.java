@@ -213,10 +213,6 @@ public class nClient extends Thread {
                 else {
                     serverIds.add(idload);
                     foundIds.add(idload);
-                    gPlayer player = new gPlayer(-6000, -6000,
-                            eUtils.getPath("animations/player_red/a03.png"));
-                    player.put("id", idload);
-                    cClientLogic.scene.getThingMap("THING_PLAYER").put(idload, player);
                 }
             }
             //handle our own player to get things like stockhp from server

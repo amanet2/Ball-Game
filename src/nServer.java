@@ -358,10 +358,14 @@ public class nServer extends Thread {
         System.out.println("NEW CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-//        //don't want to send the map AGAIN when we already are the server (hosting)
-//        if(!packId.equals(uiInterface.uuid))
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
+        for(String clientId : clientIds) {
+            gThing player = cServerLogic.scene.getPlayerById(clientId);
+            if(player != null)
+                addNetCmd(packId, String.format("spawnplayerclient %s %s %s",
+                    clientId, player.get("coordx"), player.get("coordy")));
+        }
         if(!sSettings.show_mapmaker_ui)
             xCon.ex(String.format("respawnnetplayer %s", packId));
         addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
