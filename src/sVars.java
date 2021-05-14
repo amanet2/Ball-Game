@@ -48,13 +48,13 @@ public class sVars {
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("sfxrange", "1800");
-        keys.put("showtick", "1");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
         keys.put("showmouse", "1");
         keys.put("shownet", "1");
         keys.put("showplayer", "1");
         keys.put("showscale", "1");
+        keys.put("showtick", "1");
         keys.put("smoothing", "1");
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");

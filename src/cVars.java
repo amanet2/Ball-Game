@@ -71,10 +71,6 @@ public class cVars {
         put("vfxroofoutlinealpha2", "0");
         put("vfxroofshadingalpha1", "100");
         put("vfxroofshadingalpha2", "0");
-        put("vfxrooflowoutlinealpha1", "150");
-        put("vfxrooflowoutlinealpha2", "50");
-        put("vfxrooflowshadingalpha1", "150");
-        put("vfxrooflowshadingalpha2", "50");
         put("vfxwalloutlinealpha1", "80");
         put("vfxwalloutlinealpha2", "255");
         put("vfxwallshadingalpha1", "80");

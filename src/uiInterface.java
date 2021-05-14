@@ -67,6 +67,13 @@ public class uiInterface {
 	    if(!sSettings.show_mapmaker_ui) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
+            sVars.putInt("showcam", 0);
+            sVars.putInt("showfps", 0);
+            sVars.putInt("showmouse", 0);
+            sVars.putInt("shownet", 0);
+            sVars.putInt("showplayer", 0);
+            sVars.putInt("showscale", 0);
+            sVars.putInt("showtick", 0);
         }
         xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();

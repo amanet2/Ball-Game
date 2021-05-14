@@ -213,15 +213,13 @@ public class cClientLogic {
         int idctr = 0;
         for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = scene.getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr) {
+            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr)
                 idctr = block.getInt("prefabid") + 1;
-            }
         }
         for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
             gThing collision = scene.getThingMap("THING_COLLISION").get(id);
-            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr) {
+            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr)
                 idctr = collision.getInt("prefabid") + 1;
-            }
         }
         return idctr;
     }
@@ -230,9 +228,8 @@ public class cClientLogic {
         int idctr = 0;
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
+            if(item.contains("itemid") && item.getInt("itemid") >= idctr)
                 idctr = item.getInt("itemid") + 1;
-            }
         }
         return idctr;
     }
