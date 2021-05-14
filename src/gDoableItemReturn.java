@@ -9,7 +9,7 @@ public class gDoableItemReturn {
             storeItemDelegate(itemToLoad, cClientLogic.scene);
     }
 
-    public void storeItemDelegate(gItem itemToLoad, gScene sceneToStore) {
+    private void storeItemDelegate(gItem itemToLoad, gScene sceneToStore) {
         int itemId = sceneToStore.itemIdCtr;
         itemToLoad.putInt("id", itemId);
         itemToLoad.putInt("itemid", itemId);
