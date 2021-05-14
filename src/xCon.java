@@ -152,6 +152,7 @@ public class xCon {
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
+        commands.put("spawnplayerclient", new xComSpawnPlayerClient());
         commands.put("spawnpopup", new xComSpawnPopup());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());

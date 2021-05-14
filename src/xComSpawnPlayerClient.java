@@ -1,11 +1,14 @@
-public class xComSpawnPlayer extends xCom {
+public class xComSpawnPlayerClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 3) {
             String playerId = toks[1];
             int x = Integer.parseInt(toks[2]);
             int y = Integer.parseInt(toks[3]);
-            spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
+            spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
+            if(playerId.equals(uiInterface.uuid))
+                cClientLogic.setUserPlayer(cClientLogic.getPlayerById(uiInterface.uuid));
+
             return "spawned player " + playerId + " at " + x + " " + y;
         }
         return "usage: spawnplayer <player_id> <x> <y>";
