@@ -503,8 +503,11 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
         System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.contains("fireweapon")) //handle special case for weapons
-                addExcludingNetCmd(id, cmd);
+            if(ccmd.contains("fireweapon")) { //handle special case for weapons
+                addExcludingNetCmd(id+",server,",
+                        cmd.replaceFirst("fireweapon", "fireweaponclient"));
+                xCon.ex(cmd);
+            }
             else if(ccmd.contains("requestdisconnect")) {
                 quitClientIds.add(id);
             }

@@ -272,9 +272,9 @@ public class nClient extends Thread {
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-            //here we avoid server double shooting, and also handle the user's client-side firing (like in halo 5)
+//            //user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
-                xCon.ex(cmdString);
+                xCon.ex(cmdString.replaceFirst("fireweapon", "fireweaponclient"));
             System.out.println("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }

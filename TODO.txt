@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* ISSUE NET: double shooting
 * ISSUE NET MAPMAKER: i think we're getting a "double put prefab" on the serverside
     -> from IS_SERVER/IS_CLIENT in put/delete
         -> gets called once on server, gets called again when local client receives cmd
@@ -12,11 +13,6 @@ FOCUS ITEMS
     -> send every OTHER tick, create a cycle of 2 phases
         -> sync stuff
         -> cmd stuff
-* NET: migrate blockidctr, etc. from scene into cvar so it can be sync'd online
-    -> or do SOMETHING to make it work online
-    -> sync it with netvar "ctrs" = "<blockctr>:<itemctr>:<collisionctr>:<flarectr>"
-    -> OR send an arg "cv_blockidctr <val>" like we send "cv_prefabid X"
-        -> I like this more
 * VOTE_SKIP:
     -> change counter into a hashmap.
         -> once the keycount exceeds limit, change map
