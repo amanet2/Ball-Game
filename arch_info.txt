@@ -55,3 +55,4 @@ of "netargs".  i.e. don't want calls to nServer.argmap all over the code EXCEPT 
     -> the server user's client doesnt need to execute, just see what happens on the server
 * for netclients, addnetcmd does not execute clientside unless its "fireweapon"
 * dont use server code/scenes/objects in display routines
+* for server, if we get double-shooting/prefabs/etc then route the command through server and exclude uuid

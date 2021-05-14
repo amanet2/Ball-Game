@@ -15,7 +15,6 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h / 2,
                                 uiEditorMenus.snapToY);
-//                        cVars.putInt("prefabid", cClientLogic.scene.getHighestPrefabId() + 1);
                         String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
                         return "put prefab " + cVars.get("newprefabname");
@@ -27,7 +26,6 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
                                 uiEditorMenus.snapToY);
-                        cVars.putInt("itemid", cClientLogic.scene.getHighestItemId() + 1);
                         String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
                         nClient.instance().addNetCmd(cmd);
                         return "put item " + cVars.get("newitemname");
