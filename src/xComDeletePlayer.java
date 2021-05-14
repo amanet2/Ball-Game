@@ -4,19 +4,21 @@ public class xComDeletePlayer extends xCom {
         if(toks.length > 1) {
             String id = toks[1];
             if(sSettings.IS_SERVER) {
-                cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                if(id.contains("bot"))
-                    cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
+                deletePlayerDelegate(id, cServerLogic.scene);
                 nServer.instance().addExcludingNetCmd("server,"+uiInterface.uuid, fullCommand);
             }
             if(sSettings.IS_CLIENT) {
-                cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                deletePlayerDelegate(id, cClientLogic.scene);
                 if(id.equals(uiInterface.uuid))
                     cClientLogic.setUserPlayer(null);
-                if(id.contains("bot"))
-                    cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
             }
         }
         return "usage: deleteplayer <id>";
+    }
+
+    private void deletePlayerDelegate(String id, gScene scene) {
+        scene.getThingMap("THING_PLAYER").remove(id);
+        if(id.contains("bot"))
+            scene.getThingMap("THING_BOTPLAYER").remove(id);
     }
 }
