@@ -8,11 +8,11 @@ public class xComChangeMapRandom extends xCom {
             while(rand == eManager.mapSelectionIndex) {
                 rand = (int)(Math.random()*eManager.mapsSelection.length);
             }
-            cServerLogic.changeMap(eManager.mapsSelection[rand]);
+            cServerLogic.changeMap("maps/" + eManager.mapsSelection[rand]);
             eManager.mapSelectionIndex = rand;
         }
         else {
-            cServerLogic.changeMap(eManager.mapsSelection[0]);
+            cServerLogic.changeMap("maps/" + eManager.mapsSelection[0]);
             eManager.mapSelectionIndex = 0;
         }
         return "changed map (random)";
