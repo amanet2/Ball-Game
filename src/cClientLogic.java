@@ -251,6 +251,16 @@ public class cClientLogic {
     //clientside prediction for movement aka smoothing
     public static void checkMovementStatus() {
         //other players
+        for(String id : getPlayerIds()) {
+            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
+                continue;
+            gPlayer obj = getPlayerById(id);
+            for (int i = 0; i < 4; i++) {
+                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
+                            obj.get("id")).get("vels").split("-")[i]));
+            }
+        }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(!id.equals(uiInterface.uuid)) {
                 String[] requiredFields = new String[]{"fv", "x", "y"};
@@ -278,16 +288,6 @@ public class cClientLogic {
     }
 
     static void checkGameState() {
-        for(String id : getPlayerIds()) {
-            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
-                continue;
-            gPlayer obj = getPlayerById(id);
-            for (int i = 0; i < 4; i++) {
-                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
-                            obj.get("id")).get("vels").split("-")[i]));
-            }
-        }
         if(nClient.instance().serverArgsMap.containsKey("server")
                 && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
                 && nClient.instance().serverArgsMap.get("server").get("flagmasterid").length() > 0) {

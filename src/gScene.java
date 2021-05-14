@@ -40,7 +40,7 @@ public class gScene {
     }
 
     public int getHighestPrefabId() {
-        int idctr = 0;
+        int idctr = -1;
         for(String id : getThingMap("THING_BLOCK").keySet()) {
             gThing block = getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.getInt("prefabid") >= idctr)
@@ -56,7 +56,7 @@ public class gScene {
 
 
     public int getHighestItemId() {
-        int idctr = 0;
+        int idctr = -1;
         for(String id : getThingMap("THING_ITEM").keySet()) {
             gThing item = getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.getInt("itemid") >= idctr)
