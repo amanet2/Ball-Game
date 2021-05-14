@@ -119,7 +119,7 @@ public class nClient extends Thread {
             keys.put("color", sVars.get("playercolor"));
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
-            keys.put("fv", userPlayer.get("fv").substring(0,4));
+            keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
         }
