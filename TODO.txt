@@ -4,11 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ISSUE NET: double shooting
-* ISSUE NET MAPMAKER: i think we're getting a "double put prefab" on the serverside
-    -> from IS_SERVER/IS_CLIENT in put/delete
-        -> gets called once on server, gets called again when local client receives cmd
-        -> also explains the shooting
+* try to get # of bytes sent per packet down
+* The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
+    -> outside of uiInterface, shouldnt have to have the if/else
+        -> look at how "fireweapon" was refactored for inspiration
+            -> client-exclusive and server-exclusive functions are the key
 * NET: to save space, dont send name, and other non-sync related vals every tick
     -> send every OTHER tick, create a cycle of 2 phases
         -> sync stuff
@@ -17,9 +17,6 @@ FOCUS ITEMS
     -> change counter into a hashmap.
         -> once the keycount exceeds limit, change map
             -> remove the keys on client disconnect or map change
-* try to get # of bytes sent per packet down
-* The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
-    -> outside of uiInterface, shouldnt have to have the if/else
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
 * NET: double shoot on server's machine
