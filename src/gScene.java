@@ -39,6 +39,32 @@ public class gScene {
         return (gPlayer) getThingMap("THING_PLAYER").get(id);
     }
 
+    public int getHighestPrefabId() {
+        int idctr = 0;
+        for(String id : getThingMap("THING_BLOCK").keySet()) {
+            gThing block = getThingMap("THING_BLOCK").get(id);
+            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr)
+                idctr = block.getInt("prefabid");
+        }
+        for(String id : getThingMap("THING_COLLISION").keySet()) {
+            gThing collision = getThingMap("THING_COLLISION").get(id);
+            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr)
+                idctr = collision.getInt("prefabid");
+        }
+        return idctr;
+    }
+
+
+    public int getHighestItemId() {
+        int idctr = 0;
+        for(String id : getThingMap("THING_ITEM").keySet()) {
+            gThing item = getThingMap("THING_ITEM").get(id);
+            if(item.contains("itemid") && item.getInt("itemid") >= idctr)
+                idctr = item.getInt("itemid");
+        }
+        return idctr;
+    }
+
     public void saveAs(String filename, String foldername) {
         if(foldername == null || foldername.strip().length() < 1)
             foldername="maps";

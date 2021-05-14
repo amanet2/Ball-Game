@@ -209,31 +209,6 @@ public class cClientLogic {
         }
     }
 
-    public static int getHighestPrefabId() {
-        int idctr = 0;
-        for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = scene.getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr)
-                idctr = block.getInt("prefabid") + 1;
-        }
-        for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
-            gThing collision = scene.getThingMap("THING_COLLISION").get(id);
-            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr)
-                idctr = collision.getInt("prefabid") + 1;
-        }
-        return idctr;
-    }
-
-    public static int getHighestItemId() {
-        int idctr = 0;
-        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.getInt("itemid") >= idctr)
-                idctr = item.getInt("itemid") + 1;
-        }
-        return idctr;
-    }
-
     public static void playPlayerDeathSound() {
         double r = Math.random();
         if(r > .99)
@@ -278,13 +253,11 @@ public class cClientLogic {
         //other players
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-//                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
                 String[] requiredFields = new String[]{"fv", "x", "y"};
                 if(!nClient.instance().containsArgsForId(id, requiredFields))
                     continue;
                 HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
-//                char[] cmovedirs = cargs.get("dirs").toCharArray();
                 gPlayer p = getPlayerById(id);
                 if(p == null)
                     return;
@@ -296,10 +269,6 @@ public class cClientLogic {
                     p.putDouble("fv", cfv);
                     p.checkSpriteFlip();
                 }
-//                for(int i = 0; i < cmovedirs.length; i++) {
-//                    if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
-//                        p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
-//                }
             }
         }
     }
