@@ -17,7 +17,7 @@ public class gDoableFlareReturn {
     }
 
     public void storeFlare(gFlare flareToLoad) {
-        if(sSettings.IS_SERVER) 
+        if(sSettings.IS_SERVER)
             storeFlareDelegate(flareToLoad, cServerLogic.scene);
         if(sSettings.IS_CLIENT)
             storeFlareDelegate(flareToLoad, cClientLogic.scene);
