@@ -75,7 +75,7 @@ public class gScoreboard {
     public static String getTopScoreString() {
         int topscore = 0;
         int tiectr = 0;
-        String winnerName = "";
+        String leaderString = "";
         for(String id : scoresMap.keySet()) {
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
             if(scoresMapIdMap.get("score") > topscore) {
@@ -84,16 +84,16 @@ public class gScoreboard {
                 if(!nServer.instance().clientArgsMap.containsKey(id)
                 || !nServer.instance().clientArgsMap.get(id).containsKey("name"))
                     break;
-                winnerName = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
+                leaderString = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
             }
             else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
                 tiectr++;
             }
         }
         if(tiectr > 0) {
-            winnerName = winnerName + " + " + tiectr + " others";
+            leaderString = leaderString + " + " + tiectr + " others";
         }
-        return winnerName;
+        return leaderString;
     }
 
     public static String getWinnerId() {
@@ -112,22 +112,6 @@ public class gScoreboard {
             }
         }
         return highestId;
-    }
-
-    public static int getWinnerScore() {
-        int highestScore = 0;
-        boolean pass = false;
-        while (!pass) {
-            pass = true;
-            for(String id : scoresMap.keySet()) {
-                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-                if(scoresMapIdMap.get("score") > highestScore) {
-                    pass = false;
-                    highestScore = scoresMapIdMap.get("score");
-                }
-            }
-        }
-        return highestScore;
     }
 
     public static void addId(String id) {

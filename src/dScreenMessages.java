@@ -16,11 +16,6 @@ public class dScreenMessages {
         if(sVars.isOne("showfps")) {
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
         }
-        //mousexy for editor
-        if(sSettings.show_mapmaker_ui) {
-            g.drawString(String.format("Mouse: %d,%d",
-                uiInterface.getPlaceObjCoords()[0],uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
-        }
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
@@ -34,6 +29,15 @@ public class dScreenMessages {
             String camstring = String.format("Cam: %d,%d",
                     uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
+        }
+        if(sVars.isOne("showmouse")) {
+            int[] mc = uiInterface.getMouseCoordinates();
+            if(sSettings.show_mapmaker_ui)
+                g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
+                        uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
+            else
+                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + cVars.getInt("camx"),
+                        eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")),0,9*sSettings.height/64);
         }
         if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",

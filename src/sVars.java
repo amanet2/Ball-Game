@@ -51,6 +51,7 @@ public class sVars {
         keys.put("showtick", "1");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
+        keys.put("showmouse", "1");
         keys.put("shownet", "1");
         keys.put("showplayer", "1");
         keys.put("showscale", "1");
