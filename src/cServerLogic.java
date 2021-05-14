@@ -204,7 +204,7 @@ public class cServerLogic {
     static void changeMap(String mapPath) {
         System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
-        xCon.ex("exec maps/" + mapPath);
+        xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
                 "clearthingmap THING_PLAYER;load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
