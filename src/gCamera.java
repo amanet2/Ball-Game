@@ -42,5 +42,7 @@ public class gCamera {
 			cVars.putInt("camy",
 					((p.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2) + p.getInt("dimh")/2));
 		}
+		else
+			cVars.putInt("cammode", gCamera.MODE_FREE);
 	}
 }
