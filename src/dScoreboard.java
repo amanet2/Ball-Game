@@ -17,16 +17,16 @@ public class dScoreboard {
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
-        g.drawString("["+ gScoreboard.scoresMap.size() + " players]",sSettings.width/4,5*sSettings.height/30);
-        g.drawString("                           Wins",sSettings.width/4,5*sSettings.height/30);
-        g.drawString("                                       Score",sSettings.width/4,5*sSettings.height/30);
+        g.drawString("["+ gScoreboard.scoresMap.size() + " players]",sSettings.width/3,5*sSettings.height/30);
+        g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
+        g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                                                   Kills",
-                sSettings.width/4,5*sSettings.height/30);
+                sSettings.width/3,5*sSettings.height/30);
 //        g.drawString("                                                               Ping",
-//                sSettings.width/4,5*sSettings.height/30);
+//                sSettings.width/3,5*sSettings.height/30);
 //        g.drawString("-----------------------------------------------------------",
-        g.drawString("----------------------------------------------------",
-                sSettings.width/4, 6*sSettings.height/30);
+        g.drawString("-----------------------------------------------",
+                sSettings.width/3, 6*sSettings.height/30);
         int i = 0;
         int prevscore=-1000000;
         int prevplace = 0;
@@ -64,16 +64,16 @@ public class dScoreboard {
             if(cClientLogic.getPlayerById(id) == null)
                 spectatorstring = "[SPECTATE] ";
             g.drawString(String.format("%s%d. ", spectatorstring, place+1)
-                            + playername, sSettings.width/4 - dFonts.getStringWidth(g, spectatorstring),
+                            + playername, sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
                     7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                           " + playerwins,
-                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                       " + playerscore,
-                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                                   " + playerkills,
-                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
+                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
 //            g.drawString("                                                               " + playerping,
-//                    sSettings.width/4,7 * sSettings.height / 30 + i * sSettings.height / 30);
+//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(isMe) {
                 g.setColor(new Color(
                         Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),

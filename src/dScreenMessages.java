@@ -101,15 +101,12 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
-                String selectedThingString = cVars.get("selectedprefabname");
-                if(cVars.get("selecteditemname").length() > 0)
-                    selectedThingString = cVars.get("selecteditemname");
                 if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE " + selectedThingString,0,25*sSettings.height/32);
+                    g.drawString("[BACKSPACE] - DELETE",0,25*sSettings.height/32);
                 g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
-                g.drawString(String.format("[MOUSE LEFT] - place %s", newThingString), 0,
+                g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
-                g.drawString(String.format("[Esc] - test %s", cVars.get("mapname")), 0,
+                g.drawString("[Esc] - TEST/EDIT ", 0,
                     31*sSettings.height/32);
             }
         }
@@ -162,17 +159,6 @@ public class dScreenMessages {
         if(cVars.isOne("showscore")) {
             dScoreboard.showScoreBoard(g);
         }
-//        else if(nClient.instance().serverArgsMap.get("server") != null
-//                && nClient.instance().serverArgsMap.get("server").get("topscore") != null
-//                && nClient.instance().serverArgsMap.get("server").get("topscore").length() > 0) {
-//                if(cClientLogic.getUserPlayer() != null
-//                        && gScoreboard.isTopScoreId(cClientLogic.getUserPlayer().get("id")))
-//                    dFonts.setFontColorHighlight(g);
-//                dFonts.drawCenteredString(g, "Leader: "
-//                                + nClient.instance().serverArgsMap.get("server").get("topscore"),
-//                        sSettings.width / 2, sSettings.height / 30);
-//                dFonts.setFontColorNormal(g);
-//        }
         //loading
         if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);

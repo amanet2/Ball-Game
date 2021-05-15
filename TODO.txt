@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* NET: convert scene ctrs into netctrs
+    -> before placing a block set the cv_ctr
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
 * user player starts getting shaky after a bit
 * try to get # of bytes sent per packet down
