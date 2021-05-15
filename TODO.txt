@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
+* instead of using it for weapons, have the flare be used to highlight the user player
+* make sure we dont have double-tiles
 * NET: convert scene ctrs into netctrs
     -> before placing a block set the cv_ctr
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
