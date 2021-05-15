@@ -5,8 +5,8 @@ public class gDoableItemReturn {
     public void storeItem(gItem itemToLoad) {
         if(sSettings.IS_SERVER)
             storeItemDelegate(itemToLoad, cServerLogic.scene);
-        if(sSettings.IS_CLIENT)
-            storeItemDelegate(itemToLoad, cClientLogic.scene);
+//        if(sSettings.IS_CLIENT)
+//            storeItemDelegate(itemToLoad, cClientLogic.scene);
     }
 
     private void storeItemDelegate(gItem itemToLoad, gScene sceneToStore) {

@@ -446,7 +446,7 @@ public class nServer extends Thread {
                     item.get("coordx"),
                     item.get("coordy")
             };
-            StringBuilder str = new StringBuilder("putitem");
+            StringBuilder str = new StringBuilder("cl_putitem");
             for(String arg : args) {
                 if(arg != null) {
                     str.append(" ").append(arg);
@@ -537,7 +537,8 @@ public class nServer extends Thread {
             }
             else if(ccmd.contains("putitem")) {
                 int itemid = cServerLogic.scene.getHighestItemId() + 1;
-                addExcludingNetCmd(uiInterface.uuid, String.format("cv_itemid %d;%s", itemid, cmd));
+                addExcludingNetCmd(uiInterface.uuid, String.format("cv_itemid %d;%s",
+                        itemid, cmd.replace("putitem", "cl_putitem")));
             }
             else
                 addNetCmd(cmd);

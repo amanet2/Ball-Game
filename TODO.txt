@@ -4,10 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* for fixing object placement, take note of the current process
+    -> client clicks, sends "exec prefabs/room <args>"
+        -> this command contains args that get stored in svars and used for thing spawning
+    -> server reroutes this verbatim
 * FOCUS: fix the placing of objects (eliminate doubling). follow the example in putblock, evidence below
     -> mapmaker, started new map and had all join
     -> changed map and had extern client delete prefabs
     -> worked perfect, but some collisions remained
+    -> but for placing new ones, we need to overhaul
+        -> client tells server to route raw commands in the prefabs file
+            -> we need to change the putblock comms to cl_putblock, for instance
 * host player definitely doubling items, blocks, etc in mapmaker
     -> proof is seen when external client deletes item, there is still one left on server user's screen
     -> because host server loads, then host client loads on sendMap receive
