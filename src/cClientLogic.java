@@ -89,7 +89,7 @@ public class cClientLogic {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     //user player
-                    if(cClientLogic.isUserPlayer(obj)) {
+                    if(isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
                             obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
                                     obj.getInt("vel" + i) + 1)));

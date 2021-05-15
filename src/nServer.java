@@ -528,7 +528,7 @@ public class nServer extends Thread {
                 if(toks.length > 1) {
                     String reqid = toks[1];
                     if(reqid.equals(id)) //client can only remove itself
-                        nServer.instance().addNetCmd(cmd);
+                        nServer.instance().addExcludingNetCmd(uiInterface.uuid, cmd); //deleteplayer execs 2x on host
                 }
             }
             else if(cmd.contains("exec prefabs/")) {

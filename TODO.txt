@@ -4,14 +4,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* refactor userplayer to return getMap(uuid) every time
+    -> we dont need some extra player pointer
 * user player starts getting shaky after a bit
 * mapmaker, external client is invisible unless host has spawned first
-    -> color was "null" for some reason
-        -> net sync issue. color sync is powered by client.args_from_server map
-            -> problem present in normal game and editor
-            -> see the missing vars in "cl_status"
-                -> client receiving in netloop debug though
+    -> see the difference in cl_status when external client spawn vs when server spawn (ESC key)
     -> works only when serverplayer spawns first
+    -> look into nClient and how we ignore things that pertain to our own uuid
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of uiInterface, shouldnt have to have the if/else

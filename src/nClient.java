@@ -154,10 +154,10 @@ public class nClient extends Thread {
     }
 
     public void readData(String receiveDataString) {
-        String[] toks = receiveDataString.trim().split("@");
+        String[] argsets = receiveDataString.trim().split("@");
         ArrayList<String> foundIds = new ArrayList<>();
-        for(int i = 0; i < toks.length; i++) {
-            String argload = toks[i];
+        for(int i = 0; i < argsets.length; i++) {
+            String argload = argsets[i];
             HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
             String idload = packArgs.get("id");
             if(!serverArgsMap.containsKey(idload))
@@ -184,46 +184,6 @@ public class nClient extends Thread {
                     System.out.println("FROM_SERVER: " + cmdload);
                     processCmd(cmdload);
                 }
-            }
-            else if(!idload.equals(uiInterface.uuid)) {
-                if(serverIds.contains(idload)) {
-                    foundIds.add(idload);
-                    String[] requiredFields = new String[]{"x", "y", "vels"};
-                    boolean skip = false;
-                    for(String rf : requiredFields) {
-                        if(!serverArgsMap.get(idload).containsKey(rf)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if(skip)
-                        break;
-                    if(cClientLogic.getPlayerById(idload) != null) {
-                        if (sVars.isOne("smoothing")) {
-                            cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
-                        }
-                        String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
-                        for (int vel = 0; vel < veltoks.length; vel++) {
-                            cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
-                        }
-                    }
-                    if(!packArgs.containsKey("spawnprotected")) {
-                        serverArgsMap.get(idload).remove("spawnprotected");
-                    }
-                }
-                else {
-                    serverIds.add(idload);
-                    foundIds.add(idload);
-                }
-            }
-            //handle our own player to get things like stockhp from server
-            if(idload.equals(uiInterface.uuid)) {
-                gPlayer userPlayer = cClientLogic.getUserPlayer();
-                if(userPlayer != null)
-                    userPlayer.put("stockhp", packArgs.get("stockhp"));
-            }
-            if(idload.equals("server")) {
                 //this is where we update scores on client
                 cVars.put("scoremap", packArgs.get("scoremap"));
                 String[] stoks = packArgs.get("scoremap").split(":");
@@ -244,6 +204,40 @@ public class nClient extends Thread {
                     }
                 }
             }
+            else if(!idload.equals(uiInterface.uuid)) {
+                if(serverIds.contains(idload)) {
+                    foundIds.add(idload);
+                    String[] requiredFields = new String[]{"x", "y", "vels"};
+                    boolean skip = false;
+                    for(String rf : requiredFields) {
+                        if(!serverArgsMap.get(idload).containsKey(rf)) {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if(skip)
+                        continue;
+                    if(cClientLogic.getPlayerById(idload) != null) {
+                        if (sVars.isOne("smoothing")) {
+                            cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
+                        }
+                        String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
+                        for (int vel = 0; vel < veltoks.length; vel++) {
+                            cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                        }
+                    }
+                }
+                else {
+                    serverIds.add(idload);
+                    foundIds.add(idload);
+                }
+            }
+            if(idload.equals(uiInterface.uuid)){ // handle our own player to get things like stockhp from server
+                gPlayer userPlayer = cClientLogic.getUserPlayer();
+                if(userPlayer != null)
+                    userPlayer.put("stockhp", packArgs.get("stockhp"));
+            }
         }
         //check for ids that have been taken out of the server argmap
         String tr = "";
@@ -253,6 +247,7 @@ public class nClient extends Thread {
             }
         }
         if(tr.length() > 0) {
+            System.out.println("REMOVING " + tr);
             serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
