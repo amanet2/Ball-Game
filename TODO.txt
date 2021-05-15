@@ -8,10 +8,12 @@ FOCUS ITEMS
     -> server accepts the standard putblock, etc.
         -> on sendMap, it sends the client-compatible versions of these
         -> on saveMap, keep the server-centric args
+    -> client will send individual putblock/putcollision commands on exec prefabs/X
+    -> putblock exists as is, putblockclient explicitly sets an id/prefabid for the block/item/collision/flare
     -> should stop the doubling-up on objects and remove the need for client/server if/else gates
-* host player definitely doubling items, blocks, etc on spawn
-    -> proof is seen on transparent spawnpoint objects in net mapmaker
-    -> because server loads, then client loads on sendMap receive
+* host player definitely doubling items, blocks, etc in mapmaker
+    -> proof is seen when external client deletes item, there is still one left on server user's screen
+    -> because host server loads, then host client loads on sendMap receive
 * online sync
     -> create deleteprefab function to iterate through blocks with prefabid and delete
     -> have a map of prefabids that maps to a submap of blocks/collisions

@@ -18,15 +18,6 @@ public class dTileTops {
 //                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
 //                        null);
 //            }
-//            //forbidden sign for spawn protection
-////                if (!cGameLogic.isUserPlayer(e) && nServer.instance().clientArgsMap.containsKey(e.get("id"))
-////                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
-////                    g2.drawImage(forbiddenSign,
-////                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-////                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-////                            null);
-////                }
-//        }
         HashMap<String, gThing> squareMap;
         squareMap = scene.getThingMap("BLOCK_CORNERUR");
         for(String tag : squareMap.keySet()) {
