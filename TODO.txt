@@ -4,18 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* refactor userplayer to return getMap(uuid) every time
-    -> we dont need some extra player pointer
 * user player starts getting shaky after a bit
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of uiInterface, shouldnt have to have the if/else
         -> look at how "fireweapon" and "spawnplayer" were refactored for inspiration
             -> client-exclusive and server-exclusive functions are the key
-* NET: to save space, dont send name, and other non-sync related vals every tick
-    -> send every OTHER tick, create a cycle of 2 phases
-        -> sync stuff
-        -> cmd stuff
 * VOTE_SKIP:
     -> change counter into a hashmap.
         -> once the keycount exceeds limit, change map

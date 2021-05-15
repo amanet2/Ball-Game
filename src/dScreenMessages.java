@@ -5,17 +5,14 @@ public class dScreenMessages {
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
-        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0) {
+        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0)
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
-        }
         //ticks
-        if(sVars.isOne("showtick")) {
+        if(sVars.isOne("showtick"))
             g.drawString("GAME:" + uiInterface.tickReport, 0, 2*sSettings.height / 64);
-        }
         //fps
-        if(sVars.isOne("showfps")) {
+        if(sVars.isOne("showfps"))
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
-        }
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
@@ -110,9 +107,9 @@ public class dScreenMessages {
                 if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
                     g.drawString("[BACKSPACE] - DELETE " + selectedThingString,0,25*sSettings.height/32);
                 g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
-                g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
+                g.drawString(String.format("[MOUSE LEFT] - place %s", newThingString), 0,
                         29*sSettings.height/32);
-                g.drawString(String.format("press [Esc] to test %s", cVars.get("mapname")), 0,
+                g.drawString(String.format("[Esc] - test %s", cVars.get("mapname")), 0,
                     31*sSettings.height/32);
             }
         }
