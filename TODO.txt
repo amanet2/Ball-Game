@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* host player definitely doubling items, blocks, etc in mapmaker
+    -> proof is seen when external client deletes item, there is still one left on server user's screen
+    -> because host server loads, then host client loads on sendMap receive
 * New Map architecture for server vs client
     -> server accepts the standard putblock, etc.
         -> on sendMap, it sends the client-compatible versions of these
@@ -11,30 +14,15 @@ FOCUS ITEMS
     -> client will send individual putblock/putcollision commands on exec prefabs/X
     -> putblock exists as is, putblockclient explicitly sets an id/prefabid for the block/item/collision/flare
     -> should stop the doubling-up on objects and remove the need for client/server if/else gates
-* host player definitely doubling items, blocks, etc in mapmaker
-    -> proof is seen when external client deletes item, there is still one left on server user's screen
-    -> because host server loads, then host client loads on sendMap receive
-* online sync
-    -> create deleteprefab function to iterate through blocks with prefabid and delete
-    -> have a map of prefabids that maps to a submap of blocks/collisions
-        -> would be at scene level
-    -> spawn tiles with arg explicit in call
-        -> if we add the arg to the end it should work (arg 10, after frontwall and backtop)
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
-* instead of using it for weapons, have the flare be used to highlight the user player
-* make sure we dont have double-tiles
-* NET: convert scene ctrs into netctrs
-    -> before placing a block set the cv_ctr
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
 * user player starts getting shaky after a bit
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of loop call in uiInterface, shouldnt have to have the if/else
         -> look at how "fireweapon" and "spawnplayer" were refactored for inspiration
-            -> client-exclusive and server-exclusive functions are the key
 * VOTE_SKIP:
-    -> change counter into a hashmap.
-        -> once the keycount exceeds limit, change map
+    -> change counter into a hashmap. once the keycount exceeds limit, change map
             -> remove the keys on client disconnect or map change
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
@@ -42,8 +30,6 @@ FOCUS ITEMS
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
 * NET_MAPMAKER: show all user's preview rect on all clients
     -> make a client netvar: {..., "preview": "x:y:w:h", ...}
-* GFX: more things should follow a Y-based "draw in front, draw behind" logic as well
-    -> walls, players, etc
 ###
 ### POWER GAP
 ###
