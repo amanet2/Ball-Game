@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* find a way to sync the scene thing ctrs across net
+    -> prbably have console command or cvar powering them
+    -> if you change nserver.sendMap(), you have to change the routing inside nserver.handlecmd() as well
+* make sure below object placement is 100% done (should be, but need to be sure)
 * for fixing object placement, take note of the current process
     -> client clicks, sends "exec prefabs/room <args>"
         -> this command contains args that get stored in svars and used for thing spawning

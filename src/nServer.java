@@ -392,10 +392,8 @@ public class nServer extends Thread {
                     block.get("backtop")
             };
             String prefabString = "";
-            if(block.contains("prefabid")) {
+            if(block.contains("prefabid"))
                 prefabString = "cv_prefabid " + block.get("prefabid") +";";
-//                maplines.add(prefabString);
-            }
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
                 if(arg != null) {
