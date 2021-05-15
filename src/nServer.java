@@ -533,7 +533,8 @@ public class nServer extends Thread {
             }
             else if(cmd.contains("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
-                addExcludingNetCmd(uiInterface.uuid, String.format("cv_prefabid %d;%s", prefabid, cmd));
+                addExcludingNetCmd(uiInterface.uuid, String.format("cv_prefabid %d;%s", prefabid,
+                        cmd.replace("exec ", "cl_exec ")));
             }
             else if(ccmd.contains("putitem")) {
                 int itemid = cServerLogic.scene.getHighestItemId() + 1;
