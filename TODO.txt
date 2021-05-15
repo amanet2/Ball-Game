@@ -4,12 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* user player starts getting shaky after a bit
 * mapmaker, external client is invisible unless host has spawned first
     -> color was "null" for some reason
         -> net sync issue. color sync is powered by client.args_from_server map
             -> problem present in normal game and editor
             -> see the missing vars in "cl_status"
                 -> client receiving in netloop debug though
+    -> works only when serverplayer spawns first
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of uiInterface, shouldnt have to have the if/else

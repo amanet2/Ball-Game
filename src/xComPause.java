@@ -8,9 +8,9 @@ public class xComPause extends xCom {
             oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
         if(sSettings.show_mapmaker_ui) {
             if(uiInterface.inplay)
-                nClient.instance().addNetCmd("respawnnetplayer " + uiInterface.uuid);
+                xCon.ex("gounspectate");
             else
-                nClient.instance().addNetCmd("deleteplayer " + uiInterface.uuid);
+                xCon.ex("gospectate");
         }
         return fullCommand;
     }

@@ -70,6 +70,7 @@ public class uiEditorMenus {
         createNewMenu("Items");
         createNewMenu("Gametype");
 
+        JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
@@ -78,6 +79,7 @@ public class uiEditorMenus {
         JMenuItem showControls = new JMenuItem("Show Controls");
 
         menus.get("File").add(newtopmap);
+        menus.get("File").add(join);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
         menus.get("File").add(exportasprefab);
@@ -96,6 +98,12 @@ public class uiEditorMenus {
                     if(join)
                         xCon.ex("joingame localhost 5555");
                 }
+            }
+        });
+
+        join.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("joingame");
             }
         });
 

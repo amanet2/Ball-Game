@@ -515,13 +515,20 @@ public class nServer extends Thread {
             else if(ccmd.contains("requestdisconnect")) {
                 quitClientIds.add(id);
             }
-            else if(ccmd.contains("deleteplayer") || ccmd.contains("respawnnetplayer")) {
+            else if(ccmd.contains("respawnnetplayer")) {
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
                     String reqid = toks[1];
-                    if(reqid.equals(id)) { //client can only remove itself
-                        addExcludingNetCmd(id, cmd);
-                    }
+                    if(reqid.equals(id)) //client can only respawn themself
+                        xCon.ex(cmd);
+                }
+            }
+            else if(ccmd.contains("deleteplayer")) {
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    String reqid = toks[1];
+                    if(reqid.equals(id)) //client can only remove itself
+                        nServer.instance().addNetCmd(cmd);
                 }
             }
             else if(cmd.contains("exec prefabs/")) {
