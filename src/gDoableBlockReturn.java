@@ -5,8 +5,8 @@ public class gDoableBlockReturn {
     public void storeBlock(gBlock blockToLoad) {
         if(sSettings.IS_SERVER)
             storeBlockDelegate(blockToLoad, cServerLogic.scene);
-        if(sSettings.IS_CLIENT)
-            storeBlockDelegate(blockToLoad, cClientLogic.scene);
+//        if(sSettings.IS_CLIENT)
+//            storeBlockDelegate(blockToLoad, cClientLogic.scene);
     }
 
     private void storeBlockDelegate(gBlock blockToLoad, gScene sceneToStore) {

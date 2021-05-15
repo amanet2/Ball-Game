@@ -396,7 +396,7 @@ public class nServer extends Thread {
                 prefabString = "cv_prefabid " + block.get("prefabid") +";";
 //                maplines.add(prefabString);
             }
-            StringBuilder blockString = new StringBuilder("putblock");
+            StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
                 if(arg != null) {
                     blockString.append(" ").append(arg);
