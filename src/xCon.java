@@ -93,7 +93,6 @@ public class xCon {
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
-        commands.put("centercamera", new xComCentercamera());
         commands.put("changemap", new xComChangeMap());
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());

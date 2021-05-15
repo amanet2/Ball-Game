@@ -7,14 +7,10 @@ FOCUS ITEMS
 * refactor userplayer to return getMap(uuid) every time
     -> we dont need some extra player pointer
 * user player starts getting shaky after a bit
-* mapmaker, external client is invisible unless host has spawned first
-    -> see the difference in cl_status when external client spawn vs when server spawn (ESC key)
-    -> works only when serverplayer spawns first
-    -> look into nClient and how we ignore things that pertain to our own uuid
 * try to get # of bytes sent per packet down
 * The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
     -> outside of uiInterface, shouldnt have to have the if/else
-        -> look at how "fireweapon" was refactored for inspiration
+        -> look at how "fireweapon" and "spawnplayer" were refactored for inspiration
             -> client-exclusive and server-exclusive functions are the key
 * NET: to save space, dont send name, and other non-sync related vals every tick
     -> send every OTHER tick, create a cycle of 2 phases

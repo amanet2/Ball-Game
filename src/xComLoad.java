@@ -12,7 +12,6 @@ public class xComLoad extends xCom {
         }
         if(sSettings.IS_CLIENT) {
             cClientLogic.scene = new gScene();
-            cClientLogic.setUserPlayer(null);
             cVars.put("canvoteskip", "");
         }
         cVars.putLong("starttime", System.currentTimeMillis());

@@ -4,17 +4,9 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
-    private static gPlayer userPlayer;
-
-    public static void setUserPlayer(gPlayer newUserPlayer) {
-        userPlayer = newUserPlayer;
-        gCamera.centerCamera();
-    }
 
     public static gPlayer getUserPlayer() {
-        if(userPlayer == null)
-            userPlayer = scene.getPlayerById(uiInterface.uuid);
-        return userPlayer;
+        return scene.getPlayerById(uiInterface.uuid);
     }
 
     public static Collection<String> getPlayerIds() {

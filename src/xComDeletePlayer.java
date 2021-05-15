@@ -7,11 +7,8 @@ public class xComDeletePlayer extends xCom {
                 deletePlayerDelegate(id, cServerLogic.scene);
                 nServer.instance().addExcludingNetCmd("server,"+uiInterface.uuid, fullCommand);
             }
-            if(sSettings.IS_CLIENT) {
+            if(sSettings.IS_CLIENT)
                 deletePlayerDelegate(id, cClientLogic.scene);
-                if(id.equals(uiInterface.uuid))
-                    cClientLogic.setUserPlayer(null);
-            }
         }
         return "usage: deleteplayer <id>";
     }

@@ -7,11 +7,8 @@ public class xComClearThingMap extends xCom {
             String thing_title = toks[1];
             if(sSettings.IS_SERVER)
                 clearThingMapDelegate(thing_title, cServerLogic.scene);
-            if(sSettings.IS_CLIENT) {
+            if(sSettings.IS_CLIENT)
                 clearThingMapDelegate(thing_title, cClientLogic.scene);
-                if(thing_title.equals("THING_PLAYER"))
-                    cClientLogic.setUserPlayer(null);
-            }
         }
         return "usage: clearthingmap <thing_title>";
     }

@@ -7,7 +7,7 @@ public class xComSpawnPlayerClient extends xCom {
             int y = Integer.parseInt(toks[3]);
             spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
             if(playerId.equals(uiInterface.uuid))
-                cClientLogic.setUserPlayer(cClientLogic.getPlayerById(uiInterface.uuid));
+                gCamera.centerCamera();
 
             return "spawned player " + playerId + " at " + x + " " + y;
         }
