@@ -5,14 +5,11 @@ public class xComLoad extends xCom {
         gTextures.clear();
         cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
         cVars.put("mapname", "new");
+        cServerLogic.scene = new gScene();
+        cClientLogic.scene = new gScene();
         if(sSettings.IS_SERVER) {
-            cServerLogic.scene = new gScene();
             nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
             nServer.instance().clientArgsMap.get("server").remove("virusids");
-        }
-        if(sSettings.IS_CLIENT) {
-            cClientLogic.scene = new gScene();
-            cVars.put("canvoteskip", "");
         }
         cVars.putLong("starttime", System.currentTimeMillis());
         return "";

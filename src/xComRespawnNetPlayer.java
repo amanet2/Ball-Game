@@ -1,7 +1,5 @@
 public class xComRespawnNetPlayer extends xCom {
     public String doCommand(String fullCommand) {
-        if(!sSettings.IS_SERVER)
-            return "only server can respawn players";
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String playerId = toks[1];

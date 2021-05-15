@@ -90,7 +90,7 @@ public class uiEditorMenus {
             public void actionPerformed(ActionEvent e) {
                 if(xCon.instance().getInt("e_showlossalert") <= 0) {
                     boolean join = false;
-                    if(!sSettings.IS_SERVER) {
+                    if(!nServer.instance().isAlive()) {
                         xCon.ex("startserver");
                         join = true;
                     }
