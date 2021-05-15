@@ -64,8 +64,8 @@ public class gDoableCollisionReturn {
     public void storeCollision(gCollision collisionToLoad) {
         if(sSettings.IS_SERVER)
             storeCollisionDelegate(collisionToLoad, cServerLogic.scene);
-        if(sSettings.IS_CLIENT)
-            storeCollisionDelegate(collisionToLoad, cClientLogic.scene);
+//        if(sSettings.IS_CLIENT)
+//            storeCollisionDelegate(collisionToLoad, cClientLogic.scene);
     }
 
     private void storeCollisionDelegate(gCollision collisionToLoad, gScene sceneToStore) {

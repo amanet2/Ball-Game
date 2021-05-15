@@ -430,7 +430,7 @@ public class nServer extends Thread {
                 prefabString = "cv_prefabid " + collision.get("prefabid");
                 maplines.add(prefabString);
             }
-            StringBuilder str = new StringBuilder("putcollision");
+            StringBuilder str = new StringBuilder("cl_putcollision");
             for(String arg : args) {
                 if(arg != null) {
                     str.append(" ").append(arg);

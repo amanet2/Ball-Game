@@ -157,6 +157,7 @@ public class xCon {
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
         commands.put("cl_putblock", new xComPutBlockClient());
+        commands.put("cl_putcollision", new xComPutCollisionClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());

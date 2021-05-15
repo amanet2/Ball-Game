@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* FOCUS: fix the placing of objects (eliminate doubling). follow the example in putblock, evidence below
+    -> mapmaker, started new map and had all join
+    -> changed map and had extern client delete prefabs
+    -> worked perfect, but some collisions remained
 * host player definitely doubling items, blocks, etc in mapmaker
     -> proof is seen when external client deletes item, there is still one left on server user's screen
     -> because host server loads, then host client loads on sendMap receive
