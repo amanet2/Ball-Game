@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
-        gPlayer userPlayer = cGameLogic.userPlayer();
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {
@@ -71,8 +71,8 @@ public class dScreenFX {
         }
         // -- aimer
         if(uiInterface.inplay) {
-            int aimerx = eUtils.unscaleInt(cScripts.getMouseCoordinates()[0]);
-            int aimery = eUtils.unscaleInt(cScripts.getMouseCoordinates()[1]);
+            int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
+            int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
             int cx = eUtils.unscaleInt(cVars.getInt("camx"));
             int cy = eUtils.unscaleInt(cVars.getInt("camy"));
             int snapX = aimerx + cx;

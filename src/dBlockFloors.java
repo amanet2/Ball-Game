@@ -2,8 +2,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class dBlockFloors {
-    public static void drawBlockFloors(Graphics2D g2) {
-        HashMap<String, gThing> floorMap = eManager.currentMap.scene.getThingMap("BLOCK_FLOOR");
+    public static void drawBlockFloors(Graphics2D g2, gScene scene) {
+        HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) {
             gBlockFloor block = (gBlockFloor) floorMap.get(tag);
             String[] colorvals = block.get("color").split("\\.");
@@ -13,12 +13,6 @@ public class dBlockFloors {
                     Integer.parseInt(colorvals[2]),
                     Integer.parseInt(colorvals[3])
             ));
-//            g2.fillRect(
-//                    eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                    eUtils.scaleInt(block.getInt("dimw")),
-//                    eUtils.scaleInt(block.getInt("dimh"))
-//            );
             g2.fillRect(
                     eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5,

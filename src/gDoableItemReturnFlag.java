@@ -6,7 +6,4 @@ public class gDoableItemReturnFlag extends gDoableItemReturn {
         );
         return flag;
     }
-    public void storeItem(gItem itemToLoad, gScene sceneToStore) {
-        super.storeItem(itemToLoad, sceneToStore);
-    }
 }

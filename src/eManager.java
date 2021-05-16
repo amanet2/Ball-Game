@@ -1,12 +1,8 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static gMap currentMap = new gMap();
 	static String[] mapsSelection;
 	static String[] winClipSelection;
 	static String[] prefabSelection;
@@ -39,60 +35,17 @@ public class eManager {
         return selectionArray;
     }
 
-	public static void updateEntityPositions() {
-        for(String id : gScene.getPlayerIds()) {
-            gPlayer obj = gScene.getPlayerById(id);
-            String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3"};
-            //check null fields
-            if(!obj.containsFields(requiredFields))
-                break;
-            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
-                obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-                for (int i = 0; i < 4; i++) {
-                    //user player
-                    if(cGameLogic.isUserPlayer(obj)) {
-                        if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
-                                    obj.getInt("vel" + i) + 1)));
-                        }
-                        else
-                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
-                    }
-                    else if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels")){
-                        obj.putInt("vel"+i,
-                                Integer.parseInt(nServer.instance().clientArgsMap.get(obj.get("id")).get("vels").split("-")[i]));
-                    }
-                }
-            }
+    public static String createId() {
+        int min = 11111111;
+        int max = 99999999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
+    }
 
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx)) {
-                obj.putInt("coordx", dx);
-            }
-
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy)) {
-                obj.putInt("coordy", dy);
-            }
-        }
-
-        HashMap bulletsMap = eManager.currentMap.scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
-            gBullet obj = (gBullet) bulletsMap.get(id);
-            obj.putInt("coordx", obj.getInt("coordx")
-                - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-            obj.putInt("coordy", obj.getInt("coordy")
-                - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
-        }
-        HashMap popupsMap = eManager.currentMap.scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup obj = (gPopup) popupsMap.get(id);
-            obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
-            obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
-        }
-	}
+    public static String createBotId() {
+        int min = 11111;
+        int max = 99999;
+        int idInt = new Random().nextInt(max - min + 1) + min;
+        return Integer.toString(idInt);
+    }
 }

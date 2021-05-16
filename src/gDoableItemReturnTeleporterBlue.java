@@ -6,7 +6,4 @@ public class gDoableItemReturnTeleporterBlue extends gDoableItemReturn {
         );
         return teleporterBlue;
     }
-    public void storeItem(gItem itemToLoad, gScene sceneToStore) {
-        super.storeItem(itemToLoad, sceneToStore);
-    }
 }

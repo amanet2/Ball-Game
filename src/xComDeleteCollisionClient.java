@@ -1,0 +1,10 @@
+public class xComDeleteCollisionClient extends xCom {
+    public String doCommand(String fullCommand) {
+        String[] toks = fullCommand.split(" ");
+        if(toks.length > 1) {
+            String id = toks[1];
+            cClientLogic.scene.getThingMap("THING_COLLISION").remove(id);
+        }
+        return "usage: deletecollision <id>";
+    }
+}

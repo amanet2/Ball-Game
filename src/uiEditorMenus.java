@@ -6,11 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class cEditorLogic {
+public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
-    static Stack<cEditorLogicState> undoStateStack = new Stack<>(); //move top from here to tmp for undo
-    static Stack<cEditorLogicState> redoStateStack = new Stack<>(); //move top from here to main for redo
-    static cEditorLogicState state = new cEditorLogicState(50,50, new gScene());
+    static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
+    static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
+    static int snapToX = 50;
+    static int snapToY = 50;
     private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
@@ -30,14 +31,33 @@ public class cEditorLogic {
         }
     }
 
+    public static int[] getNewPrefabDims() {
+        if(cVars.get("newprefabname").contains("room_large")) {
+            return new int[]{2400, 2400};
+        }
+        if(cVars.isVal("newprefabname", "end_wall")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        if(cVars.isVal("newprefabname", "cube")) {
+            return new int[]{300, 300};
+        }
+        if(cVars.isVal("newprefabname", "cube_large")) {
+            return new int[]{600, 600};
+        }
+        return new int[]{1200, 1200};
+    }
+
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameMode.DEATHMATCH))
+            if(checkBoxMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameMode.VIRUS))
+            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameLogic.VIRUS))
                 checkBoxMenuItem.setSelected(true);
         }
     }
@@ -50,6 +70,7 @@ public class cEditorLogic {
         createNewMenu("Items");
         createNewMenu("Gametype");
 
+        JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
@@ -58,6 +79,7 @@ public class cEditorLogic {
         JMenuItem showControls = new JMenuItem("Show Controls");
 
         menus.get("File").add(newtopmap);
+        menus.get("File").add(join);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
         menus.get("File").add(exportasprefab);
@@ -67,8 +89,21 @@ public class cEditorLogic {
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(xCon.instance().getInt("e_showlossalert") <= 0) {
+                    boolean join = false;
+                    if(!nServer.instance().isAlive()) {
+                        xCon.ex("startserver");
+                        join = true;
+                    }
                     xCon.ex("load");
+                    if(join)
+                        xCon.ex("joingame localhost 5555");
                 }
+            }
+        });
+
+        join.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("joingame");
             }
         });
 
@@ -121,19 +156,19 @@ public class cEditorLogic {
         //fill gametypes menu
         for(String gametype : new String[]{"Killmaster", "Flagmaster", "Virusmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
-            if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameMode.DEATHMATCH))
+            if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameMode.FLAG_MASTER))
+            else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameMode.VIRUS))
+            else if(gametypeMenuItem.getText().equals("Virusmaster") && cVars.isInt("gamemode", cGameLogic.VIRUS))
                 gametypeMenuItem.setSelected(true);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Killmaster"))
-                    cVars.putInt("gamemode", cGameMode.DEATHMATCH);
+                    cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
                 else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    cVars.putInt("gamemode", cGameMode.FLAG_MASTER);
+                    cVars.putInt("gamemode", cGameLogic.FLAG_MASTER);
                 else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    cVars.putInt("gamemode", cGameMode.VIRUS);
+                    cVars.putInt("gamemode", cGameLogic.VIRUS);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
@@ -162,15 +197,5 @@ public class cEditorLogic {
                 xCon.ex(fullCommand);
             }
         });
-    }
-
-    public static void setEditorState(cEditorLogicState newstate) {
-        state.snapToX = newstate.snapToX;
-        state.snapToY = newstate.snapToY;
-        eManager.currentMap.scene = newstate.mapScene;
-    }
-
-    public static cEditorLogicState getEditorState() {
-        return new cEditorLogicState(state.snapToX, state.snapToY, eManager.currentMap.scene.copy());
     }
 }

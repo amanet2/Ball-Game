@@ -4,34 +4,54 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ISSUE: lots of stuff is broken because the server has an isplaying() flag
-    -> needs to turn on/off with presence of server player
-    -> server needs to be headless and clients need to be the "player" part
-        -> no "server player".  there are "servers" and "players" exclusively
-* GAME: starts in the normal game are messed up
+* find a way to sync the scene thing ctrs across net
+    -> prbably have console command or cvar powering them
+    -> if you change nserver.sendMap(), you have to change the routing inside nserver.handlecmd() as well
+* make sure below object placement is 100% done (should be, but need to be sure)
+* for fixing object placement, take note of the current process
+    -> client clicks, sends "exec prefabs/room <args>"
+        -> this command contains args that get stored in svars and used for thing spawning
+    -> server reroutes this verbatim
+* FOCUS: fix the placing of objects (eliminate doubling). follow the example in putblock, evidence below
+    -> mapmaker, started new map and had all join
+    -> changed map and had extern client delete prefabs
+    -> worked perfect, but some collisions remained
+    -> but for placing new ones, we need to overhaul
+        -> client tells server to route raw commands in the prefabs file
+            -> we need to change the putblock comms to cl_putblock, for instance
+* host player definitely doubling items, blocks, etc in mapmaker
+    -> proof is seen when external client deletes item, there is still one left on server user's screen
+    -> because host server loads, then host client loads on sendMap receive
+* New Map architecture for server vs client
+    -> server accepts the standard putblock, etc.
+        -> on sendMap, it sends the client-compatible versions of these
+        -> on saveMap, keep the server-centric args
+    -> client will send individual putblock/putcollision commands on exec prefabs/X
+    -> putblock exists as is, putblockclient explicitly sets an id/prefabid for the block/item/collision/flare
+    -> should stop the doubling-up on objects and remove the need for client/server if/else gates
+* new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
+* NET_MAPMAKER: gets bad desync when not starting from perfect parity
+* user player starts getting shaky after a bit
+* try to get # of bytes sent per packet down
+* The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
+    -> outside of loop call in uiInterface, shouldnt have to have the if/else
+        -> look at how "fireweapon" and "spawnplayer" were refactored for inspiration
+* VOTE_SKIP:
+    -> change counter into a hashmap. once the keycount exceeds limit, change map
+            -> remove the keys on client disconnect or map change
+* NET: still have to filter out user id in "deleteplayer"
+    -> because this function is run on both server and client machines
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
-    -> limit the "fv" netvar to 2 decimals
-* NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress
-    -> i.e. everyone has to start at the same time or it doesnt look right
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
-* NET_MAPMAKER: after changemap, player state of spawned or not is messed up leading to bad situations
-* NET: look to further decouple server & client (end goal should be for local instance to run BOTH server and client)
-    -> when starting new game, the player will act as a client on a local, single-machine network
 * NET_MAPMAKER: show all user's preview rect on all clients
     -> make a client netvar: {..., "preview": "x:y:w:h", ...}
-* ENGINE: find out what parts of setupGame can be exclusive to server and unneeded for client and vice versa
-* GFX: players should follow a Y-based "draw in front, draw behind" logic as well
-* ISSUE: client sendcmd requestdisconnect doesnt reach the server sometimes
-    -> client should wait 1000ms before initiating its quit/disconnect routine
-* sometimes movement smoothing breaks down for other players on client's screen
-* ALTERNATE STRATEGY:
-    -> make server completely headless, then run a server instance in the background when done through the ui
-        -> do in a different branch, HEADLESS_SERVER
-        -> we get our dedicated server out of this as well
 ###
 ### POWER GAP
 ###
-* GAME: squish on respawn
+* ATTACK: the rock from gungame
+    -> have it bounce lazily
+* GAME: edit popups to say things like "#%&@!" when player takes dmg
+* GAME: bring back squish effect for something
 * ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
 * GFX: shade the lower boxes/cubes a little darker than the high walls
 * GAME: in virus, give players infinite ammo
@@ -54,604 +74,48 @@ FOCUS ITEMS
         -> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* FLAGMASTER: player quits holding flag, new joiner ends up with flag desync
-    -> server should send some sort of arg to the client in the gamestate to indicate flag location
-* show some indication that timelimit is unlimited
-* UI: new timelimit menu
-    -> time limits:
-        -> None, 1:00, 2:00, 3:00, 4:00, 5:00
-* UI: create left/right uiItems
-    -> for things like volume up/down. etc
-* GRAPHICS: fix hats going behind small cube tops (prefab)
-    -> have y-coord limit for when to draw block tops under/over player (for backtop blocks)
-* proceed with the shotgunmasterid approach to weapons (since the existing weapons dont work now anyway)
-* item: have a "zone object"
-    -> will be either red or blue
-    -> team game
-* for flagmaster, you can put the flag down without a base
-* for ctf, put the flag base down
-    -> and also need the red/blue spawnpoints
-* dont let player spawn without a spawnpoint
-    -> show a message or something
-        -> preferably a JDialog
-* CREATE ITEM FOR SPAWNING FLAGS
-    -> on intersection, if player has flag, will set "flagmasterid" to "", and put a flag in the opposing spawn
-    -> flags should be a hidden item in the mapmaker interface, and the "flag base" will take its place
-        -> storeItem() can be like a prefab, spawning all necessary objects
-    -> the spawn point cant be moved or interacted with (like the player spawnpoint)
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
-* GFX: instead of box around whole roof, try drawing the top line only
-* EDITOR: all prefabs should have wall/cap at each 4x4 corner for better snapping together
-* for the "enter value here" main menu elements, use a uiDialog like in showTiles
-* PREFABS: we need more of them from TS2
-    -> big rooms, double length/wide halls, etc
-    -> end pieces/caps
-* CLIENT: need timeout joining serverless game
 * FUTURE: we can make "themes" for prefabs
-* NEW ITEMS: SPAWNPOINT_RED, SPAWNPOINT_BLUE
-    -> for "team" games
-        -> in "team" mode, player's colors are restricted to red/blue in-game,
-* weapons in players hands dont appear on other clients' screen
-* find out what causes the high cpu usage in mapmaker
-* find a way to have things dynamically load into the scene objects without the object_titles array
-* add "layer" var to blocks that defaults to 2 but can be set to lower/higher that will draw before/after other "layer"s
-    -> like how TS2 mapmaker handles floors/levels
-* keep gravity, but only kick in when player is on "backwall" sections of blocks
-    -> could simulate dropping down from a backtop to the floor below
-20210317
-* draw where hitboxes will be on blocks
-    -> draw red outline
-    -> make console svar flag
-* create a json-like notation for creating objects in mapmaker, and use a text editor to edit the object vars
-    -> or just keep using the current form
-* add a "backtop" arg for raised elements we want to walk on top of (like the pyramid in bomberman64)
-* FOR FUTURE
-    -> be able to put shadows on map through mapmaker (userful for overhangs/etc)
-* FOR FUTURE
-    -> make "on top" elements nigh-transparent to allow user to see player while behind rock/roof/etc
-* be able to jump in all directions
-* props dont use the propDoable.getProp() function never
-* bots respawning properly for single client
-20210316
-* respawned bots dont appear on clients becuase clients create player objects when an id not present in clientmap
-    -> obv this means the removed botplayer wont come back
-        -> add servercommand for "createbotplayer" with all the necessary args
-            -> probably can get away with "createbotplayer <botid>"
-* think about completely restricting the placeable scenery to topdown blocks and the corners
-    -> PRO: each component being much simpler will make the prefabs plans easier to implement
-    -> CON: in too deep with current design
-* dead bots respawn but dont do anything and dont appear on clients screen
-    -> they can still attack client if they get too close
-20210315
-* dead bots not respawning
-* flagmaster not working when spectator in game
-* watch for double-calls of "checkHatStatus" (and similar) due to the 3 modes: server/client(playr)/client(spec)
-* when one client is spectating, server doesnt show body of the player'd client
-    -> probably an escape condition in drawPlayers() or somewhere around there
-* work on removing player and recreating them instead of the graveyard thing
-    -> PROS: cleaner, remove dead players and respawn them with the same id
-    -> MORE PROS: spectator mode is as easy as NOT creating players for clients
-20210309
-* changing map after a win is broken
-    -> timeleft never gets reset
-* have command for add_map_to_playlist
-    -> will load mapfile into the "mapselection" list
-        -> instead of adding all .map files into it
-* work on making the console a more refined parser
-    -> take inspiration from compiler design
-* selecting prop under mouse broken
-    -> need to adapt to prop maps
-* props list and prop maps are fucky
-    -> get desynced easily when trying to clear/reset prop maps
-* scorelimit is fucky
-    -> probably can just be an svar on the server, no need for cvar stuff
-* do flagmaster gametype first
-* GAMETYPES
-    -> race (any order)
-    -> race (in order)
-        -> server stores the current tag of the scorepoint (in order) that player has to go through
-            -> on intersection, server advances its stored tag, has to tell client to set prio pt to 0 and new pt to 1
-* make scripting language
-    -> "ballscript"
-* new race arch
-    -> server tracks <id>-<int0>:<id>-<int0> for scorepoints
-        -> change this when clients intersect scorepoint
-    -> clientmap for each client will have <tag>:<tag>:<tag> string made by server
-        -> if scorepoint's "tag" is in this list then draw the waypoint
-            -> on intersection server will remove that tag
-* change tiles to have 3 colors (top,wall,floor) -> R,G,B,A
-* create timer object that contains a doable
-    -> you enqueue it into a server "timed tasks" queue
-        -> ideas: 10 seconds to show scorboard at game end
-        -> 10 seconds to new map
-* redo textures system
-    -> use colors or go with "none" and the grey
-* improve corners
-* make it so prefabs can be created
-* make it so client can be in game without a player spawned
-    -> spectate/death
-* make it so server can spawn a user player for themself
-    -> has to work with all other players
-    -> probably not a good idea to rely on tag==0 for anything userplayer related
-    -> "server" as uuid isn't going to be compatible anymore
-* ISSUE: rotating player sprite makes it go invisble when offline or serverplayer
-    -> prolly have server at all times?  just dont wait for incoming connections in "offline" mode
-* redefine "debug" so that you see the rcv commands in console, and only see all the net packets when you enable
-    "nettrace" or something
-* client should be able to be in a game without a player on the field
-    -> "spectator" mode
-    -> try removing player when dies
-* CRITICAL: FIX THAT 'FILE NOT FOUND' EXCEPTION NOW!!!!!
-    -> really need a loading block on all game activity
-    -> uiInterface calls eManager.updateEntityPositions()
-        -> because so many things get checked and return NULL!!!
-* remote exec: allow server to run a file of cmds on client
-* redo spawnprotection
-    -> track the spawntimestamp, compare to maxprotecttime (on server)
-    -> send a "spawnprotect" flag from server to client for drawing the forbidden sign
-20210304
-* add ability for console to be logged to file on exit
-20210303
-* redo spawnprotection to be managed serverside
-    -> palyer var spawnprotectiontime is longtime when spanprotection goes to 0
-    -> net var spawnprotected used by clients to draw the forbidden sign or not
-* track list of clientRestricted cmds that a client cant execute in an online match
-    - zoom, userplayer
-* EXCELLENT OFFLINE TEST: load ctf_bend.map;createuserplayer;respawn
-* Be watchful for mem leaks
-* Get changing map while game in session working
-    -> seems to work but it was not a thought out solution
-20210301
-* REMEMBER THAT THE PERSON FIRING WILL --NOT-- SEE THE "fireweapon" COMM COME FROM THE SERVER
-* scoreboard showing two names when only one client playing
-X why does "disconnecting = 1" work but calling disconnect() doesnt?
-    -> trace it
-    -> it;s because the "checkQuitterStatus" fuction was restricted to server only
-20210228
-* looks like it works on all ends EXCEPT for the ban-ee or quit-ee or disconnect-ee
-* handle quits, disconnects, and timeouts, and bans
-    -> lots of "check" functions used to rely on player0 existing, refactor these
-X 3 windows
-    -> 1: newgame
-    -> 2: joingame, normal
-    -> 3: joingame, broken until 2 quits
-        -> at this time, 2 is getting the first line of 3's mapstream forever, since server wants 3's rcv msg
-    -> fixed by getting rid of "focus id" in server
-* MOVING FORWARD
-    -> continue with the curent server behavior as a playerless "godview"
-    -> make sure all client and bot logic is sound in this view as well as in client
-    -> build from ground up, make sure overal arch is solid. dont make a game yet
-    -> the "color" stuff is a good start
-20210227
-* figure out why client's serverargmap doesnt have clients character in it
-* server holds gravity, mapname, etc
-    -> the player who starts the game creates a client, uses client cmd reqs while the server returns things like shoot
-    -> necessitates refactoring of "isCleint" and "isServer"
-        -> a UserInterface should not be a binary server/client
-        -> a UserInterface should always assume a server is running and act as a client
-            -> this will eliminate the blocking socket
-                -> use the socket locally and connect to the game
-                    -> adjust rates accordingly
-* "server" clientArg should hold all server-centric stuff, but for x,y,movs,etc. put that in a client for everyone
-* convert creatSendData/etc to an interface used by server and client
-* Still getting crashes from checkHatStatus(), checkNameStatus(), etc.
-20210226
-* add way for server to "quit" back to main menu and drop net resources
-    -> sendCmd("disconnect") to all clients, remove every bot, then close socket like with client usage
-        -> everything works except closing the socket
-* make sure ammo count btwn client and server are managed
-    -> client ammo count goes down client side, but sync ammo count on nettick based on msg/cmd from server
-20210225
-* handle firing on client side for client user only, everyone else gets server msg and server handles score/kill still
-* new ctf
-    -> if flag doesn't have <playerid> in its str0, then mark it as pickup
-    -> if carrier killed, str0 is set to "" and put into the netherworld
-20210224
-* bots dont die
-X add music to the game while in session
-X make the game exit normally when pressing esc on the main menu
-    -> activate "main menu easter egg" by typing "pause" in console
-20210223
-* bots broken
-    -> need to be in nServer.clientIds (as seen in master branch)
-* new ctf, bring the white flag to the scorepoint
-    -> spawn several white flags that are on/off like powerups depending on # players
-* fix bots
-* weapons breaking everything
-->cScripts.245
-    -> dHud.62
-* have cmd "setpause" where do pauses, and undo unpauses
-    -> use for finer control of loading, spawning, etc
-20210222
 * save lines from server to a map file
-    -> changing map still uses the old "load this map" functionality instead of streaming
-* weapons.fromCode causes A LOT of frustrating exceptions.  fix it
-* give ability to manipulate for gets and checks like so: THING_PLAYER.<id>.<var> <value>
-20210221
-* clients can't see bots (bad), but can get hit by them (that's very good)
-* client quitting while server is respawning breaks things
-20210220
-* replace exitteleportertag for client players with "teleportersafe" which changes from 0,1 if player in teleporter
-* IMPORTANT: joingame needs overhaul
-* IMPORTANT: server needs to be able to change map
-* future: make EDITOR a game mode, like DEATHMATCH
-* add "suicide" button for when spawns go wrong or get stuck in map
-* migrate "sendpowerup" and picking up powerups to serverside
-* exitteleporter cant be used until other teleporters been used
-* weapons not being "picked up" all around
-* server cant see gun in other clients' hand
-20210219
-* make "add nav pointer" console command when you start implementing that again
-* refactor sSettings.net_server/client into isServer() and isClient() and use the NET_MODE
-* fatal bug at cPowerups.71
-20210217
-* framerate is not what it should be after changing in ui
-    -> in console is fine
-* refactor deaths and respawn
-    -> on death, player gets key "dead" with val of time to respawn
-    -> check every tick for respawnable "dead" players
-* server needs to send "playsound" command as well for clients dying
-* for joining game server should send more cmds to client
-* go through EVERYTHING from program start to make sure it's efficient and sensible
-    -> xComNewGame checks out
-    -> client joingame seems a bit complicated maybe the server can do more of that work
-20210216
-* clean up the code more, everything gotta be solid and no errors
-* added "you have been kicked" message to the server kick process
-* instead of nVars ever becoming null I always make it a new hashmap
-* added userplayer nullcheck in dHud
-20210215
-* think about an int code for client/server so your avoid if/else
-    -> the switch/case can be useful, DEFAULT will be offile/mapeditor instance
-* dont spawn a player until proper connection and comms established with server
-    -> server will spawn the player's character
-* commented out the weaponsprite stuff in checkSpriteFlip()
-* we want to keep the logic that loads new map if map detected not the same as the previous one
-    -> look in the PR
-* when map changes, server says wrong name when bots "leave"
-* send "crouch" across network
-* commented out hat and spawn protection
-* strip game down to base elements and see whats sending/receiving over network
 * make players bounce off each other
-* removed weaponstatus stuff
-* spawnprotection should be on a per-player basis
-* for new multiflag ctf use the flag's "str0" to store the former "flagmasterid"
-    -> don't need a cvar for it if everything goes as planned
-* think about returning a player's health from the server and reading/syncing it instead of having each client
-call the "damageplayer" console function
-* make respawn a console command taking an id
-    -> send over net for player respawning
-    -> client gets dmg updates but doesnt know when hes actually dead
-    -> see where client gets put to the off-world coords though
-* bot respawning is messed up bad but doesnt crash
-* setting "gravity" to 0 needs to work as expected
-* use "alive" server flag over net
-    -> if client sees that they're not supposed to be "alive" they go invisible and noclip
-* console command for spawn animation as well
-* refactor cvars.respawntime into player
-    -> also spawnprotectiontime
-* use bot code for players
-* cvar spawnprotection should be replaced with player spawnprotection
-* replace cvars stockhp with players stockhp
-* players must BOUNCE off other players
     -> if a player is slower than another, make them take more and the other take less force accordingly
-* sendcmd commands need to append to eachother, so we can hold all possible actions that occur in a tick
-    -> next work on console commands that will build up this architecture
-        -> xComDamgePlayer
-* try to have the server create bot shots as if reacting to a received packet
-* gamemode where you chase a ball that runs away from you, but you explode when you touch it
-    -> but it also respawns and gives you a point
-* client never receives the "actionload" for bot firing
-* make safezone so that you get +1 for each second in the safezone
-    -> countdown to safezone change
-    -> no more dying as a game mechanic
-* bots shoot server side but not for clients
-    -> find where server makes bot shoot and send the cmd string
-* EDITOR: while in play, arrow keys dont control camera but still adjust quick dims
-* new players joining virus need to be infected
-* make jumps look better
-    -> save ycoord for when jump happened and draw shadows there until jump not happening
-* crousching not shown across net
-* dont turn off flashlight on death?
-* replace graveyard coords with "alive" flag
-    -> using coord -9000 and -9000
-    -> e.g. cGamelogic checkVirus
-* boostups broken now
-    -> just make them give a boost like the speedboost works
-* replace objectsmap usage with more specific playersMap(), botplayersMap() etc
-* any bounces occuring due to a vel0 vector need to have 2/3 modifier applied
-* wasd shouldnt work in pause menu during a game
-* bouncing off of stuff still feels too harsh
-* look for //ugly if else markers in code
-* messy //old props in cGameLogic, in 800s
-* have a flag that sets to 1 when a player is finished constructing, do this check when we get random null crashes
-    -> as I think the gfx has a race condition with the internal manager
-* dont cancel W on jump
-    -> jump needs to be fixed to not use mov0!
 * add ball skins
     -> use existing color architecture
-* gravity setting for maps
-* EDITOR: select last placed thing automatically after placing new thing
-* EDITOR: dim2 needs to change to match updated dim, when dim2 > 0
-* if changing settings, msgs can screw it up
-    -> tried setting "scorelimit" to "player has left the game"
-* make tile object work like flare object loading into maps and saving
-    ->gThingReturnTile
-* code in editorPutProp needs to be stored in the prop object instead of switch case
-* waypoints game mode doesnt show scorepoint for clients
-* client cant score in safezones
-* horrible crash when client wins deathmatch mode
-    -> processActionLoadClient line 611
-* client locks up and cant exit when loses connection to server, has to close cmd window
-* scoreboard exception when client joins game now
-* timeout negative-timeout sleep() exception
-    -> nServer.run line 182
-* clients need to show green +1s on their own screen
-    -> watch scoremap.  if someone's score differs from last scoremap data, update cached score and spawn +1
-* flag needs to drop at dead players feet in flagmaster
-    -> ctf is more balanced the way it is
-* for ctf, have multiple red flags spawn around the map, have a few equidistant blue flag "stations" to bring them to
-    -> like a fuzion frenzy type thing
-    -> need to accomodate multiple "flagmasterids"
-* cut/copy/paste only works for tiles right now
-    -> make generic copything() function maybe instead of copytile, copyprop, etc
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
-    -> just specify the hasmap<KEY,VALUE> pairs you lazy bastard
-    -> want to return to the flares(), teleporters(), etc lists, only now theyre backed by a quality data structure
-* bot just shooting all over instead of waiting to be in range
-* mapmakers gotta be verified heavily
-* trying to start a new game with spawn-armed and reloading crashes
-* why is the currentmap NULL on first load when this wasnt happening before
-* gamemodes need to have a subclass structure like the props do
-    -> theyll have "pre-gameloop-check" and "post-gameloop-check" functions
-* have bots eventually go back to exit teleporter after X seconds
-* save old functions to aid in rebuilding the broken functionality
-* goToNearestThing() function has explicit reference to flagmaster stuff
-* get rid of the scorepoints() array in the cGameLogic file
-* make capture the flag mode have several red flags so that multiple players can grab and bring to the blue flag
-* get rid of the ladder prop
-* make sure propmap id pointers are dereferenced/removed along with the arraylist
 * add zombies gametype, a zopmbie will be a prop
     -> how many ID:coord:coord:attack sets can we cram in a send string
-* what the hell happened to the light fixture prop?
-    -> they used to be prop 1
-    -> i guess since we dont do sidescroller maps anymore it shouldnt be an issue
-* all powerup cycle at same time
-    -> each powerup should have its own timer, and be longer (like halo weapons despawning)
-* bots not dropping weapons
-    -> actually they never dropped their weapons even in the old branches
-* consider making HASHMAPS of all the current proplists, would make looking up a prop by id an O(1) op
-* flags work off of a seperate server-side collision detection
-* put all static ints for props in the map file
-* king of flags needs a new architecture
-* make sure all maps in maps_b folder work with new props
-* prop sprite string needs to be made a var of the prop object/subclass
-* gMap.load has a giant if/else block
-    -> convert to a map of doables, or something... at least use the console commands this time
-* logic drawing navpointers is a huge if/else block
-* make sure editing and saving a map works with the new prop architecture
-* show grey bar on bottom 1/4 of screen, with gametype and description for first 10 seconds of player joining
-* make sure props spawn and clear without memory leaks
-* audit graphics and sounds to remove anything not made by (you)
-* refactor maps to use new prop architecture while slowly removing the old functionality
-* player_ids is the last good branch before i started gutting the weapons and props functionality
-* refactor props to not rely on so many ifs
-    -> use inheritance instead of the "code"
-    -> should have basic function like the propeffect() function
-* reloading isnt working no more
-* changing resolution screws up corner tiles & powerups
-* figure a way to measure your functions for optimization
 * incorporate enums where possible
-    -> replace weapon_selection with weaponSelection()
-* why does cGameLogic.getMovementStatus() have a double for-loop for all ids
-* need sound effects for hitting sorepoints, capping flags, surviving safezones, grabbing flags, completing laps
-* player should drop flag in flagmaster, but ctf shoud go back to starting spot
-* introduce functions like getScorepoints(), getWeapons() similar to the basic getProps() function in gScene
 * cant have key bound to multiple actions
-* mapfile prop line and editor_put_prop console comm can be combined
-* too much sent in new powerups string
-* make sure the combinations of spawn-armed and allow-reload modes work correctly together
-* verify integrity of fps counter
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * make sure different timezones and computer times work correctly
-    -> client timeout: systemtime has a chance of always being greater than checkin time by a magnitute of <timeout>
-        -> due to timezones, system clock etc
-    -> $$$ make timestamp-centric operations happen server-side, as usual, to fix these issues $$$
-* bots wont go for flag in kof if another bot owns that flag
 * only draw gfx that will be seen
-* sounds are dragging down performance
-    -> was better when javafx wasnt working
-* bots really drag down performance
-    -> check if the rates are influencing it.  maybe bots are updating at server rate and dragging down performance
-* EDITOR - NEWTILE - dim0h didnt change when setting base dims
-* find a way to change corner's "wall height"
-* Bot dont explode on other clients screen
-* EDITOR: texture not included when copying/injecting tile dimensions
-* many cvars need to be changed to a each-player var for the sake of future usability
-    -> features like BOTS and perhaps split screen multiplayer
-* need to restrict certain console commands if a client is playing
-    -> 'addbot' and many more to be sure
-* editor: sidescroller block size did not change dim6h during quick dim adjustment (arrow keys)
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
-* ISSUE: SERVER NOT GOING TO THE PROPER COORDS AFTER DYING, AFTER A CLIENT QUITS
-    -> java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
-               at cScripts.createDamagePopup(cScripts.java:529)
-               at cScripts.checkProjectileSplashes(cScripts.java:459)
-               at cGameLogic.checkForPlayerDeath(cGameLogic.java:732)
-               at cGameLogic.customLoop(cGameLogic.java:49)
-               at uiInterface.startTicker(uiInterface.java:51)
-               at uiInterface.startNew(uiInterface.java:97)
-               at xMain.main(xMain.java:7)
-   -> doing calls like matchKills[getInt("tag")] dont work because tags arent changed when ppl quit
-* CRASH: handle characters who are it/viral quitting
-    -> virus: remove player from the virus state string, if nobody infected after quit then re-assign virus
-    -> tag: re-assign "itness"
-* EDITOR: Tighten up the undo/redo
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////                                                                 /////////////////////////////////
-                                                ==FEATURES==
-/////////////////////                                                                 /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 * pong gametype but the players are human paddles
-* refactor mapfile so you can create objects with the kind of flexibility of hashmaps
-    -> obv this means json
-    -> obv this means everythings fucked
-* consider reverting flares to arraylist, i cant think of needing to look em up by id
-* give the victim a boxing glove in victim mode
-* map where a scorepoint runs away from the nearest player and player explodes when catches it, but gets a point
-* map with winding maxze structure that travels downwards with scorepoints
-    -> watch which path you take or you can fall out the bottom of the map
-* add buttons, like in the nuke map in day of defeat
-    -> red square with flare like weapon highlight.  turn to green whenn player goes over
-        -> need to have doables attached to the button
-* maps should have a flag (cvar) for bots to use flashlights on the map
 * put little representation of the lead character next to the leader string
     -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
         -> facing the right
-* turn individual powerups on and off in new game menu
-* adjust player speed in new game menu
-* add player speed and other cool vars to the newgame screen, and send as cvar over net
-* bouncy ball mode
-    -> ball will change color of last touching person
-        -> when it goes in a goal it respawns at start and give point
-        -> have multiple balls on the field
 * gungame mode
-* spawning under "unarmed" mode then enabling armed mode gives all weapons with 0 stock.
-    -> modify changeweapon function to skip empty guns
-        -> will work like max payne where you have all guns but cant switch until you get some ammo
-* enable spectate mode for online matches
-    -> player stays in graveyard
-    -> always tracks the tracking id
-    -> use mouse wheel to cycle through tracking ids available (excluding dead and self)
 * put a mini version of the character next to name in scoreboard
-* make two race modes -> linear and nonlinear
-* for flag king, maybe put a little representation of the person owning the flag on the flag or in the flagstring
-* maybe have the console display always show if debug is 1
-    -> don't put the dark gray overlay on top of the view
 * start showing errors in debug log now
-* mapmaker
-    -> ctrl+click to highlight multiple tiles (maybe click & drag to create a rectangular zone?)
-    -> have option in the tile menu to "move tile group"
-        -> only give ability to edit x,y coords for now
-        -> build up to copy/past tile group
-        -> also build up to "transform/flip" tile group
-* find a way for player vector and corner steepness to effect eachother
-    -> prolly dont need to
 * make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
 * powerup idea
     -> egg
     -> pick up
     -> do something to initiate the growing sequence
     -> chuck it before it blows, or drop it
-* reintroduce powerups, would function the way weapons used to
-    -> powerup spawn points have 0/1 switch, present a random powerup
-    -> on-fire like bomberman (touch ppl, they die)
-    -> tiny and fast
-    -> big slow and shielded
-* be sure to make as many variant maps for the different gamemodes
 * add "disable attacks" flag
-    -> would only be fun in specific gamemodes
-    -> could be a map string
-* add ability for map to have a sound play on each score
-    -> would be manually exec'd with a line
-    -> integrate into mapmaker as well
-* Add ability to reset game to default settings
-* maybe allow a creation mode so ppl can edit the map in multiplayer
-    -> like forge
-    -> simply pass along the console command to place a tile over the network and run it on the other side
-    -> could be fun
-* move tile down 1 layer seems lame.
-    -> replace with put_tile_at_layer
-        -> will just remove/reinstert tile at index in array
-            -> where N is new index, if N > size, then do size instead
-            -> where N is 0 or below, just put at 0
-            -> all orginal tiles m (>N) become m+1
 * need to see a visual pallette for selecting tiles
-* implementing search algorithms for ai
-    -> use stack and dfs w/ heuristic (heuristic affects ordering of enqueueing tuples)
-    -> enqueue tuples of coorx,coory a certain distance from current loc in each dir (like a grid)
-        -> function should take a x,y, pair and return 4 candidate pairs (1 each dir)
-* make the powerups float up and down and have a shadow
-* change "thetime" to have the server "say" the time after receving proper msg
-* server could have a "admin" role where you can use the mapmaker
-    -> actions taken by the admin broadcast to all players
-        -> e.g. deleted a powerup, added a tile
 * checksum checks
     -> client sends checksum of the jar, and the map file currently played
     -> server verifies these two MD5 hashes against its own md5s
-* allow players to bounce off floor in sidescroller mode
-    -> make a plinketto game mode
-    -> scorepoints at the bottom
-        -> more scorepoint props placed in the better slots
-    -> have the scores in the textures for the map
-        -> e.g. 5, 3, 10
-* not how the spawn points have illusion of depth on wp_steam sometimes
-    -> black line on top, light line on bottom
-*create didicated spawn point object
-    -> so they can be easily referenced when needed
-    -> no more spawn errors at all
-* create customTrigger object
-    -> like xCom
-        -> just needs to execute code
-    -> have map of these objects
-    -> add prop that has a string for the key of customTrigger map
-        -> on intersect/destroy run the customTrigger
 * gametype
     -> ball thinks like a bot, going after nearest character
         -> if you touch the ball you die
         -> get points for staying alive
-*  cut down on data usage online, see if instead of using full keys, if you can use their index in the arg map
-to reference them.
-* replace stockhp
-    -> replace all cVars usage of stockhp with calls for player0's stockhp
-    -> then refactor functions to take any player not just 0
-* need more vars on player and not in cvars
-    -> like health
-    -> handle respawns by player obj, not by user
-* as a bot on sideview map, look for edges of platforms above yourself for the opportunity to jump
 * make players eyes blink
-* allow all textures in folder to be used in mapmaker
-* new gametypes
-    -> sidescrolling map scrolls past with obstacles to jump and duck
-        -> like twisted system in fuzion frenzy
-    -> current pulling players in one dir, where death awaits at the edge and objects try to knock you in
-        -> like the jetboat waterfall in fuzion frenzy
-    -> pool game mode where you try to knock ball into one of six pockets
-        -> maybe only one ball/goal active at any one time
-            -> scoring will change the active goal
-        -> have only 4 spawn points on the map.  each spawn points gives player access to a full table
-            -> players will be separated by hard walls
-    -> have N-1 props each cycle where N is # players left.  players grab props but drop them when killed
-        -> when timer ends anyone not holding prop dies
-    -> have multiple flags each cycle.  players grab flags but drop them when killed
-        -> when timer ends anyone not holding flag dies. survivors get points
-    -> have N-1 safepoint each cycle where N is number of players left.  No respawning, only 30 - 60 sec allowed
-* new weapons
-    -> add a bomb type that functions like the bomberman64 bomb
-    -> something like the rock from dod mg server
-        -> bounces around and flies far and erratically
-    -> jihad
-* new props
-    -> for race mode, bombs that explode on contact and stop you for a little
-    -> pinball bumper that actual increases your bounce velocity
-* idle sfx
-    -> have music for background of match.
-    -> loop a roylaty-free mp3
-    -> reference the mp3 in mapfile or whatever
-    -> have characters make chirpy muttery noises
-        -> kinda like grunt from halo
-    -> have them respond to events in the game
-        -> deaths, objectives, etc
-    -> have them grunt for punching
-        -> like bomberman64
 * new map lines:
     -> lockcam x y
     -> locks cam at a certain coordinate for duration of the map.
@@ -662,19 +126,5 @@ to reference them.
         -> no zooming allowed
 * add texture tiling
     -> sprite must be converted to bufferedimage before drawing
-    -> on a per texture basis i.e. 3 "fill or tile" flags per tile
-    -> add 7 base x/y vals for possibly tiled textures
 * Create a server browser program
-    -> when you start a game server it sends data to this server
-    -> when you go to server browser menu in game you see data returned from here
-* change vector of speed boost (RMB) depending on movement keys held down
-* put visual feedback for racing positions
 * add voip
-* Load all images used on a map into a temp. sprite sheet to improve performance?
-* ENABLE A "GRAVITY" SETTING TO PULL PLAYERS IN CERTAIN VECTOR
-    -> MUST BE ABLE TO SET IT FROM MAP FILES
-* TRIM THE FAT ON THE "NEW TILE/PROP/FLARE" OPTIONPANES
-    -> LOOK AT THE FILE HISTORY OF RELEVANT FILES IN GITHUB
-* server should have clients run a set of instructions on join
-* transmit file over the server/cli connection
-* next game better have rotating map in both gameplay and editor

@@ -1,14 +1,13 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayers(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         try {
-            for (String playerId : gScene.getPlayerIds()) {
-                gPlayer player = gScene.getPlayerById(playerId);
+            for (String playerId : cClientLogic.getPlayerIds()) {
+                gPlayer player = cClientLogic.getPlayerById(playerId);
                 //player gun
                 if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
                     int[] rgb = new int[4];
@@ -80,9 +79,9 @@ public class dPlayer {
                             (int)shadowBounds.getHeight());
                 }
                 //flag for ctf
-                if(nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                && nServer.instance().clientArgsMap.get("server").get("state").equals(playerId)) {
+                if(nClient.instance().serverArgsMap.containsKey("server")
+                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(playerId)) {
                     g2.drawImage(gItemFactory.instance().flagSprite,
                             eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
                                     - player.getInt("dimw")/2),

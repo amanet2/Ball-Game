@@ -2,8 +2,8 @@ public class gItemTeleporterRed extends gItem {
     public void activateItem(gPlayer player) {
         if(player.getInt("stockhp") > 0 && player.isZero("inteleporter")) {
             gThing exit = null;
-            for(String id : eManager.currentMap.scene.getThingMap("ITEM_TELEPORTER_RED").keySet()) {
-                gThing teleporter = eManager.currentMap.scene.getThingMap("ITEM_TELEPORTER_RED").get(id);
+            for(String id : cServerLogic.scene.getThingMap("ITEM_TELEPORTER_RED").keySet()) {
+                gThing teleporter = cServerLogic.scene.getThingMap("ITEM_TELEPORTER_RED").get(id);
                 if(!isVal("id", teleporter.get("id")))
                     exit = teleporter;
             }
@@ -13,7 +13,6 @@ public class gItemTeleporterRed extends gItem {
                 player.put("coordy", exit.get("coordy"));
                 nServer.instance().addNetCmd(player.get("id"), "userplayer coordx " + exit.get("coordx")
                         + ";userplayer coordy " + exit.get("coordy"));
-                nServer.instance().addNetCmd("echo " + player.get("name") + " entered the red teleporter");
             }
         }
         else

@@ -9,8 +9,4 @@ public class gDoableBlockReturnFloor extends gDoableBlockReturn{
         );
         return block;
     }
-
-    public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
-        super.storeBlock(blockToLoad, sceneToStore);
-    }
 }

@@ -7,53 +7,51 @@ public class xComDamagePlayer extends xCom {
             String shooterid = "";
             if(toks.length > 3)
                 shooterid = toks[3];
-            gPlayer player = gScene.getPlayerById(id);
+            gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
-                if(sSettings.isServer()) {
-                    player.subtractVal("stockhp", dmg);
-                    //store player object's health in outgoing network arg map
-                    nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
-                    //handle death
-                    if(player.getInt("stockhp") < 1) {
-                        //more server-side stuff
-                        String victimname = nServer.instance().clientArgsMap.get(id).get("name");
-                        if(shooterid.length() > 0) {
-                            String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
-                            cScoreboard.incrementScoreFieldById(shooterid, "kills");
-                            nServer.instance().addNetCmd("echo " + killername + " killed " + victimname);
-                            if (cVars.getInt("gamemode") == cGameMode.DEATHMATCH) {
-                                xCon.ex("givepoint " + shooterid);
-                            }
-                        }
-                        else {
-                            nServer.instance().addNetCmd("echo " + victimname + " died");
-                        }
-//                        handle flag carrier dying
-                        if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
-                            nServer.instance().clientArgsMap.get("server").put("state", "");
-                            //this does the same thing as above
-                            nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d",
-                                    player.getInt("coordx"), player.getInt("coordy")));
-                        }
-                        //migrate all client death logic here
-                        String animString = "spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                                + " " + (player.getInt("coordx") - 75) + " " + (player.getInt("coordy") - 75);
-                        //be sure not to send too much in one go, net comms
-                        nServer.instance().addNetCmd(animString);
-                        nServer.instance().clientArgsMap.get(id).put("respawntime",
-                                Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-                        if(id.equals(uiInterface.uuid)) {
-                            cVars.putInt("cammode", gCamera.MODE_FREE);
-                        }
-                        else {
-                            nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
-                        }
-                        nServer.instance().addNetCmd("removeplayer " + id);
-
-                        eManager.currentMap.scene.getThingMap("THING_PLAYER").remove(id);
-                    }
-                }
+                player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", System.currentTimeMillis());
+                //store player object's health in outgoing network arg map
+                nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
+                //handle death
+                if(player.getInt("stockhp") < 1) {
+                    //more server-side stuff
+                    int dcx = player.getInt("coordx");
+                    int dcy = player.getInt("coordy");
+                    xCon.ex("deleteplayer " + id);
+                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
+                    String victimname = nServer.instance().clientArgsMap.get(id).get("name");
+                    if(shooterid.length() > 0) {
+                        String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
+                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
+                        nServer.instance().addExcludingNetCmd("server", "echo " + killername + " killed " + victimname);
+                        if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
+                            xCon.ex("givepoint " + shooterid);
+                        else if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                            String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
+                            if(virusids.contains(shooterid))
+                                nServer.instance().clientArgsMap.get("server").put("virusids", virusids+":"+id);
+                        }
+                    }
+                    else
+                        nServer.instance().addExcludingNetCmd("server", "echo " + victimname + " died");
+//                        handle flag carrier dying
+                    if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
+                    && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
+                        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+                        xCon.ex(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        nServer.instance().addExcludingNetCmd("server",
+                                String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
+                    }
+                    //migrate all client death logic here
+                    String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
+                            + " " + (dcx - 100) + " " + (dcy - 100);
+                    //be sure not to send too much in one go, net comms
+                    nServer.instance().addExcludingNetCmd("server", animString);
+                    nServer.instance().clientArgsMap.get(id).put("respawntime",
+                            Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
+                    nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
+                }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }
         }

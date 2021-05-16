@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class uiInterface {
 	static boolean inplay = sVars.isZero("startpaused");
 	static long gameTime = System.currentTimeMillis();
@@ -6,57 +8,30 @@ public class uiInterface {
 	private static long tickTimeNanos = gameTimeNanos;
 	private static long framecounterTime = gameTime;
 	static long nettickcounterTime = gameTime;
-	static long networkTime = gameTime;
 	static int tickReport = 0;
 	static int fpsReport = 0;
 	static int netReport = 0;
 	static int[] camReport = new int[]{0,0};
     private static int frames = 0;
-    static String uuid = cScripts.createId();
+    static String uuid = eManager.createId();
 
 	public static void startGame() {
 	    int ticks = 0;
-        cGameLogic.resetGameState();
         while(true) {
             try {
-                //inits
-                if(sSettings.isServer() && !nServer.instance().isAlive())
-                    nServer.instance().start();
-                if(sSettings.isClient() && !nClient.instance().isAlive())
-                    nClient.instance().start();
                 gameTime = System.currentTimeMillis();
                 gameTimeNanos = System.nanoTime();
                 //game loop
-                if(sSettings.isServer()) {
-                    if(sVars.getInt("timelimit") > 0)
-                        cVars.putLong("timeleft",
-                            sVars.getLong("timelimit") - (int) (gameTime - cVars.getLong("starttime")));
-                    else
-                        cVars.putLong("timeleft", -1);
-                }
                 while(tickTimeNanos < gameTimeNanos) {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
-                    oDisplay.instance().checkDisplay();
-                    oAudio.instance().checkAudio();
                     iInput.readKeyInputs();
-                    gCamera.updatePosition();
-                    switch (sSettings.NET_MODE) {
-                        case sSettings.NET_SERVER:
-                            nServer.instance().processPackets();
-                            break;
-                        case sSettings.NET_CLIENT:
-                            nClient.instance().processPackets();
-                    }
-                    if(sSettings.show_mapmaker_ui)
-                        cScripts.selectThingUnderMouse();
-                    gMessages.checkMessages();
+                    if(sSettings.IS_SERVER)
+                        cServerLogic.gameLoop();
+                    if(sSettings.IS_CLIENT)
+                        cClientLogic.gameLoop();
                     camReport[0] = cVars.getInt("camx");
                     camReport[1] = cVars.getInt("camy");
-                    if (inplay || cScripts.isNetworkGame()) {
-                        eManager.updateEntityPositions();
-                        cGameLogic.customLoop();
-                    }
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;
@@ -75,9 +50,7 @@ public class uiInterface {
                 }
                 if(sSettings.framerate > 0) {
                     long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
-                    while (nextFrameTime >= System.nanoTime()) {
-//                        Thread.sleep(0,1);//do nothing
-                    }
+                    while (nextFrameTime >= System.nanoTime()); // do nothing
                 }
             } catch (Exception e) {
                 eUtils.echoException(e);
@@ -86,42 +59,88 @@ public class uiInterface {
 		}
 	}
 
-	public static void addListeners() {
-		oDisplay.instance().frame.addKeyListener(iInput.keyboardInput);
-		oDisplay.instance().frame.addMouseListener(iInput.mouseInput);
-		oDisplay.instance().frame.addMouseMotionListener(iInput.mouseMotion);
-		oDisplay.instance().frame.addMouseWheelListener(iInput.mouseWheelInput);
-		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
-	}
-
 	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
+	    eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-	    if(sSettings.show_mapmaker_ui) {
-            xCon.ex("load");
-            cVars.putInt("camx", 0);
-            cVars.putInt("camy", 0);
-        }
-	    else {
+	    if(!sSettings.show_mapmaker_ui) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
-            xCon.ex("load");
+            sVars.putInt("showcam", 0);
+            sVars.putInt("showfps", 0);
+            sVars.putInt("showmouse", 0);
+            sVars.putInt("shownet", 0);
+            sVars.putInt("showplayer", 0);
+            sVars.putInt("showscale", 0);
+            sVars.putInt("showtick", 0);
         }
-        xCon.ex("exec " + sVars.get("defaultexec"));
+        xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
-        addListeners();
         startGame();
 	}
+
+    public static int[] getMouseCoordinates() {
+        return new int[]{
+                MouseInfo.getPointerInfo().getLocation().x - oDisplay.instance().frame.getLocationOnScreen().x
+                        - oDisplay.instance().getContentPaneOffsetDimension()[0],
+                MouseInfo.getPointerInfo().getLocation().y - oDisplay.instance().frame.getLocationOnScreen().y
+                        - oDisplay.instance().getContentPaneOffsetDimension()[1]
+        };
+    }
+
+    public static int[] getPlaceObjCoords() {
+        int[] mc = getMouseCoordinates();
+        int[] fabdims = uiEditorMenus.getNewPrefabDims();
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+                uiEditorMenus.snapToX);
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+                uiEditorMenus.snapToY);
+        return new int[]{pfx, pfy};
+    }
+
+    public static synchronized void getUIMenuItemUnderMouse() {
+        if(cVars.isZero("blockmouseui")) {
+            int[] mc = uiInterface.getMouseCoordinates();
+            int[] xBounds = new int[]{0, sSettings.width / 4};
+            int[] yBounds = sVars.getInt("displaymode") > 0
+                    ? new int[]{14 * sSettings.height / 16, 15 * sSettings.height / 16}
+                    : new int[]{15 * sSettings.height / 16, sSettings.height};
+            if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                if (!uiMenus.gobackSelected) {
+                    uiMenus.gobackSelected = true;
+                    uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+                }
+                return;
+            } else
+                uiMenus.gobackSelected = false;
+            if (uiMenus.selectedMenu != uiMenus.MENU_CONTROLS) {
+                for (int i = 0; i < uiMenus.menuSelection[uiMenus.selectedMenu].items.length; i++) {
+                    xBounds = new int[]{sSettings.width / 2 - sSettings.width / 8,
+                            sSettings.width / 2 + sSettings.width / 8};
+                    yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
+                            11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
+                    if (sVars.isIntVal("displaymode", oDisplay.displaymode_windowed)) {
+                        yBounds[0] += 40;
+                        yBounds[1] += 40;
+                    }
+                    if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
+                        if (uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem != i)
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = i;
+                        return;
+                    }
+                }
+            }
+            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
+        }
+    }
 
 	public static void exit() {
         xCon.ex(String.format("playsound %s", Math.random() > 0.5 ? "sounds/shout.wav" : "sounds/death.wav"));
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
-            xCon.instance().saveLog(sSettings.isServer()
-                    ? sSettings.CONSOLE_LOG_LOCATION_SERVER : sSettings.CONSOLE_LOG_LOCATION_CLIENT);
+            xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

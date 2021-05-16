@@ -15,10 +15,4 @@ public class gDoableFlareReturn {
                 Integer.parseInt(args[12])
         );
     }
-
-    public void storeFlare(gFlare flareToLoad, gScene sceneToStore) {
-        String flareId = Integer.toString(eManager.currentMap.scene.flareIdCtr);
-        sceneToStore.getThingMap("THING_FLARE").put(flareId, flareToLoad);
-        eManager.currentMap.scene.flareIdCtr += 1;
-    }
 }

@@ -16,13 +16,13 @@ public class gWeaponsGloves extends gWeapon {
         bulletVel = 30;
     }
 
-    public void fireWeapon(gPlayer p){
-        super.fireWeapon(p);
+    public void fireWeapon(gPlayer p, gScene scene) {
+        super.fireWeapon(p, scene);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2, p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2,
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.type.GLOVES.code());
-        eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        scene.getThingMap("THING_BULLET").put(b.get("id"), b);
     }
 }

@@ -1,4 +1,4 @@
-public class xComSpawnAnimation extends xCom {
+public class xComSpawnAnimationClient extends xCom {
     public String doCommand(String fullCommand) {
         if(sVars.isOne("vfxenableanimations")) {
             String[] toks = fullCommand.split(" ");
@@ -6,11 +6,11 @@ public class xComSpawnAnimation extends xCom {
                 int animcode = Integer.parseInt(toks[1]);
                 int x = Integer.parseInt(toks[2]);
                 int y = Integer.parseInt(toks[3]);
-                eManager.currentMap.scene.getThingMap("THING_ANIMATION").put(cScripts.createId(),
+                cClientLogic.scene.getThingMap("THING_ANIMATION").put(eManager.createId(),
                         new gAnimationEmitter(animcode, x, y));
                 return "spawned animation " + animcode + " at " + x + " " + y;
             }
         }
-        return "usage: spawnanimation <animation_code> <x> <y>";
+        return "usage: cl_spawnanimation <animation_code> <x> <y>";
     }
 }
