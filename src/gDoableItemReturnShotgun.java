@@ -6,7 +6,4 @@ public class gDoableItemReturnShotgun extends gDoableItemReturn {
         );
         return shotgun;
     }
-    public void storeItem(gItem itemToLoad, gScene sceneToStore) {
-        super.storeItem(itemToLoad, sceneToStore);
-    }
 }

@@ -6,7 +6,4 @@ public class gDoableItemReturnSpawnPoint extends gDoableItemReturn {
         );
         return spawnpoint;
     }
-    public void storeItem(gItem itemToLoad, gScene sceneToStore) {
-        super.storeItem(itemToLoad, sceneToStore);
-    }
 }

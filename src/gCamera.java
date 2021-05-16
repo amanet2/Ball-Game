@@ -18,7 +18,7 @@ public class gCamera {
 	public static void updatePosition() {
 		switch(cVars.getInt("cammode")) {
 			case MODE_TRACKING:
-				cScripts.centerCamera();
+				centerCamera();
 				break;
 			case MODE_FREE:
 				cVars.addIntVal("camx", cVars.getInt("velocitycam")*cVars.getInt("cammov3")
@@ -29,5 +29,20 @@ public class gCamera {
 			default:
 				break;
 		}
+	}
+
+	public static void centerCamera() {
+		gThing p = cClientLogic.getUserPlayer();
+		if(p == null)
+			p = cClientLogic.getPlayerById(cVars.get("camplayertrackingid"));
+		if(p != null) {
+			cVars.putInt("cammode", gCamera.MODE_TRACKING);
+			cVars.putInt("camx",
+					((p.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2) + p.getInt("dimw")/2));
+			cVars.putInt("camy",
+					((p.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2) + p.getInt("dimh")/2));
+		}
+		else
+			cVars.putInt("cammode", gCamera.MODE_FREE);
 	}
 }

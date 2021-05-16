@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class gWeapon implements fWeapon{
+public class gWeapon {
     String name;
     Image sprite;
     int maxAmmo;
@@ -22,7 +22,7 @@ public class gWeapon implements fWeapon{
         sprite = gTextures.getScaledImage(path, dims[0], dims[1]);
     }
 
-    public void fireWeapon(gPlayer p) {
+    public void fireWeapon(gPlayer p, gScene scene) {
         xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
     }
 }

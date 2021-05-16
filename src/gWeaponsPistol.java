@@ -16,8 +16,8 @@ public class gWeaponsPistol extends gWeapon {
         bulletVel = 70;
     }
 
-    public void fireWeapon(gPlayer p) {
-        super.fireWeapon(p);
+    public void fireWeapon(gPlayer p, gScene scene) {
+        super.fireWeapon(p, scene);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"),
             damage);
@@ -27,8 +27,8 @@ public class gWeaponsPistol extends gWeapon {
         double randomOffset = (Math.random() * ((Math.PI/10))) - Math.PI/20;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
-        eManager.currentMap.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
-        if(p == cGameLogic.userPlayer()) {
+        scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
             cVars.putLong("weapontime"+ gWeapons.type.PISTOL.code(), System.currentTimeMillis());
         }

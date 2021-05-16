@@ -8,8 +8,6 @@ public class gMessages {
     static boolean messageSend = false;
     static boolean enteringMessage = false;
     static String msgInProgress = "";
-    static boolean optionSet = false;
-    static String enteringOptionText = "";
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
@@ -17,23 +15,12 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        //check individual ids in the cmd queue map
-        if(sSettings.isServer())
-            nServer.instance().checkOutgoingCmdMap();
-
         if(messageSend) {
-            if(optionSet) {
-                cScripts.processOptionText(enteringOptionText, msgInProgress);
-            }
-            else {
-                if(msgInProgress.toLowerCase().equals("thetime")) {
-                    addScreenMessage(xCon.instance().commands.get("thetime").doCommand("thetime"));
-                }
+            if(msgInProgress.toLowerCase().equals("thetime")) {
+                addScreenMessage(xCon.instance().commands.get("thetime").doCommand("thetime"));
             }
             msgInProgress = "";
             messageSend = false;
-            optionSet = false;
-            enteringOptionText = "";
         }
         //expired msgs
         if(expirs.size() > 0) {

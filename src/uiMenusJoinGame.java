@@ -4,21 +4,20 @@ public class uiMenusJoinGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("joingame");
-                        xCon.ex("pause");
+                        xCon.ex("joingame;pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },
                 new uiMenuItem(String.format("Server IP [%s]", sVars.get("joinip"))) {
                     public void doItem() {
-                        gMessages.enteringMessage = true;
-                        gMessages.enteringOptionText = "New IP";
+                        xCon.ex("e_changejoinip");
+                        text = String.format("Server IP [%s]", sVars.get("joinip"));
                     }
                 },
                 new uiMenuItem(String.format("Server Port [%s]",sVars.get("joinport"))) {
                     public void doItem() {
-                        gMessages.enteringMessage = true;
-                        gMessages.enteringOptionText = "New Port";
+                        xCon.ex("e_changejoinport");
+                        text = String.format("Server Port [%s]", sVars.get("joinport"));
                     }
                 }
             },

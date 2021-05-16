@@ -58,13 +58,6 @@ public class gDoableCollisionReturn {
             yarr[i] = Integer.parseInt(rawYargs[i]);
         }
 
-
         return new gCollision(xarr, yarr, npoints);
-    }
-
-    public void storeCollision(gCollision collisionToLoad, gScene sceneToStore) {
-        String collisionId = Integer.toString(eManager.currentMap.scene.collisionIdCtr);
-        sceneToStore.getThingMap("THING_COLLISION").put(collisionId, collisionToLoad);
-        eManager.currentMap.scene.collisionIdCtr += 1;
     }
 }

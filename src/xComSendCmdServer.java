@@ -1,4 +1,4 @@
-public class xComSendCmd extends xCom {
+public class xComSendCmdServer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
@@ -7,17 +7,13 @@ public class xComSendCmd extends xCom {
                 pid = "";
             String cmd = fullCommand.replace(toks[0]+" ", "");
             if(cmd.length() > 0) {
-                if (sSettings.isServer()) {
-                    if (pid.length() > 0)
-                        nServer.instance().addNetCmd(pid, cmd.replace(pid + " ", ""));
-                    else
-                        nServer.instance().addNetCmd(cmd);
-                }
+                if (pid.length() > 0)
+                    nServer.instance().addNetCmd(pid, cmd.replace(pid + " ", ""));
                 else
-                    nClient.instance().addNetCmd(cmd);
+                    nServer.instance().addNetCmd(cmd);
                 return cmd;
             }
         }
-        return "usage: sendcmd <any valid console command>";
+        return "usage: sv_sendcmd <any valid console command>";
     }
 }

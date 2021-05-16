@@ -5,15 +5,12 @@ import java.util.HashMap;
 
 public class dWaypoints {
     public static void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
-        if(dx < -9000 && dy < -9000) {
-            return;
-        }
-        if(uiInterface.inplay && cGameLogic.userPlayer() != null) {
+        if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
-                    dx - cGameLogic.userPlayer().getInt("coordx")
-                            + cGameLogic.userPlayer().getInt("dimw")/2,
-                    dy - cGameLogic.userPlayer().getInt("coordy")
-                            + cGameLogic.userPlayer().getInt("dimh")/2};
+                    dx - cClientLogic.getUserPlayer().getInt("coordx")
+                            + cClientLogic.getUserPlayer().getInt("dimw")/2,
+                    dy - cClientLogic.getUserPlayer().getInt("coordy")
+                            + cClientLogic.getUserPlayer().getInt("dimh")/2};
             g2.setColor(new Color(255,100,50,150));
             int[][] polygondims = new int[][]{
                     new int[]{
@@ -34,19 +31,11 @@ public class dWaypoints {
             g2.setColor(new Color(255,100,50,220));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
-            String waypointdistance = String.format("%dm",(int)Math.sqrt((deltas[0]*deltas[0])+(deltas[1]*deltas[1])));
             dFonts.setFontNormal(g2);
-            dFonts.drawCenteredString(g2,
-                    waypointdistance,
-                    eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy")));
-            FontRenderContext frc =
-                    new FontRenderContext(null, false, true);
             dFonts.drawCenteredString(g2, message,
                     eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy"))
-                            -(int)g2.getFont().getStringBounds(waypointdistance,frc).getHeight());
-            if(!cVars.isInt("gamemode", cGameMode.VIRUS)
+                    eUtils.scaleInt(dy - cVars.getInt("camy")));
+            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
                     && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
                 double angle = Math.atan2(deltas[1], deltas[0]);
                 if (angle < 0)
@@ -72,45 +61,36 @@ public class dWaypoints {
             }
         }
     }
-    public static void drawWaypoints(Graphics2D g2) {
-        if(uiInterface.inplay && nServer.instance().clientArgsMap.containsKey("server")
-        && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            switch (cVars.getInt("gamemode")) {
-                case cGameMode.FLAG_MASTER:
-                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0) {
-                        if(!nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
-                            gPlayer p = gScene.getPlayerById(
-                                    nServer.instance().clientArgsMap.get("server").get("state"));
-                            if(p == null)
-                                break;
-                            dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                    p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
-                        }
+    public static void drawWaypoints(Graphics2D g2, gScene scene) {
+        if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")) {
+            if(nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")) {
+                if(!nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(uiInterface.uuid)) {
+                    gPlayer p = cClientLogic.getPlayerById(
+                            nClient.instance().serverArgsMap.get("server").get("flagmasterid"));
+                    if(p == null)
+                        return;
+                    dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
+                }
+            }
+            else {
+                HashMap flagmap = scene.getThingMap("ITEM_FLAG");
+                for(Object id : flagmap.keySet()) {
+                    gItemFlag flag = (gItemFlag) flagmap.get(id);
+                    dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
+                            flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
+                }
+            }
+
+            if(nClient.instance().serverArgsMap.get("server").containsKey("virusids")) {
+                String statestr = nClient.instance().serverArgsMap.get("server").get("virusids");
+                for (String id : cClientLogic.getPlayerIds()) {
+                    gPlayer p = cClientLogic.getPlayerById(id);
+                    if (statestr.contains(p.get("id"))) {
+                        dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+                                p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
                     }
-                    else {
-                        HashMap flagmap = eManager.currentMap.scene.getThingMap("ITEM_FLAG");
-                        for(Object id : flagmap.keySet()) {
-                            gItemFlag flag = (gItemFlag) flagmap.get(id);
-                            dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                                    flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
-                        }
-                    }
-                    break;
-                case cGameMode.VIRUS:
-                    if(nServer.instance().clientArgsMap != null && nServer.instance().clientArgsMap.containsKey("server")
-                            && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-                        String statestr = nServer.instance().clientArgsMap.get("server").get("state");
-                        for (String id : gScene.getPlayerIds()) {
-                            gPlayer p = gScene.getPlayerById(id);
-                            if (statestr.contains(p.get("id"))) {
-                                dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                        p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                }
             }
         }
     }

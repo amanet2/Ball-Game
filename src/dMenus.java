@@ -18,7 +18,7 @@ public class dMenus {
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
@@ -50,7 +50,7 @@ public class dMenus {
     }
 
     public static void showControlsMenu(Graphics g) {
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
@@ -59,28 +59,21 @@ public class dMenus {
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColorNormal(g);
         dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
-        dFonts.drawCenteredString(g,
-                "- ACTION -",sSettings.width/3,12*sSettings.height/30);
-        g.drawString("   - KEY/BUTTON -",2*sSettings.width/3,12*sSettings.height/30);
-        dFonts.drawCenteredString(g,
-                "",sSettings.width/4,13*sSettings.height/30);
-        dFonts.drawCenteredString(g,
-                "",2*sSettings.width/3,13*sSettings.height/30);
         int ctr = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             String action = i.text.split(":")[0];
             String input = i.text.split(":")[1];
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
-                g.drawString(">"+action,
-                        sSettings.width/4, 13*sSettings.height/30+ctr%16*sSettings.height/30);
+                dFonts.drawRightJustifiedString(g,">"+action,
+                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
                 g.drawString(">"+input,
-                        2*sSettings.width/3, 13*sSettings.height/30+ctr%16*sSettings.height/30);
+                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
             }
             else {
-                g.drawString(" "+action,
-                    sSettings.width/4, 13*sSettings.height/30+ctr%16*sSettings.height/30);
+                dFonts.drawRightJustifiedString(g," "+action,
+                    sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
                 g.drawString(" "+input,
-                        2*sSettings.width/3, 13*sSettings.height/30+ctr%16*sSettings.height/30);
+                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
             }
             ctr++;
         }
@@ -96,7 +89,7 @@ public class dMenus {
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("coverpath")
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
-        cScripts.getUIMenuItemUnderMouse();
+        uiInterface.getUIMenuItemUnderMouse();
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);

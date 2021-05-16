@@ -1,48 +1,46 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.font.FontRenderContext;
 
 public class dScreenMessages {
 
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
-        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0) {
+        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0)
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
-        }
         //ticks
-        if(sVars.isOne("showtick")) {
+        if(sVars.isOne("showtick"))
             g.drawString("GAME:" + uiInterface.tickReport, 0, 2*sSettings.height / 64);
-        }
         //fps
-        if(sVars.isOne("showfps")) {
+        if(sVars.isOne("showfps"))
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
-        }
-        //mousexy for editor
-        if(sSettings.show_mapmaker_ui) {
-            g.drawString(String.format("Mouse: %d,%d",
-                cScripts.getPlaceObjCoords()[0],cScripts.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
-        }
         //net
-        if(cScripts.isNetworkGame() && sVars.isOne("shownet")) {
+        if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
-            if(cScoreboard.scoresMap.containsKey(uiInterface.uuid)
-                    && cScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
-                g.drawString("Ping:" + cScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-                        0, 6 * sSettings.height / 64);
+//            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
+//                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
+//                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
+//                        0, 6 * sSettings.height / 64);
         }
-        if(sSettings.show_mapmaker_ui) {
+        if(sVars.isOne("showcam")) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                uiInterface.camReport[0], uiInterface.camReport[1]);
+                    uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
-            //instance
-            if(cGameLogic.userPlayer() != null) {
-                g.drawString(String.format("Player: %d,%d",
-                        cGameLogic.userPlayer().getInt("coordx"),
-                        cGameLogic.userPlayer().getInt("coordy")),
-                        0,10*sSettings.height/64);
-            }
+        }
+        if(sVars.isOne("showmouse")) {
+            int[] mc = uiInterface.getMouseCoordinates();
+            if(sSettings.show_mapmaker_ui)
+                g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
+                        uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
+            else
+                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + cVars.getInt("camx"),
+                        eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")),0,9*sSettings.height/64);
+        }
+        if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
+            g.drawString(String.format("Player: %d,%d",
+                    cClientLogic.getUserPlayer().getInt("coordx"),
+                    cClientLogic.getUserPlayer().getInt("coordy")),
+                    0,10*sSettings.height/64);
         }
         //ingame messages
         dFonts.setFontColorNormal(g);
@@ -52,30 +50,25 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
-            gPlayer userPlayer = cGameLogic.userPlayer();
-            if(cScripts.isNetworkGame()) {
-                long timeleft = cVars.getLong("timeleft");
-                if(timeleft > -1) {
-                    if(timeleft < 30000) {
-                        dFonts.setFontColorAlert(g);
-                    }
-                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                            29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+            gPlayer userPlayer = cClientLogic.getUserPlayer();
+            long timeleft = cVars.getLong("timeleft");
+            if(timeleft > -1) {
+                if(timeleft < 30000) {
+                    dFonts.setFontColorAlert(g);
                 }
-                else if(sSettings.isServer() ? sVars.getInt("scorelimit") > 0 : cVars.getInt("scorelimit") > 0)
-                    dFonts.drawRightJustifiedString(g, cVars.get("scorelimit") + " to win",
+                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
-                dFonts.setFontColorHighlight(g);
-                if(userPlayer != null && cScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
-                    dFonts.drawRightJustifiedString(g,
-                            cScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
-                            29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
-                }
-                dFonts.setFontColorNormal(g);
-                dFonts.drawRightJustifiedString(g,
-                        cGameMode.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                    29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
             }
+            dFonts.setFontColorHighlight(g);
+            if(userPlayer != null && gScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
+                dFonts.drawRightJustifiedString(g,
+                        gScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
+                        29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+            }
+            dFonts.setFontColorNormal(g);
+            dFonts.drawRightJustifiedString(g,
+                    cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
@@ -85,9 +78,8 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
-            String ps = gMessages.enteringOptionText.length() > 0 ? gMessages.enteringOptionText : "SAY";
-            g.drawString(String.format("%s: %s",ps,gMessages.msgInProgress),
-                0,31 * sSettings.height/64);
+            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
+                0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -104,20 +96,16 @@ public class dScreenMessages {
                     dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
-            else {
+            else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
-                String selectedThingString = cVars.get("selectedprefabname");
-                if(cVars.get("selecteditemname").length() > 0)
-                    selectedThingString = cVars.get("selecteditemname");
                 if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE " + selectedThingString,0,25*sSettings.height/32);
-                g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
-                g.drawString(String.format("press [MOUSE LEFT] to place %s", newThingString), 0,
+                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
+                g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
-                g.drawString(String.format("press [Esc] to test %s", eManager.currentMap.mapName), 0,
+                g.drawString("[Esc] - TEST/EDIT ", 0,
                     31*sSettings.height/32);
             }
         }
@@ -170,71 +158,18 @@ public class dScreenMessages {
         if(cVars.isOne("showscore")) {
             dScoreboard.showScoreBoard(g);
         }
-        else if(eManager.currentMap.scene.playersMap().size() > 0){
-            if(nServer.instance().clientArgsMap.get("server") != null
-            && nServer.instance().clientArgsMap.get("server").get("topscore") != null
-            && nServer.instance().clientArgsMap.get("server").get("topscore").length() > 0) {
-                if(cGameLogic.userPlayer() != null && cScoreboard.isTopScoreId(cGameLogic.userPlayer().get("id"))) {
-                    dFonts.setFontColorHighlight(g);
-                }
-                dFonts.drawCenteredString(g, "Leader: "
-                        + nServer.instance().clientArgsMap.get("server").get("topscore"),
-                        sSettings.width / 2, sSettings.height / 30);
-                dFonts.setFontColorNormal(g);
-            }
-        }
-
-        //game alerts
-//        if(cGameLogic.userPlayer() != null && cVars.getInt("timeleft") > 0 && cVars.get("winnerid").length() < 1) {
-//            switch(cVars.getInt("gamemode")) {
-//                case cGameMode.VIRUS:
-//                    if(nServer.instance().clientArgsMap.containsKey("server")
-//                            && nServer.instance().clientArgsMap.get("server").containsKey("state")
-//                            && nServer.instance().clientArgsMap.get("server").get("state").contains(
-//                                cGameLogic.userPlayer().get("id"))) {
-//                        dFonts.drawCenteredString(g,">>YOU ARE INFECTED<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    break;
-//                case cGameMode.FLAG_MASTER:
-//                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(uiInterface.uuid)) {
-//                        dFonts.drawCenteredString(g,">>YOU HAVE THE FLAG!<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    else if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0){
-//                        dFonts.drawCenteredString(g,">>FLAG TAKEN!<<",
-//                                sSettings.width / 2, 5*sSettings.height/8);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-        //win lose
-        if((cVars.get("winnerid").length() > 0 && nServer.instance().clientArgsMap.containsKey(cVars.get("winnerid")))) {
-            dFonts.drawCenteredString(g, nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!",
-                    sSettings.width / 2, 5*sSettings.height/8);
-        }
         //loading
-        if(cScripts.isNetworkGame() && eManager.currentMap != null && cVars.isZero("maploaded")) {
+        if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
                 dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
-        }
-        //timeleft
-        if(cScripts.isNetworkGame()) {
-            if((sVars.getInt("timelimit") > -1 && cVars.getInt("timeleft") < 1)
-                    || cVars.get("winnerid").length() > 0) {
-                dFonts.drawCenteredString(g, "-- MATCH OVER --", sSettings.width / 2, 9*sSettings.height/12);
-            }
-        }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
                 g.setColor(Color.BLACK);
-                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32)));
             }
         }

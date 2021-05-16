@@ -11,7 +11,12 @@ public class xComPutItem extends xCom {
                 String[] args = argString.split(" ");
                 gItem newItem = itemReturn.getItem(args);
                 newItem.put("itemid", cVars.get("itemid"));
-                itemReturn.storeItem(newItem, eManager.currentMap.scene);
+                int itemId = cServerLogic.scene.itemIdCtr;
+                newItem.putInt("id", itemId);
+                newItem.putInt("itemid", itemId);
+                cServerLogic.scene.getThingMap("THING_ITEM").put(Integer.toString(itemId), newItem);
+                cServerLogic.scene.getThingMap(newItem.get("type")).put(Integer.toString(itemId), newItem);
+                cServerLogic.scene.itemIdCtr += 1;
             }
         }
         return "usage: putitem <ITEM_TITLE> <args>";
