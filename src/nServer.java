@@ -526,25 +526,27 @@ public class nServer extends Thread {
                 if(toks.length > 1) {
                     String reqid = toks[1];
                     if(reqid.equals(id)) //client can only remove itself
-                        addNetCmd("server", cmd);
+                        xCon.ex(cmd);
                         addExcludingNetCmd("server",
                                 cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
                 }
             }
             else if(cmd.contains("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
+                xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
                 addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,
                         cmd.replace("exec ", "cl_exec ")));
             }
             else if(ccmd.contains("putitem")) {
                 int itemid = cServerLogic.scene.getHighestItemId() + 1;
+                xCon.ex(String.format("cv_itemid %d;%s", itemid, cmd));
                 addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
                         itemid, cmd.replace("putitem", "cl_putitem")));
             }
             else if(ccmd.contains("deleteblock")) {
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
-                    addNetCmd("server", cmd);
+                    xCon.ex(cmd);
                     addExcludingNetCmd("server",
                             cmd.replaceFirst("deleteblock ", "cl_deleteblock "));
                 }
@@ -552,7 +554,7 @@ public class nServer extends Thread {
             else if(ccmd.contains("deletecollision")) {
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
-                    addNetCmd("server", cmd);
+                    xCon.ex(cmd);
                     addExcludingNetCmd("server",
                             cmd.replaceFirst("deletecollision ", "cl_deletecollision "));
                 }
@@ -560,7 +562,7 @@ public class nServer extends Thread {
             else if(ccmd.contains("deleteitem")) {
                 String[] toks = cmd.split(" ");
                 if(toks.length > 1) {
-                    addNetCmd("server", cmd);
+                    xCon.ex(cmd);
                     addExcludingNetCmd("server",
                             cmd.replaceFirst("deleteitem ", "cl_deleteitem "));
                 }
