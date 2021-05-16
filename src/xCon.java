@@ -76,16 +76,20 @@ public class xCon {
         prevCommandIndex = -1;
 
         visibleCommands = new ArrayList<>();
+        visibleCommands.add("addbot");
+        visibleCommands.add("banid");
         visibleCommands.add("bind");
+        visibleCommands.add("changemap");
+        visibleCommands.add("changemaprandom");
+        visibleCommands.add("disconnect");
         visibleCommands.add("exec");
+        visibleCommands.add("exportasprefab");
         visibleCommands.add("joingame");
         visibleCommands.add("load");
-        visibleCommands.add("cl_load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
-        visibleCommands.add("putblock");
-        visibleCommands.add("putitem");
-        visibleCommands.add("putflare");
+        visibleCommands.add("cl_load");
+        visibleCommands.add("cl_exec");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
