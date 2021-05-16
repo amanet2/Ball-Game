@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* SERVER: create hashmap of client ids which map to a "sendmap" which can be pruned like in nClient
+* SERVER: instead of sendMaps tracking what was last sent to client, have it track what was last in clientArgsMap
+    -> when server creates senddatastring, track the clientargsmap state of each client
+        -> when a new sendstring is created, save the latest snapshot
+            -> only send to all clients what is different from the snapshot
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
 * user player starts getting shaky after a bit

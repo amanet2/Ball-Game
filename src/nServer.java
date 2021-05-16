@@ -11,8 +11,6 @@ public class nServer extends Thread {
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    //tracking what we should send to clients based on last send
-    HashMap<String, HashMap<String, HashMap<String, String>>> clientSendMaps = new HashMap<>();
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
@@ -272,27 +270,13 @@ public class nServer extends Thread {
             }
         }
         sendDataString = new StringBuilder(netVars.toString());
-        if(!clientSendMaps.containsKey(clientid))
-            clientSendMaps.put(clientid, new HashMap<>());
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {
                 HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
                 workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
                 workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-                if(clientid.equals(idload2) || clientSendMaps.get(clientid).get(idload2) == null)
-                    clientSendMaps.get(clientid).put(idload2, new HashMap<>(workingmap));
-                else {
-                    for(String k : workingmap.keySet()) {
-                        if(k.equals("id") || !clientSendMaps.get(clientid).get(idload2).containsKey(k)
-                                || !clientSendMaps.get(clientid).get(idload2).get(k).equals(workingmap.get(k)))
-                            clientSendMaps.get(clientid).get(idload2).put(k, workingmap.get(k));
-                        else
-                            clientSendMaps.get(clientid).get(idload2).remove(k);
-                    }
-                }
-//                sendDataString.append(String.format("@%s", workingmap.toString()));
-                sendDataString.append(String.format("@%s", clientSendMaps.get(clientid).get(idload2).toString()));
+                sendDataString.append(String.format("@%s", workingmap.toString()));
             }
         }
         return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
