@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public class eUtils {
     static double zoomLevel = 1.0;
-    private static int[] screendims = new int[]{Integer.parseInt(sVars.get("vidmode").split(",")[0]),
-            Integer.parseInt(sVars.get("vidmode").split(",")[1])};
+    private static int[] screendims = new int[]{Integer.parseInt(sVars.getArray("vidmode")[0]),
+            Integer.parseInt(sVars.getArray("vidmode")[1])};
 
     public static boolean containsFields(HashMap<String, String> map, String[] fields) {
         for(String required : fields) {
@@ -20,11 +20,11 @@ public class eUtils {
     }
 
     public static boolean resolutionChanged() {
-        if(screendims[0] != Integer.parseInt(sVars.get("vidmode").split(",")[0])
-        || screendims[1] != Integer.parseInt(sVars.get("vidmode").split(",")[1])) {
+        if(screendims[0] != Integer.parseInt(sVars.getArray("vidmode")[0])
+        || screendims[1] != Integer.parseInt(sVars.getArray("vidmode")[1])) {
             screendims = new int[]{
-                    Integer.parseInt(sVars.get("vidmode").split(",")[0]),
-                    Integer.parseInt(sVars.get("vidmode").split(",")[1])};
+                    Integer.parseInt(sVars.getArray("vidmode")[0]),
+                    Integer.parseInt(sVars.getArray("vidmode")[1])};
             return true;
         }
         return false;
