@@ -518,7 +518,7 @@ public class nServer extends Thread {
                 if(toks.length > 1) {
                     String reqid = toks[1];
                     if(reqid.equals(id)) //client can only respawn themself
-                        xCon.ex(cmd);
+                        addNetCmd("server", cmd);
                 }
             }
             else if(ccmd.contains("deleteplayer")) {
@@ -526,7 +526,9 @@ public class nServer extends Thread {
                 if(toks.length > 1) {
                     String reqid = toks[1];
                     if(reqid.equals(id)) //client can only remove itself
-                        nServer.instance().addExcludingNetCmd(uiInterface.uuid, cmd); //deleteplayer execs 2x on host
+                        addNetCmd("server", cmd);
+                        addExcludingNetCmd("server",
+                                cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
                 }
             }
             else if(cmd.contains("exec prefabs/")) {

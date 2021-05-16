@@ -156,6 +156,7 @@ public class xCon {
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
+        commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putcollision", new xComPutCollisionClient());
