@@ -79,7 +79,7 @@ public class dScreenMessages {
         //say
         if(gMessages.enteringMessage) {
             g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
-                0,31 * sSettings.height/64);
+                0,23 * sSettings.height/32);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -167,10 +167,10 @@ public class dScreenMessages {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
                 g.setColor(Color.BLACK);
-                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,3,22*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,0,22*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32)));
             }
         }

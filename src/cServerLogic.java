@@ -89,25 +89,26 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
+        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)) {
-                cVars.put("gamewon", "1");
+                cVars.put("gameover", "1");
             }
-            if(cVars.isOne("gamewon")) {
-                //someone beats score
+            if(cVars.isOne("gameover")) {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
+                    gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
-                    gScoreboard.incrementScoreFieldById(highestId, "wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
                         "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+                nServer.instance().addExcludingNetCmd("server",
+                        "echo Changing map...");
             }
         }
     }
@@ -198,7 +199,6 @@ public class cServerLogic {
     }
 
     static void changeMap(String mapPath) {
-        System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server",
@@ -214,7 +214,7 @@ public class cServerLogic {
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gamewon", "0");
+        cVars.put("gameover", "0");
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
             cGameLogic.resetVirusPlayers();
     }

@@ -607,7 +607,7 @@ public class nServer extends Thread {
                             "playsound sounds/win/"+eManager.winClipSelection[
                                     (int) (Math.random() * eManager.winClipSelection.length)],
                             String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
-                            "echo [VOTE_SKIP] CHANGING MAP IN 10s..."}) {
+                            "echo Changing map..."}) {
                         addExcludingNetCmd("server", s);
                     }
                 }
