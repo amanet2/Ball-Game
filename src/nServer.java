@@ -11,10 +11,13 @@ public class nServer extends Thread {
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
+    //use this for delta calculation
+    HashMap<String, HashMap<String, String>> lastClientArgsMap = new HashMap<>();
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
     private HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
+    private HashMap<String, String> newClientIds = new HashMap<>();
     //map of skip votes
     HashMap<String, String> voteSkipMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
@@ -224,12 +227,15 @@ public class nServer extends Thread {
                 }
                 if(clientId != null) {
                     //create response
-                    String sendDataString = createSendDataString(netVars, clientId);
+                    String sendDataString = createSendDataString(netVars, clientId, true);
+                    if(!newClientIds.containsKey(clientId))
+                        sendDataString = createSendDataString(netVars, clientId, false); //send delta if not new
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket =
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    newClientIds.remove(clientId);
                 }
                 receivedPackets.remove();
             }
@@ -248,7 +254,7 @@ public class nServer extends Thread {
                     HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
                     //act as if responding
-                    createSendDataString(netVars, clientId);
+                    createSendDataString(netVars, clientId, true);
                 }
             }
         }
@@ -258,7 +264,7 @@ public class nServer extends Thread {
         }
     }
 
-    private String createSendDataString(HashMap<String, String> netVars, String clientid) {
+    private String createSendDataString(HashMap<String, String> netVars, String clientid, boolean full) {
         StringBuilder sendDataString;
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
                 && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
@@ -272,10 +278,22 @@ public class nServer extends Thread {
         sendDataString = new StringBuilder(netVars.toString());
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
+            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
             if(clientArgsMap.containsKey(idload2)) {
-                HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
                 workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
                 workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+                if(!full && !idload2.equals(clientid) && lastClientArgsMap.containsKey(idload2)) {
+                    ArrayList<String> tr = new ArrayList<>();
+                    for(String k : workingmap.keySet()) {
+                        if(!k.equals("id") && !k.equals("fv") && !k.equals("name") && !k.equals("vels") &&
+                        !k.equals("color") && !k.equals("x") && !k.equals("y") && workingmap.get(k).equals(lastClientArgsMap.get(idload2).get(k)))
+                            tr.add(k);
+                    }
+                    for(String k : tr) {
+                        workingmap.remove(k);
+                    }
+                }
+                lastClientArgsMap.put(idload2, clientArgsMap.get(idload2));
                 sendDataString.append(String.format("@%s", workingmap.toString()));
             }
         }
@@ -423,6 +441,7 @@ public class nServer extends Thread {
     private void handleNewClientJoin(String packId, String packName) {
         System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
+        newClientIds.put(packId, "1");
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
