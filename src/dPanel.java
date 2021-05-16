@@ -19,11 +19,10 @@ public class dPanel extends JPanel {
 
     public void drawFrame(Graphics2D g2, int panelLevel) {
         if (panelLevel == 1) {
-            if(sSettings.IS_CLIENT)
-                dScreenFX.drawScreenFX(g2);
+            dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
         }
-        else if(sSettings.IS_CLIENT) {
+        else {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
