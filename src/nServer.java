@@ -285,8 +285,9 @@ public class nServer extends Thread {
                 if(!full && !idload2.equals(clientid) && lastClientArgsMap.containsKey(idload2)) {
                     ArrayList<String> tr = new ArrayList<>();
                     for(String k : workingmap.keySet()) {
-                        if(!k.equals("id") && !k.equals("fv") && !k.equals("name") && !k.equals("vels") &&
-                        !k.equals("color") && !k.equals("x") && !k.equals("y") && workingmap.get(k).equals(lastClientArgsMap.get(idload2).get(k)))
+                        if(!k.equals("id") && !k.equals("fv") && !k.equals("name") && !k.equals("vels")
+                                && !k.equals("color") && !k.equals("x") && !k.equals("y") && !k.equals("score")
+                                && workingmap.get(k).equals(lastClientArgsMap.get(idload2).get(k)))
                             tr.add(k);
                     }
                     for(String k : tr) {
