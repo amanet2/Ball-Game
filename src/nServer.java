@@ -507,7 +507,7 @@ public class nServer extends Thread {
         if(legalClientCommands.contains(ccmd)) {
             if(ccmd.contains("fireweapon")) { //handle special case for weapons
                 addExcludingNetCmd(id+",server,",
-                        cmd.replaceFirst("fireweapon", "fireweaponclient"));
+                        cmd.replaceFirst("fireweapon", "cl_fireweapon"));
                 xCon.ex(cmd);
             }
             else if(ccmd.contains("requestdisconnect")) {

@@ -39,7 +39,7 @@ public class xComDamagePlayer extends xCom {
                     if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
                     && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
                         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-                        nServer.instance().addNetCmd("server", String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        xCon.ex(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
                         nServer.instance().addExcludingNetCmd("server",
                                 String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
                     }

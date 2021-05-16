@@ -121,7 +121,6 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
-        commands.put("fireweaponclient", new xComFireWeaponClient());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
@@ -162,6 +161,7 @@ public class xCon {
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
+        commands.put("cl_fireweapon", new xComFireWeaponClient());
         commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putcollision", new xComPutCollisionClient());
