@@ -96,7 +96,7 @@ public class dScreenMessages {
                     dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
-            else {
+            else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
