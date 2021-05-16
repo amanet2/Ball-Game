@@ -4,31 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* find a way to sync the scene thing ctrs across net
-    -> prbably have console command or cvar powering them
-    -> if you change nserver.sendMap(), you have to change the routing inside nserver.handlecmd() as well
-* make sure below object placement is 100% done (should be, but need to be sure)
-* for fixing object placement, take note of the current process
-    -> client clicks, sends "exec prefabs/room <args>"
-        -> this command contains args that get stored in svars and used for thing spawning
-    -> server reroutes this verbatim
-* FOCUS: fix the placing of objects (eliminate doubling). follow the example in putblock, evidence below
-    -> mapmaker, started new map and had all join
-    -> changed map and had extern client delete prefabs
-    -> worked perfect, but some collisions remained
-    -> but for placing new ones, we need to overhaul
-        -> client tells server to route raw commands in the prefabs file
-            -> we need to change the putblock comms to cl_putblock, for instance
-* host player definitely doubling items, blocks, etc in mapmaker
-    -> proof is seen when external client deletes item, there is still one left on server user's screen
-    -> because host server loads, then host client loads on sendMap receive
-* New Map architecture for server vs client
-    -> server accepts the standard putblock, etc.
-        -> on sendMap, it sends the client-compatible versions of these
-        -> on saveMap, keep the server-centric args
-    -> client will send individual putblock/putcollision commands on exec prefabs/X
-    -> putblock exists as is, putblockclient explicitly sets an id/prefabid for the block/item/collision/flare
-    -> should stop the doubling-up on objects and remove the need for client/server if/else gates
+* the current scoremap-sync architecture uses too many bytes (ids being sent twice)
+    -> sync like with stockhp
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
 * user player starts getting shaky after a bit

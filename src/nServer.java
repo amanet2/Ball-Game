@@ -188,8 +188,9 @@ public class nServer extends Thread {
         //update id in net args
         keys.put("id", "server");
         //send scores
-        keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
-        cVars.put("scoremap", keys.get("scoremap"));
+//        keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
+//        cVars.put("scoremap", keys.get("scoremap"));
+        cVars.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         keys.put("timeleft", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
@@ -403,7 +404,11 @@ public class nServer extends Thread {
                         packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
                     }
                     //store player object's health in outgoing network arg map
-                    clientArgsMap.get(packId).put("stockhp", cServerLogic.getPlayerById(packId).get("stockhp"));
+                    clientArgsMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
+                    //store player's wins and scores
+                    clientArgsMap.get(packId).put("score",  String.format("%d:%d",
+                            gScoreboard.scoresMap.get(packId).get("wins"),
+                            gScoreboard.scoresMap.get(packId).get("score")));
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));

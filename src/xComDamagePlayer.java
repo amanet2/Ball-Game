@@ -12,7 +12,7 @@ public class xComDamagePlayer extends xCom {
                 player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", System.currentTimeMillis());
                 //store player object's health in outgoing network arg map
-                nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
+                nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
                 //handle death
                 if(player.getInt("stockhp") < 1) {
                     //more server-side stuff

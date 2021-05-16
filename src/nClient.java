@@ -184,25 +184,25 @@ public class nClient extends Thread {
                     System.out.println("FROM_SERVER: " + cmdload);
                     processCmd(cmdload);
                 }
-                //this is where we update scores on client
-                cVars.put("scoremap", packArgs.get("scoremap"));
-                String[] stoks = packArgs.get("scoremap").split(":");
-                for (int j = 0; j < stoks.length; j++) {
-                    String[] sstoks = stoks[j].split("-");
-                    String scoreid = sstoks[0];
-                    if(scoreid.length() > 0) {
-                        if (!gScoreboard.scoresMap.containsKey(scoreid)) {
-                            gScoreboard.addId(scoreid);
-                        }
-                        HashMap<String, Integer> scoresMapIdMap = gScoreboard.scoresMap.get(scoreid);
-                        if (scoresMapIdMap != null) {
-                            scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
-                            scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
-//                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
-//                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
-                        }
-                    }
-                }
+//                //this is where we update scores on client
+//                cVars.put("scoremap", packArgs.get("scoremap"));
+//                String[] stoks = packArgs.get("scoremap").split(":");
+//                for (int j = 0; j < stoks.length; j++) {
+//                    String[] sstoks = stoks[j].split("-");
+//                    String scoreid = sstoks[0];
+//                    if(scoreid.length() > 0) {
+//                        if (!gScoreboard.scoresMap.containsKey(scoreid)) {
+//                            gScoreboard.addId(scoreid);
+//                        }
+//                        HashMap<String, Integer> scoresMapIdMap = gScoreboard.scoresMap.get(scoreid);
+//                        if (scoresMapIdMap != null) {
+//                            scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
+//                            scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
+////                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
+////                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
+//                        }
+//                    }
+//                }
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
@@ -236,7 +236,7 @@ public class nClient extends Thread {
             if(idload.equals(uiInterface.uuid)){ // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null)
-                    userPlayer.put("stockhp", packArgs.get("stockhp"));
+                    userPlayer.put("stockhp", packArgs.get("hp"));
             }
         }
         //check for ids that have been taken out of the server argmap
