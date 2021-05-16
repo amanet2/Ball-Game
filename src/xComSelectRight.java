@@ -5,6 +5,14 @@ public class xComSelectRight extends xCom {
                     uiMenus.selectedMenu].selectedItem].doItem();
             xCon.ex("playsound sounds/splash.wav");
         }
+        else
+            xCon.ex("playerright");
+        return fullCommand;
+    }
+
+    public String undoCommand(String fullCommand) {
+        if(uiInterface.inplay || sSettings.show_mapmaker_ui)
+            xCon.ex("-playerright");
         return fullCommand;
     }
 }

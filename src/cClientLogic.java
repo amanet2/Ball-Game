@@ -4,17 +4,9 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
-    private static gPlayer userPlayer;
-
-    public static void setUserPlayer(gPlayer newUserPlayer) {
-        userPlayer = newUserPlayer;
-        gCamera.centerCamera();
-    }
 
     public static gPlayer getUserPlayer() {
-        if(userPlayer == null)
-            userPlayer = scene.getPlayerById(uiInterface.uuid);
-        return userPlayer;
+        return scene.getPlayerById(uiInterface.uuid);
     }
 
     public static Collection<String> getPlayerIds() {
@@ -79,8 +71,7 @@ public class cClientLogic {
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3"};
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;
@@ -90,7 +81,7 @@ public class cClientLogic {
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     //user player
-                    if(cClientLogic.isUserPlayer(obj)) {
+                    if(isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
                             obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
                                     obj.getInt("vel" + i) + 1)));
@@ -210,34 +201,6 @@ public class cClientLogic {
         }
     }
 
-    public static int getHighestPrefabId() {
-        int idctr = 0;
-        for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = scene.getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr) {
-                idctr = block.getInt("prefabid") + 1;
-            }
-        }
-        for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
-            gThing collision = scene.getThingMap("THING_COLLISION").get(id);
-            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr) {
-                idctr = collision.getInt("prefabid") + 1;
-            }
-        }
-        return idctr;
-    }
-
-    public static int getHighestItemId() {
-        int idctr = 0;
-        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.getInt("itemid") >= idctr) {
-                idctr = item.getInt("itemid") + 1;
-            }
-        }
-        return idctr;
-    }
-
     public static void playPlayerDeathSound() {
         double r = Math.random();
         if(r > .99)
@@ -248,7 +211,7 @@ public class cClientLogic {
             xCon.ex("playsound sounds/death.wav");
     }
 
-    public static void checkColorStatus(){
+    public static void checkColorStatus() {
         //check all id colors, including yours
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             gPlayer p = getPlayerById(id);
@@ -280,14 +243,23 @@ public class cClientLogic {
     //clientside prediction for movement aka smoothing
     public static void checkMovementStatus() {
         //other players
+        for(String id : getPlayerIds()) {
+            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
+                continue;
+            gPlayer obj = getPlayerById(id);
+            for (int i = 0; i < 4; i++) {
+                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
+                            obj.get("id")).get("vels").split("-")[i]));
+            }
+        }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "dirs", "x", "y"};
+                String[] requiredFields = new String[]{"fv", "x", "y"};
                 if(!nClient.instance().containsArgsForId(id, requiredFields))
                     continue;
                 HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
                 double cfv = Double.parseDouble(cargs.get("fv"));
-                char[] cmovedirs = cargs.get("dirs").toCharArray();
                 gPlayer p = getPlayerById(id);
                 if(p == null)
                     return;
@@ -299,10 +271,6 @@ public class cClientLogic {
                     p.putDouble("fv", cfv);
                     p.checkSpriteFlip();
                 }
-                for(int i = 0; i < cmovedirs.length; i++) {
-                    if(p.getInt("mov"+i) != Character.getNumericValue(cmovedirs[i]))
-                        p.putInt("mov"+i, Character.getNumericValue(cmovedirs[i]));
-                }
             }
         }
     }
@@ -312,23 +280,9 @@ public class cClientLogic {
     }
 
     static void checkGameState() {
-        for(String id : getPlayerIds()) {
-            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
-                continue;
-            gPlayer obj = getPlayerById(id);
-            for (int i = 0; i < 4; i++) {
-                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
-                            obj.get("id")).get("vels").split("-")[i]));
-            }
-        }
         if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("state")) {
-            //gamestate checks, for server AND clients
-            //check to delete flags that should not be present anymore
-            if (scene.getThingMap("ITEM_FLAG").size() > 0
-                    && nClient.instance().serverArgsMap.get("server").get("state").length() > 0)
-                xCon.ex("clearthingmap ITEM_FLAG");
-        }
+            && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+            && scene.getThingMap("ITEM_FLAG").size() > 0)
+                xCon.ex("cl_clearthingmap ITEM_FLAG");
     }
 }

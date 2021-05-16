@@ -80,8 +80,8 @@ public class dPlayer {
                 }
                 //flag for ctf
                 if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("state")
-                && nClient.instance().serverArgsMap.get("server").get("state").equals(playerId)) {
+                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(playerId)) {
                     g2.drawImage(gItemFactory.instance().flagSprite,
                             eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
                                     - player.getInt("dimw")/2),

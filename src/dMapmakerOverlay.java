@@ -30,14 +30,14 @@ public class dMapmakerOverlay {
         int w = 300;
         int h = 300;
         if(cVars.get("newprefabname").length() > 0) {
-            int[] pfd = cEditorLogic.getNewPrefabDims();
+            int[] pfd = uiEditorMenus.getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                +cVars.getInt("camx")-w/2, cEditorLogic.snapToX) - cVars.getInt("camx");
+                +cVars.getInt("camx")-w/2, uiEditorMenus.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                +cVars.getInt("camy")-h/2, cEditorLogic.snapToY) - cVars.getInt("camy");
+                +cVars.getInt("camy")-h/2, uiEditorMenus.snapToY) - cVars.getInt("camy");
         g2.setColor(new Color(50, 255, 100));
         g2.drawRect(eUtils.scaleInt(px), eUtils.scaleInt(py),
                 eUtils.scaleInt(w), eUtils.scaleInt(h));

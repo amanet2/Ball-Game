@@ -4,26 +4,53 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* find a way to sync the scene thing ctrs across net
+    -> prbably have console command or cvar powering them
+    -> if you change nserver.sendMap(), you have to change the routing inside nserver.handlecmd() as well
+* make sure below object placement is 100% done (should be, but need to be sure)
+* for fixing object placement, take note of the current process
+    -> client clicks, sends "exec prefabs/room <args>"
+        -> this command contains args that get stored in svars and used for thing spawning
+    -> server reroutes this verbatim
+* FOCUS: fix the placing of objects (eliminate doubling). follow the example in putblock, evidence below
+    -> mapmaker, started new map and had all join
+    -> changed map and had extern client delete prefabs
+    -> worked perfect, but some collisions remained
+    -> but for placing new ones, we need to overhaul
+        -> client tells server to route raw commands in the prefabs file
+            -> we need to change the putblock comms to cl_putblock, for instance
+* host player definitely doubling items, blocks, etc in mapmaker
+    -> proof is seen when external client deletes item, there is still one left on server user's screen
+    -> because host server loads, then host client loads on sendMap receive
+* New Map architecture for server vs client
+    -> server accepts the standard putblock, etc.
+        -> on sendMap, it sends the client-compatible versions of these
+        -> on saveMap, keep the server-centric args
+    -> client will send individual putblock/putcollision commands on exec prefabs/X
+    -> putblock exists as is, putblockclient explicitly sets an id/prefabid for the block/item/collision/flare
+    -> should stop the doubling-up on objects and remove the need for client/server if/else gates
+* new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
+* NET_MAPMAKER: gets bad desync when not starting from perfect parity
+* user player starts getting shaky after a bit
+* try to get # of bytes sent per packet down
+* The very existence of IS_SERVER and IS_CLIENT are antithetical to the "modular approach"
+    -> outside of loop call in uiInterface, shouldnt have to have the if/else
+        -> look at how "fireweapon" and "spawnplayer" were refactored for inspiration
+* VOTE_SKIP:
+    -> change counter into a hashmap. once the keycount exceeds limit, change map
+            -> remove the keys on client disconnect or map change
 * NET: still have to filter out user id in "deleteplayer"
     -> because this function is run on both server and client machines
-* NET: double shoot on server's machine
-    -> because of our if/if gate in "fireWeapon"
-        -> since we are both a client AND server, we will fire the weapon off in both scenes
-        -> we should probably split up into cl and sv versions
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
-    -> limit the "fv" netvar to 2 decimals
-* NET_MAPMAKER: gets bad desync when someone joins a map being edited in progress
-    -> i.e. everyone has to start at the same time or it doesnt look right
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
 * NET_MAPMAKER: show all user's preview rect on all clients
     -> make a client netvar: {..., "preview": "x:y:w:h", ...}
-* GFX: players should follow a Y-based "draw in front, draw behind" logic as well
-    -> same with walls
-* ISSUE: client sendcmd requestdisconnect doesnt reach the server sometimes
-    -> client should wait 1000ms before initiating its quit/disconnect routine
 ###
 ### POWER GAP
 ###
+* ATTACK: the rock from gungame
+    -> have it bounce lazily
+* GAME: edit popups to say things like "#%&@!" when player takes dmg
 * GAME: bring back squish effect for something
 * ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
 * GFX: shade the lower boxes/cubes a little darker than the high walls

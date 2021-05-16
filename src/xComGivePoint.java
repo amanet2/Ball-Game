@@ -7,7 +7,7 @@ public class xComGivePoint extends xCom {
 //            gPlayer givePointPlayer = cServerLogic.getPlayerById(id);
 //            if(givePointPlayer != null)
 //                nServer.instance().addExcludingNetCmd("server",
-//                        "spawnpopup " + givePointPlayer.get("id") + " +1");
+//                        "cl_spawnpopup " + givePointPlayer.get("id") + " +1");
             return "gave point to " + id;
         }
         return "usage: givepoint <player_id>";

@@ -21,9 +21,9 @@ public class cVars {
         put("delayweap", "1800");
         put("flagmastertime", "0");
         put("flashlight", "0");
+        put("gameover", "0");
         put("gamescale", "2160");
         put("gametick", "240");
-        put("gamewon", "0");
         putInt("gamemode", cGameLogic.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameLogic.net_gamemode_texts));
         put("blockmouseui", "0");
@@ -71,10 +71,6 @@ public class cVars {
         put("vfxroofoutlinealpha2", "0");
         put("vfxroofshadingalpha1", "100");
         put("vfxroofshadingalpha2", "0");
-        put("vfxrooflowoutlinealpha1", "150");
-        put("vfxrooflowoutlinealpha2", "50");
-        put("vfxrooflowshadingalpha1", "150");
-        put("vfxrooflowshadingalpha2", "50");
         put("vfxwalloutlinealpha1", "80");
         put("vfxwalloutlinealpha2", "255");
         put("vfxwallshadingalpha1", "80");
@@ -98,13 +94,11 @@ public class cVars {
         put("weaponstock3", "0");
         put("weaponstock4", "0");
         put("weaponstock5", "0");
-        put("winnerid", "");
         //bots
         put("botbehavior", "NONE");
         put("botthinkdelay", "1000");
         put("botviruschaserange", "600");
         //voting
-        put("voteskipctr", "0");
         put("voteskiplimit", "2");
     }
 
@@ -138,17 +132,6 @@ public class cVars {
     public static long getLong(String s) {
         return Long.parseLong(get(s));
     }
-    public static String[] getArray(String s) {
-        return get(s).split(",");
-    }
-    public static int[] getIntArray(String s) {
-        String[] sarr = getArray(s);
-        int[] iarr = new int[sarr.length];
-        for(int i = 0; i < sarr.length; i++) {
-            iarr[i] = Integer.parseInt(sarr[i]);
-        }
-        return iarr;
-    }
     public static void put(String s, String v) {
         refresh();
         vars.put(s,v);
@@ -162,27 +145,11 @@ public class cVars {
     public static void putLong(String s, long v) {
         put(s, Long.toString(v));
     }
-    public static void putArray(String k, String[] v) {
-        String trimstr = Arrays.toString(v).replace(" ","");
-        put(k, trimstr.substring(1,trimstr.length()-1));
-    }
-    public static void putInArray(String k, String v, int i) {
-        String[] sarr = getArray(k);
-        sarr[i] = v;
-        String trimstr = Arrays.toString(sarr).replace(" ","");
-        put(k, trimstr.substring(1,trimstr.length()-1));
-    }
-    public static void increment(String s) {
-        put(s, Integer.toString(Integer.parseInt(get(s))+1));
-    }
     public static void addIntVal(String k, int v) {
         put(k, Integer.toString(getInt(k)+v));
     }
     public static void decrement(String s) {
         put(s, Integer.toString(Integer.parseInt(get(s))-1));
-    }
-    public static void flip(String s) {
-        put(s, isOne(s) ? "0" : "1");
     }
     public static boolean isVal(String s, String v) {
         return get(s).equals(v);
@@ -195,9 +162,6 @@ public class cVars {
     }
     public static boolean isZero(String s) {
         return get(s).equals("0");
-    }
-    public static void reset() {
-        vars = null;
     }
     public static HashMap<String, String> vars() {
         refresh();
@@ -215,16 +179,6 @@ public class cVars {
         if(vars == null) {
             vars = new HashMap<>();
             init();
-        }
-    }
-
-    public static void assignRandomPlayerIdToVar(String cvar) {
-        int r = (int) (Math.random()*((double)cServerLogic.getPlayerIds().size()));
-        int c = 0;
-        for(String id : cServerLogic.getPlayerIds()) {
-            if(c==r)
-                cVars.put(cvar, id);
-            c++;
         }
     }
 }

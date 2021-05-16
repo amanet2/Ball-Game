@@ -16,8 +16,8 @@ public class gWeaponsAutorifle extends gWeapon {
         bulletVel = 70;
     }
 
-    public void fireWeapon(gPlayer p) {
-        super.fireWeapon(p);
+    public void fireWeapon(gPlayer p, gScene scene) {
+        super.fireWeapon(p, scene);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
                 bulletSpritePath, p.getDouble("fv"), damage);
@@ -27,7 +27,7 @@ public class gWeaponsAutorifle extends gWeapon {
         double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
-        cServerLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.AUTORIFLE.code());
             cVars.putLong("weapontime"+ gWeapons.type.AUTORIFLE.code(), System.currentTimeMillis());

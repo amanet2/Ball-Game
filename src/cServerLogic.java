@@ -6,34 +6,25 @@ import java.util.Random;
 public class cServerLogic {
     static gScene scene = new gScene();
     public static void gameLoop() {
-        if(sVars.getInt("timelimit") > 0)
-            cVars.putLong("timeleft",
-                    sVars.getLong("timelimit") - (int) (uiInterface.gameTime - cVars.getLong("starttime")));
-        else
-            cVars.putLong("timeleft", -1);
+        checkTimeRemaining();
         checkHealthStatus();
         checkForMapChange();
         checkGameState();
         updateEntityPositions();
+        checkBulletSplashes();
     }
 
-    public static void resetGameState() {
-        gScoreboard.resetScoresMap();
-        cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gamewon", "0");
-        cVars.put("winnerid","");
-        switch (cVars.getInt("gamemode")) {
-            case cGameLogic.VIRUS:
-                cGameLogic.resetVirusPlayers();
-                break;
-            default:
-                break;
-        }
+    public static void checkTimeRemaining() {
+        if(sVars.getInt("timelimit") > 0)
+            cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
+                    - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
+        else
+            cVars.putLong("timeleft", -1);
     }
 
     public static void checkGameState() {
         for(String id : getPlayerIds()) {
-            //this shouldnt be needed, but when server user joins his own games, it is
+            //this is needed when server user joins his own games
             if(id.equals(uiInterface.uuid))
                 continue;
             gPlayer obj = getPlayerById(id);
@@ -43,38 +34,28 @@ public class cServerLogic {
                             obj.get("id")).get("vels").split("-")[i]));
             }
         }
-        if(nServer.instance().clientArgsMap.containsKey("server")
-                && nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-            switch (cVars.getInt("gamemode")) {
-                case cGameLogic.FLAG_MASTER:
-                    if(scene.getThingMap("ITEM_FLAG").size() > 0
-                            && nServer.instance().clientArgsMap.get("server").get("state").length() > 0)
-                        nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
-                    if(nServer.instance().clientArgsMap.get("server").get("state").length() > 0
-                            && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
-                        xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("state"));
-                        cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+        if(nServer.instance().clientArgsMap.containsKey("server")) {
+            if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
+                if(scene.getThingMap("ITEM_FLAG").size() > 0)
+                    xCon.ex("clearthingmap ITEM_FLAG");
+                if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                    xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
+                    cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                }
+            }
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                    && cVars.getLong("virustime") < uiInterface.gameTime) {
+                if(nServer.instance().clientArgsMap.containsKey("server")) {
+                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1)
+                        cGameLogic.resetVirusPlayers();
+                    for(String id : getPlayerIds()) {
+                        gPlayer p = getPlayerById(id);
+                        if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
+                            xCon.ex("givepoint " + p.get("id"));
                     }
-                    break;
-                case cGameLogic.VIRUS:
-                    if(cVars.getLong("virustime") < uiInterface.gameTime) {
-                        if(nServer.instance().clientArgsMap.containsKey("server")) {
-                            if(nServer.instance().clientArgsMap.get("server").get("state").length() < 1) {
-                                cGameLogic.resetVirusPlayers();
-                            }
-                            for(String id : getPlayerIds()) {
-                                gPlayer p = getPlayerById(id);
-                                if(nServer.instance().clientArgsMap.get("server").containsKey("state")
-                                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(id)) {
-                                    xCon.ex("givepoint " + p.get("id"));
-                                }
-                            }
-                        }
-                        cVars.putLong("virustime", uiInterface.gameTime + 1000);
-                    }
-                    break;
-                default:
-                    break;
+                }
+                cVars.putLong("virustime", uiInterface.gameTime + 1000);
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -108,35 +89,26 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
+        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
-                    && cVars.getLong("intermissiontime") < 0)
-                    || (sVars.getInt("scorelimit") > 0 && gScoreboard.getWinnerScore() >= sVars.getInt("scorelimit"))) {
-                cVars.put("gamewon", "1");
+                    && cVars.getLong("intermissiontime") < 0)) {
+                cVars.put("gameover", "1");
             }
-            if(cVars.isOne("gamewon")) {
-                //check for server win
-                if(gScoreboard.isTopScoreId("server")) {
-                    cVars.put("winnerid", "server");
-                    nServer.instance().addNetCmd("echo " + sVars.get("playername") + " wins!");
-                    gScoreboard.incrementScoreFieldById("server", "wins");
-                }
-                else {
-                    //someone beats score
-                    String highestId = gScoreboard.getWinnerId();
-                    if(highestId.length() > 0) {
-                        cVars.put("winnerid", highestId);
-                        nServer.instance().addNetCmd("echo "
-                                + nServer.instance().clientArgsMap.get(cVars.get("winnerid")).get("name") + " wins!");
-                        gScoreboard.incrementScoreFieldById(cVars.get("winnerid"), "wins");
-                    }
+            if(cVars.isOne("gameover")) {
+                String highestId = gScoreboard.getWinnerId();
+                if(highestId.length() > 0) {
+                    gScoreboard.incrementScoreFieldById(highestId, "wins");
+                    nServer.instance().addExcludingNetCmd("server", "echo "
+                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
                         "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+                nServer.instance().addExcludingNetCmd("server",
+                        "echo Changing map...");
             }
         }
     }
@@ -227,37 +199,42 @@ public class cServerLogic {
     }
 
     static void changeMap(String mapPath) {
-        System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
-        xCon.ex("exec maps/" + mapPath);
-        nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
-                "clearthingmap THING_PLAYER;load;cv_maploaded 0");
+        xCon.ex("exec " + mapPath);
+        nServer.instance().addExcludingNetCmd("server",
+                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
-            xCon.ex("respawnnetplayer " + id);
+            if(!sSettings.show_mapmaker_ui)
+                xCon.ex("respawnnetplayer " + id);
         }
+        //reset game state
+        gScoreboard.resetScoresMap();
+        nServer.instance().voteSkipMap = new HashMap<>();
+        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+        nServer.instance().clientArgsMap.get("server").remove("virusids");
+        cVars.putLong("starttime", System.currentTimeMillis());
+        cVars.put("gameover", "0");
+        if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
+            cGameLogic.resetVirusPlayers();
     }
 
     public static void updateEntityPositions() {
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate", "mov0", "mov1",
-                    "mov2", "mov3"};
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
                 break;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
+            if(obj.getLong("acceltick") < System.currentTimeMillis())
                 obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
-            }
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene)) {
+            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene))
                 obj.putInt("coordx", dx);
-            }
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene)) {
+            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene))
                 obj.putInt("coordy", dy);
-            }
         }
 
         HashMap bulletsMap = scene.getThingMap("THING_BULLET");
@@ -268,15 +245,6 @@ public class cServerLogic {
             obj.putInt("coordy", obj.getInt("coordy")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup obj = (gPopup) popupsMap.get(id);
-            obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
-            obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
-        }
-        checkBulletSplashes();
     }
 
     public static void checkBulletSplashes() {
@@ -288,11 +256,6 @@ public class cServerLogic {
             gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);
-//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                            createId(), new gAnimationEmitter(b.getInt("anim"),
-//                                    b.getInt("coordx"), b.getInt("coordy")));
-//                }
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
                     pseeds.add(b);
@@ -329,19 +292,11 @@ public class cServerLogic {
         int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
                 *((Math.abs(System.currentTimeMillis() - bullet.getLong("timestamp")
         )/(double)bullet.getInt("ttl"))));
-        //play animations on all clients
-//        if(sVars.isOne("vfxenableanimations") && bullet.getInt("anim") > -1)
-//            currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                    createId(), new gAnimationEmitter(gAnimations.ANIM_SPLASH_RED,
-//                            bullet.getInt("coordx"), bullet.getInt("coordy")));
         scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
-        if(sSettings.IS_SERVER) {
-            String cmdString = "damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid;
-            nServer.instance().addNetCmd("server", cmdString);
-            nServer.instance().addExcludingNetCmd("server",
-                    "spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
-        }
+        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
+        nServer.instance().addExcludingNetCmd("server",
+                "cl_spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
     }
 
     public static Collection<String> getPlayerIds() {

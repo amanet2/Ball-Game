@@ -16,8 +16,8 @@ public class gWeaponsLauncher extends gWeapon {
         bulletVel = 30;
     }
 
-    public void fireWeapon(gPlayer p) {
-        super.fireWeapon(p);
+    public void fireWeapon(gPlayer p, gScene scene) {
+        super.fireWeapon(p, scene);
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
                 p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
                 bulletSpritePath, p.getDouble("fv"), damage);
@@ -25,7 +25,7 @@ public class gWeaponsLauncher extends gWeapon {
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.type.LAUNCHER.code());
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
-        cServerLogic.scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+        scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.LAUNCHER.code());
             cVars.putLong("weapontime"+ gWeapons.type.LAUNCHER.code(), System.currentTimeMillis());
