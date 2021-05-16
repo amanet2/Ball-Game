@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class dScoreboard {
@@ -27,6 +29,26 @@ public class dScoreboard {
 //                sSettings.width/3,5*sSettings.height/30);
         g.drawString("_______________________",
                 sSettings.width/3, 11*sSettings.height/60);
+
+        int ctr = 0;
+        for(String id : nClient.instance().serverArgsMap.keySet()) {
+            if(!id.equalsIgnoreCase("server")) {
+                String spectatorstring = "";
+                if(cClientLogic.getPlayerById(id) == null)
+                    spectatorstring = "[SPECTATE] ";
+                g.drawString(String.format("%s%d. ", spectatorstring, 0)
+                                + nClient.instance().serverArgsMap.get(id).get("name"),
+                        sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
+                        7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+                g.drawString("                           "
+                                + nClient.instance().serverArgsMap.get(id).get("score").split(":")[0],
+                        sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+                g.drawString("                                       "
+                                + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
+                        sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+                ctr++;
+            }
+        }
 //        int i = 0;
 //        int prevscore=-1000000;
 //        int prevplace = 0;
@@ -70,10 +92,10 @@ public class dScoreboard {
 //                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
 //            g.drawString("                                       " + playerscore,
 //                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
-////            g.drawString("                                                   " + playerkills,
-////                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
-////            g.drawString("                                                               " + playerping,
-////                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
+//            g.drawString("                                                   " + playerkills,
+//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
+//            g.drawString("                                                               " + playerping,
+//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
 //            if(isMe) {
 //                g.setColor(new Color(
 //                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),

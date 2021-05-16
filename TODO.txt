@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* SERVER: create hashmap of client ids which map to a "sendmap" which can be pruned like in nClient
 * the current scoremap-sync architecture uses too many bytes (ids being sent twice)
     -> sync like with stockhp
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
