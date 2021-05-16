@@ -32,9 +32,9 @@ public class gCamera {
 	}
 
 	public static void centerCamera() {
-		gThing p = eManager.getPlayerById(cVars.get("camplayertrackingid"));
+		gThing p = cClientLogic.getUserPlayer();
 		if(p == null)
-			p = cClientLogic.getUserPlayer();
+			p = cClientLogic.getPlayerById(cVars.get("camplayertrackingid"));
 		if(p != null) {
 			cVars.putInt("cammode", gCamera.MODE_TRACKING);
 			cVars.putInt("camx",
@@ -42,5 +42,7 @@ public class gCamera {
 			cVars.putInt("camy",
 					((p.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2) + p.getInt("dimh")/2));
 		}
+		else
+			cVars.putInt("cammode", gCamera.MODE_FREE);
 	}
 }

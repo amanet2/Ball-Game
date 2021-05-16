@@ -2,7 +2,8 @@ public class xComClientlist extends xCom {
     public String doCommand(String fullCommand) {
         StringBuilder s = new StringBuilder("");
         for(String k : nServer.instance().clientArgsMap.keySet()) {
-            s.append(String.format("%s/%s,", nServer.instance().clientArgsMap.get(k).get("name"), k));
+            s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
+                    nServer.instance().clientArgsMap.get(k).get("name"), k));
         }
         return s.substring(0, s.length()-1);
     }

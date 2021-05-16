@@ -34,7 +34,6 @@ public class uiMenusVideo extends uiMenu {
                                 sVars.isIntVal("displaymode", oDisplay.displaymode_borderless) ? "X" : "  ");
                         oDisplay.instance().createPanels();
                         oDisplay.instance().showFrame();
-                        uiInterface.addListeners();
                     }
                 },
                 new uiMenuItem(String.format("Animations [%s]", sVars.isOne("vfxenableanimations") ? "X" : "  ")){

@@ -9,24 +9,15 @@ public class dTileTops {
         /*
          * players extra stuff
          * */
-        for (String id : eManager.getPlayerIds()) {
-            gPlayer e = eManager.getPlayerById(id);
-//            //player hat
-            if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
-                g2.drawImage(e.spriteHat,
-                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
-                        null);
-            }
-            //forbidden sign for spawn protection
-//                if (!cGameLogic.isUserPlayer(e) && nServer.instance().clientArgsMap.containsKey(e.get("id"))
-//                        && nServer.instance().clientArgsMap.get(e.get("id")).containsKey("spawnprotected")) {
-//                    g2.drawImage(forbiddenSign,
-//                            eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-//                            eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy")),
-//                            null);
-//                }
-        }
+//        for (String id : cServerLogic.getPlayerIds()) {
+//            gPlayer e = cServerLogic.getPlayerById(id);
+////            //player hat
+//            if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
+//                g2.drawImage(e.spriteHat,
+//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
+//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
+//                        null);
+//            }
         HashMap<String, gThing> squareMap;
         squareMap = scene.getThingMap("BLOCK_CORNERUR");
         for(String tag : squareMap.keySet()) {
@@ -312,7 +303,7 @@ public class dTileTops {
     public static void drawPlayerNames(Graphics g) {
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             HashMap<String, String> clientMap = nClient.instance().serverArgsMap.get(id);
-            gPlayer p = eManager.getPlayerById(id);
+            gPlayer p = cClientLogic.getPlayerById(id);
             if(p == null || clientMap == null)
                 continue;
             if(!p.containsFields(new String[]{"coordx", "coordy"}))
@@ -325,7 +316,7 @@ public class dTileTops {
             int coordy = p.getInt("coordy") - cVars.getInt("camy");
             dFonts.drawCenteredString(g, name,
                     eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
-            //draw flashlight/spawnprotection glow
+            //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
 //                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
 //                    continue;

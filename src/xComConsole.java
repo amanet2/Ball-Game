@@ -1,6 +1,7 @@
 public class xComConsole extends xCom {
     public String doCommand(String fullCommand) {
-        sVars.put("inconsole", sVars.isOne("inconsole") ? "0" : "1");
+        if(sSettings.show_mapmaker_ui)
+            sVars.put("inconsole", sVars.isOne("inconsole") ? "0" : "1");
         return "console";
     }
 }

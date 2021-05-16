@@ -1,13 +1,12 @@
 public class xComLoad extends xCom {
     public String doCommand(String fullCommand) {
-        oDisplay.instance().clearAndRefresh();
-//        nServer.instance().clearBots();
         cVars.put("botbehavior", "");
         //load the most basic blank map
-        eManager.currentMap = new gMap();
-        cClientLogic.setUserPlayer(null);
+        gTextures.clear();
+        cVars.putInt("gamemode", cGameLogic.DEATHMATCH);
+        cVars.put("mapname", "new");
+        cServerLogic.scene = new gScene();
         cVars.putLong("starttime", System.currentTimeMillis());
-        oDisplay.instance().createPanels();
         return "";
     }
 }

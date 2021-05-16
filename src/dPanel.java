@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 /**
  * JPanel
@@ -23,12 +22,12 @@ public class dPanel extends JPanel {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
         }
-        else if(sSettings.IS_CLIENT) {
+        else {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
-                gScene scene = eManager.currentMap.scene;
+                gScene scene = cClientLogic.scene;
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWalls(g2, scene);
                 dItems.drawItems(g2, scene);
@@ -41,10 +40,8 @@ public class dPanel extends JPanel {
                 dTileTops.drawPopups(g2, scene);
                 dTileTops.drawUserPlayerArrow(g2);
                 dTileTops.drawPlayerNames(g2);
-            }
-            //mapmaker indicators
-            if(sSettings.show_mapmaker_ui) {
-                dMapmakerOverlay.drawSelectionBoxes(g2);
+                if(!uiInterface.inplay && sSettings.show_mapmaker_ui)
+                    dMapmakerOverlay.drawSelectionBoxes(g2);
             }
         }
         g2.dispose();
