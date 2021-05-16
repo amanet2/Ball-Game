@@ -99,7 +99,6 @@ public class cVars {
         put("botthinkdelay", "1000");
         put("botviruschaserange", "600");
         //voting
-        put("voteskipctr", "0");
         put("voteskiplimit", "2");
     }
 

@@ -214,6 +214,7 @@ public class cServerLogic {
         }
         //reset game state
         gScoreboard.resetScoresMap();
+        nServer.instance().voteSkipMap = new HashMap<>();
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         cVars.putLong("starttime", System.currentTimeMillis());

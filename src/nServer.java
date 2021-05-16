@@ -5,16 +5,18 @@ import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
-    Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
-    HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
-    HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
+    private HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
+    //map of skip votes
+    HashMap<String, String> voteSkipMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
     private Queue<String> serverLocalCmdQueue = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
@@ -190,7 +192,6 @@ public class nServer extends Thread {
         keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         cVars.put("scoremap", keys.get("scoremap"));
         keys.put("timeleft", cVars.get("timeleft"));
-//        keys.put("topscore", gScoreboard.getTopScoreString());
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
                 if(clientArgsMap.get("server").containsKey(s))
@@ -407,6 +408,8 @@ public class nServer extends Thread {
                 }
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));
+                    checkClientMessageForVoteSkip(packId,
+                            packArgMap.get("msg").substring(packArgMap.get("msg").indexOf(':')+2));
                 }
                 if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
                     handleClientCommand(packId, packArgMap.get("cmd"));
@@ -559,7 +562,6 @@ public class nServer extends Thread {
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
         checkMessageForSpecialSound(testmsg);
-        checkMessageForVoteToSkip(testmsg);
     }
 
     private void handleClientCommand(String id, String cmd) {
@@ -583,7 +585,7 @@ public class nServer extends Thread {
         }
     }
 
-    void checkMessageForSpecialSound(String testmsg) {
+    private void checkMessageForSpecialSound(String testmsg) {
         for(String s : eManager.winClipSelection) {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
@@ -594,27 +596,31 @@ public class nServer extends Thread {
         }
     }
 
-    void checkMessageForVoteToSkip(String testmsg) {
+    private void checkClientMessageForVoteSkip(String id, String testmsg) {
         //handle the vote-to-skip function
         testmsg = testmsg.strip();
         if(testmsg.equalsIgnoreCase("skip")) {
-            cVars.addIntVal("voteskipctr", 1);
-            if(cVars.getInt("voteskipctr") >= cVars.getInt("voteskiplimit")) {
-                cVars.putLong("intermissiontime",
-                        System.currentTimeMillis() + sVars.getInt("intermissiontime"));
-                for(String s : new String[]{
-                        "playsound sounds/win/"+eManager.winClipSelection[
-                                (int) (Math.random() * eManager.winClipSelection.length)],
-                        String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
-                        "echo [VOTE_SKIP] CHANGING MAP IN 10s..."}) {
+            if(!voteSkipMap.containsKey(id)) {
+                voteSkipMap.put(id,"1");
+                if(voteSkipMap.keySet().size() >= cVars.getInt("voteskiplimit")) {
+                    cVars.putLong("intermissiontime",
+                            System.currentTimeMillis() + sVars.getInt("intermissiontime"));
+                    for(String s : new String[]{
+                            "playsound sounds/win/"+eManager.winClipSelection[
+                                    (int) (Math.random() * eManager.winClipSelection.length)],
+                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
+                            "echo [VOTE_SKIP] CHANGING MAP IN 10s..."}) {
+                        addExcludingNetCmd("server", s);
+                    }
+                }
+                else {
+                    String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                            voteSkipMap.keySet().size(), cVars.get("voteskiplimit"));
                     addExcludingNetCmd("server", s);
                 }
             }
-            else {
-                String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                        cVars.get("voteskipctr"), cVars.get("voteskiplimit"));
-                addExcludingNetCmd("server", s);
-            }
+            else
+                addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
         }
     }
 }

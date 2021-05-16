@@ -143,17 +143,6 @@ public class iInput {
                                 gMessages.msgInProgress.length()-1);
                     return;
                 case KeyEvent.VK_ENTER:
-                    if("skip".contains(gMessages.msgInProgress.toLowerCase().strip())) {
-                        if(cVars.contains("canvoteskip")) {
-                            cVars.remove("canvoteskip");
-                        }
-                        else {
-                            gMessages.msgInProgress = "";
-                            gMessages.enteringMessage = false;
-                            xCon.ex("echo YOU HAVE ALREADY VOTED TO SKIP");
-                            return;
-                        }
-                    }
                     xCon.ex(String.format("say %s", gMessages.msgInProgress));
                     gMessages.enteringMessage = false;
                     return;
