@@ -102,7 +102,7 @@ public class dScreenMessages {
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE",0,27*sSettings.height/32);
+                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
                 g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
                 g.drawString("[Esc] - TEST/EDIT ", 0,
