@@ -206,7 +206,7 @@ public class cServerLogic {
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server",
-                "cl_clearthingmap THING_PLAYER;load;cv_maploaded 0");
+                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
             if(!sSettings.show_mapmaker_ui)

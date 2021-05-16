@@ -291,7 +291,7 @@ public class nClient extends Thread {
         clientSocket.close();
         serverArgsMap = new HashMap<>();
         serverIds = new ArrayList<>();
-        xCon.ex("load");
+        xCon.ex("cl_load");
         if (uiInterface.inplay)
             xCon.ex("pause");
     }

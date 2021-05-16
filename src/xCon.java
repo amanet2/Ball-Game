@@ -80,6 +80,7 @@ public class xCon {
         visibleCommands.add("exec");
         visibleCommands.add("joingame");
         visibleCommands.add("load");
+        visibleCommands.add("cl_load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
         visibleCommands.add("putblock");
@@ -161,6 +162,7 @@ public class xCon {
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
+        commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putcollision", new xComPutCollisionClient());
         commands.put("cl_putflare", new xComPutFlareClient());

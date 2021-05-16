@@ -172,49 +172,50 @@ public class iInput {
             }
         }
         else {
-            if(sSettings.show_mapmaker_ui) {
-                switch(command) {
-                    case KeyEvent.VK_SHIFT:
-                        iKeyboard.shiftMode = true;
-                        return;
-                    case KeyEvent.VK_CONTROL:
-                        iKeyboard.ctrlMode = true;
-                        return;
-                    case KeyEvent.VK_Q:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("quit");
-                        }
-                        break;
-                    case KeyEvent.VK_O:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("e_openfile");
-                        }
-                        break;
-                    case KeyEvent.VK_N:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            if(xCon.instance().getInt("e_showlossalert") > 0)
-                                xCon.ex("load");
-                        }
-                        break;
-                    case KeyEvent.VK_S:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("e_saveas");
-                        }
-                        break;
-                    case KeyEvent.VK_E:
-                        if(iKeyboard.ctrlMode) {
-                            iKeyboard.ctrlMode = false;
-                            xCon.ex("exportasprefab");
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
+            // key shortcuts like ctrl+s
+//            if(sSettings.show_mapmaker_ui) {
+//                switch(command) {
+//                    case KeyEvent.VK_SHIFT:
+//                        iKeyboard.shiftMode = true;
+//                        return;
+//                    case KeyEvent.VK_CONTROL:
+//                        iKeyboard.ctrlMode = true;
+//                        return;
+//                    case KeyEvent.VK_Q:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            xCon.ex("quit");
+//                        }
+//                        break;
+//                    case KeyEvent.VK_O:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            xCon.ex("e_openfile");
+//                        }
+//                        break;
+//                    case KeyEvent.VK_N:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            if(xCon.instance().getInt("e_showlossalert") > 0)
+//                                xCon.ex("load");
+//                        }
+//                        break;
+//                    case KeyEvent.VK_S:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            xCon.ex("e_saveas");
+//                        }
+//                        break;
+//                    case KeyEvent.VK_E:
+//                        if(iKeyboard.ctrlMode) {
+//                            iKeyboard.ctrlMode = false;
+//                            xCon.ex("exportasprefab");
+//                        }
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
 	        if(xCon.instance().pressBinds.containsKey(command)) {
                 xCon.ex(xCon.instance().pressBinds.get(command));
             }
