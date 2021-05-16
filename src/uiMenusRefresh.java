@@ -8,9 +8,9 @@ public class uiMenusRefresh extends uiMenu {
 
     public void setupMenuItems() {
         super.setupMenuItems();
-        for(int i = 0; i < xCon.ex("framerates").split(",").length; i++){
+        for(int i = 0; i < sVars.getArray("framerates").length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(xCon.ex("framerates").split(",")[i]){
+            items[items.length-1] = new uiMenuItem(sVars.getArray("framerates")[i]){
                 public void doItem() {
                     sVars.put("vidmode", String.format("%d,%d,%d",sSettings.width,sSettings.height,
                             Integer.parseInt(text)));

@@ -106,9 +106,9 @@ public class oDisplay extends JLayeredPane {
 	public void createPanels() {
 	    removeAll();
         setBackground(new Color(
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[0]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[1]),
-                Integer.parseInt(xCon.ex("bgcolor").split(",")[2])
+                Integer.parseInt(sVars.getArray("bgcolor")[0]),
+                Integer.parseInt(sVars.getArray("bgcolor")[1]),
+                Integer.parseInt(sVars.getArray("bgcolor")[2])
         ));
         int ox = getContentPaneOffsetDimension()[0];
         int oy = getContentPaneOffsetDimension()[1];
