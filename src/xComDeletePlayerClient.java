@@ -5,7 +5,8 @@ public class xComDeletePlayerClient extends xCom {
             String id = toks[1];
             cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
             if(id.contains("bot"))
-                cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);        }
+                cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
+        }
         return "usage: deleteplayer <id>";
     }
 }

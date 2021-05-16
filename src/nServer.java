@@ -363,7 +363,7 @@ public class nServer extends Thread {
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
-                addNetCmd(packId, String.format("spawnplayerclient %s %s %s",
+                addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
                     clientId, player.get("coordx"), player.get("coordy")));
         }
         if(!sSettings.show_mapmaker_ui)
@@ -518,7 +518,7 @@ public class nServer extends Thread {
                 if(toks.length > 1) {
                     String reqid = toks[1];
                     if(reqid.equals(id)) //client can only respawn themself
-                        addNetCmd("server", cmd);
+                        xCon.ex(cmd);
                 }
             }
             else if(ccmd.contains("deleteplayer")) {
@@ -540,6 +540,30 @@ public class nServer extends Thread {
                 int itemid = cServerLogic.scene.getHighestItemId() + 1;
                 addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
                         itemid, cmd.replace("putitem", "cl_putitem")));
+            }
+            else if(ccmd.contains("deleteblock")) {
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    addNetCmd("server", cmd);
+                    addExcludingNetCmd("server",
+                            cmd.replaceFirst("deleteblock ", "cl_deleteblock "));
+                }
+            }
+            else if(ccmd.contains("deletecollision")) {
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    addNetCmd("server", cmd);
+                    addExcludingNetCmd("server",
+                            cmd.replaceFirst("deletecollision ", "cl_deletecollision "));
+                }
+            }
+            else if(ccmd.contains("deleteitem")) {
+                String[] toks = cmd.split(" ");
+                if(toks.length > 1) {
+                    addNetCmd("server", cmd);
+                    addExcludingNetCmd("server",
+                            cmd.replaceFirst("deleteitem ", "cl_deleteitem "));
+                }
             }
             else
                 addNetCmd(cmd);

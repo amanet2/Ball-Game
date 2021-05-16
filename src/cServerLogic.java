@@ -214,6 +214,8 @@ public class cServerLogic {
         }
         //reset game state
         gScoreboard.resetScoresMap();
+        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+        nServer.instance().clientArgsMap.get("server").remove("virusids");
         cVars.putLong("starttime", System.currentTimeMillis());
         cVars.put("gamewon", "0");
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)

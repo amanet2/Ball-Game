@@ -149,7 +149,6 @@ public class xCon {
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
-        commands.put("spawnplayerclient", new xComSpawnPlayerClient());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
@@ -157,6 +156,9 @@ public class xCon {
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
+        commands.put("cl_deleteblock", new xComDeleteBlockClient());
+        commands.put("cl_deletecollision", new xComDeleteCollisionClient());
+        commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
         commands.put("cl_putblock", new xComPutBlockClient());
@@ -166,6 +168,7 @@ public class xCon {
         commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
+        commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
         commands.put("cl_status", new xComStatusClient());
         commands.put("sv_sendcmd", new xComSendCmdServer());
         commands.put("sv_status", new xComStatusServer());
