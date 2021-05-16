@@ -111,7 +111,6 @@ public class nServer extends Thread {
     public void checkForUnhandledQuitters() {
         //other players
         for(String id : clientArgsMap.keySet()) {
-//            System.out.println(id);
             if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
@@ -139,7 +138,7 @@ public class nServer extends Thread {
     }
 
     public void addNetCmd(String id, String cmd) {
-        System.out.println("ID_"+id+" "+cmd);
+        System.out.println("TO_"+id+" "+cmd);
         if(id.equalsIgnoreCase("server"))
             serverLocalCmdQueue.add(cmd);
         else
@@ -147,7 +146,7 @@ public class nServer extends Thread {
     }
 
     public void addNetCmd(String cmd) {
-        System.out.println("ALL_CLIENTS: " + cmd);
+        System.out.println("TO_ALL: " + cmd);
         xCon.ex(cmd);
         addNetSendData(clientNetCmdMap, cmd);
     }
@@ -419,7 +418,7 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-        System.out.println("NEW CLIENT: "+packId);
+        System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendMap(packId);
@@ -566,7 +565,7 @@ public class nServer extends Thread {
 
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
-        System.out.println("FROM_CLIENT_" + id + ": " + cmd);
+        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);

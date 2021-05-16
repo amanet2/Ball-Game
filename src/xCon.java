@@ -35,7 +35,6 @@ public class xCon {
     }
 
     public int getInt(String s) {
-        System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
     }
 
@@ -81,15 +80,17 @@ public class xCon {
         visibleCommands.add("bind");
         visibleCommands.add("changemap");
         visibleCommands.add("changemaprandom");
-        visibleCommands.add("disconnect");
         visibleCommands.add("exec");
-        visibleCommands.add("exportasprefab");
         visibleCommands.add("joingame");
         visibleCommands.add("load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
+        visibleCommands.add("disconnect");
         visibleCommands.add("cl_load");
         visibleCommands.add("cl_exec");
+        visibleCommands.add("exportasprefab");
+        visibleCommands.add("e_openfile");
+        visibleCommands.add("e_saveas");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());

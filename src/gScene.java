@@ -174,7 +174,6 @@ public class gScene {
                 writer.write(str.toString());
             }
             writer.write("cv_maploaded 1\n");
-            System.out.println("SAVED " + filename);
         } catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();
@@ -276,7 +275,6 @@ public class gScene {
                 str.append('\n');
                 writer.write(str.toString());
             }
-            System.out.println("EXPORTED AS PREFAB " + filename);
         } catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();

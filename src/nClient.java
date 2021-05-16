@@ -247,7 +247,6 @@ public class nClient extends Thread {
             }
         }
         if(tr.length() > 0) {
-            System.out.println("REMOVING " + tr);
             serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
