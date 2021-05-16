@@ -36,10 +36,8 @@ public class cServerLogic {
         }
         if(nServer.instance().clientArgsMap.containsKey("server")) {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
-                if(scene.getThingMap("ITEM_FLAG").size() > 0) {
-                    nServer.instance().addNetCmd("server", "clearthingmap ITEM_FLAG");
-                    nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap ITEM_FLAG");
-                }
+                if(scene.getThingMap("ITEM_FLAG").size() > 0)
+                    xCon.ex("clearthingmap ITEM_FLAG");
                 if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
@@ -48,15 +46,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
                     && cVars.getLong("virustime") < uiInterface.gameTime) {
                 if(nServer.instance().clientArgsMap.containsKey("server")) {
-                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1) {
+                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1)
                         cGameLogic.resetVirusPlayers();
-                    }
                     for(String id : getPlayerIds()) {
                         gPlayer p = getPlayerById(id);
                         if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
                             xCon.ex("givepoint " + p.get("id"));
-                        }
                     }
                 }
                 cVars.putLong("virustime", uiInterface.gameTime + 1000);
