@@ -36,11 +36,9 @@ public class cServerLogic {
         }
         if(nServer.instance().clientArgsMap.containsKey("server")) {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
-                if(scene.getThingMap("ITEM_FLAG").size() > 0
-                        && nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0)
-                    nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
-                if(nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0
-                        && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                if(scene.getThingMap("ITEM_FLAG").size() > 0)
+                    xCon.ex("clearthingmap ITEM_FLAG");
+                if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                 }
@@ -48,15 +46,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
                     && cVars.getLong("virustime") < uiInterface.gameTime) {
                 if(nServer.instance().clientArgsMap.containsKey("server")) {
-                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1) {
+                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1)
                         cGameLogic.resetVirusPlayers();
-                    }
                     for(String id : getPlayerIds()) {
                         gPlayer p = getPlayerById(id);
                         if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
                             xCon.ex("givepoint " + p.get("id"));
-                        }
                     }
                 }
                 cVars.putLong("virustime", uiInterface.gameTime + 1000);
@@ -93,25 +89,26 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sSettings.show_mapmaker_ui && cVars.isZero("gamewon")) {
+        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)) {
-                cVars.put("gamewon", "1");
+                cVars.put("gameover", "1");
             }
-            if(cVars.isOne("gamewon")) {
-                //someone beats score
+            if(cVars.isOne("gameover")) {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
+                    gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
-                    gScoreboard.incrementScoreFieldById(highestId, "wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
                         "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+                nServer.instance().addExcludingNetCmd("server",
+                        "echo Changing map...");
             }
         }
     }
@@ -202,11 +199,10 @@ public class cServerLogic {
     }
 
     static void changeMap(String mapPath) {
-        System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec " + mapPath);
-        nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
-                "clearthingmap THING_PLAYER;load;cv_maploaded 0");
+        nServer.instance().addExcludingNetCmd("server",
+                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
             if(!sSettings.show_mapmaker_ui)
@@ -214,8 +210,11 @@ public class cServerLogic {
         }
         //reset game state
         gScoreboard.resetScoresMap();
+        nServer.instance().voteSkipMap = new HashMap<>();
+        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+        nServer.instance().clientArgsMap.get("server").remove("virusids");
         cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gamewon", "0");
+        cVars.put("gameover", "0");
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
             cGameLogic.resetVirusPlayers();
     }

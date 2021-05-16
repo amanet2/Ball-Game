@@ -1,4 +1,4 @@
-public class xComPutItem extends xCom {
+public class xComPutItemClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
@@ -11,12 +11,12 @@ public class xComPutItem extends xCom {
                 String[] args = argString.split(" ");
                 gItem newItem = itemReturn.getItem(args);
                 newItem.put("itemid", cVars.get("itemid"));
-                int itemId = cServerLogic.scene.itemIdCtr;
+                int itemId = cClientLogic.scene.itemIdCtr;
                 newItem.putInt("id", itemId);
                 newItem.putInt("itemid", itemId);
-                cServerLogic.scene.getThingMap("THING_ITEM").put(Integer.toString(itemId), newItem);
-                cServerLogic.scene.getThingMap(newItem.get("type")).put(Integer.toString(itemId), newItem);
-                cServerLogic.scene.itemIdCtr += 1;
+                cClientLogic.scene.getThingMap("THING_ITEM").put(Integer.toString(itemId), newItem);
+                cClientLogic.scene.getThingMap(newItem.get("type")).put(Integer.toString(itemId), newItem);
+                cClientLogic.scene.itemIdCtr += 1;
             }
         }
         return "usage: putitem <ITEM_TITLE> <args>";

@@ -79,7 +79,7 @@ public class dScreenMessages {
         //say
         if(gMessages.enteringMessage) {
             g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
-                0,31 * sSettings.height/64);
+                0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -96,14 +96,13 @@ public class dScreenMessages {
                     dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
             }
-            else {
+            else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE",0,25*sSettings.height/32);
-                g.drawString("[WASD] - MOVE CAMERA",0,27*sSettings.height/32);
+                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
                 g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
                 g.drawString("[Esc] - TEST/EDIT ", 0,
@@ -167,10 +166,10 @@ public class dScreenMessages {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
                 g.setColor(Color.BLACK);
-                g.drawString(s,3,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
-                g.drawString(s,0,23*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                         +(i*(sSettings.height/32)));
             }
         }

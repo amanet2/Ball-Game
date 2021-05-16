@@ -1,4 +1,4 @@
-public class xComPutBlock extends xCom {
+public class xComPutBlockClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 2) {
@@ -55,10 +55,10 @@ public class xComPutBlock extends xCom {
                 gBlock newBlock = blockReturn.getBlock(args);
                 newBlock.put("prefabid", cVars.get("prefabid"));
                 newBlock.put("prefabname", cVars.get("newprefabname"));
-                int blockId = cServerLogic.scene.blockIdCtr;
-                cServerLogic.scene.getThingMap("THING_BLOCK").put(Integer.toString(blockId), newBlock);
-                cServerLogic.scene.getThingMap(newBlock.get("type")).put(Integer.toString(blockId), newBlock);
-                cServerLogic.scene.blockIdCtr += 1;
+                int blockId = cClientLogic.scene.blockIdCtr;
+                cClientLogic.scene.getThingMap("THING_BLOCK").put(Integer.toString(blockId), newBlock);
+                cClientLogic.scene.getThingMap(newBlock.get("type")).put(Integer.toString(blockId), newBlock);
+                cClientLogic.scene.blockIdCtr += 1;
             }
         }
         return "usage: putblock <BLOCK_TITLE> <args>";

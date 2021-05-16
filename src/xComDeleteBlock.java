@@ -3,20 +3,13 @@ public class xComDeleteBlock extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
             String id = toks[1];
-            if(sSettings.IS_SERVER)
-                deleteBlockDelegate(id, cServerLogic.scene);
-            if(sSettings.IS_CLIENT)
-                deleteBlockDelegate(id, cClientLogic.scene);
+            if(cServerLogic.scene.getThingMap("THING_BLOCK").containsKey(id)) {
+                gBlock blockToDelete = (gBlock) cServerLogic.scene.getThingMap("THING_BLOCK").get(id);
+                String type = blockToDelete.get("type");
+                cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
+                cServerLogic.scene.getThingMap(type).remove(id);
+            }
         }
         return "usage: deleteblock <id>";
-    }
-
-    private void deleteBlockDelegate(String id, gScene scene) {
-        if(scene.getThingMap("THING_BLOCK").containsKey(id)) {
-            gBlock blockToDelete = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
-            String type = blockToDelete.get("type");
-            scene.getThingMap("THING_BLOCK").remove(id);
-            scene.getThingMap(type).remove(id);
-        }
     }
 }

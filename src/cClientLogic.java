@@ -281,11 +281,8 @@ public class cClientLogic {
 
     static void checkGameState() {
         if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
-                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").length() > 0) {
-            //check to delete flags that should not be present anymore
-            if (scene.getThingMap("ITEM_FLAG").size() > 0)
-                xCon.ex("clearthingmap ITEM_FLAG");
-        }
+            && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+            && scene.getThingMap("ITEM_FLAG").size() > 0)
+                xCon.ex("cl_clearthingmap ITEM_FLAG");
     }
 }

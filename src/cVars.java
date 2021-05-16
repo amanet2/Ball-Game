@@ -21,9 +21,9 @@ public class cVars {
         put("delayweap", "1800");
         put("flagmastertime", "0");
         put("flashlight", "0");
+        put("gameover", "0");
         put("gamescale", "2160");
         put("gametick", "240");
-        put("gamewon", "0");
         putInt("gamemode", cGameLogic.DEATHMATCH);
         put("gamemodelist", Arrays.toString(cGameLogic.net_gamemode_texts));
         put("blockmouseui", "0");
@@ -99,7 +99,6 @@ public class cVars {
         put("botthinkdelay", "1000");
         put("botviruschaserange", "600");
         //voting
-        put("voteskipctr", "0");
         put("voteskiplimit", "2");
     }
 

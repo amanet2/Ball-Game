@@ -19,7 +19,7 @@ public class xComDamagePlayer extends xCom {
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
                     xCon.ex("deleteplayer " + id);
-                    cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
@@ -39,11 +39,13 @@ public class xComDamagePlayer extends xCom {
                     if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
                     && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
                         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-                        nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        xCon.ex(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        nServer.instance().addExcludingNetCmd("server",
+                                String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
                     }
                     //migrate all client death logic here
                     String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                            + " " + (dcx - 75) + " " + (dcy - 75);
+                            + " " + (dcx - 100) + " " + (dcy - 100);
                     //be sure not to send too much in one go, net comms
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",

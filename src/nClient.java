@@ -267,7 +267,7 @@ public class nClient extends Thread {
             String cmdString = netSendCmds.peek();
 //            //user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
-                xCon.ex(cmdString.replaceFirst("fireweapon", "fireweaponclient"));
+                xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
             System.out.println("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
@@ -286,13 +286,9 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-//        addNetCmd("requestdisconnect");
         sSettings.IS_CLIENT = false;
         clientSocket.close();
         serverArgsMap = new HashMap<>();
         serverIds = new ArrayList<>();
-        xCon.ex("load");
-        if (uiInterface.inplay)
-            xCon.ex("pause");
     }
 }

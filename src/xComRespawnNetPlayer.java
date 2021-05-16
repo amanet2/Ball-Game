@@ -11,7 +11,7 @@ public class xComRespawnNetPlayer extends xCom {
                         playerId, spawnpoint.get("coordx"), spawnpoint.get("coordy"));
                 xCon.ex(cmdstring);
                 nServer.instance().addExcludingNetCmd("server",
-                        cmdstring.replaceFirst("spawnplayer", "spawnplayerclient"));
+                        cmdstring.replaceFirst("spawnplayer", "cl_spawnplayer"));
                 return "respawned net player " + playerId;
             }
         }

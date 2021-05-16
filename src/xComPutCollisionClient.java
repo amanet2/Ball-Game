@@ -1,4 +1,4 @@
-public class xComPutCollision extends xCom {
+public class xComPutCollisionClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 3) {
@@ -11,9 +11,9 @@ public class xComPutCollision extends xCom {
             gDoableCollisionReturn collisionReturn = factory.collisionLoader;
             gCollision newCollision = collisionReturn.getCollision(args);
             newCollision.put("prefabid", cVars.get("prefabid"));
-            String collisionId = Integer.toString(cServerLogic.scene.collisionIdCtr);
-            cServerLogic.scene.getThingMap("THING_COLLISION").put(collisionId, newCollision);
-            cServerLogic.scene.collisionIdCtr += 1;
+            String collisionId = Integer.toString(cClientLogic.scene.collisionIdCtr);
+            cClientLogic.scene.getThingMap("THING_COLLISION").put(collisionId, newCollision);
+            cClientLogic.scene.collisionIdCtr += 1;
         }
         return "usage: putcollision <xarr> <yarr> <npoints>";
     }
