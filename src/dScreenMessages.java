@@ -9,10 +9,10 @@ public class dScreenMessages {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         //ticks
         if(sVars.isOne("showtick"))
-            g.drawString("GAME:" + uiInterface.tickReport, 0, 2*sSettings.height / 64);
+            g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
         if(sVars.isOne("showfps"))
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
+            g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
