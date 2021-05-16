@@ -90,7 +90,6 @@ public class xCon {
         visibleCommands.add("newgamerandom");
         visibleCommands.add("cl_load");
         visibleCommands.add("cl_exec");
-        visibleCommands.add("e_delthing");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
