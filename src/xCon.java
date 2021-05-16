@@ -240,16 +240,13 @@ public class xCon {
                     return cVars.get(configval.substring(3));
                 }
             }
-            boolean isHidden = fullCommand.split(" ")[0].toLowerCase().equals("hidden");
-            fullCommand = isHidden ? fullCommand.substring(fullCommand.indexOf(" ") + 1) : fullCommand;
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
             if (cp != null) {
-//                if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
+//                if (undoableCommands.contains(fullCommand.split(" ")[0])) {
 //                    uiEditorMenus.undoStateStack.push(uiEditorMenus.getEditorState());
-//                    eManager.currentMap.wasLoaded = 1;
 //                    uiEditorMenus.redoStateStack.clear();
 //                }
                 if(!visibleCommands.contains(command)) {
