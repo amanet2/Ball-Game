@@ -188,7 +188,6 @@ public class nServer extends Thread {
         //update id in net args
         keys.put("id", "server");
         //send scores
-        cVars.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
         keys.put("time", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
