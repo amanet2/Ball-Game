@@ -36,11 +36,11 @@ public class cServerLogic {
         }
         if(nServer.instance().clientArgsMap.containsKey("server")) {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
-                if(scene.getThingMap("ITEM_FLAG").size() > 0
-                        && nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0)
-                    nServer.instance().addNetCmd("clearthingmap ITEM_FLAG");
-                if(nServer.instance().clientArgsMap.get("server").get("flagmasterid").length() > 0
-                        && cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                if(scene.getThingMap("ITEM_FLAG").size() > 0) {
+                    nServer.instance().addNetCmd("server", "clearthingmap ITEM_FLAG");
+                    nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap ITEM_FLAG");
+                }
+                if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                 }
@@ -205,8 +205,8 @@ public class cServerLogic {
         System.out.println("CHANGING MAP: " + mapPath);
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec " + mapPath);
-        nServer.instance().addExcludingNetCmd("server," + uiInterface.uuid,
-                "clearthingmap THING_PLAYER;load;cv_maploaded 0");
+        nServer.instance().addExcludingNetCmd("server",
+                "cl_clearthingmap THING_PLAYER;load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
             if(!sSettings.show_mapmaker_ui)
