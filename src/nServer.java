@@ -568,9 +568,8 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
         System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-            if(clientCmdDoables.containsKey(ccmd)) {
+            if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            }
             else if(cmd.contains("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
                 xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
@@ -578,11 +577,10 @@ public class nServer extends Thread {
                         cmd.replace("exec ", "cl_exec ")));
             }
             else
-                addNetCmd(cmd);
+                addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
         }
-        else {
-            System.out.println("ILLEGAL COMMAND FROM CLIENT: " + cmd);
-        }
+        else
+            addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
     private void checkMessageForSpecialSound(String testmsg) {
