@@ -536,7 +536,7 @@ public class nServer extends Thread {
             }
             else if(ccmd.contains("putitem")) {
                 int itemid = cServerLogic.scene.getHighestItemId() + 1;
-                addExcludingNetCmd(uiInterface.uuid, String.format("cv_itemid %d;%s",
+                addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
                         itemid, cmd.replace("putitem", "cl_putitem")));
             }
             else
