@@ -7,17 +7,14 @@ public class xComClearThingMap extends xCom {
             String thing_title = toks[1];
             ArrayList<String> toRemoveIds = new ArrayList<>();
             if(thing_title.contains("ITEM_")) {
-                if(eManager.currentMap.scene.objectMaps.containsKey(thing_title))
-                    toRemoveIds.addAll(eManager.currentMap.scene.getThingMap(thing_title).keySet());
+                if(cServerLogic.scene.objectMaps.containsKey(thing_title))
+                    toRemoveIds.addAll(cServerLogic.scene.getThingMap(thing_title).keySet());
                 for(String id : toRemoveIds) {
-                    eManager.currentMap.scene.getThingMap("THING_ITEM").remove(id);
+                    cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
                 }
             }
-            if(eManager.currentMap.scene.objectMaps.containsKey(thing_title)) {
-                eManager.currentMap.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
-                if(thing_title.equals("THING_PLAYER"))
-                    cClientLogic.setUserPlayer(null);
-            }
+            if(cServerLogic.scene.objectMaps.containsKey(thing_title))
+                cServerLogic.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
         }
         return "usage: clearthingmap <thing_title>";
     }

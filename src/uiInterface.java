@@ -59,33 +59,25 @@ public class uiInterface {
 		}
 	}
 
-	public static void addListeners() {
-		oDisplay.instance().frame.addKeyListener(iInput.keyboardInput);
-		oDisplay.instance().frame.addMouseListener(iInput.mouseInput);
-		oDisplay.instance().frame.addMouseMotionListener(iInput.mouseMotion);
-		oDisplay.instance().frame.addMouseWheelListener(iInput.mouseWheelInput);
-		oDisplay.instance().frame.setFocusTraversalKeysEnabled(false);
-	}
-
 	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection("maps", sVars.get("mapextension"));
+	    eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-	    if(sSettings.show_mapmaker_ui) {
-            xCon.ex("load");
-            cVars.putInt("camx", 0);
-            cVars.putInt("camy", 0);
-        }
-	    else {
+	    if(!sSettings.show_mapmaker_ui) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
-            xCon.ex("load");
+            sVars.putInt("showcam", 0);
+            sVars.putInt("showfps", 0);
+            sVars.putInt("showmouse", 0);
+            sVars.putInt("shownet", 0);
+            sVars.putInt("showplayer", 0);
+            sVars.putInt("showscale", 0);
+            sVars.putInt("showtick", 0);
         }
-        xCon.ex("exec " + sVars.get("defaultexec"));
+        xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
-        addListeners();
         startGame();
 	}
 
@@ -100,11 +92,11 @@ public class uiInterface {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = cEditorLogic.getNewPrefabDims();
+        int[] fabdims = uiEditorMenus.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
-                cEditorLogic.snapToX);
+                uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
-                cEditorLogic.snapToY);
+                uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }
 
@@ -141,60 +133,6 @@ public class uiInterface {
                 }
             }
             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
-        }
-    }
-
-    public static synchronized void selectThingUnderMouse() {
-        int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : eManager.currentMap.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = eManager.currentMap.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selecteditemid", item.get("itemid"));
-                cVars.put("selecteditemname", item.get("type"));
-                cVars.put("selectedprefabid", "");
-                cVars.put("selectedprefabname", "");
-                return;
-            }
-        }
-        for(String id : eManager.currentMap.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = eManager.currentMap.scene.getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
-                cVars.put("selecteditemname", "");
-                return;
-            }
-        }
-        cVars.put("selectedprefabid", "");
-        cVars.put("selecteditemid", "");
-    }
-
-    public static void processOptionText(String optionTitle, String enteredText) {
-        if("New Name".contains(optionTitle)) {
-            sVars.put("playername", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[0].text =
-                    String.format("Name [%s]", sVars.get("playername"));
-        }
-        else if("New IP".contains(optionTitle)) {
-            sVars.put("joinip", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[1].text =
-                    String.format("Server IP [%s]", sVars.get("joinip"));
-        }
-        else if("New Port".contains(optionTitle)) {
-            sVars.put("joinport", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_JOINGAME].items[2].text =
-                    String.format("Server Port [%s]", sVars.get("joinport"));
-        }
-        else if("New Score Limit".contains(optionTitle)) {
-            sVars.put("scorelimit", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[2].text =
-                    String.format("Score Limit [%s]", sVars.get("scorelimit"));
-        }
-        else if("New Time Limit".contains(optionTitle)) {
-            sVars.put("timelimit", enteredText);
-            uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[3].text =
-                    String.format("Time Limit [%s]", sVars.get("timelimit"));
         }
     }
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class cEditorLogic {
+public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
     static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
@@ -70,6 +70,7 @@ public class cEditorLogic {
         createNewMenu("Items");
         createNewMenu("Gametype");
 
+        JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
@@ -78,6 +79,7 @@ public class cEditorLogic {
         JMenuItem showControls = new JMenuItem("Show Controls");
 
         menus.get("File").add(newtopmap);
+        menus.get("File").add(join);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
         menus.get("File").add(exportasprefab);
@@ -87,8 +89,21 @@ public class cEditorLogic {
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(xCon.instance().getInt("e_showlossalert") <= 0) {
+                    boolean join = false;
+                    if(!nServer.instance().isAlive()) {
+                        xCon.ex("startserver");
+                        join = true;
+                    }
                     xCon.ex("load");
+                    if(join)
+                        xCon.ex("joingame localhost 5555");
                 }
+            }
+        });
+
+        join.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("joingame");
             }
         });
 

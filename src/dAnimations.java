@@ -2,8 +2,8 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class dAnimations {
-    public static void drawAnimations(Graphics2D g2){
-        HashMap animationsMap = eManager.currentMap.scene.getThingMap("THING_ANIMATION");
+    public static void drawAnimations(Graphics2D g2, gScene scene){
+        HashMap animationsMap = scene.getThingMap("THING_ANIMATION");
         for(Object id : animationsMap.keySet()) {
             gAnimationEmitter a = (gAnimationEmitter) animationsMap.get(id);
             if(a.getInt("frame") < gAnimations.animation_selection[a.getInt("animation")

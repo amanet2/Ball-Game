@@ -11,8 +11,8 @@ public class xComAddBot extends xCom {
                 eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
         p.put("id", "bot"+eManager.createBotId());
         p.put("hat", bothat);
-        eManager.currentMap.scene.playersMap().put(p.get("id"), p);
-        eManager.currentMap.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
+        cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
+        cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
         nVarsBot.update(p);
         nServer.instance().clientArgsMap.put(p.get("id"), nVarsBot.copyArgsForId(p.get("id")));
         nServer.instance().clientArgsMap.get(p.get("id")).put("color", botcolor);

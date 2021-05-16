@@ -4,10 +4,6 @@ public class uiMenusNewGame extends uiMenu {
                 "-Start-",
                 String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
                         : eManager.mapsSelection[eManager.mapSelectionIndex]),
-//                String.format("Time Limit [%s]", sVars.get("timelimit"))
-//                String.format("Score Limit [%s]", sVars.get("scorelimit")),
-//                String.format("Number of Bots [%s]", sVars.get("botcount")),
-//                String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay")),
         });
     }
     public uiMenusNewGame() {
@@ -15,7 +11,7 @@ public class uiMenusNewGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("newgame;joingame;pause");
+                        xCon.ex("newgame;joingame localhost 5555;pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },
@@ -23,40 +19,7 @@ public class uiMenusNewGame extends uiMenu {
                     public void doItem() {
                         uiMenus.selectedMenu = uiMenus.MENU_MAP;
                     }
-                },
-//                new uiMenuItem(String.format("Time Limit [%s]", sVars.get("timelimit"))){
-//                    public void doItem() {
-//                        uiMenus.selectedMenu = uiMenus.MENU_TIMELIMIT;
-//                    }
-//                },
-//                new uiMenuItem(String.format("Score Limit [%s]", sVars.get("scorelimit"))) {
-//                    public void doItem() {
-//                        gMessages.enteringMessage = true;
-//                        gMessages.enteringOptionText = "New Score Limit";
-//                    }
-//                },
-//                new uiMenuItem(String.format("Time Limit [%s]", sVars.get("timelimit"))){
-//                    public void doItem() {
-//                        gMessages.enteringMessage = true;
-//                        gMessages.enteringOptionText = "New Time Limit";
-//                    }
-//                },
-//                new uiMenuItem(String.format("Number of Bots [%s]", sVars.get("botcount"))){
-//                    public void doItem() {
-//                        int cc = sVars.getInt("botcount");
-//                        sVars.putInt("botcount", cc + 1 > sVars.getInt("botcountmax") ? 0 : cc + 1);
-//                        text = String.format("Number of Bots [%s]", sVars.get("botcount"));
-//                    }
-//                }
-//                new uiMenuItem(String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay"))){
-//                    public void doItem() {
-//                        int currentthinkdelay = cVars.getInt("botthinkdelay");
-//                        cVars.putInt("botthinkdelay", currentthinkdelay == 2000 ? 500
-//                                : currentthinkdelay == 1000 ? 2000
-//                                : 1000);
-//                        text = String.format("Bot Stupidity [%s]", cVars.get("botthinkdelay"));
-//                    }
-//                },
+                }
             },
             uiMenus.MENU_MAIN);
     }

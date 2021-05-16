@@ -5,17 +5,16 @@ public class xComMouseLeft extends xCom {
                 iMouse.holdingMouseLeft = true;
             }
             else {
-                if(sSettings.show_mapmaker_ui) {
+                if(sSettings.show_mapmaker_ui && cVars.isOne("maploaded")) {
                     int[] mc = uiInterface.getMouseCoordinates();
                     if(cVars.get("newprefabname").length() > 0) {
-                        int[] pfd = cEditorLogic.getNewPrefabDims();
+                        int[] pfd = uiEditorMenus.getNewPrefabDims();
                         int w = pfd[0];
                         int h = pfd[1];
                         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w / 2,
-                                cEditorLogic.snapToX);
+                                uiEditorMenus.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h / 2,
-                                cEditorLogic.snapToY);
-                        cVars.putInt("prefabid", eManager.currentMap.scene.getHighestPrefabId());
+                                uiEditorMenus.snapToY);
                         String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
                         return "put prefab " + cVars.get("newprefabname");
@@ -24,13 +23,11 @@ public class xComMouseLeft extends xCom {
                         int iw = 300;
                         int ih = 300;
                         int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - iw/2,
-                                cEditorLogic.snapToX);
+                                uiEditorMenus.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
-                                cEditorLogic.snapToY);
-                        cVars.putInt("itemid", eManager.currentMap.scene.getHighestItemId());
+                                uiEditorMenus.snapToY);
                         String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
                         nClient.instance().addNetCmd(cmd);
-//                        eManager.currentMap.scene.itemIdCtr++;
                         return "put item " + cVars.get("newitemname");
                     }
                 }

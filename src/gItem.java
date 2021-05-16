@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class gItem extends gThing {
-    Image sprite;
+    public Image sprite;
 
     public void activateItem(gPlayer p) {
         //to be subclassed and execute on intersection

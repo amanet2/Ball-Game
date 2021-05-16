@@ -16,8 +16,4 @@ public class gDoableBlockReturnCornerUL extends gDoableBlockReturn{
             block.put("backtop", args[9]);
         return block;
     }
-
-    public void storeBlock(gBlock blockToLoad, gScene sceneToStore) {
-        super.storeBlock(blockToLoad, sceneToStore);
-    }
 }

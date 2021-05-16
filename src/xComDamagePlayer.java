@@ -7,7 +7,7 @@ public class xComDamagePlayer extends xCom {
             String shooterid = "";
             if(toks.length > 3)
                 shooterid = toks[3];
-            gPlayer player = gScene.getPlayerById(id);
+            gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", System.currentTimeMillis());
@@ -18,38 +18,39 @@ public class xComDamagePlayer extends xCom {
                     //more server-side stuff
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
-                    xCon.ex("removeplayer " + id);
-                    eManager.currentMap.scene.playersMap().remove(id);
+                    xCon.ex("deleteplayer " + id);
+                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                         gScoreboard.incrementScoreFieldById(shooterid, "kills");
-                        nServer.instance().addExcludingNetCmd(uiInterface.uuid,
-                                "echo " + killername + " killed " + victimname);
+                        nServer.instance().addExcludingNetCmd("server", "echo " + killername + " killed " + victimname);
                         if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
                             xCon.ex("givepoint " + shooterid);
+                        else if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                            String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
+                            if(virusids.contains(shooterid))
+                                nServer.instance().clientArgsMap.get("server").put("virusids", virusids+":"+id);
+                        }
                     }
                     else
-                        nServer.instance().addNetCmd("echo " + victimname + " died");
+                        nServer.instance().addExcludingNetCmd("server", "echo " + victimname + " died");
 //                        handle flag carrier dying
-                    if(nServer.instance().clientArgsMap.get("server").get("state").equals(id)) {
-                        nServer.instance().clientArgsMap.get("server").put("state", "");
-                        //this does the same thing as above
-                        nServer.instance().addNetCmd(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                    if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
+                    && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
+                        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+                        xCon.ex(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        nServer.instance().addExcludingNetCmd("server",
+                                String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
                     }
                     //migrate all client death logic here
                     String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                            + " " + (dcx - 75) + " " + (dcy - 75);
+                            + " " + (dcx - 100) + " " + (dcy - 100);
                     //be sure not to send too much in one go, net comms
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
                             Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-                    if(id.equals(uiInterface.uuid)) {
-                        cVars.putInt("cammode", gCamera.MODE_FREE);
-                    }
-                    else {
-                        nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
-                    }
+                    nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }

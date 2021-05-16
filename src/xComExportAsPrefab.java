@@ -9,7 +9,7 @@ public class xComExportAsPrefab extends xCom{
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String filename = file.getName();
-            eManager.currentMap.exportasprefab(filename);
+            cClientLogic.scene.exportasprefab(filename);
         }
         return fullcommand;
     }
