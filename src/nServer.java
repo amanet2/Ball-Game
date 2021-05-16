@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -14,6 +13,8 @@ public class nServer extends Thread {
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     //id maps to queue of cmds we want to run on that client
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    //map of doables for handling cmds from clients
+    HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
     //queue for holding local cmds that the server user should run
     private Queue<String> serverLocalCmdQueue = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
@@ -39,6 +40,66 @@ public class nServer extends Thread {
 
     private nServer() {
         netticks = 0;
+        clientCmdDoables.put("fireweapon",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        addExcludingNetCmd(id+",server,",
+                                cmd.replaceFirst("fireweapon", "cl_fireweapon"));
+                        xCon.ex(cmd);
+                    }
+                });
+        clientCmdDoables.put("requestdisconnect",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        quitClientIds.add(id);
+                    }
+                });
+        clientCmdDoables.put("respawnnetplayer",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        String[] toks = cmd.split(" ");
+                        if(toks.length > 1) {
+                            String reqid = toks[1];
+                            if(reqid.equals(id)) //client can only respawn themself
+                                xCon.ex(cmd);
+                        }
+                    }
+                });
+        clientCmdDoables.put("putitem",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        int itemid = cServerLogic.scene.getHighestItemId() + 1;
+                        xCon.ex(String.format("cv_itemid %d;%s", itemid, cmd));
+                        addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
+                                itemid, cmd.replace("putitem", "cl_putitem")));
+                    }
+                });
+        for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem"}) {
+            clientCmdDoables.put(dcs,
+                    new gDoableCmd() {
+                        void ex(String id, String cmd) {
+                            String[] toks = cmd.split(" ");
+                            if(toks.length > 1) {
+                                xCon.ex(cmd);
+                                addExcludingNetCmd("server",
+                                        cmd.replaceFirst(dcs, "cl_"+dcs));
+                            }
+                        }
+                    });
+        }
+        clientCmdDoables.put("deleteplayer",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        String[] toks = cmd.split(" ");
+                        if(toks.length > 1) {
+                            String reqid = toks[1];
+                            if(reqid.equals(id)) //client can only remove itself
+                                xCon.ex(cmd);
+                            addExcludingNetCmd("server",
+                                    cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
+                        }
+                    }
+                });
     }
 
     public void addQuitClient(String id) {
@@ -505,67 +566,14 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
         System.out.println("FROM_CLIENT_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.contains("fireweapon")) { //handle special case for weapons
-                addExcludingNetCmd(id+",server,",
-                        cmd.replaceFirst("fireweapon", "cl_fireweapon"));
-                xCon.ex(cmd);
-            }
-            else if(ccmd.contains("requestdisconnect")) {
-                quitClientIds.add(id);
-            }
-            else if(ccmd.contains("respawnnetplayer")) {
-                String[] toks = cmd.split(" ");
-                if(toks.length > 1) {
-                    String reqid = toks[1];
-                    if(reqid.equals(id)) //client can only respawn themself
-                        xCon.ex(cmd);
-                }
-            }
-            else if(ccmd.contains("deleteplayer")) {
-                String[] toks = cmd.split(" ");
-                if(toks.length > 1) {
-                    String reqid = toks[1];
-                    if(reqid.equals(id)) //client can only remove itself
-                        xCon.ex(cmd);
-                        addExcludingNetCmd("server",
-                                cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
-                }
+            if(clientCmdDoables.containsKey(ccmd)) {
+                clientCmdDoables.get(ccmd).ex(id, cmd);
             }
             else if(cmd.contains("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
                 xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
                 addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,
                         cmd.replace("exec ", "cl_exec ")));
-            }
-            else if(ccmd.contains("putitem")) {
-                int itemid = cServerLogic.scene.getHighestItemId() + 1;
-                xCon.ex(String.format("cv_itemid %d;%s", itemid, cmd));
-                addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
-                        itemid, cmd.replace("putitem", "cl_putitem")));
-            }
-            else if(ccmd.contains("deleteblock")) {
-                String[] toks = cmd.split(" ");
-                if(toks.length > 1) {
-                    xCon.ex(cmd);
-                    addExcludingNetCmd("server",
-                            cmd.replaceFirst("deleteblock ", "cl_deleteblock "));
-                }
-            }
-            else if(ccmd.contains("deletecollision")) {
-                String[] toks = cmd.split(" ");
-                if(toks.length > 1) {
-                    xCon.ex(cmd);
-                    addExcludingNetCmd("server",
-                            cmd.replaceFirst("deletecollision ", "cl_deletecollision "));
-                }
-            }
-            else if(ccmd.contains("deleteitem")) {
-                String[] toks = cmd.split(" ");
-                if(toks.length > 1) {
-                    xCon.ex(cmd);
-                    addExcludingNetCmd("server",
-                            cmd.replaceFirst("deleteitem ", "cl_deleteitem "));
-                }
             }
             else
                 addNetCmd(cmd);
