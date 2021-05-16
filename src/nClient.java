@@ -216,7 +216,7 @@ public class nClient extends Thread {
             }
             if(idload.equals(uiInterface.uuid)){ // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
-                if(userPlayer != null)
+                if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
             }
         }
