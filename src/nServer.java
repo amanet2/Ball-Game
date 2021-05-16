@@ -469,7 +469,7 @@ public class nServer extends Thread {
                     flare.get("b2"),
                     flare.get("a2")
             };
-            StringBuilder str = new StringBuilder("putflare");
+            StringBuilder str = new StringBuilder("cl_putflare");
             for(String arg : args) {
                 if(arg != null) {
                     str.append(" ").append(arg);

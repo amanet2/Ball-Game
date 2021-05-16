@@ -159,6 +159,7 @@ public class xCon {
         commands.put("cl_exec", new xComExecClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putcollision", new xComPutCollisionClient());
+        commands.put("cl_putflare", new xComPutFlareClient());
         commands.put("cl_putitem", new xComPutItemClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());

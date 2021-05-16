@@ -1,4 +1,4 @@
-public class xComPutFlare extends xCom {
+public class xComPutFlareClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 12) {
@@ -8,9 +8,9 @@ public class xComPutFlare extends xCom {
             gDoableFlareReturn flareReturn = factory.flareLoader;
             gFlare newFlare = flareReturn.getFlare(args);
             newFlare.put("flareid", cVars.get("flareid"));
-            String flareId = Integer.toString(cServerLogic.scene.flareIdCtr);
-            cServerLogic.scene.getThingMap("THING_FLARE").put(flareId, newFlare);
-            cServerLogic.scene.flareIdCtr += 1;
+            String flareId = Integer.toString(cClientLogic.scene.flareIdCtr);
+            cClientLogic.scene.getThingMap("THING_FLARE").put(flareId, newFlare);
+            cClientLogic.scene.flareIdCtr += 1;
         }
         return "usage: putflare <x> <y> <w> <h> <r1> <g1> <b1> <a1> <r2> <g2> <b2> <a2>";
     }
