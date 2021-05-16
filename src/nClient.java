@@ -172,7 +172,7 @@ public class nClient extends Thread {
                 }
             }
             if(idload.equals("server")) {
-                cVars.put("timeleft", packArgs.get("timeleft"));
+                cVars.put("timeleft", packArgs.get("time"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {
                     if(!packArgs.containsKey(s))

@@ -191,7 +191,7 @@ public class nServer extends Thread {
 //        keys.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
 //        cVars.put("scoremap", keys.get("scoremap"));
         cVars.put("scoremap", gScoreboard.createSortedScoreMapStringServer());
-        keys.put("timeleft", cVars.get("timeleft"));
+        keys.put("time", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
                 if(clientArgsMap.get("server").containsKey(s))
