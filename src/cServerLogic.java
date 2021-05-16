@@ -108,7 +108,7 @@ public class cServerLogic {
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
                 nServer.instance().addExcludingNetCmd("server",
-                        "echo Changing map...");
+                        "echo changing map...");
             }
         }
     }

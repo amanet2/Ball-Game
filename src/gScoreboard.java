@@ -19,7 +19,8 @@ public class gScoreboard {
 
     public static String createSortedScoreMapStringServer() {
 //        String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
-        String[] scoreFields = new String[]{"wins", "score", "kills"};
+//        String[] scoreFields = new String[]{"wins", "score", "kills"};
+        String[] scoreFields = new String[]{"wins", "score"};
         StringBuilder scoreString = new StringBuilder();
         String[] sortedIds = new String[scoresMap.keySet().size()];
         int ic = 0;
@@ -46,12 +47,11 @@ public class gScoreboard {
         }
         for(int i = 0 ; i < sortedIds.length; i++) {
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(sortedIds[i]);
-//            scoreString.append(String.format("%s-%s-%s-%s-%s:",
-            scoreString.append(String.format("%s-%s-%s-%s:",
+            scoreString.append(String.format("%s-%s-%s:",
                     sortedIds[i],
                     scoresMapIdMap.get(scoreFields[0]),
-                    scoresMapIdMap.get(scoreFields[1]),
-                    scoresMapIdMap.get(scoreFields[2])
+                    scoresMapIdMap.get(scoreFields[1])
+//                    scoresMapIdMap.get(scoreFields[2])
 //                    scoresMapIdMap.get(scoreFields[3])
             ));
         }
@@ -118,7 +118,7 @@ public class gScoreboard {
         scoresMap.put(id, new HashMap<>());
         scoresMap.get(id).put("wins", 0);
         scoresMap.get(id).put("score", 0);
-        scoresMap.get(id).put("kills", 0);
+//        scoresMap.get(id).put("kills", 0);
 //        scoresMap.get(id).put("ping", 0);
     }
 

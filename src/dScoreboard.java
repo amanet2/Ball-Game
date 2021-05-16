@@ -20,13 +20,12 @@ public class dScoreboard {
         g.drawString("["+ gScoreboard.scoresMap.size() + " players]",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
-        g.drawString("                                                   Kills",
-                sSettings.width/3,5*sSettings.height/30);
+//        g.drawString("                                                   Kills",
+//                sSettings.width/3,5*sSettings.height/30);
 //        g.drawString("                                                               Ping",
 //                sSettings.width/3,5*sSettings.height/30);
-//        g.drawString("-----------------------------------------------------------",
-        g.drawString("-----------------------------------------------",
-                sSettings.width/3, 6*sSettings.height/30);
+        g.drawString("_______________________",
+                sSettings.width/3, 11*sSettings.height/60);
         int i = 0;
         int prevscore=-1000000;
         int prevplace = 0;
@@ -44,7 +43,7 @@ public class dScoreboard {
             HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
             int playerwins = scoresMapIdMap.get("wins");
             int playerscore = scoresMapIdMap.get("score");
-            int playerkills = scoresMapIdMap.get("kills");
+//            int playerkills = scoresMapIdMap.get("kills");
 //            int playerping = scoresMapIdMap.get("ping");
             boolean isMe = false;
             if(id.equals(uiInterface.uuid)) {
@@ -70,8 +69,8 @@ public class dScoreboard {
                     sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             g.drawString("                                       " + playerscore,
                     sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                                   " + playerkills,
-                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
+//            g.drawString("                                                   " + playerkills,
+//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
 //            g.drawString("                                                               " + playerping,
 //                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(isMe) {

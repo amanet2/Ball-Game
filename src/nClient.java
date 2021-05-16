@@ -198,7 +198,7 @@ public class nClient extends Thread {
                         if (scoresMapIdMap != null) {
                             scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
                             scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
-                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
+//                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
 //                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
                         }
                     }
