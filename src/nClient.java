@@ -7,6 +7,7 @@ public class nClient extends Thread {
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = null;
+    private ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -133,12 +134,20 @@ public class nClient extends Thread {
         HashMap<String, String> netVars = getNetVars();
         //this BS has to be decoded
         for(String k : netVars.keySet()) {
-//            if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k))))
-//                sendMap.remove(k); //cmd, name, msg get removed.  NOT removing cmd is bad
-//            else
-                sendMap.put(k, netVars.get(k));
+            sendMap.put(k, netVars.get(k));
         }
-        sendDataString = new StringBuilder(sendMap.toString());
+        HashMap<String, String> workingMap = new HashMap<>(sendMap);
+        //send delta of serverargs
+        if(serverArgsMap.containsKey(uiInterface.uuid)) {
+            for (String k : serverArgsMap.get(uiInterface.uuid).keySet()) {
+                if (!protectedArgs.contains(k) && serverArgsMap.get(uiInterface.uuid).containsKey(k)
+                        && serverArgsMap.get(uiInterface.uuid).get(k).equals(sendMap.get(k))) {
+                    workingMap.remove(k);
+                }
+            }
+        }
+//        sendDataString = new StringBuilder(sendMap.toString());
+        sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");
 //        sendMap.remove("msg");
