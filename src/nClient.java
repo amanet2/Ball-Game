@@ -168,10 +168,6 @@ public class nClient extends Thread {
                 serverArgsMap.put(idload, packArgs);
             else {
                 for (String k : packArgs.keySet()) {
-//                    if(!serverArgsMap.get(idload).containsKey(k)
-//                            || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k)))
-//                        serverArgsMap.get(idload).put(k, packArgs.get(k));
-                    //not sure what's faster, below or above
                     serverArgsMap.get(idload).put(k, packArgs.get(k));
                 }
             }

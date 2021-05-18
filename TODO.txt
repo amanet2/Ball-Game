@@ -4,9 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* NET: why does the client receive a BS packet then full one in a sequencing pattern
-* SERVER: send either full workingmap or the delta
-    -> in server.createsenddatastring
+* Get Server to send a delta during gameplay that keeps everything complete
+* Make map batching go up to a certain byte length instead of # of comms added
+* Have server not send any other clients' vars if the net sendID is still loading
+    -> the gameplay info takes up a lot already
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
 * NET_MAPMAKER: gets bad desync when not starting from perfect parity
 * user player starts getting shaky after a bit

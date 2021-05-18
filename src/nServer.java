@@ -1,5 +1,3 @@
-import com.sun.jdi.ArrayReference;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -15,7 +13,8 @@ public class nServer extends Thread {
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
     ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
-            "id", "score", "x", "y", "fv", "name", "color", "vels"
+//            "id", "score", "x", "y", "vels", "fv", "name", "color"
+            "id", "score", "x", "y", "vels"
     ));
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
@@ -276,18 +275,23 @@ public class nServer extends Thread {
             }
         }
         sendDataString = new StringBuilder(netVars.toString()); //add server string first
+        boolean newclient = false;
+        if(!sendArgsMaps.containsKey(clientid)) {
+            newclient = true;
+            sendArgsMaps.put(clientid, new HashMap<>());
+        }
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {
-                if(!sendArgsMaps.containsKey(clientid))
-                    sendArgsMaps.put(clientid, new HashMap<>());
-                if(!sendArgsMaps.get(clientid).containsKey(idload2))
+                if(!sendArgsMaps.get(clientid).containsKey(idload2)) {
+                    newclient = true;
                     sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
+                }
                 for(String k : clientArgsMap.get(idload2).keySet()) {
                     sendArgsMaps.get(clientid).get(idload2).put(k, clientArgsMap.get(idload2).get(k));
                 }
                 HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-                if(!idload2.equals(clientid)) {
+                if(!newclient && !idload2.equals(clientid)) {
                     workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
                     //calc delta
                     for (String k : clientArgsMap.get(idload2).keySet()) {
@@ -569,11 +573,15 @@ public class nServer extends Thread {
         //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
-        for(String line : maplines) {
+        for(int i = 0; i < maplines.size(); i++) {
+            String line = maplines.get(i);
+            String next = "";
+            if(maplines.size() > i+1)
+                next = maplines.get(i+1);
             sendStringBuilder.append(line).append(";");
             linectr++;
-            if(linectr%cVars.getInt("serversendmapbatchsize") == 0
-                    || linectr == maplines.size()) {
+            if(sendStringBuilder.length() + next.length() >= cVars.getInt("serversendmapbatchsize")
+            || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();
