@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class xComJoingame extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -9,7 +7,6 @@ public class xComJoingame extends xCom {
             if(comps.length > 1)
                 sVars.put("joinport", comps[1]);
         }
-        nClient.instance().sendMap = new HashMap<>();
         nClient.instance().start();
         sSettings.IS_CLIENT = true;
         return "joined game";
