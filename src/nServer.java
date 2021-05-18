@@ -1,3 +1,5 @@
+import com.sun.jdi.ArrayReference;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -11,7 +13,8 @@ public class nServer extends Thread {
     ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    HashMap<String, HashMap<String, String>> sendArgsMap = new HashMap<>(); //for deltas and retaining sendmaps
+    HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
+    ArrayList<String> protectedClientArgs = new ArrayList<>(Arrays.asList("id", "score", "cmdrcv", "name", "cmd", "msg"));
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
@@ -199,14 +202,6 @@ public class nServer extends Thread {
         return keys;
     }
 
-    public HashMap<String, String> getClientNetVars(String id) {
-        HashMap<String, String> keys = new HashMap<>();
-        if(clientArgsMap.containsKey(id)) {
-
-        }
-        return keys;
-    }
-
     public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
@@ -281,11 +276,11 @@ public class nServer extends Thread {
         sendDataString = new StringBuilder(netVars.toString()); //add server string first
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
-            HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
             if(clientArgsMap.containsKey(idload2)) {
-                workingmap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-                workingmap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-                sendDataString.append(String.format("@%s", workingmap.toString()));
+                HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
+                workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+                workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+                sendDataString.append(String.format("@%s", workingMap.toString()));
             }
         }
         return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
@@ -430,7 +425,7 @@ public class nServer extends Thread {
         System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
-        sendArgsMap.put(packId, new HashMap<>());
+        sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         for(String clientId : clientIds) {
