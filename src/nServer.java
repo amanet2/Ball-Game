@@ -14,7 +14,9 @@ public class nServer extends Thread {
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    ArrayList<String> protectedClientArgs = new ArrayList<>(Arrays.asList("id", "score", "cmdrcv", "name", "cmd", "msg"));
+    ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
+            "id", "score", "x", "y", "fv", "name", "color", "vels"
+    ));
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
@@ -277,10 +279,28 @@ public class nServer extends Thread {
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             if(clientArgsMap.containsKey(idload2)) {
+                if(!sendArgsMaps.containsKey(clientid))
+                    sendArgsMaps.put(clientid, new HashMap<>());
+                if(!sendArgsMaps.get(clientid).containsKey(idload2))
+                    sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
+                for(String k : clientArgsMap.get(idload2).keySet()) {
+                    sendArgsMaps.get(clientid).get(idload2).put(k, clientArgsMap.get(idload2).get(k));
+                }
                 HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
+                if(!idload2.equals(clientid)) {
+                    workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
+                    //calc delta
+                    for (String k : clientArgsMap.get(idload2).keySet()) {
+                        if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
+                                && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
+                            workingMap.remove(k);
+                        }
+                    }
+                }
                 workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
                 workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
                 sendDataString.append(String.format("@%s", workingMap.toString()));
+                sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
             }
         }
         return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
