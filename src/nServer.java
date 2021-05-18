@@ -138,7 +138,7 @@ public class nServer extends Thread {
     }
 
     public void addNetCmd(String id, String cmd) {
-        System.out.println("TO_"+id+" "+cmd);
+//        System.out.println("TO_"+id+" "+cmd);
         if(id.equalsIgnoreCase("server"))
             serverLocalCmdQueue.add(cmd);
         else
@@ -146,7 +146,7 @@ public class nServer extends Thread {
     }
 
     public void addNetCmd(String cmd) {
-        System.out.println("TO_ALL: " + cmd);
+//        System.out.println("TO_ALL: " + cmd);
         xCon.ex(cmd);
         addNetSendData(clientNetCmdMap, cmd);
     }
@@ -568,7 +568,7 @@ public class nServer extends Thread {
 
     private void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
-        System.out.println("FROM_" + id + ": " + cmd);
+//        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
