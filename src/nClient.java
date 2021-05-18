@@ -133,15 +133,13 @@ public class nClient extends Thread {
         HashMap<String, String> netVars = getNetVars();
         //this BS has to be decoded
         for(String k : netVars.keySet()) {
-            if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k)))) {
-                sendMap.remove(k);
-            }
+            if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k))))
+                sendMap.remove(k); //cmd, name get removed
             else
                 sendMap.put(k, netVars.get(k));
         }
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
-        sendMap.remove("cmdrcv");
         return sendDataString.toString().replace(", ", ",");
     }
 
@@ -215,6 +213,8 @@ public class nClient extends Thread {
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
+                if(packArgs.containsKey("cmdrcv"))
+                    sendMap.remove("cmdrcv");
             }
         }
         //check for ids that have been taken out of the server argmap
