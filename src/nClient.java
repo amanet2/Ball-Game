@@ -146,11 +146,9 @@ public class nClient extends Thread {
                 }
             }
         }
-//        sendDataString = new StringBuilder(sendMap.toString());
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");
-//        sendMap.remove("msg");
         return sendDataString.toString().replace(", ", ",");
     }
 

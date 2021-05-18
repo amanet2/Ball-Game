@@ -199,6 +199,14 @@ public class nServer extends Thread {
         return keys;
     }
 
+    public HashMap<String, String> getClientNetVars(String id) {
+        HashMap<String, String> keys = new HashMap<>();
+        if(clientArgsMap.containsKey(id)) {
+
+        }
+        return keys;
+    }
+
     public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
@@ -270,7 +278,7 @@ public class nServer extends Thread {
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-        sendDataString = new StringBuilder(netVars.toString());
+        sendDataString = new StringBuilder(netVars.toString()); //add server string first
         for(int i = 0; i < clientIds.size(); i++) {
             String idload2 = clientIds.get(i);
             HashMap<String, String> workingmap = new HashMap<>(clientArgsMap.get(idload2));
@@ -422,6 +430,7 @@ public class nServer extends Thread {
         System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
+        sendArgsMap.put(packId, new HashMap<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         for(String clientId : clientIds) {
