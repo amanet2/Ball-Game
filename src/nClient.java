@@ -133,13 +133,15 @@ public class nClient extends Thread {
         HashMap<String, String> netVars = getNetVars();
         //this BS has to be decoded
         for(String k : netVars.keySet()) {
-            if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k))))
-                sendMap.remove(k); //cmd, name get removed
-            else
+//            if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k))))
+//                sendMap.remove(k); //cmd, name, msg get removed.  NOT removing cmd is bad
+//            else
                 sendMap.put(k, netVars.get(k));
         }
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
+        sendMap.remove("cmd");
+//        sendMap.remove("msg");
         return sendDataString.toString().replace(", ", ",");
     }
 
