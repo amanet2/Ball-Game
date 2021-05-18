@@ -132,16 +132,13 @@ public class nClient extends Thread {
         StringBuilder sendDataString;
         HashMap<String, String> netVars = getNetVars();
         //this BS has to be decoded
-        ArrayList<String> removed = new ArrayList<>();
         for(String k : netVars.keySet()) {
             if((!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k)))) {
                 sendMap.remove(k);
-                removed.add(k);
             }
             else
                 sendMap.put(k, netVars.get(k));
         }
-        System.out.println("REMOVED: " + removed.toString());
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmdrcv");

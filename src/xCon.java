@@ -45,8 +45,10 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(sVars.isOne("debug"))
+        if(sVars.isOne("debug")) {
             log(s);
+            System.out.println(s);
+        }
     }
 
     public void log(String s) {

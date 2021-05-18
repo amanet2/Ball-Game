@@ -370,10 +370,7 @@ public class nServer extends Thread {
                 oldName = oldArgMap.get("name");
             //only want to update keys that have changes
             for(String k : packArgMap.keySet()) {
-                if(!clientArgsMap.get(packId).containsKey(k)
-                        || !clientArgsMap.get(packId).get(k).equals(packArgMap.get(k))) {
-                    clientArgsMap.get(packId).put(k, packArgMap.get(k));
-                }
+                clientArgsMap.get(packId).put(k, packArgMap.get(k));
             }
             //record time we last updated client args
             clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
