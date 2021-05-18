@@ -131,16 +131,13 @@ public class nClient extends Thread {
     private String createSendDataString() {
         StringBuilder sendDataString;
         HashMap<String, String> netVars = getNetVars();
-        if(sendMap != null) {
-            for(String k : netVars.keySet()) {
-                if(k.equals("id") || !sendMap.containsKey(k) || !sendMap.get(k).equals(netVars.get(k)))
-                    sendMap.put(k, netVars.get(k));
-                else
-                    sendMap.remove(k);
-            }
+        //this BS has to be decoded
+        for(String k : netVars.keySet()) {
+            if(!k.equals("id") && sendMap.containsKey(k) && sendMap.get(k).equals(netVars.get(k)))
+                sendMap.remove(k);
+            else
+                sendMap.put(k, netVars.get(k));
         }
-        else
-            sendMap = new HashMap<>(netVars);
 
         sendDataString = new StringBuilder(sendMap.toString());
         //handle removing variables after the fact
