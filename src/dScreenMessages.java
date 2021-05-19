@@ -50,7 +50,6 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
-            gPlayer userPlayer = cClientLogic.getUserPlayer();
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {

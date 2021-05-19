@@ -3,7 +3,7 @@ public class gItemFlag extends gItem {
         nServer.instance().clientArgsMap.get("server").put("flagmasterid", player.get("id"));
         String playername = nServer.instance().clientArgsMap.get(player.get("id")).get("name");
         nServer.instance().addExcludingNetCmd("server",
-                "echo " + playername + " has the flag!");
+                "echo " + playername + " has the flag");
         nServer.instance().addNetCmd("deleteitem " + get("id"));
     }
 

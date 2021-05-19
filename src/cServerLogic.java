@@ -104,7 +104,7 @@ public class cServerLogic {
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
+                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
