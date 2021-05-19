@@ -14,7 +14,8 @@ public class nServer extends Thread {
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
     ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
 //            "id", "score", "x", "y", "vels", "fv", "name", "color"
-            "id", "score", "x", "y", "vels"
+//            "id", "score", "x", "y", "vels"
+            "id", "score"
     ));
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
@@ -291,7 +292,8 @@ public class nServer extends Thread {
                 sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
             }
             HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-            if (!sendfull && !idload2.equals(clientid)) {
+//            if (!sendfull && !idload2.equals(clientid)) {
+            if (!sendfull) {
 //                workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
                 //calc delta
                 for (String k : clientArgsMap.get(idload2).keySet()) {
