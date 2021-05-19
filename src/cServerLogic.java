@@ -14,6 +14,20 @@ public class cServerLogic {
         checkBulletSplashes();
     }
 
+    public static String getRandomClientDmgString() {
+        char[] selection = new char[]{'#', '$', '%', '^', '&', '*'};
+        StringBuilder expr = new StringBuilder();
+        expr.append(selection[(int) (Math.random() * selection.length)]);
+        while(expr.length() < 4) {
+            char rando = selection[(int)(Math.random()*selection.length)];
+            while(rando == expr.charAt(expr.length()-1)) {
+                rando = selection[(int) (Math.random() * selection.length)];
+            }
+            expr.append(rando);
+        }
+        return expr.append('!').toString();
+    }
+
     public static void checkTimeRemaining() {
         if(sVars.getInt("timelimit") > 0)
             cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
@@ -300,6 +314,7 @@ public class cServerLogic {
         //handle damage serverside
         xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
         nServer.instance().addExcludingNetCmd("server",
+//                "cl_spawnpopup " + dmgvictim.get("id") + " " + getRandomClientDmgString());
                 "cl_spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
     }
 
