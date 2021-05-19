@@ -43,19 +43,17 @@ public class cServerLogic {
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                 }
             }
-            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                    && cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.instance().clientArgsMap.containsKey("server")) {
-                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1)
-                        cGameLogic.resetVirusPlayers();
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                if(cVars.getLong("virustime") < uiInterface.gameTime) {
                     for(String id : getPlayerIds()) {
-                        gPlayer p = getPlayerById(id);
-                        if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
-                            xCon.ex("givepoint " + p.get("id"));
+                        if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
+                            xCon.ex("givepoint " + id);
                     }
+                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
                 }
-                cVars.putLong("virustime", uiInterface.gameTime + 1000);
+            }
+            else if(cVars.isInt("gamemode", cGameLogic.VIRUS)) {
+                cGameLogic.resetVirusPlayers();
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
