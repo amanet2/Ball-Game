@@ -60,9 +60,11 @@ public class dScreenMessages {
                         29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
             }
             dFonts.setFontColorHighlight(g);
-            if(userPlayer != null && gScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
+            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
                 dFonts.drawRightJustifiedString(g,
-                        gScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
+                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
+                                + " points",
                         29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
             }
             dFonts.setFontColorNormal(g);
