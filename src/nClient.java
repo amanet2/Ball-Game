@@ -146,11 +146,9 @@ public class nClient extends Thread {
                 }
             }
         }
-//        sendDataString = new StringBuilder(sendMap.toString());
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");
-//        sendMap.remove("msg");
         return sendDataString.toString().replace(", ", ",");
     }
 
@@ -168,14 +166,8 @@ public class nClient extends Thread {
             String idload = packArgs.get("id");
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
-            else {
-                for (String k : packArgs.keySet()) {
-//                    if(!serverArgsMap.get(idload).containsKey(k)
-//                            || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k)))
-//                        serverArgsMap.get(idload).put(k, packArgs.get(k));
-                    //not sure what's faster, below or above
-                    serverArgsMap.get(idload).put(k, packArgs.get(k));
-                }
+            for (String k : packArgs.keySet()) {
+                serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
                 cVars.put("timeleft", packArgs.get("time"));
@@ -194,24 +186,18 @@ public class nClient extends Thread {
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
-                    String[] requiredFields = new String[]{"x", "y", "vels"};
-                    boolean skip = false;
-                    for(String rf : requiredFields) {
-                        if(!serverArgsMap.get(idload).containsKey(rf)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if(skip)
-                        continue;
                     if(cClientLogic.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
-                            cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
+                            if(serverArgsMap.get(idload).containsKey("x"))
+                                cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            if(serverArgsMap.get(idload).containsKey("y"))
+                                cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
-                        String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
-                        for (int vel = 0; vel < veltoks.length; vel++) {
-                            cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                        if(serverArgsMap.get(idload).containsKey("vels")) {
+                            String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
+                            for (int vel = 0; vel < veltoks.length; vel++) {
+                                cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                            }
                         }
                     }
                 }

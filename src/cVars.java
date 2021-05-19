@@ -44,7 +44,7 @@ public class cVars {
         put("rechargepow", "12");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
-        put("serversendmapbatchsize", "4");
+        put("serversendmapbatchsize", "200");
         put("showscore", "0");
         put("starttime", "0");
         put("timeleft", sVars.get("timelimit"));

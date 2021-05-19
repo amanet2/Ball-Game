@@ -43,19 +43,23 @@ public class cServerLogic {
                     cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
                 }
             }
-            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                    && cVars.getLong("virustime") < uiInterface.gameTime) {
-                if(nServer.instance().clientArgsMap.containsKey("server")) {
-                    if(nServer.instance().clientArgsMap.get("server").get("virusids").length() < 1)
-                        cGameLogic.resetVirusPlayers();
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                    boolean survivors = false;
                     for(String id : getPlayerIds()) {
-                        gPlayer p = getPlayerById(id);
-                        if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")
-                                && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
-                            xCon.ex("givepoint " + p.get("id"));
+                        if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                            survivors = true;
+                            xCon.ex("givepoint " + id);
+                        }
+                    }
+                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    if(!survivors) {
+                        cGameLogic.resetVirusPlayers();
                     }
                 }
-                cVars.putLong("virustime", uiInterface.gameTime + 1000);
+            }
+            else if(cVars.isInt("gamemode", cGameLogic.VIRUS)) {
+                cGameLogic.resetVirusPlayers();
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -100,7 +104,7 @@ public class cServerLogic {
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins!");
+                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
                 int toplay = (int) (Math.random() * eManager.winClipSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
