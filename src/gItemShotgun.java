@@ -10,7 +10,7 @@ public class gItemShotgun extends gItem {
 //            nServer.instance().addNetCmd("giveweapon " + player.get("id") + gWeapons.type.SHOTGUN.code());
         }
     }
-    
+
     public gItemShotgun(int x, int y) {
         super(x, y, 200, 100);
         put("type", "ITEM_SHOTGUN");
