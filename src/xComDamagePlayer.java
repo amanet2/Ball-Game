@@ -12,7 +12,7 @@ public class xComDamagePlayer extends xCom {
                 player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", System.currentTimeMillis());
                 //store player object's health in outgoing network arg map
-                nServer.instance().clientArgsMap.get(id).put("stockhp", player.get("stockhp"));
+                nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
                 //handle death
                 if(player.getInt("stockhp") < 1) {
                     //more server-side stuff
@@ -24,13 +24,17 @@ public class xComDamagePlayer extends xCom {
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
 //                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
-                        nServer.instance().addExcludingNetCmd("server", "echo " + killername + " killed " + victimname);
+                        nServer.instance().addExcludingNetCmd("server",
+                                "echo " + killername + " killed " + victimname);
                         if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
                             xCon.ex("givepoint " + shooterid);
                         else if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                             String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
-                            if(virusids.contains(shooterid))
-                                nServer.instance().clientArgsMap.get("server").put("virusids", virusids+":"+id);
+                            if(virusids.contains(shooterid)) {
+                                nServer.instance().clientArgsMap.get("server").put("virusids", virusids + ":" + id);
+                                nServer.instance().addExcludingNetCmd("server",
+                                        String.format("echo %s was infected", victimname));
+                            }
                         }
                     }
                     else

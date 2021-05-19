@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class dScoreboard {
@@ -17,7 +19,8 @@ public class dScoreboard {
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
-        g.drawString("["+ gScoreboard.scoresMap.size() + " players]",sSettings.width/3,5*sSettings.height/30);
+        g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
+                sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
 //        g.drawString("                                                   Kills",
@@ -26,26 +29,33 @@ public class dScoreboard {
 //                sSettings.width/3,5*sSettings.height/30);
         g.drawString("_______________________",
                 sSettings.width/3, 11*sSettings.height/60);
-        int i = 0;
-        int prevscore=-1000000;
-        int prevplace = 0;
-        String[] scoretoks = cVars.get("scoremap").split(":");
-        HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
-        for(String id : scoresMap.keySet()) {
-            if(scoretoks.length > 0 && scoretoks.length == scoresMap.size()) {
-                if(scoretoks[i].split("-")[0].length() > 0)
-                    id = scoretoks[i].split("-")[0];
+
+        StringBuilder sortedScoreIds = new StringBuilder();
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int topscore = -1;
+            String topid = "";
+            for (String id : nClient.instance().serverArgsMap.keySet()) {
+                if(!id.equals("server") && !sortedScoreIds.toString().contains(id)) {
+                    if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1])
+                    > topscore) {
+                        topscore = Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]);
+                        topid = id;
+                        sorted = false;
+                    }
+                }
             }
-            if(!nClient.instance().serverArgsMap.containsKey(id))
-                continue;
-            String playername = nClient.instance().serverArgsMap.get(id).get("name");
-            String playercolor = nClient.instance().serverArgsMap.get(id).get("color");
-            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-            int playerwins = scoresMapIdMap.get("wins");
-            int playerscore = scoresMapIdMap.get("score");
-//            int playerkills = scoresMapIdMap.get("kills");
-//            int playerping = scoresMapIdMap.get("ping");
-            boolean isMe = false;
+            sortedScoreIds.append(topid).append(",");
+        }
+        int ctr = 0;
+        int place = 1;
+        int prevscore = -1;
+        boolean isMe = false;
+        for(String id : sortedScoreIds.toString().split(",")) {
+            String spectatorstring = "";
+            if(cClientLogic.getPlayerById(id) == null)
+                spectatorstring = "[SPECTATE] ";
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
                 g.setColor(new Color(
@@ -54,21 +64,18 @@ public class dScoreboard {
                         Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
                         Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
             }
-            int place = i;
-            if(playerscore == prevscore)
-                place = prevplace;
-            prevplace = place;
-            prevscore = playerscore;
-            String spectatorstring = "";
-            if(cClientLogic.getPlayerById(id) == null)
-                spectatorstring = "[SPECTATE] ";
-            g.drawString(String.format("%s%d. ", spectatorstring, place+1)
-                            + playername, sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
-                    7 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                           " + playerwins,
-                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
-            g.drawString("                                       " + playerscore,
-                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
+            if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]) < prevscore)
+                place++;
+            g.drawString(String.format("%s%d. ", spectatorstring, place)
+                            + nClient.instance().serverArgsMap.get(id).get("name"),
+                    sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
+                    7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+            g.drawString("                           "
+                            + nClient.instance().serverArgsMap.get(id).get("score").split(":")[0],
+                    sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+            g.drawString("                                       "
+                            + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
+                    sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
 //            g.drawString("                                                   " + playerkills,
 //                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
 //            g.drawString("                                                               " + playerping,
@@ -79,8 +86,10 @@ public class dScoreboard {
                         Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
                         Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
                         Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
+                isMe = false;
             }
-            i++;
+            ctr++;
+            prevscore = Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]);
         }
     }
 }

@@ -45,8 +45,10 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(sVars.isOne("debug"))
+        if(sVars.isOne("debug")) {
             log(s);
+            System.out.println(s);
+        }
     }
 
     public void log(String s) {
@@ -215,7 +217,7 @@ public class xCon {
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
-                    System.out.println("CONSOLE PARSING SVAR: " + configval);
+//                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
@@ -225,7 +227,7 @@ public class xCon {
                     return sVars.get(configval);
                 }
                 else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
-                    System.out.println("CONSOLE PARSING CVAR: " + configval);
+//                    System.out.println("CONSOLE PARSING CVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         String val = args[1];
