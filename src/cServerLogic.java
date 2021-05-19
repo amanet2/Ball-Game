@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Random;
 
 public class cServerLogic {
     static gScene scene = new gScene();
@@ -129,18 +128,6 @@ public class cServerLogic {
                         "echo changing map...");
             }
         }
-    }
-
-    public static gThing getRandomSpawnpoint() {
-        int size = scene.getThingMap("ITEM_SPAWNPOINT").size();
-        if(size > 0) {
-            int randomSpawnpointIndex = new Random().nextInt(size);
-            ArrayList<String> spawnpointids =
-                    new ArrayList<>(scene.getThingMap("ITEM_SPAWNPOINT").keySet());
-            String randomId = spawnpointids.get(randomSpawnpointIndex);
-            return scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
-        }
-        return null;
     }
 
     public static void checkHealthStatus() {
