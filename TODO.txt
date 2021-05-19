@@ -4,15 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* SERVER: create hashmap of client ids which map to a "sendmap" which can be pruned like in nClient
+* Have server not send any other clients' vars if the net sendID is still loading
+    -> the gameplay info takes up a lot already
 * new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
-* NET_MAPMAKER: gets bad desync when not starting from perfect parity
+* NET_MAPMAKER: gets bad desync between players when not starting from perfect parity
 * user player starts getting shaky after a bit
-* try to get # of bytes sent per packet down
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
 * NET_PLAY: server should override the client "coords" every so often to keep everything in sync
 * NET_MAPMAKER: show all user's preview rect on all clients
-    -> make a client netvar: {..., "preview": "x:y:w:h", ...}
+    -> make a client netvar: {..., "prev": "x:y:w:h", ...}
 ###
 ### POWER GAP
 ###
