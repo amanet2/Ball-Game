@@ -184,25 +184,6 @@ public class nServer extends Thread {
         }
     }
 
-    public HashMap<String, String> getNetVars() {
-        HashMap<String, String> keys = new HashMap<>();
-        //handle outgoing cmd
-        keys.put("cmd", "");
-        //handle server outgoing cmds that loopback to the server
-        checkLocalCmds();
-        //update id in net args
-        keys.put("id", "server");
-        //send scores
-        keys.put("time", cVars.get("timeleft"));
-        if(clientArgsMap.containsKey("server")) {
-            for(String s : new String[]{"flagmasterid", "virusids"}) {
-                if(clientArgsMap.get("server").containsKey(s))
-                    keys.put(s, clientArgsMap.get("server").get(s));
-            }
-        }
-        return keys;
-    }
-
     public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
@@ -263,6 +244,30 @@ public class nServer extends Thread {
         }
     }
 
+    public HashMap<String, String> getNetVars() {
+        HashMap<String, String> keys = new HashMap<>();
+        //handle outgoing cmd
+        keys.put("cmd", "");
+        //handle server outgoing cmds that loopback to the server
+        checkLocalCmds();
+        //update id in net args
+        keys.put("id", "server");
+        //send scores
+        keys.put("time", cVars.get("timeleft"));
+        if(clientArgsMap.containsKey("server")) {
+            for(String s : new String[]{"flagmasterid", "virusids"}) {
+                if(clientArgsMap.get("server").containsKey(s))
+                    keys.put(s, clientArgsMap.get("server").get(s));
+            }
+        }
+        return keys;
+    }
+
+    public HashMap<String, String> getClientNetVars(String clientId) {
+        HashMap<String, String> keys = new HashMap<>();
+        return keys;
+    }
+
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         StringBuilder sendDataString;
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
@@ -275,37 +280,35 @@ public class nServer extends Thread {
             }
         }
         sendDataString = new StringBuilder(netVars.toString()); //add server string first
-        boolean newclient = false;
+        boolean sendfull = false;
         if(!sendArgsMaps.containsKey(clientid)) {
-            newclient = true;
+            sendfull = true;
             sendArgsMaps.put(clientid, new HashMap<>());
         }
-        for(int i = 0; i < clientIds.size(); i++) {
-            String idload2 = clientIds.get(i);
-            if(clientArgsMap.containsKey(idload2)) {
-                if(!sendArgsMaps.get(clientid).containsKey(idload2)) {
-                    newclient = true;
-                    sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
-                }
-                for(String k : clientArgsMap.get(idload2).keySet()) {
-                    sendArgsMaps.get(clientid).get(idload2).put(k, clientArgsMap.get(idload2).get(k));
-                }
-                HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-                if(!newclient && !idload2.equals(clientid)) {
-                    workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
-                    //calc delta
-                    for (String k : clientArgsMap.get(idload2).keySet()) {
-                        if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
-                                && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
-                            workingMap.remove(k);
-                        }
+        for (String idload2 : clientIds) {
+            if (!sendArgsMaps.get(clientid).containsKey(idload2)) {
+                sendfull = true;
+                sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
+            }
+            HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
+            if (!sendfull && !idload2.equals(clientid)) {
+//                workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
+                //calc delta
+                for (String k : clientArgsMap.get(idload2).keySet()) {
+                    if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
+                            && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
+                        workingMap.remove(k);
                     }
                 }
-                workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-                workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-                sendDataString.append(String.format("@%s", workingMap.toString()));
-                sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
             }
+            workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+            workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
+            sendDataString.append(String.format("@%s", workingMap.toString()));
+            sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
+//            for (String k : clientArgsMap.get(idload2).keySet()) {
+//                sendArgsMaps.get(clientid).get(idload2).put(k, clientArgsMap.get(idload2).get(k));
+//            }
+            sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
         }
         return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
     }

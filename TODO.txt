@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* prolly do a changeplayercolor/changeplayercolorclient cmd since those are secure and dont really hold up the game so much
+    -> x,y,vels on the other hand gotta be real time
 * Get Server to send a delta during gameplay that keeps everything complete
 * Make map batching go up to a certain byte length instead of # of comms added
 * Have server not send any other clients' vars if the net sendID is still loading
