@@ -45,11 +45,17 @@ public class cServerLogic {
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                 if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                    boolean survivors = false;
                     for(String id : getPlayerIds()) {
-                        if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id))
+                        if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                            survivors = true;
                             xCon.ex("givepoint " + id);
+                        }
                     }
                     cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    if(!survivors) {
+                        cGameLogic.resetVirusPlayers();
+                    }
                 }
             }
             else if(cVars.isInt("gamemode", cGameLogic.VIRUS)) {
