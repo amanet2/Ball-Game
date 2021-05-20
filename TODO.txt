@@ -4,10 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* turn "playercolor" into a cmd
-    -> xcomplayercolor & xcomplayercolorclient
-* dont allow players to spawn on top of each other
 * find a way to not have to do the "@" splitting in sending from server
+    -> a tall task but worth it
+* dont allow players to spawn on top of each other
 * Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
 * drawing: iterate through y-levels downward (in view) and iterate drawing objects per y-level
