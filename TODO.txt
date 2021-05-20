@@ -4,7 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* SERVER: dont allow players to spawn on top of each other
 * NET: Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
 * GFX: iterate through y-levels downward (in view) and iterate drawing objects per y-level

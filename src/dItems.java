@@ -19,5 +19,20 @@ public class dItems {
                         eUtils.scaleInt(item.getInt("dimh")));
             }
         }
+        //flag for ctf
+        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
+            if(nClient.instance().serverArgsMap.containsKey("server")
+                    && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                    && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(id)) {
+                gPlayer player = (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+                g2.drawImage(gItemFactory.instance().flagSprite,
+                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+                                - player.getInt("dimw")/2),
+                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                - player.getInt("dimh")),
+                        null
+                );
+            }
+        }
     }
 }
