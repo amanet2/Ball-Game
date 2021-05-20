@@ -76,7 +76,8 @@ public class uiEditorMenus {
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem showControls = new JMenuItem("Show Controls");
+        JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
+        JMenuItem showControls = new JMenuItem("Controls");
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem join = new JMenuItem("Join Game");
         JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
@@ -92,7 +93,11 @@ public class uiEditorMenus {
         menus.get("Multiplayer").add(join);
         menus.get("Multiplayer").add(joinip);
         menus.get("Multiplayer").add(joinport);
+        menus.get("Settings").add(playerName);
         menus.get("Settings").add(showControls);
+
+        addConsoleActionToJMenuItem(exit,"quit");
+        addConsoleActionToJMenuItem(showControls,"e_showcontrols");
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -135,6 +140,12 @@ public class uiEditorMenus {
         joinport.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("e_changejoinport");
+            }
+        });
+
+        playerName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changeplayername");
             }
         });
 
@@ -205,9 +216,6 @@ public class uiEditorMenus {
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
             menus.get("Gametype").add(gametypeMenuItem);
         }
-
-        addConsoleActionToJMenuItem(exit,"quit");
-        addConsoleActionToJMenuItem(showControls,"e_showcontrols");
     }
 
     private static void createNewMenu(String title) {
