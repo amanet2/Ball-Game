@@ -165,6 +165,7 @@ public class nClient extends Thread {
 //        String netmapstring = receiveDataString;
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
+//            System.out.println(idload);
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
