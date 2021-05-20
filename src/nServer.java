@@ -447,20 +447,21 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-        System.out.println("NEW_CLIENT: "+packId);
+//        System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
+        if(!sSettings.show_mapmaker_ui)
+            addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
+//            addNetCmd("server", String.format("respawnnetplayer %s", packId));
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
                 addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
                     clientId, player.get("coordx"), player.get("coordy")));
         }
-        if(!sSettings.show_mapmaker_ui)
-            xCon.ex(String.format("respawnnetplayer %s", packId));
         addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
     }
 
