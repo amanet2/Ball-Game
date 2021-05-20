@@ -12,10 +12,7 @@ public class nServer extends Thread {
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
-//            "id", "score", "x", "y", "vels", "fv", "name", "color"
-//            "id", "score", "x", "y", "vels"
-//            "id", "score"
+    ArrayList<String> clientProtectedArgs = new ArrayList<>(Collections.singletonList(
             "score"
     ));
     //id maps to queue of cmds we want to run on that client

@@ -287,7 +287,6 @@ public class cServerLogic {
         //handle damage serverside
         xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
         nServer.instance().addExcludingNetCmd("server",
-//                "cl_spawnpopup " + dmgvictim.get("id") + " " + getRandomClientDmgString());
                 "cl_spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
     }
 

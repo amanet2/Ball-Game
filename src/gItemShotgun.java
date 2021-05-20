@@ -7,7 +7,6 @@ public class gItemShotgun extends gItem {
             nServer.instance().addExcludingNetCmd("server", "echo " + player.get("name")
                     + " has the shotgun");
             nServer.instance().addNetCmd("deleteitem " + get("id"));
-//            nServer.instance().addNetCmd("giveweapon " + player.get("id") + gWeapons.type.SHOTGUN.code());
         }
     }
 

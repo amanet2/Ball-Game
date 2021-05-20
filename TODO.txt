@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* choose prefabs from file picker instead of checkboxes
 * dont allow players to spawn on top of each other
 * Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
