@@ -81,14 +81,14 @@ public class uiEditorMenus {
         JMenuItem join = new JMenuItem("Join Game");
         JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
         JMenuItem joinport = new JMenuItem("Port: " + sVars.get("joinport"));
-        JMenuItem prefabs = new JMenuItem("Select Prefab");
+//        JMenuItem prefabs = new JMenuItem("Select Prefab");
 
         menus.get("File").add(newtopmap);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
-        menus.get("File").add(exportasprefab);
+//        menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
-        menus.get("Prefabs").add(prefabs);
+//        menus.get("Prefabs").add(prefabs);
         menus.get("Multiplayer").add(join);
         menus.get("Multiplayer").add(joinip);
         menus.get("Multiplayer").add(joinport);
@@ -114,11 +114,11 @@ public class uiEditorMenus {
             }
         });
 
-        prefabs.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_openprefab");
-            }
-        });
+//        prefabs.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                xCon.ex("e_openprefab");
+//            }
+//        });
 
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -157,19 +157,19 @@ public class uiEditorMenus {
         });
 
         //fill prefabs menu
-//        for(String prefabname : eManager.prefabSelection) {
-//            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
-//            if(prefabmenuitem.getText().equals(cVars.get("newprefabname"))) {
-//                prefabmenuitem.setSelected(true);
-//            }
-//            prefabmenuitem.addActionListener(e -> {
-//                cVars.put("newprefabname", prefabname);
-//                cVars.put("newitemname", "");
-//                refreshCheckBoxItems();
-//            });
-//            prefabCheckboxMenuItems.add(prefabmenuitem);
-//            menus.get("Prefabs").add(prefabmenuitem);
-//        }
+        for(String prefabname : eManager.prefabSelection) {
+            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
+            if(prefabmenuitem.getText().equals(cVars.get("newprefabname"))) {
+                prefabmenuitem.setSelected(true);
+            }
+            prefabmenuitem.addActionListener(e -> {
+                cVars.put("newprefabname", prefabname);
+                cVars.put("newitemname", "");
+                refreshCheckBoxItems();
+            });
+            prefabCheckboxMenuItems.add(prefabmenuitem);
+            menus.get("Prefabs").add(prefabmenuitem);
+        }
         //fill items menu
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
