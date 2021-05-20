@@ -66,25 +66,31 @@ public class uiEditorMenus {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
         createNewMenu("File");
+        createNewMenu("Multiplayer");
         createNewMenu("Prefabs");
         createNewMenu("Items");
         createNewMenu("Gametype");
+        createNewMenu("Settings");
 
         JMenuItem newtopmap = new JMenuItem("New");
-        JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem showControls = new JMenuItem("Show Controls");
         JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem join = new JMenuItem("Join Game");
+        JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
+        JMenuItem joinport = new JMenuItem("Port: " + sVars.get("joinport"));
 
         menus.get("File").add(newtopmap);
-        menus.get("File").add(join);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
         menus.get("File").add(exportasprefab);
-        menus.get("File").add(showControls);
         menus.get("File").add(exit);
+        menus.get("Multiplayer").add(join);
+        menus.get("Multiplayer").add(joinip);
+        menus.get("Multiplayer").add(joinport);
+        menus.get("Settings").add(showControls);
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +115,18 @@ public class uiEditorMenus {
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("joingame");
+            }
+        });
+
+        joinip.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changejoinip");
+            }
+        });
+
+        joinport.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changejoinport");
             }
         });
 
