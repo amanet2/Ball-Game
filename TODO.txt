@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* choose prefabs from file picker instead of checkboxes
+* revert prefab strategy
+    -> if anything, bring down the # of prefabs
+    -> great value in creating own prefabs though, and it should work
 * dont allow players to spawn on top of each other
 * Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
