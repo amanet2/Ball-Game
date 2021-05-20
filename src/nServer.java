@@ -453,9 +453,8 @@ public class nServer extends Thread {
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
-        if(!sSettings.show_mapmaker_ui)
+        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
             addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
-//            addNetCmd("server", String.format("respawnnetplayer %s", packId));
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
