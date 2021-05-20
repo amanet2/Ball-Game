@@ -158,12 +158,11 @@ public class nClient extends Thread {
     }
 
     public void readData(String receiveDataString) {
-        String[] argsets = receiveDataString.trim().split("@");
         ArrayList<String> foundIds = new ArrayList<>();
-        for(int i = 0; i < argsets.length; i++) {
-            String argload = argsets[i];
-            HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
-            String idload = packArgs.get("id");
+        String netmapstring = receiveDataString.trim();
+        HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
+        for(String idload : packargmap.keySet()) {
+            HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
             for (String k : packArgs.keySet()) {

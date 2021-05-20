@@ -1,9 +1,20 @@
+import java.util.ArrayList;
+import java.util.Random;
+
 public class xComRespawnNetPlayer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String playerId = toks[1];
-            gThing spawnpoint = cServerLogic.getRandomSpawnpoint();
+            gThing spawnpoint = null;
+            int size = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").size();
+            if(size > 0) {
+                int randomSpawnpointIndex = new Random().nextInt(size);
+                ArrayList<String> spawnpointids =
+                        new ArrayList<>(cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
+                String randomId = spawnpointids.get(randomSpawnpointIndex);
+                spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+            }
             if(spawnpoint != null) {
                 nServer.instance().clientArgsMap.get(playerId).put("x", spawnpoint.get("coordx"));
                 nServer.instance().clientArgsMap.get(playerId).put("y", spawnpoint.get("coordy"));

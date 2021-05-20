@@ -2,11 +2,12 @@
 /////////////////////                                                                 /////////////////////////////////
                                                 ==ISSUES==
 /////////////////////                                                                 /////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* dont allow players to spawn on top of each other
 * Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
-* new drawing routine: iterate through y-levels downward (in view) and iterate drawing objects per y-level
+* drawing: iterate through y-levels downward (in view) and iterate drawing objects per y-level
 * NET_MAPMAKER: gets bad desync between players when not starting from perfect parity
 * user player starts getting shaky after a bit
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)

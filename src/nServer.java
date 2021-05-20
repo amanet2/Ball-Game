@@ -15,7 +15,8 @@ public class nServer extends Thread {
     ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
 //            "id", "score", "x", "y", "vels", "fv", "name", "color"
 //            "id", "score", "x", "y", "vels"
-            "id", "score"
+//            "id", "score"
+            "score"
     ));
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
@@ -252,7 +253,7 @@ public class nServer extends Thread {
         //handle server outgoing cmds that loopback to the server
         checkLocalCmds();
         //update id in net args
-        keys.put("id", "server");
+//        keys.put("id", "server");
         //send scores
         keys.put("time", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {
@@ -270,7 +271,8 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-        StringBuilder sendDataString;
+//        StringBuilder sendDataString;
+        HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
                 && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
@@ -280,7 +282,8 @@ public class nServer extends Thread {
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-        sendDataString = new StringBuilder(netVars.toString()); //add server string first
+//        sendDataString = new StringBuilder(netVars.toString()); //add server string first
+        sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
         boolean sendfull = false;
         if(!sendArgsMaps.containsKey(clientid)) {
             sendfull = true;
@@ -292,9 +295,7 @@ public class nServer extends Thread {
                 sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
             }
             HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-//            if (!sendfull && !idload2.equals(clientid)) {
             if (!sendfull) {
-//                workingMap = new HashMap<>(sendArgsMaps.get(clientid).get(idload2));
                 //calc delta
                 for (String k : clientArgsMap.get(idload2).keySet()) {
                     if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
@@ -305,14 +306,12 @@ public class nServer extends Thread {
             }
             workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
             workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
-            sendDataString.append(String.format("@%s", workingMap.toString()));
+            workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
+            sendDataMap.put(idload2, new HashMap<>(workingMap));
             sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
-//            for (String k : clientArgsMap.get(idload2).keySet()) {
-//                sendArgsMaps.get(clientid).get(idload2).put(k, clientArgsMap.get(idload2).get(k));
-//            }
             sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
         }
-        return sendDataString.toString().replace(", ", ","); //replace to save 1 byte per field
+        return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
     void removeNetClient(String id) {
@@ -380,9 +379,9 @@ public class nServer extends Thread {
     }
 
     public void readData(String receiveDataString) {
-        String[] toks = receiveDataString.trim().split("@");
-        if(toks[0].length() > 0) {
-            String argload = toks[0];
+        String toks = receiveDataString.trim();
+        if(toks.length() > 0) {
+            String argload = toks;
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
             HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
             String packId = packArgMap.get("id");
