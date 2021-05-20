@@ -20,6 +20,8 @@ public class nVars {
             String idtok = s.substring(0,s.indexOf("={"));
             toReturn.put(idtok, new HashMap<>());
             String argstr = s.replace(idtok+"={","");
+            if(argstr.length() < 1)
+                continue;
             if(argstr.charAt(argstr.length()-1) == '}')
                 argstr = argstr.substring(0, argstr.length()-1);
             for(String pair : argstr.split(",")) {

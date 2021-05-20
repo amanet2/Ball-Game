@@ -29,7 +29,7 @@ public class sVars {
         keys.put("fontsize", "90");
         keys.put("fontnameui", "None");
         keys.put("fontnameconsole", "Courier");
-        keys.put("framerates", "24,30,60,75,100,120,144,240,320");
+        keys.put("framerates", "24,30,60,75,98,120,144,240");
         keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe_normal,stovepipe_irish,bow,witch,skull,boomer");
         keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
