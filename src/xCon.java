@@ -125,7 +125,6 @@ public class xCon {
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_openprefab", new xComEditorOpenPrefab());
         commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_showcontrols", new xComEditorShowControls());
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
