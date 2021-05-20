@@ -55,9 +55,6 @@ public class xComDamagePlayer extends xCom {
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
                             Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
                     nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
-//                    nServer.instance().addExcludingNetCmd("server",
-////                "cl_spawnpopup " + dmgvictim.get("id") + " " + getRandomClientDmgString());
-//                            "cl_spawnpopup " + id + " -" + dmg);
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }
