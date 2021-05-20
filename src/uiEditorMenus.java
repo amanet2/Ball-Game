@@ -88,16 +88,21 @@ public class uiEditorMenus {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(xCon.instance().getInt("e_showlossalert") <= 0) {
-                    boolean join = false;
-                    if(!nServer.instance().isAlive()) {
-                        xCon.ex("startserver");
-                        join = true;
-                    }
-                    xCon.ex("load");
-                    if(join)
-                        xCon.ex("joingame localhost 5555");
+                if(cVars.isZero("maploaded"))
+                    delegate();
+                else if(xCon.instance().getInt("e_showlossalert") <= 0)
+                    delegate();
+            }
+
+            private void delegate() {
+                boolean join = false;
+                if(!nServer.instance().isAlive()) {
+                    xCon.ex("startserver");
+                    join = true;
                 }
+                xCon.ex("load");
+                if(join)
+                    xCon.ex("joingame localhost 5555");
             }
         });
 
