@@ -26,7 +26,7 @@ public class dMenus {
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColorNormal(g);
-        dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
+        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -58,7 +58,7 @@ public class dMenus {
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColorNormal(g);
-        dFonts.drawCenteredString(g, "----------------",sSettings.width/2,11*sSettings.height/30);
+        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             String action = i.text.split(":")[0];
@@ -80,7 +80,6 @@ public class dMenus {
     }
 
     public static void showCreditsMenu(Graphics g) {
-        //TODO: cache these images somewhere
         if(eUtils.resolutionChanged()) {
             logoimg = new ImageIcon(
                     String.format("%s/%s", sVars.get("datapath"), sVars.get("logopath")

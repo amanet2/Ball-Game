@@ -17,47 +17,6 @@ public class gScoreboard {
         }
     }
 
-    public static String createSortedScoreMapStringServer() {
-//        String[] scoreFields = new String[]{"wins", "score", "kills", "ping"};
-        String[] scoreFields = new String[]{"wins", "score", "kills"};
-        StringBuilder scoreString = new StringBuilder();
-        String[] sortedIds = new String[scoresMap.keySet().size()];
-        int ic = 0;
-        for(String id : scoresMap.keySet()) {
-            sortedIds[ic++] = id;
-            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-            for(String fn : scoreFields) {
-                if(!scoresMapIdMap.containsKey(fn))
-                    scoresMapIdMap.put(fn, 0);
-            }
-        }
-        boolean sorted = false;
-        while(!sorted) {
-            sorted = true;
-            for(int i = 0; i < sortedIds.length-1; i++) {
-                if(scoresMap.get(sortedIds[i]).get("score")
-                        < scoresMap.get(sortedIds[i+1]).get("score")) {
-                    sorted = false;
-                    String tmp = sortedIds[i];
-                    sortedIds[i] = sortedIds[i+1];
-                    sortedIds[i+1] = tmp;
-                }
-            }
-        }
-        for(int i = 0 ; i < sortedIds.length; i++) {
-            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(sortedIds[i]);
-//            scoreString.append(String.format("%s-%s-%s-%s-%s:",
-            scoreString.append(String.format("%s-%s-%s-%s:",
-                    sortedIds[i],
-                    scoresMapIdMap.get(scoreFields[0]),
-                    scoresMapIdMap.get(scoreFields[1]),
-                    scoresMapIdMap.get(scoreFields[2])
-//                    scoresMapIdMap.get(scoreFields[3])
-            ));
-        }
-        return scoreString.toString();
-    }
-
     public static boolean isTopScoreId(String id) {
         if(scoresMap.containsKey(id)) {
             for(String otherId : scoresMap.keySet()) {
@@ -118,7 +77,7 @@ public class gScoreboard {
         scoresMap.put(id, new HashMap<>());
         scoresMap.get(id).put("wins", 0);
         scoresMap.get(id).put("score", 0);
-        scoresMap.get(id).put("kills", 0);
+//        scoresMap.get(id).put("kills", 0);
 //        scoresMap.get(id).put("ping", 0);
     }
 

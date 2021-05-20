@@ -70,13 +70,13 @@ public class uiEditorMenus {
         createNewMenu("Items");
         createNewMenu("Gametype");
 
+        JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem showControls = new JMenuItem("Show Controls");
+        JMenuItem exit = new JMenuItem("Exit");
 
         menus.get("File").add(newtopmap);
         menus.get("File").add(join);
@@ -88,16 +88,21 @@ public class uiEditorMenus {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(xCon.instance().getInt("e_showlossalert") <= 0) {
-                    boolean join = false;
-                    if(!nServer.instance().isAlive()) {
-                        xCon.ex("startserver");
-                        join = true;
-                    }
-                    xCon.ex("load");
-                    if(join)
-                        xCon.ex("joingame localhost 5555");
+                if(cVars.isZero("maploaded"))
+                    delegate();
+                else if(xCon.instance().getInt("e_showlossalert") <= 0)
+                    delegate();
+            }
+
+            private void delegate() {
+                boolean join = false;
+                if(!nServer.instance().isAlive()) {
+                    xCon.ex("startserver");
+                    join = true;
                 }
+                xCon.ex("load");
+                if(join)
+                    xCon.ex("joingame localhost 5555");
             }
         });
 

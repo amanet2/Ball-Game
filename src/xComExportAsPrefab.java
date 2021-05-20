@@ -10,7 +10,8 @@ public class xComExportAsPrefab extends xCom{
             File file = fileChooser.getSelectedFile();
             String filename = file.getName();
             cClientLogic.scene.exportasprefab(filename);
+            return "exported " + file.getPath();
         }
-        return fullcommand;
+        return "";
     }
 }

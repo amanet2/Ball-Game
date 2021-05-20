@@ -9,10 +9,10 @@ public class dScreenMessages {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         //ticks
         if(sVars.isOne("showtick"))
-            g.drawString("GAME:" + uiInterface.tickReport, 0, 2*sSettings.height / 64);
+            g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
         if(sVars.isOne("showfps"))
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
+            g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
         if(sVars.isOne("shownet")) {
             g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
@@ -50,25 +50,25 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay) {
-            gPlayer userPlayer = cClientLogic.getUserPlayer();
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {
                     dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, sSettings.height - 3 * sSettings.height / 30);
+                        29 * sSettings.width / 30, 28*sSettings.height/32);
             }
             dFonts.setFontColorHighlight(g);
-            if(userPlayer != null && gScoreboard.scoresMap.containsKey(userPlayer.get("id"))) {
+            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
                 dFonts.drawRightJustifiedString(g,
-                        gScoreboard.scoresMap.get(userPlayer.get("id")).get("score") + " points",
-                        29 * sSettings.width / 30, sSettings.height - 2 * sSettings.height / 30);
+                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
+                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
             }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
-                29 * sSettings.width / 30, sSettings.height - sSettings.height / 30);
+                29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);

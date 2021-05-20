@@ -8,9 +8,9 @@ public class uiMenusResolution extends uiMenu {
 
     public void setupMenuItems() {
         super.setupMenuItems();
-        for(int i = 0; i < xCon.ex("resolutions").split(",").length; i++){
+        for(int i = 0; i < sVars.getArray("resolutions").length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(xCon.ex("resolutions").split(",")[i]){
+            items[items.length-1] = new uiMenuItem(sVars.getArray("resolutions")[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
                     sVars.put("vidmode",

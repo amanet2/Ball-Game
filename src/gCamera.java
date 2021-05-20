@@ -1,6 +1,5 @@
 public class gCamera {
 	// selection of modes
-	static final int MODE_LOCKED = -1;
 	static final int MODE_FREE = 0;
 	static final int MODE_TRACKING = 1;
 

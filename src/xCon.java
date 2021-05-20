@@ -35,7 +35,6 @@ public class xCon {
     }
 
     public int getInt(String s) {
-        System.out.println("CONSOLE RETURNING INT: " + s);
         return Integer.parseInt(doCommand(s));
     }
 
@@ -46,8 +45,10 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(sVars.isOne("debug"))
+        if(sVars.isOne("debug")) {
             log(s);
+            System.out.println(s);
+        }
     }
 
     public void log(String s) {
@@ -81,15 +82,17 @@ public class xCon {
         visibleCommands.add("bind");
         visibleCommands.add("changemap");
         visibleCommands.add("changemaprandom");
-        visibleCommands.add("disconnect");
         visibleCommands.add("exec");
-        visibleCommands.add("exportasprefab");
         visibleCommands.add("joingame");
         visibleCommands.add("load");
         visibleCommands.add("newgame");
         visibleCommands.add("newgamerandom");
+        visibleCommands.add("disconnect");
         visibleCommands.add("cl_load");
         visibleCommands.add("cl_exec");
+        visibleCommands.add("exportasprefab");
+        visibleCommands.add("e_openfile");
+        visibleCommands.add("e_saveas");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
@@ -214,7 +217,7 @@ public class xCon {
             if(args.length > 0) {
                 String configval = args[0];
                 if(sVars.contains(configval)) {
-                    System.out.println("CONSOLE PARSING SVAR: " + configval);
+//                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
@@ -224,7 +227,7 @@ public class xCon {
                     return sVars.get(configval);
                 }
                 else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
-                    System.out.println("CONSOLE PARSING CVAR: " + configval);
+//                    System.out.println("CONSOLE PARSING CVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         String val = args[1];
@@ -240,16 +243,13 @@ public class xCon {
                     return cVars.get(configval.substring(3));
                 }
             }
-            boolean isHidden = fullCommand.split(" ")[0].toLowerCase().equals("hidden");
-            fullCommand = isHidden ? fullCommand.substring(fullCommand.indexOf(" ") + 1) : fullCommand;
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
             if (cp != null) {
-//                if (undoableCommands.contains(fullCommand.split(" ")[0]) && !isHidden) {
+//                if (undoableCommands.contains(fullCommand.split(" ")[0])) {
 //                    uiEditorMenus.undoStateStack.push(uiEditorMenus.getEditorState());
-//                    eManager.currentMap.wasLoaded = 1;
 //                    uiEditorMenus.redoStateStack.clear();
 //                }
                 if(!visibleCommands.contains(command)) {

@@ -11,9 +11,12 @@ public class xComEditorOpenFile extends xCom {
                 if(xCon.instance().getInt("e_showlossalert") > 0)
                     return "";
                 File file = fileChooser.getSelectedFile();
-//                xCon.ex("exec " + file.getPath());
+                if(!nServer.instance().isAlive())
+                    xCon.ex("startserver;load;joingame localhost 5555");
+
                 xCon.ex("changemap " + file.getPath());
                 uiEditorMenus.refreshGametypeCheckBoxMenuItems();
+                return "opening " + file.getPath();
             }
         }
         return "";

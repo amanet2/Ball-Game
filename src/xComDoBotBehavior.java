@@ -11,7 +11,6 @@ public class xComDoBotBehavior extends xCom {
             gPlayer botPlayer = cServerLogic.getPlayerById(botid);
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
-            System.out.println(botbehavior.toString());
             gDoableThing behavior = cBotsLogic.getBehavior(behaviorString);
             if(behavior != null)
                 behavior.doItem(botPlayer);

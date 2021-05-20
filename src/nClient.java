@@ -6,7 +6,8 @@ public class nClient extends Thread {
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
-    HashMap<String, String> sendMap = null;
+    HashMap<String, String> sendMap = new HashMap<>();
+    private ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
     private Queue<String> netSendMsgs = new LinkedList<>();
     private Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -131,20 +132,23 @@ public class nClient extends Thread {
     private String createSendDataString() {
         StringBuilder sendDataString;
         HashMap<String, String> netVars = getNetVars();
-        if(sendMap != null) {
-            for(String k : netVars.keySet()) {
-                if(k.equals("id") || !sendMap.containsKey(k) || !sendMap.get(k).equals(netVars.get(k)))
-                    sendMap.put(k, netVars.get(k));
-                else
-                    sendMap.remove(k);
+        //this BS has to be decoded
+        for(String k : netVars.keySet()) {
+            sendMap.put(k, netVars.get(k));
+        }
+        HashMap<String, String> workingMap = new HashMap<>(sendMap);
+        //send delta of serverargs
+        if(serverArgsMap.containsKey(uiInterface.uuid)) {
+            for (String k : serverArgsMap.get(uiInterface.uuid).keySet()) {
+                if (!protectedArgs.contains(k) && serverArgsMap.get(uiInterface.uuid).containsKey(k)
+                        && serverArgsMap.get(uiInterface.uuid).get(k).equals(sendMap.get(k))) {
+                    workingMap.remove(k);
+                }
             }
         }
-        else
-            sendMap = new HashMap<>(netVars);
-
-        sendDataString = new StringBuilder(sendMap.toString());
+        sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
-        sendMap.remove("cmdrcv");
+        sendMap.remove("cmd");
         return sendDataString.toString().replace(", ", ",");
     }
 
@@ -154,25 +158,18 @@ public class nClient extends Thread {
     }
 
     public void readData(String receiveDataString) {
-        String[] argsets = receiveDataString.trim().split("@");
         ArrayList<String> foundIds = new ArrayList<>();
-        for(int i = 0; i < argsets.length; i++) {
-            String argload = argsets[i];
-            HashMap<String, String> packArgs = nVars.getMapFromNetString(argload);
-            String idload = packArgs.get("id");
+        String netmapstring = receiveDataString.trim();
+        HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
+        for(String idload : packargmap.keySet()) {
+            HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
-            else {
-                for (String k : packArgs.keySet()) {
-//                    if(!serverArgsMap.get(idload).containsKey(k)
-//                            || !serverArgsMap.get(idload).get(k).equals(packArgs.get(k)))
-//                        serverArgsMap.get(idload).put(k, packArgs.get(k));
-                    //not sure what's faster, below or above
-                    serverArgsMap.get(idload).put(k, packArgs.get(k));
-                }
+            for (String k : packArgs.keySet()) {
+                serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
-                cVars.put("timeleft", packArgs.get("timeleft"));
+                cVars.put("timeleft", packArgs.get("time"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {
                     if(!packArgs.containsKey(s))
@@ -181,50 +178,25 @@ public class nClient extends Thread {
                 //check cmd from server only
                 String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
                 if(cmdload.length() > 0) {
-                    System.out.println("FROM_SERVER: " + cmdload);
+//                    System.out.println("FROM_SERVER: " + cmdload);
                     processCmd(cmdload);
-                }
-                //this is where we update scores on client
-                cVars.put("scoremap", packArgs.get("scoremap"));
-                String[] stoks = packArgs.get("scoremap").split(":");
-                for (int j = 0; j < stoks.length; j++) {
-                    String[] sstoks = stoks[j].split("-");
-                    String scoreid = sstoks[0];
-                    if(scoreid.length() > 0) {
-                        if (!gScoreboard.scoresMap.containsKey(scoreid)) {
-                            gScoreboard.addId(scoreid);
-                        }
-                        HashMap<String, Integer> scoresMapIdMap = gScoreboard.scoresMap.get(scoreid);
-                        if (scoresMapIdMap != null) {
-                            scoresMapIdMap.put("wins", Integer.parseInt(sstoks[1]));
-                            scoresMapIdMap.put("score", Integer.parseInt(sstoks[2]));
-                            scoresMapIdMap.put("kills", Integer.parseInt(sstoks[3]));
-//                            scoresMapIdMap.put("ping", Integer.parseInt(sstoks[4]));
-                        }
-                    }
                 }
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
-                    String[] requiredFields = new String[]{"x", "y", "vels"};
-                    boolean skip = false;
-                    for(String rf : requiredFields) {
-                        if(!serverArgsMap.get(idload).containsKey(rf)) {
-                            skip = true;
-                            break;
-                        }
-                    }
-                    if(skip)
-                        continue;
                     if(cClientLogic.getPlayerById(idload) != null) {
                         if (sVars.isOne("smoothing")) {
-                            cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
+                            if(serverArgsMap.get(idload).containsKey("x"))
+                                cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            if(serverArgsMap.get(idload).containsKey("y"))
+                                cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
-                        String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
-                        for (int vel = 0; vel < veltoks.length; vel++) {
-                            cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                        if(serverArgsMap.get(idload).containsKey("vels")) {
+                            String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
+                            for (int vel = 0; vel < veltoks.length; vel++) {
+                                cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
+                            }
                         }
                     }
                 }
@@ -235,8 +207,10 @@ public class nClient extends Thread {
             }
             if(idload.equals(uiInterface.uuid)){ // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
-                if(userPlayer != null)
-                    userPlayer.put("stockhp", packArgs.get("stockhp"));
+                if(userPlayer != null && packArgs.containsKey("hp"))
+                    userPlayer.put("stockhp", packArgs.get("hp"));
+                if(packArgs.containsKey("cmdrcv"))
+                    sendMap.remove("cmdrcv");
             }
         }
         //check for ids that have been taken out of the server argmap
@@ -247,7 +221,6 @@ public class nClient extends Thread {
             }
         }
         if(tr.length() > 0) {
-            System.out.println("REMOVING " + tr);
             serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
@@ -268,7 +241,7 @@ public class nClient extends Thread {
 //            //user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
-            System.out.println("TO_SERVER: " + cmdString);
+//            System.out.println("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;

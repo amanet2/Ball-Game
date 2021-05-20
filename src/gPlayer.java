@@ -168,10 +168,6 @@ public class gPlayer extends gThing {
         sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public void testDoable() {
-        System.out.println("TEST DOABLE");
-    }
-
     public gPlayer(int x, int y, String tt) {
         super();
         putInt("coordx", x);
@@ -200,10 +196,5 @@ public class gPlayer extends gThing {
         put("botthinktime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));
-        registerDoable("test", new gDoableThing(){
-            public void doItem(gThing thing) {
-                testDoable();
-            }
-        });
     }
 }
