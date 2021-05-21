@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class cVars {
@@ -13,23 +12,17 @@ public class cVars {
         put("cammov2", "0");
         put("cammov3", "0");
         put("camplayertrackingid", uiInterface.uuid);
-        put("camplayertrackingindex", "0");
         put("camx", "0");
         put("camy", "0");
         put("delayhp", "2400");
-        put("delaypow", "500");
-        put("delayweap", "1800");
         put("flagmastertime", "0");
-        put("flashlight", "0");
         put("gameover", "0");
         put("gamescale", "2160");
         put("gametick", "240");
         putInt("gamemode", cGameLogic.DEATHMATCH);
-        put("gamemodelist", Arrays.toString(cGameLogic.net_gamemode_texts));
         put("blockmouseui", "0");
         put("intermissiontime", "-1");
         put("maploaded", "0");
-        put("mapname", "new");
         put("newitemname", "");
         put("newprefabname", "room_small");
         put("maxstockhp", "500");
@@ -41,7 +34,6 @@ public class cVars {
         put("selecteditemname", "");
         put("selectedprefabname", "");
         put("shotgunmasterids", "");
-        put("rechargepow", "12");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
         put("serversendmapbatchsize", "200");
@@ -94,7 +86,6 @@ public class cVars {
         put("weaponstock4", "0");
         put("weaponstock5", "0");
         //bots
-        put("botbehavior", "NONE");
         put("botthinkdelay", "1000");
         put("botviruschaserange", "600");
         //voting
