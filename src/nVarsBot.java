@@ -20,7 +20,7 @@ public class nVarsBot {
             p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
         }
 
-        for(String s : new String[]{"id","fv","hat"}) {
+        for(String s : new String[]{"id","fv"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
         if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)
@@ -33,10 +33,8 @@ public class nVarsBot {
             map.get(p.get("id")).put("fv", Double.toString(2*Math.PI));
         map.get(p.get("id")).put("x", p.get("coordx"));
         map.get(p.get("id")).put("y", p.get("coordy"));
-        map.get(p.get("id")).put("dirs", "1111");
         map.get(p.get("id")).put("vels",
                 String.format("%s-%s-%s-%s", p.get("vel0"), p.get("vel1"), p.get("vel2"), p.get("vel3")));
-        map.get(p.get("id")).put("weapon", p.get("weapon"));
         map.get(p.get("id")).put("netmsgrcv", "");
     }
 
