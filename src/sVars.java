@@ -10,7 +10,7 @@ public class sVars {
     private static void init() {
         keys.put("audioenabled", "1");
         keys.put("bgcolor", "0,0,0");
-        keys.put("botnameselection", "Eddie,Frankie,Joey,Johnny,Vinny,Tony,Phil");
+        keys.put("botnameselection", "bot0,bot1,bot2,bot3,bot4,bot5,bot6,bot7,bot8,bot9");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
