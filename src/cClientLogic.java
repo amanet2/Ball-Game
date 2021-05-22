@@ -26,7 +26,7 @@ public class cClientLogic {
         oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        if(sVars.isOne("showmapmakerui"))
+        if(sSettings.show_mapmaker_ui)
             selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();

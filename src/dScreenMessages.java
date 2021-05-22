@@ -29,7 +29,7 @@ public class dScreenMessages {
         }
         if(sVars.isOne("showmouse")) {
             int[] mc = uiInterface.getMouseCoordinates();
-            if(sVars.isOne("showmapmakerui"))
+            if(sSettings.show_mapmaker_ui)
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
                         uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
             else
@@ -85,7 +85,7 @@ public class dScreenMessages {
         dFonts.setFontColorNormal(g);
         //menus
         if(!uiInterface.inplay) {
-            if(!sVars.isOne("showmapmakerui")) {
+            if(!sSettings.show_mapmaker_ui) {
                 if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS)
                     dMenus.showControlsMenu(g);
                 else if(uiMenus.selectedMenu == uiMenus.MENU_CREDITS)

@@ -42,7 +42,7 @@ public class dPanel extends JPanel {
                 dTileTops.drawPopups(g2, scene);
                 dTileTops.drawUserPlayerArrow(g2);
                 dTileTops.drawPlayerNames(g2);
-                if(!uiInterface.inplay && sVars.isOne("showmapmakerui"))
+                if(!uiInterface.inplay && sSettings.show_mapmaker_ui)
                     dMapmakerOverlay.drawSelectionBoxes(g2);
             }
         }

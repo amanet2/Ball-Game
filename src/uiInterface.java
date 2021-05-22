@@ -76,6 +76,7 @@ public class uiInterface {
             sVars.putInt("showtick", 0);
         }
 	    else {
+	        sSettings.show_mapmaker_ui = true;
 	        eUtils.zoomLevel = 0.5;
         }
         xCon.ex("exec config/autoexec.cfg");

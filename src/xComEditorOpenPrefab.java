@@ -3,7 +3,7 @@ import java.io.File;
 
 public class xComEditorOpenPrefab extends xCom {
     public String doCommand(String fullCommand) {
-        if(sVars.isOne("showmapmakerui")) {
+        if(sSettings.show_mapmaker_ui) {
             JFileChooser fileChooser = new JFileChooser();
             File workingDirectory = new File("prefabs");
             fileChooser.setCurrentDirectory(workingDirectory);

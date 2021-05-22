@@ -162,7 +162,7 @@ public class iInput {
         }
         else {
             // key shortcuts like ctrl+s
-//            if(sVars.isOne("showmapmakerui")) {
+//            if(sSettings.show_mapmaker_ui) {
 //                switch(command) {
 //                    case KeyEvent.VK_SHIFT:
 //                        iKeyboard.shiftMode = true;
@@ -238,7 +238,7 @@ public class iInput {
             }
         }
 	    else {
-            if(sVars.isOne("showmapmakerui")) {
+            if(sSettings.show_mapmaker_ui) {
                 switch (command) {
                     case KeyEvent.VK_SHIFT:
                         iKeyboard.shiftMode = false;

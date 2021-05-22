@@ -92,7 +92,7 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sVars.isOne("showmapmakerui") && cVars.isZero("gameover")) {
+        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)) {
@@ -196,7 +196,7 @@ public class cServerLogic {
                 "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
-            if(!sVars.isOne("showmapmakerui")) //spawn in after finished loading
+            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
                 nServer.instance().addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
         }
         //reset game state
