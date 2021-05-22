@@ -429,11 +429,11 @@ public class nServer extends Thread {
                     }
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
-                    //store player's wins and scores
-                    clientArgsMap.get(packId).put("score",  String.format("%d:%d",
-                            gScoreboard.scoresMap.get(packId).get("wins"),
-                            gScoreboard.scoresMap.get(packId).get("score")));
                 }
+                //store player's wins and scores
+                clientArgsMap.get(packId).put("score",  String.format("%d:%d",
+                        gScoreboard.scoresMap.get(packId).get("wins"),
+                        gScoreboard.scoresMap.get(packId).get("score")));
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));
                     checkClientMessageForVoteSkip(packId,
