@@ -1,5 +1,3 @@
-import java.awt.event.KeyEvent;
-
 public class uiMenusControls extends uiMenu {
     public static uiMenuItem[] getControlsMenuItems() {
         uiMenuItem[] gameControls = new uiMenuItem[] {
@@ -12,38 +10,6 @@ public class uiMenusControls extends uiMenu {
                 new uiMenuItem("chat: "+(char)(int)xCon.getKeyCodeForComm("chat"))
         };
         return gameControls;
-    }
-
-    public static uiMenuItem[] getBindsAsMenuItems() {
-        int size = xCon.instance().pressBinds.keySet().size() + xCon.instance().releaseBinds.keySet().size();
-        for(Integer j : xCon.instance().releaseBinds.keySet()) {
-            if(xCon.instance().pressBinds.containsKey(j)) {
-                size--;
-            }
-        }
-        uiMenuItem[] items = new uiMenuItem[size];
-        int ctr = 0;
-        for (Integer j : xCon.instance().pressBinds.keySet()) {
-            items[ctr] = new uiMenuItem(KeyEvent.getKeyText(j)
-                    +" : "+ xCon.instance().pressBinds.get(j)) {
-                public void doItem(){
-
-                }
-            };
-            ctr++;
-        }
-        for (Integer j : xCon.instance().releaseBinds.keySet()) {
-            if(!xCon.instance().pressBinds.containsKey(j)) {
-                items[ctr] = new uiMenuItem(KeyEvent.getKeyText(j)
-                        + " : " + xCon.instance().releaseBinds.get(j)) {
-                    public void doItem() {
-
-                    }
-                };
-                ctr++;
-            }
-        }
-        return items;
     }
 
     public uiMenusControls() {

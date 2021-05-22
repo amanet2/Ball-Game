@@ -37,7 +37,8 @@ public class dScoreboard {
             int topscore = -1;
             String topid = "";
             for (String id : nClient.instance().serverArgsMap.keySet()) {
-                if(!id.equals("server") && !sortedScoreIds.toString().contains(id)) {
+                if(!id.equals("server") && !sortedScoreIds.toString().contains(id)
+                && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
                     if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1])
                     > topscore) {
                         topscore = Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]);

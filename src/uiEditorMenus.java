@@ -15,6 +15,7 @@ public class uiEditorMenus {
     private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
+    private static ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
@@ -26,6 +27,15 @@ public class uiEditorMenus {
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+                checkBoxMenuItem.setSelected(true);
+            }
+        }
+    }
+
+    public static void refreshColorCheckBoxItems() {
+        for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
+            checkBoxMenuItem.setSelected(false);
+            if(checkBoxMenuItem.getText().equals(sVars.get("playercolor"))) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -66,25 +76,49 @@ public class uiEditorMenus {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
         createNewMenu("File");
+        createNewMenu("Multiplayer");
         createNewMenu("Prefabs");
         createNewMenu("Items");
         createNewMenu("Gametype");
+        createNewMenu("Settings");
 
         JMenuItem newtopmap = new JMenuItem("New");
-        JMenuItem join = new JMenuItem("Join");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem showControls = new JMenuItem("Show Controls");
+        JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
+        JMenuItem playerColor = new JMenuItem("Color: " + sVars.get("playercolor"));
         JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem join = new JMenuItem("Join Game");
+        JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
+        JMenuItem joinport = new JMenuItem("Port: " + sVars.get("joinport"));
+//        JMenuItem prefabs = new JMenuItem("Select Prefab");
 
         menus.get("File").add(newtopmap);
-        menus.get("File").add(join);
         menus.get("File").add(open);
         menus.get("File").add(saveas);
-        menus.get("File").add(exportasprefab);
-        menus.get("File").add(showControls);
+//        menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
+//        menus.get("Prefabs").add(prefabs);
+        menus.get("Multiplayer").add(join);
+        menus.get("Multiplayer").add(joinip);
+        menus.get("Multiplayer").add(joinport);
+        menus.get("Settings").add(playerName);
+//        menus.get("Settings").add(playerColor);
+        createNewSubmenu("Settings", "Color");
+        createNewSubmenu("Settings", "Controls");
+        menus.get("Controls").add(new JLabel(" MOUSE_LEFT : throw rock "));
+        menus.get("Controls").add(new JLabel(" W : move up "));
+        menus.get("Controls").add(new JLabel(" S : move down "));
+        menus.get("Controls").add(new JLabel(" A : move left "));
+        menus.get("Controls").add(new JLabel(" D : move right "));
+        menus.get("Controls").add(new JLabel(" TAB : show scoreboard "));
+        menus.get("Controls").add(new JLabel(" Y : chat "));
+        menus.get("Controls").add(new JLabel(" = : zoom in "));
+        menus.get("Controls").add(new JLabel(" - : zoom out "));
+        menus.get("Controls").add(new JLabel(" ~ : console "));
+
+        addConsoleActionToJMenuItem(exit,"quit");
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -106,9 +140,33 @@ public class uiEditorMenus {
             }
         });
 
+//        prefabs.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                xCon.ex("e_openprefab");
+//            }
+//        });
+
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("joingame");
+            }
+        });
+
+        joinip.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changejoinip");
+            }
+        });
+
+        joinport.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changejoinport");
+            }
+        });
+
+        playerName.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                xCon.ex("e_changeplayername");
             }
         });
 
@@ -179,9 +237,18 @@ public class uiEditorMenus {
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
             menus.get("Gametype").add(gametypeMenuItem);
         }
-
-        addConsoleActionToJMenuItem(exit,"quit");
-        addConsoleActionToJMenuItem(showControls,"e_showcontrols");
+        //fill colors menu
+        for(String color : sVars.getArray("colorselection")) {
+            JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
+            if(colorMenuItem.getText().equals(sVars.get("playercolor")))
+                colorMenuItem.setSelected(true);
+            colorMenuItem.addActionListener(e -> {
+                sVars.put("playercolor", colorMenuItem.getText());
+                refreshColorCheckBoxItems();
+            });
+            colorCheckBoxMenuItems.add(colorMenuItem);
+            menus.get("Color").add(colorMenuItem);
+        }
     }
 
     private static void createNewMenu(String title) {

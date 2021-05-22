@@ -12,6 +12,7 @@ public class xComEditorChangeJoinPort extends xCom {
                     null);
             if(s != null && s.strip().replace(",", "").length() > 0) {
                 sVars.put("joinport", s.replace(",", ""));
+                uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + sVars.get("joinport"));
             }
         });
         t.start();

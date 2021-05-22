@@ -30,9 +30,11 @@ public class dPanel extends JPanel {
                 gScene scene = cClientLogic.scene;
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWalls(g2, scene);
-                dItems.drawItems(g2, scene);
+//                dItems.drawItems(g2, scene);
                 dPlayer.drawPlayers(g2);
                 dTileTops.drawTops(g2, scene);
+                dItems.drawItems(g2, scene);
+                dTileTops.drawMapmakerOverlay(g2, scene);
                 dFlares.drawSceneFlares(g2, scene);
                 dTileTops.drawBullets(g2, scene);
                 dAnimations.drawAnimations(g2, scene);
