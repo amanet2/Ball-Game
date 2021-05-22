@@ -193,8 +193,7 @@ public class sVars {
                 filelines.add(line);
                 String[] args = line.split(" ");
                 String argname = args[0];
-                if(keys.containsKey(argname))
-                    keys.put(argname, line.replaceFirst(argname+" ", ""));
+                keys.put(argname, line.replaceFirst(argname+" ", ""));
             }
             xCon.instance().debug(keys.toString());
         }
