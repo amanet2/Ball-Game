@@ -190,19 +190,26 @@ public class sVars {
             xCon.instance().log("Loading Settings File Path: " + s);
             String line;
             while ((line = br.readLine()) != null) {
+                filelines.add(line);
                 String[] args = line.split(" ");
                 String argname = args[0];
-                filelines.add(line);
                 if(keys.containsKey(argname))
-                    keys.put(argname,line.replaceFirst(argname+" ", ""));
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                    sLaunchArgs.readLaunchArguments(argname,args);
+                    keys.put(argname, line.replaceFirst(argname+" ", ""));
             }
             xCon.instance().debug(keys.toString());
         }
         catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
+        }
+    }
+
+    public static void readLaunchArguments(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args.length >= i+1) {
+                sVars.put(args[i], args[i+1]);
+                i+=1;
+            }
         }
     }
 
