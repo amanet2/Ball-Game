@@ -196,8 +196,8 @@ public class cServerLogic {
                 "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         for(String id : nServer.instance().clientIds) {
             nServer.instance().sendMap(id);
-            if(!sSettings.show_mapmaker_ui)
-                xCon.ex("respawnnetplayer " + id);
+            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+                nServer.instance().addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
         }
         //reset game state
         gScoreboard.resetScoresMap();

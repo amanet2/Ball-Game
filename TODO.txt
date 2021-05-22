@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* draw flare under/over teleporter
+* GAME: players need to be cleared on map change
 * NET: Have server not send any other clients' vars if the net sendID is still loading
     -> the gameplay info takes up a lot already
 * GFX: iterate through y-levels downward (in view) and iterate drawing objects per y-level
