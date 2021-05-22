@@ -193,7 +193,8 @@ public class sVars {
                 filelines.add(line);
                 String[] args = line.split(" ");
                 String argname = args[0];
-                keys.put(argname, line.replaceFirst(argname+" ", ""));
+                if(argname.trim().replace(" ","").charAt(0) != '#') //filter out comments
+                    keys.put(argname, line.replaceFirst(argname+" ", ""));
             }
             xCon.instance().debug(keys.toString());
         }
