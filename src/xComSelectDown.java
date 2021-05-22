@@ -1,6 +1,6 @@
 public class xComSelectDown extends xCom {
     public String doCommand(String fullCommand) {
-        if(!uiInterface.inplay && !sSettings.show_mapmaker_ui) {
+        if(!uiInterface.inplay && !sVars.isOne("showmapmakerui")) {
             cVars.putInt("blockmouseui", 1);
             uiMenus.nextItem();
         }
@@ -10,7 +10,7 @@ public class xComSelectDown extends xCom {
     }
 
     public String undoCommand(String fullCommand) {
-        if(uiInterface.inplay || sSettings.show_mapmaker_ui)
+        if(uiInterface.inplay || sVars.isOne("showmapmakerui"))
             xCon.ex("-playerdown");
         return fullCommand;
     }

@@ -56,7 +56,7 @@ public class oDisplay extends JLayeredPane {
 	public void showFrame() {
         if(frame != null)
             frame.dispose();
-		frame = new JFrame(String.format("Ball Game%s", sSettings.show_mapmaker_ui ? " [EDITOR]" : ""));
+		frame = new JFrame(String.format("Ball Game%s", sVars.isOne("showmapmakerui") ? " [EDITOR]" : ""));
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter()
         {
@@ -66,7 +66,7 @@ public class oDisplay extends JLayeredPane {
             }
         });
         frame.setUndecorated(!sVars.isIntVal("displaymode", displaymode_windowed));
-		if(sSettings.show_mapmaker_ui)
+		if(sVars.isOne("showmapmakerui"))
 			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
         sSettings.width = Integer.parseInt(sVars.get("vidmode").split(",")[0]);

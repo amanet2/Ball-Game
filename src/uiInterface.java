@@ -15,7 +15,7 @@ public class uiInterface {
     private static int frames = 0;
     static String uuid = eManager.createId();
 
-	public static void startGame() {
+	private static void startGame() {
 	    int ticks = 0;
         while(true) {
             try {
@@ -64,7 +64,7 @@ public class uiInterface {
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-	    if(!sSettings.show_mapmaker_ui) {
+	    if(!sVars.isOne("showmapmakerui")) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
             sVars.putInt("showcam", 0);
@@ -74,6 +74,9 @@ public class uiInterface {
             sVars.putInt("showplayer", 0);
             sVars.putInt("showscale", 0);
             sVars.putInt("showtick", 0);
+        }
+	    else {
+	        eUtils.zoomLevel = 0.5;
         }
         xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();

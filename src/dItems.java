@@ -32,7 +32,7 @@ public class dItems {
                             1, new int[]{0,0,255,255}, new int[4]);
                 }
             }
-            else if(sSettings.show_mapmaker_ui){
+            else if(sVars.isOne("showmapmakerui")){
                 g2.setColor(new Color(255, 150, 80, 150));
                 g2.fillRect(eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),

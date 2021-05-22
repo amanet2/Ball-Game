@@ -275,7 +275,7 @@ public class dTileTops {
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sVars.isOne("drawplayerarrow")) {
             gPlayer userPlayer = cClientLogic.getUserPlayer();
-            if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
+            if(userPlayer == null || (sVars.isOne("showmapmakerui") && !uiInterface.inplay))
                 return;
             int midx = eUtils.scaleInt(userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2
                     - cVars.getInt("camx"));

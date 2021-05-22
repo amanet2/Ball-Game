@@ -1,6 +1,6 @@
 public class xComQuit extends xCom {
     public String doCommand(String fullCommand) {
-        if(sSettings.show_mapmaker_ui && cVars.isOne("maploaded")) {
+        if(sVars.isOne("showmapmakerui") && cVars.isOne("maploaded")) {
             if(xCon.instance().getInt("e_showlossalert") > 0) {
                 return "";
             }

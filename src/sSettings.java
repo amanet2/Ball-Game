@@ -4,7 +4,6 @@ public class sSettings {
 	 */
 	static String CONFIG_FILE_LOCATION = "config/settings.cfg";
 	static String CONSOLE_LOG_LOCATION = "_console_log.txt";
-	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
 	/**

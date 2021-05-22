@@ -50,6 +50,7 @@ public class sVars {
         keys.put("sfxrange", "1800");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
+        keys.put("showmapmakerui", "0");
         keys.put("showmouse", "1");
         keys.put("shownet", "1");
         keys.put("showplayer", "1");

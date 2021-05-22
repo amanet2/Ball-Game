@@ -5,7 +5,7 @@ public class xComMouseLeft extends xCom {
                 iMouse.holdingMouseLeft = true;
             }
             else {
-                if(sSettings.show_mapmaker_ui && cVars.isOne("maploaded")) {
+                if(sVars.isOne("showmapmakerui") && cVars.isOne("maploaded")) {
                     int[] mc = uiInterface.getMouseCoordinates();
                     if(cVars.get("newprefabname").length() > 0) {
                         int[] pfd = uiEditorMenus.getNewPrefabDims();
