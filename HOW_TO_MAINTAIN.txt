@@ -1,4 +1,0 @@
-1. (Ball-Game) Add all files/folders EXCEPT .idea and Ball-Game.iml to "Ball-Game.zip"
-2. Upload Ball-Game.zip to google drive
-3. (distrib_Ball-Game) Add install.exe to "distrib_Ball-Game.zip"
-4. Upload distrib_Ball-Game.zip to google drive
