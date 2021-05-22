@@ -190,6 +190,9 @@ public class dTileTops {
                     dBlockWalls.drawBlockWallCube(g2, block);
             }
         }
+    }
+
+    public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sVars.isOne("drawmapmakergrid")) {
             g2.setColor(new Color(255,255,0,125));

@@ -18,7 +18,9 @@ public class cBotsLogic {
         });
         behaviors.put("Flag Master", new gDoableThing(){
             public void doItem(gThing p) {
-                String flagmasterid = nServer.instance().clientArgsMap.get("server").get("state");
+                String flagmasterid = null;
+                if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid"))
+                    flagmasterid = nServer.instance().clientArgsMap.get("server").get("flagmasterid");
                 if(flagmasterid == null)
                     cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
                 else if(p.contains("id") && flagmasterid.equals(p.get("id")))
@@ -32,8 +34,8 @@ public class cBotsLogic {
         behaviors.put("Virus Master", new gDoableThing(){
             public void doItem(gThing p) {
                 if(nServer.instance().clientArgsMap.containsKey("server")
-                        && nServer.instance().clientArgsMap.get("server").containsKey("state")
-                        && !nServer.instance().clientArgsMap.get("server").get("state").contains(p.get("id"))){
+                        && nServer.instance().clientArgsMap.get("server").containsKey("virusids")
+                        && !nServer.instance().clientArgsMap.get("server").get("virusids").contains(p.get("id"))){
                     cBotsLogic.runFromNearestVirusPlayer(p);
                 }
                 else {
@@ -66,7 +68,10 @@ public class cBotsLogic {
                 botPlayer.pointAtCoords(
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
-                nServer.instance().addNetCmd("fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon"));
+                String cmd = "fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon");
+                nServer.instance().addExcludingNetCmd("server",
+                        cmd.replaceFirst("fireweapon", "cl_fireweapon"));
+                xCon.ex(cmd);
             }
         }
     }
@@ -94,10 +99,13 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        gPlayer waypoint = cServerLogic.getPlayerById(nServer.instance().clientArgsMap.get("server").get("state"));
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            goToWaypoint(bot, waypoint);
+        if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
+            gPlayer waypoint = cServerLogic.getPlayerById(
+                    nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
+            if(waypoint != null) {
+                shootAtNearestPlayer(bot);
+                goToWaypoint(bot, waypoint);
+            }
         }
     }
 
@@ -140,8 +148,8 @@ public class cBotsLogic {
             int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
             int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
             gPlayer waypoint = null;
-            if(nServer.instance().clientArgsMap.get("server").containsKey("state")) {
-                String stateString = nServer.instance().clientArgsMap.get("server").get("state");
+            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                String stateString = nServer.instance().clientArgsMap.get("server").get("virusids");
                 if(offense) {
                     for(String id : cServerLogic.getPlayerIds()) {
                         if(!stateString.contains(id)) {

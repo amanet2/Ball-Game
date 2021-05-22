@@ -11,7 +11,6 @@ public class xComEditorSaveAs extends xCom{
             String filename = file.getName();
             String foldername = file.getParent();
             cClientLogic.scene.saveAs(filename, foldername);
-            cVars.put("mapname", filename.split("\\.")[0]);
             return "saved " + file.getPath();
         }
         return "";

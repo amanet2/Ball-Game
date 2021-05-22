@@ -13,6 +13,7 @@ public class xComEditorChangePlayerName extends xCom {
                     null);
             if(s != null && s.strip().replace(",", "").length() > 0) {
                 sVars.put("playername", s.replace(",", ""));
+                uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + sVars.get("playername"));
             }
         });
         t.start();

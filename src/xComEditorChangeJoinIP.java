@@ -12,6 +12,7 @@ public class xComEditorChangeJoinIP extends xCom {
                     null);
             if(s != null && s.strip().replace(",", "").length() > 0) {
                 sVars.put("joinip", s.replace(",", ""));
+                uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + sVars.get("joinip"));
             }
         });
         t.start();

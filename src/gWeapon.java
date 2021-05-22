@@ -23,6 +23,7 @@ public class gWeapon {
     }
 
     public void fireWeapon(gPlayer p, gScene scene) {
-        xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
+        if(p != null && scene != null)
+            xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
     }
 }

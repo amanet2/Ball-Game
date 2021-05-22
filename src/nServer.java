@@ -12,10 +12,7 @@ public class nServer extends Thread {
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    ArrayList<String> clientProtectedArgs = new ArrayList<>(Arrays.asList(
-//            "id", "score", "x", "y", "vels", "fv", "name", "color"
-//            "id", "score", "x", "y", "vels"
-//            "id", "score"
+    ArrayList<String> clientProtectedArgs = new ArrayList<>(Collections.singletonList(
             "score"
     ));
     //id maps to queue of cmds we want to run on that client
@@ -432,11 +429,11 @@ public class nServer extends Thread {
                     }
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
-                    //store player's wins and scores
-                    clientArgsMap.get(packId).put("score",  String.format("%d:%d",
-                            gScoreboard.scoresMap.get(packId).get("wins"),
-                            gScoreboard.scoresMap.get(packId).get("score")));
                 }
+                //store player's wins and scores
+                clientArgsMap.get(packId).put("score",  String.format("%d:%d",
+                        gScoreboard.scoresMap.get(packId).get("wins"),
+                        gScoreboard.scoresMap.get(packId).get("score")));
                 if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
                     handleClientMessage(packArgMap.get("msg"));
                     checkClientMessageForVoteSkip(packId,
@@ -450,20 +447,20 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-        System.out.println("NEW_CLIENT: "+packId);
+//        System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
+        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+            addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
                 addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
                     clientId, player.get("coordx"), player.get("coordy")));
         }
-        if(!sSettings.show_mapmaker_ui)
-            xCon.ex(String.format("respawnnetplayer %s", packId));
         addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
     }
 

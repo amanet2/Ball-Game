@@ -7,6 +7,8 @@ public class xComJoingame extends xCom {
             if(comps.length > 1)
                 sVars.put("joinport", comps[1]);
         }
+        if(nClient.instance().isInterrupted())
+            nClient.resetInstance();
         nClient.instance().start();
         sSettings.IS_CLIENT = true;
         return "joined game";
