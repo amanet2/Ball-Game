@@ -47,10 +47,9 @@ public class dItems {
                     && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(id)) {
                 gPlayer player = (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
                 g2.drawImage(gItemFactory.instance().flagSprite,
-                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
-                                - player.getInt("dimw")/2),
+                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
-                                - player.getInt("dimh")),
+                                - player.getInt("dimh")/2),
                         null
                 );
             }
