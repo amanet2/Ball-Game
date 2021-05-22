@@ -67,6 +67,8 @@ public class uiInterface {
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
+        xCon.ex("exec config/autoexec.cfg");
+        //finish loading args
         if(!sVars.isOne("showmapmakerui")) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
@@ -82,7 +84,6 @@ public class uiInterface {
             sSettings.show_mapmaker_ui = true;
             eUtils.zoomLevel = 0.5;
         }
-        xCon.ex("exec config/autoexec.cfg");
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
         startGame();
