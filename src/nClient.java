@@ -19,6 +19,10 @@ public class nClient extends Thread {
         return instance;
     }
 
+    public static void resetInstance() {
+        instance = new nClient();
+    }
+
     private nClient() {
         netticks = 0;
     }
