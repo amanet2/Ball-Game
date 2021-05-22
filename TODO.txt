@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* MAPNAME: has to be a thing
 * BOTS: get em working
 * GFX: only adjust player(s) layering by Y level instead of everything
 * NET: Have server not send any other clients' vars if the client is still loading

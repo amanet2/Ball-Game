@@ -49,7 +49,7 @@ public class dItems {
                 g2.drawImage(gItemFactory.instance().flagSprite,
                         eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                         eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
-                                - player.getInt("dimh")/2),
+                                - 2*player.getInt("dimh")/3),
                         null
                 );
             }
