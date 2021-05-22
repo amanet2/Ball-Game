@@ -9,10 +9,12 @@ public class gItemTeleporterRed extends gItem {
             }
             if(exit != null) {
                 player.put("inteleporter", "1");
-                player.put("coordx", exit.get("coordx"));
-                player.put("coordy", exit.get("coordy"));
-                nServer.instance().addNetCmd(player.get("id"), "userplayer coordx " + exit.get("coordx")
-                        + ";userplayer coordy " + exit.get("coordy"));
+                int nx = exit.getInt("coordx") + exit.getInt("dimw")/2 - player.getInt("dimw")/2;
+                int ny = exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2;
+                player.putInt("coordx", nx);
+                player.putInt("coordy", ny);
+                nServer.instance().addNetCmd(player.get("id"), "userplayer coordx " + nx
+                        + ";userplayer coordy " + ny);
             }
         }
         else
