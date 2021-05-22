@@ -117,6 +117,7 @@ public class cServerLogic {
     }
 
     public static void checkHealthStatus() {
+        //respawn ready players
         HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
         Long currentTime = System.currentTimeMillis();
         for(String id : argsMap.keySet()) {
