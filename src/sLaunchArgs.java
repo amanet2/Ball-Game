@@ -14,7 +14,6 @@ public class sLaunchArgs {
     }
 
 	public static void setLaunchArguments(String[] args) {
-	    sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
 		for (int i = 0; i < args.length; i++) {
             if (args.length >= i+1) {
                 sVars.put(args[i], args[i+1]);
