@@ -215,6 +215,9 @@ public class nServer extends Thread {
                             new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    if(sendDataString.length() > 508)
+                        System.out.println("*WARNING* PACKET LENGTH EXCEED 508 BYTES: "
+                                + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
                 receivedPackets.remove();
             }

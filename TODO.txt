@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* NET: decrease loading times
+    -> start by getting the mapsend to not exceed 508 bytes total
+    -> get the mapsend optimized to fill in all remaining space in teh client string
 * BOTS: they're shaky
     -> see where they are fighting over coords or vels in the server/client functions
         -> check where we make exceptions when player id is equal to uuid
