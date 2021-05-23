@@ -12,7 +12,7 @@ public class nServer extends Thread {
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    private ArrayList<String> clientProtectedArgs = new ArrayList<>();
+    ArrayList<String> clientProtectedArgs = new ArrayList<>();
     //id maps to queue of cmds we want to run on that client
     private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
@@ -305,8 +305,7 @@ public class nServer extends Thread {
             workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
             workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
             workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
-            if(sendfull || workingMap.size() > 0)
-                sendDataMap.put(idload2, new HashMap<>(workingMap));
+            sendDataMap.put(idload2, new HashMap<>(workingMap));
             sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
             sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
         }
