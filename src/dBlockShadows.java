@@ -14,14 +14,14 @@ public class dBlockShadows {
                     },
                     new int[]{
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh") - block.getInt("toph")),
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh") - block.getInt("toph")
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")
                                     + (int) (block.getInt("wallh") * cVars.getDouble("vfxshadowfactor"))),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")
+                                    + block.getInt("dimh") - block.getInt("toph")
                                     + (int) (block.getInt("wallh") * cVars.getDouble("vfxshadowfactor")))
                     },
                     4);
@@ -55,15 +55,15 @@ public class dBlockShadows {
                     },
                     new int[]{
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")
-                                    + (int) (block.getInt("wallh") * cVars.getDouble("vfxshadowfactor"))),
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                     + block.getInt("dimh") - block.getInt("toph")
                                     + (int) (block.getInt("wallh") * cVars.getDouble("vfxshadowfactor"))),
                             eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh") - block.getInt("toph"))
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")
+                                    + (int) (block.getInt("wallh") * cVars.getDouble("vfxshadowfactor"))),
+                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                                    + block.getInt("dimh") - block.getInt("toph") - block.getInt("toph"))
                     },
                     4);
             GradientPaint gradient = new GradientPaint(
