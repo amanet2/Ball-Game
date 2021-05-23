@@ -23,18 +23,10 @@ public class nVarsBot {
         for(String s : new String[]{"id","fv"}) {
             map.get(p.get("id")).put(s, p.get(s));
         }
-        if(p.getInt("vel1") > 0 && p.getInt("vel3") > 0)
-            map.get(p.get("id")).put("fv", Double.toString(3*Math.PI/4));
-        else if(p.getInt("vel1") > 0 && p.getInt("vel2") > 0)
-            map.get(p.get("id")).put("fv", Double.toString(3*Math.PI/2));
-        else if(p.getInt("vel1") > 0)
-            map.get(p.get("id")).put("fv", Double.toString(Math.PI));
-        else
-            map.get(p.get("id")).put("fv", Double.toString(2*Math.PI));
         map.get(p.get("id")).put("x", p.get("coordx"));
         map.get(p.get("id")).put("y", p.get("coordy"));
         map.get(p.get("id")).put("vels",
-                String.format("%s-%s-%s-%s", p.get("vel0"), p.get("vel1"), p.get("vel2"), p.get("vel3")));
+                String.format("%s-%s-%s-%s", p.get("botvel0"), p.get("botvel1"), p.get("botvel2"), p.get("botvel3")));
         map.get(p.get("id")).put("netmsgrcv", "");
     }
 
