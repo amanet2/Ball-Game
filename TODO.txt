@@ -49,7 +49,6 @@ FOCUS ITEMS
     -> right click could leave a bomb at player loc, left click launches it
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
 * FUTURE: we can make "themes" for prefabs
-* save lines from server to a map file
 * make players bounce off each other
     -> if a player is slower than another, make them take more and the other take less force accordingly
 * add ball skins
@@ -57,7 +56,6 @@ FOCUS ITEMS
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * add zombies gametype, a zopmbie will be a prop
     -> how many ID:coord:coord:attack sets can we cram in a send string
-* incorporate enums where possible
 * cant have key bound to multiple actions
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
@@ -67,36 +65,23 @@ FOCUS ITEMS
 * ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * pong gametype but the players are human paddles
-* put little representation of the lead character next to the leader string
-    -> draw <leader>.sprite (mini style) also draw <leader>.hat mini style
-        -> facing the right
 * gungame mode
 * put a mini version of the character next to name in scoreboard
-* start showing errors in debug log now
-* make it so teleporters can be configured to retain fv of player, or if the fv needs to be set to a certain value
+    -> with a crown on winner
+* start showing errors in debug log
 * powerup idea
-    -> egg
-    -> pick up
-    -> do something to initiate the growing sequence
-    -> chuck it before it blows, or drop it
-* add "disable attacks" flag
+    -> egg, pick up to initiate the growing sequence
+    -> chuck or drop it before it blows
+* add "disable attacks" option
 * need to see a visual pallette for selecting tiles
 * checksum checks
     -> client sends checksum of the jar, and the map file currently played
     -> server verifies these two MD5 hashes against its own md5s
 * gametype
-    -> ball thinks like a bot, going after nearest character
-        -> if you touch the ball you die
+    -> bot going after nearest character
+        -> if you touch the bot you die
         -> get points for staying alive
 * make players eyes blink
-* new map lines:
-    -> lockcam x y
-    -> locks cam at a certain coordinate for duration of the map.
-        -> no center cam, no free cam
-        -> check in the commandCenterCam and commandSelectUDLR files
-    -> lockscale s
-        -> locks game scale at certain level for the duration of the map
-        -> no zooming allowed
 * add texture tiling
     -> sprite must be converted to bufferedimage before drawing
 * Create a server browser program
