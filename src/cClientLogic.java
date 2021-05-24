@@ -91,10 +91,10 @@ public class cClientLogic {
                     }
                 }
             }
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene)) {
+            if(obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
             }
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene)) {
+            if(obj.wontClipOnMove(1,dy, scene)) {
                 obj.putInt("coordy", dy);
             }
         }
