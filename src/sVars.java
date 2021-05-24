@@ -38,12 +38,12 @@ public class sVars {
         keys.put("logopath", "misc/logo.png");
         keys.put("msgfadetime", "10000");
         keys.put("netrcvretries", "0");
-        keys.put("ratebots", "30");
-        keys.put("rateclient", "30");
-        keys.put("rateserver", "500");
         keys.put("playercolor", "blue");
         keys.put("playerhat", "none");
         keys.put("playername", "player");
+        keys.put("ratebots", "30");
+        keys.put("rateclient", "60");
+        keys.put("rateserver", "500");
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
@@ -67,8 +67,8 @@ public class sVars {
         keys.put("vfxenableshadows", "1");
         keys.put("vfxfactor", "144");
         keys.put("vfxfactordiv", "16");
-        keys.put("vidmode", "1024,768,60");
-        keys.put("volume", "50");
+        keys.put("vidmode", "1280,720,60");
+        keys.put("volume", "100");
     }
 
     static boolean checkVal(String key, String v) {
