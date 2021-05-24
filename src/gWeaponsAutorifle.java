@@ -18,6 +18,8 @@ public class gWeaponsAutorifle extends gWeapon {
 
     public void fireWeapon(gPlayer p, gScene scene) {
         super.fireWeapon(p, scene);
+        if(p == null)
+            return;
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
                 bulletSpritePath, p.getDouble("fv"), damage);

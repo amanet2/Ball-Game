@@ -18,6 +18,8 @@ public class gWeaponsShotgun extends gWeapon {
 
     public void fireWeapon(gPlayer p, gScene scene) {
         super.fireWeapon(p, scene);
+        if(p == null)
+            return;
         int numpellets = 7;
         for (int i = 0; i < numpellets; i++) {
             gBullet b = new gBullet(p.getInt("coordx") + p.getInt("dimw") / 2 - bulletDims[0] / 2,
