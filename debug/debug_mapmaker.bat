@@ -1,1 +1,1 @@
-call %~dp0debug.bat -editor %*
+call %~dp0debug.bat showmapmakerui 1 %*
