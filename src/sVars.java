@@ -42,7 +42,7 @@ public class sVars {
         keys.put("playerhat", "none");
         keys.put("playername", "player");
         keys.put("ratebots", "30");
-        keys.put("rateclient", "30");
+        keys.put("rateclient", "60");
         keys.put("rateserver", "500");
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
@@ -67,8 +67,8 @@ public class sVars {
         keys.put("vfxenableshadows", "1");
         keys.put("vfxfactor", "144");
         keys.put("vfxfactordiv", "16");
-        keys.put("vidmode", "1024,768,60");
-        keys.put("volume", "50");
+        keys.put("vidmode", "1280,720,60");
+        keys.put("volume", "100");
     }
 
     static boolean checkVal(String key, String v) {

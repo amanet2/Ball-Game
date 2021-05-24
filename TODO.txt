@@ -4,9 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* CRASH: fireweapon when player is null
-    -> how to re-architecture it to not require a player at all???
-        -> fireweapon <coords> <fv>
 * max of 4 players right now
 * BOTS: they're shaky
     -> see where they are fighting over coords or vels in the server/client functions
