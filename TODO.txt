@@ -13,7 +13,7 @@ FOCUS ITEMS
         -> check where we make exceptions when player id is equal to uuid
         -> take note of client/server separation and how host user player is handled differently
 * MAPNAME: has to be a thing
-* GFX: only adjust player(s) layering by Y level instead of everything
+* GFX: adjust player(s) layering by Y level instead of everything
 * NET: Have server not send any other clients' vars if the client is still loading
 * GAME: players start getting shaky after a bit
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
