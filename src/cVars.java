@@ -36,7 +36,7 @@ public class cVars {
         put("shotgunmasterids", "");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
-        put("serversendmapbatchsize", "200");
+        put("serversendmapbatchsize", "256");
         put("showscore", "0");
         put("starttime", "0");
         put("timeleft", sVars.get("timelimit"));

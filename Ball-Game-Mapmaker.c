@@ -3,7 +3,7 @@
 
 int main(int argc, char * argv[]) {
     int argmalloc = 0;
-    char * startstr = "start pkg\\run_game.bat -editor ";
+    char * startstr = "start pkg\\run_game.bat showmapmakerui 1 ";
     int i;
     for(i = 1; i < argc; i++) {
         argmalloc += sizeof(char)*strlen(argv[i]);

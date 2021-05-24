@@ -18,7 +18,7 @@ public class sVars {
         keys.put("debug", "0");
         keys.put("debuglog", "0");
         keys.put("drawmapmakergrid", "1");
-        keys.put("drawhitboxes", "1");
+        keys.put("drawhitboxes", "0");
         keys.put("drawplayerarrow", "1");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
@@ -38,18 +38,19 @@ public class sVars {
         keys.put("logopath", "misc/logo.png");
         keys.put("msgfadetime", "10000");
         keys.put("netrcvretries", "0");
-        keys.put("ratebots", "30");
-        keys.put("rateclient", "30");
-        keys.put("rateserver", "500");
         keys.put("playercolor", "blue");
         keys.put("playerhat", "none");
         keys.put("playername", "player");
+        keys.put("ratebots", "30");
+        keys.put("rateclient", "60");
+        keys.put("rateserver", "500");
         keys.put("rcvbytesclient", "2048");
         keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("sfxrange", "1800");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
+        keys.put("showmapmakerui", "0");
         keys.put("showmouse", "1");
         keys.put("shownet", "1");
         keys.put("showplayer", "1");
@@ -66,8 +67,8 @@ public class sVars {
         keys.put("vfxenableshadows", "1");
         keys.put("vfxfactor", "144");
         keys.put("vfxfactordiv", "16");
-        keys.put("vidmode", "1024,768,60");
-        keys.put("volume", "50");
+        keys.put("vidmode", "1280,720,60");
+        keys.put("volume", "100");
     }
 
     static boolean checkVal(String key, String v) {
@@ -189,19 +190,26 @@ public class sVars {
             xCon.instance().log("Loading Settings File Path: " + s);
             String line;
             while ((line = br.readLine()) != null) {
+                filelines.add(line);
                 String[] args = line.split(" ");
                 String argname = args[0];
-                filelines.add(line);
-                if(keys.containsKey(argname))
-                    keys.put(argname,line.replaceFirst(argname+" ", ""));
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                    sLaunchArgs.readLaunchArguments(argname,args);
+                if(argname.trim().replace(" ","").charAt(0) != '#') //filter out comments
+                    keys.put(argname, line.replaceFirst(argname+" ", ""));
             }
             xCon.instance().debug(keys.toString());
         }
         catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
+        }
+    }
+
+    public static void readLaunchArguments(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args.length >= i+1) {
+                sVars.put(args[i], args[i+1]);
+                i+=1;
+            }
         }
     }
 

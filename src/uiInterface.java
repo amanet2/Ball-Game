@@ -1,22 +1,22 @@
 import java.awt.*;
 
 public class uiInterface {
-	static boolean inplay = sVars.isZero("startpaused");
-	static long gameTime = System.currentTimeMillis();
-	private static long gameTimeNanos = System.nanoTime();
-	private static long tickCounterTime = gameTime;
-	private static long tickTimeNanos = gameTimeNanos;
-	private static long framecounterTime = gameTime;
-	static long nettickcounterTime = gameTime;
-	static int tickReport = 0;
-	static int fpsReport = 0;
-	static int netReport = 0;
-	static int[] camReport = new int[]{0,0};
+    static boolean inplay = sVars.isZero("startpaused");
+    static long gameTime = System.currentTimeMillis();
+    private static long gameTimeNanos = System.nanoTime();
+    private static long tickCounterTime = gameTime;
+    private static long tickTimeNanos = gameTimeNanos;
+    private static long framecounterTime = gameTime;
+    static long nettickcounterTime = gameTime;
+    static int tickReport = 0;
+    static int fpsReport = 0;
+    static int netReport = 0;
+    static int[] camReport = new int[]{0,0};
     private static int frames = 0;
     static String uuid = eManager.createId();
 
-	public static void startGame() {
-	    int ticks = 0;
+    private static void startGame() {
+        int ticks = 0;
         while(true) {
             try {
                 gameTime = System.currentTimeMillis();
@@ -56,15 +56,20 @@ public class uiInterface {
                 eUtils.echoException(e);
                 e.printStackTrace();
             }
-		}
-	}
+        }
+    }
 
-	public static void init() {
-	    eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
+    public static void init(String[] launch_args) {
+        eUtils.disableApplePressAndHold();
+        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
+        sVars.readLaunchArguments(launch_args);
+        eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-	    if(!sSettings.show_mapmaker_ui) {
+        xCon.ex("exec config/autoexec.cfg");
+        //finish loading args
+        if(!sVars.isOne("showmapmakerui")) {
             sVars.putInt("drawhitboxes", 0);
             sVars.putInt("drawmapmakergrid", 0);
             sVars.putInt("showcam", 0);
@@ -75,11 +80,14 @@ public class uiInterface {
             sVars.putInt("showscale", 0);
             sVars.putInt("showtick", 0);
         }
-        xCon.ex("exec config/autoexec.cfg");
+        else {
+            sSettings.show_mapmaker_ui = true;
+            eUtils.zoomLevel = 0.5;
+        }
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
         startGame();
-	}
+    }
 
     public static int[] getMouseCoordinates() {
         return new int[]{
@@ -136,7 +144,7 @@ public class uiInterface {
         }
     }
 
-	public static void exit() {
+    public static void exit() {
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
