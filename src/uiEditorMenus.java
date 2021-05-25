@@ -45,17 +45,26 @@ public class uiEditorMenus {
         if(cVars.get("newprefabname").contains("room_large")) {
             return new int[]{2400, 2400};
         }
-        if(cVars.isVal("newprefabname", "end_wall")) {
+        else if(cVars.isVal("newprefabname", "end_wall")) {
             return new int[]{300, 300};
         }
-        if(cVars.isVal("newprefabname", "end_cap")) {
+        else if(cVars.isVal("newprefabname", "end_angle")) {
+            return new int[]{300, 450};
+        }
+        else if(cVars.isVal("newprefabname", "end_angle_090")) {
             return new int[]{300, 150};
         }
-        if(cVars.isVal("newprefabname", "cube")) {
-            return new int[]{300, 300};
+        else if(cVars.isVal("newprefabname", "end_angle_180")) {
+            return new int[]{300, 150};
         }
-        if(cVars.isVal("newprefabname", "cube_large")) {
-            return new int[]{600, 600};
+        else if(cVars.isVal("newprefabname", "end_angle_270")) {
+            return new int[]{300, 450};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        else if(cVars.isVal("newprefabname", "cube")) {
+            return new int[]{300, 300};
         }
         return new int[]{1200, 1200};
     }
