@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GFX: players need to appear behind higher walls
+    -> sort walls by Y-value and then insert player(s) where they should be in the drawing order
+    -> instead of logic on when to draw walls (like you're doing right now) make logic on when to draw player(s)
 * GAME: player and names are shaky
 * NET: max of 4 players right now
 * BOTS: they're shaky
