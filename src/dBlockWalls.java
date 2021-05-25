@@ -1,10 +1,12 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class dBlockWalls {
     public static void drawBlockWalls(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> squareMap = scene.getThingMap("BLOCK_CUBE");
+        squareMap = getFlatWallsSortedByCoordY();
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("wallh")) {
@@ -344,5 +346,28 @@ public class dBlockWalls {
                 4);
         g2.fillPolygon(pw);
         dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
+    }
+
+    public static HashMap<String, gThing> getFlatWallsSortedByCoordY() {
+        HashMap<String, gThing> sortedWalls = new HashMap<>();
+        HashMap<String, gThing> wallMap = new HashMap<>(cClientLogic.scene.getThingMap("BLOCK_CUBE"));
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int lowestY = 1000000;
+            String lowestId = "";
+            for(String id : wallMap.keySet()) {
+                if(wallMap.get(id).getInt("coordy") <= lowestY) {
+                    sorted = false;
+                    lowestId = id;
+                    lowestY = wallMap.get(id).getInt("coordy");
+                }
+            }
+            if(lowestId.length() > 0) {
+                sortedWalls.put(lowestId, wallMap.get(lowestId));
+                wallMap.remove(lowestId);
+            }
+        }
+        return sortedWalls;
     }
 }
