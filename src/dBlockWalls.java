@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 public class dBlockWalls {
     public static void drawBlockWalls(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> squareMap = scene.getThingMap("BLOCK_CUBE");
-        squareMap = getFlatWallsSortedByCoordY();
+//        squareMap = getFlatWallsSortedByCoordY();
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("wallh")) {
