@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GAME: when player is on a vector down on a slope, increase vel L/R so they "slide down"
 * GFX: players need to appear behind higher walls
     -> APPLY the sorting function to all walls, insert the players in there, and draw them all as generic "things"
     -> combine drawWalls and drawPlayers into one function
