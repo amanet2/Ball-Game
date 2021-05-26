@@ -5,18 +5,10 @@
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * GAME: when player is on a vector down on a slope, increase vel L/R so they "slide down"
-* GFX: players need to appear behind higher walls
-    -> APPLY the sorting function to all walls, insert the players in there, and draw them all as generic "things"
-    -> combine drawWalls and drawPlayers into one function
-        -> drawBlockWalls() calls delegate functions for the individual block types (each take a block as a parameter)
-        -> may have to get rid of frontwall to simplify things
-    -> sort walls by Y-value and then insert player(s) where they should be in the drawing order
-    -> instead of logic on when to draw walls (like you're doing right now) make logic on when to draw player(s)
 * GAME: player and names are shaky
 * NET: max of 4 players right now
 * BOTS: they're shaky
 * MAPNAME: has to be a thing
-* GFX: adjust player(s) layering by Y level
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
 * EDITOR: keep the old export_prefab stuff around, as it's a good feature that can be reintroduced with some tweaking

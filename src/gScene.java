@@ -65,6 +65,51 @@ public class gScene {
         return idctr;
     }
 
+    public LinkedHashMap<String, gThing> getWallsAndPlayersSortedByCoordY() {
+        LinkedHashMap<String, gThing> sortedWalls = new LinkedHashMap<>();
+        HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
+        HashMap<String, gThing> cornerMapL = new HashMap<>(getThingMap("BLOCK_CORNERUL"));
+        HashMap<String, gThing> cornerMapR = new HashMap<>(getThingMap("BLOCK_CORNERUR"));
+        HashMap<String, gThing> cornerMapLL = new HashMap<>(getThingMap("BLOCK_CORNERLL"));
+        HashMap<String, gThing> cornerMapLR = new HashMap<>(getThingMap("BLOCK_CORNERLR"));
+        HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
+        for(String id : cornerMapL.keySet()) {
+            combinedMap.put(id, cornerMapL.get(id));
+        }
+        for(String id : cornerMapR.keySet()) {
+            combinedMap.put(id, cornerMapR.get(id));
+        }
+        for(String id : cornerMapLL.keySet()) {
+            combinedMap.put(id, cornerMapLL.get(id));
+        }
+        for(String id : cornerMapLR.keySet()) {
+            combinedMap.put(id, cornerMapLR.get(id));
+        }
+        for(String id : playerMap.keySet()) {
+            combinedMap.put(id, playerMap.get(id));
+        }
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int lowestY = 1000000;
+            String lowestId = "";
+            for(String id : combinedMap.keySet()) {
+                if(((combinedMap.get(id).contains("wallh") && combinedMap.get(id).getInt("wallh") > 0)
+                        || (combinedMap.get(id).contains("fv")))
+                        && combinedMap.get(id).getInt("coordy") <= lowestY) {
+                    sorted = false;
+                    lowestId = id;
+                    lowestY = combinedMap.get(id).getInt("coordy");
+                }
+            }
+            if(lowestId.length() > 0) {
+                sortedWalls.put(lowestId, combinedMap.get(lowestId));
+                combinedMap.remove(lowestId);
+            }
+        }
+        return sortedWalls;
+    }
+
     public void saveAs(String filename, String foldername) {
         if(foldername == null || foldername.strip().length() < 1)
             foldername="maps";
