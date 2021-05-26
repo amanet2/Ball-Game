@@ -59,12 +59,32 @@ public class dBlockWalls {
                 }
             }
             else {
-                if(thing.contains("wallh")) {
-                    dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
-                    drawBlockWallCube(g2, (gBlockCube) thing);
+                if(thing.get("type").contains("CUBE")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
+                        drawBlockWallCube(g2, (gBlockCube) thing);
+                    }
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
+                    }
                 }
-                if(thing.contains("toph") && thing.isOne("backtop")) {
-                    dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
+                if(thing.get("type").contains("CORNERUR")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockCornerUR(g2, (gBlockCornerUR) thing);
+                        drawBlockWallCornerUR(g2, (gBlockCornerUR) thing);
+                    }
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerUR(g2, (gBlockCornerUR) thing);
+                    }
+                }
+                if(thing.get("type").contains("CORNERUL")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockCornerUL(g2, (gBlockCornerUL) thing);
+                        drawBlockWallCornerUL(g2, (gBlockCornerUL) thing);
+                    }
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerUL(g2, (gBlockCornerUL) thing);
+                    }
                 }
             }
         }
@@ -416,7 +436,15 @@ public class dBlockWalls {
     public static LinkedHashMap<String, gThing> getWallsAndPlayersSortedByCoordY(gScene scene) {
         LinkedHashMap<String, gThing> sortedWalls = new LinkedHashMap<>();
         HashMap<String, gThing> playerMap = new HashMap<>(scene.getThingMap("THING_PLAYER"));
+        HashMap<String, gThing> cornerMapL = new HashMap<>(scene.getThingMap("BLOCK_CORNERUL"));
+        HashMap<String, gThing> cornerMapR = new HashMap<>(scene.getThingMap("BLOCK_CORNERUR"));
         HashMap<String, gThing> combinedMap = new HashMap<>(scene.getThingMap("BLOCK_CUBE"));
+        for(String id : cornerMapL.keySet()) {
+            combinedMap.put(id, cornerMapL.get(id));
+        }
+        for(String id : cornerMapR.keySet()) {
+            combinedMap.put(id, cornerMapR.get(id));
+        }
         for(String id : playerMap.keySet()) {
             combinedMap.put(id, playerMap.get(id));
         }
