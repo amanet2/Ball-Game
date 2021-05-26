@@ -1,12 +1,77 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class dBlockWalls {
+    public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
+        LinkedHashMap<String, gThing> combinedMap = getWallsAndPlayersSortedByCoordY(scene);
+        for(String tag : combinedMap.keySet()) {
+            gThing thing = combinedMap.get(tag);
+            if(thing.contains("fv")) {
+                gPlayer player = (gPlayer) thing;
+                //player shadow
+                if(sVars.isOne("vfxenableplayershadow")) {
+                    //check null fields
+                    if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
+                        break;
+                    int yadj = 5*player.getInt("dimh")/6;
+                    Rectangle2D shadowBounds = new Rectangle.Double(
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                    + yadj),
+                            eUtils.scaleInt(player.getInt("dimw")),
+                            eUtils.scaleInt(player.getInt("dimh")/3));
+                    RadialGradientPaint df = new RadialGradientPaint(
+                            shadowBounds, new float[]{0f, 1f},
+                            new Color[]{
+                                    new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
+                                    new Color(0, 0, 0, 0)
+                            }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+                    g2.setPaint(df);
+                    g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
+                            (int)shadowBounds.getHeight());
+                }
+                //player itself
+                g2.drawImage(
+                        player.sprite,
+                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")),
+                        null
+                );
+                //shading
+                if(sVars.isOne("vfxenableshading")) {
+                    GradientPaint df = new GradientPaint(
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") + 2*player.getInt("dimh")/3
+                                    - cVars.getInt("camy")),
+                            new Color(0,0, 0,0),
+                            eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") + player.getInt("dimh")
+                                    - cVars.getInt("camy")),
+                            new Color(0,0, 0,cVars.getInt("vfxshadowalpha1")/2));
+                    g2.setPaint(df);
+                    g2.fillOval(eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                            eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(player.getInt("dimw")),
+                            eUtils.scaleInt(player.getInt("dimh")));
+                }
+            }
+            else {
+                if(thing.contains("wallh")) {
+                    dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
+                    drawBlockWallCube(g2, (gBlockCube) thing);
+                }
+                if(thing.contains("toph") && thing.isOne("backtop")) {
+                    dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
+                }
+            }
+        }
+    }
+
     public static void drawBlockWalls(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> squareMap = scene.getThingMap("BLOCK_CUBE");
-//        squareMap = getFlatWallsSortedByCoordY();
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("wallh")) {
@@ -348,6 +413,35 @@ public class dBlockWalls {
         dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
     }
 
+    public static LinkedHashMap<String, gThing> getWallsAndPlayersSortedByCoordY(gScene scene) {
+        LinkedHashMap<String, gThing> sortedWalls = new LinkedHashMap<>();
+        HashMap<String, gThing> playerMap = new HashMap<>(scene.getThingMap("THING_PLAYER"));
+        HashMap<String, gThing> combinedMap = new HashMap<>(scene.getThingMap("BLOCK_CUBE"));
+        for(String id : playerMap.keySet()) {
+            combinedMap.put(id, playerMap.get(id));
+        }
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int lowestY = 1000000;
+            String lowestId = "";
+            for(String id : combinedMap.keySet()) {
+                if(((combinedMap.get(id).contains("wallh") && combinedMap.get(id).getInt("wallh") > 0)
+                        || (combinedMap.get(id).contains("fv")))
+                        && combinedMap.get(id).getInt("coordy") <= lowestY) {
+                    sorted = false;
+                    lowestId = id;
+                    lowestY = combinedMap.get(id).getInt("coordy");
+                }
+            }
+            if(lowestId.length() > 0) {
+                sortedWalls.put(lowestId, combinedMap.get(lowestId));
+                combinedMap.remove(lowestId);
+            }
+        }
+        return sortedWalls;
+    }
+
     public static HashMap<String, gThing> getFlatWallsSortedByCoordY() {
         HashMap<String, gThing> sortedWalls = new HashMap<>();
         HashMap<String, gThing> wallMap = new HashMap<>(cClientLogic.scene.getThingMap("BLOCK_CUBE"));
@@ -357,7 +451,8 @@ public class dBlockWalls {
             int lowestY = 1000000;
             String lowestId = "";
             for(String id : wallMap.keySet()) {
-                if(wallMap.get(id).getInt("coordy") <= lowestY) {
+                if(wallMap.get(id).getInt("wallh") > 0
+                        && wallMap.get(id).getInt("coordy") <= lowestY) {
                     sorted = false;
                     lowestId = id;
                     lowestY = wallMap.get(id).getInt("coordy");
