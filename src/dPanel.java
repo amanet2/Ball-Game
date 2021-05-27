@@ -29,9 +29,10 @@ public class dPanel extends JPanel {
             if(cVars.isOne("maploaded")) {
                 gScene scene = cClientLogic.scene;
                 dBlockFloors.drawBlockFloors(g2, scene);
-                dBlockWalls.drawBlockWalls(g2, scene);
-//                dItems.drawItems(g2, scene);
-                dPlayer.drawPlayers(g2);
+                dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
+//                dBlockWalls.drawBlockWalls(g2, scene);
+////                dItems.drawItems(g2, scene);
+//                dPlayer.drawPlayers(g2);
                 dTileTops.drawTops(g2, scene);
                 dItems.drawItems(g2, scene);
                 dTileTops.drawMapmakerOverlay(g2, scene);

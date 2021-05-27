@@ -4,21 +4,20 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GFX: players need to appear behind higher walls
-    -> sort walls by Y-value and then insert player(s) where they should be in the drawing order
-    -> instead of logic on when to draw walls (like you're doing right now) make logic on when to draw player(s)
 * GAME: player and names are shaky
 * NET: max of 4 players right now
 * BOTS: they're shaky
 * MAPNAME: has to be a thing
-* GFX: adjust player(s) layering by Y level
 * NET: Have server not send any other clients' vars if the client is still loading
+    -> at that point we can increase the batch size a bit
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
-* EDITOR: keep the old export_prefab stuff around, as it's a good feature that can be reintroduced with some tweaking
+* EDITOR: keep the old export_prefab stuff around as a console command
 * MAPMAKER: show all user's preview rect on all clients
+    -> label them like google doc (with name)
 ###
 ### POWER GAP
 ###
+* GAME: when player is on a vector into a slope, make them "slide" off it in a natural dir
 * WEAPONS: send a holdingmouse netvar when holding mouse
     -> clients will simulate the fire rate
         -> server holds master state still

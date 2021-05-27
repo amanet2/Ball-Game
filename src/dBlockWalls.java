@@ -1,203 +1,61 @@
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class dBlockWalls {
-    public static void drawBlockWalls(Graphics2D g2, gScene scene) {
-        HashMap<String, gThing> squareMap = scene.getThingMap("BLOCK_CUBE");
-        for(String tag : squareMap.keySet()) {
-            gBlockCube block = (gBlockCube) squareMap.get(tag);
-            if(block.contains("wallh")) {
-                dBlockShadows.drawShadowBlockFlat(g2, block);
-                if(block.isZero("frontwall"))
-                    drawBlockWallCube(g2, block);
-                else {
-                    gPlayer userplayer = cClientLogic.getUserPlayer();
-                    if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy"))
-                            drawBlockWallCube(g2, block);
+    public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
+        LinkedHashMap<String, gThing> combinedMap = scene.getWallsAndPlayersSortedByCoordY();
+        for(String tag : combinedMap.keySet()) {
+            gThing thing = combinedMap.get(tag);
+            if(thing.contains("fv")) {
+                gPlayer player = (gPlayer) thing;
+                dPlayer.drawPlayer(g2, player);
+            }
+            else {
+                if(thing.get("type").contains("CUBE")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
+                        drawBlockWallCube(g2, (gBlockCube) thing);
                     }
-                    else
-                        drawBlockWallCube(g2, block);
-                }
-            }
-            if(block.contains("toph") && block.isOne("backtop")) {
-                dBlockTops.drawBlockTopCube(g2, block);
-            }
-        }
-        squareMap = scene.getThingMap("BLOCK_CORNERUR");
-        for(String tag : squareMap.keySet()) {
-            gBlockCornerUR block = (gBlockCornerUR) squareMap.get(tag);
-            if(block.contains("wallh")) {
-                dBlockShadows.drawShadowBlockCornerUR(g2, block);
-                if(block.isZero("frontwall"))
-                    drawBlockWallCornerUR(g2, block);
-                else {
-                    gPlayer userplayer = cClientLogic.getUserPlayer();
-                    if(userplayer != null) {
-                        int[][] bottomSectionPoints = new int[][]{
-                                new int[] {
-                                        block.getInt("coordx"),
-                                        block.getInt("coordx") + block.getInt("dimw"),
-                                        block.getInt("coordx") + block.getInt("dimw"),
-                                        block.getInt("coordx")
-                                },
-                                new int[] {
-                                        block.getInt("coordy") + block.getInt("wallh") - block.getInt("toph"),
-                                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
-                                        block.getInt("coordy") + block.getInt("dimh"),
-                                        block.getInt("coordy") + block.getInt("wallh")
-                                }};
-                        int[][] playerPoints = new int[][]{
-                                new int[] {
-                                        userplayer.getInt("coordx"),
-                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
-                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
-                                        userplayer.getInt("coordx")
-                                },
-                                new int[] {
-                                        userplayer.getInt("coordy"),
-                                        userplayer.getInt("coordy"),
-                                        userplayer.getInt("coordy") + userplayer.getInt("dimh"),
-                                        userplayer.getInt("coordy") + userplayer.getInt("dimh")
-                                }};
-                        Line2D bs1 = new Line2D.Float(bottomSectionPoints[0][0], bottomSectionPoints[1][0],
-                                bottomSectionPoints[0][1], bottomSectionPoints[1][1]);
-                        Line2D bs2 = new Line2D.Float(bottomSectionPoints[0][1], bottomSectionPoints[1][1],
-                                bottomSectionPoints[0][2], bottomSectionPoints[1][2]);
-                        Line2D bs3 = new Line2D.Float(bottomSectionPoints[0][2], bottomSectionPoints[1][2],
-                                bottomSectionPoints[0][3], bottomSectionPoints[1][3]);
-                        Line2D bs4 = new Line2D.Float(bottomSectionPoints[0][3], bottomSectionPoints[1][3],
-                                bottomSectionPoints[0][0], bottomSectionPoints[1][0]);
-                        Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
-                                playerPoints[0][1], playerPoints[1][1]);
-                        Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
-                                playerPoints[0][2], playerPoints[1][2]);
-                        Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
-                                playerPoints[0][3], playerPoints[1][3]);
-                        Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
-                                playerPoints[0][0], playerPoints[1][0]);
-                        boolean indepth = block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy");
-                        if(ps2.intersectsLine(bs3) || ps4.intersectsLine(bs3) || indepth)
-                            drawBlockWallCornerUR(g2, block);
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
                     }
-                    else
-                        drawBlockWallCornerUR(g2, block);
                 }
-            }
-            if(block.contains("toph") && block.isOne("backtop")) {
-                dBlockTops.drawBlockTopCornerUR(g2, block);
-            }
-        }
-        squareMap = scene.getThingMap("BLOCK_CORNERUL");
-        for(String tag : squareMap.keySet()) {
-            gBlockCornerUL block = (gBlockCornerUL) squareMap.get(tag);
-            if(block.contains("wallh")) {
-                dBlockShadows.drawShadowBlockCornerUL(g2, block);
-                if(block.isZero("frontwall"))
-                    drawBlockWallCornerUL(g2, block);
-                else {
-                    gPlayer userplayer = cClientLogic.getUserPlayer();
-                    if(userplayer != null) {
-                        int[][] bottomSectionPoints = new int[][]{
-                                new int[] {
-                                        block.getInt("coordx"),
-                                        block.getInt("coordx") + block.getInt("dimw"),
-                                        block.getInt("coordx") + block.getInt("dimw"),
-                                        block.getInt("coordx")
-                                },
-                                new int[] {
-                                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
-                                        block.getInt("coordy") + block.getInt("wallh") - block.getInt("toph"),
-                                        block.getInt("coordy") + block.getInt("wallh"),
-                                        block.getInt("coordy") + block.getInt("dimh")
-                                }};
-                        int[][] playerPoints = new int[][]{
-                                new int[] {
-                                        userplayer.getInt("coordx"),
-                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
-                                        userplayer.getInt("coordx") + userplayer.getInt("dimw"),
-                                        userplayer.getInt("coordx")
-                                },
-                                new int[] {
-                                        userplayer.getInt("coordy"),
-                                        userplayer.getInt("coordy"),
-                                        userplayer.getInt("coordy") + userplayer.getInt("dimh"),
-                                        userplayer.getInt("coordy") + userplayer.getInt("dimh")
-                                }};
-                        Line2D bs1 = new Line2D.Float(bottomSectionPoints[0][0], bottomSectionPoints[1][0],
-                                bottomSectionPoints[0][1], bottomSectionPoints[1][1]);
-                        Line2D bs2 = new Line2D.Float(bottomSectionPoints[0][1], bottomSectionPoints[1][1],
-                                bottomSectionPoints[0][2], bottomSectionPoints[1][2]);
-                        Line2D bs3 = new Line2D.Float(bottomSectionPoints[0][2], bottomSectionPoints[1][2],
-                                bottomSectionPoints[0][3], bottomSectionPoints[1][3]);
-                        Line2D bs4 = new Line2D.Float(bottomSectionPoints[0][3], bottomSectionPoints[1][3],
-                                bottomSectionPoints[0][0], bottomSectionPoints[1][0]);
-                        Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
-                                playerPoints[0][1], playerPoints[1][1]);
-                        Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
-                                playerPoints[0][2], playerPoints[1][2]);
-                        Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
-                                playerPoints[0][3], playerPoints[1][3]);
-                        Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
-                                playerPoints[0][0], playerPoints[1][0]);
-                        boolean indepth = block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy");
-                        if(ps2.intersectsLine(bs3) || ps4.intersectsLine(bs3) || indepth)
-                            drawBlockWallCornerUL(g2, block);
+                else if(thing.get("type").contains("CORNERUR")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockCornerUR(g2, (gBlockCornerUR) thing);
+                        drawBlockWallCornerUR(g2, (gBlockCornerUR) thing);
                     }
-                    else
-                        drawBlockWallCornerUL(g2, block);
-                }
-            }
-            if(block.contains("toph") && block.isOne("backtop")) {
-                dBlockTops.drawBlockTopCornerUL(g2, block);
-            }
-        }
-        squareMap = scene.getThingMap("BLOCK_CORNERLR");
-        for(String tag : squareMap.keySet()) {
-            gBlockCornerLR block = (gBlockCornerLR) squareMap.get(tag);
-            if(block.contains("wallh")) {
-                dBlockShadows.drawShadowBlockFlat(g2, block);
-                if(block.isZero("frontwall"))
-                    drawBlockWallCornerLR(g2, block);
-                else {
-                    gPlayer userplayer = cClientLogic.getUserPlayer();
-                    if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy"))
-                            drawBlockWallCornerLR(g2, block);
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerUR(g2, (gBlockCornerUR) thing);
                     }
-                    else
-                        drawBlockWallCornerLR(g2, block);
                 }
-            }
-            if(block.contains("toph") && block.isOne("backtop")) {
-                dBlockTops.drawBlockTopCornerLR(g2, block);
-            }
-        }
-        squareMap = scene.getThingMap("BLOCK_CORNERLL");
-        for(String tag : squareMap.keySet()) {
-            gBlockCornerLL block = (gBlockCornerLL) squareMap.get(tag);
-            if(block.contains("wallh")) {
-                dBlockShadows.drawShadowBlockFlat(g2, block);
-                if(block.isZero("frontwall"))
-                    drawBlockWallCornerLL(g2, block);
-                else {
-                    gPlayer userplayer = cClientLogic.getUserPlayer();
-                    if(userplayer != null) {
-                        if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                                <= userplayer.getInt("coordy"))
-                            drawBlockWallCornerLL(g2, block);
+                else if(thing.get("type").contains("CORNERUL")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockCornerUL(g2, (gBlockCornerUL) thing);
+                        drawBlockWallCornerUL(g2, (gBlockCornerUL) thing);
                     }
-                    else
-                        drawBlockWallCornerLL(g2, block);
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerUL(g2, (gBlockCornerUL) thing);
+                    }
                 }
-            }
-            if(block.contains("toph") && block.isOne("backtop")) {
-                dBlockTops.drawBlockTopCornerLL(g2, block);
+                else if(thing.get("type").contains("CORNERLL")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
+                        drawBlockWallCornerLL(g2, (gBlockCornerLL) thing);
+                    }
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerLL(g2, (gBlockCornerLL) thing);
+                    }
+                }
+                else if(thing.get("type").contains("CORNERLR")) {
+                    if (thing.contains("wallh")) {
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
+                        drawBlockWallCornerLR(g2, (gBlockCornerLR) thing);
+                    }
+                    if (thing.contains("toph") && thing.isOne("backtop")) {
+                        dBlockTops.drawBlockTopCornerLR(g2, (gBlockCornerLR) thing);
+                    }
+                }
             }
         }
     }

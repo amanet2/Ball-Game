@@ -18,7 +18,7 @@ public class sVars {
         keys.put("debug", "0");
         keys.put("debuglog", "0");
         keys.put("drawmapmakergrid", "1");
-        keys.put("drawhitboxes", "0");
+        keys.put("drawhitboxes", "1");
         keys.put("drawplayerarrow", "1");
         keys.put("displaymode", "0");
         keys.put("fontcoloralert", "200,0,50,200");
