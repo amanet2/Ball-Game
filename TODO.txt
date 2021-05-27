@@ -4,8 +4,14 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GFX: corners need to draw on top of flat walls
+    -> make another pass on the now-sorted list, build new map with corners sorted properly
+        -> for each corner piece, place to the side while building sorted map
+            -> mark its Y pos, when we find a new  Y' that is not equal to Y, we put the corners back
 * GAME: when player is on a vector down on a slope, increase vel L/R so they "slide down"
 * GAME: player and names are shaky
+    -> I think it's cause the user player used to interact directly with the world, now the user player is reported
+    from the server
 * NET: max of 4 players right now
 * BOTS: they're shaky
 * MAPNAME: has to be a thing
