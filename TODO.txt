@@ -5,9 +5,6 @@
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * GAME: player and names are shaky
-    -> the user player used to interact directly with the world, now the user player is reported
-    from the server
-* GAME: when player is on a vector down on a slope, increase vel L/R so they "slide down"
 * NET: max of 4 players right now
 * BOTS: they're shaky
 * MAPNAME: has to be a thing
@@ -20,6 +17,7 @@ FOCUS ITEMS
 ###
 ### POWER GAP
 ###
+* GAME: when player is on a vector into a slope, make them "slide" off it in a natural dir
 * WEAPONS: send a holdingmouse netvar when holding mouse
     -> clients will simulate the fire rate
         -> server holds master state still

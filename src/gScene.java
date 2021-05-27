@@ -135,7 +135,6 @@ public class gScene {
             }
         }
         return sortedMapPostCorners;
-//        return sortedMapPreCorners;
     }
 
     public void saveAs(String filename, String foldername) {
