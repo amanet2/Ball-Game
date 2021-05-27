@@ -42,6 +42,8 @@ public class cClientLogic {
     }
 
     public static synchronized void selectThingUnderMouse() {
+        if(cVars.isZero("maploaded"))
+            return;
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
