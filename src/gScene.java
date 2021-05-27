@@ -129,6 +129,11 @@ public class gScene {
                 sortedMapPostCorners.put(id, thing);
             }
         }
+        if(cornerStagingMap.size() > 0) {
+            for(String id : cornerStagingMap.keySet()) {
+                sortedMapPostCorners.put(id, cornerStagingMap.get(id));
+            }
+        }
         return sortedMapPostCorners;
 //        return sortedMapPreCorners;
     }
