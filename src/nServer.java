@@ -335,7 +335,7 @@ public class nServer extends Thread {
                 try {
                     netticks++;
                     if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                        uiInterface.netReport = netticks;
+                        uiInterface.netReportServer = netticks;
                         netticks = 0;
                         uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                     }

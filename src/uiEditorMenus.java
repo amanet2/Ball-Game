@@ -94,6 +94,7 @@ public class uiEditorMenus {
         JMenuItem newtopmap = new JMenuItem("New");
         JMenuItem open = new JMenuItem("Open");
         JMenuItem saveas = new JMenuItem("Save As...");
+        saveas.setEnabled(false);
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
         JMenuItem exit = new JMenuItem("Exit");
@@ -133,7 +134,6 @@ public class uiEditorMenus {
                     delegate();
                 else if(xCon.instance().getInt("e_showlossalert") <= 0)
                     delegate();
-                open.setEnabled(true);
                 saveas.setEnabled(true);
             }
 
@@ -163,6 +163,7 @@ public class uiEditorMenus {
                 xCon.ex("joingame");
                 newtopmap.setEnabled(false);
                 open.setEnabled(false);
+                saveas.setEnabled(true);
             }
         });
 
@@ -187,6 +188,7 @@ public class uiEditorMenus {
         open.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("e_openfile");
+                saveas.setEnabled(true);
             }
         });
 

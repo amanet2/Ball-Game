@@ -63,7 +63,7 @@ public class nClient extends Thread {
                 try {
                     netticks += 1;
                     if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
-                        uiInterface.netReport = netticks;
+                        uiInterface.netReportClient = netticks;
                         netticks = 0;
                         uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
                     }

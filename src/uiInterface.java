@@ -10,7 +10,8 @@ public class uiInterface {
     static long nettickcounterTime = gameTime;
     static int tickReport = 0;
     static int fpsReport = 0;
-    static int netReport = 0;
+    static int netReportClient = 0;
+    static int netReportServer = 0;
     static int[] camReport = new int[]{0,0};
     private static int frames = 0;
     static String uuid = eManager.createId();
