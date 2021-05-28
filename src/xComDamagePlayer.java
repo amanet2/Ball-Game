@@ -28,12 +28,14 @@ public class xComDamagePlayer extends xCom {
                                 "echo " + killername + " killed " + victimname);
                         if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
                             xCon.ex("givepoint " + shooterid);
-                        else if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                            String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
-                            if(virusids.contains(shooterid)) {
-                                nServer.instance().clientArgsMap.get("server").put("virusids", virusids + ":" + id);
-                                nServer.instance().addExcludingNetCmd("server",
-                                        String.format("echo %s was infected", victimname));
+                        else if (cVars.getInt("gamemode") == cGameLogic.VIRUS) {
+                            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+                                String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
+                                if(!virusids.contains(id)) {
+                                    nServer.instance().clientArgsMap.get("server").put("virusids", virusids + ":" + id);
+                                    nServer.instance().addExcludingNetCmd("server",
+                                            String.format("echo %s was infected", victimname));
+                                }
                             }
                         }
                     }

@@ -269,7 +269,6 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-//        StringBuilder sendDataString;
         HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
                 && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
@@ -280,7 +279,6 @@ public class nServer extends Thread {
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
             }
         }
-//        sendDataString = new StringBuilder(netVars.toString()); //add server string first
         sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
         boolean sendfull = false;
         if(!sendArgsMaps.containsKey(clientid)) {
