@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -138,13 +139,10 @@ public class uiEditorMenus {
             }
 
             private void delegate() {
-                boolean join = false;
                 if(!nServer.instance().isAlive()) {
                     xCon.ex("startserver");
-                    join = true;
                     xCon.ex("load");
-                    if(join)
-                        xCon.ex("joingame localhost 5555");
+                    xCon.ex("joingame localhost 5555");
                 }
                 else {
                     xCon.ex("e_newmap");
@@ -269,6 +267,11 @@ public class uiEditorMenus {
 
     private static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
+//        newmenu.setFont(
+//                new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
+//                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
+//                )
+//        );
         menus.put(title,newmenu);
         oDisplay.instance().frame.getJMenuBar().add(newmenu);
     }

@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* check over build scripts to see if we can avoid having exes in working dir and in the distrib dir
+* make font in menubars bigger
+    -> maybe... let's see.  we'll have trouble fitting all prefabs
+        -> have to introduce the "rotate" function
+* "fontmode" causes IDE to freak out, just use the Font.ENUM codes
 * VFX: draw shadows for dangling tops and corner tiles
 * GAME: add weapons back
     -> shotgun first
