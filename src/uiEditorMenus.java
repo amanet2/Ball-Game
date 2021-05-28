@@ -96,7 +96,6 @@ public class uiEditorMenus {
         JMenuItem saveas = new JMenuItem("Save As...");
         JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
         JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
-        JMenuItem playerColor = new JMenuItem("Color: " + sVars.get("playercolor"));
         JMenuItem exit = new JMenuItem("Exit");
         JMenuItem join = new JMenuItem("Join Game");
         JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
@@ -108,12 +107,11 @@ public class uiEditorMenus {
         menus.get("File").add(saveas);
 //        menus.get("File").add(exportasprefab);
         menus.get("File").add(exit);
-//        menus.get("Prefabs").add(prefabs);
         menus.get("Multiplayer").add(join);
         menus.get("Multiplayer").add(joinip);
         menus.get("Multiplayer").add(joinport);
+//        menus.get("Prefabs").add(prefabs);
         menus.get("Settings").add(playerName);
-//        menus.get("Settings").add(playerColor);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         menus.get("Controls").add(new JLabel(" MOUSE_LEFT : throw rock "));
@@ -135,6 +133,8 @@ public class uiEditorMenus {
                     delegate();
                 else if(xCon.instance().getInt("e_showlossalert") <= 0)
                     delegate();
+                open.setEnabled(true);
+                saveas.setEnabled(true);
             }
 
             private void delegate() {
@@ -142,10 +142,13 @@ public class uiEditorMenus {
                 if(!nServer.instance().isAlive()) {
                     xCon.ex("startserver");
                     join = true;
+                    xCon.ex("load");
+                    if(join)
+                        xCon.ex("joingame localhost 5555");
                 }
-                xCon.ex("load");
-                if(join)
-                    xCon.ex("joingame localhost 5555");
+                else {
+                    xCon.ex("e_newmap");
+                }
             }
         });
 
@@ -158,6 +161,8 @@ public class uiEditorMenus {
         join.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 xCon.ex("joingame");
+                newtopmap.setEnabled(false);
+                open.setEnabled(false);
             }
         });
 

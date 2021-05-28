@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* GAME: add back weapons
+    -> shotgun first
+        -> come up with elegant solution for external clientside weapon
 * GAME: player and names are shaky
 * NET: max of 4 players right now
 * BOTS: they're shaky
