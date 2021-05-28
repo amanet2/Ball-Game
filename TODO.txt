@@ -4,7 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* GAME: add back weapons
+* VFX: draw shadows for dangling tops and corner tiles
+* GAME: add weapons back
     -> shotgun first
         -> come up with elegant solution for external clientside weapon
 * GAME: player and names are shaky

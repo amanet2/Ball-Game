@@ -11,25 +11,27 @@ public class dItems {
                         null
                 );
                 if(item.get("type").equals("ITEM_TELEPORTER_RED")) {
-                    dFlares.drawFlare(g2,
-                            eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
-                                    - item.getInt("dimw")/2),
-                            eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")
-                                    - item.getInt("dimh")/2),
-                            eUtils.scaleInt(item.getInt("dimw")*2),
-                            eUtils.scaleInt(item.getInt("dimh")*2),
-                            1, new int[]{255,0,0,255}, new int[4]
-                    );
+                    if(sVars.isOne("vfxenableflares"))
+                        dFlares.drawFlare(g2,
+                                eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
+                                        - item.getInt("dimw")/2),
+                                eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")
+                                        - item.getInt("dimh")/2),
+                                eUtils.scaleInt(item.getInt("dimw")*2),
+                                eUtils.scaleInt(item.getInt("dimh")*2),
+                                1, new int[]{255,0,0,255}, new int[4]
+                        );
                 }
                 if(item.get("type").equals("ITEM_TELEPORTER_BLUE")) {
-                    dFlares.drawFlare(g2,
-                            eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
-                                    - item.getInt("dimw")/2),
-                            eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")
-                                    - item.getInt("dimh")/2),
-                            eUtils.scaleInt(item.getInt("dimw")*2),
-                            eUtils.scaleInt(item.getInt("dimh")*2),
-                            1, new int[]{0,0,255,255}, new int[4]);
+                    if(sVars.isOne("vfxenableflares"))
+                        dFlares.drawFlare(g2,
+                                eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
+                                        - item.getInt("dimw")/2),
+                                eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")
+                                        - item.getInt("dimh")/2),
+                                eUtils.scaleInt(item.getInt("dimw")*2),
+                                eUtils.scaleInt(item.getInt("dimh")*2),
+                                1, new int[]{0,0,255,255}, new int[4]);
                 }
             }
             else if(sSettings.show_mapmaker_ui){
