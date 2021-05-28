@@ -9,11 +9,9 @@ FOCUS ITEMS
 * BOTS: they're shaky
 * MAPNAME: has to be a thing
 * NET: Have server not send any other clients' vars if the client is still loading
-    -> at that point we can increase the batch size a bit
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
 * EDITOR: keep the old export_prefab stuff around as a console command
-* MAPMAKER: show all user's preview rect on all clients
-    -> label them like google doc (with name)
+* MAPMAKER: show all user's preview rect on all clients, label them by name like google doc
 ###
 ### POWER GAP
 ###
