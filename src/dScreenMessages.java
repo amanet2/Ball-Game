@@ -15,7 +15,8 @@ public class dScreenMessages {
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
         if(sVars.isOne("shownet")) {
-            g.drawString("Net:" + uiInterface.netReport, 0, 5 * sSettings.height / 64);
+            g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 5 * sSettings.height / 64);
+            g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
 //            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
 //                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
 //                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),

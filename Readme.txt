@@ -30,3 +30,14 @@ Mapmaker
 * Save your map by going to File->Save As
 * To join an editing session, go to Multiplayer->Join Game
 * Edit an existing map by going to File->Open
+---
+Mapmaker - Creating/Editing Prefabs
+* Start a New map by selecting File->New
+* Use existing prefabs to create a new prefab
+    -> keep in mind the origin when exporting is hardcoded to 0,0
+    -> mouse info is displayed in the top left corner to help
+* To export, open the console and enter command "exportasprefab"
+    -> a dialog window will open
+    -> open and close the console with the tilde/back-quote key (~/`)
+* To open prefabs using a file browser dialog, open the console and enter "e_openprefab"
+    -> NOTE: due to technical shortcomings, files must be in the 'prefabs/' folder to open
