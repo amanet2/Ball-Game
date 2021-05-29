@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* bring back corner shadows in a toggle-able fashion
+* 3D tile editor?
+* map should have players "fall off the edge" if no tile under them
+    -> cvar can be set by map file to make it so a Y-level is set between "falls off bottom" and "falls off top"
 * see if you should add the end angles to all prefab rooms anyway
 * race gametype?
 * player and name are shaky
