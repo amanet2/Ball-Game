@@ -4,15 +4,15 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* enable open prefabs from any folder
-    -> newprefabname is restricting it because it doesnt retain any path info
-* during gameplay, playercolor is set by console command in halo's engine
-* check over build scripts to see if we can avoid having exes in working dir and in the distrib dir
+* see if you should add the end angles to all prefab rooms anyway
+* race gametype?
+* player and name are shaky
+    -> but not at 240fps
+* flag should appear under tops at times
+* playercolor is set by console command in halo's engine (in-game)
 * make font in menubars bigger
     -> maybe...  we'll have trouble fitting all prefabs on screen
-        -> have to introduce the "rotate" function
-* "fontmode" causes IDE to freak out, just use the Font.ENUM codes
-* VFX: draw shadows for dangling tops and corner tiles
+* VFX: draw shadows for all tops,
 * GAME: add weapons back
     -> shotgun first
         -> come up with elegant solution for external clientside weapon
