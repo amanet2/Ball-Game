@@ -4,9 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* enable open prefabs from any folder
+    -> newprefabname is restricting it because it doesnt retain any path info
+* during gameplay, playercolor is set by console command in halo's engine
 * check over build scripts to see if we can avoid having exes in working dir and in the distrib dir
 * make font in menubars bigger
-    -> maybe... let's see.  we'll have trouble fitting all prefabs
+    -> maybe...  we'll have trouble fitting all prefabs on screen
         -> have to introduce the "rotate" function
 * "fontmode" causes IDE to freak out, just use the Font.ENUM codes
 * VFX: draw shadows for dangling tops and corner tiles

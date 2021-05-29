@@ -39,3 +39,5 @@ Mapmaker - Creating/Editing Prefabs
 * To export, open the console and enter command "exportasprefab"
     -> a dialog window will open
     -> open and close the console with the tilde/back-quote key (~/`)
+* To open prefabs using a file browser dialog, open the console and enter "e_openprefab"
+    -> NOTE: due to technical shortcomings, files must be in the 'prefabs/' folder to open
