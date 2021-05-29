@@ -86,7 +86,7 @@ public class cVars {
         put("weaponstock4", "0");
         put("weaponstock5", "0");
         //bots
-        put("botthinkdelay", "1000");
+        put("botthinkdelay", "500");
         put("botviruschaserange", "600");
         //voting
         put("voteskiplimit", "2");
