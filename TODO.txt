@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make server code work independently outside of uiInterface/per-frame functions
 * cubes were given shorter shadows but it broke demo.map shadows
     -> I think the shadow is too dark, makes it awkward
     -> will need to redo maps with cubes
