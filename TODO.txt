@@ -4,10 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* players need to spawn in the center of spawnpoints
 * make server code work independently outside of uiInterface/per-frame functions
-* cubes were given shorter shadows but it broke demo.map shadows
-    -> I think the shadow is too dark, makes it awkward
-    -> will need to redo maps with cubes
+* cubes were given shorter shadows and corners GOT shadows, but it broke demo.map shadows
     -> because that map drew shadows half under the casting block for realism
 * demo map needs better shadows
 * 3D tile editor?
