@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make boxing glove the first powerup
 * players need to spawn in the center of spawnpoints
 * make server code work independently outside of uiInterface/per-frame functions
 * cubes were given shorter shadows and corners GOT shadows, but it broke demo.map shadows

@@ -62,6 +62,7 @@ public class uiInterface {
     }
 
     public static void init(String[] launch_args) {
+        //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
         eUtils.disableApplePressAndHold();
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
