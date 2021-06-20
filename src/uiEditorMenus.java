@@ -17,6 +17,7 @@ public class uiEditorMenus {
     private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
     private static ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
+    private static ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
@@ -116,6 +117,7 @@ public class uiEditorMenus {
         menus.get("Settings").add(playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
+        createNewSubmenu("Settings", "Overlays");
         menus.get("Controls").add(new JLabel(" MOUSE_LEFT : throw rock "));
         menus.get("Controls").add(new JLabel(" W : move up "));
         menus.get("Controls").add(new JLabel(" S : move down "));
@@ -262,6 +264,17 @@ public class uiEditorMenus {
             });
             colorCheckBoxMenuItems.add(colorMenuItem);
             menus.get("Color").add(colorMenuItem);
+        }
+        //fill overlays menu
+        for(String option : new String[]{"drawhitboxes","drawmapmakergrid"}) {
+            JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
+            if(sVars.getInt(option) == 1)
+                ovmenuitem.setSelected(true);
+            ovmenuitem.addActionListener(e -> {
+                sVars.put(option, sVars.isIntVal(option, 1) ? "0" : "1");
+                ovmenuitem.setSelected(sVars.getInt(option) == 1);
+            });
+            menus.get("Overlays").add(ovmenuitem);
         }
     }
 
