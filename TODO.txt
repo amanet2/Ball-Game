@@ -5,6 +5,7 @@
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * for pause menu, show/hide menubar and use that for unified settings/etc
+    -> frame.instance().getJMenuBar has setVisible function that works
     -> About menuitem would lead to credits
 * see what "checkX" functions we can get rid of/change to commands
     -> e.g. instead of checking resolution, have a comm "changeresolution"

@@ -266,7 +266,8 @@ public class uiEditorMenus {
             menus.get("Color").add(colorMenuItem);
         }
         //fill overlays menu
-        for(String option : new String[]{"drawhitboxes","drawmapmakergrid"}) {
+        for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
+        "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
             if(sVars.getInt(option) == 1)
                 ovmenuitem.setSelected(true);
