@@ -7,7 +7,8 @@ public class uiInterface {
     private static long tickCounterTime = gameTime;
     private static long tickTimeNanos = gameTimeNanos;
     private static long framecounterTime = gameTime;
-    static long nettickcounterTime = gameTime;
+    static long nettickcounterTimeClient = gameTime;
+    static long nettickcounterTimeServer = gameTime;
     static int tickReport = 0;
     static int fpsReport = 0;
     static int netReportClient = 0;
@@ -61,6 +62,7 @@ public class uiInterface {
     }
 
     public static void init(String[] launch_args) {
+        //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
         eUtils.disableApplePressAndHold();
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
