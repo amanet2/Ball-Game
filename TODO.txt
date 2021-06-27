@@ -4,11 +4,22 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* bring back corner shadows in a toggle-able fashion
+* for pause menu, show/hide menubar and use that for unified settings/etc
+    -> frame.instance().getJMenuBar has setVisible function that works
+    -> About menuitem would lead to credits
+* see what "checkX" functions we can get rid of/change to commands
+    -> e.g. instead of checking resolution, have a comm "changeresolution"
+* MAP IDEA: make "pods" that are two tiles wide, one tile long, for spawning
+    -> a shotgun will be on the spawn point, a teleporter on the other tile
+        -> obv we will end up with only as many spawnpoints as teleporters
+* git reset --hard <last_working_commit_id>
+    -> git push --force
+    -> git push --set-upstream origin <branch_name> --force
+* make boxing glove the first powerup
+* make server code work independently outside of uiInterface/per-frame functions
+* cubes were given shorter shadows and corners GOT shadows, but it broke demo.map shadows
+    -> because that map drew shadows half under the casting block for realism in archways, etc
 * 3D tile editor?
-* map should have players "fall off the edge" if no tile under them
-    -> cvar can be set by map file to make it so a Y-level is set between "falls off bottom" and "falls off top"
-* see if you should add the end angles to all prefab rooms anyway
 * race gametype?
 * player and name are shaky
     -> but not at 240fps
