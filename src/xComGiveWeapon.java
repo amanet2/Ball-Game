@@ -4,12 +4,7 @@ public class xComGiveWeapon extends xCom {
         if (toks.length > 2) {
             String id = toks[1];
             int weapon = Integer.parseInt(toks[2]);
-            gPlayer player = cServerLogic.getPlayerById(id);
-            if(player != null) {
-                player.putInt("weapon", weapon);
-                xCon.ex("playsound sounds/grenpinpull.wav");
-                cClientLogic.getUserPlayer().checkSpriteFlip();
-            }
+            nServer.instance().addNetCmd(id, "userplayer weapon " + weapon + ";cv_weaponstock" + weapon + " 30");
             return "gave weapon" + weapon + " to " + id;
         }
         return "usage: giveweapon <player_id> <weapon_code>";

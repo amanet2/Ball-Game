@@ -159,10 +159,6 @@ public class sVars {
         put(s, Long.toString(v));
     }
 
-    public static void reset() {
-        keys = null;
-    }
-
     public static HashMap<String, String> vars() {
         refresh();
         return keys;

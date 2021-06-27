@@ -334,10 +334,10 @@ public class nServer extends Thread {
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;
-                    if (uiInterface.nettickcounterTime < uiInterface.gameTime) {
+                    if (uiInterface.nettickcounterTimeServer < uiInterface.gameTime) {
                         uiInterface.netReportServer = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTime = uiInterface.gameTime + 1000;
+                        uiInterface.nettickcounterTimeServer = uiInterface.gameTime + 1000;
                     }
                     byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -348,6 +348,7 @@ public class nServer extends Thread {
                     processPackets();
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
+//                    while(networkTime >= System.currentTimeMillis());
                     sleep(Math.max(0, networkTime - uiInterface.gameTime));
                 }
                 catch (Exception e) {

@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 public class cBotsLogic {
+    //string title maps to doable, fetched via key=gametype by server
     private static HashMap<String, gDoableThing> behaviors = null;
     public static gDoableThing getBehavior(String key) {
         if(behaviors == null) {
