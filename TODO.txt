@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* create visibleCommand subclass so we dont manually add xcom objects to this visiblecommands list in xCon
+* on slopes, only cancel the relevant movementdir (unless at perfect angle)
 * for pause menu, show/hide menubar and use that for unified settings/etc
     -> frame.instance().getJMenuBar has setVisible function that works
     -> About menuitem would lead to credits
@@ -11,7 +13,7 @@ FOCUS ITEMS
     -> e.g. instead of checking resolution, have a comm "changeresolution"
 * MAP IDEA: make "pods" that are two tiles wide, one tile long, for spawning
     -> a shotgun will be on the spawn point, a teleporter on the other tile
-        -> obv we will end up with only as many spawnpoints as teleporters
+        -> we will end up with only as many spawnpoints as teleporters
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force

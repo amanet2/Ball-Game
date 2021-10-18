@@ -44,6 +44,7 @@ public class uiEditorMenus {
     }
 
     public static int[] getNewPrefabDims() {
+        //TODO: this sucks, find a better way to set size
         if(cVars.get("newprefabname").contains("room_large")) {
             return new int[]{2400, 2400};
         }
@@ -67,6 +68,12 @@ public class uiEditorMenus {
         }
         else if(cVars.isVal("newprefabname", "cube")) {
             return new int[]{300, 300};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap_2v")) {
+            return new int[]{300, 300};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap_4v")) {
+            return new int[]{300, 600};
         }
         return new int[]{1200, 1200};
     }
