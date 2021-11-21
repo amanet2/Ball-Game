@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make shadows on cubes shorter than wall shadows
 * create visibleCommand subclass so we dont manually add xcom objects to this visiblecommands list in xCon
 * on slopes, only cancel the relevant movementdir (unless at perfect angle)
 * for pause menu, show/hide menubar and use that for unified settings/etc
