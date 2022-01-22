@@ -6,32 +6,18 @@ public class dMapmakerOverlay {
         if(cVars.get("newprefabname").contains("_large")) {
             return new int[]{2400, 2400};
         }
-        else if(cVars.isVal("newprefabname", "end_wall")) {
+        else if(cVars.isVal("newprefabname", "end_wall")
+                || cVars.isVal("newprefabname", "cube")) {
             return new int[]{300, 300};
         }
-        else if(cVars.isVal("newprefabname", "end_angle")) {
+        else if(cVars.isVal("newprefabname", "end_angle")
+                || cVars.isVal("newprefabname", "end_angle_270")) {
             return new int[]{300, 450};
         }
-        else if(cVars.isVal("newprefabname", "end_angle_090")) {
+        else if(cVars.isVal("newprefabname", "end_angle_090")
+                || cVars.isVal("newprefabname", "end_angle_180")
+                || cVars.isVal("newprefabname", "end_cap")) {
             return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle_180")) {
-            return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle_270")) {
-            return new int[]{300, 450};
-        }
-        else if(cVars.isVal("newprefabname", "end_cap")) {
-            return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "cube")) {
-            return new int[]{300, 300};
-        }
-        else if(cVars.isVal("newprefabname", "end_cap_2v")) {
-            return new int[]{300, 300};
-        }
-        else if(cVars.isVal("newprefabname", "end_cap_4v")) {
-            return new int[]{300, 600};
         }
         return new int[]{1200, 1200};
     }
