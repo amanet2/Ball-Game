@@ -7,7 +7,7 @@ public class dMapmakerOverlay {
             return new int[]{2400, 2400};
         }
         else if(cVars.isVal("newprefabname", "end_wall")
-                || cVars.isVal("newprefabname", "cube")) {
+                || cVars.get("newprefabname").contains("cube_")) {
             return new int[]{300, 300};
         }
         else if(cVars.isVal("newprefabname", "end_angle")
