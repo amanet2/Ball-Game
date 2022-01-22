@@ -4,4 +4,4 @@ cd %~dp0..\pkg
 jar cmf MANIFEST.MF BALL_GAME.jar *.class ..\src\*.java ballgame
 del *.class
 cd %~dp0
-pause
+Rem pause

@@ -1,6 +1,41 @@
 import java.awt.*;
 
 public class dMapmakerOverlay {
+    public static int[] getNewPrefabDims() {
+        //TODO: this sucks, find a better way to set size
+        if(cVars.get("newprefabname").contains("_large")) {
+            return new int[]{2400, 2400};
+        }
+        else if(cVars.isVal("newprefabname", "end_wall")) {
+            return new int[]{300, 300};
+        }
+        else if(cVars.isVal("newprefabname", "end_angle")) {
+            return new int[]{300, 450};
+        }
+        else if(cVars.isVal("newprefabname", "end_angle_090")) {
+            return new int[]{300, 150};
+        }
+        else if(cVars.isVal("newprefabname", "end_angle_180")) {
+            return new int[]{300, 150};
+        }
+        else if(cVars.isVal("newprefabname", "end_angle_270")) {
+            return new int[]{300, 450};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap")) {
+            return new int[]{300, 150};
+        }
+        else if(cVars.isVal("newprefabname", "cube")) {
+            return new int[]{300, 300};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap_2v")) {
+            return new int[]{300, 300};
+        }
+        else if(cVars.isVal("newprefabname", "end_cap_4v")) {
+            return new int[]{300, 600};
+        }
+        return new int[]{1200, 1200};
+    }
+
     public static void drawSelectionBoxes(Graphics2D g2) {
         int mousex = MouseInfo.getPointerInfo().getLocation().x;
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
@@ -26,11 +61,12 @@ public class dMapmakerOverlay {
                         eUtils.scaleInt(item.getInt("dimw")), eUtils.scaleInt(item.getInt("dimh")));
             }
         }
+        //prefab dims
         // -- preview rect
         int w = 300;
         int h = 300;
         if(cVars.get("newprefabname").length() > 0) {
-            int[] pfd = uiEditorMenus.getNewPrefabDims();
+            int[] pfd = getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
         }

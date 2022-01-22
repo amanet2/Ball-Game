@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make objects have "cast shading/shadows" tag
+* put the xCom classes into their own folder
+* make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
+    -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
 * make shadows on cubes shorter than wall shadows
     -> ALREADY WORKS FOR NEW BLOCKS
 * create visibleCommand subclass so we dont manually add xcom objects to this visiblecommands list in xCon
