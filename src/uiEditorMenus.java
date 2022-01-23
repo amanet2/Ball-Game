@@ -2,10 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
@@ -22,7 +19,7 @@ public class uiEditorMenus {
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -177,19 +174,42 @@ public class uiEditorMenus {
         });
 
         //fill prefabs menu
-        for(String prefabname : eManager.prefabSelection) {
-            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
-            if(prefabmenuitem.getText().equals(cVars.get("newprefabname"))) {
+        String[] prefabs = {"corner", "cube", "cube_a", "floor", "hallway", "hallway_a", "hallway_b", "room",
+                            "room_large", "room_large_a", "room_large_b", "room_large_c"};
+        String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
+                                    "room_large_c"};
+        ArrayList<String> prefabList = new ArrayList<>(Arrays.asList(prefabs));
+        ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
+        for(String s : prefabs) {
+            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
+            if(uiEditorMenus.getRotateName(cVars.get("newprefabname")).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
-            }
             prefabmenuitem.addActionListener(e -> {
-                cVars.put("newprefabname", prefabname);
+                String name = prefabmenuitem.getText();
+                if(prefabRotateList.contains(name))
+                    cVars.put("newprefabname", name+"_000");
+                else
+                    cVars.put("newprefabname", name);
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
+
         }
+//        for(String prefabname : eManager.prefabSelection) {
+//            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
+//            if(prefabmenuitem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
+//                prefabmenuitem.setSelected(true);
+//            }
+//            prefabmenuitem.addActionListener(e -> {
+//                cVars.put("newprefabname", prefabname);
+//                cVars.put("newitemname", "");
+//                refreshCheckBoxItems();
+//            });
+//            prefabCheckboxMenuItems.add(prefabmenuitem);
+//            menus.get("Prefabs").add(prefabmenuitem);
+//        }
         //fill items menu
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
@@ -274,5 +294,10 @@ public class uiEditorMenus {
                 xCon.ex(fullCommand);
             }
         });
+    }
+
+    public static String getRotateName(String s) {
+        return s.replace("_000", "").replace("_090",""
+        ).replace("_180", "").replace("_270", "");
     }
 }

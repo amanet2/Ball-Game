@@ -110,7 +110,8 @@ public class dScreenMessages {
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
                 for(String s : rotatesList) {
                     if(cVars.get("newprefabname").contains(s)) {
-                        g.drawString("[R] - ROTATE NEW TILE",0, 27*sSettings.height/32);
+                        g.drawString(String.format("[R] - ROTATE %s",
+                                uiEditorMenus.getRotateName(cVars.get("newprefabname"))),0, 27*sSettings.height/32);
                         drawnRotate = true;
                         break;
                     }
