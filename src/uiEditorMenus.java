@@ -52,6 +52,19 @@ public class uiEditorMenus {
         }
     }
 
+    public static JMenuItem addMenuItem(String parentMenu, String text) {
+        JMenuItem newItem = new JMenuItem(text);
+        newItem.setFont(dFonts.getFontNormal());
+        menus.get(parentMenu).add(newItem);
+        return newItem;
+    }
+
+    public static void addSubMenuLabel(String parentMenu, String text) {
+        JLabel newLabel = new JLabel(text);
+        newLabel.setFont(dFonts.getFontNormal());
+        menus.get(parentMenu).add(newLabel);
+    }
+
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
@@ -61,42 +74,29 @@ public class uiEditorMenus {
         createNewMenu("Items");
         createNewMenu("Gametype");
         createNewMenu("Settings");
-
-        JMenuItem newtopmap = new JMenuItem("New");
-        JMenuItem open = new JMenuItem("Open");
-        JMenuItem saveas = new JMenuItem("Save As...");
+        JMenuItem newtopmap = addMenuItem("File", "New");
+        JMenuItem open = addMenuItem("File", "Open");
+        JMenuItem saveas = addMenuItem("File", "Save As...");
         saveas.setEnabled(false);
-        JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem join = new JMenuItem("Join Game");
-        JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
-        JMenuItem joinport = new JMenuItem("Port: " + sVars.get("joinport"));
-//        JMenuItem prefabs = new JMenuItem("Select Prefab");
-
-        menus.get("File").add(newtopmap);
-        menus.get("File").add(open);
-        menus.get("File").add(saveas);
-//        menus.get("File").add(exportasprefab);
-        menus.get("File").add(exit);
-        menus.get("Multiplayer").add(join);
-        menus.get("Multiplayer").add(joinip);
-        menus.get("Multiplayer").add(joinport);
-//        menus.get("Prefabs").add(prefabs);
-        menus.get("Settings").add(playerName);
+//        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
+        JMenuItem exit = addMenuItem("File", "Exit");
+        JMenuItem join = addMenuItem("Multiplayer", "Join Game");
+        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + sVars.get("joinip"));
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + sVars.get("joinport"));
+        JMenuItem playerName = addMenuItem("Settings", "Name: " + sVars.get("playername"));
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
-        menus.get("Controls").add(new JLabel(" MOUSE_LEFT : throw rock "));
-        menus.get("Controls").add(new JLabel(" W : move up "));
-        menus.get("Controls").add(new JLabel(" S : move down "));
-        menus.get("Controls").add(new JLabel(" A : move left "));
-        menus.get("Controls").add(new JLabel(" D : move right "));
-        menus.get("Controls").add(new JLabel(" TAB : show scoreboard "));
-        menus.get("Controls").add(new JLabel(" Y : chat "));
-        menus.get("Controls").add(new JLabel(" = : zoom in "));
-        menus.get("Controls").add(new JLabel(" - : zoom out "));
-        menus.get("Controls").add(new JLabel(" ~ : console "));
+        addSubMenuLabel("Controls", " MOUSE_LEFT : throw rock");
+        addSubMenuLabel("Controls", " W : move up ");
+        addSubMenuLabel("Controls", " S : move down ");
+        addSubMenuLabel("Controls", " A : move left ");
+        addSubMenuLabel("Controls", " D : move right ");
+        addSubMenuLabel("Controls", " TAB : show scoreboard ");
+        addSubMenuLabel("Controls", " Y : chat ");
+        addSubMenuLabel("Controls", " = : zoom in ");
+        addSubMenuLabel("Controls", " - : zoom out ");
+        addSubMenuLabel("Controls", " ~ : console ");
 
         addConsoleActionToJMenuItem(exit,"quit");
 
@@ -167,21 +167,21 @@ public class uiEditorMenus {
             }
         });
 
-        exportasprefab.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("exportasprefab");
-            }
-        });
+//        exportasprefab.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                xCon.ex("exportasprefab");
+//            }
+//        });
 
         //fill prefabs menu
         String[] prefabs = {"corner", "cube", "cube_a", "floor", "hallway", "hallway_a", "hallway_b", "room",
                             "room_large", "room_large_a", "room_large_b", "room_large_c"};
         String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
                                     "room_large_c"};
-        ArrayList<String> prefabList = new ArrayList<>(Arrays.asList(prefabs));
         ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
         for(String s : prefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
+            prefabmenuitem.setFont(dFonts.getFontNormal());
             if(uiEditorMenus.getRotateName(cVars.get("newprefabname")).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
             prefabmenuitem.addActionListener(e -> {
@@ -197,22 +197,10 @@ public class uiEditorMenus {
             menus.get("Prefabs").add(prefabmenuitem);
 
         }
-//        for(String prefabname : eManager.prefabSelection) {
-//            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
-//            if(prefabmenuitem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
-//                prefabmenuitem.setSelected(true);
-//            }
-//            prefabmenuitem.addActionListener(e -> {
-//                cVars.put("newprefabname", prefabname);
-//                cVars.put("newitemname", "");
-//                refreshCheckBoxItems();
-//            });
-//            prefabCheckboxMenuItems.add(prefabmenuitem);
-//            menus.get("Prefabs").add(prefabmenuitem);
-//        }
         //fill items menu
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
+            itemMenuItem.setFont(dFonts.getFontNormal());
             if(itemMenuItem.getText().equals(cVars.get("newitemname"))) {
                 itemMenuItem.setSelected(true);
             }
@@ -227,6 +215,7 @@ public class uiEditorMenus {
         //fill gametypes menu
         for(String gametype : new String[]{"Killmaster", "Flagmaster", "Virusmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
+            gametypeMenuItem.setFont(dFonts.getFontNormal());
             if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 gametypeMenuItem.setSelected(true);
             else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
@@ -248,6 +237,7 @@ public class uiEditorMenus {
         //fill colors menu
         for(String color : sVars.getArray("colorselection")) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
+            colorMenuItem.setFont(dFonts.getFontNormal());
             if(colorMenuItem.getText().equals(sVars.get("playercolor")))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
@@ -261,6 +251,7 @@ public class uiEditorMenus {
         for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
+            ovmenuitem.setFont(dFonts.getFontNormal());
             if(sVars.getInt(option) == 1)
                 ovmenuitem.setSelected(true);
             ovmenuitem.addActionListener(e -> {
@@ -273,17 +264,14 @@ public class uiEditorMenus {
 
     private static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
-//        newmenu.setFont(
-//                new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-//                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
-//                )
-//        );
-        menus.put(title,newmenu);
+        newmenu.setFont(dFonts.getFontNormal());
+        menus.put(title, newmenu);
         oDisplay.instance().frame.getJMenuBar().add(newmenu);
     }
 
     private static void createNewSubmenu(String title, String subtitle) {
         JMenu newmenu = new JMenu(subtitle);
+              newmenu.setFont(dFonts.getFontNormal());
         menus.put(subtitle,newmenu);
         menus.get(title).add(newmenu);
     }
