@@ -122,6 +122,7 @@ public class xCon {
         commands.put("e_changejoinip", new xComEditorChangeJoinIP());
         commands.put("e_changejoinport", new xComEditorChangeJoinPort());
         commands.put("e_delthing", new xComEditorDelThing());
+        commands.put("e_rotthing", new xComEditorRotNewThing());
         commands.put("e_newmap", new xComEditorNewMap());
         commands.put("e_openfile", new xComEditorOpenFile());
         commands.put("e_openprefab", new xComEditorOpenPrefab());

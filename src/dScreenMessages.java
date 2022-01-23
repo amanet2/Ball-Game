@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class dScreenMessages {
 
@@ -102,8 +105,20 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
-                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
+                boolean drawnRotate = false;
+                String[] rotates = {"_000", "_090", "_180", "_270"};
+                ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
+                for(String s : rotatesList) {
+                    if(cVars.get("newprefabname").contains(s)) {
+                        g.drawString("[R] - ROTATE NEW TILE",0, 27*sSettings.height/32);
+                        drawnRotate = true;
+                        break;
+                    }
+                }
+                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0) {
+                    g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
+                                                                                        : 25 * sSettings.height / 32);
+                }
                 g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
                 g.drawString("[Esc] - TEST/EDIT ", 0,
