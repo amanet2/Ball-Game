@@ -28,6 +28,14 @@ public class dMapmakerOverlay {
         int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
         int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
+        g2.setStroke(dFonts.thickStroke);
+        for(String id : cClientLogic.scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            gThing block = cClientLogic.scene.getThingMap("BLOCK_FLOOR").get(id);
+            g2.setColor(new Color(100, 100, 255));
+            g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
+                    eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
+                    eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
+        }
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {

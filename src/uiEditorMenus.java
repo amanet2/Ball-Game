@@ -21,6 +21,15 @@ public class uiEditorMenus {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
+                if(cVars.get("newprefabname").contains("floor")
+                || cVars.get("newprefabname").contains("room")) {
+                    snapToX = 300;
+                    snapToY = 300;
+                }
+                else {
+                    snapToX = 50;
+                    snapToY = 50;
+                }
             }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
@@ -167,6 +176,7 @@ public class uiEditorMenus {
             }
         });
 
+
 //        exportasprefab.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
 //                xCon.ex("exportasprefab");
@@ -184,6 +194,14 @@ public class uiEditorMenus {
             prefabmenuitem.setFont(dFonts.getFontNormal());
             if(uiEditorMenus.getRotateName(cVars.get("newprefabname")).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
+            if(!cVars.get("newprefabname").contains("cube")) {
+                snapToX = 300;
+                snapToY = 300;
+            }
+            else {
+                snapToX = 50;
+                snapToY = 50;
+            }
             prefabmenuitem.addActionListener(e -> {
                 String name = prefabmenuitem.getText();
                 if(prefabRotateList.contains(name))
@@ -287,5 +305,19 @@ public class uiEditorMenus {
     public static String getRotateName(String s) {
         return s.replace("_000", "").replace("_090",""
         ).replace("_180", "").replace("_270", "");
+    }
+
+    public static void setFileChooserFont(Component[] comp) {
+        for (int x = 0; x < comp.length; x++) {
+            // System.out.println( comp[x].toString() ); // Trying to know the type of each element in the JFileChooser.
+            if (comp[x] instanceof Container)
+                setFileChooserFont(((Container) comp[x]).getComponents());
+
+            try {
+//                if (comp[x] instanceof JList || comp[x] instanceof JTable)
+                    comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
+            } catch (Exception e) {
+            } // do nothing
+        }
     }
 }
