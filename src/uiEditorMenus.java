@@ -6,15 +6,16 @@ import java.util.*;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
+    static gScene previewScene = new gScene();
     static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
     static int snapToX = 50;
     static int snapToY = 50;
-    private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
@@ -208,6 +209,8 @@ public class uiEditorMenus {
                     cVars.put("newprefabname", name+"_000");
                 else
                     cVars.put("newprefabname", name);
+                uiEditorMenus.previewScene = new gScene();
+                xCon.ex(String.format("cl_execpreview prefabs/%s 100 100", cVars.get("newprefabname")));
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });
