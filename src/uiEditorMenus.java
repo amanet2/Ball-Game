@@ -186,8 +186,8 @@ public class uiEditorMenus {
 //        });
 
         //fill prefabs menu
-        String[] prefabs = {"corner", "cube", "cube_a", "floor", "hallway", "hallway_a", "hallway_b", "room",
-                            "room_large", "room_large_a", "room_large_b", "room_large_c"};
+        String[] prefabs = {"corner", "cube", "cube_a", "hallway", "hallway_a", "room",
+                            "room_large", "room_large_a", "room_large_b"};
         String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
                                     "room_large_c"};
         ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
@@ -211,7 +211,7 @@ public class uiEditorMenus {
                 else
                     cVars.put("newprefabname", name);
                 uiEditorMenus.previewScene = new gScene();
-                xCon.ex(String.format("cl_execpreview prefabs/%s 13000 6000", cVars.get("newprefabname")));
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 6000", cVars.get("newprefabname")));
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });

@@ -103,6 +103,8 @@ public class dScreenMessages {
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
+                //preview
+                g.drawString("Preview", 4*sSettings.width/5,4*sSettings.height/5);
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 boolean drawnRotate = false;
