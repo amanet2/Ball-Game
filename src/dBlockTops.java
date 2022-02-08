@@ -40,7 +40,7 @@ public class dBlockTops {
                 Integer.parseInt(colorvals[0]),
                 Integer.parseInt(colorvals[1]),
                 Integer.parseInt(colorvals[2]),
-                Integer.parseInt(colorvals[3])
+                Integer.parseInt(colorvals[3])/2
         ));
         g2.fillRect(eUtils.scaleInt(block.getInt("coordx")/4),
                 eUtils.scaleInt(block.getInt("coordy")/4),

@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* hihglist only floor tiles when applicable
+* draw preview in middle
 * make objects have "cast shading/shadows" tag
 * put the xCom classes into their own folder
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"

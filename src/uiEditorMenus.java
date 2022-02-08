@@ -23,6 +23,7 @@ public class uiEditorMenus {
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
                 if(cVars.get("newprefabname").contains("floor")
+                || cVars.get("newprefabname").contains("corner")
                 || cVars.get("newprefabname").contains("room")) {
                     snapToX = 300;
                     snapToY = 300;
@@ -210,7 +211,7 @@ public class uiEditorMenus {
                 else
                     cVars.put("newprefabname", name);
                 uiEditorMenus.previewScene = new gScene();
-                xCon.ex(String.format("cl_execpreview prefabs/%s 100 100", cVars.get("newprefabname")));
+                xCon.ex(String.format("cl_execpreview prefabs/%s 13000 6000", cVars.get("newprefabname")));
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });
