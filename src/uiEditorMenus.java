@@ -187,7 +187,7 @@ public class uiEditorMenus {
 
         //fill prefabs menu
         String[] prefabs = {"corner", "cube", "cube_a", "hallway", "hallway_a", "room",
-                            "room_large", "room_large_a", "room_large_b"};
+                            "room_large", "room_large_c"};
         String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
                                     "room_large_c"};
         ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
