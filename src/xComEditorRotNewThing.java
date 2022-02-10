@@ -13,9 +13,9 @@ public class xComEditorRotNewThing extends xCom {
         || newprefabname.contains("_090")
         || newprefabname.contains("_180")
         || newprefabname.contains("_270")) {
-            uiEditorMenus.previewScene = new gScene();
-//            xCon.ex("cl_clearthingmappreview");
-            xCon.ex(String.format("cl_execpreview prefabs/%s 12500 6000", cVars.get("newprefabname")));
+//            uiEditorMenus.previewScene = new gScene();
+            xCon.ex("cl_clearthingmappreview");
+            xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
         }
         return "";
     }

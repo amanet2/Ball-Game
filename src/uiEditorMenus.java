@@ -22,9 +22,7 @@ public class uiEditorMenus {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
-                if(cVars.get("newprefabname").contains("floor")
-                || cVars.get("newprefabname").contains("corner")
-                || cVars.get("newprefabname").contains("room")) {
+                if(!cVars.get("newprefabname").contains("cube")) {
                     snapToX = 300;
                     snapToY = 300;
                 }
@@ -210,8 +208,9 @@ public class uiEditorMenus {
                     cVars.put("newprefabname", name+"_000");
                 else
                     cVars.put("newprefabname", name);
-                uiEditorMenus.previewScene = new gScene();
-                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 6000", cVars.get("newprefabname")));
+//                uiEditorMenus.previewScene = new gScene();
+                xCon.ex("cl_clearthingmappreview");
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });

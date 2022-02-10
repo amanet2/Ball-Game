@@ -105,14 +105,14 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 //preview
                 g.setColor(Color.BLACK);
-                g.fillRect(4*sSettings.width/5,13*sSettings.height/20,
+                g.fillRect(4*sSettings.width/5,6*sSettings.height/10,
                         7*sSettings.height/20, 7*sSettings.height/20);
                 g.setColor(Color.white);
-                g.drawRoundRect(4*sSettings.width/5,13*sSettings.height/20,
+                g.drawRoundRect(4*sSettings.width/5,6*sSettings.height/10,
                         7*sSettings.height/20, 7*sSettings.height/20,
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
-                g.drawString("Preview", 4*sSettings.width/5,13*sSettings.height/20);
+                g.drawString("Preview", 4*sSettings.width/5,6*sSettings.height/10);
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 boolean drawnRotate = false;
