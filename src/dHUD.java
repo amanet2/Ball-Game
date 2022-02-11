@@ -1,24 +1,59 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
 public class dHUD {
+    static HashMap<String, Color> playerHudColors = new HashMap<>();
+
+    public static void initPlayerHudColors() {
+        playerHudColors.put("red", new Color(200,50,50));
+        playerHudColors.put("orange", new Color(200,100,50));
+        playerHudColors.put("yellow", new Color(200,180,0));
+        playerHudColors.put("green", new Color(0,180,50));
+        playerHudColors.put("blue", new Color(50,160,200));
+        playerHudColors.put("teal", new Color(0,200,160));
+        playerHudColors.put("purple", new Color(200,0,200));
+
+    }
+
     public static void drawHUD(Graphics g) {
         gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer == null)
             return;
-//        Graphics2D g2 = (Graphics2D) g;
-//        g2.setStroke(dFonts.hudStroke);
-        //health
-//        g.setColor(new Color(0,0,0,255));
-//        g.fillRect(sSettings.width/64,60 * sSettings.height/64,sSettings.width/3,
-//                sSettings.height/64);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(dFonts.hudStroke);
+//        health
+        g.setColor(new Color(0,0,0,255));
+        g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
+                sSettings.height/64);
 //        g.setColor(new Color(220,0,30,255));
-//        g.fillRect(sSettings.width/64,60 * sSettings.height/64,
-//                sSettings.width/3*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),
-//                sSettings.height/64);
+        g.setColor(new Color(200,200,200,255));
+        g.fillRect(sSettings.width/64,59 * sSettings.height/64,
+                sSettings.width/8*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),
+                sSettings.height/64);
 //        g.setColor(new Color(150,0,0,255));
-//        g.drawRect(sSettings.width/64,60 * sSettings.height/64,sSettings.width/3,
-//                sSettings.height/64);
+        g.setColor(new Color(0,0,0,255));
+        g.drawRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
+                sSettings.height/64);
+        dFonts.setFontNormal(g);
+        g.drawString(
+                Integer.toString(userPlayer.getInt("stockhp")*100/cVars.getInt("maxstockhp")),
+                19*sSettings.width/128, 60 * sSettings.height/64);
+        if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+                && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+            g.drawString(
+                    "$ "+ nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1],
+                    sSettings.width / 64, 58*sSettings.height/64);
+        }
+        g.drawString(sVars.get("playername"), 5*sSettings.width / 128, 62*sSettings.height/64);
+        if(playerHudColors.containsKey(sVars.get("playercolor")))
+            g.setColor(playerHudColors.get(sVars.get("playercolor")));
+        g.fillOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
+        g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
+        g.setColor(Color.BLACK);
+        g.drawOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
+//        g.drawRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/128, 3*sSettings.height/32);
+        // doesn't get here because the rechargetime/delay is only on the server now
 //        if(userPlayer.getInt("stockhp") < cVars.getInt("maxstockhp") &&
 //                userPlayer.getLong("hprechargetime") + cVars.getInt("delayhp")
 //                        >= System.currentTimeMillis()) {
@@ -27,7 +62,7 @@ public class dHUD {
 //                            - System.currentTimeMillis())/cVars.getInt("delayhp");
 //            g.setColor(new Color(255,60,150,100));
 //            g.fillRect(sSettings.width/64,60 * sSettings.height/64,
-//                    (int)(sSettings.width/3*reloadratio),
+//                    (int)(sSettings.width/4*reloadratio),
 //                    sSettings.height/64);
 //        }
 //        //ammo

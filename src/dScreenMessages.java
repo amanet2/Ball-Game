@@ -60,15 +60,15 @@ public class dScreenMessages {
                     dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, 28*sSettings.height/32);
+                        29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-            dFonts.setFontColorHighlight(g);
-            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
-                dFonts.drawRightJustifiedString(g,
-                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
-                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
-            }
+//            dFonts.setFontColorHighlight(g);
+//            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+//            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+//                dFonts.drawRightJustifiedString(g,
+//                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
+//                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
+//            }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),

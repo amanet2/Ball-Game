@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* draw the playernames in the lower corner with little representation of color
+    > with health bar
+    > like outbreak zombies
+    * move all cvars into autoexec-type of file
 * fix memory leak
 * draw preview in middle
 * make objects have "cast shading/shadows" tag
