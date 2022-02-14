@@ -12,8 +12,8 @@ public class dHUD {
         playerHudColors.put("green", new Color(0,180,50));
         playerHudColors.put("blue", new Color(50,160,200));
         playerHudColors.put("teal", new Color(0,200,160));
-        playerHudColors.put("purple", new Color(200,0,200));
-
+        playerHudColors.put("pink", new Color(200,0,200));
+        playerHudColors.put("purple", new Color(100,0,200));
     }
 
     public static void drawHUD(Graphics g) {
@@ -39,20 +39,39 @@ public class dHUD {
         g.drawString(
                 Integer.toString(userPlayer.getInt("stockhp")*100/cVars.getInt("maxstockhp")),
                 19*sSettings.width/128, 60 * sSettings.height/64);
+        //score
         if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
                 && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
             g.drawString(
                     "$ "+ nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
-        g.drawString(sVars.get("playername"), 5*sSettings.width / 128, 62*sSettings.height/64);
+        g.drawString(sVars.get("playername"), sSettings.width / 64, 62*sSettings.height/64);
         if(playerHudColors.containsKey(sVars.get("playercolor")))
             g.setColor(playerHudColors.get(sVars.get("playercolor")));
-        g.fillOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
+//        g.fillOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
         g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
-        g.setColor(Color.BLACK);
-        g.drawOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
+//        g.setColor(Color.BLACK);
+//        g.drawOval(sSettings.width/64, 30*sSettings.height/32, sSettings.height/32, sSettings.height/32);
 //        g.drawRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/128, 3*sSettings.height/32);
+        // other players on server
+        dFonts.setFontSmall(g);
+        int ctr = 1;
+        for (String id : nClient.instance().serverArgsMap.keySet()) {
+            if(!id.equals(uiInterface.uuid) && !id.equals("server") && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
+                g.setColor(new Color(200,200,200,255));
+                g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
+                        sSettings.width/64, 55*sSettings.height/64-(ctr*(sSettings.height/32)));
+                g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width/64,
+                        56*sSettings.height/64-(ctr*(sSettings.height/32)));
+                String color = nClient.instance().serverArgsMap.get(id).get("color");
+                if(playerHudColors.containsKey(color))
+                    g.setColor(playerHudColors.get(color));
+                g.fillRect(sSettings.width/128, 54*sSettings.height/64-(ctr*(sSettings.height/32)),
+                        sSettings.width/256, sSettings.height/32);
+                ctr++;
+            }
+        }
         // doesn't get here because the rechargetime/delay is only on the server now
 //        if(userPlayer.getInt("stockhp") < cVars.getInt("maxstockhp") &&
 //                userPlayer.getLong("hprechargetime") + cVars.getInt("delayhp")

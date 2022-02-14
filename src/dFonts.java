@@ -21,6 +21,19 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
+    public static void drawPlayerNameHud(Graphics g, String s, int x, int y, Color color) {
+        Color savedColor = g.getColor();
+        g.setColor(Color.BLACK);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
+        g.setColor(color);
+        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
+        g.fillOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-sSettings.height/32,
+                y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
+        g.setColor(new Color(255,255,255,100));
+        g.drawOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-sSettings.height/32,
+                y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
+    }
+
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
     }
