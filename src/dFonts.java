@@ -27,10 +27,10 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
         g.setColor(color);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-        g.fillOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-sSettings.height/32,
+        g.fillOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-5*sSettings.height/128,
                 y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
         g.setColor(new Color(255,255,255,100));
-        g.drawOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-sSettings.height/32,
+        g.drawOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-5*sSettings.height/128,
                 y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
     }
 

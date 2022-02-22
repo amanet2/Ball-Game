@@ -4,54 +4,76 @@ import java.awt.geom.Rectangle2D;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
-        //player gun
-        if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
-            int[] rgb = new int[4];
-            rgb[3] = 255;
-            switch (player.getInt("weapon")) {
-                case gWeapons.type.pistol:
-                    rgb[0] = 100;
-                    rgb[1] = 255;
-                    break;
-                case gWeapons.type.shotgun:
-                    rgb[1] = 200;
-                    rgb[2] = 255;
-                    break;
-                case gWeapons.type.autorifle:
-                    rgb[0] = 255;
-                    rgb[1] = 170;
-                    break;
-                case gWeapons.type.launcher:
-                    rgb[0] = 255;
-                    break;
-                case gWeapons.type.gloves:
-                    rgb[0] = 255;
-                    rgb[1] = 255;
-                    break;
-                default:
-                    break;
-            }
-            if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
-                int x = eUtils.scaleInt(player.getInt("coordx")-cVars.getInt("camx")
-                        - player.getInt("dimw")/4);
-                int y = eUtils.scaleInt(player.getInt("coordy")-cVars.getInt("camy")
-                        - player.getInt("dimh")/4);
-                int w = eUtils.scaleInt(3*player.getInt("dimw")/2);
-                int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
-                if(sVars.isOne("vfxenableflares"))
-                    dFlares.drawFlare(g2,x,y,w,h,1,rgb,new int[4]);
-                //solid ring
-                g2.setColor(new Color(rgb[0], rgb[1], rgb[2]));
-                g2.fillOval(
-                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
-                                - player.getInt("dimw")/16),
-                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
-                                - player.getInt("dimw")/16),
-                        eUtils.scaleInt(player.getInt("dimw") + player.getInt("dimw")/8),
-                        eUtils.scaleInt(player.getInt("dimh") + player.getInt("dimw")/8)
-                );
-            }
+        //player glow
+        Color pc = dHUD.playerHudColors.get(nClient.instance().serverArgsMap.get(player.get("id")).get("color"));
+        if(pc != null) {
+            int x = eUtils.scaleInt(player.getInt("coordx")-cVars.getInt("camx")
+                    - player.getInt("dimw")/4);
+            int y = eUtils.scaleInt(player.getInt("coordy")-cVars.getInt("camy")
+                    - player.getInt("dimh")/4);
+            int w = eUtils.scaleInt(3*player.getInt("dimw")/2);
+            int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
+            if(sVars.isOne("vfxenableflares"))
+                dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
+            //solid ring
+//            g2.setColor(pc);
+//            g2.fillOval(
+//                    eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+//                            - player.getInt("dimw")/16),
+//                    eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+//                            - player.getInt("dimw")/16),
+//                    eUtils.scaleInt(player.getInt("dimw") + player.getInt("dimw")/8),
+//                    eUtils.scaleInt(player.getInt("dimh") + player.getInt("dimw")/8)
+//            );
         }
+//        //player gun
+//        if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
+//            int[] rgb = new int[4];
+//            rgb[3] = 255;
+//            switch (player.getInt("weapon")) {
+//                case gWeapons.type.pistol:
+//                    rgb[0] = 100;
+//                    rgb[1] = 255;
+//                    break;
+//                case gWeapons.type.shotgun:
+//                    rgb[1] = 200;
+//                    rgb[2] = 255;
+//                    break;
+//                case gWeapons.type.autorifle:
+//                    rgb[0] = 255;
+//                    rgb[1] = 170;
+//                    break;
+//                case gWeapons.type.launcher:
+//                    rgb[0] = 255;
+//                    break;
+//                case gWeapons.type.gloves:
+//                    rgb[0] = 255;
+//                    rgb[1] = 255;
+//                    break;
+//                default:
+//                    break;
+//            }
+//            if(player.getInt("weapon") != gWeapons.type.NONE.code()) {
+//                int x = eUtils.scaleInt(player.getInt("coordx")-cVars.getInt("camx")
+//                        - player.getInt("dimw")/4);
+//                int y = eUtils.scaleInt(player.getInt("coordy")-cVars.getInt("camy")
+//                        - player.getInt("dimh")/4);
+//                int w = eUtils.scaleInt(3*player.getInt("dimw")/2);
+//                int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
+//                if(sVars.isOne("vfxenableflares"))
+//                    dFlares.drawFlare(g2,x,y,w,h,1,rgb,new int[4]);
+//                //solid ring
+//                g2.setColor(new Color(rgb[0], rgb[1], rgb[2]));
+//                g2.fillOval(
+//                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")
+//                                - player.getInt("dimw")/16),
+//                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+//                                - player.getInt("dimw")/16),
+//                        eUtils.scaleInt(player.getInt("dimw") + player.getInt("dimw")/8),
+//                        eUtils.scaleInt(player.getInt("dimh") + player.getInt("dimw")/8)
+//                );
+//            }
+//        }
         //player shadow
         if(sVars.isOne("vfxenableplayershadow")) {
             //check null fields

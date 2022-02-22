@@ -36,8 +36,7 @@ public class dHUD {
         g.drawRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
         dFonts.setFontNormal(g);
-        g.drawString(
-                Integer.toString(userPlayer.getInt("stockhp")*100/cVars.getInt("maxstockhp")),
+        g.drawString(Integer.toString(userPlayer.getInt("stockhp")),
                 19*sSettings.width/128, 60 * sSettings.height/64);
         //score
         if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)

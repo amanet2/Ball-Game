@@ -4,11 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* draw the playernames in the lower corner with little representation of color
-    > with health bar
-    > like outbreak zombies
-    * move all cvars into autoexec-type of file
-* fix memory leak
+* draw weaponring but for playercolor around players at all times
+* move the dim/4 stuff to the preview block build call, not draw
+* figure out a way to build blocks using a true top down 2d view (matrix rotation)
+    -> graph paper
+* move all cvars into autoexec-type of file
+* fix memory leaks
 * draw preview in middle
 * make objects have "cast shading/shadows" tag
 * put the xCom classes into their own folder
