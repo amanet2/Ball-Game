@@ -184,10 +184,9 @@ public class uiEditorMenus {
 //        });
 
         //fill prefabs menu
-        String[] prefabs = {"corner", "cube", "cube_a", "hallway", "hallway_a", "room",
-                            "room_large", "room_large_c"};
-        String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
-                                    "room_large_c"};
+        String[] prefabs = {"corner", "cube", "hallway", "junction", "room",
+                            "room_large"};
+        String[] prefabsRotate = {"corner", "hallway", "junction"};
         ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
         for(String s : prefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
