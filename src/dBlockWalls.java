@@ -62,13 +62,14 @@ public class dBlockWalls {
 
     public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
-            String[] colorvals = block.get("colorwall").split("\\.");
-            g2.setColor(new Color(
-                    Integer.parseInt(colorvals[0]),
-                    Integer.parseInt(colorvals[1]),
-                    Integer.parseInt(colorvals[2]),
-                    Integer.parseInt(colorvals[3])
-            ));
+//            String[] colorvals = block.get("colorwall").split("\\.");
+//            g2.setColor(new Color(
+//                    Integer.parseInt(colorvals[0]),
+//                    Integer.parseInt(colorvals[1]),
+//                    Integer.parseInt(colorvals[2]),
+//                    Integer.parseInt(colorvals[3])
+//            ));
+            g2.setPaint(gBlockFactory.instance().wallTexture);
             g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),

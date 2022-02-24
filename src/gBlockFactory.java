@@ -1,8 +1,18 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class gBlockFactory {
     HashMap<String, gDoableBlockReturn> blockLoadMap;
     private static gBlockFactory instance = null;
+    Image floorSprite;
+    Image wallSprite;
+    BufferedImage wallImage;
+    TexturePaint wallTexture;
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
@@ -12,6 +22,18 @@ public class gBlockFactory {
         blockLoadMap.put("BLOCK_CORNERUL", new gDoableBlockReturnCornerUL());
         blockLoadMap.put("BLOCK_CORNERLR", new gDoableBlockReturnCornerLR());
         blockLoadMap.put("BLOCK_CORNERLL", new gDoableBlockReturnCornerLL());
+        floorSprite = gTextures.getScaledImage(eUtils.getPath("tiles/grass03.png"), 1210, 1210);
+//        wallSprite = gTextures.getScaledImage(eUtils.getPath("tiles/wall.png"), 300, 300);
+//        wallImage = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
+        try {
+            wallImage = ImageIO.read(new File(eUtils.getPath("tiles/wall.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        Graphics2D bGr = wallImage.createGraphics();
+//        bGr.drawImage(wallSprite, 0, 0, null);
+//        bGr.dispose();
+        wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,300,300));
     }
 
     public static gBlockFactory instance() {
