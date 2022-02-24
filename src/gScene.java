@@ -68,23 +68,23 @@ public class gScene {
     public LinkedHashMap<String, gThing> getWallsAndPlayersSortedByCoordY() {
         LinkedHashMap<String, gThing> sortedMapPreCorners = new LinkedHashMap<>();
         HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
-        HashMap<String, gThing> cornerMapL = new HashMap<>(getThingMap("BLOCK_CORNERUL"));
-        HashMap<String, gThing> cornerMapR = new HashMap<>(getThingMap("BLOCK_CORNERUR"));
-        HashMap<String, gThing> cornerMapLL = new HashMap<>(getThingMap("BLOCK_CORNERLL"));
-        HashMap<String, gThing> cornerMapLR = new HashMap<>(getThingMap("BLOCK_CORNERLR"));
+//        HashMap<String, gThing> cornerMapL = new HashMap<>(getThingMap("BLOCK_CORNERUL"));
+//        HashMap<String, gThing> cornerMapR = new HashMap<>(getThingMap("BLOCK_CORNERUR"));
+//        HashMap<String, gThing> cornerMapLL = new HashMap<>(getThingMap("BLOCK_CORNERLL"));
+//        HashMap<String, gThing> cornerMapLR = new HashMap<>(getThingMap("BLOCK_CORNERLR"));
         HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
-        for(String id : cornerMapL.keySet()) {
-            combinedMap.put(id, cornerMapL.get(id));
-        }
-        for(String id : cornerMapR.keySet()) {
-            combinedMap.put(id, cornerMapR.get(id));
-        }
-        for(String id : cornerMapLL.keySet()) {
-            combinedMap.put(id, cornerMapLL.get(id));
-        }
-        for(String id : cornerMapLR.keySet()) {
-            combinedMap.put(id, cornerMapLR.get(id));
-        }
+//        for(String id : cornerMapL.keySet()) {
+//            combinedMap.put(id, cornerMapL.get(id));
+//        }
+//        for(String id : cornerMapR.keySet()) {
+//            combinedMap.put(id, cornerMapR.get(id));
+//        }
+//        for(String id : cornerMapLL.keySet()) {
+//            combinedMap.put(id, cornerMapLL.get(id));
+//        }
+//        for(String id : cornerMapLR.keySet()) {
+//            combinedMap.put(id, cornerMapLR.get(id));
+//        }
         for(String id : playerMap.keySet()) {
             combinedMap.put(id, playerMap.get(id));
         }
@@ -107,34 +107,35 @@ public class gScene {
                 combinedMap.remove(lowestId);
             }
         }
-        //make another pass and move all corners to the max of their respective Y
-        LinkedHashMap<String, gThing> sortedMapPostCorners = new LinkedHashMap<>();
-        HashMap<String, gThing> cornerStagingMap = new HashMap<>();
-        int cornerStagingY = -1000000;
-        for(String id : sortedMapPreCorners.keySet()) {
-            gThing thing = sortedMapPreCorners.get(id);
-            int thingY = thing.getInt("coordy");
-            if(cornerStagingMap.size() > 0 && cornerStagingY < thingY) {
-                cornerStagingY = thingY;
-                for(String cid : cornerStagingMap.keySet()) {
-                    sortedMapPostCorners.put(cid, cornerStagingMap.get(cid));
-                }
-                cornerStagingMap = new HashMap<>();
-            }
-            if(thing.contains("type") && thing.get("type").contains("CORNER")) {
-                cornerStagingMap.put(id, thing);
-                cornerStagingY = thingY;
-            }
-            else {
-                sortedMapPostCorners.put(id, thing);
-            }
-        }
-        if(cornerStagingMap.size() > 0) {
-            for(String id : cornerStagingMap.keySet()) {
-                sortedMapPostCorners.put(id, cornerStagingMap.get(id));
-            }
-        }
-        return sortedMapPostCorners;
+        return sortedMapPreCorners;
+//        //make another pass and move all corners to the max of their respective Y
+//        LinkedHashMap<String, gThing> sortedMapPostCorners = new LinkedHashMap<>();
+//        HashMap<String, gThing> cornerStagingMap = new HashMap<>();
+//        int cornerStagingY = -1000000;
+//        for(String id : sortedMapPreCorners.keySet()) {
+//            gThing thing = sortedMapPreCorners.get(id);
+//            int thingY = thing.getInt("coordy");
+//            if(cornerStagingMap.size() > 0 && cornerStagingY < thingY) {
+//                cornerStagingY = thingY;
+//                for(String cid : cornerStagingMap.keySet()) {
+//                    sortedMapPostCorners.put(cid, cornerStagingMap.get(cid));
+//                }
+//                cornerStagingMap = new HashMap<>();
+//            }
+//            if(thing.contains("type") && thing.get("type").contains("CORNER")) {
+//                cornerStagingMap.put(id, thing);
+//                cornerStagingY = thingY;
+//            }
+//            else {
+//                sortedMapPostCorners.put(id, thing);
+//            }
+//        }
+//        if(cornerStagingMap.size() > 0) {
+//            for(String id : cornerStagingMap.keySet()) {
+//                sortedMapPostCorners.put(id, cornerStagingMap.get(id));
+//            }
+//        }
+//        return sortedMapPostCorners;
     }
 
     public void saveAs(String filename, String foldername) {
