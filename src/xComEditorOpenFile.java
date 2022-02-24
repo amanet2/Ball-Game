@@ -5,6 +5,7 @@ public class xComEditorOpenFile extends xCom {
     public String doCommand(String fullCommand) {
         if(sSettings.show_mapmaker_ui) {
             JFileChooser fileChooser = new JFileChooser();
+            uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
             File workingDirectory = new File("maps");
             fileChooser.setCurrentDirectory(workingDirectory);
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
