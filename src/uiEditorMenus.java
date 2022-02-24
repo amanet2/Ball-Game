@@ -6,23 +6,23 @@ import java.util.*;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
+    static gScene previewScene = new gScene();
     static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
     static int snapToX = 50;
     static int snapToY = 50;
-    private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
-                if(cVars.get("newprefabname").contains("floor")
-                || cVars.get("newprefabname").contains("room")) {
+                if(!cVars.get("newprefabname").contains("cube")) {
                     snapToX = 300;
                     snapToY = 300;
                 }
@@ -184,10 +184,9 @@ public class uiEditorMenus {
 //        });
 
         //fill prefabs menu
-        String[] prefabs = {"corner", "cube", "cube_a", "floor", "hallway", "hallway_a", "hallway_b", "room",
-                            "room_large", "room_large_a", "room_large_b", "room_large_c"};
-        String[] prefabsRotate = {"corner", "hallway", "hallway_a", "hallway_b", "room_large_a", "room_large_b",
-                                    "room_large_c"};
+        String[] prefabs = {"corner", "cube", "hallway", "junction", "room",
+                            "room_large"};
+        String[] prefabsRotate = {"corner", "hallway", "junction"};
         ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
         for(String s : prefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
@@ -208,6 +207,9 @@ public class uiEditorMenus {
                     cVars.put("newprefabname", name+"_000");
                 else
                     cVars.put("newprefabname", name);
+//                uiEditorMenus.previewScene = new gScene();
+                xCon.ex("cl_clearthingmappreview");
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
                 cVars.put("newitemname", "");
                 refreshCheckBoxItems();
             });

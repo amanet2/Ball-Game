@@ -60,15 +60,15 @@ public class dScreenMessages {
                     dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, 28*sSettings.height/32);
+                        29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-            dFonts.setFontColorHighlight(g);
-            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
-                dFonts.drawRightJustifiedString(g,
-                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
-                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
-            }
+//            dFonts.setFontColorHighlight(g);
+//            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+//            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+//                dFonts.drawRightJustifiedString(g,
+//                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
+//                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
+//            }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
@@ -103,6 +103,16 @@ public class dScreenMessages {
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
+                //preview
+                g.setColor(Color.BLACK);
+                g.fillRect(4*sSettings.width/5,6*sSettings.height/10,
+                        7*sSettings.height/20, 7*sSettings.height/20);
+                g.setColor(Color.white);
+                g.drawRoundRect(4*sSettings.width/5,6*sSettings.height/10,
+                        7*sSettings.height/20, 7*sSettings.height/20,
+                        sSettings.height/36, sSettings.height/36);
+                dFonts.setFontNormal(g);
+                g.drawString("Preview", 4*sSettings.width/5,6*sSettings.height/10);
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 boolean drawnRotate = false;

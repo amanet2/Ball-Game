@@ -79,6 +79,24 @@ public class dBlockWalls {
         }
     }
 
+    public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
+        if (block.contains("wallh")) {
+            String[] colorvals = block.get("colorwall").split("\\.");
+            g2.setColor(new Color(
+                    Integer.parseInt(colorvals[0]),
+                    Integer.parseInt(colorvals[1]),
+                    Integer.parseInt(colorvals[2]),
+                    Integer.parseInt(colorvals[3])
+            ));
+            g2.fillRect(eUtils.scaleInt(block.getInt("coordx")/4),
+                    eUtils.scaleInt(block.getInt("coordy")/4+ block.getInt("toph")/4),
+                    eUtils.scaleInt(block.getInt("dimw")/4),
+                    eUtils.scaleInt(block.getInt("wallh")/4)
+            );
+//            dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
+        }
+    }
+
     public static void drawBlockWallCornerUR(Graphics2D g2, gBlockCornerUR block) {
         String[] colorvals = block.get("colorwall").split("\\.");
         g2.setColor(new Color(

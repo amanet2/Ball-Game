@@ -7,7 +7,7 @@ import java.util.*;
  * play scenario.
  */
 public class gScene {
-    private static final String[] object_titles = new String[]{
+    public static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL",
         "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE", "ITEM_SHOTGUN",

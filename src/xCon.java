@@ -165,14 +165,17 @@ public class xCon {
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
+        commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
         commands.put("cl_deletecollision", new xComDeleteCollisionClient());
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
+        commands.put("cl_execpreview", new xComExecClientPreview());
         commands.put("cl_fireweapon", new xComFireWeaponClient());
         commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
+        commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putcollision", new xComPutCollisionClient());
         commands.put("cl_putflare", new xComPutFlareClient());
         commands.put("cl_putitem", new xComPutItemClient());

@@ -1,6 +1,6 @@
 load
 cv_maploaded 0
-cv_gamemode 0
+cv_gamemode 1
 cv_prefabid 0
 putblock BLOCK_FLOOR -900 -900 1200 1200 100.100.60.255
 cv_prefabid 0
