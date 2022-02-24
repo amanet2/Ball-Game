@@ -143,12 +143,12 @@ public class gPlayer extends gThing {
         else {
             if(!get("pathsprite").contains("a05")) {
                 setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
-                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flipng" :
-                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flipng" :
-                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flipng" :
+                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
                                         isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flipng" :
-                                                        "misc/bfg_flipng";
+                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+                                                        "misc/bfg_flip.png";
                 if(gWeapons.fromCode(getInt("weapon")) != null) {
                     gWeapons.fromCode(getInt("weapon")).dims[1] =
                             gWeapons.fromCode(getInt("weapon")).flipdiml;

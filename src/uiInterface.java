@@ -5,6 +5,7 @@ public class uiInterface {
     static long gameTime = System.currentTimeMillis();
     private static long gameTimeNanos = System.nanoTime();
     private static long tickCounterTime = gameTime;
+//    private static long tickTime = gameTime;
     private static long tickTimeNanos = gameTimeNanos;
     private static long framecounterTime = gameTime;
     static long nettickcounterTimeClient = gameTime;
@@ -25,8 +26,10 @@ public class uiInterface {
                 gameTimeNanos = System.nanoTime();
                 //game loop
                 while(tickTimeNanos < gameTimeNanos) {
+//                while(tickTime < gameTime) {
                     //nano = billion
                     tickTimeNanos += (1000000000/cVars.getInt("gametick"));
+//                    tickTime += 1000/cVars.getInt("gametick");
                     iInput.readKeyInputs();
                     if(sSettings.IS_SERVER)
                         cServerLogic.gameLoop();
@@ -52,6 +55,10 @@ public class uiInterface {
                 }
                 if(sSettings.framerate > 0) {
                     long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+                    //power saving
+//                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
+//                    if(toSleep > 0)
+//                        Thread.sleep(toSleep);
                     while (nextFrameTime >= System.nanoTime()); // do nothing
                 }
             } catch (Exception e) {
@@ -88,6 +95,7 @@ public class uiInterface {
             eUtils.zoomLevel = 0.5;
         }
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
+        dHUD.initPlayerHudColors();
         oDisplay.instance().showFrame();
         startGame();
     }
@@ -103,7 +111,7 @@ public class uiInterface {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = uiEditorMenus.getNewPrefabDims();
+        int[] fabdims = dMapmakerOverlay.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
                 uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,

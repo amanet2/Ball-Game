@@ -4,6 +4,7 @@ import java.io.File;
 public class xComEditorSaveAs extends xCom{
     public String doCommand(String fullcommand) {
         JFileChooser fileChooser = new JFileChooser();
+        uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
         File workingDirectory = new File("maps");
         fileChooser.setCurrentDirectory(workingDirectory);
         if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {

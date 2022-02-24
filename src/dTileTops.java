@@ -317,8 +317,14 @@ public class dTileTops {
             String name = clientMap.get("name");
             int coordx = p.getInt("coordx") - cVars.getInt("camx");
             int coordy = p.getInt("coordy") - cVars.getInt("camy");
-            dFonts.drawCenteredString(g, name,
-                    eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
+//            dFonts.drawCenteredString(g, name,
+//                    eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
+            Color color = Color.white;
+            String ck = nClient.instance().serverArgsMap.get(id).get("color");
+            if(dHUD.playerHudColors.containsKey(ck))
+                color = dHUD.playerHudColors.get(ck);
+            dFonts.drawPlayerNameHud(g, name,
+                    eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy), color);
             //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
 //                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))

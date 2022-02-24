@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class dScreenMessages {
 
@@ -57,15 +60,15 @@ public class dScreenMessages {
                     dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, 28*sSettings.height/32);
+                        29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-            dFonts.setFontColorHighlight(g);
-            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
-                dFonts.drawRightJustifiedString(g,
-                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
-                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
-            }
+//            dFonts.setFontColorHighlight(g);
+//            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
+//            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+//                dFonts.drawRightJustifiedString(g,
+//                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
+//                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
+//            }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
@@ -100,10 +103,33 @@ public class dScreenMessages {
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
+                //preview
+                g.setColor(Color.BLACK);
+                g.fillRect(4*sSettings.width/5,6*sSettings.height/10,
+                        7*sSettings.height/20, 7*sSettings.height/20);
+                g.setColor(Color.white);
+                g.drawRoundRect(4*sSettings.width/5,6*sSettings.height/10,
+                        7*sSettings.height/20, 7*sSettings.height/20,
+                        sSettings.height/36, sSettings.height/36);
+                dFonts.setFontNormal(g);
+                g.drawString("Preview", 4*sSettings.width/5,6*sSettings.height/10);
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
-                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
+                boolean drawnRotate = false;
+                String[] rotates = {"_000", "_090", "_180", "_270"};
+                ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
+                for(String s : rotatesList) {
+                    if(cVars.get("newprefabname").contains(s)) {
+                        g.drawString(String.format("[R] - ROTATE %s",
+                                uiEditorMenus.getRotateName(cVars.get("newprefabname"))),0, 27*sSettings.height/32);
+                        drawnRotate = true;
+                        break;
+                    }
+                }
+                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0) {
+                    g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
+                                                                                        : 25 * sSettings.height / 32);
+                }
                 g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
                 g.drawString("[Esc] - TEST/EDIT ", 0,

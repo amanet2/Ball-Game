@@ -57,6 +57,17 @@ public class cClientLogic {
         }
         for(String id : scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = scene.getThingMap("THING_BLOCK").get(id);
+            if(!block.get("type").equals("BLOCK_FLOOR")
+                    && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
+                cVars.put("selectedprefabid", block.get("prefabid"));
+                cVars.put("selectedprefabname", block.get("prefabname"));
+                cVars.put("selecteditemid", "");
+                cVars.put("selecteditemname", "");
+                return;
+            }
+        }
+        for(String id : scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            gThing block = scene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
                 cVars.put("selectedprefabname", block.get("prefabname"));
