@@ -10,7 +10,7 @@ public class gBlockFactory {
     HashMap<String, gDoableBlockReturn> blockLoadMap;
     private static gBlockFactory instance = null;
     Image floorSprite;
-    Image wallSprite;
+//    Image wallSprite;
     BufferedImage wallImage;
     TexturePaint wallTexture;
 
@@ -33,7 +33,8 @@ public class gBlockFactory {
 //        Graphics2D bGr = wallImage.createGraphics();
 //        bGr.drawImage(wallSprite, 0, 0, null);
 //        bGr.dispose();
-        wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,300,300));
+        wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
+                eUtils.scaleInt(300),eUtils.scaleInt(300)));
     }
 
     public static gBlockFactory instance() {
