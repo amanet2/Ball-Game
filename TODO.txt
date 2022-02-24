@@ -4,6 +4,17 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* draw weaponring but for playercolor around players at all times
+* move the dim/4 stuff to the preview block build call, not draw
+* figure out a way to build blocks using a true top down 2d view (matrix rotation)
+    -> graph paper
+* move all cvars into autoexec-type of file
+* fix memory leaks
+* draw preview in middle
+* make objects have "cast shading/shadows" tag
+* put the xCom classes into their own folder
+* make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
+    -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
 * make shadows on cubes shorter than wall shadows
     -> ALREADY WORKS FOR NEW BLOCKS
 * create visibleCommand subclass so we dont manually add xcom objects to this visiblecommands list in xCon

@@ -8,15 +8,14 @@ public class xComPlaySound extends xCom {
             if(toks.length > 2) {
                 int cycs = Integer.parseInt(toks[2]);
                 soundClip.setCycleCount(cycs);
-                if(cycs < 0)
+                if(cycs < 1)
                     soundClip.setCycleCount(AudioClip.INDEFINITE);
             }
             if(toks.length > 4) {
                 int diffx = cVars.getInt("camx")+ eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
                 int diffy = cVars.getInt("camy")+ eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                 double balance = 0.0;
-                double ratio = Math.abs(diffx/(
-                        (double)sVars.getInt("sfxrange")-300));
+                double ratio = Math.abs(diffx/((double)sVars.getInt("sfxrange")-300));
                 if(diffx < 0)
                     balance = ratio;
                 else if(diffx > 0)

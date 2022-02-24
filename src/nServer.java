@@ -33,6 +33,8 @@ public class nServer extends Thread {
             "putitem",
             "deleteblock",
             "deletecollision",
+            "rotateblock",
+            "rotatecollision",
             "deleteitem"
     ));
 
@@ -78,7 +80,7 @@ public class nServer extends Thread {
                                 itemid, cmd.replace("putitem", "cl_putitem")));
                     }
                 });
-        for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem"}) {
+        for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem", "rotateblock", "rotatecollision"}) {
             clientCmdDoables.put(dcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {

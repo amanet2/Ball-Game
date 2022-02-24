@@ -95,6 +95,7 @@ public class uiInterface {
             eUtils.zoomLevel = 0.5;
         }
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
+        dHUD.initPlayerHudColors();
         oDisplay.instance().showFrame();
         startGame();
     }
@@ -110,7 +111,7 @@ public class uiInterface {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = uiEditorMenus.getNewPrefabDims();
+        int[] fabdims = dMapmakerOverlay.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
                 uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,

@@ -24,7 +24,7 @@ public class cVars {
         put("intermissiontime", "-1");
         put("maploaded", "0");
         put("newitemname", "");
-        put("newprefabname", "room_small");
+        put("newprefabname", "room");
         put("maxstockhp", "500");
         put("popuplivetime", "2000");
         put("itemid", "0");

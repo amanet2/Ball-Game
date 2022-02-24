@@ -10,4 +10,4 @@ xcopy /y %~dp0..\Ball-Game.exe %pkg_dir%
 xcopy /y %~dp0..\Ball-Game-Mapmaker.exe %pkg_dir%
 if exist %pkg_dir%.zip del %pkg_dir%.zip
 powershell.exe Compress-Archive -Path %pkg_dir%\* -DestinationPath %pkg_dir%.zip
-pause
+Rem pause
