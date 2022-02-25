@@ -179,8 +179,8 @@ public class dTileTops {
                 new Rectangle2D.Double(
                         eUtils.scaleInt(-cVars.getInt("camx")),
                         eUtils.scaleInt(-cVars.getInt("camy")),
-                        eUtils.scaleInt(150),
-                        eUtils.scaleInt(1200)));
+                        eUtils.scaleInt(1200),
+                        eUtils.scaleInt(150)));
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("toph") && block.isZero("backtop")) {

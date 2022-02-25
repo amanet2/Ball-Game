@@ -10,6 +10,7 @@ public class dBlockTops {
 //                Integer.parseInt(colorvals[2]),
 //                Integer.parseInt(colorvals[3])
 //        ));
+//        g2.setPaint(gBlockFactory.instance().topTexture);
         g2.setPaint(gBlockFactory.instance().wallTexture);
         g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                 eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
