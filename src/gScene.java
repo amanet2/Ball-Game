@@ -13,7 +13,7 @@ public class gScene {
         "ITEM_FLAGBLUE", "ITEM_SHOTGUN", "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
-	HashMap<String, LinkedHashMap> objectMaps;
+	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
@@ -22,7 +22,7 @@ public class gScene {
 	public gScene() {
         objectMaps = new HashMap<>();
         for(String s : object_titles) {
-            objectMaps.put(s, new LinkedHashMap());
+            objectMaps.put(s, new LinkedHashMap<>());
         }
         blockIdCtr = 0;
         collisionIdCtr = 0;
