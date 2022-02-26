@@ -73,9 +73,7 @@ public class gScene {
             combinedMap.put(id, playerMap.get(id));
         }
         for(String id : itemMap.keySet()) {
-            if(combinedMap.containsKey(id)) {
-                combinedMap.put(id + "_1", itemMap.get(id));
-            }
+            combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
         }
         boolean sorted = false;
         while(!sorted) {
@@ -83,10 +81,7 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(((combinedMap.get(id).contains("wallh") && combinedMap.get(id).getInt("wallh") > 0)
-                        || (combinedMap.get(id).contains("fv"))
-                        || (combinedMap.get(id).get("type").contains("ITEM_")))
-                        && combinedMap.get(id).getInt("coordy") <= lowestY) {
+                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
                     sorted = false;
                     lowestId = id;
                     lowestY = combinedMap.get(id).getInt("coordy");

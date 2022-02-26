@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedHashMap;
 import java.util.Queue;
 
 public class dBlockWalls {
