@@ -20,6 +20,7 @@ public class dBlockWalls {
                     if (thing.contains("wallh")) {
                         dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
                         drawBlockWallCube(g2, (gBlockCube) thing);
+                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
                     }
                 }
             }
