@@ -1,27 +1,26 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedHashMap;
+import java.util.Queue;
 
 public class dBlockWalls {
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
-        LinkedHashMap<String, gThing> combinedMap = scene.getWallsAndPlayersSortedByCoordY();
-//        gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
-//                new Rectangle2D.Double(
-//                        eUtils.scaleInt(-cVars.getInt("camx")),
-//                        eUtils.scaleInt(-cVars.getInt("camy")),
-//                        eUtils.scaleInt(300),
-//                        eUtils.scaleInt(300)));
-        for(String tag : combinedMap.keySet()) {
-            gThing thing = combinedMap.get(tag);
-            if(thing.contains("fv")) {
+        Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
+        while(visualQueue.size() > 0) {
+            gThing thing = visualQueue.remove();
+            if(thing.isVal("type", "THING_PLAYER")) {
                 gPlayer player = (gPlayer) thing;
                 dPlayer.drawPlayer(g2, player);
+            }
+            else if(thing.get("type").contains("ITEM_")) {
+                gItem item = (gItem) thing;
+                dItems.drawItem(g2, item);
             }
             else {
                 if(thing.get("type").contains("CUBE")) {
                     if (thing.contains("wallh")) {
                         dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
                         drawBlockWallCube(g2, (gBlockCube) thing);
+                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
                     }
                 }
             }

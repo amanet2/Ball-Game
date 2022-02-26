@@ -252,8 +252,6 @@ public class nServer extends Thread {
         keys.put("cmd", "");
         //handle server outgoing cmds that loopback to the server
         checkLocalCmds();
-        //update id in net args
-//        keys.put("id", "server");
         //send scores
         keys.put("time", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {

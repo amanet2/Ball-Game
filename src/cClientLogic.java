@@ -132,11 +132,11 @@ public class cClientLogic {
     }
 
     public static void checkBulletSplashes() {
-        ArrayList bulletsToRemoveIds = new ArrayList<>();
+        ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
+        HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        for(String id : bulletsMap.keySet()) {
             gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);

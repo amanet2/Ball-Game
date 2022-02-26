@@ -4,30 +4,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 public class dTileTops {
-//    static Image forbiddenSign = gTextures.getScaledImage(eUtils.getPath("misc/forbidden.png"), 150, 150);
-    public static void drawTops(Graphics g, gScene scene) {
-        Graphics2D g2 = (Graphics2D) g;
-        /*
-         * players extra stuff
-         * */
-//        for (String id : cServerLogic.getPlayerIds()) {
-//            gPlayer e = cServerLogic.getPlayerById(id);
-////            //player hat
-//            if (e.spriteHat != null && e.get("coordx") != null && e.get("coordy") != null) {
-//                g2.drawImage(e.spriteHat,
-//                        eUtils.scaleInt(e.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(e.getInt("coordy") - cVars.getInt("camy") - 150),
-//                        null);
-//            }
-        HashMap<String, gThing> squareMap = scene.getThingMap("BLOCK_CUBE");
-        for(String tag : squareMap.keySet()) {
-            gBlockCube block = (gBlockCube) squareMap.get(tag);
-            if(block.contains("toph")) {
-                dBlockTops.drawBlockTopCube(g2, block);
-            }
-        }
-    }
-
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sVars.isOne("drawmapmakergrid")) {

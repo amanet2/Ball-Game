@@ -1,38 +1,6 @@
 load
 cv_maploaded 0
 cv_gamemode 2
-cv_prefabid 0
-putblock BLOCK_FLOOR 900 -300 1200 1200
-cv_prefabid 0
-putblock BLOCK_FLOOR -300 900 1200 1200
-cv_prefabid 0
-putblock BLOCK_FLOOR 900 900 1200 1200
-cv_prefabid 0
-putblock BLOCK_CUBE 600 1800 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 900 1800 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 1800 1800 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE -300 1800 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 1800 750 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE -300 750 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 1800 600 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE -300 600 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_FLOOR -300 -300 1200 1200
-cv_prefabid 0
-putblock BLOCK_CUBE -300 -450 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 600 -450 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 900 -450 300 450 150 300
-cv_prefabid 0
-putblock BLOCK_CUBE 1800 -450 300 450 150 300
 cv_prefabid 1
 putblock BLOCK_FLOOR 4500 -300 1200 1200
 cv_prefabid 1
@@ -363,30 +331,38 @@ cv_prefabid 55
 putblock BLOCK_CUBE 2100 -450 300 450 150 300
 cv_prefabid 55
 putblock BLOCK_CUBE 3000 -450 300 450 150 300
-cv_prefabid 0
-putcollision 600.900.900.600 2000.2000.2150.2150 4
-cv_prefabid 0
-putcollision 900.1200.1200.900 2000.2000.2150.2150 4
-cv_prefabid 0
-putcollision 1800.2100.2100.1800 2000.2000.2150.2150 4
-cv_prefabid 0
-putcollision -300.0.0.-300 2000.2000.2150.2150 4
-cv_prefabid 0
-putcollision 1800.2100.2100.1800 950.950.1100.1100 4
-cv_prefabid 0
-putcollision -300.0.0.-300 950.950.1100.1100 4
-cv_prefabid 0
-putcollision 1800.2100.2100.1800 800.800.950.950 4
-cv_prefabid 0
-putcollision -300.0.0.-300 800.800.950.950 4
-cv_prefabid 0
-putcollision -300.0.0.-300 -250.-250.-100.-100 4
-cv_prefabid 0
-putcollision 600.900.900.600 -250.-250.-100.-100 4
-cv_prefabid 0
-putcollision 900.1200.1200.900 -250.-250.-100.-100 4
-cv_prefabid 0
-putcollision 1800.2100.2100.1800 -250.-250.-100.-100 4
+cv_prefabid 56
+putblock BLOCK_FLOOR 900 -300 1200 1200
+cv_prefabid 56
+putblock BLOCK_FLOOR -300 900 1200 1200
+cv_prefabid 56
+putblock BLOCK_FLOOR 900 900 1200 1200
+cv_prefabid 56
+putblock BLOCK_CUBE 600 1800 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 900 1800 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 1800 1800 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE -300 1800 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 1800 750 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE -300 750 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 1800 600 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE -300 600 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_FLOOR -300 -300 1200 1200
+cv_prefabid 56
+putblock BLOCK_CUBE -300 -450 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 600 -450 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 900 -450 300 450 150 300
+cv_prefabid 56
+putblock BLOCK_CUBE 1800 -450 300 450 150 300
 cv_prefabid 1
 putcollision 4200.4500.4500.4200 2000.2000.2150.2150 4
 cv_prefabid 1
@@ -627,6 +603,30 @@ cv_prefabid 55
 putcollision 3000.3300.3300.3000 -250.-250.-100.-100 4
 cv_prefabid 55
 putcollision 2100.3300.3300.2100 800.800.950.950 4
+cv_prefabid 56
+putcollision 600.900.900.600 2000.2000.2150.2150 4
+cv_prefabid 56
+putcollision 900.1200.1200.900 2000.2000.2150.2150 4
+cv_prefabid 56
+putcollision 1800.2100.2100.1800 2000.2000.2150.2150 4
+cv_prefabid 56
+putcollision -300.0.0.-300 2000.2000.2150.2150 4
+cv_prefabid 56
+putcollision 1800.2100.2100.1800 950.950.1100.1100 4
+cv_prefabid 56
+putcollision -300.0.0.-300 950.950.1100.1100 4
+cv_prefabid 56
+putcollision 1800.2100.2100.1800 800.800.950.950 4
+cv_prefabid 56
+putcollision -300.0.0.-300 800.800.950.950 4
+cv_prefabid 56
+putcollision -300.0.0.-300 -250.-250.-100.-100 4
+cv_prefabid 56
+putcollision 600.900.900.600 -250.-250.-100.-100 4
+cv_prefabid 56
+putcollision 900.1200.1200.900 -250.-250.-100.-100 4
+cv_prefabid 56
+putcollision 1800.2100.2100.1800 -250.-250.-100.-100 4
 putitem ITEM_FLAG 2550 -1050
 putitem ITEM_SPAWNPOINT 100 950
 putitem ITEM_SPAWNPOINT 400 1350
