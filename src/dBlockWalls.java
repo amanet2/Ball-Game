@@ -30,13 +30,7 @@ public class dBlockWalls {
 
     public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
-//            String[] colorvals = block.get("colorwall").split("\\.");
-//            g2.setColor(new Color(
-//                    Integer.parseInt(colorvals[0]),
-//                    Integer.parseInt(colorvals[1]),
-//                    Integer.parseInt(colorvals[2]),
-//                    Integer.parseInt(colorvals[3])
-//            ));
+//            g2.setColor(Color.GRAY ));
             gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
                     new Rectangle2D.Double(
                             eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
@@ -56,13 +50,7 @@ public class dBlockWalls {
 
     public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
-            String[] colorvals = block.get("colorwall").split("\\.");
-            g2.setColor(new Color(
-                    Integer.parseInt(colorvals[0]),
-                    Integer.parseInt(colorvals[1]),
-                    Integer.parseInt(colorvals[2]),
-                    Integer.parseInt(colorvals[3])
-            ));
+            g2.setColor(gBlockFactory.instance().wallColorPreview);
             g2.fillRect(eUtils.scaleInt(block.getInt("coordx")/4),
                     eUtils.scaleInt(block.getInt("coordy")/4+ block.getInt("toph")/4),
                     eUtils.scaleInt(block.getInt("dimw")/4),
@@ -71,129 +59,4 @@ public class dBlockWalls {
 //            dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
         }
     }
-
-//    public static void drawBlockWallCornerUR(Graphics2D g2, gBlockCornerUR block) {
-//        String[] colorvals = block.get("colorwall").split("\\.");
-//        g2.setColor(new Color(
-//                Integer.parseInt(colorvals[0]),
-//                Integer.parseInt(colorvals[1]),
-//                Integer.parseInt(colorvals[2]),
-//                Integer.parseInt(colorvals[3])
-//        ));
-//        Polygon pw = new Polygon(
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
-//                },
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy") + block.getInt("wallh"))
-//                },
-//                4);
-//        g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingCornerUR(g2, block, pw);
-//    }
-//
-//    public static void drawBlockWallCornerLR(Graphics2D g2, gBlockCornerLR block) {
-//        String[] colorvals = block.get("colorwall").split("\\.");
-//        g2.setColor(new Color(
-//                Integer.parseInt(colorvals[0]),
-//                Integer.parseInt(colorvals[1]),
-//                Integer.parseInt(colorvals[2]),
-//                Integer.parseInt(colorvals[3])
-//        ));
-//        Polygon pw = new Polygon(
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
-//                },
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh"))
-//                },
-//                4);
-//        g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
-//    }
-//
-//    public static void drawBlockWallCornerUL(Graphics2D g2, gBlockCornerUL block) {
-//        String[] colorvals = block.get("colorwall").split("\\.");
-//        g2.setColor(new Color(
-//                Integer.parseInt(colorvals[0]),
-//                Integer.parseInt(colorvals[1]),
-//                Integer.parseInt(colorvals[2]),
-//                Integer.parseInt(colorvals[3])
-//        ));
-//        Polygon pw = new Polygon(
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
-//                },
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("wallh")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh")),
-//                },
-//                4);
-//        g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingCornerUL(g2, block, pw);
-//    }
-//
-//    public static void drawBlockWallCornerLL(Graphics2D g2, gBlockCornerLL block) {
-//        String[] colorvals = block.get("colorwall").split("\\.");
-//        g2.setColor(new Color(
-//                Integer.parseInt(colorvals[0]),
-//                Integer.parseInt(colorvals[1]),
-//                Integer.parseInt(colorvals[2]),
-//                Integer.parseInt(colorvals[3])
-//        ));
-//        Polygon pw = new Polygon(
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")
-//                                + block.getInt("dimw")),
-//                        eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx"))
-//                },
-//                new int[]{
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh")),
-//                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-//                                + block.getInt("toph") + block.getInt("wallh"))
-//                },
-//                4);
-//        g2.fillPolygon(pw);
-//        dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
-//    }
 }

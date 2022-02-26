@@ -9,9 +9,8 @@ import java.util.*;
 public class gScene {
     public static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
-        "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL",
-        "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE", "ITEM_SHOTGUN",
-        "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
+        "BLOCK_CUBE", "BLOCK_FLOOR", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED",
+        "ITEM_FLAGBLUE", "ITEM_SHOTGUN", "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
 	HashMap<String, LinkedHashMap> objectMaps;
@@ -155,9 +154,7 @@ public class gScene {
                         block.get("dimw"),
                         block.get("dimh"),
                         block.get("toph"),
-                        block.get("wallh"),
-                        block.get("color"),
-                        block.get("colorwall")
+                        block.get("wallh")
                 };
                 if(block.contains("prefabid"))
                     writer.write("cv_prefabid " + block.get("prefabid") + '\n');
@@ -284,9 +281,7 @@ public class gScene {
                         block.get("dimw"),
                         block.get("dimh"),
                         block.get("toph"),
-                        block.get("wallh"),
-                        block.get("color"),
-                        block.get("colorwall")
+                        block.get("wallh")
                 };
                 StringBuilder str = new StringBuilder("putblock");
                 for(String arg : args) {

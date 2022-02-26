@@ -480,9 +480,7 @@ public class nServer extends Thread {
                     block.get("dimw"),
                     block.get("dimh"),
                     block.get("toph"),
-                    block.get("wallh"),
-                    block.get("color"),
-                    block.get("colorwall")
+                    block.get("wallh")
             };
             String prefabString = "";
             if(block.contains("prefabid"))

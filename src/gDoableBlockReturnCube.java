@@ -6,9 +6,7 @@ public class gDoableBlockReturnCube extends gDoableBlockReturn{
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
                 Integer.parseInt(args[4]),
-                Integer.parseInt(args[5]),
-                args[6],
-                args[7]
+                Integer.parseInt(args[5])
         );
         return block;
     }

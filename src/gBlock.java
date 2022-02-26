@@ -3,14 +3,13 @@
 public class gBlock extends gThing {
 //    public Image sprite;
 
-    public gBlock(int x, int y, int w, int h, String color) {
+    public gBlock(int x, int y, int w, int h) {
         super();
         put("type", "THING_BLOCK");
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
-        put("color", color);
     }
 
     public void rotateNinetyDegrees() {

@@ -17,15 +17,14 @@ public class gBlockFactory {
     TexturePaint topTexture;
     Color topColor;
     Color topColorDark;
+    Color topColorPreview;
+    Color wallColorPreview;
+    Color floorColorPreview;
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
         blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnCube());
         blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturnFloor());
-//        blockLoadMap.put("BLOCK_CORNERUR", new gDoableBlockReturnCornerUR());
-//        blockLoadMap.put("BLOCK_CORNERUL", new gDoableBlockReturnCornerUL());
-//        blockLoadMap.put("BLOCK_CORNERLR", new gDoableBlockReturnCornerLR());
-//        blockLoadMap.put("BLOCK_CORNERLL", new gDoableBlockReturnCornerLL());
         try {
             floorImage = ImageIO.read(new File(eUtils.getPath("tiles/floor.png")));
             wallImage = ImageIO.read(new File(eUtils.getPath("tiles/wall.png")));
@@ -45,9 +44,9 @@ public class gBlockFactory {
                 125,
                 100
         );
-//        Graphics2D bGr = wallImage.createGraphics();
-//        bGr.drawImage(wallSprite, 0, 0, null);
-//        bGr.dispose();
+        topColorPreview = new Color(190,190,180,255);
+        wallColorPreview = new Color(120, 120, 200, 255);
+        floorColorPreview = new Color(100,100,60,255);
         floorTexture = new TexturePaint(floorImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(1210),eUtils.scaleInt(1210)));
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
