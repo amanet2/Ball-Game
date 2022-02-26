@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class gBlockFactory {
     HashMap<String, gDoableBlockReturn> blockLoadMap;
     private static gBlockFactory instance = null;
-    Image floorSprite;
-//    Image wallSprite;
+    BufferedImage floorImage;
+    TexturePaint floorTexture;
     BufferedImage wallImage;
     TexturePaint wallTexture;
     BufferedImage topImage;
@@ -26,10 +26,8 @@ public class gBlockFactory {
 //        blockLoadMap.put("BLOCK_CORNERUL", new gDoableBlockReturnCornerUL());
 //        blockLoadMap.put("BLOCK_CORNERLR", new gDoableBlockReturnCornerLR());
 //        blockLoadMap.put("BLOCK_CORNERLL", new gDoableBlockReturnCornerLL());
-        floorSprite = gTextures.getScaledImage(eUtils.getPath("tiles/grass03.png"), 1210, 1210);
-//        wallSprite = gTextures.getScaledImage(eUtils.getPath("tiles/wall.png"), 300, 300);
-//        wallImage = new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
         try {
+            floorImage = ImageIO.read(new File(eUtils.getPath("tiles/floor.png")));
             wallImage = ImageIO.read(new File(eUtils.getPath("tiles/wall.png")));
             topImage = ImageIO.read(new File(eUtils.getPath("tiles/top.png")));
         } catch (IOException e) {
@@ -50,6 +48,8 @@ public class gBlockFactory {
 //        Graphics2D bGr = wallImage.createGraphics();
 //        bGr.drawImage(wallSprite, 0, 0, null);
 //        bGr.dispose();
+        floorTexture = new TexturePaint(floorImage, new Rectangle2D.Double(0,0,
+                eUtils.scaleInt(1210),eUtils.scaleInt(1210)));
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(300),eUtils.scaleInt(300)));
         topTexture = new TexturePaint(topImage, new Rectangle2D.Double(0,0,

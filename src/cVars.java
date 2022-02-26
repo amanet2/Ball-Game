@@ -50,10 +50,10 @@ public class cVars {
         put("vfxcornershadowalpha1", "200");
         put("vfxcornershadowalpha2", "0");
         put("vfxshadowfactor", "0.3");
-        put("vfxflooroutlinealpha1", "0");
-        put("vfxflooroutlinealpha2", "0");
-        put("vfxfloorshadingalpha1", "0");
-        put("vfxfloorshadingalpha2", "0");
+        put("vfxflooroutlinealpha1", "30");
+        put("vfxflooroutlinealpha2", "20");
+        put("vfxfloorshadingalpha1", "20");
+        put("vfxfloorshadingalpha2", "20");
         put("vfxroofvertoutlinealpha1", "20");
         put("vfxroofvertoutlinealpha2", "90");
         put("vfxroofvertshadingalpha1", "0");

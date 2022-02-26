@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 public class dBlockFloors {
@@ -18,15 +19,22 @@ public class dBlockFloors {
 //                Integer.parseInt(colorvals[2]),
 //                Integer.parseInt(colorvals[3])
 //        ));
-//        g2.fillRect(
-//                eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
-//                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5,
-//                eUtils.scaleInt(block.getInt("dimw")) + 10,
-//                eUtils.scaleInt(block.getInt("dimh")) + 10
-//        );
-        g2.drawImage(gBlockFactory.instance().floorSprite,
+        gBlockFactory.instance().floorTexture = new TexturePaint(gBlockFactory.instance().floorImage,
+                new Rectangle2D.Double(
+                        eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
+                        eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
+                        eUtils.scaleInt(1210),
+                        eUtils.scaleInt(1210)));
+        g2.setPaint(gBlockFactory.instance().floorTexture);
+        g2.fillRect(
                 eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
-                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5, null);
+                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5,
+                eUtils.scaleInt(block.getInt("dimw")) + 10,
+                eUtils.scaleInt(block.getInt("dimh")) + 10
+        );
+//        g2.drawImage(gBlockFactory.instance().floorSprite,
+//                eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
+//                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5, null);
         dBlockFloorsShading.drawBlockFloorShading(g2, block);
     }
 
