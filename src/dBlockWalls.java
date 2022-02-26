@@ -5,12 +5,12 @@ import java.util.LinkedHashMap;
 public class dBlockWalls {
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         LinkedHashMap<String, gThing> combinedMap = scene.getWallsAndPlayersSortedByCoordY();
-        gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
-                new Rectangle2D.Double(
-                        eUtils.scaleInt(-cVars.getInt("camx")),
-                        eUtils.scaleInt(-cVars.getInt("camy")),
-                        eUtils.scaleInt(300),
-                        eUtils.scaleInt(300)));
+//        gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
+//                new Rectangle2D.Double(
+//                        eUtils.scaleInt(-cVars.getInt("camx")),
+//                        eUtils.scaleInt(-cVars.getInt("camy")),
+//                        eUtils.scaleInt(300),
+//                        eUtils.scaleInt(300)));
         for(String tag : combinedMap.keySet()) {
             gThing thing = combinedMap.get(tag);
             if(thing.contains("fv")) {
@@ -76,6 +76,12 @@ public class dBlockWalls {
 //                    Integer.parseInt(colorvals[2]),
 //                    Integer.parseInt(colorvals[3])
 //            ));
+            gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
+                    new Rectangle2D.Double(
+                            eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
+                            eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
+                            eUtils.scaleInt(300),
+                            eUtils.scaleInt(300)));
             g2.setPaint(gBlockFactory.instance().wallTexture);
             g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")

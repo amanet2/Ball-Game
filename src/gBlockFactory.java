@@ -15,6 +15,8 @@ public class gBlockFactory {
     TexturePaint wallTexture;
     BufferedImage topImage;
     TexturePaint topTexture;
+    Color topColor;
+    Color topColorDark;
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
@@ -33,13 +35,25 @@ public class gBlockFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        topColor = new Color(
+                255,
+                255,
+                255,
+                80
+        );
+        topColorDark = new Color(
+                125,
+                125,
+                125,
+                100
+        );
 //        Graphics2D bGr = wallImage.createGraphics();
 //        bGr.drawImage(wallSprite, 0, 0, null);
 //        bGr.dispose();
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(300),eUtils.scaleInt(300)));
         topTexture = new TexturePaint(topImage, new Rectangle2D.Double(0,0,
-                eUtils.scaleInt(1200),eUtils.scaleInt(150)));
+                eUtils.scaleInt(300),eUtils.scaleInt(300)));
     }
 
     public static gBlockFactory instance() {

@@ -175,12 +175,12 @@ public class dTileTops {
 //            }
 //        }
         squareMap = scene.getThingMap("BLOCK_CUBE");
-        gBlockFactory.instance().topTexture = new TexturePaint(gBlockFactory.instance().topImage,
-                new Rectangle2D.Double(
-                        eUtils.scaleInt(-cVars.getInt("camx")),
-                        eUtils.scaleInt(-cVars.getInt("camy")),
-                        eUtils.scaleInt(1200),
-                        eUtils.scaleInt(150)));
+//        gBlockFactory.instance().topTexture = new TexturePaint(gBlockFactory.instance().topImage,
+//                new Rectangle2D.Double(
+//                        eUtils.scaleInt(-cVars.getInt("camx")),
+//                        eUtils.scaleInt(-cVars.getInt("camy")),
+//                        eUtils.scaleInt(300),
+//                        eUtils.scaleInt(300)));
         for(String tag : squareMap.keySet()) {
             gBlockCube block = (gBlockCube) squareMap.get(tag);
             if(block.contains("toph") && block.isZero("backtop")) {
