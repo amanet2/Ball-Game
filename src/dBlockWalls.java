@@ -23,46 +23,7 @@ public class dBlockWalls {
                         dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
                         drawBlockWallCube(g2, (gBlockCube) thing);
                     }
-                    if (thing.contains("toph") && thing.isOne("backtop")) {
-                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
-                    }
                 }
-//                else if(thing.get("type").contains("CORNERUR")) {
-//                    if (thing.contains("wallh")) {
-//                        dBlockShadows.drawShadowBlockCornerUR(g2, (gBlockCornerUR) thing);
-//                        drawBlockWallCornerUR(g2, (gBlockCornerUR) thing);
-//                    }
-//                    if (thing.contains("toph") && thing.isOne("backtop")) {
-//                        dBlockTops.drawBlockTopCornerUR(g2, (gBlockCornerUR) thing);
-//                    }
-//                }
-//                else if(thing.get("type").contains("CORNERUL")) {
-//                    if (thing.contains("wallh")) {
-//                        dBlockShadows.drawShadowBlockCornerUL(g2, (gBlockCornerUL) thing);
-//                        drawBlockWallCornerUL(g2, (gBlockCornerUL) thing);
-//                    }
-//                    if (thing.contains("toph") && thing.isOne("backtop")) {
-//                        dBlockTops.drawBlockTopCornerUL(g2, (gBlockCornerUL) thing);
-//                    }
-//                }
-//                else if(thing.get("type").contains("CORNERLL")) {
-//                    if (thing.contains("wallh")) {
-//                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
-//                        drawBlockWallCornerLL(g2, (gBlockCornerLL) thing);
-//                    }
-//                    if (thing.contains("toph") && thing.isOne("backtop")) {
-//                        dBlockTops.drawBlockTopCornerLL(g2, (gBlockCornerLL) thing);
-//                    }
-//                }
-//                else if(thing.get("type").contains("CORNERLR")) {
-//                    if (thing.contains("wallh")) {
-//                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
-//                        drawBlockWallCornerLR(g2, (gBlockCornerLR) thing);
-//                    }
-//                    if (thing.contains("toph") && thing.isOne("backtop")) {
-//                        dBlockTops.drawBlockTopCornerLR(g2, (gBlockCornerLR) thing);
-//                    }
-//                }
             }
         }
     }

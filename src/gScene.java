@@ -158,8 +158,7 @@ public class gScene {
                         block.get("wallh"),
                         block.get("color"),
                         block.get("colorwall"),
-                        block.get("frontwall"),
-                        block.get("backtop")
+                        block.get("frontwall")
                 };
                 if(block.contains("prefabid"))
                     writer.write("cv_prefabid " + block.get("prefabid") + '\n');
@@ -289,8 +288,7 @@ public class gScene {
                         block.get("wallh"),
                         block.get("color"),
                         block.get("colorwall"),
-                        block.get("frontwall"),
-                        block.get("backtop")
+                        block.get("frontwall")
                 };
                 StringBuilder str = new StringBuilder("putblock");
                 for(String arg : args) {

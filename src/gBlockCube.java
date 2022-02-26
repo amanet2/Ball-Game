@@ -10,7 +10,6 @@ public class gBlockCube extends gBlock{
         putInt("wallh", wallh); //"toph" will be dimh - wallh
         put("colorwall", colorwall); //r,g,b,a
         put("frontwall", "0");
-        put("backtop", "0");
 
         String[] colortoks = colorwall.split("\\.");
         colorWall = new Color(Integer.parseInt(colortoks[0]), Integer.parseInt(colortoks[1]),
