@@ -10,8 +10,6 @@ public class gDoableBlockReturnCornerUL extends gDoableBlockReturn{
                 args[6],
                 args[7]
         );
-        if(args.length > 8)
-            block.put("frontwall", args[8]);
         return block;
     }
 }

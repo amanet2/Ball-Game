@@ -25,16 +25,6 @@ public class dTileTops {
             if(block.contains("toph")) {
                 dBlockTops.drawBlockTopCube(g2, block);
             }
-            if(block.contains("wallh") && block.isOne("frontwall")) {
-                gPlayer userplayer = cClientLogic.getUserPlayer();
-                if(userplayer != null) {
-                    if(block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph")
-                            > userplayer.getInt("coordy"))
-                        dBlockWalls.drawBlockWallCube(g2, block);
-                }
-                else
-                    dBlockWalls.drawBlockWallCube(g2, block);
-            }
         }
     }
 
