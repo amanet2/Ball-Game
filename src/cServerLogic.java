@@ -105,9 +105,9 @@ public class cServerLogic {
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
-                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-                nServer.instance().addExcludingNetCmd("server",
-                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
+//                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
+//                nServer.instance().addExcludingNetCmd("server",
+//                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
                 nServer.instance().addExcludingNetCmd("server",
@@ -240,11 +240,11 @@ public class cServerLogic {
     }
 
     public static void checkBulletSplashes() {
-        ArrayList bulletsToRemoveIds = new ArrayList<>();
+        ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
+        HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        for(String id : bulletsMap.keySet()) {
             gBullet b = (gBullet) bulletsMap.get(id);
             if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);

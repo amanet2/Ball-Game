@@ -15,6 +15,17 @@ public class dPlayer {
             int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
             if(sVars.isOne("vfxenableflares"))
                 dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
+            //flag for ctf
+            if(nClient.instance().serverArgsMap.containsKey("server")
+                    && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                    && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(player.get("id"))) {
+                g2.drawImage(gItemFactory.instance().flagSprite,
+                        eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
+                        eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")
+                                - 2*player.getInt("dimh")/3),
+                        null
+                );
+            }
             //solid ring
 //            g2.setColor(pc);
 //            g2.fillOval(
