@@ -252,8 +252,6 @@ public class nServer extends Thread {
         keys.put("cmd", "");
         //handle server outgoing cmds that loopback to the server
         checkLocalCmds();
-        //update id in net args
-//        keys.put("id", "server");
         //send scores
         keys.put("time", cVars.get("timeleft"));
         if(clientArgsMap.containsKey("server")) {
@@ -480,11 +478,7 @@ public class nServer extends Thread {
                     block.get("dimw"),
                     block.get("dimh"),
                     block.get("toph"),
-                    block.get("wallh"),
-                    block.get("color"),
-                    block.get("colorwall"),
-                    block.get("frontwall"),
-                    block.get("backtop")
+                    block.get("wallh")
             };
             String prefabString = "";
             if(block.contains("prefabid"))

@@ -175,6 +175,7 @@ public class gPlayer extends gThing {
         putInt("dimw", 200);
         putInt("dimh", 200);
         put("id", "");
+        put("type", "THING_PLAYER");
         put("inteleporter", "0");
         put("accelrate", "100");
         put("pathspritehat", "");

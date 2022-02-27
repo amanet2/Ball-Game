@@ -64,8 +64,12 @@ public class cVars {
         put("vfxroofshadingalpha2", "0");
         put("vfxwalloutlinealpha1", "80");
         put("vfxwalloutlinealpha2", "255");
+        put("vfxwalllowoutlinealpha1", "140");
+        put("vfxwalllowoutlinealpha2", "255");
         put("vfxwallshadingalpha1", "80");
         put("vfxwallshadingalpha2", "200");
+        put("vfxwalllowshadingalpha1", "120");
+        put("vfxwalllowshadingalpha2", "200");
         put("virustime", "0");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");

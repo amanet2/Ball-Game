@@ -12,13 +12,7 @@ public class dBlockFloors {
     }
 
     public static void drawBlockFloor(Graphics2D g2, gBlockFloor block) {
-//        String[] colorvals = block.get("color").split("\\.");
-//        g2.setColor(new Color(
-//                Integer.parseInt(colorvals[0]),
-//                Integer.parseInt(colorvals[1]),
-//                Integer.parseInt(colorvals[2]),
-//                Integer.parseInt(colorvals[3])
-//        ));
+//        g2.setColor(Color.GRAY);
         gBlockFactory.instance().floorTexture = new TexturePaint(gBlockFactory.instance().floorImage,
                 new Rectangle2D.Double(
                         eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
@@ -32,9 +26,6 @@ public class dBlockFloors {
                 eUtils.scaleInt(block.getInt("dimw")) + 10,
                 eUtils.scaleInt(block.getInt("dimh")) + 10
         );
-//        g2.drawImage(gBlockFactory.instance().floorSprite,
-//                eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")) - 5,
-//                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")) - 5, null);
         dBlockFloorsShading.drawBlockFloorShading(g2, block);
     }
 
@@ -47,13 +38,7 @@ public class dBlockFloors {
     }
 
     public static void drawMapmakerPreviewBlockFloor(Graphics2D g2, gBlockFloor block) {
-        String[] colorvals = block.get("color").split("\\.");
-        g2.setColor(new Color(
-                Integer.parseInt(colorvals[0]),
-                Integer.parseInt(colorvals[1]),
-                Integer.parseInt(colorvals[2]),
-                Integer.parseInt(colorvals[3])
-        ));
+        g2.setColor(gBlockFactory.instance().floorColorPreview);
         g2.fillRect(
                 eUtils.scaleInt(block.getInt("coordx")/4),
                 eUtils.scaleInt(block.getInt("coordy")/4),
