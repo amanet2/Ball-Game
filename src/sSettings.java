@@ -13,4 +13,8 @@ public class sSettings {
 	static int width = 1280;
 	static int height = 720;
 	static int framerate = 60;
+	/**
+	 * NET
+	 * **/
+	static int max_packet_size = 508;
 }
