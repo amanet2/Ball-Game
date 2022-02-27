@@ -113,8 +113,6 @@ cv_prefabid 45
 putblock BLOCK_CUBE 9000 1400 300 300 150 150
 cv_prefabid 47
 putblock BLOCK_CUBE 8700 1400 300 300 150 150
-cv_prefabid 50
-putblock BLOCK_CUBE 1650 1200 300 300 150 150
 cv_prefabid 51
 putblock BLOCK_CUBE 450 300 300 300 150 150
 cv_prefabid 52
@@ -273,6 +271,12 @@ cv_prefabid 86
 putblock BLOCK_CUBE 1200 -450 300 450 150 300
 cv_prefabid 86
 putblock BLOCK_CUBE 2100 -450 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE 1650 1350 300 300 150 150
+cv_prefabid 88
+putblock BLOCK_CUBE 450 2550 300 300 150 150
+cv_prefabid 89
+putblock BLOCK_CUBE 1650 -1050 300 300 150 150
 cv_prefabid 1
 putcollision 2400.3600.3600.2400 -250.-250.-100.-100 4
 cv_prefabid 1
@@ -349,8 +353,6 @@ cv_prefabid 45
 putcollision 9000.9300.9300.9000 1450.1450.1600.1600 4
 cv_prefabid 47
 putcollision 8700.9000.9000.8700 1450.1450.1600.1600 4
-cv_prefabid 50
-putcollision 1650.1950.1950.1650 1250.1250.1400.1400 4
 cv_prefabid 51
 putcollision 450.750.750.450 350.350.500.500 4
 cv_prefabid 52
@@ -481,6 +483,12 @@ cv_prefabid 86
 putcollision 1200.1500.1500.1200 -250.-250.-100.-100 4
 cv_prefabid 86
 putcollision 2100.2400.2400.2100 -250.-250.-100.-100 4
+cv_prefabid 87
+putcollision 1650.1950.1950.1650 1400.1400.1550.1550 4
+cv_prefabid 88
+putcollision 450.750.750.450 2600.2600.2750.2750 4
+cv_prefabid 89
+putcollision 1650.1950.1950.1650 -1000.-1000.-850.-850 4
 putitem ITEM_TELEPORTER_RED 2700 1800
 putitem ITEM_TELEPORTER_BLUE -600 -300
 putitem ITEM_SPAWNPOINT 2100 1500
