@@ -34,8 +34,7 @@ public class dTileTops {
                 for(int i = 0; i < collision.yarr.length; i++) {
                     transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
                 }
-                g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.npoints));
-
+                g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.xarr.length));
             }
             for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
                 gThing player = scene.getThingMap("THING_PLAYER").get(id);

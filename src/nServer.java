@@ -509,8 +509,7 @@ public class nServer extends Thread {
             yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
             String[] args = new String[]{
                     xString.toString(),
-                    yString.toString(),
-                    Integer.toString(collision.npoints)
+                    yString.toString()
             };
             String prefabString = "";
             if(collision.contains("prefabid")) {

@@ -142,8 +142,7 @@ public class gScene {
                 yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
                 String[] args = new String[]{
                         xString.toString(),
-                        yString.toString(),
-                        Integer.toString(collision.npoints)
+                        yString.toString()
                 };
                 if(collision.contains("prefabid"))
                     writer.write("cv_prefabid " + collision.get("prefabid") + '\n');
@@ -285,8 +284,7 @@ public class gScene {
 
                 String[] args = new String[]{
                         xString,
-                        yString,
-                        Integer.toString(collision.npoints)
+                        yString
                 };
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
