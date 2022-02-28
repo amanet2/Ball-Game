@@ -30,4 +30,5 @@ public class sSettings {
 	 * NET
 	 * **/
 	static int max_packet_size = 508;
+	static boolean debug = false;
 }

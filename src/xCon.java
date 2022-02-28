@@ -45,7 +45,7 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(sVars.isOne("debug")) {
+        if(sSettings.debug) {
             log(s);
             System.out.println(s);
         }
@@ -110,6 +110,7 @@ public class xCon {
         commands.put("console", new xComConsole());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
+        commands.put("debug", new xComDebug());
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());

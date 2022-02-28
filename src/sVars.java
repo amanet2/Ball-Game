@@ -13,7 +13,6 @@ public class sVars {
         keys.put("consolemaxlinelength", "128");
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
-        keys.put("debug", "0");
         keys.put("debuglog", "0");
         keys.put("displaymode", "0");
         keys.put("fontmode", "0");
@@ -70,8 +69,7 @@ public class sVars {
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
                         && Integer.parseInt(toks[3]) < 256);
             }
-            else if(k.contains("time")
-                || k.equals("debug") || k.equals("displaymode") || k.equals("fontmode") || k.equals("fontsize")
+            else if(k.contains("time") || k.equals("displaymode") || k.equals("fontmode") || k.equals("fontsize")
                 || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
                 || k.equals("rateclient") || k.equals("rateserver")
