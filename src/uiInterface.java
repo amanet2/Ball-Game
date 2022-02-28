@@ -95,7 +95,6 @@ public class uiInterface {
             eUtils.zoomLevel = 0.5;
         }
         uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
-        dHUD.initPlayerHudColors();
         oDisplay.instance().showFrame();
         startGame();
     }

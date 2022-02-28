@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
         //player glow
-        Color pc = dHUD.playerHudColors.get(nClient.instance().serverArgsMap.get(player.get("id")).get("color"));
+        Color pc = gColors.getPlayerHudColorFromName(nClient.instance().serverArgsMap.get(player.get("id")).get("color"));
         if(pc != null) {
             int x = eUtils.scaleInt(player.getInt("coordx")-cVars.getInt("camx")
                     - player.getInt("dimw")/4);
