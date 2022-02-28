@@ -65,7 +65,7 @@ public class oDisplay extends JLayeredPane {
                 xCon.ex("quit");
             }
         });
-        frame.setUndecorated(!sVars.isIntVal("displaymode", displaymode_windowed));
+        frame.setUndecorated(sSettings.displaymode != displaymode_windowed);
 		if(sSettings.show_mapmaker_ui)
 			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
@@ -77,7 +77,7 @@ public class oDisplay extends JLayeredPane {
 		frame.setContentPane(this);
 		frame.pack();
         frame.setLocationRelativeTo(null);
-        if(sVars.isIntVal("displaymode", displaymode_fullscreen))
+        if(sSettings.displaymode == displaymode_fullscreen)
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setVisible(true);
 		//add listeners
@@ -92,9 +92,9 @@ public class oDisplay extends JLayeredPane {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double[] screenDims = new double[]{screenSize.getWidth(), screenSize.getHeight()};
         return new int[]{
-            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+            sSettings.displaymode == oDisplay.displaymode_fullscreen
                     ? Math.max(0, (int)((screenDims[0]-sSettings.width)/2.0)) : 0,
-            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+            sSettings.displaymode == oDisplay.displaymode_fullscreen
                     ? Math.max(0,(int)((screenDims[1]-sSettings.height)/2.0)) : 0
         };
     }

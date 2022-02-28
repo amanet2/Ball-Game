@@ -3,7 +3,7 @@ public class uiMenusVideo extends uiMenu {
         setMenuItemTexts(new String[]{
                 String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
                 String.format("Framerate [%d]",sSettings.framerate),
-                String.format("Borderless [%s]", sVars.isIntVal("displaymode", oDisplay.displaymode_borderless)
+                String.format("Borderless [%s]", sSettings.displaymode == oDisplay.displaymode_borderless
                         ? "X" : "  "),
                 String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
                 String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
@@ -26,12 +26,12 @@ public class uiMenusVideo extends uiMenu {
                     }
                 },
                 new uiMenuItem(String.format("Borderless [%s]",
-                        sVars.isIntVal("displaymode", oDisplay.displaymode_borderless) ? "X" : "  ")) {
+                        sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                     public void doItem() {
-                        sVars.putInt("displaymode", sVars.isIntVal("displaymode", oDisplay.displaymode_windowed)
-                                ? oDisplay.displaymode_borderless : oDisplay.displaymode_windowed);
+                        sSettings.displaymode = sSettings.displaymode != oDisplay.displaymode_borderless
+                                ? oDisplay.displaymode_borderless : oDisplay.displaymode_windowed;
                         text = String.format("Borderless [%s]",
-                                sVars.isIntVal("displaymode", oDisplay.displaymode_borderless) ? "X" : "  ");
+                                sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
                         oDisplay.instance().createPanels();
                         oDisplay.instance().showFrame();
                     }
