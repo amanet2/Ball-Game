@@ -38,40 +38,24 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
     }
 
-    public static void setFontColorByTitleWithTransparancy(Graphics g, String fonttitle, int transparency) {
-        String[] fontStrings = sVars.get(fonttitle).split(",");
-        g.setColor(new Color(Integer.parseInt(fontStrings[0]),
-                Integer.parseInt(fontStrings[1]),
-                Integer.parseInt(fontStrings[2]),
-                transparency));
-    }
-
-    public static void setFontColorByTitle(Graphics g, String fonttitle) {
-        String[] fontStrings = sVars.get(fonttitle).split(",");
-        g.setColor(new Color(Integer.parseInt(fontStrings[0]),
-                Integer.parseInt(fontStrings[1]),
-                Integer.parseInt(fontStrings[2]),
-                Integer.parseInt(fontStrings[3])));
-    }
-
     public static void setFontColorNormal(Graphics g) {
-        g.setColor(gColors.instance().getColorByName("normal"));
+        g.setColor(gColors.getFontColorFromName("normal"));
     }
 
     public static void setFontColorNormalTransparent(Graphics g) {
-        g.setColor(gColors.instance().getColorByName("normaltransparent"));
+        g.setColor(gColors.getFontColorFromName("normaltransparent"));
     }
 
     public static void setFontColorHighlight(Graphics g) {
-        g.setColor(gColors.instance().getColorByName("highlight"));
+        g.setColor(gColors.getFontColorFromName("highlight"));
     }
 
     public static void setFontColorAlert(Graphics g) {
-        g.setColor(gColors.instance().getColorByName("alert"));
+        g.setColor(gColors.getFontColorFromName("alert"));
     }
 
     public static void setFontColorBonus(Graphics g) {
-        g.setColor(gColors.instance().getColorByName("bonus"));
+        g.setColor(gColors.getFontColorFromName("bonus"));
     }
 
     public static void setFontNormal(Graphics g) {

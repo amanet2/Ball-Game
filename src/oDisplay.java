@@ -72,7 +72,7 @@ public class oDisplay extends JLayeredPane {
         sSettings.width = Integer.parseInt(sVars.get("vidmode").split(",")[0]);
         sSettings.height = Integer.parseInt(sVars.get("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
-        setBackground(gColors.getColorFromName("background"));
+        setBackground(gColors.getFontColorFromName("background"));
         createPanels();
 		frame.setContentPane(this);
 		frame.pack();
@@ -101,7 +101,7 @@ public class oDisplay extends JLayeredPane {
 
 	public void createPanels() {
 	    removeAll();
-        setBackground(gColors.getColorFromName("background"));
+        setBackground(gColors.getFontColorFromName("background"));
         int ox = getContentPaneOffsetDimension()[0];
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;
