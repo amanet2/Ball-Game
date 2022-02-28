@@ -63,7 +63,7 @@ public class dFonts {
     }
 
     public static void setFontColorAlert(Graphics g) {
-        setFontColorByTitle(g, "fontcoloralert");
+        g.setColor(gColors.instance().getColorByName("alert"));
     }
 
     public static void setFontColorBonus(Graphics g) {

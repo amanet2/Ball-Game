@@ -15,6 +15,8 @@ public class dScoreboard {
                 cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
+//        dFonts.drawCenteredString(g, cVars.contains("currentmap") ? cVars.get("currentmap") : "[map name here]",
+//                sSettings.width/2, 3*sSettings.height/30);
         g.setColor(new Color(Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
                 Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
