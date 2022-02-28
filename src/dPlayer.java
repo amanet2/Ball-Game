@@ -100,8 +100,8 @@ public class dPlayer {
             RadialGradientPaint df = new RadialGradientPaint(
                     shadowBounds, new float[]{0f, 1f},
                     new Color[]{
-                            new Color(0,0, 0, cVars.getInt("vfxshadowalpha1")),
-                            new Color(0, 0, 0, 0)
+                            gColors.getWorldColorFromName("shadow1"),
+                            gColors.getWorldColorFromName("clear")
                     }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
             g2.setPaint(df);
             g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
@@ -120,11 +120,12 @@ public class dPlayer {
                     eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(player.getInt("coordy") + 2*player.getInt("dimh")/3
                             - cVars.getInt("camy")),
-                    new Color(0,0, 0,0),
+                    gColors.getWorldColorFromName("clear"),
                     eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(player.getInt("coordy") + player.getInt("dimh")
                             - cVars.getInt("camy")),
-                    new Color(0,0, 0,cVars.getInt("vfxshadowalpha1")/2));
+                    gColors.getWorldColorFromName("shadow1half")
+            );
             g2.setPaint(df);
             g2.fillOval(eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(player.getInt("coordy") - cVars.getInt("camy")),

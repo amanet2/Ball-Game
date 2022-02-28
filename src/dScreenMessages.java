@@ -132,9 +132,9 @@ public class dScreenMessages {
         //console
         dFonts.setFontConsole(g);
         if(sVars.isOne("inconsole")) {
-            g.setColor(new Color(0,0,0,100));
+            g.setColor(gColors.getFontColorFromName("scoreboardbg"));
             g.fillRect(0,0,sSettings.width,sSettings.height);
-            g.setColor(new Color(100,100,150, 100));
+            g.setColor(gColors.getFontColorFromName("console"));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColorNormal(g);
             int ctr = 0;

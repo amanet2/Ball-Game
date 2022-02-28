@@ -22,13 +22,13 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
-                g2.setColor(new Color(100, 100, 255));
+                g2.setColor(gColors.getFontColorFromName("flooroutline"));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
                         eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
             }
             if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
-                g2.setColor(new Color(255, 100, 255));
+                g2.setColor(gColors.getFontColorFromName("selected"));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
                         eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
@@ -38,7 +38,7 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.isVal("itemid", cVars.get("selecteditemid"))) {
-                g2.setColor(new Color(255, 100, 255));
+                g2.setColor(gColors.getFontColorFromName("selected"));
                 g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),
                         eUtils.scaleInt(item.getInt("dimw")), eUtils.scaleInt(item.getInt("dimh")));
@@ -57,7 +57,7 @@ public class dMapmakerOverlay {
                 +cVars.getInt("camx")-w/2, uiEditorMenus.snapToX) - cVars.getInt("camx");
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
                 +cVars.getInt("camy")-h/2, uiEditorMenus.snapToY) - cVars.getInt("camy");
-        g2.setColor(new Color(50, 255, 100));
+        g2.setColor(gColors.getFontColorFromName("preview"));
         g2.drawRect(eUtils.scaleInt(px), eUtils.scaleInt(py),
                 eUtils.scaleInt(w), eUtils.scaleInt(h));
     }

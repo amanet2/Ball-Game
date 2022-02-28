@@ -19,7 +19,7 @@ public class dMenus {
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(new Color(0,0,0,100));
+        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColorHighlight(g);
@@ -51,7 +51,7 @@ public class dMenus {
 
     public static void showControlsMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(new Color(0,0,0,100));
+        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColorHighlight(g);
@@ -89,7 +89,7 @@ public class dMenus {
                     )).getImage().getScaledInstance(sSettings.width, sSettings.height, Image.SCALE_FAST);
         }
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(new Color(0,0,0,100));
+        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);
         //copyright notice

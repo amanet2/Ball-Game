@@ -10,19 +10,20 @@ public class dBlockShadows {
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")),
-                        new Color(0,0,0,cVars.getInt("vfxshadowalpha1")),
+                        gColors.getWorldColorFromName("shadow1"),
                         eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")
-                                + (int)((block.getInt("wallh"))*cVars.getDouble("vfxshadowfactor"))),
-                        new Color(0,0,0, cVars.getInt("vfxshadowalpha2")));
+                                + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor)),
+                        gColors.getWorldColorFromName("shadow2")
+                );
                 g2.setPaint(gradient);
                 g2.fillRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")
                                 + block.getInt("dimh")),
                         eUtils.scaleInt(block.getInt("dimw")),
-                        eUtils.scaleInt((int)(block.getInt("wallh")*cVars.getDouble("vfxshadowfactor")))
+                        eUtils.scaleInt((int)(block.getInt("wallh")*sSettings.vfxshadowfactor))
                 );
             }
             else if (block.getInt("toph") > 0) {
@@ -31,21 +32,22 @@ public class dBlockShadows {
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh") - block.getInt("toph")),
-                        new Color(0,0,0,cVars.getInt("vfxshadowalpha1")),
+                        gColors.getWorldColorFromName("shadow1"),
                         eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
                                 - cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                                 + block.getInt("dimh")
                                 + (int)((block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")
-                        )*cVars.getDouble("vfxshadowfactor"))),
-                        new Color(0,0,0, cVars.getInt("vfxshadowalpha2")));
+                        )*sSettings.vfxshadowfactor)),
+                        gColors.getWorldColorFromName("shadow2")
+                );
                 g2.setPaint(gradient);
                 g2.fillRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")
                                 + block.getInt("dimh") - block.getInt("toph")),
                         eUtils.scaleInt(block.getInt("dimw")),
                         eUtils.scaleInt((int)((block.getInt("dimh") - block.getInt("toph")
-                        )*cVars.getDouble("vfxshadowfactor")))
+                        )*sSettings.vfxshadowfactor))
                 );
             }
         }

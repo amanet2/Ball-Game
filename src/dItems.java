@@ -33,7 +33,7 @@ public class dItems {
             }
         }
         else if(sSettings.show_mapmaker_ui){
-            g2.setColor(new Color(255, 150, 80, 150));
+            g2.setColor(gColors.getFontColorFromName("spawnpoint"));
             g2.fillRect(eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(item.getInt("coordy") - cVars.getInt("camy")),
                     eUtils.scaleInt(item.getInt("dimw")),

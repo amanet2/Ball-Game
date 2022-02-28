@@ -4,24 +4,19 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* draw weaponring but for playercolor around players at all times
 * move the dim/4 stuff to the preview block build call, not draw
 * figure out a way to build blocks using a true top down 2d view (matrix rotation)
     -> graph paper
 * move all cvars into autoexec-type of file
 * fix memory leaks
-* draw preview in middle
 * make objects have "cast shading/shadows" tag
 * put the xCom classes into their own folder
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
     -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
-* make shadows on cubes shorter than wall shadows
-    -> ALREADY WORKS FOR NEW BLOCKS
 * create visibleCommand subclass so we dont manually add xcom objects to this visiblecommands list in xCon
 * on slopes, only cancel the relevant movementdir (unless at perfect angle)
 * for pause menu, show/hide menubar and use that for unified settings/etc
     -> frame.instance().getJMenuBar has setVisible function that works
-    -> About menuitem would lead to credits
 * see what "checkX" functions we can get rid of/change to commands
     -> e.g. instead of checking resolution, have a comm "changeresolution"
 * MAP IDEA: make "pods" that are two tiles wide, one tile long, for spawning
@@ -42,10 +37,6 @@ FOCUS ITEMS
 * playercolor is set by console command in halo's engine (in-game)
 * make font in menubars bigger
     -> maybe...  we'll have trouble fitting all prefabs on screen
-* VFX: draw shadows for all tops,
-* GAME: add weapons back
-    -> shotgun first
-        -> come up with elegant solution for external clientside weapon
 * GAME: player and names are shaky
 * NET: max of 4 players right now
 * BOTS: they're shaky
@@ -57,7 +48,6 @@ FOCUS ITEMS
 ###
 ### POWER GAP
 ###
-* GAME: when player is on a vector into a slope, make them "slide" off it in a natural dir
 * WEAPONS: send a holdingmouse netvar when holding mouse
     -> clients will simulate the fire rate
         -> server holds master state still

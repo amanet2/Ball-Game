@@ -2,7 +2,10 @@ public class gCamera {
 	// selection of modes
 	static final int MODE_FREE = 0;
 	static final int MODE_TRACKING = 1;
-
+	static int mode;
+	static int[] move = {0, 0, 0, 0};
+	static int[] coords = {0, 0};
+	static int velocity = 9;
 	//enable camera to move in one direction
 	public static void move(int p) {
 		if(cVars.isInt("cammode", MODE_TRACKING))

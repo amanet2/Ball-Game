@@ -2,27 +2,28 @@ import java.awt.*;
 
 public class dBlockFloorsShading {
     public static void drawBlockFloorShading(Graphics2D g2, gBlockFloor block) {
-        g2.setStroke(dFonts.thickStroke);
-        g2.setColor(new Color(0, 0, 0, 255));
         if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    new Color(0, 0, 0, cVars.getInt("vfxfloorshadingalpha1")),
+                    gColors.getWorldColorFromName("floorshading1"),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2 - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy") + block.getInt("dimh")),
-                    new Color(0, 0, 0, cVars.getInt("vfxfloorshadingalpha2")));
+                    gColors.getWorldColorFromName("floorshading2")
+            );
             GradientPaint gradient2 = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    new Color(0, 0, 0, cVars.getInt("vfxflooroutlinealpha1")),
+                    gColors.getWorldColorFromName("flooroutline1"),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("dimh")),
-                    new Color(0, 0, 0, cVars.getInt("vfxflooroutlinealpha2")));
+                    gColors.getWorldColorFromName("flooroutline2")
+            );
             g2.setPaint(gradient2);
             g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),

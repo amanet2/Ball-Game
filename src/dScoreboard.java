@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
-        g.setColor(new Color(0,0,0,100));
+        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g,

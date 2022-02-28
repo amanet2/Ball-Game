@@ -11,16 +11,14 @@ public class dHUD {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
 //        health
-        g.setColor(new Color(0,0,0,255));
+        g.setColor(Color.black);
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
-//        g.setColor(new Color(220,0,30,255));
-        g.setColor(new Color(200,200,200,255));
+        g.setColor(gColors.getFontColorFromName("normaldark"));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
                 sSettings.width/8*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),
                 sSettings.height/64);
-//        g.setColor(new Color(150,0,0,255));
-        g.setColor(new Color(0,0,0,255));
+        g.setColor(Color.black);
         g.drawRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
         dFonts.setFontNormal(g);
@@ -45,7 +43,7 @@ public class dHUD {
         int ctr = 1;
         for (String id : nClient.instance().serverArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid) && !id.equals("server") && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
-                g.setColor(new Color(200,200,200,255));
+                g.setColor(gColors.getFontColorFromName("normaldark"));
                 g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                         sSettings.width/64, 55*sSettings.height/64-(ctr*(sSettings.height/32)));
                 g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width/64,

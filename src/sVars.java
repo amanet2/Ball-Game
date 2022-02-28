@@ -27,7 +27,6 @@ public class sVars {
         keys.put("msgfadetime", "10000");
         keys.put("netrcvretries", "0");
         keys.put("playercolor", "blue");
-        keys.put("playerhat", "none");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("sfxrange", "1800");

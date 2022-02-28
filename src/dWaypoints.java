@@ -11,7 +11,7 @@ public class dWaypoints {
                             + cClientLogic.getUserPlayer().getInt("dimw")/2,
                     dy - cClientLogic.getUserPlayer().getInt("coordy")
                             + cClientLogic.getUserPlayer().getInt("dimh")/2};
-            g2.setColor(new Color(255,100,50,150));
+            g2.setColor(gColors.getFontColorFromName("waypoint1"));
             int[][] polygondims = new int[][]{
                     new int[]{
                             eUtils.scaleInt(dx - cVars.getInt("camx")) - sSettings.height/16,
@@ -28,7 +28,7 @@ public class dWaypoints {
             };
             g2.fillPolygon(polygondims[0],polygondims[1], 4);
             g2.setStroke(dFonts.thickStroke);
-            g2.setColor(new Color(255,100,50,220));
+            g2.setColor(gColors.getFontColorFromName("waypoint2"));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
             dFonts.setFontNormal(g2);
@@ -52,9 +52,9 @@ public class dWaypoints {
                                 sSettings.width / 2 + sSettings.width / 54, sSettings.width / 2},
                         new int[]{sSettings.height / 12, sSettings.height / 12, 0}
                 };
-                g2.setColor(new Color(255,100,50,150));
+                g2.setColor(gColors.getFontColorFromName("waypoint1"));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-                g2.setColor(new Color(255,100,50,220));
+                g2.setColor(gColors.getFontColorFromName("waypoint2"));
                 g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.setTransform(backup);

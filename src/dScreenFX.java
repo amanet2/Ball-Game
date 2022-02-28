@@ -40,7 +40,7 @@ public class dScreenFX {
             int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
             if (userhp < cVars.getInt("maxstockhp")) {
                 int factors = sSettings.vfxfactor;
-                int maxl = cVars.getInt("vfxuialphahp");
+                int maxl = gColors.hpAlpha;
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
                         int w = sSettings.width / factors;

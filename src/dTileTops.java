@@ -7,7 +7,7 @@ public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sSettings.drawmapmakergrid) {
-            g2.setColor(new Color(255,255,0,125));
+            g2.setColor(gColors.getFontColorFromName("mapmakergrid"));
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
                 g2.drawLine(eUtils.scaleInt(-12000 - cVars.getInt("camx")),
@@ -107,9 +107,9 @@ public class dTileTops {
             };
             g2.setStroke(dFonts.thickStroke);
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
-            g2.setColor(new Color(0,150,50, 255));
+            g2.setColor(gColors.getFontColorFromName("playerarrow1"));
             g2.drawPolygon(pg);
-            g2.setColor(new Color(0,200,0, 100));
+            g2.setColor(gColors.getFontColorFromName("playerarrow2"));
             g2.fillPolygon(pg);
         }
     }

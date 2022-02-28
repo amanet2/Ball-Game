@@ -2,29 +2,30 @@ import java.awt.*;
 
 public class dBlockTopsShading {
     public static void drawBlockTopShadingCube(Graphics2D g2, gBlockCube block) {
-        g2.setStroke(dFonts.thickStroke);
-        g2.setColor(new Color(0, 0, 0, 255));
         if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha1")),
+                    gColors.getWorldColorFromName("roofoutline1"),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofoutlinealpha2")));
+                    gColors.getWorldColorFromName("roofoutline2")
+            );
             GradientPaint  gradient2 = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofshadingalpha1")),
+                    gColors.getWorldColorFromName("roofshading1"),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
                             + block.getInt("toph")),
-                    new Color(0, 0, 0, cVars.getInt("vfxroofshadingalpha2")));
+                    gColors.getWorldColorFromName("roofshading2")
+            );
             g2.setPaint(gradient);
             g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),

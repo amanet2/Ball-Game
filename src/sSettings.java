@@ -16,6 +16,7 @@ public class sSettings {
 	static int displaymode = 0;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 16;
+	static double vfxshadowfactor = 0.3;
 	static boolean drawplayerarrow = true;
 	static boolean drawhitboxes = true;
 	static boolean drawmapmakergrid = true;
