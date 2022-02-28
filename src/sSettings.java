@@ -31,5 +31,10 @@ public class sSettings {
 	 * NET
 	 * **/
 	static int max_packet_size = 508;
+	static int rcvbytesclient = 2048;
+	static int rcvbytesserver = 512;
+	static int rateclient = 60;
+	static int rateserver = 500;
+	static int ratebots = 30;
 	static boolean debug = false;
 }

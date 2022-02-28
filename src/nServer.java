@@ -224,7 +224,7 @@ public class nServer extends Thread {
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
             if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
                 cVars.putLong("bottime",
-                        uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
+                        uiInterface.gameTime + (long)(1000.0/(double)sSettings.ratebots));
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
@@ -339,12 +339,12 @@ public class nServer extends Thread {
                         netticks = 0;
                         uiInterface.nettickcounterTimeServer = uiInterface.gameTime + 1000;
                     }
-                    byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
+                    byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
                     long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sVars.getInt("rateserver"));
+                            + (long) (1000.0 / (double) sSettings.rateserver);
                     processPackets();
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();

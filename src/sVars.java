@@ -29,11 +29,6 @@ public class sVars {
         keys.put("playercolor", "blue");
         keys.put("playerhat", "none");
         keys.put("playername", "player");
-        keys.put("ratebots", "30");
-        keys.put("rateclient", "60");
-        keys.put("rateserver", "500");
-        keys.put("rcvbytesclient", "2048");
-        keys.put("rcvbytesserver", "512");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("sfxrange", "1800");
         keys.put("showcam", "1");
@@ -45,7 +40,7 @@ public class sVars {
         keys.put("showscale", "1");
         keys.put("showtick", "1");
         keys.put("smoothing", "1");
-        keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
+        keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to work right
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vidmode", "1280,720,60");
@@ -71,9 +66,7 @@ public class sVars {
             else if(k.contains("time") || k.equals("fontmode") || k.equals("fontsize")
                 || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
-                || k.equals("rateclient") || k.equals("rateserver")
-                || k.equals("rcvbytesclient")
-                || k.equals("rcvbytesserver") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
+                || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
                 || k.equals("smoothing") || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)

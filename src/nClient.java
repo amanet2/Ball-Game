@@ -79,14 +79,14 @@ public class nClient extends Thread {
                         }
                         clientSocket.send(sendPacket);
                         xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                        byte[] clientReceiveData = new byte[sVars.getInt("rcvbytesclient")];
+                        byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
                         DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
                         clientSocket.receive(receivePacket);
                         receivedPackets.add(receivePacket);
                     }
                     processPackets();
                     long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sVars.getInt("rateclient"));
+                            + (long) (1000.0 / (double) sSettings.rateclient);
 //                    while(networkTime > System.currentTimeMillis());
                     sleep(Math.max(0, networkTime - uiInterface.gameTime));
                     retries = 0;
