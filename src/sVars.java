@@ -17,9 +17,6 @@ public class sVars {
         keys.put("datapath", "ballgame");
         keys.put("debug", "0");
         keys.put("debuglog", "0");
-        keys.put("drawmapmakergrid", "1");
-        keys.put("drawhitboxes", "1");
-        keys.put("drawplayerarrow", "1");
         keys.put("displaymode", "0");
         keys.put("fontmode", "0");
         keys.put("fontsize", "90");
@@ -55,11 +52,6 @@ public class sVars {
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to be a good exp
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
-        keys.put("vfxenableanimations", "1");
-        keys.put("vfxenableflares", "1");
-        keys.put("vfxenableplayershadow", "1");
-        keys.put("vfxenableshading", "1");
-        keys.put("vfxenableshadows", "1");
         keys.put("vidmode", "1280,720,60");
         keys.put("volume", "100");
     }

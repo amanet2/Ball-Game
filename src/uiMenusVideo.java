@@ -5,10 +5,10 @@ public class uiMenusVideo extends uiMenu {
                 String.format("Framerate [%d]",sSettings.framerate),
                 String.format("Borderless [%s]", sVars.isIntVal("displaymode", oDisplay.displaymode_borderless)
                         ? "X" : "  "),
-                String.format("Animations [%s]", sVars.isOne("vfxenableanimations") ? "X" : "  "),
-                String.format("Flares [%s]", sVars.isOne("vfxenableflares") ? "X" : "  "),
-                String.format("Shading [%s]", sVars.isOne("vfxenableshading") ? "X" : "  "),
-                String.format("Shadows [%s]", sVars.isOne("vfxenableshadows") ? "X" : "  ")
+                String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
+                String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
+                String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  "),
+                String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")
         });
     }
 
@@ -36,28 +36,28 @@ public class uiMenusVideo extends uiMenu {
                         oDisplay.instance().showFrame();
                     }
                 },
-                new uiMenuItem(String.format("Animations [%s]", sVars.isOne("vfxenableanimations") ? "X" : "  ")){
+                new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
                     public void doItem() {
-                        sVars.put("vfxenableanimations", sVars.isOne("vfxenableanimations") ? "0" : "1");
-                        text = String.format("Animations [%s]", sVars.isOne("vfxenableanimations") ? "X" : "  ");
+                        sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
+                        text = String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ");
                     }
                 },
-                new uiMenuItem(String.format("Flares [%s]", sVars.isOne("vfxenableflares") ? "X" : "  ")){
+                new uiMenuItem(String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ")){
                     public void doItem() {
-                        sVars.put("vfxenableflares", sVars.isOne("vfxenableflares") ? "0" : "1");
-                        text = String.format("Flares [%s]", sVars.isOne("vfxenableflares") ? "X" : "  ");
+                        sSettings.vfxenableflares = !sSettings.vfxenableflares;
+                        text = String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ");
                     }
                 },
-                new uiMenuItem(String.format("Shading [%s]", sVars.isOne("vfxenableshading") ? "X" : "  ")){
+                new uiMenuItem(String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ")){
                     public void doItem() {
-                        sVars.put("vfxenableshading", sVars.isOne("vfxenableshading") ? "0" : "1");
-                        text = String.format("Shading [%s]", sVars.isOne("vfxenableshading") ? "X" : "  ");
+                        sSettings.vfxenableshading = !sSettings.vfxenableshading;
+                        text = String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ");
                     }
                 },
-                new uiMenuItem(String.format("Shadows [%s]", sVars.isOne("vfxenableshadows") ? "X" : "  ")){
+                new uiMenuItem(String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")){
                     public void doItem() {
-                        sVars.put("vfxenableshadows", sVars.isOne("vfxenableshadows") ? "0" : "1");
-                        text = String.format("Shadows [%s]", sVars.isOne("vfxenableshadows") ? "X" : "  ");
+                        sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
+                        text = String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ");
                     }
                 }
             },

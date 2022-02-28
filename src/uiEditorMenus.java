@@ -268,15 +268,81 @@ public class uiEditorMenus {
             menus.get("Color").add(colorMenuItem);
         }
         //fill overlays menu
+        HashMap<String, gDoable> overlaySelectionActionMap = new HashMap<>();
+        overlaySelectionActionMap.put("drawhitboxes",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawhitboxes = !sSettings.drawhitboxes;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawhitboxes;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("drawmapmakergrid",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawmapmakergrid = !sSettings.drawmapmakergrid;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawmapmakergrid;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshading",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshading = !sSettings.vfxenableshading;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshading;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshadows",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshadows;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableflares",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableflares = !sSettings.vfxenableflares;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableflares;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableanimations",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableanimations;
+                    }
+                }
+        );
         for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
             ovmenuitem.setFont(dFonts.getFontNormal());
-            if(sVars.getInt(option) == 1)
-                ovmenuitem.setSelected(true);
+            ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             ovmenuitem.addActionListener(e -> {
-                sVars.put(option, sVars.isIntVal(option, 1) ? "0" : "1");
-                ovmenuitem.setSelected(sVars.getInt(option) == 1);
+                overlaySelectionActionMap.get(option).exec();
+                ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             });
             menus.get("Overlays").add(ovmenuitem);
         }

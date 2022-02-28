@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
-        if(sVars.isOne("drawmapmakergrid")) {
+        if(sSettings.drawmapmakergrid) {
             g2.setColor(new Color(255,255,0,125));
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
@@ -21,7 +21,7 @@ public class dTileTops {
             }
         }
         //draw hitboxes
-        if(sVars.isOne("drawhitboxes")) {
+        if(sSettings.drawhitboxes) {
             g2.setColor(Color.RED);
             for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
                 gCollision collision =
@@ -84,7 +84,7 @@ public class dTileTops {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sVars.isOne("drawplayerarrow")) {
+        if(sSettings.drawplayerarrow) {
             gPlayer userPlayer = cClientLogic.getUserPlayer();
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;

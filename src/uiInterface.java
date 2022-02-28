@@ -80,8 +80,8 @@ public class uiInterface {
         xCon.ex("exec config/autoexec.cfg");
         //finish loading args
         if(!sVars.isOne("showmapmakerui")) {
-            sVars.putInt("drawhitboxes", 0);
-            sVars.putInt("drawmapmakergrid", 0);
+            sSettings.drawhitboxes = false;
+            sSettings.drawmapmakergrid = false;
             sVars.putInt("showcam", 0);
             sVars.putInt("showfps", 0);
             sVars.putInt("showmouse", 0);

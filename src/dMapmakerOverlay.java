@@ -21,7 +21,7 @@ public class dMapmakerOverlay {
         g2.setStroke(dFonts.thickStroke);
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-            if(sVars.isOne("drawhitboxes") && block.isVal("type", "BLOCK_FLOOR")) {
+            if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
                 g2.setColor(new Color(100, 100, 255));
                 g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
                         eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),

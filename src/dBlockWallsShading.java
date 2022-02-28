@@ -4,7 +4,7 @@ public class dBlockWallsShading {
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gBlock block) {
         g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
-        if (sVars.isOne("vfxenableshading")) {
+        if (sSettings.vfxenableshading) {
             if (block.getInt("wallh") > 0) {
                 GradientPaint gradient;
                 if(block.getInt("wallh") < 300) {

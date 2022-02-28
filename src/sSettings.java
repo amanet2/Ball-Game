@@ -15,6 +15,13 @@ public class sSettings {
 	static int framerate = 60;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 16;
+	static boolean drawplayerarrow = true;
+	static boolean drawhitboxes = true;
+	static boolean drawmapmakergrid = true;
+	static boolean vfxenableshading = true;
+	static boolean vfxenableshadows = true;
+	static boolean vfxenableflares = true;
+	static boolean vfxenableanimations = true;
 	/**
 	 * NET
 	 * **/

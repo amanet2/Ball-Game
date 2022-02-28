@@ -13,7 +13,7 @@ public class dPlayer {
                     - player.getInt("dimh")/4);
             int w = eUtils.scaleInt(3*player.getInt("dimw")/2);
             int h = eUtils.scaleInt(3*player.getInt("dimh")/2);
-            if(sVars.isOne("vfxenableflares"))
+            if(sSettings.vfxenableflares)
                 dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
             //flag for ctf
             if(nClient.instance().serverArgsMap.containsKey("server")
@@ -86,7 +86,7 @@ public class dPlayer {
 //            }
 //        }
         //player shadow
-        if(sVars.isOne("vfxenableplayershadow")) {
+        if(sSettings.vfxenableshadows) {
             //check null fields
             if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                 return;
@@ -115,7 +115,7 @@ public class dPlayer {
                 null
         );
         //shading
-        if(sVars.isOne("vfxenableshading")) {
+        if(sSettings.vfxenableshading) {
             GradientPaint df = new GradientPaint(
                     eUtils.scaleInt(player.getInt("coordx") - cVars.getInt("camx")),
                     eUtils.scaleInt(player.getInt("coordy") + 2*player.getInt("dimh")/3

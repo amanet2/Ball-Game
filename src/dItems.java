@@ -9,7 +9,7 @@ public class dItems {
                     null
             );
             if(item.get("type").equals("ITEM_TELEPORTER_RED")) {
-                if(sVars.isOne("vfxenableflares"))
+                if(sSettings.vfxenableflares)
                     dFlares.drawFlare(g2,
                             eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
                                     - item.getInt("dimw")/2),
@@ -21,7 +21,7 @@ public class dItems {
                     );
             }
             if(item.get("type").equals("ITEM_TELEPORTER_BLUE")) {
-                if(sVars.isOne("vfxenableflares"))
+                if(sSettings.vfxenableflares)
                     dFlares.drawFlare(g2,
                             eUtils.scaleInt(item.getInt("coordx") - cVars.getInt("camx")
                                     - item.getInt("dimw")/2),

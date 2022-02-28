@@ -4,7 +4,7 @@ public class dBlockFloorsShading {
     public static void drawBlockFloorShading(Graphics2D g2, gBlockFloor block) {
         g2.setStroke(dFonts.thickStroke);
         g2.setColor(new Color(0, 0, 0, 255));
-        if (sVars.isOne("vfxenableshading")) {
+        if (sSettings.vfxenableshading) {
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
                             - cVars.getInt("camx")),

@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dFlares {
     public static void drawSceneFlares(Graphics2D g2, gScene scene){
-        if(sVars.isOne("vfxenableflares")) {
+        if(sSettings.vfxenableflares) {
             for(String id : scene.getThingMap("THING_FLARE").keySet()) {
                 gFlare f = (gFlare) scene.getThingMap("THING_FLARE").get(id);
                 drawFlare(g2, f);
@@ -33,7 +33,7 @@ public class dFlares {
     }
 
     public static void drawFlare(Graphics2D g2, gFlare f) {
-        if(sVars.isOne("vfxenableflares")) {
+        if(sSettings.vfxenableflares) {
             int x = eUtils.scaleInt(f.getInt("coordx")-cVars.getInt("camx"));
             int y = eUtils.scaleInt(f.getInt("coordy")-cVars.getInt("camy"));
             int w = eUtils.scaleInt(f.getInt("dimw"));
