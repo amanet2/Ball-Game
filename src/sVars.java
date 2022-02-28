@@ -21,10 +21,6 @@ public class sVars {
         keys.put("drawhitboxes", "1");
         keys.put("drawplayerarrow", "1");
         keys.put("displaymode", "0");
-        keys.put("fontcoloralert", "200,0,50,200");
-        keys.put("fontcolorbonus", "50,220,100,200");
-        keys.put("fontcolorhighlight", "220,175,0,255");
-        keys.put("fontcolornormal", "255,255,255,200");
         keys.put("fontmode", "0");
         keys.put("fontsize", "90");
         keys.put("fontnameui", "None");

@@ -55,11 +55,15 @@ public class dFonts {
     }
 
     public static void setFontColorNormal(Graphics g) {
-        setFontColorByTitle(g, "fontcolornormal");
+        g.setColor(gColors.instance().getColorByName("normal"));
+    }
+
+    public static void setFontColorNormalTransparent(Graphics g) {
+        g.setColor(gColors.instance().getColorByName("normaltransparent"));
     }
 
     public static void setFontColorHighlight(Graphics g) {
-        setFontColorByTitle(g, "fontcolorhighlight");
+        g.setColor(gColors.instance().getColorByName("highlight"));
     }
 
     public static void setFontColorAlert(Graphics g) {
@@ -67,7 +71,7 @@ public class dFonts {
     }
 
     public static void setFontColorBonus(Graphics g) {
-        setFontColorByTitle(g, "fontcolorbonus");
+        g.setColor(gColors.instance().getColorByName("bonus"));
     }
 
     public static void setFontNormal(Graphics g) {

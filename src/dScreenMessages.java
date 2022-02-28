@@ -62,20 +62,13 @@ public class dScreenMessages {
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-//            dFonts.setFontColorHighlight(g);
-//            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-//            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
-//                dFonts.drawRightJustifiedString(g,
-//                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
-//                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
-//            }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
                 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
-        dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
+        dFonts.setFontColorNormalTransparent(g);
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
                 sSettings.width/2, 5 * sSettings.height / 6);
         //big font

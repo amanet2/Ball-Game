@@ -7,28 +7,18 @@ public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
         g.setColor(new Color(0,0,0,100));
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.setColor(new Color(Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[0]),
-                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[1]),
-                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
-                Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
+        dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g,
                 cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
 //        dFonts.drawCenteredString(g, cVars.contains("currentmap") ? cVars.get("currentmap") : "[map name here]",
 //                sSettings.width/2, 3*sSettings.height/30);
-        g.setColor(new Color(Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
-                Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
-                Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
-                Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
+        dFonts.setFontColorNormal(g);
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
                 sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
-//        g.drawString("                                                   Kills",
-//                sSettings.width/3,5*sSettings.height/30);
-//        g.drawString("                                                               Ping",
-//                sSettings.width/3,5*sSettings.height/30);
         g.drawString("_______________________",
                 sSettings.width/3, 11*sSettings.height/60);
 
@@ -61,11 +51,7 @@ public class dScoreboard {
                 spectatorstring = "[SPECTATE] ";
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
-                g.setColor(new Color(
-                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[0]),
-                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[1]),
-                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[2]),
-                        Integer.parseInt(sVars.get("fontcolorhighlight").split(",")[3])));
+                dFonts.setFontColorHighlight(g);
             }
             if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]) < prevscore)
                 place++;
@@ -79,16 +65,8 @@ public class dScoreboard {
             g.drawString("                                       "
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
-//            g.drawString("                                                   " + playerkills,
-//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
-//            g.drawString("                                                               " + playerping,
-//                    sSettings.width/3,7 * sSettings.height / 30 + i * sSettings.height / 30);
             if(isMe) {
-                g.setColor(new Color(
-                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[0]),
-                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[1]),
-                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[2]),
-                        Integer.parseInt(sVars.get("fontcolornormal").split(",")[3])));
+                dFonts.setFontColorNormal(g);
                 isMe = false;
             }
             ctr++;
