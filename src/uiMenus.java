@@ -13,9 +13,8 @@ public class uiMenus {
     static final int MENU_REFRESH = 10;
     static final int MENU_MAP = 11;
     static final int MENU_VOLUME = 12;
-    static final int MENU_HAT = 13;
-    static final int MENU_COLOR = 14;
-    static final int MENU_CREDITS = 15;
+    static final int MENU_COLOR = 13;
+    static final int MENU_CREDITS = 14;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -33,7 +32,6 @@ public class uiMenus {
         new uiMenusRefresh(),
         new uiMenusMap(),
         new uiMenusVolume(),
-        new uiMenusHat(),
         new uiMenusColor(),
         new uiMenusCredits()
     };

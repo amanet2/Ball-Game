@@ -39,7 +39,7 @@ public class dScreenFX {
             //threshold to turn on screen fx
             int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
             if (userhp < cVars.getInt("maxstockhp")) {
-                int factors = sVars.getInt("vfxfactor");
+                int factors = sSettings.vfxfactor;
                 int maxl = cVars.getInt("vfxuialphahp");
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
@@ -53,8 +53,9 @@ public class dScreenFX {
                         }
                     }
                 }
-                int factorsw = sSettings.width / sVars.getInt("vfxfactordiv");
-                int factorsh = sSettings.height / sVars.getInt("vfxfactordiv");
+                int factorsdiv = sSettings.vfxfactordiv;
+                int factorsw = sSettings.width / factorsdiv;
+                int factorsh = sSettings.height / factorsdiv;
                 for (int i = 0; i < factorsw; i++) {
                     g.setColor(new Color(100, 0, 0,
                             Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i)) - (factorsw / 2))) - maxl)

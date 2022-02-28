@@ -26,7 +26,6 @@ public class sVars {
         keys.put("fontnameui", "None");
         keys.put("fontnameconsole", "Courier");
         keys.put("framerates", "24,30,60,75,98,120,144,240");
-        keys.put("hatselection", "none,winter,cowboy,raincover,stovepipe_normal,stovepipe_irish,bow,witch,skull,boomer");
         keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
@@ -61,8 +60,6 @@ public class sVars {
         keys.put("vfxenableplayershadow", "1");
         keys.put("vfxenableshading", "1");
         keys.put("vfxenableshadows", "1");
-        keys.put("vfxfactor", "144");
-        keys.put("vfxfactordiv", "16");
         keys.put("vidmode", "1280,720,60");
         keys.put("volume", "100");
     }
@@ -96,7 +93,6 @@ public class sVars {
                 || k.equals("rcvbytesserver") || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
                 || k.equals("smoothing") || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
-                || k.equals("vfxfactor") || k.equals("vfxfactordiv")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {
                 return Integer.parseInt(v) >= 0;

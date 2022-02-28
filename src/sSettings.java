@@ -13,6 +13,8 @@ public class sSettings {
 	static int width = 1280;
 	static int height = 720;
 	static int framerate = 60;
+	static int vfxfactor = 144;
+	static int vfxfactordiv = 16;
 	/**
 	 * NET
 	 * **/
