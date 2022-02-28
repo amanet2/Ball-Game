@@ -8,8 +8,6 @@ public class sVars {
     private static HashMap<String, String> keys = null;
 
     private static void init() {
-        keys.put("audioenabled", "1");
-        keys.put("bgcolor", "0,0,0");
         keys.put("botnameselection", "bot0,bot1,bot2,bot3,bot4,bot5,bot6,bot7,bot8,bot9");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("consolemaxlinelength", "128");
@@ -64,19 +62,15 @@ public class sVars {
                 return toks.length == 3 && Integer.parseInt(toks[0]) >= 640 && Integer.parseInt(toks[1]) >= 480
                         && Integer.parseInt(toks[2]) >= 24;
             }
-            else if(k.contains("bgcolor") || k.contains("fontcolor")) {
+            else if(k.contains("fontcolor")) {
                 String[] toks = v.split(",");
-                return (k.contains("bgcolor") && toks.length == 3 && Integer.parseInt(toks[0]) >= 0
-                        && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
-                        && Integer.parseInt(toks[0]) < 256 && Integer.parseInt(toks[1]) < 256
-                        && Integer.parseInt(toks[2]) < 256)
-                        || (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
+                return (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
                         && Integer.parseInt(toks[3]) >= 0 && Integer.parseInt(toks[0]) < 256
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
                         && Integer.parseInt(toks[3]) < 256);
             }
-            else if(k.contains("time") || k.equals("audioenabled")
+            else if(k.contains("time")
                 || k.equals("debug") || k.equals("displaymode") || k.equals("fontmode") || k.equals("fontsize")
                 || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")

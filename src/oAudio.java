@@ -16,13 +16,13 @@ public class oAudio{
     }
 
     public void checkAudio() {
-        if(sVars.isZero("audioenabled") && clips.size() > 0) {
+        if(!sSettings.audioenabled && clips.size() > 0) {
             for(AudioClip c : clips) {
                 c.stop();
             }
             clips.clear();
         }
-        else if(sVars.isOne("audioenabled") && clips.size() > 0){
+        else if(sSettings.audioenabled && clips.size() > 0){
             ArrayList<AudioClip> tr = new ArrayList<>();
             for (AudioClip c : clips) {
                 if (!c.isPlaying()) {

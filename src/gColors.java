@@ -12,6 +12,11 @@ public class gColors {
         colorMap.put("highlight", new Color(220,175,0,255));
         colorMap.put("normal", new Color(255,255,255,200));
         colorMap.put("normaltransparent", new Color(255,255,255,100));
+        colorMap.put("background", Color.BLACK);
+    }
+
+    public static Color getColorFromName(String name) {
+        return instance().getColorByName(name);
     }
 
     public Color getColorByName(String name) {

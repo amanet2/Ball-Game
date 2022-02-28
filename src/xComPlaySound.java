@@ -3,7 +3,7 @@ import javafx.scene.media.AudioClip;
 public class xComPlaySound extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
-        if(toks.length > 1 && sVars.isOne("audioenabled")) {
+        if(toks.length > 1 && sSettings.audioenabled) {
             AudioClip soundClip = new AudioClip(getClass().getResource(eUtils.getPath(toks[1])).toString());
             if(toks.length > 2) {
                 int cycs = Integer.parseInt(toks[2]);

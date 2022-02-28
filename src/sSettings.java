@@ -23,6 +23,10 @@ public class sSettings {
 	static boolean vfxenableflares = true;
 	static boolean vfxenableanimations = true;
 	/**
+	 * AUDIO
+	 * **/
+	static boolean audioenabled = true;
+	/**
 	 * NET
 	 * **/
 	static int max_packet_size = 508;
