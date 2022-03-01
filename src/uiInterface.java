@@ -83,7 +83,7 @@ public class uiInterface {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
             sVars.putInt("showcam", 0);
-            sVars.putInt("showfps", 0);
+//            sVars.putInt("showfps", 0);
             sVars.putInt("showmouse", 0);
             sVars.putInt("shownet", 0);
             sVars.putInt("showplayer", 0);

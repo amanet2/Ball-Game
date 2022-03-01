@@ -10,9 +10,9 @@ public class sSettings {
 	/**
 	* vfx
 	* */
-	static int width = 1280;
-	static int height = 720;
-	static int framerate = 60;
+	static int width = 1920;
+	static int height = 1080;
+	static int framerate = 240;
 	static int displaymode = 0;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 16;
@@ -34,8 +34,8 @@ public class sSettings {
 	static int max_packet_size = 508;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
-	static int rateclient = 60;
-	static int rateserver = 500;
+	static int rateclient = 240;
+	static int rateserver = 1000;
 	static int ratebots = 30;
 	static boolean debug = false;
 }

@@ -26,19 +26,28 @@ public class cClientLogic {
         oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        if(sSettings.show_mapmaker_ui)
-            selectThingUnderMouse();
+//        if(sSettings.show_mapmaker_ui)
+//            selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null) {
-            pointPlayerAtMousePointer();
+//            pointPlayerAtMousePointer();
             checkPlayerFire();
         }
         checkFinishedAnimations();
         checkExpiredPopups();
         updateEntityPositions();
         gMessages.checkMessages();
+    }
+
+    public static void netLoop() {
+        if(sSettings.show_mapmaker_ui)
+            cClientLogic.selectThingUnderMouse();
+        if(getUserPlayer() != null) {
+            pointPlayerAtMousePointer();
+//            checkPlayerFire();
+        }
     }
 
     public static synchronized void selectThingUnderMouse() {
