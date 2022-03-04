@@ -3,7 +3,7 @@ public class gCamera {
 	static final int MODE_FREE = 0;
 	static final int MODE_TRACKING = 1;
 	static int mode = MODE_FREE;
-	static int[] move = {0, 0, 0, 0};
+	private static int[] move = {0, 0, 0, 0};
 	static int[] coords = {0, 0};
 	static int velocity = 8;
 
@@ -14,11 +14,11 @@ public class gCamera {
 	public static void move(int p) {
 		if(isTracking())
 			mode = MODE_FREE;
-		cVars.put("cammov"+p, "1");
+		move[p] = 1;
 	}
 	//disable camera moving direction
 	public static void stopMove(int p) {
-		cVars.put("cammov"+p,"0");
+		move[p] = 0;
 	}
 
 	public static void updatePosition() {
@@ -27,10 +27,8 @@ public class gCamera {
 				centerCamera();
 				break;
 			case MODE_FREE:
-				cVars.addIntVal("camx", cVars.getInt("velocitycam")*cVars.getInt("cammov3")
-						- cVars.getInt("velocitycam")*cVars.getInt("cammov2"));
-				cVars.addIntVal("camy", cVars.getInt("velocitycam")*cVars.getInt("cammov1")
-						- cVars.getInt("velocitycam")*cVars.getInt("cammov0"));
+				cVars.addIntVal("camx", velocity*move[3] - velocity*move[2]);
+				cVars.addIntVal("camy", velocity*move[1] - velocity*move[0]);
 				break;
 			default:
 				break;

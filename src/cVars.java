@@ -6,10 +6,6 @@ public class cVars {
 
     private static void init() {
         put("bottime", "0");
-        put("cammov0", "0");
-        put("cammov1", "0");
-        put("cammov2", "0");
-        put("cammov3", "0");
         put("camplayertrackingid", uiInterface.uuid);
         put("camx", "0");
         put("camy", "0");
@@ -37,7 +33,6 @@ public class cVars {
         put("showscore", "0");
         put("starttime", "0");
         put("timeleft", sVars.get("timelimit"));
-        put("velocitycam", "8");
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
         put("velocitypopup", "2");
