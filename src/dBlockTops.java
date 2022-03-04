@@ -6,21 +6,21 @@ public class dBlockTops {
     public static void drawBlockTopCube(Graphics2D g2, gBlockCube block) {
         gBlockFactory.instance().topTexture = new TexturePaint(gBlockFactory.instance().topImage,
                 new Rectangle2D.Double(
-                        eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
-                        eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
+                        eUtils.scaleInt(block.getInt("coordx")),
+                        eUtils.scaleInt(block.getInt("coordy")),
                         eUtils.scaleInt(300),
                         eUtils.scaleInt(300)));
         g2.setPaint(gBlockFactory.instance().topTexture);
-        g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+        g2.fillRect(eUtils.scaleInt(block.getInt("coordx")),
+                eUtils.scaleInt(block.getInt("coordy")),
                 eUtils.scaleInt(block.getInt("dimw")),
                 eUtils.scaleInt(block.getInt("toph"))
         );
         g2.setColor(gBlockFactory.instance().topColor);
         if(block.contains("wallh") && block.getInt("wallh") < 300)
             g2.setColor(gBlockFactory.instance().topColorDark);
-        g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+        g2.fillRect(eUtils.scaleInt(block.getInt("coordx")),
+                eUtils.scaleInt(block.getInt("coordy")),
                 eUtils.scaleInt(block.getInt("dimw")),
                 eUtils.scaleInt(block.getInt("toph"))
         );

@@ -6,37 +6,37 @@ public class dBlockTopsShading {
             g2.setStroke(dFonts.thickStroke);
             GradientPaint gradient = new GradientPaint(
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                            - cVars.getInt("camx")),
-                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+                            ),
+                    eUtils.scaleInt(block.getInt("coordy") ),
                     gColors.getWorldColorFromName("roofoutline1"),
                     eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                            - cVars.getInt("camx")),
-                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+                            ),
+                    eUtils.scaleInt(block.getInt("coordy") 
                             + block.getInt("toph")),
                     gColors.getWorldColorFromName("roofoutline2")
             );
 //            GradientPaint  gradient2 = new GradientPaint(
 //                    eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                            - cVars.getInt("camx")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+//                            ),
+//                    eUtils.scaleInt(block.getInt("coordy") ),
 //                    gColors.getWorldColorFromName("roofshading1"),
 //                    eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-//                            - cVars.getInt("camx")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
+//                            ),
+//                    eUtils.scaleInt(block.getInt("coordy") 
 //                            + block.getInt("toph")),
 //                    gColors.getWorldColorFromName("roofshading2")
 //            );
             g2.setPaint(gradient);
-            g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+            g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") ),
+                    eUtils.scaleInt(block.getInt("coordy") ),
                     eUtils.scaleInt(block.getInt("dimw")),
                     eUtils.scaleInt(block.getInt("toph")),
                     eUtils.scaleInt(5),
                     eUtils.scaleInt(5)
             );
 //            g2.setPaint(gradient2);
-//            g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-//                    eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")),
+//            g2.fillRect(eUtils.scaleInt(block.getInt("coordx") ),
+//                    eUtils.scaleInt(block.getInt("coordy") ),
 //                    eUtils.scaleInt(block.getInt("dimw")),
 //                    eUtils.scaleInt(block.getInt("toph"))
 //            );

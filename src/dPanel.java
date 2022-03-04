@@ -33,8 +33,10 @@ public class dPanel extends JPanel {
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
                 gScene scene = cClientLogic.scene;
+                g2.translate(-eUtils.scaleInt(cVars.getInt("camx")), -eUtils.scaleInt(cVars.getInt("camy")));
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
+                g2.translate(eUtils.scaleInt(cVars.getInt("camx")), eUtils.scaleInt(cVars.getInt("camy")));
                 dTileTops.drawMapmakerOverlay(g2, scene);
                 dFlares.drawSceneFlares(g2, scene);
                 dTileTops.drawBullets(g2, scene);
