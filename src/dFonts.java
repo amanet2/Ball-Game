@@ -61,27 +61,27 @@ public class dFonts {
     public static void setFontNormal(Graphics g) {
         setFontColorNormal(g);
         g.setFont(
-                new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
+                new Font(sVars.get("fontnameui"), Font.PLAIN,
+                        sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale
                 )
         );
     }
     public static Font getFontNormal() {
-        return new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale"));
+        return new Font(sVars.get("fontnameui"), Font.PLAIN,
+                sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale);
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
-        g.setFont(new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
+        g.setFont(new Font(sVars.get("fontnameui"), Font.PLAIN,
+                sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2));
     }
     public static Font getFontSmall() {
-        return new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")/2);
+        return new Font(sVars.get("fontnameui"), Font.PLAIN,
+                sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale/2);
     }
 
     public static void setFontConsole(Graphics g) {
-        g.setFont(new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-                sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2));
+        g.setFont(new Font(sVars.get("fontnameconsole"), Font.PLAIN,
+                sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2));
     }
 }

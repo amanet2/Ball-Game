@@ -242,25 +242,26 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cVars.getInt("velocityplayerbase")/4;
+        int velocityPlayerBase = cVars.getInt("velocityplayerbase");
+        int speed = 3*velocityPlayerBase/4;
         if(x2 > x1) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel2", modspeed);
         }
         if(y2 > y1) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel0", modspeed);
         }
         if(x1 > x2) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel3", modspeed);
         }
         if(y1 > y2) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel1", modspeed);
         }
         if(bot.getInt("botvel1") > 0 && bot.getInt("botvel3") > 0)

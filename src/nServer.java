@@ -420,7 +420,7 @@ public class nServer extends Thread {
                         packPlayer.put("vel2", veltoks[2]);
                         packPlayer.put("vel3", veltoks[3]);
                     }
-                    if (sVars.isOne("smoothing")) {
+                    if (sSettings.smoothing) {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
                     }

@@ -10,6 +10,7 @@ public class sSettings {
 	/**
 	* vfx
 	* */
+	static int gamescale = 2160;
 	static int width = 1920;
 	static int height = 1080;
 	static int framerate = 240;
@@ -34,8 +35,10 @@ public class sSettings {
 	static int max_packet_size = 508;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
-	static int rateclient = 240;
+	static int rateclient = 60;
 	static int rateserver = 1000;
-	static int ratebots = 30;
+	static int rategame = 240;
+	static int ratebots = 15;
 	static boolean debug = false;
+	static boolean smoothing = true;
 }

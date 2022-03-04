@@ -115,120 +115,24 @@ cv_prefabid 10
 putblock BLOCK_CUBE 5700 -1650 300 1500 1200 300
 cv_prefabid 10
 putblock BLOCK_CUBE 6600 -1650 300 1500 1200 300
-cv_prefabid 11
-putblock BLOCK_FLOOR 5700 -2700 1200 1200
-cv_prefabid 11
-putblock BLOCK_CUBE 5700 -2850 300 1500 1200 300
-cv_prefabid 11
-putblock BLOCK_CUBE 6600 -2850 300 1500 1200 300
-cv_prefabid 12
-putblock BLOCK_FLOOR 5700 -3900 1200 1200
-cv_prefabid 12
-putblock BLOCK_CUBE 5700 -4050 300 1500 1200 300
-cv_prefabid 12
-putblock BLOCK_CUBE 6600 -4050 300 1500 1200 300
 cv_prefabid 14
 putblock BLOCK_FLOOR 2100 900 1200 1200
 cv_prefabid 14
 putblock BLOCK_CUBE 2100 750 300 1500 1200 300
 cv_prefabid 14
 putblock BLOCK_CUBE 3000 750 300 1500 1200 300
-cv_prefabid 15
-putblock BLOCK_FLOOR 3300 2100 1200 1200
-cv_prefabid 15
-putblock BLOCK_CUBE 3300 1950 1200 450 150 300
-cv_prefabid 15
-putblock BLOCK_CUBE 3300 3000 1200 450 150 300
-cv_prefabid 16
-putblock BLOCK_FLOOR 4500 2100 1200 1200
-cv_prefabid 16
-putblock BLOCK_CUBE 4500 1950 1200 450 150 300
-cv_prefabid 16
-putblock BLOCK_CUBE 4500 3000 1200 450 150 300
-cv_prefabid 17
-putblock BLOCK_FLOOR 5700 900 1200 1200
-cv_prefabid 17
-putblock BLOCK_CUBE 5700 750 300 1500 1200 300
-cv_prefabid 17
-putblock BLOCK_CUBE 6600 750 300 1500 1200 300
-cv_prefabid 18
-putblock BLOCK_FLOOR 5700 -300 1200 1200
-cv_prefabid 18
-putblock BLOCK_CUBE 5700 -450 300 1500 1200 300
-cv_prefabid 18
-putblock BLOCK_CUBE 6600 -450 300 1500 1200 300
-cv_prefabid 19
-putblock BLOCK_FLOOR 4500 -5100 1200 1200
-cv_prefabid 19
-putblock BLOCK_CUBE 4500 -5250 1200 450 150 300
-cv_prefabid 19
-putblock BLOCK_CUBE 4500 -4200 1200 450 150 300
-cv_prefabid 20
-putblock BLOCK_FLOOR 3300 -5100 1200 1200
-cv_prefabid 20
-putblock BLOCK_CUBE 3300 -5250 1200 450 150 300
-cv_prefabid 20
-putblock BLOCK_CUBE 3300 -4200 1200 450 150 300
 cv_prefabid 21
 putblock BLOCK_FLOOR 2100 -5100 1200 1200
 cv_prefabid 21
 putblock BLOCK_CUBE 2100 -5250 1200 450 150 300
 cv_prefabid 21
 putblock BLOCK_CUBE 2100 -4200 1200 450 150 300
-cv_prefabid 22
-putblock BLOCK_FLOOR 900 -5100 1200 1200
-cv_prefabid 22
-putblock BLOCK_CUBE 900 -5250 1200 450 150 300
-cv_prefabid 22
-putblock BLOCK_CUBE 900 -4200 1200 450 150 300
-cv_prefabid 23
-putblock BLOCK_FLOOR -300 -5100 1200 1200
-cv_prefabid 23
-putblock BLOCK_CUBE -300 -5250 1200 450 150 300
-cv_prefabid 23
-putblock BLOCK_CUBE -300 -4200 1200 450 150 300
-cv_prefabid 24
-putblock BLOCK_FLOOR -1500 -3900 1200 1200
-cv_prefabid 24
-putblock BLOCK_CUBE -1500 -4050 300 1500 1200 300
-cv_prefabid 24
-putblock BLOCK_CUBE -600 -4050 300 1500 1200 300
-cv_prefabid 25
-putblock BLOCK_FLOOR -1500 -2700 1200 1200
-cv_prefabid 25
-putblock BLOCK_CUBE -1500 -2850 300 1500 1200 300
-cv_prefabid 25
-putblock BLOCK_CUBE -600 -2850 300 1500 1200 300
 cv_prefabid 26
 putblock BLOCK_FLOOR -1500 -1500 1200 1200
 cv_prefabid 26
 putblock BLOCK_CUBE -1500 -1650 300 1500 1200 300
 cv_prefabid 26
 putblock BLOCK_CUBE -600 -1650 300 1500 1200 300
-cv_prefabid 27
-putblock BLOCK_FLOOR -1500 -300 1200 1200
-cv_prefabid 27
-putblock BLOCK_CUBE -1500 -450 300 1500 1200 300
-cv_prefabid 27
-putblock BLOCK_CUBE -600 -450 300 1500 1200 300
-cv_prefabid 28
-putblock BLOCK_FLOOR -1500 900 1200 1200
-cv_prefabid 28
-putblock BLOCK_CUBE -1500 750 300 1500 1200 300
-cv_prefabid 28
-putblock BLOCK_CUBE -600 750 300 1500 1200 300
-cv_prefabid 29
-putblock BLOCK_FLOOR -300 2100 1200 1200
-cv_prefabid 29
-putblock BLOCK_CUBE -300 1950 1200 450 150 300
-cv_prefabid 29
-putblock BLOCK_CUBE -300 3000 1200 450 150 300
-cv_prefabid 30
-putblock BLOCK_FLOOR 900 2100 1200 1200
-cv_prefabid 30
-putblock BLOCK_CUBE 900 1950 1200 450 150 300
-cv_prefabid 30
-putblock BLOCK_CUBE 900 3000 1200 450 150 300
 cv_prefabid 31
 putblock BLOCK_FLOOR 2100 2100 1200 1200
 cv_prefabid 31
@@ -363,6 +267,720 @@ cv_prefabid 56
 putblock BLOCK_CUBE 900 -450 300 450 150 300
 cv_prefabid 56
 putblock BLOCK_CUBE 1800 -450 300 450 150 300
+cv_prefabid 57
+putblock BLOCK_FLOOR -1500 -3900 1200 1200
+cv_prefabid 57
+putblock BLOCK_CUBE -1500 -4050 300 1500 1200 300
+cv_prefabid 57
+putblock BLOCK_CUBE -600 -4050 300 450 150 300
+cv_prefabid 57
+putblock BLOCK_CUBE -600 -3000 300 450 150 300
+cv_prefabid 58
+putblock BLOCK_FLOOR -1500 -2700 1200 1200
+cv_prefabid 58
+putblock BLOCK_CUBE -1500 -2850 300 1500 1200 300
+cv_prefabid 58
+putblock BLOCK_CUBE -600 -2850 300 450 150 300
+cv_prefabid 58
+putblock BLOCK_CUBE -600 -1800 300 450 150 300
+cv_prefabid 59
+putblock BLOCK_FLOOR -1500 -300 1200 1200
+cv_prefabid 59
+putblock BLOCK_CUBE -1500 -450 300 1500 1200 300
+cv_prefabid 59
+putblock BLOCK_CUBE -600 -450 300 450 150 300
+cv_prefabid 59
+putblock BLOCK_CUBE -600 600 300 450 150 300
+cv_prefabid 60
+putblock BLOCK_FLOOR -1500 900 1200 1200
+cv_prefabid 60
+putblock BLOCK_CUBE -1500 750 300 1500 1200 300
+cv_prefabid 60
+putblock BLOCK_CUBE -600 750 300 450 150 300
+cv_prefabid 60
+putblock BLOCK_CUBE -600 1800 300 450 150 300
+cv_prefabid 61
+putblock BLOCK_FLOOR -300 2100 1200 1200
+cv_prefabid 61
+putblock BLOCK_CUBE -300 3000 1200 450 150 300
+cv_prefabid 61
+putblock BLOCK_CUBE -300 1950 300 450 150 300
+cv_prefabid 61
+putblock BLOCK_CUBE 600 1950 300 450 150 300
+cv_prefabid 62
+putblock BLOCK_FLOOR 900 2100 1200 1200
+cv_prefabid 62
+putblock BLOCK_CUBE 900 3000 1200 450 150 300
+cv_prefabid 62
+putblock BLOCK_CUBE 900 1950 300 450 150 300
+cv_prefabid 62
+putblock BLOCK_CUBE 1800 1950 300 450 150 300
+cv_prefabid 63
+putblock BLOCK_FLOOR 3300 2100 1200 1200
+cv_prefabid 63
+putblock BLOCK_CUBE 3300 3000 1200 450 150 300
+cv_prefabid 63
+putblock BLOCK_CUBE 3300 1950 300 450 150 300
+cv_prefabid 63
+putblock BLOCK_CUBE 4200 1950 300 450 150 300
+cv_prefabid 64
+putblock BLOCK_FLOOR 4500 2100 1200 1200
+cv_prefabid 64
+putblock BLOCK_CUBE 4500 3000 1200 450 150 300
+cv_prefabid 64
+putblock BLOCK_CUBE 4500 1950 300 450 150 300
+cv_prefabid 64
+putblock BLOCK_CUBE 5400 1950 300 450 150 300
+cv_prefabid 65
+putblock BLOCK_FLOOR -300 -5100 1200 1200
+cv_prefabid 65
+putblock BLOCK_CUBE -300 -5250 1200 450 150 300
+cv_prefabid 65
+putblock BLOCK_CUBE -300 -4200 300 450 150 300
+cv_prefabid 65
+putblock BLOCK_CUBE 600 -4200 300 450 150 300
+cv_prefabid 66
+putblock BLOCK_FLOOR 900 -5100 1200 1200
+cv_prefabid 66
+putblock BLOCK_CUBE 900 -5250 1200 450 150 300
+cv_prefabid 66
+putblock BLOCK_CUBE 900 -4200 300 450 150 300
+cv_prefabid 66
+putblock BLOCK_CUBE 1800 -4200 300 450 150 300
+cv_prefabid 67
+putblock BLOCK_FLOOR 4500 -5100 1200 1200
+cv_prefabid 67
+putblock BLOCK_CUBE 4500 -5250 1200 450 150 300
+cv_prefabid 67
+putblock BLOCK_CUBE 4500 -4200 300 450 150 300
+cv_prefabid 67
+putblock BLOCK_CUBE 5400 -4200 300 450 150 300
+cv_prefabid 68
+putblock BLOCK_FLOOR 3300 -5100 1200 1200
+cv_prefabid 68
+putblock BLOCK_CUBE 3300 -5250 1200 450 150 300
+cv_prefabid 68
+putblock BLOCK_CUBE 3300 -4200 300 450 150 300
+cv_prefabid 68
+putblock BLOCK_CUBE 4200 -4200 300 450 150 300
+cv_prefabid 69
+putblock BLOCK_FLOOR 5700 -2700 1200 1200
+cv_prefabid 69
+putblock BLOCK_CUBE 6600 -2850 300 1500 1200 300
+cv_prefabid 69
+putblock BLOCK_CUBE 5700 -2850 300 450 150 300
+cv_prefabid 69
+putblock BLOCK_CUBE 5700 -1800 300 450 150 300
+cv_prefabid 70
+putblock BLOCK_FLOOR 5700 -3900 1200 1200
+cv_prefabid 70
+putblock BLOCK_CUBE 6600 -4050 300 1500 1200 300
+cv_prefabid 70
+putblock BLOCK_CUBE 5700 -4050 300 450 150 300
+cv_prefabid 70
+putblock BLOCK_CUBE 5700 -3000 300 450 150 300
+cv_prefabid 71
+putblock BLOCK_FLOOR 5700 900 1200 1200
+cv_prefabid 71
+putblock BLOCK_CUBE 6600 750 300 1500 1200 300
+cv_prefabid 71
+putblock BLOCK_CUBE 5700 750 300 450 150 300
+cv_prefabid 71
+putblock BLOCK_CUBE 5700 1800 300 450 150 300
+cv_prefabid 72
+putblock BLOCK_FLOOR 5700 -300 1200 1200
+cv_prefabid 72
+putblock BLOCK_CUBE 6600 -450 300 1500 1200 300
+cv_prefabid 72
+putblock BLOCK_CUBE 5700 -450 300 450 150 300
+cv_prefabid 72
+putblock BLOCK_CUBE 5700 600 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_FLOOR -300 -7500 1200 1200
+cv_prefabid 73
+putblock BLOCK_FLOOR -1500 -6300 1200 1200
+cv_prefabid 73
+putblock BLOCK_FLOOR -300 -6300 1200 1200
+cv_prefabid 73
+putblock BLOCK_CUBE -600 -5400 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -300 -5400 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE 600 -5400 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -1500 -5400 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE 600 -6450 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -1500 -6450 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE 600 -6600 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -1500 -6600 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_FLOOR -1500 -7500 1200 1200
+cv_prefabid 73
+putblock BLOCK_CUBE -1500 -7650 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -600 -7650 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE -300 -7650 300 450 150 300
+cv_prefabid 73
+putblock BLOCK_CUBE 600 -7650 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_FLOOR 2100 -7500 1200 1200
+cv_prefabid 74
+putblock BLOCK_FLOOR 900 -6300 1200 1200
+cv_prefabid 74
+putblock BLOCK_FLOOR 2100 -6300 1200 1200
+cv_prefabid 74
+putblock BLOCK_CUBE 1800 -5400 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 2100 -5400 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 3000 -5400 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 900 -5400 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 3000 -6450 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 900 -6450 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 3000 -6600 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 900 -6600 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_FLOOR 900 -7500 1200 1200
+cv_prefabid 74
+putblock BLOCK_CUBE 900 -7650 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 1800 -7650 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 2100 -7650 300 450 150 300
+cv_prefabid 74
+putblock BLOCK_CUBE 3000 -7650 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_FLOOR 4500 -7500 1200 1200
+cv_prefabid 75
+putblock BLOCK_FLOOR 3300 -6300 1200 1200
+cv_prefabid 75
+putblock BLOCK_FLOOR 4500 -6300 1200 1200
+cv_prefabid 75
+putblock BLOCK_CUBE 4200 -5400 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 4500 -5400 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 5400 -5400 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 3300 -5400 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 5400 -6450 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 3300 -6450 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 5400 -6600 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 3300 -6600 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_FLOOR 3300 -7500 1200 1200
+cv_prefabid 75
+putblock BLOCK_CUBE 3300 -7650 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 4200 -7650 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 4500 -7650 300 450 150 300
+cv_prefabid 75
+putblock BLOCK_CUBE 5400 -7650 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_FLOOR 6900 -7500 1200 1200
+cv_prefabid 76
+putblock BLOCK_FLOOR 5700 -6300 1200 1200
+cv_prefabid 76
+putblock BLOCK_FLOOR 6900 -6300 1200 1200
+cv_prefabid 76
+putblock BLOCK_CUBE 6600 -5400 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 6900 -5400 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 7800 -5400 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 5700 -5400 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 7800 -6450 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 5700 -6450 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 7800 -6600 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 5700 -6600 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_FLOOR 5700 -7500 1200 1200
+cv_prefabid 76
+putblock BLOCK_CUBE 5700 -7650 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 6600 -7650 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 6900 -7650 300 450 150 300
+cv_prefabid 76
+putblock BLOCK_CUBE 7800 -7650 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_FLOOR 8100 -5100 1200 1200
+cv_prefabid 77
+putblock BLOCK_FLOOR 6900 -3900 1200 1200
+cv_prefabid 77
+putblock BLOCK_FLOOR 8100 -3900 1200 1200
+cv_prefabid 77
+putblock BLOCK_CUBE 7800 -3000 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 8100 -3000 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 9000 -3000 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 6900 -3000 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 9000 -4050 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 6900 -4050 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 9000 -4200 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 6900 -4200 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_FLOOR 6900 -5100 1200 1200
+cv_prefabid 77
+putblock BLOCK_CUBE 6900 -5250 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 7800 -5250 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 8100 -5250 300 450 150 300
+cv_prefabid 77
+putblock BLOCK_CUBE 9000 -5250 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_FLOOR 8100 -2700 1200 1200
+cv_prefabid 78
+putblock BLOCK_FLOOR 6900 -1500 1200 1200
+cv_prefabid 78
+putblock BLOCK_FLOOR 8100 -1500 1200 1200
+cv_prefabid 78
+putblock BLOCK_CUBE 7800 -600 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 8100 -600 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 9000 -600 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 6900 -600 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 9000 -1650 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 6900 -1650 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 9000 -1800 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 6900 -1800 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_FLOOR 6900 -2700 1200 1200
+cv_prefabid 78
+putblock BLOCK_CUBE 6900 -2850 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 7800 -2850 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 8100 -2850 300 450 150 300
+cv_prefabid 78
+putblock BLOCK_CUBE 9000 -2850 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_FLOOR 8100 -300 1200 1200
+cv_prefabid 79
+putblock BLOCK_FLOOR 6900 900 1200 1200
+cv_prefabid 79
+putblock BLOCK_FLOOR 8100 900 1200 1200
+cv_prefabid 79
+putblock BLOCK_CUBE 7800 1800 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 8100 1800 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 9000 1800 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 6900 1800 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 9000 750 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 6900 750 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 9000 600 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 6900 600 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_FLOOR 6900 -300 1200 1200
+cv_prefabid 79
+putblock BLOCK_CUBE 6900 -450 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 7800 -450 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 8100 -450 300 450 150 300
+cv_prefabid 79
+putblock BLOCK_CUBE 9000 -450 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_FLOOR 8100 2100 1200 1200
+cv_prefabid 80
+putblock BLOCK_FLOOR 6900 3300 1200 1200
+cv_prefabid 80
+putblock BLOCK_FLOOR 8100 3300 1200 1200
+cv_prefabid 80
+putblock BLOCK_CUBE 7800 4200 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 8100 4200 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 9000 4200 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 6900 4200 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 9000 3150 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 6900 3150 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 9000 3000 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 6900 3000 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_FLOOR 6900 2100 1200 1200
+cv_prefabid 80
+putblock BLOCK_CUBE 6900 1950 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 7800 1950 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 8100 1950 300 450 150 300
+cv_prefabid 80
+putblock BLOCK_CUBE 9000 1950 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_FLOOR 5700 3300 1200 1200
+cv_prefabid 81
+putblock BLOCK_FLOOR 4500 4500 1200 1200
+cv_prefabid 81
+putblock BLOCK_FLOOR 5700 4500 1200 1200
+cv_prefabid 81
+putblock BLOCK_CUBE 5400 5400 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 5700 5400 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 6600 5400 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 4500 5400 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 6600 4350 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 4500 4350 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 6600 4200 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 4500 4200 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_FLOOR 4500 3300 1200 1200
+cv_prefabid 81
+putblock BLOCK_CUBE 4500 3150 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 5400 3150 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 5700 3150 300 450 150 300
+cv_prefabid 81
+putblock BLOCK_CUBE 6600 3150 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_FLOOR 3300 3300 1200 1200
+cv_prefabid 82
+putblock BLOCK_FLOOR 2100 4500 1200 1200
+cv_prefabid 82
+putblock BLOCK_FLOOR 3300 4500 1200 1200
+cv_prefabid 82
+putblock BLOCK_CUBE 3000 5400 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 3300 5400 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 4200 5400 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 2100 5400 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 4200 4350 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 2100 4350 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 4200 4200 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 2100 4200 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_FLOOR 2100 3300 1200 1200
+cv_prefabid 82
+putblock BLOCK_CUBE 2100 3150 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 3000 3150 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 3300 3150 300 450 150 300
+cv_prefabid 82
+putblock BLOCK_CUBE 4200 3150 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_FLOOR 900 3300 1200 1200
+cv_prefabid 83
+putblock BLOCK_FLOOR -300 4500 1200 1200
+cv_prefabid 83
+putblock BLOCK_FLOOR 900 4500 1200 1200
+cv_prefabid 83
+putblock BLOCK_CUBE 600 5400 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 900 5400 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 1800 5400 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE -300 5400 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 1800 4350 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE -300 4350 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 1800 4200 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE -300 4200 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_FLOOR -300 3300 1200 1200
+cv_prefabid 83
+putblock BLOCK_CUBE -300 3150 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 600 3150 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 900 3150 300 450 150 300
+cv_prefabid 83
+putblock BLOCK_CUBE 1800 3150 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_FLOOR -1500 3300 1200 1200
+cv_prefabid 84
+putblock BLOCK_FLOOR -2700 4500 1200 1200
+cv_prefabid 84
+putblock BLOCK_FLOOR -1500 4500 1200 1200
+cv_prefabid 84
+putblock BLOCK_CUBE -1800 5400 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -1500 5400 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -600 5400 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -2700 5400 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -600 4350 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -2700 4350 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -600 4200 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -2700 4200 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_FLOOR -2700 3300 1200 1200
+cv_prefabid 84
+putblock BLOCK_CUBE -2700 3150 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -1800 3150 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -1500 3150 300 450 150 300
+cv_prefabid 84
+putblock BLOCK_CUBE -600 3150 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_FLOOR -2700 900 1200 1200
+cv_prefabid 85
+putblock BLOCK_FLOOR -3900 2100 1200 1200
+cv_prefabid 85
+putblock BLOCK_FLOOR -2700 2100 1200 1200
+cv_prefabid 85
+putblock BLOCK_CUBE -3000 3000 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -2700 3000 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -1800 3000 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -3900 3000 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -1800 1950 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -3900 1950 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -1800 1800 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -3900 1800 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_FLOOR -3900 900 1200 1200
+cv_prefabid 85
+putblock BLOCK_CUBE -3900 750 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -3000 750 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -2700 750 300 450 150 300
+cv_prefabid 85
+putblock BLOCK_CUBE -1800 750 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_FLOOR -2700 -1500 1200 1200
+cv_prefabid 86
+putblock BLOCK_FLOOR -3900 -300 1200 1200
+cv_prefabid 86
+putblock BLOCK_FLOOR -2700 -300 1200 1200
+cv_prefabid 86
+putblock BLOCK_CUBE -3000 600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -2700 600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -1800 600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -3900 600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -1800 -450 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -3900 -450 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -1800 -600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -3900 -600 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_FLOOR -3900 -1500 1200 1200
+cv_prefabid 86
+putblock BLOCK_CUBE -3900 -1650 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -3000 -1650 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -2700 -1650 300 450 150 300
+cv_prefabid 86
+putblock BLOCK_CUBE -1800 -1650 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_FLOOR -2700 -3900 1200 1200
+cv_prefabid 87
+putblock BLOCK_FLOOR -3900 -2700 1200 1200
+cv_prefabid 87
+putblock BLOCK_FLOOR -2700 -2700 1200 1200
+cv_prefabid 87
+putblock BLOCK_CUBE -3000 -1800 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -2700 -1800 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -1800 -1800 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -3900 -1800 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -1800 -2850 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -3900 -2850 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -1800 -3000 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -3900 -3000 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_FLOOR -3900 -3900 1200 1200
+cv_prefabid 87
+putblock BLOCK_CUBE -3900 -4050 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -3000 -4050 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -2700 -4050 300 450 150 300
+cv_prefabid 87
+putblock BLOCK_CUBE -1800 -4050 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_FLOOR -2700 -6300 1200 1200
+cv_prefabid 88
+putblock BLOCK_FLOOR -3900 -5100 1200 1200
+cv_prefabid 88
+putblock BLOCK_FLOOR -2700 -5100 1200 1200
+cv_prefabid 88
+putblock BLOCK_CUBE -3000 -4200 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -2700 -4200 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -1800 -4200 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -3900 -4200 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -1800 -5250 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -3900 -5250 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -1800 -5400 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -3900 -5400 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_FLOOR -3900 -6300 1200 1200
+cv_prefabid 88
+putblock BLOCK_CUBE -3900 -6450 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -3000 -6450 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -2700 -6450 300 450 150 300
+cv_prefabid 88
+putblock BLOCK_CUBE -1800 -6450 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_FLOOR -2700 -8700 1200 1200
+cv_prefabid 89
+putblock BLOCK_FLOOR -3900 -7500 1200 1200
+cv_prefabid 89
+putblock BLOCK_FLOOR -2700 -7500 1200 1200
+cv_prefabid 89
+putblock BLOCK_CUBE -3000 -6600 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -2700 -6600 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -1800 -6600 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -3900 -6600 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -1800 -7650 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -3900 -7650 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -1800 -7800 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -3900 -7800 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_FLOOR -3900 -8700 1200 1200
+cv_prefabid 89
+putblock BLOCK_CUBE -3900 -8850 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -3000 -8850 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -2700 -8850 300 450 150 300
+cv_prefabid 89
+putblock BLOCK_CUBE -1800 -8850 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_FLOOR 9300 -7500 1200 1200
+cv_prefabid 90
+putblock BLOCK_FLOOR 8100 -6300 1200 1200
+cv_prefabid 90
+putblock BLOCK_FLOOR 9300 -6300 1200 1200
+cv_prefabid 90
+putblock BLOCK_CUBE 9000 -5400 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 9300 -5400 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 10200 -5400 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 8100 -5400 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 10200 -6450 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 8100 -6450 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 10200 -6600 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 8100 -6600 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_FLOOR 8100 -7500 1200 1200
+cv_prefabid 90
+putblock BLOCK_CUBE 8100 -7650 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 9000 -7650 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 9300 -7650 300 450 150 300
+cv_prefabid 90
+putblock BLOCK_CUBE 10200 -7650 300 450 150 300
+cv_prefabid 91
+putblock BLOCK_FLOOR -3900 3300 1200 1200
+cv_prefabid 91
+putblock BLOCK_CUBE -3900 3150 300 450 150 300
+cv_prefabid 91
+putblock BLOCK_CUBE -3000 3150 300 450 150 300
+cv_prefabid 91
+putblock BLOCK_CUBE -3900 4200 300 450 150 300
+cv_prefabid 91
+putblock BLOCK_CUBE -3000 4200 300 450 150 300
 cv_prefabid 1
 putcollision 4200.4500.4500.4200 2000.2000.2150.2150
 cv_prefabid 1
@@ -447,82 +1065,18 @@ cv_prefabid 10
 putcollision 5700.6000.6000.5700 -1450.-1450.-250.-250
 cv_prefabid 10
 putcollision 6600.6900.6900.6600 -1450.-1450.-250.-250
-cv_prefabid 11
-putcollision 5700.6000.6000.5700 -2650.-2650.-1450.-1450
-cv_prefabid 11
-putcollision 6600.6900.6900.6600 -2650.-2650.-1450.-1450
-cv_prefabid 12
-putcollision 5700.6000.6000.5700 -3850.-3850.-2650.-2650
-cv_prefabid 12
-putcollision 6600.6900.6900.6600 -3850.-3850.-2650.-2650
 cv_prefabid 14
 putcollision 2100.2400.2400.2100 950.950.2150.2150
 cv_prefabid 14
 putcollision 3000.3300.3300.3000 950.950.2150.2150
-cv_prefabid 15
-putcollision 3300.4500.4500.3300 2150.2150.2300.2300
-cv_prefabid 15
-putcollision 3300.4500.4500.3300 3200.3200.3350.3350
-cv_prefabid 16
-putcollision 4500.5700.5700.4500 2150.2150.2300.2300
-cv_prefabid 16
-putcollision 4500.5700.5700.4500 3200.3200.3350.3350
-cv_prefabid 17
-putcollision 5700.6000.6000.5700 950.950.2150.2150
-cv_prefabid 17
-putcollision 6600.6900.6900.6600 950.950.2150.2150
-cv_prefabid 18
-putcollision 5700.6000.6000.5700 -250.-250.950.950
-cv_prefabid 18
-putcollision 6600.6900.6900.6600 -250.-250.950.950
-cv_prefabid 19
-putcollision 4500.5700.5700.4500 -5050.-5050.-4900.-4900
-cv_prefabid 19
-putcollision 4500.5700.5700.4500 -4000.-4000.-3850.-3850
-cv_prefabid 20
-putcollision 3300.4500.4500.3300 -5050.-5050.-4900.-4900
-cv_prefabid 20
-putcollision 3300.4500.4500.3300 -4000.-4000.-3850.-3850
 cv_prefabid 21
 putcollision 2100.3300.3300.2100 -5050.-5050.-4900.-4900
 cv_prefabid 21
 putcollision 2100.3300.3300.2100 -4000.-4000.-3850.-3850
-cv_prefabid 22
-putcollision 900.2100.2100.900 -5050.-5050.-4900.-4900
-cv_prefabid 22
-putcollision 900.2100.2100.900 -4000.-4000.-3850.-3850
-cv_prefabid 23
-putcollision -300.900.900.-300 -5050.-5050.-4900.-4900
-cv_prefabid 23
-putcollision -300.900.900.-300 -4000.-4000.-3850.-3850
-cv_prefabid 24
-putcollision -1500.-1200.-1200.-1500 -3850.-3850.-2650.-2650
-cv_prefabid 24
-putcollision -600.-300.-300.-600 -3850.-3850.-2650.-2650
-cv_prefabid 25
-putcollision -1500.-1200.-1200.-1500 -2650.-2650.-1450.-1450
-cv_prefabid 25
-putcollision -600.-300.-300.-600 -2650.-2650.-1450.-1450
 cv_prefabid 26
 putcollision -1500.-1200.-1200.-1500 -1450.-1450.-250.-250
 cv_prefabid 26
 putcollision -600.-300.-300.-600 -1450.-1450.-250.-250
-cv_prefabid 27
-putcollision -1500.-1200.-1200.-1500 -250.-250.950.950
-cv_prefabid 27
-putcollision -600.-300.-300.-600 -250.-250.950.950
-cv_prefabid 28
-putcollision -1500.-1200.-1200.-1500 950.950.2150.2150
-cv_prefabid 28
-putcollision -600.-300.-300.-600 950.950.2150.2150
-cv_prefabid 29
-putcollision -300.900.900.-300 2150.2150.2300.2300
-cv_prefabid 29
-putcollision -300.900.900.-300 3200.3200.3350.3350
-cv_prefabid 30
-putcollision 900.2100.2100.900 2150.2150.2300.2300
-cv_prefabid 30
-putcollision 900.2100.2100.900 3200.3200.3350.3350
 cv_prefabid 31
 putcollision 2100.3300.3300.2100 2150.2150.2300.2300
 cv_prefabid 31
@@ -627,6 +1181,542 @@ cv_prefabid 56
 putcollision 900.1200.1200.900 -250.-250.-100.-100
 cv_prefabid 56
 putcollision 1800.2100.2100.1800 -250.-250.-100.-100
+cv_prefabid 57
+putcollision -1500.-1200.-1200.-1500 -3850.-3850.-2650.-2650
+cv_prefabid 57
+putcollision -600.-300.-300.-600 -3850.-3850.-3700.-3700
+cv_prefabid 57
+putcollision -600.-300.-300.-600 -2800.-2800.-2650.-2650
+cv_prefabid 58
+putcollision -1500.-1200.-1200.-1500 -2650.-2650.-1450.-1450
+cv_prefabid 58
+putcollision -600.-300.-300.-600 -2650.-2650.-2500.-2500
+cv_prefabid 58
+putcollision -600.-300.-300.-600 -1600.-1600.-1450.-1450
+cv_prefabid 59
+putcollision -1500.-1200.-1200.-1500 -250.-250.950.950
+cv_prefabid 59
+putcollision -600.-300.-300.-600 -250.-250.-100.-100
+cv_prefabid 59
+putcollision -600.-300.-300.-600 800.800.950.950
+cv_prefabid 60
+putcollision -1500.-1200.-1200.-1500 950.950.2150.2150
+cv_prefabid 60
+putcollision -600.-300.-300.-600 950.950.1100.1100
+cv_prefabid 60
+putcollision -600.-300.-300.-600 2000.2000.2150.2150
+cv_prefabid 61
+putcollision -300.0.0.-300 2150.2150.2300.2300
+cv_prefabid 61
+putcollision 600.900.900.600 2150.2150.2300.2300
+cv_prefabid 61
+putcollision -300.900.900.-300 3200.3200.3350.3350
+cv_prefabid 62
+putcollision 900.1200.1200.900 2150.2150.2300.2300
+cv_prefabid 62
+putcollision 1800.2100.2100.1800 2150.2150.2300.2300
+cv_prefabid 62
+putcollision 900.2100.2100.900 3200.3200.3350.3350
+cv_prefabid 63
+putcollision 3300.3600.3600.3300 2150.2150.2300.2300
+cv_prefabid 63
+putcollision 4200.4500.4500.4200 2150.2150.2300.2300
+cv_prefabid 63
+putcollision 3300.4500.4500.3300 3200.3200.3350.3350
+cv_prefabid 64
+putcollision 4500.4800.4800.4500 2150.2150.2300.2300
+cv_prefabid 64
+putcollision 5400.5700.5700.5400 2150.2150.2300.2300
+cv_prefabid 64
+putcollision 4500.5700.5700.4500 3200.3200.3350.3350
+cv_prefabid 65
+putcollision -300.900.900.-300 -5050.-5050.-4900.-4900
+cv_prefabid 65
+putcollision -300.0.0.-300 -4000.-4000.-3850.-3850
+cv_prefabid 65
+putcollision 600.900.900.600 -4000.-4000.-3850.-3850
+cv_prefabid 66
+putcollision 900.2100.2100.900 -5050.-5050.-4900.-4900
+cv_prefabid 66
+putcollision 900.1200.1200.900 -4000.-4000.-3850.-3850
+cv_prefabid 66
+putcollision 1800.2100.2100.1800 -4000.-4000.-3850.-3850
+cv_prefabid 67
+putcollision 4500.5700.5700.4500 -5050.-5050.-4900.-4900
+cv_prefabid 67
+putcollision 4500.4800.4800.4500 -4000.-4000.-3850.-3850
+cv_prefabid 67
+putcollision 5400.5700.5700.5400 -4000.-4000.-3850.-3850
+cv_prefabid 68
+putcollision 3300.4500.4500.3300 -5050.-5050.-4900.-4900
+cv_prefabid 68
+putcollision 3300.3600.3600.3300 -4000.-4000.-3850.-3850
+cv_prefabid 68
+putcollision 4200.4500.4500.4200 -4000.-4000.-3850.-3850
+cv_prefabid 69
+putcollision 6600.6900.6900.6600 -2650.-2650.-1450.-1450
+cv_prefabid 69
+putcollision 5700.6000.6000.5700 -2650.-2650.-2500.-2500
+cv_prefabid 69
+putcollision 5700.6000.6000.5700 -1600.-1600.-1450.-1450
+cv_prefabid 70
+putcollision 6600.6900.6900.6600 -3850.-3850.-2650.-2650
+cv_prefabid 70
+putcollision 5700.6000.6000.5700 -3850.-3850.-3700.-3700
+cv_prefabid 70
+putcollision 5700.6000.6000.5700 -2800.-2800.-2650.-2650
+cv_prefabid 71
+putcollision 6600.6900.6900.6600 950.950.2150.2150
+cv_prefabid 71
+putcollision 5700.6000.6000.5700 950.950.1100.1100
+cv_prefabid 71
+putcollision 5700.6000.6000.5700 2000.2000.2150.2150
+cv_prefabid 72
+putcollision 6600.6900.6900.6600 -250.-250.950.950
+cv_prefabid 72
+putcollision 5700.6000.6000.5700 -250.-250.-100.-100
+cv_prefabid 72
+putcollision 5700.6000.6000.5700 800.800.950.950
+cv_prefabid 73
+putcollision -600.-300.-300.-600 -5200.-5200.-5050.-5050
+cv_prefabid 73
+putcollision -300.0.0.-300 -5200.-5200.-5050.-5050
+cv_prefabid 73
+putcollision 600.900.900.600 -5200.-5200.-5050.-5050
+cv_prefabid 73
+putcollision -1500.-1200.-1200.-1500 -5200.-5200.-5050.-5050
+cv_prefabid 73
+putcollision 600.900.900.600 -6250.-6250.-6100.-6100
+cv_prefabid 73
+putcollision -1500.-1200.-1200.-1500 -6250.-6250.-6100.-6100
+cv_prefabid 73
+putcollision 600.900.900.600 -6400.-6400.-6250.-6250
+cv_prefabid 73
+putcollision -1500.-1200.-1200.-1500 -6400.-6400.-6250.-6250
+cv_prefabid 73
+putcollision -1500.-1200.-1200.-1500 -7450.-7450.-7300.-7300
+cv_prefabid 73
+putcollision -600.-300.-300.-600 -7450.-7450.-7300.-7300
+cv_prefabid 73
+putcollision -300.0.0.-300 -7450.-7450.-7300.-7300
+cv_prefabid 73
+putcollision 600.900.900.600 -7450.-7450.-7300.-7300
+cv_prefabid 74
+putcollision 1800.2100.2100.1800 -5200.-5200.-5050.-5050
+cv_prefabid 74
+putcollision 2100.2400.2400.2100 -5200.-5200.-5050.-5050
+cv_prefabid 74
+putcollision 3000.3300.3300.3000 -5200.-5200.-5050.-5050
+cv_prefabid 74
+putcollision 900.1200.1200.900 -5200.-5200.-5050.-5050
+cv_prefabid 74
+putcollision 3000.3300.3300.3000 -6250.-6250.-6100.-6100
+cv_prefabid 74
+putcollision 900.1200.1200.900 -6250.-6250.-6100.-6100
+cv_prefabid 74
+putcollision 3000.3300.3300.3000 -6400.-6400.-6250.-6250
+cv_prefabid 74
+putcollision 900.1200.1200.900 -6400.-6400.-6250.-6250
+cv_prefabid 74
+putcollision 900.1200.1200.900 -7450.-7450.-7300.-7300
+cv_prefabid 74
+putcollision 1800.2100.2100.1800 -7450.-7450.-7300.-7300
+cv_prefabid 74
+putcollision 2100.2400.2400.2100 -7450.-7450.-7300.-7300
+cv_prefabid 74
+putcollision 3000.3300.3300.3000 -7450.-7450.-7300.-7300
+cv_prefabid 75
+putcollision 4200.4500.4500.4200 -5200.-5200.-5050.-5050
+cv_prefabid 75
+putcollision 4500.4800.4800.4500 -5200.-5200.-5050.-5050
+cv_prefabid 75
+putcollision 5400.5700.5700.5400 -5200.-5200.-5050.-5050
+cv_prefabid 75
+putcollision 3300.3600.3600.3300 -5200.-5200.-5050.-5050
+cv_prefabid 75
+putcollision 5400.5700.5700.5400 -6250.-6250.-6100.-6100
+cv_prefabid 75
+putcollision 3300.3600.3600.3300 -6250.-6250.-6100.-6100
+cv_prefabid 75
+putcollision 5400.5700.5700.5400 -6400.-6400.-6250.-6250
+cv_prefabid 75
+putcollision 3300.3600.3600.3300 -6400.-6400.-6250.-6250
+cv_prefabid 75
+putcollision 3300.3600.3600.3300 -7450.-7450.-7300.-7300
+cv_prefabid 75
+putcollision 4200.4500.4500.4200 -7450.-7450.-7300.-7300
+cv_prefabid 75
+putcollision 4500.4800.4800.4500 -7450.-7450.-7300.-7300
+cv_prefabid 75
+putcollision 5400.5700.5700.5400 -7450.-7450.-7300.-7300
+cv_prefabid 76
+putcollision 6600.6900.6900.6600 -5200.-5200.-5050.-5050
+cv_prefabid 76
+putcollision 6900.7200.7200.6900 -5200.-5200.-5050.-5050
+cv_prefabid 76
+putcollision 7800.8100.8100.7800 -5200.-5200.-5050.-5050
+cv_prefabid 76
+putcollision 5700.6000.6000.5700 -5200.-5200.-5050.-5050
+cv_prefabid 76
+putcollision 7800.8100.8100.7800 -6250.-6250.-6100.-6100
+cv_prefabid 76
+putcollision 5700.6000.6000.5700 -6250.-6250.-6100.-6100
+cv_prefabid 76
+putcollision 7800.8100.8100.7800 -6400.-6400.-6250.-6250
+cv_prefabid 76
+putcollision 5700.6000.6000.5700 -6400.-6400.-6250.-6250
+cv_prefabid 76
+putcollision 5700.6000.6000.5700 -7450.-7450.-7300.-7300
+cv_prefabid 76
+putcollision 6600.6900.6900.6600 -7450.-7450.-7300.-7300
+cv_prefabid 76
+putcollision 6900.7200.7200.6900 -7450.-7450.-7300.-7300
+cv_prefabid 76
+putcollision 7800.8100.8100.7800 -7450.-7450.-7300.-7300
+cv_prefabid 77
+putcollision 7800.8100.8100.7800 -2800.-2800.-2650.-2650
+cv_prefabid 77
+putcollision 8100.8400.8400.8100 -2800.-2800.-2650.-2650
+cv_prefabid 77
+putcollision 9000.9300.9300.9000 -2800.-2800.-2650.-2650
+cv_prefabid 77
+putcollision 6900.7200.7200.6900 -2800.-2800.-2650.-2650
+cv_prefabid 77
+putcollision 9000.9300.9300.9000 -3850.-3850.-3700.-3700
+cv_prefabid 77
+putcollision 6900.7200.7200.6900 -3850.-3850.-3700.-3700
+cv_prefabid 77
+putcollision 9000.9300.9300.9000 -4000.-4000.-3850.-3850
+cv_prefabid 77
+putcollision 6900.7200.7200.6900 -4000.-4000.-3850.-3850
+cv_prefabid 77
+putcollision 6900.7200.7200.6900 -5050.-5050.-4900.-4900
+cv_prefabid 77
+putcollision 7800.8100.8100.7800 -5050.-5050.-4900.-4900
+cv_prefabid 77
+putcollision 8100.8400.8400.8100 -5050.-5050.-4900.-4900
+cv_prefabid 77
+putcollision 9000.9300.9300.9000 -5050.-5050.-4900.-4900
+cv_prefabid 78
+putcollision 7800.8100.8100.7800 -400.-400.-250.-250
+cv_prefabid 78
+putcollision 8100.8400.8400.8100 -400.-400.-250.-250
+cv_prefabid 78
+putcollision 9000.9300.9300.9000 -400.-400.-250.-250
+cv_prefabid 78
+putcollision 6900.7200.7200.6900 -400.-400.-250.-250
+cv_prefabid 78
+putcollision 9000.9300.9300.9000 -1450.-1450.-1300.-1300
+cv_prefabid 78
+putcollision 6900.7200.7200.6900 -1450.-1450.-1300.-1300
+cv_prefabid 78
+putcollision 9000.9300.9300.9000 -1600.-1600.-1450.-1450
+cv_prefabid 78
+putcollision 6900.7200.7200.6900 -1600.-1600.-1450.-1450
+cv_prefabid 78
+putcollision 6900.7200.7200.6900 -2650.-2650.-2500.-2500
+cv_prefabid 78
+putcollision 7800.8100.8100.7800 -2650.-2650.-2500.-2500
+cv_prefabid 78
+putcollision 8100.8400.8400.8100 -2650.-2650.-2500.-2500
+cv_prefabid 78
+putcollision 9000.9300.9300.9000 -2650.-2650.-2500.-2500
+cv_prefabid 79
+putcollision 7800.8100.8100.7800 2000.2000.2150.2150
+cv_prefabid 79
+putcollision 8100.8400.8400.8100 2000.2000.2150.2150
+cv_prefabid 79
+putcollision 9000.9300.9300.9000 2000.2000.2150.2150
+cv_prefabid 79
+putcollision 6900.7200.7200.6900 2000.2000.2150.2150
+cv_prefabid 79
+putcollision 9000.9300.9300.9000 950.950.1100.1100
+cv_prefabid 79
+putcollision 6900.7200.7200.6900 950.950.1100.1100
+cv_prefabid 79
+putcollision 9000.9300.9300.9000 800.800.950.950
+cv_prefabid 79
+putcollision 6900.7200.7200.6900 800.800.950.950
+cv_prefabid 79
+putcollision 6900.7200.7200.6900 -250.-250.-100.-100
+cv_prefabid 79
+putcollision 7800.8100.8100.7800 -250.-250.-100.-100
+cv_prefabid 79
+putcollision 8100.8400.8400.8100 -250.-250.-100.-100
+cv_prefabid 79
+putcollision 9000.9300.9300.9000 -250.-250.-100.-100
+cv_prefabid 80
+putcollision 7800.8100.8100.7800 4400.4400.4550.4550
+cv_prefabid 80
+putcollision 8100.8400.8400.8100 4400.4400.4550.4550
+cv_prefabid 80
+putcollision 9000.9300.9300.9000 4400.4400.4550.4550
+cv_prefabid 80
+putcollision 6900.7200.7200.6900 4400.4400.4550.4550
+cv_prefabid 80
+putcollision 9000.9300.9300.9000 3350.3350.3500.3500
+cv_prefabid 80
+putcollision 6900.7200.7200.6900 3350.3350.3500.3500
+cv_prefabid 80
+putcollision 9000.9300.9300.9000 3200.3200.3350.3350
+cv_prefabid 80
+putcollision 6900.7200.7200.6900 3200.3200.3350.3350
+cv_prefabid 80
+putcollision 6900.7200.7200.6900 2150.2150.2300.2300
+cv_prefabid 80
+putcollision 7800.8100.8100.7800 2150.2150.2300.2300
+cv_prefabid 80
+putcollision 8100.8400.8400.8100 2150.2150.2300.2300
+cv_prefabid 80
+putcollision 9000.9300.9300.9000 2150.2150.2300.2300
+cv_prefabid 81
+putcollision 5400.5700.5700.5400 5600.5600.5750.5750
+cv_prefabid 81
+putcollision 5700.6000.6000.5700 5600.5600.5750.5750
+cv_prefabid 81
+putcollision 6600.6900.6900.6600 5600.5600.5750.5750
+cv_prefabid 81
+putcollision 4500.4800.4800.4500 5600.5600.5750.5750
+cv_prefabid 81
+putcollision 6600.6900.6900.6600 4550.4550.4700.4700
+cv_prefabid 81
+putcollision 4500.4800.4800.4500 4550.4550.4700.4700
+cv_prefabid 81
+putcollision 6600.6900.6900.6600 4400.4400.4550.4550
+cv_prefabid 81
+putcollision 4500.4800.4800.4500 4400.4400.4550.4550
+cv_prefabid 81
+putcollision 4500.4800.4800.4500 3350.3350.3500.3500
+cv_prefabid 81
+putcollision 5400.5700.5700.5400 3350.3350.3500.3500
+cv_prefabid 81
+putcollision 5700.6000.6000.5700 3350.3350.3500.3500
+cv_prefabid 81
+putcollision 6600.6900.6900.6600 3350.3350.3500.3500
+cv_prefabid 82
+putcollision 3000.3300.3300.3000 5600.5600.5750.5750
+cv_prefabid 82
+putcollision 3300.3600.3600.3300 5600.5600.5750.5750
+cv_prefabid 82
+putcollision 4200.4500.4500.4200 5600.5600.5750.5750
+cv_prefabid 82
+putcollision 2100.2400.2400.2100 5600.5600.5750.5750
+cv_prefabid 82
+putcollision 4200.4500.4500.4200 4550.4550.4700.4700
+cv_prefabid 82
+putcollision 2100.2400.2400.2100 4550.4550.4700.4700
+cv_prefabid 82
+putcollision 4200.4500.4500.4200 4400.4400.4550.4550
+cv_prefabid 82
+putcollision 2100.2400.2400.2100 4400.4400.4550.4550
+cv_prefabid 82
+putcollision 2100.2400.2400.2100 3350.3350.3500.3500
+cv_prefabid 82
+putcollision 3000.3300.3300.3000 3350.3350.3500.3500
+cv_prefabid 82
+putcollision 3300.3600.3600.3300 3350.3350.3500.3500
+cv_prefabid 82
+putcollision 4200.4500.4500.4200 3350.3350.3500.3500
+cv_prefabid 83
+putcollision 600.900.900.600 5600.5600.5750.5750
+cv_prefabid 83
+putcollision 900.1200.1200.900 5600.5600.5750.5750
+cv_prefabid 83
+putcollision 1800.2100.2100.1800 5600.5600.5750.5750
+cv_prefabid 83
+putcollision -300.0.0.-300 5600.5600.5750.5750
+cv_prefabid 83
+putcollision 1800.2100.2100.1800 4550.4550.4700.4700
+cv_prefabid 83
+putcollision -300.0.0.-300 4550.4550.4700.4700
+cv_prefabid 83
+putcollision 1800.2100.2100.1800 4400.4400.4550.4550
+cv_prefabid 83
+putcollision -300.0.0.-300 4400.4400.4550.4550
+cv_prefabid 83
+putcollision -300.0.0.-300 3350.3350.3500.3500
+cv_prefabid 83
+putcollision 600.900.900.600 3350.3350.3500.3500
+cv_prefabid 83
+putcollision 900.1200.1200.900 3350.3350.3500.3500
+cv_prefabid 83
+putcollision 1800.2100.2100.1800 3350.3350.3500.3500
+cv_prefabid 84
+putcollision -1800.-1500.-1500.-1800 5600.5600.5750.5750
+cv_prefabid 84
+putcollision -1500.-1200.-1200.-1500 5600.5600.5750.5750
+cv_prefabid 84
+putcollision -600.-300.-300.-600 5600.5600.5750.5750
+cv_prefabid 84
+putcollision -2700.-2400.-2400.-2700 5600.5600.5750.5750
+cv_prefabid 84
+putcollision -600.-300.-300.-600 4550.4550.4700.4700
+cv_prefabid 84
+putcollision -2700.-2400.-2400.-2700 4550.4550.4700.4700
+cv_prefabid 84
+putcollision -600.-300.-300.-600 4400.4400.4550.4550
+cv_prefabid 84
+putcollision -2700.-2400.-2400.-2700 4400.4400.4550.4550
+cv_prefabid 84
+putcollision -2700.-2400.-2400.-2700 3350.3350.3500.3500
+cv_prefabid 84
+putcollision -1800.-1500.-1500.-1800 3350.3350.3500.3500
+cv_prefabid 84
+putcollision -1500.-1200.-1200.-1500 3350.3350.3500.3500
+cv_prefabid 84
+putcollision -600.-300.-300.-600 3350.3350.3500.3500
+cv_prefabid 85
+putcollision -3000.-2700.-2700.-3000 3200.3200.3350.3350
+cv_prefabid 85
+putcollision -2700.-2400.-2400.-2700 3200.3200.3350.3350
+cv_prefabid 85
+putcollision -1800.-1500.-1500.-1800 3200.3200.3350.3350
+cv_prefabid 85
+putcollision -3900.-3600.-3600.-3900 3200.3200.3350.3350
+cv_prefabid 85
+putcollision -1800.-1500.-1500.-1800 2150.2150.2300.2300
+cv_prefabid 85
+putcollision -3900.-3600.-3600.-3900 2150.2150.2300.2300
+cv_prefabid 85
+putcollision -1800.-1500.-1500.-1800 2000.2000.2150.2150
+cv_prefabid 85
+putcollision -3900.-3600.-3600.-3900 2000.2000.2150.2150
+cv_prefabid 85
+putcollision -3900.-3600.-3600.-3900 950.950.1100.1100
+cv_prefabid 85
+putcollision -3000.-2700.-2700.-3000 950.950.1100.1100
+cv_prefabid 85
+putcollision -2700.-2400.-2400.-2700 950.950.1100.1100
+cv_prefabid 85
+putcollision -1800.-1500.-1500.-1800 950.950.1100.1100
+cv_prefabid 86
+putcollision -3000.-2700.-2700.-3000 800.800.950.950
+cv_prefabid 86
+putcollision -2700.-2400.-2400.-2700 800.800.950.950
+cv_prefabid 86
+putcollision -1800.-1500.-1500.-1800 800.800.950.950
+cv_prefabid 86
+putcollision -3900.-3600.-3600.-3900 800.800.950.950
+cv_prefabid 86
+putcollision -1800.-1500.-1500.-1800 -250.-250.-100.-100
+cv_prefabid 86
+putcollision -3900.-3600.-3600.-3900 -250.-250.-100.-100
+cv_prefabid 86
+putcollision -1800.-1500.-1500.-1800 -400.-400.-250.-250
+cv_prefabid 86
+putcollision -3900.-3600.-3600.-3900 -400.-400.-250.-250
+cv_prefabid 86
+putcollision -3900.-3600.-3600.-3900 -1450.-1450.-1300.-1300
+cv_prefabid 86
+putcollision -3000.-2700.-2700.-3000 -1450.-1450.-1300.-1300
+cv_prefabid 86
+putcollision -2700.-2400.-2400.-2700 -1450.-1450.-1300.-1300
+cv_prefabid 86
+putcollision -1800.-1500.-1500.-1800 -1450.-1450.-1300.-1300
+cv_prefabid 87
+putcollision -3000.-2700.-2700.-3000 -1600.-1600.-1450.-1450
+cv_prefabid 87
+putcollision -2700.-2400.-2400.-2700 -1600.-1600.-1450.-1450
+cv_prefabid 87
+putcollision -1800.-1500.-1500.-1800 -1600.-1600.-1450.-1450
+cv_prefabid 87
+putcollision -3900.-3600.-3600.-3900 -1600.-1600.-1450.-1450
+cv_prefabid 87
+putcollision -1800.-1500.-1500.-1800 -2650.-2650.-2500.-2500
+cv_prefabid 87
+putcollision -3900.-3600.-3600.-3900 -2650.-2650.-2500.-2500
+cv_prefabid 87
+putcollision -1800.-1500.-1500.-1800 -2800.-2800.-2650.-2650
+cv_prefabid 87
+putcollision -3900.-3600.-3600.-3900 -2800.-2800.-2650.-2650
+cv_prefabid 87
+putcollision -3900.-3600.-3600.-3900 -3850.-3850.-3700.-3700
+cv_prefabid 87
+putcollision -3000.-2700.-2700.-3000 -3850.-3850.-3700.-3700
+cv_prefabid 87
+putcollision -2700.-2400.-2400.-2700 -3850.-3850.-3700.-3700
+cv_prefabid 87
+putcollision -1800.-1500.-1500.-1800 -3850.-3850.-3700.-3700
+cv_prefabid 88
+putcollision -3000.-2700.-2700.-3000 -4000.-4000.-3850.-3850
+cv_prefabid 88
+putcollision -2700.-2400.-2400.-2700 -4000.-4000.-3850.-3850
+cv_prefabid 88
+putcollision -1800.-1500.-1500.-1800 -4000.-4000.-3850.-3850
+cv_prefabid 88
+putcollision -3900.-3600.-3600.-3900 -4000.-4000.-3850.-3850
+cv_prefabid 88
+putcollision -1800.-1500.-1500.-1800 -5050.-5050.-4900.-4900
+cv_prefabid 88
+putcollision -3900.-3600.-3600.-3900 -5050.-5050.-4900.-4900
+cv_prefabid 88
+putcollision -1800.-1500.-1500.-1800 -5200.-5200.-5050.-5050
+cv_prefabid 88
+putcollision -3900.-3600.-3600.-3900 -5200.-5200.-5050.-5050
+cv_prefabid 88
+putcollision -3900.-3600.-3600.-3900 -6250.-6250.-6100.-6100
+cv_prefabid 88
+putcollision -3000.-2700.-2700.-3000 -6250.-6250.-6100.-6100
+cv_prefabid 88
+putcollision -2700.-2400.-2400.-2700 -6250.-6250.-6100.-6100
+cv_prefabid 88
+putcollision -1800.-1500.-1500.-1800 -6250.-6250.-6100.-6100
+cv_prefabid 89
+putcollision -3000.-2700.-2700.-3000 -6400.-6400.-6250.-6250
+cv_prefabid 89
+putcollision -2700.-2400.-2400.-2700 -6400.-6400.-6250.-6250
+cv_prefabid 89
+putcollision -1800.-1500.-1500.-1800 -6400.-6400.-6250.-6250
+cv_prefabid 89
+putcollision -3900.-3600.-3600.-3900 -6400.-6400.-6250.-6250
+cv_prefabid 89
+putcollision -1800.-1500.-1500.-1800 -7450.-7450.-7300.-7300
+cv_prefabid 89
+putcollision -3900.-3600.-3600.-3900 -7450.-7450.-7300.-7300
+cv_prefabid 89
+putcollision -1800.-1500.-1500.-1800 -7600.-7600.-7450.-7450
+cv_prefabid 89
+putcollision -3900.-3600.-3600.-3900 -7600.-7600.-7450.-7450
+cv_prefabid 89
+putcollision -3900.-3600.-3600.-3900 -8650.-8650.-8500.-8500
+cv_prefabid 89
+putcollision -3000.-2700.-2700.-3000 -8650.-8650.-8500.-8500
+cv_prefabid 89
+putcollision -2700.-2400.-2400.-2700 -8650.-8650.-8500.-8500
+cv_prefabid 89
+putcollision -1800.-1500.-1500.-1800 -8650.-8650.-8500.-8500
+cv_prefabid 90
+putcollision 9000.9300.9300.9000 -5200.-5200.-5050.-5050
+cv_prefabid 90
+putcollision 9300.9600.9600.9300 -5200.-5200.-5050.-5050
+cv_prefabid 90
+putcollision 10200.10500.10500.10200 -5200.-5200.-5050.-5050
+cv_prefabid 90
+putcollision 8100.8400.8400.8100 -5200.-5200.-5050.-5050
+cv_prefabid 90
+putcollision 10200.10500.10500.10200 -6250.-6250.-6100.-6100
+cv_prefabid 90
+putcollision 8100.8400.8400.8100 -6250.-6250.-6100.-6100
+cv_prefabid 90
+putcollision 10200.10500.10500.10200 -6400.-6400.-6250.-6250
+cv_prefabid 90
+putcollision 8100.8400.8400.8100 -6400.-6400.-6250.-6250
+cv_prefabid 90
+putcollision 8100.8400.8400.8100 -7450.-7450.-7300.-7300
+cv_prefabid 90
+putcollision 9000.9300.9300.9000 -7450.-7450.-7300.-7300
+cv_prefabid 90
+putcollision 9300.9600.9600.9300 -7450.-7450.-7300.-7300
+cv_prefabid 90
+putcollision 10200.10500.10500.10200 -7450.-7450.-7300.-7300
+cv_prefabid 91
+putcollision -3900.-3600.-3600.-3900 3350.3350.3500.3500
+cv_prefabid 91
+putcollision -3000.-2700.-2700.-3000 3350.3350.3500.3500
+cv_prefabid 91
+putcollision -3900.-3600.-3600.-3900 4400.4400.4550.4550
+cv_prefabid 91
+putcollision -3000.-2700.-2700.-3000 4400.4400.4550.4550
 putitem ITEM_FLAG 2550 -1050
 putitem ITEM_SPAWNPOINT 100 950
 putitem ITEM_SPAWNPOINT 400 1350
@@ -650,4 +1740,20 @@ putitem ITEM_TELEPORTER_BLUE 2550 -3700
 putitem ITEM_TELEPORTER_BLUE 2550 -3500
 putitem ITEM_TELEPORTER_BLUE 2550 -3300
 putitem ITEM_TELEPORTER_BLUE 2550 -3100
+putitem ITEM_TELEPORTER_BLUE -300 -1200
+putitem ITEM_TELEPORTER_BLUE 0 -1200
+putitem ITEM_TELEPORTER_BLUE 300 -1200
+putitem ITEM_TELEPORTER_BLUE 600 -1200
+putitem ITEM_TELEPORTER_RED -300 -900
+putitem ITEM_TELEPORTER_RED 0 -900
+putitem ITEM_TELEPORTER_RED 300 -900
+putitem ITEM_TELEPORTER_RED 600 -900
+putitem ITEM_TELEPORTER_BLUE 4500 -1200
+putitem ITEM_TELEPORTER_BLUE 4800 -1200
+putitem ITEM_TELEPORTER_BLUE 5100 -1200
+putitem ITEM_TELEPORTER_BLUE 5400 -1200
+putitem ITEM_TELEPORTER_RED 5400 -900
+putitem ITEM_TELEPORTER_RED 5100 -900
+putitem ITEM_TELEPORTER_RED 4800 -900
+putitem ITEM_TELEPORTER_RED 4500 -900
 cv_maploaded 1

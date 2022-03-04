@@ -26,13 +26,10 @@ public class cClientLogic {
         oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-//        if(sSettings.show_mapmaker_ui)
-//            selectThingUnderMouse();
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null) {
-//            pointPlayerAtMousePointer();
             checkPlayerFire();
         }
         checkFinishedAnimations();
@@ -46,7 +43,6 @@ public class cClientLogic {
             cClientLogic.selectThingUnderMouse();
         if(getUserPlayer() != null) {
             pointPlayerAtMousePointer();
-//            checkPlayerFire();
         }
     }
 
@@ -285,7 +281,7 @@ public class cClientLogic {
                 gPlayer p = getPlayerById(id);
                 if(p == null)
                     return;
-                if(sVars.isZero("smoothing")) {
+                if(!sSettings.smoothing) {
                     p.put("coordx", cargs.get("x"));
                     p.put("coordy", cargs.get("y"));
                 }

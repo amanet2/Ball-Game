@@ -28,7 +28,7 @@ public class uiInterface {
                 while(tickTimeNanos < gameTimeNanos) {
 //                while(tickTime < gameTime) {
                     //nano = billion
-                    tickTimeNanos += (1000000000/cVars.getInt("gametick"));
+                    tickTimeNanos += (1000000000/sSettings.rategame);
 //                    tickTime += 1000/cVars.getInt("gametick");
                     iInput.readKeyInputs();
                     if(sSettings.IS_SERVER)

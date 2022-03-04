@@ -21,7 +21,8 @@ public class dPanel extends JPanel {
         if (panelLevel == 1) {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
-            if(!uiInterface.inplay && sSettings.show_mapmaker_ui) {
+            if(!uiInterface.inplay && sSettings.show_mapmaker_ui
+               && cVars.isOne("maploaded")) {
                 dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
                 dBlockTops.drawBlockTopCubesPreview(g2);
             }
@@ -44,7 +45,6 @@ public class dPanel extends JPanel {
                 dTileTops.drawPlayerNames(g2);
                 if(!uiInterface.inplay && sSettings.show_mapmaker_ui) {
                     dMapmakerOverlay.drawSelectionBoxes(g2);
-//                    dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
                 }
             }
         }

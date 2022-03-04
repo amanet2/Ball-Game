@@ -39,8 +39,8 @@ public class xCon {
     }
 
     public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-            sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2).getStringBounds("_",
+        return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), Font.PLAIN,
+            sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 

@@ -14,7 +14,6 @@ public class sVars {
         keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debuglog", "0");
-        keys.put("fontmode", "0");
         keys.put("fontsize", "90");
         keys.put("fontnameui", "None");
         keys.put("fontnameconsole", "Courier");
@@ -38,7 +37,6 @@ public class sVars {
         keys.put("showplayer", "1");
         keys.put("showscale", "1");
         keys.put("showtick", "1");
-        keys.put("smoothing", "1");
         keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to work right
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
@@ -62,11 +60,10 @@ public class sVars {
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
                         && Integer.parseInt(toks[3]) < 256);
             }
-            else if(k.contains("time") || k.equals("fontmode") || k.equals("fontsize")
-                || k.equals("framerates") || k.equals("gamescale") || k.equals("gametick") || k.equals("inconsole")
+            else if(k.contains("time") || k.equals("fontsize") || k.equals("framerates") || k.equals("inconsole")
                 || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
                 || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
-                || k.equals("smoothing") || k.equals("startpaused")
+                || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {

@@ -108,6 +108,7 @@ public class cServerLogic {
 //                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
 //                nServer.instance().addExcludingNetCmd("server",
 //                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
+                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
                 cVars.putLong("intermissiontime",
                         System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
                 nServer.instance().addExcludingNetCmd("server",

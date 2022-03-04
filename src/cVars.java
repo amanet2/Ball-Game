@@ -14,11 +14,9 @@ public class cVars {
         put("camplayertrackingid", uiInterface.uuid);
         put("camx", "0");
         put("camy", "0");
-        put("delayhp", "2400");
+        put("delayhp", "3600");
         put("flagmastertime", "0");
         put("gameover", "0");
-        put("gamescale", "2160");
-        put("gametick", "240");
         putInt("gamemode", cGameLogic.DEATHMATCH);
         put("blockmouseui", "0");
         put("intermissiontime", "-1");

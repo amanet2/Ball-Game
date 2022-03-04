@@ -4,9 +4,6 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* SOMETHING IN CLIENT LOOP CAUSING FPS DROP
-    -> selectThingUnderMouse
-        -> moved getMouseCoord()-reliant actions to the low-tick client loop instead of main draw loop
 * move the dim/4 stuff to the preview block build call, not draw
 * figure out a way to build blocks using a true top down 2d view (matrix rotation)
     -> graph paper

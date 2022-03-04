@@ -193,7 +193,7 @@ public class nClient extends Thread {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
                     if(cClientLogic.getPlayerById(idload) != null) {
-                        if (sVars.isOne("smoothing")) {
+                        if (sSettings.smoothing) {
                             if(serverArgsMap.get(idload).containsKey("x"))
                                 cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
                             if(serverArgsMap.get(idload).containsKey("y"))

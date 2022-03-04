@@ -57,7 +57,7 @@ public class dScreenMessages {
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {
-                    dFonts.setFontColorAlert(g);
+                    dFonts.setFontColorHighlight(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);
@@ -75,8 +75,7 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
-            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
-                0,25 * sSettings.height/32);
+            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -98,14 +97,15 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 //preview
                 g.setColor(Color.BLACK);
-                g.fillRect(4*sSettings.width/5,6*sSettings.height/10,
-                        7*sSettings.height/20, 7*sSettings.height/20);
+                g.fillRoundRect(4*sSettings.width/5,6*sSettings.height/10,
+                        7*sSettings.height/20, 7*sSettings.height/20,
+                        sSettings.height/36, sSettings.height/36);
                 g.setColor(Color.white);
                 g.drawRoundRect(4*sSettings.width/5,6*sSettings.height/10,
                         7*sSettings.height/20, 7*sSettings.height/20,
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
-                g.drawString("Preview", 4*sSettings.width/5,6*sSettings.height/10);
+                g.drawString("Preview", 4*sSettings.width/5,59*sSettings.height/100);
                 if(cVars.get("newitemname").length() > 0)
                     newThingString = cVars.get("newitemname");
                 boolean drawnRotate = false;
