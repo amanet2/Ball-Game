@@ -6,7 +6,6 @@ public class cVars {
 
     private static void init() {
         put("bottime", "0");
-        putInt("cammode", gCamera.MODE_FREE);
         put("cammov0", "0");
         put("cammov1", "0");
         put("cammov2", "0");

@@ -56,7 +56,7 @@ public class xComDamagePlayer extends xCom {
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
                             Long.toString(System.currentTimeMillis() + cVars.getInt("respawnwaittime")));
-                    nServer.instance().addNetCmd(id, "cv_cammode " + gCamera.MODE_FREE);
+                    nServer.instance().addNetCmd(id, "freecam");
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }

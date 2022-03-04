@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* try using graphics transform with camx,y so you dont need to use it in every draw instr
 * move the dim/4 stuff to the preview block build call, not draw
 * figure out a way to build blocks using a true top down 2d view (matrix rotation)
     -> graph paper

@@ -21,7 +21,7 @@ public class iInput {
 	public static void processKeyPressInput(int command) {
 	    if(sVars.isOne("inconsole")) {
             switch (command) {
-                case KeyEvent.VK_UP -> {
+                case KeyEvent.VK_UP:
                     xCon.instance().prevCommandIndex =
                             xCon.instance().prevCommandIndex > -1 ? xCon.instance().prevCommandIndex - 1
                                     : xCon.instance().previousCommands.size() - 1;
@@ -29,8 +29,7 @@ public class iInput {
                             ? xCon.instance().previousCommands.get(xCon.instance().prevCommandIndex) : "";
                     xCon.instance().cursorIndex = xCon.instance().commandString.length();
                     return;
-                }
-                case KeyEvent.VK_DOWN -> {
+                case KeyEvent.VK_DOWN:
                     xCon.instance().prevCommandIndex =
                             xCon.instance().prevCommandIndex < xCon.instance().previousCommands.size() - 1
                                     ? xCon.instance().prevCommandIndex + 1 : -1;
@@ -38,23 +37,19 @@ public class iInput {
                             ? xCon.instance().previousCommands.get(xCon.instance().prevCommandIndex) : "";
                     xCon.instance().cursorIndex = xCon.instance().commandString.length();
                     return;
-                }
-                case KeyEvent.VK_LEFT -> {
+                case KeyEvent.VK_LEFT:
                     xCon.instance().cursorIndex = xCon.instance().cursorIndex > 0
                             ? xCon.instance().cursorIndex - 1 : 0;
                     return;
-                }
-                case KeyEvent.VK_RIGHT -> {
+                case KeyEvent.VK_RIGHT:
                     xCon.instance().cursorIndex = xCon.instance().cursorIndex
                             < xCon.instance().commandString.length() ? xCon.instance().cursorIndex + 1
                             : xCon.instance().commandString.length();
                     return;
-                }
-                case KeyEvent.VK_ESCAPE -> {
+                case KeyEvent.VK_ESCAPE:
                     xCon.ex("console");
                     return;
-                }
-                case KeyEvent.VK_BACK_SPACE -> {
+                case KeyEvent.VK_BACK_SPACE:
                     if (xCon.instance().cursorIndex > 0 && xCon.instance().commandString.length() > 0) {
                         String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex - 1);
                         String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
@@ -62,16 +57,14 @@ public class iInput {
                         xCon.instance().cursorIndex--;
                     }
                     return;
-                }
-                case KeyEvent.VK_DELETE -> {
+                case KeyEvent.VK_DELETE:
                     if (xCon.instance().cursorIndex > 0 && xCon.instance().commandString.length() > 0) {
                         String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
                         String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex + 1);
                         xCon.instance().commandString = a + b;
                     }
                     return;
-                }
-                case KeyEvent.VK_ENTER -> {
+                case KeyEvent.VK_ENTER:
                     String res = xCon.ex(xCon.instance().commandString);
                     xCon.instance().previousCommands.add(xCon.instance().commandString);
                     xCon.instance().stringLines.add(String.format("console:~$ %s",
@@ -91,13 +84,11 @@ public class iInput {
                     xCon.instance().commandString = "";
                     xCon.instance().cursorIndex = 0;
                     return;
-                }
-                case KeyEvent.VK_SHIFT -> {
+                case KeyEvent.VK_SHIFT:
                     iKeyboard.shiftMode = true;
                     return;
-                }
-                default -> {
-                }
+                default:
+                    break;
             }
             if(iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
                 String key = iKeyboard.getShiftKeyForCode(command);
