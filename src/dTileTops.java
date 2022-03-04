@@ -10,14 +10,14 @@ public class dTileTops {
             g2.setColor(gColors.getFontColorFromName("mapmakergrid"));
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
-                g2.drawLine(eUtils.scaleInt(-12000 - cVars.getInt("camx")),
-                        eUtils.scaleInt(i - cVars.getInt("camy")),
-                        eUtils.scaleInt(12000 - cVars.getInt("camx")),
-                        eUtils.scaleInt(i - cVars.getInt("camy")));
-                g2.drawLine(eUtils.scaleInt(i - cVars.getInt("camx")),
-                        eUtils.scaleInt(-12000 - cVars.getInt("camy")),
-                        eUtils.scaleInt(i - cVars.getInt("camx")),
-                        eUtils.scaleInt(12000 - cVars.getInt("camy")));
+                g2.drawLine(eUtils.scaleInt(-12000),
+                        eUtils.scaleInt(i),
+                        eUtils.scaleInt(12000),
+                        eUtils.scaleInt(i));
+                g2.drawLine(eUtils.scaleInt(i),
+                        eUtils.scaleInt(-12000),
+                        eUtils.scaleInt(i),
+                        eUtils.scaleInt(12000));
             }
         }
         //draw hitboxes
@@ -29,10 +29,10 @@ public class dTileTops {
                 int[] transformedXarr = new int[collision.xarr.length];
                 int[] transformedYarr = new int[collision.yarr.length];
                 for(int i = 0; i < collision.xarr.length; i++) {
-                    transformedXarr[i] = eUtils.scaleInt(collision.xarr[i] - cVars.getInt("camx"));
+                    transformedXarr[i] = eUtils.scaleInt(collision.xarr[i]);
                 }
                 for(int i = 0; i < collision.yarr.length; i++) {
-                    transformedYarr[i] = eUtils.scaleInt(collision.yarr[i] - cVars.getInt("camy"));
+                    transformedYarr[i] = eUtils.scaleInt(collision.yarr[i]);
                 }
                 g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.xarr.length));
             }
@@ -44,8 +44,8 @@ public class dTileTops {
                 int x1 = player.getInt("coordx");
                 int y1 = player.getInt("coordy");
                 g2.drawRect(
-                        eUtils.scaleInt(x1 - cVars.getInt("camx")),
-                        eUtils.scaleInt(y1 - cVars.getInt("camy")),
+                        eUtils.scaleInt(x1),
+                        eUtils.scaleInt(y1),
                         eUtils.scaleInt(player.getInt("dimw")),
                         eUtils.scaleInt(player.getInt("dimh"))
                 );
@@ -57,8 +57,8 @@ public class dTileTops {
         HashMap bulletsMap = scene.getThingMap("THING_BULLET");
         for (Object id : bulletsMap.keySet()) {
             gBullet t = (gBullet) bulletsMap.get(id);
-            g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(t.getInt("coordy") - cVars.getInt("camy")), null);
+            g2.drawImage(t.sprite, eUtils.scaleInt(t.getInt("coordx")),
+                    eUtils.scaleInt(t.getInt("coordy")), null);
         }
     }
 
@@ -70,16 +70,16 @@ public class dTileTops {
             gPopup p = (gPopup) popupsMap.get(id);
             g.setColor(Color.BLACK);
             g.drawString(p.get("text"),
-                    eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx") + 2),
-                    eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy") + 2));
+                    eUtils.scaleInt(p.getInt("coordx") + 2),
+                    eUtils.scaleInt(p.getInt("coordy") + 2));
             dFonts.setFontColorNormal(g);
             if(p.get("text").charAt(0) == '+')
                 dFonts.setFontColorBonus(g);
             else if(p.get("text").charAt(0) == '-')
                 dFonts.setFontColorAlert(g);
             g.drawString(p.get("text"),
-                    eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")),
-                    eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")));
+                    eUtils.scaleInt(p.getInt("coordx")),
+                    eUtils.scaleInt(p.getInt("coordy")));
         }
     }
 
@@ -89,8 +89,8 @@ public class dTileTops {
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
             int midx = eUtils.scaleInt(userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2
-                    - cVars.getInt("camx"));
-            int coordy = eUtils.scaleInt(userPlayer.getInt("coordy") - cVars.getInt("camy")
+                   );
+            int coordy = eUtils.scaleInt(userPlayer.getInt("coordy")
                     - 200);
             int[][] polygonBase = new int[][]{
                     new int[]{1,1,1},
@@ -126,8 +126,8 @@ public class dTileTops {
                 continue;
             dFonts.setFontNormal(g);
             String name = clientMap.get("name");
-            int coordx = p.getInt("coordx") - cVars.getInt("camx");
-            int coordy = p.getInt("coordy") - cVars.getInt("camy");
+            int coordx = p.getInt("coordx");
+            int coordy = p.getInt("coordy");
 //            dFonts.drawCenteredString(g, name,
 //                    eUtils.scaleInt(coordx + p.getInt("dimw")/2), eUtils.scaleInt(coordy));
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
@@ -138,9 +138,9 @@ public class dTileTops {
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
 //                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
 //                    continue;
-//                int x = eUtils.scaleInt(p.getInt("coordx") - cVars.getInt("camx")
+//                int x = eUtils.scaleInt(p.getInt("coordx")
 //                        - p.getInt("dimw") / 4);
-//                int y = eUtils.scaleInt(p.getInt("coordy") - cVars.getInt("camy")
+//                int y = eUtils.scaleInt(p.getInt("coordy")
 //                        - p.getInt("dimh") / 4);
 //                int w = eUtils.scaleInt(3 * p.getInt("dimw") / 2);
 //                int h = eUtils.scaleInt(3 * p.getInt("dimh") / 2);

@@ -12,8 +12,8 @@ public class dAnimations {
                         != null) {
                     g2.drawImage(gAnimations.animation_selection[a.getInt("animation")].frames[
                                     a.getInt("frame")],
-                            eUtils.scaleInt(a.getInt("coordx") - cVars.getInt("camx")),
-                            eUtils.scaleInt(a.getInt("coordy") - cVars.getInt("camy")),
+                            eUtils.scaleInt(a.getInt("coordx")),
+                            eUtils.scaleInt(a.getInt("coordy")),
                             null
                     );
                     if (a.getLong("frametime") + 1000/gAnimations.animation_selection[a.getInt("animation")].framerate
