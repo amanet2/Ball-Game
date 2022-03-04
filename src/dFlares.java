@@ -34,10 +34,10 @@ public class dFlares {
 
     public static void drawFlare(Graphics2D g2, gFlare f) {
         if(sSettings.vfxenableflares) {
-            int x = eUtils.scaleInt(f.getInt("coordx"));
-            int y = eUtils.scaleInt(f.getInt("coordy"));
-            int w = eUtils.scaleInt(f.getInt("dimw"));
-            int h = eUtils.scaleInt(f.getInt("dimh"));
+            int x = f.getInt("coordx");
+            int y = f.getInt("coordy");
+            int w = f.getInt("dimw");
+            int h = f.getInt("dimh");
             int[] c1 = new int[]{f.getInt("r1"), f.getInt("g1"), f.getInt("b1"), f.getInt("a1")};
             int[] c2 = new int[]{f.getInt("r2"), f.getInt("g2"), f.getInt("b2"), f.getInt("a2")};
             drawFlare(g2,x,y,w,h,f.getInt("mode"),c1,c2);

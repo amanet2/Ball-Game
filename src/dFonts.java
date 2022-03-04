@@ -22,16 +22,21 @@ public class dFonts {
     }
 
     public static void drawPlayerNameHud(Graphics g, String s, int x, int y, Color color) {
-        Color savedColor = g.getColor();
         g.setColor(Color.BLACK);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
         g.setColor(color);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-        g.fillOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-5*sSettings.height/128,
-                y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
+        int[] bounds = {
+                x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2
+                        - eUtils.unscaleInt(5*sSettings.height/128),
+                y - eUtils.unscaleInt(sSettings.height/32),
+                eUtils.unscaleInt(sSettings.height/32),
+                eUtils.unscaleInt(sSettings.height/32)
+        };
+        g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         g.setColor(gColors.getFontColorFromName("normaltransparent"));
-        g.drawOval(x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2-5*sSettings.height/128,
-                y-sSettings.height/32, sSettings.height/32, sSettings.height/32);
+        g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
+
     }
 
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
@@ -63,6 +68,13 @@ public class dFonts {
         g.setFont(
                 new Font(sVars.get("fontnameui"), Font.PLAIN,
                         sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale
+                )
+        );
+    }
+    public static void setFontGNormal(Graphics g) {
+        setFontColorNormal(g);
+        g.setFont(
+                new Font(sVars.get("fontnameui"), Font.PLAIN, sVars.getInt("fontsize")
                 )
         );
     }

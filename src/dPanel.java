@@ -33,24 +33,25 @@ public class dPanel extends JPanel {
             g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
                 gScene scene = cClientLogic.scene;
-                g2.translate(-eUtils.scaleInt(cVars.getInt("camx")), -eUtils.scaleInt(cVars.getInt("camy")));
+                g2.scale(
+                    ((1.0 / sSettings.gamescale) * (double) sSettings.height),
+                    ((1.0 / sSettings.gamescale) * (double) sSettings.height)
+                );
+                g2.translate(-cVars.getInt("camx"), -cVars.getInt("camy"));
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
                 dTileTops.drawMapmakerOverlay(g2, scene);
                 dFlares.drawSceneFlares(g2, scene);
                 dTileTops.drawBullets(g2, scene);
                 dAnimations.drawAnimations(g2, scene);
-                g2.translate(eUtils.scaleInt(cVars.getInt("camx")), eUtils.scaleInt(cVars.getInt("camy")));
-                //fix later
                 dWaypoints.drawWaypoints(g2, scene);
-                g2.translate(-eUtils.scaleInt(cVars.getInt("camx")), -eUtils.scaleInt(cVars.getInt("camy")));
                 dTileTops.drawPopups(g2, scene);
                 dTileTops.drawUserPlayerArrow(g2);
                 dTileTops.drawPlayerNames(g2);
                 if(!uiInterface.inplay && sSettings.show_mapmaker_ui) {
                     dMapmakerOverlay.drawSelectionBoxes(g2);
                 }
-                g2.translate(eUtils.scaleInt(cVars.getInt("camx")), eUtils.scaleInt(cVars.getInt("camy")));
+                g2.translate(cVars.getInt("camx"), cVars.getInt("camy"));
             }
         }
         g2.dispose();

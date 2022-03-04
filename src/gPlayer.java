@@ -165,7 +165,7 @@ public class gPlayer extends gThing {
 
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
-        sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
     public gPlayer(int x, int y, String tt) {

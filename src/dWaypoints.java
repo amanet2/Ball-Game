@@ -8,22 +8,23 @@ public class dWaypoints {
         if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - cClientLogic.getUserPlayer().getInt("coordx")
-                            + cClientLogic.getUserPlayer().getInt("dimw")/2,
+                            + cClientLogic.getUserPlayer().getDouble("dimw")/2,
                     dy - cClientLogic.getUserPlayer().getInt("coordy")
-                            + cClientLogic.getUserPlayer().getInt("dimh")/2};
+                            + cClientLogic.getUserPlayer().getDouble("dimh")/2
+            };
             g2.setColor(gColors.getFontColorFromName("waypoint1"));
             int[][] polygondims = new int[][]{
                     new int[]{
-                            eUtils.scaleInt(dx - cVars.getInt("camx")) - sSettings.height/16,
-                            eUtils.scaleInt(dx - cVars.getInt("camx")),
-                            eUtils.scaleInt(dx - cVars.getInt("camx")) + sSettings.height/16,
-                            eUtils.scaleInt(dx - cVars.getInt("camx"))
+                            dx - eUtils.unscaleInt(sSettings.height/16),
+                            dx,
+                            dx + eUtils.unscaleInt(sSettings.height/16),
+                            dx
                     },
                     new int[]{
-                            eUtils.scaleInt(dy - cVars.getInt("camy")),
-                            eUtils.scaleInt(dy - cVars.getInt("camy")) - sSettings.height/16,
-                            eUtils.scaleInt(dy - cVars.getInt("camy")),
-                            eUtils.scaleInt(dy - cVars.getInt("camy")) + sSettings.height/16
+                            dy,
+                            dy - eUtils.unscaleInt(sSettings.height/16),
+                            dy,
+                            dy + eUtils.unscaleInt(sSettings.height/16)
                     }
             };
             g2.fillPolygon(polygondims[0],polygondims[1], 4);
@@ -32,11 +33,10 @@ public class dWaypoints {
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
             dFonts.setFontNormal(g2);
-            dFonts.drawCenteredString(g2, message,
-                    eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy")));
+            dFonts.drawCenteredString(g2, message, dx, dy);
             if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
-                    && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
+                    && (Math.abs(deltas[0]) > eUtils.unscaleInt(sSettings.width)
+                    || Math.abs(deltas[1]) > eUtils.unscaleInt(sSettings.height))) {
                 double angle = Math.atan2(deltas[1], deltas[0]);
                 if (angle < 0)
                     angle += 2 * Math.PI;
@@ -44,13 +44,21 @@ public class dWaypoints {
                 AffineTransform backup = g2.getTransform();
                 AffineTransform a = g2.getTransform();
                 a.rotate(angle,
-                        sSettings.width / 2,
-                        sSettings.height / 2);
+                        eUtils.unscaleInt((int)((double)sSettings.width / 2)),
+                        eUtils.unscaleInt((int)((double)sSettings.height / 2))
+                );
                 g2.setTransform(a);
                 int[][] arrowpolygon = new int[][]{
-                        new int[]{sSettings.width / 2 - sSettings.width / 54,
-                                sSettings.width / 2 + sSettings.width / 54, sSettings.width / 2},
-                        new int[]{sSettings.height / 12, sSettings.height / 12, 0}
+                        new int[]{
+                                eUtils.unscaleInt(sSettings.width / 2 - sSettings.width / 54),
+                                eUtils.unscaleInt(sSettings.width / 2 + sSettings.width / 54),
+                                eUtils.unscaleInt(sSettings.width / 2)
+                        },
+                        new int[]{
+                                eUtils.unscaleInt(sSettings.height / 12),
+                                eUtils.unscaleInt(sSettings.height / 12),
+                                eUtils.unscaleInt(0)
+                        }
                 };
                 g2.setColor(gColors.getFontColorFromName("waypoint1"));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);

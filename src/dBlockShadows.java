@@ -6,48 +6,39 @@ public class dBlockShadows {
             g2.setStroke(dFonts.thickStroke);
             if (block.getInt("wallh") + block.getInt("toph") == block.getInt("dimh")) {
                 GradientPaint gradient = new GradientPaint(
-                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
-                                ),
-                        eUtils.scaleInt(block.getInt("coordy") 
-                                + block.getInt("dimh")),
+                        block.getInt("coordx") + block.getInt("dimw")/2,
+                        block.getInt("coordy") + block.getInt("dimh"),
                         gColors.getWorldColorFromName("shadow1"),
-                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
-                                ),
-                        eUtils.scaleInt(block.getInt("coordy") 
-                                + block.getInt("dimh")
-                                + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor)),
+                        block.getInt("coordx") + block.getInt("dimw")/2,
+                        block.getInt("coordy") + block.getInt("dimh")
+                                + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor),
                         gColors.getWorldColorFromName("shadow2")
                 );
                 g2.setPaint(gradient);
-                g2.fillRect(eUtils.scaleInt(block.getInt("coordx")),
-                        eUtils.scaleInt(block.getInt("coordy")
-                                + block.getInt("dimh")),
-                        eUtils.scaleInt(block.getInt("dimw")),
-                        eUtils.scaleInt((int)(block.getInt("wallh")*sSettings.vfxshadowfactor))
+                g2.fillRect(
+                        block.getInt("coordx"),
+                        block.getInt("coordy") + block.getInt("dimh"),
+                        block.getInt("dimw"),
+                        (int)(block.getInt("wallh")*sSettings.vfxshadowfactor)
                 );
             }
             else if (block.getInt("toph") > 0) {
                 GradientPaint gradient = new GradientPaint(
-                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
-                                ),
-                        eUtils.scaleInt(block.getInt("coordy") 
-                                + block.getInt("dimh") - block.getInt("toph")),
+                        block.getInt("coordx") + block.getInt("dimw")/2,
+                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
                         gColors.getWorldColorFromName("shadow1"),
-                        eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw")/2
-                                ),
-                        eUtils.scaleInt(block.getInt("coordy") 
-                                + block.getInt("dimh")
+                        block.getInt("coordx") + block.getInt("dimw")/2,
+                        block.getInt("coordy") + block.getInt("dimh")
                                 + (int)((block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")
-                        )*sSettings.vfxshadowfactor)),
+                        )*sSettings.vfxshadowfactor),
                         gColors.getWorldColorFromName("shadow2")
                 );
                 g2.setPaint(gradient);
-                g2.fillRect(eUtils.scaleInt(block.getInt("coordx")),
-                        eUtils.scaleInt(block.getInt("coordy")
-                                + block.getInt("dimh") - block.getInt("toph")),
-                        eUtils.scaleInt(block.getInt("dimw")),
-                        eUtils.scaleInt((int)((block.getInt("dimh") - block.getInt("toph")
-                        )*sSettings.vfxshadowfactor))
+                g2.fillRect(
+                        block.getInt("coordx"),
+                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
+                        block.getInt("dimw"),
+                        (int)((block.getInt("dimh") - block.getInt("toph"))*sSettings.vfxshadowfactor)
                 );
             }
         }

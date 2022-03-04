@@ -13,6 +13,6 @@ public class gItemShotgun extends gItem {
     public gItemShotgun(int x, int y) {
         super(x, y, 200, 100);
         put("type", "ITEM_SHOTGUN");
-        sprite = gTextures.getScaledImage(eUtils.getPath("misc/shotgun.png"), getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/shotgun.png"), getInt("dimw"), getInt("dimh"));
     }
 }

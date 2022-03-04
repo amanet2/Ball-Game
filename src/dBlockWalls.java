@@ -32,16 +32,16 @@ public class dBlockWalls {
 //            g2.setColor(Color.GRAY ));
             gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
                     new Rectangle2D.Double(
-                            eUtils.scaleInt(block.getInt("coordx")),
-                            eUtils.scaleInt(block.getInt("coordy")),
-                            eUtils.scaleInt(300),
-                            eUtils.scaleInt(300)));
+                            block.getInt("coordx"),
+                            block.getInt("coordy"),
+                            300,
+                            300));
             g2.setPaint(gBlockFactory.instance().wallTexture);
-            g2.fillRect(eUtils.scaleInt(block.getInt("coordx")),
-                    eUtils.scaleInt(block.getInt("coordy")
-                            + block.getInt("toph")),
-                    eUtils.scaleInt(block.getInt("dimw")),
-                    eUtils.scaleInt(block.getInt("wallh"))
+            g2.fillRect(
+                    block.getInt("coordx"),
+                    block.getInt("coordy") + block.getInt("toph"),
+                    block.getInt("dimw"),
+                    block.getInt("wallh")
             );
             dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
         }
@@ -50,12 +50,12 @@ public class dBlockWalls {
     public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
             g2.setColor(gBlockFactory.instance().wallColorPreview);
-            g2.fillRect(eUtils.scaleInt(block.getInt("coordx")/4),
+            g2.fillRect(
+                    eUtils.scaleInt(block.getInt("coordx")/4),
                     eUtils.scaleInt(block.getInt("coordy")/4+ block.getInt("toph")/4),
                     eUtils.scaleInt(block.getInt("dimw")/4),
                     eUtils.scaleInt(block.getInt("wallh")/4)
             );
-//            dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
         }
     }
 }

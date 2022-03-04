@@ -7,10 +7,10 @@ public class dBlockFloors {
         HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         gBlockFactory.instance().floorTexture = new TexturePaint(gBlockFactory.instance().floorImage,
                 new Rectangle2D.Double(
-                        eUtils.scaleInt(0),
-                        eUtils.scaleInt(0),
-                        eUtils.scaleInt(1210),
-                        eUtils.scaleInt(1210)));
+                        0,
+                        0,
+                        1210,
+                        1210));
         for(String tag : floorMap.keySet()) {
             gBlockFloor block = (gBlockFloor) floorMap.get(tag);
             drawBlockFloor(g2, block);
@@ -20,10 +20,10 @@ public class dBlockFloors {
     public static void drawBlockFloor(Graphics2D g2, gBlockFloor block) {
         g2.setPaint(gBlockFactory.instance().floorTexture);
         g2.fillRect(
-                eUtils.scaleInt(block.getInt("coordx")) - 5,
-                eUtils.scaleInt(block.getInt("coordy")) - 5,
-                eUtils.scaleInt(block.getInt("dimw")) + 10,
-                eUtils.scaleInt(block.getInt("dimh")) + 10
+                block.getInt("coordx") - 5,
+                block.getInt("coordy") - 5,
+                block.getInt("dimw") + 10,
+                block.getInt("dimh") + 10
         );
     }
 
