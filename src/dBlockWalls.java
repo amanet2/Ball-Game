@@ -28,9 +28,8 @@ public class dBlockWalls {
             gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
                     new Rectangle2D.Double(block.getX(), block.getY(), 300, 300));
             g2.setPaint(gBlockFactory.instance().wallTexture);
-            g2.fillRect(
-                    block.getX(), block.getY() + block.getInt("toph"),
-                    block.getWidth(), block.getInt("wallh")
+            g2.fillRect(block.getX(), block.getY() + block.getInt("toph"),
+                        block.getWidth(), block.getInt("wallh")
             );
             dBlockWallsShading.drawBlockWallsShadingFlat(g2, block);
         }
@@ -39,11 +38,10 @@ public class dBlockWalls {
     public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
             g2.setColor(gBlockFactory.instance().wallColorPreview);
-            g2.fillRect(
-                    eUtils.scaleInt(block.getX()/4),
-                    eUtils.scaleInt(block.getY()/4+ block.getInt("toph")/4),
-                    eUtils.scaleInt(block.getWidth()/4),
-                    eUtils.scaleInt(block.getInt("wallh")/4)
+            g2.fillRect(eUtils.scaleInt(block.getX()/4),
+                        eUtils.scaleInt(block.getY()/4+ block.getInt("toph")/4),
+                        eUtils.scaleInt(block.getWidth()/4),
+                        eUtils.scaleInt(block.getInt("wallh")/4)
             );
         }
     }

@@ -81,10 +81,10 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
+                if(combinedMap.get(id).getY() <= lowestY) {
                     sorted = false;
                     lowestId = id;
-                    lowestY = combinedMap.get(id).getInt("coordy");
+                    lowestY = combinedMap.get(id).getY();
                 }
             }
             if(lowestId.length() > 0) {
@@ -211,7 +211,7 @@ public class gScene {
             for(String id : getThingMap("THING_BLOCK").keySet()) {
                 gBlock block = (gBlock) getThingMap("THING_BLOCK").get(id);
                 int coordx = block.getInt("coordx");
-                int coordy = block.getInt("coordy");
+                int coordy = block.getY();
                 String xString = "$1";
                 String yString = "$2";
 
