@@ -34,14 +34,13 @@ public class dWaypoints {
             //big font
             dFonts.setFontNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
-            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
-                    && (Math.abs(deltas[0]) > eUtils.unscaleInt(sSettings.width)
-                    || Math.abs(deltas[1]) > eUtils.unscaleInt(sSettings.height))) {
+            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)) {
+                AffineTransform backup = g2.getTransform();
+                g2.translate(cVars.getInt("camx"), cVars.getInt("camy"));
                 double angle = Math.atan2(deltas[1], deltas[0]);
                 if (angle < 0)
                     angle += 2 * Math.PI;
                 angle += Math.PI / 2;
-                AffineTransform backup = g2.getTransform();
                 AffineTransform a = g2.getTransform();
                 a.rotate(angle,
                         eUtils.unscaleInt((int)((double)sSettings.width / 2)),
@@ -65,6 +64,7 @@ public class dWaypoints {
                 g2.setColor(gColors.getFontColorFromName("waypoint2"));
                 g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+                g2.translate(-cVars.getInt("camx"), -cVars.getInt("camy"));
                 g2.setTransform(backup);
             }
         }
