@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class gThing {
@@ -39,11 +38,11 @@ public class gThing {
         dims[1] = h;
     }
 
-    public int getW() {
+    public int getWidth() {
         return dims[0];
     }
 
-    public int getH() {
+    public int getHeight() {
         return dims[1];
     }
 

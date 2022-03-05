@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 public class dBlockFloors {
@@ -13,7 +12,7 @@ public class dBlockFloors {
 
     public static void drawBlockFloor(Graphics2D g2, gBlockFloor block) {
         g2.setPaint(gBlockFactory.instance().floorTexture);
-        g2.fillRect(block.getX(), block.getY(), block.getW(), block.getH());
+        g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getHeight());
     }
 
     public static void drawMapmakerPreviewBlockFloors(Graphics2D g2, gScene scene) {
@@ -28,8 +27,8 @@ public class dBlockFloors {
         g2.setColor(gBlockFactory.instance().floorColorPreview);
         g2.fillRect(eUtils.scaleInt(block.getX()/4),
                     eUtils.scaleInt(block.getY()/4),
-                    eUtils.scaleInt(block.getW()/4),
-                    eUtils.scaleInt(block.getH()/4)
+                    eUtils.scaleInt(block.getWidth()/4),
+                    eUtils.scaleInt(block.getHeight()/4)
         );
     }
 }
