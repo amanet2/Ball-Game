@@ -81,10 +81,10 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(combinedMap.get(id).getY() <= lowestY) {
+                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
                     sorted = false;
                     lowestId = id;
-                    lowestY = combinedMap.get(id).getY();
+                    lowestY = combinedMap.get(id).getInt("coordy");
                 }
             }
             if(lowestId.length() > 0) {
@@ -106,13 +106,8 @@ public class gScene {
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
-                        block.get("type"),
-                        block.get("coordx"),
-                        block.get("coordy"),
-                        block.get("dimw"),
-                        block.get("dimh"),
-                        block.get("toph"),
-                        block.get("wallh")
+                        block.get("type"), block.get("coordx"), block.get("coordy"), block.get("dimw"),
+                        block.get("dimh"), block.get("toph"), block.get("wallh")
                 };
                 if(block.contains("prefabid"))
                     writer.write("cv_prefabid " + block.get("prefabid") + '\n');
@@ -211,7 +206,7 @@ public class gScene {
             for(String id : getThingMap("THING_BLOCK").keySet()) {
                 gBlock block = (gBlock) getThingMap("THING_BLOCK").get(id);
                 int coordx = block.getInt("coordx");
-                int coordy = block.getY();
+                int coordy = block.getInt("coordy");
                 String xString = "$1";
                 String yString = "$2";
 
