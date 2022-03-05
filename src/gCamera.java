@@ -23,9 +23,9 @@ public class gCamera {
 
 	public static void updatePosition() {
 		switch(mode) {
-			case MODE_TRACKING:
-				centerCamera();
-				break;
+//			case MODE_TRACKING:
+////				centerCamera();
+//				break;
 			case MODE_FREE:
 				cVars.addIntVal("camx", velocity*move[3] - velocity*move[2]);
 				cVars.addIntVal("camy", velocity*move[1] - velocity*move[0]);

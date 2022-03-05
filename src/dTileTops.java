@@ -65,7 +65,7 @@ public class dTileTops {
     public static void drawPopups(Graphics g, gScene scene) {
         HashMap popupsMap = scene.getThingMap("THING_POPUP");
         if(popupsMap.size() > 0)
-            dFonts.setFontNormal(g);
+            dFonts.setFontGNormal(g);
         for(Object id : popupsMap.keySet()) {
             gPopup p = (gPopup) popupsMap.get(id);
             g.setColor(Color.BLACK);
