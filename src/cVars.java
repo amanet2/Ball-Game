@@ -7,8 +7,6 @@ public class cVars {
     private static void init() {
         put("bottime", "0");
         put("camplayertrackingid", uiInterface.uuid);
-        put("camx", "0");
-        put("camy", "0");
         put("delayhp", "3600");
         put("flagmastertime", "0");
         put("gameover", "0");

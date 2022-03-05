@@ -13,17 +13,6 @@ public class dPlayer {
             int h = 3*player.getInt("dimh")/2;
             if(sSettings.vfxenableflares)
                 dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
-            //flag for ctf
-            if(nClient.instance().serverArgsMap.containsKey("server")
-                    && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
-                    && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(player.get("id"))) {
-                g2.drawImage(gItemFactory.instance().flagSprite,
-                        player.getInt("coordx"),
-                        player.getInt("coordy")
-                                - 2*player.getInt("dimh")/3,
-                        null
-                );
-            }
         }
         //player shadow
         if(sSettings.vfxenableshadows) {
@@ -35,7 +24,7 @@ public class dPlayer {
                     player.getInt("coordx"),
                     player.getInt("coordy") + yadj,
                     player.getInt("dimw"),
-                    player.getInt("dimh")/3);
+                    (double)player.getInt("dimh")/3);
             RadialGradientPaint df = new RadialGradientPaint(
                     shadowBounds, new float[]{0f, 1f},
                     new Color[]{
@@ -53,6 +42,17 @@ public class dPlayer {
                 player.getInt("coordy"),
                 null
         );
+        //flag for ctf
+        if(nClient.instance().serverArgsMap.containsKey("server")
+                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
+                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(player.get("id"))) {
+            g2.drawImage(gItemFactory.instance().flagSprite,
+                    player.getInt("coordx"),
+                    player.getInt("coordy")
+                            - 2*player.getInt("dimh")/3,
+                    null
+            );
+        }
         //shading
         if(sSettings.vfxenableshading) {
             GradientPaint df = new GradientPaint(

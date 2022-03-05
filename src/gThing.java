@@ -92,9 +92,9 @@ public class gThing {
     }
 
     public boolean coordsWithinBounds(int x, int y) {
-        return (x >= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx"))
-                && x <= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx")+getInt("dimw")))
-                && (y >= eUtils.scaleInt(getInt("coordy")-cVars.getInt("camy"))
-                && y <= eUtils.scaleInt(getInt("coordy")-cVars.getInt("camy")+getInt("dimh")));
+        return (x >= eUtils.scaleInt(getInt("coordx")-gCamera.getX())
+                && x <= eUtils.scaleInt(getInt("coordx")-gCamera.getX()+getInt("dimw")))
+                && (y >= eUtils.scaleInt(getInt("coordy")-gCamera.getY())
+                && y <= eUtils.scaleInt(getInt("coordy")-gCamera.getY()+getInt("dimh")));
     }
 }

@@ -74,12 +74,12 @@ public class dScreenFX {
         if(uiInterface.inplay) {
             int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
             int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
-            int cx = eUtils.unscaleInt(cVars.getInt("camx"));
-            int cy = eUtils.unscaleInt(cVars.getInt("camy"));
+            int cx = eUtils.unscaleInt(gCamera.getX());
+            int cy = eUtils.unscaleInt(gCamera.getY());
             int snapX = aimerx + cx;
             int snapY = aimery + cy;
-            snapX -= eUtils.unscaleInt(cVars.getInt("camx"));
-            snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
+            snapX -= eUtils.unscaleInt(gCamera.getX());
+            snapY -= eUtils.unscaleInt(gCamera.getY());
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
             int setw = sSettings.height / 96;

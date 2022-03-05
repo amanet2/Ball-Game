@@ -112,12 +112,12 @@ public class cClientLogic {
             if(obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
                 if(isUserPlayer(obj) && gCamera.isTracking())
-                    cVars.putInt("camx", dx - eUtils.unscaleInt(sSettings.width/2));
+                    gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
             }
             if(obj.wontClipOnMove(1,dy, scene)) {
                 obj.putInt("coordy", dy);
                 if(isUserPlayer(obj) && gCamera.isTracking())
-                    cVars.putInt("camy", dy - eUtils.unscaleInt(sSettings.height/2));
+                    gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
             }
         }
 
@@ -251,9 +251,9 @@ public class cClientLogic {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
-                - cVars.getInt("camx"));
+                - gCamera.getX());
         double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2
-                - cVars.getInt("camy"));
+                - gCamera.getY());
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;

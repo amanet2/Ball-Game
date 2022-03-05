@@ -54,9 +54,9 @@ public class dMapmakerOverlay {
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                +cVars.getInt("camx")-w/2, uiEditorMenus.snapToX);
+                +gCamera.getX()-w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                +cVars.getInt("camy")-h/2, uiEditorMenus.snapToY);
+                +gCamera.getY()-h/2, uiEditorMenus.snapToY);
         g2.setColor(gColors.getFontColorFromName("preview"));
         g2.drawRect(px, py,
                 w, h);

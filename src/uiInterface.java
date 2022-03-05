@@ -35,8 +35,8 @@ public class uiInterface {
                         cServerLogic.gameLoop();
                     if(sSettings.IS_CLIENT)
                         cClientLogic.gameLoop();
-                    camReport[0] = cVars.getInt("camx");
-                    camReport[1] = cVars.getInt("camy");
+                    camReport[0] = gCamera.getX();
+                    camReport[1] = gCamera.getY();
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;
@@ -111,9 +111,9 @@ public class uiInterface {
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int[] fabdims = dMapmakerOverlay.getNewPrefabDims();
-        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+gCamera.getX() - fabdims[0]/2,
                 uiEditorMenus.snapToX);
-        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+gCamera.getY() - fabdims[1]/2,
                 uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }

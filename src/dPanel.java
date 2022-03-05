@@ -37,7 +37,7 @@ public class dPanel extends JPanel {
                     ((1.0 / sSettings.gamescale) * (double) sSettings.height),
                     ((1.0 / sSettings.gamescale) * (double) sSettings.height)
                 );
-                g2.translate(-cVars.getInt("camx"), -cVars.getInt("camy"));
+                g2.translate(-gCamera.getX(), -gCamera.getY());
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
                 dTileTops.drawMapmakerOverlay(g2, scene);
@@ -51,7 +51,7 @@ public class dPanel extends JPanel {
                 if(!uiInterface.inplay && sSettings.show_mapmaker_ui) {
                     dMapmakerOverlay.drawSelectionBoxes(g2);
                 }
-                g2.translate(cVars.getInt("camx"), cVars.getInt("camy"));
+                g2.translate(gCamera.getX(), gCamera.getY());
             }
         }
         g2.dispose();

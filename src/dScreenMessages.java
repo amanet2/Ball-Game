@@ -37,8 +37,8 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
                         uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
             else
-                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + cVars.getInt("camx"),
-                        eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")),0,9*sSettings.height/64);
+                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
+                        eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
         if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
