@@ -2,6 +2,51 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class gThing {
+    private int[] coords = {0, 0};
+    private int[] dims = {0, 0};
+
+    public void setCoords(int x, int y) {
+        coords[0] = x;
+        coords[1] = y;
+    }
+
+    public void setX(int x) {
+        coords[0] = x;
+    }
+
+    public void setY(int y) {
+        coords[1] = y;
+    }
+
+    public int getX() {
+        return coords[0];
+    }
+
+    public int getY() {
+        return coords[1];
+    }
+
+    public void setDims(int w, int h) {
+        dims[0] = w;
+        dims[1] = h;
+    }
+
+    public void setW(int w) {
+        dims[0] = w;
+    }
+
+    public void setH(int h) {
+        dims[1] = h;
+    }
+
+    public int getW() {
+        return dims[0];
+    }
+
+    public int getH() {
+        return dims[1];
+    }
+
     private LinkedHashMap<String, String> vars;
     public String get(String s) {
         return vars.get(s);

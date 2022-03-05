@@ -48,7 +48,7 @@ public class gBlockFactory {
         wallColorPreview = new Color(120, 120, 200, 255);
         floorColorPreview = new Color(100,100,60,255);
         floorTexture = new TexturePaint(floorImage, new Rectangle2D.Double(0,0,
-                eUtils.scaleInt(1210),eUtils.scaleInt(1210)));
+                eUtils.scaleInt(1200),eUtils.scaleInt(1200)));
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(300),eUtils.scaleInt(300)));
         topTexture = new TexturePaint(topImage, new Rectangle2D.Double(0,0,
