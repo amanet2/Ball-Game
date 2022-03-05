@@ -32,7 +32,7 @@ public class dWaypoints {
             g2.setColor(gColors.getFontColorFromName("waypoint2"));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
-            dFonts.setFontNormal(g2);
+            dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
             if(!cVars.isInt("gamemode", cGameLogic.VIRUS)) {
                 AffineTransform backup = g2.getTransform();
