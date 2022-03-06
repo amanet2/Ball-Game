@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class cServerLogic {
     static long flagmastertime = 0;
     static int delayhp = 3600;
+    static long starttime = 0;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -18,7 +19,7 @@ public class cServerLogic {
     public static void checkTimeRemaining() {
         if(sVars.getInt("timelimit") > 0)
             cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
-                    - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
+                    - (int) (uiInterface.gameTime - starttime)));
         else
             cVars.putLong("timeleft", -1);
     }
@@ -188,7 +189,7 @@ public class cServerLogic {
         nServer.instance().voteSkipMap = new HashMap<>();
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
-        cVars.putLong("starttime", System.currentTimeMillis());
+        starttime = System.currentTimeMillis();
         cVars.put("gameover", "0");
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
             cGameLogic.resetVirusPlayers();
