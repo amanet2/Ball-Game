@@ -6,7 +6,6 @@ public class cVars {
 
     private static void init() {
         putInt("gamemode", cGameLogic.DEATHMATCH);
-        put("intermissiontime", "-1");
         put("maploaded", "0");
         put("newitemname", "");
         put("newprefabname", "room");

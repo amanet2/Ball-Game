@@ -6,6 +6,7 @@ public class cServerLogic {
     static long flagmastertime = 0;
     static int delayhp = 3600;
     static long starttime = 0;
+    static long intermissiontime = -1;
     static boolean gameover = false;
     static gScene scene = new gScene();
     public static void gameLoop() {
@@ -99,7 +100,7 @@ public class cServerLogic {
         if(!sSettings.show_mapmaker_ui && !gameover) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
-                    && cVars.getLong("intermissiontime") < 0)) {
+                    && intermissiontime < 0)) {
                 gameover = true;
             }
             if(gameover) {
@@ -113,8 +114,7 @@ public class cServerLogic {
 //                nServer.instance().addExcludingNetCmd("server",
 //                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
-                cVars.putLong("intermissiontime",
-                        System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+                intermissiontime = System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime"));
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
             }
@@ -167,9 +167,8 @@ public class cServerLogic {
     }
 
     public static void checkForMapChange() {
-        if(cVars.getLong("intermissiontime") > 0
-                && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
-            cVars.put("intermissiontime", "-1");
+        if(intermissiontime > 0 && intermissiontime < System.currentTimeMillis()) {
+            intermissiontime = -1;
             cVars.putInt("timeleft", sVars.getInt("timelimit"));
             xCon.ex("changemaprandom");
         }
