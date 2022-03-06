@@ -3,6 +3,7 @@ import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
+    private static int retrylimit = 0;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
@@ -97,7 +98,7 @@ public class nClient extends Thread {
                     eUtils.echoException(ee);
                     ee.printStackTrace();
                     retries++;
-                    if(retries > sVars.getInt("netrcvretries")) {
+                    if(retries > retrylimit) {
                         xCon.ex("disconnect");
                         xCon.ex("echo Lost connection to server");
                     }
