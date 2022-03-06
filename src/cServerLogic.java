@@ -9,6 +9,7 @@ public class cServerLogic {
     static long intermissiontime = -1;
     static boolean gameover = false;
     static int rechargehp = 1;
+    static long virustime = 0;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -49,7 +50,7 @@ public class cServerLogic {
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                if(virustime < uiInterface.gameTime) {
                     boolean survivors = false;
                     for(String id : getPlayerIds()) {
                         if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
@@ -57,7 +58,7 @@ public class cServerLogic {
                             xCon.ex("givepoint " + id);
                         }
                     }
-                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    virustime = uiInterface.gameTime + 1000;
                     if(!survivors) {
                         cGameLogic.resetVirusPlayers();
                     }

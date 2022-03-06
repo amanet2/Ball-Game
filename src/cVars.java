@@ -21,7 +21,6 @@ public class cVars {
         put("timeleft", sVars.get("timelimit"));
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
-        put("virustime", "0");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");
         put("weaponbotrange2", "400");
