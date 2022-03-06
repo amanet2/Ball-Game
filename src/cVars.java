@@ -18,7 +18,6 @@ public class cVars {
         put("selectedprefabname", "");
         put("respawnwaittime", "3000");
         put("serversendmapbatchsize", "320");
-        put("showscore", "0");
         put("timeleft", sVars.get("timelimit"));
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));

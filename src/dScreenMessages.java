@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class dScreenMessages {
-
+    static boolean showscore = false;
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
@@ -175,7 +175,7 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //respawn msg
         //scoreboard
-        if(cVars.isOne("showscore")) {
+        if(showscore) {
             dScoreboard.showScoreBoard(g);
         }
         //loading

@@ -1,10 +1,10 @@
 public class xComShowScore extends xCom {
     public String doCommand(String fullCommand) {
-        cVars.put("showscore", "1");
+        dScreenMessages.showscore = true;
         return fullCommand;
     }
     public String undoCommand(String fullCommand) {
-        cVars.put("showscore", "0");
+        dScreenMessages.showscore = false;
         return fullCommand;
     }
 }
