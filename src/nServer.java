@@ -222,9 +222,8 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
-                cVars.putLong("bottime",
-                        uiInterface.gameTime + (long)(1000.0/(double)sSettings.ratebots));
+            if(botsMap.size() > 0 && cBotsLogic.bottime < uiInterface.gameTime) {
+                cBotsLogic.bottime = uiInterface.gameTime + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);

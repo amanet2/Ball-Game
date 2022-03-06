@@ -133,9 +133,9 @@ public class cClientLogic {
         for(Object id : popupsMap.keySet()) {
             gPopup obj = (gPopup) popupsMap.get(id);
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
+                    - (int) (sSettings.velocity_popup*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
+                    - (int) (sSettings.velocity_popup*Math.sin(obj.getDouble("fv")+Math.PI/2))));
         }
         checkBulletSplashes();
     }
@@ -203,7 +203,7 @@ public class cClientLogic {
         HashMap popupsMap = scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
             gPopup g = (gPopup) popupsMap.get(id);
-            if(g.getLong("timestamp") < System.currentTimeMillis() - cVars.getInt("popuplivetime")) {
+            if(g.getLong("timestamp") < System.currentTimeMillis() - sSettings.popuplivetime) {
                 popupIdToRemove = (String) id;
                 break;
             }

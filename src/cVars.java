@@ -5,19 +5,13 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("bottime", "0");
-        put("camplayertrackingid", uiInterface.uuid);
-        put("delayhp", "3600");
-        put("flagmastertime", "0");
         put("gameover", "0");
         putInt("gamemode", cGameLogic.DEATHMATCH);
-        put("blockmouseui", "0");
         put("intermissiontime", "-1");
         put("maploaded", "0");
         put("newitemname", "");
         put("newprefabname", "room");
         put("maxstockhp", "500");
-        put("popuplivetime", "2000");
         put("itemid", "0");
         put("prefabid", "0");
         put("selecteditemid", "");
@@ -33,7 +27,6 @@ public class cVars {
         put("timeleft", sVars.get("timelimit"));
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
-        put("velocitypopup", "2");
         put("virustime", "0");
         put("weaponbotrange0", "300");
         put("weaponbotrange1", "800");

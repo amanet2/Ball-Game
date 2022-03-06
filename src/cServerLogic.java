@@ -3,6 +3,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class cServerLogic {
+    static long flagmastertime = 0;
+    static int delayhp = 3600;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -37,9 +39,9 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
-                if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                if(flagmastertime < uiInterface.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
-                    cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                    flagmastertime = uiInterface.gameTime + 1000;
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
@@ -133,7 +135,7 @@ public class cServerLogic {
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
+                    p.getLong("hprechargetime")+delayhp < System.currentTimeMillis()) {
                 if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
                     p.put("stockhp", cVars.get("maxstockhp"));
                 else

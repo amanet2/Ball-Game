@@ -25,6 +25,8 @@ public class sSettings {
 	static boolean vfxenableshadows = true;
 	static boolean vfxenableflares = true;
 	static boolean vfxenableanimations = true;
+	static int popuplivetime = 2000;
+	static int velocity_popup = 2;
 	/**
 	 * AUDIO
 	 * **/

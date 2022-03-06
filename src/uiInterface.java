@@ -17,6 +17,7 @@ public class uiInterface {
     static int[] camReport = new int[]{0,0};
     private static int frames = 0;
     static String uuid = eManager.createId();
+    static boolean blockMouseUI = false;
 
     private static void startGame() {
         int ticks = 0;
@@ -119,7 +120,7 @@ public class uiInterface {
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
-        if(cVars.isZero("blockmouseui")) {
+        if(!blockMouseUI) {
             int[] mc = uiInterface.getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
             int[] yBounds = sSettings.displaymode > 0
