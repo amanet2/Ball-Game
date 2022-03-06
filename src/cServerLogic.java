@@ -6,6 +6,7 @@ public class cServerLogic {
     static long flagmastertime = 0;
     static int delayhp = 3600;
     static long starttime = 0;
+    static boolean gameover = false;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -95,13 +96,13 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
+        if(!sSettings.show_mapmaker_ui && !gameover) {
             //conditions
             if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
                     && cVars.getLong("intermissiontime") < 0)) {
-                cVars.put("gameover", "1");
+                gameover = true;
             }
-            if(cVars.isOne("gameover")) {
+            if(gameover) {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
@@ -190,7 +191,7 @@ public class cServerLogic {
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         starttime = System.currentTimeMillis();
-        cVars.put("gameover", "0");
+        gameover = false;
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
             cGameLogic.resetVirusPlayers();
     }
