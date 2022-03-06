@@ -8,6 +8,7 @@ public class cServerLogic {
     static long starttime = 0;
     static long intermissiontime = -1;
     static boolean gameover = false;
+    static int rechargehp = 1;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -110,9 +111,6 @@ public class cServerLogic {
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
-//                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-//                nServer.instance().addExcludingNetCmd("server",
-//                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
                 nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
                 intermissiontime = System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime"));
                 nServer.instance().addExcludingNetCmd("server",
@@ -138,10 +136,10 @@ public class cServerLogic {
             gPlayer p = (gPlayer) playersMap.get(id);
             if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
                     p.getLong("hprechargetime")+delayhp < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
+                if(p.getInt("stockhp") + rechargehp > cVars.getInt("maxstockhp"))
                     p.put("stockhp", cVars.get("maxstockhp"));
                 else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
+                    p.putInt("stockhp", p.getInt("stockhp") + rechargehp);
             }
         }
     }
