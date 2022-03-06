@@ -18,7 +18,6 @@ public class cVars {
         put("selectedprefabid", "");
         put("selecteditemname", "");
         put("selectedprefabname", "");
-        put("shotgunmasterids", "");
         put("rechargehp", "1");
         put("respawnwaittime", "3000");
         put("serversendmapbatchsize", "320");
