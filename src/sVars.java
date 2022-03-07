@@ -23,7 +23,6 @@ public class sVars {
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("logopath", "misc/logo.png");
-        keys.put("msgfadetime", "10000");
         keys.put("playercolor", "blue");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
@@ -60,7 +59,7 @@ public class sVars {
                         && Integer.parseInt(toks[3]) < 256);
             }
             else if(k.contains("time") || k.equals("fontsize") || k.equals("framerates") || k.equals("inconsole")
-                || k.equals("intermissiontime") || k.equals("joinport") || k.equals("msgfadetime")
+                || k.equals("intermissiontime") || k.equals("joinport")
                 || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
                 || k.equals("startpaused")
                 || k.equals("timelimit") || k.equals("timeout")
