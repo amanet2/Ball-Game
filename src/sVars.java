@@ -11,7 +11,6 @@ public class sVars {
         keys.put("botnameselection", "bot0,bot1,bot2,bot3,bot4,bot5,bot6,bot7,bot8,bot9");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("consolemaxlinelength", "128");
-        keys.put("coverpath", "misc/cover.png");
         keys.put("datapath", "ballgame");
         keys.put("debuglog", "0");
         keys.put("fontsize", "90");
@@ -22,7 +21,6 @@ public class sVars {
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
-        keys.put("logopath", "misc/logo.png");
         keys.put("playercolor", "blue");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
