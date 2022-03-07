@@ -1,7 +1,8 @@
 import java.awt.*;
 
 public class uiInterface {
-    static boolean inplay = sVars.isZero("startpaused");
+    static boolean inplay = false; //must be FALSE for mapmaker to work right
+    static boolean inconsole = false;
     static long gameTime = System.currentTimeMillis();
     private static long gameTimeNanos = System.nanoTime();
     private static long tickCounterTime = gameTime;

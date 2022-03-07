@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class xCon {
     private static xCon instance = null;
+    static int maxlinelength = 128;
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
@@ -39,8 +40,8 @@ public class xCon {
     }
 
     public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), Font.PLAIN,
-            sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
+            dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 

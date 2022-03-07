@@ -8,6 +8,8 @@ public class dFonts {
     static Stroke thickStroke = new BasicStroke(eUtils.scaleInt(16));
     static Stroke hudStroke = new BasicStroke(eUtils.scaleInt(10));
     static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
+    static int fontsize = 90;
+    static String fontnameconsole = "Courier";
 
     public static int getStringWidth(Graphics g, String s) {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
@@ -67,33 +69,33 @@ public class dFonts {
         setFontColorNormal(g);
         g.setFont(
                 new Font(sVars.get("fontnameui"), Font.PLAIN,
-                        sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale
+                        fontsize * sSettings.height / sSettings.gamescale
                 )
         );
     }
     public static void setFontGNormal(Graphics g) {
         setFontColorNormal(g);
         g.setFont(
-                new Font(sVars.get("fontnameui"), Font.PLAIN, sVars.getInt("fontsize")
+                new Font(sVars.get("fontnameui"), Font.PLAIN, fontsize
                 )
         );
     }
     public static Font getFontNormal() {
         return new Font(sVars.get("fontnameui"), Font.PLAIN,
-                sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale);
+                fontsize * sSettings.height / sSettings.gamescale);
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
         g.setFont(new Font(sVars.get("fontnameui"), Font.PLAIN,
-                sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2));
+                fontsize*sSettings.height/sSettings.gamescale/2));
     }
     public static Font getFontSmall() {
         return new Font(sVars.get("fontnameui"), Font.PLAIN,
-                sVars.getInt("fontsize") * sSettings.height / sSettings.gamescale/2);
+                fontsize * sSettings.height / sSettings.gamescale/2);
     }
 
     public static void setFontConsole(Graphics g) {
-        g.setFont(new Font(sVars.get("fontnameconsole"), Font.PLAIN,
-                sVars.getInt("fontsize")*sSettings.height/sSettings.gamescale/2));
+        g.setFont(new Font(fontnameconsole, Font.PLAIN,
+                fontsize*sSettings.height/sSettings.gamescale/2));
     }
 }

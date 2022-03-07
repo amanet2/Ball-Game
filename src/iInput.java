@@ -19,7 +19,7 @@ public class iInput {
 	}
 
 	public static void processKeyPressInput(int command) {
-	    if(sVars.isOne("inconsole")) {
+	    if(uiInterface.inconsole) {
             switch (command) {
                 case KeyEvent.VK_UP:
                     xCon.instance().prevCommandIndex =
@@ -108,7 +108,7 @@ public class iInput {
                 xCon.instance().cursorIndex = xCon.instance().commandString.length();
                 return;
             }
-            if(xCon.instance().commandString.length() < sVars.getInt("consolemaxlinelength")){
+            if(xCon.instance().commandString.length() < xCon.maxlinelength){
                 String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
                 String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
                 String toAdd = KeyEvent.getKeyText(command).toLowerCase().contains("numpad")
@@ -209,7 +209,7 @@ public class iInput {
 	}
 
 	public static void processKeyReleaseInput(int command) {
-	    if(sVars.isOne("inconsole")) {
+	    if(uiInterface.inconsole) {
 	        switch (command) {
                 case KeyEvent.VK_BACK_QUOTE:
                     xCon.ex("console");

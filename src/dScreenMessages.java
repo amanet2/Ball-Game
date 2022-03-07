@@ -131,7 +131,7 @@ public class dScreenMessages {
         }
         //console
         dFonts.setFontConsole(g);
-        if(sVars.isOne("inconsole")) {
+        if(uiInterface.inconsole) {
             g.setColor(gColors.getFontColorFromName("scoreboardbg"));
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(gColors.getFontColorFromName("console"));

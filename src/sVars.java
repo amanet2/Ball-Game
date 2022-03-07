@@ -10,21 +10,16 @@ public class sVars {
     private static void init() {
         keys.put("botnameselection", "bot0,bot1,bot2,bot3,bot4,bot5,bot6,bot7,bot8,bot9");
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
-        keys.put("consolemaxlinelength", "128");
         keys.put("datapath", "ballgame");
         keys.put("debuglog", "0");
-        keys.put("fontsize", "90");
         keys.put("fontnameui", "None");
-        keys.put("fontnameconsole", "Courier");
         keys.put("framerates", "24,30,60,75,98,120,144,240");
-        keys.put("inconsole", "0");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("playercolor", "blue");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
-        keys.put("sfxrange", "1800");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
         keys.put("showmapmakerui", "0");
@@ -33,7 +28,6 @@ public class sVars {
         keys.put("showplayer", "1");
         keys.put("showscale", "1");
         keys.put("showtick", "1");
-        keys.put("startpaused", "1"); //ISSUE: needs to be 1 HERE for mapmaker to work right
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vidmode", "1280,720,60");
@@ -56,10 +50,9 @@ public class sVars {
                         && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
                         && Integer.parseInt(toks[3]) < 256);
             }
-            else if(k.contains("time") || k.equals("fontsize") || k.equals("framerates") || k.equals("inconsole")
+            else if(k.contains("time") || k.equals("framerates")
                 || k.equals("intermissiontime") || k.equals("joinport")
-                || k.equals("sfxrange") || k.equals("showfps") || k.equals("shownet")
-                || k.equals("startpaused")
+                || k.equals("showfps") || k.equals("shownet")
                 || k.equals("timelimit") || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {
