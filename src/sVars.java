@@ -31,7 +31,7 @@ public class sVars {
         keys.put("showtick", "1");
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
-        keys.put("vidmode", "1280,720,60");
+        keys.put("velocityplayerbase", "8");
         keys.put("voteskiplimit", "2");
         keys.put("volume", "100");
     }
@@ -39,12 +39,7 @@ public class sVars {
     static boolean checkVal(String key, String v) {
         try {
             String k = key.toLowerCase();
-            if(k.equals("vidmode")) {
-                String[] toks = v.split(",");
-                return toks.length == 3 && Integer.parseInt(toks[0]) >= 640 && Integer.parseInt(toks[1]) >= 480
-                        && Integer.parseInt(toks[2]) >= 24;
-            }
-            else if(k.contains("fontcolor")) {
+            if(k.contains("fontcolor")) {
                 String[] toks = v.split(",");
                 return (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
                         && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0

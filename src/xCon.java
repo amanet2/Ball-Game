@@ -224,7 +224,13 @@ public class xCon {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 0) {
                 String configval = args[0];
-                if(sVars.contains(configval)) {
+                if(gArgs.contains(configval)) {
+                    if(args.length > 1) {
+                        gArgs.put(configval, args[1]);
+                    }
+                    return gArgs.get(configval);
+                }
+                else if(sVars.contains(configval)) {
 //                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {

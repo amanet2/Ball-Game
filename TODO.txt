@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* Create arg class that will utilize observer pattern to handle onChange() stuff
+    -> find the arg the same way we do in console
+    -> on the change, call the onChange() function which will notify observer(s)
+        -> e.g. vidmode arg onChange() will refresh the frame/stuff
+            -> no more checkX() functions
 * think of how to build maps/prefabs out of only collisions and floors
 * try using graphics scale/translate with the gamescale instead of eutils in every draw op
 * move the dim/4 stuff to the preview block build call, not draw

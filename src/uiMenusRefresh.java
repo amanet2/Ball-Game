@@ -12,8 +12,9 @@ public class uiMenusRefresh extends uiMenu {
             items = Arrays.copyOf(items,items.length+1);
             items[items.length-1] = new uiMenuItem(sVars.getArray("framerates")[i]){
                 public void doItem() {
-                    sVars.put("vidmode", String.format("%d,%d,%d",sSettings.width,sSettings.height,
-                            Integer.parseInt(text)));
+                    gArgs.put("vidmode",
+                            String.format("%d,%d,%d",sSettings.width,sSettings.height,
+                                    Integer.parseInt(text)));
                     uiMenus.selectedMenu = parentMenu;
                 }
             };

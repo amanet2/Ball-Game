@@ -55,15 +55,16 @@ public class uiInterface {
                     frames = 0;
                     framecounterTime = lastFrameTime + 1000;
                 }
-                if(sSettings.framerate > 0) {
+//                if(sSettings.framerate > 0) {
                     long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                     //power saving
 //                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
 //                    if(toSleep > 0)
 //                        Thread.sleep(toSleep);
                     while (nextFrameTime >= System.nanoTime()); // do nothing
-                }
-            } catch (Exception e) {
+//                }
+            }
+            catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
             }
@@ -73,6 +74,7 @@ public class uiInterface {
     public static void init(String[] launch_args) {
         //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
         eUtils.disableApplePressAndHold();
+        gArgs.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");

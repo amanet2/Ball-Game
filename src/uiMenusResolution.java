@@ -13,9 +13,9 @@ public class uiMenusResolution extends uiMenu {
             items[items.length-1] = new uiMenuItem(sVars.getArray("resolutions")[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
-                    sVars.put("vidmode",
+                    gArgs.put("vidmode",
                             String.format("%d,%d,%d", Integer.parseInt(toks[0]), Integer.parseInt(toks[1]),
-                                    sSettings.framerate));
+                            sSettings.framerate) );
                     uiMenus.selectedMenu = parentMenu;
                 }
             };

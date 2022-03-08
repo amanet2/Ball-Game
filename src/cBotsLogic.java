@@ -251,7 +251,7 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int velocityPlayerBase = cVars.getInt("velocityplayerbase");
+        int velocityPlayerBase = sVars.getInt("velocityplayerbase");
         int speed = 3*velocityPlayerBase/4;
         if(x2 > x1) {
             int modspeed = speed + (int)(
@@ -292,27 +292,15 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cVars.getInt("velocityplayerbase")/4;
-        if(x2 > x1) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel3", modspeed);
-        }
-        if(x1 > x2) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel2", modspeed);
-        }
-        if(y2 > y1) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel1", modspeed);
-        }
-        if(y1 > y2) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel0", modspeed);
-        }
+        int speed = 3*sVars.getInt("velocityplayerbase")/4;
+        if(x2 > x1)
+            bot.putInt("botvel3", speed + (int)(Math.random()*(speed)-(speed)));
+        if(x1 > x2)
+            bot.putInt("botvel2", speed + (int)(Math.random()*(speed)-(speed)));
+        if(y2 > y1)
+            bot.putInt("botvel1", speed + (int)(Math.random()*(speed)-(speed)));
+        if(y1 > y2)
+            bot.putInt("botvel0", speed + (int)(Math.random()*(speed)-(speed)));
         if(bot.getInt("botvel1") > 0 && bot.getInt("botvel3") > 0)
             bot.put("fv", Double.toString(Math.PI/2));
         else if(bot.getInt("botvel1") > 0 && bot.getInt("botvel2") > 0)

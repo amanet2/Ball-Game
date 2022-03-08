@@ -14,8 +14,7 @@ public class cVars {
         put("prefabid", "0");
         put("selectedprefabid", "");
         put("timeleft", sVars.get("timelimit"));
-        put("velocityplayerbase", "8");
-        put("velocityplayer", get("velocityplayerbase"));
+        put("velocityplayer", sVars.get("velocityplayerbase"));
         put("weapontime0", "0");
         put("weapontime1", "0");
         put("weapontime2", "0");
