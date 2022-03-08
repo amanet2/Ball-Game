@@ -13,17 +13,9 @@ public class cVars {
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("respawnwaittime", "3000");
-        put("serversendmapbatchsize", "320");
         put("timeleft", sVars.get("timelimit"));
         put("velocityplayerbase", "8");
         put("velocityplayer", get("velocityplayerbase"));
-        put("weaponbotrange0", "300");
-        put("weaponbotrange1", "800");
-        put("weaponbotrange2", "400");
-        put("weaponbotrange3", "600");
-        put("weaponbotrange4", "600");
-        put("weaponbotrange5", "300");
         put("weapontime0", "0");
         put("weapontime1", "0");
         put("weapontime2", "0");
@@ -38,8 +30,6 @@ public class cVars {
         put("weaponstock5", "0");
         //bots
         put("botviruschaserange", "600");
-        //voting
-        put("voteskiplimit", "2");
     }
 
     static boolean checkVal(String key, String v) {

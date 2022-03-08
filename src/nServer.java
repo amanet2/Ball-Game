@@ -5,6 +5,7 @@ import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
+    private static final int sendbatchsize = 320;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -575,7 +576,7 @@ public class nServer extends Thread {
                 next = maplines.get(i+1);
             sendStringBuilder.append(line).append(";");
             linectr++;
-            if(sendStringBuilder.length() + next.length() >= cVars.getInt("serversendmapbatchsize")
+            if(sendStringBuilder.length() + next.length() >= sendbatchsize
             || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
@@ -627,19 +628,19 @@ public class nServer extends Thread {
         if(testmsg.equalsIgnoreCase("skip")) {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
-                if(voteSkipMap.keySet().size() >= cVars.getInt("voteskiplimit")) {
+                if(voteSkipMap.keySet().size() >= sVars.getInt("voteskiplimit")) {
                     cServerLogic.intermissiontime = System.currentTimeMillis() + sVars.getInt("intermissiontime");
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winClipSelection[
                                     (int) (Math.random() * eManager.winClipSelection.length)],
-                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
+                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", sVars.get("voteskiplimit")),
                             "echo changing map..."}) {
                         addExcludingNetCmd("server", s);
                     }
                 }
                 else {
                     String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                            voteSkipMap.keySet().size(), cVars.get("voteskiplimit"));
+                            voteSkipMap.keySet().size(), sVars.get("voteskiplimit"));
                     addExcludingNetCmd("server", s);
                 }
             }

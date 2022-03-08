@@ -3,6 +3,14 @@ import java.util.HashMap;
 public class cBotsLogic {
     //string title maps to doable, fetched via key=gametype by server
     static long bottime = 0;
+    static int[] weaponranges = {
+            300,
+            800,
+            400,
+            600,
+            600,
+            300
+    };
     private static HashMap<String, gDoableThing> behaviors = null;
     public static gDoableThing getBehavior(String key) {
         if(behaviors == null) {
@@ -210,8 +218,8 @@ public class cBotsLogic {
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
         int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-        if(Math.abs(x2 - x1) <= cVars.getInt("weaponbotrange"+bot.get("weapon"))
-                && Math.abs(y2-y1) <= cVars.getInt("weaponbotrange"+bot.get("weapon"))) {
+        if(Math.abs(x2 - x1) <= weaponranges[bot.getInt("weapon")]
+                && Math.abs(y2-y1) <= weaponranges[bot.getInt("weapon")]) {
             return true;
         }
         return false;

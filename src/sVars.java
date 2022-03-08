@@ -20,6 +20,7 @@ public class sVars {
         keys.put("playercolor", "blue");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
+        keys.put("respawnwaittime", "3000");
         keys.put("showcam", "1");
         keys.put("showfps", "1");
         keys.put("showmapmakerui", "0");
@@ -31,6 +32,7 @@ public class sVars {
         keys.put("timelimit", "120000");
         keys.put("timeout", "10000");
         keys.put("vidmode", "1280,720,60");
+        keys.put("voteskiplimit", "2");
         keys.put("volume", "100");
     }
 
