@@ -13,8 +13,6 @@ public class cVars {
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("selecteditemname", "");
-        put("selectedprefabname", "");
         put("respawnwaittime", "3000");
         put("serversendmapbatchsize", "320");
         put("timeleft", sVars.get("timelimit"));

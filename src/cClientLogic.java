@@ -54,9 +54,7 @@ public class cClientLogic {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 selecteditemid = item.get("itemid");
-                cVars.put("selecteditemname", item.get("type"));
                 cVars.put("selectedprefabid", "");
-                cVars.put("selectedprefabname", "");
                 return;
             }
         }
@@ -65,9 +63,7 @@ public class cClientLogic {
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
                 selecteditemid = "";
-                cVars.put("selecteditemname", "");
                 return;
             }
         }
@@ -75,9 +71,7 @@ public class cClientLogic {
             gThing block = scene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
                 selecteditemid = "";
-                cVars.put("selecteditemname", "");
                 return;
             }
         }
