@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
-
+    static String selecteditemid = "";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -53,7 +53,7 @@ public class cClientLogic {
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selecteditemid", item.get("itemid"));
+                selecteditemid = item.get("itemid");
                 cVars.put("selecteditemname", item.get("type"));
                 cVars.put("selectedprefabid", "");
                 cVars.put("selectedprefabname", "");
@@ -66,7 +66,7 @@ public class cClientLogic {
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
                 cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
+                selecteditemid = "";
                 cVars.put("selecteditemname", "");
                 return;
             }
@@ -76,13 +76,13 @@ public class cClientLogic {
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
                 cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
+                selecteditemid = "";
                 cVars.put("selecteditemname", "");
                 return;
             }
         }
         cVars.put("selectedprefabid", "");
-        cVars.put("selecteditemid", "");
+        selecteditemid = "";
     }
 
     public static void updateEntityPositions() {

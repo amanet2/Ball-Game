@@ -37,7 +37,7 @@ public class dMapmakerOverlay {
         // -- selected item
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.isVal("itemid", cVars.get("selecteditemid"))) {
+            if(item.contains("itemid") && item.isVal("itemid", cClientLogic.selecteditemid)) {
                 g2.setColor(gColors.getFontColorFromName("selected"));
                 g2.drawRect(item.getInt("coordx"),
                         item.getInt("coordy"),

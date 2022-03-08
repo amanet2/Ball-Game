@@ -12,7 +12,6 @@ public class cVars {
         put("maxstockhp", "500");
         put("itemid", "0");
         put("prefabid", "0");
-        put("selecteditemid", "");
         put("selectedprefabid", "");
         put("selecteditemname", "");
         put("selectedprefabname", "");
