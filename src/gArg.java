@@ -1,7 +1,9 @@
 public class gArg {
+    String key;
     String value;
 
-    public gArg(String v) {
+    public gArg(String k, String v) {
+        key = k;
         value = v;
     }
 

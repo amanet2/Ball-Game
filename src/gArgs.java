@@ -1,3 +1,5 @@
+import javafx.scene.media.AudioClip;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class gArgs {
     }
 
     private static void init() {
-        putArg("vidmode", new gArg("1920,1080,60") {
+        putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
                 int[] sres = new int[]{
@@ -57,10 +59,20 @@ public class gArgs {
                 }
             }
         });
+        putArg(new gArg("audioenabled", "1") {
+            public void onChange() {
+                if(Integer.parseInt(value) < 1 && oAudio.instance().clips.size() > 0) {
+                    for(AudioClip c : oAudio.instance().clips) {
+                        c.stop();
+                    }
+                    oAudio.instance().clips.clear();
+                }
+            }
+        });
     }
 
-    private static void putArg(String key, gArg arg) {
-        instance().args.put(key, arg);
+    private static void putArg(gArg arg) {
+        instance().args.put(arg.key, arg);
     }
 
     private static gArg getArg(String key) {
