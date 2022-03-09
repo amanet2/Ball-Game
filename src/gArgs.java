@@ -61,12 +61,17 @@ public class gArgs {
         });
         putArg(new gArg("audioenabled", "1") {
             public void onChange() {
-                if(Integer.parseInt(value) < 1 && oAudio.instance().clips.size() > 0) {
+                if(Integer.parseInt(value) < 1) {
                     for(AudioClip c : oAudio.instance().clips) {
                         c.stop();
                     }
                     oAudio.instance().clips.clear();
                 }
+            }
+        });
+        putArg(new gArg("timelimit", "120000") {
+            public void onChange() {
+                cServerLogic.starttime = System.currentTimeMillis();
             }
         });
     }
@@ -83,6 +88,12 @@ public class gArgs {
         if(instance().args.containsKey(key))
             return instance().args.get(key).value;
         return null;
+    }
+
+    public static int getInt(String key) {
+        if(instance().args.containsKey(key))
+            return Integer.parseInt(instance().args.get(key).value);
+        return -1;
     }
 
     public static void put(String key, String val) {

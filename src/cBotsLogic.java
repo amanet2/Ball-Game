@@ -3,6 +3,7 @@ import java.util.HashMap;
 public class cBotsLogic {
     //string title maps to doable, fetched via key=gametype by server
     static long bottime = 0;
+    static int botviruschaserange = 600;
     static int[] weaponranges = {
             300,
             800,
@@ -233,8 +234,8 @@ public class cBotsLogic {
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-                if(Math.abs(x2 - x1) <= cVars.getInt("botviruschaserange")
-                        && Math.abs(y2-y1) <= cVars.getInt("botviruschaserange")) {
+                if(Math.abs(x2 - x1) <= botviruschaserange
+                        && Math.abs(y2-y1) <= botviruschaserange) {
                     return true;
                 }
             }

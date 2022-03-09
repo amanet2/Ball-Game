@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* turn timelimit into a gARg
+    -> onChange -> restart timer
 * Create arg class that will utilize observer pattern to handle onChange() stuff
     -> find the arg the same way we do in console
     -> on the change, call the onChange() function which will notify observer(s)

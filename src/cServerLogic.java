@@ -21,8 +21,8 @@ public class cServerLogic {
     }
 
     public static void checkTimeRemaining() {
-        if(sVars.getInt("timelimit") > 0)
-            cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
+        if(gArgs.getInt("timelimit") > 0)
+            cVars.putLong("timeleft", Math.max(0, gArgs.getInt("timelimit")
                     - (int) (uiInterface.gameTime - starttime)));
         else
             cVars.putLong("timeleft", -1);
@@ -168,7 +168,7 @@ public class cServerLogic {
     public static void checkForMapChange() {
         if(intermissiontime > 0 && intermissiontime < System.currentTimeMillis()) {
             intermissiontime = -1;
-            cVars.putInt("timeleft", sVars.getInt("timelimit"));
+            cVars.putInt("timeleft", gArgs.getInt("timelimit"));
             xCon.ex("changemaprandom");
         }
     }

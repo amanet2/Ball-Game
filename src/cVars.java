@@ -13,7 +13,7 @@ public class cVars {
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("timeleft", sVars.get("timelimit"));
+        put("timeleft", gArgs.get("timelimit"));
         put("velocityplayer", sVars.get("velocityplayerbase"));
         put("weapontime0", "0");
         put("weapontime1", "0");
@@ -27,8 +27,6 @@ public class cVars {
         put("weaponstock3", "0");
         put("weaponstock4", "0");
         put("weaponstock5", "0");
-        //bots
-        put("botviruschaserange", "600");
     }
 
     static boolean checkVal(String key, String v) {

@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class cClientLogic {
     static gScene scene = new gScene();
     static String selecteditemid = "";
-    static int velocityplayer = 0;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
