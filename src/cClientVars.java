@@ -1,7 +1,7 @@
 import javafx.scene.media.AudioClip;
 
-public class cServerVars extends gArgs {
-    protected static void init() {
+public class cClientVars extends gArgs {
+    protected void init() {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
@@ -10,14 +10,13 @@ public class cServerVars extends gArgs {
                         Integer.parseInt(vidmodetoks[1]),
                         Integer.parseInt(vidmodetoks[2])
                 };
-                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
+                if(sSettings.width != sres[0] || sSettings.height != sres[1] || sSettings.framerate != sres[2]) {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
+                    sSettings.framerate = sres[2];
                     oDisplay.instance().refreshResolution();
                     dMenus.refreshLogos();
                 }
-                if(sSettings.framerate != sres[2])
-                    sSettings.framerate = sres[2];
             }
         });
         putArg(new gArg("audioenabled", "1") {
@@ -31,26 +30,16 @@ public class cServerVars extends gArgs {
                 }
             }
         });
-        putArg(new gArg("timelimit", "180000") {
-            public void onChange() {
-                cServerLogic.starttime = System.currentTimeMillis();
-            }
-        });
         putArg(new gArg("displaymode", "0") {
             public void onChange() {
                 sSettings.displaymode = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("maxhp", "500") {
-            public void onChange() {
-                cServerLogic.maxhp = Integer.parseInt(value);
-            }
-        });
     }
     public static gArgs instance() {
         if(instance == null) {
-            instance = new gArgs();
-            init();
+            instance = new cClientVars();
+            instance.init();
         }
         return instance;
     }

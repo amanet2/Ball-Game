@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* go over instance creation and lines stored for console
 * make a cArg class
     -> have it work like garg but be for local instances
     -> garg-like

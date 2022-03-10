@@ -11,7 +11,7 @@ public class uiMenusAudio extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem(String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X")) {
                     public void doItem() {
-                        gArgs.put("audioenabled", sSettings.audioenabled ? "0" : "1");
+                        cClientVars.instance().put("audioenabled", sSettings.audioenabled ? "0" : "1");
                     }
                 },
                 new uiMenuItem(String.format("Volume [%s]", sVars.get("volume"))) {

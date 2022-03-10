@@ -51,8 +51,8 @@ public class oDisplay extends JLayeredPane {
 		if(sSettings.show_mapmaker_ui)
 			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
-        sSettings.width = Integer.parseInt(gArgs.get("vidmode").split(",")[0]);
-        sSettings.height = Integer.parseInt(gArgs.get("vidmode").split(",")[1]);
+//        sSettings.width = Integer.parseInt(cClientVars.instance().get("vidmode").split(",")[0]);
+//        sSettings.height = Integer.parseInt(cClientVars.instance().get("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         setBackground(gColors.getFontColorFromName("background"));
         createPanels();

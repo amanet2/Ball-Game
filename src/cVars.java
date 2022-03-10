@@ -13,7 +13,7 @@ public class cVars {
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("timeleft", gArgs.get("timelimit"));
+        put("timeleft", "180000"); //TODO: figure a way for clients to not need this
         put("velocityplayer", sVars.get("velocityplayerbase"));
         put("weapontime0", "0");
         put("weapontime1", "0");

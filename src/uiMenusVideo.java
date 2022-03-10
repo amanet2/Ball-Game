@@ -28,7 +28,7 @@ public class uiMenusVideo extends uiMenu {
                 new uiMenuItem(String.format("Borderless [%s]",
                         sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                     public void doItem() {
-                        gArgs.put("displaymode",
+                        cClientVars.instance().put("displaymode",
                                 sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0");
                         text = String.format("Borderless [%s]",
                                 sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
