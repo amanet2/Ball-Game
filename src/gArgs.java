@@ -61,6 +61,7 @@ public class gArgs {
         });
         putArg(new gArg("audioenabled", "1") {
             public void onChange() {
+                sSettings.audioenabled = Integer.parseInt(value) > 0;
                 if(Integer.parseInt(value) < 1) {
                     for(AudioClip c : oAudio.instance().clips) {
                         c.stop();
@@ -72,6 +73,11 @@ public class gArgs {
         putArg(new gArg("timelimit", "120000") {
             public void onChange() {
                 cServerLogic.starttime = System.currentTimeMillis();
+            }
+        });
+        putArg(new gArg("displaymode", "0") {
+            public void onChange() {
+                sSettings.displaymode = Integer.parseInt(value);
             }
         });
     }

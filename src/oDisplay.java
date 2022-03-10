@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class oDisplay extends JLayeredPane {
 	static int displaymode_windowed = 0;
-	static int displaymode_fullscreen = 1;
-	static int displaymode_borderless = 2;
+	static int displaymode_borderless = 1;
+	static int displaymode_fullscreen = 2;
 	JFrame frame;
     Cursor blankCursor;
 

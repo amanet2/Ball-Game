@@ -28,8 +28,8 @@ public class uiMenusVideo extends uiMenu {
                 new uiMenuItem(String.format("Borderless [%s]",
                         sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                     public void doItem() {
-                        sSettings.displaymode = sSettings.displaymode != oDisplay.displaymode_borderless
-                                ? oDisplay.displaymode_borderless : oDisplay.displaymode_windowed;
+                        gArgs.put("displaymode",
+                                sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0");
                         text = String.format("Borderless [%s]",
                                 sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
                         oDisplay.instance().createPanels();
