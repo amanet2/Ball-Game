@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* use sSetttings vars for internal, use cServerVars/ClientVars for user interactions
 * go over instance creation and lines stored for console
 * make a cArg class
     -> have it work like garg but be for local instances
