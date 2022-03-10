@@ -52,11 +52,8 @@ public class gArgs {
                     oDisplay.instance().refreshResolution();
                     dMenus.refreshLogos();
                 }
-                if(sSettings.framerate != sres[2]) {
+                if(sSettings.framerate != sres[2])
                     sSettings.framerate = sres[2];
-//                    uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[1].text =
-//                            String.format("Framerate: [%d]",sSettings.framerate);
-                }
             }
         });
         putArg(new gArg("audioenabled", "1") {
@@ -70,7 +67,7 @@ public class gArgs {
                 }
             }
         });
-        putArg(new gArg("timelimit", "120000") {
+        putArg(new gArg("timelimit", "180000") {
             public void onChange() {
                 cServerLogic.starttime = System.currentTimeMillis();
             }
@@ -78,6 +75,11 @@ public class gArgs {
         putArg(new gArg("displaymode", "0") {
             public void onChange() {
                 sSettings.displaymode = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("maxhp", "500") {
+            public void onChange() {
+                cServerLogic.maxhp = Integer.parseInt(value);
             }
         });
     }

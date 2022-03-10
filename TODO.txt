@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make a cArg class
+    -> have it work like garg but be for local instances
+    -> garg-like
 * turn timelimit into a gARg
     -> onChange -> restart timer
 * Create arg class that will utilize observer pattern to handle onChange() stuff

@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class cServerLogic {
+    static int maxhp = 500;
     static long flagmastertime = 0;
     static int delayhp = 3600;
     static long starttime = 0;
@@ -135,10 +136,10 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
+            if(p.getInt("stockhp") < maxhp &&
                     p.getLong("hprechargetime")+delayhp < System.currentTimeMillis()) {
-                if(p.getInt("stockhp") + rechargehp > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
+                if(p.getInt("stockhp") + rechargehp > maxhp)
+                    p.putInt("stockhp", maxhp);
                 else
                     p.putInt("stockhp", p.getInt("stockhp") + rechargehp);
             }
