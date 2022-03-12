@@ -9,6 +9,7 @@ public class cServerVars extends gArgs {
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 cServerLogic.maxhp = Integer.parseInt(value);
+                nServer.instance().addNetCmd("cv_maxstockhp " + cServerLogic.maxhp);
             }
         });
     }

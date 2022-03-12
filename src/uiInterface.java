@@ -74,10 +74,12 @@ public class uiInterface {
     public static void init(String[] launch_args) {
         //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
         eUtils.disableApplePressAndHold();
-        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
+        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+//        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
+//        sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
