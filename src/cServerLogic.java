@@ -136,12 +136,15 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            if(p.getInt("stockhp") < maxhp &&
-                    p.getLong("hprechargetime")+delayhp < System.currentTimeMillis()) {
-                if(p.getInt("stockhp") + rechargehp > maxhp)
+            int pHp = p.getInt("stockhp");
+            if(pHp < maxhp && p.getLong("hprechargetime") + delayhp < System.currentTimeMillis()) {
+                if(pHp + rechargehp > maxhp)
                     p.putInt("stockhp", maxhp);
                 else
-                    p.putInt("stockhp", p.getInt("stockhp") + rechargehp);
+                    p.putInt("stockhp", pHp + rechargehp);
+            }
+            else if(pHp > maxhp) {
+                p.putInt("stockhp", maxhp);
             }
         }
     }

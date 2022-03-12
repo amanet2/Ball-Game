@@ -267,9 +267,11 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        sSettings.IS_CLIENT = false;
-        clientSocket.close();
-        serverArgsMap = new HashMap<>();
-        serverIds = new ArrayList<>();
+        if(sSettings.IS_CLIENT) {
+            sSettings.IS_CLIENT = false;
+            clientSocket.close();
+            serverArgsMap = new HashMap<>();
+            serverIds = new ArrayList<>();
+        }
     }
 }

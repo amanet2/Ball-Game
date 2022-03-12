@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* send health payload as x/Y
+* Architecture for syncing svars across clients (e.g. maxhp)
+    -> client/hud use local integer in clientLogic to store maxhp (avoid overwriting saved settings)
+    -> server sVar value onChange() will tell clients to set CVar for maxhp
+        -> cVar for maxHp change on clients will set local integer in clientLogic
 * use sSetttings vars for internal, use cServerVars/ClientVars for user interactions
 * go over instance creation and lines stored for console
 * make a cArg class

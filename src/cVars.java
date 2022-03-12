@@ -9,7 +9,6 @@ public class cVars {
         put("maploaded", "0");
         put("newitemname", "");
         put("newprefabname", "room");
-        put("maxstockhp", "500");
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");

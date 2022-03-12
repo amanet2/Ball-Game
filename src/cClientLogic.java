@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
+    static int maxhp = 500;
     static String selecteditemid = "";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);

@@ -16,7 +16,7 @@ public class dHUD {
                 sSettings.height/64);
         g.setColor(gColors.getFontColorFromName("normaldark"));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
-                sSettings.width/8*userPlayer.getInt("stockhp")/cVars.getInt("maxstockhp"),
+                sSettings.width/8*userPlayer.getInt("stockhp")/cClientLogic.maxhp,
                 sSettings.height/64);
         g.setColor(Color.black);
         g.drawRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
