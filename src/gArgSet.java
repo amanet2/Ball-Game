@@ -3,12 +3,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class gArgs {
+public class gArgSet {
     protected HashMap<String, gArg> args;
     protected static ArrayList<String> filelines = new ArrayList<>();
-    protected static gArgs instance;
+    protected static gArgSet instance;
 
-    protected gArgs() {
+    protected gArgSet() {
         args = new HashMap<>();
     }
 
@@ -67,10 +67,10 @@ public class gArgs {
             arg.onChange();
         }
         else
-            xCon.instance().debug("gArgs.put: no arg for key: " + key);
+            xCon.instance().debug("gArgSet.put: no arg for key: " + key);
     }
 
-    private static gArgs instance() {
+    private static gArgSet instance() {
         assert  instance != null : "Cannot create abstract argset";
         return instance;
     }

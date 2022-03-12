@@ -1,6 +1,6 @@
 import javafx.scene.media.AudioClip;
 
-public class cClientVars extends gArgs {
+public class cClientVars extends gArgSet {
     protected void init() {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
@@ -35,8 +35,13 @@ public class cClientVars extends gArgs {
                 sSettings.displaymode = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("maxhp", "500") {
+            public void onChange() {
+                cClientLogic.maxhp = Integer.parseInt(value);
+            }
+        });
     }
-    public static gArgs instance() {
+    public static gArgSet instance() {
         if(instance == null) {
             instance = new cClientVars();
             instance.init();
