@@ -224,36 +224,19 @@ public class xCon {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 0) {
                 String configval = args[0];
+                System.out.println(configval);
+                System.out.println(cClientVars.instance().args.keySet());
                 if(cServerVars.instance().contains(configval)) {
                     if(args.length > 1) {
                         cServerVars.instance().put(configval, args[1]);
                     }
                     return cServerVars.instance().get(configval);
                 }
-//                else if(cClientVars.instance().contains(configval)) {
-//                    if(args.length > 1) {
-//                        cClientVars.instance().put(configval, args[1]);
-//                    }
-//                    return cClientVars.instance().get(configval);
-//                }
-                else if(configval.startsWith("cv_")
-                        && cClientVars.instance().contains(configval.substring(3))) {
-//                    System.out.println("CONSOLE PARSING CVAR: " + configval);
-                    //if we're setting instead of getting
+                else if(cClientVars.instance().contains(configval)) {
                     if(args.length > 1) {
-                        String val = args[1];
-                        //check if our "value" is a reference to svar or cvar
-                        if(cServerVars.instance().contains(val))
-                            val = cServerVars.instance().get(val);
-                        if(val.length() > 3 && val.startsWith("cv_")
-                                && cClientVars.instance().contains(val.substring(3)))
-                            val = cClientVars.instance().get(val.substring(3));
-                        //TODO: check for valid input here
-                        cClientVars.instance().put(configval.substring(3), val);
-//                        if(cVars.checkVal(configval.substring(3), val))
-//                            cVars.put(configval.substring(3), val);
+                        cClientVars.instance().put(configval, args[1]);
                     }
-                    return cVars.get(configval.substring(3));
+                    return cClientVars.instance().get(configval);
                 }
                 else if(sVars.contains(configval)) {
 //                    System.out.println("CONSOLE PARSING SVAR: " + configval);

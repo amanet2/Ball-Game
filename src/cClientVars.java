@@ -1,6 +1,13 @@
 import javafx.scene.media.AudioClip;
 
+import java.util.HashMap;
+
 public class cClientVars extends gArgSet {
+    protected static gArgSet instance;
+
+    protected cClientVars() {
+        args = new HashMap<>();
+    }
     protected void init() {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
@@ -14,8 +21,8 @@ public class cClientVars extends gArgSet {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
                     sSettings.framerate = sres[2];
-                    oDisplay.instance().refreshResolution();
-                    dMenus.refreshLogos();
+//                    oDisplay.instance().refreshResolution();
+//                    dMenus.refreshLogos();
                 }
             }
         });
@@ -35,8 +42,9 @@ public class cClientVars extends gArgSet {
                 sSettings.displaymode = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("maxhp", "500") {
+        putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
+                System.out.println("FOOBAR");
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });

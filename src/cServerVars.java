@@ -1,4 +1,11 @@
+import java.util.HashMap;
+
 public class cServerVars extends gArgSet {
+    protected static gArgSet instance;
+
+    protected cServerVars() {
+        args = new HashMap<>();
+    }
     protected void init() {
         putArg(new gArg("timelimit", "180000") {
             public void onChange() {
@@ -8,6 +15,7 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
+                System.out.println("GOOBAR");
                 int newval = Integer.parseInt(value);
                 if(sSettings.IS_SERVER && cServerLogic.maxhp != newval) {
                     cServerLogic.maxhp = newval;
@@ -17,7 +25,7 @@ public class cServerVars extends gArgSet {
                         p.putInt("stockhp", cServerLogic.maxhp);
                     }
                 }
-                cClientLogic.maxhp = newval;
+//                cClientLogic.maxhp = newval;
             }
         });
     }
