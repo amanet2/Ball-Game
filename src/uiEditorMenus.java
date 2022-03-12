@@ -11,6 +11,7 @@ public class uiEditorMenus {
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
     static int snapToX = 50;
     static int snapToY = 50;
+    static String newitemname = "";
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
@@ -34,7 +35,7 @@ public class uiEditorMenus {
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+            if(checkBoxMenuItem.getText().equals(newitemname)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -210,7 +211,7 @@ public class uiEditorMenus {
 //                uiEditorMenus.previewScene = new gScene();
                 xCon.ex("cl_clearthingmappreview");
                 xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
-                cVars.put("newitemname", "");
+                newitemname = "";
                 refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
@@ -221,12 +222,12 @@ public class uiEditorMenus {
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
-            if(itemMenuItem.getText().equals(cVars.get("newitemname"))) {
+            if(itemMenuItem.getText().equals(newitemname)) {
                 itemMenuItem.setSelected(true);
             }
             itemMenuItem.addActionListener(e -> {
                 cVars.put("newprefabname", "");
-                cVars.put("newitemname", itemname);
+                newitemname = itemname;
                 refreshCheckBoxItems();
             });
             itemCheckBoxMenuItems.add(itemMenuItem);

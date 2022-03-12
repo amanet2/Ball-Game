@@ -106,8 +106,8 @@ public class dScreenMessages {
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
                 g.drawString("Preview", 4*sSettings.width/5,59*sSettings.height/100);
-                if(cVars.get("newitemname").length() > 0)
-                    newThingString = cVars.get("newitemname");
+                if(uiEditorMenus.newitemname.length() > 0)
+                    newThingString = uiEditorMenus.newitemname;
                 boolean drawnRotate = false;
                 String[] rotates = {"_000", "_090", "_180", "_270"};
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
