@@ -6,6 +6,10 @@ public class cClientLogic {
     static gScene scene = new gScene();
     static int maxhp = 500;
     static String selecteditemid = "";
+    static long weapontimePistol = 0;
+    static long weapontimeShotgun = 0;
+    static long weapontimeAutorifle = 0;
+    static long weapontimeLauncher = 0;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

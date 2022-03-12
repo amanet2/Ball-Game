@@ -32,7 +32,7 @@ public class gWeaponsAutorifle extends gWeapon {
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.AUTORIFLE.code());
-            cVars.putLong("weapontime"+ gWeapons.type.AUTORIFLE.code(), System.currentTimeMillis());
+            cClientLogic.weapontimeAutorifle = System.currentTimeMillis();
         }
     }
 }

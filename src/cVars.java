@@ -13,12 +13,6 @@ public class cVars {
         put("selectedprefabid", "");
         put("timeleft", "180000"); //TODO: figure a way for clients to not need this
         put("velocityplayer", sVars.get("velocityplayerbase"));
-        put("weapontime0", "0");
-        put("weapontime1", "0");
-        put("weapontime2", "0");
-        put("weapontime3", "0");
-        put("weapontime4", "0");
-        put("weapontime5", "0");
         put("weaponstock0", "0");
         put("weaponstock1", "0");
         put("weaponstock2", "0");

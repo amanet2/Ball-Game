@@ -32,7 +32,7 @@ public class gWeaponsPistol extends gWeapon {
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
-            cVars.putLong("weapontime"+ gWeapons.type.PISTOL.code(), System.currentTimeMillis());
+            cClientLogic.weapontimePistol = System.currentTimeMillis();
         }
     }
 }

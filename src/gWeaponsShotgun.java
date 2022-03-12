@@ -35,7 +35,7 @@ public class gWeaponsShotgun extends gWeapon {
         }
         if(p == cClientLogic.getUserPlayer()) {
             cVars.decrement("weaponstock"+ gWeapons.type.SHOTGUN.code());
-            cVars.putLong("weapontime"+ gWeapons.type.SHOTGUN.code(), System.currentTimeMillis());
+            cClientLogic.weapontimeShotgun = System.currentTimeMillis();
         }
     }
 }
