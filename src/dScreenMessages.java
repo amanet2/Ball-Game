@@ -53,7 +53,7 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay) {
+        if(uiInterface.inplay && cVars.isOne("maploaded")) {
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {
@@ -70,7 +70,7 @@ public class dScreenMessages {
         //wip notice -> needs to be transparent
         dFonts.setFontColorNormalTransparent(g);
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
-                sSettings.width/2, 5 * sSettings.height / 6);
+                sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
         //say
@@ -90,7 +90,7 @@ public class dScreenMessages {
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     dFonts.setFontColorBonus(g);
-                g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
+                g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
@@ -179,8 +179,11 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         //loading
-        if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
-                dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
+        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
+//            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
+            dFonts.drawRightJustifiedString(g, "LOADING...",
+                    29 * sSettings.width / 30, 31*sSettings.height/32);
+        }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {

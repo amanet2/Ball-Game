@@ -28,8 +28,8 @@ public class oDisplay extends JLayeredPane {
 	}
 
     public void refreshDisplaymode() {
-        oDisplay.instance().createPanels();
-        oDisplay.instance().showFrame();
+        createPanels();
+        showFrame();
     }
 
 	public void refreshResolution() {
@@ -54,16 +54,17 @@ public class oDisplay extends JLayeredPane {
 		if(sSettings.show_mapmaker_ui)
 			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
-//        sSettings.width = Integer.parseInt(cClientVars.instance().get("vidmode").split(",")[0]);
-//        sSettings.height = Integer.parseInt(cClientVars.instance().get("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         setBackground(gColors.getFontColorFromName("background"));
         createPanels();
 		frame.setContentPane(this);
 		frame.pack();
         frame.setLocationRelativeTo(null);
-        if(sSettings.displaymode == displaymode_fullscreen)
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if(sSettings.displaymode == displaymode_fullscreen) {
+            GraphicsEnvironment.getLocalGraphicsEnvironment().
+                    getDefaultScreenDevice().setFullScreenWindow(frame);
+//            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
 		frame.setVisible(true);
 		//add listeners
         frame.addKeyListener(iInput.keyboardInput);
