@@ -40,6 +40,9 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("displaymode", "0") {
             public void onChange() {
                 sSettings.displaymode = Integer.parseInt(value);
+                if(oDisplay.instance().frame != null) {
+                    oDisplay.instance().refreshDisplaymode();
+                }
             }
         });
         putArg(new gArg("cv_maxhp", "500") {

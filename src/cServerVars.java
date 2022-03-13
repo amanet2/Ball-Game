@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class cServerVars extends gArgSet {
     private static gArgSet instance;
 

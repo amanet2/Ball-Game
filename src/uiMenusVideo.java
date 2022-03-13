@@ -30,10 +30,7 @@ public class uiMenusVideo extends uiMenu {
                     public void doItem() {
                         cClientVars.instance().put("displaymode",
                                 sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0");
-                        text = String.format("Borderless [%s]",
-                                sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
-                        oDisplay.instance().createPanels();
-                        oDisplay.instance().showFrame();
+                        oDisplay.instance().refreshDisplaymode();
                     }
                 },
                 new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){

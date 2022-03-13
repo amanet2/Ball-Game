@@ -27,6 +27,13 @@ public class oDisplay extends JLayeredPane {
         super.setOpaque(true);
 	}
 
+    public void refreshDisplaymode() {
+        uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[2].text = String.format("Borderless [%s]",
+                sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
+        oDisplay.instance().createPanels();
+        oDisplay.instance().showFrame();
+    }
+
 	public void refreshResolution() {
         uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[0].text =
                 String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
