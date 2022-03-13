@@ -1,10 +1,10 @@
 import java.util.HashMap;
 
 public class cServerVars extends gArgSet {
-    protected static gArgSet instance;
+    private static gArgSet instance;
 
-    protected cServerVars() {
-        args = new HashMap<>();
+    private cServerVars() {
+        super();
     }
     protected void init() {
         putArg(new gArg("timelimit", "180000") {

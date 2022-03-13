@@ -1,12 +1,10 @@
 import javafx.scene.media.AudioClip;
 
-import java.util.HashMap;
-
 public class cClientVars extends gArgSet {
-    protected static gArgSet instance;
+    private static gArgSet instance;
 
-    protected cClientVars() {
-        args = new HashMap<>();
+    private cClientVars() {
+        super();
     }
     protected void init() {
         putArg(new gArg("vidmode", "1920,1080,60") {

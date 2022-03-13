@@ -1,14 +1,15 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class gArgSet {
     protected HashMap<String, gArg> args;
-    protected static ArrayList<String> filelines = new ArrayList<>();
+    protected ArrayList<String> filelines;
 
     protected gArgSet() {
         args = new HashMap<>();
+        filelines = new ArrayList<>();
     }
 
     public boolean contains(String key) {
@@ -29,6 +30,23 @@ public class gArgSet {
             xCon.instance().log(args.toString());
         }
         catch (Exception e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
+        }
+    }
+
+    public void saveToFile(String s) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(s), StandardCharsets.UTF_8))) {
+            for(String line : filelines) {
+                String arg = line.split(" ")[0];
+                if(contains(arg))
+                    writer.write(String.format("%s %s", arg, get(arg)));
+                else
+                    writer.write(line);
+                writer.write("\n");
+            }
+        } catch (IOException e) {
             eUtils.echoException(e);
             e.printStackTrace();
         }
