@@ -43,10 +43,11 @@ public class cClientLogic {
     }
 
     public static void netLoop() {
-        if(sSettings.show_mapmaker_ui)
-            cClientLogic.selectThingUnderMouse();
-        if(getUserPlayer() != null) {
-            pointPlayerAtMousePointer();
+        if(oDisplay.instance().frame.isVisible()) {
+            if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
+            if(getUserPlayer() != null)
+                pointPlayerAtMousePointer();
         }
     }
 
