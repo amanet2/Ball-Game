@@ -21,8 +21,10 @@ public class cClientVars extends gArgSet {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
                     sSettings.framerate = sres[2];
-//                    oDisplay.instance().refreshResolution();
-//                    dMenus.refreshLogos();
+                    if(oDisplay.instance().frame != null) {
+                        oDisplay.instance().refreshResolution();
+                        dMenus.refreshLogos();
+                    }
                 }
             }
         });
@@ -44,7 +46,6 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
-                System.out.println("FOOBAR");
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });

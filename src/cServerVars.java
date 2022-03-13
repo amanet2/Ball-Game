@@ -15,7 +15,6 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                System.out.println("GOOBAR");
                 int newval = Integer.parseInt(value);
                 if(sSettings.IS_SERVER && cServerLogic.maxhp != newval) {
                     cServerLogic.maxhp = newval;
@@ -25,7 +24,6 @@ public class cServerVars extends gArgSet {
                         p.putInt("stockhp", cServerLogic.maxhp);
                     }
                 }
-//                cClientLogic.maxhp = newval;
             }
         });
     }

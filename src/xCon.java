@@ -224,8 +224,6 @@ public class xCon {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 0) {
                 String configval = args[0];
-                System.out.println(configval);
-                System.out.println(cClientVars.instance().args.keySet());
                 if(cServerVars.instance().contains(configval)) {
                     if(args.length > 1) {
                         cServerVars.instance().put(configval, args[1]);

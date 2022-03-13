@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class gArgSet {
     protected HashMap<String, gArg> args;
     protected static ArrayList<String> filelines = new ArrayList<>();
-//    protected static gArgSet instance;
 
     protected gArgSet() {
         args = new HashMap<>();
@@ -17,7 +16,6 @@ public class gArgSet {
     }
 
     public void loadFromFile(String s) {
-        System.out.println("FUCK YOU");
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
             xCon.instance().log("Loading Settings File Path: " + s);
             String line;
@@ -70,9 +68,4 @@ public class gArgSet {
         else
             xCon.instance().debug("gArgSet.put: no arg for key: " + key);
     }
-
-//    private static gArgSet instance() {
-//        assert  instance != null : "Cannot create abstract argset";
-//        return instance;
-//    }
 }
