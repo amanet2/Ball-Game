@@ -50,6 +50,12 @@ public class cClientVars extends gArgSet {
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("fontui", "None"));
+        putArg(new gArg("showfps", "0"){
+            public void onChange() {
+                dScreenMessages.showfps = value.equals("1");
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {

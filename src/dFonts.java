@@ -68,7 +68,7 @@ public class dFonts {
     public static void setFontNormal(Graphics g) {
         setFontColorNormal(g);
         g.setFont(
-                new Font(sVars.get("fontnameui"), Font.PLAIN,
+                new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                         fontsize * sSettings.height / sSettings.gamescale
                 )
         );
@@ -76,21 +76,21 @@ public class dFonts {
     public static void setFontGNormal(Graphics g) {
         setFontColorNormal(g);
         g.setFont(
-                new Font(sVars.get("fontnameui"), Font.PLAIN, fontsize
+                new Font(cClientVars.instance().get("fontui"), Font.PLAIN, fontsize
                 )
         );
     }
     public static Font getFontNormal() {
-        return new Font(sVars.get("fontnameui"), Font.PLAIN,
+        return new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                 fontsize * sSettings.height / sSettings.gamescale);
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
-        g.setFont(new Font(sVars.get("fontnameui"), Font.PLAIN,
+        g.setFont(new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                 fontsize*sSettings.height/sSettings.gamescale/2));
     }
     public static Font getFontSmall() {
-        return new Font(sVars.get("fontnameui"), Font.PLAIN,
+        return new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                 fontsize * sSettings.height / sSettings.gamescale/2);
     }
 

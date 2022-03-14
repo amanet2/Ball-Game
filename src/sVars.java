@@ -12,7 +12,6 @@ public class sVars {
         keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("datapath", "ballgame");
         keys.put("debuglog", "0");
-        keys.put("fontnameui", "None");
         keys.put("framerates", "24,30,60,75,98,120,144,240");
         keys.put("intermissiontime", "10000");
         keys.put("joinip", "localhost");
@@ -22,7 +21,6 @@ public class sVars {
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("respawnwaittime", "3000");
         keys.put("showcam", "1");
-        keys.put("showfps", "1");
         keys.put("showmapmakerui", "0");
         keys.put("showmouse", "1");
         keys.put("shownet", "1");
@@ -48,7 +46,7 @@ public class sVars {
             }
             else if(k.contains("time") || k.equals("framerates")
                 || k.equals("intermissiontime") || k.equals("joinport")
-                || k.equals("showfps") || k.equals("shownet")
+                || k.equals("shownet")
                 || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {

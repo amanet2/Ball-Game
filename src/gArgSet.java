@@ -35,6 +35,14 @@ public class gArgSet {
         }
     }
 
+    public void loadFromLaunchArgs(String[] launchArgs) {
+        for (int i = 0; i < launchArgs.length; i+=2) {
+            if (launchArgs.length >= i+1) {
+                put(launchArgs[i], launchArgs[i+1]);
+            }
+        }
+    }
+
     public void saveToFile(String s) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(s), StandardCharsets.UTF_8))) {

@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class dScreenMessages {
     static boolean showscore = false;
+    static boolean showfps = false;
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
@@ -14,7 +15,7 @@ public class dScreenMessages {
         if(sVars.isOne("showtick"))
             g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
-        if(sVars.isOne("showfps"))
+        if(showfps)
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
         if(sVars.isOne("shownet")) {

@@ -33,9 +33,8 @@ public class cClientLogic {
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
-        if(getUserPlayer() != null) {
+        if(getUserPlayer() != null)
             checkPlayerFire();
-        }
         checkFinishedAnimations();
         checkExpiredPopups();
         updateEntityPositions();

@@ -77,7 +77,9 @@ public class uiInterface {
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
         cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cServerVars.instance().loadFromLaunchArgs(launch_args);
         cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        cClientVars.instance().loadFromLaunchArgs(launch_args);
 //        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
 //        sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
@@ -90,7 +92,6 @@ public class uiInterface {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
             sVars.putInt("showcam", 0);
-//            sVars.putInt("showfps", 0);
             sVars.putInt("showmouse", 0);
             sVars.putInt("shownet", 0);
             sVars.putInt("showplayer", 0);
