@@ -9,6 +9,7 @@ public class cServerLogic {
     static int delayhp = 3600;
     static long starttime = 0;
     static long intermissiontime = -1;
+    static int intermissionDelay = 10000;
     static boolean gameover = false;
     static int rechargehp = 1;
     static long virustime = 0;
@@ -115,7 +116,7 @@ public class cServerLogic {
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
                 nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
-                intermissiontime = System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime"));
+                intermissiontime = System.currentTimeMillis() + intermissionDelay;
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
             }

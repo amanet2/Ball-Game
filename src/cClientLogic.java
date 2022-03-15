@@ -13,6 +13,7 @@ public class cClientLogic {
     static long weapontimeLauncher = 0;
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
+    static String playerColor = "blue";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

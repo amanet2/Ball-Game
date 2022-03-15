@@ -126,7 +126,7 @@ public class nClient extends Thread {
         keys.put("id", uiInterface.uuid);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("color", sVars.get("playercolor"));
+            keys.put("color", cClientLogic.playerColor);
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));

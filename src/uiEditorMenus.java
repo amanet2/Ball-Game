@@ -44,7 +44,7 @@ public class uiEditorMenus {
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(sVars.get("playercolor"))) {
+            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -259,10 +259,10 @@ public class uiEditorMenus {
         for(String color : sVars.getArray("colorselection")) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
             colorMenuItem.setFont(dFonts.getFontNormal());
-            if(colorMenuItem.getText().equals(sVars.get("playercolor")))
+            if(colorMenuItem.getText().equals(cClientLogic.playerColor))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
-                sVars.put("playercolor", colorMenuItem.getText());
+                cClientLogic.playerColor = colorMenuItem.getText();
                 refreshColorCheckBoxItems();
             });
             colorCheckBoxMenuItems.add(colorMenuItem);

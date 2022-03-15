@@ -32,7 +32,7 @@ public class dHUD {
                     sSettings.width / 64, 58*sSettings.height/64);
         }
         g.drawString(cClientLogic.playerName, sSettings.width / 64, 62*sSettings.height/64);
-        g.setColor(gColors.getPlayerHudColorFromName(sVars.get("playercolor")));
+        g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
         // other players on server
         dFonts.setFontSmall(g);

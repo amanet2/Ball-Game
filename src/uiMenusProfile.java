@@ -2,7 +2,7 @@ public class uiMenusProfile extends uiMenu {
     public void refresh() {
         setMenuItemTexts(new String[]{
                 String.format("Name [%s]", cClientLogic.playerName),
-                String.format("Color [%s]", sVars.get("playercolor")),
+                String.format("Color [%s]", cClientLogic.playerColor),
         });
     }
     public uiMenusProfile() {
@@ -14,7 +14,7 @@ public class uiMenusProfile extends uiMenu {
                         text = String.format("Name [%s]", cClientLogic.playerName);
                     }
                 },
-                new uiMenuItem(String.format("Color [%s]", sVars.get("playercolor"))) {
+                new uiMenuItem(String.format("Color [%s]", cClientLogic.playerColor)) {
                     public void doItem() {
                         uiMenus.selectedMenu = uiMenus.MENU_COLOR;
                     }
