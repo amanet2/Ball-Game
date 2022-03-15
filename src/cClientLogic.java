@@ -5,11 +5,13 @@ import java.util.HashMap;
 public class cClientLogic {
     static gScene scene = new gScene();
     static int maxhp = 500;
+    static double volume = 100.0;
     static String selecteditemid = "";
     static long weapontimePistol = 0;
     static long weapontimeShotgun = 0;
     static long weapontimeAutorifle = 0;
     static long weapontimeLauncher = 0;
+    static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

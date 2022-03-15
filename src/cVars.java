@@ -13,12 +13,6 @@ public class cVars {
         put("selectedprefabid", "");
         put("timeleft", "180000"); //TODO: figure a way for clients to not need this
         put("velocityplayer", sVars.get("velocityplayerbase"));
-        put("weaponstock0", "0");
-        put("weaponstock1", "0");
-        put("weaponstock2", "0");
-        put("weaponstock3", "0");
-        put("weaponstock4", "0");
-        put("weaponstock5", "0");
     }
 
     static boolean checkVal(String key, String v) {

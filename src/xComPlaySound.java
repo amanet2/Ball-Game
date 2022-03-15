@@ -23,11 +23,11 @@ public class xComPlaySound extends xCom {
                     balance = -ratio;
                 soundClip.setBalance(balance);
                 soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
-                        *((double)sVars.getInt("volume")/100.0));
+                        *(cClientLogic.volume/100.0));
                 oAudio.instance().clips.add(soundClip);
             }
             else {
-                soundClip.play((double) sVars.getInt("volume") / 100.0);
+                soundClip.play(cClientLogic.volume / 100.0);
                 oAudio.instance().clips.add(soundClip);
             }
         }

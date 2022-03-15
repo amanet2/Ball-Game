@@ -31,7 +31,7 @@ public class gWeaponsPistol extends gWeapon {
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
+            cClientLogic.weaponStocks[gWeapons.type.PISTOL.code()] -= 1;
             cClientLogic.weapontimePistol = System.currentTimeMillis();
         }
     }

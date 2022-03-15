@@ -34,7 +34,7 @@ public class gWeaponsShotgun extends gWeapon {
             scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         }
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.SHOTGUN.code());
+            cClientLogic.weaponStocks[gWeapons.type.SHOTGUN.code()] -= 1;
             cClientLogic.weapontimeShotgun = System.currentTimeMillis();
         }
     }

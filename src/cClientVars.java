@@ -47,6 +47,11 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("volume", "100") {
+            public void onChange() {
+                cClientLogic.volume = Double.parseDouble(value);
+            }
+        });
         putArg(new gArg("displaymode", "0") {
             public void onChange() {
                 sSettings.displaymode = Integer.parseInt(value);
