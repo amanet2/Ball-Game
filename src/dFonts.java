@@ -10,6 +10,13 @@ public class dFonts {
     static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
     static int fontsize = 90;
     static String fontnameconsole = "Courier";
+    static Font fontNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
+            fontsize * sSettings.height / sSettings.gamescale);
+    static Font fontGNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN, fontsize);
+    static Font fontSmall = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
+            fontsize*sSettings.height/sSettings.gamescale/2);
+    static Font fontConsole = new Font(fontnameconsole, Font.PLAIN,
+            fontsize*sSettings.height/sSettings.gamescale/2);
 
     public static int getStringWidth(Graphics g, String s) {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
@@ -67,35 +74,24 @@ public class dFonts {
 
     public static void setFontNormal(Graphics g) {
         setFontColorNormal(g);
-        g.setFont(
-                new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
-                        fontsize * sSettings.height / sSettings.gamescale
-                )
-        );
+        g.setFont(fontNormal );
     }
     public static void setFontGNormal(Graphics g) {
         setFontColorNormal(g);
-        g.setFont(
-                new Font(cClientVars.instance().get("fontui"), Font.PLAIN, fontsize
-                )
-        );
+        g.setFont(fontGNormal);
     }
     public static Font getFontNormal() {
-        return new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
-                fontsize * sSettings.height / sSettings.gamescale);
+        return fontNormal;
     }
     public static void setFontSmall(Graphics g) {
         setFontColorNormal(g);
-        g.setFont(new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
-                fontsize*sSettings.height/sSettings.gamescale/2));
+        g.setFont(fontSmall);
     }
     public static Font getFontSmall() {
-        return new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
-                fontsize * sSettings.height / sSettings.gamescale/2);
+        return fontSmall;
     }
 
     public static void setFontConsole(Graphics g) {
-        g.setFont(new Font(fontnameconsole, Font.PLAIN,
-                fontsize*sSettings.height/sSettings.gamescale/2));
+        g.setFont(fontConsole);
     }
 }

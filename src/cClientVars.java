@@ -1,5 +1,7 @@
 import javafx.scene.media.AudioClip;
 
+import java.awt.*;
+
 public class cClientVars extends gArgSet {
     private static gArgSet instance;
 
@@ -19,6 +21,14 @@ public class cClientVars extends gArgSet {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
                     sSettings.framerate = sres[2];
+                    //refresh fonts
+                    dFonts.fontNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
+                            dFonts.fontsize * sSettings.height / sSettings.gamescale);
+                    dFonts.fontGNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN, dFonts.fontsize);
+                    dFonts.fontSmall = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
+                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                    dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
+                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
                     if(oDisplay.instance().frame != null) {
                         oDisplay.instance().refreshResolution();
                         dMenus.refreshLogos();
