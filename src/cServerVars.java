@@ -24,6 +24,11 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("respawnwaittime", "3000") {
+            public void onChange() {
+                cServerLogic.respawnwaittime = Integer.parseInt(value);
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {

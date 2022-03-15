@@ -12,6 +12,7 @@ public class cServerLogic {
     static boolean gameover = false;
     static int rechargehp = 1;
     static long virustime = 0;
+    static int respawnwaittime = 3000;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();

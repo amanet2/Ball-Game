@@ -19,12 +19,7 @@ public class sVars {
         keys.put("playercolor", "blue");
         keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
-        keys.put("respawnwaittime", "3000");
-        keys.put("showcam", "1");
         keys.put("showmapmakerui", "0");
-        keys.put("showmouse", "1");
-        keys.put("shownet", "1");
-        keys.put("showplayer", "1");
         keys.put("showscale", "1");
         keys.put("showtick", "1");
         keys.put("timeout", "10000");
@@ -46,7 +41,6 @@ public class sVars {
             }
             else if(k.contains("time") || k.equals("framerates")
                 || k.equals("intermissiontime") || k.equals("joinport")
-                || k.equals("shownet")
                 || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {

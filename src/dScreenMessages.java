@@ -6,19 +6,25 @@ import java.util.Arrays;
 public class dScreenMessages {
     static boolean showscore = false;
     static boolean showfps = false;
+    static boolean showcam = false;
+    static boolean showmouse = false;
+    static boolean shownet = false;
+    static boolean showplayer = false;
+    static boolean showtick = false;
+    static boolean showscale = false;
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
-        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0)
+        if(showscale)
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         //ticks
-        if(sVars.isOne("showtick"))
+        if(showtick)
             g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
         if(showfps)
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
-        if(sVars.isOne("shownet")) {
+        if(shownet) {
             g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 5 * sSettings.height / 64);
             g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
 //            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
@@ -26,13 +32,13 @@ public class dScreenMessages {
 //                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
 //                        0, 6 * sSettings.height / 64);
         }
-        if(sVars.isOne("showcam")) {
+        if(showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
                     uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
-        if(sVars.isOne("showmouse")) {
+        if(showmouse) {
             int[] mc = uiInterface.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
@@ -41,7 +47,7 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
                         eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
-        if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
+        if(showplayer && cClientLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
                     cClientLogic.getUserPlayer().getInt("coordx"),
                     cClientLogic.getUserPlayer().getInt("coordy")),
@@ -58,7 +64,7 @@ public class dScreenMessages {
             long timeleft = cVars.getLong("timeleft");
             if(timeleft > -1) {
                 if(timeleft < 30000) {
-                    dFonts.setFontColorHighlight(g);
+                    dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);

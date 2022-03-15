@@ -56,6 +56,36 @@ public class cClientVars extends gArgSet {
                 dScreenMessages.showfps = value.equals("1");
             }
         });
+        putArg(new gArg("showcam", "0"){
+            public void onChange() {
+                dScreenMessages.showcam = value.equals("1");
+            }
+        });
+        putArg(new gArg("showmouse", "0"){
+            public void onChange() {
+                dScreenMessages.showmouse = value.equals("1");
+            }
+        });
+        putArg(new gArg("shownet", "0"){
+            public void onChange() {
+                dScreenMessages.shownet = value.equals("1");
+            }
+        });
+        putArg(new gArg("showplayer", "0"){
+            public void onChange() {
+                dScreenMessages.showplayer = value.equals("1");
+            }
+        });
+        putArg(new gArg("showtick", "0"){
+            public void onChange() {
+                dScreenMessages.showtick = value.equals("1");
+            }
+        });
+        putArg(new gArg("showscale", "0"){
+            public void onChange() {
+                dScreenMessages.showscale = value.equals("1");
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {

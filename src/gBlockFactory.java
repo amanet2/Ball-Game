@@ -39,9 +39,9 @@ public class gBlockFactory {
                 100
         );
         topColorDark = new Color(
-                75,
-                75,
-                75,
+                0,
+                0,
+                0,
                 100
         );
         topColorPreview = new Color(190,190,180,255);
