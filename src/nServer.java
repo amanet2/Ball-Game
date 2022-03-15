@@ -6,6 +6,7 @@ import java.util.*;
 public class nServer extends Thread {
     private int netticks;
     private static final int sendbatchsize = 320;
+    private static final int timeout = 10000;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -119,7 +120,7 @@ public class nServer extends Thread {
             if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
-                if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
+                if(System.currentTimeMillis() > lastrecordedtime + timeout) {
                     addQuitClient(id);
                 }
             }

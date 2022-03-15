@@ -4,6 +4,7 @@ import java.util.*;
 public class nClient extends Thread {
     private int netticks;
     private static int retrylimit = 0;
+    private static final int timeout = 10000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
@@ -76,7 +77,7 @@ public class nClient extends Thread {
                                 sVars.getInt("joinport"));
                         if (clientSocket == null || clientSocket.isClosed()) {
                             clientSocket = new DatagramSocket();
-                            clientSocket.setSoTimeout(sVars.getInt("timeout"));
+                            clientSocket.setSoTimeout(timeout);
                         }
                         clientSocket.send(sendPacket);
                         xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);

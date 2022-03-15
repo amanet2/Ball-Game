@@ -22,7 +22,6 @@ public class sVars {
         keys.put("showmapmakerui", "0");
         keys.put("showscale", "1");
         keys.put("showtick", "1");
-        keys.put("timeout", "10000");
         keys.put("velocityplayerbase", "8");
         keys.put("voteskiplimit", "2");
         keys.put("volume", "100");
@@ -41,7 +40,6 @@ public class sVars {
             }
             else if(k.contains("time") || k.equals("framerates")
                 || k.equals("intermissiontime") || k.equals("joinport")
-                || k.equals("timeout")
                 || (k.equals("volume") && Integer.parseInt(v) <= 100)
             ) {
                 return Integer.parseInt(v) >= 0;
