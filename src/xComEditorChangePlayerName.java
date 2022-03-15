@@ -15,7 +15,7 @@ public class xComEditorChangePlayerName extends xCom {
                     null);
 //            String s = (String)JOptionPane.showInputDialog(null, label);
             if(s != null && s.strip().replace(",", "").length() > 0) {
-                cClientLogic.playerName = s.replace(",", "");
+                cClientVars.instance().put("playername", s.replace(",", ""));
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
             }

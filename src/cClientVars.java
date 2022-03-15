@@ -52,6 +52,11 @@ public class cClientVars extends gArgSet {
                 cClientLogic.volume = Double.parseDouble(value);
             }
         });
+        putArg(new gArg("playercolor", "blue") {
+            public void onChange() {
+                cClientLogic.playerColor = value;
+            }
+        });
         putArg(new gArg("playername", "player") {
             public void onChange() {
                 cClientLogic.playerName = value;

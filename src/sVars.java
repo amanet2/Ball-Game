@@ -24,15 +24,7 @@ public class sVars {
     static boolean checkVal(String key, String v) {
         try {
             String k = key.toLowerCase();
-            if(k.contains("fontcolor")) {
-                String[] toks = v.split(",");
-                return (k.contains("fontcolor") && toks.length == 4 && Integer.parseInt(toks[0]) >= 0
-                        && Integer.parseInt(toks[1]) >= 0 && Integer.parseInt(toks[2]) >= 0
-                        && Integer.parseInt(toks[3]) >= 0 && Integer.parseInt(toks[0]) < 256
-                        && Integer.parseInt(toks[1]) < 256 && Integer.parseInt(toks[2]) < 256
-                        && Integer.parseInt(toks[3]) < 256);
-            }
-            else if(k.contains("time") || k.equals("framerates") || k.equals("joinport")) {
+            if(k.contains("time") || k.equals("framerates") || k.equals("joinport")) {
                 return Integer.parseInt(v) >= 0;
             }
         }

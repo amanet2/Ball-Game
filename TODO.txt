@@ -4,7 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* send health payload as x/Y
+* Pattern: have a static int in code
+    -> cVar should be only public function to interact with that value
+        -> GET: use the code static val
+        -> SET: use the cVar so that the changes apply to saved cfg files as well as current game
 * Architecture for syncing svars across clients (e.g. maxhp)
     -> client/hud use local integer in clientLogic to store maxhp (avoid overwriting saved settings)
     -> server sVar value onChange() will tell clients to set CVar for maxhp
