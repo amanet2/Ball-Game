@@ -12,6 +12,7 @@ public class cClientLogic {
     static long weapontimeAutorifle = 0;
     static long weapontimeLauncher = 0;
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
+    static String playerName = "player";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

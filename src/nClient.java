@@ -134,7 +134,7 @@ public class nClient extends Thread {
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
         }
         //name for spectator and gameplay
-        keys.put("name", sVars.get("playername"));
+        keys.put("name", cClientLogic.playerName);
         return keys;
     }
 

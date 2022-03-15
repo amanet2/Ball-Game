@@ -17,11 +17,8 @@ public class sVars {
         keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("playercolor", "blue");
-        keys.put("playername", "player");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("showmapmakerui", "0");
-        keys.put("showscale", "1");
-        keys.put("showtick", "1");
         keys.put("velocityplayerbase", "8");
         keys.put("voteskiplimit", "2");
     }
