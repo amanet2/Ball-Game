@@ -9,7 +9,7 @@ public class gWeaponsPistol extends gWeapon {
         refiredelay = 300;
         damage = 350;
         maxAmmo = 6;
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 560;
