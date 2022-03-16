@@ -35,8 +35,15 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("velocityplayerbase", "8") {
             public void onChange() {
-                cServerLogic.velocityplayerbase = Integer.parseInt(value);
-                cClientLogic.velocityPlayer = cServerLogic.velocityplayerbase;
+                int newval = Integer.parseInt(value);
+                if(sSettings.IS_SERVER && cServerLogic.velocityplayerbase != newval) {
+                    cServerLogic.velocityplayerbase = newval;
+                    nServer.instance().addNetCmd("cv_velocityplayer " + cServerLogic.velocityplayerbase);
+                }
+                else if(cServerLogic.velocityplayerbase != newval){
+                    cServerLogic.velocityplayerbase = newval;
+                    cClientLogic.velocityPlayer = newval;
+                }
             }
         });
     }
