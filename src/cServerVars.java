@@ -33,6 +33,12 @@ public class cServerVars extends gArgSet {
                 cServerLogic.respawnwaittime = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("velocityplayerbase", "8") {
+            public void onChange() {
+                cServerLogic.velocityplayerbase = Integer.parseInt(value);
+                cClientLogic.velocityPlayer = cServerLogic.velocityplayerbase;
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {

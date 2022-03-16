@@ -14,6 +14,7 @@ public class cClientLogic {
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
+    static int velocityPlayer = 8;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -103,7 +104,7 @@ public class cClientLogic {
                     //user player
                     if(isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
+                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
                                     obj.getInt("vel" + i) + 1)));
                         }
                         else

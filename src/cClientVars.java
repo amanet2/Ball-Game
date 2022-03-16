@@ -75,6 +75,11 @@ public class cClientVars extends gArgSet {
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("cv_velocityplayer", "8") {
+            public void onChange() {
+                cClientLogic.velocityPlayer = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("fontui", "None"));
         putArg(new gArg("showfps", "0"){
             public void onChange() {

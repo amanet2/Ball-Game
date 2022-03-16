@@ -14,6 +14,7 @@ public class cServerLogic {
     static int rechargehp = 1;
     static long virustime = 0;
     static int respawnwaittime = 3000;
+    static int velocityplayerbase = 8;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
