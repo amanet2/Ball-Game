@@ -46,6 +46,11 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("voteskiplimit", "2") {
+            public void onChange() {
+                cServerLogic.voteskiplimit = Integer.parseInt(value);
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {

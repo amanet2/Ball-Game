@@ -630,19 +630,19 @@ public class nServer extends Thread {
         if(testmsg.equalsIgnoreCase("skip")) {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
-                if(voteSkipMap.keySet().size() >= sVars.getInt("voteskiplimit")) {
+                if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
                     cServerLogic.intermissiontime = System.currentTimeMillis() + cServerLogic.intermissionDelay;
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winClipSelection[
                                     (int) (Math.random() * eManager.winClipSelection.length)],
-                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", sVars.get("voteskiplimit")),
+                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cServerLogic.voteskiplimit),
                             "echo changing map..."}) {
                         addExcludingNetCmd("server", s);
                     }
                 }
                 else {
                     String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                            voteSkipMap.keySet().size(), sVars.get("voteskiplimit"));
+                            voteSkipMap.keySet().size(), cServerLogic.voteskiplimit);
                     addExcludingNetCmd("server", s);
                 }
             }

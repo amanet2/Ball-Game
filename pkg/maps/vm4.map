@@ -275,16 +275,6 @@ cv_prefabid 119
 putblock BLOCK_CUBE -8700 1050 1200 450 150 300
 cv_prefabid 119
 putblock BLOCK_CUBE -8700 2100 1200 450 150 300
-cv_prefabid 120
-putblock BLOCK_FLOOR -9900 2400 1200 1200
-cv_prefabid 120
-putblock BLOCK_CUBE -9900 2250 300 450 150 300
-cv_prefabid 120
-putblock BLOCK_CUBE -9000 2250 300 450 150 300
-cv_prefabid 120
-putblock BLOCK_CUBE -9900 3300 300 450 150 300
-cv_prefabid 120
-putblock BLOCK_CUBE -9000 3300 300 450 150 300
 cv_prefabid 121
 putblock BLOCK_FLOOR -8700 2400 1200 1200
 cv_prefabid 121
@@ -321,6 +311,14 @@ cv_prefabid 125
 putblock BLOCK_CUBE -1500 -450 300 450 150 300
 cv_prefabid 125
 putblock BLOCK_CUBE -1500 600 300 450 150 300
+cv_prefabid 126
+putblock BLOCK_FLOOR -9900 2400 1200 1200
+cv_prefabid 126
+putblock BLOCK_CUBE -9900 3300 1200 450 150 300
+cv_prefabid 126
+putblock BLOCK_CUBE -9900 2250 300 450 150 300
+cv_prefabid 126
+putblock BLOCK_CUBE -9000 2250 300 450 150 300
 cv_prefabid 1
 putcollision 2400.3600.3600.2400 -250.-250.-100.-100
 cv_prefabid 1
@@ -527,14 +525,6 @@ cv_prefabid 119
 putcollision -8700.-7500.-7500.-8700 1250.1250.1400.1400
 cv_prefabid 119
 putcollision -8700.-7500.-7500.-8700 2300.2300.2450.2450
-cv_prefabid 120
-putcollision -9900.-9600.-9600.-9900 2450.2450.2600.2600
-cv_prefabid 120
-putcollision -9000.-8700.-8700.-9000 2450.2450.2600.2600
-cv_prefabid 120
-putcollision -9900.-9600.-9600.-9900 3500.3500.3650.3650
-cv_prefabid 120
-putcollision -9000.-8700.-8700.-9000 3500.3500.3650.3650
 cv_prefabid 121
 putcollision -8700.-8400.-8400.-8700 2450.2450.2600.2600
 cv_prefabid 121
@@ -561,6 +551,12 @@ cv_prefabid 125
 putcollision -1500.-1200.-1200.-1500 -250.-250.-100.-100
 cv_prefabid 125
 putcollision -1500.-1200.-1200.-1500 800.800.950.950
+cv_prefabid 126
+putcollision -9900.-9600.-9600.-9900 2450.2450.2600.2600
+cv_prefabid 126
+putcollision -9000.-8700.-8700.-9000 2450.2450.2600.2600
+cv_prefabid 126
+putcollision -9900.-8700.-8700.-9900 3500.3500.3650.3650
 putitem ITEM_TELEPORTER_RED 2700 1800
 putitem ITEM_SPAWNPOINT 2100 1500
 putitem ITEM_SPAWNPOINT 0 0

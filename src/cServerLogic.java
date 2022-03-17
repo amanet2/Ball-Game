@@ -15,6 +15,7 @@ public class cServerLogic {
     static long virustime = 0;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
+    static int voteskiplimit = 2;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();

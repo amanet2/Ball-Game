@@ -210,7 +210,7 @@ public class uiEditorMenus {
                     cVars.put("newprefabname", name);
 //                uiEditorMenus.previewScene = new gScene();
                 xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cVars.get("newprefabname")));
                 newitemname = "";
                 refreshCheckBoxItems();
             });

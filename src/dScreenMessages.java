@@ -104,15 +104,15 @@ public class dScreenMessages {
                 String newThingString = cVars.get("newprefabname");
                 //preview
                 g.setColor(Color.BLACK);
-                g.fillRoundRect(4*sSettings.width/5,6*sSettings.height/10,
-                        7*sSettings.height/20, 7*sSettings.height/20,
+                g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
+                        7*sSettings.height/20, 11*sSettings.height/32,
                         sSettings.height/36, sSettings.height/36);
                 g.setColor(Color.white);
-                g.drawRoundRect(4*sSettings.width/5,6*sSettings.height/10,
-                        7*sSettings.height/20, 7*sSettings.height/20,
+                g.drawRoundRect(4*sSettings.width/5,20*sSettings.height/32,
+                        7*sSettings.height/20, 11*sSettings.height/32,
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
-                g.drawString("Preview", 4*sSettings.width/5,59*sSettings.height/100);
+//                g.drawString("Preview", 4*sSettings.width/5,31*sSettings.height/32);
                 if(uiEditorMenus.newitemname.length() > 0)
                     newThingString = uiEditorMenus.newitemname;
                 boolean drawnRotate = false;
