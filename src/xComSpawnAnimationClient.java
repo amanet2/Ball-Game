@@ -1,6 +1,6 @@
 public class xComSpawnAnimationClient extends xCom {
     public String doCommand(String fullCommand) {
-        if(sVars.isOne("vfxenableanimations")) {
+        if(sSettings.vfxenableanimations) {
             String[] toks = fullCommand.split(" ");
             if (toks.length > 3) {
                 int animcode = Integer.parseInt(toks[1]);

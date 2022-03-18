@@ -106,13 +106,8 @@ public class gScene {
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
-                        block.get("type"),
-                        block.get("coordx"),
-                        block.get("coordy"),
-                        block.get("dimw"),
-                        block.get("dimh"),
-                        block.get("toph"),
-                        block.get("wallh")
+                        block.get("type"), block.get("coordx"), block.get("coordy"), block.get("dimw"),
+                        block.get("dimh"), block.get("toph"), block.get("wallh")
                 };
                 if(block.contains("prefabid"))
                     writer.write("cv_prefabid " + block.get("prefabid") + '\n');

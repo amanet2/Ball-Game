@@ -11,6 +11,9 @@ public class uiEditorMenus {
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
     static int snapToX = 50;
     static int snapToY = 50;
+    static String newitemname = "";
+    static String newprefabname = "";
+
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
@@ -34,7 +37,7 @@ public class uiEditorMenus {
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+            if(checkBoxMenuItem.getText().equals(newitemname)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -43,7 +46,7 @@ public class uiEditorMenus {
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(sVars.get("playercolor"))) {
+            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -92,7 +95,7 @@ public class uiEditorMenus {
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + sVars.get("joinip"));
         JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + sVars.get("joinport"));
-        JMenuItem playerName = addMenuItem("Settings", "Name: " + sVars.get("playername"));
+        JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
@@ -209,8 +212,8 @@ public class uiEditorMenus {
                     cVars.put("newprefabname", name);
 //                uiEditorMenus.previewScene = new gScene();
                 xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5500", cVars.get("newprefabname")));
-                cVars.put("newitemname", "");
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cVars.get("newprefabname")));
+                newitemname = "";
                 refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
@@ -221,12 +224,12 @@ public class uiEditorMenus {
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
-            if(itemMenuItem.getText().equals(cVars.get("newitemname"))) {
+            if(itemMenuItem.getText().equals(newitemname)) {
                 itemMenuItem.setSelected(true);
             }
             itemMenuItem.addActionListener(e -> {
                 cVars.put("newprefabname", "");
-                cVars.put("newitemname", itemname);
+                newitemname = itemname;
                 refreshCheckBoxItems();
             });
             itemCheckBoxMenuItems.add(itemMenuItem);
@@ -258,25 +261,91 @@ public class uiEditorMenus {
         for(String color : sVars.getArray("colorselection")) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
             colorMenuItem.setFont(dFonts.getFontNormal());
-            if(colorMenuItem.getText().equals(sVars.get("playercolor")))
+            if(colorMenuItem.getText().equals(cClientLogic.playerColor))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
-                sVars.put("playercolor", colorMenuItem.getText());
+                cClientLogic.playerColor = colorMenuItem.getText();
                 refreshColorCheckBoxItems();
             });
             colorCheckBoxMenuItems.add(colorMenuItem);
             menus.get("Color").add(colorMenuItem);
         }
         //fill overlays menu
+        HashMap<String, gDoable> overlaySelectionActionMap = new HashMap<>();
+        overlaySelectionActionMap.put("drawhitboxes",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawhitboxes = !sSettings.drawhitboxes;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawhitboxes;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("drawmapmakergrid",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawmapmakergrid = !sSettings.drawmapmakergrid;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawmapmakergrid;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshading",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshading = !sSettings.vfxenableshading;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshading;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshadows",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshadows;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableflares",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableflares = !sSettings.vfxenableflares;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableflares;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableanimations",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableanimations;
+                    }
+                }
+        );
         for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
             ovmenuitem.setFont(dFonts.getFontNormal());
-            if(sVars.getInt(option) == 1)
-                ovmenuitem.setSelected(true);
+            ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             ovmenuitem.addActionListener(e -> {
-                sVars.put(option, sVars.isIntVal(option, 1) ? "0" : "1");
-                ovmenuitem.setSelected(sVars.getInt(option) == 1);
+                overlaySelectionActionMap.get(option).exec();
+                ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             });
             menus.get("Overlays").add(ovmenuitem);
         }

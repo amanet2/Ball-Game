@@ -2,6 +2,16 @@ import java.util.HashMap;
 
 public class cBotsLogic {
     //string title maps to doable, fetched via key=gametype by server
+    static long bottime = 0;
+    static int botviruschaserange = 600;
+    static int[] weaponranges = {
+            300,
+            800,
+            400,
+            600,
+            600,
+            300
+    };
     private static HashMap<String, gDoableThing> behaviors = null;
     public static gDoableThing getBehavior(String key) {
         if(behaviors == null) {
@@ -209,8 +219,8 @@ public class cBotsLogic {
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
         int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-        if(Math.abs(x2 - x1) <= cVars.getInt("weaponbotrange"+bot.get("weapon"))
-                && Math.abs(y2-y1) <= cVars.getInt("weaponbotrange"+bot.get("weapon"))) {
+        if(Math.abs(x2 - x1) <= weaponranges[bot.getInt("weapon")]
+                && Math.abs(y2-y1) <= weaponranges[bot.getInt("weapon")]) {
             return true;
         }
         return false;
@@ -224,8 +234,8 @@ public class cBotsLogic {
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-                if(Math.abs(x2 - x1) <= cVars.getInt("botviruschaserange")
-                        && Math.abs(y2-y1) <= cVars.getInt("botviruschaserange")) {
+                if(Math.abs(x2 - x1) <= botviruschaserange
+                        && Math.abs(y2-y1) <= botviruschaserange) {
                     return true;
                 }
             }
@@ -242,25 +252,25 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cVars.getInt("velocityplayerbase")/4;
+        int speed = 3*cServerLogic.velocityplayerbase/4;
         if(x2 > x1) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel2", modspeed);
         }
         if(y2 > y1) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel0", modspeed);
         }
         if(x1 > x2) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel3", modspeed);
         }
         if(y1 > y2) {
             int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
+                    Math.random()*(speed)-(speed));
             bot.putInt("botvel1", modspeed);
         }
         if(bot.getInt("botvel1") > 0 && bot.getInt("botvel3") > 0)
@@ -282,27 +292,15 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cVars.getInt("velocityplayerbase")/4;
-        if(x2 > x1) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel3", modspeed);
-        }
-        if(x1 > x2) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel2", modspeed);
-        }
-        if(y2 > y1) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel1", modspeed);
-        }
-        if(y1 > y2) {
-            int modspeed = speed + (int)(
-                    Math.random()*(3*cVars.getInt("velocityplayerbase")/4)-(3*cVars.getInt("velocityplayerbase")/4));
-            bot.putInt("botvel0", modspeed);
-        }
+        int speed = 3*cServerLogic.velocityplayerbase/4;
+        if(x2 > x1)
+            bot.putInt("botvel3", speed + (int)(Math.random()*(speed)-(speed)));
+        if(x1 > x2)
+            bot.putInt("botvel2", speed + (int)(Math.random()*(speed)-(speed)));
+        if(y2 > y1)
+            bot.putInt("botvel1", speed + (int)(Math.random()*(speed)-(speed)));
+        if(y1 > y2)
+            bot.putInt("botvel0", speed + (int)(Math.random()*(speed)-(speed)));
         if(bot.getInt("botvel1") > 0 && bot.getInt("botvel3") > 0)
             bot.put("fv", Double.toString(Math.PI/2));
         else if(bot.getInt("botvel1") > 0 && bot.getInt("botvel2") > 0)

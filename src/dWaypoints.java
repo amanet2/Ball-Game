@@ -8,55 +8,63 @@ public class dWaypoints {
         if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - cClientLogic.getUserPlayer().getInt("coordx")
-                            + cClientLogic.getUserPlayer().getInt("dimw")/2,
+                            + cClientLogic.getUserPlayer().getDouble("dimw")/2,
                     dy - cClientLogic.getUserPlayer().getInt("coordy")
-                            + cClientLogic.getUserPlayer().getInt("dimh")/2};
-            g2.setColor(new Color(255,100,50,150));
+                            + cClientLogic.getUserPlayer().getDouble("dimh")/2
+            };
+            g2.setColor(gColors.getFontColorFromName("waypoint1"));
             int[][] polygondims = new int[][]{
                     new int[]{
-                            eUtils.scaleInt(dx - cVars.getInt("camx")) - sSettings.height/16,
-                            eUtils.scaleInt(dx - cVars.getInt("camx")),
-                            eUtils.scaleInt(dx - cVars.getInt("camx")) + sSettings.height/16,
-                            eUtils.scaleInt(dx - cVars.getInt("camx"))
+                            dx - eUtils.unscaleInt(sSettings.height/16),
+                            dx,
+                            dx + eUtils.unscaleInt(sSettings.height/16),
+                            dx
                     },
                     new int[]{
-                            eUtils.scaleInt(dy - cVars.getInt("camy")),
-                            eUtils.scaleInt(dy - cVars.getInt("camy")) - sSettings.height/16,
-                            eUtils.scaleInt(dy - cVars.getInt("camy")),
-                            eUtils.scaleInt(dy - cVars.getInt("camy")) + sSettings.height/16
+                            dy,
+                            dy - eUtils.unscaleInt(sSettings.height/16),
+                            dy,
+                            dy + eUtils.unscaleInt(sSettings.height/16)
                     }
             };
             g2.fillPolygon(polygondims[0],polygondims[1], 4);
             g2.setStroke(dFonts.thickStroke);
-            g2.setColor(new Color(255,100,50,220));
+            g2.setColor(gColors.getFontColorFromName("waypoint2"));
             g2.drawPolygon(polygondims[0], polygondims[1],4);
             //big font
-            dFonts.setFontNormal(g2);
-            dFonts.drawCenteredString(g2, message,
-                    eUtils.scaleInt(dx - cVars.getInt("camx")),
-                    eUtils.scaleInt(dy - cVars.getInt("camy")));
-            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)
-                    && (Math.abs(deltas[0]) > sSettings.width || Math.abs(deltas[1]) > sSettings.height)) {
+            dFonts.setFontGNormal(g2);
+            dFonts.drawCenteredString(g2, message, dx, dy);
+            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)) {
+                AffineTransform backup = g2.getTransform();
+                g2.translate(gCamera.getX(), gCamera.getY());
                 double angle = Math.atan2(deltas[1], deltas[0]);
                 if (angle < 0)
                     angle += 2 * Math.PI;
                 angle += Math.PI / 2;
-                AffineTransform backup = g2.getTransform();
                 AffineTransform a = g2.getTransform();
                 a.rotate(angle,
-                        sSettings.width / 2,
-                        sSettings.height / 2);
+                        eUtils.unscaleInt((int)((double)sSettings.width / 2)),
+                        eUtils.unscaleInt((int)((double)sSettings.height / 2))
+                );
                 g2.setTransform(a);
                 int[][] arrowpolygon = new int[][]{
-                        new int[]{sSettings.width / 2 - sSettings.width / 54,
-                                sSettings.width / 2 + sSettings.width / 54, sSettings.width / 2},
-                        new int[]{sSettings.height / 12, sSettings.height / 12, 0}
+                        new int[]{
+                                eUtils.unscaleInt(sSettings.width / 2 - sSettings.width / 54),
+                                eUtils.unscaleInt(sSettings.width / 2 + sSettings.width / 54),
+                                eUtils.unscaleInt(sSettings.width / 2)
+                        },
+                        new int[]{
+                                eUtils.unscaleInt(sSettings.height / 12),
+                                eUtils.unscaleInt(sSettings.height / 12),
+                                eUtils.unscaleInt(0)
+                        }
                 };
-                g2.setColor(new Color(255,100,50,150));
+                g2.setColor(gColors.getFontColorFromName("waypoint1"));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-                g2.setColor(new Color(255,100,50,220));
+                g2.setColor(gColors.getFontColorFromName("waypoint2"));
                 g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+                g2.translate(-gCamera.getX(), -gCamera.getY());
                 g2.setTransform(backup);
             }
         }
@@ -70,7 +78,7 @@ public class dWaypoints {
                     if(p == null)
                         return;
                     dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                            p.getInt("coordy") + p.getInt("dimh") / 2, "* KILL *");
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "");
                 }
             }
             else {
@@ -78,7 +86,7 @@ public class dWaypoints {
                 for(Object id : flagmap.keySet()) {
                     gItemFlag flag = (gItemFlag) flagmap.get(id);
                     dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                            flag.getInt("coordy") + flag.getInt("dimh")/2, "* GO HERE *");
+                            flag.getInt("coordy") + flag.getInt("dimh")/2, "");
                 }
             }
 
@@ -88,7 +96,7 @@ public class dWaypoints {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if (statestr.contains(p.get("id"))) {
                         dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "* INFECTED *");
+                                p.getInt("coordy") + p.getInt("dimh") / 2, "");
                     }
                 }
             }

@@ -28,6 +28,6 @@ public class gBullet extends gThing {
         put("id", eManager.createId());
         put("srcid", "God");
         putInt("isexplosionpart", 0);
-        sprite = gTextures.getScaledImage(tt, getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(tt, getInt("dimw"), getInt("dimh"));
     }
 }

@@ -14,7 +14,7 @@ public class gAnimation {
         fpContents = fp.listFiles();
         frames = new Image[fpContents.length];
         for(int i = 0; i < frames.length; i++) {
-            frames[i] = gTextures.getScaledImage(fpContents[i].getPath(), dims[0], dims[1]);
+            frames[i] = gTextures.getGScaledImage(fpContents[i].getPath(), dims[0], dims[1]);
         }
     }
 }
