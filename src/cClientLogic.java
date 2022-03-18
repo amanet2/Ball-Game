@@ -4,7 +4,18 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
+    static int maxhp = 500;
+    static double volume = 100.0;
     static String selecteditemid = "";
+    static long weapontimePistol = 0;
+    static long weapontimeShotgun = 0;
+    static long weapontimeAutorifle = 0;
+    static long weapontimeLauncher = 0;
+    static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
+    static String playerName = "player";
+    static String playerColor = "blue";
+    static int velocityPlayer = 8;
+    static long timeleft = 180000;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -28,9 +39,8 @@ public class cClientLogic {
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
-        if(getUserPlayer() != null) {
+        if(getUserPlayer() != null)
             checkPlayerFire();
-        }
         checkFinishedAnimations();
         checkExpiredPopups();
         updateEntityPositions();
@@ -38,10 +48,11 @@ public class cClientLogic {
     }
 
     public static void netLoop() {
-        if(sSettings.show_mapmaker_ui)
-            cClientLogic.selectThingUnderMouse();
-        if(getUserPlayer() != null) {
-            pointPlayerAtMousePointer();
+        if(oDisplay.instance().frame.isVisible()) {
+            if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
+            if(getUserPlayer() != null)
+                pointPlayerAtMousePointer();
         }
     }
 
@@ -94,7 +105,7 @@ public class cClientLogic {
                     //user player
                     if(isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
+                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
                                     obj.getInt("vel" + i) + 1)));
                         }
                         else

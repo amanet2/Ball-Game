@@ -28,10 +28,10 @@ public class dPanel extends JPanel {
             }
         }
         else {
-            g2.translate(sSettings.width / 2, sSettings.height / 2);
-            g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
-            g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
+                g2.translate(sSettings.width / 2, sSettings.height / 2);
+                g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
+                g2.translate(-sSettings.width / 2, -sSettings.height / 2);
                 gScene scene = cClientLogic.scene;
                 g2.scale(
                     ((1.0 / sSettings.gamescale) * (double) sSettings.height),

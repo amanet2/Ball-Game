@@ -19,6 +19,11 @@ public class uiMenusVideo extends uiMenu {
                     public void doItem() {
                         uiMenus.selectedMenu = (uiMenus.MENU_RESOLUTION);
                     }
+
+                    public void refreshText() {
+                        text =
+                                String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
+                    }
                 },
                 new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
                     public void doItem() {
@@ -28,12 +33,14 @@ public class uiMenusVideo extends uiMenu {
                 new uiMenuItem(String.format("Borderless [%s]",
                         sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                     public void doItem() {
-                        gArgs.put("displaymode",
+                        cClientVars.instance().put("displaymode",
                                 sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0");
+                        oDisplay.instance().refreshDisplaymode();
+                        refreshText();
+                    }
+                    public void refreshText() {
                         text = String.format("Borderless [%s]",
                                 sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
-                        oDisplay.instance().createPanels();
-                        oDisplay.instance().showFrame();
                     }
                 },
                 new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){

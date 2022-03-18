@@ -55,14 +55,13 @@ public class uiInterface {
                     frames = 0;
                     framecounterTime = lastFrameTime + 1000;
                 }
-//                if(sSettings.framerate > 0) {
-                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                     //power saving
 //                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
 //                    if(toSleep > 0)
 //                        Thread.sleep(toSleep);
-                    while (nextFrameTime >= System.nanoTime()); // do nothing
-//                }
+                // power saving 2 (better)
+//                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+//                    while (nextFrameTime >= System.nanoTime()); // do nothing
             }
             catch (Exception e) {
                 eUtils.echoException(e);
@@ -74,9 +73,14 @@ public class uiInterface {
     public static void init(String[] launch_args) {
         //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
         eUtils.disableApplePressAndHold();
-        gArgs.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
+        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cServerVars.instance().loadFromLaunchArgs(launch_args);
+        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        cClientVars.instance().loadFromLaunchArgs(launch_args);
+//        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
+//        sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
@@ -86,13 +90,6 @@ public class uiInterface {
         if(!sVars.isOne("showmapmakerui")) {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
-            sVars.putInt("showcam", 0);
-//            sVars.putInt("showfps", 0);
-            sVars.putInt("showmouse", 0);
-            sVars.putInt("shownet", 0);
-            sVars.putInt("showplayer", 0);
-            sVars.putInt("showscale", 0);
-            sVars.putInt("showtick", 0);
         }
         else {
             sSettings.show_mapmaker_ui = true;
@@ -159,6 +156,8 @@ public class uiInterface {
     }
 
     public static void exit() {
+        cServerVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);

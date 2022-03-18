@@ -7,26 +7,10 @@ public class cVars {
     private static void init() {
         putInt("gamemode", cGameLogic.DEATHMATCH);
         put("maploaded", "0");
-        put("newitemname", "");
         put("newprefabname", "room");
-        put("maxstockhp", "500");
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("timeleft", gArgs.get("timelimit"));
-        put("velocityplayer", sVars.get("velocityplayerbase"));
-        put("weapontime0", "0");
-        put("weapontime1", "0");
-        put("weapontime2", "0");
-        put("weapontime3", "0");
-        put("weapontime4", "0");
-        put("weapontime5", "0");
-        put("weaponstock0", "0");
-        put("weaponstock1", "0");
-        put("weaponstock2", "0");
-        put("weaponstock3", "0");
-        put("weaponstock4", "0");
-        put("weaponstock5", "0");
     }
 
     static boolean checkVal(String key, String v) {
