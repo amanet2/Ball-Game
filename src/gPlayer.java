@@ -143,12 +143,12 @@ public class gPlayer extends gThing {
         else {
             if(!get("pathsprite").contains("a05")) {
                 setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
-                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flipng" :
-                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flipng" :
-                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flipng" :
+                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
+                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
+                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
                                         isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flipng" :
-                                                        "misc/bfg_flipng";
+                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
+                                                        "misc/bfg_flip.png";
                 if(gWeapons.fromCode(getInt("weapon")) != null) {
                     gWeapons.fromCode(getInt("weapon")).dims[1] =
                             gWeapons.fromCode(getInt("weapon")).flipdiml;
@@ -165,16 +165,17 @@ public class gPlayer extends gThing {
 
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
-        sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public gPlayer(int x, int y, String tt) {
+    public gPlayer(int x, int y, int health, String tt) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", 200);
         putInt("dimh", 200);
         put("id", "");
+        put("type", "THING_PLAYER");
         put("inteleporter", "0");
         put("accelrate", "100");
         put("pathspritehat", "");
@@ -192,7 +193,7 @@ public class gPlayer extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         put("hprechargetime", "0");
-        put("stockhp", cVars.get("maxstockhp"));
+        putInt("stockhp", health);
         put("botthinktime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));

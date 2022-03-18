@@ -16,6 +16,7 @@ public class xComClearThingMapClient extends xCom {
             }
             if(cClientLogic.scene.objectMaps.containsKey(thing_title))
                 cClientLogic.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+//                cClientLogic.scene.objectMaps.get(thing_title).clear();
         }
         return "usage: clearthingmap <thing_title>";
     }

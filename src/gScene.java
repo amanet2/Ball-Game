@@ -7,14 +7,13 @@ import java.util.*;
  * play scenario.
  */
 public class gScene {
-    private static final String[] object_titles = new String[]{
+    public static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
-        "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_CORNERUR", "BLOCK_CORNERLR", "BLOCK_CORNERLL", "BLOCK_CORNERUL",
-        "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_FLAGRED", "ITEM_FLAGBLUE", "ITEM_SHOTGUN",
-        "ITEM_TELEPORTER_RED", "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
+        "BLOCK_CUBE", "BLOCK_FLOOR", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
+        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
     };
 
-	HashMap<String, LinkedHashMap> objectMaps;
+	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
@@ -23,7 +22,7 @@ public class gScene {
 	public gScene() {
         objectMaps = new HashMap<>();
         for(String s : object_titles) {
-            objectMaps.put(s, new LinkedHashMap());
+            objectMaps.put(s, new LinkedHashMap<>());
         }
         blockIdCtr = 0;
         collisionIdCtr = 0;
@@ -65,76 +64,35 @@ public class gScene {
         return idctr;
     }
 
-    public LinkedHashMap<String, gThing> getWallsAndPlayersSortedByCoordY() {
-        LinkedHashMap<String, gThing> sortedMapPreCorners = new LinkedHashMap<>();
+    public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
+        Queue<gThing> visualQueue = new LinkedList<>();
         HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
-        HashMap<String, gThing> cornerMapL = new HashMap<>(getThingMap("BLOCK_CORNERUL"));
-        HashMap<String, gThing> cornerMapR = new HashMap<>(getThingMap("BLOCK_CORNERUR"));
-        HashMap<String, gThing> cornerMapLL = new HashMap<>(getThingMap("BLOCK_CORNERLL"));
-        HashMap<String, gThing> cornerMapLR = new HashMap<>(getThingMap("BLOCK_CORNERLR"));
         HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
-        for(String id : cornerMapL.keySet()) {
-            combinedMap.put(id, cornerMapL.get(id));
-        }
-        for(String id : cornerMapR.keySet()) {
-            combinedMap.put(id, cornerMapR.get(id));
-        }
-        for(String id : cornerMapLL.keySet()) {
-            combinedMap.put(id, cornerMapLL.get(id));
-        }
-        for(String id : cornerMapLR.keySet()) {
-            combinedMap.put(id, cornerMapLR.get(id));
-        }
+        HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
         for(String id : playerMap.keySet()) {
             combinedMap.put(id, playerMap.get(id));
+        }
+        for(String id : itemMap.keySet()) {
+            combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
         }
         boolean sorted = false;
         while(!sorted) {
             sorted = true;
-            int lowestY = 1000000;
+            int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(((combinedMap.get(id).contains("wallh") && combinedMap.get(id).getInt("wallh") > 0)
-                        || (combinedMap.get(id).contains("fv")))
-                        && combinedMap.get(id).getInt("coordy") <= lowestY) {
+                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
                     sorted = false;
                     lowestId = id;
                     lowestY = combinedMap.get(id).getInt("coordy");
                 }
             }
             if(lowestId.length() > 0) {
-                sortedMapPreCorners.put(lowestId, combinedMap.get(lowestId));
+                visualQueue.add(combinedMap.get(lowestId));
                 combinedMap.remove(lowestId);
             }
         }
-        //make another pass and move all corners to the max of their respective Y
-        LinkedHashMap<String, gThing> sortedMapPostCorners = new LinkedHashMap<>();
-        HashMap<String, gThing> cornerStagingMap = new HashMap<>();
-        int cornerStagingY = -1000000;
-        for(String id : sortedMapPreCorners.keySet()) {
-            gThing thing = sortedMapPreCorners.get(id);
-            int thingY = thing.getInt("coordy");
-            if(cornerStagingMap.size() > 0 && cornerStagingY < thingY) {
-                cornerStagingY = thingY;
-                for(String cid : cornerStagingMap.keySet()) {
-                    sortedMapPostCorners.put(cid, cornerStagingMap.get(cid));
-                }
-                cornerStagingMap = new HashMap<>();
-            }
-            if(thing.contains("type") && thing.get("type").contains("CORNER")) {
-                cornerStagingMap.put(id, thing);
-                cornerStagingY = thingY;
-            }
-            else {
-                sortedMapPostCorners.put(id, thing);
-            }
-        }
-        if(cornerStagingMap.size() > 0) {
-            for(String id : cornerStagingMap.keySet()) {
-                sortedMapPostCorners.put(id, cornerStagingMap.get(id));
-            }
-        }
-        return sortedMapPostCorners;
+        return visualQueue;
     }
 
     public void saveAs(String filename, String foldername) {
@@ -148,17 +106,8 @@ public class gScene {
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
-                        block.get("type"),
-                        block.get("coordx"),
-                        block.get("coordy"),
-                        block.get("dimw"),
-                        block.get("dimh"),
-                        block.get("toph"),
-                        block.get("wallh"),
-                        block.get("color"),
-                        block.get("colorwall"),
-                        block.get("frontwall"),
-                        block.get("backtop")
+                        block.get("type"), block.get("coordx"), block.get("coordy"), block.get("dimw"),
+                        block.get("dimh"), block.get("toph"), block.get("wallh")
                 };
                 if(block.contains("prefabid"))
                     writer.write("cv_prefabid " + block.get("prefabid") + '\n');
@@ -188,8 +137,7 @@ public class gScene {
                 yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
                 String[] args = new String[]{
                         xString.toString(),
-                        yString.toString(),
-                        Integer.toString(collision.npoints)
+                        yString.toString()
                 };
                 if(collision.contains("prefabid"))
                     writer.write("cv_prefabid " + collision.get("prefabid") + '\n');
@@ -285,11 +233,7 @@ public class gScene {
                         block.get("dimw"),
                         block.get("dimh"),
                         block.get("toph"),
-                        block.get("wallh"),
-                        block.get("color"),
-                        block.get("colorwall"),
-                        block.get("frontwall"),
-                        block.get("backtop")
+                        block.get("wallh")
                 };
                 StringBuilder str = new StringBuilder("putblock");
                 for(String arg : args) {
@@ -335,8 +279,7 @@ public class gScene {
 
                 String[] args = new String[]{
                         xString,
-                        yString,
-                        Integer.toString(collision.npoints)
+                        yString
                 };
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {

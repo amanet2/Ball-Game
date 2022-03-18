@@ -5,7 +5,7 @@ public class xComAddBot extends xCom {
         String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
         String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
 
-        gPlayer p = new gPlayer(-6000,-6000,
+        gPlayer p = new gPlayer(-6000,-6000, cServerLogic.maxhp,
                 eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
         p.put("id", "bot"+eManager.createBotId());
 

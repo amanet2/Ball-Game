@@ -8,27 +8,27 @@ public class xComMouseLeft extends xCom {
                 if(sSettings.show_mapmaker_ui && cVars.isOne("maploaded")) {
                     int[] mc = uiInterface.getMouseCoordinates();
                     if(cVars.get("newprefabname").length() > 0) {
-                        int[] pfd = uiEditorMenus.getNewPrefabDims();
+                        int[] pfd = dMapmakerOverlay.getNewPrefabDims();
                         int w = pfd[0];
                         int h = pfd[1];
-                        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - w / 2,
+                        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - w / 2,
                                 uiEditorMenus.snapToX);
-                        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - h / 2,
+                        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - h / 2,
                                 uiEditorMenus.snapToY);
                         String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
                         return "put prefab " + cVars.get("newprefabname");
                     }
-                    if(cVars.get("newitemname").length() > 0) {
+                    if(uiEditorMenus.newitemname.length() > 0) {
                         int iw = 300;
                         int ih = 300;
-                        int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + cVars.getInt("camx") - iw/2,
+                        int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - iw/2,
                                 uiEditorMenus.snapToX);
-                        int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + cVars.getInt("camy") - ih/2,
+                        int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
                                 uiEditorMenus.snapToY);
-                        String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
+                        String cmd = String.format("putitem %s %d %d", uiEditorMenus.newitemname, ix, iy);
                         nClient.instance().addNetCmd(cmd);
-                        return "put item " + cVars.get("newitemname");
+                        return "put item " + uiEditorMenus.newitemname;
                     }
                 }
                 else if(uiMenus.gobackSelected) {

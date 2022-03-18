@@ -1,20 +1,30 @@
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class dScreenMessages {
-
+    static boolean showscore = false;
+    static boolean showfps = false;
+    static boolean showcam = false;
+    static boolean showmouse = false;
+    static boolean shownet = false;
+    static boolean showplayer = false;
+    static boolean showtick = false;
+    static boolean showscale = false;
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
-        if(sVars.isOne("showscale") && eUtils.zoomLevel != 1.0)
+        if(showscale)
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         //ticks
-        if(sVars.isOne("showtick"))
+        if(showtick)
             g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
-        if(sVars.isOne("showfps"))
+        if(showfps)
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
         //net
-        if(sVars.isOne("shownet")) {
+        if(shownet) {
             g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 5 * sSettings.height / 64);
             g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
 //            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
@@ -22,22 +32,22 @@ public class dScreenMessages {
 //                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
 //                        0, 6 * sSettings.height / 64);
         }
-        if(sVars.isOne("showcam")) {
+        if(showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
                     uiInterface.camReport[0], uiInterface.camReport[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
-        if(sVars.isOne("showmouse")) {
+        if(showmouse) {
             int[] mc = uiInterface.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
                         uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
             else
-                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + cVars.getInt("camx"),
-                        eUtils.unscaleInt(mc[1]) + cVars.getInt("camy")),0,9*sSettings.height/64);
+                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
+                        eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
-        if(sVars.isOne("showplayer") && cClientLogic.getUserPlayer() != null) {
+        if(showplayer && cClientLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
                     cClientLogic.getUserPlayer().getInt("coordx"),
                     cClientLogic.getUserPlayer().getInt("coordy")),
@@ -50,21 +60,14 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay) {
-            long timeleft = cVars.getLong("timeleft");
+        if(uiInterface.inplay && cVars.isOne("maploaded")) {
+            long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
                     dFonts.setFontColorAlert(g);
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, 28*sSettings.height/32);
-            }
-            dFonts.setFontColorHighlight(g);
-            if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-            && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
-                dFonts.drawRightJustifiedString(g,
-                        nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1]
-                                + " points", 29 * sSettings.width / 30, 59*sSettings.height/64);
+                        29 * sSettings.width / 30, 59*sSettings.height/64);
             }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
@@ -72,15 +75,14 @@ public class dScreenMessages {
                 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
-        dFonts.setFontColorByTitleWithTransparancy(g,"fontcolornormal", 100);
+        dFonts.setFontColorNormalTransparent(g);
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
-                sSettings.width/2, 5 * sSettings.height / 6);
+                sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage) {
-            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),
-                0,25 * sSettings.height/32);
+            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
         dFonts.setFontColorNormal(g);
@@ -95,15 +97,39 @@ public class dScreenMessages {
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     dFonts.setFontColorBonus(g);
-                g.drawString("[Esc] GO BACK",0,15*sSettings.height/16);
+                g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
                 String newThingString = cVars.get("newprefabname");
-                if(cVars.get("newitemname").length() > 0)
-                    newThingString = cVars.get("newitemname");
-                if(cVars.get("selectedprefabid").length() > 0 || cVars.get("selecteditemid").length() > 0)
-                    g.drawString("[BACKSPACE] - DELETE SELECTED",0,27*sSettings.height/32);
+                //preview
+                g.setColor(Color.BLACK);
+                g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
+                        7*sSettings.height/20, 11*sSettings.height/32,
+                        sSettings.height/36, sSettings.height/36);
+                g.setColor(Color.white);
+                g.drawRoundRect(4*sSettings.width/5,20*sSettings.height/32,
+                        7*sSettings.height/20, 11*sSettings.height/32,
+                        sSettings.height/36, sSettings.height/36);
+                dFonts.setFontNormal(g);
+//                g.drawString("Preview", 4*sSettings.width/5,31*sSettings.height/32);
+                if(uiEditorMenus.newitemname.length() > 0)
+                    newThingString = uiEditorMenus.newitemname;
+                boolean drawnRotate = false;
+                String[] rotates = {"_000", "_090", "_180", "_270"};
+                ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
+                for(String s : rotatesList) {
+                    if(cVars.get("newprefabname").contains(s)) {
+                        g.drawString(String.format("[R] - ROTATE %s",
+                                uiEditorMenus.getRotateName(cVars.get("newprefabname"))),0, 27*sSettings.height/32);
+                        drawnRotate = true;
+                        break;
+                    }
+                }
+                if(cVars.get("selectedprefabid").length() > 0 || cClientLogic.selecteditemid.length() > 0) {
+                    g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
+                                                                                        : 25 * sSettings.height / 32);
+                }
                 g.drawString(String.format("[MOUSE_LEFT] - PLACE %s", newThingString), 0,
                         29*sSettings.height/32);
                 g.drawString("[Esc] - TEST/EDIT ", 0,
@@ -112,10 +138,10 @@ public class dScreenMessages {
         }
         //console
         dFonts.setFontConsole(g);
-        if(sVars.isOne("inconsole")) {
-            g.setColor(new Color(0,0,0,100));
+        if(uiInterface.inconsole) {
+            g.setColor(gColors.getFontColorFromName("scoreboardbg"));
             g.fillRect(0,0,sSettings.width,sSettings.height);
-            g.setColor(new Color(100,100,150, 100));
+            g.setColor(gColors.getFontColorFromName("console"));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColorNormal(g);
             int ctr = 0;
@@ -156,12 +182,15 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //respawn msg
         //scoreboard
-        if(cVars.isOne("showscore")) {
+        if(showscore) {
             dScoreboard.showScoreBoard(g);
         }
         //loading
-        if(sSettings.IS_CLIENT && cVars.isZero("maploaded"))
-                dFonts.drawCenteredString(g, "-- LOADING --", sSettings.width / 2, 9*sSettings.height/12);
+        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
+//            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
+            dFonts.drawRightJustifiedString(g, "LOADING...",
+                    29 * sSettings.width / 30, 31*sSettings.height/32);
+        }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {

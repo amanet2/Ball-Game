@@ -13,13 +13,13 @@ public class uiMenusVolume extends uiMenu {
                 public void doItem() {
                     xCon.ex("volume " + text);
                     uiMenus.menuSelection[uiMenus.MENU_AUDIO].items[1].text =
-                        String.format("Volume [%s]", sVars.get("volume"));
+                        String.format("Volume [%f]", cClientLogic.volume);
                     uiMenus.selectedMenu = uiMenus.MENU_AUDIO;
                 }
             };
-            if(items[items.length-1].text.equals(sVars.get("volume"))) {
-                selectedItem = i;
-            }
+//            if(items[items.length-1].text.equals(cClientLogic.volume)) {
+//                selectedItem = i;
+//            }
         }
     }
 }

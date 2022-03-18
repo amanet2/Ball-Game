@@ -23,7 +23,7 @@ public class gItemTeleporterRed extends gItem {
     public gItemTeleporterRed(int x, int y) {
         super(x, y, 300, 300);
         put("type", "ITEM_TELEPORTER_RED");
-        sprite = gTextures.getScaledImage(eUtils.getPath("misc/teleporter_red.png"),
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/teleporter_red.png"),
                 getInt("dimw"), getInt("dimh"));
     }
 }

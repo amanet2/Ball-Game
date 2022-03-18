@@ -6,14 +6,8 @@ public class gDoableBlockReturnCube extends gDoableBlockReturn{
                 Integer.parseInt(args[2]),
                 Integer.parseInt(args[3]),
                 Integer.parseInt(args[4]),
-                Integer.parseInt(args[5]),
-                args[6],
-                args[7]
+                Integer.parseInt(args[5])
         );
-        if(args.length > 8)
-            block.put("frontwall", args[8]);
-        if(args.length > 9)
-            block.put("backtop", args[9]);
         return block;
     }
 }

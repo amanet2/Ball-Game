@@ -10,8 +10,7 @@ public class iMouseMotion implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(cVars.isOne("blockmouseui")) {
-            cVars.put("blockmouseui","0");
-        }
+        if(uiInterface.blockMouseUI)
+            uiInterface.blockMouseUI = false;
     }
 }

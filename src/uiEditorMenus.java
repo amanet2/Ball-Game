@@ -2,33 +2,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
+    static gScene previewScene = new gScene();
     static Stack<gScene> undoStateStack = new Stack<>(); //move top from here to tmp for undo
     static Stack<gScene> redoStateStack = new Stack<>(); //move top from here to main for redo
     static int snapToX = 50;
     static int snapToY = 50;
-    private static ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
-    private static ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
+    static String newitemname = "";
+    static String newprefabname = "";
+
+    private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> overlayCheckboxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cVars.get("newprefabname"))) {
+            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cVars.get("newprefabname")))) {
                 checkBoxMenuItem.setSelected(true);
+                if(!cVars.get("newprefabname").contains("cube")) {
+                    snapToX = 300;
+                    snapToY = 300;
+                }
+                else {
+                    snapToX = 50;
+                    snapToY = 50;
+                }
             }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cVars.get("newitemname"))) {
+            if(checkBoxMenuItem.getText().equals(newitemname)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
@@ -37,38 +46,10 @@ public class uiEditorMenus {
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(sVars.get("playercolor"))) {
+            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor)) {
                 checkBoxMenuItem.setSelected(true);
             }
         }
-    }
-
-    public static int[] getNewPrefabDims() {
-        if(cVars.get("newprefabname").contains("room_large")) {
-            return new int[]{2400, 2400};
-        }
-        else if(cVars.isVal("newprefabname", "end_wall")) {
-            return new int[]{300, 300};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle")) {
-            return new int[]{300, 450};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle_090")) {
-            return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle_180")) {
-            return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "end_angle_270")) {
-            return new int[]{300, 450};
-        }
-        else if(cVars.isVal("newprefabname", "end_cap")) {
-            return new int[]{300, 150};
-        }
-        else if(cVars.isVal("newprefabname", "cube")) {
-            return new int[]{300, 300};
-        }
-        return new int[]{1200, 1200};
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -83,6 +64,19 @@ public class uiEditorMenus {
         }
     }
 
+    public static JMenuItem addMenuItem(String parentMenu, String text) {
+        JMenuItem newItem = new JMenuItem(text);
+        newItem.setFont(dFonts.getFontNormal());
+        menus.get(parentMenu).add(newItem);
+        return newItem;
+    }
+
+    public static void addSubMenuLabel(String parentMenu, String text) {
+        JLabel newLabel = new JLabel(text);
+        newLabel.setFont(dFonts.getFontNormal());
+        menus.get(parentMenu).add(newLabel);
+    }
+
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
         oDisplay.instance().frame.setJMenuBar(menubar);
@@ -92,42 +86,29 @@ public class uiEditorMenus {
         createNewMenu("Items");
         createNewMenu("Gametype");
         createNewMenu("Settings");
-
-        JMenuItem newtopmap = new JMenuItem("New");
-        JMenuItem open = new JMenuItem("Open");
-        JMenuItem saveas = new JMenuItem("Save As...");
+        JMenuItem newtopmap = addMenuItem("File", "New");
+        JMenuItem open = addMenuItem("File", "Open");
+        JMenuItem saveas = addMenuItem("File", "Save As...");
         saveas.setEnabled(false);
-        JMenuItem exportasprefab = new JMenuItem("Export as Prefab");
-        JMenuItem playerName = new JMenuItem("Name: " + sVars.get("playername"));
-        JMenuItem exit = new JMenuItem("Exit");
-        JMenuItem join = new JMenuItem("Join Game");
-        JMenuItem joinip = new JMenuItem("Address: " + sVars.get("joinip"));
-        JMenuItem joinport = new JMenuItem("Port: " + sVars.get("joinport"));
-//        JMenuItem prefabs = new JMenuItem("Select Prefab");
-
-        menus.get("File").add(newtopmap);
-        menus.get("File").add(open);
-        menus.get("File").add(saveas);
-//        menus.get("File").add(exportasprefab);
-        menus.get("File").add(exit);
-        menus.get("Multiplayer").add(join);
-        menus.get("Multiplayer").add(joinip);
-        menus.get("Multiplayer").add(joinport);
-//        menus.get("Prefabs").add(prefabs);
-        menus.get("Settings").add(playerName);
+//        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
+        JMenuItem exit = addMenuItem("File", "Exit");
+        JMenuItem join = addMenuItem("Multiplayer", "Join Game");
+        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + sVars.get("joinip"));
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + sVars.get("joinport"));
+        JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
-        menus.get("Controls").add(new JLabel(" MOUSE_LEFT : throw rock "));
-        menus.get("Controls").add(new JLabel(" W : move up "));
-        menus.get("Controls").add(new JLabel(" S : move down "));
-        menus.get("Controls").add(new JLabel(" A : move left "));
-        menus.get("Controls").add(new JLabel(" D : move right "));
-        menus.get("Controls").add(new JLabel(" TAB : show scoreboard "));
-        menus.get("Controls").add(new JLabel(" Y : chat "));
-        menus.get("Controls").add(new JLabel(" = : zoom in "));
-        menus.get("Controls").add(new JLabel(" - : zoom out "));
-        menus.get("Controls").add(new JLabel(" ~ : console "));
+        addSubMenuLabel("Controls", " MOUSE_LEFT : throw rock");
+        addSubMenuLabel("Controls", " W : move up ");
+        addSubMenuLabel("Controls", " S : move down ");
+        addSubMenuLabel("Controls", " A : move left ");
+        addSubMenuLabel("Controls", " D : move right ");
+        addSubMenuLabel("Controls", " TAB : show scoreboard ");
+        addSubMenuLabel("Controls", " Y : chat ");
+        addSubMenuLabel("Controls", " = : zoom in ");
+        addSubMenuLabel("Controls", " - : zoom out ");
+        addSubMenuLabel("Controls", " ~ : console ");
 
         addConsoleActionToJMenuItem(exit,"quit");
 
@@ -198,35 +179,57 @@ public class uiEditorMenus {
             }
         });
 
-        exportasprefab.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("exportasprefab");
-            }
-        });
+
+//        exportasprefab.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                xCon.ex("exportasprefab");
+//            }
+//        });
 
         //fill prefabs menu
-        for(String prefabname : eManager.prefabSelection) {
-            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(prefabname);
-            if(prefabmenuitem.getText().equals(cVars.get("newprefabname"))) {
+        String[] prefabs = {"corner", "cube", "hallway", "junction", "room",
+                            "room_large"};
+        String[] prefabsRotate = {"corner", "hallway", "junction"};
+        ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
+        for(String s : prefabs) {
+            JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
+            prefabmenuitem.setFont(dFonts.getFontNormal());
+            if(uiEditorMenus.getRotateName(cVars.get("newprefabname")).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
+            if(!cVars.get("newprefabname").contains("cube")) {
+                snapToX = 300;
+                snapToY = 300;
+            }
+            else {
+                snapToX = 50;
+                snapToY = 50;
             }
             prefabmenuitem.addActionListener(e -> {
-                cVars.put("newprefabname", prefabname);
-                cVars.put("newitemname", "");
+                String name = prefabmenuitem.getText();
+                if(prefabRotateList.contains(name))
+                    cVars.put("newprefabname", name+"_000");
+                else
+                    cVars.put("newprefabname", name);
+//                uiEditorMenus.previewScene = new gScene();
+                xCon.ex("cl_clearthingmappreview");
+                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cVars.get("newprefabname")));
+                newitemname = "";
                 refreshCheckBoxItems();
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
+
         }
         //fill items menu
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
-            if(itemMenuItem.getText().equals(cVars.get("newitemname"))) {
+            itemMenuItem.setFont(dFonts.getFontNormal());
+            if(itemMenuItem.getText().equals(newitemname)) {
                 itemMenuItem.setSelected(true);
             }
             itemMenuItem.addActionListener(e -> {
                 cVars.put("newprefabname", "");
-                cVars.put("newitemname", itemname);
+                newitemname = itemname;
                 refreshCheckBoxItems();
             });
             itemCheckBoxMenuItems.add(itemMenuItem);
@@ -235,6 +238,7 @@ public class uiEditorMenus {
         //fill gametypes menu
         for(String gametype : new String[]{"Killmaster", "Flagmaster", "Virusmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
+            gametypeMenuItem.setFont(dFonts.getFontNormal());
             if(gametypeMenuItem.getText().equals("Killmaster") && cVars.isInt("gamemode", cGameLogic.DEATHMATCH))
                 gametypeMenuItem.setSelected(true);
             else if(gametypeMenuItem.getText().equals("Flagmaster") && cVars.isInt("gamemode", cGameLogic.FLAG_MASTER))
@@ -256,24 +260,92 @@ public class uiEditorMenus {
         //fill colors menu
         for(String color : sVars.getArray("colorselection")) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
-            if(colorMenuItem.getText().equals(sVars.get("playercolor")))
+            colorMenuItem.setFont(dFonts.getFontNormal());
+            if(colorMenuItem.getText().equals(cClientLogic.playerColor))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
-                sVars.put("playercolor", colorMenuItem.getText());
+                cClientLogic.playerColor = colorMenuItem.getText();
                 refreshColorCheckBoxItems();
             });
             colorCheckBoxMenuItems.add(colorMenuItem);
             menus.get("Color").add(colorMenuItem);
         }
         //fill overlays menu
+        HashMap<String, gDoable> overlaySelectionActionMap = new HashMap<>();
+        overlaySelectionActionMap.put("drawhitboxes",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawhitboxes = !sSettings.drawhitboxes;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawhitboxes;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("drawmapmakergrid",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.drawmapmakergrid = !sSettings.drawmapmakergrid;
+                    }
+
+                    public boolean check() {
+                        return sSettings.drawmapmakergrid;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshading",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshading = !sSettings.vfxenableshading;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshading;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableshadows",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableshadows;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableflares",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableflares = !sSettings.vfxenableflares;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableflares;
+                    }
+                }
+        );
+        overlaySelectionActionMap.put("vfxenableanimations",
+                new gDoable(){
+                    public void exec() {
+                        sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
+                    }
+
+                    public boolean check() {
+                        return sSettings.vfxenableanimations;
+                    }
+                }
+        );
         for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
-            if(sVars.getInt(option) == 1)
-                ovmenuitem.setSelected(true);
+            ovmenuitem.setFont(dFonts.getFontNormal());
+            ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             ovmenuitem.addActionListener(e -> {
-                sVars.put(option, sVars.isIntVal(option, 1) ? "0" : "1");
-                ovmenuitem.setSelected(sVars.getInt(option) == 1);
+                overlaySelectionActionMap.get(option).exec();
+                ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
             });
             menus.get("Overlays").add(ovmenuitem);
         }
@@ -281,17 +353,14 @@ public class uiEditorMenus {
 
     private static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
-//        newmenu.setFont(
-//                new Font(sVars.get("fontnameui"), sVars.getInt("fontmode"),
-//                        sVars.getInt("fontsize") * sSettings.height / cVars.getInt("gamescale")
-//                )
-//        );
-        menus.put(title,newmenu);
+        newmenu.setFont(dFonts.getFontNormal());
+        menus.put(title, newmenu);
         oDisplay.instance().frame.getJMenuBar().add(newmenu);
     }
 
     private static void createNewSubmenu(String title, String subtitle) {
         JMenu newmenu = new JMenu(subtitle);
+              newmenu.setFont(dFonts.getFontNormal());
         menus.put(subtitle,newmenu);
         menus.get(title).add(newmenu);
     }
@@ -302,5 +371,24 @@ public class uiEditorMenus {
                 xCon.ex(fullCommand);
             }
         });
+    }
+
+    public static String getRotateName(String s) {
+        return s.replace("_000", "").replace("_090",""
+        ).replace("_180", "").replace("_270", "");
+    }
+
+    public static void setFileChooserFont(Component[] comp) {
+        for (int x = 0; x < comp.length; x++) {
+            // System.out.println( comp[x].toString() ); // Trying to know the type of each element in the JFileChooser.
+            if (comp[x] instanceof Container)
+                setFileChooserFont(((Container) comp[x]).getComponents());
+
+            try {
+//                if (comp[x] instanceof JList || comp[x] instanceof JTable)
+                    comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
+            } catch (Exception e) {
+            } // do nothing
+        }
     }
 }

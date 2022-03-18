@@ -21,20 +21,25 @@ public class dPanel extends JPanel {
         if (panelLevel == 1) {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
+            if(!uiInterface.inplay && sSettings.show_mapmaker_ui
+               && cVars.isOne("maploaded")) {
+                dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
+                dBlockTops.drawBlockTopCubesPreview(g2);
+            }
         }
         else {
-            g2.translate(sSettings.width / 2, sSettings.height / 2);
-            g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
-            g2.translate(-sSettings.width / 2, -sSettings.height / 2);
             if(cVars.isOne("maploaded")) {
+                g2.translate(sSettings.width / 2, sSettings.height / 2);
+                g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
+                g2.translate(-sSettings.width / 2, -sSettings.height / 2);
                 gScene scene = cClientLogic.scene;
+                g2.scale(
+                    ((1.0 / sSettings.gamescale) * (double) sSettings.height),
+                    ((1.0 / sSettings.gamescale) * (double) sSettings.height)
+                );
+                g2.translate(-gCamera.getX(), -gCamera.getY());
                 dBlockFloors.drawBlockFloors(g2, scene);
                 dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
-//                dBlockWalls.drawBlockWalls(g2, scene);
-////                dItems.drawItems(g2, scene);
-//                dPlayer.drawPlayers(g2);
-                dTileTops.drawTops(g2, scene);
-                dItems.drawItems(g2, scene);
                 dTileTops.drawMapmakerOverlay(g2, scene);
                 dFlares.drawSceneFlares(g2, scene);
                 dTileTops.drawBullets(g2, scene);
@@ -43,8 +48,10 @@ public class dPanel extends JPanel {
                 dTileTops.drawPopups(g2, scene);
                 dTileTops.drawUserPlayerArrow(g2);
                 dTileTops.drawPlayerNames(g2);
-                if(!uiInterface.inplay && sSettings.show_mapmaker_ui)
+                if(!uiInterface.inplay && sSettings.show_mapmaker_ui) {
                     dMapmakerOverlay.drawSelectionBoxes(g2);
+                }
+                g2.translate(gCamera.getX(), gCamera.getY());
             }
         }
         g2.dispose();
