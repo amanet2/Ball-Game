@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class xCon {
     private static xCon instance = null;
+    static int maxlinelength = 128;
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
@@ -39,13 +40,13 @@ public class xCon {
     }
 
     public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(sVars.get("fontnameconsole"), sVars.getInt("fontmode"),
-            sVars.getInt("fontsize")*sSettings.height/cVars.getInt("gamescale")/2).getStringBounds("_",
+        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
+            dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 
     public void debug(String s) {
-        if(sVars.isOne("debug")) {
+        if(sSettings.debug) {
             log(s);
             System.out.println(s);
         }
@@ -71,8 +72,8 @@ public class xCon {
         cursorIndex = 0;
         pressBinds = new HashMap<>();
         releaseBinds = new HashMap<>();
-        previousCommands = new ArrayList<>();
-        stringLines = new ArrayList<>();
+        previousCommands = new ArrayList<>(); //TODO: turn into queue to avoid storing too many
+        stringLines = new ArrayList<>();    //TODO: turn into queue to avoid storing too many
         commandString = "";
         prevCommandIndex = -1;
 
@@ -110,6 +111,7 @@ public class xCon {
         commands.put("console", new xComConsole());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
+        commands.put("debug", new xComDebug());
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());
@@ -130,6 +132,7 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
+        commands.put("freecam", new xComFreecam());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
@@ -221,7 +224,19 @@ public class xCon {
             String[] args = fullCommand.trim().split(" ");
             if(args.length > 0) {
                 String configval = args[0];
-                if(sVars.contains(configval)) {
+                if(cServerVars.instance().contains(configval)) {
+                    if(args.length > 1) {
+                        cServerVars.instance().put(configval, args[1]);
+                    }
+                    return cServerVars.instance().get(configval);
+                }
+                else if(cClientVars.instance().contains(configval)) {
+                    if(args.length > 1) {
+                        cClientVars.instance().put(configval, args[1]);
+                    }
+                    return cClientVars.instance().get(configval);
+                }
+                else if(sVars.contains(configval)) {
 //                    System.out.println("CONSOLE PARSING SVAR: " + configval);
                     //if we're setting instead of getting
                     if(args.length > 1) {

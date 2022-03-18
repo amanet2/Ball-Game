@@ -10,7 +10,7 @@ public class gItemFlag extends gItem {
     public gItemFlag(int x, int y) {
         super(x, y, 200, 300);
         put("type", "ITEM_FLAG");
-        sprite = gTextures.getScaledImage(eUtils.getPath("misc/flag.png"),
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"),
                 getInt("dimw"), getInt("dimh"));
     }
 }

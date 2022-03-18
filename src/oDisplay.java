@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class oDisplay extends JLayeredPane {
 	static int displaymode_windowed = 0;
-	static int displaymode_fullscreen = 1;
-	static int displaymode_borderless = 2;
+	static int displaymode_borderless = 1;
+	static int displaymode_fullscreen = 2;
 	JFrame frame;
     Cursor blankCursor;
 
@@ -27,30 +27,15 @@ public class oDisplay extends JLayeredPane {
         super.setOpaque(true);
 	}
 
+    public void refreshDisplaymode() {
+        createPanels();
+        showFrame();
+    }
+
 	public void refreshResolution() {
-        uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[0].text =
-                String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
         showFrame();
         createPanels();
         gTextures.refreshObjectSprites();
-    }
-
-	public void checkDisplay() {
-	    int[] sres = new int[]{
-	            Integer.parseInt(sVars.get("vidmode").split(",")[0]),
-	            Integer.parseInt(sVars.get("vidmode").split(",")[1]),
-	            Integer.parseInt(sVars.get("vidmode").split(",")[2])
-	    };
-	    if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
-	        sSettings.width = sres[0];
-	        sSettings.height = sres[1];
-            refreshResolution();
-        }
-	    if(sSettings.framerate != sres[2]) {
-            sSettings.framerate = sres[2];
-            uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[1].text =
-                    String.format("Framerate: [%d]",sSettings.framerate);
-        }
     }
 
 	public void showFrame() {
@@ -65,24 +50,21 @@ public class oDisplay extends JLayeredPane {
                 xCon.ex("quit");
             }
         });
-        frame.setUndecorated(!sVars.isIntVal("displaymode", displaymode_windowed));
+        frame.setUndecorated(sSettings.displaymode != displaymode_windowed);
 		if(sSettings.show_mapmaker_ui)
 			uiEditorMenus.setupMapMakerWindow();
 		frame.setResizable(false);
-        sSettings.width = Integer.parseInt(sVars.get("vidmode").split(",")[0]);
-        sSettings.height = Integer.parseInt(sVars.get("vidmode").split(",")[1]);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
-        setBackground(new Color(
-                Integer.parseInt(sVars.get("bgcolor").split(",")[0]),
-                Integer.parseInt(sVars.get("bgcolor").split(",")[1]),
-                Integer.parseInt(sVars.get("bgcolor").split(",")[2])
-        ));
+        setBackground(gColors.getFontColorFromName("background"));
         createPanels();
 		frame.setContentPane(this);
 		frame.pack();
         frame.setLocationRelativeTo(null);
-        if(sVars.isIntVal("displaymode", displaymode_fullscreen))
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if(sSettings.displaymode == displaymode_fullscreen) {
+            GraphicsEnvironment.getLocalGraphicsEnvironment().
+                    getDefaultScreenDevice().setFullScreenWindow(frame);
+//            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
 		frame.setVisible(true);
 		//add listeners
         frame.addKeyListener(iInput.keyboardInput);
@@ -96,20 +78,16 @@ public class oDisplay extends JLayeredPane {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double[] screenDims = new double[]{screenSize.getWidth(), screenSize.getHeight()};
         return new int[]{
-            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+            sSettings.displaymode == oDisplay.displaymode_fullscreen
                     ? Math.max(0, (int)((screenDims[0]-sSettings.width)/2.0)) : 0,
-            sVars.isIntVal("displaymode", oDisplay.displaymode_fullscreen)
+            sSettings.displaymode == oDisplay.displaymode_fullscreen
                     ? Math.max(0,(int)((screenDims[1]-sSettings.height)/2.0)) : 0
         };
     }
 
 	public void createPanels() {
 	    removeAll();
-        setBackground(new Color(
-                Integer.parseInt(sVars.getArray("bgcolor")[0]),
-                Integer.parseInt(sVars.getArray("bgcolor")[1]),
-                Integer.parseInt(sVars.getArray("bgcolor")[2])
-        ));
+        setBackground(gColors.getFontColorFromName("background"));
         int ox = getContentPaneOffsetDimension()[0];
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;

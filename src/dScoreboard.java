@@ -5,15 +5,13 @@ import java.util.HashMap;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
-        g.setColor(new Color(0,0,0,100));
+        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g,
                 cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
                         + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
                 sSettings.width/2, 2*sSettings.height/30);
-//        dFonts.drawCenteredString(g, cVars.contains("currentmap") ? cVars.get("currentmap") : "[map name here]",
-//                sSettings.width/2, 3*sSettings.height/30);
         dFonts.setFontColorNormal(g);
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
                 sSettings.width/3,5*sSettings.height/30);

@@ -5,6 +5,8 @@ import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
+    private static final int sendbatchsize = 320;
+    private static final int timeout = 10000;
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -118,7 +120,7 @@ public class nServer extends Thread {
             if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
-                if(System.currentTimeMillis() > lastrecordedtime + sVars.getInt("timeout")) {
+                if(System.currentTimeMillis() > lastrecordedtime + timeout) {
                     addQuitClient(id);
                 }
             }
@@ -222,9 +224,8 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cVars.getLong("bottime") < uiInterface.gameTime) {
-                cVars.putLong("bottime",
-                        uiInterface.gameTime + (long)(1000.0/(double)sVars.getInt("ratebots")));
+            if(botsMap.size() > 0 && cBotsLogic.bottime < uiInterface.gameTime) {
+                cBotsLogic.bottime = uiInterface.gameTime + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
@@ -253,7 +254,7 @@ public class nServer extends Thread {
         //handle server outgoing cmds that loopback to the server
         checkLocalCmds();
         //send scores
-        keys.put("time", cVars.get("timeleft"));
+        keys.put("time", Long.toString(cServerLogic.timeleft));
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
                 if(clientArgsMap.get("server").containsKey(s))
@@ -339,12 +340,12 @@ public class nServer extends Thread {
                         netticks = 0;
                         uiInterface.nettickcounterTimeServer = uiInterface.gameTime + 1000;
                     }
-                    byte[] receiveData = new byte[sVars.getInt("rcvbytesserver")];
+                    byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
                     long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sVars.getInt("rateserver"));
+                            + (long) (1000.0 / (double) sSettings.rateserver);
                     processPackets();
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
@@ -420,7 +421,7 @@ public class nServer extends Thread {
                         packPlayer.put("vel2", veltoks[2]);
                         packPlayer.put("vel3", veltoks[3]);
                     }
-                    if (sVars.isOne("smoothing")) {
+                    if (sSettings.smoothing) {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
                     }
@@ -467,7 +468,8 @@ public class nServer extends Thread {
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_maploaded 0;cv_gamemode %s\n", cVars.get("gamemode")));
+        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %s\n",
+                cServerLogic.velocityplayerbase, cVars.get("gamemode")));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -576,7 +578,7 @@ public class nServer extends Thread {
                 next = maplines.get(i+1);
             sendStringBuilder.append(line).append(";");
             linectr++;
-            if(sendStringBuilder.length() + next.length() >= cVars.getInt("serversendmapbatchsize")
+            if(sendStringBuilder.length() + next.length() >= sendbatchsize
             || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
@@ -628,20 +630,19 @@ public class nServer extends Thread {
         if(testmsg.equalsIgnoreCase("skip")) {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
-                if(voteSkipMap.keySet().size() >= cVars.getInt("voteskiplimit")) {
-                    cVars.putLong("intermissiontime",
-                            System.currentTimeMillis() + sVars.getInt("intermissiontime"));
+                if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
+                    cServerLogic.intermissiontime = System.currentTimeMillis() + cServerLogic.intermissionDelay;
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winClipSelection[
                                     (int) (Math.random() * eManager.winClipSelection.length)],
-                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cVars.get("voteskiplimit")),
+                            String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cServerLogic.voteskiplimit),
                             "echo changing map..."}) {
                         addExcludingNetCmd("server", s);
                     }
                 }
                 else {
                     String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                            voteSkipMap.keySet().size(), cVars.get("voteskiplimit"));
+                            voteSkipMap.keySet().size(), cServerLogic.voteskiplimit);
                     addExcludingNetCmd("server", s);
                 }
             }

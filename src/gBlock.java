@@ -1,10 +1,8 @@
-//import java.awt.*;
-
 public class gBlock extends gThing {
-//    public Image sprite;
-
     public gBlock(int x, int y, int w, int h) {
         super();
+        setCoords(x, y);
+        setDims(w, h);
         put("type", "THING_BLOCK");
         putInt("coordx", x);
         putInt("coordy", y);
