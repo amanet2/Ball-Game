@@ -3,6 +3,20 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class cServerLogic {
+    static int maxhp = 500;
+    static int timelimit = 180000;
+    static long flagmastertime = 0;
+    static int delayhp = 3600;
+    static long starttime = 0;
+    static long intermissiontime = -1;
+    static int intermissionDelay = 10000;
+    static boolean gameover = false;
+    static int rechargehp = 1;
+    static long virustime = 0;
+    static int respawnwaittime = 3000;
+    static int velocityplayerbase = 8;
+    static int voteskiplimit = 2;
+    static long timeleft = 180000;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -14,11 +28,10 @@ public class cServerLogic {
     }
 
     public static void checkTimeRemaining() {
-        if(sVars.getInt("timelimit") > 0)
-            cVars.putLong("timeleft", Math.max(0, sVars.getLong("timelimit")
-                    - (int) (uiInterface.gameTime - cVars.getLong("starttime"))));
+        if(timelimit > 0)
+            timeleft = Math.max(0, timelimit - (int) (uiInterface.gameTime - starttime));
         else
-            cVars.putLong("timeleft", -1);
+            timeleft = -1;
     }
 
     public static void checkGameState() {
@@ -37,13 +50,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
-                if(cVars.getLong("flagmastertime") < uiInterface.gameTime) {
+                if(flagmastertime < uiInterface.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
-                    cVars.putLong("flagmastertime", uiInterface.gameTime + 1000);
+                    flagmastertime = uiInterface.gameTime + 1000;
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(cVars.getLong("virustime") < uiInterface.gameTime) {
+                if(virustime < uiInterface.gameTime) {
                     boolean survivors = false;
                     for(String id : getPlayerIds()) {
                         if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
@@ -51,7 +64,7 @@ public class cServerLogic {
                             xCon.ex("givepoint " + id);
                         }
                     }
-                    cVars.putLong("virustime", uiInterface.gameTime + 1000);
+                    virustime = uiInterface.gameTime + 1000;
                     if(!survivors) {
                         cGameLogic.resetVirusPlayers();
                     }
@@ -92,24 +105,23 @@ public class cServerLogic {
             }
         }
         //check for winlose
-        if(!sSettings.show_mapmaker_ui && cVars.isZero("gameover")) {
+        if(!sSettings.show_mapmaker_ui && !gameover) {
             //conditions
-            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
-                    && cVars.getLong("intermissiontime") < 0)) {
-                cVars.put("gameover", "1");
+            if((timeleft == 0 && intermissiontime < 0)) {
+                gameover = true;
             }
-            if(cVars.isOne("gameover")) {
+            if(gameover) {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
-//                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
-//                nServer.instance().addExcludingNetCmd("server",
-//                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
-                cVars.putLong("intermissiontime",
-                        System.currentTimeMillis() + Integer.parseInt(sVars.get("intermissiontime")));
+                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
+                nServer.instance().addExcludingNetCmd("server",
+                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
+//                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
+                intermissiontime = System.currentTimeMillis() + intermissionDelay;
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
             }
@@ -131,12 +143,15 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            if(p.getInt("stockhp") < cVars.getInt("maxstockhp") &&
-                    p.getLong("hprechargetime")+cVars.getInt("delayhp") < System.currentTimeMillis()) {
-                if(p.getInt("stockhp")+cVars.getInt("rechargehp") > cVars.getInt("maxstockhp"))
-                    p.put("stockhp", cVars.get("maxstockhp"));
+            int pHp = p.getInt("stockhp");
+            if(pHp < maxhp && p.getLong("hprechargetime") + delayhp < System.currentTimeMillis()) {
+                if(pHp + rechargehp > maxhp)
+                    p.putInt("stockhp", maxhp);
                 else
-                    p.putInt("stockhp", p.getInt("stockhp") + cVars.getInt("rechargehp"));
+                    p.putInt("stockhp", pHp + rechargehp);
+            }
+            else if(pHp > maxhp) {
+                p.putInt("stockhp", maxhp);
             }
         }
     }
@@ -146,26 +161,6 @@ public class cServerLogic {
         if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
             nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
             cl.checkSpriteFlip();
-        }
-    }
-
-    public static void checkHatStatus(){
-//        //player0
-//        gPlayer userPlayer = cClientLogic.getUserPlayer();
-//        if(userPlayer != null && !userPlayer.get("pathspritehat").contains(sVars.get("playerhat"))) {
-//            userPlayer.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",
-//                    sVars.get("playerhat"))));
-//        }
-        //others
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            gPlayer p = getPlayerById(id);
-            String chat = nServer.instance().clientArgsMap.get(id).get("hat");
-            if(p == null || chat == null)
-                continue;
-            if(!p.get("pathspritehat").contains(chat)) {
-                p.setHatSpriteFromPath(eUtils.getPath(String.format("animations/hats/%s/a.png",chat)));
-                p.put("hat", chat);
-            }
         }
     }
 
@@ -182,10 +177,9 @@ public class cServerLogic {
     }
 
     public static void checkForMapChange() {
-        if(cVars.getLong("intermissiontime") > 0
-                && cVars.getLong("intermissiontime") < System.currentTimeMillis()) {
-            cVars.put("intermissiontime", "-1");
-            cVars.putInt("timeleft", sVars.getInt("timelimit"));
+        if(intermissiontime > 0 && intermissiontime < System.currentTimeMillis()) {
+            intermissiontime = -1;
+            timeleft = timelimit;
             xCon.ex("changemaprandom");
         }
     }
@@ -205,8 +199,8 @@ public class cServerLogic {
         nServer.instance().voteSkipMap = new HashMap<>();
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
-        cVars.putLong("starttime", System.currentTimeMillis());
-        cVars.put("gameover", "0");
+        starttime = System.currentTimeMillis();
+        gameover = false;
         if (cVars.getInt("gamemode") == cGameLogic.VIRUS)
             cGameLogic.resetVirusPlayers();
     }

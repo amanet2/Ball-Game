@@ -1,6 +1,5 @@
 public class gDoableCollisionReturn {
     public gCollision getCollision(String[] args) {
-        int npoints = Integer.parseInt(args[2]);
         String[] rawXargs = args[0].split("\\.");
         for(int i = 0; i < rawXargs.length; i++) {
             String rawX = rawXargs[i];
@@ -58,6 +57,6 @@ public class gDoableCollisionReturn {
             yarr[i] = Integer.parseInt(rawYargs[i]);
         }
 
-        return new gCollision(xarr, yarr, npoints);
+        return new gCollision(xarr, yarr);
     }
 }

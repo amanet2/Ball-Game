@@ -9,7 +9,7 @@ public class gWeaponsShotgun extends gWeapon {
         refiredelay = 750;
         damage = 2100;
         maxAmmo = 2;
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/shotgun.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/shotgun.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 140;
@@ -34,8 +34,8 @@ public class gWeaponsShotgun extends gWeapon {
             scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         }
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.SHOTGUN.code());
-            cVars.putLong("weapontime"+ gWeapons.type.SHOTGUN.code(), System.currentTimeMillis());
+            cClientLogic.weaponStocks[gWeapons.type.SHOTGUN.code()] -= 1;
+            cClientLogic.weapontimeShotgun = System.currentTimeMillis();
         }
     }
 }

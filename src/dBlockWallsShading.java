@@ -2,77 +2,57 @@ import java.awt.*;
 
 public class dBlockWallsShading {
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gBlock block) {
-        g2.setStroke(dFonts.thickStroke);
-        g2.setColor(new Color(0, 0, 0, 255));
-        if (sVars.isOne("vfxenableshading")) {
+        if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
             if (block.getInt("wallh") > 0) {
                 GradientPaint gradient;
                 if(block.getInt("wallh") < 300) {
                     gradient = new GradientPaint(
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("toph")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalllowshadingalpha1")),
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalllowshadingalpha2")));
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getInt("toph"),
+                            gColors.getWorldColorFromName("walllowshading1"),
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getHeight(),
+                            gColors.getWorldColorFromName("walllowshading2")
+                    );
                 }
                 else {
                     gradient = new GradientPaint(
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("toph")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha1")),
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwallshadingalpha2")));
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getInt("toph"),
+                            gColors.getWorldColorFromName("wallshading1"),
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getHeight(),
+                            gColors.getWorldColorFromName("wallshading2")
+                    );
                 }
                 g2.setPaint(gradient);
-                g2.fillRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                + block.getInt("toph")),
-                        eUtils.scaleInt(block.getInt("dimw")),
-                        eUtils.scaleInt(block.getInt("wallh"))
+                g2.fillRect(block.getX(), block.getY() + block.getInt("toph"), block.getWidth(),
+                            block.getInt("wallh")
                 );
                 if(block.getInt("wallh") < 300) {
                     gradient = new GradientPaint(
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("toph")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalllowoutlinealpha1")),
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalllowoutlinealpha1")));
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getInt("toph"),
+                            gColors.getWorldColorFromName("walllowoutline1"),
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getHeight(),
+                            gColors.getWorldColorFromName("walllowoutline2")
+                    );
                 }
                 else {
                     gradient = new GradientPaint(
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("toph")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha1")),
-                            eUtils.scaleInt(block.getInt("coordx") + block.getInt("dimw") / 2
-                                    - cVars.getInt("camx")),
-                            eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                    + block.getInt("dimh")),
-                            new Color(0, 0, 0, cVars.getInt("vfxwalloutlinealpha2")));
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getInt("toph"),
+                            gColors.getWorldColorFromName("walloutline1"),
+                            block.getX() + block.getWidth() / 2,
+                            block.getY() + block.getHeight(),
+                            gColors.getWorldColorFromName("walloutline2")
+                    );
                 }
                 g2.setPaint(gradient);
-                g2.drawRoundRect(eUtils.scaleInt(block.getInt("coordx") - cVars.getInt("camx")),
-                        eUtils.scaleInt(block.getInt("coordy") - cVars.getInt("camy")
-                                + block.getInt("toph")),
-                        eUtils.scaleInt(block.getInt("dimw")),
-                        eUtils.scaleInt(block.getInt("wallh")),
-                        eUtils.scaleInt(5), eUtils.scaleInt(5)
+                g2.drawRoundRect(block.getX(), block.getY() + block.getInt("toph"),
+                                 block.getWidth(), block.getInt("wallh"), 5, 5
                 );
             }
         }

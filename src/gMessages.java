@@ -8,10 +8,11 @@ public class gMessages {
     static boolean messageSend = false;
     static boolean enteringMessage = false;
     static String msgInProgress = "";
+    static int fadetime = 10000;
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
-        expirs.add(System.currentTimeMillis() + sVars.getInt("msgfadetime"));
+        expirs.add(System.currentTimeMillis() + fadetime);
     }
 
     public static void checkMessages() {

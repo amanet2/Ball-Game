@@ -9,7 +9,7 @@ public class gWeaponsLauncher extends gWeapon {
         refiredelay = 1000;
         damage = 1500; //damage will come from the pellets spawned in the explosion
         maxAmmo = 1;
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/launcher.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/launcher.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 180;
@@ -29,8 +29,8 @@ public class gWeaponsLauncher extends gWeapon {
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.LAUNCHER.code());
-            cVars.putLong("weapontime"+ gWeapons.type.LAUNCHER.code(), System.currentTimeMillis());
+            cClientLogic.weaponStocks[gWeapons.type.LAUNCHER.code()] -= 1;
+            cClientLogic.weapontimeLauncher = System.currentTimeMillis();
         }
     }
 

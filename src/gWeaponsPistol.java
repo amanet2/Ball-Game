@@ -9,7 +9,7 @@ public class gWeaponsPistol extends gWeapon {
         refiredelay = 300;
         damage = 350;
         maxAmmo = 6;
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 560;
@@ -31,8 +31,8 @@ public class gWeaponsPistol extends gWeapon {
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.PISTOL.code());
-            cVars.putLong("weapontime"+ gWeapons.type.PISTOL.code(), System.currentTimeMillis());
+            cClientLogic.weaponStocks[gWeapons.type.PISTOL.code()] -= 1;
+            cClientLogic.weapontimePistol = System.currentTimeMillis();
         }
     }
 }

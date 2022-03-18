@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 public class nVarsBot {
+    static int botthinkdelay = 500;
     private static HashMap<String, HashMap<String, String>> map = null;
 
     public static HashMap<String, String> copyArgsForId(String id) {
@@ -16,8 +17,8 @@ public class nVarsBot {
         refreshForId(p.get("id"));
         if(p.getLong("botthinktime") < uiInterface.gameTime) {
             xCon.ex("dobotbehavior " + p.get("id") + " "+ cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")]);
-            int rd = (int)(Math.random()*cVars.getInt("botthinkdelay")-cVars.getInt("botthinkdelay")/2);
-            p.putLong("botthinktime", System.currentTimeMillis() + cVars.getInt("botthinkdelay") + rd);
+            int rd = (int)(Math.random()*botthinkdelay-botthinkdelay/2);
+            p.putLong("botthinktime", System.currentTimeMillis() + botthinkdelay + rd);
         }
 
         for(String s : new String[]{"id","fv"}) {

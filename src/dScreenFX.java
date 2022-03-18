@@ -38,33 +38,34 @@ public class dScreenFX {
         if(userPlayer != null) {
             //threshold to turn on screen fx
             int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
-            if (userhp < cVars.getInt("maxstockhp")) {
-                int factors = sVars.getInt("vfxfactor");
-                int maxl = cVars.getInt("vfxuialphahp");
+            if (userhp < cClientLogic.maxhp) {
+                int factors = sSettings.vfxfactor;
+                int maxl = gColors.hpAlpha;
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
                         int w = sSettings.width / factors;
                         int h = sSettings.height / factors;
                         if (Math.random() > 0.95 && Math.random() > 0.95) {
                             g.setColor(new Color(200, 0, 0, maxl
-                                    - maxl * userhp / cVars.getInt("maxstockhp")
+                                    - maxl * userhp / cClientLogic.maxhp
                                     + (int) (Math.random() * (-25) + 25)));
                             g.fillRect(i, j, w, h);
                         }
                     }
                 }
-                int factorsw = sSettings.width / sVars.getInt("vfxfactordiv");
-                int factorsh = sSettings.height / sVars.getInt("vfxfactordiv");
+                int factorsdiv = sSettings.vfxfactordiv;
+                int factorsw = sSettings.width / factorsdiv;
+                int factorsh = sSettings.height / factorsdiv;
                 for (int i = 0; i < factorsw; i++) {
                     g.setColor(new Color(100, 0, 0,
                             Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i)) - (factorsw / 2))) - maxl)
-                                    * (cVars.getInt("maxstockhp") - userhp) / cVars.getInt("maxstockhp") / 2));
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
                     g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
                 }
                 for (int i = 0; i < factorsh; i++) {
                     g.setColor(new Color(100, 0, 0,
                             Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-                                    * (cVars.getInt("maxstockhp") - userhp) / cVars.getInt("maxstockhp") / 2));
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
                     g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
                 }
             }
@@ -73,12 +74,12 @@ public class dScreenFX {
         if(uiInterface.inplay) {
             int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
             int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
-            int cx = eUtils.unscaleInt(cVars.getInt("camx"));
-            int cy = eUtils.unscaleInt(cVars.getInt("camy"));
+            int cx = eUtils.unscaleInt(gCamera.getX());
+            int cy = eUtils.unscaleInt(gCamera.getY());
             int snapX = aimerx + cx;
             int snapY = aimery + cy;
-            snapX -= eUtils.unscaleInt(cVars.getInt("camx"));
-            snapY -= eUtils.unscaleInt(cVars.getInt("camy"));
+            snapX -= eUtils.unscaleInt(gCamera.getX());
+            snapY -= eUtils.unscaleInt(gCamera.getY());
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
             int setw = sSettings.height / 96;
