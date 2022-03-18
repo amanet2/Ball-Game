@@ -117,7 +117,10 @@ public class cServerLogic {
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
-                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
+                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
+                nServer.instance().addExcludingNetCmd("server",
+                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
+//                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
                 intermissiontime = System.currentTimeMillis() + intermissionDelay;
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
