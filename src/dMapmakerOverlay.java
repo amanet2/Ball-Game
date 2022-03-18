@@ -23,25 +23,25 @@ public class dMapmakerOverlay {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
                 g2.setColor(gColors.getFontColorFromName("flooroutline"));
-                g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
-                        eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
-                        eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
+                g2.drawRect(block.getInt("coordx"),
+                        block.getInt("coordy"),
+                        block.getInt("dimw"), block.getInt("dimh"));
             }
             if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
                 g2.setColor(gColors.getFontColorFromName("selected"));
-                g2.drawRect(eUtils.scaleInt(block.getInt("coordx")-cVars.getInt("camx")),
-                        eUtils.scaleInt(block.getInt("coordy")-cVars.getInt("camy")),
-                        eUtils.scaleInt(block.getInt("dimw")), eUtils.scaleInt(block.getInt("dimh")));
+                g2.drawRect(block.getInt("coordx"),
+                        block.getInt("coordy"),
+                        block.getInt("dimw"), block.getInt("dimh"));
             }
         }
         // -- selected item
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.isVal("itemid", cVars.get("selecteditemid"))) {
+            if(item.contains("itemid") && item.isVal("itemid", cClientLogic.selecteditemid)) {
                 g2.setColor(gColors.getFontColorFromName("selected"));
-                g2.drawRect(eUtils.scaleInt(item.getInt("coordx")-cVars.getInt("camx")),
-                        eUtils.scaleInt(item.getInt("coordy")-cVars.getInt("camy")),
-                        eUtils.scaleInt(item.getInt("dimw")), eUtils.scaleInt(item.getInt("dimh")));
+                g2.drawRect(item.getInt("coordx"),
+                        item.getInt("coordy"),
+                        item.getInt("dimw"), item.getInt("dimh"));
             }
         }
         //prefab dims
@@ -54,11 +54,11 @@ public class dMapmakerOverlay {
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                +cVars.getInt("camx")-w/2, uiEditorMenus.snapToX) - cVars.getInt("camx");
+                +gCamera.getX()-w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                +cVars.getInt("camy")-h/2, uiEditorMenus.snapToY) - cVars.getInt("camy");
+                +gCamera.getY()-h/2, uiEditorMenus.snapToY);
         g2.setColor(gColors.getFontColorFromName("preview"));
-        g2.drawRect(eUtils.scaleInt(px), eUtils.scaleInt(py),
-                eUtils.scaleInt(w), eUtils.scaleInt(h));
+        g2.drawRect(px, py,
+                w, h);
     }
 }

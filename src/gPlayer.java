@@ -165,10 +165,10 @@ public class gPlayer extends gThing {
 
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
-        sprite = gTextures.getScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public gPlayer(int x, int y, String tt) {
+    public gPlayer(int x, int y, int health, String tt) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
@@ -193,7 +193,7 @@ public class gPlayer extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         put("hprechargetime", "0");
-        put("stockhp", cVars.get("maxstockhp"));
+        putInt("stockhp", health);
         put("botthinktime", "0");
         setSpriteFromPath(tt);
         setHatSpriteFromPath(eUtils.getPath("none"));

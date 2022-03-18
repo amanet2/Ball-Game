@@ -1,7 +1,52 @@
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class gThing {
+    int id;
+    private int[] coords = {0, 0};
+    private int[] dims = {0, 0};
+
+    public void setCoords(int x, int y) {
+        coords[0] = x;
+        coords[1] = y;
+    }
+
+    public void setX(int x) {
+        coords[0] = x;
+    }
+
+    public void setY(int y) {
+        coords[1] = y;
+    }
+
+    public int getX() {
+        return coords[0];
+    }
+
+    public int getY() {
+        return coords[1];
+    }
+
+    public void setDims(int w, int h) {
+        dims[0] = w;
+        dims[1] = h;
+    }
+
+    public void setW(int w) {
+        dims[0] = w;
+    }
+
+    public void setH(int h) {
+        dims[1] = h;
+    }
+
+    public int getWidth() {
+        return dims[0];
+    }
+
+    public int getHeight() {
+        return dims[1];
+    }
+
     private LinkedHashMap<String, String> vars;
     public String get(String s) {
         return vars.get(s);
@@ -92,9 +137,9 @@ public class gThing {
     }
 
     public boolean coordsWithinBounds(int x, int y) {
-        return (x >= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx"))
-                && x <= eUtils.scaleInt(getInt("coordx")-cVars.getInt("camx")+getInt("dimw")))
-                && (y >= eUtils.scaleInt(getInt("coordy")-cVars.getInt("camy"))
-                && y <= eUtils.scaleInt(getInt("coordy")-cVars.getInt("camy")+getInt("dimh")));
+        return (x >= eUtils.scaleInt(getInt("coordx")-gCamera.getX())
+                && x <= eUtils.scaleInt(getInt("coordx")-gCamera.getX()+getInt("dimw")))
+                && (y >= eUtils.scaleInt(getInt("coordy")-gCamera.getY())
+                && y <= eUtils.scaleInt(getInt("coordy")-gCamera.getY()+getInt("dimh")));
     }
 }

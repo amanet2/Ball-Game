@@ -2,7 +2,7 @@ public class uiMenusAudio extends uiMenu {
     public void refresh() {
         setMenuItemTexts(new String[]{
                 String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X"),
-                String.format("Volume [%s]", sVars.get("volume"))
+                String.format("Volume [%f]", cClientLogic.volume)
         });
     }
 
@@ -11,11 +11,10 @@ public class uiMenusAudio extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem(String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X")) {
                     public void doItem() {
-                        sSettings.audioenabled = !sSettings.audioenabled;
-                        uiMenus.menuSelection[uiMenus.MENU_AUDIO].refresh();
+                        cClientVars.instance().put("audioenabled", sSettings.audioenabled ? "0" : "1");
                     }
                 },
-                new uiMenuItem(String.format("Volume [%s]", sVars.get("volume"))) {
+                new uiMenuItem(String.format("Volume [%f]", cClientLogic.volume)) {
                     public void doItem() {
                         uiMenus.selectedMenu = uiMenus.MENU_VOLUME;
                     }

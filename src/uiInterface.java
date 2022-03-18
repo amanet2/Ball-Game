@@ -1,7 +1,8 @@
 import java.awt.*;
 
 public class uiInterface {
-    static boolean inplay = sVars.isZero("startpaused");
+    static boolean inplay = false; //must be FALSE for mapmaker to work right
+    static boolean inconsole = false;
     static long gameTime = System.currentTimeMillis();
     private static long gameTimeNanos = System.nanoTime();
     private static long tickCounterTime = gameTime;
@@ -17,6 +18,7 @@ public class uiInterface {
     static int[] camReport = new int[]{0,0};
     private static int frames = 0;
     static String uuid = eManager.createId();
+    static boolean blockMouseUI = false;
 
     private static void startGame() {
         int ticks = 0;
@@ -28,15 +30,15 @@ public class uiInterface {
                 while(tickTimeNanos < gameTimeNanos) {
 //                while(tickTime < gameTime) {
                     //nano = billion
-                    tickTimeNanos += (1000000000/cVars.getInt("gametick"));
+                    tickTimeNanos += (1000000000/sSettings.rategame);
 //                    tickTime += 1000/cVars.getInt("gametick");
                     iInput.readKeyInputs();
                     if(sSettings.IS_SERVER)
                         cServerLogic.gameLoop();
                     if(sSettings.IS_CLIENT)
                         cClientLogic.gameLoop();
-                    camReport[0] = cVars.getInt("camx");
-                    camReport[1] = cVars.getInt("camy");
+                    camReport[0] = gCamera.getX();
+                    camReport[1] = gCamera.getY();
                     ticks += 1;
                     if(tickCounterTime < gameTime) {
                         tickReport = ticks;
@@ -53,15 +55,15 @@ public class uiInterface {
                     frames = 0;
                     framecounterTime = lastFrameTime + 1000;
                 }
-                if(sSettings.framerate > 0) {
-                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
                     //power saving
 //                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
 //                    if(toSleep > 0)
 //                        Thread.sleep(toSleep);
-                    while (nextFrameTime >= System.nanoTime()); // do nothing
-                }
-            } catch (Exception e) {
+                // power saving 2 (better)
+//                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+//                    while (nextFrameTime >= System.nanoTime()); // do nothing
+            }
+            catch (Exception e) {
                 eUtils.echoException(e);
                 e.printStackTrace();
             }
@@ -73,6 +75,12 @@ public class uiInterface {
         eUtils.disableApplePressAndHold();
         sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
         sVars.readLaunchArguments(launch_args);
+        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cServerVars.instance().loadFromLaunchArgs(launch_args);
+        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        cClientVars.instance().loadFromLaunchArgs(launch_args);
+//        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
+//        sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
@@ -82,13 +90,6 @@ public class uiInterface {
         if(!sVars.isOne("showmapmakerui")) {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
-            sVars.putInt("showcam", 0);
-            sVars.putInt("showfps", 0);
-            sVars.putInt("showmouse", 0);
-            sVars.putInt("shownet", 0);
-            sVars.putInt("showplayer", 0);
-            sVars.putInt("showscale", 0);
-            sVars.putInt("showtick", 0);
         }
         else {
             sSettings.show_mapmaker_ui = true;
@@ -111,15 +112,15 @@ public class uiInterface {
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int[] fabdims = dMapmakerOverlay.getNewPrefabDims();
-        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+cVars.getInt("camx") - fabdims[0]/2,
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+gCamera.getX() - fabdims[0]/2,
                 uiEditorMenus.snapToX);
-        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+cVars.getInt("camy") - fabdims[1]/2,
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+gCamera.getY() - fabdims[1]/2,
                 uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
-        if(cVars.isZero("blockmouseui")) {
+        if(!blockMouseUI) {
             int[] mc = uiInterface.getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
             int[] yBounds = sSettings.displaymode > 0
@@ -155,6 +156,8 @@ public class uiInterface {
     }
 
     public static void exit() {
+        cServerVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
         if(sVars.isOne("debuglog"))
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);

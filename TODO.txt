@@ -4,6 +4,28 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* Pattern: have a static int in code
+    -> cVar should be only public function to interact with that value
+        -> GET: use the code static val
+        -> SET: use the cVar so that the changes apply to saved cfg files as well as current game
+* Architecture for syncing svars across clients (e.g. maxhp)
+    -> client/hud use local integer in clientLogic to store maxhp (avoid overwriting saved settings)
+    -> server sVar value onChange() will tell clients to set CVar for maxhp
+        -> cVar for maxHp change on clients will set local integer in clientLogic
+* use sSetttings vars for internal, use cServerVars/ClientVars for user interactions
+* go over instance creation and lines stored for console
+* make a cArg class
+    -> have it work like garg but be for local instances
+    -> garg-like
+* turn timelimit into a gARg
+    -> onChange -> restart timer
+* Create arg class that will utilize observer pattern to handle onChange() stuff
+    -> find the arg the same way we do in console
+    -> on the change, call the onChange() function which will notify observer(s)
+        -> e.g. vidmode arg onChange() will refresh the frame/stuff
+            -> no more checkX() functions
+* think of how to build maps/prefabs out of only collisions and floors
+* try using graphics scale/translate with the gamescale instead of eutils in every draw op
 * move the dim/4 stuff to the preview block build call, not draw
 * figure out a way to build blocks using a true top down 2d view (matrix rotation)
     -> graph paper

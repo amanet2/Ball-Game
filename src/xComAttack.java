@@ -4,7 +4,7 @@ public class xComAttack extends xCom {
         int playerWeapon = br.getInt("weapon");
         if(playerWeapon == gWeapons.type.NONE.code()
             || playerWeapon == gWeapons.type.GLOVES.code()
-            || cVars.getInt("weaponstock"+playerWeapon) > 0) {
+            || cClientLogic.weaponStocks[playerWeapon] > 0) {
             if(br.getLong("cooldown") < System.currentTimeMillis()) {
                 String fireString = "fireweapon " + br.get("id") + " " + playerWeapon;
                 nClient.instance().addNetCmd(fireString);
