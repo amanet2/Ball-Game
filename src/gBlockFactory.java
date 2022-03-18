@@ -33,22 +33,22 @@ public class gBlockFactory {
             e.printStackTrace();
         }
         topColor = new Color(
-                255,
-                255,
-                255,
-                80
+                125,
+                125,
+                125,
+                100
         );
         topColorDark = new Color(
-                125,
-                125,
-                125,
+                0,
+                0,
+                0,
                 100
         );
         topColorPreview = new Color(190,190,180,255);
         wallColorPreview = new Color(120, 120, 200, 255);
         floorColorPreview = new Color(100,100,60,255);
         floorTexture = new TexturePaint(floorImage, new Rectangle2D.Double(0,0,
-                eUtils.scaleInt(1210),eUtils.scaleInt(1210)));
+                eUtils.scaleInt(1200),eUtils.scaleInt(1200)));
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(300),eUtils.scaleInt(300)));
         topTexture = new TexturePaint(topImage, new Rectangle2D.Double(0,0,

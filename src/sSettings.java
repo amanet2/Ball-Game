@@ -3,6 +3,8 @@ public class sSettings {
 	 * data source
 	 */
 	static String CONFIG_FILE_LOCATION = "config/settings.cfg";
+	static String CONFIG_FILE_LOCATION_SERVER = "config/server.cfg";
+	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.cfg";
 	static String CONSOLE_LOG_LOCATION = "_console_log.txt";
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
@@ -25,6 +27,8 @@ public class sSettings {
 	static boolean vfxenableshadows = true;
 	static boolean vfxenableflares = true;
 	static boolean vfxenableanimations = true;
+	static int popuplivetime = 2000;
+	static int velocity_popup = 2;
 	/**
 	 * AUDIO
 	 * **/
@@ -38,7 +42,7 @@ public class sSettings {
 	static int rateclient = 60;
 	static int rateserver = 1000;
 	static int rategame = 240;
-	static int ratebots = 15;
+	static int ratebots = 30;
 	static boolean debug = false;
 	static boolean smoothing = true;
 }

@@ -19,16 +19,16 @@ public class xComMouseLeft extends xCom {
                         nClient.instance().addNetCmd(cmd);
                         return "put prefab " + cVars.get("newprefabname");
                     }
-                    if(cVars.get("newitemname").length() > 0) {
+                    if(uiEditorMenus.newitemname.length() > 0) {
                         int iw = 300;
                         int ih = 300;
                         int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - iw/2,
                                 uiEditorMenus.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
                                 uiEditorMenus.snapToY);
-                        String cmd = String.format("putitem %s %d %d", cVars.get("newitemname"), ix, iy);
+                        String cmd = String.format("putitem %s %d %d", uiEditorMenus.newitemname, ix, iy);
                         nClient.instance().addNetCmd(cmd);
-                        return "put item " + cVars.get("newitemname");
+                        return "put item " + uiEditorMenus.newitemname;
                     }
                 }
                 else if(uiMenus.gobackSelected) {

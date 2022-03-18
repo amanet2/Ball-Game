@@ -6,6 +6,7 @@ public class gCamera {
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
+	private static final String trackingid = uiInterface.uuid;
 
 	public static int getX() {
 		return coords[0];
@@ -51,7 +52,7 @@ public class gCamera {
 	public static void centerCamera() {
 		gThing p = cClientLogic.getUserPlayer();
 		if(p == null)
-			p = cClientLogic.getPlayerById(cVars.get("camplayertrackingid"));
+			p = cClientLogic.getPlayerById(gCamera.trackingid);
 		if(p != null) {
 			mode = MODE_TRACKING;
 			coords[0] = (((p.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2) + p.getInt("dimw")/2));

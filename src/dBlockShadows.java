@@ -4,41 +4,37 @@ public class dBlockShadows {
     public static void drawShadowBlockFlat(Graphics2D g2, gBlock block) {
         if(sSettings.vfxenableshadows) {
             g2.setStroke(dFonts.thickStroke);
-            if (block.getInt("wallh") + block.getInt("toph") == block.getInt("dimh")) {
+            if (block.getInt("wallh") + block.getInt("toph") == block.getHeight()) {
                 GradientPaint gradient = new GradientPaint(
-                        block.getInt("coordx") + block.getInt("dimw")/2,
-                        block.getInt("coordy") + block.getInt("dimh"),
+                        block.getX() + block.getWidth()/2,block.getY() + block.getHeight(),
                         gColors.getWorldColorFromName("shadow1"),
-                        block.getInt("coordx") + block.getInt("dimw")/2,
-                        block.getInt("coordy") + block.getInt("dimh")
+                        block.getX() + block.getWidth()/2,
+                        block.getY() + block.getHeight()
                                 + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor),
                         gColors.getWorldColorFromName("shadow2")
                 );
                 g2.setPaint(gradient);
                 g2.fillRect(
-                        block.getInt("coordx"),
-                        block.getInt("coordy") + block.getInt("dimh"),
-                        block.getInt("dimw"),
+                        block.getX(),
+                        block.getY() + block.getHeight(),
+                        block.getWidth(),
                         (int)(block.getInt("wallh")*sSettings.vfxshadowfactor)
                 );
             }
             else if (block.getInt("toph") > 0) {
                 GradientPaint gradient = new GradientPaint(
-                        block.getInt("coordx") + block.getInt("dimw")/2,
-                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
+                        block.getX() + block.getWidth()/2,
+                        block.getY() + block.getHeight() - block.getInt("toph"),
                         gColors.getWorldColorFromName("shadow1"),
-                        block.getInt("coordx") + block.getInt("dimw")/2,
-                        block.getInt("coordy") + block.getInt("dimh")
-                                + (int)((block.getInt("dimh") - block.getInt("toph") - block.getInt("toph")
+                        block.getX() + block.getWidth()/2,
+                        block.getY() + block.getHeight()
+                                + (int)((block.getHeight() - block.getInt("toph") - block.getInt("toph")
                         )*sSettings.vfxshadowfactor),
                         gColors.getWorldColorFromName("shadow2")
                 );
                 g2.setPaint(gradient);
-                g2.fillRect(
-                        block.getInt("coordx"),
-                        block.getInt("coordy") + block.getInt("dimh") - block.getInt("toph"),
-                        block.getInt("dimw"),
-                        (int)((block.getInt("dimh") - block.getInt("toph"))*sSettings.vfxshadowfactor)
+                g2.fillRect(block.getX(), block.getY() + block.getHeight() - block.getInt("toph"),
+                        block.getWidth(), (int)((block.getHeight() - block.getInt("toph"))*sSettings.vfxshadowfactor)
                 );
             }
         }

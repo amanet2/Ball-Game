@@ -5,59 +5,12 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("bottime", "0");
-        put("camplayertrackingid", uiInterface.uuid);
-        put("delayhp", "3600");
-        put("flagmastertime", "0");
-        put("gameover", "0");
         putInt("gamemode", cGameLogic.DEATHMATCH);
-        put("blockmouseui", "0");
-        put("intermissiontime", "-1");
         put("maploaded", "0");
-        put("newitemname", "");
         put("newprefabname", "room");
-        put("maxstockhp", "500");
-        put("popuplivetime", "2000");
         put("itemid", "0");
         put("prefabid", "0");
-        put("selecteditemid", "");
         put("selectedprefabid", "");
-        put("selecteditemname", "");
-        put("selectedprefabname", "");
-        put("shotgunmasterids", "");
-        put("rechargehp", "1");
-        put("respawnwaittime", "3000");
-        put("serversendmapbatchsize", "320");
-        put("showscore", "0");
-        put("starttime", "0");
-        put("timeleft", sVars.get("timelimit"));
-        put("velocityplayerbase", "8");
-        put("velocityplayer", get("velocityplayerbase"));
-        put("velocitypopup", "2");
-        put("virustime", "0");
-        put("weaponbotrange0", "300");
-        put("weaponbotrange1", "800");
-        put("weaponbotrange2", "400");
-        put("weaponbotrange3", "600");
-        put("weaponbotrange4", "600");
-        put("weaponbotrange5", "300");
-        put("weapontime0", "0");
-        put("weapontime1", "0");
-        put("weapontime2", "0");
-        put("weapontime3", "0");
-        put("weapontime4", "0");
-        put("weapontime5", "0");
-        put("weaponstock0", "0");
-        put("weaponstock1", "0");
-        put("weaponstock2", "0");
-        put("weaponstock3", "0");
-        put("weaponstock4", "0");
-        put("weaponstock5", "0");
-        //bots
-        put("botthinkdelay", "500");
-        put("botviruschaserange", "600");
-        //voting
-        put("voteskiplimit", "2");
     }
 
     static boolean checkVal(String key, String v) {

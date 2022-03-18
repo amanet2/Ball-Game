@@ -3,6 +3,8 @@ import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
+    private static int retrylimit = 0;
+    private static final int timeout = 10000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
@@ -75,7 +77,7 @@ public class nClient extends Thread {
                                 sVars.getInt("joinport"));
                         if (clientSocket == null || clientSocket.isClosed()) {
                             clientSocket = new DatagramSocket();
-                            clientSocket.setSoTimeout(sVars.getInt("timeout"));
+                            clientSocket.setSoTimeout(timeout);
                         }
                         clientSocket.send(sendPacket);
                         xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
@@ -97,7 +99,7 @@ public class nClient extends Thread {
                     eUtils.echoException(ee);
                     ee.printStackTrace();
                     retries++;
-                    if(retries > sVars.getInt("netrcvretries")) {
+                    if(retries > retrylimit) {
                         xCon.ex("disconnect");
                         xCon.ex("echo Lost connection to server");
                     }
@@ -124,7 +126,7 @@ public class nClient extends Thread {
         keys.put("id", uiInterface.uuid);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("color", sVars.get("playercolor"));
+            keys.put("color", cClientLogic.playerColor);
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
@@ -132,7 +134,7 @@ public class nClient extends Thread {
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
         }
         //name for spectator and gameplay
-        keys.put("name", sVars.get("playername"));
+        keys.put("name", cClientLogic.playerName);
         return keys;
     }
 
@@ -176,7 +178,7 @@ public class nClient extends Thread {
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
-                cVars.put("timeleft", packArgs.get("time"));
+                cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {
                     if(!packArgs.containsKey(s))
@@ -266,9 +268,11 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        sSettings.IS_CLIENT = false;
-        clientSocket.close();
-        serverArgsMap = new HashMap<>();
-        serverIds = new ArrayList<>();
+        if(sSettings.IS_CLIENT) {
+            sSettings.IS_CLIENT = false;
+            clientSocket.close();
+            serverArgsMap = new HashMap<>();
+            serverIds = new ArrayList<>();
+        }
     }
 }

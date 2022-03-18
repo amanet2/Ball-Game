@@ -71,25 +71,21 @@ public class dPlayer {
                     player.getInt("dimh")
             );
         }
-//        //player weapon
-//        AffineTransform backup = g2.getTransform();
-//        AffineTransform a = g2.getTransform();
-//        a.rotate(player.getDouble("fv")-Math.PI/2,
-//                eUtils.scaleInt(player.getInt("coordx")
-//                        + player.getInt("dimw") / 2),
-//                eUtils.scaleInt(player.getInt("coordy")
-//                        + player.getInt("dimh") / 2)
-//        );
-//        g2.setTransform(a);
-//        int diff = player.getDouble("fv") >= 2*Math.PI || player.getDouble("fv") <= Math.PI ?
-//                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2:
-//                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2;
-//        g2.drawImage(gWeapons.fromCode(player.getInt("weapon")).sprite,
-//                eUtils.scaleInt(player.getInt("coordx") + player.getInt("dimw")/2
-//                       ),
-//                eUtils.scaleInt(player.getInt("coordy") + player.getInt("dimh")/2
-//                       -diff),
-//                null);
-//        g2.setTransform(backup);
+        //player weapon
+        AffineTransform backup = g2.getTransform();
+        AffineTransform a = g2.getTransform();
+        a.rotate(player.getDouble("fv")-Math.PI/2,
+                player.getInt("coordx") + player.getInt("dimw") / 2,
+                player.getInt("coordy") + player.getInt("dimh") / 2
+        );
+        g2.setTransform(a);
+        int diff = player.getDouble("fv") >= 2*Math.PI || player.getDouble("fv") <= Math.PI ?
+                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2:
+                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2;
+        g2.drawImage(gWeapons.fromCode(player.getInt("weapon")).sprite,
+                player.getInt("coordx") + player.getInt("dimw")/2,
+                player.getInt("coordy") + player.getInt("dimh")/2 - diff,
+                null);
+        g2.setTransform(backup);
     }
 }

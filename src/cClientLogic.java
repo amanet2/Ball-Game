@@ -4,7 +4,18 @@ import java.util.HashMap;
 
 public class cClientLogic {
     static gScene scene = new gScene();
-
+    static int maxhp = 500;
+    static double volume = 100.0;
+    static String selecteditemid = "";
+    static long weapontimePistol = 0;
+    static long weapontimeShotgun = 0;
+    static long weapontimeAutorifle = 0;
+    static long weapontimeLauncher = 0;
+    static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
+    static String playerName = "player";
+    static String playerColor = "blue";
+    static int velocityPlayer = 8;
+    static long timeleft = 180000;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -23,15 +34,13 @@ public class cClientLogic {
     }
 
     public static void gameLoop() {
-        oDisplay.instance().checkDisplay();
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         checkGameState();
         checkMovementStatus();
         checkColorStatus();
-        if(getUserPlayer() != null) {
+        if(getUserPlayer() != null)
             checkPlayerFire();
-        }
         checkFinishedAnimations();
         checkExpiredPopups();
         updateEntityPositions();
@@ -39,10 +48,11 @@ public class cClientLogic {
     }
 
     public static void netLoop() {
-        if(sSettings.show_mapmaker_ui)
-            cClientLogic.selectThingUnderMouse();
-        if(getUserPlayer() != null) {
-            pointPlayerAtMousePointer();
+        if(oDisplay.instance().frame.isVisible()) {
+            if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
+            if(getUserPlayer() != null)
+                pointPlayerAtMousePointer();
         }
     }
 
@@ -53,10 +63,8 @@ public class cClientLogic {
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selecteditemid", item.get("itemid"));
-                cVars.put("selecteditemname", item.get("type"));
+                selecteditemid = item.get("itemid");
                 cVars.put("selectedprefabid", "");
-                cVars.put("selectedprefabname", "");
                 return;
             }
         }
@@ -65,9 +73,7 @@ public class cClientLogic {
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
-                cVars.put("selecteditemname", "");
+                selecteditemid = "";
                 return;
             }
         }
@@ -75,14 +81,12 @@ public class cClientLogic {
             gThing block = scene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cVars.put("selectedprefabid", block.get("prefabid"));
-                cVars.put("selectedprefabname", block.get("prefabname"));
-                cVars.put("selecteditemid", "");
-                cVars.put("selecteditemname", "");
+                selecteditemid = "";
                 return;
             }
         }
         cVars.put("selectedprefabid", "");
-        cVars.put("selecteditemid", "");
+        selecteditemid = "";
     }
 
     public static void updateEntityPositions() {
@@ -101,7 +105,7 @@ public class cClientLogic {
                     //user player
                     if(isUserPlayer(obj)) {
                         if (obj.getInt("mov"+i) > 0) {
-                            obj.putInt("vel" + i, (Math.min(cVars.getInt("velocityplayer"),
+                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
                                     obj.getInt("vel" + i) + 1)));
                         }
                         else
@@ -133,9 +137,9 @@ public class cClientLogic {
         for(Object id : popupsMap.keySet()) {
             gPopup obj = (gPopup) popupsMap.get(id);
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (cVars.getInt("velocitypopup")*Math.cos(obj.getDouble("fv")+Math.PI/2))));
+                    - (int) (sSettings.velocity_popup*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (cVars.getInt("velocitypopup")*Math.sin(obj.getDouble("fv")+Math.PI/2))));
+                    - (int) (sSettings.velocity_popup*Math.sin(obj.getDouble("fv")+Math.PI/2))));
         }
         checkBulletSplashes();
     }
@@ -203,7 +207,7 @@ public class cClientLogic {
         HashMap popupsMap = scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
             gPopup g = (gPopup) popupsMap.get(id);
-            if(g.getLong("timestamp") < System.currentTimeMillis() - cVars.getInt("popuplivetime")) {
+            if(g.getLong("timestamp") < System.currentTimeMillis() - sSettings.popuplivetime) {
                 popupIdToRemove = (String) id;
                 break;
             }

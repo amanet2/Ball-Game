@@ -9,7 +9,7 @@ public class gWeaponsGloves extends gWeapon {
         damage = 550;
         maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 50;

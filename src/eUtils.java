@@ -1,4 +1,3 @@
-import java.awt.Image;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
@@ -8,8 +7,6 @@ import java.util.HashMap;
 
 public class eUtils {
     static double zoomLevel = 1.0;
-    private static int[] screendims = new int[]{Integer.parseInt(sVars.getArray("vidmode")[0]),
-            Integer.parseInt(sVars.getArray("vidmode")[1])};
 
     public static boolean containsFields(HashMap<String, String> map, String[] fields) {
         for(String required : fields) {
@@ -17,17 +14,6 @@ public class eUtils {
                 return false;
         }
         return true;
-    }
-
-    public static boolean resolutionChanged() {
-        if(screendims[0] != Integer.parseInt(sVars.getArray("vidmode")[0])
-        || screendims[1] != Integer.parseInt(sVars.getArray("vidmode")[1])) {
-            screendims = new int[]{
-                    Integer.parseInt(sVars.getArray("vidmode")[0]),
-                    Integer.parseInt(sVars.getArray("vidmode")[1])};
-            return true;
-        }
-        return false;
     }
 
     public static String getPath(String s) {
@@ -47,10 +33,6 @@ public class eUtils {
 	public static int unscaleInt(int inputInt) {
 		return (int) ((((double) inputInt * sSettings.gamescale) / (double) sSettings.height));
 	}
-
-    public static Image getWeaponScaledSpriteForPath(String path, int x, int y) {
-        return  gTextures.getScaledImage(path, x, y);
-    }
 
 	public static int roundToNearest(int val, int snap) {
 		return (Math.round(val/snap))*snap;
