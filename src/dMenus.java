@@ -7,15 +7,12 @@ public class dMenus {
     private static Image logoimg = gTextures.getGScaledImage(eUtils.getPath("misc/logo.png"),
                                                             sSettings.width, sSettings.height/3);
 
-    private static void refreshLogos() {
+    public static void refreshLogos() {
         coverimg = gTextures.getGScaledImage(eUtils.getPath("misc/cover.png"), sSettings.width, sSettings.height);
         logoimg = gTextures.getGScaledImage(eUtils.getPath("misc/logo.png"), sSettings.width, sSettings.height/3);
     }
 
     public static void showPauseMenu(Graphics g) {
-        if(eUtils.resolutionChanged()) {
-            refreshLogos();
-        }
         uiInterface.getUIMenuItemUnderMouse();
         g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
@@ -78,9 +75,6 @@ public class dMenus {
     }
 
     public static void showCreditsMenu(Graphics g) {
-        if(eUtils.resolutionChanged()) {
-            refreshLogos();
-        }
         uiInterface.getUIMenuItemUnderMouse();
         g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);

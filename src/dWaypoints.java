@@ -78,7 +78,7 @@ public class dWaypoints {
                     if(p == null)
                         return;
                     dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                            p.getInt("coordy") + p.getInt("dimh") / 2, "KILL");
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "");
                 }
             }
             else {
@@ -86,7 +86,7 @@ public class dWaypoints {
                 for(Object id : flagmap.keySet()) {
                     gItemFlag flag = (gItemFlag) flagmap.get(id);
                     dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                            flag.getInt("coordy") + flag.getInt("dimh")/2, "GO HERE");
+                            flag.getInt("coordy") + flag.getInt("dimh")/2, "");
                 }
             }
 
@@ -96,7 +96,7 @@ public class dWaypoints {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if (statestr.contains(p.get("id"))) {
                         dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "INFECTED");
+                                p.getInt("coordy") + p.getInt("dimh") / 2, "");
                     }
                 }
             }

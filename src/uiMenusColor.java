@@ -14,7 +14,7 @@ public class uiMenusColor extends uiMenu {
                 public void doItem() {
                     String color = text;
                     gPlayer user = cClientLogic.getUserPlayer();
-                    sVars.put("playercolor", color);
+                    cClientVars.instance().put("playercolor", color);
                     uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text = String.format("Color: [%s]", color);
                     if(user != null) {
                         user.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", color)));
@@ -23,7 +23,7 @@ public class uiMenusColor extends uiMenu {
                     uiMenus.selectedMenu = parentMenu;
                 }
             };
-            if(items[items.length-1].text.equals(sVars.get("playercolor"))) {
+            if(items[items.length-1].text.equals(cClientLogic.playerColor)) {
                 selectedItem = i;
             }
         }

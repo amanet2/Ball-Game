@@ -10,7 +10,7 @@ public class xComEditorOpenPrefab extends xCom {
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 cVars.put("newprefabname", file.getName());
-                cVars.put("newitemname", "");
+                uiEditorMenus.newitemname = "";
                 return "set prefab from file " + file.getPath();
             }
         }

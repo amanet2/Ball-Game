@@ -13,8 +13,8 @@ public class xComPlaySound extends xCom {
                     soundClip.setCycleCount(AudioClip.INDEFINITE);
             }
             if(toks.length > 4) {
-                int diffx = gCamera.getX()+ eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                int diffy = gCamera.getY()+ eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                 double balance = 0.0;
                 double ratio = Math.abs(diffx/(sfxrange-300));
                 if(diffx < 0)
@@ -23,11 +23,11 @@ public class xComPlaySound extends xCom {
                     balance = -ratio;
                 soundClip.setBalance(balance);
                 soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
-                        *((double)sVars.getInt("volume")/100.0));
+                        *(cClientLogic.volume/100.0));
                 oAudio.instance().clips.add(soundClip);
             }
             else {
-                soundClip.play((double) sVars.getInt("volume") / 100.0);
+                soundClip.play(cClientLogic.volume / 100.0);
                 oAudio.instance().clips.add(soundClip);
             }
         }

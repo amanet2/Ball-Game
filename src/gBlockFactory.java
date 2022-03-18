@@ -33,15 +33,15 @@ public class gBlockFactory {
             e.printStackTrace();
         }
         topColor = new Color(
-                255,
-                255,
-                255,
-                80
+                125,
+                125,
+                125,
+                100
         );
         topColorDark = new Color(
-                125,
-                125,
-                125,
+                0,
+                0,
+                0,
                 100
         );
         topColorPreview = new Color(190,190,180,255);

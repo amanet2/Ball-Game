@@ -1,6 +1,7 @@
 import java.util.LinkedHashMap;
 
 public class gThing {
+    int id;
     private int[] coords = {0, 0};
     private int[] dims = {0, 0};
 

@@ -54,7 +54,6 @@ public class xComPutBlock extends xCom {
                 }
                 gBlock newBlock = blockReturn.getBlock(args);
                 newBlock.put("prefabid", cVars.get("prefabid"));
-                newBlock.put("prefabname", cVars.get("newprefabname"));
                 int blockId = cServerLogic.scene.blockIdCtr;
                 cServerLogic.scene.getThingMap("THING_BLOCK").put(Integer.toString(blockId), newBlock);
                 cServerLogic.scene.getThingMap(newBlock.get("type")).put(Integer.toString(blockId), newBlock);

@@ -9,7 +9,7 @@ public class gWeaponsAutorifle extends gWeapon {
         refiredelay = 80;
         damage = 200;
         maxAmmo = 18;
-        sprite = eUtils.getWeaponScaledSpriteForPath(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
+        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 210;
@@ -31,8 +31,8 @@ public class gWeaponsAutorifle extends gWeapon {
         b.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         if(p == cClientLogic.getUserPlayer()) {
-            cVars.decrement("weaponstock"+ gWeapons.type.AUTORIFLE.code());
-            cVars.putLong("weapontime"+ gWeapons.type.AUTORIFLE.code(), System.currentTimeMillis());
+            cClientLogic.weaponStocks[gWeapons.type.AUTORIFLE.code()] -= 1;
+            cClientLogic.weapontimeAutorifle = System.currentTimeMillis();
         }
     }
 }
