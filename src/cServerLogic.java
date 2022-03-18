@@ -16,6 +16,7 @@ public class cServerLogic {
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
+    static long timeleft = 180000;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();
@@ -28,9 +29,9 @@ public class cServerLogic {
 
     public static void checkTimeRemaining() {
         if(timelimit > 0)
-            cVars.putLong("timeleft", Math.max(0, timelimit - (int) (uiInterface.gameTime - starttime)));
+            timeleft = Math.max(0, timelimit - (int) (uiInterface.gameTime - starttime));
         else
-            cVars.putLong("timeleft", -1);
+            timeleft = -1;
     }
 
     public static void checkGameState() {
@@ -106,8 +107,7 @@ public class cServerLogic {
         //check for winlose
         if(!sSettings.show_mapmaker_ui && !gameover) {
             //conditions
-            if((cVars.getInt("timeleft") > -1 && cVars.getInt("timeleft") < 1
-                    && intermissiontime < 0)) {
+            if((timeleft == 0 && intermissiontime < 0)) {
                 gameover = true;
             }
             if(gameover) {
@@ -176,7 +176,7 @@ public class cServerLogic {
     public static void checkForMapChange() {
         if(intermissiontime > 0 && intermissiontime < System.currentTimeMillis()) {
             intermissiontime = -1;
-            cVars.putInt("timeleft", timelimit);
+            timeleft = timelimit;
             xCon.ex("changemaprandom");
         }
     }

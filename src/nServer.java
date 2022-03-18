@@ -254,7 +254,7 @@ public class nServer extends Thread {
         //handle server outgoing cmds that loopback to the server
         checkLocalCmds();
         //send scores
-        keys.put("time", cVars.get("timeleft"));
+        keys.put("time", Long.toString(cServerLogic.timeleft));
         if(clientArgsMap.containsKey("server")) {
             for(String s : new String[]{"flagmasterid", "virusids"}) {
                 if(clientArgsMap.get("server").containsKey(s))

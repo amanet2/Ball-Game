@@ -61,7 +61,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && cVars.isOne("maploaded")) {
-            long timeleft = cVars.getLong("timeleft");
+            long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
                     dFonts.setFontColorAlert(g);

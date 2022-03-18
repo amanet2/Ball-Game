@@ -12,6 +12,8 @@ public class uiEditorMenus {
     static int snapToX = 50;
     static int snapToY = 50;
     static String newitemname = "";
+    static String newprefabname = "";
+
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();

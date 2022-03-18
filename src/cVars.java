@@ -11,7 +11,6 @@ public class cVars {
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");
-        put("timeleft", "180000"); //TODO: figure a way for clients to not need this
     }
 
     static boolean checkVal(String key, String v) {

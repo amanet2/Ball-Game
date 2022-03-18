@@ -178,7 +178,7 @@ public class nClient extends Thread {
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
-                cVars.put("timeleft", packArgs.get("time"));
+                cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
                 //check flag and virus
                 for(String s : new String[]{"flagmasterid", "virusids"}) {
                     if(!packArgs.containsKey(s))

@@ -15,6 +15,7 @@ public class cClientLogic {
     static String playerName = "player";
     static String playerColor = "blue";
     static int velocityPlayer = 8;
+    static long timeleft = 180000;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

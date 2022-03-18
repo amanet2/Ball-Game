@@ -42,7 +42,7 @@ public class sSettings {
 	static int rateclient = 60;
 	static int rateserver = 1000;
 	static int rategame = 240;
-	static int ratebots = 15;
+	static int ratebots = 30;
 	static boolean debug = false;
 	static boolean smoothing = true;
 }
