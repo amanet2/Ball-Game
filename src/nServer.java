@@ -331,7 +331,7 @@ public class nServer extends Thread {
 
     public void run() {
         try {
-            serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+            serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;

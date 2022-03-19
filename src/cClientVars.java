@@ -123,7 +123,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
-                cClientLogic.joinport = value;
+                cClientLogic.joinport = Integer.parseInt(value);
             }
         });
     }

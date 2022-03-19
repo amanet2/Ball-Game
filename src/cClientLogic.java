@@ -17,7 +17,7 @@ public class cClientLogic {
     static int velocityPlayer = 8;
     static long timeleft = 180000;
     static String joinip = "localhost";
-    static String joinport = "5555";
+    static int joinport = 5555;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

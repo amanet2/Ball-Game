@@ -5,7 +5,7 @@ public class xComJoingame extends xCom {
             String[] comps = toks[1].split(":");
             cClientLogic.joinip = comps[0];
             if(comps.length > 1)
-                sVars.put("joinport", comps[1]);
+                cClientLogic.joinport = Integer.parseInt(comps[1]);
         }
         if(nClient.instance().isInterrupted())
             nClient.resetInstance();

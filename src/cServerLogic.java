@@ -17,6 +17,7 @@ public class cServerLogic {
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
     static long timeleft = 180000;
+    static int listenPort = 5555;
     static gScene scene = new gScene();
     public static void gameLoop() {
         checkTimeRemaining();

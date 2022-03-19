@@ -241,8 +241,7 @@ public class xCon {
                     //if we're setting instead of getting
                     if(args.length > 1) {
                         //check for valid input here
-                        if(sVars.checkVal(configval, args[1]))
-                            sVars.put(configval, args[1]);
+                        sVars.put(configval, args[1]);
                     }
                     return sVars.get(configval);
                 }
