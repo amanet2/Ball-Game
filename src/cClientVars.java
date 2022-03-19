@@ -47,6 +47,16 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("debug", "0") {
+            public void onChange() {
+                cClientLogic.debug = Integer.parseInt(value) > 0;
+            }
+        });
+        putArg(new gArg("debuglog", "0") {
+            public void onChange() {
+                cClientLogic.debuglog = Integer.parseInt(value) > 0;
+            }
+        });
         putArg(new gArg("volume", "100") {
             public void onChange() {
                 cClientLogic.volume = Double.parseDouble(value);

@@ -18,6 +18,8 @@ public class cClientLogic {
     static long timeleft = 180000;
     static String joinip = "localhost";
     static int joinport = 5555;
+    static boolean debug = false;
+    static boolean debuglog = false;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

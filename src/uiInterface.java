@@ -159,7 +159,7 @@ public class uiInterface {
         cServerVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         cClientVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         sVars.saveFile(sSettings.CONFIG_FILE_LOCATION);
-        if(sVars.isOne("debuglog"))
+        if(cClientLogic.debuglog)
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         System.exit(0);
     }
