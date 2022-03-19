@@ -1,4 +1,11 @@
 public class uiMenusJoinGame extends uiMenu {
+    public void refresh() {
+        setMenuItemTexts(new String[]{
+                "-Start-",
+                String.format("Server IP [%s]", cClientLogic.joinip),
+                String.format("Server Port [%s]", sVars.get("joinport"))
+        });
+    }
     public uiMenusJoinGame() {
         super("Join Game",
             new uiMenuItem[]{
