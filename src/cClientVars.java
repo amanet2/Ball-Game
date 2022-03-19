@@ -17,10 +17,10 @@ public class cClientVars extends gArgSet {
                         Integer.parseInt(vidmodetoks[1]),
                         Integer.parseInt(vidmodetoks[2])
                 };
-                if(sSettings.width != sres[0] || sSettings.height != sres[1] || sSettings.framerate != sres[2]) {
+                sSettings.framerate = sres[2];
+                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
-                    sSettings.framerate = sres[2];
                     //refresh fonts
                     dFonts.fontNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                             dFonts.fontsize * sSettings.height / sSettings.gamescale);
