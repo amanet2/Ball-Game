@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* implement unlimited framerate cleanly
 * Pattern: have a static int in code
     -> cVar should be only public function to interact with that value
         -> GET: use the code static val

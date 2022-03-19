@@ -125,7 +125,7 @@ public class uiEditorMenus {
                 if(!nServer.instance().isAlive()) {
                     xCon.ex("startserver");
                     xCon.ex("load");
-                    xCon.ex("joingame localhost 5555");
+                    xCon.ex("joingame localhost " + cServerLogic.listenPort);
                 }
                 else {
                     xCon.ex("e_newmap");

@@ -11,7 +11,7 @@ public class uiMenusNewGame extends uiMenu {
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("newgame;joingame localhost 5555;pause");
+                        xCon.ex("newgame;joingame localhost " + cServerLogic.listenPort + ";pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },

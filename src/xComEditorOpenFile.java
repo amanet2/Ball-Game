@@ -15,7 +15,7 @@ public class xComEditorOpenFile extends xCom {
                 if(!nServer.instance().isAlive()) {
                     xCon.ex("startserver");
                     xCon.ex("load");
-                    xCon.ex("joingame localhost 5555");
+                    xCon.ex("joingame localhost " + cServerLogic.listenPort);
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
