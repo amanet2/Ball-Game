@@ -39,7 +39,7 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("audioenabled", "1") {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(Integer.parseInt(value) < 1) {
+                if(!sSettings.audioenabled) {
                     for(AudioClip c : oAudio.instance().clips) {
                         c.stop();
                     }
@@ -114,6 +114,16 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("showscale", "0"){
             public void onChange() {
                 dScreenMessages.showscale = value.equals("1");
+            }
+        });
+        putArg(new gArg("joinip", "localhost"){
+            public void onChange() {
+                cClientLogic.joinip = value;
+            }
+        });
+        putArg(new gArg("joinport", "5555"){
+            public void onChange() {
+                cClientLogic.joinport = value;
             }
         });
     }

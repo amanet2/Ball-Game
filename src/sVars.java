@@ -13,7 +13,6 @@ public class sVars {
         keys.put("datapath", "ballgame");
         keys.put("debuglog", "0");
         keys.put("framerates", "24,30,60,75,98,120,144,240");
-        keys.put("joinip", "localhost");
         keys.put("joinport", "5555");
         keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("showmapmakerui", "0");

@@ -70,7 +70,7 @@ public class nClient extends Thread {
                         uiInterface.nettickcounterTimeClient = uiInterface.gameTime + 1000;
                     }
                     if (receivedPackets.size() < 1) {
-                        InetAddress IPAddress = InetAddress.getByName(sVars.get("joinip"));
+                        InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
                         String sendDataString = createSendDataString();
                         byte[] clientSendData = sendDataString.getBytes();
                         DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,

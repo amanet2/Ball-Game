@@ -93,8 +93,8 @@ public class uiEditorMenus {
 //        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
-        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + sVars.get("joinip"));
-        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + sVars.get("joinport"));
+        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + cClientLogic.joinip);
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + cClientLogic.joinport);
         JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");

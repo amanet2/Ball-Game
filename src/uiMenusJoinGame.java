@@ -8,10 +8,10 @@ public class uiMenusJoinGame extends uiMenu {
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },
-                new uiMenuItem(String.format("Server IP [%s]", sVars.get("joinip"))) {
+                new uiMenuItem(String.format("Server IP [%s]", cClientLogic.joinip)) {
                     public void doItem() {
                         xCon.ex("e_changejoinip");
-                        text = String.format("Server IP [%s]", sVars.get("joinip"));
+                        text = String.format("Server IP [%s]", cClientLogic.joinip);
                     }
                 },
                 new uiMenuItem(String.format("Server Port [%s]",sVars.get("joinport"))) {

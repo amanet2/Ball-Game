@@ -11,8 +11,9 @@ public class xComEditorChangeJoinIP extends xCom {
                     null,
                     null);
             if(s != null && s.strip().replace(",", "").length() > 0) {
-                sVars.put("joinip", s.replace(",", ""));
-                uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + sVars.get("joinip"));
+                cClientLogic.joinip = s.replace(",", "");
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + cClientLogic.joinip);
             }
         });
         t.start();
