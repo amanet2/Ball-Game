@@ -7,7 +7,7 @@ public class xComMouseLeft extends xCom {
             else {
                 if(sSettings.show_mapmaker_ui && cVars.isOne("maploaded")) {
                     int[] mc = uiInterface.getMouseCoordinates();
-                    if(cVars.get("newprefabname").length() > 0) {
+                    if(cClientLogic.newprefabname.length() > 0) {
                         int[] pfd = dMapmakerOverlay.getNewPrefabDims();
                         int w = pfd[0];
                         int h = pfd[1];
@@ -15,9 +15,9 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - h / 2,
                                 uiEditorMenus.snapToY);
-                        String cmd = String.format("exec prefabs/%s %d %d", cVars.get("newprefabname"), pfx, pfy);
+                        String cmd = String.format("exec prefabs/%s %d %d", cClientLogic.newprefabname, pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
-                        return "put prefab " + cVars.get("newprefabname");
+                        return "put prefab " + cClientLogic.newprefabname;
                     }
                     if(uiEditorMenus.newitemname.length() > 0) {
                         int iw = 300;

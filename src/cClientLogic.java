@@ -20,6 +20,7 @@ public class cClientLogic {
     static int joinport = 5555;
     static boolean debug = false;
     static boolean debuglog = false;
+    static String newprefabname = "room";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

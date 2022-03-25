@@ -7,7 +7,6 @@ public class cVars {
     private static void init() {
         putInt("gamemode", cGameLogic.DEATHMATCH);
         put("maploaded", "0");
-        put("newprefabname", "room");
         put("itemid", "0");
         put("prefabid", "0");
         put("selectedprefabid", "");

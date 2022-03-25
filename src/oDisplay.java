@@ -65,6 +65,10 @@ public class oDisplay extends JLayeredPane {
                     getDefaultScreenDevice().setFullScreenWindow(frame);
 //            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
+        else {
+            GraphicsEnvironment.getLocalGraphicsEnvironment().
+                    getDefaultScreenDevice().setFullScreenWindow(null);
+        }
 		frame.setVisible(true);
 		//add listeners
         frame.addKeyListener(iInput.keyboardInput);

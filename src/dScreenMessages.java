@@ -101,7 +101,7 @@ public class dScreenMessages {
             }
             else if(cVars.isOne("maploaded")){
                 dFonts.setFontNormal(g);
-                String newThingString = cVars.get("newprefabname");
+                String newThingString = cClientLogic.newprefabname;
                 //preview
                 g.setColor(Color.BLACK);
                 g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
@@ -119,9 +119,9 @@ public class dScreenMessages {
                 String[] rotates = {"_000", "_090", "_180", "_270"};
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
                 for(String s : rotatesList) {
-                    if(cVars.get("newprefabname").contains(s)) {
+                    if(cClientLogic.newprefabname.contains(s)) {
                         g.drawString(String.format("[R] - ROTATE %s",
-                                uiEditorMenus.getRotateName(cVars.get("newprefabname"))),0, 27*sSettings.height/32);
+                                uiEditorMenus.getRotateName(cClientLogic.newprefabname)),0, 27*sSettings.height/32);
                         drawnRotate = true;
                         break;
                     }
