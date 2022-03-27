@@ -9,24 +9,6 @@ public class cVars {
         put("maploaded", "0");
         put("itemid", "0");
         put("prefabid", "0");
-        put("selectedprefabid", "");
-    }
-
-    static boolean checkVal(String key, String v) {
-        try {
-            String k = key.toLowerCase();
-            if(k.contains("vfx")) {
-                if (v.contains("."))
-                    return Double.parseDouble(v) >= 0 && Double.parseDouble(v) < 256;
-                return Integer.parseInt(v) >= 0 && Integer.parseInt(v) < 256;
-            }
-        }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-            return false;
-        }
-        return true;
     }
 
     public static String get(String s) {
@@ -38,9 +20,6 @@ public class cVars {
     }
     public static double getDouble(String s) {
         return Double.parseDouble(get(s));
-    }
-    public static long getLong(String s) {
-        return Long.parseLong(get(s));
     }
     public static void put(String s, String v) {
         refresh();
@@ -54,12 +33,6 @@ public class cVars {
     }
     public static void putLong(String s, long v) {
         put(s, Long.toString(v));
-    }
-    public static void addIntVal(String k, int v) {
-        put(k, Integer.toString(getInt(k)+v));
-    }
-    public static void decrement(String s) {
-        put(s, Integer.toString(Integer.parseInt(get(s))-1));
     }
     public static boolean isVal(String s, String v) {
         return get(s).equals(v);

@@ -21,6 +21,7 @@ public class cClientLogic {
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
+    static String selectedPrefabId = "";
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -69,7 +70,7 @@ public class cClientLogic {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 selecteditemid = item.get("itemid");
-                cVars.put("selectedprefabid", "");
+                selectedPrefabId = "";
                 return;
             }
         }
@@ -77,7 +78,7 @@ public class cClientLogic {
             gThing block = scene.getThingMap("THING_BLOCK").get(id);
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
+                selectedPrefabId = block.get("prefabid");
                 selecteditemid = "";
                 return;
             }
@@ -85,12 +86,12 @@ public class cClientLogic {
         for(String id : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing block = scene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
+                selectedPrefabId = block.get("prefabid");
                 selecteditemid = "";
                 return;
             }
         }
-        cVars.put("selectedprefabid", "");
+        selectedPrefabId = "";
         selecteditemid = "";
     }
 

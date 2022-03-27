@@ -255,8 +255,7 @@ public class xCon {
                         if(val.length() > 3 && val.substring(0,3).equals("cv_") && cVars.contains(val.substring(3)))
                             val = cVars.get(val.substring(3));
                         //check for valid input here
-                        if(cVars.checkVal(configval.substring(3), val))
-                            cVars.put(configval.substring(3), val);
+                        cVars.put(configval.substring(3), val);
                     }
                     return cVars.get(configval.substring(3));
                 }

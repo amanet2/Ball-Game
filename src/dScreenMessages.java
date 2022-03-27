@@ -126,7 +126,7 @@ public class dScreenMessages {
                         break;
                     }
                 }
-                if(cVars.get("selectedprefabid").length() > 0 || cClientLogic.selecteditemid.length() > 0) {
+                if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
                 }
