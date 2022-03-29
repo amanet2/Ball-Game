@@ -22,6 +22,7 @@ public class cClientLogic {
     static boolean debuglog = false;
     static String newprefabname = "room";
     static String selectedPrefabId = "";
+    static int itemId = 0;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

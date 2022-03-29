@@ -80,6 +80,11 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("cv_itemid", "0") {
+            public void onChange() {
+                cClientLogic.itemId = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
                 cClientLogic.maxhp = Integer.parseInt(value);
