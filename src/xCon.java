@@ -244,21 +244,6 @@ public class xCon {
                     }
                     return sVars.get(configval);
                 }
-                else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
-//                    System.out.println("CONSOLE PARSING CVAR: " + configval);
-                    //if we're setting instead of getting
-                    if(args.length > 1) {
-                        String val = args[1];
-                        //check if our "value" is a reference to svar or cvar
-                        if(sVars.contains(val))
-                            val = sVars.get(val);
-                        if(val.length() > 3 && val.substring(0,3).equals("cv_") && cVars.contains(val.substring(3)))
-                            val = cVars.get(val.substring(3));
-                        //check for valid input here
-                        cVars.put(configval.substring(3), val);
-                    }
-                    return cVars.get(configval.substring(3));
-                }
             }
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
