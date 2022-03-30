@@ -9,8 +9,8 @@ public class dScoreboard {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g,
-                cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
-                        + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
+                cGameLogic.net_gamemode_texts[cClientLogic.gamemode].toUpperCase() + ": "
+                        + cGameLogic.net_gamemode_descriptions[cClientLogic.gamemode],
                 sSettings.width/2, 2*sSettings.height/30);
         dFonts.setFontColorNormal(g);
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",

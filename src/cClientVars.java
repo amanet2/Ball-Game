@@ -82,7 +82,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("cv_gamemode", "0") {
             public void onChange() {
-                cClientLogic.gameMode = Integer.parseInt(value);
+                cClientLogic.gamemode = Integer.parseInt(value);
             }
         });
         putArg(new gArg("cv_itemid", "0") {

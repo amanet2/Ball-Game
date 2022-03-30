@@ -468,8 +468,8 @@ public class nServer extends Thread {
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %s\n",
-                cServerLogic.velocityplayerbase, cVars.get("gamemode")));
+        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %d\n",
+                cServerLogic.velocityplayerbase, cClientLogic.gamemode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);

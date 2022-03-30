@@ -24,7 +24,7 @@ public class cClientLogic {
     static String selectedPrefabId = "";
     static int itemId = 0;
     static int prefabId = 0;
-    static int gameMode = cGameLogic.DEATHMATCH;
+    static int gamemode = cGameLogic.DEATHMATCH;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

@@ -5,7 +5,6 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        putInt("gamemode", cGameLogic.DEATHMATCH);
         put("maploaded", "0");
     }
 
