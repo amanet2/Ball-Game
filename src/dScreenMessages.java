@@ -60,7 +60,7 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay && cVars.isOne("maploaded")) {
+        if(uiInterface.inplay && cClientLogic.maploaded) {
             long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
@@ -99,7 +99,7 @@ public class dScreenMessages {
                     dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
-            else if(cVars.isOne("maploaded")){
+            else if(cClientLogic.maploaded){
                 dFonts.setFontNormal(g);
                 String newThingString = cClientLogic.newprefabname;
                 //preview
@@ -186,7 +186,7 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         //loading
-        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
+        if(sSettings.IS_CLIENT && !cClientLogic.maploaded) {
 //            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
             dFonts.drawRightJustifiedString(g, "LOADING...",
                     29 * sSettings.width / 30, 31*sSettings.height/32);

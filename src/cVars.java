@@ -5,7 +5,6 @@ public class cVars {
     private static HashMap<String, String> vars = null;
 
     private static void init() {
-        put("maploaded", "0");
     }
 
     public static String get(String s) {

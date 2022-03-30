@@ -25,6 +25,7 @@ public class cClientLogic {
     static int itemId = 0;
     static int prefabId = 0;
     static int gamemode = cGameLogic.DEATHMATCH;
+    static boolean maploaded = false;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -66,7 +67,7 @@ public class cClientLogic {
     }
 
     public static synchronized void selectThingUnderMouse() {
-        if(cVars.isZero("maploaded"))
+        if(!cClientLogic.maploaded)
             return;
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {

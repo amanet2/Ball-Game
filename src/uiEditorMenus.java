@@ -113,7 +113,7 @@ public class uiEditorMenus {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(cVars.isZero("maploaded"))
+                if(!cClientLogic.maploaded)
                     delegate();
                 else if(xCon.instance().getInt("e_showlossalert") <= 0)
                     delegate();

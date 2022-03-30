@@ -16,15 +16,15 @@ public class cGameLogic {
     };
 
     public static boolean isDeathmatch() {
-        return cClientLogic.gameMode == DEATHMATCH;
+        return cClientLogic.gamemode == DEATHMATCH;
     }
 
     public static boolean isVirus() {
-        return cClientLogic.gameMode == VIRUS;
+        return cClientLogic.gamemode == VIRUS;
     }
 
     public static boolean isFlagMaster() {
-        return cClientLogic.gameMode == FLAG_MASTER;
+        return cClientLogic.gamemode == FLAG_MASTER;
     }
 
     public static void resetVirusPlayers() {

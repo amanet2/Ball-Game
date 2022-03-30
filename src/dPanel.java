@@ -21,14 +21,13 @@ public class dPanel extends JPanel {
         if (panelLevel == 1) {
             dScreenFX.drawScreenFX(g2);
             dScreenMessages.displayScreenMessages(g2);
-            if(!uiInterface.inplay && sSettings.show_mapmaker_ui
-               && cVars.isOne("maploaded")) {
+            if(!uiInterface.inplay && sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
                 dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
                 dBlockTops.drawBlockTopCubesPreview(g2);
             }
         }
         else {
-            if(cVars.isOne("maploaded")) {
+            if(cClientLogic.maploaded) {
                 g2.translate(sSettings.width / 2, sSettings.height / 2);
                 g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
                 g2.translate(-sSettings.width / 2, -sSettings.height / 2);
