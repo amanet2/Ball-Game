@@ -80,9 +80,19 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("cv_gamemode", "0") {
+            public void onChange() {
+                cClientLogic.gameMode = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("cv_itemid", "0") {
             public void onChange() {
                 cClientLogic.itemId = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("cv_prefabid", "0") {
+            public void onChange() {
+                cClientLogic.prefabId = Integer.parseInt(value);
             }
         });
         putArg(new gArg("cv_maxhp", "500") {

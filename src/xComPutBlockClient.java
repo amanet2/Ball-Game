@@ -53,7 +53,7 @@ public class xComPutBlockClient extends xCom {
                     args[1] = Integer.toString(transformedY);
                 }
                 gBlock newBlock = blockReturn.getBlock(args);
-                newBlock.put("prefabid", cVars.get("prefabid"));
+                newBlock.putInt("prefabid", cClientLogic.prefabId);
                 int blockId = cClientLogic.scene.blockIdCtr;
                 cClientLogic.scene.getThingMap("THING_BLOCK").put(Integer.toString(blockId), newBlock);
                 cClientLogic.scene.getThingMap(newBlock.get("type")).put(Integer.toString(blockId), newBlock);

@@ -16,6 +16,18 @@ public class cGameLogic {
             "Hold onto the flag"
     };
 
+    public static boolean isDeathmatch() {
+        return cClientLogic.gameMode == DEATHMATCH;
+    }
+
+    public static boolean isVirus() {
+        return cClientLogic.gameMode == VIRUS;
+    }
+
+    public static boolean isFlagMaster() {
+        return cClientLogic.gameMode == FLAG_MASTER;
+    }
+
     public static void resetVirusPlayers() {
         if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
             int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());
