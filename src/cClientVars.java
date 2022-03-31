@@ -110,6 +110,27 @@ public class cClientVars extends gArgSet {
                 cClientLogic.velocityPlayer = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.framerates = new int[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    int tok = Integer.parseInt(toks[i].strip());
+                    sSettings.framerates[i] = tok;
+                }
+            }
+        });
+        putArg(new gArg("resolutions",
+                "640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.resolutions = new String[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    String tok = toks[i].strip();
+                    sSettings.resolutions[i] = tok;
+                }
+            }
+        });
         putArg(new gArg("fontui", "None"));
         putArg(new gArg("showfps", "0"){
             public void onChange() {

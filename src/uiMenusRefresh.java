@@ -16,9 +16,9 @@ public class uiMenusRefresh extends uiMenu {
                     }
                 }
         };
-        for(int i = 0; i < sVars.getArray("framerates").length; i++){
+        for(int i = 0; i < sSettings.framerates.length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(sVars.getArray("framerates")[i]){
+            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
                     sSettings.framerate = Integer.parseInt(text);
                     afterSubmit();

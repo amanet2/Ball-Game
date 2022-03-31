@@ -257,7 +257,7 @@ public class uiEditorMenus {
             menus.get("Gametype").add(gametypeMenuItem);
         }
         //fill colors menu
-        for(String color : sVars.getArray("colorselection")) {
+        for(String color : sSettings.colorSelection) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
             colorMenuItem.setFont(dFonts.getFontNormal());
             if(colorMenuItem.getText().equals(cClientLogic.playerColor))

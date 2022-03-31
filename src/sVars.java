@@ -8,12 +8,7 @@ public class sVars {
     private static HashMap<String, String> keys = null;
 
     private static void init() {
-        keys.put("botnameselection", "bot0,bot1,bot2,bot3,bot4,bot5,bot6,bot7,bot8,bot9");
-        keys.put("colorselection", "blue,green,orange,pink,purple,red,teal,yellow");
         keys.put("datapath", "ballgame");
-        keys.put("debuglog", "0");
-        keys.put("framerates", "24,30,60,75,98,120,144,240");
-        keys.put("resolutions", "640x480,800x600,1024x768,1280x720,1280x1024,1600x1200,1920x1080,2560x1440,3840x2160");
         keys.put("showmapmakerui", "0");
     }
 
