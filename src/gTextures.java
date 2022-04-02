@@ -10,7 +10,7 @@ public class gTextures {
     private static HashMap<String, Image> gscaled_sprites = new HashMap<>();
 
     public static Image getScaledImage(String s, int w, int h) {
-        if(w < 1 || h < 1 || s.replace(sVars.get("datapath")+"/", "").equalsIgnoreCase("none"))
+        if(w < 1 || h < 1 || s.replace(sSettings.datapath+"/", "").equalsIgnoreCase("none"))
             return null;
         String rk = String.format("%s%d%d",s,w,h);
         if(base_sprites.get(s) == null) {
@@ -32,7 +32,7 @@ public class gTextures {
     }
 
     public static Image getGScaledImage(String s, int w, int h) {
-        if(w < 1 || h < 1 || s.replace(sVars.get("datapath")+"/", "").equalsIgnoreCase("none"))
+        if(w < 1 || h < 1 || s.replace(sSettings.datapath+"/", "").equalsIgnoreCase("none"))
             return null;
         String rk = String.format("%s%d%d",s,w,h);
         if(base_gsprites.get(s) == null) {

@@ -52,6 +52,11 @@ public class cClientVars extends gArgSet {
                 cClientLogic.debug = Integer.parseInt(value) > 0;
             }
         });
+        putArg(new gArg("showmapmakerui", "0") {
+            public void onChange() {
+                sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
+            }
+        });
         putArg(new gArg("debuglog", "0") {
             public void onChange() {
                 cClientLogic.debuglog = Integer.parseInt(value) > 0;

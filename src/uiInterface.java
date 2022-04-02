@@ -75,22 +75,19 @@ public class uiInterface {
     }
 
     public static void init(String[] launch_args) {
-        //without this, holding any key, e.g. W to move, will eventually lock ALL controls.  on a mac of course
+        //without this, holding any key, e.g. W to move, will eventually lock ALL controls on a mac
         eUtils.disableApplePressAndHold();
-        sVars.readLaunchArguments(launch_args);
         cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         cServerVars.instance().loadFromLaunchArgs(launch_args);
         cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         cClientVars.instance().loadFromLaunchArgs(launch_args);
-//        sVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION);
-//        sVars.readLaunchArguments(launch_args);
         eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
         xCon.ex("exec config/autoexec.cfg");
         //finish loading args
-        if(!sVars.isOne("showmapmakerui")) {
+        if(!sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
         }

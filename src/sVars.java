@@ -1,15 +1,9 @@
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class sVars {
-    private static ArrayList<String> filelines = new ArrayList<>();
     private static HashMap<String, String> keys = null;
 
     private static void init() {
-        keys.put("datapath", "ballgame");
-        keys.put("showmapmakerui", "0");
     }
 
     public static String get(String s) {
@@ -23,25 +17,6 @@ public class sVars {
 
     public static double getDouble(String s) {
         return Double.parseDouble(get(s));
-    }
-    public static long getLong(String s) {
-        return Long.parseLong(get(s));
-    }
-
-    public static String[] getArray(String k) {
-        return get(k).split(",");
-    }
-
-    public static boolean isOne(String s) {
-        return get(s).equals("1");
-    }
-
-    public static boolean isZero(String s) {
-        return get(s).equals("0");
-    }
-
-    public static boolean isIntVal(String k, int v) {
-        return getInt(k) == v;
     }
 
     public static void put(String s, String v) {
@@ -76,51 +51,5 @@ public class sVars {
     public static void remove(String s) {
         refresh();
         keys.remove(s);
-    }
-
-    public static void loadFromFile(String s) {
-        refresh();
-        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            xCon.instance().log("Loading Settings File Path: " + s);
-            String line;
-            while ((line = br.readLine()) != null) {
-                filelines.add(line);
-                String[] args = line.split(" ");
-                String argname = args[0];
-                if(argname.trim().replace(" ","").charAt(0) != '#') //filter out comments
-                    keys.put(argname, line.replaceFirst(argname+" ", ""));
-            }
-            xCon.instance().debug(keys.toString());
-        }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
-    }
-
-    public static void readLaunchArguments(String[] args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args.length >= i+1) {
-                sVars.put(args[i], args[i+1]);
-                i+=1;
-            }
-        }
-    }
-
-    public static void saveFile(String s) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-            new FileOutputStream(s), StandardCharsets.UTF_8))) {
-            for(String line : filelines) {
-                String arg = line.split(" ")[0];
-                if(keys.containsKey(arg))
-                    writer.write(String.format("%s %s", arg, keys.get(arg)));
-                else
-                    writer.write(line);
-                writer.write("\n");
-            }
-        } catch (IOException e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
-        }
     }
 }

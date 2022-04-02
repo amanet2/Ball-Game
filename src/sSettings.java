@@ -5,6 +5,7 @@ public class sSettings {
 	static String CONFIG_FILE_LOCATION_SERVER = "config/server.cfg";
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.cfg";
 	static String CONSOLE_LOG_LOCATION = "_console_log.txt";
+	static String datapath = "ballgame";
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;

@@ -17,7 +17,7 @@ public class eUtils {
     }
 
     public static String getPath(String s) {
-        return sVars.get("datapath") + "/" + s;
+        return sSettings.datapath + "/" + s;
     }
 
     public static String getTimeString(Long l) {

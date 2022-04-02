@@ -235,15 +235,15 @@ public class xCon {
                     }
                     return cClientVars.instance().get(configval);
                 }
-                else if(sVars.contains(configval)) {
-//                    System.out.println("CONSOLE PARSING SVAR: " + configval);
-                    //if we're setting instead of getting
-                    if(args.length > 1) {
-                        //check for valid input here
-                        sVars.put(configval, args[1]);
-                    }
-                    return sVars.get(configval);
-                }
+//                else if(sVars.contains(configval)) {
+////                    System.out.println("CONSOLE PARSING SVAR: " + configval);
+//                    //if we're setting instead of getting
+//                    if(args.length > 1) {
+//                        //check for valid input here
+//                        sVars.put(configval, args[1]);
+//                    }
+//                    return sVars.get(configval);
+//                }
             }
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
