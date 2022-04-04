@@ -16,7 +16,7 @@ public class uiInterface {
     static int netReportClient = 0;
     static int netReportServer = 0;
     static int[] camReport = new int[]{0,0};
-    private static int frames = 0;
+    static int frames = 0;
     static String uuid = eManager.createId();
     static boolean blockMouseUI = false;
 
@@ -48,7 +48,7 @@ public class uiInterface {
                 }
                 //draw gfx
                 oDisplay.instance().frame.repaint();
-                frames += 1;
+//                frames += 1;
                 long lastFrameTime = System.currentTimeMillis();
                 if (framecounterTime < lastFrameTime) {
                     fpsReport = frames;

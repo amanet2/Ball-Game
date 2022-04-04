@@ -99,9 +99,5 @@ public class oDisplay extends JLayeredPane {
         dPanel vfxPanel = new dPanel();
         vfxPanel.setBounds(ox,oy,ow,oh);
         add(vfxPanel, 0, 0);
-        dPanel uiPanel = new dPanel();
-        uiPanel.panelLevel = 1;
-        uiPanel.setBounds(ox,oy,ow,oh);
-        add(uiPanel, 1, 0);
     }
 }
