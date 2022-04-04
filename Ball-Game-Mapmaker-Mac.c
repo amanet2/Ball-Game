@@ -3,7 +3,7 @@
 
 int main(int argc, char * argv[]) {
     int argmalloc = 0;
-    char * startstr = "bash pkg\\run_game.sh showmapmakerui 1 ";
+    char * startstr = "bash pkg/run_game.sh showmapmakerui 1 ";
     int i;
     for(i = 1; i < argc; i++) {
         argmalloc += sizeof(char)*strlen(argv[i]);
