@@ -63,7 +63,6 @@ public class oDisplay extends JLayeredPane {
         if(sSettings.displaymode == displaymode_fullscreen) {
             GraphicsEnvironment.getLocalGraphicsEnvironment().
                     getDefaultScreenDevice().setFullScreenWindow(frame);
-//            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         else {
             GraphicsEnvironment.getLocalGraphicsEnvironment().
@@ -97,6 +96,7 @@ public class oDisplay extends JLayeredPane {
         int ow = sSettings.width;
         int oh = sSettings.height;
         dPanel vfxPanel = new dPanel();
+        vfxPanel.setDoubleBuffered(false);
         vfxPanel.setBounds(ox,oy,ow,oh);
         add(vfxPanel, 0, 0);
     }
