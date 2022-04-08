@@ -11,10 +11,8 @@ public class dItems {
             if(item.get("type").equals("ITEM_TELEPORTER_RED")) {
                 if(sSettings.vfxenableflares)
                     dFlares.drawFlare(g2,
-                            item.getInt("coordx")
-                                    - item.getInt("dimw")/2,
-                            item.getInt("coordy")
-                                    - item.getInt("dimh")/2,
+                            item.getInt("coordx") - item.getInt("dimw")/2,
+                            item.getInt("coordy") - item.getInt("dimh")/2,
                             item.getInt("dimw")*2,
                             item.getInt("dimh")*2,
                             1, new int[]{255,0,0,255}, new int[4]
