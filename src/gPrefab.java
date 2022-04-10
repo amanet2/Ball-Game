@@ -9,10 +9,10 @@ public class gPrefab {
     public gPrefab(String fileSource) {
         this.fileSource = fileSource;
         prefabCommands = new ArrayList<>();
+        loadFromFileSource();
     }
 
-    public void loadFromFileSource(String fileSource) {
-        this.fileSource = fileSource;
+    private void loadFromFileSource() {
         try (BufferedReader br = new BufferedReader(new FileReader(fileSource))) {
             String line;
             while ((line = br.readLine()) != null) {
