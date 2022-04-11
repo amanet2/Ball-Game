@@ -13,7 +13,6 @@ public class xComExec extends xCom {
             }
         }
         if(gPrefabFactory.instance().prefabMap.containsKey(s)) {
-            System.out.println("SERVER has prefab " + s);
             for(String line : gPrefabFactory.instance().prefabMap.get(s).prefabCommands) {
                 xCon.ex(line);
             }

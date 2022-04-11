@@ -13,7 +13,6 @@ public class xComExecClient extends xCom {
             }
         }
         if(gPrefabFactory.instance().prefabMap.containsKey(s)) {
-            System.out.println("CLIENT has prefab " + s);
             for(String line : gPrefabFactory.instance().prefabMap.get(s).prefabCommands) {
                 xCon.ex(line.replace("putcollision", "cl_putcollision"
                 ).replace("putblock", "cl_putblock"));
