@@ -12,17 +12,26 @@ public class xComExecClient extends xCom {
                 sVars.put(String.format("$%d", i-1), args[i]);
             }
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                    xCon.ex(line.replace("putcollision", "cl_putcollision"
-                    ).replace("putblock", "cl_putblock"));
+        if(gPrefabFactory.instance().prefabMap.containsKey(s)) {
+            System.out.println("CLIENT has prefab " + s);
+            for(String line : gPrefabFactory.instance().prefabMap.get(s).prefabCommands) {
+                xCon.ex(line.replace("putcollision", "cl_putcollision"
+                ).replace("putblock", "cl_putblock"));
             }
         }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
+        else {
+            try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                        xCon.ex(line.replace("putcollision", "cl_putcollision"
+                        ).replace("putblock", "cl_putblock"));
+                }
+            }
+            catch (Exception e) {
+                eUtils.echoException(e);
+                e.printStackTrace();
+            }
         }
         return String.format("%s finished", s);
     }

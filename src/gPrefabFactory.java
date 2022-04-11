@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.HashMap;
 
 public class gPrefabFactory {
@@ -7,11 +6,16 @@ public class gPrefabFactory {
 
     private gPrefabFactory() {
         prefabMap = new HashMap<>();
-
     }
 
     public void init() {
-        //dummy function for intance() to be called
+
+    }
+
+    public void initFromSelection(String[] prefabSelection) {
+        for(String prefabName : prefabSelection) {
+            prefabMap.put("prefabs/"+prefabName, new gPrefab(String.format("prefabs/%s", prefabName)));
+        }
     }
 
     public static gPrefabFactory instance() {

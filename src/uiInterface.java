@@ -85,6 +85,7 @@ public class uiInterface {
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
         eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
         eManager.prefabSelection = eManager.getFilesSelection("prefabs");
+        gPrefabFactory.instance().initFromSelection(eManager.prefabSelection);
         xCon.ex("exec config/autoexec.cfg");
         //finish loading args
         if(!sSettings.show_mapmaker_ui) {

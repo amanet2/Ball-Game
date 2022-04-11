@@ -598,9 +598,12 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
+            if(ccmd.equals("exec")) {
+                System.out.println("CLIENT REQ EXEC: " + cmd);
+            }
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            else if(cmd.contains("exec prefabs/")) {
+            else if(cmd.startsWith("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
                 xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
                 addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,

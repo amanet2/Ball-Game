@@ -12,16 +12,24 @@ public class xComExec extends xCom {
                 sVars.put(String.format("$%d", i-1), args[i]);
             }
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                    xCon.ex(line);
+        if(gPrefabFactory.instance().prefabMap.containsKey(s)) {
+            System.out.println("SERVER has prefab " + s);
+            for(String line : gPrefabFactory.instance().prefabMap.get(s).prefabCommands) {
+                xCon.ex(line);
             }
         }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
+        else {
+            try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                        xCon.ex(line);
+                }
+            }
+            catch (Exception e) {
+                eUtils.echoException(e);
+                e.printStackTrace();
+            }
         }
         return String.format("%s finished", s);
     }
