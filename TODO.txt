@@ -5,7 +5,7 @@
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * create xComPutPrefab class
-    -> on game load, load up the gPrefab objects
+    -> on game load, load up the gExecDoable objects
     -> will exec an array of putblock/putcollison commands
         -> should automatically call the proper cl_put command as it has been
 * apply gargs to items/blocks/things

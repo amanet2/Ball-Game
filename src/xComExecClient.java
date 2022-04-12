@@ -12,8 +12,8 @@ public class xComExecClient extends xCom {
                 sVars.put(String.format("$%d", i-1), args[i]);
             }
         }
-        if(gPrefabFactory.instance().prefabMap.containsKey(s)) {
-            for(String line : gPrefabFactory.instance().prefabMap.get(s).prefabCommands) {
+        if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
+            for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                 xCon.ex(line.replace("putcollision", "cl_putcollision"
                 ).replace("putblock", "cl_putblock"));
             }
