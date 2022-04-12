@@ -60,7 +60,6 @@ public class cServerVars extends gArgSet {
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cServerVars();
-            instance.init();
         }
         return instance;
     }

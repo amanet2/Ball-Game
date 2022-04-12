@@ -186,7 +186,6 @@ public class cClientVars extends gArgSet {
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cClientVars();
-            instance.init();
         }
         return instance;
     }

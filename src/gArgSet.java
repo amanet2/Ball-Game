@@ -22,10 +22,6 @@ public class gArgSet {
             String line;
             while ((line = br.readLine()) != null) {
                 filelines.add(line);
-                String[] args = line.split(" ");
-                String argname = args[0];
-                if(argname.trim().replace(" ","").charAt(0) != '#') //filter out comments
-                    put(argname, line.replaceFirst(argname + " ", ""));
             }
             xCon.instance().log(args.toString());
         }

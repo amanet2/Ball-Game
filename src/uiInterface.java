@@ -75,28 +75,32 @@ public class uiInterface {
     }
 
     public static void init(String[] launch_args) {
+        eManager.configSelection = eManager.getFilesSelection("config");
+        eManager.prefabSelection = eManager.getFilesSelection("prefabs");
+        eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
+        eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
+        gExecDoableFactory.instance().init();
+        cServerVars.instance().init();
+        cClientVars.instance().init();
+        xCon.ex("exec config/server.cfg");
+        xCon.ex("exec config/client.cfg");
+        xCon.ex("exec config/autoexec.cfg");
+        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        cServerVars.instance().loadFromLaunchArgs(launch_args);
+        cClientVars.instance().loadFromLaunchArgs(launch_args);
         //without this, holding any key, e.g. W to move, will eventually lock ALL controls on a mac
         eUtils.disableApplePressAndHold();
-        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cServerVars.instance().loadFromLaunchArgs(launch_args);
-        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        cClientVars.instance().loadFromLaunchArgs(launch_args);
-        eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
         uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
-        eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
-        eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-        gExecDoableFactory.instance().init();
-        xCon.ex("exec config/autoexec.cfg");
+        uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         //finish loading args
         if(!sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = false;
             sSettings.drawmapmakergrid = false;
         }
         else {
-            sSettings.show_mapmaker_ui = true;
             eUtils.zoomLevel = 0.5;
         }
-        uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
         oDisplay.instance().showFrame();
         startGame();
     }

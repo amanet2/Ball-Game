@@ -10,7 +10,10 @@ public class gExecDoableFactory {
 
     public void init() {
         for(String prefabName : eManager.prefabSelection) {
-            execDoableMap.put("prefabs/"+prefabName, new gExecDoable(String.format("prefabs/%s", prefabName)));
+            execDoableMap.put("prefabs/" + prefabName, new gExecDoable("prefabs/" + prefabName));
+        }
+        for(String fileName : eManager.configSelection) {
+            execDoableMap.put("config/" + fileName, new gExecDoable("config/" + fileName));
         }
     }
 

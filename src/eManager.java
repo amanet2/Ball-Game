@@ -6,6 +6,7 @@ public class eManager {
 	static String[] mapsSelection;
 	static String[] winClipSelection;
 	static String[] prefabSelection;
+	static String[] configSelection;
 
 
 	public static String[] getFilesSelection(String dirPath) {
