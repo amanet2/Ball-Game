@@ -18,12 +18,10 @@ public class gArgSet {
 
     public void loadFromFile(String s) {
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            xCon.instance().log("Loading Settings File Path: " + s);
             String line;
             while ((line = br.readLine()) != null) {
                 filelines.add(line);
             }
-            xCon.instance().log(args.toString());
         }
         catch (Exception e) {
             eUtils.echoException(e);
