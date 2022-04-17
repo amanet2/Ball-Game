@@ -25,8 +25,8 @@ public class sSettings {
 	static int vfxfactordiv = 16;
 	static double vfxshadowfactor = 0.3;
 	static boolean drawplayerarrow = true;
-	static boolean drawhitboxes = true;
-	static boolean drawmapmakergrid = true;
+	static boolean drawhitboxes = false;
+	static boolean drawmapmakergrid = false;
 	static boolean vfxenableshading = true;
 	static boolean vfxenableshadows = true;
 	static boolean vfxenableflares = true;

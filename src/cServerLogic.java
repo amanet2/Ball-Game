@@ -30,7 +30,7 @@ public class cServerLogic {
 
     public static void checkTimeRemaining() {
         if(timelimit > 0)
-            timeleft = Math.max(0, timelimit - (int) (uiInterface.gameTime - starttime));
+            timeleft = Math.max(0, timelimit - (int) (xMain.gameTime - starttime));
         else
             timeleft = -1;
     }
@@ -51,13 +51,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
-                if(flagmastertime < uiInterface.gameTime) {
+                if(flagmastertime < xMain.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
-                    flagmastertime = uiInterface.gameTime + 1000;
+                    flagmastertime = xMain.gameTime + 1000;
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(virustime < uiInterface.gameTime) {
+                if(virustime < xMain.gameTime) {
                     boolean survivors = false;
                     for(String id : getPlayerIds()) {
                         if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
@@ -65,7 +65,7 @@ public class cServerLogic {
                             xCon.ex("givepoint " + id);
                         }
                     }
-                    virustime = uiInterface.gameTime + 1000;
+                    virustime = xMain.gameTime + 1000;
                     if(!survivors) {
                         cGameLogic.resetVirusPlayers();
                     }
@@ -118,9 +118,9 @@ public class cServerLogic {
                     nServer.instance().addExcludingNetCmd("server", "echo "
                             + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
                 }
-                int toplay = (int) (Math.random() * eManager.winClipSelection.length);
+                int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
-                        "playsound sounds/win/"+eManager.winClipSelection[toplay]);
+                        "playsound sounds/win/"+eManager.winSoundFileSelection[toplay]);
 //                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
                 intermissiontime = System.currentTimeMillis() + intermissionDelay;
                 nServer.instance().addExcludingNetCmd("server",

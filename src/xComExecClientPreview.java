@@ -12,18 +12,27 @@ public class xComExecClientPreview extends xCom {
                 sVars.put(String.format("$%d", i-1), args[i]);
             }
         }
-        try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] linetoks = line.split(" ");
-                if(linetoks[0].equalsIgnoreCase("putblock")) {
+        if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
+            System.out.println("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
+            for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
+                if(line.startsWith("putblock "))
                     xCon.ex(line.replace("putblock", "cl_putblockpreview"));
-                }
             }
         }
-        catch (Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
+        else {
+            try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] linetoks = line.split(" ");
+                    if(linetoks[0].equalsIgnoreCase("putblock")) {
+                        xCon.ex(line.replace("putblock", "cl_putblockpreview"));
+                    }
+                }
+            }
+            catch (Exception e) {
+                eUtils.echoException(e);
+                e.printStackTrace();
+            }
         }
         return String.format("%s finished", s);
     }

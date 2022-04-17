@@ -3,14 +3,10 @@ import java.awt.*;
 public class uiInterface {
     static boolean inplay = false; //must be FALSE for mapmaker to work right
     static boolean inconsole = false;
-    static long gameTime = System.currentTimeMillis();
-    static long gameTimeNanos = System.nanoTime();
-    static long tickCounterTime = gameTime;
+    static long tickCounterTime = xMain.gameTime;
 //    private static long tickTime = gameTime;
-    static long tickTimeNanos = gameTimeNanos;
-    static long framecounterTime = gameTime;
-    static long nettickcounterTimeClient = gameTime;
-    static long nettickcounterTimeServer = gameTime;
+    static long nettickcounterTimeClient = xMain.gameTime;
+    static long nettickcounterTimeServer = xMain.gameTime;
     static int tickReport = 0;
     static int fpsReport = 0;
     static int netReportClient = 0;
