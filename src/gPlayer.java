@@ -158,11 +158,6 @@ public class gPlayer extends gThing {
         }
     }
 
-    public void setHatSpriteFromPath(String newpath) {
-        put("pathspritehat", newpath);
-        spriteHat = gTextures.getScaledImage(get("pathspritehat"), 150, 300);
-    }
-
     public void setSpriteFromPath(String newpath) {
         put("pathsprite", newpath);
         sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
@@ -178,7 +173,6 @@ public class gPlayer extends gThing {
         put("type", "THING_PLAYER");
         put("inteleporter", "0");
         put("accelrate", "100");
-        put("pathspritehat", "");
         put("pathsprite", "");
         put("weapon", "0");
         put("cooldown", "0");
@@ -196,6 +190,5 @@ public class gPlayer extends gThing {
         putInt("stockhp", health);
         put("botthinktime", "0");
         setSpriteFromPath(tt);
-        setHatSpriteFromPath(eUtils.getPath("none"));
     }
 }
