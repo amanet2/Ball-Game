@@ -1,13 +1,28 @@
 import java.awt.*;
 import java.awt.event.*;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class iInput {
 	static final iKeyboard keyboardInput = new iKeyboard();
 	static final iMouse mouseInput = new iMouse();
 	static final iMouseMotion mouseMotion = new iMouseMotion();
 	static final iMouseWheel mouseWheelInput = new iMouseWheel();
 
+    public static void readKeyInputsGL() {
+        // NEW
+        while (iKeyboard.inputPressQueueGL.size() > 0) {
+            Integer cm = iKeyboard.inputPressQueueGL.remove();
+            processKeyPressInputGL(cm);
+        }
+        while (iKeyboard.inputReleaseQueueGL.size() > 0) {
+            Integer cm = iKeyboard.inputReleaseQueueGL.remove();
+            processKeyReleaseInputGL(cm);
+        }
+    }
+
 	public static void readKeyInputs() {
+        //OLD
 		while (iKeyboard.inputPressQueue.size() > 0) {
 			Integer cm = iKeyboard.inputPressQueue.remove();
 			processKeyPressInput(cm);
@@ -17,6 +32,19 @@ public class iInput {
             processKeyReleaseInput(cm);
         }
 	}
+
+    public static void processKeyPressInputGL(int command) {
+        System.out.println("KEY PRESS:" + command);
+        switch (command) {
+            case GLFW_KEY_GRAVE_ACCENT:
+                System.out.println("console key");
+                break;
+        }
+    }
+
+    public static void processKeyReleaseInputGL(int command) {
+        System.out.println("KEY RELEASE:" + command);
+    }
 
 	public static void processKeyPressInput(int command) {
 	    if(uiInterface.inconsole) {
