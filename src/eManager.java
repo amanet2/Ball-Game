@@ -8,6 +8,12 @@ public class eManager {
 	static String[] prefabFileSelection;
 	static String[] configFileSelection;
 
+    public static void init() {
+        configFileSelection = eManager.getFilesSelection("config");
+        prefabFileSelection = eManager.getFilesSelection("prefabs");
+        mapsFileSelection = eManager.getFilesSelection("maps", ".map");
+        winSoundFileSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
+    }
 
 	public static String[] getFilesSelection(String dirPath) {
 	    String[] selectionArray = new String[]{};
