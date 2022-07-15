@@ -64,6 +64,11 @@ public class xMain {
 					long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
 					while (nextFrameTime >= System.nanoTime()) {
 						; // do nothing
+						// power saving
+						try {
+							Thread.sleep(1);
+						}
+						catch (InterruptedException ie) {}
 					}
 				}
 				//power saving

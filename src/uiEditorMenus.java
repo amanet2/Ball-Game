@@ -209,7 +209,6 @@ public class uiEditorMenus {
                     cClientLogic.newprefabname = name+"_000";
                 else
                     cClientLogic.newprefabname = name;
-//                uiEditorMenus.previewScene = new gScene();
                 xCon.ex("cl_clearthingmappreview");
                 xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
@@ -217,7 +216,6 @@ public class uiEditorMenus {
             });
             prefabCheckboxMenuItems.add(prefabmenuitem);
             menus.get("Prefabs").add(prefabmenuitem);
-
         }
         //fill items menu
         for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
