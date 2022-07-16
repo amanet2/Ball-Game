@@ -19,7 +19,6 @@ public class xMain {
 		cServerVars.instance().loadFromLaunchArgs(args);
 		cClientVars.instance().loadFromLaunchArgs(args);
 		//without this, holding any key, e.g. W to move, will eventually lock ALL controls on a mac
-		eUtils.disableApplePressAndHold();
 		uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
 		uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
 		//finish loading args
