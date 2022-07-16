@@ -49,22 +49,28 @@ public class dScoreboard {
                 spectatorstring = "[SPECTATE] ";
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
-                dFonts.setFontColorHighlight(g);
             }
             if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]) < prevscore)
                 place++;
-            //color next to scoreboard spot
+            //new
             String hudName = String.format("%s%d. ", spectatorstring, place)
                             + nClient.instance().serverArgsMap.get(id).get("name");
             int coordx = sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring);
             int coordy = 7 * sSettings.height / 30 + ctr * sSettings.height / 30;
+            int height = sSettings.height / 30;
+            String spaceStringA = "                                       ";
 //            dFonts.drawCenteredString(g, name,
 //                    coordx + p.getInt("dimw")/2), coordy));
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
             Color color = gColors.getPlayerHudColorFromName(ck);
-            dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color, isMe);
+            dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
             g.setColor(color);
+            if(isMe)
+                g.drawRect(coordx - dFonts.getStringWidth(g, hudName)/2, coordy - height,
+                        dFonts.getStringWidth(g, hudName + spaceStringA + "  "), dFonts.getStringHeight(g, hudName));
             // old
+//            if(isMe)
+//                dFonts.setFontColorHighlight(g);
 //            g.drawString(String.format("%s%d. ", spectatorstring, place)
 //                            + nClient.instance().serverArgsMap.get(id).get("name"),
 //                    sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
@@ -76,9 +82,8 @@ public class dScoreboard {
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
             dFonts.setFontColorNormal(g);
-            if(isMe) {
+            if(isMe)
                 isMe = false;
-            }
             ctr++;
             prevscore = Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]);
         }

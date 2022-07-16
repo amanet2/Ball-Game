@@ -130,8 +130,7 @@ public class dTileTops {
 //                    coordx + p.getInt("dimw")/2), coordy));
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
             Color color = gColors.getPlayerHudColorFromName(ck);
-            dFonts.drawPlayerNameHud(g, name,
-                    coordx + p.getInt("dimw")/2, coordy, color, false);
+            dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
             //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
 //                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
