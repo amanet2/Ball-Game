@@ -25,7 +25,7 @@ public class xComDamagePlayer extends xCom {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
 //                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
                         nServer.instance().addExcludingNetCmd("server",
-                                "echo " + killername + " killed " + victimname);
+                                "echo " + killername + " rocked " + victimname);
                         if (cGameLogic.isDeathmatch())
                             xCon.ex("givepoint " + shooterid);
                         else if (cGameLogic.isVirus()) {
