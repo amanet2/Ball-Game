@@ -7,7 +7,7 @@ public class uiMenusNewGame extends uiMenu {
         });
     }
     public uiMenusNewGame() {
-        super("New Game",
+        super("Host Game",
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {

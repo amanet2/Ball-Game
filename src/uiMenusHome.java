@@ -2,7 +2,7 @@ public class uiMenusHome extends uiMenu {
     public uiMenusHome() {
         super("Welcome",
             new uiMenuItem[]{
-                new uiMenuItem("New Game") {
+                new uiMenuItem("Host Game") {
                     public void doItem(){
                         uiMenus.selectedMenu = (uiMenus.MENU_NEWGAME);
                     }
