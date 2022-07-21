@@ -4,9 +4,10 @@ public class xComGiveWeapon extends xCom {
         if (toks.length > 2) {
             String id = toks[1];
             int weapon = Integer.parseInt(toks[2]);
-//            nServer.instance().addNetCmd(id, "userplayer weapon " + weapon + ";cv_weaponstock" + weapon + " 30");
-            nServer.instance().addNetCmd(id, "userplayer weapon " + weapon);
-            return "gave weapon" + weapon + " to " + id;
+            if(nServer.instance().clientIds.contains(id)) {
+                nServer.instance().addNetCmd(id, "userplayer weapon " + weapon);
+                return "gave weapon" + weapon + " to " + id;
+            }
         }
         return "usage: giveweapon <player_id> <weapon_code>";
     }

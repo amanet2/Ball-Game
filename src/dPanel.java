@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * JPanel
  * displays image on the screen
  */
 public class dPanel extends JPanel {
-    BufferedImage image = new BufferedImage(sSettings.width, sSettings.height, BufferedImage.TYPE_INT_ARGB);
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         removeAll();
