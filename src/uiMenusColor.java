@@ -7,18 +7,17 @@ public class uiMenusColor extends uiMenu {
     }
 
     public void setupMenuItems() {
-        String[] selection = sVars.get("colorselection").split(",");
+        String[] selection = sSettings.colorSelection;
         for(int i = 0; i < selection.length;i++){
             items = Arrays.copyOf(items,items.length+1);
             items[items.length-1] = new uiMenuItem(selection[i]){
                 public void doItem() {
                     String color = text;
                     gPlayer user = cClientLogic.getUserPlayer();
-                    cClientVars.instance().put("playercolor", color);
-                    uiMenus.menuSelection[uiMenus.MENU_PROFILE].items[1].text = String.format("Color: [%s]", color);
+                    cClientLogic.playerColor = color;
+                    uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                     if(user != null) {
                         user.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", color)));
-//                        user.put("color", color);
                     }
                     uiMenus.selectedMenu = parentMenu;
                 }

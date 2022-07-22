@@ -3,9 +3,9 @@ public class xComJoingame extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
             String[] comps = toks[1].split(":");
-            sVars.put("joinip", comps[0]);
+            cClientLogic.joinip = comps[0];
             if(comps.length > 1)
-                sVars.put("joinport", comps[1]);
+                cClientLogic.joinport = Integer.parseInt(comps[1]);
         }
         if(nClient.instance().isInterrupted())
             nClient.resetInstance();

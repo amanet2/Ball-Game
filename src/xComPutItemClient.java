@@ -10,7 +10,7 @@ public class xComPutItemClient extends xCom {
                         "").replace(toks[1] + " ", "");
                 String[] args = argString.split(" ");
                 gItem newItem = itemReturn.getItem(args);
-                newItem.put("itemid", cVars.get("itemid"));
+                newItem.putInt("itemid", cClientLogic.itemId);
                 int itemId = cClientLogic.scene.itemIdCtr;
                 newItem.putInt("id", itemId);
                 newItem.putInt("itemid", itemId);

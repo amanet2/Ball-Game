@@ -3,10 +3,10 @@ import java.awt.*;
 public class dMapmakerOverlay {
     public static int[] getNewPrefabDims() {
         //TODO: this sucks, find a better way to set size
-        if(cVars.get("newprefabname").contains("_large")) {
+        if(cClientLogic.newprefabname.contains("_large")) {
             return new int[]{2400, 2400};
         }
-        else if(cVars.get("newprefabname").contains("cube")) {
+        else if(cClientLogic.newprefabname.contains("cube")) {
             return new int[]{300, 300};
         }
         return new int[]{1200, 1200};
@@ -27,7 +27,7 @@ public class dMapmakerOverlay {
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
             }
-            if(block.contains("prefabid") && block.isVal("prefabid", cVars.get("selectedprefabid"))) {
+            if(block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
                 g2.setColor(gColors.getFontColorFromName("selected"));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
@@ -48,7 +48,7 @@ public class dMapmakerOverlay {
         // -- preview rect
         int w = 300;
         int h = 300;
-        if(cVars.get("newprefabname").length() > 0) {
+        if(cClientLogic.newprefabname.length() > 0) {
             int[] pfd = getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];

@@ -51,8 +51,10 @@ public class oDisplay extends JLayeredPane {
             }
         });
         frame.setUndecorated(sSettings.displaymode != displaymode_windowed);
-		if(sSettings.show_mapmaker_ui)
-			uiEditorMenus.setupMapMakerWindow();
+		if(sSettings.show_mapmaker_ui) {
+            uiEditorMenus.setupMapMakerWindow();
+            xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+        }
 		frame.setResizable(false);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         setBackground(gColors.getFontColorFromName("background"));
@@ -63,7 +65,10 @@ public class oDisplay extends JLayeredPane {
         if(sSettings.displaymode == displaymode_fullscreen) {
             GraphicsEnvironment.getLocalGraphicsEnvironment().
                     getDefaultScreenDevice().setFullScreenWindow(frame);
-//            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+        else {
+            GraphicsEnvironment.getLocalGraphicsEnvironment().
+                    getDefaultScreenDevice().setFullScreenWindow(null);
         }
 		frame.setVisible(true);
 		//add listeners
@@ -93,11 +98,8 @@ public class oDisplay extends JLayeredPane {
         int ow = sSettings.width;
         int oh = sSettings.height;
         dPanel vfxPanel = new dPanel();
+        vfxPanel.setDoubleBuffered(false);
         vfxPanel.setBounds(ox,oy,ow,oh);
         add(vfxPanel, 0, 0);
-        dPanel uiPanel = new dPanel();
-        uiPanel.panelLevel = 1;
-        uiPanel.setBounds(ox,oy,ow,oh);
-        add(uiPanel, 1, 0);
     }
 }

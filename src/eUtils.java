@@ -17,7 +17,7 @@ public class eUtils {
     }
 
     public static String getPath(String s) {
-        return sVars.get("datapath") + "/" + s;
+        return sSettings.datapath + "/" + s;
     }
 
     public static String getTimeString(Long l) {
@@ -37,18 +37,6 @@ public class eUtils {
 	public static int roundToNearest(int val, int snap) {
 		return (Math.round(val/snap))*snap;
 	}
-
-    public static void disableApplePressAndHold() {
-        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-            try {
-                Runtime.getRuntime().exec("defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false");
-            }
-            catch (Exception e) {
-                eUtils.echoException(e);
-                e.printStackTrace();
-            }
-        }
-    }
 
     public static double areaOfTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
         return Math.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0);

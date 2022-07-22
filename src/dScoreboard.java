@@ -9,8 +9,8 @@ public class dScoreboard {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColorHighlight(g);
         dFonts.drawCenteredString(g,
-                cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase() + ": "
-                        + cGameLogic.net_gamemode_descriptions[cVars.getInt("gamemode")],
+                cGameLogic.net_gamemode_texts[cClientLogic.gamemode].toUpperCase() + ": "
+                        + cGameLogic.net_gamemode_descriptions[cClientLogic.gamemode],
                 sSettings.width/2, 2*sSettings.height/30);
         dFonts.setFontColorNormal(g);
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
@@ -49,24 +49,41 @@ public class dScoreboard {
                 spectatorstring = "[SPECTATE] ";
             if(id.equals(uiInterface.uuid)) {
                 isMe = true;
-                dFonts.setFontColorHighlight(g);
             }
             if(Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]) < prevscore)
                 place++;
-            g.drawString(String.format("%s%d. ", spectatorstring, place)
-                            + nClient.instance().serverArgsMap.get(id).get("name"),
-                    sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
-                    7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+            //new
+            String hudName = String.format("%s%d. ", spectatorstring, place)
+                            + nClient.instance().serverArgsMap.get(id).get("name");
+            int coordx = sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring);
+            int coordy = 7 * sSettings.height / 30 + ctr * sSettings.height / 30;
+            int height = sSettings.height / 30;
+            String spaceStringA = "                                       ";
+//            dFonts.drawCenteredString(g, name,
+//                    coordx + p.getInt("dimw")/2), coordy));
+            String ck = nClient.instance().serverArgsMap.get(id).get("color");
+            Color color = gColors.getPlayerHudColorFromName(ck);
+            dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
+            g.setColor(color);
+            if(isMe)
+                g.drawRect(coordx - dFonts.getStringWidth(g, hudName)/2, coordy - height,
+                        dFonts.getStringWidth(g, hudName + spaceStringA + "  "), dFonts.getStringHeight(g, hudName));
+            // old
+//            if(isMe)
+//                dFonts.setFontColorHighlight(g);
+//            g.drawString(String.format("%s%d. ", spectatorstring, place)
+//                            + nClient.instance().serverArgsMap.get(id).get("name"),
+//                    sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring),
+//                    7 * sSettings.height / 30 + ctr * sSettings.height / 30);
             g.drawString("                           "
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[0],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
             g.drawString("                                       "
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
-            if(isMe) {
-                dFonts.setFontColorNormal(g);
+            dFonts.setFontColorNormal(g);
+            if(isMe)
                 isMe = false;
-            }
             ctr++;
             prevscore = Integer.parseInt(nClient.instance().serverArgsMap.get(id).get("score").split(":")[1]);
         }

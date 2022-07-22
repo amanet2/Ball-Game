@@ -60,7 +60,7 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay && cVars.isOne("maploaded")) {
+        if(uiInterface.inplay && cClientLogic.maploaded) {
             long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
@@ -71,7 +71,7 @@ public class dScreenMessages {
             }
             dFonts.setFontColorNormal(g);
             dFonts.drawRightJustifiedString(g,
-                    cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")].toUpperCase(),
+                    cGameLogic.net_gamemode_texts[cClientLogic.gamemode].toUpperCase(),
                 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
@@ -99,9 +99,9 @@ public class dScreenMessages {
                     dFonts.setFontColorBonus(g);
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
-            else if(cVars.isOne("maploaded")){
+            else if(cClientLogic.maploaded){
                 dFonts.setFontNormal(g);
-                String newThingString = cVars.get("newprefabname");
+                String newThingString = cClientLogic.newprefabname;
                 //preview
                 g.setColor(Color.BLACK);
                 g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
@@ -119,14 +119,14 @@ public class dScreenMessages {
                 String[] rotates = {"_000", "_090", "_180", "_270"};
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
                 for(String s : rotatesList) {
-                    if(cVars.get("newprefabname").contains(s)) {
+                    if(cClientLogic.newprefabname.contains(s)) {
                         g.drawString(String.format("[R] - ROTATE %s",
-                                uiEditorMenus.getRotateName(cVars.get("newprefabname"))),0, 27*sSettings.height/32);
+                                uiEditorMenus.getRotateName(cClientLogic.newprefabname)),0, 27*sSettings.height/32);
                         drawnRotate = true;
                         break;
                     }
                 }
-                if(cVars.get("selectedprefabid").length() > 0 || cClientLogic.selecteditemid.length() > 0) {
+                if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
                 }
@@ -186,7 +186,7 @@ public class dScreenMessages {
             dScoreboard.showScoreBoard(g);
         }
         //loading
-        if(sSettings.IS_CLIENT && cVars.isZero("maploaded")) {
+        if(sSettings.IS_CLIENT && !cClientLogic.maploaded) {
 //            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
             dFonts.drawRightJustifiedString(g, "LOADING...",
                     29 * sSettings.width / 30, 31*sSettings.height/32);

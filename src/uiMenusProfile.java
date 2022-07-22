@@ -11,7 +11,6 @@ public class uiMenusProfile extends uiMenu {
                 new uiMenuItem(String.format("Name [%s]", cClientLogic.playerName)) {
                     public void doItem() {
                         xCon.ex("e_changeplayername");
-                        text = String.format("Name [%s]", cClientLogic.playerName);
                     }
                 },
                 new uiMenuItem(String.format("Color [%s]", cClientLogic.playerColor)) {

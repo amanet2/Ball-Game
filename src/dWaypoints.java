@@ -34,7 +34,7 @@ public class dWaypoints {
             //big font
             dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
-            if(!cVars.isInt("gamemode", cGameLogic.VIRUS)) {
+            if(!cGameLogic.isVirus()) {
                 AffineTransform backup = g2.getTransform();
                 g2.translate(gCamera.getX(), gCamera.getY());
                 double angle = Math.atan2(deltas[1], deltas[0]);
@@ -78,15 +78,15 @@ public class dWaypoints {
                     if(p == null)
                         return;
                     dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                            p.getInt("coordy") + p.getInt("dimh") / 2, "");
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
                 }
             }
             else {
-                HashMap flagmap = scene.getThingMap("ITEM_FLAG");
+                HashMap<String, gThing> flagmap = scene.getThingMap("ITEM_FLAG");
                 for(Object id : flagmap.keySet()) {
                     gItemFlag flag = (gItemFlag) flagmap.get(id);
                     dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                            flag.getInt("coordy") + flag.getInt("dimh")/2, "");
+                            flag.getInt("coordy") + flag.getInt("dimh")/2, "PICK UP");
                 }
             }
 
@@ -96,7 +96,7 @@ public class dWaypoints {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if (statestr.contains(p.get("id"))) {
                         dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "");
+                                p.getInt("coordy") + p.getInt("dimh") / 2, "INFECTED");
                     }
                 }
             }

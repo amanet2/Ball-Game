@@ -15,8 +15,8 @@ public class nVarsBot {
 
     public static void update(gPlayer p) {
         refreshForId(p.get("id"));
-        if(p.getLong("botthinktime") < uiInterface.gameTime) {
-            xCon.ex("dobotbehavior " + p.get("id") + " "+ cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")]);
+        if(p.getLong("botthinktime") < xMain.gameTime) {
+            xCon.ex("dobotbehavior " + p.get("id") + " "+ cGameLogic.net_gamemode_texts[cClientLogic.gamemode]);
             int rd = (int)(Math.random()*botthinkdelay-botthinkdelay/2);
             p.putLong("botthinktime", System.currentTimeMillis() + botthinkdelay + rd);
         }

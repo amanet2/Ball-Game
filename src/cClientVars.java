@@ -17,10 +17,10 @@ public class cClientVars extends gArgSet {
                         Integer.parseInt(vidmodetoks[1]),
                         Integer.parseInt(vidmodetoks[2])
                 };
-                if(sSettings.width != sres[0] || sSettings.height != sres[1] || sSettings.framerate != sres[2]) {
+                sSettings.framerate = sres[2];
+                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
-                    sSettings.framerate = sres[2];
                     //refresh fonts
                     dFonts.fontNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
                             dFonts.fontsize * sSettings.height / sSettings.gamescale);
@@ -39,12 +39,27 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("audioenabled", "1") {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(Integer.parseInt(value) < 1) {
+                if(!sSettings.audioenabled) {
                     for(AudioClip c : oAudio.instance().clips) {
                         c.stop();
                     }
                     oAudio.instance().clips.clear();
                 }
+            }
+        });
+        putArg(new gArg("debug", "0") {
+            public void onChange() {
+                cClientLogic.debug = Integer.parseInt(value) > 0;
+            }
+        });
+        putArg(new gArg("showmapmakerui", "0") {
+            public void onChange() {
+                sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
+            }
+        });
+        putArg(new gArg("debuglog", "0") {
+            public void onChange() {
+                cClientLogic.debuglog = Integer.parseInt(value) > 0;
             }
         });
         putArg(new gArg("volume", "100") {
@@ -70,6 +85,26 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("cv_gamemode", "0") {
+            public void onChange() {
+                cClientLogic.gamemode = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("cv_maploaded", "0") {
+            public void onChange() {
+                cClientLogic.maploaded = Integer.parseInt(value) > 0;
+            }
+        });
+        putArg(new gArg("cv_itemid", "0") {
+            public void onChange() {
+                cClientLogic.itemId = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("cv_prefabid", "0") {
+            public void onChange() {
+                cClientLogic.prefabId = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
                 cClientLogic.maxhp = Integer.parseInt(value);
@@ -78,6 +113,27 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("cv_velocityplayer", "8") {
             public void onChange() {
                 cClientLogic.velocityPlayer = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.framerates = new int[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    int tok = Integer.parseInt(toks[i].strip());
+                    sSettings.framerates[i] = tok;
+                }
+            }
+        });
+        putArg(new gArg("resolutions",
+                "640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.resolutions = new String[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    String tok = toks[i].strip();
+                    sSettings.resolutions[i] = tok;
+                }
             }
         });
         putArg(new gArg("fontui", "None"));
@@ -116,11 +172,20 @@ public class cClientVars extends gArgSet {
                 dScreenMessages.showscale = value.equals("1");
             }
         });
+        putArg(new gArg("joinip", "localhost"){
+            public void onChange() {
+                cClientLogic.joinip = value;
+            }
+        });
+        putArg(new gArg("joinport", "5555"){
+            public void onChange() {
+                cClientLogic.joinport = Integer.parseInt(value);
+            }
+        });
     }
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cClientVars();
-            instance.init();
         }
         return instance;
     }

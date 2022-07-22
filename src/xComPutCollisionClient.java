@@ -9,7 +9,7 @@ public class xComPutCollisionClient extends xCom {
             String[] args = new String[]{xarrString, yarrString};
             gDoableCollisionReturn collisionReturn = factory.collisionLoader;
             gCollision newCollision = collisionReturn.getCollision(args);
-            newCollision.put("prefabid", cVars.get("prefabid"));
+            newCollision.putInt("prefabid", cClientLogic.prefabId);
             String collisionId = Integer.toString(cClientLogic.scene.collisionIdCtr);
             cClientLogic.scene.getThingMap("THING_COLLISION").put(collisionId, newCollision);
             cClientLogic.scene.collisionIdCtr += 1;

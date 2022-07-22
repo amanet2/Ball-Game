@@ -22,6 +22,10 @@ public class dFonts {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
     }
 
+    public static int getStringHeight(Graphics g, String s) {
+        return (int)g.getFont().getStringBounds(s, fontrendercontext).getHeight();
+    }
+
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);
@@ -45,7 +49,6 @@ public class dFonts {
         g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         g.setColor(gColors.getFontColorFromName("normaltransparent"));
         g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-
     }
 
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {

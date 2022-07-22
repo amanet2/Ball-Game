@@ -4,7 +4,7 @@ public class xComGoBackUI extends xCom {
             xCon.ex("pause");
         else {
             if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
-                if(cVars.isZero("maploaded")) {
+                if(!cClientLogic.maploaded) {
                     //offline mode do this
                     uiMenus.selectedMenu = uiMenus.MENU_QUIT;
                     xCon.ex("playsound sounds/splash.wav");

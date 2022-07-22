@@ -16,6 +16,16 @@ public class cClientLogic {
     static String playerColor = "blue";
     static int velocityPlayer = 8;
     static long timeleft = 180000;
+    static String joinip = "localhost";
+    static int joinport = 5555;
+    static boolean debug = false;
+    static boolean debuglog = false;
+    static String newprefabname = "room";
+    static String selectedPrefabId = "";
+    static int itemId = 0;
+    static int prefabId = 0;
+    static int gamemode = cGameLogic.DEATHMATCH;
+    static boolean maploaded = false;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -57,14 +67,14 @@ public class cClientLogic {
     }
 
     public static synchronized void selectThingUnderMouse() {
-        if(cVars.isZero("maploaded"))
+        if(!cClientLogic.maploaded)
             return;
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
                 selecteditemid = item.get("itemid");
-                cVars.put("selectedprefabid", "");
+                selectedPrefabId = "";
                 return;
             }
         }
@@ -72,7 +82,7 @@ public class cClientLogic {
             gThing block = scene.getThingMap("THING_BLOCK").get(id);
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
+                selectedPrefabId = block.get("prefabid");
                 selecteditemid = "";
                 return;
             }
@@ -80,12 +90,12 @@ public class cClientLogic {
         for(String id : scene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing block = scene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cVars.put("selectedprefabid", block.get("prefabid"));
+                selectedPrefabId = block.get("prefabid");
                 selecteditemid = "";
                 return;
             }
         }
-        cVars.put("selectedprefabid", "");
+        selectedPrefabId = "";
         selecteditemid = "";
     }
 

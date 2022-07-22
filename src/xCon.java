@@ -46,7 +46,7 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(sSettings.debug) {
+        if(cClientLogic.debug) {
             log(s);
             System.out.println(s);
         }
@@ -111,7 +111,6 @@ public class xCon {
         commands.put("console", new xComConsole());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
-        commands.put("debug", new xComDebug());
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());
@@ -236,32 +235,15 @@ public class xCon {
                     }
                     return cClientVars.instance().get(configval);
                 }
-                else if(sVars.contains(configval)) {
-//                    System.out.println("CONSOLE PARSING SVAR: " + configval);
-                    //if we're setting instead of getting
-                    if(args.length > 1) {
-                        //check for valid input here
-                        if(sVars.checkVal(configval, args[1]))
-                            sVars.put(configval, args[1]);
-                    }
-                    return sVars.get(configval);
-                }
-                else if(configval.substring(0,3).equals("cv_") && cVars.contains(configval.substring(3))) {
-//                    System.out.println("CONSOLE PARSING CVAR: " + configval);
-                    //if we're setting instead of getting
-                    if(args.length > 1) {
-                        String val = args[1];
-                        //check if our "value" is a reference to svar or cvar
-                        if(sVars.contains(val))
-                            val = sVars.get(val);
-                        if(val.length() > 3 && val.substring(0,3).equals("cv_") && cVars.contains(val.substring(3)))
-                            val = cVars.get(val.substring(3));
-                        //check for valid input here
-                        if(cVars.checkVal(configval.substring(3), val))
-                            cVars.put(configval.substring(3), val);
-                    }
-                    return cVars.get(configval.substring(3));
-                }
+//                else if(sVars.contains(configval)) {
+////                    System.out.println("CONSOLE PARSING SVAR: " + configval);
+//                    //if we're setting instead of getting
+//                    if(args.length > 1) {
+//                        //check for valid input here
+//                        sVars.put(configval, args[1]);
+//                    }
+//                    return sVars.get(configval);
+//                }
             }
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'

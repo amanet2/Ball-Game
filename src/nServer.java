@@ -224,8 +224,8 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < uiInterface.gameTime) {
-                cBotsLogic.bottime = uiInterface.gameTime + (long)(1000.0/(double)sSettings.ratebots);
+            if(botsMap.size() > 0 && cBotsLogic.bottime < xMain.gameTime) {
+                cBotsLogic.bottime = xMain.gameTime + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
@@ -331,14 +331,14 @@ public class nServer extends Thread {
 
     public void run() {
         try {
-            serverSocket = new DatagramSocket(sVars.getInt("joinport"));
+            serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;
-                    if (uiInterface.nettickcounterTimeServer < uiInterface.gameTime) {
+                    if (uiInterface.nettickcounterTimeServer < xMain.gameTime) {
                         uiInterface.netReportServer = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeServer = uiInterface.gameTime + 1000;
+                        uiInterface.nettickcounterTimeServer = xMain.gameTime + 1000;
                     }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -350,7 +350,7 @@ public class nServer extends Thread {
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
 //                    while(networkTime >= System.currentTimeMillis());
-                    sleep(Math.max(0, networkTime - uiInterface.gameTime));
+                    sleep(Math.max(0, networkTime - xMain.gameTime));
                 }
                 catch (Exception e) {
                     eUtils.echoException(e);
@@ -468,8 +468,8 @@ public class nServer extends Thread {
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %s\n",
-                cServerLogic.velocityplayerbase, cVars.get("gamemode")));
+        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %d\n",
+                cServerLogic.velocityplayerbase, cClientLogic.gamemode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -598,9 +598,12 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
+            if(ccmd.equals("exec")) {
+                System.out.println("CLIENT REQ EXEC: " + cmd);
+            }
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            else if(cmd.contains("exec prefabs/")) {
+            else if(cmd.startsWith("exec prefabs/")) {
                 int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
                 xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
                 addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,
@@ -614,7 +617,7 @@ public class nServer extends Thread {
     }
 
     private void checkMessageForSpecialSound(String testmsg) {
-        for(String s : eManager.winClipSelection) {
+        for(String s : eManager.winSoundFileSelection) {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
                 String soundString = "playsound sounds/win/" + s;
@@ -633,8 +636,8 @@ public class nServer extends Thread {
                 if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
                     cServerLogic.intermissiontime = System.currentTimeMillis() + cServerLogic.intermissionDelay;
                     for(String s : new String[]{
-                            "playsound sounds/win/"+eManager.winClipSelection[
-                                    (int) (Math.random() * eManager.winClipSelection.length)],
+                            "playsound sounds/win/"+eManager.winSoundFileSelection[
+                                    (int) (Math.random() * eManager.winSoundFileSelection.length)],
                             String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cServerLogic.voteskiplimit),
                             "echo changing map..."}) {
                         addExcludingNetCmd("server", s);

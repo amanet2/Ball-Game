@@ -1,7 +1,7 @@
 public class xComAddBot extends xCom {
     public String doCommand(String fullCommand) {
-        String[] botnameselection = sVars.getArray("botnameselection");
-        String[] colorselection = sVars.getArray("colorselection");
+        String[] botnameselection = sSettings.botnameSelection;
+        String[] colorselection = sSettings.colorSelection;
         String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
         String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
 

@@ -5,6 +5,11 @@ public class cServerVars extends gArgSet {
         super();
     }
     protected void init() {
+        putArg(new gArg("listenport", "5555") {
+            public void onChange() {
+                cServerLogic.listenPort = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("timelimit", "180000") {
             public void onChange() {
                 cServerLogic.timelimit = Integer.parseInt(value);
@@ -55,7 +60,6 @@ public class cServerVars extends gArgSet {
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cServerVars();
-            instance.init();
         }
         return instance;
     }

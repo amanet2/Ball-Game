@@ -7,7 +7,6 @@ public class xComPutFlareClient extends xCom {
             System.arraycopy(toks, 1, args, 1, args.length - 1);
             gDoableFlareReturn flareReturn = factory.flareLoader;
             gFlare newFlare = flareReturn.getFlare(args);
-            newFlare.put("flareid", cVars.get("flareid"));
             String flareId = Integer.toString(cClientLogic.scene.flareIdCtr);
             cClientLogic.scene.getThingMap("THING_FLARE").put(flareId, newFlare);
             cClientLogic.scene.flareIdCtr += 1;

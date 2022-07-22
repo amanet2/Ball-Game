@@ -53,7 +53,7 @@ public class xComPutBlockPreview extends xCom {
                     args[1] = Integer.toString(transformedY);
                 }
                 gBlock newBlock = blockReturn.getBlock(args);
-                newBlock.put("prefabid", cVars.get("prefabid"));
+                newBlock.putInt("prefabid", cClientLogic.prefabId);
                 int blockId = uiEditorMenus.previewScene.blockIdCtr;
                 uiEditorMenus.previewScene.getThingMap("THING_BLOCK").put(Integer.toString(blockId), newBlock);
                 uiEditorMenus.previewScene.getThingMap(newBlock.get("type")).put(Integer.toString(blockId), newBlock);
