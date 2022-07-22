@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class dPanel extends JPanel {
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
+//        super.paintComponent(g);
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();

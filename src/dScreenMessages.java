@@ -12,6 +12,7 @@ public class dScreenMessages {
     static boolean showplayer = false;
     static boolean showtick = false;
     static boolean showscale = false;
+
     public static void displayScreenMessages(Graphics g) {
         dFonts.setFontSmall(g);
         //scale
