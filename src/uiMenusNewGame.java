@@ -3,11 +3,11 @@ public class uiMenusNewGame extends uiMenu {
         setMenuItemTexts(new String[]{
                 "-Start-",
                 String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
-                        : eManager.mapsSelection[eManager.mapSelectionIndex]),
+                        : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
         });
     }
     public uiMenusNewGame() {
-        super("New Game",
+        super("Host Game",
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {

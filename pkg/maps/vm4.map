@@ -279,6 +279,8 @@ cv_prefabid 182
 putblock BLOCK_CUBE 2100 -900 300 300 150 150
 cv_prefabid 183
 putblock BLOCK_CUBE -1350 2400 300 300 150 150
+cv_prefabid 184
+putblock BLOCK_CUBE 1500 800 300 300 150 150
 cv_prefabid 18
 putcollision -2400.-2100.-2100.-2400 -1450.-1450.-250.-250
 cv_prefabid 18
@@ -495,6 +497,8 @@ cv_prefabid 182
 putcollision 2100.2400.2400.2100 -850.-850.-700.-700
 cv_prefabid 183
 putcollision -1350.-1050.-1050.-1350 2450.2450.2600.2600
+cv_prefabid 184
+putcollision 1500.1800.1800.1500 850.850.1000.1000
 putitem ITEM_SPAWNPOINT -1500 2150
 putitem ITEM_SPAWNPOINT -9000 3900
 putitem ITEM_SPAWNPOINT -8700 3900

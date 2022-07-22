@@ -17,17 +17,17 @@ public class uiMenusMap extends uiMenu {
                     }
                 }
         };
-        for(int i = 0; i < eManager.mapsSelection.length;i++){
+        for(int i = 0; i < eManager.mapsFileSelection.length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(eManager.mapsSelection[i]){
+            items[items.length-1] = new uiMenuItem(eManager.mapsFileSelection[i]){
                 public void doItem() {
-                    for(int i = 0; i < eManager.mapsSelection.length; i++) {
-                        if(eManager.mapsSelection[i].equals(text))
+                    for(int i = 0; i < eManager.mapsFileSelection.length; i++) {
+                        if(eManager.mapsFileSelection[i].equals(text))
                             eManager.mapSelectionIndex = i;
                     }
                     if(eManager.mapSelectionIndex > -1) {
                         uiMenus.menuSelection[uiMenus.MENU_NEWGAME].items[1].text =
-                                String.format("Map [%s]", eManager.mapsSelection[eManager.mapSelectionIndex]);
+                                String.format("Map [%s]", eManager.mapsFileSelection[eManager.mapSelectionIndex]);
                     }
                     uiMenus.selectedMenu = parentMenu;
                 }

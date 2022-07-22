@@ -2,13 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-public class gPrefab {
+public class gExecDoable {
     String fileSource;
-    ArrayList<String> prefabCommands;
+    ArrayList<String> fileLines;
 
-    public gPrefab(String fileSource) {
+    public gExecDoable(String fileSource) {
         this.fileSource = fileSource;
-        prefabCommands = new ArrayList<>();
+        fileLines = new ArrayList<>();
         loadFromFileSource();
     }
 
@@ -17,21 +17,13 @@ public class gPrefab {
             String line;
             while ((line = br.readLine()) != null) {
                 if(line.trim().length() > 0 && line.trim().charAt(0) != '#') {
-                    prefabCommands.add(line);
+                    fileLines.add(line);
                 }
             }
         }
         catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
-        }
-    }
-
-    public void putPrefab(int x, int y) {
-        sVars.put("$1", Integer.toString(x));
-        sVars.put("$2", Integer.toString(y));
-        for(String line : prefabCommands) {
-            xCon.ex(line);
         }
     }
 }

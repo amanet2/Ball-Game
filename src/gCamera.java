@@ -5,6 +5,8 @@ public class gCamera {
 	private static int mode = MODE_FREE;
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
+	private static final int[] coords3 = {0, 0, 0};
+	private static final int[] target3 = {0, 0, 0};
 	private static final int velocity = 8;
 	private static final String trackingid = uiInterface.uuid;
 

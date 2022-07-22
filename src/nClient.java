@@ -64,10 +64,10 @@ public class nClient extends Thread {
             while(sSettings.IS_CLIENT) {
                 try {
                     netticks += 1;
-                    if (uiInterface.nettickcounterTimeClient < uiInterface.gameTime) {
+                    if (uiInterface.nettickcounterTimeClient < xMain.gameTime) {
                         uiInterface.netReportClient = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeClient = uiInterface.gameTime + 1000;
+                        uiInterface.nettickcounterTimeClient = xMain.gameTime + 1000;
                     }
                     if (receivedPackets.size() < 1) {
                         InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
@@ -92,7 +92,7 @@ public class nClient extends Thread {
 //                    while(networkTime > System.currentTimeMillis());
                     //TEST IT HERE
                     cClientLogic.netLoop();
-                    sleep(Math.max(0, networkTime - uiInterface.gameTime));
+                    sleep(Math.max(0, networkTime - xMain.gameTime));
                     retries = 0;
                 }
                 catch (Exception ee) {

@@ -3,14 +3,10 @@ import java.awt.*;
 public class uiInterface {
     static boolean inplay = false; //must be FALSE for mapmaker to work right
     static boolean inconsole = false;
-    static long gameTime = System.currentTimeMillis();
-    private static long gameTimeNanos = System.nanoTime();
-    private static long tickCounterTime = gameTime;
+    static long tickCounterTime = xMain.gameTime;
 //    private static long tickTime = gameTime;
-    private static long tickTimeNanos = gameTimeNanos;
-    private static long framecounterTime = gameTime;
-    static long nettickcounterTimeClient = gameTime;
-    static long nettickcounterTimeServer = gameTime;
+    static long nettickcounterTimeClient = xMain.gameTime;
+    static long nettickcounterTimeServer = xMain.gameTime;
     static int tickReport = 0;
     static int fpsReport = 0;
     static int netReportClient = 0;
@@ -19,86 +15,6 @@ public class uiInterface {
     static int frames = 0;
     static String uuid = eManager.createId();
     static boolean blockMouseUI = false;
-
-    private static void startGame() {
-        int ticks = 0;
-        while(true) {
-            try {
-                gameTime = System.currentTimeMillis();
-                gameTimeNanos = System.nanoTime();
-                //game loop
-                while(tickTimeNanos < gameTimeNanos) {
-//                while(tickTime < gameTime) {
-                    //nano = billion
-                    tickTimeNanos += (1000000000/sSettings.rategame);
-//                    tickTime += 1000/sSettings.rategame;
-                    iInput.readKeyInputs();
-                    if(sSettings.IS_SERVER)
-                        cServerLogic.gameLoop();
-                    if(sSettings.IS_CLIENT)
-                        cClientLogic.gameLoop();
-                    camReport[0] = gCamera.getX();
-                    camReport[1] = gCamera.getY();
-                    ticks += 1;
-                    if(tickCounterTime < gameTime) {
-                        tickReport = ticks;
-                        ticks = 0;
-                        tickCounterTime = gameTime + 1000;
-                    }
-                }
-                //draw gfx
-                oDisplay.instance().frame.repaint();
-//                frames += 1;
-                long lastFrameTime = System.currentTimeMillis();
-                if (framecounterTime < lastFrameTime) {
-                    fpsReport = frames;
-                    frames = 0;
-                    framecounterTime = lastFrameTime + 1000;
-                }
-                // framerate limit
-                if(sSettings.framerate > 0) {
-                    long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
-                    while (nextFrameTime >= System.nanoTime()) {
-                        ; // do nothing
-                    }
-                }
-                    //power saving
-//                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
-//                    if(toSleep > 0)
-//                        Thread.sleep(toSleep);
-            }
-            catch (Exception e) {
-                eUtils.echoException(e);
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void init(String[] launch_args) {
-        //without this, holding any key, e.g. W to move, will eventually lock ALL controls on a mac
-        eUtils.disableApplePressAndHold();
-        cServerVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cServerVars.instance().loadFromLaunchArgs(launch_args);
-        cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        cClientVars.instance().loadFromLaunchArgs(launch_args);
-        eManager.mapsSelection = eManager.getFilesSelection("maps", ".map");
-        uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
-        eManager.winClipSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
-        eManager.prefabSelection = eManager.getFilesSelection("prefabs");
-        xCon.ex("exec config/autoexec.cfg");
-        //finish loading args
-        if(!sSettings.show_mapmaker_ui) {
-            sSettings.drawhitboxes = false;
-            sSettings.drawmapmakergrid = false;
-        }
-        else {
-            sSettings.show_mapmaker_ui = true;
-            eUtils.zoomLevel = 0.5;
-        }
-        uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
-        oDisplay.instance().showFrame();
-        startGame();
-    }
 
     public static int[] getMouseCoordinates() {
         return new int[]{

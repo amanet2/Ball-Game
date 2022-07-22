@@ -78,7 +78,7 @@ public class dWaypoints {
                     if(p == null)
                         return;
                     dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                            p.getInt("coordy") + p.getInt("dimh") / 2, "KILL");
+                            p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
                 }
             }
             else {

@@ -22,7 +22,7 @@ public class cBotsLogic {
 
     private static void init() {
         behaviors = new HashMap<>();
-        behaviors.put("Kill Master", new gDoableThing(){
+        behaviors.put("Rock Master", new gDoableThing(){
             public void doItem(gThing p) {
                 cBotsLogic.goToNearestPlayer(p);
             }

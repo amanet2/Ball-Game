@@ -5,7 +5,7 @@ public class xComNewgame extends xCom {
         if(toplay < 0)
             xCon.ex("newgamerandom");
         else
-            xCon.ex("exec maps/" + eManager.mapsSelection[toplay]);
+            xCon.ex("exec maps/" + eManager.mapsFileSelection[toplay]);
         return "new game started";
     }
 }

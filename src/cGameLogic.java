@@ -4,13 +4,13 @@ public class cGameLogic {
     static final int FLAG_MASTER = 2;
 
     static String[] net_gamemode_texts = {
-            "Kill Master",
+            "Rock Master",
             "Virus Master",
             "Flag Master"
     };
 
     static String[] net_gamemode_descriptions = {
-            "Kill other players",
+            "Rock other players",
             "Don't catch the virus",
             "Hold onto the flag"
     };
