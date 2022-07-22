@@ -10,7 +10,7 @@ public class nServer extends Thread {
     private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
+    private ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
@@ -365,6 +365,10 @@ public class nServer extends Thread {
         }
     }
 
+    boolean hasClient(String id) {
+        return clientIds.contains(id);
+    }
+
     boolean containsArgsForId(String id, String[] fields) {
         if(!clientArgsMap.containsKey(id))
             return false;
@@ -405,7 +409,7 @@ public class nServer extends Thread {
             //record time we last updated client args
             clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
             //parse and process the args from client packet
-            if(clientIds.contains(packId)) {
+            if(hasClient(packId)) {
                 //update ping
 //                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
                 //handle name change to notify
@@ -652,5 +656,30 @@ public class nServer extends Thread {
             else
                 addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
         }
+    }
+
+    public boolean hasClients() {
+        return clientCount() > 0;
+    }
+
+    public int clientCount() {
+        return clientIds.size();
+    }
+
+    public String getRandomClientId() {
+        int randomClientIndex = (int) (Math.random() * clientCount());
+        return nServer.instance().clientIds.get(randomClientIndex);
+    }
+
+    public void sendMapToClients() {
+        for(String id : clientIds) {
+            sendMap(id);
+            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+                addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
+        }
+    }
+
+    public void addClient(String id) {
+        clientIds.add(id);
     }
 }

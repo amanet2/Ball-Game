@@ -15,7 +15,7 @@ public class xComAddBot extends xCom {
         nServer.instance().clientArgsMap.put(p.get("id"), nVarsBot.copyArgsForId(p.get("id")));
         nServer.instance().clientArgsMap.get(p.get("id")).put("color", botcolor);
         nServer.instance().clientArgsMap.get(p.get("id")).put("name", botname);
-        nServer.instance().clientIds.add(p.get("id"));
+        nServer.instance().addClient(p.get("id"));
         gScoreboard.addId(p.get("id"));
         nServer.instance().addExcludingNetCmd("server", "echo " + botname + " joined the game");
         xCon.ex("respawnnetplayer " + p.get("id"));

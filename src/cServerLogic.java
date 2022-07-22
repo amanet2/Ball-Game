@@ -190,11 +190,7 @@ public class cServerLogic {
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server",
                 "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
-        for(String id : nServer.instance().clientIds) {
-            nServer.instance().sendMap(id);
-            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-                nServer.instance().addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
-        }
+        nServer.instance().sendMapToClients();
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipMap = new HashMap<>();
