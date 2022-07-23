@@ -235,25 +235,12 @@ public class xCon {
                     }
                     return cClientVars.instance().get(configval);
                 }
-//                else if(sVars.contains(configval)) {
-////                    System.out.println("CONSOLE PARSING SVAR: " + configval);
-//                    //if we're setting instead of getting
-//                    if(args.length > 1) {
-//                        //check for valid input here
-//                        sVars.put(configval, args[1]);
-//                    }
-//                    return sVars.get(configval);
-//                }
             }
             String command = fullCommand.split(" ")[0];
             command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
             if (cp != null) {
-//                if (undoableCommands.contains(fullCommand.split(" ")[0])) {
-//                    uiEditorMenus.undoStateStack.push(uiEditorMenus.getEditorState());
-//                    uiEditorMenus.redoStateStack.clear();
-//                }
                 if(!visibleCommands.contains(command)) {
                     if (fullCommand.charAt(0) == '-')
                         return cp.undoCommand(fullCommand);

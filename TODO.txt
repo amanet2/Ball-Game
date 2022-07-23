@@ -4,10 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* create xComPutPrefab class
-    -> on game load, load up the gExecDoable objects
-    -> will exec an array of putblock/putcollison commands
-        -> should automatically call the proper cl_put command as it has been
+* instead of working with direct player objects, we should use a "snapshot" of their vars
 * apply gargs to items/blocks/things
 * low framerate on 1 client results in stuttering character on others' screens
 * go over instance creation and lines stored for console

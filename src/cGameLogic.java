@@ -11,7 +11,7 @@ public class cGameLogic {
 
     static String[] net_gamemode_descriptions = {
             "Rock other players",
-            "Don't catch the virus",
+            "Don't become infected",
             "Hold onto the flag"
     };
 

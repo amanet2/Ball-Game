@@ -105,9 +105,10 @@ public class dTileTops {
             };
             g2.setStroke(dFonts.thickStroke);
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
-            g2.setColor(gColors.getFontColorFromName("playerarrow1"));
+            Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
+            g2.setColor(gColors.getFontColorFromName("normaltransparent"));
             g2.drawPolygon(pg);
-            g2.setColor(gColors.getFontColorFromName("playerarrow2"));
+            g2.setColor(color);
             g2.fillPolygon(pg);
         }
     }
