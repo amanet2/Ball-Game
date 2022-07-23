@@ -7,22 +7,21 @@ public class nServer extends Thread {
     private int netticks;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
-    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
+    private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    private ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
+    private final ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    ArrayList<String> clientProtectedArgs = new ArrayList<>();
     //id maps to queue of cmds we want to run on that client
-    private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
-    private HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
+    private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
     //map of skip votes
     HashMap<String, String> voteSkipMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
-    private Queue<String> serverLocalCmdQueue = new LinkedList<>();
+    private final Queue<String> serverLocalCmdQueue = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
@@ -295,7 +294,7 @@ public class nServer extends Thread {
             if (!sendfull) {
                 //calc delta
                 for (String k : clientArgsMap.get(idload2).keySet()) {
-                    if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
+                    if (clientArgsMap.get(idload2).containsKey(k)
                             && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
                         workingMap.remove(k);
                     }

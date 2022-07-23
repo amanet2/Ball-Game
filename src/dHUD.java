@@ -40,15 +40,22 @@ public class dHUD {
         for (String id : nClient.instance().serverArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid) && !id.equals("server") && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
                 g.setColor(gColors.getFontColorFromName("normaldark"));
-                g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
-                        sSettings.width/64, 55*sSettings.height/64-(ctr*(sSettings.height/32)));
-                g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width/64,
-                        56*sSettings.height/64-(ctr*(sSettings.height/32)));
-                String color = nClient.instance().serverArgsMap.get(id).get("color");
-                g.setColor(gColors.getPlayerHudColorFromName(color));
-                g.fillRect(sSettings.width/128, 54*sSettings.height/64-(ctr*(sSettings.height/32)),
-                        sSettings.width/256, sSettings.height/32);
-                ctr++;
+                String[] requiredFields = {"score", "name", "color"};
+                if(nClient.instance().serverArgsMap.containsKey(id)) {
+                    for(String s : requiredFields) {
+                        if(!nClient.instance().serverArgsMap.get(id).containsKey(s))
+                            return;
+                    }
+                    g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
+                            sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+                    g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width / 64,
+                            56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+                    String color = nClient.instance().serverArgsMap.get(id).get("color");
+                    g.setColor(gColors.getPlayerHudColorFromName(color));
+                    g.fillRect(sSettings.width / 128, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)),
+                            sSettings.width / 256, sSettings.height / 32);
+                    ctr++;
+                }
             }
         }
     }
