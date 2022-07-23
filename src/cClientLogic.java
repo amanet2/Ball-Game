@@ -7,10 +7,6 @@ public class cClientLogic {
     static int maxhp = 500;
     static double volume = 100.0;
     static String selecteditemid = "";
-    static long weapontimePistol = 0;
-    static long weapontimeShotgun = 0;
-    static long weapontimeAutorifle = 0;
-    static long weapontimeLauncher = 0;
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
