@@ -667,7 +667,7 @@ public class nServer extends Thread {
 
     public String getRandomClientId() {
         int randomClientIndex = (int) (Math.random() * clientCount());
-        return nServer.instance().clientIds.get(randomClientIndex);
+        return clientIds.get(randomClientIndex);
     }
 
     public void sendMapToClients() {

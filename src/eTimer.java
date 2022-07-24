@@ -4,16 +4,15 @@ public class eTimer {
     private long tickTimeNanos;
 
     public void init() {
-        gameTimeMillis = System.currentTimeMillis();
-        gameTimeNanos = System.nanoTime();
+        gameTimeMillis = currentTimeMillis();
+        gameTimeNanos = currentTimeNanos();
         tickTimeNanos = gameTimeNanos;
     }
 
     public void sync() {
-        gameTimeMillis = System.currentTimeMillis();
-        gameTimeNanos = System.nanoTime();
+        gameTimeMillis = currentTimeMillis();
+        gameTimeNanos = currentTimeNanos();
         gTime.gameTime = gameTimeMillis;
-        gTime.gameTimeNanos = gameTimeNanos;
     }
 
     public void update() {
@@ -24,11 +23,19 @@ public class eTimer {
         return tickTimeNanos < gameTimeNanos;
     }
 
+    public long gameTimeMillis() {
+        return gameTimeMillis;
+    }
+
     public long gameTimeNanos() {
         return gameTimeNanos;
     }
 
-    public long gameTimeMillis() {
-        return gameTimeMillis;
+    public long currentTimeNanos() {
+        return System.nanoTime();
+    }
+
+    public long currentTimeMillis() {
+        return System.currentTimeMillis();
     }
 }

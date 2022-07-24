@@ -65,8 +65,7 @@ public class eGameEngine implements Runnable {
         // framerate limit
         if(sSettings.framerate > 0) {
             long nextFrameTime = (timer.gameTimeNanos() + (1000000000/sSettings.framerate));
-//            while (nextFrameTime > System.nanoTime()) {
-            while (nextFrameTime > timer.gameTimeNanos()) {
+            while (nextFrameTime > timer.currentTimeNanos()) {
                 try {
                     Thread.sleep(1);
                 }
