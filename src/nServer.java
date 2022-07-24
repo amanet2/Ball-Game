@@ -349,6 +349,7 @@ public class nServer extends Thread {
                     processPackets(gameTime);
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
+                    cServerLogic.gameLoop(gameTime);
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {

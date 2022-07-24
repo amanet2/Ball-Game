@@ -1,18 +1,28 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
         //player glow
-        Color pc = gColors.getPlayerHudColorFromName(nClient.instance().serverArgsMap.get(player.get("id")).get("color"));
-        if(pc != null) {
-            int x = player.getInt("coordx") - player.getInt("dimw")/4;
-            int y = player.getInt("coordy") - player.getInt("dimh")/4;
-            int w = 3*player.getInt("dimw")/2;
-            int h = 3*player.getInt("dimh")/2;
-            if(sSettings.vfxenableflares)
-                dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
+        if(player == null)
+            return;
+        if(!player.contains("id"))
+            return;
+        HashMap<String, String> cliMap = nClient.instance().serverArgsMap.get(player.get("id"));
+        if(cliMap == null)
+            return;
+        if(cliMap.containsKey("color")) {
+            Color pc = gColors.getPlayerHudColorFromName(cliMap.get("color"));
+            if (pc != null) {
+                int x = player.getInt("coordx") - player.getInt("dimw") / 4;
+                int y = player.getInt("coordy") - player.getInt("dimh") / 4;
+                int w = 3 * player.getInt("dimw") / 2;
+                int h = 3 * player.getInt("dimh") / 2;
+                if (sSettings.vfxenableflares)
+                    dFlares.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
+            }
         }
         //player shadow
         if(sSettings.vfxenableshadows) {

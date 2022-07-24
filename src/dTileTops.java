@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
@@ -63,11 +65,15 @@ public class dTileTops {
     }
 
     public static void drawPopups(Graphics g, gScene scene) {
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        if(popupsMap.size() > 0)
+        Collection<String> keys = scene.getThingMap("THING_POPUP").keySet();
+        int size = keys.size();
+        String[] popupsIds = keys.toArray(new String[size]);
+        if(size > 0)
             dFonts.setFontGNormal(g);
-        for(Object id : popupsMap.keySet()) {
-            gPopup p = (gPopup) popupsMap.get(id);
+        for(String id : popupsIds) {
+            gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
+            if(p == null)
+                continue;
             g.setColor(Color.BLACK);
             g.drawString(p.get("text"),
                     p.getInt("coordx") + 2,

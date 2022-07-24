@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -96,13 +97,18 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        for(String id : getPlayerIds()) {
+        Collection<String> idColl = getPlayerIds();
+        int size = idColl.size();
+        String[] ids = idColl.toArray(new String[size]);
+        for(String id : ids) {
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
-                break;
+                continue;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < gameTimeMillis) {
@@ -131,17 +137,24 @@ public class cClientLogic {
             }
         }
 
-        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
-            gBullet obj = (gBullet) bulletsMap.get(id);
+        Collection<String> bulletcoll = scene.getThingMap("THING_BULLET").keySet();
+        int bsize = bulletcoll.size();
+        String[] bids = bulletcoll.toArray(new String[bsize]);
+        for(String id : bids) {
+            gBullet obj = (gBullet) scene.getThingMap("THING_BULLET").get(id);
+            if(obj == null)
+                continue;
             obj.putInt("coordx", obj.getInt("coordx")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup obj = (gPopup) popupsMap.get(id);
+
+        Collection<String> pColl = scene.getThingMap("THING_POPUP").keySet();
+        int psize = pColl.size();
+        String[] pids = pColl.toArray(new String[psize]);
+        for(String id : pids) {
+            gPopup obj = (gPopup) scene.getThingMap("THING_POPUP").get(id);
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
                     - (int) (sSettings.velocity_popup*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
@@ -209,17 +222,19 @@ public class cClientLogic {
     }
 
     public static void checkExpiredPopups(long gameTimeMillis) {
-        String popupIdToRemove = "";
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        for(Object id : popupsMap.keySet()) {
-            gPopup g = (gPopup) popupsMap.get(id);
-            if(g.getLong("timestamp") < gameTimeMillis - sSettings.popuplivetime) {
-                popupIdToRemove = (String) id;
-                break;
-            }
+        ArrayList<String> popupIdsToRemove = new ArrayList<>();
+        Collection<String> pColl = scene.getThingMap("THING_POPUP").keySet();
+        int psize = pColl.size();
+        String[] pids = pColl.toArray(new String[psize]);
+        for(String id : pids) {
+            gPopup g = (gPopup) scene.getThingMap("THING_POPUP").get(id);
+            if(g == null)
+                continue;
+            if(g.getLong("timestamp") < gameTimeMillis - sSettings.popuplivetime)
+                popupIdsToRemove.add(id);
         }
-        if(popupIdToRemove.length() > 0) {
-            popupsMap.remove(popupIdToRemove);
+        for(String id: popupIdsToRemove) {
+            scene.getThingMap("THING_POPUP").remove(id);
         }
     }
 
@@ -308,6 +323,8 @@ public class cClientLogic {
     }
 
     public static gPlayer getPlayerById(String id) {
+        if(!scene.getThingMap("THING_PLAYER").containsKey(id))
+            return null;
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
     }
 
