@@ -10,17 +10,18 @@ public class dPanel extends JPanel {
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();
-        drawFrame(g2v, gTime.gameTime);
-        drawFrameUI(g2u);
+        long gameTime = gTime.gameTime;
+        drawFrame(g2v, gameTime);
+        drawFrameUI(g2u, gameTime);
         uiInterface.frames++;
         g2v.dispose();
         g2u.dispose();
         g.dispose();
     }
 
-    public void drawFrameUI(Graphics2D g2) {
+    public void drawFrameUI(Graphics2D g2, long gameTimeMillis) {
         dScreenFX.drawScreenFX(g2);
-        dScreenMessages.displayScreenMessages(g2);
+        dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
         if(!uiInterface.inplay && sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
             dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
             dBlockTops.drawBlockTopCubesPreview(g2);

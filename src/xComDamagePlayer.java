@@ -10,7 +10,7 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 player.subtractVal("stockhp", dmg);
-                player.putLong("hprechargetime", System.currentTimeMillis());
+                player.putLong("hprechargetime", gTime.gameTime);
                 //store player object's health in outgoing network arg map
                 nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
                 //handle death
@@ -55,7 +55,7 @@ public class xComDamagePlayer extends xCom {
                     //be sure not to send too much in one go, net comms
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
-                            Long.toString(System.currentTimeMillis() + cServerLogic.respawnwaittime));
+                            Long.toString(gTime.gameTime + cServerLogic.respawnwaittime));
                     nServer.instance().addNetCmd(id, "freecam");
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;

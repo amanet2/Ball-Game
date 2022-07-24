@@ -120,7 +120,7 @@ public class nServer extends Thread {
             if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
-                if(System.currentTimeMillis() > lastrecordedtime + timeout) {
+                if(gTime.gameTime > lastrecordedtime + timeout) {
                     addQuitClient(id);
                 }
             }
@@ -202,11 +202,11 @@ public class nServer extends Thread {
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
                 //relieve bans
-                if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
+                if(banIds.containsKey(clientId) && banIds.get(clientId) < gTime.gameTime)
                     banIds.remove(clientId);
                 if(banIds.containsKey(clientId)) {
                     addNetCmd(clientId, "echo You are banned for "
-                            + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
+                            + (banIds.get(clientId) - gTime.gameTime) + "ms");
                     addNetCmd(clientId, "disconnect");
                 }
                 if(clientId != null) {
@@ -349,7 +349,6 @@ public class nServer extends Thread {
                     processPackets(gameTime);
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
-//                    while(networkTime >= System.currentTimeMillis());
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
@@ -407,11 +406,11 @@ public class nServer extends Thread {
                 clientArgsMap.get(packId).put(k, packArgMap.get(k));
             }
             //record time we last updated client args
-            clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
+            clientArgsMap.get(packId).put("time", Long.toString(gTime.gameTime));
             //parse and process the args from client packet
             if(hasClient(packId)) {
                 //update ping
-//                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+//                scoresMap.get(packId).put("ping", (int) Math.abs(gTime.gameTime - oldTimestamp));
                 //handle name change to notify
                 if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
                     addExcludingNetCmd("server",
@@ -638,7 +637,7 @@ public class nServer extends Thread {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
                 if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
-                    cServerLogic.intermissiontime = System.currentTimeMillis() + cServerLogic.intermissionDelay;
+                    cServerLogic.intermissiontime = gTime.gameTime + cServerLogic.intermissionDelay;
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winSoundFileSelection[
                                     (int) (Math.random() * eManager.winSoundFileSelection.length)],

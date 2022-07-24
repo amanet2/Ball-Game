@@ -2,7 +2,7 @@ public class xComAttack extends xCom {
     public String doCommand(String fullCommand) {
         gPlayer br = cClientLogic.getUserPlayer();
         int brWeap = br.getInt("weapon");
-        long currentTime = System.currentTimeMillis();
+        long currentTime = gTime.gameTime;
         if(br.getLong("cooldown") >= currentTime)
             return "cant attack";
         nClient.instance().addNetCmd("fireweapon " + br.get("id") + " " + brWeap);

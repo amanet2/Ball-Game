@@ -90,7 +90,6 @@ public class nClient extends Thread {
                     }
                     processPackets();
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-//                    while(networkTime > System.currentTimeMillis());
                     //TEST IT HERE
                     cClientLogic.netLoop();
                     sleep(Math.max(0, networkTime - gameTime));
