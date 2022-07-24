@@ -73,7 +73,8 @@ public class dTileTops {
                     p.getInt("coordx") + 2,
                     p.getInt("coordy") + 2);
             dFonts.setFontColorNormal(g);
-            if(p.get("text").charAt(0) == '+')
+            char firstChar = p.get("text").charAt(0);
+            if(firstChar == '+' || firstChar == '$')
                 dFonts.setFontColorBonus(g);
             else if(p.get("text").charAt(0) == '-')
                 dFonts.setFontColorAlert(g);

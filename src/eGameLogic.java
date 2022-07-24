@@ -4,9 +4,9 @@ public interface eGameLogic {
 
     void input();
 
-    void update();
+    void update(long gameTimeMillis);
 
-    void render();
+    void render(long gameTimeMillis);
 
     void cleanup();
 }

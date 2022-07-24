@@ -19,23 +19,23 @@ public class cServerLogic {
     static long timeleft = 180000;
     static int listenPort = 5555;
     static gScene scene = new gScene();
-    public static void gameLoop() {
-        checkTimeRemaining();
+    public static void gameLoop(long loopTimeMillis) {
+        checkTimeRemaining(loopTimeMillis);
         checkHealthStatus();
         checkForMapChange();
-        checkGameState();
+        checkGameState(loopTimeMillis);
         updateEntityPositions();
         checkBulletSplashes();
     }
 
-    public static void checkTimeRemaining() {
+    public static void checkTimeRemaining(long gameTimeMillis) {
         if(timelimit > 0)
-            timeleft = Math.max(0, timelimit - (int) (gTime.gameTime - starttime));
+            timeleft = Math.max(0, timelimit - (int) (gameTimeMillis - starttime));
         else
             timeleft = -1;
     }
 
-    public static void checkGameState() {
+    public static void checkGameState(long gameTimeMillis) {
         for(String id : getPlayerIds()) {
             //this is needed when server user joins his own games
             if(id.equals(uiInterface.uuid))
@@ -51,13 +51,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
-                if(flagmastertime < gTime.gameTime) {
+                if(flagmastertime < gameTimeMillis) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
-                    flagmastertime = gTime.gameTime + 1000;
+                    flagmastertime = gameTimeMillis + 1000;
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(virustime < gTime.gameTime) {
+                if(virustime < gameTimeMillis) {
                     boolean survivors = false;
                     for(String id : getPlayerIds()) {
                         if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
@@ -65,7 +65,7 @@ public class cServerLogic {
                             xCon.ex("givepoint " + id);
                         }
                     }
-                    virustime = gTime.gameTime + 1000;
+                    virustime = gameTimeMillis + 1000;
                     if(!survivors) {
                         cGameLogic.resetVirusPlayers();
                     }

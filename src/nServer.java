@@ -5,6 +5,7 @@ import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
+    private long nettickcounterTimeServer = -1;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
@@ -184,7 +185,7 @@ public class nServer extends Thread {
         }
     }
 
-    public void processPackets() {
+    public void processPackets(long gameTimeMillis) {
         try {
             HashMap<String, String> netVars = getNetVars();
             if(receivedPackets.size() > 0) {
@@ -223,11 +224,11 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < gTime.gameTime) {
-                cBotsLogic.bottime = gTime.gameTime + (long)(1000.0/(double)sSettings.ratebots);
+            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
+                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
-                    nVarsBot.update(p);
+                    nVarsBot.update(p, gameTimeMillis);
                     String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
@@ -334,22 +335,22 @@ public class nServer extends Thread {
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;
-                    if (uiInterface.nettickcounterTimeServer < gTime.gameTime) {
+                    long gameTime = gTime.gameTime;
+                    if (nettickcounterTimeServer < gameTime) {
                         uiInterface.netReportServer = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeServer = gTime.gameTime + 1000;
+                        nettickcounterTimeServer = gameTime + 1000;
                     }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
-                    long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sSettings.rateserver);
-                    processPackets();
+                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
+                    processPackets(gameTime);
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
 //                    while(networkTime >= System.currentTimeMillis());
-                    sleep(Math.max(0, networkTime - gTime.gameTime));
+                    sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
                     eUtils.echoException(e);

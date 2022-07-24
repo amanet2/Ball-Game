@@ -1,5 +1,7 @@
 public class eGameLogicBallGame implements eGameLogic {
     private int ticks = 0;
+    private long frameCounterTime = -1;
+    private long tickCounterTime = -1;
 
     public eGameLogicBallGame() {
 
@@ -16,28 +18,27 @@ public class eGameLogicBallGame implements eGameLogic {
     }
 
     @Override
-    public void update() {
+    public void update(long gameTimeMillis) {
         if(sSettings.IS_SERVER)
-            cServerLogic.gameLoop();
+            cServerLogic.gameLoop(gameTimeMillis);
         if(sSettings.IS_CLIENT)
-            cClientLogic.gameLoop();
+            cClientLogic.gameLoop(gameTimeMillis);
         uiInterface.camReport[0] = gCamera.getX();
         uiInterface.camReport[1] = gCamera.getY();
         ticks += 1;
-        if(uiInterface.tickCounterTime < gTime.gameTime) {
+        if(tickCounterTime < gameTimeMillis) {
             uiInterface.tickReport = ticks;
             ticks = 0;
-            uiInterface.tickCounterTime = gTime.gameTime + 1000;
+            tickCounterTime = gameTimeMillis + 1000;
         }
     }
 
     @Override
-    public void render() {
-        long lastFrameTime = gTime.gameTime;
-        if (gTime.framecounterTime < lastFrameTime) {
+    public void render(long gameTimeMillis) {
+        if (frameCounterTime < gameTimeMillis) {
             uiInterface.fpsReport = uiInterface.frames;
             uiInterface.frames = 0;
-            gTime.framecounterTime = lastFrameTime + 1000;
+            frameCounterTime = gameTimeMillis + 1000;
         }
     }
 

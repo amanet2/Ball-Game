@@ -39,7 +39,7 @@ public class cClientLogic {
             xCon.ex("attack");
     }
 
-    public static void gameLoop() {
+    public static void gameLoop(long loopTimeMillis) {
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         checkGameState();

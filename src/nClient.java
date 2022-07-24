@@ -3,6 +3,7 @@ import java.util.*;
 
 public class nClient extends Thread {
     private int netticks;
+    private long nettickcounterTimeClient = -1;
     private static int retrylimit = 0;
     private static final int timeout = 10000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
@@ -64,10 +65,11 @@ public class nClient extends Thread {
             while(sSettings.IS_CLIENT) {
                 try {
                     netticks += 1;
-                    if (uiInterface.nettickcounterTimeClient < gTime.gameTime) {
+                    long gameTime = gTime.gameTime;
+                    if (nettickcounterTimeClient < gameTime) {
                         uiInterface.netReportClient = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeClient = gTime.gameTime + 1000;
+                        nettickcounterTimeClient = gameTime + 1000;
                     }
                     if (receivedPackets.size() < 1) {
                         InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
@@ -87,12 +89,11 @@ public class nClient extends Thread {
                         receivedPackets.add(receivePacket);
                     }
                     processPackets();
-                    long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sSettings.rateclient);
+                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
 //                    while(networkTime > System.currentTimeMillis());
                     //TEST IT HERE
                     cClientLogic.netLoop();
-                    sleep(Math.max(0, networkTime - gTime.gameTime));
+                    sleep(Math.max(0, networkTime - gameTime));
                     retries = 0;
                 }
                 catch (Exception ee) {
