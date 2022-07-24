@@ -8,7 +8,7 @@ public class cClientVars extends gArgSet {
     private cClientVars() {
         super();
     }
-    protected void init() {
+    protected void init(String[] args) {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
@@ -182,6 +182,10 @@ public class cClientVars extends gArgSet {
                 cClientLogic.joinport = Integer.parseInt(value);
             }
         });
+
+        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        loadFromLaunchArgs(args);
     }
     public static gArgSet instance() {
         if(instance == null) {
