@@ -1,10 +1,11 @@
 import java.net.*;
 import java.util.*;
 
-public class nClient extends Thread {
+public class nClient {
     private int netticks;
     private long nettickcounterTimeClient = -1;
     private static int retrylimit = 0;
+    long lastnettime = -1;
     private static final int timeout = 10000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
@@ -22,8 +23,15 @@ public class nClient extends Thread {
         return instance;
     }
 
-    public static void resetInstance() {
-        instance = new nClient();
+    public void reset() {
+        netSendMsgs.clear();
+        netSendCmds.clear();
+        netticks = 0;
+        lastnettime = -1;
+        receivedPackets.clear();
+        serverArgsMap.clear();
+        serverIds.clear();
+        sendMap.clear();
     }
 
     private nClient() {
@@ -59,57 +67,49 @@ public class nClient extends Thread {
         }
     }
 
-    public void run() {
+    public void netLoop() {
         int retries = 0;
         try {
-            while(sSettings.IS_CLIENT) {
-                try {
-                    netticks += 1;
-                    long gameTime = gTime.gameTime;
-                    if (nettickcounterTimeClient < gameTime) {
-                        uiInterface.netReportClient = netticks;
-                        netticks = 0;
-                        nettickcounterTimeClient = gameTime + 1000;
-                    }
-                    if (receivedPackets.size() < 1) {
-                        InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
-                        String sendDataString = createSendDataString();
-                        byte[] clientSendData = sendDataString.getBytes();
-                        DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                                cClientLogic.joinport);
-                        if (clientSocket == null || clientSocket.isClosed()) {
-                            clientSocket = new DatagramSocket();
-                            clientSocket.setSoTimeout(timeout);
-                        }
-                        clientSocket.send(sendPacket);
-                        xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                        byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                        DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        clientSocket.receive(receivePacket);
-                        receivedPackets.add(receivePacket);
-                    }
-                    processPackets();
-                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-                    //TEST IT HERE
-                    cClientLogic.netLoop();
-                    sleep(Math.max(0, networkTime - gameTime));
-                    retries = 0;
-                }
-                catch (Exception ee) {
-                    eUtils.echoException(ee);
-                    ee.printStackTrace();
-                    retries++;
-                    if(retries > retrylimit) {
-                        xCon.ex("disconnect");
-                        xCon.ex("echo Lost connection to server");
-                    }
-                }
+            netticks += 1;
+            long gameTime = gTime.gameTime;
+            if(lastnettime >= gameTime)
+                return;
+            lastnettime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
+            if (nettickcounterTimeClient < gameTime) {
+                uiInterface.netReportClient = netticks;
+                netticks = 0;
+                nettickcounterTimeClient = gameTime + 1000;
             }
-            interrupt();
+            if (receivedPackets.size() < 1) {
+                InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
+                String sendDataString = createSendDataString();
+                byte[] clientSendData = sendDataString.getBytes();
+                DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                        cClientLogic.joinport);
+                if (clientSocket == null || clientSocket.isClosed()) {
+                    clientSocket = new DatagramSocket();
+                    clientSocket.setSoTimeout(timeout);
+                }
+                clientSocket.send(sendPacket);
+                xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+                byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                clientSocket.receive(receivePacket);
+                receivedPackets.add(receivePacket);
+            }
+            processPackets();
+            //TEST IT HERE
+            cClientLogic.netLoop();
+            retries = 0;
         }
-        catch(Exception e) {
-            eUtils.echoException(e);
-            e.printStackTrace();
+        catch (Exception ee) {
+            eUtils.echoException(ee);
+            ee.printStackTrace();
+            retries++;
+            if(retries > retrylimit) {
+                xCon.ex("disconnect");
+                xCon.ex("echo Lost connection to server");
+            }
         }
     }
 
