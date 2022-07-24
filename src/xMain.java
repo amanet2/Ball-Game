@@ -22,7 +22,8 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			eGameEngine.getInstance().run();
+			eGameEngine eng = new eGameEngine(new eGameLogicBallGame());
+			eng.run();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

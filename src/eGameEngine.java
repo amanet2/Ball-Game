@@ -1,17 +1,9 @@
 public class eGameEngine implements Runnable {
-    private static eGameEngine instance;
     private eTimer timer;
     private final eGameLogic gameLogic;
+    private boolean playing = true;
 
-    public static eGameEngine getInstance() {
-        if(instance == null) {
-            instance = new eGameEngine(new eGameLogicBallGame());
-        }
-        return instance;
-    }
-
-
-    private eGameEngine(eGameLogic logic) {
+    public eGameEngine(eGameLogic logic) {
         gameLogic = logic;
         timer = new eTimer();
     }
@@ -41,7 +33,7 @@ public class eGameEngine implements Runnable {
     }
 
     private void loop() {
-        while (true) {
+        while (playing) {
             timer.sync();
 
             input();

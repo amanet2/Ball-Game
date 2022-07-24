@@ -1,5 +1,6 @@
 public class eGameLogicBallGame implements eGameLogic {
     private int ticks = 0;
+
     public eGameLogicBallGame() {
 
     }
@@ -20,14 +21,14 @@ public class eGameLogicBallGame implements eGameLogic {
             cServerLogic.gameLoop();
         if(sSettings.IS_CLIENT)
             cClientLogic.gameLoop();
-            uiInterface.camReport[0] = gCamera.getX();
-            uiInterface.camReport[1] = gCamera.getY();
-            ticks += 1;
-            if(uiInterface.tickCounterTime < gTime.gameTime) {
-                uiInterface.tickReport = ticks;
-                ticks = 0;
-                uiInterface.tickCounterTime = gTime.gameTime + 1000;
-            }
+        uiInterface.camReport[0] = gCamera.getX();
+        uiInterface.camReport[1] = gCamera.getY();
+        ticks += 1;
+        if(uiInterface.tickCounterTime < gTime.gameTime) {
+            uiInterface.tickReport = ticks;
+            ticks = 0;
+            uiInterface.tickCounterTime = gTime.gameTime + 1000;
+        }
     }
 
     @Override
