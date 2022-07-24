@@ -50,8 +50,11 @@ public class xComDamagePlayer extends xCom {
                                 String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
                     }
                     //migrate all client death logic here
-                    String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                            + " " + (dcx - 100) + " " + (dcy - 100);
+                    int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                    String colorName = nServer.instance().clientArgsMap.get(id).get("color");
+                    if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
+                        animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
+                    String animString = "cl_spawnanimation " + animInd + " " + (dcx - 100) + " " + (dcy - 100);
                     //be sure not to send too much in one go, net comms
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
