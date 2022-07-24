@@ -10,7 +10,7 @@ public class dPanel extends JPanel {
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();
-        drawFrame(g2v);
+        drawFrame(g2v, gTime.gameTime);
         drawFrameUI(g2u);
         uiInterface.frames++;
         g2v.dispose();
@@ -27,7 +27,7 @@ public class dPanel extends JPanel {
         }
     }
 
-    public void drawFrame(Graphics2D g2) {
+    public void drawFrame(Graphics2D g2, long gameTimeMillis) {
         if(cClientLogic.maploaded) {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
@@ -43,7 +43,7 @@ public class dPanel extends JPanel {
             dTileTops.drawMapmakerOverlay(g2, scene);
             dFlares.drawSceneFlares(g2, scene);
             dTileTops.drawBullets(g2, scene);
-            dAnimations.drawAnimations(g2, scene);
+            dAnimations.drawAnimations(g2, scene, gameTimeMillis);
             dWaypoints.drawWaypoints(g2, scene);
             dTileTops.drawPopups(g2, scene);
             dTileTops.drawUserPlayerArrow(g2);

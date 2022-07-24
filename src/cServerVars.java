@@ -13,7 +13,7 @@ public class cServerVars extends gArgSet {
         putArg(new gArg("timelimit", "180000") {
             public void onChange() {
                 cServerLogic.timelimit = Integer.parseInt(value);
-                cServerLogic.starttime = System.currentTimeMillis();
+                cServerLogic.starttime = gTime.gameTime;
             }
         });
         putArg(new gArg("maxhp", "500") {

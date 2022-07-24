@@ -48,8 +48,8 @@ public class cClientLogic {
         if(getUserPlayer() != null)
             checkPlayerFire();
         checkFinishedAnimations();
-        checkExpiredPopups();
-        updateEntityPositions();
+        checkExpiredPopups(loopTimeMillis);
+        updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
     }
 
@@ -95,7 +95,7 @@ public class cClientLogic {
         selecteditemid = "";
     }
 
-    public static void updateEntityPositions() {
+    public static void updateEntityPositions(long gameTimeMillis) {
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             String[] requiredFields = new String[]{
@@ -105,8 +105,8 @@ public class cClientLogic {
                 break;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < System.currentTimeMillis()) {
-                obj.putLong("acceltick", System.currentTimeMillis()+obj.getInt("accelrate"));
+            if(obj.getLong("acceltick") < gameTimeMillis) {
+                obj.putLong("acceltick", gameTimeMillis + obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
                     //user player
                     if(isUserPlayer(obj)) {
@@ -147,17 +147,17 @@ public class cClientLogic {
             obj.put("coordy", Integer.toString(obj.getInt("coordy")
                     - (int) (sSettings.velocity_popup*Math.sin(obj.getDouble("fv")+Math.PI/2))));
         }
-        checkBulletSplashes();
+        checkBulletSplashes(gameTimeMillis);
     }
 
-    public static void checkBulletSplashes() {
+    public static void checkBulletSplashes(long gameTimeMillis) {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gBullet b = (gBullet) bulletsMap.get(id);
-            if(System.currentTimeMillis()-b.getLong("timestamp") > b.getInt("ttl")){
+            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")){
                 bulletsToRemoveIds.add(id);
 //                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
 //                    currentMap.scene.getThingMap("THING_ANIMATION").put(
@@ -208,12 +208,12 @@ public class cClientLogic {
         }
     }
 
-    public static void checkExpiredPopups() {
+    public static void checkExpiredPopups(long gameTimeMillis) {
         String popupIdToRemove = "";
         HashMap popupsMap = scene.getThingMap("THING_POPUP");
         for(Object id : popupsMap.keySet()) {
             gPopup g = (gPopup) popupsMap.get(id);
-            if(g.getLong("timestamp") < System.currentTimeMillis() - sSettings.popuplivetime) {
+            if(g.getLong("timestamp") < gameTimeMillis - sSettings.popuplivetime) {
                 popupIdToRemove = (String) id;
                 break;
             }
