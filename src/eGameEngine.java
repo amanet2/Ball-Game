@@ -40,9 +40,9 @@ public class eGameEngine implements Runnable {
 
             while(timer.behind()) {
                 timer.update();
-                update(timer.gameTimeMillis());
+                update();
             }
-            render(timer.gameTimeMillis());
+            render();
             sync();
         }
     }
@@ -51,14 +51,14 @@ public class eGameEngine implements Runnable {
         gameLogic.input();
     }
 
-    private void update(long gameTimeMillis) {
-        gameLogic.update(gameTimeMillis);
+    private void update() {
+        gameLogic.update();
     }
 
-    private void render(long gametimeMillis) {
+    private void render() {
         //draw gfx
         oDisplay.instance().frame.repaint();
-        gameLogic.render(gametimeMillis);
+        gameLogic.render();
     }
 
     private void sync() {

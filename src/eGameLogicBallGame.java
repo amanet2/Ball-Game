@@ -18,7 +18,8 @@ public class eGameLogicBallGame implements eGameLogic {
     }
 
     @Override
-    public void update(long gameTimeMillis) {
+    public void update() {
+        long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_SERVER)
             cServerLogic.gameLoop(gameTimeMillis);
         if(sSettings.IS_CLIENT)
@@ -34,7 +35,8 @@ public class eGameLogicBallGame implements eGameLogic {
     }
 
     @Override
-    public void render(long gameTimeMillis) {
+    public void render() {
+        long gameTimeMillis = gTime.gameTime;
         if (frameCounterTime < gameTimeMillis) {
             uiInterface.fpsReport = uiInterface.frames;
             uiInterface.frames = 0;

@@ -12,7 +12,7 @@ public class eTimer {
     public void sync() {
         gameTimeMillis = currentTimeMillis();
         gameTimeNanos = currentTimeNanos();
-        gTime.gameTime = gameTimeMillis;
+        gTime.gameTime = gameTimeMillis();
     }
 
     public void update() {
