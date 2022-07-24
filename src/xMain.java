@@ -1,9 +1,6 @@
 public class xMain {
-	public static void main(String[] args) {
-		eManager.configFileSelection = eManager.getFilesSelection("config");
-		eManager.prefabFileSelection = eManager.getFilesSelection("prefabs");
-		eManager.mapsFileSelection = eManager.getFilesSelection("maps", ".map");
-		eManager.winSoundFileSelection = eManager.getFilesSelection(eUtils.getPath("sounds/win"));
+	private static void init(String[] args) {
+		eManager.init();
 		gExecDoableFactory.instance().init();
 		cServerVars.instance().init();
 		cClientVars.instance().init();
@@ -21,60 +18,15 @@ public class xMain {
 			sSettings.drawmapmakergrid = true;
 			eUtils.zoomLevel = 0.5;
 		}
-		oDisplay.instance().showFrame();
-		int ticks = 0;
-		while(true) {
-			try {
-				gTime.gameTime = System.currentTimeMillis();
-				gTime.gameTimeNanos = System.nanoTime();
-				//game loop
-				while(gTime.tickTimeNanos < gTime.gameTimeNanos) {
-					gTime.tickTimeNanos += (1000000000/sSettings.rategame);
-					iInput.readKeyInputs();
-					if(sSettings.IS_SERVER)
-						cServerLogic.gameLoop();
-					if(sSettings.IS_CLIENT)
-						cClientLogic.gameLoop();
-					uiInterface.camReport[0] = gCamera.getX();
-					uiInterface.camReport[1] = gCamera.getY();
-					ticks += 1;
-					if(uiInterface.tickCounterTime < gTime.gameTime) {
-						uiInterface.tickReport = ticks;
-						ticks = 0;
-						uiInterface.tickCounterTime = gTime.gameTime + 1000;
-					}
-				}
-				//draw gfx
-				oDisplay.instance().frame.repaint();
-				long lastFrameTime = System.currentTimeMillis();
-				if (gTime.framecounterTime < lastFrameTime) {
-					uiInterface.fpsReport = uiInterface.frames;
-					uiInterface.frames = 0;
-					gTime.framecounterTime = lastFrameTime + 1000;
-				}
-				// framerate limit
-				if(sSettings.framerate > 0) {
-					long nextFrameTime = (gTime.gameTimeNanos + (1000000000/sSettings.framerate));
-					while (nextFrameTime >= System.nanoTime()) {
-						; // do nothing
-						// power saving
-						try {
-							Thread.sleep(1);
-						}
-						catch (InterruptedException ie) {
-							ie.printStackTrace();
-						}
-					}
-				}
-				//power saving
-//                    long toSleep = (gameTime + (1000/sSettings.framerate)) - System.currentTimeMillis();
-//                    if(toSleep > 0)
-//                        Thread.sleep(toSleep);
-			}
-			catch (Exception e) {
-				eUtils.echoException(e);
-				e.printStackTrace();
-			}
+	}
+	public static void main(String[] args) {
+		try {
+			init(args);
+			eGameEngine.getInstance().run();
+		}
+		catch (Exception err) {
+			err.printStackTrace();
+			System.exit(-1);
 		}
 	}
 }
