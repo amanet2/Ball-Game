@@ -30,7 +30,7 @@ public class cServerLogic {
 
     public static void checkTimeRemaining() {
         if(timelimit > 0)
-            timeleft = Math.max(0, timelimit - (int) (xMain.gameTime - starttime));
+            timeleft = Math.max(0, timelimit - (int) (gTime.gameTime - starttime));
         else
             timeleft = -1;
     }
@@ -51,13 +51,13 @@ public class cServerLogic {
             if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
-                if(flagmastertime < xMain.gameTime) {
+                if(flagmastertime < gTime.gameTime) {
                     xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
-                    flagmastertime = xMain.gameTime + 1000;
+                    flagmastertime = gTime.gameTime + 1000;
                 }
             }
             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                if(virustime < xMain.gameTime) {
+                if(virustime < gTime.gameTime) {
                     boolean survivors = false;
                     for(String id : getPlayerIds()) {
                         if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
@@ -65,7 +65,7 @@ public class cServerLogic {
                             xCon.ex("givepoint " + id);
                         }
                     }
-                    virustime = xMain.gameTime + 1000;
+                    virustime = gTime.gameTime + 1000;
                     if(!survivors) {
                         cGameLogic.resetVirusPlayers();
                     }

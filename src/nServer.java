@@ -223,8 +223,8 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < xMain.gameTime) {
-                cBotsLogic.bottime = xMain.gameTime + (long)(1000.0/(double)sSettings.ratebots);
+            if(botsMap.size() > 0 && cBotsLogic.bottime < gTime.gameTime) {
+                cBotsLogic.bottime = gTime.gameTime + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p);
@@ -334,10 +334,10 @@ public class nServer extends Thread {
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;
-                    if (uiInterface.nettickcounterTimeServer < xMain.gameTime) {
+                    if (uiInterface.nettickcounterTimeServer < gTime.gameTime) {
                         uiInterface.netReportServer = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeServer = xMain.gameTime + 1000;
+                        uiInterface.nettickcounterTimeServer = gTime.gameTime + 1000;
                     }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -349,7 +349,7 @@ public class nServer extends Thread {
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
 //                    while(networkTime >= System.currentTimeMillis());
-                    sleep(Math.max(0, networkTime - xMain.gameTime));
+                    sleep(Math.max(0, networkTime - gTime.gameTime));
                 }
                 catch (Exception e) {
                     eUtils.echoException(e);

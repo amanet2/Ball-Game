@@ -1,8 +1,4 @@
 public class xMain {
-	private static long gameTimeNanos = System.nanoTime();
-	private static long tickTimeNanos = gameTimeNanos;
-	static long gameTime = System.currentTimeMillis();
-	private static long framecounterTime = gameTime;
 	public static void main(String[] args) {
 		eManager.configFileSelection = eManager.getFilesSelection("config");
 		eManager.prefabFileSelection = eManager.getFilesSelection("prefabs");
@@ -18,10 +14,8 @@ public class xMain {
 		cClientVars.instance().loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
 		cServerVars.instance().loadFromLaunchArgs(args);
 		cClientVars.instance().loadFromLaunchArgs(args);
-		//without this, holding any key, e.g. W to move, will eventually lock ALL controls on a mac
 		uiMenus.menuSelection[uiMenus.MENU_MAP].setupMenuItems();
 		uiMenus.menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
-		//finish loading args
 		if(sSettings.show_mapmaker_ui) {
 			sSettings.drawhitboxes = true;
 			sSettings.drawmapmakergrid = true;
@@ -31,11 +25,11 @@ public class xMain {
 		int ticks = 0;
 		while(true) {
 			try {
-				gameTime = System.currentTimeMillis();
-				gameTimeNanos = System.nanoTime();
+				gTime.gameTime = System.currentTimeMillis();
+				gTime.gameTimeNanos = System.nanoTime();
 				//game loop
-				while(tickTimeNanos < gameTimeNanos) {
-					tickTimeNanos += (1000000000/sSettings.rategame);
+				while(gTime.tickTimeNanos < gTime.gameTimeNanos) {
+					gTime.tickTimeNanos += (1000000000/sSettings.rategame);
 					iInput.readKeyInputs();
 					if(sSettings.IS_SERVER)
 						cServerLogic.gameLoop();
@@ -44,30 +38,32 @@ public class xMain {
 					uiInterface.camReport[0] = gCamera.getX();
 					uiInterface.camReport[1] = gCamera.getY();
 					ticks += 1;
-					if(uiInterface.tickCounterTime < gameTime) {
+					if(uiInterface.tickCounterTime < gTime.gameTime) {
 						uiInterface.tickReport = ticks;
 						ticks = 0;
-						uiInterface.tickCounterTime = gameTime + 1000;
+						uiInterface.tickCounterTime = gTime.gameTime + 1000;
 					}
 				}
 				//draw gfx
 				oDisplay.instance().frame.repaint();
 				long lastFrameTime = System.currentTimeMillis();
-				if (framecounterTime < lastFrameTime) {
+				if (gTime.framecounterTime < lastFrameTime) {
 					uiInterface.fpsReport = uiInterface.frames;
 					uiInterface.frames = 0;
-					framecounterTime = lastFrameTime + 1000;
+					gTime.framecounterTime = lastFrameTime + 1000;
 				}
 				// framerate limit
 				if(sSettings.framerate > 0) {
-					long nextFrameTime = (gameTimeNanos + (1000000000/sSettings.framerate));
+					long nextFrameTime = (gTime.gameTimeNanos + (1000000000/sSettings.framerate));
 					while (nextFrameTime >= System.nanoTime()) {
 						; // do nothing
 						// power saving
 						try {
 							Thread.sleep(1);
 						}
-						catch (InterruptedException ie) {}
+						catch (InterruptedException ie) {
+							ie.printStackTrace();
+						}
 					}
 				}
 				//power saving
