@@ -20,8 +20,6 @@ public class eGameLogicBallGame implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
-//        if(sSettings.IS_SERVER)
-//            cServerLogic.gameLoop(gameTimeMillis);
         if(sSettings.IS_CLIENT) {
             nClient.instance().netLoop();
             cClientLogic.gameLoop(gameTimeMillis);

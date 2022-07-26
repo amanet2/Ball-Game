@@ -166,6 +166,21 @@ public class nClient {
         xCon.ex(cmdload);
     }
 
+    private void handleReadDataServer(HashMap<String, String> packArgs) {
+        cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
+        //check flag and virus
+        for(String s : new String[]{"flagmasterid", "virusids"}) {
+            if(!packArgs.containsKey(s))
+                serverArgsMap.get("server").remove(s);
+        }
+        //check cmd from server only
+        String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
+        if(cmdload.length() > 0) {
+            xCon.instance().debug("FROM_SERVER: " + cmdload);
+            processCmd(cmdload);
+        }
+    }
+
     public void readData(String receiveDataString) {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
@@ -178,18 +193,7 @@ public class nClient {
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
-                cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
-                //check flag and virus
-                for(String s : new String[]{"flagmasterid", "virusids"}) {
-                    if(!packArgs.containsKey(s))
-                        serverArgsMap.get("server").remove(s);
-                }
-                //check cmd from server only
-                String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
-                if(cmdload.length() > 0) {
-//                    System.out.println("FROM_SERVER: " + cmdload);
-                    processCmd(cmdload);
-                }
+                handleReadDataServer(packArgs);
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
@@ -250,7 +254,7 @@ public class nClient {
 //            //user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
-//            System.out.println("TO_SERVER: " + cmdString);
+            xCon.instance().debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;

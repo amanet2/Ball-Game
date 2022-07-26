@@ -59,9 +59,9 @@ public class dWaypoints {
                                 eUtils.unscaleInt(0)
                         }
                 };
-                g2.setColor(gColors.getFontColorFromName("waypoint1"));
+                g2.setColor(gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor")));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-                g2.setColor(gColors.getFontColorFromName("waypoint2"));
+                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
                 g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.translate(-gCamera.getX(), -gCamera.getY());
