@@ -6,7 +6,7 @@ public class nClient {
     private long nettickcounterTimeClient = -1;
     private static int retrylimit = 0;
     long lastnettime = -1;
-    private static final int timeout = 10000;
+    private static final int timeout = 5000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
@@ -69,46 +69,45 @@ public class nClient {
 
     public void netLoop() {
         int retries = 0;
-        try {
-            netticks += 1;
-            long gameTime = gTime.gameTime;
-            if(lastnettime >= gameTime)
-                return;
-            lastnettime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-            if (nettickcounterTimeClient < gameTime) {
-                uiInterface.netReportClient = netticks;
-                netticks = 0;
-                nettickcounterTimeClient = gameTime + 1000;
-            }
-            if (receivedPackets.size() < 1) {
-                InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
-                String sendDataString = createSendDataString();
-                byte[] clientSendData = sendDataString.getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                        cClientLogic.joinport);
-                if (clientSocket == null || clientSocket.isClosed()) {
-                    clientSocket = new DatagramSocket();
-                    clientSocket.setSoTimeout(timeout);
+        while(retries <= retrylimit) {
+            try {
+                netticks += 1;
+                long gameTime = gTime.gameTime;
+                if(lastnettime >= gameTime)
+                    return;
+                lastnettime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
+                if (nettickcounterTimeClient < gameTime) {
+                    uiInterface.netReportClient = netticks;
+                    netticks = 0;
+                    nettickcounterTimeClient = gameTime + 1000;
                 }
-                clientSocket.send(sendPacket);
-                xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                clientSocket.receive(receivePacket);
-                receivedPackets.add(receivePacket);
+                if (receivedPackets.size() < 1) {
+                    InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
+                    String sendDataString = createSendDataString();
+                    byte[] clientSendData = sendDataString.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                            cClientLogic.joinport);
+                    if (clientSocket == null || clientSocket.isClosed()) {
+                        clientSocket = new DatagramSocket();
+                        clientSocket.setSoTimeout(timeout);
+                    }
+                    clientSocket.send(sendPacket);
+                    xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+                    byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                }
+                processPackets();
             }
-            processPackets();
-            //TEST IT HERE
-            cClientLogic.netLoop();
-            retries = 0;
-        }
-        catch (Exception ee) {
-            eUtils.echoException(ee);
-            ee.printStackTrace();
-            retries++;
-            if(retries > retrylimit) {
-                xCon.ex("disconnect");
-                xCon.ex("echo Lost connection to server");
+            catch (Exception ee) {
+                eUtils.echoException(ee);
+                ee.printStackTrace();
+                retries++;
+                if(retries > retrylimit) {
+                    xCon.ex("disconnect");
+                    xCon.ex("echo Lost connection to server");
+                }
             }
         }
     }

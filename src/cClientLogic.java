@@ -41,6 +41,12 @@ public class cClientLogic {
     }
 
     public static void gameLoop(long loopTimeMillis) {
+        if(oDisplay.instance().frame.isVisible()) {
+            if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
+            if(getUserPlayer() != null)
+                pointPlayerAtMousePointer();
+        }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         checkGameState();
@@ -52,15 +58,6 @@ public class cClientLogic {
         checkExpiredPopups(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
-    }
-
-    public static void netLoop() {
-        if(oDisplay.instance().frame.isVisible()) {
-            if(sSettings.show_mapmaker_ui)
-                cClientLogic.selectThingUnderMouse();
-            if(getUserPlayer() != null)
-                pointPlayerAtMousePointer();
-        }
     }
 
     public static synchronized void selectThingUnderMouse() {
@@ -295,6 +292,7 @@ public class cClientLogic {
                 continue;
             gPlayer obj = getPlayerById(id);
             for (int i = 0; i < 4; i++) {
+                //big error here
                 if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
                             obj.get("id")).get("vels").split("-")[i]));
