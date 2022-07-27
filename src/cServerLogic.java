@@ -37,31 +37,37 @@ public class cServerLogic {
     }
 
     public static void checkGameState(long gameTimeMillis) {
-        for(String id : getPlayerIds()) {
+        String[] pids = getPlayerIdArray();
+        for(String id : pids) {
             //this is needed when server user joins his own games
             if(id.equals(uiInterface.uuid))
                 continue;
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
+            HashMap<String, String> pvars = nServer.instance().clientArgsMap.get(obj.get("id"));
+            if(pvars == null)
+                continue;
             for (int i = 0; i < 4; i++) {
-                if(nServer.instance().clientArgsMap.get(obj.get("id")).containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(nServer.instance().clientArgsMap.get(
-                            obj.get("id")).get("vels").split("-")[i]));
+                if(pvars.containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
             }
         }
-        if(nServer.instance().clientArgsMap.containsKey("server")) {
-            if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")) {
+        HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
+        if(svars != null) {
+            if(svars.containsKey("flagmasterid")) {
                 if(scene.getThingMap("ITEM_FLAG").size() > 0)
                     xCon.ex("clearthingmap ITEM_FLAG");
                 if(flagmastertime < gameTimeMillis) {
-                    xCon.ex("givepoint " + nServer.instance().clientArgsMap.get("server").get("flagmasterid"));
+                    xCon.ex("givepoint " + svars.get("flagmasterid"));
                     flagmastertime = gameTimeMillis + 1000;
                 }
             }
-            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
+            if(svars.containsKey("virusids")) {
                 if(virustime < gameTimeMillis) {
                     boolean survivors = false;
-                    for(String id : getPlayerIds()) {
-                        if(!nServer.instance().clientArgsMap.get("server").get("virusids").contains(id)) {
+                    for(String id : getPlayerIdArray()) {
+                        if(!svars.get("virusids").contains(id)) {
                             survivors = true;
                             xCon.ex("givepoint " + id);
                         }
@@ -122,7 +128,6 @@ public class cServerLogic {
                 int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
                         "playsound sounds/win/"+eManager.winSoundFileSelection[toplay]);
-//                nServer.instance().addExcludingNetCmd("server","playsound sounds/bfg.wav");
                 intermissiontime = gameTimeMillis + intermissionDelay;
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
@@ -285,6 +290,12 @@ public class cServerLogic {
 
     public static Collection<String> getPlayerIds() {
         return scene.getThingMap("THING_PLAYER").keySet();
+    }
+
+    public static String[] getPlayerIdArray() {
+        Collection<String> pColl = scene.getThingMap("THING_PLAYER").keySet();
+        int psize = pColl.size();
+        return pColl.toArray(new String[psize]);
     }
 
     public static gPlayer getPlayerById(String id) {

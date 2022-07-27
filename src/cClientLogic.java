@@ -291,11 +291,13 @@ public class cClientLogic {
             if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
                 continue;
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
+            HashMap<String, String> pvars = nClient.instance().serverArgsMap.get(id);
             for (int i = 0; i < 4; i++) {
                 //big error here
-                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
-                            obj.get("id")).get("vels").split("-")[i]));
+                if(pvars.containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
             }
         }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
