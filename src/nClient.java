@@ -111,7 +111,23 @@ public class nClient {
                     xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
                     byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
                     DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                    clientSocket.receive(receivePacket);
+                    lretry = 0;
+                    while (lretry <= retrylimit) {
+                        try {
+                            clientSocket.receive(receivePacket);
+                            break;
+                        }
+                        catch (Exception e) {
+                            eUtils.echoException(e);
+                            e.printStackTrace();
+                            lretry++;
+                            if(lretry > retrylimit) {
+                                xCon.ex("disconnect");
+                                xCon.ex("echo Lost connection to server");
+                                return; // have to return here
+                            }
+                        }
+                    }
                     receivedPackets.add(receivePacket);
                 }
                 processPackets();
