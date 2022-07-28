@@ -105,6 +105,7 @@ public class nClient {
                             eUtils.echoException(e);
                             e.printStackTrace();
                             lretry++;
+                            refreshSock(); // maybe optional
                             if(lretry > retrylimit) {
                                 xCon.ex("disconnect");
                                 xCon.ex("echo Lost connection to server");
@@ -125,6 +126,17 @@ public class nClient {
                     xCon.ex("echo Lost connection to server");
                 }
             }
+        }
+    }
+
+    private void refreshSock() {
+        try {
+            clientSocket = new DatagramSocket();
+            clientSocket.setSoTimeout(timeout);
+        }
+        catch (SocketException e) {
+            eUtils.echoException(e);
+            e.printStackTrace();
         }
     }
 
