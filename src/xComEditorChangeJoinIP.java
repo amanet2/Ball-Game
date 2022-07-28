@@ -11,7 +11,7 @@ public class xComEditorChangeJoinIP extends xCom {
                     null,
                     null);
             if(s != null && s.strip().replace(",", "").length() > 0) {
-                cClientLogic.joinip = s.replace(",", "");
+                cClientVars.instance().put("joinip", s.replace(",",""));
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + cClientLogic.joinip);

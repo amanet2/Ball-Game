@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.*;
 import java.util.*;
 
@@ -67,6 +68,25 @@ public class nClient {
         }
     }
 
+    public void sendData() {
+        InetAddress IPAddress = null;
+        try {
+            IPAddress = InetAddress.getByName(cClientLogic.joinip);
+            String sendDataString = createSendDataString();
+            byte[] clientSendData = sendDataString.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                    cClientLogic.joinport);
+            if (clientSocket == null || clientSocket.isClosed()) {
+                clientSocket = new DatagramSocket();
+                clientSocket.setSoTimeout(timeout);
+            }
+            clientSocket.send(sendPacket);
+            xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void netLoop() {
         int retries = 0;
         while(retries <= retrylimit) {
@@ -82,23 +102,14 @@ public class nClient {
                     nettickcounterTimeClient = gameTime + 1000;
                 }
                 if (receivedPackets.size() < 1) {
-                    InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
-                    String sendDataString = createSendDataString();
-                    byte[] clientSendData = sendDataString.getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                            cClientLogic.joinport);
-                    if (clientSocket == null || clientSocket.isClosed()) {
-                        clientSocket = new DatagramSocket();
-                        clientSocket.setSoTimeout(timeout);
-                    }
-                    clientSocket.send(sendPacket);
-                    xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                    byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
                     int lretry = 0;
                     while (lretry <= retrylimit) {
                         try {
+                            sendData();
+                            byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
                             clientSocket.receive(receivePacket);
+                            receivedPackets.add(receivePacket);
                             break;
                         }
                         catch (Exception e) {
@@ -113,7 +124,6 @@ public class nClient {
                             }
                         }
                     }
-                    receivedPackets.add(receivePacket);
                 }
                 processPackets();
             }
