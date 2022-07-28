@@ -4,7 +4,7 @@ import java.util.*;
 public class nClient {
     private int netticks;
     private long nettickcounterTimeClient = -1;
-    private static int retrylimit = 0;
+    private static int retrylimit = 3;
     long lastnettime = -1;
     private static final int timeout = 5000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
