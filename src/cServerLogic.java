@@ -94,7 +94,10 @@ public class cServerLogic {
             for(String checkType : scene.objectMaps.keySet()) {
                 if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
                     HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
-                    for (String itemId : thingMap.keySet()) {
+                    Collection<String> idCol = thingMap.keySet();
+                    int isize = idCol.size();
+                    String[] ids = idCol.toArray(new String[isize]);
+                    for (String itemId : ids) {
                         gItem item = (gItem) thingMap.get(itemId);
                         if (player.willCollideWithThingAtCoords(item,
                                 player.getInt("coordx"),
