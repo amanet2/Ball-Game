@@ -3,15 +3,15 @@ public class uiMenusNewGame extends uiMenu {
         setMenuItemTexts(new String[]{
                 "-Start-",
                 String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
-                        : eManager.mapsSelection[eManager.mapSelectionIndex]),
+                        : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
         });
     }
     public uiMenusNewGame() {
-        super("New Game",
+        super("Host Game",
             new uiMenuItem[]{
                 new uiMenuItem("-Start-"){
                     public void doItem() {
-                        xCon.ex("newgame;joingame localhost 5555;pause");
+                        xCon.ex("newgame;joingame localhost " + cServerLogic.listenPort + ";pause");
                         uiMenus.selectedMenu = uiMenus.MENU_MAIN;
                     }
                 },

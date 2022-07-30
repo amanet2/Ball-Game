@@ -18,6 +18,11 @@ public class uiMenus {
 
     static int selectedMenu = MENU_MAIN;
 
+    static void init() {
+        menuSelection[uiMenus.MENU_MAP].setupMenuItems();
+        menuSelection[uiMenus.MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
+    }
+
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenusHome(),
         new uiMenusQuit(),

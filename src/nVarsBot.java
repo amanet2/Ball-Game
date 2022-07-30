@@ -13,12 +13,12 @@ public class nVarsBot {
         return map.get(id).toString();
     }
 
-    public static void update(gPlayer p) {
+    public static void update(gPlayer p, long gameTimeMillis) {
         refreshForId(p.get("id"));
-        if(p.getLong("botthinktime") < uiInterface.gameTime) {
-            xCon.ex("dobotbehavior " + p.get("id") + " "+ cGameLogic.net_gamemode_texts[cVars.getInt("gamemode")]);
+        if(p.getLong("botthinktime") < gameTimeMillis) {
+            xCon.ex("dobotbehavior " + p.get("id") + " "+ cGameLogic.net_gamemode_texts[cClientLogic.gamemode]);
             int rd = (int)(Math.random()*botthinkdelay-botthinkdelay/2);
-            p.putLong("botthinktime", System.currentTimeMillis() + botthinkdelay + rd);
+            p.putLong("botthinktime", gTime.gameTime + botthinkdelay + rd);
         }
 
         for(String s : new String[]{"id","fv"}) {

@@ -7,7 +7,7 @@ public class dScreenFX {
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {
 //            int factors = sVars.getInt("vfxfactor");
-//            int maxl = cVars.getInt("vfxuialphaflashlight");
+//            int maxl = sVars.getInt("vfxuialphaflashlight");
 //            for (int i = 0; i < factors; i++) {
 //                g.setColor(new Color(128, 128, 28,
 //                        Math.abs((maxl /(factors/2)) * (Math.abs(((factors / 2) - i)) - (factors / 2)))));
@@ -16,20 +16,20 @@ public class dScreenFX {
 //            }
 //        }
 //        // sprint overlay
-//        if(cVars.isOne("sprint")) {
-//            int maxl = cVars.getInt("vfxuialphasprint");
+//        if(sVars.isOne("sprint")) {
+//            int maxl = sVars.getInt("vfxuialphasprint");
 //            int factorsw = sSettings.width/sVars.getInt("vfxfactordiv");
 //            int factorsh = sSettings.height/sVars.getInt("vfxfactordiv");
 //            for (int i = 0; i < factorsw; i++) {
 //                g.setColor(new Color(50, 220, 100,
 //                        Math.abs(Math.abs((maxl / (factorsw/2)) * (Math.abs(((factorsw/2) - i))-(factorsw/2))) - maxl)
-//                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
+//                                * sVars.getInt("stockspeed")/sVars.getInt("maxstockspeed")/2));
 //                g.fillRect(sSettings.width/factorsw * i, 0,sSettings.width/factorsw, sSettings.height);
 //            }
 //            for (int i = 0; i < factorsh; i++) {
 //                g.setColor(new Color(50, 220, 100,
 //                        Math.abs(Math.abs((maxl / (factorsh/2)) * (Math.abs(((factorsh/2) - i))-(factorsh/2))) - maxl)
-//                                * cVars.getInt("stockspeed")/cVars.getInt("maxstockspeed")/2));
+//                                * sVars.getInt("stockspeed")/sVars.getInt("maxstockspeed")/2));
 //                g.fillRect(0, sSettings.height/factorsh * i, sSettings.width, sSettings.height/factorsh);
 //            }
 //
@@ -56,16 +56,20 @@ public class dScreenFX {
                 int factorsdiv = sSettings.vfxfactordiv;
                 int factorsw = sSettings.width / factorsdiv;
                 int factorsh = sSettings.height / factorsdiv;
+                Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
                 for (int i = 0; i < factorsw; i++) {
-                    g.setColor(new Color(100, 0, 0,
-                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i)) - (factorsw / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
+                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
+                                    - (factorsw / 2))) - maxl)
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                    g.setColor(hpvfxColor);
                     g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
                 }
                 for (int i = 0; i < factorsh; i++) {
-                    g.setColor(new Color(100, 0, 0,
+                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
                             Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                    g.setColor(hpvfxColor);
                     g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
                 }
             }

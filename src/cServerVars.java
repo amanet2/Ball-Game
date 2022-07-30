@@ -4,11 +4,16 @@ public class cServerVars extends gArgSet {
     private cServerVars() {
         super();
     }
-    protected void init() {
+    protected void init(String[] args) {
+        putArg(new gArg("listenport", "5555") {
+            public void onChange() {
+                cServerLogic.listenPort = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("timelimit", "180000") {
             public void onChange() {
                 cServerLogic.timelimit = Integer.parseInt(value);
-                cServerLogic.starttime = System.currentTimeMillis();
+                cServerLogic.starttime = gTime.gameTime;
             }
         });
         putArg(new gArg("maxhp", "500") {
@@ -51,11 +56,14 @@ public class cServerVars extends gArgSet {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
             }
         });
+
+        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
+        loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        loadFromLaunchArgs(args);
     }
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cServerVars();
-            instance.init();
         }
         return instance;
     }

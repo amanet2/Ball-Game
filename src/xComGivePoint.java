@@ -6,8 +6,11 @@ public class xComGivePoint extends xCom {
             gPlayer givePointPlayer = cServerLogic.getPlayerById(id);
             if(givePointPlayer != null) { //player must be alive
                 gScoreboard.addToScoreField(id, "score", 100);
-                nServer.instance().addExcludingNetCmd("server",
-                        "cl_spawnpopup " + givePointPlayer.get("id") + " +100");
+                String color = "";
+//                if(nServer.instance().clientArgsMap.containsKey(id)
+//                && nServer.instance().clientArgsMap.get(id).containsKey("color"))
+//                    color = nServer.instance().clientArgsMap.get(id).get("color");
+                nServer.instance().addExcludingNetCmd("server", "cl_spawnpopup " + id + " $100" + color);
             }
             return "gave point to " + id;
         }

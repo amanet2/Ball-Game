@@ -10,7 +10,7 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 player.subtractVal("stockhp", dmg);
-                player.putLong("hprechargetime", System.currentTimeMillis());
+                player.putLong("hprechargetime", gTime.gameTime);
                 //store player object's health in outgoing network arg map
                 nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
                 //handle death
@@ -25,10 +25,10 @@ public class xComDamagePlayer extends xCom {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
 //                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
                         nServer.instance().addExcludingNetCmd("server",
-                                "echo " + killername + " killed " + victimname);
-                        if (cVars.getInt("gamemode") == cGameLogic.DEATHMATCH)
+                                "echo " + killername + " rocked " + victimname);
+                        if (cGameLogic.isDeathmatch())
                             xCon.ex("givepoint " + shooterid);
-                        else if (cVars.getInt("gamemode") == cGameLogic.VIRUS) {
+                        else if (cGameLogic.isVirus()) {
                             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                                 String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
                                 if(!virusids.contains(id)) {
@@ -50,12 +50,15 @@ public class xComDamagePlayer extends xCom {
                                 String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
                     }
                     //migrate all client death logic here
-                    String animString = "cl_spawnanimation " + gAnimations.ANIM_EXPLOSION_REG
-                            + " " + (dcx - 100) + " " + (dcy - 100);
+                    int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                    String colorName = nServer.instance().clientArgsMap.get(id).get("color");
+                    if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
+                        animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
+                    String animString = "cl_spawnanimation " + animInd + " " + (dcx - 100) + " " + (dcy - 100);
                     //be sure not to send too much in one go, net comms
                     nServer.instance().addExcludingNetCmd("server", animString);
                     nServer.instance().clientArgsMap.get(id).put("respawntime",
-                            Long.toString(System.currentTimeMillis() + cServerLogic.respawnwaittime));
+                            Long.toString(gTime.gameTime + cServerLogic.respawnwaittime));
                     nServer.instance().addNetCmd(id, "freecam");
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;

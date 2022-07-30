@@ -4,22 +4,32 @@ public class cGameLogic {
     static final int FLAG_MASTER = 2;
 
     static String[] net_gamemode_texts = {
-            "Kill Master",
+            "Rock Master",
             "Virus Master",
             "Flag Master"
     };
 
     static String[] net_gamemode_descriptions = {
-            "Kill other players",
-            "Don't catch the virus",
+            "Rock other players",
+            "Don't become infected",
             "Hold onto the flag"
     };
 
+    public static boolean isDeathmatch() {
+        return cClientLogic.gamemode == DEATHMATCH;
+    }
+
+    public static boolean isVirus() {
+        return cClientLogic.gamemode == VIRUS;
+    }
+
+    public static boolean isFlagMaster() {
+        return cClientLogic.gamemode == FLAG_MASTER;
+    }
+
     public static void resetVirusPlayers() {
-        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
-            int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());
-            nServer.instance().clientArgsMap.get("server").put("virusids",
-                    nServer.instance().clientIds.get(randomClientIndex));
+        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().hasClients()) {
+            nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
         }
     }
 }

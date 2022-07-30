@@ -3,10 +3,17 @@ import java.util.*;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
-	static String[] mapsSelection;
-	static String[] winClipSelection;
-	static String[] prefabSelection;
+	static String[] mapsFileSelection;
+	static String[] winSoundFileSelection;
+	static String[] prefabFileSelection;
+	static String[] configFileSelection;
 
+    public static void init() {
+        configFileSelection = getFilesSelection("config");
+        prefabFileSelection = getFilesSelection("prefabs");
+        mapsFileSelection = getFilesSelection("maps", ".map");
+        winSoundFileSelection = getFilesSelection(eUtils.getPath("sounds/win"));
+    }
 
 	public static String[] getFilesSelection(String dirPath) {
 	    String[] selectionArray = new String[]{};

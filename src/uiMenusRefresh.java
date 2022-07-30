@@ -2,25 +2,36 @@ import java.util.Arrays;
 
 public class uiMenusRefresh extends uiMenu {
     public uiMenusRefresh() {
-        super("Refresh Rate (hz)", new uiMenuItem[]{}, uiMenus.MENU_VIDEO);
+        super("Framerate Limit", new uiMenuItem[]{}, uiMenus.MENU_VIDEO);
         setupMenuItems();
     }
 
     public void setupMenuItems() {
         super.setupMenuItems();
-        for(int i = 0; i < sVars.getArray("framerates").length; i++){
+        items = new uiMenuItem[]{
+                new uiMenuItem("<None>") {
+                    public void doItem() {
+                        sSettings.framerate = -1;
+                        afterSubmit();
+                    }
+                }
+        };
+        for(int i = 0; i < sSettings.framerates.length; i++){
             items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(sVars.getArray("framerates")[i]){
+            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
-                    cClientVars.instance().put("vidmode",
-                            String.format("%d,%d,%d",sSettings.width,sSettings.height,
-                                    Integer.parseInt(text)));
-                    uiMenus.selectedMenu = parentMenu;
+                    sSettings.framerate = Integer.parseInt(text);
+                    afterSubmit();
                 }
             };
-            if(Integer.parseInt(items[items.length-1].text) == sSettings.framerate) {
-                selectedItem = i;
-            }
         }
+    }
+
+    private void afterSubmit() {
+        cClientVars.instance().put("vidmode",
+                String.format("%d,%d,%d", sSettings.width, sSettings.height,
+                        sSettings.framerate));
+        uiMenus.menuSelection[uiMenus.MENU_VIDEO].refresh();
+        uiMenus.selectedMenu = parentMenu;
     }
 }

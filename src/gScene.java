@@ -10,7 +10,7 @@ public class gScene {
     public static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
-        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
+        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER"
     };
 
 	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
@@ -101,7 +101,7 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
-            writer.write(String.format("load\ncv_maploaded 0\ncv_gamemode %s\n", cVars.get("gamemode")));
+            writer.write(String.format("load\ncv_maploaded 0\ncv_gamemode %d\n", cClientLogic.gamemode));
             HashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);

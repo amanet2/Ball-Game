@@ -2,17 +2,17 @@ import java.util.ArrayList;
 
 public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
-        if(cVars.get("selectedprefabid").length() > 0) {
+        if(cClientLogic.selectedPrefabId.length() > 0) {
                 ArrayList<String> toRemoveBlockIds = new ArrayList<>();
                 ArrayList<String> toRemoveCollisionIds = new ArrayList<>();
                 for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
                     gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.isVal("prefabid", cVars.get("selectedprefabid")))
+                    if(block.isVal("prefabid", cClientLogic.selectedPrefabId))
                         toRemoveBlockIds.add(id);
                 }
                 for(String id : cClientLogic.scene.getThingMap("THING_COLLISION").keySet()) {
                     gThing collision = cClientLogic.scene.getThingMap("THING_COLLISION").get(id);
-                    if(collision.isVal("prefabid", cVars.get("selectedprefabid")))
+                    if(collision.isVal("prefabid", cClientLogic.selectedPrefabId))
                         toRemoveCollisionIds.add(id);
                 }
                 for(String id : toRemoveBlockIds) {
@@ -23,7 +23,7 @@ public class xComEditorDelThing extends xCom {
                     String cmd = "deletecollision " + id;
                     nClient.instance().addNetCmd(cmd);
                 }
-                return "deleted prefab " + cVars.get("selectedprefabid");
+                return "deleted prefab " + cClientLogic.selectedPrefabId;
         }
         if(cClientLogic.selecteditemid.length() > 0) {
                 String toRemoveItemId = "";
