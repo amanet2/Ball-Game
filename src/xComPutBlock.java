@@ -21,6 +21,43 @@ public class xComPutBlock extends xCom {
             args[1] = rawY;
             args[2] = width;
             args[3] = height;
+
+            if (blockid.charAt(0) == '$') {
+                int transformed;
+                String[] rxtoksadd = blockid.split("\\+");
+                String[] rxtokssub = blockid.split("-");
+                if (rxtoksadd.length > 1) {
+                    int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                    int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                    transformed = rxmod0 + rxmod1;
+                } else if (rxtokssub.length > 1) {
+                    int rxmod0 = sVars.getInt(rxtokssub[0]);
+                    int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                    transformed = rxmod0 - rxmod1;
+                } else {
+                    transformed = sVars.getInt(blockid);
+                }
+                blockid = Integer.toString(transformed);
+            }
+
+            if (prefabid.charAt(0) == '$') {
+                int transformed;
+                String[] rxtoksadd = prefabid.split("\\+");
+                String[] rxtokssub = prefabid.split("-");
+                if (rxtoksadd.length > 1) {
+                    int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                    int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                    transformed = rxmod0 + rxmod1;
+                } else if (rxtokssub.length > 1) {
+                    int rxmod0 = sVars.getInt(rxtokssub[0]);
+                    int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                    transformed = rxmod0 - rxmod1;
+                } else {
+                    transformed = sVars.getInt(prefabid);
+                }
+                prefabid = Integer.toString(transformed);
+            }
+
             if (rawX.charAt(0) == '$') {
                 int transformedX;
                 String[] rxtoksadd = rawX.split("\\+");
