@@ -144,6 +144,7 @@ public class gScene {
                 gItem item = (gItem) itemMap.get(id);
                 String[] args = new String[]{
                         item.get("type"),
+                        item.get("id"),
                         item.get("coordx"),
                         item.get("coordy")
                 };
