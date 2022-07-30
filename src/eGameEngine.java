@@ -1,7 +1,7 @@
 public class eGameEngine implements Runnable {
-    private eTimer timer;
+    private final eTimer timer;
     private final eGameLogic gameLogic;
-    private boolean playing = true;
+    private final boolean playing = true;
 
     public eGameEngine(eGameLogic logic) {
         gameLogic = logic;

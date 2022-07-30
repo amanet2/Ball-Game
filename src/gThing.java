@@ -2,8 +2,8 @@ import java.util.LinkedHashMap;
 
 public class gThing {
     int id;
-    private int[] coords = {0, 0};
-    private int[] dims = {0, 0};
+    private final int[] coords = {0, 0};
+    private final int[] dims = {0, 0};
 
     public void setCoords(int x, int y) {
         coords[0] = x;

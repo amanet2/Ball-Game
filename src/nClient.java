@@ -5,16 +5,16 @@ import java.util.*;
 public class nClient {
     private int netticks;
     private long nettickcounterTimeClient = -1;
-    private static int retrylimit = 3;
+    private static final int retrylimit = 3;
     long lastnettime = -1;
     private static final int timeout = 5000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
-    private Queue<String> netSendMsgs = new LinkedList<>();
-    private Queue<String> netSendCmds = new LinkedList<>();
+    private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
+    private final Queue<String> netSendMsgs = new LinkedList<>();
+    private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
 
