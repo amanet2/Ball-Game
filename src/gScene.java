@@ -53,17 +53,6 @@ public class gScene {
         return idctr;
     }
 
-
-    public int getHighestItemId() {
-        int idctr = -1;
-        for(String id : getThingMap("THING_ITEM").keySet()) {
-            gThing item = getThingMap("THING_ITEM").get(id);
-            if(item.contains("id") && item.getInt("id") >= idctr)
-                idctr = item.getInt("id");
-        }
-        return idctr;
-    }
-
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         Queue<gThing> visualQueue = new LinkedList<>();
         HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));

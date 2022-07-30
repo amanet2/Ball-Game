@@ -26,7 +26,13 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToX);
                         int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
                                 uiEditorMenus.snapToY);
-                        String cmd = String.format("putitem %s %d %d", uiEditorMenus.newitemname, ix, iy);
+                        int itemId = 0;
+                        for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {;
+                            if(itemId < Integer.parseInt(id))
+                                itemId = Integer.parseInt(id);
+                        }
+                        itemId++; //want to be the _next_ id
+                        String cmd = String.format("putitem %s %d %d %d", uiEditorMenus.newitemname, itemId, ix, iy);
                         nClient.instance().addNetCmd(cmd);
                         return "put item " + uiEditorMenus.newitemname;
                     }
