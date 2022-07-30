@@ -14,7 +14,7 @@ public class xComPutItem extends xCom {
             newItem.put("id", itemId);
             cServerLogic.scene.getThingMap("THING_ITEM").put(itemId, newItem);
             cServerLogic.scene.getThingMap(newItem.get("type")).put(itemId, newItem);
-            nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
+//            nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
             return "put item";
         }
         return escape();

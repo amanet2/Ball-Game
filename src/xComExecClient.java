@@ -16,7 +16,7 @@ public class xComExecClient extends xCom {
             System.out.println("EXEC_CLIENT FROM MEMORY: " + s);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                 xCon.ex(line.replace("putcollision", "cl_putcollision"
-                ).replace("putblock", "cl_putblock"));
+                ).replace("putblock", "cl_putblock").replace("putitem", "cl_putitem"));
             }
         }
         else {
@@ -25,7 +25,8 @@ public class xComExecClient extends xCom {
                 while ((line = br.readLine()) != null) {
                     if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
                         xCon.ex(line.replace("putcollision", "cl_putcollision"
-                        ).replace("putblock", "cl_putblock"));
+                        ).replace("putblock", "cl_putblock"
+                        ).replace("putitem", "cl_putitem"));
                 }
             }
             catch (Exception e) {

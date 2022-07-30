@@ -76,10 +76,9 @@ public class nServer extends Thread {
         clientCmdDoables.put("putitem",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
-                        int itemid = cServerLogic.scene.getHighestItemId() + 1;
-                        xCon.ex(String.format("cv_itemid %d;%s", itemid, cmd));
-                        addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
-                                itemid, cmd.replace("putitem", "cl_putitem")));
+                        xCon.ex(cmd);
+                        addExcludingNetCmd("server", String.format("%s",
+                                cmd.replace("putitem", "cl_putitem")));
                     }
                 });
         for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem", "rotateblock", "rotatecollision"}) {
@@ -535,6 +534,7 @@ public class nServer extends Thread {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{
                     item.get("type"),
+                    item.get("id"),
                     item.get("coordx"),
                     item.get("coordy")
             };

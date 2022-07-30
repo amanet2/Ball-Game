@@ -66,8 +66,8 @@ public class cClientLogic {
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                selecteditemid = item.get("itemid");
+            if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
+                selecteditemid = item.get("id");
                 selectedPrefabId = "";
                 return;
             }

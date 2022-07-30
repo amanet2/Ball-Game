@@ -29,7 +29,7 @@ public class xComEditorDelThing extends xCom {
                 String toRemoveItemId = "";
                 for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
                     gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
-                    if(item.isVal("itemid", cClientLogic.selecteditemid))
+                    if(item.isVal("id", cClientLogic.selecteditemid))
                         toRemoveItemId = id;
                 }
                 if(toRemoveItemId.length() > 0) {

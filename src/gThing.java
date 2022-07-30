@@ -107,10 +107,6 @@ public class gThing {
         return true;
     }
 
-    public String keysString() {
-        return vars().keySet().toString();
-    }
-
     public String toString() {
         return vars().toString();
     }
@@ -122,12 +118,6 @@ public class gThing {
     public void refresh() {
         if(vars == null)
             vars = new LinkedHashMap<>();
-    }
-
-    public void addVal(String key, int val) {
-        if(contains(key)) {
-            putInt(key, getInt(key)+val);
-        }
     }
 
     public void subtractVal(String key, int val) {

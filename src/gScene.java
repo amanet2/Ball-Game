@@ -58,8 +58,8 @@ public class gScene {
         int idctr = -1;
         for(String id : getThingMap("THING_ITEM").keySet()) {
             gThing item = getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.getInt("itemid") >= idctr)
-                idctr = item.getInt("itemid");
+            if(item.contains("id") && item.getInt("id") >= idctr)
+                idctr = item.getInt("id");
         }
         return idctr;
     }
