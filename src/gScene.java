@@ -10,7 +10,7 @@ public class gScene {
     public static final String[] object_titles = new String[]{
         "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
-        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG"
+        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER"
     };
 
 	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;

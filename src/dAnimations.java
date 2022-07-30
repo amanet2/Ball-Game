@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class dAnimations {
-    public static void drawAnimations(Graphics2D g2, gScene scene){
+    public static void drawAnimations(Graphics2D g2, gScene scene, long gameTimeMillis){
         HashMap animationsMap = scene.getThingMap("THING_ANIMATION");
         for(Object id : animationsMap.keySet()) {
             gAnimationEmitter a = (gAnimationEmitter) animationsMap.get(id);
@@ -17,9 +17,9 @@ public class dAnimations {
                             null
                     );
                     if (a.getLong("frametime") + 1000/gAnimations.animation_selection[a.getInt("animation")].framerate
-                            < System.currentTimeMillis()) {
+                            < gameTimeMillis) {
                         a.putInt("frame", a.getInt("frame")+1);
-                        a.putLong("frametime", System.currentTimeMillis());
+                        a.putLong("frametime", gameTimeMillis);
                     }
                 }
             }

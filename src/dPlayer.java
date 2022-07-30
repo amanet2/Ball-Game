@@ -1,18 +1,28 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
         //player glow
-        Color pc = gColors.getPlayerHudColorFromName(nClient.instance().serverArgsMap.get(player.get("id")).get("color"));
-        if(pc != null) {
-            int x = player.getInt("coordx") - player.getInt("dimw")/4;
-            int y = player.getInt("coordy") - player.getInt("dimh")/4;
-            int w = 3*player.getInt("dimw")/2;
-            int h = 3*player.getInt("dimh")/2;
-            if(sSettings.vfxenableflares)
-                dFlares.drawFlareFromColor(g2,x,y,w,h,1,pc, new Color(0,0,0,0));
+        if(player == null)
+            return;
+        if(!player.contains("id"))
+            return;
+        HashMap<String, String> cliMap = nClient.instance().serverArgsMap.get(player.get("id"));
+        if(cliMap == null)
+            return;
+        if(cliMap.containsKey("color")) {
+            Color pc = gColors.getPlayerHudColorFromName(cliMap.get("color"));
+            if (pc != null) {
+                int x = player.getInt("coordx") - player.getInt("dimw") / 4;
+                int y = player.getInt("coordy") - player.getInt("dimh") / 4;
+                int w = 3 * player.getInt("dimw") / 2;
+                int h = 3 * player.getInt("dimh") / 2;
+                if (sSettings.vfxenableflares)
+                    dFlares.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
+            }
         }
         //player shadow
         if(sSettings.vfxenableshadows) {
@@ -75,13 +85,11 @@ public class dPlayer {
         AffineTransform backup = g2.getTransform();
         AffineTransform a = g2.getTransform();
         a.rotate(player.getDouble("fv")-Math.PI/2,
-                player.getInt("coordx") + player.getInt("dimw") / 2,
-                player.getInt("coordy") + player.getInt("dimh") / 2
+                player.getInt("coordx") + (float) player.getInt("dimw") / 2,
+                player.getInt("coordy") + (float) player.getInt("dimh") / 2
         );
         g2.setTransform(a);
-        int diff = player.getDouble("fv") >= 2*Math.PI || player.getDouble("fv") <= Math.PI ?
-                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2:
-                gWeapons.fromCode(player.getInt("weapon")).dims[1]/2;
+        int diff = gWeapons.fromCode(player.getInt("weapon")).dims[1] / 2;
         g2.drawImage(gWeapons.fromCode(player.getInt("weapon")).sprite,
                 player.getInt("coordx") + player.getInt("dimw")/2,
                 player.getInt("coordy") + player.getInt("dimh")/2 - diff,

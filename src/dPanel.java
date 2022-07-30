@@ -7,28 +7,28 @@ import java.awt.*;
  */
 public class dPanel extends JPanel {
     public void paintComponent(Graphics g){
-//        super.paintComponent(g);
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();
-        drawFrame(g2v);
-        drawFrameUI(g2u);
+        long gameTime = gTime.gameTime;
+        drawFrame(g2v, gameTime);
+        drawFrameUI(g2u, gameTime);
         uiInterface.frames++;
         g2v.dispose();
         g2u.dispose();
         g.dispose();
     }
 
-    public void drawFrameUI(Graphics2D g2) {
+    public void drawFrameUI(Graphics2D g2, long gameTimeMillis) {
         dScreenFX.drawScreenFX(g2);
-        dScreenMessages.displayScreenMessages(g2);
+        dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
         if(!uiInterface.inplay && sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
             dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
             dBlockTops.drawBlockTopCubesPreview(g2);
         }
     }
 
-    public void drawFrame(Graphics2D g2) {
+    public void drawFrame(Graphics2D g2, long gameTimeMillis) {
         if(cClientLogic.maploaded) {
             g2.translate(sSettings.width / 2, sSettings.height / 2);
             g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
@@ -44,7 +44,7 @@ public class dPanel extends JPanel {
             dTileTops.drawMapmakerOverlay(g2, scene);
             dFlares.drawSceneFlares(g2, scene);
             dTileTops.drawBullets(g2, scene);
-            dAnimations.drawAnimations(g2, scene);
+            dAnimations.drawAnimations(g2, scene, gameTimeMillis);
             dWaypoints.drawWaypoints(g2, scene);
             dTileTops.drawPopups(g2, scene);
             dTileTops.drawUserPlayerArrow(g2);

@@ -23,7 +23,7 @@ public class gBullet extends gThing {
         putInt("src", gWeapons.type.NONE.code());
         putInt("anim", -1);
         putInt("ttl", 1000);
-        putLong("timestamp", System.currentTimeMillis());
+        putLong("timestamp", gTime.gameTime);
         putDouble("fv", fv);
         put("id", eManager.createId());
         put("srcid", "God");

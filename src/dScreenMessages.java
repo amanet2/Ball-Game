@@ -13,7 +13,7 @@ public class dScreenMessages {
     static boolean showtick = false;
     static boolean showscale = false;
 
-    public static void displayScreenMessages(Graphics g) {
+    public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
         dFonts.setFontSmall(g);
         //scale
         if(showscale)
@@ -173,10 +173,10 @@ public class dScreenMessages {
             for(int i = 0; i < xCon.instance().cursorIndex; i++) {
                 is.append(" ");
             }
-            is = new StringBuilder(System.currentTimeMillis() % 500 > 250 ? is.toString() : String.format("%s_", is.toString()));
+            is = new StringBuilder(gameTimeMillis % 500 > 250 ? is.toString() : String.format("%s_", is));
             g.drawString(String.format("console:~$ %s", xCon.instance().commandString),
                 0,(xCon.instance().linesToShow+1)*sSettings.height/64);
-            g.drawString(String.format("           %s", is.toString()), 0,
+            g.drawString(String.format("           %s", is), 0,
                 (xCon.instance().linesToShow+1)*sSettings.height/64);
         }
         //big font

@@ -1,17 +1,20 @@
+import java.io.IOException;
 import java.net.*;
 import java.util.*;
 
-public class nClient extends Thread {
+public class nClient {
     private int netticks;
-    private static int retrylimit = 0;
-    private static final int timeout = 10000;
+    private long nettickcounterTimeClient = -1;
+    private static final int retrylimit = 3;
+    long lastnettime = -1;
+    private static final int timeout = 5000;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
-    private Queue<String> netSendMsgs = new LinkedList<>();
-    private Queue<String> netSendCmds = new LinkedList<>();
+    private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
+    private final Queue<String> netSendMsgs = new LinkedList<>();
+    private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
 
@@ -21,8 +24,15 @@ public class nClient extends Thread {
         return instance;
     }
 
-    public static void resetInstance() {
-        instance = new nClient();
+    public void reset() {
+        netSendMsgs.clear();
+        netSendCmds.clear();
+        netticks = 0;
+        lastnettime = -1;
+        receivedPackets.clear();
+        serverArgsMap.clear();
+        serverIds.clear();
+        sendMap.clear();
     }
 
     private nClient() {
@@ -58,56 +68,83 @@ public class nClient extends Thread {
         }
     }
 
-    public void run() {
-        int retries = 0;
+    public void sendData() {
+        InetAddress IPAddress = null;
         try {
-            while(sSettings.IS_CLIENT) {
-                try {
-                    netticks += 1;
-                    if (uiInterface.nettickcounterTimeClient < xMain.gameTime) {
-                        uiInterface.netReportClient = netticks;
-                        netticks = 0;
-                        uiInterface.nettickcounterTimeClient = xMain.gameTime + 1000;
-                    }
-                    if (receivedPackets.size() < 1) {
-                        InetAddress IPAddress = InetAddress.getByName(cClientLogic.joinip);
-                        String sendDataString = createSendDataString();
-                        byte[] clientSendData = sendDataString.getBytes();
-                        DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                                cClientLogic.joinport);
-                        if (clientSocket == null || clientSocket.isClosed()) {
-                            clientSocket = new DatagramSocket();
-                            clientSocket.setSoTimeout(timeout);
-                        }
-                        clientSocket.send(sendPacket);
-                        xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
-                        byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                        DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
-                        clientSocket.receive(receivePacket);
-                        receivedPackets.add(receivePacket);
-                    }
-                    processPackets();
-                    long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sSettings.rateclient);
-//                    while(networkTime > System.currentTimeMillis());
-                    //TEST IT HERE
-                    cClientLogic.netLoop();
-                    sleep(Math.max(0, networkTime - xMain.gameTime));
-                    retries = 0;
+            IPAddress = InetAddress.getByName(cClientLogic.joinip);
+            String sendDataString = createSendDataString();
+            byte[] clientSendData = sendDataString.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                    cClientLogic.joinport);
+            if (clientSocket == null || clientSocket.isClosed()) {
+                clientSocket = new DatagramSocket();
+                clientSocket.setSoTimeout(timeout);
+            }
+            clientSocket.send(sendPacket);
+            xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void netLoop() {
+        int retries = 0;
+        while(retries <= retrylimit) {
+            try {
+                netticks += 1;
+                long gameTime = gTime.gameTime;
+                if(lastnettime >= gameTime)
+                    return;
+                lastnettime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
+                if (nettickcounterTimeClient < gameTime) {
+                    uiInterface.netReportClient = netticks;
+                    netticks = 0;
+                    nettickcounterTimeClient = gameTime + 1000;
                 }
-                catch (Exception ee) {
-                    eUtils.echoException(ee);
-                    ee.printStackTrace();
-                    retries++;
-                    if(retries > retrylimit) {
-                        xCon.ex("disconnect");
-                        xCon.ex("echo Lost connection to server");
+                if (receivedPackets.size() < 1) {
+                    int lretry = 0;
+                    while (lretry <= retrylimit) {
+                        try {
+                            sendData();
+                            byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                            clientSocket.receive(receivePacket);
+                            receivedPackets.add(receivePacket);
+                            break;
+                        }
+                        catch (Exception e) {
+                            eUtils.echoException(e);
+                            e.printStackTrace();
+                            lretry++;
+                            refreshSock(); // maybe optional
+                            if(lretry > retrylimit) {
+                                xCon.ex("disconnect");
+                                xCon.ex("echo Lost connection to server");
+                                return; // have to return here
+                            }
+                        }
                     }
+                }
+                processPackets();
+            }
+            catch (Exception ee) {
+                eUtils.echoException(ee);
+                ee.printStackTrace();
+                retries++;
+                if(retries > retrylimit) {
+                    xCon.ex("disconnect");
+                    xCon.ex("echo Lost connection to server");
                 }
             }
-            interrupt();
         }
-        catch(Exception e) {
+    }
+
+    private void refreshSock() {
+        try {
+            clientSocket = new DatagramSocket();
+            clientSocket.setSoTimeout(timeout);
+        }
+        catch (SocketException e) {
             eUtils.echoException(e);
             e.printStackTrace();
         }
@@ -166,6 +203,21 @@ public class nClient extends Thread {
         xCon.ex(cmdload);
     }
 
+    private void handleReadDataServer(HashMap<String, String> packArgs) {
+        cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
+        //check flag and virus
+        for(String s : new String[]{"flagmasterid", "virusids"}) {
+            if(!packArgs.containsKey(s))
+                serverArgsMap.get("server").remove(s);
+        }
+        //check cmd from server only
+        String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
+        if(cmdload.length() > 0) {
+            xCon.instance().debug("FROM_SERVER: " + cmdload);
+            processCmd(cmdload);
+        }
+    }
+
     public void readData(String receiveDataString) {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
@@ -178,18 +230,7 @@ public class nClient extends Thread {
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server")) {
-                cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
-                //check flag and virus
-                for(String s : new String[]{"flagmasterid", "virusids"}) {
-                    if(!packArgs.containsKey(s))
-                        serverArgsMap.get("server").remove(s);
-                }
-                //check cmd from server only
-                String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
-                if(cmdload.length() > 0) {
-//                    System.out.println("FROM_SERVER: " + cmdload);
-                    processCmd(cmdload);
-                }
+                handleReadDataServer(packArgs);
             }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
@@ -250,7 +291,7 @@ public class nClient extends Thread {
 //            //user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
-//            System.out.println("TO_SERVER: " + cmdString);
+            xCon.instance().debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;

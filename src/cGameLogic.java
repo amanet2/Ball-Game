@@ -11,7 +11,7 @@ public class cGameLogic {
 
     static String[] net_gamemode_descriptions = {
             "Rock other players",
-            "Don't catch the virus",
+            "Don't become infected",
             "Hold onto the flag"
     };
 
@@ -28,10 +28,8 @@ public class cGameLogic {
     }
 
     public static void resetVirusPlayers() {
-        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientIds.size() > 0) {
-            int randomClientIndex = (int) (Math.random() * nServer.instance().clientIds.size());
-            nServer.instance().clientArgsMap.get("server").put("virusids",
-                    nServer.instance().clientIds.get(randomClientIndex));
+        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().hasClients()) {
+            nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
         }
     }
 }

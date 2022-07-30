@@ -5,24 +5,24 @@ import java.util.*;
 
 public class nServer extends Thread {
     private int netticks;
+    private long nettickcounterTimeServer = -1;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
-    private Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    private Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
+    private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
+    private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
+    private final ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    ArrayList<String> clientProtectedArgs = new ArrayList<>();
     //id maps to queue of cmds we want to run on that client
-    private HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
-    private HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
+    private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
     //map of skip votes
     HashMap<String, String> voteSkipMap = new HashMap<>();
     //queue for holding local cmds that the server user should run
-    private Queue<String> serverLocalCmdQueue = new LinkedList<>();
+    private final Queue<String> serverLocalCmdQueue = new LinkedList<>();
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
@@ -120,7 +120,7 @@ public class nServer extends Thread {
             if(!id.equals("server")) {
                 //check currentTime vs last recorded checkin time
                 long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
-                if(System.currentTimeMillis() > lastrecordedtime + timeout) {
+                if(gTime.gameTime > lastrecordedtime + timeout) {
                     addQuitClient(id);
                 }
             }
@@ -185,7 +185,7 @@ public class nServer extends Thread {
         }
     }
 
-    public void processPackets() {
+    public void processPackets(long gameTimeMillis) {
         try {
             HashMap<String, String> netVars = getNetVars();
             if(receivedPackets.size() > 0) {
@@ -202,11 +202,11 @@ public class nServer extends Thread {
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
                 //relieve bans
-                if(banIds.containsKey(clientId) && banIds.get(clientId) < System.currentTimeMillis())
+                if(banIds.containsKey(clientId) && banIds.get(clientId) < gTime.gameTime)
                     banIds.remove(clientId);
                 if(banIds.containsKey(clientId)) {
                     addNetCmd(clientId, "echo You are banned for "
-                            + (banIds.get(clientId) - System.currentTimeMillis()) + "ms");
+                            + (banIds.get(clientId) - gTime.gameTime) + "ms");
                     addNetCmd(clientId, "disconnect");
                 }
                 if(clientId != null) {
@@ -224,11 +224,11 @@ public class nServer extends Thread {
                 receivedPackets.remove();
             }
             HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < xMain.gameTime) {
-                cBotsLogic.bottime = xMain.gameTime + (long)(1000.0/(double)sSettings.ratebots);
+            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
+                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
                 for(Object id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
-                    nVarsBot.update(p);
+                    nVarsBot.update(p, gameTimeMillis);
                     String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
                     xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
                             + receiveDataString.trim());
@@ -295,7 +295,7 @@ public class nServer extends Thread {
             if (!sendfull) {
                 //calc delta
                 for (String k : clientArgsMap.get(idload2).keySet()) {
-                    if (!clientProtectedArgs.contains(k) && clientArgsMap.get(idload2).containsKey(k)
+                    if (clientArgsMap.get(idload2).containsKey(k)
                             && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
                         workingMap.remove(k);
                     }
@@ -335,22 +335,22 @@ public class nServer extends Thread {
             while (sSettings.IS_SERVER) {
                 try {
                     netticks++;
-                    if (uiInterface.nettickcounterTimeServer < xMain.gameTime) {
+                    long gameTime = gTime.gameTime;
+                    if (nettickcounterTimeServer < gameTime) {
                         uiInterface.netReportServer = netticks;
                         netticks = 0;
-                        uiInterface.nettickcounterTimeServer = xMain.gameTime + 1000;
+                        nettickcounterTimeServer = gameTime + 1000;
                     }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
-                    long networkTime = System.currentTimeMillis()
-                            + (long) (1000.0 / (double) sSettings.rateserver);
-                    processPackets();
+                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
+                    processPackets(gameTime);
                     checkOutgoingCmdMap();
                     checkForUnhandledQuitters();
-//                    while(networkTime >= System.currentTimeMillis());
-                    sleep(Math.max(0, networkTime - xMain.gameTime));
+                    cServerLogic.gameLoop(gameTime);
+                    sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
                     eUtils.echoException(e);
@@ -363,6 +363,10 @@ public class nServer extends Thread {
             eUtils.echoException(ee);
             ee.printStackTrace();
         }
+    }
+
+    boolean hasClient(String id) {
+        return clientIds.contains(id);
     }
 
     boolean containsArgsForId(String id, String[] fields) {
@@ -403,11 +407,11 @@ public class nServer extends Thread {
                 clientArgsMap.get(packId).put(k, packArgMap.get(k));
             }
             //record time we last updated client args
-            clientArgsMap.get(packId).put("time", Long.toString(System.currentTimeMillis()));
+            clientArgsMap.get(packId).put("time", Long.toString(gTime.gameTime));
             //parse and process the args from client packet
-            if(clientIds.contains(packId)) {
+            if(hasClient(packId)) {
                 //update ping
-//                scoresMap.get(packId).put("ping", (int) Math.abs(System.currentTimeMillis() - oldTimestamp));
+//                scoresMap.get(packId).put("ping", (int) Math.abs(gTime.gameTime - oldTimestamp));
                 //handle name change to notify
                 if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
                     addExcludingNetCmd("server",
@@ -492,7 +496,7 @@ public class nServer extends Thread {
                 }
             }
 //            maplines.add(blockString.toString());
-            maplines.add(prefabString + blockString.toString());
+            maplines.add(prefabString + blockString);
         }
         HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
         for(String id : collisionMap.keySet()) {
@@ -634,7 +638,7 @@ public class nServer extends Thread {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
                 if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
-                    cServerLogic.intermissiontime = System.currentTimeMillis() + cServerLogic.intermissionDelay;
+                    cServerLogic.intermissiontime = gTime.gameTime + cServerLogic.intermissionDelay;
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winSoundFileSelection[
                                     (int) (Math.random() * eManager.winSoundFileSelection.length)],
@@ -652,5 +656,30 @@ public class nServer extends Thread {
             else
                 addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
         }
+    }
+
+    public boolean hasClients() {
+        return clientCount() > 0;
+    }
+
+    public int clientCount() {
+        return clientIds.size();
+    }
+
+    public String getRandomClientId() {
+        int randomClientIndex = (int) (Math.random() * clientCount());
+        return clientIds.get(randomClientIndex);
+    }
+
+    public void sendMapToClients() {
+        for(String id : clientIds) {
+            sendMap(id);
+            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+                addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
+        }
+    }
+
+    public void addClient(String id) {
+        clientIds.add(id);
     }
 }

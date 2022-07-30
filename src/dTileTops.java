@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
@@ -63,17 +65,22 @@ public class dTileTops {
     }
 
     public static void drawPopups(Graphics g, gScene scene) {
-        HashMap popupsMap = scene.getThingMap("THING_POPUP");
-        if(popupsMap.size() > 0)
+        Collection<String> keys = scene.getThingMap("THING_POPUP").keySet();
+        int size = keys.size();
+        String[] popupsIds = keys.toArray(new String[size]);
+        if(size > 0)
             dFonts.setFontGNormal(g);
-        for(Object id : popupsMap.keySet()) {
-            gPopup p = (gPopup) popupsMap.get(id);
+        for(String id : popupsIds) {
+            gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
+            if(p == null)
+                continue;
             g.setColor(Color.BLACK);
             g.drawString(p.get("text"),
                     p.getInt("coordx") + 2,
                     p.getInt("coordy") + 2);
             dFonts.setFontColorNormal(g);
-            if(p.get("text").charAt(0) == '+')
+            char firstChar = p.get("text").charAt(0);
+            if(firstChar == '+' || firstChar == '$')
                 dFonts.setFontColorBonus(g);
             else if(p.get("text").charAt(0) == '-')
                 dFonts.setFontColorAlert(g);
@@ -105,9 +112,10 @@ public class dTileTops {
             };
             g2.setStroke(dFonts.thickStroke);
             Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
-            g2.setColor(gColors.getFontColorFromName("playerarrow1"));
+            Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
+            g2.setColor(gColors.getFontColorFromName("normaltransparent"));
             g2.drawPolygon(pg);
-            g2.setColor(gColors.getFontColorFromName("playerarrow2"));
+            g2.setColor(color);
             g2.fillPolygon(pg);
         }
     }

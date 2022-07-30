@@ -8,7 +8,7 @@ public class cClientVars extends gArgSet {
     private cClientVars() {
         super();
     }
-    protected void init() {
+    protected void init(String[] args) {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
@@ -82,6 +82,46 @@ public class cClientVars extends gArgSet {
                 sSettings.displaymode = Integer.parseInt(value);
                 if(oDisplay.instance().frame != null) {
                     oDisplay.instance().refreshDisplaymode();
+                }
+            }
+        });
+        putArg(new gArg("vfxenableanimations", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableanimations = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableflares", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableflares = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableshading", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableshading = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableshadows", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableshadows = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
                 }
             }
         });
@@ -175,13 +215,23 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("joinip", "localhost"){
             public void onChange() {
                 cClientLogic.joinip = value;
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + cClientLogic.joinip);
             }
         });
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
                 cClientLogic.joinport = Integer.parseInt(value);
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
+
+        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        loadFromLaunchArgs(args);
     }
     public static gArgSet instance() {
         if(instance == null) {

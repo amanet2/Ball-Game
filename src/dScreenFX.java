@@ -56,16 +56,20 @@ public class dScreenFX {
                 int factorsdiv = sSettings.vfxfactordiv;
                 int factorsw = sSettings.width / factorsdiv;
                 int factorsh = sSettings.height / factorsdiv;
+                Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
                 for (int i = 0; i < factorsw; i++) {
-                    g.setColor(new Color(100, 0, 0,
-                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i)) - (factorsw / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
+                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
+                                    - (factorsw / 2))) - maxl)
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                    g.setColor(hpvfxColor);
                     g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
                 }
                 for (int i = 0; i < factorsh; i++) {
-                    g.setColor(new Color(100, 0, 0,
+                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
                             Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2));
+                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                    g.setColor(hpvfxColor);
                     g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
                 }
             }

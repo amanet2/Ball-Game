@@ -58,6 +58,10 @@ public class gArgSet {
 
     }
 
+    protected void init(String[] args) {
+
+    }
+
     protected void putArg(gArg arg) {
         args.put(arg.key, arg);
         arg.onChange();

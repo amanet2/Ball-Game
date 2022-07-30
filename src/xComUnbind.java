@@ -3,7 +3,7 @@ public class xComUnbind extends xCom {
         String[] toks = fullCommand.split(" ");
         if(toks.length > 1) {
             String key = toks[1];
-            if(key.toLowerCase().equals("all")) {
+            if(key.equalsIgnoreCase("all")) {
                 xCon.instance().pressBinds.clear();
                 xCon.instance().releaseBinds.clear();
                 return fullCommand;

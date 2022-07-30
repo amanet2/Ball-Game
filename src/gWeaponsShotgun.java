@@ -35,7 +35,6 @@ public class gWeaponsShotgun extends gWeapon {
         }
         if(p == cClientLogic.getUserPlayer()) {
             cClientLogic.weaponStocks[gWeapons.type.SHOTGUN.code()] -= 1;
-            cClientLogic.weapontimeShotgun = System.currentTimeMillis();
         }
     }
 }
