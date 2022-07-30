@@ -206,8 +206,8 @@ public class uiEditorMenus {
                     cClientLogic.newprefabname = name+"_000";
                 else
                     cClientLogic.newprefabname = name;
-                xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+//                xCon.ex("cl_clearthingmappreview");
+//                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
                 refreshCheckBoxItems();
             });

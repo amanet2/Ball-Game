@@ -20,7 +20,7 @@ public class xComPutItemClient extends xCom {
     }
 
     private String escape() {
-        return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
+        return "usage: cl_putitem <ITEM_TITLE> <id> <x> <y>";
 
     }
 }

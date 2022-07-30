@@ -32,6 +32,8 @@ public class nServer extends Thread {
             "respawnnetplayer",
             "requestdisconnect",
             "exec",
+            "putblock",
+            "putcollision",
             "putitem",
             "deleteblock",
             "deletecollision",
@@ -71,6 +73,14 @@ public class nServer extends Thread {
                             if(reqid.equals(id)) //client can only respawn themself
                                 xCon.ex(cmd);
                         }
+                    }
+                });
+        clientCmdDoables.put("putblock",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        xCon.ex(cmd);
+                        addExcludingNetCmd("server", String.format("%s",
+                                cmd.replace("putblock", "cl_putblock")));
                     }
                 });
         clientCmdDoables.put("putitem",
@@ -478,6 +488,8 @@ public class nServer extends Thread {
             gBlock block = (gBlock) blockMap.get(id);
             String[] args = new String[]{
                     block.get("type"),
+                    block.get("id"),
+                    block.get("prefabid"),
                     block.get("coordx"),
                     block.get("coordy"),
                     block.get("dimw"),

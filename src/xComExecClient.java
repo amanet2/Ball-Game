@@ -16,7 +16,8 @@ public class xComExecClient extends xCom {
             System.out.println("EXEC_CLIENT FROM MEMORY: " + s);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                 xCon.ex(line.replace("putcollision", "cl_putcollision"
-                ).replace("putblock", "cl_putblock").replace("putitem", "cl_putitem"));
+                ).replace("putblock", "cl_putblock"
+                ).replace("putitem", "cl_putitem"));
             }
         }
         else {

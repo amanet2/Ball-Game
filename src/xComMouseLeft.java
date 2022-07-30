@@ -15,7 +15,7 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToX);
                         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - h / 2,
                                 uiEditorMenus.snapToY);
-                        String cmd = String.format("exec prefabs/%s %d %d", cClientLogic.newprefabname, pfx, pfy);
+                        String cmd = String.format("exec prefabs/%s %%d %d", cClientLogic.newprefabname, pfx, pfy);
                         nClient.instance().addNetCmd(cmd);
                         return "put prefab " + cClientLogic.newprefabname;
                     }

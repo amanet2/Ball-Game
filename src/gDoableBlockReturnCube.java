@@ -1,5 +1,8 @@
+import java.util.Arrays;
+
 public class gDoableBlockReturnCube extends gDoableBlockReturn{
     public gBlock getBlock(String[] args) {
+        System.out.println(Arrays.toString(args));
         gBlockCube block = new gBlockCube(
                 Integer.parseInt(args[0]),
                 Integer.parseInt(args[1]),
