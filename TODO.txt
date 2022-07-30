@@ -4,30 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* big error
-java.lang.NumberFormatException: For input string: "null"
-	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:68)
-	at java.base/java.lang.Integer.parseInt(Integer.java:652)
-	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-	at cClientLogic.checkMovementStatus(cClientLogic.java:296)
-	at cClientLogic.gameLoop(cClientLogic.java:53)
-	at eGameLogicBallGame.update(eGameLogicBallGame.java:25)
-	at eGameEngine.update(eGameEngine.java:55)
-	at eGameEngine.loop(eGameEngine.java:43)
-	at eGameEngine.run(eGameEngine.java:15)
-	at xMain.main(xMain.java:20)
-
-	~ALSO~
-
-	java.lang.NumberFormatException: For input string: "null"
-    	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:68)
-    	at java.base/java.lang.Integer.parseInt(Integer.java:652)
-    	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-    	at cServerLogic.checkGameState(cServerLogic.java:47)
-    	at cServerLogic.gameLoop(cServerLogic.java:27)
-    	at nServer.run(nServer.java:352)
+* create a new game mode: box master
+    -> boxes spawn randomly around map have to be destroyed for points
 * when someones pc sleeps/closes, the client loses connection then imediately rejoins on wake as "null"
-* we should try handling the jave socket timeout exceptions with an attempt to reconnect
 * change the client rate when downloading map
 * instead of working with direct player objects, we should use a "snapshot" of their vars
 * apply gargs to items/blocks/things
