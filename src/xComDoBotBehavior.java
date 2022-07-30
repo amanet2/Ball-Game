@@ -7,7 +7,7 @@ public class xComDoBotBehavior extends xCom {
             for(int i = 2; i < toks.length; i++) {
                 botbehavior.append(" " + toks[i]);
             }
-            String behaviorString = botbehavior.toString().substring(1);
+            String behaviorString = botbehavior.substring(1);
             gPlayer botPlayer = cServerLogic.getPlayerById(botid);
             if(botPlayer == null)
                 return "botid does not exist: " + botid;
@@ -15,7 +15,7 @@ public class xComDoBotBehavior extends xCom {
             if(behavior != null)
                 behavior.doItem(botPlayer);
             else
-                return "botbehavior does not exist: " + botbehavior.toString();
+                return "botbehavior does not exist: " + botbehavior;
         }
         return fullCommand;
     }

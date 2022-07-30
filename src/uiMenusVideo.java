@@ -46,24 +46,28 @@ public class uiMenusVideo extends uiMenu {
                 new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
                     public void doItem() {
                         sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
+                        cClientVars.instance().put("vfxenableanimations", sSettings.vfxenableanimations ? "1" : "0");
                         text = String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ");
                     }
                 },
                 new uiMenuItem(String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ")){
                     public void doItem() {
                         sSettings.vfxenableflares = !sSettings.vfxenableflares;
+                        cClientVars.instance().put("vfxenableflares", sSettings.vfxenableflares ? "1" : "0");
                         text = String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ");
                     }
                 },
                 new uiMenuItem(String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ")){
                     public void doItem() {
                         sSettings.vfxenableshading = !sSettings.vfxenableshading;
+                        cClientVars.instance().put("vfxenableshading", sSettings.vfxenableshading ? "1" : "0");
                         text = String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ");
                     }
                 },
                 new uiMenuItem(String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")){
                     public void doItem() {
                         sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
+                        cClientVars.instance().put("vfxenableshadows", sSettings.vfxenableshadows ? "1" : "0");
                         text = String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ");
                     }
                 }

@@ -14,7 +14,7 @@ public class dHUD {
         g.setColor(Color.black);
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
-        g.setColor(gColors.getFontColorFromName("normaldark"));
+        g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
                 sSettings.width/8*userPlayer.getInt("stockhp")/cClientLogic.maxhp,
                 sSettings.height/64);
@@ -22,15 +22,17 @@ public class dHUD {
 //        g.drawRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
 //                sSettings.height/64);
         dFonts.setFontNormal(g);
-        g.drawString(Integer.toString(userPlayer.getInt("stockhp")),
-                19*sSettings.width/128, 60 * sSettings.height/64);
+//        g.drawString(Integer.toString(userPlayer.getInt("stockhp")),
+//                19*sSettings.width/128, 60 * sSettings.height/64);
         //score
         if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
                 && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+            g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
             g.drawString(
                     "$ "+ nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
+        g.setColor(gColors.getFontColorFromName("normaldark"));
         g.drawString(cClientLogic.playerName, sSettings.width / 64, 62*sSettings.height/64);
         g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
@@ -46,11 +48,13 @@ public class dHUD {
                         if(!nClient.instance().serverArgsMap.get(id).containsKey(s))
                             return;
                     }
+                    String color = nClient.instance().serverArgsMap.get(id).get("color");
+                    g.setColor(gColors.getPlayerHudColorFromName(color));
                     g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                             sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+                    g.setColor(gColors.getFontColorFromName("normaldark"));
                     g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width / 64,
                             56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
-                    String color = nClient.instance().serverArgsMap.get(id).get("color");
                     g.setColor(gColors.getPlayerHudColorFromName(color));
                     g.fillRect(sSettings.width / 128, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)),
                             sSettings.width / 256, sSettings.height / 32);

@@ -10,7 +10,7 @@ public class xCon {
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
-    private ArrayList<String> visibleCommands;
+    private final ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
     ArrayList<String> stringLines;
     int prevCommandIndex;

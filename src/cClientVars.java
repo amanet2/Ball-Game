@@ -85,6 +85,46 @@ public class cClientVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("vfxenableanimations", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableanimations = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableflares", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableflares = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableshading", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableshading = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        putArg(new gArg("vfxenableshadows", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableshadows = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
         putArg(new gArg("cv_gamemode", "0") {
             public void onChange() {
                 cClientLogic.gamemode = Integer.parseInt(value);
@@ -175,11 +215,17 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("joinip", "localhost"){
             public void onChange() {
                 cClientLogic.joinip = value;
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + cClientLogic.joinip);
             }
         });
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
                 cClientLogic.joinport = Integer.parseInt(value);
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
 

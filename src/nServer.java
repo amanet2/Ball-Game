@@ -496,7 +496,7 @@ public class nServer extends Thread {
                 }
             }
 //            maplines.add(blockString.toString());
-            maplines.add(prefabString + blockString.toString());
+            maplines.add(prefabString + blockString);
         }
         HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
         for(String id : collisionMap.keySet()) {

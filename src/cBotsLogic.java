@@ -219,11 +219,8 @@ public class cBotsLogic {
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
         int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-        if(Math.abs(x2 - x1) <= weaponranges[bot.getInt("weapon")]
-                && Math.abs(y2-y1) <= weaponranges[bot.getInt("weapon")]) {
-            return true;
-        }
-        return false;
+        return Math.abs(x2 - x1) <= weaponranges[bot.getInt("weapon")]
+                && Math.abs(y2 - y1) <= weaponranges[bot.getInt("weapon")];
     }
 
     public static boolean inVirusChaseRange(gThing bot) {

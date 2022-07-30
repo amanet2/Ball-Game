@@ -17,7 +17,7 @@ public class gMessages {
 
     public static void checkMessages() {
         if(messageSend) {
-            if(msgInProgress.toLowerCase().equals("thetime")) {
+            if(msgInProgress.equalsIgnoreCase("thetime")) {
                 addScreenMessage(xCon.instance().commands.get("thetime").doCommand("thetime"));
             }
             msgInProgress = "";

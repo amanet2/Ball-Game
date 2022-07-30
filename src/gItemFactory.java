@@ -9,6 +9,7 @@ public class gItemFactory {
         itemLoadMap = new HashMap<>();
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturnSpawnPoint());
         itemLoadMap.put("ITEM_FLAG", new gDoableItemReturnFlag());
+        itemLoadMap.put("ITEM_POINTGIVER", new gDoableItemReturnPointGiver());
         itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturnTeleporterRed());
         itemLoadMap.put("ITEM_TELEPORTER_BLUE", new gDoableItemReturnTeleporterBlue());
         flagSprite = gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300);

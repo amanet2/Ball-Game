@@ -20,10 +20,10 @@ public class eGameLogicBallGame implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
-//        if(sSettings.IS_SERVER)
-//            cServerLogic.gameLoop(gameTimeMillis);
-        if(sSettings.IS_CLIENT)
+        if(sSettings.IS_CLIENT) {
+            nClient.instance().netLoop();
             cClientLogic.gameLoop(gameTimeMillis);
+        }
         uiInterface.camReport[0] = gCamera.getX();
         uiInterface.camReport[1] = gCamera.getY();
         ticks += 1;

@@ -41,6 +41,12 @@ public class cClientLogic {
     }
 
     public static void gameLoop(long loopTimeMillis) {
+        if(oDisplay.instance().frame.isVisible()) {
+            if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
+            if(getUserPlayer() != null)
+                pointPlayerAtMousePointer();
+        }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         checkGameState();
@@ -52,15 +58,6 @@ public class cClientLogic {
         checkExpiredPopups(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
-    }
-
-    public static void netLoop() {
-        if(oDisplay.instance().frame.isVisible()) {
-            if(sSettings.show_mapmaker_ui)
-                cClientLogic.selectThingUnderMouse();
-            if(getUserPlayer() != null)
-                pointPlayerAtMousePointer();
-        }
     }
 
     public static synchronized void selectThingUnderMouse() {
@@ -294,10 +291,13 @@ public class cClientLogic {
             if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
                 continue;
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
+            HashMap<String, String> pvars = nClient.instance().serverArgsMap.get(id);
             for (int i = 0; i < 4; i++) {
-                if(nClient.instance().serverArgsMap.get(id).containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(nClient.instance().serverArgsMap.get(
-                            obj.get("id")).get("vels").split("-")[i]));
+                //big error here
+                if(pvars.containsKey("vels"))
+                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
             }
         }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {

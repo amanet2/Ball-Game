@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.*;
 
 public class gTextures {
-    private static Map<String, ImageIcon> base_gsprites = new HashMap<>();
-    private static HashMap<String, Image> gscaled_sprites = new HashMap<>();
+    private static final Map<String, ImageIcon> base_gsprites = new HashMap<>();
+    private static final HashMap<String, Image> gscaled_sprites = new HashMap<>();
 
     public static Image getGScaledImage(String s, int w, int h) {
         if(w < 1 || h < 1 || s.replace(sSettings.datapath+"/", "").equalsIgnoreCase("none"))
