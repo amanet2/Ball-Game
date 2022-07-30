@@ -57,8 +57,8 @@ public class xComPutBlockClient extends xCom {
                 args[1] = Integer.toString(transformedY);
             }
             if (args.length > 4) {
-                args[5] = toks[8];
-                args[6] = toks[9];
+                args[4] = toks[8];
+                args[5] = toks[9];
             }
             gBlock newBlock = blockReturn.getBlock(args);
             newBlock.put("id", blockid);
