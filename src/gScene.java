@@ -93,11 +93,9 @@ public class gScene {
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
-                        block.get("type"), block.get("coordx"), block.get("coordy"), block.get("dimw"),
-                        block.get("dimh"), block.get("toph"), block.get("wallh")
+                        block.get("type"), block.get("id"), block.get("prefabid"), block.get("coordx"),
+                        block.get("coordy"), block.get("dimw"), block.get("dimh"), block.get("toph"), block.get("wallh")
                 };
-                if(block.contains("prefabid"))
-                    writer.write("cv_prefabid " + block.get("prefabid") + '\n');
                 StringBuilder blockString = new StringBuilder("putblock");
                 for(String arg : args) {
                     if(arg != null) {
@@ -123,11 +121,11 @@ public class gScene {
                 }
                 yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
                 String[] args = new String[]{
+                        collision.get("id"),
+                        collision.get("prefabid"),
                         xString.toString(),
                         yString.toString()
                 };
-                if(collision.contains("prefabid"))
-                    writer.write("cv_prefabid " + collision.get("prefabid") + '\n');
                 StringBuilder str = new StringBuilder("putcollision");
                 for(String arg : args) {
                     if(arg != null) {

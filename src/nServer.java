@@ -497,17 +497,13 @@ public class nServer extends Thread {
                     block.get("toph"),
                     block.get("wallh")
             };
-            String prefabString = "";
-            if(block.contains("prefabid"))
-                prefabString = "cv_prefabid " + block.get("prefabid") +";";
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
                 if(arg != null) {
                     blockString.append(" ").append(arg);
                 }
             }
-//            maplines.add(blockString.toString());
-            maplines.add(prefabString + blockString);
+            maplines.add(blockString.toString());
         }
         HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
         for(String id : collisionMap.keySet()) {
@@ -525,14 +521,11 @@ public class nServer extends Thread {
             }
             yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
             String[] args = new String[]{
+                    collision.get("id"),
+                    collision.get("prefabid"),
                     xString.toString(),
                     yString.toString()
             };
-            String prefabString = "";
-            if(collision.contains("prefabid")) {
-                prefabString = "cv_prefabid " + collision.get("prefabid");
-                maplines.add(prefabString);
-            }
             StringBuilder str = new StringBuilder("cl_putcollision");
             for(String arg : args) {
                 if(arg != null) {
@@ -595,9 +588,8 @@ public class nServer extends Thread {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
-                int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
-                xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
-                addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,
+                xCon.ex(cmd);
+                addExcludingNetCmd("server", String.format("%s",
                         cmd.replace("exec ", "cl_exec ")));
             }
             else
