@@ -4,8 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* fix the deleteitem command so it actually works as expected
-    -> want the pointgiver class to be like pickup "coins"
+* apply lessons learned in the item refactor to "putblock" and "putcollision" and "putflare"
 * create a new game mode: box master
     -> boxes spawn randomly around map have to be destroyed for points
 * when someones pc sleeps/closes, the client loses connection then imediately rejoins on wake as "null"

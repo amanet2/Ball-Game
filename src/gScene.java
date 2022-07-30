@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class gScene {
     public static final String[] object_titles = new String[]{
-        "THING_PLAYER","THING_BULLET","THING_POPUP","THING_FLARE","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
+        "THING_PLAYER","THING_BULLET","THING_POPUP","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
         "BLOCK_CUBE", "BLOCK_FLOOR", "THING_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
         "ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER"
     };
@@ -17,7 +17,6 @@ public class gScene {
 	int blockIdCtr;
 	int collisionIdCtr;
 	int itemIdCtr;
-	int flareIdCtr;
 
 	public gScene() {
         objectMaps = new HashMap<>();
@@ -27,7 +26,6 @@ public class gScene {
         blockIdCtr = 0;
         collisionIdCtr = 0;
         itemIdCtr = 0;
-        flareIdCtr = 0;
     }
 
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
@@ -149,32 +147,6 @@ public class gScene {
                         item.get("coordy")
                 };
                 StringBuilder str = new StringBuilder("putitem");
-                for(String arg : args) {
-                    if(arg != null) {
-                        str.append(" ").append(arg);
-                    }
-                }
-                str.append('\n');
-                writer.write(str.toString());
-            }
-            HashMap<String, gThing> flareMap = getThingMap("THING_FLARE");
-            for(String id : flareMap.keySet()) {
-                gFlare flare = (gFlare) flareMap.get(id);
-                String[] args = new String[]{
-                        flare.get("coordx"),
-                        flare.get("coordy"),
-                        flare.get("dimw"),
-                        flare.get("dimh"),
-                        flare.get("r1"),
-                        flare.get("g1"),
-                        flare.get("b1"),
-                        flare.get("a1"),
-                        flare.get("r2"),
-                        flare.get("g2"),
-                        flare.get("b2"),
-                        flare.get("a2")
-                };
-                StringBuilder str = new StringBuilder("putflare");
                 for(String arg : args) {
                     if(arg != null) {
                         str.append(" ").append(arg);

@@ -546,31 +546,6 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        HashMap<String, gThing> flareMap = cServerLogic.scene.getThingMap("THING_FLARE");
-        for(String id : flareMap.keySet()) {
-            gFlare flare = (gFlare) flareMap.get(id);
-            String[] args = new String[]{
-                    flare.get("coordx"),
-                    flare.get("coordy"),
-                    flare.get("dimw"),
-                    flare.get("dimh"),
-                    flare.get("r1"),
-                    flare.get("g1"),
-                    flare.get("b1"),
-                    flare.get("a1"),
-                    flare.get("r2"),
-                    flare.get("g2"),
-                    flare.get("b2"),
-                    flare.get("a2")
-            };
-            StringBuilder str = new StringBuilder("cl_putflare");
-            for(String arg : args) {
-                if(arg != null) {
-                    str.append(" ").append(arg);
-                }
-            }
-            maplines.add(str.toString());
-        }
         maplines.add("cv_maploaded 1");
         //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();

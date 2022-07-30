@@ -148,7 +148,6 @@ public class xCon {
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
         commands.put("putcollision", new xComPutCollision());
-        commands.put("putflare", new xComPutFlare());
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
@@ -179,7 +178,6 @@ public class xCon {
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putcollision", new xComPutCollisionClient());
-        commands.put("cl_putflare", new xComPutFlareClient());
         commands.put("cl_putitem", new xComPutItemClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());

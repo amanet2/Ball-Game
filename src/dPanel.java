@@ -42,7 +42,6 @@ public class dPanel extends JPanel {
             dBlockFloors.drawBlockFloors(g2, scene);
             dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
             dTileTops.drawMapmakerOverlay(g2, scene);
-            dFlares.drawSceneFlares(g2, scene);
             dTileTops.drawBullets(g2, scene);
             dAnimations.drawAnimations(g2, scene, gameTimeMillis);
             dWaypoints.drawWaypoints(g2, scene);
