@@ -17,13 +17,12 @@ public class xComMouseLeft extends xCom {
                                 uiEditorMenus.snapToY);
                         int bid = 0;
                         int pid = 0;
-                        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {;
+                        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
                             if(bid < Integer.parseInt(id))
                                 bid = Integer.parseInt(id);
                             int tpid = cClientLogic.scene.getThingMap("THING_BLOCK").get(id).getInt("prefabid");
                             if(pid < tpid)
                                 pid = tpid;
-
                         }
                         bid++; //want to be the _next_ id
                         pid++; //want to be the _next_ id

@@ -14,18 +14,12 @@ public class gScene {
     };
 
 	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
-	int blockIdCtr;
-	int collisionIdCtr;
-	int itemIdCtr;
 
 	public gScene() {
         objectMaps = new HashMap<>();
         for(String s : object_titles) {
             objectMaps.put(s, new LinkedHashMap<>());
         }
-        blockIdCtr = 0;
-        collisionIdCtr = 0;
-        itemIdCtr = 0;
     }
 
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
@@ -34,21 +28,6 @@ public class gScene {
 
     public gPlayer getPlayerById(String id) {
         return (gPlayer) getThingMap("THING_PLAYER").get(id);
-    }
-
-    public int getHighestPrefabId() {
-        int idctr = -1;
-        for(String id : getThingMap("THING_BLOCK").keySet()) {
-            gThing block = getThingMap("THING_BLOCK").get(id);
-            if(block.contains("prefabid") && block.getInt("prefabid") >= idctr)
-                idctr = block.getInt("prefabid");
-        }
-        for(String id : getThingMap("THING_COLLISION").keySet()) {
-            gThing collision = getThingMap("THING_COLLISION").get(id);
-            if(collision.contains("prefabid") && collision.getInt("prefabid") >= idctr)
-                idctr = collision.getInt("prefabid");
-        }
-        return idctr;
     }
 
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {

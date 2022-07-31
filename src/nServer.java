@@ -75,22 +75,16 @@ public class nServer extends Thread {
                         }
                     }
                 });
-        clientCmdDoables.put("putblock",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        xCon.ex(cmd);
-                        addExcludingNetCmd("server", String.format("%s",
-                                cmd.replace("putblock", "cl_putblock")));
-                    }
-                });
-        clientCmdDoables.put("putitem",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        xCon.ex(cmd);
-                        addExcludingNetCmd("server", String.format("%s",
-                                cmd.replace("putitem", "cl_putitem")));
-                    }
-                });
+        for(String pcs : new String[]{"putblock", "putitem", "putcollision"}) {
+            clientCmdDoables.put(pcs,
+                    new gDoableCmd() {
+                        void ex(String id, String cmd) {
+                            xCon.ex(cmd);
+                            addExcludingNetCmd("server", String.format("%s",
+                                    cmd.replaceFirst(pcs, "cl_" + pcs)));
+                        }
+                    });
+        }
         for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem", "rotateblock", "rotatecollision"}) {
             clientCmdDoables.put(dcs,
                     new gDoableCmd() {
@@ -99,7 +93,7 @@ public class nServer extends Thread {
                             if(toks.length > 1) {
                                 xCon.ex(cmd);
                                 addExcludingNetCmd("server",
-                                        cmd.replaceFirst(dcs, "cl_"+dcs));
+                                        cmd.replaceFirst(dcs, "cl_" + dcs));
                             }
                         }
                     });

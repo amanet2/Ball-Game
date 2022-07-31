@@ -1,6 +1,44 @@
 public class gDoableCollisionReturn {
     public gCollision getCollision(String[] args) {
-        String[] rawXargs = args[0].split("\\.");
+        String blockid = args[0];
+        String prefabid = args[1];
+        if (blockid.charAt(0) == '$') {
+            int transformed;
+            String[] rxtoksadd = blockid.split("\\+");
+            String[] rxtokssub = blockid.split("-");
+            if (rxtoksadd.length > 1) {
+                int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                transformed = rxmod0 + rxmod1;
+            } else if (rxtokssub.length > 1) {
+                int rxmod0 = sVars.getInt(rxtokssub[0]);
+                int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                transformed = rxmod0 - rxmod1;
+            } else {
+                transformed = sVars.getInt(blockid);
+            }
+            blockid = Integer.toString(transformed);
+        }
+
+        if (prefabid.charAt(0) == '$') {
+            int transformed;
+            String[] rxtoksadd = prefabid.split("\\+");
+            String[] rxtokssub = prefabid.split("-");
+            if (rxtoksadd.length > 1) {
+                int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                transformed = rxmod0 + rxmod1;
+            } else if (rxtokssub.length > 1) {
+                int rxmod0 = sVars.getInt(rxtokssub[0]);
+                int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                transformed = rxmod0 - rxmod1;
+            } else {
+                transformed = sVars.getInt(prefabid);
+            }
+            prefabid = Integer.toString(transformed);
+        }
+
+        String[] rawXargs = args[2].split("\\.");
         for(int i = 0; i < rawXargs.length; i++) {
             String rawX = rawXargs[i];
             if(rawX.charAt(0) == '$') {
@@ -24,7 +62,7 @@ public class gDoableCollisionReturn {
             }
         }
 
-        String[] rawYargs = args[1].split("\\.");
+        String[] rawYargs = args[3].split("\\.");
         for (int i = 0; i < rawYargs.length; i++) {
             String rawY = rawYargs[i];
             if(rawY.charAt(0) == '$') {
@@ -56,7 +94,9 @@ public class gDoableCollisionReturn {
         for(int i = 0; i < yarr.length; i++) {
             yarr[i] = Integer.parseInt(rawYargs[i]);
         }
-
-        return new gCollision(xarr, yarr);
+        gCollision coll = new gCollision(xarr, yarr);
+        coll.put("id", blockid);
+        coll.put("prefabid", prefabid);
+        return coll;
     }
 }

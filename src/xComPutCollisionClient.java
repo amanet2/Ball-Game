@@ -1,18 +1,17 @@
 public class xComPutCollisionClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
-        if(toks.length > 2) {
-            gCollisionFactory factory = gCollisionFactory.instance();
-            String xarrString = toks[1];
-            String yarrString = toks[2];
-
-            String[] args = new String[]{xarrString, yarrString};
-            gDoableCollisionReturn collisionReturn = factory.collisionLoader;
-            gCollision newCollision = collisionReturn.getCollision(args);
-            String collisionId = Integer.toString(cClientLogic.scene.collisionIdCtr);
-            cClientLogic.scene.getThingMap("THING_COLLISION").put(collisionId, newCollision);
-            cClientLogic.scene.collisionIdCtr += 1;
-        }
-        return "usage: putcollision <xarr> <yarr>";
+        if(toks.length < 5)
+            return "usage: cl_putcollision <id> <pid> <xarr> <yarr>";
+        gCollisionFactory factory = gCollisionFactory.instance();
+        String id = toks[1];
+        String pid = toks[2];
+        String xarrString = toks[3];
+        String yarrString = toks[4];
+        String[] args = new String[]{id, pid, xarrString, yarrString};
+        gDoableCollisionReturn collisionReturn = factory.collisionLoader;
+        gCollision newCollision = collisionReturn.getCollision(args);
+        cClientLogic.scene.getThingMap("THING_COLLISION").put(newCollision.get("id"), newCollision);
+        return "usage: cl_putcollision <xarr> <yarr>";
     }
 }
