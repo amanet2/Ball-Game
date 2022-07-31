@@ -25,6 +25,7 @@ public class gBlockFactory {
         blockLoadMap = new HashMap<>();
         blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnCube());
         blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturnFloor());
+        blockLoadMap.put("BLOCK_COLLISION", new gDoableBlockReturnCollision());
         try {
             floorImage = ImageIO.read(new File(eUtils.getPath("tiles/floor.png")));
             wallImage = ImageIO.read(new File(eUtils.getPath("tiles/wall.png")));

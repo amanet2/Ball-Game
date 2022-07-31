@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* big bug
+    -> collision ids are overlapping with block ids in prefabs
+        --> should make collisions and blocks share the id space
+            ---> make collisions a "block" type: BLOCK_COLLISION
 * apply lessons learned in the item refactor to "putblock" and "putcollision" and "putflare"
 * create a new game mode: box master
     -> boxes spawn randomly around map have to be destroyed for points
