@@ -1,6 +1,8 @@
 public class xComAddClientCommand extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
+        if(!sSettings.IS_CLIENT)
+            return "cl_addcom can only be used by active clients";
         if(toks.length < 2)
             return "usage: cl_addcom <string>";
         StringBuilder act = new StringBuilder("");
@@ -8,8 +10,7 @@ public class xComAddClientCommand extends xCom {
             act.append(toks[i]).append(" ");
         }
         String actStr = act.toString();
-        if(sSettings.IS_CLIENT)
-            nClient.instance().addNetCmd(actStr);
+        nClient.instance().addNetCmd(actStr);
         return "client net com: " + actStr;
     }
 }

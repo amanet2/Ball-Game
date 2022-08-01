@@ -3,16 +3,7 @@ import java.util.ArrayList;
 public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
         if(cClientLogic.selectedPrefabId.length() > 0) {
-                ArrayList<String> toRemoveBlockIds = new ArrayList<>();
-                for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
-                    gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-                    if(block.isVal("prefabid", cClientLogic.selectedPrefabId))
-                        toRemoveBlockIds.add(id);
-                }
-                for(String id : toRemoveBlockIds) {
-                    String cmd = "deleteblock " + id;
-                    nClient.instance().addNetCmd(cmd);
-                }
+                xCon.ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
                 return "deleted prefab " + cClientLogic.selectedPrefabId;
         }
         if(cClientLogic.selecteditemid.length() > 0) {
