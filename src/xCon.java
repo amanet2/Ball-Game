@@ -112,7 +112,6 @@ public class xCon {
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
-        commands.put("deletecollision", new xComDeleteCollision());
         commands.put("deleteitem", new xComDeleteItem());
         commands.put("deleteplayer", new xComDeletePlayer());
         commands.put("disconnect", new xComDisconnect());
@@ -147,7 +146,6 @@ public class xCon {
         commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
-        commands.put("putcollision", new xComPutCollision());
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
         commands.put("respawnnetplayer", new xComRespawnNetPlayer());
@@ -169,7 +167,6 @@ public class xCon {
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
         commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
-        commands.put("cl_deletecollision", new xComDeleteCollisionClient());
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
         commands.put("cl_exec", new xComExecClient());
@@ -178,7 +175,6 @@ public class xCon {
         commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
-        commands.put("cl_putcollision", new xComPutCollisionClient());
         commands.put("cl_putitem", new xComPutItemClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());

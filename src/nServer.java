@@ -33,12 +33,8 @@ public class nServer extends Thread {
             "requestdisconnect",
             "exec",
             "putblock",
-            "putcollision",
             "putitem",
             "deleteblock",
-            "deletecollision",
-            "rotateblock",
-            "rotatecollision",
             "deleteitem"
     ));
 
@@ -485,35 +481,6 @@ public class nServer extends Thread {
                 }
             }
             maplines.add(blockString.toString());
-        }
-        HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
-        for(String id : collisionMap.keySet()) {
-            gCollision collision = (gCollision) collisionMap.get(id);
-            StringBuilder xString = new StringBuilder();
-            StringBuilder yString = new StringBuilder();
-            for(int i = 0; i < collision.xarr.length; i++) {
-                int coordx = collision.xarr[i];
-                xString.append(coordx).append(".");
-            }
-            xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
-            for(int i = 0; i < collision.yarr.length; i++) {
-                int coordy = collision.yarr[i];
-                yString.append(coordy).append(".");
-            }
-            yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
-            String[] args = new String[]{
-                    collision.get("id"),
-                    collision.get("prefabid"),
-                    xString.toString(),
-                    yString.toString()
-            };
-            StringBuilder str = new StringBuilder("cl_putcollision");
-            for(String arg : args) {
-                if(arg != null) {
-                    str.append(" ").append(arg);
-                }
-            }
-            maplines.add(str.toString());
         }
         HashMap<String, gThing> itemMap = cServerLogic.scene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
