@@ -22,6 +22,12 @@ public class gScene {
         }
     }
 
+    public String[] getThingMapIds(String title) {
+        Collection<String> pColl = getThingMap(title).keySet();
+        int psize = pColl.size();
+        return pColl.toArray(new String[psize]);
+    }
+
     public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
 	    return objectMaps.get(thing_title);
     }

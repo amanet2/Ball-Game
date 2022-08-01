@@ -114,6 +114,7 @@ public class xCon {
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deleteitem", new xComDeleteItem());
         commands.put("deleteplayer", new xComDeletePlayer());
+        commands.put("deleteprefab", new xComDeletePrefab());
         commands.put("disconnect", new xComDisconnect());
         commands.put("dobotbehavior", new xComDoBotBehavior());
         commands.put("exec", new xComExec());
@@ -169,6 +170,7 @@ public class xCon {
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
+        commands.put("cl_deleteprefab", new xComDeletePrefabClient());
         commands.put("cl_exec", new xComExecClient());
         commands.put("cl_execpreview", new xComExecClientPreview());
         commands.put("cl_fireweapon", new xComFireWeaponClient());

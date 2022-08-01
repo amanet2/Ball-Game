@@ -27,15 +27,16 @@ public class nServer extends Thread {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "fireweapon",
+            "deleteblock",
+            "deleteitem",
             "deleteplayer",
-            "respawnnetplayer",
-            "requestdisconnect",
+            "deleteprefab",
             "exec",
+            "fireweapon",
             "putblock",
             "putitem",
-            "deleteblock",
-            "deleteitem"
+            "respawnnetplayer",
+            "requestdisconnect"
     ));
 
     public static nServer instance() {
@@ -72,7 +73,7 @@ public class nServer extends Thread {
                     }
                 });
 
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem"}) {
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
