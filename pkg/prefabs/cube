@@ -1,2 +1,2 @@
 putblock BLOCK_CUBE $1 $2 $3 $4 300 300 150 150
-putcollision $1+1 $2 $3.$3+300.$3+300.$3 $4+50.$4+50.$4+200.$4+200
+putblock BLOCK_COLLISION $1+1 $2 $3 $4+50 300 150

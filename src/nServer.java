@@ -75,26 +75,13 @@ public class nServer extends Thread {
                         }
                     }
                 });
-        for(String pcs : new String[]{"putblock", "putitem", "putcollision"}) {
-            clientCmdDoables.put(pcs,
+
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem"}) {
+            clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
                             xCon.ex(cmd);
-                            addExcludingNetCmd("server", String.format("%s",
-                                    cmd.replaceFirst(pcs, "cl_" + pcs)));
-                        }
-                    });
-        }
-        for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem", "rotateblock", "rotatecollision"}) {
-            clientCmdDoables.put(dcs,
-                    new gDoableCmd() {
-                        void ex(String id, String cmd) {
-                            String[] toks = cmd.split(" ");
-                            if(toks.length > 1) {
-                                xCon.ex(cmd);
-                                addExcludingNetCmd("server",
-                                        cmd.replaceFirst(dcs, "cl_" + dcs));
-                            }
+                            addExcludingNetCmd("server", cmd.replaceFirst(rcs, "cl_" + rcs));
                         }
                     });
         }
