@@ -135,45 +135,25 @@ public class uiEditorMenus {
 //            }
 //        });
 
-        join.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("joingame");
-                newtopmap.setEnabled(false);
-                open.setEnabled(false);
-                saveas.setEnabled(true);
-            }
+        join.addActionListener(e -> {
+            xCon.ex("joingame");
+            newtopmap.setEnabled(false);
+            open.setEnabled(false);
+            saveas.setEnabled(true);
         });
 
-        joinip.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changejoinip");
-            }
+        joinip.addActionListener(e -> xCon.ex("e_changejoinip"));
+
+        joinport.addActionListener(e -> xCon.ex("e_changejoinport"));
+
+        playerName.addActionListener(e -> xCon.ex("e_changeplayername"));
+
+        open.addActionListener(e -> {
+            xCon.ex("e_openfile");
+            saveas.setEnabled(true);
         });
 
-        joinport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changejoinport");
-            }
-        });
-
-        playerName.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changeplayername");
-            }
-        });
-
-        open.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_openfile");
-                saveas.setEnabled(true);
-            }
-        });
-
-        saveas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_saveas");
-            }
-        });
+        saveas.addActionListener(e -> xCon.ex("e_saveas"));
 
 
 //        exportasprefab.addActionListener(new ActionListener() {

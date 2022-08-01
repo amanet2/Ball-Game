@@ -4,9 +4,13 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* VFX BUG: player sometimes appears in front of small tiletops
+    -> try putting a few units of buffer when testing collision
+* convert cClientLogic.newprefabname into client var so onChange() can be used
 * dont draw blocks that cant be seen on screen
 * see what "checkX" functions we can get rid of/change to commands
-    -> e.g. instead of checking resolution, have a comm "changeresolution"
+    -> e.g. instead of checking colors, have a comm "changeplayercolor <id> <color>"
+        --> playercolor is set by console command in halo's engine (in-game)
 * create a new game mode: gold master
     -> pointgivers spawn randomly around map at certain interval (randomize some, like bots' thinking timer)
     -> use spawnpoints as a spawning location
@@ -17,7 +21,6 @@ FOCUS ITEMS
 * apply gargs to items/blocks/things
 * low framerate on 1 client results in stuttering character on others' screens
 * go over instance creation and lines stored for console
-* think of how to build maps/prefabs out of only collisions and floors
 * move the dim/4 stuff to the preview block build call, not draw
 * fix memory leaks
 * put the xCom classes into their own folder
@@ -26,13 +29,12 @@ FOCUS ITEMS
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
-* playercolor is set by console command in halo's engine (in-game)
 * NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
 * WEAPONS: send a holdingmouse netvar when holding mouse
     -> clients will simulate the fire rate
-        -> server holds master state still
+        --> server holds master state still
     -> instead of sending cmd fireweapon
     -> allows smooth use of automatic weapons
 * add zombies gametype, a zopmbie will be a prop
@@ -42,8 +44,8 @@ FOCUS ITEMS
     -> chuck or drop it before it blows
 * gametype
     -> bot going after nearest character
-        -> if you touch the bot you die
-        -> get points for staying alive
+        --> if you touch the bot you die
+        --> get points for staying alive
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
 * GAME: edit popups to say things like "#%&@!" when player takes dmg
@@ -58,16 +60,16 @@ FOCUS ITEMS
 * new Item: bonusblock
     -> (make them look like regular blocks)
     -> get its health to 0 and it has a change to spawn a powerup
-        -> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
-        -> this will be the powerup delivery system.  no placing shotties on map, etc
+        --> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
+        --> this will be the powerup delivery system.  no placing shotties on map, etc
     -> will respawn after X time
 * Interesting attack:
     -> hold mouse to increase size of projectile
     -> click mouse to start blowing up a bubble. click again to launch it before it pops
-        -> can get a bigger bubble, skillfully make small ones etc
+        --> can get a bigger bubble, skillfully make small ones etc
 * other attack:
     -> rock lazily flies for a time
-        -> stopped/bounces by walls/players
+        --> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
 * CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
