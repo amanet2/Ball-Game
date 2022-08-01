@@ -11,7 +11,8 @@ public class gPlayer extends gThing {
             gBlockCollision coll = (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
             Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
             Rectangle2D collRect = new Rectangle(coll.getX(), coll.getY(), coll.getWidth(), coll.getHeight());
-            return !playerRect.intersects(collRect);
+            if(playerRect.intersects(collRect))
+                return false;
         }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(get("id").equals(id))
