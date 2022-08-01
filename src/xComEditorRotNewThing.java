@@ -13,8 +13,8 @@ public class xComEditorRotNewThing extends xCom {
         || newprefabname.contains("_090")
         || newprefabname.contains("_180")
         || newprefabname.contains("_270")) {
-//            xCon.ex("cl_clearthingmappreview");
-//            xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+            xCon.ex("cl_clearthingmappreview");
+            xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
         }
         return "";
     }

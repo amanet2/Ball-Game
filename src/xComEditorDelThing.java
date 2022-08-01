@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class xComEditorDelThing extends xCom {
     public String doCommand(String fullCommand) {
         if(cClientLogic.selectedPrefabId.length() > 0) {

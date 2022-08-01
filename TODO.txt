@@ -5,14 +5,12 @@
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
 * dont draw blocks that cant be seen on screen
-* try to make the deletion process faster
-    -> new deleteprefab, cl_deleteprefab comms
-    -> now that ids are unified/synced between clients we can prolly use prefabid
 * see what "checkX" functions we can get rid of/change to commands
     -> e.g. instead of checking resolution, have a comm "changeresolution"
 * create a new game mode: gold master
     -> pointgivers spawn randomly around map at certain interval (randomize some, like bots' thinking timer)
     -> use spawnpoints as a spawning location
+    -> try code from virus and flagmaster "give point every second" logic for spawning a pointgiver
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
 * MAPMAKER: show all user's preview rect on all clients, label them by name like google doc
@@ -25,14 +23,9 @@ FOCUS ITEMS
 * put the xCom classes into their own folder
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
     -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
-* MAP IDEA: make "pods" that are two tiles wide, one tile long, for spawning
-    -> a shotgun will be on the spawn point, a teleporter on the other tile
-        -> we will end up with only as many spawnpoints as teleporters
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
-* cubes were given shorter shadows and corners GOT shadows, but it broke demo.map shadows
-    -> because that map drew shadows half under the casting block for realism in archways, etc
 * playercolor is set by console command in halo's engine (in-game)
 * NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading

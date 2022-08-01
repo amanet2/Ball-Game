@@ -7,8 +7,8 @@ import java.util.*;
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
     static gScene previewScene = new gScene();
-    static int snapToX = 50;
-    static int snapToY = 50;
+    static int snapToX = 300;
+    static int snapToY = 300;
     static String newitemname = "";
 
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
@@ -17,18 +17,18 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
+        if(cClientLogic.newprefabname.contains("cube") || newitemname.length() > 0) {
+            snapToX = 50;
+            snapToY = 50;
+        }
+        else {
+            snapToX = 300;
+            snapToY = 300;
+        }
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname))) {
                 checkBoxMenuItem.setSelected(true);
-                if(!cClientLogic.newprefabname.contains("cube")) {
-                    snapToX = 300;
-                    snapToY = 300;
-                }
-                else {
-                    snapToX = 50;
-                    snapToY = 50;
-                }
             }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
@@ -192,22 +192,14 @@ public class uiEditorMenus {
             prefabmenuitem.setFont(dFonts.getFontNormal());
             if(uiEditorMenus.getRotateName(cClientLogic.newprefabname).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
-            if(!cClientLogic.newprefabname.contains("cube")) {
-                snapToX = 300;
-                snapToY = 300;
-            }
-            else {
-                snapToX = 50;
-                snapToY = 50;
-            }
             prefabmenuitem.addActionListener(e -> {
                 String name = prefabmenuitem.getText();
                 if(prefabRotateList.contains(name))
                     cClientLogic.newprefabname = name+"_000";
                 else
                     cClientLogic.newprefabname = name;
-//                xCon.ex("cl_clearthingmappreview");
-//                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+                xCon.ex("cl_clearthingmappreview");
+                xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
                 refreshCheckBoxItems();
             });
