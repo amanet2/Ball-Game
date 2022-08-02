@@ -57,6 +57,8 @@ public class uiEditorMenus {
                 checkBoxMenuItem.setSelected(true);
             else if(checkBoxMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
                 checkBoxMenuItem.setSelected(true);
+            else if(checkBoxMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
+                checkBoxMenuItem.setSelected(true);
         }
     }
 
@@ -202,7 +204,7 @@ public class uiEditorMenus {
             menus.get("Items").add(itemMenuItem);
         }
         //fill gametypes menu
-        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster"}) {
+        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
             if(gametypeMenuItem.getText().equals("Rockmaster") && cGameLogic.isDeathmatch())
@@ -211,6 +213,8 @@ public class uiEditorMenus {
                 gametypeMenuItem.setSelected(true);
             else if(gametypeMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
                 gametypeMenuItem.setSelected(true);
+            else if(gametypeMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
+                gametypeMenuItem.setSelected(true);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Rockmaster"))
                     cClientLogic.gamemode = cGameLogic.DEATHMATCH;
@@ -218,6 +222,8 @@ public class uiEditorMenus {
                     cClientLogic.gamemode = cGameLogic.FLAG_MASTER;
                 else if(gametypeMenuItem.getText().equals("Virusmaster"))
                     cClientLogic.gamemode = cGameLogic.VIRUS;
+                else if(gametypeMenuItem.getText().equals("Goldmaster"))
+                    cClientLogic.gamemode = cGameLogic.GOLD_MASTER;
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
