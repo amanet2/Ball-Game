@@ -45,9 +45,15 @@ public class xComDamagePlayer extends xCom {
                     if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
                     && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
                         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-                        xCon.ex(String.format("putitem ITEM_FLAG %d %d", dcx, dcy));
+                        int itemId = 0;
+                        for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
+                            if(itemId < Integer.parseInt(iid))
+                                itemId = Integer.parseInt(iid);
+                        }
+                        itemId++; //want to be the _next_ id
+                        xCon.ex(String.format("putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
                         nServer.instance().addExcludingNetCmd("server",
-                                String.format("cl_putitem ITEM_FLAG %d %d", dcx, dcy));
+                                String.format("cl_putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
                     }
                     //migrate all client death logic here
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;

@@ -41,12 +41,13 @@ public class dScreenFX {
             if (userhp < cClientLogic.maxhp) {
                 int factors = sSettings.vfxfactor;
                 int maxl = gColors.hpAlpha;
+                Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
                         int w = sSettings.width / factors;
                         int h = sSettings.height / factors;
                         if (Math.random() > 0.95 && Math.random() > 0.95) {
-                            g.setColor(new Color(200, 0, 0, maxl
+                            g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
                                     - maxl * userhp / cClientLogic.maxhp
                                     + (int) (Math.random() * (-25) + 25)));
                             g.fillRect(i, j, w, h);
@@ -56,7 +57,6 @@ public class dScreenFX {
                 int factorsdiv = sSettings.vfxfactordiv;
                 int factorsw = sSettings.width / factorsdiv;
                 int factorsh = sSettings.height / factorsdiv;
-                Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
                 for (int i = 0; i < factorsw; i++) {
                     Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
                             Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))

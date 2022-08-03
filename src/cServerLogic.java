@@ -13,6 +13,7 @@ public class cServerLogic {
     static boolean gameover = false;
     static int rechargehp = 1;
     static long virustime = 0;
+    static long goldspawntime = 0;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
@@ -63,6 +64,12 @@ public class cServerLogic {
                     flagmastertime = gameTimeMillis + 1000;
                 }
             }
+            if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
+                if(goldspawntime < gameTimeMillis) {
+                    xCon.ex("spawnpointgiver");
+                    goldspawntime = gameTimeMillis + 3000;
+                }
+            }
             if(svars.containsKey("virusids")) {
                 if(virustime < gameTimeMillis) {
                     boolean survivors = false;
@@ -94,7 +101,10 @@ public class cServerLogic {
             for(String checkType : scene.objectMaps.keySet()) {
                 if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
                     HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
-                    for (String itemId : thingMap.keySet()) {
+                    Collection<String> idCol = thingMap.keySet();
+                    int isize = idCol.size();
+                    String[] ids = idCol.toArray(new String[isize]);
+                    for (String itemId : ids) {
                         gItem item = (gItem) thingMap.get(itemId);
                         if (player.willCollideWithThingAtCoords(item,
                                 player.getInt("coordx"),

@@ -25,18 +25,14 @@ public class dTileTops {
         //draw hitboxes
         if(sSettings.drawhitboxes) {
             g2.setColor(Color.RED);
-            for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
-                gCollision collision =
-                        (gCollision) scene.getThingMap("THING_COLLISION").get(id);
-                int[] transformedXarr = new int[collision.xarr.length];
-                int[] transformedYarr = new int[collision.yarr.length];
-                for(int i = 0; i < collision.xarr.length; i++) {
-                    transformedXarr[i] = collision.xarr[i];
-                }
-                for(int i = 0; i < collision.yarr.length; i++) {
-                    transformedYarr[i] = collision.yarr[i];
-                }
-                g2.drawPolygon(new Polygon(transformedXarr, transformedYarr, collision.xarr.length));
+            for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
+                gBlockCollision collision =
+                        (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
+                int x = collision.getX();
+                int y = collision.getY();
+                int w = collision.getWidth();
+                int h = collision.getHeight();
+                g2.drawRect(x,y,w,h);
             }
             for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
                 gThing player = scene.getThingMap("THING_PLAYER").get(id);

@@ -7,8 +7,8 @@ import java.util.*;
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
     static gScene previewScene = new gScene();
-    static int snapToX = 50;
-    static int snapToY = 50;
+    static int snapToX = 300;
+    static int snapToY = 300;
     static String newitemname = "";
 
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
@@ -17,18 +17,18 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
+        if(cClientLogic.newprefabname.contains("cube") || newitemname.length() > 0) {
+            snapToX = 50;
+            snapToY = 50;
+        }
+        else {
+            snapToX = 300;
+            snapToY = 300;
+        }
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
             if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname))) {
                 checkBoxMenuItem.setSelected(true);
-                if(!cClientLogic.newprefabname.contains("cube")) {
-                    snapToX = 300;
-                    snapToY = 300;
-                }
-                else {
-                    snapToX = 50;
-                    snapToY = 50;
-                }
             }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
@@ -56,6 +56,8 @@ public class uiEditorMenus {
             else if(checkBoxMenuItem.getText().equals("Flagmaster") && cGameLogic.isFlagMaster())
                 checkBoxMenuItem.setSelected(true);
             else if(checkBoxMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
+                checkBoxMenuItem.setSelected(true);
+            else if(checkBoxMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
                 checkBoxMenuItem.setSelected(true);
         }
     }
@@ -135,45 +137,25 @@ public class uiEditorMenus {
 //            }
 //        });
 
-        join.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("joingame");
-                newtopmap.setEnabled(false);
-                open.setEnabled(false);
-                saveas.setEnabled(true);
-            }
+        join.addActionListener(e -> {
+            xCon.ex("joingame");
+            newtopmap.setEnabled(false);
+            open.setEnabled(false);
+            saveas.setEnabled(true);
         });
 
-        joinip.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changejoinip");
-            }
+        joinip.addActionListener(e -> xCon.ex("e_changejoinip"));
+
+        joinport.addActionListener(e -> xCon.ex("e_changejoinport"));
+
+        playerName.addActionListener(e -> xCon.ex("e_changeplayername"));
+
+        open.addActionListener(e -> {
+            xCon.ex("e_openfile");
+            saveas.setEnabled(true);
         });
 
-        joinport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changejoinport");
-            }
-        });
-
-        playerName.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_changeplayername");
-            }
-        });
-
-        open.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_openfile");
-                saveas.setEnabled(true);
-            }
-        });
-
-        saveas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex("e_saveas");
-            }
-        });
+        saveas.addActionListener(e -> xCon.ex("e_saveas"));
 
 
 //        exportasprefab.addActionListener(new ActionListener() {
@@ -192,14 +174,6 @@ public class uiEditorMenus {
             prefabmenuitem.setFont(dFonts.getFontNormal());
             if(uiEditorMenus.getRotateName(cClientLogic.newprefabname).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
-            if(!cClientLogic.newprefabname.contains("cube")) {
-                snapToX = 300;
-                snapToY = 300;
-            }
-            else {
-                snapToX = 50;
-                snapToY = 50;
-            }
             prefabmenuitem.addActionListener(e -> {
                 String name = prefabmenuitem.getText();
                 if(prefabRotateList.contains(name))
@@ -207,7 +181,7 @@ public class uiEditorMenus {
                 else
                     cClientLogic.newprefabname = name;
                 xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+                xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
                 refreshCheckBoxItems();
             });
@@ -230,7 +204,7 @@ public class uiEditorMenus {
             menus.get("Items").add(itemMenuItem);
         }
         //fill gametypes menu
-        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster"}) {
+        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
             if(gametypeMenuItem.getText().equals("Rockmaster") && cGameLogic.isDeathmatch())
@@ -239,6 +213,8 @@ public class uiEditorMenus {
                 gametypeMenuItem.setSelected(true);
             else if(gametypeMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
                 gametypeMenuItem.setSelected(true);
+            else if(gametypeMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
+                gametypeMenuItem.setSelected(true);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Rockmaster"))
                     cClientLogic.gamemode = cGameLogic.DEATHMATCH;
@@ -246,6 +222,8 @@ public class uiEditorMenus {
                     cClientLogic.gamemode = cGameLogic.FLAG_MASTER;
                 else if(gametypeMenuItem.getText().equals("Virusmaster"))
                     cClientLogic.gamemode = cGameLogic.VIRUS;
+                else if(gametypeMenuItem.getText().equals("Goldmaster"))
+                    cClientLogic.gamemode = cGameLogic.GOLD_MASTER;
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
