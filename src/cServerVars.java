@@ -29,6 +29,12 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
+        putArg(new gArg("rechargehp", "1") {
+            public void onChange() {
+                if(sSettings.IS_SERVER)
+                    cServerLogic.rechargehp = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("respawnwaittime", "3000") {
             public void onChange() {
                 cServerLogic.respawnwaittime = Integer.parseInt(value);
