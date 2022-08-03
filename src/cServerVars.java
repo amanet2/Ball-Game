@@ -45,10 +45,6 @@ public class cServerVars extends gArgSet {
                     cServerLogic.velocityplayerbase = newval;
                     nServer.instance().addNetCmd("cv_velocityplayer " + cServerLogic.velocityplayerbase);
                 }
-                else if(cServerLogic.velocityplayerbase != newval){
-                    cServerLogic.velocityplayerbase = newval;
-                    cClientLogic.velocityPlayer = newval;
-                }
             }
         });
         putArg(new gArg("voteskiplimit", "2") {
