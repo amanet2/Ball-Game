@@ -27,10 +27,6 @@ public class cServerVars extends gArgSet {
                         p.putInt("stockhp", cServerLogic.maxhp);
                     }
                 }
-                else if(cServerLogic.maxhp != newval){
-                    cServerLogic.maxhp = newval;
-                    cClientLogic.maxhp = newval;
-                }
             }
         });
         putArg(new gArg("respawnwaittime", "3000") {
