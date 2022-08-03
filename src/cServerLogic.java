@@ -13,6 +13,7 @@ public class cServerLogic {
     static boolean gameover = false;
     static int rechargehp = 1;
     static long virustime = 0;
+    static long goldspawntime = 0;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
@@ -61,6 +62,12 @@ public class cServerLogic {
                 if(flagmastertime < gameTimeMillis) {
                     xCon.ex("givepoint " + svars.get("flagmasterid"));
                     flagmastertime = gameTimeMillis + 1000;
+                }
+            }
+            if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
+                if(goldspawntime < gameTimeMillis) {
+                    xCon.ex("spawnpointgiver");
+                    goldspawntime = gameTimeMillis + 3000;
                 }
             }
             if(svars.containsKey("virusids")) {
