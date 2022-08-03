@@ -7,9 +7,11 @@ public class eManager {
 	static String[] winSoundFileSelection;
 	static String[] prefabFileSelection;
 	static String[] configFileSelection;
+	static String[] scriptFileSelection;
 
     public static void init() {
         configFileSelection = getFilesSelection("config");
+        scriptFileSelection = getFilesSelection("scripts");
         prefabFileSelection = getFilesSelection("prefabs");
         mapsFileSelection = getFilesSelection("maps", ".map");
         winSoundFileSelection = getFilesSelection(eUtils.getPath("sounds/win"));

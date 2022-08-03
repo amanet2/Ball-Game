@@ -7,6 +7,10 @@ public class gItem extends gThing {
         //to be subclassed and execute on intersection
     }
 
+    public String saveString() {
+        return String.format("putitem %s %s %s %s", get("type"), get("id"), get("coordx"), get("coordy"));
+    }
+
     public gItem(int x, int y, int w, int h) {
         super();
         put("type", "THING_ITEM");

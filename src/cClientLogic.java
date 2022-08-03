@@ -19,8 +19,6 @@ public class cClientLogic {
     static boolean debuglog = false;
     static String newprefabname = "room";
     static String selectedPrefabId = "";
-    static int itemId = 0;
-    static int prefabId = 0;
     static int gamemode = cGameLogic.DEATHMATCH;
     static boolean maploaded = false;
     public static gPlayer getUserPlayer() {
@@ -66,8 +64,8 @@ public class cClientLogic {
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("itemid") && item.coordsWithinBounds(mc[0], mc[1])) {
-                selecteditemid = item.get("itemid");
+            if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
+                selecteditemid = item.get("id");
                 selectedPrefabId = "";
                 return;
             }

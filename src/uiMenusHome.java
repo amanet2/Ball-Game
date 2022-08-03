@@ -14,7 +14,8 @@ public class uiMenusHome extends uiMenu {
                 },
                 new uiMenuItem("Disconnect") {
                     public void doItem(){
-                        xCon.ex("disconnect");
+                        if(xCon.instance().getInt("e_showlossalert") != 1)
+                            xCon.ex("disconnect");
                     }
                 },
                 new uiMenuItem("Options") {

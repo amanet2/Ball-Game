@@ -1,71 +1,18 @@
 import java.awt.*;
-import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
-    Image spriteHat;
     Image sprite;
 
     public boolean wontClipOnMove(int coord, int coord2, gScene scene) {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
-        for(String id : scene.getThingMap("THING_COLLISION").keySet()) {
-            gCollision collision =
-                    (gCollision) scene.getThingMap("THING_COLLISION").get(id);
-            int[][] collisionPoints = new int[][]{
-                    collision.xarr,
-                    collision.yarr
-            };
-            int[][] playerPoints = new int[][]{
-                    new int[] {
-                            dx,
-                            dx + getInt("dimw"),
-                            dx + getInt("dimw"),
-                            dx
-                    },
-                    new int[] {
-                            dy,
-                            dy,
-                            dy + getInt("dimh"),
-                            dy + getInt("dimh")
-                    }};
-            Line2D ps1 = new Line2D.Float(playerPoints[0][0], playerPoints[1][0],
-                    playerPoints[0][1], playerPoints[1][1]);
-            Line2D ps2 = new Line2D.Float(playerPoints[0][1], playerPoints[1][1],
-                    playerPoints[0][2], playerPoints[1][2]);
-            Line2D ps3 = new Line2D.Float(playerPoints[0][2], playerPoints[1][2],
-                    playerPoints[0][3], playerPoints[1][3]);
-            Line2D ps4 = new Line2D.Float(playerPoints[0][3], playerPoints[1][3],
-                    playerPoints[0][0], playerPoints[1][0]);
-            int[] cplen = collisionPoints[0];
-            Line2D[] playerLines = new Line2D[]{ps1, ps2, ps3, ps4};
-            if(cplen.length > 3) {
-                Line2D bs1 = new Line2D.Float(collisionPoints[0][0], collisionPoints[1][0],
-                        collisionPoints[0][1], collisionPoints[1][1]);
-                Line2D bs2 = new Line2D.Float(collisionPoints[0][1], collisionPoints[1][1],
-                        collisionPoints[0][2], collisionPoints[1][2]);
-                Line2D bs3 = new Line2D.Float(collisionPoints[0][2], collisionPoints[1][2],
-                        collisionPoints[0][3], collisionPoints[1][3]);
-                Line2D bs4 = new Line2D.Float(collisionPoints[0][3], collisionPoints[1][3],
-                        collisionPoints[0][0], collisionPoints[1][0]);
-                for(Line2D pl : playerLines) {
-                    if (pl.intersectsLine(bs1) || pl.intersectsLine(bs2) || pl.intersectsLine(bs3)
-                            || pl.intersectsLine(bs4)
-                    )
-                        return false;
-                }
-            }
-            else if(cplen.length > 2) {
-                Line2D bs1 = new Line2D.Float(collisionPoints[0][0], collisionPoints[1][0],
-                        collisionPoints[0][1], collisionPoints[1][1]);
-                Line2D bs2 = new Line2D.Float(collisionPoints[0][1], collisionPoints[1][1],
-                        collisionPoints[0][2], collisionPoints[1][2]);
-                Line2D bs3 = new Line2D.Float(collisionPoints[0][2], collisionPoints[1][2],
-                        collisionPoints[0][0], collisionPoints[1][0]);
-                for(Line2D pl : playerLines) {
-                    if (pl.intersectsLine(bs1) || pl.intersectsLine(bs2) || pl.intersectsLine(bs3))
-                        return false;
-                }
-            }
+        for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
+            gBlockCollision coll = (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
+            Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
+            Rectangle2D collRect = new Rectangle(coll.getX(), coll.getY(), coll.getWidth(), coll.getHeight());
+            if(playerRect.intersects(collRect))
+                return false;
         }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(get("id").equals(id))
@@ -104,8 +51,8 @@ public class gPlayer extends gThing {
     }
 
     public void pointAtCoords(int x, int y) {
-        double dx = x - getInt("coordx") + getInt("dimw")/2;
-        double dy = y - getInt("coordy") + getInt("dimh")/2;
+        double dx = x - getInt("coordx") + (float) getInt("dimw")/2;
+        double dy = y - getInt("coordy") + (float) getInt("dimh")/2;
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;

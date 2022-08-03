@@ -27,17 +27,16 @@ public class nServer extends Thread {
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "fireweapon",
-            "deleteplayer",
-            "respawnnetplayer",
-            "requestdisconnect",
-            "exec",
-            "putitem",
             "deleteblock",
-            "deletecollision",
-            "rotateblock",
-            "rotatecollision",
-            "deleteitem"
+            "deleteitem",
+            "deleteplayer",
+            "deleteprefab",
+            "exec",
+            "fireweapon",
+            "putblock",
+            "putitem",
+            "respawnnetplayer",
+            "requestdisconnect"
     ));
 
     public static nServer instance() {
@@ -73,25 +72,13 @@ public class nServer extends Thread {
                         }
                     }
                 });
-        clientCmdDoables.put("putitem",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        int itemid = cServerLogic.scene.getHighestItemId() + 1;
-                        xCon.ex(String.format("cv_itemid %d;%s", itemid, cmd));
-                        addExcludingNetCmd("server", String.format("cv_itemid %d;%s",
-                                itemid, cmd.replace("putitem", "cl_putitem")));
-                    }
-                });
-        for(String dcs : new String[]{"deleteblock", "deletecollision", "deleteitem", "rotateblock", "rotatecollision"}) {
-            clientCmdDoables.put(dcs,
+
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab"}) {
+            clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
-                            String[] toks = cmd.split(" ");
-                            if(toks.length > 1) {
-                                xCon.ex(cmd);
-                                addExcludingNetCmd("server",
-                                        cmd.replaceFirst(dcs, "cl_"+dcs));
-                            }
+                            xCon.ex(cmd);
+                            addExcludingNetCmd("server", cmd.replaceFirst(rcs, "cl_" + rcs));
                         }
                     });
         }
@@ -317,7 +304,13 @@ public class nServer extends Thread {
                 && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
             clientArgsMap.get("server").put("flagmasterid", "");
             gPlayer player = cServerLogic.getPlayerById(id);
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d",
+            int itemId = 0;
+            for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
+                if(itemId < Integer.parseInt(iid))
+                    itemId = Integer.parseInt(iid);
+            }
+            itemId++; //want to be the _next_ id
+            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
                     player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);
@@ -479,6 +472,8 @@ public class nServer extends Thread {
             gBlock block = (gBlock) blockMap.get(id);
             String[] args = new String[]{
                     block.get("type"),
+                    block.get("id"),
+                    block.get("prefabid"),
                     block.get("coordx"),
                     block.get("coordy"),
                     block.get("dimw"),
@@ -486,84 +481,24 @@ public class nServer extends Thread {
                     block.get("toph"),
                     block.get("wallh")
             };
-            String prefabString = "";
-            if(block.contains("prefabid"))
-                prefabString = "cv_prefabid " + block.get("prefabid") +";";
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
                 if(arg != null) {
                     blockString.append(" ").append(arg);
                 }
             }
-//            maplines.add(blockString.toString());
-            maplines.add(prefabString + blockString);
-        }
-        HashMap<String, gThing> collisionMap = cServerLogic.scene.getThingMap("THING_COLLISION");
-        for(String id : collisionMap.keySet()) {
-            gCollision collision = (gCollision) collisionMap.get(id);
-            StringBuilder xString = new StringBuilder();
-            StringBuilder yString = new StringBuilder();
-            for(int i = 0; i < collision.xarr.length; i++) {
-                int coordx = collision.xarr[i];
-                xString.append(coordx).append(".");
-            }
-            xString = new StringBuilder(xString.substring(0, xString.lastIndexOf(".")));
-            for(int i = 0; i < collision.yarr.length; i++) {
-                int coordy = collision.yarr[i];
-                yString.append(coordy).append(".");
-            }
-            yString = new StringBuilder(yString.substring(0, yString.lastIndexOf(".")));
-            String[] args = new String[]{
-                    xString.toString(),
-                    yString.toString()
-            };
-            String prefabString = "";
-            if(collision.contains("prefabid")) {
-                prefabString = "cv_prefabid " + collision.get("prefabid");
-                maplines.add(prefabString);
-            }
-            StringBuilder str = new StringBuilder("cl_putcollision");
-            for(String arg : args) {
-                if(arg != null) {
-                    str.append(" ").append(arg);
-                }
-            }
-            maplines.add(str.toString());
+            maplines.add(blockString.toString());
         }
         HashMap<String, gThing> itemMap = cServerLogic.scene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{
                     item.get("type"),
+                    item.get("id"),
                     item.get("coordx"),
                     item.get("coordy")
             };
             StringBuilder str = new StringBuilder("cl_putitem");
-            for(String arg : args) {
-                if(arg != null) {
-                    str.append(" ").append(arg);
-                }
-            }
-            maplines.add(str.toString());
-        }
-        HashMap<String, gThing> flareMap = cServerLogic.scene.getThingMap("THING_FLARE");
-        for(String id : flareMap.keySet()) {
-            gFlare flare = (gFlare) flareMap.get(id);
-            String[] args = new String[]{
-                    flare.get("coordx"),
-                    flare.get("coordy"),
-                    flare.get("dimw"),
-                    flare.get("dimh"),
-                    flare.get("r1"),
-                    flare.get("g1"),
-                    flare.get("b1"),
-                    flare.get("a1"),
-                    flare.get("r2"),
-                    flare.get("g2"),
-                    flare.get("b2"),
-                    flare.get("a2")
-            };
-            StringBuilder str = new StringBuilder("cl_putflare");
             for(String arg : args) {
                 if(arg != null) {
                     str.append(" ").append(arg);
@@ -608,9 +543,8 @@ public class nServer extends Thread {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
-                int prefabid = cServerLogic.scene.getHighestPrefabId() + 1;
-                xCon.ex(String.format("cv_prefabid %d;%s", prefabid, cmd));
-                addExcludingNetCmd("server", String.format("cv_prefabid %d;%s", prefabid,
+                xCon.ex(cmd);
+                addExcludingNetCmd("server", String.format("%s",
                         cmd.replace("exec ", "cl_exec ")));
             }
             else

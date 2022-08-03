@@ -78,6 +78,8 @@ public class gThing {
     }
 
     public boolean isVal(String k, String v) {
+        if(!contains(k))
+            return false;
         return get(k).equals(v);
     }
     public boolean isInt(String k, int v) {
@@ -107,10 +109,6 @@ public class gThing {
         return true;
     }
 
-    public String keysString() {
-        return vars().keySet().toString();
-    }
-
     public String toString() {
         return vars().toString();
     }
@@ -122,12 +120,6 @@ public class gThing {
     public void refresh() {
         if(vars == null)
             vars = new LinkedHashMap<>();
-    }
-
-    public void addVal(String key, int val) {
-        if(contains(key)) {
-            putInt(key, getInt(key)+val);
-        }
     }
 
     public void subtractVal(String key, int val) {

@@ -53,7 +53,7 @@ public class oDisplay extends JLayeredPane {
         frame.setUndecorated(sSettings.displaymode != displaymode_windowed);
 		if(sSettings.show_mapmaker_ui) {
             uiEditorMenus.setupMapMakerWindow();
-            xCon.ex(String.format("cl_execpreview prefabs/%s 12500 5600", cClientLogic.newprefabname));
+            xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
         }
 		frame.setResizable(false);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
