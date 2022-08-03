@@ -19,8 +19,6 @@ public class cClientLogic {
     static boolean debuglog = false;
     static String newprefabname = "room";
     static String selectedPrefabId = "";
-    static int itemId = 0;
-    static int prefabId = 0;
     static int gamemode = cGameLogic.DEATHMATCH;
     static boolean maploaded = false;
     public static gPlayer getUserPlayer() {

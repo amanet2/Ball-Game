@@ -135,16 +135,6 @@ public class cClientVars extends gArgSet {
                 cClientLogic.maploaded = Integer.parseInt(value) > 0;
             }
         });
-        putArg(new gArg("cv_itemid", "0") {
-            public void onChange() {
-                cClientLogic.itemId = Integer.parseInt(value);
-            }
-        });
-        putArg(new gArg("cv_prefabid", "0") {
-            public void onChange() {
-                cClientLogic.prefabId = Integer.parseInt(value);
-            }
-        });
         putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
                 cClientLogic.maxhp = Integer.parseInt(value);

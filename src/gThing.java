@@ -78,6 +78,8 @@ public class gThing {
     }
 
     public boolean isVal(String k, String v) {
+        if(!contains(k))
+            return false;
         return get(k).equals(v);
     }
     public boolean isInt(String k, int v) {

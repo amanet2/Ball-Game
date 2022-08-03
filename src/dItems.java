@@ -27,6 +27,15 @@ public class dItems {
                             item.getInt("dimh")*2,
                             1, new int[]{0,0,255,255}, new int[4]);
             }
+            if(item.get("type").equals("ITEM_POINTGIVER")) {
+                if(sSettings.vfxenableflares)
+                    dFlares.drawFlare(g2,
+                            item.getInt("coordx") - item.getInt("dimw")/2,
+                            item.getInt("coordy") - item.getInt("dimh")/2,
+                            item.getInt("dimw")*2,
+                            item.getInt("dimh")*2,
+                            1, new int[]{255,255,0,255}, new int[4]);
+            }
         }
         else if(sSettings.show_mapmaker_ui){
             g2.setColor(gColors.getFontColorFromName("spawnpoint"));
