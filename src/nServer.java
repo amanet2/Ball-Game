@@ -304,7 +304,13 @@ public class nServer extends Thread {
                 && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
             clientArgsMap.get("server").put("flagmasterid", "");
             gPlayer player = cServerLogic.getPlayerById(id);
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d",
+            int itemId = 0;
+            for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
+                if(itemId < Integer.parseInt(iid))
+                    itemId = Integer.parseInt(iid);
+            }
+            itemId++; //want to be the _next_ id
+            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
                     player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);
