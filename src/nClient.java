@@ -172,6 +172,10 @@ public class nClient {
         }
         //name for spectator and gameplay
         keys.put("name", cClientLogic.playerName);
+        if(sSettings.show_mapmaker_ui) {
+            keys.put("px", Integer.toString(cClientLogic.prevX));
+            keys.put("py", Integer.toString(cClientLogic.prevY));
+        }
         return keys;
     }
 
