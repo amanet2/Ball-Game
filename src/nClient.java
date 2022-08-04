@@ -161,9 +161,9 @@ public class nClient {
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         //update id in net args
         keys.put("id", uiInterface.uuid);
+        keys.put("color", cClientLogic.playerColor);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("color", cClientLogic.playerColor);
             keys.put("x", userPlayer.get("coordx"));
             keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));

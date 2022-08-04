@@ -58,16 +58,18 @@ public class dMapmakerOverlay {
                 + gCamera.getX() - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
                 + gCamera.getY() - h/2, uiEditorMenus.snapToY);
-        g2.setColor(gColors.getFontColorFromName("preview"));
-        g2.drawRect(px, py, w, h);
+//        g2.setColor(gColors.getFontColorFromName("preview"));
+//        g2.drawRect(px, py, w, h);
         cClientLogic.prevX = px;
         cClientLogic.prevY = py;
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             HashMap<String, String> cArgs = nClient.instance().serverArgsMap.get(id);
             String pxs = cArgs.get("px");
             String pys = cArgs.get("py");
-            if(pxs == null || pys == null)
+            String cs = cArgs.get("color");
+            if(pxs == null || pys == null || cs == null)
                 continue;
+            g2.setColor(gColors.getPlayerHudColorFromName(cs));
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), w, h);
         }
     }
