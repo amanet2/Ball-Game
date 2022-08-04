@@ -440,6 +440,10 @@ public class nServer extends Thread {
                 if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
                     handleClientCommand(packId, packArgMap.get("cmd"));
                 }
+                if(packArgMap.get("px") != null)
+                    clientArgsMap.get(packId).put("px", packArgMap.get("px"));
+                if(packArgMap.get("py") != null)
+                    clientArgsMap.get(packId).put("py", packArgMap.get("py"));
             }
         }
     }
