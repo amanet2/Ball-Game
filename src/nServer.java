@@ -444,6 +444,10 @@ public class nServer extends Thread {
                     clientArgsMap.get(packId).put("px", packArgMap.get("px"));
                 if(packArgMap.get("py") != null)
                     clientArgsMap.get(packId).put("py", packArgMap.get("py"));
+                if(packArgMap.get("pw") != null)
+                    clientArgsMap.get(packId).put("pw", packArgMap.get("pw"));
+                if(packArgMap.get("ph") != null)
+                    clientArgsMap.get(packId).put("ph", packArgMap.get("ph"));
             }
         }
     }

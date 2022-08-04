@@ -81,7 +81,7 @@ public class dMenus {
         g.drawImage(coverimg,0,0,null);
         //copyright notice
         dFonts.setFontColorNormal(g);
-        g.drawString("by Anthony Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
-        g.drawString("Venmo @Anthony-Manetti",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
+        g.drawString("by Stallion",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
+        g.drawString("venmo @StallionUSA",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }
 }

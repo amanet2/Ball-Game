@@ -23,6 +23,8 @@ public class cClientLogic {
     static boolean maploaded = false;
     static int prevX = 0;
     static int prevY = 0;
+    static int prevW = 300;
+    static int prevH = 300;
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }

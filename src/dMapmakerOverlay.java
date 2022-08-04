@@ -62,15 +62,19 @@ public class dMapmakerOverlay {
 //        g2.drawRect(px, py, w, h);
         cClientLogic.prevX = px;
         cClientLogic.prevY = py;
+        cClientLogic.prevW = w;
+        cClientLogic.prevH = h;
         for(String id : nClient.instance().serverArgsMap.keySet()) {
             HashMap<String, String> cArgs = nClient.instance().serverArgsMap.get(id);
             String pxs = cArgs.get("px");
             String pys = cArgs.get("py");
+            String pws = cArgs.get("pw");
+            String phs = cArgs.get("ph");
             String cs = cArgs.get("color");
-            if(pxs == null || pys == null || cs == null)
+            if(pxs == null || pys == null || pws == null || phs == null || cs == null)
                 continue;
             g2.setColor(gColors.getPlayerHudColorFromName(cs));
-            g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), w, h);
+            g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
         }
     }
 }
