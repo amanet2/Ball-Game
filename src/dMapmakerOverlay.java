@@ -65,6 +65,8 @@ public class dMapmakerOverlay {
         cClientLogic.prevW = w;
         cClientLogic.prevH = h;
         for(String id : nClient.instance().serverArgsMap.keySet()) {
+            if(cClientLogic.scene.getPlayerById(id) != null)
+                continue;
             HashMap<String, String> cArgs = nClient.instance().serverArgsMap.get(id);
             String pxs = cArgs.get("px");
             String pys = cArgs.get("py");
