@@ -83,6 +83,15 @@ public class dMapmakerOverlay {
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.getPlayerHudColorFromName(cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
+            if(id.equals(uiInterface.uuid)) {
+                Polygon pg = dTileTops.getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
+                Color color = gColors.getPlayerHudColorFromName(cs);
+                g2.setStroke(dFonts.thickStroke);
+                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+                g2.drawPolygon(pg);
+                g2.setColor(color);
+                g2.fillPolygon(pg);
+            }
         }
     }
 }

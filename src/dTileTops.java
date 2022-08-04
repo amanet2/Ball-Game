@@ -86,6 +86,23 @@ public class dTileTops {
         }
     }
 
+    public static Polygon getPolygon(int midx, int coordy) {
+        int[][] polygonBase = new int[][]{
+                new int[]{1,1,1},
+                new int[]{0,0,1}
+        };
+        int polygonSize = eUtils.unscaleInt(sSettings.width/32);
+        int[][] polygon = new int[][]{
+                new int[]{midx - polygonBase[0][0]*polygonSize,
+                        midx + polygonBase[0][1]*polygonSize,
+                        midx
+                },
+                new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
+                        coordy + polygonBase[1][2]*polygonSize}
+        };
+        return new Polygon(polygon[0], polygon[1], polygon[0].length);
+    }
+
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sSettings.drawplayerarrow) {
             gPlayer userPlayer = cClientLogic.getUserPlayer();
@@ -93,22 +110,9 @@ public class dTileTops {
                 return;
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
             int coordy = userPlayer.getInt("coordy") - 200;
-            int[][] polygonBase = new int[][]{
-                    new int[]{1,1,1},
-                    new int[]{0,0,1}
-            };
-            int polygonSize = eUtils.unscaleInt(sSettings.width/32);
-            int[][] polygon = new int[][]{
-                    new int[]{midx - polygonBase[0][0]*polygonSize,
-                            midx + polygonBase[0][1]*polygonSize,
-                            midx
-                    },
-                    new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
-                            coordy + polygonBase[1][2]*polygonSize}
-            };
-            g2.setStroke(dFonts.thickStroke);
-            Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
+            Polygon pg = getPolygon(midx, coordy);
             Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
+            g2.setStroke(dFonts.thickStroke);
             g2.setColor(gColors.getFontColorFromName("normaltransparent"));
             g2.drawPolygon(pg);
             g2.setColor(color);
