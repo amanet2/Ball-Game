@@ -73,10 +73,16 @@ public class dMapmakerOverlay {
             String pws = cArgs.get("pw");
             String phs = cArgs.get("ph");
             String cs = cArgs.get("color");
+            String nm = cArgs.get("name");
             if(pxs == null || pys == null || pws == null || phs == null || cs == null)
                 continue;
             g2.setColor(gColors.getPlayerHudColorFromName(cs));
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
+            if(nm == null)
+                continue;
+            dFonts.setFontGNormal(g2);
+            g2.setColor(gColors.getPlayerHudColorFromName(cs));
+            g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
         }
     }
 }
