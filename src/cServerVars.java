@@ -27,10 +27,12 @@ public class cServerVars extends gArgSet {
                         p.putInt("stockhp", cServerLogic.maxhp);
                     }
                 }
-                else if(cServerLogic.maxhp != newval){
-                    cServerLogic.maxhp = newval;
-                    cClientLogic.maxhp = newval;
-                }
+            }
+        });
+        putArg(new gArg("rechargehp", "1") {
+            public void onChange() {
+                if(sSettings.IS_SERVER)
+                    cServerLogic.rechargehp = Integer.parseInt(value);
             }
         });
         putArg(new gArg("respawnwaittime", "3000") {
@@ -44,10 +46,6 @@ public class cServerVars extends gArgSet {
                 if(sSettings.IS_SERVER && cServerLogic.velocityplayerbase != newval) {
                     cServerLogic.velocityplayerbase = newval;
                     nServer.instance().addNetCmd("cv_velocityplayer " + cServerLogic.velocityplayerbase);
-                }
-                else if(cServerLogic.velocityplayerbase != newval){
-                    cServerLogic.velocityplayerbase = newval;
-                    cClientLogic.velocityPlayer = newval;
                 }
             }
         });

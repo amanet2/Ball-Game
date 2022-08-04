@@ -161,7 +161,7 @@ public class cServerLogic {
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             int pHp = p.getInt("stockhp");
-            if(pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis) {
+            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis) {
                 if(pHp + rechargehp > maxhp)
                     p.putInt("stockhp", maxhp);
                 else
