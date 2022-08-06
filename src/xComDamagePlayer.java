@@ -18,12 +18,18 @@ public class xComDamagePlayer extends xCom {
                     //more server-side stuff
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
+                    String pc = player.get("color");
                     xCon.ex("deleteplayer " + id);
-                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
+                    String vc = nServer.instance().clientArgsMap.get(id).get("color");
+                    victimname += ("#"+vc);
+                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
 //                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
+                        if(gColors.getPlayerHudColorFromName(nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
+                            killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
+                        System.out.println(killername);
                         nServer.instance().addExcludingNetCmd("server",
                                 "echo " + killername + " rocked " + victimname);
                         if (cGameLogic.isDeathmatch())
