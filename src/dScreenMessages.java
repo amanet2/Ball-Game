@@ -207,19 +207,19 @@ public class dScreenMessages {
                     if(word.contains("#")) {
                         if(word.split("#").length != 2)
                             ts.append(word).append(" ");
-                        else if(gColors.getPlayerHudColorFromName(word.split("#")[1]) != null){
+                        else if(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32)));
-                            g.setColor(gColors.getPlayerHudColorFromName(word.split("#")[1]));
+                            g.setColor(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32)));
                             dFonts.setFontColorNormal(g);
-                            ts.append(word.split("#")[0]).append(" ");
+                            ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
                             continue;
                         }
                     }

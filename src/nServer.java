@@ -406,9 +406,14 @@ public class nServer extends Thread {
                 //update ping
 //                scoresMap.get(packId).put("ping", (int) Math.abs(gTime.gameTime - oldTimestamp));
                 //handle name change to notify
-                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
+                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName)) {
+                    if(clientArgsMap.get(packId).get("color") != null) {
+                        oldName += ("#"+clientArgsMap.get(packId).get("color"));
+                        packName += ("#"+clientArgsMap.get(packId).get("color"));
+                    }
                     addExcludingNetCmd("server",
                             String.format("echo %s changed name to %s", oldName, packName));
+                }
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
                     if (clientArgsMap.get(packId).containsKey("vels")) {
