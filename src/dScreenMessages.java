@@ -127,6 +127,7 @@ public class dScreenMessages {
                         break;
                     }
                 }
+
                 if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
@@ -196,12 +197,46 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                g.setColor(Color.BLACK);
-                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                        +(i*(sSettings.height/32))+3);
+//                g.setColor(Color.BLACK);
+//                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+//                        +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
-                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                        +(i*(sSettings.height/32)));
+                // look for hashtag color codes here
+                StringBuilder ts = new StringBuilder();
+                for(String word : s.split(" ")) {
+                    if(word.contains("#")) {
+                        if(word.split("#").length != 2)
+                            ts.append(word).append(" ");
+                        else if(gColors.getPlayerHudColorFromName(word.split("#")[1]) != null){
+                            g.setColor(Color.BLACK);
+                            g.drawString(word.split("#")[0]+" ",
+                                    dFonts.getStringWidth(g, ts.toString()),
+                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                            +(i*(sSettings.height/32)));
+                            g.setColor(gColors.getPlayerHudColorFromName(word.split("#")[1]));
+                            g.drawString(word.split("#")[0]+" ",
+                                    dFonts.getStringWidth(g, ts.toString()),
+                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                            +(i*(sSettings.height/32)));
+                            dFonts.setFontColorNormal(g);
+                            ts.append(word.split("#")[0]).append(" ");
+                            continue;
+                        }
+                    }
+                    g.setColor(Color.BLACK);
+                    g.drawString(word+" ",
+                            dFonts.getStringWidth(g, ts.toString()),
+                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                    +(i*(sSettings.height/32)));
+                    dFonts.setFontColorNormal(g);
+                    g.drawString(word+" ",
+                            dFonts.getStringWidth(g, ts.toString()),
+                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                            +(i*(sSettings.height/32)));
+                    ts.append(word).append(" ");
+                }
+//                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+//                        +(i*(sSettings.height/32)));
             }
         }
     }
