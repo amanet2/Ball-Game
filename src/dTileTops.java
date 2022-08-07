@@ -70,19 +70,42 @@ public class dTileTops {
             gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
             if(p == null)
                 continue;
-            g.setColor(Color.BLACK);
-            g.drawString(p.get("text"),
-                    p.getInt("coordx") + 2,
-                    p.getInt("coordy") + 2);
-            dFonts.setFontColorNormal(g);
-            char firstChar = p.get("text").charAt(0);
-            if(firstChar == '+' || firstChar == '$')
-                dFonts.setFontColorBonus(g);
-            else if(p.get("text").charAt(0) == '-')
+            // look for hashtag color codes here
+//            dFonts.setFontColorNormal(g);
+//            g.drawString(p.get("text"),
+//                    p.getInt("coordx"),
+//                    p.getInt("coordy"));
+            String s = p.get("text");
+            StringBuilder ts = new StringBuilder();
+            for(String word : s.split(" ")) {
+                if(word.contains("#")) {
+                    if(word.split("#").length != 2)
+                        ts.append(word).append(" ");
+                    else if(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")) != null){
+                        g.setColor(Color.BLACK);
+                        g.drawString(word.split("#")[0]+" ",
+                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
+                                p.getInt("coordy") + 3);
+                        g.setColor(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")));
+                        g.drawString(word.split("#")[0]+" ",
+                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
+                                p.getInt("coordy"));
+                        dFonts.setFontColorNormal(g);
+                        ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
+                        continue;
+                    }
+                }
+                g.setColor(Color.BLACK);
+                g.setColor(Color.BLACK);
+                g.drawString(word.split("#")[0]+" ",
+                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
+                        p.getInt("coordy") + 3);
                 dFonts.setFontColorNormal(g);
-            g.drawString(p.get("text"),
-                    p.getInt("coordx"),
-                    p.getInt("coordy"));
+                g.drawString(word.split("#")[0]+" ",
+                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
+                        p.getInt("coordy"));
+                ts.append(word).append(" ");
+            }
         }
     }
 
