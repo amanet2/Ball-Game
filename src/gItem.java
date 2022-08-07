@@ -5,6 +5,8 @@ public class gItem extends gThing {
 
     public void activateItem(gPlayer p) {
         //to be subclassed and execute on intersection
+        if(contains("script"))
+            xCon.ex(get("script"));
     }
 
     public String saveString() {

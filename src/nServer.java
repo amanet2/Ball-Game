@@ -31,6 +31,7 @@ public class nServer extends Thread {
             "deleteitem",
             "deleteplayer",
             "deleteprefab",
+            "setthing",
             "exec",
             "fireweapon",
             "putblock",

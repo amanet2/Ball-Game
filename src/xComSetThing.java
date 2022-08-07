@@ -18,10 +18,11 @@ public class xComSetThing extends xCom {
         if(toks.length < 4)
             return thing.toString();
         String tk = toks[3];
-        if(thing.get(tk) == null)
-            return "null";
-        if(toks.length < 5)
+        if(toks.length < 5) {
+            if(thing.get(tk) == null)
+                return "null";
             return thing.get(tk);
+        }
         StringBuilder tvb = new StringBuilder();
         for(int i = 4; i < toks.length; i++) {
             tvb.append(" ").append(toks[i]);
