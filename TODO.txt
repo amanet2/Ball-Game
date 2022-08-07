@@ -4,8 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* put shadow back on echo text
-* apply color text ability to popups
+* have the ability to "script" player stuff with setthing THING_PLAYER.<id>.<key> <val>
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision

@@ -155,6 +155,7 @@ public class xCon {
         commands.put("selectleft", new xComSelectLeft());
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
+        commands.put("setthing", new xComSetThing());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
@@ -239,13 +240,13 @@ public class xCon {
                 ? command.substring(1) : command;
             xCom cp = commands.get(command);
             if (cp != null) {
-                if(!visibleCommands.contains(command)) {
-                    if (fullCommand.charAt(0) == '-')
-                        return cp.undoCommand(fullCommand);
-                    else
-                        return cp.doCommand(fullCommand);
-                }
-                else {
+//                if(!visibleCommands.contains(command)) {
+//                    if (fullCommand.charAt(0) == '-')
+//                        return cp.undoCommand(fullCommand);
+//                    else
+//                        return cp.doCommand(fullCommand);
+//                }
+//                else {
                     stringLines.add(String.format("console:~$ %s", fullCommand));
                     String result = fullCommand.charAt(0) == '-' ? cp.undoCommand(fullCommand)
                         : cp.doCommand(fullCommand);
@@ -253,7 +254,7 @@ public class xCon {
                         stringLines.add(result);
                     linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                     return result;
-                }
+//                }
             }
             else {
                 return String.format("No result: %s", command);
