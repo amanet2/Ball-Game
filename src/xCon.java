@@ -222,6 +222,11 @@ public class xCon {
     public String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
+            for(int i = 0; i < args.length; i++) {
+                if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1))) {
+                    args[i] = cServerVars.instance().get(args[i].substring(1));
+                }
+            }
             if(args.length > 0) {
                 String configval = args[0];
                 if(cServerVars.instance().contains(configval)) {
