@@ -89,7 +89,13 @@ public class gArgSet {
             arg.value = val;
             arg.onChange();
         }
-        else
+        else {
+            putArg(new gArg(key, val) {
+                public void onChange() {
+                    // come up with a way to track a configable "script" in an arg that can exec on change
+                }
+            });
+        }
             xCon.instance().debug("gArgSet.put: no arg for key: " + key);
     }
 }

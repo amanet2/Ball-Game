@@ -31,7 +31,10 @@ public class xComSetThing extends xCom {
 //        String tvr = xCon.ex("setthing " + tv);
 //        if(!tvr.equals("null"))
 //            tv = tvr;
-        thing.put(tk, tv);
+        if(tv.charAt(0) == '$' && cServerVars.instance().contains(tv.substring(1)))
+            thing.put(tk, cServerVars.instance().get(tv.substring(1)));
+        else
+            thing.put(tk, tv);
         return thing.get(tk);
     }
 }

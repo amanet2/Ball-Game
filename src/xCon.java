@@ -157,6 +157,7 @@ public class xCon {
         commands.put("selectup", new xComSelectUp());
         commands.put("setthing", new xComSetThing());
         commands.put("cl_setthing", new xComSetThingClient());
+        commands.put("setvar", new xComSetVar());
         commands.put("showscore", new xComShowScore());
         commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
