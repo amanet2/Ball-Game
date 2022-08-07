@@ -1,14 +1,14 @@
 import java.util.HashMap;
 
-public class xComSetThing extends xCom {
+public class xComSetThingClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(toks.length < 2)
             return "null";
         String ttype = toks[1];
-        if(cServerLogic.scene.getThingMap(ttype) == null)
+        if(cClientLogic.scene.getThingMap(ttype) == null)
             return "null";
-        HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(ttype);
+        HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap(ttype);
         if(toks.length < 3)
             return thingMap.toString();
         String tid = toks[2];

@@ -73,7 +73,7 @@ public class nServer extends Thread {
                     }
                 });
 
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab"}) {
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab", "setthing"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {

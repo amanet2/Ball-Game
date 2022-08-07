@@ -8,7 +8,6 @@ public class xComDeleteItem extends xCom {
                 String type = itemToDelete.get("type");
                 cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
                 cServerLogic.scene.getThingMap(type).remove(id);
-                nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
             }
         }
         return "usage: deleteitem <id>";

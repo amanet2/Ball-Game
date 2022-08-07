@@ -12,7 +12,7 @@ public class dBlockFloors {
 
     public static void drawBlockFloor(Graphics2D g2, gBlockFloor block) {
         g2.setPaint(gBlockFactory.instance().floorTexture);
-        g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getHeight());
+        g2.fillRect(block.getInt("coordx"), block.getY(), block.getWidth(), block.getHeight());
     }
 
     public static void drawMapmakerPreviewBlockFloors(Graphics2D g2, gScene scene) {
