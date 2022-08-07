@@ -13,6 +13,7 @@ public class xComDamagePlayer extends xCom {
                 player.putLong("hprechargetime", gTime.gameTime);
                 //store player object's health in outgoing network arg map
                 nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
+                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
                 if(player.getInt("stockhp") < 1) {
                     //more server-side stuff
@@ -33,7 +34,7 @@ public class xComDamagePlayer extends xCom {
                         nServer.instance().addExcludingNetCmd("server",
                                 "echo " + killername + " rocked " + victimname);
                         if (cGameLogic.isDeathmatch())
-                            xCon.ex("givepoint " + shooterid);
+                            xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isVirus()) {
                             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                                 String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");

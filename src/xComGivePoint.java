@@ -5,7 +5,16 @@ public class xComGivePoint extends xCom {
             String id = toks[1];
             gPlayer givePointPlayer = cServerLogic.getPlayerById(id);
             if(givePointPlayer != null) { //player must be alive
-                gScoreboard.addToScoreField(id, "score", 100);
+                int score = 100;
+                if(toks.length > 2) {
+                    try {
+                        score = Integer.parseInt(toks[2]);
+                    }
+                    catch (Exception e) {
+
+                    }
+                }
+                gScoreboard.addToScoreField(id, "score", score);
                 String color = "";
 //                if(nServer.instance().clientArgsMap.containsKey(id)
 //                && nServer.instance().clientArgsMap.get(id).containsKey("color"))

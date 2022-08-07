@@ -98,6 +98,8 @@ public class gScoreboard {
         if(!scoresMapIdMap.containsKey(field))
             scoresMapIdMap.put(field, 0);
         int nscore = scoresMapIdMap.get(field) + score;
+        if(nscore < 0)
+            nscore = 0;
         scoresMapIdMap.put(field, nscore);
     }
 }
