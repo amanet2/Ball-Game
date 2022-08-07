@@ -7,8 +7,11 @@ public class xComSetThing extends xCom {
         if(toks.length < 2)
             return "null";
         String tenv = toks[1];
-        if(tenv.equalsIgnoreCase("server"))
+        boolean isServer = false;
+        if(tenv.equalsIgnoreCase("server")) {
             scene = cServerLogic.scene;
+            isServer = true;
+        }
         else if(tenv.equalsIgnoreCase("client"))
             scene = cClientLogic.scene;
         else
@@ -30,8 +33,11 @@ public class xComSetThing extends xCom {
         String tk = toks[4];
         if(thing.get(tk) == null)
             return "null";
-        if(toks.length < 6)
+        if(toks.length < 6) {
+            if(isServer)
+                nServer.instance().addExcludingNetCmd("server", fullCommand.replaceFirst(tenv, "client"));
             return thing.get(tk);
+        }
         StringBuilder tvb = new StringBuilder();
         for(int i = 5; i < toks.length; i++) {
             tvb.append(" ").append(toks[i]);
@@ -42,6 +48,8 @@ public class xComSetThing extends xCom {
             thing.put(tk, tvr);
         else
             thing.put(tk, tv);
+        if(isServer)
+            nServer.instance().addExcludingNetCmd("server", fullCommand.replaceFirst(tenv, "client"));
         return thing.get(tk);
     }
 }
