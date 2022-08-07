@@ -197,9 +197,6 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-//                g.setColor(Color.BLACK);
-//                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-//                        +(i*(sSettings.height/32))+3);
                 dFonts.setFontColorNormal(g);
                 // look for hashtag color codes here
                 StringBuilder ts = new StringBuilder();
@@ -210,9 +207,9 @@ public class dScreenMessages {
                         else if(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
-                                    dFonts.getStringWidth(g, ts.toString()),
+                                    dFonts.getStringWidth(g, ts.toString())+3,
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                                            +(i*(sSettings.height/32)));
+                                            +(i*(sSettings.height/32))+3);
                             g.setColor(gColors.getPlayerHudColorFromName(word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
@@ -225,9 +222,9 @@ public class dScreenMessages {
                     }
                     g.setColor(Color.BLACK);
                     g.drawString(word+" ",
-                            dFonts.getStringWidth(g, ts.toString()),
+                            dFonts.getStringWidth(g, ts.toString())+3,
                             24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                                    +(i*(sSettings.height/32)));
+                                    +(i*(sSettings.height/32))+3);
                     dFonts.setFontColorNormal(g);
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString()),
@@ -235,8 +232,6 @@ public class dScreenMessages {
                             +(i*(sSettings.height/32)));
                     ts.append(word).append(" ");
                 }
-//                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-//                        +(i*(sSettings.height/32)));
             }
         }
     }

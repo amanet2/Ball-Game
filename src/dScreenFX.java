@@ -87,7 +87,7 @@ public class dScreenFX {
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
             int setw = sSettings.height / 96;
-            g2.setColor(Color.RED);
+            g2.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }

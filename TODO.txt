@@ -4,8 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* make echo strings have the ability to have color
-   -> foobar#blue should result in a blue "foobar" printed out
+* put shadow back on echo text
+* apply color text ability to popups
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision
