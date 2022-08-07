@@ -4,7 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* each word going through the console should be tested and converted if first char is '$'
+* ability to have setvar take in the result of a whole command
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision

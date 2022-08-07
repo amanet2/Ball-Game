@@ -1,0 +1,2 @@
+setthing THING_PLAYER $itemactid coordx $1
+setthing THING_PLAYER $itemactid coordy $2

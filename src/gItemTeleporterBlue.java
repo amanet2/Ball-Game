@@ -8,13 +8,13 @@ public class gItemTeleporterBlue extends gItem {
                     exit = teleporter;
             }
             if(exit != null) {
-                player.put("inteleporter", "1");
                 int nx = exit.getInt("coordx") + exit.getInt("dimw")/2 - player.getInt("dimw")/2;
                 int ny = exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2;
-                player.putInt("coordx", nx);
-                player.putInt("coordy", ny);
-                nServer.instance().addNetCmd(player.get("id"), "userplayer coordx " + nx
-                        + ";userplayer coordy " + ny);
+                String pid = player.get("id");
+                player.put("inteleporter", "1");
+                xCon.ex("exec scripts/teleporter " + nx + " " + ny);
+                nServer.instance().addNetCmd(pid, "cl_setthing THING_PLAYER " + pid + " coordx " + nx
+                        + ";cl_setthing THING_PLAYER " + pid + " coordy " + ny);
             }
         }
         else

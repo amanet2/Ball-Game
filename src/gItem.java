@@ -7,6 +7,7 @@ public class gItem extends gThing {
         //to be subclassed and execute on intersection
         if(contains("script"))
             xCon.ex(get("script"));
+        xCon.ex("setvar itemactid " + p.get("id"));
     }
 
     public String saveString() {
