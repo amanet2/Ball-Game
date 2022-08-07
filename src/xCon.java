@@ -242,26 +242,22 @@ public class xCon {
                     return cClientVars.instance().get(configval);
                 }
             }
-            String command = fullCommand.split(" ")[0];
-            command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
-                ? command.substring(1) : command;
+            String command = args[0];
+            if(command.startsWith("-"))
+                command = command.substring(1);
             xCom cp = commands.get(command);
             if (cp != null) {
-//                if(!visibleCommands.contains(command)) {
-//                    if (fullCommand.charAt(0) == '-')
-//                        return cp.undoCommand(fullCommand);
-//                    else
-//                        return cp.doCommand(fullCommand);
-//                }
-//                else {
-                    stringLines.add(String.format("console:~$ %s", fullCommand));
-                    String result = fullCommand.charAt(0) == '-' ? cp.undoCommand(fullCommand)
-                        : cp.doCommand(fullCommand);
-                    if (result.length() > 0)
-                        stringLines.add(result);
-                    linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
-                    return result;
-//                }
+                StringBuilder realcom = new StringBuilder();
+                for(int i = 0; i < args.length; i++) {
+                    realcom.append(" ").append(args[i]);
+                }
+                String comstring = realcom.substring(1);
+                stringLines.add(String.format("console:~$ %s", comstring));
+                String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
+                if (result.length() > 0)
+                    stringLines.add(result);
+                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+                return result;
             }
             else {
                 return String.format("No result: %s", command);
