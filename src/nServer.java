@@ -472,7 +472,8 @@ public class nServer extends Thread {
                 addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
                     clientId, player.get("coordx"), player.get("coordy")));
         }
-        addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
+        addExcludingNetCmd("server", String.format("echo %s joined the game", packName
+        + (clientArgsMap.get(packId).get("color") != null ? "#"+clientArgsMap.get(packId).get("color") : "")));
     }
 
     public void sendMap(String packId) {

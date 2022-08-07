@@ -2,8 +2,9 @@ public class gItemFlag extends gItem {
     public void activateItem(gPlayer player) {
         nServer.instance().clientArgsMap.get("server").put("flagmasterid", player.get("id"));
         String playername = nServer.instance().clientArgsMap.get(player.get("id")).get("name");
+        String playercolor = nServer.instance().clientArgsMap.get(player.get("id")).get("color");
         nServer.instance().addExcludingNetCmd("server",
-                "echo " + playername + " has the flag");
+                "echo " + playername + (playercolor != null ? "#"+playercolor : "") + " has the flag");
         nServer.instance().addNetCmd("deleteitem " + get("id"));
     }
 
