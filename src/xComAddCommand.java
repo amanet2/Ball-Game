@@ -16,7 +16,6 @@ public class xComAddCommand extends xCom {
         }
         String actStr = act.substring(1);
         nServer.instance().addNetCmd(actStr);
-        System.out.println(actStr);
         return "server net com: " + actStr;
     }
 }

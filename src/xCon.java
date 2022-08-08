@@ -99,6 +99,7 @@ public class xCon {
         commands.put("activateui", new xComActivateUI());
         commands.put("addbot", new xComAddBot());
         commands.put("addcom", new xComAddCommand());
+        commands.put("addcomi", new xComAddCommandIgnore());
         commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());

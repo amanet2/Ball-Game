@@ -1,0 +1,2 @@
+addcomi echo $pnam#$pcol has the flag
+addcom deleteitem $itemrcvid
