@@ -5,10 +5,10 @@ public class gItem extends gThing {
 
     public void activateItem(gPlayer p) {
         //to be subclassed and execute on intersection
-        if(contains("script"))
-            xCon.ex(get("script"));
         xCon.ex("setvar itemactid " + p.get("id"));
         xCon.ex("setvar itemrcvid " + get("id"));
+        if(contains("script"))
+            xCon.ex(get("script"));
     }
 
     public String saveString() {

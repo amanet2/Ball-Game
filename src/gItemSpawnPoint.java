@@ -6,6 +6,11 @@ public class gItemSpawnPoint extends gItem {
         put("type", "ITEM_SPAWNPOINT");
     }
 
+    public void activateItem(gPlayer player) {
+        super.activateItem(player);
+        xCon.ex("exec items/spawnpoint");
+    }
+
     public boolean isOccupied() {
         for(String id : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
             gPlayer player = (gPlayer) cServerLogic.scene.getThingMap("THING_PLAYER").get(id);

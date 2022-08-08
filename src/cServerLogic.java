@@ -99,7 +99,7 @@ public class cServerLogic {
             //check player teleporters
             int clearTeleporterFlag = 1;
             for(String checkType : scene.objectMaps.keySet()) {
-                if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
+                if(checkType.contains("ITEM_")) {
                     HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
                     Collection<String> idCol = thingMap.keySet();
                     int isize = idCol.size();

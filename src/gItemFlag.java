@@ -1,5 +1,6 @@
 public class gItemFlag extends gItem {
     public void activateItem(gPlayer player) {
+        super.activateItem(player);
         nServer.instance().clientArgsMap.get("server").put("flagmasterid", player.get("id"));
         xCon.ex("setvar pnam " + nServer.instance().clientArgsMap.get(player.get("id")).get("name"));
         xCon.ex("setvar pcol " + nServer.instance().clientArgsMap.get(player.get("id")).get("color"));

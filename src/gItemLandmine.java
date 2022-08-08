@@ -1,7 +1,7 @@
 public class gItemLandmine extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
-        xCon.ex(String.format("exec items/landmine %s %s", player.get("id"), get("id")));
+        xCon.ex("exec items/landmine");
     }
 
     public gItemLandmine(int x, int y) {

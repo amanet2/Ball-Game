@@ -12,6 +12,10 @@ public class xComSetThing extends xCom {
         if(toks.length < 3)
             return thingMap.toString();
         String tid = toks[2];
+        if(tid.startsWith("$")) {
+            if(cServerVars.instance().contains(tid.substring(1)))
+                tid = cServerVars.instance().get(tid.substring(1));
+        }
         if(!thingMap.containsKey(tid))
             return "null";
         gThing thing = thingMap.get(tid);

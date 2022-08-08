@@ -1,7 +1,7 @@
 public class gItemPointGiver extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
-        xCon.ex(String.format("exec items/pointgiver %s %s", player.get("id"), get("id")));
+        xCon.ex("exec items/pointgiver");
     }
 
     public gItemPointGiver(int x, int y) {
