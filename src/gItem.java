@@ -8,6 +8,7 @@ public class gItem extends gThing {
         if(contains("script"))
             xCon.ex(get("script"));
         xCon.ex("setvar itemactid " + p.get("id"));
+        xCon.ex("setvar itemrcvid " + get("id"));
     }
 
     public String saveString() {

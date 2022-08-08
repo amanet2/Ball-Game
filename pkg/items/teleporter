@@ -1,0 +1,2 @@
+addcom cl_setthing THING_PLAYER $itemactid coordx $telex
+addcom cl_setthing THING_PLAYER $itemactid coordy $teley

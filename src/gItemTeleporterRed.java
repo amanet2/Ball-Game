@@ -1,5 +1,6 @@
 public class gItemTeleporterRed extends gItem {
     public void activateItem(gPlayer player) {
+        super.activateItem(player);
         if(player.getInt("stockhp") > 0 && player.isZero("inteleporter")) {
             gThing exit = null;
             for(String id : cServerLogic.scene.getThingMap("ITEM_TELEPORTER_RED").keySet()) {
@@ -8,13 +9,11 @@ public class gItemTeleporterRed extends gItem {
                     exit = teleporter;
             }
             if(exit != null) {
-                int nx = exit.getInt("coordx") + exit.getInt("dimw")/2 - player.getInt("dimw")/2;
-                int ny = exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2;
-                String pid = player.get("id");
                 player.put("inteleporter", "1");
-//                xCon.ex("exec scripts/teleporter " + nx + " " + ny);
-                nServer.instance().addNetCmd(pid, "cl_setthing THING_PLAYER " + pid + " coordx " + nx
-                        + ";cl_setthing THING_PLAYER " + pid + " coordy " + ny);
+                xCon.ex(String.format("setvar teleid %s;setvar telex %d;setvar teley %d;exec %s", exit.get("id"),
+                        exit.getInt("coordx") + exit.getInt("dimw")/2 - player.getInt("dimw")/2,
+                        exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2,
+                        "items/teleporter"));
             }
         }
         else

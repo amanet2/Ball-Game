@@ -1,1 +1,2 @@
 damageplayer $itemactid 1000
+addcom deleteitem $itemrcvid
