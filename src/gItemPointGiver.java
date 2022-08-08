@@ -1,8 +1,7 @@
 public class gItemPointGiver extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
-        String plId = player.get("id");
-        xCon.ex(String.format("givepoint %s", plId));
+        xCon.ex("exec scripts/pointgiver " + get("id"));
         nServer.instance().addNetCmd("deleteitem " + get("id"));
     }
 

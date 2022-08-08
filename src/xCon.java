@@ -98,6 +98,7 @@ public class xCon {
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
         commands.put("addbot", new xComAddBot());
+        commands.put("addcom", new xComAddCommand());
         commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
@@ -168,7 +169,7 @@ public class xCon {
         commands.put("unbind", new xComUnbind());
         commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
-        commands.put("cl_addcom", new xComAddClientCommand());
+        commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
         commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());

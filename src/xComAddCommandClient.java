@@ -1,4 +1,4 @@
-public class xComAddClientCommand extends xCom {
+public class xComAddCommandClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
         if(!sSettings.IS_CLIENT)

@@ -12,7 +12,7 @@ public class gItemTeleporterBlue extends gItem {
                 int ny = exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2;
                 String pid = player.get("id");
                 player.put("inteleporter", "1");
-                xCon.ex("exec scripts/teleporter " + nx + " " + ny);
+//                xCon.ex("exec scripts/teleporter " + nx + " " + ny);
                 nServer.instance().addNetCmd(pid, "cl_setthing THING_PLAYER " + pid + " coordx " + nx
                         + ";cl_setthing THING_PLAYER " + pid + " coordy " + ny);
             }

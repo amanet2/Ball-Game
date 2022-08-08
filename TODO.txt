@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* when items exec scripts we cant use vars
 * ability to have setvar take in the result of a whole command
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
