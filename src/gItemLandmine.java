@@ -1,7 +1,7 @@
 public class gItemLandmine extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
-        xCon.ex("exec scripts/landmine " + get("id"));
+        xCon.ex("exec items/landmine " + get("id"));
         nServer.instance().addNetCmd("deleteitem " + get("id"));
     }
 
