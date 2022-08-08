@@ -100,6 +100,7 @@ public class xCon {
         commands.put("addbot", new xComAddBot());
         commands.put("addcom", new xComAddCommand());
         commands.put("addcomi", new xComAddCommandIgnore());
+        commands.put("addcomx", new xComAddCommandExclusive());
         commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
@@ -185,6 +186,7 @@ public class xCon {
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putitem", new xComPutItemClient());
         commands.put("cl_sendcmd", new xComSendCmdClient());
+        commands.put("cl_setplayercoords", new xComSetPlayerCoords());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());

@@ -1,10 +1,10 @@
-public class xComAddCommandIgnore extends xCom {
+public class xComAddCommandExclusive extends xCom {
     public String doCommand(String fullCommand) {
         if(!sSettings.IS_SERVER)
-            return "addcomi can only be used by active clients";
+            return "addcomx can only be used by active clients";
         String[] args = fullCommand.split(" ");
         if(args.length < 3)
-            return "usage: addcomi <ignore id> <string>";
+            return "usage: addcomx <exclusive id> <string>";
         for(int i = 1; i < args.length; i++) {
             if(args[i].startsWith("$")) {
                 if(args[i].contains("#")) {
@@ -19,13 +19,13 @@ public class xComAddCommandIgnore extends xCom {
                     args[i] = cServerVars.instance().get(args[i].substring(1));
             }
         }
-        String ignoreId = args[1];
+        String exlusiveId = args[1];
         StringBuilder act = new StringBuilder("");
         for(int i = 2; i < args.length; i++) {
             act.append(" ").append(args[i]);
         }
         String actStr = act.substring(1);
-        nServer.instance().addExcludingNetCmd(ignoreId, actStr);
-        return "server net com ignoring: " + actStr;
+        nServer.instance().addNetCmd(exlusiveId, actStr);
+        return "server net com exclusive: " + actStr;
     }
 }

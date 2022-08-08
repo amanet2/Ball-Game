@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* teleporter script is weird
+    -> we need a command to set play coords simultaneously
+        --> setplayercoords <id> <x> <y>
 * when items exec scripts we cant use vars
 * ability to have setvar take in the result of a whole command
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
