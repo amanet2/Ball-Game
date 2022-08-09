@@ -6,6 +6,7 @@ public class xComAddCommandExclusive extends xCom {
         if(args.length < 3)
             return "usage: addcomx <exclusive id> <string>";
         for(int i = 1; i < args.length; i++) {
+            //parse the $ vars for placing prefabs
             if(args[i].startsWith("$")) {
                 if(args[i].contains("#")) {
                     String[] toks = args[i].split("#");
@@ -17,6 +18,9 @@ public class xComAddCommandExclusive extends xCom {
                 }
                 else if(cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
+                else if(sVars.get(args[i]) != null) {
+                    args[i] = sVars.get(args[i]);
+                }
             }
         }
         String exlusiveId = args[1];
@@ -25,6 +29,7 @@ public class xComAddCommandExclusive extends xCom {
             act.append(" ").append(args[i]);
         }
         String actStr = act.substring(1);
+        System.out.println(actStr);
         nServer.instance().addNetCmd(exlusiveId, actStr);
         return "server net com exclusive: " + actStr;
     }

@@ -8,11 +8,13 @@ public class eManager {
 	static String[] prefabFileSelection;
 	static String[] configFileSelection;
 	static String[] itemFilesSelection;
+	static String[] scriptFilesSelection;
 
     public static void init() {
         configFileSelection = getFilesSelection("config");
         itemFilesSelection = getFilesSelection("items");
         prefabFileSelection = getFilesSelection("prefabs");
+        scriptFilesSelection = getFilesSelection("scripts");
         mapsFileSelection = getFilesSelection("maps", ".map");
         winSoundFileSelection = getFilesSelection(eUtils.getPath("sounds/win"));
     }

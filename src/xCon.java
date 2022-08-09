@@ -10,7 +10,6 @@ public class xCon {
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
-    private final ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
     ArrayList<String> stringLines;
     int prevCommandIndex;
@@ -76,24 +75,6 @@ public class xCon {
         stringLines = new ArrayList<>();    //TODO: turn into queue to avoid storing too many
         commandString = "";
         prevCommandIndex = -1;
-
-        visibleCommands = new ArrayList<>();
-        visibleCommands.add("addbot");
-        visibleCommands.add("banid");
-        visibleCommands.add("bind");
-        visibleCommands.add("changemap");
-        visibleCommands.add("changemaprandom");
-        visibleCommands.add("exec");
-        visibleCommands.add("joingame");
-        visibleCommands.add("load");
-        visibleCommands.add("newgame");
-        visibleCommands.add("newgamerandom");
-        visibleCommands.add("disconnect");
-        visibleCommands.add("cl_load");
-        visibleCommands.add("cl_exec");
-        visibleCommands.add("exportasprefab");
-        visibleCommands.add("e_openfile");
-        visibleCommands.add("e_saveas");
 
         commands = new HashMap<>();
         commands.put("activateui", new xComActivateUI());
@@ -186,6 +167,7 @@ public class xCon {
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putitem", new xComPutItemClient());
         commands.put("cl_setplayercoords", new xComSetPlayerCoords());
+        commands.put("cl_setvar", new xComSetVarClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());

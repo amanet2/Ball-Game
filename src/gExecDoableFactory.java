@@ -18,6 +18,9 @@ public class gExecDoableFactory {
         for(String fileName : eManager.itemFilesSelection) {
             execDoableMap.put("items/" + fileName, new gExecDoable("items/" + fileName));
         }
+        for(String fileName : eManager.scriptFilesSelection) {
+            execDoableMap.put("scripts/" + fileName, new gExecDoable("scripts/" + fileName));
+        }
     }
 
     public static gExecDoableFactory instance() {
