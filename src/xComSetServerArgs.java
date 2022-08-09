@@ -5,7 +5,7 @@ public class xComSetServerArgs extends xCom {
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
         if(args.length < 2)
-            return "null";
+            return nServer.instance().clientArgsMap.toString();
         for(int i = 1; i < args.length; i++) {
             if(args[i].startsWith("$")) {
                 if(cServerVars.instance().contains(args[i].substring(1)))

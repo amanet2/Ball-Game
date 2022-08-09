@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* add another base arg to testres
+    -> e(equal), gte(greater than equal), lte(less than equal)
 * to link teleporters cleanly
     -> on putitem, if its a blue teleporter a for loop should assign exit nodes if possible (>1 teleporter)
         -> we can use "getres" to get this exit nodes id in a script

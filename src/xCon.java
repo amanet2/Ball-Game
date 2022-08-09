@@ -153,7 +153,6 @@ public class xCon {
         commands.put("svarlist", new xComSVarlist());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
-        commands.put("userplayer", new xComUserPlayer());
         commands.put("zoom", new xComZoom());
         commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
@@ -174,8 +173,6 @@ public class xCon {
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
-        commands.put("cl_status", new xComStatusClient());
-        commands.put("sv_status", new xComStatusServer());
     }
 
     public void saveLog(String s) {
