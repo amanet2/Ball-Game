@@ -19,9 +19,8 @@ public class gItemTeleporterBlue extends gItem {
         );
     }
     public gItemTeleporterBlue(int x, int y) {
-        super(x, y, 300, 300);
-        put("type", "ITEM_TELEPORTER_BLUE");
-        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/teleporter_blue.png"),
-                getInt("dimw"), getInt("dimh"));
+        super("ITEM_TELEPORTER_BLUE", x, y, 300, 300,
+                gTextures.getGScaledImage(eUtils.getPath("misc/teleporter_blue.png"),
+                300, 300));
     }
 }

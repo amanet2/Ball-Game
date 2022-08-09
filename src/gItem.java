@@ -15,12 +15,15 @@ public class gItem extends gThing {
         return String.format("putitem %s %s %s %s", get("type"), get("id"), get("coordx"), get("coordy"));
     }
 
-    public gItem(int x, int y, int w, int h) {
+    public gItem(String type, int x, int y, int w, int h, Image sp) {
         super();
-        put("type", "THING_ITEM");
+        if(type.trim().length() < 1)
+            type = "null";
+        put("type", type);
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
+        sprite = sp;
     }
 }
