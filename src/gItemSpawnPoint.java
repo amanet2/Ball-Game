@@ -3,14 +3,12 @@ import java.awt.*;
 public class gItemSpawnPoint extends gItem {
     public gItemSpawnPoint(int x, int y) {
         super("ITEM_SPAWNPOINT", x, y, 300, 300, null);
+        put("script", "exec items/spawnpoint");
         put("occupied", "0");
     }
 
     public void activateItem(gPlayer player) {
-        if(get("occupied").equals("0")) { //used to suppress spawnpoint noise in log
-            super.activateItem(player);
-            xCon.ex("exec items/spawnpoint");
-        }
+        super.activateItem(player);
     }
 
     public boolean isOccupied() {
