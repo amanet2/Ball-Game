@@ -466,7 +466,7 @@ public class nServer extends Thread {
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
+            addNetCmd(packId,"cl_addcom respawnnetplayer " + packId);
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
@@ -624,7 +624,7 @@ public class nServer extends Thread {
         for(String id : clientIds) {
             sendMap(id);
             if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-                addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
+                addNetCmd(id,"cl_addcom respawnnetplayer " + id);
         }
     }
 

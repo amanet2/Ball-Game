@@ -185,13 +185,11 @@ public class xCon {
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putitem", new xComPutItemClient());
-        commands.put("cl_sendcmd", new xComSendCmdClient());
         commands.put("cl_setplayercoords", new xComSetPlayerCoords());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
         commands.put("cl_status", new xComStatusClient());
-        commands.put("sv_sendcmd", new xComSendCmdServer());
         commands.put("sv_status", new xComStatusServer());
     }
 
