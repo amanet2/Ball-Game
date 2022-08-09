@@ -10,10 +10,10 @@ public class gItemTeleporterBlue extends gItem {
             }
             if(exit != null) {
                 player.put("inteleporter", "1");
-                xCon.ex(String.format("setvar teleid %s;setvar telex %d;setvar teley %d;exec %s", exit.get("id"),
+                xCon.ex(String.format("exec items/teleporter %s %s %s", player.get("id"),
                         exit.getInt("coordx") + exit.getInt("dimw")/2 - player.getInt("dimw")/2,
-                        exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2,
-                        "items/teleporter"));
+                        exit.getInt("coordy") + exit.getInt("dimh")/2 - player.getInt("dimh")/2)
+                );
             }
         }
         else

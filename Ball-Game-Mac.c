@@ -3,7 +3,7 @@
 
 int main(int argc, char * argv[]) {
     int argmalloc = 0;
-    char * startstr = "bash pkg/run_game.sh ";
+    char * startstr = "bash Code/Ball-Game/pkg/run_game.sh ";
     int i;
     for(i = 1; i < argc; i++) {
         argmalloc += sizeof(char)*strlen(argv[i]);

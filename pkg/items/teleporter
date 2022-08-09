@@ -1,1 +1,1 @@
-addcomx $itemactid cl_setplayercoords $itemactid $telex $teley
+addcomx $1 cl_setplayercoords $1 $2 $3
