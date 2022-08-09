@@ -7,9 +7,9 @@ public class xComAddCommandClient extends xCom {
             return "usage: cl_addcom <string>";
         StringBuilder act = new StringBuilder("");
         for(int i = 1; i < toks.length; i++) {
-            act.append(toks[i]).append(" ");
+            act.append(" ").append(toks[i]);
         }
-        String actStr = act.toString();
+        String actStr = act.substring(1);
         nClient.instance().addNetCmd(actStr);
         return "client net com: " + actStr;
     }

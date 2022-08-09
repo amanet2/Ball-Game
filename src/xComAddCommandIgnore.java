@@ -11,12 +11,18 @@ public class xComAddCommandIgnore extends xCom {
                     String[] toks = args[i].split("#");
                     if(cServerVars.instance().contains(toks[0].substring(1)))
                         toks[0] = cServerVars.instance().get(toks[0].substring(1));
+                    else if(sVars.get(toks[0]) != null)
+                        toks[0] = sVars.get(toks[0]);
                     if(cServerVars.instance().contains(toks[1].substring(1)))
                         toks[1] = cServerVars.instance().get(toks[1].substring(1));
+                    else if(sVars.get(toks[1]) != null)
+                        toks[1] = sVars.get(toks[1]);
                     args[i] = toks[0] + "#" + toks[1];
                 }
                 else if(cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
+                else if(sVars.get(args[i]) != null)
+                    args[i] = sVars.get(args[i]);
             }
         }
         String ignoreId = args[1];

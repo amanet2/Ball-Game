@@ -18,9 +18,8 @@ public class xComAddCommandExclusive extends xCom {
                 }
                 else if(cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
-                else if(sVars.get(args[i]) != null) {
+                else if(sVars.get(args[i]) != null)
                     args[i] = sVars.get(args[i]);
-                }
             }
         }
         String exlusiveId = args[1];
