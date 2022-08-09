@@ -116,6 +116,7 @@ public class xCon {
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
         commands.put("freecam", new xComFreecam());
+        commands.put("getres", new xComGetRes());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
