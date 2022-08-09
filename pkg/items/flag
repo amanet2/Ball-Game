@@ -1,2 +1,4 @@
-addcomi server echo $1#$2 has the flag
+getres pname getnargs $itemactid name
+getres pcol getnargs $itemactid color
+addcomi server echo $pname#$pcol has the flag
 addcom deleteitem $itemrcvid

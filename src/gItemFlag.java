@@ -2,9 +2,10 @@ public class gItemFlag extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
         nServer.instance().clientArgsMap.get("server").put("flagmasterid", player.get("id"));
-        xCon.ex(String.format("exec items/flag %s %s",
-                nServer.instance().clientArgsMap.get(player.get("id")).get("name"),
-                nServer.instance().clientArgsMap.get(player.get("id")).get("color")));
+        xCon.ex("exec items/flag");
+//        xCon.ex(String.format("exec items/flag %s %s",
+//                nServer.instance().clientArgsMap.get(player.get("id")).get("name"),
+//                nServer.instance().clientArgsMap.get(player.get("id")).get("color")));
     }
 
     public gItemFlag(int x, int y) {
