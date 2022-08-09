@@ -1,2 +1,2 @@
-addcomi echo $pnam#$pcol has the flag
+addcomi server echo $pnam#$pcol has the flag
 addcom deleteitem $itemrcvid

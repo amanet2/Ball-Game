@@ -42,13 +42,14 @@ public class gArgSet {
                 new FileOutputStream(s), StandardCharsets.UTF_8))) {
             for(String line : filelines) {
                 String arg = line.split(" ")[0];
-                if(contains(arg))
+                if(!arg.equals("#") && contains(arg)) {
                     writer.write(String.format("%s %s", arg, get(arg)));
+                }
                 else
                     writer.write(line);
                 writer.write("\n");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             eUtils.echoException(e);
             e.printStackTrace();
         }

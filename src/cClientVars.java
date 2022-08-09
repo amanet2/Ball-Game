@@ -8,7 +8,7 @@ public class cClientVars extends gArgSet {
     private cClientVars() {
         super();
     }
-    protected void init(String[] args) {
+    protected void init(String[] launchArgs) {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
@@ -218,10 +218,10 @@ public class cClientVars extends gArgSet {
                     uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
-
+        
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        loadFromLaunchArgs(args);
+        loadFromLaunchArgs(launchArgs);
     }
     public static gArgSet instance() {
         if(instance == null) {
