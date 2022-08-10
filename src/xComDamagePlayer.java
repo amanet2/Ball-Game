@@ -53,9 +53,7 @@ public class xComDamagePlayer extends xCom {
                                 itemId = Integer.parseInt(iid);
                         }
                         itemId++; //want to be the _next_ id
-                        xCon.ex(String.format("putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
-                        nServer.instance().addExcludingNetCmd("server",
-                                String.format("cl_putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
+                        xCon.ex(String.format("exec scripts/putflag %d %d %d", itemId, dcx, dcy));
                     }
                     //migrate all client death logic here
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;

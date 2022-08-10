@@ -4,16 +4,10 @@ public class gItem extends gThing {
     public Image sprite;
 
     public void activateItem(gPlayer p) {
-        //to be subclassed and execute on intersection
-        if(contains("script")) {
-            xCon.ex("setvar itemactid " + p.get("id"));
-            xCon.ex("setvar itemrcvid " + get("id"));
+        xCon.ex("setvar itemactid " + p.get("id"));
+        xCon.ex("setvar itemrcvid " + get("id"));
+        if(contains("script"))
             xCon.ex(get("script"));
-        }
-    }
-
-    public String saveString() {
-        return String.format("putitem %s %s %s %s", get("type"), get("id"), get("coordx"), get("coordy"));
     }
 
     public gItem(String type, int x, int y, int w, int h, Image sp) {
