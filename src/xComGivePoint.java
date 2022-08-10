@@ -16,9 +16,6 @@ public class xComGivePoint extends xCom {
                 }
                 gScoreboard.addToScoreField(id, "score", score);
                 String color = "";
-//                if(nServer.instance().clientArgsMap.containsKey(id)
-//                && nServer.instance().clientArgsMap.get(id).containsKey("color"))
-//                    color = nServer.instance().clientArgsMap.get(id).get("color");
                 if(nServer.instance().clientArgsMap.containsKey(id)
                 && nServer.instance().clientArgsMap.get(id).containsKey("color"))
                     color = nServer.instance().clientArgsMap.get(id).get("color");

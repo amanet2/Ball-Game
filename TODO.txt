@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* need to have every word going through the console be subject to the '$' var check
+    -> will make scripts more consistent/predictable
 * the spawnpoint script is too noisy in the console
 * add another base arg to testres
     -> e(equal), gte(greater than equal), lte(less than equal)
