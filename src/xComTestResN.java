@@ -1,4 +1,4 @@
-public class xComTestRes extends xCom {
+public class xComTestResN extends xCom {
     //usage: testres $res $val <string that will exec if res == val>
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
@@ -19,7 +19,7 @@ public class xComTestRes extends xCom {
             esb.append(" ").append(args[i]);
         }
         String es = esb.substring(1);
-        if(tk.equalsIgnoreCase(tv)) {
+        if(!tk.equalsIgnoreCase(tv)) {
             xCon.ex(es);
             return "1";
         }

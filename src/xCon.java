@@ -153,6 +153,7 @@ public class xCon {
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
+        commands.put("testresn", new xComTestResN());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("zoom", new xComZoom());

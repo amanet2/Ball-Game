@@ -8,7 +8,6 @@ public class xComGiveWeapon extends xCom {
             int weap = Integer.parseInt(toks[2]);
             if(nServer.instance().hasClient(id)) {
                 xCon.ex(String.format("exec scripts/giveweapon %s %d", id, weap));
-//                nServer.instance().addNetCmd(id, String.format("cl_setthing THING_PLAYER %s weapon %d", id, weap));
                 return "gave weapon" + weap + " to " + id;
             }
         }
