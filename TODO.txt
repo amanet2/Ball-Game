@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
 * need to have every word going through the console be subject to the '$' var check
     -> will make scripts more consistent/predictable
 * the spawnpoint script is too noisy in the console

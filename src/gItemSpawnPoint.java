@@ -3,7 +3,7 @@ import java.awt.*;
 public class gItemSpawnPoint extends gItem {
     public gItemSpawnPoint(int x, int y) {
         super("ITEM_SPAWNPOINT", x, y, 300, 300, null);
-        put("script", "exec items/spawnpoint");
+//        put("script", "exec items/spawnpoint");
         put("occupied", "0");
     }
 
