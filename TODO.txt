@@ -4,13 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* the spawnpoint script is too noisy in the console
 * add another base arg to testres
     -> e(equal), gte(greater than equal), lte(less than equal)
 * to link teleporters cleanly
     -> on putitem, if its a blue teleporter a for loop should assign exit nodes if possible (>1 teleporter)
         -> we can use "getres" to get this exit nodes id in a script
-* need a way to manipulate the server args map thru console commands
-* ability to have setvar take in the result of a whole command
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision

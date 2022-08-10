@@ -15,6 +15,8 @@ public class xComSetThing extends xCom {
         if(tid.startsWith("$")) {
             if(cServerVars.instance().contains(tid.substring(1)))
                 tid = cServerVars.instance().get(tid.substring(1));
+            else if(sVars.get(tid.substring(1)) != null)
+                tid = sVars.get(tid.substring(1));
         }
         if(!thingMap.containsKey(tid))
             return "null";

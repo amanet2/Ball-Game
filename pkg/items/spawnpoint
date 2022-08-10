@@ -1,2 +1,2 @@
-getres occ THING_ITEM $itemrcvid occupied
+getres occ setthing THING_ITEM $itemrcvid occupied
 testres $occ 0 setthing THING_ITEM $itemrcvid occupied 1

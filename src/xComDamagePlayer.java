@@ -11,10 +11,11 @@ public class xComDamagePlayer extends xCom {
             if(player != null) {
                 xCon.ex("exec scripts/playdeathsound");
                 player.subtractVal("stockhp", dmg);
-                player.putLong("hprechargetime", gTime.gameTime);
+                xCon.ex(String.format("exec scripts/damageplayer %s %d", id, gTime.gameTime));
+//                player.putLong("hprechargetime", gTime.gameTime);
                 //store player object's health in outgoing network arg map
-                nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
-                gScoreboard.addToScoreField(id, "score", -dmg);
+//                nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
+                gScoreboard.addToScoreField(id, "score", -dmg);a
                 //handle death
                 if(player.getInt("stockhp") < 1) {
                     //more server-side stuff
