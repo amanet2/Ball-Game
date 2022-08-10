@@ -1,11 +1,11 @@
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 public class gBullet extends gThing {
     Image sprite;
 
     public boolean doesCollideWithPlayer(gPlayer p) {
-        Ellipse2D bounds = new Ellipse2D.Double(getInt("coordx"), getInt("coordy"),
+        Rectangle2D bounds = new Rectangle(getInt("coordx"), getInt("coordy"),
                 getInt("dimw"), getInt("dimh"));
         return bounds.intersects(new Rectangle(p.getInt("coordx"), p.getInt("coordy"),
                 p.getInt("dimw"), p.getInt("dimh")));

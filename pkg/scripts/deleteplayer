@@ -1,2 +1,2 @@
-deleteplayer $1
+addcomx server deleteplayer $1
 addcomi server cl_deleteplayer $1
