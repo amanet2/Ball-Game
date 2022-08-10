@@ -1,3 +1,3 @@
 setthing THING_PLAYER $1 hprechargetime $2
-#getres stock setthing THING_PLAYER $1 stockhp
-#setnargs $1 hp $stock
+getres stock setthing THING_PLAYER $1 stockhp
+setnargs $1 hp $stock
