@@ -118,6 +118,7 @@ public class xCon {
         commands.put("freecam", new xComFreecam());
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
+        commands.put("getrand", new xComGetRandom());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
@@ -151,6 +152,7 @@ public class xCon {
         commands.put("spawnpointgiver", new xComSpawnPointgiver());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
+        commands.put("testres", new xComTestRes());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("zoom", new xComZoom());

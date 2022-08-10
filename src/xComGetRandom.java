@@ -1,5 +1,7 @@
-public class xComTestRes extends xCom {
-    //usage: testres $res $val <string that will exec if res == val>
+import java.util.concurrent.ThreadLocalRandom;
+
+public class xComGetRandom extends xCom {
+    // usage: getrand $min $max
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
         if(args.length < 3)
@@ -12,16 +14,8 @@ public class xComTestRes extends xCom {
                     args[i] = sVars.get(args[i]);
             }
         }
-        String tk = args[1];
-        String tv = args[2];
-        StringBuilder esb = new StringBuilder();
-        for(int i = 3; i < args.length; i++) {
-            esb.append(" ").append(args[i]);
-        }
-        String es = esb.substring(1);
-        if(tk.equalsIgnoreCase(tv))
-            xCon.ex(es);
-        System.out.println(tk + " " + tv + " " + es);
-        return "null";
+        int start = Integer.parseInt(args[1]);
+        int end = Integer.parseInt(args[2]);
+        return Integer.toString(ThreadLocalRandom.current().nextInt(start, end + 1));
     }
 }

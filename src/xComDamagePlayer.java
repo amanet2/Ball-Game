@@ -9,6 +9,7 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
+                xCon.ex("exec scripts/playdeathsound");
                 player.subtractVal("stockhp", dmg);
                 player.putLong("hprechargetime", gTime.gameTime);
                 //store player object's health in outgoing network arg map

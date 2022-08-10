@@ -199,7 +199,6 @@ public class cClientLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            cClientLogic.playPlayerDeathSound();
             scene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
         }
     }
@@ -244,16 +243,6 @@ public class cClientLogic {
             p.putInt("weapon", newweapon);
             cClientLogic.getUserPlayer().checkSpriteFlip();
         }
-    }
-
-    public static void playPlayerDeathSound() {
-        double r = Math.random();
-        if(r > .99)
-            xCon.ex("playsound sounds/growl.wav");
-        else if(r > .49)
-            xCon.ex("playsound sounds/shout.wav");
-        else
-            xCon.ex("playsound sounds/death.wav");
     }
 
     public static void checkColorStatus() {
