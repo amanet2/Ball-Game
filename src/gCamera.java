@@ -92,15 +92,14 @@ public class gCamera {
 	}
 
 	public static void centerCamera() {
-		gThing p = cClientLogic.getUserPlayer();
-		if(p == null)
-			p = cClientLogic.getPlayerById(gCamera.trackingid);
+		gThing p = cClientLogic.getPlayerById(gCamera.trackingid);
 		if(p != null) {
 			mode = MODE_TRACKING;
-			coords[0] = (((p.getInt("coordx") - eUtils.unscaleInt(sSettings.width)/2) + p.getInt("dimw")/2));
-			coords[1] = (((p.getInt("coordy") - eUtils.unscaleInt(sSettings.height)/2) + p.getInt("dimh")/2));
+			coords[0] = p.getInt("coordx") + p.getInt("dimw")/2 - eUtils.unscaleInt(sSettings.width)/2;
+			coords[1] = p.getInt("coordy") + p.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height)/2;
+//			xCon.ex(String.format("exec scripts/camcenter %s %s %s"));
+			return;
 		}
-		else
-			mode = MODE_FREE;
+		mode = MODE_FREE;
 	}
 }
