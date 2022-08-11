@@ -7,19 +7,23 @@ public class gCamera {
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
-	private static final String trackingid = uiInterface.uuid;
+	private static String trackingid = uiInterface.uuid;
 
 	public static void init() {
 		argSet = new gArgSet();
+		argSet.putArg(new gArg("coordx", "0") {
+			public void onChange() {
+				coords[0] = Integer.parseInt(value);
+			}
+		});
+		argSet.putArg(new gArg("coordy", "0") {
+			public void onChange() {
+				coords[1] = Integer.parseInt(value);
+			}
+		});
 		argSet.putArg(new gArg("mode", Integer.toString(MODE_FREE)) {
 			public void onChange() {
-				try {
-					int val = Integer.parseInt(value);
-					mode = val;
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
+				mode = Integer.parseInt(value);
 			}
 		});
 		argSet.putArg(new gArg("mov0", "0") {
@@ -40,6 +44,11 @@ public class gCamera {
 		argSet.putArg(new gArg("mov3", "0") {
 			public void onChange() {
 				move[3] = Integer.parseInt(value);
+			}
+		});
+		argSet.putArg(new gArg("trackingid", uiInterface.uuid) {
+			public void onChange() {
+				trackingid = value;
 			}
 		});
 	}
