@@ -1,4 +1,5 @@
 public class gCamera {
+	static gArgSet argSet = null;
 	// selection of modes
 	private static final int MODE_FREE = 0;
 	private static final int MODE_TRACKING = 1;
@@ -7,6 +8,41 @@ public class gCamera {
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
 	private static final String trackingid = uiInterface.uuid;
+
+	public static void init() {
+		argSet = new gArgSet();
+		argSet.putArg(new gArg("mode", Integer.toString(MODE_FREE)) {
+			public void onChange() {
+				try {
+					int val = Integer.parseInt(value);
+					mode = val;
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		argSet.putArg(new gArg("mov0", "0") {
+			public void onChange() {
+				move[0] = Integer.parseInt(value);
+			}
+		});
+		argSet.putArg(new gArg("mov1", "0") {
+			public void onChange() {
+				move[1] = Integer.parseInt(value);
+			}
+		});
+		argSet.putArg(new gArg("mov2", "0") {
+			public void onChange() {
+				move[2] = Integer.parseInt(value);
+			}
+		});
+		argSet.putArg(new gArg("mov3", "0") {
+			public void onChange() {
+				move[3] = Integer.parseInt(value);
+			}
+		});
+	}
 
 	public static int getX() {
 		return coords[0];
@@ -28,9 +64,6 @@ public class gCamera {
 		return mode == MODE_TRACKING;
 	}
 
-	public static void free() {
-		mode = MODE_FREE;
-	}
 	//enable camera to move in one direction
 	public static void move(int p) {
 		if(isTracking())

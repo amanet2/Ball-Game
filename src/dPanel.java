@@ -29,28 +29,28 @@ public class dPanel extends JPanel {
     }
 
     public void drawFrame(Graphics2D g2, long gameTimeMillis) {
-        if(cClientLogic.maploaded) {
-            g2.translate(sSettings.width / 2, sSettings.height / 2);
-            g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
-            g2.translate(-sSettings.width / 2, -sSettings.height / 2);
-            gScene scene = cClientLogic.scene;
-            g2.scale(
-                ((1.0 / sSettings.gamescale) * (double) sSettings.height),
-                ((1.0 / sSettings.gamescale) * (double) sSettings.height)
-            );
-            g2.translate(-gCamera.getX(), -gCamera.getY());
-            dBlockFloors.drawBlockFloors(g2, scene);
-            dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
-            dTileTops.drawMapmakerOverlay(g2, scene);
-            dTileTops.drawBullets(g2, scene);
-            dAnimations.drawAnimations(g2, scene, gameTimeMillis);
-            dWaypoints.drawWaypoints(g2, scene);
-            dTileTops.drawPopups(g2, scene);
-            dTileTops.drawUserPlayerArrow(g2);
-            dTileTops.drawPlayerNames(g2);
-            if(sSettings.show_mapmaker_ui)
-                dMapmakerOverlay.drawSelectionBoxes(g2);
-        }
+        if(!cClientLogic.maploaded) // comment out for no loading screens
+            return;
+        g2.translate(sSettings.width / 2, sSettings.height / 2);
+        g2.scale(eUtils.zoomLevel, eUtils.zoomLevel);
+        g2.translate(-sSettings.width / 2, -sSettings.height / 2);
+        gScene scene = cClientLogic.scene;
+        g2.scale(
+            ((1.0 / sSettings.gamescale) * (double) sSettings.height),
+            ((1.0 / sSettings.gamescale) * (double) sSettings.height)
+        );
+        g2.translate(-gCamera.getX(), -gCamera.getY());
+        dBlockFloors.drawBlockFloors(g2, scene);
+        dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
+        dTileTops.drawMapmakerOverlay(g2, scene);
+        dTileTops.drawBullets(g2, scene);
+        dAnimations.drawAnimations(g2, scene, gameTimeMillis);
+        dWaypoints.drawWaypoints(g2, scene);
+        dTileTops.drawPopups(g2, scene);
+        dTileTops.drawUserPlayerArrow(g2);
+        dTileTops.drawPlayerNames(g2);
+        if(sSettings.show_mapmaker_ui)
+            dMapmakerOverlay.drawSelectionBoxes(g2);
     }
 
     public dPanel() {
