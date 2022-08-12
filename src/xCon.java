@@ -117,11 +117,11 @@ public class xCon {
         commands.put("fireweapon", new xComFireWeapon());
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
+        commands.put("cl_getres", new xComGetResClient());
         commands.put("getadd", new xComGetAdd());
         commands.put("getsub", new xComGetSub());
         commands.put("getrand", new xComGetRandom());
         commands.put("givepoint", new xComGivePoint());
-        commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
@@ -149,13 +149,12 @@ public class xCon {
         commands.put("setnargs", new xComSetServerArgs());
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
-        commands.put("showscore", new xComShowScore());
-        commands.put("soundlist", new xComSoundlist());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpointgiver", new xComSpawnPointgiver());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
+        commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());

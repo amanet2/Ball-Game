@@ -4,12 +4,19 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
+    -> will have a function check() that can take in a timestamp and then check its hashmap for executions
+    -> this will eliminate the java variables tracking milliseconds and such for things like hp
+        -> may need console command to get currenttime
+        -> or have in code a variable $currenttime that is updated in the server
+* have animation function take in a color string and select the index for animation
 * sVar and exec parameters are limited to one word because of how "exec" works for prefabs
     -> maybe make a new parameter "$0" that contains the whole string
     -> or have a way of going through parameter ranges like an array
         -> e.g. [$1$5] would be range 1 - 5
 * go through server first and remake everything you can with scripting
     -> working with the camera has shown client side scripts arent ready
+        --> we only look for server vars in all our $variables
         --> always remember: the client is a cheating scumbag
         --> scripts can be edited at the moment
 * make a "willcollide" console comm with 2 ids for objects

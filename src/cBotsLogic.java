@@ -54,6 +54,12 @@ public class cBotsLogic {
                 }
             }
         });
+        behaviors.put("Gold Master", new gDoableThing(){
+            public void doItem(gThing p) {
+                cBotsLogic.goToNearestPlayer(p);
+            }
+        });
+
     }
 
     public static void shootAtNearestPlayer(gThing bot) {

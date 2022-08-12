@@ -59,9 +59,9 @@ public class xComDamagePlayer extends xCom {
                     String colorName = nServer.instance().clientArgsMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                         animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
-                    String animString = "cl_spawnanimation " + animInd + " " + (dcx - 100) + " " + (dcy - 100);
                     xCon.ex(String.format("exec scripts/postdeath %s %d %s", id,
-                            gTime.gameTime + cServerLogic.respawnwaittime, animString));
+                            gTime.gameTime + cServerLogic.respawnwaittime,
+                            String.format("cl_spawnanimation %d %d %d", animInd, dcx - 100, dcy - 100)));
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }

@@ -202,6 +202,11 @@ public class cClientVars extends gArgSet {
                 dScreenMessages.showscale = value.equals("1");
             }
         });
+        putArg(new gArg("showscore", "0"){
+            public void onChange() {
+                dScreenMessages.showscore = value.equals("1");
+            }
+        });
         putArg(new gArg("joinip", "localhost"){
             public void onChange() {
                 cClientLogic.joinip = value;
