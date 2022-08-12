@@ -8,6 +8,8 @@ public class xComSetCamera extends xCom {
             if(args[i].startsWith("$")) {
                 if(cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
+                else if(cClientVars.instance().contains(args[i].substring(1)))
+                    args[i] = cClientVars.instance().get(args[i].substring(1));
                 else if(sVars.get(args[i]) != null)
                     args[i] = sVars.get(args[i]);
             }

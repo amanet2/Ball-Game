@@ -90,16 +90,4 @@ public class gCamera {
 			coords[1] += (velocity * move[1] - velocity * move[0]);
 		}
 	}
-
-	public static void centerCamera() {
-		gThing p = cClientLogic.getPlayerById(gCamera.trackingid);
-		if(p != null) {
-			mode = MODE_TRACKING;
-			coords[0] = p.getInt("coordx") + p.getInt("dimw")/2 - eUtils.unscaleInt(sSettings.width)/2;
-			coords[1] = p.getInt("coordy") + p.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height)/2;
-//			xCon.ex(String.format("exec scripts/camcenter %s %s %s"));
-			return;
-		}
-		mode = MODE_FREE;
-	}
 }
