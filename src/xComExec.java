@@ -16,7 +16,7 @@ public class xComExec extends xCom {
             System.out.println("EXEC FROM MEMORY: " + title);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
                 //parse vars for exec calls within exec (changemap)
-                xCon.ex(line);
+                handleLine(line);
             }
         }
         else {
@@ -24,7 +24,7 @@ public class xComExec extends xCom {
                 String line;
                 while ((line = br.readLine()) != null) {
                     if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                        xCon.ex(line);
+                        handleLine(line);
                 }
             }
             catch (Exception e) {
@@ -33,5 +33,24 @@ public class xComExec extends xCom {
             }
         }
         return String.format("%s finished", title);
+    }
+
+    private void handleLine(String line) {
+        String[] args = line.split(" ");
+        if(args[0].equalsIgnoreCase("exec")) {
+            for (int i = 1; i < args.length; i++) {
+                if (args[i].startsWith("$")) {
+                    if (cServerVars.instance().contains(args[i].substring(1)))
+                        args[i] = cServerVars.instance().get(args[i].substring(1));
+                    else if (sVars.get(args[i]) != null)
+                        args[i] = sVars.get(args[i]);
+                }
+            }
+        }
+        StringBuilder tvb = new StringBuilder();
+        for(String arg : args) {
+            tvb.append(" ").append(arg);
+        }
+        xCon.ex(tvb.substring(1));
     }
 }

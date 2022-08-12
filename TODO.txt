@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* sVar and exec parameters are limited to one word because of how "exec" works for prefabs
+    -> maybe make a new parameter "$0" that contains the whole string
+    -> or have a way of going through parameter ranges like an array
+        -> e.g. [$1$5] would be range 1 - 5
 * go through server first and remake everything you can with scripting
     -> working with the camera has shown client side scripts arent ready
         --> always remember: the client is a cheating scumbag

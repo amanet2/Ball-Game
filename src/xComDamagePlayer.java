@@ -10,7 +10,6 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 xCon.ex("exec scripts/playdeathsound");
-//                player.subtractVal("stockhp", dmg);
                 xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
 //                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
@@ -61,11 +60,8 @@ public class xComDamagePlayer extends xCom {
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                         animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                     String animString = "cl_spawnanimation " + animInd + " " + (dcx - 100) + " " + (dcy - 100);
-                    //be sure not to send too much in one go, net comms
-                    nServer.instance().addExcludingNetCmd("server", animString);
-                    nServer.instance().clientArgsMap.get(id).put("respawntime",
-                            Long.toString(gTime.gameTime + cServerLogic.respawnwaittime));
-                    xCon.ex("exec scripts/freecamera " + id);
+                    xCon.ex(String.format("exec scripts/postdeath %s %d %s", id,
+                            gTime.gameTime + cServerLogic.respawnwaittime, animString));
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }
