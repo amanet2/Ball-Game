@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class dHUD {
-
     public static void drawHUD(Graphics g) {
         gPlayer userPlayer = cClientLogic.getUserPlayer();
         if(userPlayer == null)

@@ -204,6 +204,7 @@ public class cServerLogic {
     }
 
     static void changeMap(String mapPath, long gameTimeMillis) {
+//        xCon.ex(String.format("exec scripts/changemap %s", mapPath));
         xCon.ex("clearthingmap THING_PLAYER");
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server",

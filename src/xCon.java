@@ -142,6 +142,7 @@ public class xCon {
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
         commands.put("setcam", new xComSetCamera());
+        commands.put("setcamcoords", new xComSetCamCoords());
         commands.put("setthing", new xComSetThing());
         commands.put("setnargs", new xComSetServerArgs());
         commands.put("cl_setthing", new xComSetThingClient());
