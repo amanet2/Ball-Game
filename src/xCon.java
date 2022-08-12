@@ -117,6 +117,8 @@ public class xCon {
         commands.put("fireweapon", new xComFireWeapon());
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
+        commands.put("getadd", new xComGetAdd());
+        commands.put("getsub", new xComGetSub());
         commands.put("getrand", new xComGetRandom());
         commands.put("givepoint", new xComGivePoint());
         commands.put("giveweapon", new xComGiveWeapon());

@@ -10,8 +10,8 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 xCon.ex("exec scripts/playdeathsound");
-                player.subtractVal("stockhp", dmg);
-                xCon.ex(String.format("exec scripts/damageplayer %s %d", id, gTime.gameTime));
+//                player.subtractVal("stockhp", dmg);
+                xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
 //                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
                 if(player.getInt("stockhp") < 1) {

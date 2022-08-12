@@ -1,3 +1,7 @@
-setthing THING_PLAYER $1 hprechargetime $2
+getres playerhp setthing THING_PLAYER $1 stockhp
+addcomi server echo $playerhp
+getsub newhp $playerhp $2
+setthing THING_PLAYER $1 stockhp $newhp
+setthing THING_PLAYER $1 hprechargetime $3
 getres stock setthing THING_PLAYER $1 stockhp
 setnargs $1 hp $stock

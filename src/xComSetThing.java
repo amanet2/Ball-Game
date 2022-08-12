@@ -37,6 +37,7 @@ public class xComSetThing extends xCom {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);
+        System.out.println(tv);
         thing.put(tk, tv);
         return thing.get(tk);
     }
