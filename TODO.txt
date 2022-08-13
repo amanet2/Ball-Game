@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* damageplayer is broken
 * have the gColors class load its hashmap from a file
     -> have clientvars with the form clr_colorname
 * create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp

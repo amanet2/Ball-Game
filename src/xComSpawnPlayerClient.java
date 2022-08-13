@@ -7,6 +7,7 @@ public class xComSpawnPlayerClient extends xCom {
             int y = Integer.parseInt(toks[3]);
             spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
             if(playerId.equals(uiInterface.uuid)) {
+                cClientVars.instance().put("userplayerid", playerId);
                 gThing p = cClientLogic.getPlayerById(gCamera.argSet.get("trackingid"));
                 if(p != null) {
                     xCon.ex(String.format("exec scripts/camcenter %d %d",
@@ -14,7 +15,7 @@ public class xComSpawnPlayerClient extends xCom {
                             p.getInt("coordy") + p.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height)/2));
                 }
                 else
-                    xCon.ex(String.format("exec scripts/freecamera"));
+                    xCon.ex("exec scripts/freecamera");
             }
 
             return "spawned player " + playerId + " at " + x + " " + y;

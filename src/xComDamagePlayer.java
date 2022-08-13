@@ -12,7 +12,7 @@ public class xComDamagePlayer extends xCom {
                 xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
 //                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
-                if(player.getInt("stockhp") < 1) {
+                if(player.getDouble("stockhp") < 1) {
                     //more server-side stuff
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");

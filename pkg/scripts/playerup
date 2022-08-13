@@ -1,0 +1,2 @@
+cl_testresn $userplayerid null cl_setthing THING_PLAYER $userplayerid mov0 1
+playerup
