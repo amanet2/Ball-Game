@@ -3,7 +3,7 @@ public class xComPlayerDown extends xCom {
         if(cClientLogic.getUserPlayer() != null)
             xCon.ex(String.format("cl_setthing THING_PLAYER %s mov1 1", uiInterface.uuid));
         else if(sSettings.show_mapmaker_ui)
-            xCon.ex("setcam mov1 1");
+            xCon.ex("setcam mode 0;setcam mov1 1");
         return fullCommand;
     }
 

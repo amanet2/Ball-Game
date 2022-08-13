@@ -73,13 +73,6 @@ public class gCamera {
 		return mode == MODE_TRACKING;
 	}
 
-	//enable camera to move in one direction
-	public static void move(int p) {
-		if(isTracking())
-			mode = MODE_FREE;
-		move[p] = 1;
-	}
-
 	public static void updatePosition() {
 		if (mode == MODE_FREE) {
 			coords[0] += (velocity * move[3] - velocity * move[2]);
