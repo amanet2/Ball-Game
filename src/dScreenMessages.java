@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -55,7 +54,7 @@ public class dScreenMessages {
                     0,10*sSettings.height/64);
         }
         //ingame messages
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         if(uiInterface.inplay) {
             dHUD.drawHUD(g);
         }
@@ -65,18 +64,18 @@ public class dScreenMessages {
             long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
-                    dFonts.setFontColorAlert(g);
+                    dFonts.setFontColor(g, "clrf_alert");
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g,
                     cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase(),
                 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
-        dFonts.setFontColorNormalTransparent(g);
+        dFonts.setFontColor(g, "clrf_normaltransparent");
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
@@ -86,7 +85,7 @@ public class dScreenMessages {
             g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -97,7 +96,7 @@ public class dScreenMessages {
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    dFonts.setFontColorBonus(g);
+                    dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cClientLogic.maploaded){
@@ -145,7 +144,7 @@ public class dScreenMessages {
             g.fillRect(0,0,sSettings.width,sSettings.height);
             g.setColor(gColors.getFontColorFromName("console"));
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
                 i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
@@ -197,7 +196,7 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                dFonts.setFontColorNormal(g);
+                dFonts.setFontColor(g, "clrf_normal");
                 // look for hashtag color codes here
                 StringBuilder ts = new StringBuilder();
                 for(String word : s.split(" ")) {
@@ -215,7 +214,7 @@ public class dScreenMessages {
                                     dFonts.getStringWidth(g, ts.toString()),
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32)));
-                            dFonts.setFontColorNormal(g);
+                            dFonts.setFontColor(g, "clrf_normal");
                             ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
                             continue;
                         }
@@ -225,7 +224,7 @@ public class dScreenMessages {
                             dFonts.getStringWidth(g, ts.toString())+3,
                             24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                     +(i*(sSettings.height/32))+3);
-                    dFonts.setFontColorNormal(g);
+                    dFonts.setFontColor(g, "clrf_normal");
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString()),
                             24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))

@@ -67,7 +67,7 @@ public class cServerLogic {
             if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
                 if(goldspawntime < gameTimeMillis) {
                     xCon.ex("spawnpointgiver");
-                    goldspawntime = gameTimeMillis + 3000;
+                    goldspawntime = gameTimeMillis + 6000;
                 }
             }
             if(svars.containsKey("virusids")) {

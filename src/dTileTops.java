@@ -1,9 +1,6 @@
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
@@ -71,10 +68,6 @@ public class dTileTops {
             if(p == null)
                 continue;
             // look for hashtag color codes here
-//            dFonts.setFontColorNormal(g);
-//            g.drawString(p.get("text"),
-//                    p.getInt("coordx"),
-//                    p.getInt("coordy"));
             String s = p.get("text");
             StringBuilder ts = new StringBuilder();
             for(String word : s.split(" ")) {
@@ -90,7 +83,7 @@ public class dTileTops {
                         g.drawString(word.split("#")[0]+" ",
                                 p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
                                 p.getInt("coordy"));
-                        dFonts.setFontColorNormal(g);
+                        dFonts.setFontColor(g, "clrf_normal");
                         ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
                         continue;
                     }
@@ -100,7 +93,7 @@ public class dTileTops {
                 g.drawString(word.split("#")[0]+" ",
                         p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
                         p.getInt("coordy") + 3);
-                dFonts.setFontColorNormal(g);
+                dFonts.setFontColor(g, "clrf_normal");
                 g.drawString(word.split("#")[0]+" ",
                         p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
                         p.getInt("coordy"));

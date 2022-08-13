@@ -1,18 +1,15 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
         g.setColor(gColors.getFontColorFromName("scoreboardbg"));
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        dFonts.setFontColorHighlight(g);
+        dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g,
                 cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase() + ": "
                         + cGameLogic.net_gamemode_strings[cClientLogic.gamemode][1],
                 sSettings.width/2, 2*sSettings.height/30);
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
                 sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
@@ -71,7 +68,7 @@ public class dScoreboard {
             g.drawString("                                       "
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;
             ctr++;
