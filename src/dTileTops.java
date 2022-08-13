@@ -6,7 +6,7 @@ public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sSettings.drawmapmakergrid) {
-            g2.setColor(gColors.getFontColorFromName("mapmakergrid"));
+            dFonts.setFontColor(g2, "clrf_mapmakergrid");
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
                 g2.drawLine(-12000,

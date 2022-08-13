@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g,

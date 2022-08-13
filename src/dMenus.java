@@ -13,7 +13,7 @@ public class dMenus {
 
     public static void showPauseMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColor(g, "clrf_highlight");
@@ -45,7 +45,7 @@ public class dMenus {
 
     public static void showControlsMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColor(g, "clrf_highlight");
@@ -75,7 +75,7 @@ public class dMenus {
 
     public static void showCreditsMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);
         //copyright notice

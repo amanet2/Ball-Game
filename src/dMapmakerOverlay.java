@@ -23,7 +23,7 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
-                g2.setColor(gColors.getFontColorFromName("flooroutline"));
+                dFonts.setFontColor(g2, "clrf_flooroutline");
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));

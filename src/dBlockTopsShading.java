@@ -8,12 +8,12 @@ public class dBlockTopsShading {
                     block.getInt("coordx") + block.getInt("dimw") / 2
                             ,
                     block.getInt("coordy") ,
-                    gColors.getWorldColorFromName("roofoutline1"),
+                    gColors.instance().getColorFromName("clrw_roofoutline1"),
                     block.getInt("coordx") + block.getInt("dimw") / 2
                             ,
                     block.getInt("coordy")
                             + block.getInt("toph"),
-                    gColors.getWorldColorFromName("roofoutline2")
+                    gColors.instance().getColorFromName("clrw_roofoutline2")
             );
             g2.setPaint(gradient);
             g2.drawRoundRect(
