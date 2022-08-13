@@ -6,13 +6,13 @@ public class xComSelectRight extends xCom {
             xCon.ex("playsound sounds/splash.wav");
         }
         else
-            return xCon.ex("playerright");
+            return xCon.ex("exec scripts/playerright");
         return fullCommand;
     }
 
     public String undoCommand(String fullCommand) {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
-            return xCon.ex("-playerright");
+            return xCon.ex("exec scripts/playerrightx");
         return fullCommand;
     }
 }

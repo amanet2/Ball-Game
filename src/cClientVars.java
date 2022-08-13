@@ -233,6 +233,7 @@ public class cClientVars extends gArgSet {
                 cClientLogic.newprefabname = value;
             }
         });
+        put("userplayerid", "null");
         
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);

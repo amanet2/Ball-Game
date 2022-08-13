@@ -5,13 +5,13 @@ public class xComSelectDown extends xCom {
             uiMenus.nextItem();
         }
         else
-            return xCon.ex("playerdown");
+            return xCon.ex("exec scripts/playerdown");
         return fullCommand;
     }
 
     public String undoCommand(String fullCommand) {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
-            return xCon.ex("-playerdown");
+            return xCon.ex("exec scripts/playerdownx");
         return fullCommand;
     }
 }

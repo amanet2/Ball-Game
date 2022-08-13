@@ -5,13 +5,13 @@ public class xComSelectUp extends xCom {
             uiMenus.prevItem();
         }
         else
-            return xCon.ex("playerup");
+            return xCon.ex("exec scripts/playerup");
         return fullCommand;
     }
 
     public String undoCommand(String fullCommand) {
         if(uiInterface.inplay || sSettings.show_mapmaker_ui)
-            return xCon.ex("-playerup");
+            return xCon.ex("exec scripts/playerupx");
         return fullCommand;
     }
 }
