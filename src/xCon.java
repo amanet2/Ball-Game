@@ -119,7 +119,9 @@ public class xCon {
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
         commands.put("getadd", new xComGetAdd());
+        commands.put("cl_getadd", new xComGetAddClient());
         commands.put("getsub", new xComGetSub());
+        commands.put("cl_getsub", new xComGetSubClient());
         commands.put("getrand", new xComGetRandom());
         commands.put("givepoint", new xComGivePoint());
         commands.put("gobackui", new xComGoBackUI());
@@ -156,6 +158,7 @@ public class xCon {
         commands.put("testres", new xComTestRes());
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
+        commands.put("cl_testresn", new xComTestResNClient());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("zoom", new xComZoom());

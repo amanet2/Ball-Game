@@ -223,6 +223,11 @@ public class cClientVars extends gArgSet {
                     uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
+        putArg(new gArg("zoomlevel", "1.0") {
+            public void onChange() {
+                eUtils.zoomLevel = Double.parseDouble(value);
+            }
+        });
         
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);

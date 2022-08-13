@@ -13,9 +13,9 @@ public class xComGetSub extends xCom {
             }
         }
         String tk = args[1];
-        int n1 = Integer.parseInt(args[2]);
-        int n2 = Integer.parseInt(args[3]);
-        cServerVars.instance().put(tk, Integer.toString(n1-n2));
-        return cServerVars.instance().get(tk);
+        double n1 = Double.parseDouble(args[2]);
+        double n2 = Double.parseDouble(args[3]);
+        cClientVars.instance().put(tk, Double.toString(n1-n2));
+        return cClientVars.instance().get(tk);
     }
 }
