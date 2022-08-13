@@ -85,7 +85,7 @@ public class cServerLogic {
                     }
                 }
             }
-            else if(cGameLogic.isVirus()) {
+            else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
                 cGameLogic.resetVirusPlayers();
             }
         }
@@ -217,7 +217,7 @@ public class cServerLogic {
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         starttime = gameTimeMillis;
         gameover = false;
-        if(cGameLogic.isVirus())
+        if(cGameLogic.isGame(cGameLogic.VIRUS))
             cGameLogic.resetVirusPlayers();
     }
 

@@ -51,11 +51,11 @@ public class uiEditorMenus {
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals("Rockmaster") && cGameLogic.isDeathmatch())
+            if(checkBoxMenuItem.getText().equals("Rockmaster") && cGameLogic.isGame(cGameLogic.DEATHMATCH))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cGameLogic.isFlagMaster())
+            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cGameLogic.isGame(cGameLogic.FLAG_MASTER))
                 checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
+            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cGameLogic.isGame(cGameLogic.VIRUS))
                 checkBoxMenuItem.setSelected(true);
             else if(checkBoxMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
                 checkBoxMenuItem.setSelected(true);
@@ -207,11 +207,11 @@ public class uiEditorMenus {
         for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
-            if(gametypeMenuItem.getText().equals("Rockmaster") && cGameLogic.isDeathmatch())
+            if(gametypeMenuItem.getText().equals("Rockmaster") && cGameLogic.isGame(cGameLogic.DEATHMATCH))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Flagmaster") && cGameLogic.isFlagMaster())
+            else if(gametypeMenuItem.getText().equals("Flagmaster") && cGameLogic.isGame(cGameLogic.FLAG_MASTER))
                 gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Virusmaster") && cGameLogic.isVirus())
+            else if(gametypeMenuItem.getText().equals("Virusmaster") && cGameLogic.isGame(cGameLogic.VIRUS))
                 gametypeMenuItem.setSelected(true);
             else if(gametypeMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
                 gametypeMenuItem.setSelected(true);

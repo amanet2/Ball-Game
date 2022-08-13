@@ -363,17 +363,6 @@ public class nServer extends Thread {
         return clientIds.contains(id);
     }
 
-    boolean containsArgsForId(String id, String[] fields) {
-        if(!clientArgsMap.containsKey(id))
-            return false;
-        HashMap<String, String> cargs = clientArgsMap.get(id);
-        for(String rf : fields) {
-            if(!cargs.containsKey(rf))
-                return false;
-        }
-        return true;
-    }
-
     public void readData(String receiveDataString) {
         String toks = receiveDataString.trim();
         if(toks.length() > 0) {

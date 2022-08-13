@@ -9,7 +9,6 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
-                xCon.ex("exec scripts/playdeathsound");
                 xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
 //                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
@@ -27,9 +26,9 @@ public class xComDamagePlayer extends xCom {
                             killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
                         nServer.instance().addExcludingNetCmd("server",
                                 "echo " + killername + " rocked " + victimname);
-                        if (cGameLogic.isDeathmatch())
+                        if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
                             xCon.ex("givepoint " + shooterid + " 500");
-                        else if (cGameLogic.isVirus()) {
+                        else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
                             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                                 String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
                                 if(!virusids.contains(id)) {

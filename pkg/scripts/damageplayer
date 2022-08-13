@@ -1,3 +1,4 @@
+addcomx $1 exec scripts/playdeathsound
 getres playerhp setthing THING_PLAYER $1 stockhp
 getsub newhp $playerhp $2
 setthing THING_PLAYER $1 stockhp $newhp

@@ -12,7 +12,7 @@ public class dWaypoints {
                     dy - cClientLogic.getUserPlayer().getInt("coordy")
                             + cClientLogic.getUserPlayer().getDouble("dimh")/2
             };
-            if(!cGameLogic.isVirus()) {
+            if(!cGameLogic.isGame(cGameLogic.VIRUS)) {
                 g2.setColor(gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor")));
                 int[][] polygondims = new int[][]{
                         new int[]{
@@ -36,7 +36,7 @@ public class dWaypoints {
             //big font
             dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
-            if(!cGameLogic.isVirus()) {
+            if(!cGameLogic.isGame(cGameLogic.VIRUS)) {
                 AffineTransform backup = g2.getTransform();
                 g2.translate(gCamera.getX(), gCamera.getY());
                 double angle = Math.atan2(deltas[1], deltas[0]);
