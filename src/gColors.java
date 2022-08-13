@@ -10,15 +10,8 @@ public class gColors {
     private static gColors instance = null;
 
     private gColors() {
-//        colorMap = new HashMap<>();
         xCon.ex("exec config/colors.cfg");
         fontColorMap = new HashMap<>();
-        fontColorMap.put("alert", new Color(200,0,50,200));
-        fontColorMap.put("bonus", new Color(0,200,0,200));
-        fontColorMap.put("highlight", new Color(220,175,0,255));
-        fontColorMap.put("normal", new Color(255,255,255,200));
-        fontColorMap.put("normaltransparent", new Color(255,255,255,100));
-        fontColorMap.put("normaldark", new Color(200,200,200,255));
         fontColorMap.put("background", Color.BLACK);
         fontColorMap.put("scoreboardbg", new Color(0,0,0,100));
         fontColorMap.put("spawnpoint", new Color(255, 150, 80, 150));

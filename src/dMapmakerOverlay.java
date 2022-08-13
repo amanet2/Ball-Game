@@ -87,7 +87,7 @@ public class dMapmakerOverlay {
                 Polygon pg = dTileTops.getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
                 Color color = gColors.getPlayerHudColorFromName(cs);
                 g2.setStroke(dFonts.thickStroke);
-                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+                dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.drawPolygon(pg);
                 g2.setColor(color);
                 g2.fillPolygon(pg);

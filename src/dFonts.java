@@ -47,7 +47,7 @@ public class dFonts {
                 eUtils.unscaleInt(sSettings.height/32)
         };
         g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-        g.setColor(gColors.getFontColorFromName("normaltransparent"));
+        dFonts.setFontColor(g, "clrf_normaltransparent");
         g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
     }
 

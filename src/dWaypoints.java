@@ -30,7 +30,7 @@ public class dWaypoints {
                 };
                 g2.fillPolygon(polygondims[0], polygondims[1], 4);
                 g2.setStroke(dFonts.thickStroke);
-                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+                dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.drawPolygon(polygondims[0], polygondims[1], 4);
             }
             //big font
@@ -63,7 +63,7 @@ public class dWaypoints {
                 };
                 g2.setColor(gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor")));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+                dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.setStroke(dFonts.waypointStroke);
                 g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 g2.translate(-gCamera.getX(), -gCamera.getY());

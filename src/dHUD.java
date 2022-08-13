@@ -27,7 +27,7 @@ public class dHUD {
                     "$ "+ nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
-        g.setColor(gColors.getFontColorFromName("normaldark"));
+        dFonts.setFontColor(g, "clrf_normaldark");
         g.drawString(cClientLogic.playerName, sSettings.width / 64, 62*sSettings.height/64);
         g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
@@ -36,7 +36,7 @@ public class dHUD {
         int ctr = 1;
         for (String id : nClient.instance().serverArgsMap.keySet()) {
             if(!id.equals(uiInterface.uuid) && !id.equals("server") && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
-                g.setColor(gColors.getFontColorFromName("normaldark"));
+                dFonts.setFontColor(g, "clrf_normaldark");
                 String[] requiredFields = {"score", "name", "color"};
                 if(nClient.instance().serverArgsMap.containsKey(id)) {
                     for(String s : requiredFields) {
@@ -47,7 +47,7 @@ public class dHUD {
                     g.setColor(gColors.getPlayerHudColorFromName(color));
                     g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                             sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
-                    g.setColor(gColors.getFontColorFromName("normaldark"));
+                    dFonts.setFontColor(g, "clrf_normaldark");
                     g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width / 64,
                             56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
                     g.setColor(gColors.getPlayerHudColorFromName(color));

@@ -129,7 +129,7 @@ public class dTileTops {
             Polygon pg = getPolygon(midx, coordy);
             Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
             g2.setStroke(dFonts.thickStroke);
-            g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+            dFonts.setFontColor(g2, "clrf_normaltransparent");
             g2.drawPolygon(pg);
             g2.setColor(color);
             g2.fillPolygon(pg);
