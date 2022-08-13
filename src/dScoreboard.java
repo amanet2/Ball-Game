@@ -56,7 +56,7 @@ public class dScoreboard {
             int height = sSettings.height / 30;
             String spaceStringA = "                                       ";
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
-            Color color = gColors.getPlayerHudColorFromName(ck);
+            Color color = gColors.instance().getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
             g.setColor(color);
             if(isMe)

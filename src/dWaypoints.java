@@ -13,7 +13,7 @@ public class dWaypoints {
                             + cClientLogic.getUserPlayer().getDouble("dimh")/2
             };
             if(!cGameLogic.isGame(cGameLogic.VIRUS)) {
-                g2.setColor(gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor")));
+                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientVars.instance().get("playercolor")));
                 int[][] polygondims = new int[][]{
                         new int[]{
                                 dx - eUtils.unscaleInt(sSettings.height / 16),
@@ -61,7 +61,7 @@ public class dWaypoints {
                                 eUtils.unscaleInt(0)
                         }
                 };
-                g2.setColor(gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor")));
+                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientVars.instance().get("playercolor")));
                 g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
                 dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.setStroke(dFonts.waypointStroke);

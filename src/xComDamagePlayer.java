@@ -22,7 +22,7 @@ public class xComDamagePlayer extends xCom {
                     victimname += ("#"+vc);
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
-                        if(gColors.getPlayerHudColorFromName(nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
+                        if(gColors.instance().getColorFromName("clrp_" + nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
                             killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
                         nServer.instance().addExcludingNetCmd("server",
                                 "echo " + killername + " rocked " + victimname);

@@ -14,7 +14,7 @@ public class dPlayer {
         if(cliMap == null)
             return;
         if(cliMap.containsKey("color")) {
-            Color pc = gColors.getPlayerHudColorFromName(cliMap.get("color"));
+            Color pc = gColors.instance().getColorFromName("clrp_" + cliMap.get("color"));
             if (pc != null) {
                 int x = player.getInt("coordx") - player.getInt("dimw") / 4;
                 int y = player.getInt("coordy") - player.getInt("dimh") / 4;
