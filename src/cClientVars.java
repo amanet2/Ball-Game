@@ -228,6 +228,11 @@ public class cClientVars extends gArgSet {
                 eUtils.zoomLevel = Double.parseDouble(value);
             }
         });
+        putArg(new gArg("newprefabname", "room") {
+            public void onChange() {
+                cClientLogic.newprefabname = value;
+            }
+        });
         
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
