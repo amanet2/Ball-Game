@@ -13,6 +13,7 @@ public class dHUD {
         g.setColor(Color.black);
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
+//        g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
                 sSettings.width/8*userPlayer.getInt("stockhp")/cClientLogic.maxhp,

@@ -2,11 +2,16 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class gColors {
+    private final HashMap<String, Color> colorMap = new HashMap<>();
     private final HashMap<String, Color> fontColorMap;
     private final HashMap<String, Color> playerHudColors;
     private final HashMap<String, Color> worldColorMap;
+
     private static gColors instance = null;
+
     private gColors() {
+//        colorMap = new HashMap<>();
+        xCon.ex("exec config/colors.cfg");
         fontColorMap = new HashMap<>();
         fontColorMap.put("alert", new Color(200,0,50,200));
         fontColorMap.put("bonus", new Color(0,200,0,200));
@@ -21,7 +26,7 @@ public class gColors {
         fontColorMap.put("selected", new Color(255, 100, 255));
         fontColorMap.put("preview", new Color(50, 255, 100));
         fontColorMap.put("console", new Color(100,100,150, 100));
-        fontColorMap.put("mapmakergrid", new Color(255,255,0,125));
+        fontColorMap.put("mapmakergrid", new Color(255,255,255,125));
         fontColorMap.put("playerarrow1", new Color(0,150,50, 255));
         fontColorMap.put("playerarrow2", new Color(0,200,0, 100));
         fontColorMap.put("waypoint1", new Color(255,100,50,150));
@@ -63,6 +68,40 @@ public class gColors {
     }
 
     public static int hpAlpha = 230;
+
+    public Color getColorFromName(String name) {
+        //return color if in the map
+        if(colorMap.containsKey(name))
+            return colorMap.get(name);
+        //not in the map, check our cvars for color info
+        String s = cClientVars.instance().get(name);
+        //if not in cvars, return default white
+        if(s == null)
+            return Color.WHITE;
+        String[] args = s.split(" ");
+        //return white if there arent enough args to build a color object
+        if(args.length < 3)
+            return Color.WHITE;
+        //color without alpha
+        if(args.length < 4) {
+            Color c = new Color(
+                    Integer.parseInt(args[0]),
+                    Integer.parseInt(args[1]),
+                    Integer.parseInt(args[2])
+            );
+            colorMap.put(name, c);
+            return colorMap.get(name);
+        }
+        //color with alpha
+        Color c = new Color(
+                Integer.parseInt(args[0]),
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                Integer.parseInt(args[3])
+        );
+        colorMap.put(name, c);
+        return colorMap.get(name);
+    }
 
     public static Color getFontColorFromName(String name) {
         return instance().getFontColor(name);

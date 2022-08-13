@@ -29,7 +29,7 @@ public class dMapmakerOverlay {
                         block.getInt("dimw"), block.getInt("dimh"));
             }
             if(block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
-                g2.setColor(gColors.getFontColorFromName("selected"));
+                g2.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
@@ -39,7 +39,7 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.isVal("id", cClientLogic.selecteditemid)) {
-                g2.setColor(gColors.getFontColorFromName("selected"));
+                g2.setColor(gColors.getPlayerHudColorFromName(cClientLogic.playerColor));
                 g2.drawRect(item.getInt("coordx"),
                         item.getInt("coordy"),
                         item.getInt("dimw"), item.getInt("dimh"));

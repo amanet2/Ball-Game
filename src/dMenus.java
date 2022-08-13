@@ -27,7 +27,8 @@ public class dMenus {
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
-                dFonts.setFontColorBonus(g);
+//                dFonts.setFontColorBonus(g);
+                dFonts.setFontColorFromName(g, "clrf_bonus");
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColorNormal(g);

@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* have the gColors class load its hashmap from a file
+    -> have clientvars with the form clr_colorname
 * create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
     -> will have a function check() that can take in a timestamp and then check its hashmap for executions
     -> this will eliminate the java variables tracking milliseconds and such for things like hp

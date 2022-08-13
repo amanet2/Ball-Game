@@ -97,4 +97,8 @@ public class dFonts {
     public static void setFontConsole(Graphics g) {
         g.setFont(fontConsole);
     }
+
+    public static void setFontColorFromName(Graphics g, String name) {
+        g.setColor(gColors.instance().getColorFromName(name));
+    }
 }
