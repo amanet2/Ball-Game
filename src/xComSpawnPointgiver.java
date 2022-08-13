@@ -27,10 +27,6 @@ public class xComSpawnPointgiver extends xCom {
             }
             itemId++; //want to be the _next_ id
             xCon.ex(String.format("exec scripts/spawnpointgiver %d %d %d", itemId, nx, ny));
-//            String cmd = String.format("putitem ITEM_POINTGIVER %d %d %d", itemId, nx, ny);
-//            xCon.ex(cmd);
-//            nServer.instance().addExcludingNetCmd("server",
-//                    cmd.replaceFirst("putitem", "cl_putitem"));
             return "spawned pointgiver";
         }
         return "usage: spawnpointgiver";
