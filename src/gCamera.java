@@ -79,10 +79,6 @@ public class gCamera {
 			mode = MODE_FREE;
 		move[p] = 1;
 	}
-	//disable camera moving direction
-	public static void stopMove(int p) {
-		move[p] = 0;
-	}
 
 	public static void updatePosition() {
 		if (mode == MODE_FREE) {

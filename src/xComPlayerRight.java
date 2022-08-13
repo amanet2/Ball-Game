@@ -1,18 +1,18 @@
 public class xComPlayerRight extends xCom {
     public String doCommand(String fullCommand) {
         if(cClientLogic.getUserPlayer() != null)
-            cClientLogic.getUserPlayer().putInt("mov3", 1);
+            xCon.ex(String.format("cl_setthing THING_PLAYER %s mov3 1", uiInterface.uuid));
         else if(sSettings.show_mapmaker_ui)
-            gCamera.move(3);
+            xCon.ex("setcam mov3 1");
         return fullCommand;
     }
 
     public String undoCommand(String fullCommand) {
         if(cClientLogic.getUserPlayer() != null)
-            cClientLogic.getUserPlayer().putInt("mov3", 0);
+            xCon.ex(String.format("cl_setthing THING_PLAYER %s mov3 0", uiInterface.uuid));
         else
             xCon.ex("setcam mov3 0");
-//        gCamera.stopMove(3);
+
         return fullCommand;
     }
 }
