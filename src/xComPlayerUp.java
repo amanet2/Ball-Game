@@ -11,7 +11,8 @@ public class xComPlayerUp extends xCom {
         if(cClientLogic.getUserPlayer() != null)
             cClientLogic.getUserPlayer().putInt("mov0", 0);
         else
-            gCamera.stopMove(0);
+            xCon.ex("setcam mov0 0");
+//        gCamera.stopMove(0);
         return fullCommand;
     }
 }
