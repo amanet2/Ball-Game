@@ -77,7 +77,7 @@ public class xCon {
         prevCommandIndex = -1;
 
         commands = new HashMap<>();
-        commands.put("activateui", new xComActivateUI());
+        commands.put("activatemenu", new xComActivateMenu());
         commands.put("addbot", new xComAddBot());
         commands.put("addcom", new xComAddCommand());
         commands.put("addcomi", new xComAddCommandIgnore());
