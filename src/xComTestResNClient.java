@@ -19,7 +19,6 @@ public class xComTestResNClient extends xCom {
             esb.append(" ").append(args[i]);
         }
         String es = esb.substring(1);
-        System.out.println(tk + " vs " + tv);
         if(!tk.equalsIgnoreCase(tv)) {
             xCon.ex(es);
             return "1";

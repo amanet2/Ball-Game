@@ -4,6 +4,7 @@ public class cServerVars extends gArgSet {
     private cServerVars() {
         super();
     }
+    
     protected void init(String[] launchArgs) {
         putArg(new gArg("listenport", "5555") {
             public void onChange() {

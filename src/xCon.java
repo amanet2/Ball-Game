@@ -118,6 +118,7 @@ public class xCon {
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
+        commands.put("getspawnpointoccupied", new xComGetSpawnpointOccupied());
         commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
         commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
@@ -133,10 +134,6 @@ public class xCon {
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
-        commands.put("playerdown", new xComPlayerDown());
-        commands.put("playerleft", new xComPlayerLeft());
-        commands.put("playerright", new xComPlayerRight());
-        commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
         commands.put("putitem", new xComPutItem());

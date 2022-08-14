@@ -16,9 +16,10 @@ public class gItemSpawnPoint extends gItem {
             gPlayer player = (gPlayer) cServerLogic.scene.getThingMap("THING_PLAYER").get(id);
             Shape bounds = new Rectangle(
                     getInt("coordx"), getInt("coordy"), getInt("dimw"), getInt("dimh"));
-            return bounds.intersects(new Rectangle(
+            if(bounds.intersects(new Rectangle(
                     player.getInt("coordx"), player.getInt("coordy"), player.getInt("dimw"),
-                    player.getInt("dimh")));
+                    player.getInt("dimh"))))
+                return true;
         }
         return false;
     }

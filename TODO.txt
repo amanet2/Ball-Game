@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* scripts can have timers
+    -> have xcom to get current time
+    -> save $currenttime+3000 or whateverdelay as a setvar
+    -> check that timestamp in script
+        --> or better yet we'll have a hashmap of timestamps to exec from
 * damageplayer is broken
 * have the gColors class load its hashmap from a file
     -> have clientvars with the form clr_colorname

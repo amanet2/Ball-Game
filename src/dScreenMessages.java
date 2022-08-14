@@ -35,7 +35,7 @@ public class dScreenMessages {
         if(showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                    uiInterface.camReport[0], uiInterface.camReport[1]);
+                    gCamera.getX(), gCamera.getY());
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
         if(showmouse) {
