@@ -37,7 +37,7 @@ public class dScreenFX {
         // health overlay
         if(userPlayer != null) {
             //threshold to turn on screen fx
-            int userhp = Math.max(userPlayer.getInt("stockhp"), 0);
+            int userhp = Math.max((int)userPlayer.getDouble("stockhp"), 0);
             if (userhp < cClientLogic.maxhp) {
                 int factors = sSettings.vfxfactor;
                 int maxl = gColors.hpAlpha;

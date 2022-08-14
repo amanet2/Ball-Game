@@ -162,7 +162,7 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            int pHp = p.getInt("stockhp");
+            int pHp = (int) p.getDouble("stockhp");
             if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis) {
                 if(pHp + rechargehp > maxhp)
                     p.putInt("stockhp", maxhp);

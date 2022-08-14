@@ -15,7 +15,7 @@ public class dHUD {
                 sSettings.height/64);
         g.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
-                sSettings.width/8*userPlayer.getInt("stockhp")/cClientLogic.maxhp,
+                sSettings.width/8*(int)userPlayer.getDouble("stockhp")/cClientLogic.maxhp,
                 sSettings.height/64);
         dFonts.setFontNormal(g);
         //score

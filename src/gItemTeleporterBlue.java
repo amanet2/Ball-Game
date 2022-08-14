@@ -1,7 +1,7 @@
 public class gItemTeleporterBlue extends gItem {
     public void activateItem(gPlayer player) {
         super.activateItem(player);
-        if(player.getInt("stockhp") < 1 || player.isOne("inteleporter"))
+        if((int)player.getDouble("stockhp") < 1 || player.isOne("inteleporter"))
             return;
         gThing exit = null;
         for(String id : cServerLogic.scene.getThingMap("ITEM_TELEPORTER_BLUE").keySet()) {
