@@ -24,23 +24,21 @@ public class xComDamagePlayer extends xCom {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
                         if(gColors.instance().getColorFromName("clrp_" + nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
                             killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
-                        nServer.instance().addExcludingNetCmd("server",
-                                "echo " + killername + " rocked " + victimname);
+                        xCon.ex("addcomi server echo " + killername + " rocked " + victimname);
                         if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
                             xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
                             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                                 String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
                                 if(!virusids.contains(id)) {
-                                    nServer.instance().clientArgsMap.get("server").put("virusids", virusids + ":" + id);
-                                    nServer.instance().addExcludingNetCmd("server",
-                                            String.format("echo %s was infected", victimname));
+                                    xCon.ex("setnargs server virusids " + virusids + ":" + id);
+                                    xCon.ex("addcomi server echo " + victimname + " was infected");
                                 }
                             }
                         }
                     }
                     else
-                        nServer.instance().addExcludingNetCmd("server", "echo " + victimname + " died");
+                        xCon.ex("addcomi server echo " + victimname + " exploded");
 //                        handle flag carrier dying
                     if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
                     && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {

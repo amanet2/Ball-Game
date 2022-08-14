@@ -118,6 +118,8 @@ public class xCon {
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
+        commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
+        commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
         commands.put("cl_getadd", new xComGetAddClient());
         commands.put("getsub", new xComGetSub());
