@@ -37,7 +37,7 @@ public class dBlockWalls {
 
     public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
         if (block.contains("wallh")) {
-            g2.setColor(gBlockFactory.instance().wallColorPreview);
+            dFonts.setFontColor(g2, "clrw_wallcolorpreview");
             g2.fillRect(eUtils.scaleInt(block.getX()/4),
                         eUtils.scaleInt(block.getY()/4+ block.getInt("toph")/4),
                         eUtils.scaleInt(block.getWidth()/4),
