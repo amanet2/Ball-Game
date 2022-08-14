@@ -7,12 +7,54 @@ public class gItemFactory {
     Image flagSprite;
     private gItemFactory() {
         itemLoadMap = new HashMap<>();
-        itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturnSpawnPoint());
-        itemLoadMap.put("ITEM_FLAG", new gDoableItemReturnFlag());
-        itemLoadMap.put("ITEM_LANDMINE", new gDoableItemReturnLandmine());
-        itemLoadMap.put("ITEM_POINTGIVER", new gDoableItemReturnPointGiver());
-        itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturnTeleporterRed());
-        itemLoadMap.put("ITEM_TELEPORTER_BLUE", new gDoableItemReturnTeleporterBlue());
+        itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemSpawnPoint(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
+        itemLoadMap.put("ITEM_FLAG", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemFlag(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
+        itemLoadMap.put("ITEM_LANDMINE", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemLandmine(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
+        itemLoadMap.put("ITEM_POINTGIVER", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemPointGiver(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
+        itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemTeleporterRed(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
+        itemLoadMap.put("ITEM_TELEPORTER_BLUE", new gDoableItemReturn() {
+            public gItem getItem(String[] args) {
+                return new gItemTeleporterBlue(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1])
+                );
+            }
+        });
         flagSprite = gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300);
     }
 
