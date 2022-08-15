@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -305,5 +306,18 @@ public class cServerLogic {
 
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+    }
+
+    public static boolean isOccupied(gItem spawnpoint) {
+        for(String id : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+            gPlayer player = (gPlayer) cServerLogic.scene.getThingMap("THING_PLAYER").get(id);
+            Shape bounds = new Rectangle(spawnpoint.getInt("coordx"), spawnpoint.getInt("coordy"),
+                    spawnpoint.getInt("dimw"), spawnpoint.getInt("dimh"));
+            if(bounds.intersects(new Rectangle(
+                    player.getInt("coordx"), player.getInt("coordy"), player.getInt("dimw"),
+                    player.getInt("dimh"))))
+                return true;
+        }
+        return false;
     }
 }

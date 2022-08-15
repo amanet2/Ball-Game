@@ -4,8 +4,6 @@ public class gItem extends gThing {
     public Image sprite;
 
     public void activateItem(gPlayer p) {
-        if(get("type").equalsIgnoreCase("ITEM_SPAWNPOINT"))
-            return; //suppress the spawnpoint noise in console and log
         xCon.ex("setvar itemactid " + p.get("id"));
         xCon.ex("setvar itemrcvid " + get("id"));
         if(contains("script"))

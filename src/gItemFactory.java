@@ -9,10 +9,8 @@ public class gItemFactory {
         itemLoadMap = new HashMap<>();
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemSpawnPoint(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                return new gItem("ITEM_SPAWNPOINT", Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+                        300, 300, null);
             }
         });
         itemLoadMap.put("ITEM_FLAG", new gDoableItemReturn() {
