@@ -1,4 +1,0 @@
-setvar ITEM_FLAG_dimw 200
-setvar ITEM_FLAG_dimh 300
-setvar ITEM_FLAG_sprite misc/flag.png
-setvar ITEM_FLAG_script exec items/flag
