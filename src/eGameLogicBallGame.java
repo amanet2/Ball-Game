@@ -10,6 +10,7 @@ public class eGameLogicBallGame implements eGameLogic {
     @Override
     public void init() throws Exception {
         gAnimations.init();
+        gItemFactory.init();
     }
 
     @Override
@@ -24,8 +25,6 @@ public class eGameLogicBallGame implements eGameLogic {
             nClient.instance().netLoop();
             cClientLogic.gameLoop(gameTimeMillis);
         }
-        uiInterface.camReport[0] = gCamera.getX();
-        uiInterface.camReport[1] = gCamera.getY();
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {
             uiInterface.tickReport = ticks;

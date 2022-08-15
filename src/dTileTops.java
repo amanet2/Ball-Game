@@ -1,15 +1,12 @@
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
         //draw the grid OVER everything
         if(sSettings.drawmapmakergrid) {
-            g2.setColor(gColors.getFontColorFromName("mapmakergrid"));
+            dFonts.setFontColor(g2, "clrf_mapmakergrid");
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
                 g2.drawLine(-12000,
@@ -70,20 +67,56 @@ public class dTileTops {
             gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
             if(p == null)
                 continue;
-            g.setColor(Color.BLACK);
-            g.drawString(p.get("text"),
-                    p.getInt("coordx") + 2,
-                    p.getInt("coordy") + 2);
-            dFonts.setFontColorNormal(g);
-            char firstChar = p.get("text").charAt(0);
-            if(firstChar == '+' || firstChar == '$')
-                dFonts.setFontColorBonus(g);
-            else if(p.get("text").charAt(0) == '-')
-                dFonts.setFontColorAlert(g);
-            g.drawString(p.get("text"),
-                    p.getInt("coordx"),
-                    p.getInt("coordy"));
+            // look for hashtag color codes here
+            String s = p.get("text");
+            StringBuilder ts = new StringBuilder();
+            for(String word : s.split(" ")) {
+                if(word.contains("#")) {
+                    if(word.split("#").length != 2)
+                        ts.append(word).append(" ");
+                    else if(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                        g.setColor(Color.BLACK);
+                        g.drawString(word.split("#")[0]+" ",
+                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
+                                p.getInt("coordy") + 3);
+                        g.setColor(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                        g.drawString(word.split("#")[0]+" ",
+                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
+                                p.getInt("coordy"));
+                        dFonts.setFontColor(g, "clrf_normal");
+                        ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
+                        continue;
+                    }
+                }
+                g.setColor(Color.BLACK);
+                g.setColor(Color.BLACK);
+                g.drawString(word.split("#")[0]+" ",
+                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
+                        p.getInt("coordy") + 3);
+                dFonts.setFontColor(g, "clrf_normal");
+                g.drawString(word.split("#")[0]+" ",
+                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
+                        p.getInt("coordy"));
+                ts.append(word).append(" ");
+            }
         }
+    }
+
+    public static Polygon getPolygon(int midx, int coordy) {
+        int[][] polygonBase = new int[][]{
+                new int[]{1,1,1},
+                new int[]{0,0,1}
+        };
+        int polygonSize = eUtils.unscaleInt(sSettings.width/32);
+        int[][] polygon = new int[][]{
+                new int[]{midx - polygonBase[0][0]*polygonSize,
+                        midx + polygonBase[0][1]*polygonSize,
+                        midx
+                },
+                new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
+                        coordy + polygonBase[1][2]*polygonSize}
+        };
+        return new Polygon(polygon[0], polygon[1], polygon[0].length);
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
@@ -93,23 +126,10 @@ public class dTileTops {
                 return;
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
             int coordy = userPlayer.getInt("coordy") - 200;
-            int[][] polygonBase = new int[][]{
-                    new int[]{1,1,1},
-                    new int[]{0,0,1}
-            };
-            int polygonSize = eUtils.unscaleInt(sSettings.width/32);
-            int[][] polygon = new int[][]{
-                    new int[]{midx - polygonBase[0][0]*polygonSize,
-                            midx + polygonBase[0][1]*polygonSize,
-                            midx
-                    },
-                    new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
-                            coordy + polygonBase[1][2]*polygonSize}
-            };
+            Polygon pg = getPolygon(midx, coordy);
+            Color color = gColors.instance().getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
             g2.setStroke(dFonts.thickStroke);
-            Polygon pg = new Polygon(polygon[0], polygon[1], polygon[0].length);
-            Color color = gColors.getPlayerHudColorFromName(cClientVars.instance().get("playercolor"));
-            g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+            dFonts.setFontColor(g2, "clrf_normaltransparent");
             g2.drawPolygon(pg);
             g2.setColor(color);
             g2.fillPolygon(pg);
@@ -133,7 +153,7 @@ public class dTileTops {
 //            dFonts.drawCenteredString(g, name,
 //                    coordx + p.getInt("dimw")/2), coordy));
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
-            Color color = gColors.getPlayerHudColorFromName(ck);
+            Color color = gColors.instance().getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
             //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {

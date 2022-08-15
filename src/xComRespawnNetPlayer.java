@@ -6,30 +6,22 @@ public class xComRespawnNetPlayer extends xCom {
         String[] toks = fullCommand.split(" ");
         if (toks.length > 1) {
             String playerId = toks[1];
-            gItemSpawnPoint spawnpoint = null;
+            gThing spawnpoint = null;
             int size = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").size();
             if(size > 0) {
                 int randomSpawnpointIndex = new Random().nextInt(size);
                 ArrayList<String> spawnpointids =
                         new ArrayList<>(cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
                 String randomId = spawnpointids.get(randomSpawnpointIndex);
-                spawnpoint = (gItemSpawnPoint) cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
-                while(spawnpoint.isOccupied()) {
+                spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+                while(cServerLogic.isOccupied((gItem) spawnpoint)) {
                     randomSpawnpointIndex = new Random().nextInt(size);
                     randomId = spawnpointids.get(randomSpawnpointIndex);
-                    spawnpoint = (gItemSpawnPoint) cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+                    spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
                 }
             }
             if(spawnpoint != null) {
-                nServer.instance().clientArgsMap.get(playerId).put("x", spawnpoint.get("coordx"));
-                nServer.instance().clientArgsMap.get(playerId).put("y", spawnpoint.get("coordy"));
-                int nx = spawnpoint.getInt("coordx") + spawnpoint.getInt("dimw")/2 - 100;
-                int ny = spawnpoint.getInt("coordy") + spawnpoint.getInt("dimh")/2 - 100;
-                String cmdstring = String.format("spawnplayer %s %s %s",
-                        playerId, nx, ny);
-                xCon.ex(cmdstring);
-                nServer.instance().addExcludingNetCmd("server",
-                        cmdstring.replaceFirst("spawnplayer", "cl_spawnplayer"));
+                xCon.ex(String.format("exec scripts/respawnnetplayer %s %s", playerId, spawnpoint.get("id")));
                 return "respawned net player " + playerId;
             }
     }

@@ -7,7 +7,6 @@ public class uiInterface {
     static int fpsReport = 0;
     static int netReportClient = 0;
     static int netReportServer = 0;
-    static int[] camReport = new int[]{0,0};
     static int frames = 0;
     static String uuid = eManager.createId();
     static boolean blockMouseUI = false;

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,8 +58,6 @@ public class cServerLogic {
         HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
         if(svars != null) {
             if(svars.containsKey("flagmasterid")) {
-                if(scene.getThingMap("ITEM_FLAG").size() > 0)
-                    xCon.ex("clearthingmap ITEM_FLAG");
                 if(flagmastertime < gameTimeMillis) {
                     xCon.ex("givepoint " + svars.get("flagmasterid"));
                     flagmastertime = gameTimeMillis + 1000;
@@ -67,7 +66,7 @@ public class cServerLogic {
             if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
                 if(goldspawntime < gameTimeMillis) {
                     xCon.ex("spawnpointgiver");
-                    goldspawntime = gameTimeMillis + 3000;
+                    goldspawntime = gameTimeMillis + 6000;
                 }
             }
             if(svars.containsKey("virusids")) {
@@ -85,7 +84,7 @@ public class cServerLogic {
                     }
                 }
             }
-            else if(cGameLogic.isVirus()) {
+            else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
                 cGameLogic.resetVirusPlayers();
             }
         }
@@ -99,7 +98,7 @@ public class cServerLogic {
             //check player teleporters
             int clearTeleporterFlag = 1;
             for(String checkType : scene.objectMaps.keySet()) {
-                if(checkType.contains("ITEM_") && !checkType.equals("ITEM_SPAWNPOINT")) {
+                if(checkType.contains("ITEM_")) {
                     HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
                     Collection<String> idCol = thingMap.keySet();
                     int isize = idCol.size();
@@ -133,7 +132,9 @@ public class cServerLogic {
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().clientArgsMap.get(highestId).get("name") + " wins");
+                            + nServer.instance().clientArgsMap.get(highestId).get("name")
+                            + "#" + nServer.instance().clientArgsMap.get(highestId).get("color")
+                            + " wins#" + nServer.instance().clientArgsMap.get(highestId).get("color"));
                 }
                 int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
@@ -160,16 +161,11 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
-            int pHp = p.getInt("stockhp");
-            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis) {
-                if(pHp + rechargehp > maxhp)
-                    p.putInt("stockhp", maxhp);
-                else
-                    p.putInt("stockhp", pHp + rechargehp);
-            }
-            else if(pHp > maxhp) {
+            int pHp = (int) p.getDouble("stockhp");
+            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis)
+                p.putInt("stockhp", Math.min(pHp + rechargehp, maxhp));
+            else if(pHp > maxhp)
                 p.putInt("stockhp", maxhp);
-            }
         }
     }
 
@@ -214,7 +210,7 @@ public class cServerLogic {
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         starttime = gameTimeMillis;
         gameover = false;
-        if(cGameLogic.isVirus())
+        if(cGameLogic.isGame(cGameLogic.VIRUS))
             cGameLogic.resetVirusPlayers();
     }
 
@@ -310,5 +306,18 @@ public class cServerLogic {
 
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+    }
+
+    public static boolean isOccupied(gItem spawnpoint) {
+        for(String id : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+            gPlayer player = (gPlayer) cServerLogic.scene.getThingMap("THING_PLAYER").get(id);
+            Shape bounds = new Rectangle(spawnpoint.getInt("coordx"), spawnpoint.getInt("coordy"),
+                    spawnpoint.getInt("dimw"), spawnpoint.getInt("dimh"));
+            if(bounds.intersects(new Rectangle(
+                    player.getInt("coordx"), player.getInt("coordy"), player.getInt("dimw"),
+                    player.getInt("dimh"))))
+                return true;
+        }
+        return false;
     }
 }

@@ -175,6 +175,8 @@ public class nClient {
         if(sSettings.show_mapmaker_ui) {
             keys.put("px", Integer.toString(cClientLogic.prevX));
             keys.put("py", Integer.toString(cClientLogic.prevY));
+            keys.put("pw", Integer.toString(cClientLogic.prevW));
+            keys.put("ph", Integer.toString(cClientLogic.prevH));
         }
         return keys;
     }

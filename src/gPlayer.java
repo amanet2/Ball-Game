@@ -110,13 +110,13 @@ public class gPlayer extends gThing {
         sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public gPlayer(int x, int y, int health, String tt) {
+    public gPlayer(String id, int x, int y, int health, String tt) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
         putInt("dimw", 200);
         putInt("dimh", 200);
-        put("id", "");
+        put("id", id);
         put("type", "THING_PLAYER");
         put("inteleporter", "0");
         put("accelrate", "100");

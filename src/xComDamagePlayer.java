@@ -9,38 +9,35 @@ public class xComDamagePlayer extends xCom {
                 shooterid = toks[3];
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
-                player.subtractVal("stockhp", dmg);
-                player.putLong("hprechargetime", gTime.gameTime);
-                //store player object's health in outgoing network arg map
-                nServer.instance().clientArgsMap.get(id).put("hp", player.get("stockhp"));
+                xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
                 //handle death
-                if(player.getInt("stockhp") < 1) {
+                if(player.getDouble("stockhp") < 1) {
                     //more server-side stuff
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
-                    xCon.ex("deleteplayer " + id);
-                    nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
+                    xCon.ex("exec scripts/deleteplayer " + id);
                     String victimname = nServer.instance().clientArgsMap.get(id).get("name");
+                    String vc = nServer.instance().clientArgsMap.get(id).get("color");
+                    victimname += ("#"+vc);
                     if(shooterid.length() > 0) {
                         String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
-//                        gScoreboard.incrementScoreFieldById(shooterid, "kills");
-                        nServer.instance().addExcludingNetCmd("server",
-                                "echo " + killername + " rocked " + victimname);
-                        if (cGameLogic.isDeathmatch())
-                            xCon.ex("givepoint " + shooterid);
-                        else if (cGameLogic.isVirus()) {
+                        if(gColors.instance().getColorFromName("clrp_" + nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
+                            killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
+                        xCon.ex("addcomi server echo " + killername + " rocked " + victimname);
+                        if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
+                            xCon.ex("givepoint " + shooterid + " 500");
+                        else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
                             if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
                                 String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
                                 if(!virusids.contains(id)) {
-                                    nServer.instance().clientArgsMap.get("server").put("virusids", virusids + ":" + id);
-                                    nServer.instance().addExcludingNetCmd("server",
-                                            String.format("echo %s was infected", victimname));
+                                    xCon.ex("setnargs server virusids " + virusids + ":" + id);
+                                    xCon.ex("addcomi server echo " + victimname + " was infected");
                                 }
                             }
                         }
                     }
                     else
-                        nServer.instance().addExcludingNetCmd("server", "echo " + victimname + " died");
+                        xCon.ex("addcomi server echo " + victimname + " exploded");
 //                        handle flag carrier dying
                     if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
                     && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
@@ -51,21 +48,16 @@ public class xComDamagePlayer extends xCom {
                                 itemId = Integer.parseInt(iid);
                         }
                         itemId++; //want to be the _next_ id
-                        xCon.ex(String.format("putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
-                        nServer.instance().addExcludingNetCmd("server",
-                                String.format("cl_putitem ITEM_FLAG %d %d %d", itemId, dcx, dcy));
+                        xCon.ex(String.format("exec scripts/putflag %d %d %d", itemId, dcx, dcy));
                     }
                     //migrate all client death logic here
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;
                     String colorName = nServer.instance().clientArgsMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                         animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
-                    String animString = "cl_spawnanimation " + animInd + " " + (dcx - 100) + " " + (dcy - 100);
-                    //be sure not to send too much in one go, net comms
-                    nServer.instance().addExcludingNetCmd("server", animString);
-                    nServer.instance().clientArgsMap.get(id).put("respawntime",
-                            Long.toString(gTime.gameTime + cServerLogic.respawnwaittime));
-                    nServer.instance().addNetCmd(id, "freecam");
+                    xCon.ex(String.format("exec scripts/postdeath %s %d %s", id,
+                            gTime.gameTime + cServerLogic.respawnwaittime,
+                            String.format("cl_spawnanimation %d %d %d", animInd, dcx, dcy)));
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }

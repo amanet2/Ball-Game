@@ -18,13 +18,11 @@ public class uiMenusJoinGame extends uiMenu {
                 new uiMenuItem(String.format("Join IP [%s]", cClientLogic.joinip)) {
                     public void doItem() {
                         xCon.ex("e_changejoinip");
-//                        text = String.format("Join IP [%s]", cClientLogic.joinip);
                     }
                 },
                 new uiMenuItem(String.format("Join Port [%s]",cClientLogic.joinport)) {
                     public void doItem() {
                         xCon.ex("e_changejoinport");
-//                        text = String.format("Join Port [%s]", cClientLogic.joinport);
                     }
                 }
             },

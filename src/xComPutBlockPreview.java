@@ -10,7 +10,7 @@ public class xComPutBlockPreview extends xCom {
         String blockid = toks[2];
         String prefabid = toks[3];
         if (factory.blockLoadMap.containsKey(blockString)) {
-            gDoableBlockReturn blockReturn = factory.blockLoadMap.get(blockString);
+            gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
             String rawX = toks[4];
             String rawY = toks[5];
             String width = toks[6];
@@ -97,7 +97,7 @@ public class xComPutBlockPreview extends xCom {
                 args[4] = toks[8];
                 args[5] = toks[9];
             }
-            gBlock newBlock = blockReturn.getBlock(args);
+            gThing newBlock = blockReturn.getThing(args);
             newBlock.put("id", blockid);
             newBlock.put("prefabid", prefabid);
             uiEditorMenus.previewScene.getThingMap("THING_BLOCK").put(blockid, newBlock);

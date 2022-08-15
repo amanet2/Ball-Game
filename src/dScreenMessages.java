@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,7 +35,7 @@ public class dScreenMessages {
         if(showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                    uiInterface.camReport[0], uiInterface.camReport[1]);
+                    gCamera.getX(), gCamera.getY());
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
         if(showmouse) {
@@ -55,7 +54,7 @@ public class dScreenMessages {
                     0,10*sSettings.height/64);
         }
         //ingame messages
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         if(uiInterface.inplay) {
             dHUD.drawHUD(g);
         }
@@ -65,18 +64,18 @@ public class dScreenMessages {
             long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
                 if(timeleft < 30000) {
-                    dFonts.setFontColorAlert(g);
+                    dFonts.setFontColor(g, "clrf_alert");
                 }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);
             }
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g,
-                    cGameLogic.net_gamemode_texts[cClientLogic.gamemode].toUpperCase(),
+                    cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase(),
                 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
-        dFonts.setFontColorNormalTransparent(g);
+        dFonts.setFontColor(g, "clrf_normaltransparent");
         dFonts.drawCenteredString(g, "WORK IN PROGRESS",
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
@@ -86,7 +85,7 @@ public class dScreenMessages {
             g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
         }
         //sendmsg.. invisible?
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -97,7 +96,7 @@ public class dScreenMessages {
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    dFonts.setFontColorBonus(g);
+                    dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cClientLogic.maploaded){
@@ -127,6 +126,7 @@ public class dScreenMessages {
                         break;
                     }
                 }
+
                 if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
@@ -140,11 +140,11 @@ public class dScreenMessages {
         //console
         dFonts.setFontConsole(g);
         if(uiInterface.inconsole) {
-            g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+            dFonts.setFontColor(g, "clrf_scoreboardbg");
             g.fillRect(0,0,sSettings.width,sSettings.height);
-            g.setColor(gColors.getFontColorFromName("console"));
+            dFonts.setFontColor(g, "clrf_console");
             g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             int ctr = 0;
             for(int i = xCon.instance().linesToShowStart;
                 i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
@@ -196,12 +196,41 @@ public class dScreenMessages {
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
                 String s = gMessages.screenMessages.get(i);
-                g.setColor(Color.BLACK);
-                g.drawString(s,3,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                        +(i*(sSettings.height/32))+3);
-                dFonts.setFontColorNormal(g);
-                g.drawString(s,0,24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
-                        +(i*(sSettings.height/32)));
+                dFonts.setFontColor(g, "clrf_normal");
+                // look for hashtag color codes here
+                StringBuilder ts = new StringBuilder();
+                for(String word : s.split(" ")) {
+                    if(word.contains("#")) {
+                        if(word.split("#").length != 2)
+                            ts.append(word).append(" ");
+                        else if(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                            g.setColor(Color.BLACK);
+                            g.drawString(word.split("#")[0]+" ",
+                                    dFonts.getStringWidth(g, ts.toString())+3,
+                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                            +(i*(sSettings.height/32))+3);
+                            g.setColor(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                            g.drawString(word.split("#")[0]+" ",
+                                    dFonts.getStringWidth(g, ts.toString()),
+                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                            +(i*(sSettings.height/32)));
+                            dFonts.setFontColor(g, "clrf_normal");
+                            ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
+                            continue;
+                        }
+                    }
+                    g.setColor(Color.BLACK);
+                    g.drawString(word+" ",
+                            dFonts.getStringWidth(g, ts.toString())+3,
+                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                    +(i*(sSettings.height/32))+3);
+                    dFonts.setFontColor(g, "clrf_normal");
+                    g.drawString(word+" ",
+                            dFonts.getStringWidth(g, ts.toString()),
+                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                            +(i*(sSettings.height/32)));
+                    ts.append(word).append(" ");
+                }
             }
         }
     }

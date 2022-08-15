@@ -38,7 +38,7 @@ public class dItems {
             }
         }
         else if(sSettings.show_mapmaker_ui){
-            g2.setColor(gColors.getFontColorFromName("spawnpoint"));
+            dFonts.setFontColor(g2, "clrf_spawnpoint");
             g2.fillRect(
                     item.getInt("coordx"),
                     item.getInt("coordy"),

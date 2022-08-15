@@ -12,7 +12,7 @@ public class xComEditorNewMap extends xCom {
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         cServerLogic.starttime = gTime.gameTime;
         cServerLogic.gameover = false;
-        if (cGameLogic.isVirus())
+        if (cGameLogic.isGame(cGameLogic.VIRUS))
             cGameLogic.resetVirusPlayers();
         return "";
     }

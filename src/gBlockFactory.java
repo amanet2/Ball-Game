@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class gBlockFactory {
-    HashMap<String, gDoableBlockReturn> blockLoadMap;
+    HashMap<String, gDoableThingReturn> blockLoadMap;
     private static gBlockFactory instance = null;
     BufferedImage floorImage;
     TexturePaint floorTexture;
@@ -15,17 +15,41 @@ public class gBlockFactory {
     TexturePaint wallTexture;
     BufferedImage topImage;
     TexturePaint topTexture;
-    Color topColor;
-    Color topColorDark;
-    Color topColorPreview;
-    Color wallColorPreview;
-    Color floorColorPreview;
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
-        blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturnCube());
-        blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturnFloor());
-        blockLoadMap.put("BLOCK_COLLISION", new gDoableBlockReturnCollision());
+        blockLoadMap.put("BLOCK_CUBE", new gDoableThingReturn(){
+            public gThing getThing(String[] args) {
+                return new gBlockCube(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3]),
+                        Integer.parseInt(args[4]),
+                        Integer.parseInt(args[5])
+                );
+            }
+        });
+        blockLoadMap.put("BLOCK_FLOOR", new gDoableThingReturn() {
+            public gThing getThing(String[] args) {
+                return new gBlockFloor(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3])
+                );
+            }
+        });
+        blockLoadMap.put("BLOCK_COLLISION", new gDoableThingReturn() {
+            public gThing getThing(String[] args) {
+                return new gBlockCollision(
+                        Integer.parseInt(args[0]),
+                        Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]),
+                        Integer.parseInt(args[3])
+                );
+            }
+        });
         try {
             floorImage = ImageIO.read(new File(eUtils.getPath("tiles/floor.png")));
             wallImage = ImageIO.read(new File(eUtils.getPath("tiles/wall.png")));
@@ -33,21 +57,6 @@ public class gBlockFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        topColor = new Color(
-                125,
-                125,
-                125,
-                100
-        );
-        topColorDark = new Color(
-                0,
-                0,
-                0,
-                100
-        );
-        topColorPreview = new Color(190,190,180,255);
-        wallColorPreview = new Color(120, 120, 200, 255);
-        floorColorPreview = new Color(100,100,60,255);
         floorTexture = new TexturePaint(floorImage, new Rectangle2D.Double(0,0,
                 eUtils.scaleInt(1200),eUtils.scaleInt(1200)));
         wallTexture = new TexturePaint(wallImage, new Rectangle2D.Double(0,0,

@@ -9,7 +9,7 @@ public class xMain {
 		if(sSettings.show_mapmaker_ui) {
 			sSettings.drawhitboxes = true;
 			sSettings.drawmapmakergrid = true;
-			eUtils.zoomLevel = 0.5;
+			cClientVars.instance().put("zoomlevel", "0.5");
 		}
 	}
 

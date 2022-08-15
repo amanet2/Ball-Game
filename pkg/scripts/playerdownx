@@ -1,0 +1,2 @@
+cl_testresn $userplayerid null cl_setthing THING_PLAYER $userplayerid mov1 0
+cl_testres $userplayerid null setcam mov1 0

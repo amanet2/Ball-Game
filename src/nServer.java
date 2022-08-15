@@ -28,9 +28,11 @@ public class nServer extends Thread {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
+            "deleteblock",
             "deleteitem",
             "deleteplayer",
             "deleteprefab",
+            "setthing",
             "exec",
             "fireweapon",
             "putblock",
@@ -73,7 +75,7 @@ public class nServer extends Thread {
                     }
                 });
 
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab"}) {
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab", "setthing"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
@@ -362,17 +364,6 @@ public class nServer extends Thread {
         return clientIds.contains(id);
     }
 
-    boolean containsArgsForId(String id, String[] fields) {
-        if(!clientArgsMap.containsKey(id))
-            return false;
-        HashMap<String, String> cargs = clientArgsMap.get(id);
-        for(String rf : fields) {
-            if(!cargs.containsKey(rf))
-                return false;
-        }
-        return true;
-    }
-
     public void readData(String receiveDataString) {
         String toks = receiveDataString.trim();
         if(toks.length() > 0) {
@@ -406,9 +397,14 @@ public class nServer extends Thread {
                 //update ping
 //                scoresMap.get(packId).put("ping", (int) Math.abs(gTime.gameTime - oldTimestamp));
                 //handle name change to notify
-                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName))
+                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName)) {
+                    if(clientArgsMap.get(packId).get("color") != null) {
+                        oldName += ("#"+clientArgsMap.get(packId).get("color"));
+                        packName += ("#"+clientArgsMap.get(packId).get("color"));
+                    }
                     addExcludingNetCmd("server",
                             String.format("echo %s changed name to %s", oldName, packName));
+                }
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
                     if (clientArgsMap.get(packId).containsKey("vels")) {
@@ -444,6 +440,10 @@ public class nServer extends Thread {
                     clientArgsMap.get(packId).put("px", packArgMap.get("px"));
                 if(packArgMap.get("py") != null)
                     clientArgsMap.get(packId).put("py", packArgMap.get("py"));
+                if(packArgMap.get("pw") != null)
+                    clientArgsMap.get(packId).put("pw", packArgMap.get("pw"));
+                if(packArgMap.get("ph") != null)
+                    clientArgsMap.get(packId).put("ph", packArgMap.get("ph"));
             }
         }
     }
@@ -456,14 +456,15 @@ public class nServer extends Thread {
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
+            addNetCmd(packId,"cl_addcom respawnnetplayer " + packId);
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
                 addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
                     clientId, player.get("coordx"), player.get("coordy")));
         }
-        addExcludingNetCmd("server", String.format("echo %s joined the game", packName));
+        addExcludingNetCmd("server", String.format("echo %s joined the game", packName
+        + (clientArgsMap.get(packId).get("color") != null ? "#"+clientArgsMap.get(packId).get("color") : "")));
     }
 
     public void sendMap(String packId) {
@@ -613,7 +614,7 @@ public class nServer extends Thread {
         for(String id : clientIds) {
             sendMap(id);
             if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-                addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
+                addNetCmd(id,"cl_addcom respawnnetplayer " + id);
         }
     }
 

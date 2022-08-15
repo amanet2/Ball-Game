@@ -1,0 +1,3 @@
+getres weap setthing THING_BOTPLAYER $1 weapon
+addcomx server fireweapon $1 $weap
+addcomi server cl_fireweapon $1 $weap

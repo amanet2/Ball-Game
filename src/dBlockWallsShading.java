@@ -10,20 +10,20 @@ public class dBlockWallsShading {
                     gradient = new GradientPaint(
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getInt("toph"),
-                            gColors.getWorldColorFromName("walllowshading1"),
+                            gColors.instance().getColorFromName("clrw_walllowshading1"),
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getHeight(),
-                            gColors.getWorldColorFromName("walllowshading2")
+                            gColors.instance().getColorFromName("clrw_walllowshading2")
                     );
                 }
                 else {
                     gradient = new GradientPaint(
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getInt("toph"),
-                            gColors.getWorldColorFromName("wallshading1"),
+                            gColors.instance().getColorFromName("clrw_wallshading1"),
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getHeight(),
-                            gColors.getWorldColorFromName("wallshading2")
+                            gColors.instance().getColorFromName("clrw_wallshading2")
                     );
                 }
                 g2.setPaint(gradient);
@@ -34,20 +34,20 @@ public class dBlockWallsShading {
                     gradient = new GradientPaint(
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getInt("toph"),
-                            gColors.getWorldColorFromName("walllowoutline1"),
+                            gColors.instance().getColorFromName("clrw_walllowoutline1"),
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getHeight(),
-                            gColors.getWorldColorFromName("walllowoutline2")
+                            gColors.instance().getColorFromName("clrw_walllowoutline2")
                     );
                 }
                 else {
                     gradient = new GradientPaint(
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getInt("toph"),
-                            gColors.getWorldColorFromName("walloutline1"),
+                            gColors.instance().getColorFromName("clrw_walloutline1"),
                             block.getX() + block.getWidth() / 2,
                             block.getY() + block.getHeight(),
-                            gColors.getWorldColorFromName("walloutline2")
+                            gColors.instance().getColorFromName("clrw_walloutline2")
                     );
                 }
                 g2.setPaint(gradient);

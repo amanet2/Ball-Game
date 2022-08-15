@@ -8,6 +8,11 @@ public class sVars {
         return Integer.parseInt(keys.get(s));
     }
 
+    public static String get(String s) {
+        refresh();
+        return keys.get(s);
+    }
+
     public static void put(String s, String v) {
         refresh();
         keys.put(s,v);

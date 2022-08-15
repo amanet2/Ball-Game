@@ -57,7 +57,7 @@ public class oDisplay extends JLayeredPane {
         }
 		frame.setResizable(false);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
-        setBackground(gColors.getFontColorFromName("background"));
+        setBackground(gColors.instance().getColorFromName("clrf_background"));
         createPanels();
 		frame.setContentPane(this);
 		frame.pack();
@@ -92,7 +92,7 @@ public class oDisplay extends JLayeredPane {
 
 	public void createPanels() {
 	    removeAll();
-        setBackground(gColors.getFontColorFromName("background"));
+        setBackground(gColors.instance().getColorFromName("clrf_background"));
         int ox = getContentPaneOffsetDimension()[0];
         int oy = getContentPaneOffsetDimension()[1];
         int ow = sSettings.width;

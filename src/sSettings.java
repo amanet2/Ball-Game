@@ -22,7 +22,7 @@ public class sSettings {
 	static int framerate = 240;
 	static int displaymode = 0;
 	static int vfxfactor = 144;
-	static int vfxfactordiv = 16;
+	static int vfxfactordiv = 8;
 	static double vfxshadowfactor = 0.3;
 	static boolean drawplayerarrow = true;
 	static boolean drawhitboxes = false;

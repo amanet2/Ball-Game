@@ -52,7 +52,7 @@ public class xComMouseLeft extends xCom {
                     xCon.ex("gobackui");
                 }
                 else if(uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem > -1) {
-                    xCon.ex("activateui");
+                    xCon.ex("exec scripts/activatemenu");
                 }
             }
         }

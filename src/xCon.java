@@ -10,7 +10,6 @@ public class xCon {
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
-    private final ArrayList<String> visibleCommands;
     ArrayList<String> previousCommands;
     ArrayList<String> stringLines;
     int prevCommandIndex;
@@ -77,27 +76,12 @@ public class xCon {
         commandString = "";
         prevCommandIndex = -1;
 
-        visibleCommands = new ArrayList<>();
-        visibleCommands.add("addbot");
-        visibleCommands.add("banid");
-        visibleCommands.add("bind");
-        visibleCommands.add("changemap");
-        visibleCommands.add("changemaprandom");
-        visibleCommands.add("exec");
-        visibleCommands.add("joingame");
-        visibleCommands.add("load");
-        visibleCommands.add("newgame");
-        visibleCommands.add("newgamerandom");
-        visibleCommands.add("disconnect");
-        visibleCommands.add("cl_load");
-        visibleCommands.add("cl_exec");
-        visibleCommands.add("exportasprefab");
-        visibleCommands.add("e_openfile");
-        visibleCommands.add("e_saveas");
-
         commands = new HashMap<>();
-        commands.put("activateui", new xComActivateUI());
+        commands.put("activatemenu", new xComActivateMenu());
         commands.put("addbot", new xComAddBot());
+        commands.put("addcom", new xComAddCommand());
+        commands.put("addcomi", new xComAddCommandIgnore());
+        commands.put("addcomx", new xComAddCommandExclusive());
         commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
@@ -131,9 +115,17 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
-        commands.put("freecam", new xComFreecam());
+        commands.put("getnargs", new xComGetServerArgs());
+        commands.put("getres", new xComGetRes());
+        commands.put("cl_getres", new xComGetResClient());
+        commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
+        commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
+        commands.put("getadd", new xComGetAdd());
+        commands.put("cl_getadd", new xComGetAddClient());
+        commands.put("getsub", new xComGetSub());
+        commands.put("cl_getsub", new xComGetSubClient());
+        commands.put("getrand", new xComGetRandom());
         commands.put("givepoint", new xComGivePoint());
-        commands.put("giveweapon", new xComGiveWeapon());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
@@ -141,10 +133,6 @@ public class xCon {
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
-        commands.put("playerdown", new xComPlayerDown());
-        commands.put("playerleft", new xComPlayerLeft());
-        commands.put("playerright", new xComPlayerRight());
-        commands.put("playerup", new xComPlayerUp());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
         commands.put("putitem", new xComPutItem());
@@ -155,17 +143,24 @@ public class xCon {
         commands.put("selectleft", new xComSelectLeft());
         commands.put("selectright", new xComSelectRight());
         commands.put("selectup", new xComSelectUp());
-        commands.put("showscore", new xComShowScore());
-        commands.put("soundlist", new xComSoundlist());
+        commands.put("setcam", new xComSetCamera());
+        commands.put("setcamcoords", new xComSetCamCoords());
+        commands.put("setcammovs", new xComSetCamMovs());
+        commands.put("setthing", new xComSetThing());
+        commands.put("setnargs", new xComSetServerArgs());
+        commands.put("cl_setthing", new xComSetThingClient());
+        commands.put("setvar", new xComSetVar());
         commands.put("spawnplayer", new xComSpawnPlayer());
         commands.put("spawnpointgiver", new xComSpawnPointgiver());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
+        commands.put("testres", new xComTestRes());
+        commands.put("cl_testres", new xComTestResClient());
+        commands.put("testresn", new xComTestResN());
+        commands.put("cl_testresn", new xComTestResNClient());
         commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
-        commands.put("userplayer", new xComUserPlayer());
-        commands.put("zoom", new xComZoom());
-        commands.put("cl_addcom", new xComAddClientCommand());
+        commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
         commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
@@ -179,13 +174,11 @@ public class xCon {
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putitem", new xComPutItemClient());
-        commands.put("cl_sendcmd", new xComSendCmdClient());
+        commands.put("cl_setplayercoords", new xComSetPlayerCoords());
+        commands.put("cl_setvar", new xComSetVarClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
-        commands.put("cl_status", new xComStatusClient());
-        commands.put("sv_sendcmd", new xComSendCmdServer());
-        commands.put("sv_status", new xComStatusServer());
     }
 
     public void saveLog(String s) {
@@ -219,6 +212,11 @@ public class xCon {
     public String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
+            for(int i = 0; i < args.length; i++) {
+                if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1))) {
+                    args[i] = cServerVars.instance().get(args[i].substring(1));
+                }
+            }
             if(args.length > 0) {
                 String configval = args[0];
                 if(cServerVars.instance().contains(configval)) {
@@ -234,26 +232,22 @@ public class xCon {
                     return cClientVars.instance().get(configval);
                 }
             }
-            String command = fullCommand.split(" ")[0];
-            command = fullCommand.charAt(0) == '-' || fullCommand.charAt(0) == '+'
-                ? command.substring(1) : command;
+            String command = args[0];
+            if(command.startsWith("-"))
+                command = command.substring(1);
             xCom cp = commands.get(command);
             if (cp != null) {
-                if(!visibleCommands.contains(command)) {
-                    if (fullCommand.charAt(0) == '-')
-                        return cp.undoCommand(fullCommand);
-                    else
-                        return cp.doCommand(fullCommand);
+                StringBuilder realcom = new StringBuilder();
+                for(int i = 0; i < args.length; i++) {
+                    realcom.append(" ").append(args[i]);
                 }
-                else {
-                    stringLines.add(String.format("console:~$ %s", fullCommand));
-                    String result = fullCommand.charAt(0) == '-' ? cp.undoCommand(fullCommand)
-                        : cp.doCommand(fullCommand);
-                    if (result.length() > 0)
-                        stringLines.add(result);
-                    linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
-                    return result;
-                }
+                String comstring = realcom.substring(1);
+                stringLines.add(String.format("console:~$ %s", comstring));
+                String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
+                if (result.length() > 0)
+                    stringLines.add(result);
+                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+                return result;
             }
             else {
                 return String.format("No result: %s", command);

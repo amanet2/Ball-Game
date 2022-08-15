@@ -17,44 +17,6 @@ public class gScoreboard {
         }
     }
 
-    public static boolean isTopScoreId(String id) {
-        if(scoresMap.containsKey(id)) {
-            for(String otherId : scoresMap.keySet()) {
-                if(!otherId.equals(id)) {
-                    if(scoresMap.get(otherId).get("score") > scoresMap.get(id).get("score")) {
-                        return false;
-                    }
-                }
-            }
-            return scoresMap.get(id).get("score") > 0;
-        }
-        return false;
-    }
-
-    public static String getTopScoreString() {
-        int topscore = 0;
-        int tiectr = 0;
-        String leaderString = "";
-        for(String id : scoresMap.keySet()) {
-            HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-            if(scoresMapIdMap.get("score") > topscore) {
-                tiectr = 0;
-                topscore = scoresMapIdMap.get("score");
-                if(!nServer.instance().clientArgsMap.containsKey(id)
-                || !nServer.instance().clientArgsMap.get(id).containsKey("name"))
-                    break;
-                leaderString = nServer.instance().clientArgsMap.get(id).get("name") + " ("+topscore+")";
-            }
-            else if(topscore > 0 && scoresMapIdMap.get("score") == topscore) {
-                tiectr++;
-            }
-        }
-        if(tiectr > 0) {
-            leaderString = leaderString + " + " + tiectr + " others";
-        }
-        return leaderString;
-    }
-
     public static String getWinnerId() {
         int highestScore = 0;
         String highestId = "";
@@ -98,6 +60,8 @@ public class gScoreboard {
         if(!scoresMapIdMap.containsKey(field))
             scoresMapIdMap.put(field, 0);
         int nscore = scoresMapIdMap.get(field) + score;
+        if(nscore < 0)
+            nscore = 0;
         scoresMapIdMap.put(field, nscore);
     }
 }

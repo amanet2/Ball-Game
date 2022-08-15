@@ -26,6 +26,16 @@ public class iKeyboard implements KeyListener {
         shiftKeyMap.put(KeyEvent.VK_PERIOD, ">");
         shiftKeyMap.put(KeyEvent.VK_SLASH, "?");
         shiftKeyMap.put(KeyEvent.VK_BACK_QUOTE, "~");
+        shiftKeyMap.put(KeyEvent.VK_1, "!");
+        shiftKeyMap.put(KeyEvent.VK_2, "@");
+        shiftKeyMap.put(KeyEvent.VK_3, "#");
+        shiftKeyMap.put(KeyEvent.VK_4, "$");
+        shiftKeyMap.put(KeyEvent.VK_5, "%");
+        shiftKeyMap.put(KeyEvent.VK_6, "^");
+        shiftKeyMap.put(KeyEvent.VK_7, "&");
+        shiftKeyMap.put(KeyEvent.VK_8, "*");
+        shiftKeyMap.put(KeyEvent.VK_9, "(");
+        shiftKeyMap.put(KeyEvent.VK_0, ")");
         specialKeyMap = new HashMap<>();
         specialKeyMap.put(KeyEvent.VK_SPACE, " ");
         specialKeyMap.put(KeyEvent.VK_SEMICOLON, ";");

@@ -1,2 +1,2 @@
-putblock BLOCK FLOOR 0 0 0 0 1200 1200
-putitem ITEM_SPAWNPOINT 0 0 0
+getres foo maxhp
+addcomi server echo max hp on this server is $foo

@@ -1,0 +1,4 @@
+getres cl getrand 0 2
+testres $cl 0 playsound sounds/growl.wav
+testres $cl 1 playsound sounds/shout.wav
+testres $cl 2 playsound sounds/death.wav

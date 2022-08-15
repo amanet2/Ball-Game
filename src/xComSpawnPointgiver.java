@@ -3,18 +3,18 @@ import java.util.Random;
 
 public class xComSpawnPointgiver extends xCom {
     public String doCommand(String fullCommand) {
-        gItemSpawnPoint spawnpoint = null;
+        gThing spawnpoint = null;
         int size = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").size();
         if(size > 0) {
             int randomSpawnpointIndex = new Random().nextInt(size);
             ArrayList<String> spawnpointids =
                     new ArrayList<>(cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").keySet());
             String randomId = spawnpointids.get(randomSpawnpointIndex);
-            spawnpoint = (gItemSpawnPoint) cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
-            while(spawnpoint.isOccupied()) {
+            spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+            while(cServerLogic.isOccupied((gItem) spawnpoint)) {
                 randomSpawnpointIndex = new Random().nextInt(size);
                 randomId = spawnpointids.get(randomSpawnpointIndex);
-                spawnpoint = (gItemSpawnPoint) cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
+                spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomId);
             }
         }
         if(spawnpoint != null) {
@@ -26,10 +26,7 @@ public class xComSpawnPointgiver extends xCom {
                     itemId = Integer.parseInt(id);
             }
             itemId++; //want to be the _next_ id
-                String cmd = String.format("putitem ITEM_POINTGIVER %d %d %d", itemId, nx, ny);
-            xCon.ex(cmd);
-            nServer.instance().addExcludingNetCmd("server",
-                    cmd.replaceFirst("putitem", "cl_putitem"));
+            xCon.ex(String.format("exec scripts/spawnpointgiver %d %d %d", itemId, nx, ny));
             return "spawned pointgiver";
         }
         return "usage: spawnpointgiver";

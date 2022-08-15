@@ -1,0 +1,1 @@
+cl_testres $showscore 0 cl_setvar showscore 1
