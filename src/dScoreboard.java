@@ -1,18 +1,15 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        dFonts.setFontColorHighlight(g);
+        dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g,
-                cGameLogic.net_gamemode_texts[cClientLogic.gamemode].toUpperCase() + ": "
-                        + cGameLogic.net_gamemode_descriptions[cClientLogic.gamemode],
+                cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase() + ": "
+                        + cGameLogic.net_gamemode_strings[cClientLogic.gamemode][1],
                 sSettings.width/2, 2*sSettings.height/30);
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("["+ (nClient.instance().serverArgsMap.size()-1) + " players]",
                 sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
@@ -59,7 +56,7 @@ public class dScoreboard {
             int height = sSettings.height / 30;
             String spaceStringA = "                                       ";
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
-            Color color = gColors.getPlayerHudColorFromName(ck);
+            Color color = gColors.instance().getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
             g.setColor(color);
             if(isMe)
@@ -71,7 +68,7 @@ public class dScoreboard {
             g.drawString("                                       "
                             + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
                     sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
-            dFonts.setFontColorNormal(g);
+            dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;
             ctr++;

@@ -1,0 +1,5 @@
+clearthingmap THING_PLAYER
+exec $1
+addcomi server cl_clearthingmap THING_PLAYER
+addcomi server cl_load
+addcomi server cv_maploaded 0

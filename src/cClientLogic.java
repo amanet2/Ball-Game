@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -51,7 +50,6 @@ public class cClientLogic {
         }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        checkGameState();
         checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null)
@@ -200,7 +198,6 @@ public class cClientLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            cClientLogic.playPlayerDeathSound();
             scene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
         }
     }
@@ -245,16 +242,6 @@ public class cClientLogic {
             p.putInt("weapon", newweapon);
             cClientLogic.getUserPlayer().checkSpriteFlip();
         }
-    }
-
-    public static void playPlayerDeathSound() {
-        double r = Math.random();
-        if(r > .99)
-            xCon.ex("playsound sounds/growl.wav");
-        else if(r > .49)
-            xCon.ex("playsound sounds/shout.wav");
-        else
-            xCon.ex("playsound sounds/death.wav");
     }
 
     public static void checkColorStatus() {
@@ -328,12 +315,5 @@ public class cClientLogic {
         if(!scene.getThingMap("THING_PLAYER").containsKey(id))
             return null;
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
-    }
-
-    static void checkGameState() {
-        if(nClient.instance().serverArgsMap.containsKey("server")
-            && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
-            && scene.getThingMap("ITEM_FLAG").size() > 0)
-                xCon.ex("cl_clearthingmap ITEM_FLAG");
     }
 }

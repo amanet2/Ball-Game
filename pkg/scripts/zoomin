@@ -1,0 +1,2 @@
+cl_getadd newzoom $zoomlevel 0.1
+cl_testres $showmapmakerui 1 cl_testresn $newzoom 2.1 cl_setvar zoomlevel $newzoom

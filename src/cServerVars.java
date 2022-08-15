@@ -4,7 +4,8 @@ public class cServerVars extends gArgSet {
     private cServerVars() {
         super();
     }
-    protected void init(String[] args) {
+    
+    protected void init(String[] launchArgs) {
         putArg(new gArg("listenport", "5555") {
             public void onChange() {
                 cServerLogic.listenPort = Integer.parseInt(value);
@@ -57,7 +58,7 @@ public class cServerVars extends gArgSet {
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        loadFromLaunchArgs(args);
+        loadFromLaunchArgs(launchArgs);
     }
     public static gArgSet instance() {
         if(instance == null) {

@@ -8,7 +8,7 @@ public class cClientVars extends gArgSet {
     private cClientVars() {
         super();
     }
-    protected void init(String[] args) {
+    protected void init(String[] launchArgs) {
         putArg(new gArg("vidmode", "1920,1080,60") {
             public void onChange() {
                 String[] vidmodetoks = value.split(",");
@@ -202,6 +202,11 @@ public class cClientVars extends gArgSet {
                 dScreenMessages.showscale = value.equals("1");
             }
         });
+        putArg(new gArg("showscore", "0"){
+            public void onChange() {
+                dScreenMessages.showscore = value.equals("1");
+            }
+        });
         putArg(new gArg("joinip", "localhost"){
             public void onChange() {
                 cClientLogic.joinip = value;
@@ -218,10 +223,31 @@ public class cClientVars extends gArgSet {
                     uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
-
+        putArg(new gArg("zoomlevel", "1.0") {
+            public void onChange() {
+                eUtils.zoomLevel = Double.parseDouble(value);
+            }
+        });
+        putArg(new gArg("newprefabname", "room") {
+            public void onChange() {
+                cClientLogic.newprefabname = value;
+            }
+        });
+        put("userplayerid", "null");
+        putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
+            public void onChange() {
+                uiInterface.inplay = value.equals("1");
+            }
+        });
+        putArg(new gArg("blockmouseui", uiInterface.blockMouseUI ? "1" : "0") {
+            public void onChange() {
+                uiInterface.blockMouseUI = value.equals("1");
+            }
+        });
+        
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        loadFromLaunchArgs(args);
+        loadFromLaunchArgs(launchArgs);
     }
     public static gArgSet instance() {
         if(instance == null) {

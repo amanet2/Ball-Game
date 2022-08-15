@@ -23,13 +23,13 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
-                g2.setColor(gColors.getFontColorFromName("flooroutline"));
+                dFonts.setFontColor(g2, "clrf_flooroutline");
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
             }
             if(block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
-                g2.setColor(gColors.getFontColorFromName("selected"));
+                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
@@ -39,7 +39,7 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.isVal("id", cClientLogic.selecteditemid)) {
-                g2.setColor(gColors.getFontColorFromName("selected"));
+                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(item.getInt("coordx"),
                         item.getInt("coordy"),
                         item.getInt("dimw"), item.getInt("dimh"));
@@ -76,18 +76,18 @@ public class dMapmakerOverlay {
             String nm = cArgs.get("name");
             if(pxs == null || pys == null || pws == null || phs == null || cs == null)
                 continue;
-            g2.setColor(gColors.getPlayerHudColorFromName(cs));
+            g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
             if(nm == null)
                 continue;
             dFonts.setFontGNormal(g2);
-            g2.setColor(gColors.getPlayerHudColorFromName(cs));
+            g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
             if(id.equals(uiInterface.uuid)) {
                 Polygon pg = dTileTops.getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
-                Color color = gColors.getPlayerHudColorFromName(cs);
+                Color color = gColors.instance().getColorFromName("clrp_" + cs);
                 g2.setStroke(dFonts.thickStroke);
-                g2.setColor(gColors.getFontColorFromName("normaltransparent"));
+                dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.drawPolygon(pg);
                 g2.setColor(color);
                 g2.fillPolygon(pg);

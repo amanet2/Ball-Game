@@ -8,7 +8,6 @@ public class xComJoingame extends xCom {
                 cClientLogic.joinport = Integer.parseInt(comps[1]);
         }
         nClient.instance().reset();
-//        nClient.instance().start();
         sSettings.IS_CLIENT = true;
         return "joined game";
     }

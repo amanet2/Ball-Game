@@ -17,9 +17,6 @@ public class uiMenusVolume extends uiMenu {
                     uiMenus.selectedMenu = uiMenus.MENU_AUDIO;
                 }
             };
-//            if(items[items.length-1].text.equals(cClientLogic.volume)) {
-//                selectedItem = i;
-//            }
         }
     }
 }

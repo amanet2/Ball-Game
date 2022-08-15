@@ -47,7 +47,7 @@ public class dFonts {
                 eUtils.unscaleInt(sSettings.height/32)
         };
         g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-        g.setColor(gColors.getFontColorFromName("normaltransparent"));
+        dFonts.setFontColor(g, "clrf_normaltransparent");
         g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
     }
 
@@ -55,46 +55,28 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
     }
 
-    public static void setFontColorNormal(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("normal"));
-    }
-
-    public static void setFontColorNormalTransparent(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("normaltransparent"));
-    }
-
-    public static void setFontColorHighlight(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("highlight"));
-    }
-
-    public static void setFontColorAlert(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("alert"));
-    }
-
-    public static void setFontColorBonus(Graphics g) {
-        g.setColor(gColors.getFontColorFromName("bonus"));
-    }
-
     public static void setFontNormal(Graphics g) {
-        setFontColorNormal(g);
+        setFontColor(g, "clrf_normal");
         g.setFont(fontNormal );
     }
     public static void setFontGNormal(Graphics g) {
-        setFontColorNormal(g);
+        setFontColor(g, "clrf_normal");
         g.setFont(fontGNormal);
     }
     public static Font getFontNormal() {
         return fontNormal;
     }
+
     public static void setFontSmall(Graphics g) {
-        setFontColorNormal(g);
+        setFontColor(g, "clrf_normal");
         g.setFont(fontSmall);
-    }
-    public static Font getFontSmall() {
-        return fontSmall;
     }
 
     public static void setFontConsole(Graphics g) {
         g.setFont(fontConsole);
+    }
+
+    public static void setFontColor(Graphics g, String name) {
+        g.setColor(gColors.instance().getColorFromName(name));
     }
 }

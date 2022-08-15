@@ -4,10 +4,40 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* ability to script items with something like
-    -> setthing THING_ITEM 16 script <string>
-    -> items will have "script" string that does xCon.ex on activate
-    -> try storing "script" as "exec test" or something
+* separate client and server scripts
+* scripts can have timers
+    -> have xcom to get current time
+    -> save $currenttime+3000 or whateverdelay as a setvar
+    -> check that timestamp in script
+        --> or better yet we'll have a hashmap of timestamps to exec from
+* damageplayer is broken
+* have the gColors class load its hashmap from a file
+    -> have clientvars with the form clr_colorname
+* create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
+    -> will have a function check() that can take in a timestamp and then check its hashmap for executions
+    -> this will eliminate the java variables tracking milliseconds and such for things like hp
+        -> may need console command to get currenttime
+        -> or have in code a variable $currenttime that is updated in the server
+* have animation function take in a color string and select the index for animation
+* sVar and exec parameters are limited to one word because of how "exec" works for prefabs
+    -> maybe make a new parameter "$0" that contains the whole string
+    -> or have a way of going through parameter ranges like an array
+        -> e.g. [$1$5] would be range 1 - 5
+* go through server first and remake everything you can with scripting
+    -> working with the camera has shown client side scripts arent ready
+        --> we only look for server vars in all our $variables
+        --> always remember: the client is a cheating scumbag
+        --> scripts can be edited at the moment
+* make a "willcollide" console comm with 2 ids for objects
+* make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
+* need to have every word going through the console be subject to the '$' var check
+    -> will make scripts more consistent/predictable
+* the spawnpoint script is too noisy in the console
+* add another base arg to testres
+    -> e(equal), gte(greater than equal), lte(less than equal)
+* to link teleporters cleanly
+    -> on putitem, if its a blue teleporter a for loop should assign exit nodes if possible (>1 teleporter)
+        -> we can use "getres" to get this exit nodes id in a script
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision

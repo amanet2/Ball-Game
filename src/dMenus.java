@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 
 public class dMenus {
@@ -14,23 +13,23 @@ public class dMenus {
 
     public static void showPauseMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColorHighlight(g);
+        dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
             if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
-                dFonts.setFontColorBonus(g);
+                dFonts.setFontColor(g, "clrf_bonus");
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
-                dFonts.setFontColorNormal(g);
+                dFonts.setFontColor(g, "clrf_normal");
                 if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
                     oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
@@ -46,13 +45,13 @@ public class dMenus {
 
     public static void showControlsMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColorHighlight(g);
+        dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
         int ctr = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
@@ -76,11 +75,11 @@ public class dMenus {
 
     public static void showCreditsMenu(Graphics g) {
         uiInterface.getUIMenuItemUnderMouse();
-        g.setColor(gColors.getFontColorFromName("scoreboardbg"));
+        dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(coverimg,0,0,null);
         //copyright notice
-        dFonts.setFontColorNormal(g);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("by Stallion",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
         g.drawString("venmo @StallionUSA",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }

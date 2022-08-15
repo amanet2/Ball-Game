@@ -1,0 +1,22 @@
+setvar ITEM_FLAG_dimw 200
+setvar ITEM_FLAG_dimh 300
+setvar ITEM_FLAG_sprite misc/flag.png
+setvar ITEM_FLAG_script exec items/flag
+setvar ITEM_LANDMINE_dimw 300
+setvar ITEM_LANDMINE_dimh 300
+setvar ITEM_LANDMINE_sprite misc/forbidden.png
+setvar ITEM_LANDMINE_script exec items/landmine
+setvar ITEM_POINTGIVER_dimw 300
+setvar ITEM_POINTGIVER_dimh 300
+setvar ITEM_POINTGIVER_sprite misc/light1.png
+setvar ITEM_POINTGIVER_script exec items/pointgiver
+setvar ITEM_SPAWNPOINT_dimw 300
+setvar ITEM_SPAWNPOINT_dimh 300
+setvar ITEM_TELEPORTER_BLUE_dimw 300
+setvar ITEM_TELEPORTER_BLUE_dimh 300
+setvar ITEM_TELEPORTER_BLUE_sprite misc/teleporter_blue.png
+setvar ITEM_TELEPORTER_BLUE_script exec items/teleporterblue
+setvar ITEM_TELEPORTER_RED_dimw 300
+setvar ITEM_TELEPORTER_RED_dimh 300
+setvar ITEM_TELEPORTER_RED_sprite misc/teleporter_red.png
+setvar ITEM_TELEPORTER_RED_script exec items/teleporterred

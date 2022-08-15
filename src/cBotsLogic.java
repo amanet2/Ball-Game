@@ -54,6 +54,12 @@ public class cBotsLogic {
                 }
             }
         });
+        behaviors.put("Gold Master", new gDoableThing(){
+            public void doItem(gThing p) {
+                cBotsLogic.goToNearestPlayer(p);
+            }
+        });
+
     }
 
     public static void shootAtNearestPlayer(gThing bot) {
@@ -79,10 +85,7 @@ public class cBotsLogic {
                 botPlayer.pointAtCoords(
                         rx + waypoint.getInt("coordx") + waypoint.getInt("dimw")/2,
                         ry + waypoint.getInt("coordy") + waypoint.getInt("dimh")/2);
-                String cmd = "fireweapon " + botPlayer.get("id") + " " + botPlayer.get("weapon");
-                nServer.instance().addExcludingNetCmd("server",
-                        cmd.replaceFirst("fireweapon", "cl_fireweapon"));
-                xCon.ex(cmd);
+                xCon.ex(String.format("exec scripts/botshoot %s", botPlayer.get("id")));
             }
         }
     }

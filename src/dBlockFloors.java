@@ -24,7 +24,7 @@ public class dBlockFloors {
     }
 
     public static void drawMapmakerPreviewBlockFloor(Graphics2D g2, gBlockFloor block) {
-        g2.setColor(gBlockFactory.instance().floorColorPreview);
+        dFonts.setFontColor(g2, "clrw_floorcolorpreview");
         g2.fillRect(eUtils.scaleInt(block.getX()/4),
                     eUtils.scaleInt(block.getY()/4),
                     eUtils.scaleInt(block.getWidth()/4),

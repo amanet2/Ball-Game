@@ -28,6 +28,7 @@ public class nServer extends Thread {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
+            "deleteblock",
             "deleteitem",
             "deleteplayer",
             "deleteprefab",
@@ -363,17 +364,6 @@ public class nServer extends Thread {
         return clientIds.contains(id);
     }
 
-    boolean containsArgsForId(String id, String[] fields) {
-        if(!clientArgsMap.containsKey(id))
-            return false;
-        HashMap<String, String> cargs = clientArgsMap.get(id);
-        for(String rf : fields) {
-            if(!cargs.containsKey(rf))
-                return false;
-        }
-        return true;
-    }
-
     public void readData(String receiveDataString) {
         String toks = receiveDataString.trim();
         if(toks.length() > 0) {
@@ -466,7 +456,7 @@ public class nServer extends Thread {
         sendMap(packId);
         addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            addNetCmd(packId,"cl_sendcmd respawnnetplayer " + packId);
+            addNetCmd(packId,"cl_addcom respawnnetplayer " + packId);
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(player != null)
@@ -624,7 +614,7 @@ public class nServer extends Thread {
         for(String id : clientIds) {
             sendMap(id);
             if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-                addNetCmd(id,"cl_sendcmd respawnnetplayer " + id);
+                addNetCmd(id,"cl_addcom respawnnetplayer " + id);
         }
     }
 
