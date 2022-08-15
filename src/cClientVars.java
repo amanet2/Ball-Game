@@ -234,6 +234,7 @@ public class cClientVars extends gArgSet {
             }
         });
         put("userplayerid", "null");
+        put("userid", uiInterface.uuid);
         putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
             public void onChange() {
                 uiInterface.inplay = value.equals("1");
