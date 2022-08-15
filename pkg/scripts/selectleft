@@ -1,2 +1,2 @@
 exec scripts/playerleft
-selectleft
+cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 selectleft
