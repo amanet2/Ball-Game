@@ -7,6 +7,7 @@ public class gItemFactory {
     Image flagSprite;
     private gItemFactory() {
         itemLoadMap = new HashMap<>();
+        xCon.ex("exec items/itemsdef");
         itemLoadMap.put("ITEM_SPAWNPOINT", new gDoableThingReturn() {
             public gThing getThing(String[] args) {
                 return new gItem("ITEM_SPAWNPOINT", Integer.parseInt(args[0]), Integer.parseInt(args[1]),
