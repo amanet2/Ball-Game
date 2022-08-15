@@ -86,7 +86,7 @@ public class dWaypoints {
             else {
                 HashMap<String, gThing> flagmap = scene.getThingMap("ITEM_FLAG");
                 for(Object id : flagmap.keySet()) {
-                    gItemFlag flag = (gItemFlag) flagmap.get(id);
+                    gThing flag = flagmap.get(id);
                     dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                             flag.getInt("coordy") + flag.getInt("dimh")/2, "PICK UP");
                 }

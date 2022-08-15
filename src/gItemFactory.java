@@ -15,42 +15,43 @@ public class gItemFactory {
         });
         itemLoadMap.put("ITEM_FLAG", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemFlag(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                gItem item = new gItem("ITEM_FLAG", Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+                        200, 300, gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"),
+                        200, 300));
+                item.put("script", "exec items/flag");
+                return item;
             }
         });
         itemLoadMap.put("ITEM_LANDMINE", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemLandmine(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                gItem item = new gItem("ITEM_LANDMINE", Integer.parseInt(args[0]), Integer.parseInt(args[1]), 300, 300,
+                        gTextures.getGScaledImage(eUtils.getPath("misc/forbidden.png"), 300, 300));
+                item.put("script", "exec items/landmine");
+                return item;
             }
         });
         itemLoadMap.put("ITEM_POINTGIVER", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemPointGiver(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                gItem item = new gItem("ITEM_POINTGIVER", Integer.parseInt(args[0]), Integer.parseInt(args[1]), 300, 300,
+                        gTextures.getGScaledImage(eUtils.getPath("misc/light1.png"), 300, 300));
+                item.put("script", "exec items/pointgiver");
+                return item;
             }
         });
         itemLoadMap.put("ITEM_TELEPORTER_RED", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemTeleporterRed(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                gItem item = new gItem("ITEM_TELEPORTER_RED", Integer.parseInt(args[0]), Integer.parseInt(args[1]), 300, 300,
+                        gTextures.getGScaledImage(eUtils.getPath("misc/teleporter_red.png"), 300, 300));
+                item.put("script", "exec items/teleporterred");
+                return item;
             }
         });
         itemLoadMap.put("ITEM_TELEPORTER_BLUE", new gDoableItemReturn() {
             public gItem getItem(String[] args) {
-                return new gItemTeleporterBlue(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1])
-                );
+                gItem item = new gItem("ITEM_TELEPORTER_BLUE", Integer.parseInt(args[0]), Integer.parseInt(args[1]), 300, 300,
+                        gTextures.getGScaledImage(eUtils.getPath("misc/teleporter_blue.png"), 300, 300));
+                item.put("script", "exec items/teleporterblue");
+                return item;
             }
         });
         flagSprite = gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300);

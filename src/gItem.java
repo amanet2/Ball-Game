@@ -4,10 +4,11 @@ public class gItem extends gThing {
     public Image sprite;
 
     public void activateItem(gPlayer p) {
-        xCon.ex("setvar itemactid " + p.get("id"));
-        xCon.ex("setvar itemrcvid " + get("id"));
-        if(contains("script"))
+        if(contains("script")) {
+            xCon.ex("setvar itemactid " + p.get("id"));
+            xCon.ex("setvar itemrcvid " + get("id"));
             xCon.ex(get("script"));
+        }
     }
 
     public gItem(String type, int x, int y, int w, int h, Image sp) {
