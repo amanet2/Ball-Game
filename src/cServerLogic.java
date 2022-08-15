@@ -57,8 +57,6 @@ public class cServerLogic {
         HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
         if(svars != null) {
             if(svars.containsKey("flagmasterid")) {
-                if(scene.getThingMap("ITEM_FLAG").size() > 0)
-                    xCon.ex("clearthingmap ITEM_FLAG");
                 if(flagmastertime < gameTimeMillis) {
                     xCon.ex("givepoint " + svars.get("flagmasterid"));
                     flagmastertime = gameTimeMillis + 1000;
@@ -163,15 +161,10 @@ public class cServerLogic {
         for(Object id : playersMap.keySet()) {
             gPlayer p = (gPlayer) playersMap.get(id);
             int pHp = (int) p.getDouble("stockhp");
-            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis) {
-                if(pHp + rechargehp > maxhp)
-                    p.putInt("stockhp", maxhp);
-                else
-                    p.putInt("stockhp", pHp + rechargehp);
-            }
-            else if(pHp > maxhp) {
+            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis)
+                p.putInt("stockhp", Math.min(pHp + rechargehp, maxhp));
+            else if(pHp > maxhp)
                 p.putInt("stockhp", maxhp);
-            }
         }
     }
 

@@ -217,13 +217,13 @@ public class uiEditorMenus {
                 gametypeMenuItem.setSelected(true);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Rockmaster"))
-                    cClientLogic.gamemode = cGameLogic.DEATHMATCH;
+                    xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);
                 else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    cClientLogic.gamemode = cGameLogic.FLAG_MASTER;
+                    xCon.ex("cv_gamemode " + cGameLogic.FLAG_MASTER);
                 else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    cClientLogic.gamemode = cGameLogic.VIRUS;
+                    xCon.ex("cv_gamemode " + cGameLogic.VIRUS);
                 else if(gametypeMenuItem.getText().equals("Goldmaster"))
-                    cClientLogic.gamemode = cGameLogic.GOLD_MASTER;
+                    xCon.ex("cv_gamemode " + cGameLogic.GOLD_MASTER);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

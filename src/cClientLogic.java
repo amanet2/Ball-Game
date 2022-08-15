@@ -50,7 +50,6 @@ public class cClientLogic {
         }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        checkGameState();
         checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null)
@@ -316,12 +315,5 @@ public class cClientLogic {
         if(!scene.getThingMap("THING_PLAYER").containsKey(id))
             return null;
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
-    }
-
-    static void checkGameState() {
-        if(nClient.instance().serverArgsMap.containsKey("server")
-            && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
-            && scene.getThingMap("ITEM_FLAG").size() > 0)
-                xCon.ex("cl_clearthingmap ITEM_FLAG");
     }
 }
