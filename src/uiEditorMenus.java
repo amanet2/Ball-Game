@@ -189,7 +189,8 @@ public class uiEditorMenus {
             menus.get("Prefabs").add(prefabmenuitem);
         }
         //fill items menu
-        for(String itemname: gItemFactory.instance().itemLoadMap.keySet()) {
+        for(String itemname: new String[]{"ITEM_SPAWNPOINT", "ITEM_FLAG", "ITEM_TELEPORTER_BLUE", "ITEM_TELEPORTER_RED",
+                                          "ITEM_POINTGIVER", "ITEM_LANDMINE"}) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
             if(itemMenuItem.getText().equals(newitemname)) {

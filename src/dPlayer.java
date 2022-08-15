@@ -56,7 +56,7 @@ public class dPlayer {
         if(nClient.instance().serverArgsMap.containsKey("server")
                 && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
                 && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(player.get("id"))) {
-            g2.drawImage(gItemFactory.instance().flagSprite,
+            g2.drawImage(gItemFactory.flagSprite,
                     player.getInt("coordx"),
                     player.getInt("coordy")
                             - 2*player.getInt("dimh")/3,
