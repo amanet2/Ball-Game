@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class dBlockWallsShading {
-    public static void drawBlockWallsShadingFlat(Graphics2D g2, gBlock block) {
+    public static void drawBlockWallsShadingFlat(Graphics2D g2, gThing block) {
         if (sSettings.vfxenableshading) {
             g2.setStroke(dFonts.thickStroke);
             if (block.getInt("wallh") > 0) {

@@ -3,7 +3,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 public class dBlockTops {
-    public static void drawBlockTopCube(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockTopCube(Graphics2D g2, gThing block) {
         gBlockFactory.instance().topTexture = new TexturePaint(gBlockFactory.instance().topImage,
                 new Rectangle2D.Double(block.getX(), block.getY(), 300, 300));
         g2.setPaint(gBlockFactory.instance().topTexture);

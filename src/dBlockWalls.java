@@ -14,16 +14,16 @@ public class dBlockWalls {
             else {
                 if(thing.get("type").contains("CUBE")) {
                     if (thing.contains("wallh")) {
-                        dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
-                        drawBlockWallCube(g2, (gBlockCube) thing);
-                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
+                        drawBlockWallCube(g2, thing);
+                        dBlockTops.drawBlockTopCube(g2, thing);
                     }
                 }
             }
         }
     }
 
-    public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockWallCube(Graphics2D g2, gThing block) {
         if (block.contains("wallh")) {
             gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
                     new Rectangle2D.Double(block.getX(), block.getY(), 300, 300));
