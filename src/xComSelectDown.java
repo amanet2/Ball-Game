@@ -4,8 +4,6 @@ public class xComSelectDown extends xCom {
             uiInterface.blockMouseUI = true;
             uiMenus.nextItem();
         }
-        else
-            return xCon.ex("exec scripts/playerdown");
         return fullCommand;
     }
 }

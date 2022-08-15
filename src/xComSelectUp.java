@@ -4,8 +4,6 @@ public class xComSelectUp extends xCom {
             uiInterface.blockMouseUI = true;
             uiMenus.prevItem();
         }
-        else
-            return xCon.ex("exec scripts/playerup");
         return fullCommand;
     }
 }

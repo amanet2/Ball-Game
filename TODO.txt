@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* separate client and server scripts
 * scripts can have timers
     -> have xcom to get current time
     -> save $currenttime+3000 or whateverdelay as a setvar

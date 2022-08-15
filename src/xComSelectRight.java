@@ -5,8 +5,6 @@ public class xComSelectRight extends xCom {
                     uiMenus.selectedMenu].selectedItem].doItem();
             xCon.ex("playsound sounds/splash.wav");
         }
-        else
-            return xCon.ex("exec scripts/playerright");
         return fullCommand;
     }
 }
