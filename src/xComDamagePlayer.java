@@ -10,7 +10,6 @@ public class xComDamagePlayer extends xCom {
             gPlayer player = cServerLogic.getPlayerById(id);
             if(player != null) {
                 xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
-//                gScoreboard.addToScoreField(id, "score", -dmg);
                 //handle death
                 if(player.getDouble("stockhp") < 1) {
                     //more server-side stuff
@@ -58,7 +57,7 @@ public class xComDamagePlayer extends xCom {
                         animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                     xCon.ex(String.format("exec scripts/postdeath %s %d %s", id,
                             gTime.gameTime + cServerLogic.respawnwaittime,
-                            String.format("cl_spawnanimation %d %d %d", animInd, dcx - 100, dcy - 100)));
+                            String.format("cl_spawnanimation %d %d %d", animInd, dcx, dcy)));
                 }
                 return id + " took " + dmg + " dmg from " + shooterid;
             }

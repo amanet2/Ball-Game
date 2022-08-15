@@ -28,6 +28,7 @@ public class nServer extends Thread {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
+            "deleteblock",
             "deleteitem",
             "deleteplayer",
             "deleteprefab",

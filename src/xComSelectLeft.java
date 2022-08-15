@@ -8,10 +8,4 @@ public class xComSelectLeft extends xCom {
             return xCon.ex("exec scripts/playerleft");
         return fullCommand;
     }
-
-    public String undoCommand(String fullCommand) {
-        if(uiInterface.inplay || sSettings.show_mapmaker_ui)
-            return xCon.ex("exec scripts/playerleftx");
-        return fullCommand;
-    }
 }

@@ -1,13 +1,24 @@
 public class xComAddCommandClient extends xCom {
     public String doCommand(String fullCommand) {
-        String[] toks = fullCommand.split(" ");
+        String[] args = fullCommand.split(" ");
         if(!sSettings.IS_CLIENT)
             return "cl_addcom can only be used by active clients";
-        if(toks.length < 2)
+        if(args.length < 2)
             return "usage: cl_addcom <string>";
+        for(int i = 1; i < args.length; i++) {
+            //parse the $ vars for placing prefabs
+            if(args[i].startsWith("$")) {
+                if(cServerVars.instance().contains(args[i].substring(1)))
+                    args[i] = cServerVars.instance().get(args[i].substring(1));
+                else if(cClientVars.instance().contains(args[i].substring(1)))
+                    args[i] = cClientVars.instance().get(args[i].substring(1));
+                else if(sVars.get(args[i]) != null)
+                    args[i] = sVars.get(args[i]);
+            }
+        }
         StringBuilder act = new StringBuilder("");
-        for(int i = 1; i < toks.length; i++) {
-            act.append(" ").append(toks[i]);
+        for(int i = 1; i < args.length; i++) {
+            act.append(" ").append(args[i]);
         }
         String actStr = act.substring(1);
         nClient.instance().addNetCmd(actStr);
