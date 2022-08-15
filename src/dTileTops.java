@@ -23,8 +23,7 @@ public class dTileTops {
         if(sSettings.drawhitboxes) {
             g2.setColor(Color.RED);
             for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-                gBlockCollision collision =
-                        (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
+                gThing collision = scene.getThingMap("BLOCK_COLLISION").get(id);
                 int x = collision.getX();
                 int y = collision.getY();
                 int w = collision.getWidth();

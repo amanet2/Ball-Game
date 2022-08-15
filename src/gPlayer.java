@@ -8,7 +8,7 @@ public class gPlayer extends gThing {
         int dx = coord == 0 ? coord2 : getInt("coordx");
         int dy = coord == 1 ? coord2 : getInt("coordy");
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-            gBlockCollision coll = (gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id);
+            gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
             Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
             Rectangle2D collRect = new Rectangle(coll.getX(), coll.getY(), coll.getWidth(), coll.getHeight());
             if(playerRect.intersects(collRect))

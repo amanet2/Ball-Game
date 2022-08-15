@@ -30,22 +30,18 @@ public class gBlockFactory {
         });
         blockLoadMap.put("BLOCK_FLOOR", new gDoableThingReturn() {
             public gThing getThing(String[] args) {
-                return new gBlockFloor(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1]),
-                        Integer.parseInt(args[2]),
-                        Integer.parseInt(args[3])
-                );
+                gBlock block = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+                block.put("type", "BLOCK_FLOOR");
+                return block;
             }
         });
         blockLoadMap.put("BLOCK_COLLISION", new gDoableThingReturn() {
             public gThing getThing(String[] args) {
-                return new gBlockCollision(
-                        Integer.parseInt(args[0]),
-                        Integer.parseInt(args[1]),
-                        Integer.parseInt(args[2]),
-                        Integer.parseInt(args[3])
-                );
+                gBlock block = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+                        Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+                block.put("type", "BLOCK_COLLISION");
+                return block;
             }
         });
         try {

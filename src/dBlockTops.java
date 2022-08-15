@@ -18,20 +18,20 @@ public class dBlockTops {
     public static void drawBlockTopCubesPreview(Graphics2D g2) {
         HashMap<String, gThing> squareMap = uiEditorMenus.previewScene.getThingMap("BLOCK_CUBE");
         for(String tag : squareMap.keySet()) {
-            gBlockCube block = (gBlockCube) squareMap.get(tag);
+            gThing block = squareMap.get(tag);
             if(block.contains("wallh")) {
                 dBlockWalls.drawBlockWallCubePreview(g2, block);
             }
         }
         for(String tag : squareMap.keySet()) {
-            gBlockCube block = (gBlockCube) squareMap.get(tag);
+            gThing block = squareMap.get(tag);
             if(block.contains("toph")) {
                 dBlockTops.drawBlockTopCubePreview(g2, block);
             }
         }
     }
 
-    public static void drawBlockTopCubePreview(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockTopCubePreview(Graphics2D g2, gThing block) {
         dFonts.setFontColor(g2, "clrw_topcolorpreview");
         g2.fillRect(
                 eUtils.scaleInt(block.getX()/4),
