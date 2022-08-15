@@ -1,7 +1,7 @@
 public class xComAddCommandIgnore extends xCom {
     public String doCommand(String fullCommand) {
         if(!sSettings.IS_SERVER)
-            return "addcomi can only be used by active clients";
+            return "addcomi can only be used by the host";
         String[] args = fullCommand.split(" ");
         if(args.length < 3)
             return "usage: addcomi <ignore id> <string>";
@@ -31,7 +31,6 @@ public class xComAddCommandIgnore extends xCom {
             act.append(" ").append(args[i]);
         }
         String actStr = act.substring(1);
-        System.out.println(actStr);
         nServer.instance().addExcludingNetCmd(ignoreId, actStr);
         return "server net com ignoring: " + actStr;
     }

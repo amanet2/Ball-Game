@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class gBlockFactory {
-    HashMap<String, gDoableBlockReturn> blockLoadMap;
+    HashMap<String, gDoableThingReturn> blockLoadMap;
     private static gBlockFactory instance = null;
     BufferedImage floorImage;
     TexturePaint floorTexture;
@@ -18,8 +18,8 @@ public class gBlockFactory {
 
     private gBlockFactory() {
         blockLoadMap = new HashMap<>();
-        blockLoadMap.put("BLOCK_CUBE", new gDoableBlockReturn(){
-            public gBlock getBlock(String[] args) {
+        blockLoadMap.put("BLOCK_CUBE", new gDoableThingReturn(){
+            public gThing getThing(String[] args) {
                 return new gBlockCube(
                         Integer.parseInt(args[0]),
                         Integer.parseInt(args[1]),
@@ -30,8 +30,8 @@ public class gBlockFactory {
                 );
             }
         });
-        blockLoadMap.put("BLOCK_FLOOR", new gDoableBlockReturn() {
-            public gBlock getBlock(String[] args) {
+        blockLoadMap.put("BLOCK_FLOOR", new gDoableThingReturn() {
+            public gThing getThing(String[] args) {
                 return new gBlockFloor(
                         Integer.parseInt(args[0]),
                         Integer.parseInt(args[1]),
@@ -40,8 +40,8 @@ public class gBlockFactory {
                 );
             }
         });
-        blockLoadMap.put("BLOCK_COLLISION", new gDoableBlockReturn() {
-            public gBlock getBlock(String[] args) {
+        blockLoadMap.put("BLOCK_COLLISION", new gDoableThingReturn() {
+            public gThing getThing(String[] args) {
                 return new gBlockCollision(
                         Integer.parseInt(args[0]),
                         Integer.parseInt(args[1]),

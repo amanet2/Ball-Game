@@ -9,8 +9,8 @@ public class xComPutItemClient extends xCom {
             String itemId = toks[2];
             String putX = toks[3];
             String putY = toks[4];
-            gDoableItemReturn itemReturn = factory.itemLoadMap.get(itemTitle);
-            gItem newItem = itemReturn.getItem(new String[]{putX, putY}); //expects x y as args
+            gDoableThingReturn itemReturn = factory.itemLoadMap.get(itemTitle);
+            gThing newItem = itemReturn.getThing(new String[]{putX, putY}); //expects x y as args
             newItem.put("id", itemId);
             cClientLogic.scene.getThingMap("THING_ITEM").put(itemId, newItem);
             cClientLogic.scene.getThingMap(newItem.get("type")).put(itemId, newItem);
