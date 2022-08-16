@@ -20,6 +20,7 @@ public class cServerLogic {
     static int voteskiplimit = 2;
     static long timeleft = 180000;
     static int listenPort = 5555;
+    static int gamemode = cGameLogic.DEATHMATCH;
     static gScene scene = new gScene();
 
     public static void gameLoop(long loopTimeMillis) {
@@ -57,13 +58,8 @@ public class cServerLogic {
         }
         HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
         if(svars != null) {
-            xCon.ex("exec scripts/serverlogic");
-//            if(svars.containsKey("flagmasterid")) {
-//                if(flagmastertime < gameTimeMillis) {
-//                    xCon.ex("givepoint " + svars.get("flagmasterid"));
-//                    flagmastertime = gameTimeMillis + 1000;
-//                }
-//            }
+            if(cGameLogic.isGame(cGameLogic.FLAG_MASTER))
+                xCon.ex("exec scripts/flagmaster");
             if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
                 if(goldspawntime < gameTimeMillis) {
                     xCon.ex("spawnpointgiver");
