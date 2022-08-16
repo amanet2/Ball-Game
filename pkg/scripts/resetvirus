@@ -1,5 +1,2 @@
 getres rando getrandclid
 testresn $rando null setnargs server virusids $rando
-#if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientCount() > 0) {
-#    nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
-#}

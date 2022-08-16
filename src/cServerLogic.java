@@ -140,9 +140,6 @@ public class cServerLogic {
 
     public static void resetVirusPlayers() {
         xCon.ex("exec scripts/resetvirus");
-//        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientCount() > 0) {
-//            nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
-//        }
     }
 
     public static void checkHealthStatus(long gameTimeMillis) {
