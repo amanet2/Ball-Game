@@ -13,7 +13,7 @@ public class xComEditorNewMap extends xCom {
         cServerLogic.starttime = gTime.gameTime;
         cServerLogic.gameover = false;
         if (cGameLogic.isGame(cGameLogic.VIRUS))
-            cGameLogic.resetVirusPlayers();
+            cServerLogic.resetVirusPlayers();
         return "";
     }
 }

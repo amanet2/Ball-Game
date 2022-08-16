@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make resetvirusplayers a script
+    -> call it in the virus map on load instead of coding the checks into console commands etc
+    -> make getrandomthing command (getrandthing THING_PLAYER //returns id)
+
 * separate client and server scripts
 * scripts can have timers
     -> have xcom to get current time

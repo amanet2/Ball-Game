@@ -126,6 +126,8 @@ public class xCon {
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
         commands.put("getrand", new xComGetRandom());
+        commands.put("getrandclid", new xComGetRandomClientId());
+        commands.put("getrandthing", new xComGetRandomThing());
         commands.put("givepoint", new xComGivePoint());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());

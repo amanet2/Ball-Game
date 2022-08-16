@@ -60,9 +60,8 @@ public class cServerLogic {
         if(svars != null) {
             if(cGameLogic.isGame(cGameLogic.FLAG_MASTER))
                 xCon.ex("exec scripts/flagmaster");
-            if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
+            if(cGameLogic.isGame(cGameLogic.GOLD_MASTER))
                 xCon.ex("exec scripts/goldmaster");
-            }
             if(svars.containsKey("virusids")) {
                 if(virustime < gameTimeMillis) {
                     boolean survivors = false;
@@ -74,11 +73,11 @@ public class cServerLogic {
                     }
                     virustime = gameTimeMillis + 1000;
                     if(!survivors)
-                        cGameLogic.resetVirusPlayers();
+                        resetVirusPlayers();
                 }
             }
             else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
-                cGameLogic.resetVirusPlayers();
+                resetVirusPlayers();
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
@@ -137,6 +136,13 @@ public class cServerLogic {
                         "echo changing map...");
             }
         }
+    }
+
+    public static void resetVirusPlayers() {
+        xCon.ex("exec scripts/resetvirus");
+//        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientCount() > 0) {
+//            nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
+//        }
     }
 
     public static void checkHealthStatus(long gameTimeMillis) {
@@ -204,7 +210,7 @@ public class cServerLogic {
         starttime = gameTimeMillis;
         gameover = false;
         if(cGameLogic.isGame(cGameLogic.VIRUS))
-            cGameLogic.resetVirusPlayers();
+            resetVirusPlayers();
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
