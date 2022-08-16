@@ -1,0 +1,3 @@
+testreslte $goldspawntime $gametimemillis spawnpointgiver
+testreslte $goldspawntime $gametimemillis getaddlong newspawntime $gametimemillis 6000
+testreslte $goldspawntime $gametimemillis setvar goldspawntime $newspawntime

@@ -60,6 +60,7 @@ public class cServerVars extends gArgSet {
                 cServerLogic.flagmastertime = Long.parseLong(value);
             }
         });
+        put("goldspawntime", "0");
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
