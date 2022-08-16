@@ -1,0 +1,4 @@
+getres fmid getnargs server flagmasterid
+testresn $fmid null testreslte $flagmastertime $gametimemillis givepoint $fmid
+testresn $fmid null testreslte $flagmastertime $gametimemillis getaddlong newtime $gametimemillis 1000
+testresn $fmid null testreslte $flagmastertime $gametimemillis setvar flagmastertime $newtime

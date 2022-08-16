@@ -121,6 +121,7 @@ public class xCon {
         commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
         commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
+        commands.put("getaddlong", new xComGetAddLong());
         commands.put("cl_getadd", new xComGetAddClient());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
@@ -155,6 +156,7 @@ public class xCon {
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
+        commands.put("testreslte", new xComTestResLte());
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());

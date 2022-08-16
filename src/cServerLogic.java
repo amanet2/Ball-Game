@@ -23,6 +23,7 @@ public class cServerLogic {
     static gScene scene = new gScene();
 
     public static void gameLoop(long loopTimeMillis) {
+        cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         checkTimeRemaining(loopTimeMillis);
         checkHealthStatus(loopTimeMillis);
         checkForMapChange(loopTimeMillis);
@@ -48,21 +49,21 @@ public class cServerLogic {
             if(obj == null)
                 continue;
             HashMap<String, String> pvars = nServer.instance().clientArgsMap.get(obj.get("id"));
-            if(pvars == null)
+            if(pvars == null || !pvars.containsKey("vels"))
                 continue;
             for (int i = 0; i < 4; i++) {
-                if(pvars.containsKey("vels"))
                     obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
             }
         }
         HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
         if(svars != null) {
-            if(svars.containsKey("flagmasterid")) {
-                if(flagmastertime < gameTimeMillis) {
-                    xCon.ex("givepoint " + svars.get("flagmasterid"));
-                    flagmastertime = gameTimeMillis + 1000;
-                }
-            }
+            xCon.ex("exec scripts/serverlogic");
+//            if(svars.containsKey("flagmasterid")) {
+//                if(flagmastertime < gameTimeMillis) {
+//                    xCon.ex("givepoint " + svars.get("flagmasterid"));
+//                    flagmastertime = gameTimeMillis + 1000;
+//                }
+//            }
             if(cGameLogic.isGame(cGameLogic.GOLD_MASTER) && !sSettings.show_mapmaker_ui) {
                 if(goldspawntime < gameTimeMillis) {
                     xCon.ex("spawnpointgiver");
@@ -79,9 +80,8 @@ public class cServerLogic {
                         }
                     }
                     virustime = gameTimeMillis + 1000;
-                    if(!survivors) {
+                    if(!survivors)
                         cGameLogic.resetVirusPlayers();
-                    }
                 }
             }
             else if(cGameLogic.isGame(cGameLogic.VIRUS)) {

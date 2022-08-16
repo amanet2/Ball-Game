@@ -55,6 +55,11 @@ public class cServerVars extends gArgSet {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("flagmastertime", "0") {
+            public void onChange() {
+                cServerLogic.flagmastertime = Long.parseLong(value);
+            }
+        });
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
