@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 public class gBullet extends gThing {
     Image sprite;
 
-    public boolean doesCollideWithPlayer(gPlayer p) {
+    public boolean doesCollideWithThing(gThing p) {
         Rectangle2D bounds = new Rectangle(getInt("coordx"), getInt("coordy"),
                 getInt("dimw"), getInt("dimh"));
         return bounds.intersects(new Rectangle(p.getInt("coordx"), p.getInt("coordy"),

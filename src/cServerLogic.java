@@ -242,10 +242,18 @@ public class cServerLogic {
                 }
                 continue;
             }
+            for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = scene.getThingMap("BLOCK_COLLISION").get(blockId);
+                if(b.doesCollideWithThing(bl)) {
+                    bulletsToRemoveIds.add(b.get("id"));
+                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                        pseeds.add(b);
+                }
+            }
             for(String playerId : getPlayerIds()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                        && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
