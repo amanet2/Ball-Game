@@ -156,12 +156,13 @@ public class cServerLogic {
         //recharge players health
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
-            gPlayer p = (gPlayer) playersMap.get(id);
-            int pHp = (int) p.getDouble("stockhp");
-            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis)
-                p.putInt("stockhp", Math.min(pHp + rechargehp, maxhp));
-            else if(pHp > maxhp)
-                p.putInt("stockhp", maxhp);
+            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
+//            gPlayer p = (gPlayer) playersMap.get(id);
+//            int pHp = (int) p.getDouble("stockhp");
+//            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis)
+//                p.putInt("stockhp", Math.min(pHp + rechargehp, maxhp));
+//            else if(pHp > maxhp)
+//                p.putInt("stockhp", maxhp);
         }
     }
 
