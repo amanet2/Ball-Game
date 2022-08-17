@@ -6,4 +6,4 @@ getaddlong rcplusdelay $rctime $delayhp
 getaddint newhp $playerhealth $rechargehp
 testreslte $rcplusdelay $gametimemillis setthing THING_PLAYER $1 stockhp $newhp
 getres playerhealth setthing THING_PLAYER $1 stockhp
-testreslteint $maxhp $playerhealth setthing THING_PLAYER $1 stockhp $maxhp
+testresn $playerhealth null testreslteint $maxhp $playerhealth setthing THING_PLAYER $1 stockhp $maxhp

@@ -7,20 +7,17 @@ public class cServerLogic {
     static int maxhp = 500;
     static int timelimit = 180000;
     static long flagmastertime = 0;
-    static int delayhp = 3600;
     static long starttime = 0;
     static long intermissiontime = -1;
     static int intermissionDelay = 10000;
     static boolean gameover = false;
     static int rechargehp = 1;
     static long virustime = 0;
-    static long goldspawntime = 0;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
     static long timeleft = 180000;
     static int listenPort = 5555;
-    static int gamemode = cGameLogic.DEATHMATCH;
     static gScene scene = new gScene();
 
     public static void gameLoop(long loopTimeMillis) {
@@ -157,12 +154,6 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             xCon.ex(String.format("exec scripts/rechargehealth %s", id));
-//            gPlayer p = (gPlayer) playersMap.get(id);
-//            int pHp = (int) p.getDouble("stockhp");
-//            if(rechargehp > 0 && pHp < maxhp && p.getLong("hprechargetime") + delayhp < gameTimeMillis)
-//                p.putInt("stockhp", Math.min(pHp + rechargehp, maxhp));
-//            else if(pHp > maxhp)
-//                p.putInt("stockhp", maxhp);
         }
     }
 
@@ -199,6 +190,7 @@ public class cServerLogic {
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server",
                 "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
+        //        xCon.ex(String.format("exec scripts/changemap %s", mapPath));
         nServer.instance().sendMapToClients();
         //reset game state
         gScoreboard.resetScoresMap();
