@@ -38,10 +38,12 @@ public class cClientLogic {
 
     public static void checkPlayerFire() {
         if(getUserPlayer() != null && iMouse.holdingMouseLeft)
-            xCon.ex("attack");
+            xCon.ex(String.format("exec scripts/attack %d",
+                    (long)gWeapons.fromCode(cClientLogic.getUserPlayer().getInt("weapon")).refiredelay));
     }
 
     public static void gameLoop(long loopTimeMillis) {
+        cClientVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         if(oDisplay.instance().frame.isVisible()) {
             if(sSettings.show_mapmaker_ui)
                 cClientLogic.selectThingUnderMouse();

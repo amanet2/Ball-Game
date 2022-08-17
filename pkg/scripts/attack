@@ -1,0 +1,5 @@
+cl_getres weap cl_setthing THING_PLAYER $userplayerid weapon
+cl_getres cooldown cl_setthing THING_PLAYER $userplayerid cooldown
+cl_testresn $cooldown null cl_testreslte $cooldown $gametimemillis cl_addcom fireweapon $userplayerid $weap
+cl_getaddlong refiretime $gametimemillis $1
+cl_testresn $cooldown null cl_testreslte $cooldown $gametimemillis cl_setthing THING_PLAYER $userplayerid cooldown $refiretime

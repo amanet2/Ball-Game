@@ -82,7 +82,6 @@ public class xCon {
         commands.put("addcom", new xComAddCommand());
         commands.put("addcomi", new xComAddCommandIgnore());
         commands.put("addcomx", new xComAddCommandExclusive());
-        commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
@@ -124,6 +123,7 @@ public class xCon {
         commands.put("getaddint", new xComGetAddInt());
         commands.put("getaddlong", new xComGetAddLong());
         commands.put("cl_getadd", new xComGetAddClient());
+        commands.put("cl_getaddlong", new xComGetAddLongClient());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
         commands.put("getrand", new xComGetRandom());
@@ -160,6 +160,7 @@ public class xCon {
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
         commands.put("testreslte", new xComTestResLte());
+        commands.put("cl_testreslte", new xComTestResLteClient());
         commands.put("testreslteint", new xComTestResLteInt());
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
