@@ -186,10 +186,6 @@ public class cServerLogic {
     }
 
     static void changeMap(String mapPath) {
-//        xCon.ex("clearthingmap THING_PLAYER");
-//        xCon.ex("exec " + mapPath);
-//        nServer.instance().addExcludingNetCmd("server",
-//                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
         xCon.ex(String.format("exec scripts/changemap %s", mapPath));
         nServer.instance().sendMapToClients();
         //reset game state
