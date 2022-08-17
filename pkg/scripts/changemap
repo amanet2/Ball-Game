@@ -3,4 +3,4 @@ exec $1
 #addcomi server cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0
 addcomi server cl_clearthingmap THING_PLAYER
 addcomi server cl_load
-addcomi server cv_maploaded 0
+#addcomi server cv_maploaded 0

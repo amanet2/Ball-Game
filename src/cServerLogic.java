@@ -185,19 +185,19 @@ public class cServerLogic {
         }
     }
 
-    static void changeMap(String mapPath, long gameTimeMillis) {
-        xCon.ex("clearthingmap THING_PLAYER");
-        xCon.ex("exec " + mapPath);
-        nServer.instance().addExcludingNetCmd("server",
-                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
-        //        xCon.ex(String.format("exec scripts/changemap %s", mapPath));
+    static void changeMap(String mapPath) {
+//        xCon.ex("clearthingmap THING_PLAYER");
+//        xCon.ex("exec " + mapPath);
+//        nServer.instance().addExcludingNetCmd("server",
+//                "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 0");
+        xCon.ex(String.format("exec scripts/changemap %s", mapPath));
         nServer.instance().sendMapToClients();
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipMap = new HashMap<>();
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
-        starttime = gameTimeMillis;
+        starttime = gTime.gameTime;
         gameover = false;
         if(cGameLogic.isGame(cGameLogic.VIRUS))
             resetVirusPlayers();
