@@ -253,6 +253,12 @@ public class xCon {
                 if (result.length() > 0)
                     stringLines.add(result);
                 linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+                while (stringLines.size() > 1024) {
+                    stringLines.remove(0);
+                }
+                while (previousCommands.size() > 32) {
+                    previousCommands.remove(0);
+                }
                 return result;
             }
             else {

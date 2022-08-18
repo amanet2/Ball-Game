@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make stringlines a queue that gets emptied after X messages
 * create a serverside timeEvent map
     -> create timeEvent class that has a doCommand() function
     -> serverlogic should have a hashmap of these with a key/val of timestamp/timeevent
