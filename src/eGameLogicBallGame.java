@@ -23,7 +23,7 @@ public class eGameLogicBallGame implements eGameLogic {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
             nClient.instance().netLoop();
-            cClientLogic.gameLoop(gameTimeMillis);
+//            cClientLogic.gameLoop(gameTimeMillis);
         }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {

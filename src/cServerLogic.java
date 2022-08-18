@@ -17,11 +17,11 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-//        timedEvents.executeCommands();
-//        checkHealthStatus(loopTimeMillis);
-//        checkGameState(loopTimeMillis);
-//        updateEntityPositions(loopTimeMillis);
-//        checkBulletSplashes(loopTimeMillis);
+        timedEvents.executeCommands();
+        checkHealthStatus(loopTimeMillis);
+        checkGameState(loopTimeMillis);
+        updateEntityPositions(loopTimeMillis);
+        checkBulletSplashes(loopTimeMillis);
     }
 
     public static void checkGameState(long gameTimeMillis) {
