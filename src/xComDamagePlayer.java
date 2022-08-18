@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class xComDamagePlayer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
@@ -51,6 +53,13 @@ public class xComDamagePlayer extends xCom {
                         xCon.ex(String.format("exec scripts/putflag %d %d %d", itemId, dcx, dcy));
                     }
                     //migrate all client death logic here
+                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.respawnwaittime),
+                        new gTimeEvent() {
+                            public void doCommand() {
+                                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
+                            }
+                        }
+                    );
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;
                     String colorName = nServer.instance().clientArgsMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))

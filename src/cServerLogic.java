@@ -18,19 +18,10 @@ public class cServerLogic {
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-        checkTimeRemaining(loopTimeMillis);
         checkHealthStatus(loopTimeMillis);
-//        checkForMapChange(loopTimeMillis);
         checkGameState(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
-    }
-
-    public static void checkTimeRemaining(long gameTimeMillis) {
-        if(timelimit > 0)
-            timeleft = Math.max(0, timelimit - (int) (gameTimeMillis - starttime));
-        else
-            timeleft = -1;
     }
 
     public static void checkGameState(long gameTimeMillis) {
@@ -88,15 +79,15 @@ public class cServerLogic {
 
     public static void checkHealthStatus(long gameTimeMillis) {
         //respawn ready players
-        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
-        Long currentTime = gameTimeMillis;
-        for(String id : argsMap.keySet()) {
-            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
-                    && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
-                argsMap.get(id).remove("respawntime");
-            }
-        }
+//        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
+//        Long currentTime = gameTimeMillis;
+//        for(String id : argsMap.keySet()) {
+//            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
+//                    && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
+//                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
+//                argsMap.get(id).remove("respawntime");
+//            }
+//        }
         //recharge players health
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
@@ -140,6 +131,14 @@ public class cServerLogic {
                 xCon.ex("changemaprandom");
             }
         });
+        for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
+            timedEvents.put(Long.toString(t), new gTimeEvent() {
+                public void doCommand() {
+                    if(timelimit > 0)
+                        timeleft = Math.max(0, timelimit - (int) (gTime.gameTime - starttime));
+                }
+            });
+        }
         if(cGameLogic.isGame(cGameLogic.FLAG_MASTER)) {
             for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
