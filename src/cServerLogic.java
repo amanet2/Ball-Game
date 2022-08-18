@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class cServerLogic {
     static int maxhp = 500;
@@ -18,9 +16,11 @@ public class cServerLogic {
     static long timeleft = 180000;
     static int listenPort = 5555;
     static gScene scene = new gScene();
+    static gTimeEventSet timedEvents = new gTimeEventSet();
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
+        timedEvents.executeCommands();
         checkTimeRemaining(loopTimeMillis);
         checkHealthStatus(loopTimeMillis);
         checkForMapChange(loopTimeMillis);
@@ -61,7 +61,7 @@ public class cServerLogic {
             if(svars.containsKey("virusids")) {
                 if(virustime < gameTimeMillis) {
                     boolean survivors = false;
-                    for(String id : getPlayerIdArray()) {
+                    for(String id : pids) {
                         if(!svars.get("virusids").contains(id)) {
                             survivors = true;
                             xCon.ex("givepoint " + id);
@@ -86,35 +86,32 @@ public class cServerLogic {
             //check player teleporters
             int clearTeleporterFlag = 1;
             for(String checkType : scene.objectMaps.keySet()) {
-                if(checkType.contains("ITEM_")) {
-                    HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
-                    Collection<String> idCol = thingMap.keySet();
-                    int isize = idCol.size();
-                    String[] ids = idCol.toArray(new String[isize]);
-                    for (String itemId : ids) {
-                        gItem item = (gItem) thingMap.get(itemId);
-                        if (player.willCollideWithThingAtCoords(item,
-                                player.getInt("coordx"),
-                                player.getInt("coordy"))) {
-                            item.activateItem(player);
-                            if(checkType.contains("ITEM_TELEPORTER"))  {
-                                clearTeleporterFlag = 0;
-                            }
-                        }
+                if(!checkType.contains("ITEM_"))
+                    continue;
+                HashMap<String, gThing> thingMap = scene.getThingMap(checkType);
+                Collection<String> idCol = thingMap.keySet();
+                int isize = idCol.size();
+                String[] ids = idCol.toArray(new String[isize]);
+                for (String itemId : ids) {
+                    gItem item = (gItem) thingMap.get(itemId);
+                    item.put("occupied", "0");
+                    if (player.willCollideWithThingAtCoords(item,
+                            player.getInt("coordx"), player.getInt("coordy"))) {
+                        item.activateItem(player);
+                        if(checkType.contains("ITEM_TELEPORTER"))
+                            clearTeleporterFlag = 0;
                     }
                 }
             }
             //after checking all items
-            if(clearTeleporterFlag > 0) {
+            if(clearTeleporterFlag > 0)
                 player.put("inteleporter", "0");
-            }
         }
         //check for winlose
         if(!sSettings.show_mapmaker_ui && !gameover) {
             //conditions
-            if((timeleft == 0 && intermissiontime < 0)) {
+            if(timeleft == 0 && intermissiontime < 0)
                 gameover = true;
-            }
             if(gameover) {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
@@ -127,7 +124,8 @@ public class cServerLogic {
                 int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
                 nServer.instance().addExcludingNetCmd("server",
                         "playsound sounds/win/"+eManager.winSoundFileSelection[toplay]);
-                intermissiontime = gameTimeMillis + intermissionDelay;
+//                intermissiontime = gameTimeMillis + intermissionDelay;
+                xCon.ex("setvar intermissiontime " + (gameTimeMillis + intermissionDelay));
                 nServer.instance().addExcludingNetCmd("server",
                         "echo changing map...");
             }
@@ -158,7 +156,7 @@ public class cServerLogic {
 
     public static void checkForMapChange(long gameTimeMillis) {
         if(intermissiontime > 0 && intermissiontime < gameTimeMillis) {
-            intermissiontime = -1;
+            xCon.ex("setvar intermissiontime -1");
             timeleft = timelimit;
             xCon.ex("changemaprandom");
         }

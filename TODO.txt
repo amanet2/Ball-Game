@@ -4,6 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* create a serverside timeEvent map
+    -> create timeEvent class that has a doCommand() function
+    -> serverlogic should have a hashmap of these with a key/val of timestamp/timeevent
 * make resetvirusplayers a script
     -> call it in the virus map on load instead of coding the checks into console commands etc
     -> make getrandomthing command (getrandthing THING_PLAYER //returns id)

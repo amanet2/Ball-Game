@@ -566,7 +566,7 @@ public class nServer extends Thread {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
                 if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
-                    cServerLogic.intermissiontime = gTime.gameTime + cServerLogic.intermissionDelay;
+                    xCon.ex("setvar intermissiontime " + (gTime.gameTime + cServerLogic.intermissionDelay));
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winSoundFileSelection[
                                     (int) (Math.random() * eManager.winSoundFileSelection.length)],
@@ -586,10 +586,6 @@ public class nServer extends Thread {
         }
     }
 
-    public boolean hasClients() {
-        return clientCount() > 0;
-    }
-
     public int clientCount() {
         return clientIds.size();
     }
@@ -599,10 +595,6 @@ public class nServer extends Thread {
             return "null";
         int randomClientIndex = (int) (Math.random() * clientCount());
         return clientIds.get(randomClientIndex);
-    }
-
-    public ArrayList<String> getClientIds() {
-        return clientIds;
     }
 
     public void sendMapToClients() {

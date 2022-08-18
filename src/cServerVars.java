@@ -60,6 +60,16 @@ public class cServerVars extends gArgSet {
                 cServerLogic.flagmastertime = Long.parseLong(value);
             }
         });
+        putArg(new gArg("intermissiontime", "-1") {
+            public void onChange() {
+                cServerLogic.intermissiontime = Long.parseLong(value);
+            }
+        });
+        putArg(new gArg("timeleft", Integer.toString(cServerLogic.timelimit)) {
+            public void onChange() {
+                cServerLogic.timeleft = Integer.parseInt(value);
+            }
+        });
         put("goldspawntime", "0");
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
