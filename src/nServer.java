@@ -566,7 +566,6 @@ public class nServer extends Thread {
             if(!voteSkipMap.containsKey(id)) {
                 voteSkipMap.put(id,"1");
                 if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
-                    xCon.ex("setvar intermissiontime " + (gTime.gameTime + cServerLogic.intermissionDelay));
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winSoundFileSelection[
                                     (int) (Math.random() * eManager.winSoundFileSelection.length)],

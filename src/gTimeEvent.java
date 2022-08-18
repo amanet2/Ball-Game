@@ -1,5 +1,5 @@
 public class gTimeEvent {
-    public void doEvent() {
+    public void doCommand() {
         //to override
     }
 }

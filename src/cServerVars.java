@@ -55,16 +55,6 @@ public class cServerVars extends gArgSet {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("flagmastertime", "0") {
-            public void onChange() {
-                cServerLogic.flagmastertime = Long.parseLong(value);
-            }
-        });
-        putArg(new gArg("intermissiontime", "-1") {
-            public void onChange() {
-                cServerLogic.intermissiontime = Long.parseLong(value);
-            }
-        });
         putArg(new gArg("timeleft", Integer.toString(cServerLogic.timelimit)) {
             public void onChange() {
                 cServerLogic.timeleft = Integer.parseInt(value);

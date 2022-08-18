@@ -24,7 +24,8 @@ public class gTimeEventSet {
         dequeueCommands();
         while (eventQueue.size() > 0) {
             gTimeEvent event = eventQueue.peek();
-            event.doEvent();
+            event.doCommand();
+            System.out.println(event);
             eventQueue.remove();
         }
     }
@@ -33,6 +34,11 @@ public class gTimeEventSet {
         if(!events.containsKey(key))
             events.put(key, new LinkedList<>());
         events.get(key).add(event);
+    }
+
+    public void clear() {
+        events.clear();
+        eventQueue.clear();
     }
 
     public gTimeEventSet() {
