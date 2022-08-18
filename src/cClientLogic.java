@@ -58,8 +58,6 @@ public class cClientLogic {
         checkColorStatus();
         if(getUserPlayer() != null)
             checkPlayerFire();
-        checkFinishedAnimations();
-//        checkExpiredPopups(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
     }
@@ -211,38 +209,6 @@ public class cClientLogic {
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
             scene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
-        }
-    }
-
-    public static void checkFinishedAnimations() {
-        ArrayList<String> animationIdsToRemove = new ArrayList<>();
-        //remove finished animations
-        HashMap animationMap = scene.getThingMap("THING_ANIMATION");
-        for(Object id : animationMap.keySet()) {
-            gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
-            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
-                animationIdsToRemove.add((String) id);
-            }
-        }
-        for(String aid : animationIdsToRemove) {
-            scene.getThingMap("THING_ANIMATION").remove(aid);
-        }
-    }
-
-    public static void checkExpiredPopups(long gameTimeMillis) {
-        ArrayList<String> popupIdsToRemove = new ArrayList<>();
-        Collection<String> pColl = scene.getThingMap("THING_POPUP").keySet();
-        int psize = pColl.size();
-        String[] pids = pColl.toArray(new String[psize]);
-        for(String id : pids) {
-            gPopup g = (gPopup) scene.getThingMap("THING_POPUP").get(id);
-            if(g == null)
-                continue;
-            if(g.getLong("timestamp") < gameTimeMillis - sSettings.popuplivetime)
-                popupIdsToRemove.add(id);
-        }
-        for(String id: popupIdsToRemove) {
-            scene.getThingMap("THING_POPUP").remove(id);
         }
     }
 
