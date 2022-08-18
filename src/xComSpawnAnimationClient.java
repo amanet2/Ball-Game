@@ -9,9 +9,9 @@ public class xComSpawnAnimationClient extends xCom {
                 String aid = eManager.createId();
                 cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
                         new gAnimationEmitter(animcode, x, y));
-                cClientLogic.timedEvents.put(Long.toString(gTime.gameTime
-                        + gAnimations.animation_selection[animcode].frames.length*gAnimations.animation_selection[animcode].framerate
-                ), new gTimeEvent() {
+                gAnimation anim = gAnimations.animation_selection[animcode];
+                cClientLogic.timedEvents.put(
+                        Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
                     public void doCommand() {
                         cClientLogic.scene.getThingMap("THING_ANIMATION").remove(aid);
                     }
