@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Random;
 
 public class cServerLogic {
     static int maxhp = 500;
@@ -146,7 +147,7 @@ public class cServerLogic {
         for(String id : argsMap.keySet()) {
             if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
                     && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-                xCon.ex("respawnnetplayer " + id);
+                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
                 argsMap.get(id).remove("respawntime");
             }
         }
@@ -154,26 +155,6 @@ public class cServerLogic {
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
             xCon.ex(String.format("exec scripts/rechargehealth %s", id));
-        }
-    }
-
-    public static void changeBotWeapon(gPlayer cl, int newweapon, boolean fromPowerup) {
-        HashMap botsMap = scene.getThingMap("THING_BOTPLAYER");
-        if(botsMap.size() > 0 && !(!fromPowerup && newweapon != 0)) {
-            nServer.instance().clientArgsMap.get(cl.get("id")).put("weapon", Integer.toString(newweapon));
-            cl.checkSpriteFlip();
-        }
-    }
-
-    public static void checkWeaponsStatus() {
-        //other players
-        for(String id : nServer.instance().clientArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                gPlayer p = getPlayerById(id);
-                int cweap = Integer.parseInt(nServer.instance().clientArgsMap.get(id).get("weapon"));
-                if(!p.isInt("weapon", cweap))
-                    p.putInt("weapon", cweap);
-            }
         }
     }
 
@@ -312,5 +293,23 @@ public class cServerLogic {
                 return true;
         }
         return false;
+    }
+
+    public static gThing getRandomThing(String type) {
+        gThing spawnpoint = null;
+        int size = cServerLogic.scene.getThingMap(type).size();
+        if(size > 0) {
+            int randomSpawnpointIndex = new Random().nextInt(size);
+            ArrayList<String> spawnpointids =
+                    new ArrayList<>(cServerLogic.scene.getThingMap(type).keySet());
+            String randomId = spawnpointids.get(randomSpawnpointIndex);
+            spawnpoint = cServerLogic.scene.getThingMap(type).get(randomId);
+            while(cServerLogic.isOccupied((gItem) spawnpoint)) {
+                randomSpawnpointIndex = new Random().nextInt(size);
+                randomId = spawnpointids.get(randomSpawnpointIndex);
+                spawnpoint = cServerLogic.scene.getThingMap(type).get(randomId);
+            }
+        }
+        return spawnpoint;
     }
 }

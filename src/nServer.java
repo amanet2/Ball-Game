@@ -37,7 +37,6 @@ public class nServer extends Thread {
             "fireweapon",
             "putblock",
             "putitem",
-            "respawnnetplayer",
             "requestdisconnect"
     ));
 
@@ -61,17 +60,6 @@ public class nServer extends Thread {
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         quitClientIds.add(id);
-                    }
-                });
-        clientCmdDoables.put("respawnnetplayer",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        String[] toks = cmd.split(" ");
-                        if(toks.length > 1) {
-                            String reqid = toks[1];
-                            if(reqid.equals(id)) //client can only respawn themself
-                                xCon.ex(cmd);
-                        }
                     }
                 });
 
@@ -449,19 +437,18 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-//        System.out.println("NEW_CLIENT: "+packId);
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
-        addNetCmd(packId, "cv_maploaded 1");
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            addNetCmd(packId,"cl_addcom respawnnetplayer " + packId);
+            xCon.ex("exec scripts/respawnnetplayer " + packId);
         for(String clientId : clientIds) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
-            if(player != null)
-                addNetCmd(packId, String.format("cl_spawnplayer %s %s %s",
-                    clientId, player.get("coordx"), player.get("coordy")));
+            if(clientId.equals(packId) || player == null)
+                continue;
+            addNetCmd(packId, String.format("cl_spawnplayer %s %s %s", clientId,
+                    player.get("coordx"), player.get("coordy")));
         }
         addExcludingNetCmd("server", String.format("echo %s joined the game", packName
         + (clientArgsMap.get(packId).get("color") != null ? "#"+clientArgsMap.get(packId).get("color") : "")));
@@ -542,15 +529,17 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.equals("exec")) {
+            if(ccmd.equals("exec"))
                 System.out.println("CLIENT REQ EXEC: " + cmd);
-            }
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
                 xCon.ex(cmd);
                 addExcludingNetCmd("server", String.format("%s",
                         cmd.replace("exec ", "cl_exec ")));
+            }
+            else if(cmd.startsWith("exec scripts/respawnnetplayer")) {
+                xCon.ex(cmd);
             }
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
@@ -619,8 +608,6 @@ public class nServer extends Thread {
     public void sendMapToClients() {
         for(String id : clientIds) {
             sendMap(id);
-            if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-                addNetCmd(id,"cl_addcom respawnnetplayer " + id);
         }
     }
 

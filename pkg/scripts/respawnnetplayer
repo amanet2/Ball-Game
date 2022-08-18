@@ -1,6 +1,7 @@
-getres spx setthing ITEM_SPAWNPOINT $2 coordx
-getres spy setthing ITEM_SPAWNPOINT $2 coordy
-setnargs $1 x $spx
-setnargs $1 y $spy
-addcomx server spawnplayer $1 $spx $spy
-addcomi server cl_spawnplayer $1 $spx $spy
+getres rsp getrandthing ITEM_SPAWNPOINT
+testresn $rsp null getres spx setthing ITEM_SPAWNPOINT $rsp coordx
+testresn $rsp null getres spy setthing ITEM_SPAWNPOINT $rsp coordy
+testresn $rsp null setnargs $1 x $spx
+testresn $rsp null setnargs $1 y $spy
+testresn $rsp null addcomx server spawnplayer $1 $spx $spy
+testresn $rsp null addcomi server cl_spawnplayer $1 $spx $spy
