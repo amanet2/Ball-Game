@@ -330,8 +330,8 @@ public class nServer extends Thread {
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
                     processPackets(gameTime);
                     checkOutgoingCmdMap();
-//                    checkForUnhandledQuitters();
-//                    cServerLogic.gameLoop(gameTime);
+                    checkForUnhandledQuitters();
+                    cServerLogic.gameLoop(gameTime);
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
