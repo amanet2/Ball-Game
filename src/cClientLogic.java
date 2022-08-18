@@ -46,20 +46,20 @@ public class cClientLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cClientVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-        if(oDisplay.instance().frame.isVisible()) {
-            if(sSettings.show_mapmaker_ui)
-                cClientLogic.selectThingUnderMouse();
-            if(getUserPlayer() != null)
-                pointPlayerAtMousePointer();
-        }
-        oAudio.instance().checkAudio();
-        gCamera.updatePosition();
-        checkMovementStatus();
-        checkColorStatus();
-        if(getUserPlayer() != null)
-            checkPlayerFire();
-        updateEntityPositions(loopTimeMillis);
-        gMessages.checkMessages();
+//        if(oDisplay.instance().frame.isVisible()) {
+//            if(sSettings.show_mapmaker_ui)
+//                cClientLogic.selectThingUnderMouse();
+//            if(getUserPlayer() != null)
+//                pointPlayerAtMousePointer();
+//        }
+//        oAudio.instance().checkAudio();
+//        gCamera.updatePosition();
+//        checkMovementStatus();
+//        checkColorStatus();
+//        if(getUserPlayer() != null)
+//            checkPlayerFire();
+//        updateEntityPositions(loopTimeMillis);
+//        gMessages.checkMessages();
     }
 
     public static synchronized void selectThingUnderMouse() {
