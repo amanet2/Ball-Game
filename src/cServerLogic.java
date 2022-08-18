@@ -1,8 +1,6 @@
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Random;
 
 public class cServerLogic {
     static int maxhp = 500;
@@ -280,36 +278,5 @@ public class cServerLogic {
 
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
-    }
-
-    public static boolean isOccupied(gItem spawnpoint) {
-        for(String id : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-            gPlayer player = (gPlayer) cServerLogic.scene.getThingMap("THING_PLAYER").get(id);
-            Shape bounds = new Rectangle(spawnpoint.getInt("coordx"), spawnpoint.getInt("coordy"),
-                    spawnpoint.getInt("dimw"), spawnpoint.getInt("dimh"));
-            if(bounds.intersects(new Rectangle(
-                    player.getInt("coordx"), player.getInt("coordy"), player.getInt("dimw"),
-                    player.getInt("dimh"))))
-                return true;
-        }
-        return false;
-    }
-
-    public static gThing getRandomThing(String type) {
-        gThing spawnpoint = null;
-        int size = cServerLogic.scene.getThingMap(type).size();
-        if(size > 0) {
-            int randomSpawnpointIndex = new Random().nextInt(size);
-            ArrayList<String> spawnpointids =
-                    new ArrayList<>(cServerLogic.scene.getThingMap(type).keySet());
-            String randomId = spawnpointids.get(randomSpawnpointIndex);
-            spawnpoint = cServerLogic.scene.getThingMap(type).get(randomId);
-            while(cServerLogic.isOccupied((gItem) spawnpoint)) {
-                randomSpawnpointIndex = new Random().nextInt(size);
-                randomId = spawnpointids.get(randomSpawnpointIndex);
-                spawnpoint = cServerLogic.scene.getThingMap(type).get(randomId);
-            }
-        }
-        return spawnpoint;
     }
 }

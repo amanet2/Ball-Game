@@ -1,9 +1,7 @@
-import java.util.ArrayList;
-import java.util.Random;
-
 public class xComSpawnPointgiver extends xCom {
     public String doCommand(String fullCommand) {
-        gThing spawnpoint = cServerLogic.getRandomThing("ITEM_SPAWNPOINT");
+        String spawnpointId = xCon.ex("getrandthing ITEM_SPAWNPOINT");
+        gThing spawnpoint = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(spawnpointId);
         if(spawnpoint == null)
             return "could not get random spawnpoint";
         int itemId = 0;

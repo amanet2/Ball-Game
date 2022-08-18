@@ -608,6 +608,7 @@ public class nServer extends Thread {
     public void sendMapToClients() {
         for(String id : clientIds) {
             sendMap(id);
+            xCon.ex("exec scripts/respawnnetplayer " + id);
         }
     }
 
