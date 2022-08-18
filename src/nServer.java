@@ -279,7 +279,6 @@ public class nServer extends Thread {
                 }
             }
             workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-            workingMap.remove("respawntime"); //unnecessary args for sending, but necessary to retain server-side
             workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
             sendDataMap.put(idload2, new HashMap<>(workingMap));
             sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));

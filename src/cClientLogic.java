@@ -3,7 +3,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class cClientLogic {
-    static gScene scene = new gScene();
     static int maxhp = 500;
     static double volume = 100.0;
     static String selecteditemid = "";
@@ -24,6 +23,9 @@ public class cClientLogic {
     static int prevY = 0;
     static int prevW = 300;
     static int prevH = 300;
+    static gScene scene = new gScene();
+    static gTimeEventSet timedEvents = new gTimeEventSet();
+
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -57,7 +59,7 @@ public class cClientLogic {
         if(getUserPlayer() != null)
             checkPlayerFire();
         checkFinishedAnimations();
-        checkExpiredPopups(loopTimeMillis);
+//        checkExpiredPopups(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
     }

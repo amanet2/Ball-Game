@@ -78,16 +78,6 @@ public class cServerLogic {
     }
 
     public static void checkHealthStatus(long gameTimeMillis) {
-        //respawn ready players
-//        HashMap<String, HashMap<String, String>> argsMap = nServer.instance().clientArgsMap;
-//        Long currentTime = gameTimeMillis;
-//        for(String id : argsMap.keySet()) {
-//            if(!id.equals("server") && argsMap.get(id).containsKey("respawntime")
-//                    && Long.parseLong(argsMap.get(id).get("respawntime")) < currentTime) {
-//                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
-//                argsMap.get(id).remove("respawntime");
-//            }
-//        }
         //recharge players health
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
