@@ -126,7 +126,7 @@ public class nClient {
                     }
                 }
                 processPackets();
-//                cClientLogic.gameLoop(gameTime);
+                cClientLogic.gameLoop(gameTime);
             }
             catch (Exception ee) {
                 eUtils.echoException(ee);
