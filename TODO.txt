@@ -4,6 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* QA Process
+    -> Test with singleplayer
+    -> Test with singleplayer and client on same computer
+    -> Test with singleplayer and client on same computer and client on mac
 * make stringlines a queue that gets emptied after X messages
 * create a serverside timeEvent map
     -> create timeEvent class that has a doCommand() function
