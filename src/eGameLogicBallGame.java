@@ -21,8 +21,10 @@ public class eGameLogicBallGame implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
-        if(sSettings.IS_CLIENT)
+        if(sSettings.IS_CLIENT) {
             nClient.instance().netLoop();
+            cClientLogic.gameLoop(gameTimeMillis);
+        }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {
             uiInterface.tickReport = ticks;
