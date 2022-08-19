@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* game is unstable with outside clients
+    -> the PR that added all the scripts is "prev width"
 * QA Process
     -> Test with singleplayer
     -> Test with singleplayer and client on same computer

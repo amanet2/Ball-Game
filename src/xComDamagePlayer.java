@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 public class xComDamagePlayer extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");

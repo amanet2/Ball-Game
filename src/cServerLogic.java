@@ -99,6 +99,7 @@ public class cServerLogic {
         if(cGameLogic.isGame(cGameLogic.VIRUS))
             resetVirusPlayers();
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
+            //game over
             public void doCommand() {
                 String highestId = gScoreboard.getWinnerId();
                 if(highestId.length() > 0) {
@@ -116,6 +117,7 @@ public class cServerLogic {
             }
         });
         timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
+            //change map after game over
             public void doCommand() {
                 timeleft = timelimit;
                 xCon.ex("changemaprandom");
