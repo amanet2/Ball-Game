@@ -8,9 +8,10 @@ public class gTimeEventSet {
     protected Queue<gTimeEvent> eventQueue;
 
     private void dequeueCommands() {
+        long gtime = gTime.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
         for(String timestampkey : events.keySet()) {
-            if(Long.parseLong(timestampkey) > gTime.gameTime)
+            if(Long.parseLong(timestampkey) > gtime)
                 continue;
             eventQueue.addAll(events.get(timestampkey));
             toRemoveIds.add(timestampkey);

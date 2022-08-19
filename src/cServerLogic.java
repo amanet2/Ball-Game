@@ -81,7 +81,7 @@ public class cServerLogic {
         //recharge players health
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
-//            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
+            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
         }
     }
 
