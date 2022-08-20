@@ -358,8 +358,7 @@ public class nServer extends Thread {
     public void readData(String receiveDataString) {
         String toks = receiveDataString.trim();
         if(toks.length() > 0) {
-            String argload = toks;
-            HashMap<String, String> packArgMap = nVars.getMapFromNetString(argload);
+            HashMap<String, String> packArgMap = nVars.getMapFromNetString(toks);
             HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
             String packId = packArgMap.get("id");
             String packName = packArgMap.get("name");

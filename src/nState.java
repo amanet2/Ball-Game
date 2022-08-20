@@ -30,6 +30,17 @@ public class nState {
         return deltaMap;
     }
 
+    public nState(String stateMapString) {
+        //create return hashmap of key/value pairs
+        stateMap = new HashMap<>();
+        //get rid of the surrounding {} brackets.  this is fake/1-D parsing
+        String argstr = stateMapString.substring(1, stateMapString.length()-1);
+        for(String pair : argstr.split(",")) {
+            String[] vals = pair.split("=");
+            stateMap.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+        }
+    }
+
     public nState() {
         stateMap = new HashMap<>();
     }
