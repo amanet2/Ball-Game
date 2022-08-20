@@ -367,6 +367,13 @@ public class nServer extends Thread {
             //insert new ids into the greater maps
             if(!scoresMap.containsKey(packId))
                 gScoreboard.addId(packId);
+            //new handle new id
+            if(!clientIds.contains(packId)) {
+                masterGameState.put(packId, new nStateBallGame());
+                clientNetCmdMap.put(packId, new LinkedList<>());
+                clientIds.add(packId);
+                sendMap(packId);
+            }
             if(!clientArgsMap.containsKey(packId)) {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);
