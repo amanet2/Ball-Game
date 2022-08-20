@@ -7,7 +7,7 @@ public class nClient {
     private long nettickcounterTimeClient = -1;
     private static final int retrylimit = 10;
     long lastnettime = -1;
-    private static final int timeout = 1000;
+    private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids

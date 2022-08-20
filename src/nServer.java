@@ -12,6 +12,8 @@ public class nServer extends Thread {
     private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     private final ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
+    private final HashMap<String, nState> masterGameState;
+    private final HashMap<String, nState> savedClientStates;
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
@@ -48,6 +50,8 @@ public class nServer extends Thread {
 
     private nServer() {
         netticks = 0;
+        masterGameState = new HashMap<>();
+        savedClientStates = new HashMap<>();
         clientCmdDoables.put("fireweapon",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
@@ -152,9 +156,14 @@ public class nServer extends Thread {
         }
     }
 
-    public void checkOutgoingCmdMap() {
+    public void checkIfClientAckedCommand() {
         //check clients
         for(String id : clientNetCmdMap.keySet()) {
+            if(masterGameState.get(id).get("rcv").equals("1")) {
+                if(clientNetCmdMap.get(id).size() > 0)
+                    clientNetCmdMap.get(id).remove();
+                masterGameState.get(id).put("rcv", "0");
+            }
             if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
                 clientNetCmdMap.get(id).remove();
                 clientArgsMap.get(id).remove("cmdrcv");
@@ -241,11 +250,6 @@ public class nServer extends Thread {
         return keys;
     }
 
-    public HashMap<String, String> getClientNetVars(String clientId) {
-        HashMap<String, String> keys = new HashMap<>();
-        return keys;
-    }
-
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
         if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
@@ -329,7 +333,7 @@ public class nServer extends Thread {
                     receivedPackets.add(receivePacket);
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
                     processPackets(gameTime);
-                    checkOutgoingCmdMap();
+                    checkIfClientAckedCommand();
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
                     sleep(Math.max(0, networkTime - gameTime));
@@ -436,6 +440,7 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
+        masterGameState.put(packId, new nStateBallGame());
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());

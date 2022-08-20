@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* convert ban relief into a timeEvent
 * game is unstable with outside clients
     -> the PR that added all the scripts is "prev width"
 * QA Process
