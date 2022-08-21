@@ -12,13 +12,13 @@ public class nServer extends Thread {
     private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     private final ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
-    private final HashMap<String, nState> masterGameState;
-    private final HashMap<String, nState> savedClientStates;
+    private final nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
+    //id maps to queue of cmds we want to run on that client
+    private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    private final HashMap<String, String> clientCheckinMap;
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
-    //id maps to queue of cmds we want to run on that client
-    private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     //map of doables for handling cmds from clients
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
     //map of skip votes
@@ -50,8 +50,8 @@ public class nServer extends Thread {
 
     private nServer() {
         netticks = 0;
-        masterGameState = new HashMap<>();
-        savedClientStates = new HashMap<>();
+        masterStateMap = new nStateMap();
+        clientCheckinMap = new HashMap<>();
         clientCmdDoables.put("fireweapon",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
@@ -91,25 +91,16 @@ public class nServer extends Thread {
                 });
     }
 
-    public void addQuitClient(String id) {
-        quitClientIds.add(id);
-    }
-
     public void checkForUnhandledQuitters() {
         //other players
-        for(String id : clientArgsMap.keySet()) {
-            if(!id.equals("server")) {
-                //check currentTime vs last recorded checkin time
-                long lastrecordedtime = Long.parseLong(clientArgsMap.get(id).get("time"));
-                if(gTime.gameTime > lastrecordedtime + timeout) {
-                    addQuitClient(id);
-                }
-            }
+        for(String id : clientCheckinMap.keySet()) {
+            long pt = Long.parseLong(clientCheckinMap.get(id));
+            if(gTime.gameTime > pt + timeout)
+                quitClientIds.add(id);
         }
 
         while(quitClientIds.size() > 0) {
-            String quitterId = quitClientIds.remove();
-            removeNetClient(quitterId);
+            removeNetClient(quitClientIds.remove());
         }
     }
 
@@ -159,11 +150,6 @@ public class nServer extends Thread {
     public void checkIfClientAckedCommand() {
         //check clients
         for(String id : clientNetCmdMap.keySet()) {
-            if(masterGameState.get(id).get("rcv").equals("1")) {
-                if(clientNetCmdMap.get(id).size() > 0)
-                    clientNetCmdMap.get(id).remove();
-                masterGameState.get(id).put("rcv", "0");
-            }
             if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
                 clientNetCmdMap.get(id).remove();
                 clientArgsMap.get(id).remove("cmdrcv");
@@ -292,6 +278,12 @@ public class nServer extends Thread {
     }
 
     void removeNetClient(String id) {
+        //NEW
+        //--
+        clientCheckinMap.remove(id);
+        masterStateMap.remove(id);
+        //OLD
+        //--
         String quitterName = clientArgsMap.get(id).get("name");
         if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("flagmasterid")
                 && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
@@ -355,9 +347,35 @@ public class nServer extends Thread {
         return clientIds.contains(id);
     }
 
+    public void handleJoin(String id) {
+        masterStateMap.put(id, new nStateBallGame());
+        clientNetCmdMap.put(id, new LinkedList<>());
+        clientCheckinMap.put(id, Long.toString(gTime.gameTime));
+    }
+
     public void readData(String receiveDataString) {
         String toks = receiveDataString.trim();
         if(toks.length() > 0) {
+            // ----
+            //------ NEW STATES
+            //load received string into state object
+            nState receivedState = new nState(receiveDataString.trim());
+            String stateId = receivedState.get("id");
+            //check if masterState contains
+            if(!masterStateMap.contains(stateId))
+                handleJoin(stateId);
+            //record checkin time for client
+            clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
+            //compare received state to what we have kept in master. this will load the diff into master state
+            nState deltaState = receivedState.getDelta(masterStateMap.get(stateId));
+            //load the keys in delta into our state map
+            for(String k : deltaState.keys()) {
+                masterStateMap.get(stateId).put(k, deltaState.get(k));
+            }
+            System.out.println(masterStateMap);
+//            System.out.println(clientState.keys());
+            // ----- OLD BELOW
+            // ----
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(toks);
             HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
             String packId = packArgMap.get("id");
@@ -367,13 +385,6 @@ public class nServer extends Thread {
             //insert new ids into the greater maps
             if(!scoresMap.containsKey(packId))
                 gScoreboard.addId(packId);
-            //new handle new id
-            if(!clientIds.contains(packId)) {
-                masterGameState.put(packId, new nStateBallGame());
-                clientNetCmdMap.put(packId, new LinkedList<>());
-                clientIds.add(packId);
-                sendMap(packId);
-            }
             if(!clientArgsMap.containsKey(packId)) {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);
@@ -446,7 +457,6 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-        masterGameState.put(packId, new nStateBallGame());
         clientIds.add(packId);
         clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());

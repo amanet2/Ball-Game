@@ -3,13 +3,16 @@ public class nStateBallGame extends nState {
         //generates a "dummy snapshot" of all vars with value of 0/default
         //
         super();
-        stateMap.put("id", "");
-        stateMap.put("name", "");
-        stateMap.put("x", "0");
-        stateMap.put("y", "0");
-        stateMap.put("hp", "0");
-        stateMap.put("rcv", "0");
-        stateMap.put("cmd", "");
-        stateMap.put("msg", "");
+        map.put("id", "");
+        map.put("color", "blue");
+        map.put("name", "player");
+        map.put("x", "0");
+        map.put("y", "0");
+        map.put("hp", "0");
+        map.put("fv", "0");
+        map.put("vels", "0-0-0-0");
+        map.put("cmdrcv", "0");
+        map.put("cmd", "");
+        map.put("msg", "");
     }
 }

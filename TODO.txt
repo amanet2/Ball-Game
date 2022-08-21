@@ -4,6 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* convert disconnecting clients that time out with a timeevent that gets removed/replaced when client connects
+    -> would have to map client id to this timeevent
+        -> but how do we get it out of the queue of timeevents?
+            -> i dont think timeevent tracking was made to handle this kind of thing
+            * -> so maybe a map of timeevents in nServer that can be executed in parralel but just have a single event
+                -> per hashmap key (player id)
 * convert ban relief into a timeEvent
 * game is unstable with outside clients
     -> the PR that added all the scripts is "prev width"

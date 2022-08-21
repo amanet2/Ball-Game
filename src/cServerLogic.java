@@ -18,7 +18,7 @@ public class cServerLogic {
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-        checkHealthStatus(loopTimeMillis);
+//        checkHealthStatus(loopTimeMillis);
         checkGameState(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
@@ -116,6 +116,8 @@ public class cServerLogic {
                         "echo changing map...");
             }
         });
+        if(sSettings.show_mapmaker_ui)
+            return;
         timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
             //change map after game over
             public void doCommand() {
