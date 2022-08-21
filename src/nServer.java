@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.util.*;
 
 public class nServer extends Thread {
-//    private int netticks;
-//    private long nettickcounterTimeServer = -1;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
@@ -57,7 +55,6 @@ public class nServer extends Thread {
     }
 
     private nServer() {
-//        netticks = 0;
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
@@ -323,13 +320,7 @@ public class nServer extends Thread {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
-//                    netticks++;
                     long gameTime = gTime.gameTime;
-//                    if (nettickcounterTimeServer < gameTime) {
-//                        uiInterface.netReportServer = netticks;
-//                        netticks = 0;
-//                        nettickcounterTimeServer = gameTime + 1000;
-//                    }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
@@ -442,14 +433,6 @@ public class nServer extends Thread {
                 clientArgsMap.get(packId).put("score",  String.format("%d:%d",
                         gScoreboard.scoresMap.get(packId).get("wins"),
                         gScoreboard.scoresMap.get(packId).get("score")));
-//                if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
-//                    handleClientMessage(packArgMap.get("msg"));
-//                    checkClientMessageForVoteSkip(packId,
-//                            packArgMap.get("msg").substring(packArgMap.get("msg").indexOf(':')+2));
-//                }
-//                if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
-//                    handleClientCommand(packId, packArgMap.get("cmd"));
-//                }
                 if(packArgMap.get("px") != null)
                     clientArgsMap.get(packId).put("px", packArgMap.get("px"));
                 if(packArgMap.get("py") != null)
