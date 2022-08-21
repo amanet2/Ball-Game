@@ -124,10 +124,11 @@ public class cServerLogic {
             }
         });
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
+            long finalT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
                 public void doCommand() {
                     if(timelimit > 0)
-                        timeleft = Math.max(0, timelimit - (int) (gTime.gameTime - starttime));
+                        timeleft = Math.max(0, (starttime + timelimit) - finalT);
                 }
             });
         }
