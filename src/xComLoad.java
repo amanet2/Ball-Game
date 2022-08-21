@@ -4,7 +4,6 @@ public class xComLoad extends xCom {
         gTextures.clear();
         xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);
         cServerLogic.scene = new gScene();
-        cServerLogic.starttime = gTime.gameTime;
         return "";
     }
 }

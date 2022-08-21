@@ -3,7 +3,6 @@ import java.util.*;
 public class cServerLogic {
     static int maxhp = 500;
     static int timelimit = 180000;
-    static long starttime = 0;
     static int intermissionDelay = 10000;
     static boolean gameover = false;
     static int rechargehp = 1;
@@ -94,7 +93,7 @@ public class cServerLogic {
         nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
         nServer.instance().clientArgsMap.get("server").remove("virusids");
         timedEvents.clear();
-        starttime = gTime.gameTime;
+        long starttime = gTime.gameTime;
         gameover = false;
         if(cGameLogic.isGame(cGameLogic.VIRUS))
             resetVirusPlayers();
