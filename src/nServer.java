@@ -439,9 +439,9 @@ public class nServer extends Thread {
 //                    checkClientMessageForVoteSkip(packId,
 //                            packArgMap.get("msg").substring(packArgMap.get("msg").indexOf(':')+2));
 //                }
-                if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
-                    handleClientCommand(packId, packArgMap.get("cmd"));
-                }
+//                if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
+//                    handleClientCommand(packId, packArgMap.get("cmd"));
+//                }
                 if(packArgMap.get("px") != null)
                     clientArgsMap.get(packId).put("px", packArgMap.get("px"));
                 if(packArgMap.get("py") != null)
@@ -541,7 +541,7 @@ public class nServer extends Thread {
         checkMessageForSpecialSound(testmsg);
     }
 
-    private void handleClientCommand(String id, String cmd) {
+    void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {

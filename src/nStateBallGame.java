@@ -32,7 +32,13 @@ public class nStateBallGame extends nState {
                 }
             }
         });
-        map.put("cmd", "");
+        map.putArg(new gArg("cmd", "") {
+            public void onChange() {
+                if(value.length() > 0) {
+                    nServer.instance().handleClientCommand(get("id"), value);
+                }
+            }
+        });
         map.putArg(new gArg("msg", "") {
             public void onChange() {
                 if(value.length() > 0) {
