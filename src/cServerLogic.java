@@ -121,7 +121,6 @@ public class cServerLogic {
         timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
             //change map after game over
             public void doCommand() {
-                timeleft = timelimit;
                 xCon.ex("changemaprandom");
             }
         });

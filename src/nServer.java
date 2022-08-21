@@ -14,9 +14,8 @@ public class nServer extends Thread {
     //NEW --
     //--
     nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
-    //id maps to queue of cmds we want to run on that client
-    HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
-    private final HashMap<String, String> clientCheckinMap;
+    HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
+    private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     // OLD --
     //--
     //manage variables for use in the network game, sync to-and-from the actual map and objects
@@ -589,6 +588,14 @@ public class nServer extends Thread {
                             "echo changing map..."}) {
                         addExcludingNetCmd("server", s);
                     }
+                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.intermissionDelay),
+                        new gTimeEvent() {
+                            //change map after game over
+                            public void doCommand() {
+                                xCon.ex("changemaprandom");
+                            }
+                        }
+                    );
                 }
                 else {
                     String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",

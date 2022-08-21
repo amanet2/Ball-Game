@@ -46,6 +46,7 @@ public class cClientLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cClientVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
+        timedEvents.executeCommands();
         if(oDisplay.instance().frame.isVisible()) {
             if(sSettings.show_mapmaker_ui)
                 cClientLogic.selectThingUnderMouse();

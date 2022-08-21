@@ -11,6 +11,10 @@ public class nState {
         return map.get(k);
     }
 
+    public boolean contains(String k) {
+        return map.contains(k);
+    }
+
     public Collection<String> keys() {
         return map.args.keySet();
     }

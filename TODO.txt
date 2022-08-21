@@ -4,7 +4,9 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* user changeplayerclient from the client to tell server to set color of said client
+* need ability to add time events through script
+    -> make a "script" field like an item, will ex on schedule
+* user changeplayercolorclient from the client to tell server to set color of said client
 * convert disconnecting clients that time out with a timeevent that gets removed/replaced when client connects
     -> would have to map client id to this timeevent
         -> but how do we get it out of the queue of timeevents?
@@ -32,7 +34,8 @@ FOCUS ITEMS
     -> save $currenttime+3000 or whateverdelay as a setvar
     -> check that timestamp in script
         --> or better yet we'll have a hashmap of timestamps to exec from
-* damageplayer is broken
+* damageplayer is broken without rechargehp
+    -> im assuming because only rechargehp sets a player object "stockhp" or smthng like that
 * have the gColors class load its hashmap from a file
     -> have clientvars with the form clr_colorname
 * create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
