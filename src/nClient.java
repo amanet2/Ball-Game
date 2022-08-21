@@ -205,7 +205,7 @@ public class nClient {
     }
 
     private void processCmd(String cmdload) {
-        sendMap.put("cmdrcv","");
+        sendMap.put("cmdrcv","1");
         xCon.ex(cmdload);
     }
 
