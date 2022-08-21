@@ -13,8 +13,8 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
-                nServer.instance().addExcludingNetCmd("server",
-                        String.format("echo %s changed name to %s", oldname, value));
+                nServer.instance().addExcludingNetCmd("server", String.format("echo %s changed name to %s",
+                        oldname + "#"+get("color"), value + "#"+get("color")));
                 oldname = value;
             }
         });
@@ -33,6 +33,13 @@ public class nStateBallGame extends nState {
             }
         });
         map.put("cmd", "");
-        map.put("msg", "");
+        map.putArg(new gArg("msg", "") {
+            public void onChange() {
+                if(value.length() > 0) {
+                    nServer.instance().handleClientMessage(value);
+                    nServer.instance().checkClientMessageForVoteSkip(get("id"), value.substring(value.indexOf(':')+2));
+                }
+            }
+        });
     }
 }

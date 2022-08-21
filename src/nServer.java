@@ -395,7 +395,6 @@ public class nServer extends Thread {
             // ----- OLD BELOW
             // ----
             HashMap<String, String> packArgMap = nVars.getMapFromNetString(toks);
-            HashMap<String, HashMap<String, Integer>> scoresMap = gScoreboard.scoresMap;
             String packId = packArgMap.get("id");
             String packName = packArgMap.get("name");
             if(packId == null)
@@ -404,11 +403,6 @@ public class nServer extends Thread {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);
             }
-            //fetch old packet
-            HashMap<String, String> oldArgMap = clientArgsMap.get(packId);
-            String oldName = "";
-            if(oldArgMap != null)
-                oldName = oldArgMap.get("name");
             //only want to update keys that have changes
             for(String k : packArgMap.keySet()) {
                 clientArgsMap.get(packId).put(k, packArgMap.get(k));
@@ -417,17 +411,6 @@ public class nServer extends Thread {
             clientArgsMap.get(packId).put("time", Long.toString(gTime.gameTime));
             //parse and process the args from client packet
             if(hasClient(packId)) {
-                //update ping
-//                scoresMap.get(packId).put("ping", (int) Math.abs(gTime.gameTime - oldTimestamp));
-                //handle name change to notify
-                if(packName != null && oldName != null && oldName.length() > 0 && !oldName.equals(packName)) {
-                    if(clientArgsMap.get(packId).get("color") != null) {
-                        oldName += ("#"+clientArgsMap.get(packId).get("color"));
-                        packName += ("#"+clientArgsMap.get(packId).get("color"));
-                    }
-                    addExcludingNetCmd("server",
-                            String.format("echo %s changed name to %s", oldName, packName));
-                }
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
                     if (clientArgsMap.get(packId).containsKey("vels")) {
@@ -451,11 +434,11 @@ public class nServer extends Thread {
                 clientArgsMap.get(packId).put("score",  String.format("%d:%d",
                         gScoreboard.scoresMap.get(packId).get("wins"),
                         gScoreboard.scoresMap.get(packId).get("score")));
-                if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
-                    handleClientMessage(packArgMap.get("msg"));
-                    checkClientMessageForVoteSkip(packId,
-                            packArgMap.get("msg").substring(packArgMap.get("msg").indexOf(':')+2));
-                }
+//                if(packArgMap.get("msg") != null && packArgMap.get("msg").length() > 0) {
+//                    handleClientMessage(packArgMap.get("msg"));
+//                    checkClientMessageForVoteSkip(packId,
+//                            packArgMap.get("msg").substring(packArgMap.get("msg").indexOf(':')+2));
+//                }
                 if(packArgMap.get("cmd") != null && packArgMap.get("cmd").length() > 0) {
                     handleClientCommand(packId, packArgMap.get("cmd"));
                 }
@@ -551,7 +534,7 @@ public class nServer extends Thread {
         }
     }
 
-    private void handleClientMessage(String msg) {
+    public void handleClientMessage(String msg) {
         addExcludingNetCmd("server", "echo " + msg);
         //handle special sounds
         String testmsg = msg.substring(msg.indexOf(':')+2);
@@ -592,7 +575,7 @@ public class nServer extends Thread {
         }
     }
 
-    private void checkClientMessageForVoteSkip(String id, String testmsg) {
+    public void checkClientMessageForVoteSkip(String id, String testmsg) {
         //handle the vote-to-skip function
         testmsg = testmsg.strip();
         if(testmsg.equalsIgnoreCase("skip")) {

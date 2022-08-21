@@ -1,4 +1,4 @@
-public class xComSetServerState extends xCom {
+public class xComSetState extends xCom {
     //usage: setnstate $id $key $value
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
@@ -18,6 +18,8 @@ public class xComSetServerState extends xCom {
         if(args.length < 3)
             return clientState.toString();
         String tk = args[2];
+        if(args.length < 4)
+            return clientState.get(tk);
         StringBuilder tvb = new StringBuilder();
         for(int i = 3; i < args.length; i++) {
             tvb.append(" ").append(args[i]);
