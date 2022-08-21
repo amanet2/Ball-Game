@@ -1,3 +1,4 @@
+import java.util.Collection;
 import java.util.HashMap;
 
 public class nStateMap {
@@ -17,6 +18,10 @@ public class nStateMap {
 
     public void remove(String k) {
         map.remove(k);
+    }
+
+    public Collection<String> keys() {
+        return map.keySet();
     }
 
     public String toString() {

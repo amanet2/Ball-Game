@@ -11,7 +11,6 @@ public class nServer extends Thread {
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    private final ArrayList<String> clientIds = new ArrayList<>(); //insertion-ordered list of client ids
     private final nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
     //id maps to queue of cmds we want to run on that client
     private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
@@ -181,7 +180,7 @@ public class nServer extends Thread {
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
-                        System.out.println("*WARNING* PACKET LENGTH EXCEED 508 BYTES: "
+                        System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
                                 + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
                 receivedPackets.remove();
@@ -244,7 +243,7 @@ public class nServer extends Thread {
             sendfull = true;
             sendArgsMaps.put(clientid, new HashMap<>());
         }
-        for (String idload2 : clientIds) {
+        for (String idload2 : masterStateMap.keys()) {
             if (!sendArgsMaps.get(clientid).containsKey(idload2)) {
                 sendfull = true;
                 sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
@@ -268,11 +267,15 @@ public class nServer extends Thread {
         return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
+    void handleQuit(String id) {
+        clientCheckinMap.remove(id);
+        masterStateMap.remove(id);
+    }
+
     void removeNetClient(String id) {
         //NEW
         //--
-        clientCheckinMap.remove(id);
-        masterStateMap.remove(id);
+        handleQuit(id);
         //OLD
         //--
         String quitterName = clientArgsMap.get(id).get("name");
@@ -293,7 +296,6 @@ public class nServer extends Thread {
         gScoreboard.scoresMap.remove(id);
         clientNetCmdMap.remove(id);
         cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-        clientIds.remove(id);
         //tell remaining players
         addExcludingNetCmd("server", String.format("echo %s left the game", quitterName));
     }
@@ -335,7 +337,7 @@ public class nServer extends Thread {
     }
 
     boolean hasClient(String id) {
-        return clientIds.contains(id);
+        return masterStateMap.contains(id);
     }
 
     public void handleJoin(String id) {
@@ -366,8 +368,9 @@ public class nServer extends Thread {
             //relieve bans
             checkBanStatus(stateId);
             //check if masterState contains
-            if(!masterStateMap.contains(stateId))
+            if(!masterStateMap.contains(stateId)) {
                 handleJoin(stateId);
+            }
             //record checkin time for client
             clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
             //compare received state to what we have kept in master. this will load the diff into master state
@@ -376,7 +379,7 @@ public class nServer extends Thread {
             for(String k : deltaState.keys()) {
                 masterStateMap.get(stateId).put(k, deltaState.get(k));
             }
-            System.out.println(masterStateMap);
+//            System.out.println(masterStateMap);
 //            System.out.println(clientState.keys());
             // ----- OLD BELOW
             // ----
@@ -463,12 +466,11 @@ public class nServer extends Thread {
     }
 
     private void handleNewClientJoin(String packId, String packName) {
-        clientIds.add(packId);
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
             xCon.ex("exec scripts/respawnnetplayer " + packId);
-        for(String clientId : clientIds) {
+        for(String clientId : masterStateMap.keys()) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(clientId.equals(packId) || player == null)
                 continue;
@@ -611,24 +613,21 @@ public class nServer extends Thread {
     }
 
     public int clientCount() {
-        return clientIds.size();
+        return masterStateMap.keys().size();
     }
 
     public String getRandomClientId() {
         if(clientCount() < 1)
             return "null";
         int randomClientIndex = (int) (Math.random() * clientCount());
+        ArrayList<String> clientIds = new ArrayList<>(masterStateMap.keys());
         return clientIds.get(randomClientIndex);
     }
 
     public void sendMapToClients() {
-        for(String id : clientIds) {
+        for(String id : masterStateMap.keys()) {
             sendMap(id);
             xCon.ex("exec scripts/respawnnetplayer " + id);
         }
-    }
-
-    public void addClient(String id) {
-        clientIds.add(id);
     }
 }
