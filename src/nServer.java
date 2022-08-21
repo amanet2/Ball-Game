@@ -169,24 +169,15 @@ public class nServer extends Thread {
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
                 //read data of packet
-                readData(receiveDataString);
+                readData(receiveDataString); //and respond too
                 //get player id of client
                 HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
                 String clientId = clientmap.get("id");
-                //relieve bans
-                if(banIds.containsKey(clientId) && banIds.get(clientId) < gTime.gameTime)
-                    banIds.remove(clientId);
-                if(banIds.containsKey(clientId)) {
-                    addNetCmd(clientId, "echo You are banned for "
-                            + (banIds.get(clientId) - gTime.gameTime) + "ms");
-                    addNetCmd(clientId, "disconnect");
-                }
                 if(clientId != null) {
                     //create response
                     String sendDataString = createSendDataString(netVars, clientId);
                     byte[] sendData = sendDataString.getBytes();
-                    DatagramPacket sendPacket =
-                            new DatagramPacket(sendData, sendData.length, addr, port);
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
@@ -350,7 +341,18 @@ public class nServer extends Thread {
     public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
-        clientCheckinMap.put(id, Long.toString(gTime.gameTime));
+        gScoreboard.addId(id);
+    }
+
+    public void checkBanStatus(String stateId) {
+        if(banIds.containsKey(stateId)) {
+            if(banIds.get(stateId) < gTime.gameTime)
+                banIds.remove(stateId);
+            else {
+                addNetCmd(stateId, "echo You are banned for " + (banIds.get(stateId) - gTime.gameTime) + "ms");
+                addNetCmd(stateId, "disconnect");
+            }
+        }
     }
 
     public void readData(String receiveDataString) {
@@ -361,6 +363,8 @@ public class nServer extends Thread {
             //load received string into state object
             nState receivedState = new nState(receiveDataString.trim());
             String stateId = receivedState.get("id");
+            //relieve bans
+            checkBanStatus(stateId);
             //check if masterState contains
             if(!masterStateMap.contains(stateId))
                 handleJoin(stateId);
@@ -383,8 +387,10 @@ public class nServer extends Thread {
             if(packId == null)
                 return;
             //insert new ids into the greater maps
-            if(!scoresMap.containsKey(packId))
+            if(!scoresMap.containsKey(packId)) {
+                System.out.println("OLD SCORBOARD ADD USED");
                 gScoreboard.addId(packId);
+            }
             if(!clientArgsMap.containsKey(packId)) {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);
@@ -458,7 +464,6 @@ public class nServer extends Thread {
 
     private void handleNewClientJoin(String packId, String packName) {
         clientIds.add(packId);
-        clientNetCmdMap.put(packId, new LinkedList<>());
         sendArgsMaps.put(packId, new HashMap<>());
         sendMap(packId);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
