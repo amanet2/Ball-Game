@@ -151,6 +151,7 @@ public class xCon {
         commands.put("setcammovs", new xComSetCamMovs());
         commands.put("setthing", new xComSetThing());
         commands.put("setnargs", new xComSetServerArgs());
+        commands.put("setnstate", new xComSetServerState());
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
         commands.put("spawnplayer", new xComSpawnPlayer());

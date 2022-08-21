@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* user changeplayerclient from the client to tell server to set color of said client
 * convert disconnecting clients that time out with a timeevent that gets removed/replaced when client connects
     -> would have to map client id to this timeevent
         -> but how do we get it out of the queue of timeevents?

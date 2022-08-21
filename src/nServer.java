@@ -11,13 +11,18 @@ public class nServer extends Thread {
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    private final nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
+    //NEW --
+    //--
+    nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
     //id maps to queue of cmds we want to run on that client
-    private final HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
+    HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>();
     private final HashMap<String, String> clientCheckinMap;
+    // OLD --
+    //--
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
     HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
+    //
     //map of doables for handling cmds from clients
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
     //map of skip votes
@@ -29,7 +34,6 @@ public class nServer extends Thread {
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
-            "deleteblock",
             "deleteitem",
             "deleteplayer",
             "deleteprefab",
@@ -38,7 +42,8 @@ public class nServer extends Thread {
             "fireweapon",
             "putblock",
             "putitem",
-            "requestdisconnect"
+            "requestdisconnect",
+            "setnstate"
     ));
 
     public static nServer instance() {
@@ -56,6 +61,12 @@ public class nServer extends Thread {
                     void ex(String id, String cmd) {
                         addExcludingNetCmd(id+",server,",
                                 cmd.replaceFirst("fireweapon", "cl_fireweapon"));
+                        xCon.ex(cmd);
+                    }
+                });
+        clientCmdDoables.put("setnstate",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
                         xCon.ex(cmd);
                     }
                 });
@@ -389,11 +400,6 @@ public class nServer extends Thread {
             String packName = packArgMap.get("name");
             if(packId == null)
                 return;
-            //insert new ids into the greater maps
-            if(!scoresMap.containsKey(packId)) {
-                System.out.println("OLD SCORBOARD ADD USED");
-                gScoreboard.addId(packId);
-            }
             if(!clientArgsMap.containsKey(packId)) {
                 clientArgsMap.put(packId, packArgMap);
                 handleNewClientJoin(packId, packName);

@@ -1,8 +1,7 @@
 import java.util.Collection;
-import java.util.HashMap;
 
 public class nState {
-    protected HashMap<String, String> map;
+    protected gArgSet map;
 
     public void put(String s, String v) {
         map.put(s, v);
@@ -13,7 +12,7 @@ public class nState {
     }
 
     public Collection<String> keys() {
-        return map.keySet();
+        return map.args.keySet();
     }
 
     public nState getDelta(nState oState) {
@@ -35,7 +34,7 @@ public class nState {
 
     public nState(String stateMapString) {
         //create return hashmap of key/value pairs
-        map = new HashMap<>();
+        map = new gArgSet();
         //get rid of the surrounding {} brackets.  this is fake/1-D parsing
         String argstr = stateMapString.substring(1, stateMapString.length()-1);
         for(String pair : argstr.split(",")) {
@@ -49,6 +48,6 @@ public class nState {
     }
 
     public nState() {
-        map = new HashMap<>();
+        map = new gArgSet();
     }
 }
