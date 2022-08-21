@@ -32,11 +32,9 @@ public class cServerLogic {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
-            HashMap<String, String> pvars = nServer.instance().clientArgsMap.get(obj.get("id"));
-            if(pvars == null || !pvars.containsKey("vels"))
-                continue;
+            nState objState = nServer.instance().masterStateMap.get(obj.get("id"));
             for (int i = 0; i < 4; i++) {
-                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
+                    obj.putInt("vel"+i, Integer.parseInt(objState.get("vels").split("-")[i]));
             }
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
