@@ -18,14 +18,11 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                int newval = Integer.parseInt(value);
-                if(sSettings.IS_SERVER && cServerLogic.maxhp != newval) {
-                    cServerLogic.maxhp = newval;
-                    nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
-                    for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-                        gPlayer p = cServerLogic.scene.getPlayerById(s);
-                        p.putInt("stockhp", cServerLogic.maxhp);
-                    }
+                cServerLogic.maxhp = Integer.parseInt(value);
+                nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
+                for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+                    gPlayer p = cServerLogic.scene.getPlayerById(s);
+                    p.putInt("stockhp", cServerLogic.maxhp);
                 }
             }
         });
@@ -52,11 +49,6 @@ public class cServerVars extends gArgSet {
         putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
-            }
-        });
-        putArg(new gArg("timeleft", Integer.toString(cServerLogic.timelimit)) {
-            public void onChange() {
-                cServerLogic.timeleft = Integer.parseInt(value);
             }
         });
         put("goldspawntime", "0");
