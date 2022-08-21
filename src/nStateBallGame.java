@@ -23,6 +23,10 @@ public class nStateBallGame extends nState {
         map.put("hp", "0");
         map.put("fv", "0");
         map.put("vels", "0-0-0-0");
+        map.put("px", "0");
+        map.put("py", "0");
+        map.put("pw", "0");
+        map.put("ph", "0");
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 System.out.println("cmdrcv");

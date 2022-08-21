@@ -170,6 +170,12 @@ public class nClient {
             keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
                     userPlayer.get("vel2"), userPlayer.get("vel3")));
         }
+        else {
+            keys.put("x", "0");
+            keys.put("y", "0");
+            keys.put("fv", "0");
+            keys.put("vels", "0-0-0-0");
+        }
         //name for spectator and gameplay
         keys.put("name", cClientLogic.playerName);
         if(sSettings.show_mapmaker_ui) {

@@ -18,12 +18,12 @@ public class cServerLogic {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
 //        checkHealthStatus(loopTimeMillis);
-        checkGameState(loopTimeMillis);
+        checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
     }
 
-    public static void checkGameState(long gameTimeMillis) {
+    public static void checkGameState() {
         String[] pids = getPlayerIdArray();
         for(String id : pids) {
             //this is needed when server user joins his own games

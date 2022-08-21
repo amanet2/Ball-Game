@@ -4,8 +4,8 @@ import java.net.InetAddress;
 import java.util.*;
 
 public class nServer extends Thread {
-    private int netticks;
-    private long nettickcounterTimeServer = -1;
+//    private int netticks;
+//    private long nettickcounterTimeServer = -1;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
@@ -16,6 +16,11 @@ public class nServer extends Thread {
     nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
+    //**
+    // preserve the masterstate (as a string) at last client checkin.
+    // use this to compute deltas when sending state to clients
+    // *//
+    private final HashMap<String, String> clientStateSnapshots;
     // OLD --
     //--
     //manage variables for use in the network game, sync to-and-from the actual map and objects
@@ -52,9 +57,10 @@ public class nServer extends Thread {
     }
 
     private nServer() {
-        netticks = 0;
+//        netticks = 0;
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
+        clientStateSnapshots = new HashMap<>();
         clientCmdDoables.put("fireweapon",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
@@ -280,6 +286,8 @@ public class nServer extends Thread {
     void handleQuit(String id) {
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
+        clientNetCmdMap.remove(id);
+        clientStateSnapshots.remove(id);
     }
 
     void removeNetClient(String id) {
@@ -315,13 +323,13 @@ public class nServer extends Thread {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
-                    netticks++;
+//                    netticks++;
                     long gameTime = gTime.gameTime;
-                    if (nettickcounterTimeServer < gameTime) {
-                        uiInterface.netReportServer = netticks;
-                        netticks = 0;
-                        nettickcounterTimeServer = gameTime + 1000;
-                    }
+//                    if (nettickcounterTimeServer < gameTime) {
+//                        uiInterface.netReportServer = netticks;
+//                        netticks = 0;
+//                        nettickcounterTimeServer = gameTime + 1000;
+//                    }
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
@@ -378,14 +386,15 @@ public class nServer extends Thread {
             //relieve bans
             checkBanStatus(stateId);
             //check if masterState contains
-            if(!masterStateMap.contains(stateId)) {
+            if(!masterStateMap.contains(stateId))
                 handleJoin(stateId);
-            }
+            //record the master state at last communication time
+            clientStateSnapshots.put(stateId, masterStateMap.toString());
             //record checkin time for client
             clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
             //compare received state to what we have kept in master. this will load the diff into master state
             nState deltaState = receivedState.getDelta(masterStateMap.get(stateId));
-            //load the keys in delta into our state map
+            //load the keys from delta into our state map
             for(String k : deltaState.keys()) {
                 masterStateMap.get(stateId).put(k, deltaState.get(k));
             }
