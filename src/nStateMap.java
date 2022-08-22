@@ -38,7 +38,6 @@ public class nStateMap {
                 deltaStateMap.get(id).put(k, deltaState.get(k));
             }
         }
-        System.out.println(deltaStateMap);
         return deltaStateMap;
     }
 

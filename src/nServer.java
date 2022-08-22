@@ -255,6 +255,12 @@ public class nServer extends Thread {
         //--
         //fetch old snapshot for client
         nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        //add server vars to the sending map
+        deltaStateMap.put("server", new nState());
+        for(String k : netVars.keySet()) {
+            deltaStateMap.get("server").put(k, netVars.get(k));
+        }
+        System.out.println(deltaStateMap);
         //OLD --
         //--
         boolean sendfull = false;
@@ -284,6 +290,7 @@ public class nServer extends Thread {
             sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
             sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
         }
+        System.out.println(sendDataMap.toString().replace(", ", ","));
         return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
