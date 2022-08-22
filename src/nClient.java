@@ -211,7 +211,7 @@ public class nClient {
     }
 
     private void processCmd(String cmdload) {
-        sendMap.put("cmdrcv","1");
+        sendMap.put("cmdrcv", "1");
         xCon.ex(cmdload);
     }
 
@@ -271,7 +271,7 @@ public class nClient {
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
-                if(packArgs.containsKey("cmdrcv")) // turn off our own cmdrcv when we see we sent it last time
+                if(packArgs.containsKey("cmdrcv")) // turn off our own rcv when we see we sent it last time
                     sendMap.remove("cmdrcv");
             }
         }

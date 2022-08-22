@@ -161,12 +161,12 @@ public class nServer extends Thread {
 
     public void checkIfClientAckedCommand() {
         //check clients
-        for(String id : clientNetCmdMap.keySet()) {
-            if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
-                clientNetCmdMap.get(id).remove();
-                clientArgsMap.get(id).remove("cmdrcv");
-            }
-        }
+//        for(String id : clientNetCmdMap.keySet()) {
+//            if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
+//                clientNetCmdMap.get(id).remove();
+//                clientArgsMap.get(id).remove("cmdrcv");
+//            }
+//        }
     }
 
     public void processPackets(long gameTimeMillis) {
@@ -241,14 +241,11 @@ public class nServer extends Thread {
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
-        if(clientid.length() > 0 && clientNetCmdMap.containsKey(clientid)
-                && clientNetCmdMap.get(clientid).size() > 0 && clientArgsMap.containsKey(clientid)) {
+        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
             //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-            if(!clientArgsMap.get(clientid).containsKey("cmdrcv")) {
-                if(clientid.contains("bot"))
-                    clientArgsMap.get(clientid).put("cmdrcv", "1");
+//                if(clientid.contains("bot"))
+//                    clientArgsMap.get(clientid).put("cmdrcv", "1");
                 netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-            }
         }
         sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
         //NEW --
@@ -261,37 +258,38 @@ public class nServer extends Thread {
             deltaStateMap.get("server").put(k, netVars.get(k));
         }
         System.out.println("NEW " + deltaStateMap.toString().replace(", ", ","));
+        return deltaStateMap.toString().replace(", ", ",");
         //OLD --
         //--
-        boolean sendfull = false;
-        if(!sendArgsMaps.containsKey(clientid)) {
-            sendfull = true;
-            sendArgsMaps.put(clientid, new HashMap<>());
-        }
-        for (String idload2 : masterStateMap.keys()) {
-            if (!sendArgsMaps.get(clientid).containsKey(idload2)) {
-                sendfull = true;
-                sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
-            }
-            HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-            if (!sendfull) {
-                //calc delta
-                for (String k : clientArgsMap.get(idload2).keySet()) {
-                    if (clientArgsMap.get(idload2).containsKey(k)
-                            && clientArgsMap.get(idload2).get(k).equals(
-                                    sendArgsMaps.get(clientid).get(idload2).get(k))) {
-                        workingMap.remove(k);
-                    }
-                }
-            }
-            workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-            workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
-            sendDataMap.put(idload2, new HashMap<>(workingMap));
-            sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
-            sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
-        }
-        System.out.println("OLD " + sendDataMap.toString().replace(", ", ","));
-        return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
+//        boolean sendfull = false;
+//        if(!sendArgsMaps.containsKey(clientid)) {
+//            sendfull = true;
+//            sendArgsMaps.put(clientid, new HashMap<>());
+//        }
+//        for (String idload2 : masterStateMap.keys()) {
+//            if (!sendArgsMaps.get(clientid).containsKey(idload2)) {
+//                sendfull = true;
+//                sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
+//            }
+//            HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
+//            if (!sendfull) {
+//                //calc delta
+//                for (String k : clientArgsMap.get(idload2).keySet()) {
+//                    if (clientArgsMap.get(idload2).containsKey(k)
+//                            && clientArgsMap.get(idload2).get(k).equals(
+//                                    sendArgsMaps.get(clientid).get(idload2).get(k))) {
+//                        workingMap.remove(k);
+//                    }
+//                }
+//            }
+//            workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
+//            workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
+//            sendDataMap.put(idload2, new HashMap<>(workingMap));
+//            sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
+//            sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
+//        }
+//        System.out.println("OLD " + sendDataMap.toString().replace(", ", ","));
+//        return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
     void removeNetClient(String id) {
@@ -336,7 +334,7 @@ public class nServer extends Thread {
                     receivedPackets.add(receivePacket);
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
                     processPackets(gameTime);
-                    checkIfClientAckedCommand();
+//                    checkIfClientAckedCommand();
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
                     sleep(Math.max(0, networkTime - gameTime));
