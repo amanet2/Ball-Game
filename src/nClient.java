@@ -271,7 +271,7 @@ public class nClient {
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
-                if(packArgs.containsKey("cmdrcv"))
+                if(packArgs.containsKey("cmdrcv")) // turn off our own cmdrcv when we see we sent it last time
                     sendMap.remove("cmdrcv");
             }
         }
