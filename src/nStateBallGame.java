@@ -21,7 +21,12 @@ public class nStateBallGame extends nState {
         map.put("x", "0");
         map.put("y", "0");
         map.put("hp", "0");
-        map.put("fv", "0");
+        map.putArg(new gArg("fv", "0") {
+            public void onChange() {
+                if(cServerLogic.scene.getPlayerById(get("id")) != null)
+                    cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
+            }
+        });
         map.put("vels", "0-0-0-0");
         map.put("px", "0");
         map.put("py", "0");

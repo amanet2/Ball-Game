@@ -423,9 +423,6 @@ public class nServer extends Thread {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
                     }
-                    if(clientArgsMap.get(packId).containsKey("fv")) {
-                        packPlayer.putDouble("fv", Double.parseDouble(clientArgsMap.get(packId).get("fv")));
-                    }
                     //store player object's health in outgoing network arg map
                     clientArgsMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
                 }
@@ -457,8 +454,8 @@ public class nServer extends Thread {
             addNetCmd(packId, String.format("cl_spawnplayer %s %s %s", clientId,
                     player.get("coordx"), player.get("coordy")));
         }
-        addExcludingNetCmd("server", String.format("echo %s joined the game", packName
-        + (clientArgsMap.get(packId).get("color") != null ? "#"+clientArgsMap.get(packId).get("color") : "")));
+        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
+                packName, masterStateMap.get(packId).get("color")));
     }
 
     public void sendMap(String packId) {
