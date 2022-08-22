@@ -508,13 +508,6 @@ public class nServer extends Thread {
         }
     }
 
-    public void handleClientMessage(String msg) {
-        addExcludingNetCmd("server", "echo " + msg);
-        //handle special sounds
-        String testmsg = msg.substring(msg.indexOf(':')+2);
-        checkMessageForSpecialSound(testmsg);
-    }
-
     void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
@@ -538,7 +531,7 @@ public class nServer extends Thread {
             addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
-    private void checkMessageForSpecialSound(String testmsg) {
+    void checkMessageForSpecialSound(String testmsg) {
         for(String s : eManager.winSoundFileSelection) {
             String[] ttoks = s.split("\\.");
             if(testmsg.equalsIgnoreCase(ttoks[0])) {
@@ -581,18 +574,6 @@ public class nServer extends Thread {
             else
                 addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
         }
-    }
-
-    public int clientCount() {
-        return masterStateMap.keys().size();
-    }
-
-    public String getRandomClientId() {
-        if(clientCount() < 1)
-            return "null";
-        int randomClientIndex = (int) (Math.random() * clientCount());
-        ArrayList<String> clientIds = new ArrayList<>(masterStateMap.keys());
-        return clientIds.get(randomClientIndex);
     }
 
     public void sendMapToClients() {

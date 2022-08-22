@@ -62,8 +62,11 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("msg", "") {
             public void onChange() {
                 if(value.length() > 0) {
-                    nServer.instance().handleClientMessage(value);
-                    nServer.instance().checkClientMessageForVoteSkip(get("id"), value.substring(value.indexOf(':')+2));
+                    nServer.instance().addExcludingNetCmd("server", "echo " + value);
+                    //handle special sounds, etc
+                    String testmsg = value.substring(value.indexOf(':')+2);
+                    nServer.instance().checkMessageForSpecialSound(testmsg);
+                    nServer.instance().checkClientMessageForVoteSkip(get("id"), testmsg);
                 }
             }
         });
