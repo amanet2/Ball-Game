@@ -251,6 +251,12 @@ public class nServer extends Thread {
             }
         }
         sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
+        //NEW --
+        //--
+        //fetch old snapshot for client
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        //OLD --
+        //--
         boolean sendfull = false;
         if(!sendArgsMaps.containsKey(clientid)) {
             sendfull = true;
@@ -266,7 +272,8 @@ public class nServer extends Thread {
                 //calc delta
                 for (String k : clientArgsMap.get(idload2).keySet()) {
                     if (clientArgsMap.get(idload2).containsKey(k)
-                            && clientArgsMap.get(idload2).get(k).equals(sendArgsMaps.get(clientid).get(idload2).get(k))) {
+                            && clientArgsMap.get(idload2).get(k).equals(
+                                    sendArgsMaps.get(clientid).get(idload2).get(k))) {
                         workingMap.remove(k);
                     }
                 }

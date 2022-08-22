@@ -7,6 +7,10 @@ public class gArgSet {
     protected HashMap<String, gArg> args;
     protected ArrayList<String> filelines;
 
+    public String toString() {
+        return args.toString();
+    }
+
     protected gArgSet() {
         args = new HashMap<>();
         filelines = new ArrayList<>();

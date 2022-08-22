@@ -24,11 +24,22 @@ public class nStateMap {
         return map.keySet();
     }
 
+    public nStateMap getDelta(nStateMap oStateMap) {
+        nStateMap deltaStateMap = new nStateMap();
+//        System.out.println(oStateMap);
+        return deltaStateMap;
+    }
+
     public String toString() {
         return map.toString();
     }
 
     public nStateMap() {
         map = new HashMap<>();
+    }
+
+    public nStateMap(String mapString) {
+        map = new HashMap<>();
+        System.out.println(mapString);
     }
 }
