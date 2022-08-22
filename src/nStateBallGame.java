@@ -27,7 +27,18 @@ public class nStateBallGame extends nState {
                     cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
             }
         });
-        map.put("vels", "0-0-0-0");
+        map.putArg(new gArg("vels", "0-0-0-0") {
+            public void onChange() {
+                gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
+                if(pl == null)
+                    return;
+                String[] vels = value.split("-");
+                pl.put("vel0", vels[0]);
+                pl.put("vel1", vels[1]);
+                pl.put("vel2", vels[2]);
+                pl.put("vel3", vels[3]);
+            }
+        });
         map.put("px", "0");
         map.put("py", "0");
         map.put("pw", "0");

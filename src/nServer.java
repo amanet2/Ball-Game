@@ -412,13 +412,6 @@ public class nServer extends Thread {
             if(hasClient(packId)) {
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
-                    if (clientArgsMap.get(packId).containsKey("vels")) {
-                        String[] veltoks = clientArgsMap.get(packId).get("vels").split("-");
-                        packPlayer.put("vel0", veltoks[0]);
-                        packPlayer.put("vel1", veltoks[1]);
-                        packPlayer.put("vel2", veltoks[2]);
-                        packPlayer.put("vel3", veltoks[3]);
-                    }
                     if (sSettings.smoothing) {
                         packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
                         packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
