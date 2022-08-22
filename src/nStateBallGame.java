@@ -29,7 +29,6 @@ public class nStateBallGame extends nState {
         map.put("ph", "0");
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
-                System.out.println("cmdrcv");
                 if(value.equals("1")) {
 //                    nServer.instance().clientNetCmdMap.get(get("id")).remove();
                     value = "0";
