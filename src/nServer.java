@@ -260,7 +260,7 @@ public class nServer extends Thread {
         for(String k : netVars.keySet()) {
             deltaStateMap.get("server").put(k, netVars.get(k));
         }
-        System.out.println(deltaStateMap);
+        System.out.println("NEW " + deltaStateMap.toString().replace(", ", ","));
         //OLD --
         //--
         boolean sendfull = false;
@@ -290,7 +290,7 @@ public class nServer extends Thread {
             sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
             sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
         }
-        System.out.println(sendDataMap.toString().replace(", ", ","));
+        System.out.println("OLD " + sendDataMap.toString().replace(", ", ","));
         return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
