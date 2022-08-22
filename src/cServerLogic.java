@@ -102,9 +102,9 @@ public class cServerLogic {
                 if(highestId.length() > 0) {
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
                     nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().clientArgsMap.get(highestId).get("name")
-                            + "#" + nServer.instance().clientArgsMap.get(highestId).get("color")
-                            + " wins#" + nServer.instance().clientArgsMap.get(highestId).get("color"));
+                            + nServer.instance().masterStateMap.get(highestId).get("name")
+                            + "#" + nServer.instance().masterStateMap.get(highestId).get("color")
+                            + " wins#" + nServer.instance().masterStateMap.get(highestId).get("color"));
                 }
                 int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
                 nServer.instance().addExcludingNetCmd("server",

@@ -280,20 +280,20 @@ public class nServer extends Thread {
         return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
-    void handleQuit(String id) {
+    void removeNetClient(String id) {
+        //NEW
+        //--
+        String qn = masterStateMap.get(id).get("name");
+        String qc = masterStateMap.get(id).get("color");
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
         clientStateSnapshots.remove(id);
-    }
-
-    void removeNetClient(String id) {
-        //NEW
-        //--
-        handleQuit(id);
+        gScoreboard.scoresMap.remove(id);
+        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+        addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
         //OLD
         //--
-        String quitterName = clientArgsMap.get(id).get("name");
         if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("flagmasterid")
                 && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
             clientArgsMap.get("server").put("flagmasterid", "");
@@ -308,11 +308,6 @@ public class nServer extends Thread {
                     player.getInt("coordx"), player.getInt("coordy")));
         }
         clientArgsMap.remove(id);
-        gScoreboard.scoresMap.remove(id);
-        clientNetCmdMap.remove(id);
-        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-        //tell remaining players
-        addExcludingNetCmd("server", String.format("echo %s left the game", quitterName));
     }
 
     public void run() {
@@ -406,8 +401,6 @@ public class nServer extends Thread {
             for(String k : packArgMap.keySet()) {
                 clientArgsMap.get(packId).put(k, packArgMap.get(k));
             }
-            //record time we last updated client args
-            clientArgsMap.get(packId).put("time", Long.toString(gTime.gameTime));
             //parse and process the args from client packet
             if(hasClient(packId)) {
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
