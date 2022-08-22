@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* make banning a player a timeevent
 * need ability to add time events through script
     -> make a "script" field like an item, will ex on schedule
 * user changeplayercolorclient from the client to tell server to set color of said client

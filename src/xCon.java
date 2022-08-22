@@ -89,6 +89,7 @@ public class xCon {
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
         commands.put("clearthingmap", new xComClearThingMap());
+        commands.put("clientlist", new xComClientlist());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
         commands.put("cvarlist", new xComCVarList());
