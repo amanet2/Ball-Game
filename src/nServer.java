@@ -383,14 +383,16 @@ public class nServer extends Thread {
                 handleJoin(stateId);
             //record checkin time for client
             clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
+            //record the master state at last communication time
+            clientStateSnapshots.put(stateId, masterStateMap.toString());
             //compare received state to what we have kept in master. this will load the diff into master state
             nState deltaState = receivedState.getDelta(masterStateMap.get(stateId));
             //load the keys from delta into our state map
             for(String k : deltaState.keys()) {
                 masterStateMap.get(stateId).put(k, deltaState.get(k));
             }
-            //record the master state at last communication time
-            clientStateSnapshots.put(stateId, masterStateMap.toString());
+//            //record the master state at last communication time
+//            clientStateSnapshots.put(stateId, masterStateMap.toString());
 //            System.out.println(masterStateMap);
 //            System.out.println(clientState.keys());
             // ----- OLD BELOW

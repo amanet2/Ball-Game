@@ -27,6 +27,18 @@ public class nStateMap {
     public nStateMap getDelta(nStateMap oStateMap) {
         nStateMap deltaStateMap = new nStateMap();
 //        System.out.println(oStateMap);
+        for(String id : oStateMap.keys()) {
+            if(!contains(id)) { //new state has client we havent tracked
+                deltaStateMap.put(id, oStateMap.get(id));
+                continue;
+            }
+            deltaStateMap.put(id, new nState());
+            nState deltaState = get(id).getDelta(oStateMap.get(id));
+            for(String k : deltaState.keys()) {
+                deltaStateMap.get(id).put(k, deltaState.get(k));
+            }
+        }
+        System.out.println(deltaStateMap);
         return deltaStateMap;
     }
 
@@ -61,6 +73,6 @@ public class nStateMap {
                 map.get(id).put(kvs[0].trim(), kvs.length > 1 ? kvs[1].trim() : "");
             }
         }
-        System.out.println(this);
+//        System.out.println(this);
     }
 }
