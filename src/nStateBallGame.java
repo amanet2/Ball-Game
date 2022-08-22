@@ -5,16 +5,18 @@ public class nStateBallGame extends nState {
         super();
         map.put("id", "");
         map.putArg(new gArg("color", "blue") {
+            String oldcolor = "blue";
             public void onChange() {
                 nServer.instance().addExcludingNetCmd("server",
-                        String.format("echo %s changed color to %s", get("name"), value));
+                        String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
+                oldcolor = value;
             }
         });
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
-                nServer.instance().addExcludingNetCmd("server", String.format("echo %s changed name to %s",
-                        oldname + "#"+get("color"), value + "#"+get("color")));
+                nServer.instance().addExcludingNetCmd("server",
+                        String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
                 oldname = value;
             }
         });
