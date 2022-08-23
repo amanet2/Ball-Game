@@ -181,8 +181,8 @@ public class nServer extends Thread {
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                    System.out.println("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
-                    System.out.println("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+//                    System.out.println("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+//                    System.out.println("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
                         System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
                                 + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);

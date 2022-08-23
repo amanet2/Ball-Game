@@ -240,11 +240,6 @@ public class nClient {
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
             for (String k : packArgs.keySet()) {
-                if(!sSettings.IS_SERVER && !idload.equals(uiInterface.uuid)) {
-                    if (k.equals("x")) {
-                        System.out.println("foo " + packArgs.get(k));
-                    }
-                }
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
             if(idload.equals("server"))
