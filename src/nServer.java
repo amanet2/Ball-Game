@@ -363,6 +363,16 @@ public class nServer extends Thread {
             for(String k : deltaState.keys()) {
                 masterStateMap.get(stateId).put(k, deltaState.get(k));
             }
+            //update players
+            gPlayer pl = cServerLogic.getPlayerById(stateId);
+            if(pl != null) {
+                if (sSettings.smoothing) {
+                    pl.put("coordx", masterStateMap.get(stateId).get("x"));
+                    pl.put("coordy", masterStateMap.get(stateId).get("y"));
+                }
+                //store player object's health in outgoing network arg map
+                masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
+            }
 //            //record the master state at last communication time
 //            clientStateSnapshots.put(stateId, masterStateMap.toString());
 //            System.out.println(masterStateMap);
@@ -384,15 +394,15 @@ public class nServer extends Thread {
 //            }
             //parse and process the args from client packet
             if(hasClient(packId)) {
-                gPlayer packPlayer = cServerLogic.getPlayerById(packId);
-                if(packPlayer != null) {
-                    if (sSettings.smoothing) {
-                        packPlayer.put("coordx", masterStateMap.get(packId).get("x"));
-                        packPlayer.put("coordy", masterStateMap.get(packId).get("y"));
-                    }
-                    //store player object's health in outgoing network arg map
-                    masterStateMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
-                }
+//                gPlayer packPlayer = cServerLogic.getPlayerById(packId);
+//                if(packPlayer != null) {
+//                    if (sSettings.smoothing) {
+//                        packPlayer.put("coordx", masterStateMap.get(packId).get("x"));
+//                        packPlayer.put("coordy", masterStateMap.get(packId).get("y"));
+//                    }
+//                    //store player object's health in outgoing network arg map
+//                    masterStateMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
+//                }
                 //store player's wins and scores
                 masterStateMap.get(packId).put("score",  String.format("%d:%d",
                         gScoreboard.scoresMap.get(packId).get("wins"),
@@ -408,22 +418,7 @@ public class nServer extends Thread {
             }
         }
     }
-
-//    private void handleNewClientJoin(String packId, String packName) {
-//        sendMap(packId);
-//        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-//            xCon.ex("exec scripts/respawnnetplayer " + packId);
-//        for(String clientId : masterStateMap.keys()) {
-//            gThing player = cServerLogic.scene.getPlayerById(clientId);
-//            if(clientId.equals(packId) || player == null)
-//                continue;
-//            addNetCmd(packId, String.format("cl_spawnplayer %s %s %s", clientId,
-//                    player.get("coordx"), player.get("coordy")));
-//        }
-//        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
-//                packName, masterStateMap.get(packId).get("color")));
-//    }
-
+    
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
