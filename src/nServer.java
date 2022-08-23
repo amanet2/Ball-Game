@@ -23,7 +23,6 @@ public class nServer extends Thread {
     //--
     //manage variables for use in the network game, sync to-and-from the actual map and objects
     HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    HashMap<String, HashMap<String, HashMap<String, String>>> sendArgsMaps = new HashMap<>(); //for deltas
     //
     //map of doables for handling cmds from clients
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
@@ -159,16 +158,6 @@ public class nServer extends Thread {
         }
     }
 
-    public void checkIfClientAckedCommand() {
-        //check clients
-//        for(String id : clientNetCmdMap.keySet()) {
-//            if(clientArgsMap.get(id).containsKey("cmdrcv") && clientNetCmdMap.get(id).size() > 0) {
-//                clientNetCmdMap.get(id).remove();
-//                clientArgsMap.get(id).remove("cmdrcv");
-//            }
-//        }
-    }
-
     public void processPackets(long gameTimeMillis) {
         try {
             HashMap<String, String> netVars = getNetVars();
@@ -241,12 +230,8 @@ public class nServer extends Thread {
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
-        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
-            //act as if bot has instantly received outgoing cmds (bots dont have a "client" to exec things on)
-//                if(clientid.contains("bot"))
-//                    clientArgsMap.get(clientid).put("cmdrcv", "1");
-                netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-        }
+        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
+            netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
         //NEW --
         //--
@@ -257,39 +242,9 @@ public class nServer extends Thread {
         for(String k : netVars.keySet()) {
             deltaStateMap.get("server").put(k, netVars.get(k));
         }
-        System.out.println("NEW " + deltaStateMap.toString().replace(", ", ","));
+        if(!clientid.equals(uiInterface.uuid))
+            System.out.println(deltaStateMap.toString().replace(", ", ","));
         return deltaStateMap.toString().replace(", ", ",");
-        //OLD --
-        //--
-//        boolean sendfull = false;
-//        if(!sendArgsMaps.containsKey(clientid)) {
-//            sendfull = true;
-//            sendArgsMaps.put(clientid, new HashMap<>());
-//        }
-//        for (String idload2 : masterStateMap.keys()) {
-//            if (!sendArgsMaps.get(clientid).containsKey(idload2)) {
-//                sendfull = true;
-//                sendArgsMaps.get(clientid).put(idload2, new HashMap<>());
-//            }
-//            HashMap<String, String> workingMap = new HashMap<>(clientArgsMap.get(idload2));
-//            if (!sendfull) {
-//                //calc delta
-//                for (String k : clientArgsMap.get(idload2).keySet()) {
-//                    if (clientArgsMap.get(idload2).containsKey(k)
-//                            && clientArgsMap.get(idload2).get(k).equals(
-//                                    sendArgsMaps.get(clientid).get(idload2).get(k))) {
-//                        workingMap.remove(k);
-//                    }
-//                }
-//            }
-//            workingMap.remove("time"); //unnecessary args for sending, but necessary to retain server-side
-//            workingMap.remove("id"); //unnecessary args for sending, but necessary to retain server-side
-//            sendDataMap.put(idload2, new HashMap<>(workingMap));
-//            sendArgsMaps.get(clientid).put(idload2, new HashMap<>(clientArgsMap.get(idload2)));
-//            sendArgsMaps.get(clientid).get(idload2).remove("cmdrcv");
-//        }
-//        System.out.println("OLD " + sendDataMap.toString().replace(", ", ","));
-//        return sendDataMap.toString().replace(", ", ","); //replace to save 1 byte per field
     }
 
     void removeNetClient(String id) {
@@ -319,7 +274,7 @@ public class nServer extends Thread {
             addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
                     player.getInt("coordx"), player.getInt("coordy")));
         }
-        clientArgsMap.remove(id);
+//        clientArgsMap.remove(id);
     }
 
     public void run() {
@@ -360,6 +315,18 @@ public class nServer extends Thread {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
+        sendMap(id);
+        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+            xCon.ex("exec scripts/respawnnetplayer " + id);
+        for(String clientId : masterStateMap.keys()) {
+            gThing player = cServerLogic.scene.getPlayerById(clientId);
+            if(clientId.equals(id) || player == null)
+                continue;
+            addNetCmd(id, String.format("cl_spawnplayer %s %s %s", clientId,
+                    player.get("coordx"), player.get("coordy")));
+        }
+        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
+                masterStateMap.get(id).get("name"), masterStateMap.get(id).get("color")));
     }
 
     public void checkBanStatus(String stateId) {
@@ -407,56 +374,55 @@ public class nServer extends Thread {
             String packName = packArgMap.get("name");
             if(packId == null)
                 return;
-            if(!clientArgsMap.containsKey(packId)) {
-                clientArgsMap.put(packId, packArgMap);
-                handleNewClientJoin(packId, packName);
-            }
+//            if(!clientArgsMap.containsKey(packId)) {
+//                clientArgsMap.put(packId, packArgMap);
+//                handleNewClientJoin(packId, packName);
+//            }
             //only want to update keys that have changes
-            for(String k : packArgMap.keySet()) {
-                clientArgsMap.get(packId).put(k, packArgMap.get(k));
-            }
+//            for(String k : packArgMap.keySet()) {
+//                clientArgsMap.get(packId).put(k, packArgMap.get(k));
+//            }
             //parse and process the args from client packet
             if(hasClient(packId)) {
                 gPlayer packPlayer = cServerLogic.getPlayerById(packId);
                 if(packPlayer != null) {
                     if (sSettings.smoothing) {
-                        packPlayer.put("coordx", clientArgsMap.get(packId).get("x"));
-                        packPlayer.put("coordy", clientArgsMap.get(packId).get("y"));
+                        packPlayer.put("coordx", masterStateMap.get(packId).get("x"));
+                        packPlayer.put("coordy", masterStateMap.get(packId).get("y"));
                     }
                     //store player object's health in outgoing network arg map
-                    clientArgsMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
+                    masterStateMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
                 }
                 //store player's wins and scores
-                clientArgsMap.get(packId).put("score",  String.format("%d:%d",
+                masterStateMap.get(packId).put("score",  String.format("%d:%d",
                         gScoreboard.scoresMap.get(packId).get("wins"),
                         gScoreboard.scoresMap.get(packId).get("score")));
-                if(packArgMap.get("px") != null)
-                    clientArgsMap.get(packId).put("px", packArgMap.get("px"));
-                if(packArgMap.get("py") != null)
-                    clientArgsMap.get(packId).put("py", packArgMap.get("py"));
-                if(packArgMap.get("pw") != null)
-                    clientArgsMap.get(packId).put("pw", packArgMap.get("pw"));
-                if(packArgMap.get("ph") != null)
-                    clientArgsMap.get(packId).put("ph", packArgMap.get("ph"));
+//                if(packArgMap.get("px") != null)
+//                    clientArgsMap.get(packId).put("px", packArgMap.get("px"));
+//                if(packArgMap.get("py") != null)
+//                    clientArgsMap.get(packId).put("py", packArgMap.get("py"));
+//                if(packArgMap.get("pw") != null)
+//                    clientArgsMap.get(packId).put("pw", packArgMap.get("pw"));
+//                if(packArgMap.get("ph") != null)
+//                    clientArgsMap.get(packId).put("ph", packArgMap.get("ph"));
             }
         }
     }
 
-    private void handleNewClientJoin(String packId, String packName) {
-        sendArgsMaps.put(packId, new HashMap<>());
-        sendMap(packId);
-        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            xCon.ex("exec scripts/respawnnetplayer " + packId);
-        for(String clientId : masterStateMap.keys()) {
-            gThing player = cServerLogic.scene.getPlayerById(clientId);
-            if(clientId.equals(packId) || player == null)
-                continue;
-            addNetCmd(packId, String.format("cl_spawnplayer %s %s %s", clientId,
-                    player.get("coordx"), player.get("coordy")));
-        }
-        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
-                packName, masterStateMap.get(packId).get("color")));
-    }
+//    private void handleNewClientJoin(String packId, String packName) {
+//        sendMap(packId);
+//        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+//            xCon.ex("exec scripts/respawnnetplayer " + packId);
+//        for(String clientId : masterStateMap.keys()) {
+//            gThing player = cServerLogic.scene.getPlayerById(clientId);
+//            if(clientId.equals(packId) || player == null)
+//                continue;
+//            addNetCmd(packId, String.format("cl_spawnplayer %s %s %s", clientId,
+//                    player.get("coordx"), player.get("coordy")));
+//        }
+//        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
+//                packName, masterStateMap.get(packId).get("color")));
+//    }
 
     public void sendMap(String packId) {
         //these three are always here

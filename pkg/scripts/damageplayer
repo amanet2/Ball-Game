@@ -4,4 +4,4 @@ getsub newhp $playerhp $2
 setthing THING_PLAYER $1 stockhp $newhp
 setthing THING_PLAYER $1 hprechargetime $3
 getres stock setthing THING_PLAYER $1 stockhp
-setnargs $1 hp $stock
+setnstate $1 hp $stock

@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class gArgSet {
     protected HashMap<String, gArg> args;
@@ -91,8 +92,10 @@ public class gArgSet {
     public void put(String key, String val) {
         gArg arg = getArg(key);
         if(arg != null) {
+            String old = arg.value;
             arg.value = val;
-            arg.onChange();
+            if(!arg.value.equals(old))
+                arg.onChange();
         }
         else {
             putArg(new gArg(key, val) {

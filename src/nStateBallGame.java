@@ -45,6 +45,7 @@ public class nStateBallGame extends nState {
         map.put("py", "0");
         map.put("pw", "0");
         map.put("ph", "0");
+        map.put("score", "0:0");
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
