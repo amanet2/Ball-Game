@@ -181,6 +181,8 @@ public class nServer extends Thread {
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    System.out.println("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+                    System.out.println("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
                         System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
                                 + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
@@ -229,21 +231,26 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-        HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
+//        HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-        sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
+//        sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
         //NEW --
         //--
         //fetch old snapshot for client
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        System.out.println("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
+        nStateMap deltaStateMap = masterStateMap;
+        if(clientStateSnapshots.containsKey(clientid))
+            deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        //record the master state at last communication time
+        clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
         deltaStateMap.put("server", new nState());
         for(String k : netVars.keySet()) {
             deltaStateMap.get("server").put(k, netVars.get(k));
         }
-        if(!clientid.equals(uiInterface.uuid))
-            System.out.println(deltaStateMap.toString().replace(", ", ","));
+//        if(!clientid.equals(uiInterface.uuid))
+//            System.out.println(deltaStateMap.toString().replace(", ", ","));
         return deltaStateMap.toString().replace(", ", ",");
     }
 
@@ -307,10 +314,6 @@ public class nServer extends Thread {
         }
     }
 
-    boolean hasClient(String id) {
-        return masterStateMap.contains(id);
-    }
-
     public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
@@ -341,82 +344,35 @@ public class nServer extends Thread {
     }
 
     public void readData(String receiveDataString) {
-        String toks = receiveDataString.trim();
-        if(toks.length() > 0) {
-            // ----
-            //------ NEW STATES
-            //load received string into state object
-            nState receivedState = new nState(receiveDataString.trim());
-            String stateId = receivedState.get("id");
-            //relieve bans
-            checkBanStatus(stateId);
-            //check if masterState contains
-            if(!masterStateMap.contains(stateId))
-                handleJoin(stateId);
-            //record checkin time for client
-            clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
-            //record the master state at last communication time
-            clientStateSnapshots.put(stateId, masterStateMap.toString());
-            //compare received state to what we have kept in master. this will load the diff into master state
-            nState deltaState = receivedState.getDelta(masterStateMap.get(stateId));
-            //load the keys from delta into our state map
-            for(String k : deltaState.keys()) {
-                masterStateMap.get(stateId).put(k, deltaState.get(k));
-            }
-            //update players
-            gPlayer pl = cServerLogic.getPlayerById(stateId);
-            if(pl != null) {
-                if (sSettings.smoothing) {
-                    pl.put("coordx", masterStateMap.get(stateId).get("x"));
-                    pl.put("coordy", masterStateMap.get(stateId).get("y"));
-                }
-                //store player object's health in outgoing network arg map
-                masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
-            }
-//            //record the master state at last communication time
-//            clientStateSnapshots.put(stateId, masterStateMap.toString());
-//            System.out.println(masterStateMap);
-//            System.out.println(clientState.keys());
-            // ----- OLD BELOW
-            // ----
-            HashMap<String, String> packArgMap = nVars.getMapFromNetString(toks);
-            String packId = packArgMap.get("id");
-            String packName = packArgMap.get("name");
-            if(packId == null)
-                return;
-//            if(!clientArgsMap.containsKey(packId)) {
-//                clientArgsMap.put(packId, packArgMap);
-//                handleNewClientJoin(packId, packName);
-//            }
-            //only want to update keys that have changes
-//            for(String k : packArgMap.keySet()) {
-//                clientArgsMap.get(packId).put(k, packArgMap.get(k));
-//            }
-            //parse and process the args from client packet
-            if(hasClient(packId)) {
-//                gPlayer packPlayer = cServerLogic.getPlayerById(packId);
-//                if(packPlayer != null) {
-//                    if (sSettings.smoothing) {
-//                        packPlayer.put("coordx", masterStateMap.get(packId).get("x"));
-//                        packPlayer.put("coordy", masterStateMap.get(packId).get("y"));
-//                    }
-//                    //store player object's health in outgoing network arg map
-//                    masterStateMap.get(packId).put("hp", cServerLogic.getPlayerById(packId).get("stockhp"));
-//                }
-                //store player's wins and scores
-                masterStateMap.get(packId).put("score",  String.format("%d:%d",
-                        gScoreboard.scoresMap.get(packId).get("wins"),
-                        gScoreboard.scoresMap.get(packId).get("score")));
-//                if(packArgMap.get("px") != null)
-//                    clientArgsMap.get(packId).put("px", packArgMap.get("px"));
-//                if(packArgMap.get("py") != null)
-//                    clientArgsMap.get(packId).put("py", packArgMap.get("py"));
-//                if(packArgMap.get("pw") != null)
-//                    clientArgsMap.get(packId).put("pw", packArgMap.get("pw"));
-//                if(packArgMap.get("ph") != null)
-//                    clientArgsMap.get(packId).put("ph", packArgMap.get("ph"));
-            }
+        if(receiveDataString.length() < 1)
+            return;
+        // ----
+        //------ NEW STATES
+        //load received string into state object
+        nState receivedState = new nState(receiveDataString.trim());
+        String stateId = receivedState.get("id");
+        //relieve bans
+        checkBanStatus(stateId);
+        //check if masterState contains
+        if(!masterStateMap.contains(stateId))
+            handleJoin(stateId);
+        //record checkin time for client
+        clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
+//        //record the master state at last communication time
+//        clientStateSnapshots.put(stateId, masterStateMap.toString());
+        //load the keys from received data into our state map
+        for(String k : receivedState.keys()) {
+            masterStateMap.get(stateId).put(k, receivedState.get(k));
         }
+        //update players
+        gPlayer pl = cServerLogic.getPlayerById(stateId);
+        if(pl != null) {
+            //store player object's health in outgoing network arg map
+            masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
+        }
+        //update scores
+        masterStateMap.get(stateId).put("score",  String.format("%d:%d",
+                gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
     }
     
     public void sendMap(String packId) {

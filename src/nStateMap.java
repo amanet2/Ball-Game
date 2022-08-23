@@ -32,11 +32,11 @@ public class nStateMap {
                 deltaStateMap.put(id, oStateMap.get(id));
                 continue;
             }
-            deltaStateMap.put(id, new nState());
-            nState deltaState = get(id).getDelta(oStateMap.get(id));
-            for(String k : deltaState.keys()) {
-                deltaStateMap.get(id).put(k, deltaState.get(k));
-            }
+            deltaStateMap.put(id, get(id).getDelta(oStateMap.get(id)));
+//            nState deltaState = get(id).getDelta(oStateMap.get(id));
+//            for(String k : deltaState.keys()) {
+//                deltaStateMap.get(id).put(k, deltaState.get(k));
+//            }
         }
         return deltaStateMap;
     }

@@ -146,7 +146,8 @@ public class dTileTops {
             if(!eUtils.containsFields(clientMap, new String[]{"name"}))
                 continue;
             dFonts.setFontGNormal(g);
-            String name = clientMap.get("name");
+//            String name = clientMap.get("name");
+            String name = id;
             int coordx = p.getInt("coordx");
             int coordy = p.getInt("coordy");
 //            dFonts.drawCenteredString(g, name,

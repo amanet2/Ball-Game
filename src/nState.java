@@ -27,10 +27,10 @@ public class nState {
         //server will receive data from client and create...
         //...the state which will call newState.delta(prevSavedState)
         nState deltaState = new nState();
-        for(String k : keys()) {
-            String tv = get(k);
+        for(String k : oState.keys()) {
+            String tv = oState.get(k);
 //            System.out.println("GET KEY " + k);
-            if(!oState.get(k).equals(tv)) {
+            if(!contains(k) || !get(k).equals(tv)) {
                 deltaState.put(k, tv);
             }
         }

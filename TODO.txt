@@ -4,6 +4,7 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* BUG: were not getting a good delta because we copy the masterstate immediately when we get a msg from a client
 * have to fix cmdrcv to proceed with efficient createsendstring
 * make banning a player a timeevent
 * need ability to add time events through script

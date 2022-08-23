@@ -234,23 +234,29 @@ public class nClient {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
+//        System.out.println(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
             for (String k : packArgs.keySet()) {
+                if(!sSettings.IS_SERVER && !idload.equals(uiInterface.uuid)) {
+                    if (k.equals("x")) {
+                        System.out.println("foo " + packArgs.get(k));
+                    }
+                }
                 serverArgsMap.get(idload).put(k, packArgs.get(k));
             }
-            if(idload.equals("server")) {
+            if(idload.equals("server"))
                 handleReadDataServer(packArgs);
-            }
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
                     if(cClientLogic.getPlayerById(idload) != null) {
                         if (sSettings.smoothing) {
-                            if(serverArgsMap.get(idload).containsKey("x"))
+                            if(serverArgsMap.get(idload).containsKey("x")) {
                                 cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
+                            }
                             if(serverArgsMap.get(idload).containsKey("y"))
                                 cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
                         }
