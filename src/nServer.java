@@ -231,17 +231,11 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-//        HashMap<String, HashMap<String, String>> sendDataMap = new HashMap<>();
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-//        sendDataMap.put("server", new HashMap<>(netVars)); //add server map first
-        //NEW --
-        //--
         //fetch old snapshot for client
-        System.out.println("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
-        nStateMap deltaStateMap = masterStateMap;
-        if(clientStateSnapshots.containsKey(clientid))
-            deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+//        System.out.println("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
@@ -249,8 +243,6 @@ public class nServer extends Thread {
         for(String k : netVars.keySet()) {
             deltaStateMap.get("server").put(k, netVars.get(k));
         }
-//        if(!clientid.equals(uiInterface.uuid))
-//            System.out.println(deltaStateMap.toString().replace(", ", ","));
         return deltaStateMap.toString().replace(", ", ",");
     }
 
@@ -317,6 +309,7 @@ public class nServer extends Thread {
     public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
+        clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMap(id);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
