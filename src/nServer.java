@@ -127,28 +127,26 @@ public class nServer extends Thread {
     }
 
     public void addNetCmd(String id, String cmd) {
-//        System.out.println("TO_"+id+" "+cmd);
+//        System.out.println("SERVER_ADDCOM_" + id + ": " + cmd);
         if(id.equalsIgnoreCase("server"))
             serverLocalCmdQueue.add(cmd);
         else
-            addNetSendData(clientNetCmdMap, id, cmd);
+            addNetSendData(id, cmd);
     }
 
     public void addNetCmd(String cmd) {
-//        System.out.println("TO_ALL: " + cmd);
+//        System.out.println("SERVER_ADDCOM_ALL: " + cmd);
         xCon.ex(cmd);
-        addNetSendData(clientNetCmdMap, cmd);
+        addNetSendData(cmd);
     }
 
-    private void addNetSendData(HashMap<String, Queue<String>> sendMap, String id, String data) {
-        if(!sendMap.containsKey(id))
-            sendMap.put(id, new LinkedList<>());
-        sendMap.get(id).add(data);
+    private void addNetSendData(String id, String data) {
+        clientNetCmdMap.get(id).add(data);
     }
 
-    private void addNetSendData(HashMap<String, Queue<String>> sendMap, String data) {
-        for(String id: sendMap.keySet()) {
-            addNetSendData(sendMap, id, data);
+    private void addNetSendData(String data) {
+        for(String id: clientNetCmdMap.keySet()) {
+            addNetSendData( id, data);
         }
     }
 
@@ -230,9 +228,10 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
+//        System.out.println(clientNetCmdMap.toString());
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-            System.out.println("SERVER_CMD_" + clientid + ": " + clientNetCmdMap.get(clientid).peek());
+//            System.out.println("SERVER_CMD_" + clientid + ": " + clientNetCmdMap.get(clientid).peek());
         }
         //fetch old snapshot for client
 //        System.out.println("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
@@ -434,12 +433,12 @@ public class nServer extends Thread {
     }
 
     void handleClientCommand(String id, String cmd) {
-        System.out.println("HANDLE_" + id + ": " + cmd);
+//        System.out.println("HANDLE_" + id + ": " + cmd);
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
 //            if(ccmd.equals("exec"))
-            System.out.println("CLIENT REQ: " + cmd);
+//            System.out.println("CLIENT_REQ_" + id + ": " + cmd);
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {

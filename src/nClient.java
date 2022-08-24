@@ -207,6 +207,8 @@ public class nClient {
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");
+        if(sendMap.containsKey("cmdrcv") && sendMap.get("cmdrcv").equals("1")) // turn off our own rcv when we see we sent it last time
+            sendMap.put("cmdrcv", "0");
         return sendDataString.toString().replace(", ", ",");
     }
 
@@ -272,8 +274,8 @@ public class nClient {
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
-                if(packArgs.containsKey("cmdrcv")) // turn off our own rcv when we see we sent it last time
-                    sendMap.remove("cmdrcv");
+//                if(sendMap.containsKey("cmdrcv") && sendMap.get("cmdrcv").equals("1")) // turn off our own rcv when we see we sent it last time
+//                    sendMap.put("cmdrcv", "0");
             }
         }
         //check for ids that have been taken out of the server argmap
