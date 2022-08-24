@@ -153,9 +153,8 @@ public class nServer extends Thread {
     }
 
     public void checkLocalCmds() {
-        if(serverLocalCmdQueue.size() > 0) {
+        if(serverLocalCmdQueue.size() > 0)
             xCon.ex(serverLocalCmdQueue.remove());
-        }
     }
 
     public void processPackets(long gameTimeMillis) {
@@ -231,8 +230,10 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
+        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
+            System.out.println("SERVER_CMD_" + clientid + ": " + clientNetCmdMap.get(clientid).peek());
+        }
         //fetch old snapshot for client
 //        System.out.println("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
         nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
@@ -433,11 +434,12 @@ public class nServer extends Thread {
     }
 
     void handleClientCommand(String id, String cmd) {
+        System.out.println("HANDLE_" + id + ": " + cmd);
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-            if(ccmd.equals("exec"))
-                System.out.println("CLIENT REQ EXEC: " + cmd);
+//            if(ccmd.equals("exec"))
+            System.out.println("CLIENT REQ: " + cmd);
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
