@@ -1,7 +1,11 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Arrays;
 
 public class nServer extends Thread {
     private static final int sendbatchsize = 320;
@@ -9,27 +13,14 @@ public class nServer extends Thread {
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    //NEW --
-    //--
     nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    //**
-    // preserve the masterstate (as a string) at last client checkin.
-    // use this to compute deltas when sending state to clients
-    // *//
-    private final HashMap<String, String> clientStateSnapshots;
-    // OLD --
-    //--
-    //manage variables for use in the network game, sync to-and-from the actual map and objects
-    HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //server too, index by uuids
-    //
-    //map of doables for handling cmds from clients
-    private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>();
-    //map of skip votes
-    HashMap<String, String> voteSkipMap = new HashMap<>();
-    //queue for holding local cmds that the server user should run
-    private final Queue<String> serverLocalCmdQueue = new LinkedList<>();
+    private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
+    HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //OLD: server too, index by uuids
+    private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
+    HashMap<String, String> voteSkipMap = new HashMap<>();    //map of skip votes
+    private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
     //VERY IMPORTANT LIST. whats allowed to be done by the clients
@@ -109,7 +100,6 @@ public class nServer extends Thread {
             if(gTime.gameTime > pt + timeout)
                 quitClientIds.add(id);
         }
-
         while(quitClientIds.size() > 0) {
             removeNetClient(quitClientIds.remove());
         }
@@ -120,9 +110,8 @@ public class nServer extends Thread {
         if(!excludedids.contains("server"))
             xCon.ex(cmd);
         for(String id : clientNetCmdMap.keySet()) {
-            if(!excludedids.contains(id)) {
+            if(!excludedids.contains(id))
                 addNetCmd(id, cmd);
-            }
         }
     }
 
@@ -273,7 +262,6 @@ public class nServer extends Thread {
             addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
                     player.getInt("coordx"), player.getInt("coordy")));
         }
-//        clientArgsMap.remove(id);
     }
 
     public void run() {
@@ -339,30 +327,24 @@ public class nServer extends Thread {
     public void readData(String receiveDataString) {
         if(receiveDataString.length() < 1)
             return;
-        // ----
-        //------ NEW STATES
         //load received string into state object
         nState receivedState = new nState(receiveDataString.trim());
         String stateId = receivedState.get("id");
         //relieve bans
-        checkBanStatus(stateId);
+//        checkBanStatus(stateId);
         //check if masterState contains
         if(!masterStateMap.contains(stateId))
             handleJoin(stateId);
         //record checkin time for client
         clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
-//        //record the master state at last communication time
-//        clientStateSnapshots.put(stateId, masterStateMap.toString());
         //load the keys from received data into our state map
         for(String k : receivedState.keys()) {
             masterStateMap.get(stateId).put(k, receivedState.get(k));
         }
         //update players
         gPlayer pl = cServerLogic.getPlayerById(stateId);
-        if(pl != null) {
-            //store player object's health in outgoing network arg map
+        if(pl != null)    //store player object's health in outgoing network arg map
             masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
-        }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
@@ -389,9 +371,8 @@ public class nServer extends Thread {
             };
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
-                if(arg != null) {
+                if(arg != null)
                     blockString.append(" ").append(arg);
-                }
             }
             maplines.add(blockString.toString());
         }
@@ -406,9 +387,8 @@ public class nServer extends Thread {
             };
             StringBuilder str = new StringBuilder("cl_putitem");
             for(String arg : args) {
-                if(arg != null) {
+                if(arg != null)
                     str.append(" ").append(arg);
-                }
             }
             maplines.add(str.toString());
         }
@@ -437,8 +417,6 @@ public class nServer extends Thread {
         String ccmd = cmd.split(" ")[0];
 //        System.out.println("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
-//            if(ccmd.equals("exec"))
-//            System.out.println("CLIENT_REQ_" + id + ": " + cmd);
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
@@ -446,9 +424,8 @@ public class nServer extends Thread {
                 addExcludingNetCmd("server", String.format("%s",
                         cmd.replace("exec ", "cl_exec ")));
             }
-            else if(cmd.startsWith("exec scripts/respawnnetplayer")) {
+            else if(cmd.startsWith("exec scripts/respawnnetplayer"))
                 xCon.ex(cmd);
-            }
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
         }
@@ -490,11 +467,10 @@ public class nServer extends Thread {
                         }
                     );
                 }
-                else {
-                    String s = String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                            voteSkipMap.keySet().size(), cServerLogic.voteskiplimit);
-                    addExcludingNetCmd("server", s);
-                }
+                else
+                    addExcludingNetCmd("server",
+                            String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
+                            voteSkipMap.keySet().size(), cServerLogic.voteskiplimit));
             }
             else
                 addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");

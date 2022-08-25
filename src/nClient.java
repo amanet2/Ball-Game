@@ -236,7 +236,6 @@ public class nClient {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
-//        System.out.println(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!serverArgsMap.containsKey(idload))
