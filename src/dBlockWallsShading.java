@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
 
 public class dBlockWallsShading {
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gThing block) {

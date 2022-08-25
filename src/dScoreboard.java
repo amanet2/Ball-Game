@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {

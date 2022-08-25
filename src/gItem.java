@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Image;
 
 public class gItem extends gThing {
     public Image sprite;

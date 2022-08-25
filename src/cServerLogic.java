@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.ArrayList;
 
 public class cServerLogic {
     static int maxhp = 500;

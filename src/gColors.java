@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
 
 public class gColors {

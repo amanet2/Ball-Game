@@ -1,6 +1,7 @@
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+
 
 public class dHUD {
     public static void drawHUD(Graphics g) {
