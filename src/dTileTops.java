@@ -146,12 +146,9 @@ public class dTileTops {
             if(!eUtils.containsFields(clientMap, new String[]{"name"}))
                 continue;
             dFonts.setFontGNormal(g);
-//            String name = clientMap.get("name");
-            String name = id;
+            String name = clientMap.get("name");
             int coordx = p.getInt("coordx");
             int coordy = p.getInt("coordy");
-//            dFonts.drawCenteredString(g, name,
-//                    coordx + p.getInt("dimw")/2), coordy));
             String ck = nClient.instance().serverArgsMap.get(id).get("color");
             Color color = gColors.instance().getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
