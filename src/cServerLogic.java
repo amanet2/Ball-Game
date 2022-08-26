@@ -89,7 +89,7 @@ public class cServerLogic {
         nServer.instance().sendMapToClients();
         //reset game state
         gScoreboard.resetScoresMap();
-        nServer.instance().voteSkipMap = new HashMap<>();
+        nServer.instance().voteSkipMap = new ArrayList<>();
         nServer.instance().serverVars.remove("flagmasterid");
         nServer.instance().serverVars.remove("virusids");
         timedEvents.clear();

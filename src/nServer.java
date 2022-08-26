@@ -19,7 +19,7 @@ public class nServer extends Thread {
     private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
     HashMap<String, String> serverVars; // used for storing game vars such as flagmaster and who has the virus
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
-    HashMap<String, String> voteSkipMap = new HashMap<>();    //map of skip votes
+    ArrayList<String> voteSkipMap = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
@@ -446,9 +446,9 @@ public class nServer extends Thread {
         //handle the vote-to-skip function
         testmsg = testmsg.strip();
         if(testmsg.equalsIgnoreCase("skip")) {
-            if(!voteSkipMap.containsKey(id)) {
-                voteSkipMap.put(id,"1");
-                if(voteSkipMap.keySet().size() >= cServerLogic.voteskiplimit) {
+            if(!voteSkipMap.contains(id)) {
+                voteSkipMap.add(id);
+                if(voteSkipMap.size() >= cServerLogic.voteskiplimit) {
                     for(String s : new String[]{
                             "playsound sounds/win/"+eManager.winSoundFileSelection[
                                     (int) (Math.random() * eManager.winSoundFileSelection.length)],
@@ -468,7 +468,7 @@ public class nServer extends Thread {
                 else
                     addExcludingNetCmd("server",
                             String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                            voteSkipMap.keySet().size(), cServerLogic.voteskiplimit));
+                            voteSkipMap.size(), cServerLogic.voteskiplimit));
             }
             else
                 addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
