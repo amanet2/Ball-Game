@@ -90,8 +90,8 @@ public class cServerLogic {
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipMap = new HashMap<>();
-        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-        nServer.instance().clientArgsMap.get("server").remove("virusids");
+        nServer.instance().serverVars.remove("flagmasterid");
+        nServer.instance().serverVars.remove("virusids");
         timedEvents.clear();
         long starttime = gTime.gameTime;
         gameover = false;
@@ -155,7 +155,7 @@ public class cServerLogic {
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
                     public void doCommand() {
                         String[] pids = getPlayerIdArray();
-                        HashMap<String, String> svars = nServer.instance().clientArgsMap.get("server");
+                        HashMap<String, String> svars = nServer.instance().serverVars;
                         if(svars == null)
                             return;
                         if(!svars.containsKey("virusids")) {

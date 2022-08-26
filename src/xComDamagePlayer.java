@@ -29,10 +29,10 @@ public class xComDamagePlayer extends xCom {
                         if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
                             xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
-                            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                                String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
+                            if(nServer.instance().serverVars.containsKey("virusids")) {
+                                String virusids = nServer.instance().serverVars.get("virusids");
                                 if(!virusids.contains(id)) {
-                                    xCon.ex("setnargs server virusids " + virusids + ":" + id);
+                                    xCon.ex("setnargs virusids " + virusids + ":" + id);
                                     xCon.ex("addcomi server echo " + victimname + " was infected");
                                 }
                             }
@@ -41,9 +41,9 @@ public class xComDamagePlayer extends xCom {
                     else
                         xCon.ex("addcomi server echo " + victimname + " exploded");
 //                        handle flag carrier dying
-                    if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
-                    && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
-                        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+                    if(nServer.instance().serverVars.containsKey("flagmasterid")
+                    && nServer.instance().serverVars.get("flagmasterid").equals(id)) {
+                        nServer.instance().serverVars.remove("flagmasterid");
                         int itemId = 0;
                         for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
                             if(itemId < Integer.parseInt(iid))

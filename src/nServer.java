@@ -17,7 +17,7 @@ public class nServer extends Thread {
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
-    HashMap<String, HashMap<String, String>> clientArgsMap = new HashMap<>(); //OLD: server too, index by uuids
+    HashMap<String, String> serverVars; // used for storing game vars such as flagmaster and who has the virus
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     HashMap<String, String> voteSkipMap = new HashMap<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
@@ -46,6 +46,7 @@ public class nServer extends Thread {
 
     private nServer() {
         masterStateMap = new nStateMap();
+        serverVars = new HashMap<>();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
         clientCmdDoables.put("fireweapon",
@@ -207,11 +208,9 @@ public class nServer extends Thread {
         checkLocalCmds();
         //send scores
         keys.put("time", Long.toString(cServerLogic.timeleft));
-        if(clientArgsMap.containsKey("server")) {
-            for(String s : new String[]{"flagmasterid", "virusids"}) {
-                if(clientArgsMap.get("server").containsKey(s))
-                    keys.put(s, clientArgsMap.get("server").get(s));
-            }
+        for(String s : new String[]{"flagmasterid", "virusids"}) {
+            if(serverVars.containsKey(s))
+                keys.put(s, serverVars.get(s));
         }
         return keys;
     }
@@ -249,9 +248,8 @@ public class nServer extends Thread {
         addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
         //OLD
         //--
-        if(clientArgsMap.containsKey("server") && clientArgsMap.get("server").containsKey("flagmasterid")
-                && clientArgsMap.get("server").get("flagmasterid").equals(id)) {
-            clientArgsMap.get("server").put("flagmasterid", "");
+        if(serverVars.containsKey("flagmasterid") && serverVars.get("flagmasterid").equals(id)) {
+            serverVars.put("flagmasterid", "");
             gPlayer player = cServerLogic.getPlayerById(id);
             int itemId = 0;
             for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;

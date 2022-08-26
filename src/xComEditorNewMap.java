@@ -8,8 +8,8 @@ public class xComEditorNewMap extends xCom {
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipMap = new HashMap<>();
-        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-        nServer.instance().clientArgsMap.get("server").remove("virusids");
+        nServer.instance().serverVars.remove("flagmasterid");
+        nServer.instance().serverVars.remove("virusids");
         cServerLogic.gameover = false;
         if (cGameLogic.isGame(cGameLogic.VIRUS))
             cServerLogic.resetVirusPlayers();

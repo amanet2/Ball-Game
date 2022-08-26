@@ -4,13 +4,10 @@ public class xComGetServerArgs extends xCom {
     //usage: getserverargs $id $varkey
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
+        HashMap<String, String> cliMap = nServer.instance().serverVars;
         if(args.length < 2)
-            return "null";
-        String pid = args[1];
-        HashMap<String, String> cliMap = nServer.instance().clientArgsMap.get(pid);
-        if(args.length < 3)
             return cliMap.toString();
-        for(int i = 2; i < args.length; i++) {
+        for(int i = 1; i < args.length; i++) {
             if(args[i].startsWith("$")) {
                 if(cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
@@ -19,7 +16,7 @@ public class xComGetServerArgs extends xCom {
             }
         }
         StringBuilder tvb = new StringBuilder();
-        for(int i = 2; i < args.length; i++) {
+        for(int i = 1; i < args.length; i++) {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);

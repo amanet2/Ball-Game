@@ -1,4 +1,4 @@
-setnargs server flagmasterid $itemactid
+setnargs flagmasterid $itemactid
 getres pname setnstate $itemactid name
 getres pcol setnstate $itemactid color
 addcomi server echo $pname#$pcol has the flag
