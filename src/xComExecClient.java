@@ -13,7 +13,7 @@ public class xComExecClient extends xCom {
             }
         }
         if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-            System.out.println("EXEC_CLIENT FROM MEMORY: " + s);
+            xCon.instance().debug("EXEC_CLIENT FROM MEMORY: " + s);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                 xCon.ex(line.replace("putblock", "cl_putblock"
                 ).replace("putitem", "cl_putitem"));

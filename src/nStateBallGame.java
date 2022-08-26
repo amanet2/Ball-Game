@@ -59,7 +59,7 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
-//                    System.out.println("SERVER_RMV_" + get("id") + ": " + nServer.instance().clientNetCmdMap.toString());
+//                    xCon.instance().debug("SERVER_RMV_" + get("id") + ": " + nServer.instance().clientNetCmdMap.toString());
                     if(nServer.instance().clientNetCmdMap.get(get("id")).size() > 0)
                         nServer.instance().clientNetCmdMap.get(get("id")).remove();
                     value = "0";

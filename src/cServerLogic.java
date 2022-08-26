@@ -6,12 +6,11 @@ public class cServerLogic {
     static int maxhp = 500;
     static int timelimit = 180000;
     static int intermissionDelay = 10000;
-    static boolean gameover = false;
     static int rechargehp = 1;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static int voteskiplimit = 2;
-    static long timeleft = 180000;
+    static long timeleft = 120000;
     static int listenPort = 5555;
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
@@ -19,7 +18,7 @@ public class cServerLogic {
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-//        checkHealthStatus(loopTimeMillis);
+        checkHealthStatus();
         checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
@@ -28,16 +27,16 @@ public class cServerLogic {
     public static void checkGameState() {
         String[] pids = getPlayerIdArray();
         for(String id : pids) {
-            //this is needed when server user joins his own games
-            if(id.equals(uiInterface.uuid))
+            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player
                 continue;
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
             nState objState = nServer.instance().masterStateMap.get(obj.get("id"));
-            for (int i = 0; i < 4; i++) {
-                    obj.putInt("vel"+i, Integer.parseInt(objState.get("vels").split("-")[i]));
-            }
+            obj.putInt("vel0", Integer.parseInt(objState.get("vels").split("-")[0]));
+            obj.putInt("vel1", Integer.parseInt(objState.get("vels").split("-")[1]));
+            obj.putInt("vel2", Integer.parseInt(objState.get("vels").split("-")[2]));
+            obj.putInt("vel3", Integer.parseInt(objState.get("vels").split("-")[3]));
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
@@ -76,7 +75,7 @@ public class cServerLogic {
         xCon.ex("exec scripts/resetvirus");
     }
 
-    public static void checkHealthStatus(long gameTimeMillis) {
+    public static void checkHealthStatus() {
         //recharge players health
         HashMap playersMap = scene.getThingMap("THING_PLAYER");
         for(Object id : playersMap.keySet()) {
@@ -94,7 +93,6 @@ public class cServerLogic {
         nServer.instance().serverVars.remove("virusids");
         timedEvents.clear();
         long starttime = gTime.gameTime;
-        gameover = false;
         if(cGameLogic.isGame(cGameLogic.VIRUS))
             resetVirusPlayers();
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {

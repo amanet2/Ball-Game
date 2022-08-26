@@ -13,7 +13,7 @@ public class xComExecClientPreview extends xCom {
             }
         }
         if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-//            System.out.println("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
+//            xCon.instance().debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                 if(line.startsWith("putblock "))
                     xCon.ex(line.replace("putblock", "cl_putblockpreview"));
