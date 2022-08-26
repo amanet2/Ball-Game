@@ -7,7 +7,7 @@ public class gColors {
     private static gColors instance = null;
 
     private gColors() {
-        xCon.ex("exec config/colors.cfg");
+        xCon.ex("exec config/colors");
     }
 
     public static int hpAlpha = 230;

@@ -10,8 +10,8 @@ import java.util.Arrays;
 public class nServer extends Thread {
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
-    private final Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    private final Queue<String> quitClientIds = new LinkedList<>(); //temporarily holds ids that are quitting
+    private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
+    private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
