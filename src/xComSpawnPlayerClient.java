@@ -29,9 +29,9 @@ public class xComSpawnPlayerClient extends xCom {
         gPlayer newPlayer = new gPlayer(playerId, x, y, cClientLogic.maxhp,
                 eUtils.getPath("animations/player_red/a03.png"));
         if(nClient.instance().clientStateMap.contains(playerId)) {
-            newPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s",
-                    nClient.instance().clientStateMap.get(playerId).get("color"),
-                    newPlayer.get("pathsprite").substring(newPlayer.get("pathsprite").lastIndexOf('/')))));
+            newPlayer.put("color", nClient.instance().clientStateMap.get(playerId).get("color"));
+            newPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",
+                    nClient.instance().clientStateMap.get(playerId).get("color"))));
         }
         sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
         if(playerId.contains("bot"))

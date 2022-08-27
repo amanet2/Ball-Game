@@ -247,13 +247,14 @@ public class nClient {
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
-            if(!clientStateMap.contains(idload)) {
-                clientStateMap.put(idload, new nStateBallGameClient());
-            }
             //NEW --
             //--
-            for(String k : packArgs.keySet()) {
-                clientStateMap.get(idload).put(k, packArgs.get(k));
+            if(!idload.equalsIgnoreCase("server")) {
+                if(!clientStateMap.contains(idload))
+                    clientStateMap.put(idload, new nStateBallGameClient());
+                for(String k : packArgs.keySet()) {
+                    clientStateMap.get(idload).put(k, packArgs.get(k));
+                }
             }
             //OLD --
             //--
