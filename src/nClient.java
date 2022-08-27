@@ -16,7 +16,7 @@ public class nClient {
     long lastnettime = -1;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>();
+    HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>(); //OLD: hold net vars
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
     private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
@@ -24,6 +24,7 @@ public class nClient {
     private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
+    nStateMap clientStateMap; //NEW: hold net vars
 
     public static nClient instance() {
         if(instance == null)
@@ -43,6 +44,7 @@ public class nClient {
     }
 
     private nClient() {
+        clientStateMap = new nStateMap();
         netticks = 0;
     }
 
@@ -245,6 +247,18 @@ public class nClient {
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
+            if(!clientStateMap.contains(idload)) {
+                clientStateMap.put(idload, new nStateBallGameClient());
+                clientStateMap.get(idload).put("id", idload);
+            }
+            //NEW --
+            //--
+            nState clState = clientStateMap.get(idload);
+            nState receivedState = new nState(packArgs.toString());
+            if(packArgs.containsKey("color"))
+                clState.put("color", packArgs.get("color"));
+            //OLD --
+            //--
             if(!serverArgsMap.containsKey(idload))
                 serverArgsMap.put(idload, packArgs);
             for (String k : packArgs.keySet()) {
@@ -256,7 +270,7 @@ public class nClient {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
                     if(cClientLogic.getPlayerById(idload) != null) {
-                        if (sSettings.smoothing) {
+                        if(sSettings.smoothing) {
                             if(serverArgsMap.get(idload).containsKey("x")) {
                                 cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
                             }

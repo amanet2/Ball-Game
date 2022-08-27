@@ -56,7 +56,7 @@ public class cClientLogic {
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
         checkMovementStatus();
-        checkColorStatus();
+//        checkColorStatus();
         if(getUserPlayer() != null)
             checkPlayerFire();
         updateEntityPositions(loopTimeMillis);

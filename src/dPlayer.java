@@ -15,11 +15,11 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        HashMap<String, String> cliMap = nClient.instance().serverArgsMap.get(player.get("id"));
-        if(cliMap == null)
+        nState cState = nClient.instance().clientStateMap.get(player.get("id"));
+        if(cState == null)
             return;
-        if(cliMap.containsKey("color")) {
-            Color pc = gColors.instance().getColorFromName("clrp_" + cliMap.get("color"));
+        if(cState.contains("color")) {
+            Color pc = gColors.instance().getColorFromName("clrp_" + cState.get("color"));
             if (pc != null) {
                 int x = player.getInt("coordx") - player.getInt("dimw") / 4;
                 int y = player.getInt("coordy") - player.getInt("dimh") / 4;

@@ -13,7 +13,7 @@ public class nServer extends Thread {
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
-    nStateMap masterStateMap; //will be the source of truth for game state including passed messages and comms
+    nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
