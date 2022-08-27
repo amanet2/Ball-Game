@@ -253,10 +253,10 @@ public class nClient {
             }
             //NEW --
             //--
-            nState clState = clientStateMap.get(idload);
-            nState receivedState = new nState(packArgs.toString());
-            if(packArgs.containsKey("color"))
-                clState.put("color", packArgs.get("color"));
+//            nState receivedState = new nState(packArgs.toString());
+            for(String k : packArgs.keySet()) {
+                clientStateMap.get(idload).put(k, packArgs.get(k));
+            }
             //OLD --
             //--
             if(!serverArgsMap.containsKey(idload))
