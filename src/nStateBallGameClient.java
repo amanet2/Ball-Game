@@ -18,19 +18,23 @@ public class nStateBallGameClient extends nState {
         map.put("name", "player");
         map.putArg(new gArg("x", "0") {
             public void onChange() {
-                if(!sSettings.smoothing && cClientLogic.getPlayerById(get("id")) != null)
+                if(!sSettings.smoothing && !get("id").equals(uiInterface.uuid)
+                        && cClientLogic.getPlayerById(get("id")) != null)
                     cClientLogic.getPlayerById(get("id")).put("coordx", value);
             }
         });
         map.putArg(new gArg("y", "0") {
             public void onChange() {
-                if(!sSettings.smoothing && cClientLogic.getPlayerById(get("id")) != null)
+                if(!sSettings.smoothing && !get("id").equals(uiInterface.uuid)
+                        && cClientLogic.getPlayerById(get("id")) != null)
                     cClientLogic.getPlayerById(get("id")).put("coordy", value);
             }
         });
         map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
+                if(get("id").equals(uiInterface.uuid))
+                    return;
                 gPlayer pl = cClientLogic.getPlayerById(get("id"));
                 if(pl == null)
                     return;
@@ -40,6 +44,8 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("vels", "0-0-0-0") {
             public void onChange() {
+                if(get("id").equals(uiInterface.uuid))
+                    return;
                 gPlayer pl = cClientLogic.getPlayerById(get("id"));
                 if(pl == null)
                     return;

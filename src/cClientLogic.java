@@ -55,7 +55,6 @@ public class cClientLogic {
         }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-//        checkMovementStatus();
         checkColorStatus();
         if(getUserPlayer() != null)
             checkPlayerFire();
@@ -250,44 +249,6 @@ public class cClientLogic {
         angle += Math.PI/2;
         p.putDouble("fv", angle);
         p.checkSpriteFlip();
-    }
-
-    //clientside prediction for movement aka smoothing
-    public static void checkMovementStatus() {
-        //other players
-        for(String id : getPlayerIds()) {
-            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
-                continue;
-            gPlayer obj = getPlayerById(id);
-            if(obj == null)
-                continue;
-            HashMap<String, String> pvars = nClient.instance().serverArgsMap.get(id);
-            for (int i = 0; i < 4; i++) {
-                //big error here
-                if(pvars.containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
-            }
-        }
-        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "x", "y"};
-                if(!nClient.instance().containsArgsForId(id, requiredFields))
-                    continue;
-                HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
-                double cfv = Double.parseDouble(cargs.get("fv"));
-                gPlayer p = getPlayerById(id);
-                if(p == null)
-                    return;
-                if(!sSettings.smoothing) {
-                    p.put("coordx", cargs.get("x"));
-                    p.put("coordy", cargs.get("y"));
-                }
-                if(p.getDouble("fv") != cfv) {
-                    p.putDouble("fv", cfv);
-                    p.checkSpriteFlip();
-                }
-            }
-        }
     }
 
     public static gPlayer getPlayerById(String id) {
