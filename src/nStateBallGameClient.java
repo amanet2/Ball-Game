@@ -18,15 +18,13 @@ public class nStateBallGameClient extends nState {
         map.put("name", "player");
         map.putArg(new gArg("x", "0") {
             public void onChange() {
-                if(!sSettings.smoothing && !get("id").equals(uiInterface.uuid)
-                        && cClientLogic.getPlayerById(get("id")) != null)
+                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
                     cClientLogic.getPlayerById(get("id")).put("coordx", value);
             }
         });
         map.putArg(new gArg("y", "0") {
             public void onChange() {
-                if(!sSettings.smoothing && !get("id").equals(uiInterface.uuid)
-                        && cClientLogic.getPlayerById(get("id")) != null)
+                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
                     cClientLogic.getPlayerById(get("id")).put("coordy", value);
             }
         });

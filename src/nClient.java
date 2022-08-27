@@ -249,11 +249,9 @@ public class nClient {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             if(!clientStateMap.contains(idload)) {
                 clientStateMap.put(idload, new nStateBallGameClient());
-                clientStateMap.get(idload).put("id", idload);
             }
             //NEW --
             //--
-//            nState receivedState = new nState(packArgs.toString());
             for(String k : packArgs.keySet()) {
                 clientStateMap.get(idload).put(k, packArgs.get(k));
             }
@@ -269,21 +267,6 @@ public class nClient {
             else if(!idload.equals(uiInterface.uuid)) {
                 if(serverIds.contains(idload)) {
                     foundIds.add(idload);
-                    if(cClientLogic.getPlayerById(idload) != null) {
-                        if(sSettings.smoothing) {
-                            if(serverArgsMap.get(idload).containsKey("x")) {
-                                cClientLogic.getPlayerById(idload).put("coordx", serverArgsMap.get(idload).get("x"));
-                            }
-                            if(serverArgsMap.get(idload).containsKey("y"))
-                                cClientLogic.getPlayerById(idload).put("coordy", serverArgsMap.get(idload).get("y"));
-                        }
-                        if(serverArgsMap.get(idload).containsKey("vels")) {
-                            String[] veltoks = serverArgsMap.get(idload).get("vels").split("-");
-                            for (int vel = 0; vel < veltoks.length; vel++) {
-                                cClientLogic.getPlayerById(idload).put("vel" + vel, veltoks[vel]);
-                            }
-                        }
-                    }
                 }
                 else {
                     serverIds.add(idload);
@@ -294,8 +277,6 @@ public class nClient {
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
-//                if(sendMap.containsKey("cmdrcv") && sendMap.get("cmdrcv").equals("1")) // turn off our own rcv when we see we sent it last time
-//                    sendMap.put("cmdrcv", "0");
             }
         }
         //check for ids that have been taken out of the server argmap
