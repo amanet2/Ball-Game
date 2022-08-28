@@ -71,11 +71,10 @@ public class dWaypoints {
         }
     }
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
-        if(uiInterface.inplay && nClient.instance().serverArgsMap.containsKey("server")) {
-            if(nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")) {
-                if(!nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(uiInterface.uuid)) {
-                    gPlayer p = cClientLogic.getPlayerById(
-                            nClient.instance().serverArgsMap.get("server").get("flagmasterid"));
+        if(uiInterface.inplay) {
+            if(nClient.instance().serverArgsMap.containsKey("flagmasterid")) {
+                if(!nClient.instance().serverArgsMap.get("flagmasterid").equals(uiInterface.uuid)) {
+                    gPlayer p = cClientLogic.getPlayerById(nClient.instance().serverArgsMap.get("flagmasterid"));
                     if(p == null)
                         return;
                     dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
@@ -91,8 +90,8 @@ public class dWaypoints {
                 }
             }
 
-            if(nClient.instance().serverArgsMap.get("server").containsKey("virusids")) {
-                String statestr = nClient.instance().serverArgsMap.get("server").get("virusids");
+            if(nClient.instance().serverArgsMap.containsKey("virusids")) {
+                String statestr = nClient.instance().serverArgsMap.get("virusids");
                 for (String id : cClientLogic.getPlayerIds()) {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if (statestr.contains(p.get("id"))) {

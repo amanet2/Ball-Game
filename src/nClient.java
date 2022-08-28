@@ -16,7 +16,7 @@ public class nClient {
     long lastnettime = -1;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    HashMap<String, HashMap<String, String>> serverArgsMap = new HashMap<>(); //OLD: hold net vars
+    HashMap<String, String> serverArgsMap = new HashMap<>(); //OLD: hold net vars
     ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
     private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
@@ -33,6 +33,7 @@ public class nClient {
     }
 
     public void reset() {
+        clientStateMap = new nStateMap();
         netSendMsgs.clear();
         netSendCmds.clear();
         netticks = 0;
@@ -205,12 +206,12 @@ public class nClient {
         }
         HashMap<String, String> workingMap = new HashMap<>(sendMap);
         //send delta of serverargs
-        if(serverArgsMap.containsKey(uiInterface.uuid)) {
-            for (String k : serverArgsMap.get(uiInterface.uuid).keySet()) {
-                if (!protectedArgs.contains(k) && serverArgsMap.get(uiInterface.uuid).containsKey(k)
-                        && serverArgsMap.get(uiInterface.uuid).get(k).equals(sendMap.get(k))) {
-                    workingMap.remove(k);
-                }
+        if(clientStateMap.contains(uiInterface.uuid)) {
+            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
+                if (protectedArgs.contains(k) ||
+                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
+                    continue;
+                workingMap.remove(k);
             }
         }
         sendDataString = new StringBuilder(workingMap.toString());
@@ -227,11 +228,14 @@ public class nClient {
     }
 
     private void handleReadDataServer(HashMap<String, String> packArgs) {
+        for (String k : packArgs.keySet()) {
+            serverArgsMap.put(k, packArgs.get(k));
+        }
         cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
         //check flag and virus
         for(String s : new String[]{"flagmasterid", "virusids"}) {
             if(!packArgs.containsKey(s))
-                serverArgsMap.get("server").remove(s);
+                serverArgsMap.remove(s);
         }
         //check cmd from server only
         String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
@@ -258,11 +262,6 @@ public class nClient {
             }
             //OLD --
             //--
-            if(!serverArgsMap.containsKey(idload))
-                serverArgsMap.put(idload, packArgs);
-            for (String k : packArgs.keySet()) {
-                serverArgsMap.get(idload).put(k, packArgs.get(k));
-            }
             if(idload.equals("server"))
                 handleReadDataServer(packArgs);
             else if(!idload.equals(uiInterface.uuid)) {
@@ -288,7 +287,6 @@ public class nClient {
             }
         }
         if(tr.length() > 0) {
-            serverArgsMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
             serverIds.remove(tr);
             cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
@@ -314,22 +312,12 @@ public class nClient {
         return null;
     }
 
-    boolean containsArgsForId(String id, String[] fields) {
-        if(!serverArgsMap.containsKey(id))
-            return false;
-        HashMap<String, String> cargs = serverArgsMap.get(id);
-        for(String rf : fields) {
-            if(!cargs.containsKey(rf))
-                return false;
-        }
-        return true;
-    }
-
     public void disconnect() {
         if(sSettings.IS_CLIENT) {
             sSettings.IS_CLIENT = false;
             clientSocket.close();
             serverArgsMap = new HashMap<>();
+            clientStateMap = new nStateMap();
             serverIds = new ArrayList<>();
         }
     }
