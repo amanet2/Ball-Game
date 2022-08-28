@@ -13,18 +13,18 @@ public class nClient {
     private int netticks;
     private long nettickcounterTimeClient = -1;
     private static final int retrylimit = 10;
-    long lastnettime = -1;
+    long netTime = -1;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    HashMap<String, String> serverArgsMap = new HashMap<>(); //OLD: hold net vars
-    ArrayList<String> serverIds = new ArrayList<>(); //insertion-ordered list of client ids
+    HashMap<String, String> serverArgsMap = new HashMap<>(); //hold server vars
+    ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
     private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
     private final Queue<String> netSendMsgs = new LinkedList<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
-    nStateMap clientStateMap; //NEW: hold net vars
+    nStateMap clientStateMap; //hold net player vars
 
     public static nClient instance() {
         if(instance == null)
@@ -37,10 +37,10 @@ public class nClient {
         netSendMsgs.clear();
         netSendCmds.clear();
         netticks = 0;
-        lastnettime = -1;
+        netTime = -1;
         receivedPackets.clear();
         serverArgsMap.clear();
-        serverIds.clear();
+        playerIds.clear();
         sendMap.clear();
     }
 
@@ -103,9 +103,9 @@ public class nClient {
             try {
                 netticks += 1;
                 long gameTime = gTime.gameTime;
-                if(lastnettime >= gameTime)
+                if(netTime >= gameTime)
                     return;
-                lastnettime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
+                netTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
                 if (nettickcounterTimeClient < gameTime) {
                     uiInterface.netReportClient = netticks;
                     netticks = 0;
@@ -117,7 +117,8 @@ public class nClient {
                         try {
                             sendData();
                             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
+                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
+                                    clientReceiveData.length);
                             clientSocket.receive(receivePacket);
                             receivedPackets.add(receivePacket);
                             break;
@@ -265,15 +266,14 @@ public class nClient {
             if(idload.equals("server"))
                 handleReadDataServer(packArgs);
             else if(!idload.equals(uiInterface.uuid)) {
-                if(serverIds.contains(idload)) {
+                if(playerIds.contains(idload))
                     foundIds.add(idload);
-                }
                 else {
-                    serverIds.add(idload);
+                    playerIds.add(idload);
                     foundIds.add(idload);
                 }
             }
-            if(idload.equals(uiInterface.uuid)){ // handle our own player to get things like stockhp from server
+            if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
@@ -281,14 +281,15 @@ public class nClient {
         }
         //check for ids that have been taken out of the server argmap
         String tr = "";
-        for(String s : serverIds) {
+        for(String s : playerIds) {
             if(!foundIds.contains(s)) {
                 tr = s;
             }
         }
         if(tr.length() > 0) {
+            clientStateMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
-            serverIds.remove(tr);
+            playerIds.remove(tr);
             cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
         }
     }
@@ -318,7 +319,7 @@ public class nClient {
             clientSocket.close();
             serverArgsMap = new HashMap<>();
             clientStateMap = new nStateMap();
-            serverIds = new ArrayList<>();
+            playerIds = new ArrayList<>();
         }
     }
 }

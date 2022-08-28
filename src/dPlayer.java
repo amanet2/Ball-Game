@@ -6,7 +6,6 @@ import java.awt.RadialGradientPaint;
 import java.awt.Rectangle;
 import java.awt.MultipleGradientPaint;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
