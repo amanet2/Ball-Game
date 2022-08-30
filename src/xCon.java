@@ -75,8 +75,8 @@ public class xCon {
         cursorIndex = 0;
         pressBinds = new HashMap<>();
         releaseBinds = new HashMap<>();
-        previousCommands = new ArrayList<>(); //TODO: turn into queue to avoid storing too many
-        stringLines = new ArrayList<>();    //TODO: turn into queue to avoid storing too many
+        previousCommands = new ArrayList<>();
+        stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
 
