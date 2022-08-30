@@ -94,6 +94,7 @@ FOCUS ITEMS
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
+    -> see for remotes: git reset --hard origin/<branch_name>
 * NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
