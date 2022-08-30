@@ -216,12 +216,9 @@ public class nServer extends Thread {
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
-        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0) {
+        if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-//            xCon.instance().debug("SERVER_CMD_" + clientid + ": " + clientNetCmdMap.get(clientid).peek());
-        }
         //fetch old snapshot for client
-//        xCon.instance().debug("SNAPSHOT_" + clientid + " -> " + clientStateSnapshots.get(clientid));
         nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
@@ -290,14 +287,18 @@ public class nServer extends Thread {
         }
     }
 
+    public void sendMapAndRespawn(String id) {
+        sendMap(id);
+        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
+            xCon.ex("exec scripts/respawnnetplayer " + id);
+    }
+
     public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
-        sendMap(id);
-        if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            xCon.ex("exec scripts/respawnnetplayer " + id);
+        sendMapAndRespawn(id);
         for(String clientId : masterStateMap.keys()) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(clientId.equals(id) || player == null)
@@ -399,8 +400,7 @@ public class nServer extends Thread {
                 next = maplines.get(i+1);
             sendStringBuilder.append(line).append(";");
             linectr++;
-            if(sendStringBuilder.length() + next.length() >= sendbatchsize
-            || linectr == maplines.size()) {
+            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
                 String sendString = sendStringBuilder.toString();
                 addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
                 sendStringBuilder = new StringBuilder();
@@ -410,7 +410,6 @@ public class nServer extends Thread {
 
     void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
-//        xCon.instance().debug("FROM_" + id + ": " + cmd);
         if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
@@ -430,8 +429,7 @@ public class nServer extends Thread {
 
     void checkMessageForSpecialSound(String testmsg) {
         for(String s : eManager.winSoundFileSelection) {
-            String[] ttoks = s.split("\\.");
-            if(testmsg.equalsIgnoreCase(ttoks[0])) {
+            if(testmsg.equalsIgnoreCase(s.split("\\.")[0])) {
                 String soundString = "playsound sounds/win/" + s;
                 addExcludingNetCmd("server", soundString);
                 break;
@@ -469,8 +467,7 @@ public class nServer extends Thread {
 
     public void sendMapToClients() {
         for(String id : masterStateMap.keys()) {
-            sendMap(id);
-            xCon.ex("exec scripts/respawnnetplayer " + id);
+            sendMapAndRespawn(id);
         }
     }
 }

@@ -210,12 +210,11 @@ public class cServerLogic {
         HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gBullet b = (gBullet) bulletsMap.get(id);
-            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")){
+            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
                 bulletsToRemoveIds.add(id);
                 //grenade explosion
-                if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
+                if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                     pseeds.add(b);
-                }
                 continue;
             }
             for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
