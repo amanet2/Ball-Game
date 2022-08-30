@@ -193,8 +193,8 @@ public class cServerLogic {
                 obj.putInt("coordy", dy);
         }
 
-        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
-        for(Object id : bulletsMap.keySet()) {
+        HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        for(String id : bulletsMap.keySet()) {
             gBullet obj = (gBullet) bulletsMap.get(id);
             obj.putInt("coordx", obj.getInt("coordx")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
