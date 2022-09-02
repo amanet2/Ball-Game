@@ -1,3 +1,0 @@
-setcam mode 1
-cl_setvar userplayerid $userid
-centercamera

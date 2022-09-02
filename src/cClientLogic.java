@@ -125,12 +125,12 @@ public class cClientLogic {
             }
             if(obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
             }
             if(obj.wontClipOnMove(1,dy, scene)) {
                 obj.putInt("coordy", dy);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
             }
         }
