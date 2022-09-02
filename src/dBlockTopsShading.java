@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
 
 public class dBlockTopsShading {
     public static void drawBlockTopShadingCube(Graphics2D g2, gThing block) {

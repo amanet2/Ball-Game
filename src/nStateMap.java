@@ -26,17 +26,12 @@ public class nStateMap {
 
     public nStateMap getDelta(nStateMap oStateMap) {
         nStateMap deltaStateMap = new nStateMap();
-//        System.out.println(oStateMap);
         for(String id : oStateMap.keys()) {
             if(!contains(id)) { //new state has client we havent tracked
                 deltaStateMap.put(id, oStateMap.get(id));
                 continue;
             }
-            deltaStateMap.put(id, new nState());
-            nState deltaState = get(id).getDelta(oStateMap.get(id));
-            for(String k : deltaState.keys()) {
-                deltaStateMap.get(id).put(k, deltaState.get(k));
-            }
+            deltaStateMap.put(id, get(id).getDelta(oStateMap.get(id)));
         }
         return deltaStateMap;
     }
@@ -53,7 +48,6 @@ public class nStateMap {
         map = new HashMap<>();
         if(mapString == null)
             return;
-//        System.out.println(mapString);
         String l1String = mapString.substring(1,mapString.length()-1); //get rid of outer '{}'
         String[] playerLoads = l1String.split("}, ");
         for(int i = 0; i < playerLoads.length; i++) {
@@ -65,8 +59,6 @@ public class nStateMap {
                 playerLoad = idArgs[1].substring(0, idArgs[1].length() - 1);
             else
                 playerLoad = idArgs[1];
-//            System.out.println(id);
-//            System.out.println(playerLoad);
             for(String pair : playerLoad.split(",")) {
                 String[] kvs = pair.split("=");
                 map.get(id).put(kvs[0].trim(), kvs.length > 1 ? kvs[1].trim() : "");

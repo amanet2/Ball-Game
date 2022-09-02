@@ -1,7 +1,7 @@
 public class xComGivePoint extends xCom {
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
-        if(cServerLogic.gameover || args.length < 2)
+        if(args.length < 2)
             return "usage: givepoint <playerid> <points#optional>";
         String id = args[1];
         int score = 100;

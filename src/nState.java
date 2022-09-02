@@ -20,17 +20,13 @@ public class nState {
     }
 
     public nState getDelta(nState oState) {
-//        System.out.println(this);
-//        System.out.println(oState);
-//        System.out.println("---");
         //the dummy state is the first state passed to delta
         //server will receive data from client and create...
         //...the state which will call newState.delta(prevSavedState)
         nState deltaState = new nState();
-        for(String k : keys()) {
-            String tv = get(k);
-//            System.out.println("GET KEY " + k);
-            if(!oState.get(k).equals(tv)) {
+        for(String k : oState.keys()) {
+            String tv = oState.get(k);
+            if(!contains(k) || !get(k).equals(tv)) {
                 deltaState.put(k, tv);
             }
         }

@@ -1,8 +1,13 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import java.awt.Cursor;
+import java.awt.GraphicsEnvironment;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 public class oDisplay extends JLayeredPane {
 	static int displaymode_windowed = 0;

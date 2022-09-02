@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 

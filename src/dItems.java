@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public class dItems {
     public static void drawItem(Graphics2D g2, gItem item) {

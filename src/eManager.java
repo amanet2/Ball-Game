@@ -1,5 +1,5 @@
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
@@ -32,15 +32,11 @@ public class eManager {
         return selectionArray;
     }
 
-    public static int randomInt(int min, int max) {
-        return new Random().nextInt(max - min + 1) + min;
-    }
-
     public static String createId() {
-        return Integer.toString(randomInt(11111111, 99999999));
+        return xCon.ex("getrand 11111111 99999999");
     }
 
     public static String createBotId() {
-        return Integer.toString(randomInt(11111, 99999));
+        return xCon.ex("getrand 11111 99999");
     }
 }

@@ -1,8 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
@@ -353,12 +361,10 @@ public class uiEditorMenus {
 
     public static void setFileChooserFont(Component[] comp) {
         for (int x = 0; x < comp.length; x++) {
-            // System.out.println( comp[x].toString() ); // Trying to know the type of each element in the JFileChooser.
             if (comp[x] instanceof Container)
                 setFileChooserFont(((Container) comp[x]).getComponents());
 
             try {
-//                if (comp[x] instanceof JList || comp[x] instanceof JTable)
                     comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
             } catch (Exception e) {
             } // do nothing

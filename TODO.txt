@@ -4,7 +4,12 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* have to fix cmdrcv to proceed with efficient createsendstring
+* come up with a way to break out of scripts
+    -> mapping lines to their called script ("null" when necessary) and removing all associated on a "break" or "exit"
+* look into getting rid of unneeded linked hashmap in gScene. also other linked lists
+* use the threadlocal random to replace all usages of "new Random()"
+* BUG: were not getting a good delta because we copy the masterstate immediately when we get a msg from a client
+    -> fix: save the snapshot after sending to cli
 * make banning a player a timeevent
 * need ability to add time events through script
     -> make a "script" field like an item, will ex on schedule
@@ -91,6 +96,7 @@ FOCUS ITEMS
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
+    -> see for remotes: git reset --hard origin/<branch_name>
 * NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)

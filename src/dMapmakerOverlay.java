@@ -1,4 +1,7 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Polygon;
 import java.util.HashMap;
 
 public class dMapmakerOverlay {
@@ -58,32 +61,27 @@ public class dMapmakerOverlay {
                 + gCamera.getX() - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
                 + gCamera.getY() - h/2, uiEditorMenus.snapToY);
-//        g2.setColor(gColors.getFontColorFromName("preview"));
-//        g2.drawRect(px, py, w, h);
         cClientLogic.prevX = px;
         cClientLogic.prevY = py;
         cClientLogic.prevW = w;
         cClientLogic.prevH = h;
-        for(String id : nClient.instance().serverArgsMap.keySet()) {
+        nStateMap clStateMap = nClient.instance().clientStateMap;
+        for(String id : clStateMap.keys()) {
             if(cClientLogic.scene.getPlayerById(id) != null)
                 continue;
-            HashMap<String, String> cArgs = nClient.instance().serverArgsMap.get(id);
-            String pxs = cArgs.get("px");
-            String pys = cArgs.get("py");
-            String pws = cArgs.get("pw");
-            String phs = cArgs.get("ph");
-            String cs = cArgs.get("color");
-            String nm = cArgs.get("name");
-            if(pxs == null || pys == null || pws == null || phs == null || cs == null)
-                continue;
+            nState clState = clStateMap.get(id);
+            String pxs = clState.get("px");
+            String pys = clState.get("py");
+            String pws = clState.get("pw");
+            String phs = clState.get("ph");
+            String cs = clState.get("color");
+            String nm = clState.get("name");
             g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
-            if(nm == null)
-                continue;
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
-            if(id.equals(uiInterface.uuid)) {
+            if(id.equals(uiInterface.uuid)) { //draw arrow over our own preview box
                 Polygon pg = dTileTops.getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
                 Color color = gColors.instance().getColorFromName("clrp_" + cs);
                 g2.setStroke(dFonts.thickStroke);

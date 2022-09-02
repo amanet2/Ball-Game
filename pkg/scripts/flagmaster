@@ -1,2 +1,2 @@
-getres fmid getnargs server flagmasterid
+getres fmid getnargs flagmasterid
 testresn $fmid null givepoint $fmid

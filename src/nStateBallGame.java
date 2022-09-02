@@ -20,8 +20,18 @@ public class nStateBallGame extends nState {
                 oldname = value;
             }
         });
-        map.put("x", "0");
-        map.put("y", "0");
+        map.putArg(new gArg("x", "0") {
+            public void onChange() {
+                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
+                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
+            }
+        });
+        map.putArg(new gArg("y", "0") {
+            public void onChange() {
+                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
+                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
+            }
+        });
         map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
@@ -45,11 +55,13 @@ public class nStateBallGame extends nState {
         map.put("py", "0");
         map.put("pw", "0");
         map.put("ph", "0");
+        map.put("score", "0:0");
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
-//                    if(nServer.instance().clientNetCmdMap.get(get("id")).size() > 0)
-//                        nServer.instance().clientNetCmdMap.get(get("id")).remove();
+//                    xCon.instance().debug("SERVER_CMDRCV_" + get("id") + ": " + nServer.instance().clientNetCmdMap.toString());
+                    if(nServer.instance().clientNetCmdMap.get(get("id")).size() > 0)
+                        nServer.instance().clientNetCmdMap.get(get("id")).remove();
                     value = "0";
                 }
             }
@@ -67,7 +79,7 @@ public class nStateBallGame extends nState {
                     nServer.instance().addExcludingNetCmd("server", "echo " + value);
                     //handle special sounds, etc
                     String testmsg = value.substring(value.indexOf(':')+2);
-                    nServer.instance().checkMessageForSpecialSound(testmsg);
+                    xCon.ex("exec scripts/checkmsgforsound " + testmsg); //check for special sound
                     nServer.instance().checkClientMessageForVoteSkip(get("id"), testmsg);
                 }
             }

@@ -1,6 +1,7 @@
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Color;
+
 
 public class dHUD {
     public static void drawHUD(Graphics g) {
@@ -19,11 +20,10 @@ public class dHUD {
                 sSettings.height/64);
         dFonts.setFontNormal(g);
         //score
-        if(nClient.instance().serverArgsMap.containsKey(uiInterface.uuid)
-                && nClient.instance().serverArgsMap.get(uiInterface.uuid).containsKey("score")) {
+        nStateMap clStateMap = nClient.instance().clientStateMap;
+        if(clStateMap.contains(uiInterface.uuid) && clStateMap.get(uiInterface.uuid).contains("score")) {
             g.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
-            g.drawString(
-                    "$ "+ nClient.instance().serverArgsMap.get(uiInterface.uuid).get("score").split(":")[1],
+            g.drawString("$ "+ clStateMap.get(uiInterface.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
         dFonts.setFontColor(g, "clrf_normaldark");
@@ -33,28 +33,21 @@ public class dHUD {
         // other players on server
         dFonts.setFontSmall(g);
         int ctr = 1;
-        for (String id : nClient.instance().serverArgsMap.keySet()) {
-            if(!id.equals(uiInterface.uuid) && !id.equals("server") && nClient.instance().serverArgsMap.get(id).containsKey("score")) {
-                dFonts.setFontColor(g, "clrf_normaldark");
-                String[] requiredFields = {"score", "name", "color"};
-                if(nClient.instance().serverArgsMap.containsKey(id)) {
-                    for(String s : requiredFields) {
-                        if(!nClient.instance().serverArgsMap.get(id).containsKey(s))
-                            return;
-                    }
-                    String color = nClient.instance().serverArgsMap.get(id).get("color");
-                    g.setColor(gColors.instance().getColorFromName("clrp_" + color));
-                    g.drawString("$ " + nClient.instance().serverArgsMap.get(id).get("score").split(":")[1],
-                            sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
-                    dFonts.setFontColor(g, "clrf_normaldark");
-                    g.drawString(nClient.instance().serverArgsMap.get(id).get("name"), sSettings.width / 64,
-                            56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
-                    g.setColor(gColors.instance().getColorFromName("clrp_" + color));
-                    g.fillRect(sSettings.width / 128, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)),
-                            sSettings.width / 256, sSettings.height / 32);
-                    ctr++;
-                }
-            }
+        for (String id : clStateMap.keys()) {
+            if(id.equals(uiInterface.uuid))
+                continue;
+            dFonts.setFontColor(g, "clrf_normaldark");
+            String color = clStateMap.get(id).get("color");
+            g.setColor(gColors.instance().getColorFromName("clrp_" + color));
+            g.drawString("$ " + clStateMap.get(id).get("score").split(":")[1],
+                    sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+            dFonts.setFontColor(g, "clrf_normaldark");
+            g.drawString(clStateMap.get(id).get("name"), sSettings.width / 64,
+                    56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+            g.setColor(gColors.instance().getColorFromName("clrp_" + color));
+            g.fillRect(sSettings.width / 128, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)),
+                    sSettings.width / 256, sSettings.height / 32);
+            ctr++;
         }
     }
 }

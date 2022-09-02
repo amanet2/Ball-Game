@@ -1,4 +1,7 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -136,22 +139,17 @@ public class dTileTops {
     }
 
     public static void drawPlayerNames(Graphics g) {
-        for(String id : nClient.instance().serverArgsMap.keySet()) {
-            HashMap<String, String> clientMap = nClient.instance().serverArgsMap.get(id);
+        nStateMap clStateMap = nClient.instance().clientStateMap;
+        for(String id : clStateMap.keys()) {
             gPlayer p = cClientLogic.getPlayerById(id);
-            if(p == null || clientMap == null)
+            if(p == null)
                 continue;
-            if(!p.containsFields(new String[]{"coordx", "coordy"}))
-                continue;
-            if(!eUtils.containsFields(clientMap, new String[]{"name"}))
-                continue;
+            nState clState = clStateMap.get(id);
             dFonts.setFontGNormal(g);
-            String name = clientMap.get("name");
+            String name = clState.get("name");
             int coordx = p.getInt("coordx");
             int coordy = p.getInt("coordy");
-//            dFonts.drawCenteredString(g, name,
-//                    coordx + p.getInt("dimw")/2), coordy));
-            String ck = nClient.instance().serverArgsMap.get(id).get("color");
+            String ck = clState.get("color");
             Color color = gColors.instance().getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
             //SAVE THIS: draw flashlight/spawnprotection glow

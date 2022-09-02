@@ -1,5 +1,9 @@
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -71,8 +75,8 @@ public class xCon {
         cursorIndex = 0;
         pressBinds = new HashMap<>();
         releaseBinds = new HashMap<>();
-        previousCommands = new ArrayList<>(); //TODO: turn into queue to avoid storing too many
-        stringLines = new ArrayList<>();    //TODO: turn into queue to avoid storing too many
+        previousCommands = new ArrayList<>();
+        stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
 
@@ -85,6 +89,7 @@ public class xCon {
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
+        commands.put("centercamera", new xComCenterCamera());
         commands.put("changemap", new xComChangeMap());
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());

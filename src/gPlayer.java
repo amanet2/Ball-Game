@@ -1,4 +1,6 @@
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {

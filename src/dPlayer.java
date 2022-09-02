@@ -1,7 +1,11 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.RadialGradientPaint;
+import java.awt.Rectangle;
+import java.awt.MultipleGradientPaint;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
@@ -10,11 +14,11 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        HashMap<String, String> cliMap = nClient.instance().serverArgsMap.get(player.get("id"));
-        if(cliMap == null)
+        nState cState = nClient.instance().clientStateMap.get(player.get("id"));
+        if(cState == null)
             return;
-        if(cliMap.containsKey("color")) {
-            Color pc = gColors.instance().getColorFromName("clrp_" + cliMap.get("color"));
+        if(cState.contains("color")) {
+            Color pc = gColors.instance().getColorFromName("clrp_" + cState.get("color"));
             if (pc != null) {
                 int x = player.getInt("coordx") - player.getInt("dimw") / 4;
                 int y = player.getInt("coordy") - player.getInt("dimh") / 4;
@@ -53,14 +57,10 @@ public class dPlayer {
                 null
         );
         //flag for ctf
-        if(nClient.instance().serverArgsMap.containsKey("server")
-                && nClient.instance().serverArgsMap.get("server").containsKey("flagmasterid")
-                && nClient.instance().serverArgsMap.get("server").get("flagmasterid").equals(player.get("id"))) {
-            g2.drawImage(gItemFactory.flagSprite,
-                    player.getInt("coordx"),
-                    player.getInt("coordy")
-                            - 2*player.getInt("dimh")/3,
-                    null
+        if(nClient.instance().serverArgsMap.containsKey("flagmasterid")
+                && nClient.instance().serverArgsMap.get("flagmasterid").equals(player.get("id"))) {
+            g2.drawImage(gItemFactory.flagSprite, player.getInt("coordx"),
+                    player.getInt("coordy") - 2*player.getInt("dimh")/3, null
             );
         }
         //shading
