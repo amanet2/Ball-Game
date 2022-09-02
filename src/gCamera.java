@@ -7,7 +7,6 @@ public class gCamera {
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
-	private static String trackingid = uiInterface.uuid;
 
 	public static void init() {
 		argSet = new gArgSet();
@@ -46,11 +45,7 @@ public class gCamera {
 				move[3] = Integer.parseInt(value);
 			}
 		});
-		argSet.putArg(new gArg("trackingid", uiInterface.uuid) {
-			public void onChange() {
-				trackingid = value;
-			}
-		});
+		argSet.put("trackingid", uiInterface.uuid);
 	}
 
 	public static int getX() {
