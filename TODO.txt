@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* come up with a way to break out of scripts
+    -> mapping lines to their called script ("null" when necessary) and removing all associated on a "break" or "exit"
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
 * use the threadlocal random to replace all usages of "new Random()"
 * BUG: were not getting a good delta because we copy the masterstate immediately when we get a msg from a client

@@ -427,18 +427,7 @@ public class nServer extends Thread {
             addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
-    void checkMessageForSpecialSound(String testmsg) {
-        for(String s : eManager.winSoundFileSelection) {
-            if(testmsg.equalsIgnoreCase(s.split("\\.")[0])) {
-                String soundString = "playsound sounds/win/" + s;
-                addExcludingNetCmd("server", soundString);
-                break;
-            }
-        }
-    }
-
     public void checkClientMessageForVoteSkip(String id, String testmsg) {
-        //handle the vote-to-skip function
         if(!testmsg.strip().equalsIgnoreCase("skip"))
             return;
         if(voteSkipList.contains(id)) {

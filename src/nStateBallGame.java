@@ -79,7 +79,7 @@ public class nStateBallGame extends nState {
                     nServer.instance().addExcludingNetCmd("server", "echo " + value);
                     //handle special sounds, etc
                     String testmsg = value.substring(value.indexOf(':')+2);
-                    nServer.instance().checkMessageForSpecialSound(testmsg);
+                    xCon.ex("exec scripts/checkmsgforsound " + testmsg); //check for special sound
                     nServer.instance().checkClientMessageForVoteSkip(get("id"), testmsg);
                 }
             }
