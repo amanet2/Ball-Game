@@ -28,7 +28,6 @@ public class xComAddCommandExclusive extends xCom {
             act.append(" ").append(args[i]);
         }
         String actStr = act.substring(1);
-        System.out.println(actStr);
         nServer.instance().addNetCmd(exlusiveId, actStr);
         return "server net com exclusive: " + actStr;
     }

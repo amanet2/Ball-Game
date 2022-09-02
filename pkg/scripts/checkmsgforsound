@@ -1,0 +1,11 @@
+testres $1 cookie playsound sounds/win/arncook2.wav
+testres $1 bow playsound sounds/win/bowtoyoursensei.wav
+testres $1 cap playsound sounds/win/capflag.wav
+testres $1 mg playsound sounds/win/cg_rdmsc.wav
+testres $1 impressive playsound sounds/win/impressive.wav
+testres $1 laugh playsound sounds/win/laugh.wav
+testres $1 moo playsound sounds/win/moo.wav
+testres $1 nice playsound sounds/win/nicccce.wav
+testres $1 omg playsound sounds/win/ohmymg2.wav
+testres $1 party playsound sounds/win/partyboy.wav
+testres $1 winning playsound sounds/win/winningmg.wav

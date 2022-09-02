@@ -2,9 +2,9 @@ public class sSettings {
     /**
 	 * data source
 	 */
-	static String CONFIG_FILE_LOCATION_SERVER = "config/server.cfg";
-	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.cfg";
-	static String CONSOLE_LOG_LOCATION = "_console_log.txt";
+	static String CONFIG_FILE_LOCATION_SERVER = "config/server";
+	static String CONFIG_FILE_LOCATION_CLIENT = "config/client";
+	static String CONSOLE_LOG_LOCATION = "_console_log";
 	static String datapath = "ballgame";
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
@@ -40,7 +40,7 @@ public class sSettings {
 	/**
 	 * NET
 	 * **/
-	static int max_packet_size = 508;
+	static int max_packet_size = 1200;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
 	static int rateclient = 60;

@@ -1,0 +1,6 @@
+getres spx setthing ITEM_SPAWNPOINT $2 coordx
+getres spy setthing ITEM_SPAWNPOINT $2 coordy
+setnstate $1 x $spx
+setnstate $1 y $spy
+addcomx server spawnplayer $1 $spx $spy
+addcomi server cl_spawnplayer $1 $spx $spy

@@ -6,8 +6,16 @@ public class xComSpawnAnimationClient extends xCom {
                 int animcode = Integer.parseInt(toks[1]);
                 int x = Integer.parseInt(toks[2]);
                 int y = Integer.parseInt(toks[3]);
-                cClientLogic.scene.getThingMap("THING_ANIMATION").put(eManager.createId(),
+                String aid = eManager.createId();
+                cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
                         new gAnimationEmitter(animcode, x, y));
+                gAnimation anim = gAnimations.animation_selection[animcode];
+                cClientLogic.timedEvents.put(
+                        Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
+                    public void doCommand() {
+                        cClientLogic.scene.getThingMap("THING_ANIMATION").remove(aid);
+                    }
+                });
                 return "spawned animation " + animcode + " at " + x + " " + y;
             }
         }

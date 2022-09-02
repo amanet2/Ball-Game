@@ -1,3 +1,2 @@
 addcomi server $3 $4 $5 $6
-setnargs $1 respawntime $2
 exec scripts/freecamera $1

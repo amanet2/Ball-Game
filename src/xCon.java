@@ -1,5 +1,9 @@
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -71,8 +75,8 @@ public class xCon {
         cursorIndex = 0;
         pressBinds = new HashMap<>();
         releaseBinds = new HashMap<>();
-        previousCommands = new ArrayList<>(); //TODO: turn into queue to avoid storing too many
-        stringLines = new ArrayList<>();    //TODO: turn into queue to avoid storing too many
+        previousCommands = new ArrayList<>();
+        stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
 
@@ -82,10 +86,10 @@ public class xCon {
         commands.put("addcom", new xComAddCommand());
         commands.put("addcomi", new xComAddCommandIgnore());
         commands.put("addcomx", new xComAddCommandExclusive());
-        commands.put("attack", new xComAttack());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
+        commands.put("centercamera", new xComCenterCamera());
         commands.put("changemap", new xComChangeMap());
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
@@ -121,10 +125,15 @@ public class xCon {
         commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
         commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
+        commands.put("getaddint", new xComGetAddInt());
+        commands.put("getaddlong", new xComGetAddLong());
         commands.put("cl_getadd", new xComGetAddClient());
+        commands.put("cl_getaddlong", new xComGetAddLongClient());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
         commands.put("getrand", new xComGetRandom());
+        commands.put("getrandclid", new xComGetRandomClientId());
+        commands.put("getrandthing", new xComGetRandomThing());
         commands.put("givepoint", new xComGivePoint());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());
@@ -137,7 +146,6 @@ public class xCon {
         commands.put("putblock", new xComPutBlock());
         commands.put("putitem", new xComPutItem());
         commands.put("quit", new xComQuit());
-        commands.put("respawnnetplayer", new xComRespawnNetPlayer());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
         commands.put("selectleft", new xComSelectLeft());
@@ -148,6 +156,7 @@ public class xCon {
         commands.put("setcammovs", new xComSetCamMovs());
         commands.put("setthing", new xComSetThing());
         commands.put("setnargs", new xComSetServerArgs());
+        commands.put("setnstate", new xComSetState());
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
         commands.put("spawnplayer", new xComSpawnPlayer());
@@ -155,6 +164,9 @@ public class xCon {
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
+        commands.put("testreslte", new xComTestResLte());
+        commands.put("cl_testreslte", new xComTestResLteClient());
+        commands.put("testreslteint", new xComTestResLteInt());
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
@@ -247,6 +259,12 @@ public class xCon {
                 if (result.length() > 0)
                     stringLines.add(result);
                 linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+                while (stringLines.size() > 1024) {
+                    stringLines.remove(0);
+                }
+                while (previousCommands.size() > 32) {
+                    previousCommands.remove(0);
+                }
                 return result;
             }
             else {

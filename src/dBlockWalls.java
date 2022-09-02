@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 
@@ -14,16 +15,16 @@ public class dBlockWalls {
             else {
                 if(thing.get("type").contains("CUBE")) {
                     if (thing.contains("wallh")) {
-                        dBlockShadows.drawShadowBlockFlat(g2, (gBlockCube) thing);
-                        drawBlockWallCube(g2, (gBlockCube) thing);
-                        dBlockTops.drawBlockTopCube(g2, (gBlockCube) thing);
+                        dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
+                        drawBlockWallCube(g2, thing);
+                        dBlockTops.drawBlockTopCube(g2, thing);
                     }
                 }
             }
         }
     }
 
-    public static void drawBlockWallCube(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockWallCube(Graphics2D g2, gThing block) {
         if (block.contains("wallh")) {
             gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
                     new Rectangle2D.Double(block.getX(), block.getY(), 300, 300));
@@ -35,7 +36,7 @@ public class dBlockWalls {
         }
     }
 
-    public static void drawBlockWallCubePreview(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockWallCubePreview(Graphics2D g2, gThing block) {
         if (block.contains("wallh")) {
             dFonts.setFontColor(g2, "clrw_wallcolorpreview");
             g2.fillRect(eUtils.scaleInt(block.getX()/4),

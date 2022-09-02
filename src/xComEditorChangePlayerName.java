@@ -1,5 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class xComEditorChangePlayerName extends xCom {
     public String doCommand(String fullCommand) {
@@ -13,10 +13,8 @@ public class xComEditorChangePlayerName extends xCom {
                     null,
                     null,
                     null);
-//            String s = (String)JOptionPane.showInputDialog(null, label);
             if(s != null && s.strip().replace(",", "").length() > 0) {
                 cClientVars.instance().put("playername", s.replace(",", ""));
-//                cClientLogic.playerName = s.replace(",", "");
                 uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);

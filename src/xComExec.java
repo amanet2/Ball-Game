@@ -13,7 +13,7 @@ public class xComExec extends xCom {
             }
         }
         if(gExecDoableFactory.instance().execDoableMap.containsKey(title)) {
-            System.out.println("EXEC FROM MEMORY: " + title);
+            xCon.instance().debug("EXEC FROM MEMORY: " + title);
             for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
                 //parse vars for exec calls within exec (changemap)
                 handleLine(line);

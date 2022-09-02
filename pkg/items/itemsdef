@@ -12,6 +12,7 @@ setvar ITEM_POINTGIVER_sprite misc/light1.png
 setvar ITEM_POINTGIVER_script exec items/pointgiver
 setvar ITEM_SPAWNPOINT_dimw 300
 setvar ITEM_SPAWNPOINT_dimh 300
+setvar ITEM_SPAWNPOINT_script exec items/spawnpoint
 setvar ITEM_TELEPORTER_BLUE_dimw 300
 setvar ITEM_TELEPORTER_BLUE_dimh 300
 setvar ITEM_TELEPORTER_BLUE_sprite misc/teleporter_blue.png

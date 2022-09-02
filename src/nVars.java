@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Set;
 
 public class nVars {
     public static HashMap<String,String> getMapFromNetString(String argload) {

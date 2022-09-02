@@ -1,4 +1,4 @@
-import javax.swing.*;
+import javax.swing.JFileChooser;
 import java.io.File;
 
 public class xComEditorSaveAs extends xCom{

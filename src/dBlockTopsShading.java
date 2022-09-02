@@ -1,7 +1,8 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
 
 public class dBlockTopsShading {
-    public static void drawBlockTopShadingCube(Graphics2D g2, gBlockCube block) {
+    public static void drawBlockTopShadingCube(Graphics2D g2, gThing block) {
         if (sSettings.vfxenableshading) {
             g2.setStroke(dFonts.thickStroke);
             GradientPaint gradient = new GradientPaint(

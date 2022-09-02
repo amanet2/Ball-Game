@@ -14,19 +14,15 @@ public class cServerVars extends gArgSet {
         putArg(new gArg("timelimit", "180000") {
             public void onChange() {
                 cServerLogic.timelimit = Integer.parseInt(value);
-                cServerLogic.starttime = gTime.gameTime;
             }
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                int newval = Integer.parseInt(value);
-                if(sSettings.IS_SERVER && cServerLogic.maxhp != newval) {
-                    cServerLogic.maxhp = newval;
-                    nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
-                    for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-                        gPlayer p = cServerLogic.scene.getPlayerById(s);
-                        p.putInt("stockhp", cServerLogic.maxhp);
-                    }
+                cServerLogic.maxhp = Integer.parseInt(value);
+                nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
+                for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+                    gPlayer p = cServerLogic.scene.getPlayerById(s);
+                    p.putInt("stockhp", cServerLogic.maxhp);
                 }
             }
         });
@@ -55,6 +51,7 @@ public class cServerVars extends gArgSet {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
             }
         });
+        put("goldspawntime", "0");
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);

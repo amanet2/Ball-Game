@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Image;
 import java.io.File;
 
 public class gAnimation {

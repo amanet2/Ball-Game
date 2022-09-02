@@ -1,4 +1,6 @@
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Image;
 
 public class dMenus {
     private static Image coverimg = gTextures.getGScaledImage(eUtils.getPath("misc/cover.png"),

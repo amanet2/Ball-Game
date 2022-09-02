@@ -1,0 +1,2 @@
+getres fmid getnargs flagmasterid
+testresn $fmid null givepoint $fmid

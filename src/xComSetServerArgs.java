@@ -1,11 +1,11 @@
 import java.util.HashMap;
 
 public class xComSetServerArgs extends xCom {
-    //usage: putnargs $id $key $value
+    //usage: setnargs $key $value
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
         if(args.length < 2)
-            return nServer.instance().clientArgsMap.toString();
+            return nServer.instance().serverVars.toString();
         for(int i = 1; i < args.length; i++) {
             if(args[i].startsWith("$")) {
                 if(cServerVars.instance().contains(args[i].substring(1)))
@@ -14,13 +14,12 @@ public class xComSetServerArgs extends xCom {
                     args[i] = sVars.get(args[i]);
             }
         }
-        String pid = args[1];
-        HashMap<String, String> cliMap = nServer.instance().clientArgsMap.get(pid);
+        HashMap<String, String> cliMap = nServer.instance().serverVars;
+        String tk = args[1];
         if(args.length < 3)
-            return cliMap.toString();
-        String tk = args[2];
+            return cliMap.get(tk);
         StringBuilder tvb = new StringBuilder();
-        for(int i = 3; i < args.length; i++) {
+        for(int i = 2; i < args.length; i++) {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);

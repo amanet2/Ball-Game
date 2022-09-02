@@ -1,4 +1,9 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +11,10 @@ import java.util.HashMap;
 public class gArgSet {
     protected HashMap<String, gArg> args;
     protected ArrayList<String> filelines;
+
+    public String toString() {
+        return args.toString();
+    }
 
     protected gArgSet() {
         args = new HashMap<>();
@@ -87,8 +96,10 @@ public class gArgSet {
     public void put(String key, String val) {
         gArg arg = getArg(key);
         if(arg != null) {
+            String old = arg.value;
             arg.value = val;
-            arg.onChange();
+            if(!arg.value.equals(old))
+                arg.onChange();
         }
         else {
             putArg(new gArg(key, val) {

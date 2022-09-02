@@ -14,10 +14,4 @@ public class cGameLogic {
     public static boolean isGame(int mode) {
         return cClientLogic.gamemode == mode;
     }
-
-    public static void resetVirusPlayers() {
-        if(nServer.instance().clientArgsMap.containsKey("server") && nServer.instance().clientCount() > 0) {
-            nServer.instance().clientArgsMap.get("server").put("virusids", nServer.instance().getRandomClientId());
-        }
-    }
 }

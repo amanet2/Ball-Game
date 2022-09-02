@@ -1,6 +1,5 @@
 import javafx.scene.media.AudioClip;
-
-import java.awt.*;
+import java.awt.Font;
 
 public class cClientVars extends gArgSet {
     private static gArgSet instance;
@@ -234,6 +233,7 @@ public class cClientVars extends gArgSet {
             }
         });
         put("userplayerid", "null");
+        put("userid", uiInterface.uuid);
         putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
             public void onChange() {
                 uiInterface.inplay = value.equals("1");
