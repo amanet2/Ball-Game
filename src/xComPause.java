@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Cursor;
 
 public class xComPause extends xCom {
     public String doCommand(String fullCommand) {

@@ -1,2 +1,2 @@
 getres rando getrandclid
-testresn $rando null setnargs server virusids $rando
+testresn $rando null setnargs virusids $rando

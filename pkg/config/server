@@ -3,7 +3,7 @@ listenport 5555
 # max hp
 maxhp 500
 # timelimit in ms
-timelimit 60000
+timelimit 120000
 # rate of hp recharge
 rechargehp 1
 # respawn wait time in ms

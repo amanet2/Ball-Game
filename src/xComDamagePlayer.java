@@ -16,21 +16,23 @@ public class xComDamagePlayer extends xCom {
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
                     xCon.ex("exec scripts/deleteplayer " + id);
-                    String victimname = nServer.instance().clientArgsMap.get(id).get("name");
-                    String vc = nServer.instance().clientArgsMap.get(id).get("color");
+                    nStateMap masterState = nServer.instance().masterStateMap;
+                    nState victimState = masterState.get(id);
+                    String victimname = victimState.get("name");
+                    String vc = victimState.get("color");
                     victimname += ("#"+vc);
                     if(shooterid.length() > 0) {
-                        String killername = nServer.instance().clientArgsMap.get(shooterid).get("name");
-                        if(gColors.instance().getColorFromName("clrp_" + nServer.instance().clientArgsMap.get(shooterid).get("color")) != null)
-                            killername += ("#"+nServer.instance().clientArgsMap.get(shooterid).get("color"));
+                        nState shooterState = masterState.get(shooterid);
+                        String killername = shooterState.get("name");
+                        killername += ("#"+shooterState.get("color"));
                         xCon.ex("addcomi server echo " + killername + " rocked " + victimname);
                         if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
                             xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
-                            if(nServer.instance().clientArgsMap.get("server").containsKey("virusids")) {
-                                String virusids = nServer.instance().clientArgsMap.get("server").get("virusids");
+                            if(nServer.instance().serverVars.containsKey("virusids")) {
+                                String virusids = nServer.instance().serverVars.get("virusids");
                                 if(!virusids.contains(id)) {
-                                    xCon.ex("setnargs server virusids " + virusids + ":" + id);
+                                    xCon.ex("setnargs virusids " + virusids + ":" + id);
                                     xCon.ex("addcomi server echo " + victimname + " was infected");
                                 }
                             }
@@ -39,9 +41,9 @@ public class xComDamagePlayer extends xCom {
                     else
                         xCon.ex("addcomi server echo " + victimname + " exploded");
 //                        handle flag carrier dying
-                    if(nServer.instance().clientArgsMap.get("server").containsKey("flagmasterid")
-                    && nServer.instance().clientArgsMap.get("server").get("flagmasterid").equals(id)) {
-                        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
+                    if(nServer.instance().serverVars.containsKey("flagmasterid")
+                    && nServer.instance().serverVars.get("flagmasterid").equals(id)) {
+                        nServer.instance().serverVars.remove("flagmasterid");
                         int itemId = 0;
                         for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
                             if(itemId < Integer.parseInt(iid))
@@ -59,7 +61,7 @@ public class xComDamagePlayer extends xCom {
                         }
                     );
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;
-                    String colorName = nServer.instance().clientArgsMap.get(id).get("color");
+                    String colorName = nServer.instance().masterStateMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                         animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                     xCon.ex(String.format("exec scripts/postdeath %s %d %s", id,

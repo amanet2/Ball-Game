@@ -7,6 +7,10 @@ public class gArg {
         value = v;
     }
 
+    public String toString() {
+        return value;
+    }
+
     public void onChange() {
 
     }

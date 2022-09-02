@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -63,9 +64,9 @@ public class dScreenMessages {
         if(uiInterface.inplay && cClientLogic.maploaded) {
             long timeleft = cClientLogic.timeleft;
             if(timeleft > -1) {
-                if(timeleft < 30000) {
-                    dFonts.setFontColor(g, "clrf_alert");
-                }
+//                if(timeleft < 30000) {
+//                    dFonts.setFontColor(g, "clrf_alert");
+//                }
                 dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
                         29 * sSettings.width / 30, 59*sSettings.height/64);
             }

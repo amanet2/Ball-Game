@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class xComEditorNewMap extends xCom {
     public String doCommand(String fullCommand) {
@@ -7,11 +7,9 @@ public class xComEditorNewMap extends xCom {
                 "cl_clearthingmap THING_PLAYER;cl_load;cv_maploaded 1;cv_gamemode 0");
         //reset game state
         gScoreboard.resetScoresMap();
-        nServer.instance().voteSkipMap = new HashMap<>();
-        nServer.instance().clientArgsMap.get("server").remove("flagmasterid");
-        nServer.instance().clientArgsMap.get("server").remove("virusids");
-        cServerLogic.starttime = gTime.gameTime;
-        cServerLogic.gameover = false;
+        nServer.instance().voteSkipList = new ArrayList<>();
+        nServer.instance().serverVars.remove("flagmasterid");
+        nServer.instance().serverVars.remove("virusids");
         if (cGameLogic.isGame(cGameLogic.VIRUS))
             cServerLogic.resetVirusPlayers();
         return "";

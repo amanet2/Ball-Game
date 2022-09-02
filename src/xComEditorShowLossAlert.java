@@ -1,4 +1,4 @@
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class xComEditorShowLossAlert extends xCom {
     public  String doCommand(String fullcomm) {

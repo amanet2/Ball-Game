@@ -1,2 +1,1 @@
-setvar free 0
-addcomx $1 setcam mode $free
+addcomx $1 setcam mode 0
