@@ -69,9 +69,7 @@ public class gCamera {
 	}
 
 	public static void updatePosition() {
-		if (mode == MODE_FREE) {
-			coords[0] += (velocity * move[3] - velocity * move[2]);
-			coords[1] += (velocity * move[1] - velocity * move[0]);
-		}
+		coords[0] += (velocity * move[3] - velocity * move[2]);
+		coords[1] += (velocity * move[1] - velocity * move[0]);
 	}
 }
