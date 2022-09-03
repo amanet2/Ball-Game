@@ -59,8 +59,8 @@ public class dPlayer {
         //flag for ctf
         if(nClient.instance().serverArgsMap.containsKey("flagmasterid")
                 && nClient.instance().serverArgsMap.get("flagmasterid").equals(player.get("id"))) {
-            g2.drawImage(gItemFactory.flagSprite, player.getInt("coordx"),
-                    player.getInt("coordy") - 2*player.getInt("dimh")/3, null
+            g2.drawImage(gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300),
+                    player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3, null
             );
         }
         //shading
