@@ -16,11 +16,11 @@ public class xComSetCamera extends xCom {
         }
         String ck = args[1];
         String sv = "null";
-        if(gCamera.argSet.contains(ck))
-            sv = gCamera.argSet.get(ck);
+        if(gCamera.contains(ck))
+            sv = gCamera.get(ck);
         if(args.length < 3)
             return sv;
-        gCamera.argSet.put(ck, args[2]);
-        return gCamera.argSet.get(ck);
+        gCamera.put(ck, args[2]);
+        return gCamera.get(ck);
     }
 }

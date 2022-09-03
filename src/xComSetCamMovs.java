@@ -13,10 +13,10 @@ public class xComSetCamMovs extends xCom {
                     args[i] = sVars.get(args[i]);
             }
         }
-        gCamera.argSet.put("mov0", args[1]);
-        gCamera.argSet.put("mov1", args[2]);
-        gCamera.argSet.put("mov2", args[3]);
-        gCamera.argSet.put("mov3", args[4]);
+        gCamera.put("mov0", args[1]);
+        gCamera.put("mov1", args[2]);
+        gCamera.put("mov2", args[3]);
+        gCamera.put("mov3", args[4]);
         return "1";
     }
 }

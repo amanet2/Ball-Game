@@ -13,8 +13,8 @@ public class xComSetCamCoords extends xCom {
                     args[i] = sVars.get(args[i]);
             }
         }
-        gCamera.argSet.put("coordx", args[1]);
-        gCamera.argSet.put("coordy", args[2]);
+        gCamera.put("coordx", args[1]);
+        gCamera.put("coordy", args[2]);
         return "1";
     }
 }

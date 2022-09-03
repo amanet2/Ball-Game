@@ -1,5 +1,5 @@
 public class gCamera {
-	static gArgSet argSet = null;
+	private static gArgSet argSet = null;
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
@@ -36,6 +36,18 @@ public class gCamera {
 				move[3] = Integer.parseInt(value);
 			}
 		});
+	}
+
+	public static void put(String k, String v) {
+		argSet.put(k, v);
+	}
+
+	public static String get(String k) {
+		return argSet.get(k);
+	}
+
+	public static boolean contains(String k) {
+		return argSet.contains(k);
 	}
 
 	public static int getX() {

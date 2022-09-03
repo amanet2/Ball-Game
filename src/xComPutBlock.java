@@ -9,100 +9,98 @@ public class xComPutBlock extends xCom {
         String blockString = toks[1];
         String blockid = toks[2];
         String prefabid = toks[3];
-        if (factory.blockLoadMap.containsKey(blockString)) {
-            gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
-            String rawX = toks[4];
-            String rawY = toks[5];
-            String width = toks[6];
-            String height = toks[7];
-            //args are x y w h (t m)
-            String[] args = new String[toks.length - 4];
-            args[0] = rawX;
-            args[1] = rawY;
-            args[2] = width;
-            args[3] = height;
+        gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
+        String rawX = toks[4];
+        String rawY = toks[5];
+        String width = toks[6];
+        String height = toks[7];
+        //args are x y w h (t m)
+        String[] args = new String[toks.length - 4];
+        args[0] = rawX;
+        args[1] = rawY;
+        args[2] = width;
+        args[3] = height;
 
-            if (blockid.charAt(0) == '$') {
-                int transformed;
-                String[] rxtoksadd = blockid.split("\\+");
-                String[] rxtokssub = blockid.split("-");
-                if (rxtoksadd.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                    int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                    transformed = rxmod0 + rxmod1;
-                } else if (rxtokssub.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtokssub[0]);
-                    int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                    transformed = rxmod0 - rxmod1;
-                } else {
-                    transformed = sVars.getInt(blockid);
-                }
-                blockid = Integer.toString(transformed);
+        if (blockid.charAt(0) == '$') {
+            int transformed;
+            String[] rxtoksadd = blockid.split("\\+");
+            String[] rxtokssub = blockid.split("-");
+            if (rxtoksadd.length > 1) {
+                int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                transformed = rxmod0 + rxmod1;
+            } else if (rxtokssub.length > 1) {
+                int rxmod0 = sVars.getInt(rxtokssub[0]);
+                int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                transformed = rxmod0 - rxmod1;
+            } else {
+                transformed = sVars.getInt(blockid);
             }
-
-            if (prefabid.charAt(0) == '$') {
-                int transformed;
-                String[] rxtoksadd = prefabid.split("\\+");
-                String[] rxtokssub = prefabid.split("-");
-                if (rxtoksadd.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                    int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                    transformed = rxmod0 + rxmod1;
-                } else if (rxtokssub.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtokssub[0]);
-                    int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                    transformed = rxmod0 - rxmod1;
-                } else {
-                    transformed = sVars.getInt(prefabid);
-                }
-                prefabid = Integer.toString(transformed);
-            }
-
-            if (rawX.charAt(0) == '$') {
-                int transformedX;
-                String[] rxtoksadd = rawX.split("\\+");
-                String[] rxtokssub = rawX.split("-");
-                if (rxtoksadd.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                    int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                    transformedX = rxmod0 + rxmod1;
-                } else if (rxtokssub.length > 1) {
-                    int rxmod0 = sVars.getInt(rxtokssub[0]);
-                    int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                    transformedX = rxmod0 - rxmod1;
-                } else {
-                    transformedX = sVars.getInt(rawX);
-                }
-                args[0] = Integer.toString(transformedX);
-            }
-
-            if (rawY.charAt(0) == '$') {
-                int transformedY;
-                String[] rytoksadd = rawY.split("\\+");
-                String[] rytokssub = rawY.split("-");
-                if (rytoksadd.length > 1) {
-                    int rymod0 = sVars.getInt(rytoksadd[0]);
-                    int rymod1 = Integer.parseInt(rytoksadd[1]);
-                    transformedY = rymod0 + rymod1;
-                } else if (rytokssub.length > 1) {
-                    int rymod0 = sVars.getInt(rytokssub[0]);
-                    int rymod1 = Integer.parseInt(rytokssub[1]);
-                    transformedY = rymod0 - rymod1;
-                } else {
-                    transformedY = sVars.getInt(rawY);
-                }
-                args[1] = Integer.toString(transformedY);
-            }
-            if (args.length > 4) {
-                args[4] = toks[8];
-                args[5] = toks[9];
-            }
-            gThing newBlock = blockReturn.getThing(args);
-            newBlock.put("id", blockid);
-            newBlock.put("prefabid", prefabid);
-            cServerLogic.scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
-            cServerLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+            blockid = Integer.toString(transformed);
         }
+
+        if (prefabid.charAt(0) == '$') {
+            int transformed;
+            String[] rxtoksadd = prefabid.split("\\+");
+            String[] rxtokssub = prefabid.split("-");
+            if (rxtoksadd.length > 1) {
+                int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                transformed = rxmod0 + rxmod1;
+            } else if (rxtokssub.length > 1) {
+                int rxmod0 = sVars.getInt(rxtokssub[0]);
+                int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                transformed = rxmod0 - rxmod1;
+            } else {
+                transformed = sVars.getInt(prefabid);
+            }
+            prefabid = Integer.toString(transformed);
+        }
+
+        if (rawX.charAt(0) == '$') {
+            int transformedX;
+            String[] rxtoksadd = rawX.split("\\+");
+            String[] rxtokssub = rawX.split("-");
+            if (rxtoksadd.length > 1) {
+                int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                transformedX = rxmod0 + rxmod1;
+            } else if (rxtokssub.length > 1) {
+                int rxmod0 = sVars.getInt(rxtokssub[0]);
+                int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                transformedX = rxmod0 - rxmod1;
+            } else {
+                transformedX = sVars.getInt(rawX);
+            }
+            args[0] = Integer.toString(transformedX);
+        }
+
+        if (rawY.charAt(0) == '$') {
+            int transformedY;
+            String[] rytoksadd = rawY.split("\\+");
+            String[] rytokssub = rawY.split("-");
+            if (rytoksadd.length > 1) {
+                int rymod0 = sVars.getInt(rytoksadd[0]);
+                int rymod1 = Integer.parseInt(rytoksadd[1]);
+                transformedY = rymod0 + rymod1;
+            } else if (rytokssub.length > 1) {
+                int rymod0 = sVars.getInt(rytokssub[0]);
+                int rymod1 = Integer.parseInt(rytokssub[1]);
+                transformedY = rymod0 - rymod1;
+            } else {
+                transformedY = sVars.getInt(rawY);
+            }
+            args[1] = Integer.toString(transformedY);
+        }
+        if (args.length > 4) {
+            args[4] = toks[8];
+            args[5] = toks[9];
+        }
+        gThing newBlock = blockReturn.getThing(args);
+        newBlock.put("id", blockid);
+        newBlock.put("prefabid", prefabid);
+        cServerLogic.scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
+        cServerLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
         return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
     }
 
