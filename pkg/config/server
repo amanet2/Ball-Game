@@ -11,4 +11,4 @@ respawnwaittime 3000
 # player speed
 velocityplayerbase 8
 # number of votes to skip map (say 'skip' in chat)
-voteskiplimit 2
+voteskiplimit 1

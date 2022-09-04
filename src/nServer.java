@@ -440,18 +440,9 @@ public class nServer extends Thread {
                     voteSkipList.size(), cServerLogic.voteskiplimit));
             return;
         }
-        addExcludingNetCmd("server", String.join(";", Arrays.asList(
-                String.format("playsound sounds/win/%s",
-                        eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]),
-                String.format("echo [VOTE_SKIP] VOTE TARGET REACHED (%s)", cServerLogic.voteskiplimit),
-                "echo changing map...")));
-        cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.intermissionDelay),
-                new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("changemaprandom"); //change map after game over
-                    }
-                }
-        );
+        addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
+                eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+        xCon.ex("exec scripts/sv_voteskip");
     }
 
     public void sendMapToClients() {
