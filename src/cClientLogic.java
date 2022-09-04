@@ -95,10 +95,7 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        Collection<String> idColl = getPlayerIds();
-        int size = idColl.size();
-        String[] ids = idColl.toArray(new String[size]);
-        for(String id : ids) {
+        for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;

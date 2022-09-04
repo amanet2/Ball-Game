@@ -11,7 +11,7 @@ public class xComEditorNewMap extends xCom {
         nServer.instance().serverVars.remove("flagmasterid");
         nServer.instance().serverVars.remove("virusids");
         if (cGameLogic.isGame(cGameLogic.VIRUS))
-            cServerLogic.resetVirusPlayers();
+            xCon.ex("exec scripts/resetvirus");
         return "";
     }
 }

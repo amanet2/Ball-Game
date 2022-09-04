@@ -25,7 +25,6 @@ public class eGameEngine implements Runnable {
     private void init() throws Exception {
         oDisplay.instance().showFrame();
         timer.init();
-        gCamera.init();
         gameLogic.init();
     }
 
