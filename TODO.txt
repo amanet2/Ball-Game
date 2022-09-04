@@ -4,6 +4,8 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* associate a running script with a UUID
+    -> if the script "exit"s or "break"s we can remove line(s) by the associated ID
 * come up with a way to break out of scripts
     -> mapping lines to their called script ("null" when necessary) and removing all associated on a "break" or "exit"
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists

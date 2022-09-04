@@ -43,11 +43,11 @@ public class gBlockFactory {
         });
         try {
             floorTexture = new TexturePaint(ImageIO.read(new File(eUtils.getPath("tiles/floor.png"))),
-                    new Rectangle2D.Double(0,0, eUtils.scaleInt(1200),eUtils.scaleInt(1200)));
+                    new Rectangle2D.Double(0,0,1200, 1200));
             wallTexture = new TexturePaint(ImageIO.read(new File(eUtils.getPath("tiles/wall.png"))),
-                    new Rectangle2D.Double(0,0, eUtils.scaleInt(300),eUtils.scaleInt(300)));
+                    new Rectangle2D.Double(0,0, 300, 300));
             topTexture = new TexturePaint(ImageIO.read(new File(eUtils.getPath("tiles/top.png"))),
-                    new Rectangle2D.Double(0,0, eUtils.scaleInt(300),eUtils.scaleInt(300)));
+                    new Rectangle2D.Double(0,0, 300, 300));
         } catch (IOException e) {
             e.printStackTrace();
         }

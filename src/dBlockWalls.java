@@ -26,8 +26,6 @@ public class dBlockWalls {
 
     public static void drawBlockWallCube(Graphics2D g2, gThing block) {
         if (block.contains("wallh")) {
-            gBlockFactory.instance().wallTexture = new TexturePaint(gBlockFactory.instance().wallImage,
-                    new Rectangle2D.Double(block.getX(), block.getY(), 300, 300));
             g2.setPaint(gBlockFactory.instance().wallTexture);
             g2.fillRect(block.getX(), block.getY() + block.getInt("toph"),
                         block.getWidth(), block.getInt("wallh")
