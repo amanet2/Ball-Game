@@ -100,7 +100,7 @@ public class uiEditorMenus {
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xCon.ex("cl_setvar joinip"));
-        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + cClientLogic.joinport);
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + xCon.ex("cl_setvar joinport"));
         JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");

@@ -3,7 +3,7 @@ public class uiMenusJoinGame extends uiMenu {
         setMenuItemTexts(new String[]{
                 "-Start-",
                 String.format("Join IP [%s]", xCon.ex("cl_setvar joinip")),
-                String.format("Join Port [%s]", cClientLogic.joinport)
+                String.format("Join Port [%s]", xCon.ex("cl_setvar joinport"))
         });
     }
     public uiMenusJoinGame() {
@@ -20,7 +20,7 @@ public class uiMenusJoinGame extends uiMenu {
                         xCon.ex("e_changejoinip");
                     }
                 },
-                new uiMenuItem(String.format("Join Port [%s]",cClientLogic.joinport)) {
+                new uiMenuItem("Join Port []") {
                     public void doItem() {
                         xCon.ex("e_changejoinport");
                     }

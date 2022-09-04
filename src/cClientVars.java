@@ -213,10 +213,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
-                cClientLogic.joinport = Integer.parseInt(value);
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
-                if(sSettings.show_mapmaker_ui)
-                    uiEditorMenus.menus.get("Multiplayer").getItem(2).setText("Port: " + cClientLogic.joinport);
             }
         });
         putArg(new gArg("zoomlevel", "1.0") {

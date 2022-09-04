@@ -86,7 +86,7 @@ public class nClient {
             String sendDataString = createSendDataString();
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                    cClientLogic.joinport);
+                    Integer.parseInt(xCon.ex("cl_setvar joinport")));
             if (clientSocket == null || clientSocket.isClosed()) {
                 clientSocket = new DatagramSocket();
                 clientSocket.setSoTimeout(timeout);

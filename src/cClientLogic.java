@@ -11,7 +11,6 @@ public class cClientLogic {
     static String playerName = "player";
     static String playerColor = "blue";
     static int velocityPlayer = 8;
-    static String joinip = "localhost";
     static int joinport = 5555;
     static boolean debug = false;
     static boolean debuglog = false;

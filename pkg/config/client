@@ -11,7 +11,7 @@ fontui None
 # available framerates
 framerates 24,30,60,75,98,120,144,165,240,320,360
 # default net address
-joinip localhost
+joinip 127.0.0.1
 # default net port
 joinport 5555
 # player color
