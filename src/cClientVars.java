@@ -208,10 +208,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("joinip", "localhost"){
             public void onChange() {
-                cClientLogic.joinip = value;
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
-                if(sSettings.show_mapmaker_ui)
-                    uiEditorMenus.menus.get("Multiplayer").getItem(1).setText("Address: " + cClientLogic.joinip);
             }
         });
         putArg(new gArg("joinport", "5555"){

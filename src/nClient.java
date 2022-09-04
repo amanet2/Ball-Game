@@ -82,7 +82,7 @@ public class nClient {
     public void sendData() {
         InetAddress IPAddress = null;
         try {
-            IPAddress = InetAddress.getByName(cClientLogic.joinip);
+            IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
             String sendDataString = createSendDataString();
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
