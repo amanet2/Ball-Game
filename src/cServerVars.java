@@ -46,11 +46,7 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
-        putArg(new gArg("voteskiplimit", "2") {
-            public void onChange() {
-                cServerLogic.voteskiplimit = Integer.parseInt(value);
-            }
-        });
+        put("voteskiplimit", "2");
         put("goldspawntime", "0");
 
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);

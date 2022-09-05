@@ -439,9 +439,10 @@ public class nServer extends Thread {
             return;
         }
         voteSkipList.add(id);
-        if(voteSkipList.size() < cServerLogic.voteskiplimit) {
+        int limit = Integer.parseInt(xCon.ex("setvar voteskiplimit"));
+        if(voteSkipList.size() < limit) {
             addExcludingNetCmd("server", String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                    voteSkipList.size(), cServerLogic.voteskiplimit));
+                    voteSkipList.size(), limit));
             return;
         }
         addExcludingNetCmd("server", String.format("playsound sounds/win/%s",

@@ -9,7 +9,6 @@ public class cServerLogic {
     static int rechargehp = 1;
     static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
-    static int voteskiplimit = 2;
     static long timeleft = 120000;
     static int listenPort = 5555;
     static gScene scene = new gScene();
@@ -44,7 +43,7 @@ public class cServerLogic {
             gPlayer player = (gPlayer) playerMap.get(playerId);
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
-                break;
+                continue;
             //check player teleporters
             int clearTeleporterFlag = 1;
             for(String checkType : scene.objectMaps.keySet()) {
