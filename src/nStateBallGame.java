@@ -80,7 +80,7 @@ public class nStateBallGame extends nState {
                     //handle special sounds, etc
                     String testmsg = value.substring(value.indexOf(':')+2);
                     xCon.ex("exec scripts/checkmsgforsound " + testmsg); //check for special sound
-                    nServer.instance().checkClientMessageForVoteSkip(get("id"), testmsg);
+                    nServer.instance().checkClientMessageForTimeAndVoteSkip(get("id"), testmsg);
                 }
             }
         });

@@ -170,7 +170,6 @@ public class xCon {
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
-        commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());

@@ -1,6 +1,8 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -427,8 +429,10 @@ public class nServer extends Thread {
             addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
-    public void checkClientMessageForVoteSkip(String id, String testmsg) {
-        if(!testmsg.strip().equalsIgnoreCase("skip"))
+    public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
+        if(testmsg.strip().equalsIgnoreCase("thetime"))
+            addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        else if(!testmsg.strip().equalsIgnoreCase("skip"))
             return;
         if(voteSkipList.contains(id)) {
             addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
