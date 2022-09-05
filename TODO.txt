@@ -4,6 +4,11 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* BIG: python scripting could work in a networked context
+    -> a python app is running that communicates with a socket and receives payload just like client
+        -> python scripts operate on this payload and can influence whats sent to server
+        -> and same goes for the java server
+        -> SEE: https://www.cs.cornell.edu/courses/cs519/2004sp/519-fa04-03-sockets-v0.pdf
 * associate a running script with a UUID
     -> if the script "exit"s or "break"s we can remove line(s) by the associated ID
 * come up with a way to break out of scripts
