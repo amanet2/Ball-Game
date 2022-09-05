@@ -35,24 +35,21 @@ public class uiEditorMenus {
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname))) {
+            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname)))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(newitemname)) {
+            if(checkBoxMenuItem.getText().equals(newitemname))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
     }
 
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor)) {
+            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
     }
 
@@ -133,17 +130,10 @@ public class uiEditorMenus {
                     xCon.ex("load");
                     xCon.ex("joingame localhost " + cServerLogic.listenPort);
                 }
-                else {
+                else
                     xCon.ex("e_newmap");
-                }
             }
         });
-
-//        prefabs.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                xCon.ex("e_openprefab");
-//            }
-//        });
 
         join.addActionListener(e -> {
             xCon.ex("joingame");
@@ -201,9 +191,8 @@ public class uiEditorMenus {
                                           "ITEM_POINTGIVER", "ITEM_LANDMINE"}) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
-            if(itemMenuItem.getText().equals(newitemname)) {
+            if(itemMenuItem.getText().equals(newitemname))
                 itemMenuItem.setSelected(true);
-            }
             itemMenuItem.addActionListener(e -> {
                 cClientLogic.newprefabname = "";
                 newitemname = itemname;
