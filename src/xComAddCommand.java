@@ -2,17 +2,9 @@ public class xComAddCommand extends xCom {
     public String doCommand(String fullCommand) {
         if(!sSettings.IS_SERVER)
             return "addcom can only be used by active clients";
-        String[] args = fullCommand.split(" ");
-        if(args.length < 2)
-            return "usage: addcom <string>";
-        for(int i = 0; i < args.length; i++) {
-            if(!args[i].startsWith("$"))
-                continue;
-            if(cServerVars.instance().contains(args[i].substring(1)))
-                args[i] = cServerVars.instance().get(args[i].substring(1));
-            else if(sVars.get(args[i]) != null)
-                args[i] = sVars.get(args[i]);
-        }
+        if(eUtils.argsLength(fullCommand) < 2)
+            return "usage: addcom <command to execute>";
+        String[] args = eUtils.parseScriptArgsServer(fullCommand);
         StringBuilder act = new StringBuilder("");
         for(int i = 1; i < args.length; i++) {
             act.append(" ").append(args[i]);

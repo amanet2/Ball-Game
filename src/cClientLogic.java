@@ -6,17 +6,14 @@ public class cClientLogic {
     static int maxhp = 500;
     static double volume = 100.0;
     static String selecteditemid = "";
+    static String selectedPrefabId = "";
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
     static int velocityPlayer = 8;
-    static long timeleft = 180000;
-    static String joinip = "localhost";
-    static int joinport = 5555;
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
-    static String selectedPrefabId = "";
     static int gamemode = cGameLogic.DEATHMATCH;
     static boolean maploaded = false;
     static int prevX = 0;
@@ -95,10 +92,7 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        Collection<String> idColl = getPlayerIds();
-        int size = idColl.size();
-        String[] ids = idColl.toArray(new String[size]);
-        for(String id : ids) {
+        for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
@@ -125,12 +119,12 @@ public class cClientLogic {
             }
             if(obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
             }
             if(obj.wontClipOnMove(1,dy, scene)) {
                 obj.putInt("coordy", dy);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
             }
         }

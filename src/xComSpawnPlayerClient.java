@@ -7,7 +7,7 @@ public class xComSpawnPlayerClient extends xCom {
             int y = Integer.parseInt(toks[3]);
             spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
             if(playerId.equals(uiInterface.uuid))
-                xCon.ex("exec scripts/camcenter");
+                xCon.ex("cl_setvar userplayerid $userid");
             return "spawned player " + playerId + " at " + x + " " + y;
         }
         return "usage: spawnplayer <player_id> <x> <y>";

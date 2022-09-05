@@ -1,2 +1,0 @@
-addcomi server $3 $4 $5 $6
-exec scripts/freecamera $1

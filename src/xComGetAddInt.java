@@ -4,17 +4,9 @@ import java.text.ParseException;
 public class xComGetAddInt extends xCom {
     public String doCommand(String fullCommand) {
         //usage: getaddint $result $num1 $num2
-        String[] args = fullCommand.split(" ");
-        if(args.length < 4)
+        if(eUtils.argsLength(fullCommand) < 4)
             return "null";
-        for(int i = 1; i < args.length; i++) {
-            if(args[i].startsWith("$")) {
-                if(cServerVars.instance().contains(args[i].substring(1)))
-                    args[i] = cServerVars.instance().get(args[i].substring(1));
-                else if(sVars.get(args[i]) != null)
-                    args[i] = sVars.get(args[i]);
-            }
-        }
+        String[] args = eUtils.parseScriptArgsServer(fullCommand);
         String tk = args[1];
         Number n1 = null;
         Number n2 = null;

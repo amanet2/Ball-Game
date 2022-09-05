@@ -1,21 +1,20 @@
 public class xComUnbind extends xCom {
     public String doCommand(String fullCommand) {
         String[] toks = fullCommand.split(" ");
-        if(toks.length > 1) {
-            String key = toks[1];
-            if(key.equalsIgnoreCase("all")) {
-                xCon.instance().pressBinds.clear();
-                xCon.instance().releaseBinds.clear();
-                return fullCommand;
-            }
-            Integer keycode = iKeyboard.getCodeForKey(key);
-            if(keycode != null) {
-                xCon.instance().pressBinds.remove(keycode);
-                xCon.instance().releaseBinds.remove(keycode);
-                return String.format("unbind %s ",key);
-            }
+        if(toks.length < 2)
+            return "cannot unbind";
+        String k = toks[1];
+        if(k.equalsIgnoreCase("all")) {
+            xCon.instance().pressBinds.clear();
+            xCon.instance().releaseBinds.clear();
+            return "unbound all";
         }
-        return "cannot unbind ";
+        Integer kc = iKeyboard.getCodeForKey(k);
+        if(kc == null)
+            return "cannot unbind";
+        xCon.instance().pressBinds.remove(kc);
+        xCon.instance().releaseBinds.remove(kc);
+        return String.format("unbound %s", k);
     }
 }
 

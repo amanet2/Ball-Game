@@ -86,10 +86,10 @@ public class xCon {
         commands.put("addcom", new xComAddCommand());
         commands.put("addcomi", new xComAddCommandIgnore());
         commands.put("addcomx", new xComAddCommandExclusive());
+        commands.put("addevent", new xComAddTimeEvent());
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
-        commands.put("centercamera", new xComCenterCamera());
         commands.put("changemap", new xComChangeMap());
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());

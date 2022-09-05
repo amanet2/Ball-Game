@@ -40,6 +40,7 @@ public class nClient {
         netTime = -1;
         receivedPackets.clear();
         serverArgsMap.clear();
+        serverArgsMap.put("time", "180000");
         playerIds.clear();
         sendMap.clear();
     }
@@ -81,11 +82,11 @@ public class nClient {
     public void sendData() {
         InetAddress IPAddress = null;
         try {
-            IPAddress = InetAddress.getByName(cClientLogic.joinip);
+            IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
             String sendDataString = createSendDataString();
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                    cClientLogic.joinport);
+                    Integer.parseInt(xCon.ex("cl_setvar joinport")));
             if (clientSocket == null || clientSocket.isClosed()) {
                 clientSocket = new DatagramSocket();
                 clientSocket.setSoTimeout(timeout);
@@ -232,7 +233,6 @@ public class nClient {
         for (String k : packArgs.keySet()) {
             serverArgsMap.put(k, packArgs.get(k));
         }
-        cClientLogic.timeleft = Long.parseLong(packArgs.get("time"));
         //check flag and virus
         for(String s : new String[]{"flagmasterid", "virusids"}) {
             if(!packArgs.containsKey(s))

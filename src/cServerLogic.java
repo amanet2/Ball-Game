@@ -71,14 +71,9 @@ public class cServerLogic {
         }
     }
 
-    public static void resetVirusPlayers() {
-        xCon.ex("exec scripts/resetvirus");
-    }
-
     public static void checkHealthStatus() {
         //recharge players health
-        HashMap playersMap = scene.getThingMap("THING_PLAYER");
-        for(Object id : playersMap.keySet()) {
+        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             xCon.ex(String.format("exec scripts/rechargehealth %s", id));
         }
     }
@@ -94,7 +89,7 @@ public class cServerLogic {
         timedEvents.clear();
         long starttime = gTime.gameTime;
         if(cGameLogic.isGame(cGameLogic.VIRUS))
-            resetVirusPlayers();
+            xCon.ex("exec scripts/resetvirus");
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
             //game over
             public void doCommand() {
@@ -157,7 +152,7 @@ public class cServerLogic {
                         if(svars == null)
                             return;
                         if(!svars.containsKey("virusids")) {
-                            resetVirusPlayers();
+                            xCon.ex("exec scripts/resetvirus");
                             return;
                         }
                         boolean survivors = false;
@@ -168,7 +163,7 @@ public class cServerLogic {
                             }
                         }
                         if(!survivors)
-                            resetVirusPlayers();
+                            xCon.ex("exec scripts/resetvirus");
                     }
                 });
             }
@@ -182,7 +177,7 @@ public class cServerLogic {
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
             if(!obj.containsFields(requiredFields))
-                break;
+                continue;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < gameTimeMillis)
@@ -243,23 +238,18 @@ public class cServerLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            createDamagePopup(p, bulletsToRemovePlayerMap.get(p), gameTimeMillis);
+            createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
         }
     }
 
-    //call this everytime a bullet intersects a player
-    public static void createDamagePopup(gPlayer dmgvictim, gBullet bullet, long gameTimeMillis) {
-        //get shooter details
-        String killerid = bullet.get("srcid");
+    public static void createDamagePopup(gPlayer victim, gBullet bullet) {
         //calculate dmg
-        int adjusteddmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                *((Math.abs(Math.max(0, gameTimeMillis - bullet.getLong("timestamp"))
-        )/(double)bullet.getInt("ttl"))));
+        int dmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
+                *((Math.abs(Math.max(0, gTime.gameTime - bullet.getLong("timestamp"))
+        )/(double)bullet.getInt("ttl")))); // dmg falloff based on age of bullet
         scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
-        xCon.ex("damageplayer " + dmgvictim.get("id") + " " + adjusteddmg + " " + killerid);
-        nServer.instance().addExcludingNetCmd("server",
-                "cl_spawnpopup " + dmgvictim.get("id") + " -" + adjusteddmg);
+        xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", victim.get("id"), dmg, bullet.get("srcid")));
     }
 
     public static Collection<String> getPlayerIds() {
