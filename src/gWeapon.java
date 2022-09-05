@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Image;
 
 public class gWeapon {
     String name;

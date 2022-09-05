@@ -9,8 +9,9 @@ public class eGameLogicBallGame implements eGameLogic {
 
     @Override
     public void init() throws Exception {
+        gCamera.init();
         gAnimations.init();
-        gItemFactory.init();
+        xCon.ex("exec items/itemsdef");
     }
 
     @Override

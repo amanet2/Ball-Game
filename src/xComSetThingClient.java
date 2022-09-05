@@ -1,35 +1,34 @@
 import java.util.HashMap;
 
 public class xComSetThingClient extends xCom {
+    //usage cl_setthing $type $key $var
     public String doCommand(String fullCommand) {
-        String[] toks = fullCommand.split(" ");
-        if(toks.length < 2)
+        if(eUtils.argsLength(fullCommand) < 2)
             return "null";
-        String ttype = toks[1];
+        String[] args = eUtils.parseScriptArgsClient(fullCommand);
+        String ttype = args[1];
         if(cClientLogic.scene.getThingMap(ttype) == null)
             return "null";
         HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap(ttype);
-        if(toks.length < 3)
+        if(args.length < 3)
             return thingMap.toString();
-        String tid = toks[2];
+        String tid = args[2];
         if(!thingMap.containsKey(tid))
             return "null";
         gThing thing = thingMap.get(tid);
-        if(toks.length < 4)
+        if(args.length < 4)
             return thing.toString();
-        String tk = toks[3];
-        if(thing.get(tk) == null)
-            return "null";
-        if(toks.length < 5)
+        String tk = args[3];
+        if(args.length < 5) {
+            if(thing.get(tk) == null)
+                return "null";
             return thing.get(tk);
+        }
         StringBuilder tvb = new StringBuilder();
-        for(int i = 4; i < toks.length; i++) {
-            tvb.append(" ").append(toks[i]);
+        for(int i = 4; i < args.length; i++) {
+            tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);
-//        String tvr = xCon.ex("setthing " + tv);
-//        if(!tvr.equals("null"))
-//            tv = tvr;
         thing.put(tk, tv);
         return thing.get(tk);
     }

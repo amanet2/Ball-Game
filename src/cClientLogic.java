@@ -3,27 +3,26 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class cClientLogic {
-    static gScene scene = new gScene();
     static int maxhp = 500;
     static double volume = 100.0;
     static String selecteditemid = "";
+    static String selectedPrefabId = "";
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
     static int velocityPlayer = 8;
-    static long timeleft = 180000;
-    static String joinip = "localhost";
-    static int joinport = 5555;
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
-    static String selectedPrefabId = "";
     static int gamemode = cGameLogic.DEATHMATCH;
     static boolean maploaded = false;
     static int prevX = 0;
     static int prevY = 0;
     static int prevW = 300;
     static int prevH = 300;
+    static gScene scene = new gScene();
+    static gTimeEventSet timedEvents = new gTimeEventSet();
+
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -38,10 +37,13 @@ public class cClientLogic {
 
     public static void checkPlayerFire() {
         if(getUserPlayer() != null && iMouse.holdingMouseLeft)
-            xCon.ex("attack");
+            xCon.ex(String.format("exec scripts/attack %d",
+                    (long)gWeapons.fromCode(cClientLogic.getUserPlayer().getInt("weapon")).refiredelay));
     }
 
     public static void gameLoop(long loopTimeMillis) {
+        cClientVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
+        timedEvents.executeCommands();
         if(oDisplay.instance().frame.isVisible()) {
             if(sSettings.show_mapmaker_ui)
                 cClientLogic.selectThingUnderMouse();
@@ -50,12 +52,8 @@ public class cClientLogic {
         }
         oAudio.instance().checkAudio();
         gCamera.updatePosition();
-        checkMovementStatus();
-        checkColorStatus();
         if(getUserPlayer() != null)
             checkPlayerFire();
-        checkFinishedAnimations();
-        checkExpiredPopups(loopTimeMillis);
         updateEntityPositions(loopTimeMillis);
         gMessages.checkMessages();
     }
@@ -94,10 +92,7 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        Collection<String> idColl = getPlayerIds();
-        int size = idColl.size();
-        String[] ids = idColl.toArray(new String[size]);
-        for(String id : ids) {
+        for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
@@ -124,12 +119,12 @@ public class cClientLogic {
             }
             if(obj.wontClipOnMove(0,dx, scene)) {
                 obj.putInt("coordx", dx);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
             }
             if(obj.wontClipOnMove(1,dy, scene)) {
                 obj.putInt("coordy", dy);
-                if(isUserPlayer(obj) && gCamera.isTracking())
+                if(isUserPlayer(obj))
                     gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
             }
         }
@@ -180,10 +175,18 @@ public class cClientLogic {
                 }
                 continue;
             }
+            for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = scene.getThingMap("BLOCK_COLLISION").get(blockId);
+                if(b.doesCollideWithThing(bl)) {
+                    bulletsToRemoveIds.add(b.get("id"));
+                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                        pseeds.add(b);
+                }
+            }
             for(String playerId : getPlayerIds()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.doesCollideWithPlayer(t) && !b.get("srcid").equals(playerId)) {
+                        && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -202,38 +205,6 @@ public class cClientLogic {
         }
     }
 
-    public static void checkFinishedAnimations() {
-        ArrayList<String> animationIdsToRemove = new ArrayList<>();
-        //remove finished animations
-        HashMap animationMap = scene.getThingMap("THING_ANIMATION");
-        for(Object id : animationMap.keySet()) {
-            gAnimationEmitter a = (gAnimationEmitter) animationMap.get(id);
-            if(a.getInt("frame") > gAnimations.animation_selection[a.getInt("animation")].frames.length) {
-                animationIdsToRemove.add((String) id);
-            }
-        }
-        for(String aid : animationIdsToRemove) {
-            scene.getThingMap("THING_ANIMATION").remove(aid);
-        }
-    }
-
-    public static void checkExpiredPopups(long gameTimeMillis) {
-        ArrayList<String> popupIdsToRemove = new ArrayList<>();
-        Collection<String> pColl = scene.getThingMap("THING_POPUP").keySet();
-        int psize = pColl.size();
-        String[] pids = pColl.toArray(new String[psize]);
-        for(String id : pids) {
-            gPopup g = (gPopup) scene.getThingMap("THING_POPUP").get(id);
-            if(g == null)
-                continue;
-            if(g.getLong("timestamp") < gameTimeMillis - sSettings.popuplivetime)
-                popupIdsToRemove.add(id);
-        }
-        for(String id: popupIdsToRemove) {
-            scene.getThingMap("THING_POPUP").remove(id);
-        }
-    }
-
     public static void changeWeapon(int newweapon) {
         gPlayer p = cClientLogic.getUserPlayer();
         if(p != null) {
@@ -241,20 +212,6 @@ public class cClientLogic {
                 xCon.ex("playsound sounds/grenpinpull.wav");
             p.putInt("weapon", newweapon);
             cClientLogic.getUserPlayer().checkSpriteFlip();
-        }
-    }
-
-    public static void checkColorStatus() {
-        //check all id colors, including yours
-        for(String id : nClient.instance().serverArgsMap.keySet()) {
-            gPlayer p = getPlayerById(id);
-            String ccol = nClient.instance().serverArgsMap.get(id).get("color");
-            if(p == null || ccol == null)
-                continue;
-            if(!p.get("pathsprite").contains(ccol)) {
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", ccol,
-                        p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
-            }
         }
     }
 
@@ -271,44 +228,6 @@ public class cClientLogic {
         angle += Math.PI/2;
         p.putDouble("fv", angle);
         p.checkSpriteFlip();
-    }
-
-    //clientside prediction for movement aka smoothing
-    public static void checkMovementStatus() {
-        //other players
-        for(String id : getPlayerIds()) {
-            if(id.equals(uiInterface.uuid) || !nClient.instance().serverArgsMap.containsKey(id))
-                continue;
-            gPlayer obj = getPlayerById(id);
-            if(obj == null)
-                continue;
-            HashMap<String, String> pvars = nClient.instance().serverArgsMap.get(id);
-            for (int i = 0; i < 4; i++) {
-                //big error here
-                if(pvars.containsKey("vels"))
-                    obj.putInt("vel"+i, Integer.parseInt(pvars.get("vels").split("-")[i]));
-            }
-        }
-        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            if(!id.equals(uiInterface.uuid)) {
-                String[] requiredFields = new String[]{"fv", "x", "y"};
-                if(!nClient.instance().containsArgsForId(id, requiredFields))
-                    continue;
-                HashMap<String, String> cargs = nClient.instance().serverArgsMap.get(id);
-                double cfv = Double.parseDouble(cargs.get("fv"));
-                gPlayer p = getPlayerById(id);
-                if(p == null)
-                    return;
-                if(!sSettings.smoothing) {
-                    p.put("coordx", cargs.get("x"));
-                    p.put("coordy", cargs.get("y"));
-                }
-                if(p.getDouble("fv") != cfv) {
-                    p.putDouble("fv", cfv);
-                    p.checkSpriteFlip();
-                }
-            }
-        }
     }
 
     public static gPlayer getPlayerById(String id) {

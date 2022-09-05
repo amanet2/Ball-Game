@@ -1,5 +1,5 @@
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
 
 public class iInput {
 	static final iKeyboard keyboardInput = new iKeyboard();

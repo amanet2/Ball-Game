@@ -1,4 +1,4 @@
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class xComEditorChangeJoinPort extends xCom {
     public String doCommand(String fullCommand) {

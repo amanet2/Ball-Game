@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.MouseInfo;
 
 public class uiInterface {
     static boolean inplay = false; //must be FALSE for mapmaker to work right

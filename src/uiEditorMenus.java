@@ -1,8 +1,16 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
@@ -27,24 +35,21 @@ public class uiEditorMenus {
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname))) {
+            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname)))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(newitemname)) {
+            if(checkBoxMenuItem.getText().equals(newitemname))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
     }
 
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor)) {
+            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor))
                 checkBoxMenuItem.setSelected(true);
-            }
         }
     }
 
@@ -91,8 +96,8 @@ public class uiEditorMenus {
 //        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
-        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + cClientLogic.joinip);
-        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + cClientLogic.joinport);
+        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xCon.ex("cl_setvar joinip"));
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + xCon.ex("cl_setvar joinport"));
         JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
@@ -125,17 +130,10 @@ public class uiEditorMenus {
                     xCon.ex("load");
                     xCon.ex("joingame localhost " + cServerLogic.listenPort);
                 }
-                else {
+                else
                     xCon.ex("e_newmap");
-                }
             }
         });
-
-//        prefabs.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                xCon.ex("e_openprefab");
-//            }
-//        });
 
         join.addActionListener(e -> {
             xCon.ex("joingame");
@@ -193,9 +191,8 @@ public class uiEditorMenus {
                                           "ITEM_POINTGIVER", "ITEM_LANDMINE"}) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
-            if(itemMenuItem.getText().equals(newitemname)) {
+            if(itemMenuItem.getText().equals(newitemname))
                 itemMenuItem.setSelected(true);
-            }
             itemMenuItem.addActionListener(e -> {
                 cClientLogic.newprefabname = "";
                 newitemname = itemname;
@@ -353,12 +350,10 @@ public class uiEditorMenus {
 
     public static void setFileChooserFont(Component[] comp) {
         for (int x = 0; x < comp.length; x++) {
-            // System.out.println( comp[x].toString() ); // Trying to know the type of each element in the JFileChooser.
             if (comp[x] instanceof Container)
                 setFileChooserFont(((Container) comp[x]).getComponents());
 
             try {
-//                if (comp[x] instanceof JList || comp[x] instanceof JTable)
                     comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
             } catch (Exception e) {
             } // do nothing

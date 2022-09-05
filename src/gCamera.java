@@ -1,13 +1,8 @@
 public class gCamera {
-	static gArgSet argSet = null;
-	// selection of modes
-	private static final int MODE_FREE = 0;
-	private static final int MODE_TRACKING = 1;
-	private static int mode = MODE_FREE;
+	private static gArgSet argSet = null;
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
-	private static String trackingid = uiInterface.uuid;
 
 	public static void init() {
 		argSet = new gArgSet();
@@ -19,11 +14,6 @@ public class gCamera {
 		argSet.putArg(new gArg("coordy", "0") {
 			public void onChange() {
 				coords[1] = Integer.parseInt(value);
-			}
-		});
-		argSet.putArg(new gArg("mode", Integer.toString(MODE_FREE)) {
-			public void onChange() {
-				mode = Integer.parseInt(value);
 			}
 		});
 		argSet.putArg(new gArg("mov0", "0") {
@@ -46,11 +36,18 @@ public class gCamera {
 				move[3] = Integer.parseInt(value);
 			}
 		});
-		argSet.putArg(new gArg("trackingid", uiInterface.uuid) {
-			public void onChange() {
-				trackingid = value;
-			}
-		});
+	}
+
+	public static void put(String k, String v) {
+		argSet.put(k, v);
+	}
+
+	public static String get(String k) {
+		return argSet.get(k);
+	}
+
+	public static boolean contains(String k) {
+		return argSet.contains(k);
 	}
 
 	public static int getX() {
@@ -69,14 +66,8 @@ public class gCamera {
 		coords[1] = y;
 	}
 
-	public static boolean isTracking() {
-		return mode == MODE_TRACKING;
-	}
-
 	public static void updatePosition() {
-		if (mode == MODE_FREE) {
-			coords[0] += (velocity * move[3] - velocity * move[2]);
-			coords[1] += (velocity * move[1] - velocity * move[0]);
-		}
+		coords[0] += (velocity * move[3] - velocity * move[2]);
+		coords[1] += (velocity * move[1] - velocity * move[0]);
 	}
 }

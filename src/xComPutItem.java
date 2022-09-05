@@ -15,6 +15,7 @@ public class xComPutItem extends xCom {
         if(!isc.equalsIgnoreCase("null"))
             item.put("script", isc);
         item.put("id", itemId);
+        item.put("occupied", "0");
         cServerLogic.scene.getThingMap("THING_ITEM").put(itemId, item);
         cServerLogic.scene.getThingMap(item.get("type")).put(itemId, item);
         return "put item";

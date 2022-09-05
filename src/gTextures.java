@@ -1,7 +1,8 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class gTextures {
     private static final Map<String, ImageIcon> base_gsprites = new HashMap<>();

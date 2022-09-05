@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
 
 public class dBlockShadows {
     public static void drawShadowBlockFlat(Graphics2D g2, gBlock block) {

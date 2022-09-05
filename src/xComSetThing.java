@@ -3,17 +3,9 @@ import java.util.HashMap;
 public class xComSetThing extends xCom {
     //usage: setthing $THING_TYPE $id $key $val
     public String doCommand(String fullCommand) {
-        String[] args = fullCommand.split(" ");
-        if(args.length < 2)
+        if(eUtils.argsLength(fullCommand) < 2)
             return "null";
-        for(int i = 1; i < args.length; i++) {
-            if(args[i].startsWith("$")) {
-                if(cServerVars.instance().contains(args[i].substring(1)))
-                    args[i] = cServerVars.instance().get(args[i].substring(1));
-                else if(sVars.get(args[i]) != null)
-                    args[i] = sVars.get(args[i]);
-            }
-        }
+        String[] args = eUtils.parseScriptArgsServer(fullCommand);
         String ttype = args[1];
         if(cServerLogic.scene.getThingMap(ttype) == null)
             return "null";
@@ -37,7 +29,6 @@ public class xComSetThing extends xCom {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);
-        System.out.println(tv);
         thing.put(tk, tv);
         return thing.get(tk);
     }

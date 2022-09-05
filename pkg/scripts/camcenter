@@ -1,3 +1,0 @@
-cl_setvar track 1
-setcam mode $track
-setcamcoords $1 $2

@@ -9,10 +9,8 @@ public class xComEditorRotNewThing extends xCom {
             cClientLogic.newprefabname = newprefabname.replace("_180", "_270");
         else if (newprefabname.contains("_270"))
             cClientLogic.newprefabname = newprefabname.replace("_270", "_000");
-        if(newprefabname.contains("_000")
-        || newprefabname.contains("_090")
-        || newprefabname.contains("_180")
-        || newprefabname.contains("_270")) {
+        if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
+                || newprefabname.contains("_270")) {
             xCon.ex("cl_clearthingmappreview");
             xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
         }

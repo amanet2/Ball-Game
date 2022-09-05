@@ -4,13 +4,47 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
+* associate a running script with a UUID
+    -> if the script "exit"s or "break"s we can remove line(s) by the associated ID
+* come up with a way to break out of scripts
+    -> mapping lines to their called script ("null" when necessary) and removing all associated on a "break" or "exit"
+* look into getting rid of unneeded linked hashmap in gScene. also other linked lists
+* use the threadlocal random to replace all usages of "new Random()"
+* BUG: were not getting a good delta because we copy the masterstate immediately when we get a msg from a client
+    -> fix: save the snapshot after sending to cli
+* make banning a player a timeevent
+* need ability to add time events through script
+    -> make a "script" field like an item, will ex on schedule
+* user changeplayercolorclient from the client to tell server to set color of said client
+* convert disconnecting clients that time out with a timeevent that gets removed/replaced when client connects
+    -> would have to map client id to this timeevent
+        -> but how do we get it out of the queue of timeevents?
+            -> i dont think timeevent tracking was made to handle this kind of thing
+            * -> so maybe a map of timeevents in nServer that can be executed in parralel but just have a single event
+                -> per hashmap key (player id)
+* convert ban relief into a timeEvent
+* game is unstable with outside clients
+    -> the PR that added all the scripts is "prev width"
+* QA Process
+    -> Test with singleplayer
+    -> Test with singleplayer and client on same computer
+    -> Test with singleplayer and client on same computer and client on mac
+* make stringlines a queue that gets emptied after X messages
+* create a serverside timeEvent map
+    -> create timeEvent class that has a doCommand() function
+    -> serverlogic should have a hashmap of these with a key/val of timestamp/timeevent
+* make resetvirusplayers a script
+    -> call it in the virus map on load instead of coding the checks into console commands etc
+    -> make getrandomthing command (getrandthing THING_PLAYER //returns id)
+
 * separate client and server scripts
 * scripts can have timers
     -> have xcom to get current time
     -> save $currenttime+3000 or whateverdelay as a setvar
     -> check that timestamp in script
         --> or better yet we'll have a hashmap of timestamps to exec from
-* damageplayer is broken
+* damageplayer is broken without rechargehp
+    -> im assuming because only rechargehp sets a player object "stockhp" or smthng like that
 * have the gColors class load its hashmap from a file
     -> have clientvars with the form clr_colorname
 * create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
@@ -64,6 +98,7 @@ FOCUS ITEMS
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
+    -> see for remotes: git reset --hard origin/<branch_name>
 * NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)

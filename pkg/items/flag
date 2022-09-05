@@ -1,5 +1,5 @@
-setnargs server flagmasterid $itemactid
-getres pname getnargs $itemactid name
-getres pcol getnargs $itemactid color
+setnargs flagmasterid $itemactid
+getres pname setnstate $itemactid name
+getres pcol setnstate $itemactid color
 addcomi server echo $pname#$pcol has the flag
 addcomx server deleteitem $itemrcvid
