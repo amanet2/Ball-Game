@@ -4,6 +4,15 @@ public class nStateBallGame extends nState {
         //
         super();
         map.put("id", "");
+        map.putArg(new gArg("virus", "0") {
+            public void onChange() {
+                if(Integer.parseInt(value) == 1) {
+                    String victimname = nServer.instance().masterStateMap.get("id").get("name");
+                    if(victimname != null)
+                        xCon.ex("addcomi server echo " + victimname + " was infected");
+                }
+            }
+        });
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
             public void onChange() {
