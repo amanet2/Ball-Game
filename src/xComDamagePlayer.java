@@ -29,12 +29,11 @@ public class xComDamagePlayer extends xCom {
                         if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
                             xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
+                            victimState.put("virus", "1");
                             if(nServer.instance().serverVars.containsKey("virusids")) {
-                                String virusids = nServer.instance().serverVars.get("virusids");
-                                if(!virusids.contains(id)) {
-                                    xCon.ex("setnargs virusids " + virusids + ":" + id);
-                                    xCon.ex("addcomi server echo " + victimname + " was infected");
-                                }
+                                String vids = nServer.instance().serverVars.get("virusids");
+                                if(!vids.contains(id))
+                                    xCon.ex("setnargs virusids " + vids + ":" + id);
                             }
                         }
                     }

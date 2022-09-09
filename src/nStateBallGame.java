@@ -4,21 +4,23 @@ public class nStateBallGame extends nState {
         //
         super();
         map.put("id", "");
-        map.putArg(new gArg("virus", "0") {
-            public void onChange() {
-                if(Integer.parseInt(value) == 1) {
-                    String victimname = nServer.instance().masterStateMap.get("id").get("name");
-                    if(victimname != null)
-                        xCon.ex("addcomi server echo " + victimname + " was infected");
-                }
-            }
-        });
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
             public void onChange() {
                 nServer.instance().addExcludingNetCmd("server",
                         String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
                 oldcolor = value;
+            }
+        });
+        map.putArg(new gArg("virus", "0") {
+            public void onChange() {
+                if(Integer.parseInt(value) == 1) {
+                    nState victimState = nServer.instance().masterStateMap.get(map.get("id"));
+                    String victimName = victimState.get("name");
+                    String victimColor = victimState.get("color");
+                    victimName += ("#"+victimColor);
+                    xCon.ex("addcomi server echo " + victimName + " was infected");
+                }
             }
         });
         map.putArg(new gArg("name", "player") {

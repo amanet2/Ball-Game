@@ -1,0 +1,2 @@
+getres rando getrandclid
+testresn $rando null setnstate $rando virus 1
