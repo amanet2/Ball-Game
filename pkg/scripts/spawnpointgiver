@@ -1,2 +1,5 @@
-addcomx server putitem ITEM_POINTGIVER $1 $2 $3
-addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3
+getres rando getrand 0 3
+testres $rando 1 addcomx server putitem ITEM_LANDMINE $1 $2 $3
+testres $rando 1 addcomi server cl_putitem ITEM_LANDMINE $1 $2 $3
+testresn $rando 1 addcomx server putitem ITEM_POINTGIVER $1 $2 $3
+testresn $rando 1 addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3
