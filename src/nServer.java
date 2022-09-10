@@ -19,7 +19,7 @@ public class nServer extends Thread {
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
-    HashMap<String, String> serverVars; // used for storing game vars such as flagmaster and who has the virus
+    HashMap<String, String> serverVars; // used for storing game vars such as flagmaster
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
