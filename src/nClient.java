@@ -234,7 +234,7 @@ public class nClient {
             serverArgsMap.put(k, packArgs.get(k));
         }
         //check flag and virus
-        for(String s : new String[]{"flagmasterid", "virusids"}) {
+        for(String s : new String[]{"flagmasterid"}) {
             if(!packArgs.containsKey(s))
                 serverArgsMap.remove(s);
         }

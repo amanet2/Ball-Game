@@ -72,9 +72,9 @@ public class cServerLogic {
 
     public static void checkHealthStatus() {
         //recharge players health
-        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
-        }
+//        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
+//            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
+//        }
     }
 
     static void changeMap(String mapPath) {
@@ -84,11 +84,8 @@ public class cServerLogic {
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
         nServer.instance().serverVars.remove("flagmasterid");
-        nServer.instance().serverVars.remove("virusids");
         timedEvents.clear();
         long starttime = gTime.gameTime;
-        if(cGameLogic.isGame(cGameLogic.VIRUS))
-            xCon.ex("exec scripts/resetvirus");
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
             //game over
             public void doCommand() {
@@ -146,23 +143,7 @@ public class cServerLogic {
             for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
                     public void doCommand() {
-                        String[] pids = getPlayerIdArray();
-                        HashMap<String, String> svars = nServer.instance().serverVars;
-                        if(svars == null)
-                            return;
-                        if(!svars.containsKey("virusids")) {
-                            xCon.ex("exec scripts/resetvirus");
-                            return;
-                        }
-                        boolean survivors = false;
-                        for(String id : pids) {
-                            if(!svars.get("virusids").contains(id)) {
-                                survivors = true;
-                                xCon.ex("givepoint " + id);
-                            }
-                        }
-                        if(!survivors)
-                            xCon.ex("exec scripts/resetvirus");
+                        xCon.ex("exec scripts/checkvirus");
                     }
                 });
             }

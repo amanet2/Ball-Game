@@ -210,7 +210,7 @@ public class nServer extends Thread {
         checkLocalCmds();
         //send scores
         keys.put("time", Long.toString(cServerLogic.timeleft));
-        for(String s : new String[]{"flagmasterid", "virusids"}) {
+        for(String s : new String[]{"flagmasterid"}) {
             if(serverVars.containsKey(s))
                 keys.put(s, serverVars.get(s));
         }

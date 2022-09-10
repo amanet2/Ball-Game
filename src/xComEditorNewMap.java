@@ -7,9 +7,6 @@ public class xComEditorNewMap extends xCom {
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
         nServer.instance().serverVars.remove("flagmasterid");
-        nServer.instance().serverVars.remove("virusids");
-        if (cGameLogic.isGame(cGameLogic.VIRUS))
-            xCon.ex("exec scripts/resetvirus");
         return "";
     }
 }

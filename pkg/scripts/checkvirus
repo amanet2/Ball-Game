@@ -1,0 +1,4 @@
+setvar allvirus 1
+foreachclient cid exec scripts/checkvirusclient $cid
+testres $allvirus 1 addcomi server echo a random player has the virus
+testres $allvirus 1 exec scripts/resetvirusnew

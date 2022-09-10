@@ -90,14 +90,15 @@ public class dWaypoints {
                 }
             }
 
-            if(nClient.instance().serverArgsMap.containsKey("virusids")) {
-                String statestr = nClient.instance().serverArgsMap.get("virusids");
-                for (String id : cClientLogic.getPlayerIds()) {
+            if(nClient.instance().clientStateMap != null) {
+                for (String id : nClient.instance().clientStateMap.keys()) {
+                    nState state = nClient.instance().clientStateMap.get(id);
+                    if(!state.contains("virus") || state.get("virus").equalsIgnoreCase("0"))
+                        continue;
                     gPlayer p = cClientLogic.getPlayerById(id);
-                    if (statestr.contains(p.get("id"))) {
+                    if(p != null)
                         dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                                 p.getInt("coordy") + p.getInt("dimh") / 2, "INFECTED");
-                    }
                 }
             }
         }

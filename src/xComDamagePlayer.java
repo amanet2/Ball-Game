@@ -30,11 +30,6 @@ public class xComDamagePlayer extends xCom {
                             xCon.ex("givepoint " + shooterid + " 500");
                         else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
                             victimState.put("virus", "1");
-                            if(nServer.instance().serverVars.containsKey("virusids")) {
-                                String vids = nServer.instance().serverVars.get("virusids");
-                                if(!vids.contains(id))
-                                    xCon.ex("setnargs virusids " + vids + ":" + id);
-                            }
                         }
                     }
                     else

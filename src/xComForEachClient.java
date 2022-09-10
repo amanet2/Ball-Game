@@ -9,11 +9,12 @@ public class xComForEachClient extends xCom {
             xCon.ex(String.format("setvar %s %s", varname, id));
             String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
             StringBuilder esb = new StringBuilder();
-            for(int i = 3; i < cargs.length; i++) {
+            for(int i = 2; i < cargs.length; i++) {
                 esb.append(" ").append(cargs[i]);
             }
             String es = esb.substring(1);
             xCon.ex(es);
+            cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
         }
         return "usage: foreachclient $id <script to execute where $id is preloaded>";
     }
