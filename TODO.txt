@@ -4,19 +4,10 @@
 /////////////////////                                                                 /////////////////////////////////
 ////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FOCUS ITEMS
-* BIG: python scripting could work in a networked context
-    -> a python app is running that communicates with a socket and receives payload just like client
-        -> python scripts operate on this payload and can influence whats sent to server
-        -> and same goes for the java server
-        -> SEE: https://www.cs.cornell.edu/courses/cs519/2004sp/519-fa04-03-sockets-v0.pdf
-* associate a running script with a UUID
-    -> if the script "exit"s or "break"s we can remove line(s) by the associated ID
-* come up with a way to break out of scripts
-    -> mapping lines to their called script ("null" when necessary) and removing all associated on a "break" or "exit"
+* create a new "exec" function for scripts
+    -> should have block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
-* use the threadlocal random to replace all usages of "new Random()"
-* BUG: were not getting a good delta because we copy the masterstate immediately when we get a msg from a client
-    -> fix: save the snapshot after sending to cli
+* replace all usages of "new Random()" with threadlocal random
 * make banning a player a timeevent
 * need ability to add time events through script
     -> make a "script" field like an item, will ex on schedule
