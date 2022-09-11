@@ -130,10 +130,10 @@ public class cServerLogic {
             }
         }
         else if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
-            for(long t = starttime+6000; t <= starttime+timelimit; t+=6000) {
+            for(long t = starttime+4000; t <= starttime+timelimit; t+=4000) {
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
                     public void doCommand() {
-                        xCon.ex("spawnpointgiver");
+                        xCon.ex("exec scripts/goldmaster");
                     }
                 });
             }
