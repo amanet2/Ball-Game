@@ -6,7 +6,6 @@ public class xComEditorNewMap extends xCom {
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
-        nServer.instance().serverVars.remove("flagmasterid");
         return "";
     }
 }

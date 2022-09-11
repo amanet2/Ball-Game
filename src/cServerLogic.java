@@ -83,7 +83,6 @@ public class cServerLogic {
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
-        nServer.instance().serverVars.remove("flagmasterid");
         timedEvents.clear();
         long starttime = gTime.gameTime;
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {

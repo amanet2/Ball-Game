@@ -233,11 +233,6 @@ public class nClient {
         for (String k : packArgs.keySet()) {
             serverArgsMap.put(k, packArgs.get(k));
         }
-        //check flagmaster
-        for(String s : new String[]{"flagmasterid"}) {
-            if(!packArgs.containsKey(s))
-                serverArgsMap.remove(s);
-        }
         //check cmd from server only
         String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
         if(cmdload.length() > 0) {

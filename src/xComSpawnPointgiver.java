@@ -5,7 +5,7 @@ public class xComSpawnPointgiver extends xCom {
         if(spawnpoint == null)
             return "could not get random spawnpoint";
         int itemId = 0;
-        for(String id : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
+        for(String id : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {
             if(itemId < Integer.parseInt(id))
                 itemId = Integer.parseInt(id);
         }

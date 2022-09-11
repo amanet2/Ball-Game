@@ -35,9 +35,8 @@ public class xComDamagePlayer extends xCom {
                     else
                         xCon.ex("addcomi server echo " + victimname + " exploded");
 //                        handle flag carrier dying
-                    if(nServer.instance().serverVars.containsKey("flagmasterid")
-                    && nServer.instance().serverVars.get("flagmasterid").equals(id)) {
-                        nServer.instance().serverVars.remove("flagmasterid");
+                    if(nServer.instance().masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
+                        nServer.instance().masterStateMap.get(id).put("flag", "0");
                         int itemId = 0;
                         for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
                             if(itemId < Integer.parseInt(iid))

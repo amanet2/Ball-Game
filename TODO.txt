@@ -85,10 +85,6 @@ FOCUS ITEMS
 * see what "checkX" functions we can get rid of/change to commands
     -> e.g. instead of checking colors, have a comm "changeplayercolor <id> <color>"
         --> playercolor is set by console command in halo's engine (in-game)
-* create a new game mode: gold master
-    -> pointgivers spawn randomly around map at certain interval (randomize some, like bots' thinking timer)
-    -> use spawnpoints as a spawning location
-    -> try code from virus and flagmaster "give point every second" logic for spawning a pointgiver
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
 * MAPMAKER: show all user's preview rect on all clients, label them by name like google doc

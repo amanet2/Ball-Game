@@ -74,7 +74,7 @@ public class dScreenMessages {
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");
-        dFonts.drawCenteredString(g, "WORK IN PROGRESS",
+        dFonts.drawCenteredString(g, "STALLION IN PROGRESS",
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
