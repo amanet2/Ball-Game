@@ -1,9 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////                                                                  /////////////////////////////////
-                                                ==ISSUES==
-/////////////////////                                                                 /////////////////////////////////
-////////  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-FOCUS ITEMS
 * create a new "exec" function for scripts
     -> should have block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
@@ -12,62 +6,9 @@ FOCUS ITEMS
 * need ability to add time events through script
     -> make a "script" field like an item, will ex on schedule
 * user changeplayercolorclient from the client to tell server to set color of said client
-* convert disconnecting clients that time out with a timeevent that gets removed/replaced when client connects
-    -> would have to map client id to this timeevent
-        -> but how do we get it out of the queue of timeevents?
-            -> i dont think timeevent tracking was made to handle this kind of thing
-            * -> so maybe a map of timeevents in nServer that can be executed in parralel but just have a single event
-                -> per hashmap key (player id)
 * convert ban relief into a timeEvent
-* game is unstable with outside clients
-    -> the PR that added all the scripts is "prev width"
-* QA Process
-    -> Test with singleplayer
-    -> Test with singleplayer and client on same computer
-    -> Test with singleplayer and client on same computer and client on mac
-* make stringlines a queue that gets emptied after X messages
-* create a serverside timeEvent map
-    -> create timeEvent class that has a doCommand() function
-    -> serverlogic should have a hashmap of these with a key/val of timestamp/timeevent
-* make resetvirusplayers a script
-    -> call it in the virus map on load instead of coding the checks into console commands etc
-    -> make getrandomthing command (getrandthing THING_PLAYER //returns id)
-
-* separate client and server scripts
-* scripts can have timers
-    -> have xcom to get current time
-    -> save $currenttime+3000 or whateverdelay as a setvar
-    -> check that timestamp in script
-        --> or better yet we'll have a hashmap of timestamps to exec from
-* damageplayer is broken without rechargehp
-    -> im assuming because only rechargehp sets a player object "stockhp" or smthng like that
-* have the gColors class load its hashmap from a file
-    -> have clientvars with the form clr_colorname
-* create a class with a hashmap that will hold scripts/consoles to execute on a certain timestamp
-    -> will have a function check() that can take in a timestamp and then check its hashmap for executions
-    -> this will eliminate the java variables tracking milliseconds and such for things like hp
-        -> may need console command to get currenttime
-        -> or have in code a variable $currenttime that is updated in the server
-* have animation function take in a color string and select the index for animation
-* sVar and exec parameters are limited to one word because of how "exec" works for prefabs
-    -> maybe make a new parameter "$0" that contains the whole string
-    -> or have a way of going through parameter ranges like an array
-        -> e.g. [$1$5] would be range 1 - 5
-* go through server first and remake everything you can with scripting
-    -> working with the camera has shown client side scripts arent ready
-        --> we only look for server vars in all our $variables
-        --> always remember: the client is a cheating scumbag
-        --> scripts can be edited at the moment
 * make a "willcollide" console comm with 2 ids for objects
 * make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
-* need to have every word going through the console be subject to the '$' var check
-    -> will make scripts more consistent/predictable
-* the spawnpoint script is too noisy in the console
-* add another base arg to testres
-    -> e(equal), gte(greater than equal), lte(less than equal)
-* to link teleporters cleanly
-    -> on putitem, if its a blue teleporter a for loop should assign exit nodes if possible (>1 teleporter)
-        -> we can use "getres" to get this exit nodes id in a script
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id
 * VFX BUG: player sometimes appears in front of small tiletops
     -> try putting a few units of buffer when testing collision
@@ -78,10 +19,7 @@ FOCUS ITEMS
         --> playercolor is set by console command in halo's engine (in-game)
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
-* MAPMAKER: show all user's preview rect on all clients, label them by name like google doc
-* apply gargs to items/blocks/things
 * low framerate on 1 client results in stuttering character on others' screens
-* go over instance creation and lines stored for console
 * move the dim/4 stuff to the preview block build call, not draw
 * fix memory leaks
 * put the xCom classes into their own folder
@@ -91,16 +29,14 @@ FOCUS ITEMS
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
     -> see for remotes: git reset --hard origin/<branch_name>
-* NET: max of 4 players right now
 * NET: Have server not send any other clients' vars if the client is still loading
-* NET: The maximum safe UDP payload is 508 bytes. (stackoverflow)
+* NET: The maximum safe UDP payload is ??? bytes
 * WEAPONS: send a holdingmouse netvar when holding mouse
     -> clients will simulate the fire rate
         --> server holds master state still
     -> instead of sending cmd fireweapon
     -> allows smooth use of automatic weapons
 * add zombies gametype, a zopmbie will be a prop
-    -> how many ID:coord:coord:attack sets can we cram in a send string
 * powerup idea
     -> egg, pick up to initiate the growing sequence
     -> chuck or drop it before it blows
@@ -110,15 +46,10 @@ FOCUS ITEMS
         --> get points for staying alive
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
-* GAME: edit popups to say things like "#%&@!" when player takes dmg
 * GAME: bring back squish effect for something
-* ENGINE: create "shadowblock" object that exists to be a shadow which you can add to prefabs
-* GFX: shade the lower boxes/cubes a little darker than the high walls
 * GAME: in virus, give players infinite ammo
     -> infected have boxing glove
     -> survivors have shotguns
-* WAYPOINTS: instead of a complicated-ass system, have the server sync a "waypoints" list with clients
-    -> ..., "waypoints": "x:y:arrow/x:y:arrow", ...
 * new Item: bonusblock
     -> (make them look like regular blocks)
     -> get its health to 0 and it has a change to spawn a powerup
@@ -134,7 +65,6 @@ FOCUS ITEMS
         --> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* CONSOLE: have a MAX_LINES value to keep the console from having like 1 million lines and slowing down the game
 * FUTURE: we can make "themes" for prefabs
 * make players bounce off each other
     -> if a player is slower than another, make them take more and the other take less force accordingly
@@ -146,13 +76,12 @@ FOCUS ITEMS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * make sure different timezones and computer times work correctly
-* ISSUE: BULLETS AND ANIMATIONS CAUSE GAME TO STUTTER ON FIRST EXECUTE B/C NOT IN IMAGE MAP YET
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * gungame mode
-* start showing errors in debug log
 * add "disable attacks" option
 * checksum checks
-    -> client sends checksum of the jar, and the map file currently played
+    -> in a real game, would represent official vs "community" content/experiences (halo custom edition)
+    -> client sends checksum of the jar, map file, and scripts currently played
     -> server verifies these two MD5 hashes against its own md5s
 * make players eyes blink
 * Create a server browser program
