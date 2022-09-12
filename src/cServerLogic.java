@@ -11,7 +11,6 @@ public class cServerLogic {
     static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;
-    static int gamemode = cGameLogic.DEATHMATCH;
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
@@ -106,18 +105,7 @@ public class cServerLogic {
                 }
             });
         }
-        if(cGameLogic.isGame(cGameLogic.FLAG_MASTER)) {
-            xCon.ex(String.format("foreachlong tv %d %d 1000 addevent $tv exec scripts/flagmaster",
-                    starttime+1000, starttime+timelimit));
-        }
-        else if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
-            xCon.ex(String.format("foreachlong tv %d %d 3000 addevent $tv exec scripts/goldmaster",
-                    starttime+3000, starttime+timelimit));
-        }
-        else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
-            xCon.ex(String.format("foreachlong tv %d %d 1000 addevent $tv exec scripts/checkvirus",
-                    starttime+1000, starttime+timelimit));
-        }
+        xCon.ex(String.format("exec scripts/startgame %d %d", cClientLogic.gamemode, starttime));
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {

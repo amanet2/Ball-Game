@@ -1,0 +1,6 @@
+getaddlong estart $2 1000
+getaddlong eend $2 $timelimit
+testres $1 $mode_virus foreachlong tv $estart $eend 1000 addevent $tv exec scripts/checkvirus
+testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 addevent $tv exec scripts/flagmaster
+testres $1 $mode_goldmaster getaddlong estart $2 3000
+testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
