@@ -119,6 +119,8 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
+        commands.put("foreach", new xComForEach());
+        commands.put("foreachlong", new xComForEachLong());
         commands.put("foreachclient", new xComForEachClient());
         commands.put("foreachthing", new xComForEachThing());
         commands.put("getnargs", new xComGetServerArgs());

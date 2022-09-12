@@ -97,6 +97,9 @@ public class cServerLogic {
             }
         });
         xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
+        xCon.ex(String.format(
+                "foreachlong tv %d %d 1000 addevent $tv addcomi server echo $tv", starttime+1000, starttime+timelimit));
+//        xCon.ex("foreach tv 1 7 1 addcomi server echo $tv");
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long finalT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
