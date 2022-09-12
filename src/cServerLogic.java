@@ -105,7 +105,7 @@ public class cServerLogic {
                 }
             });
         }
-        xCon.ex(String.format("exec scripts/startgame %d %d", cClientLogic.gamemode, starttime));
+        xCon.ex("exec scripts/startgame " + cClientLogic.gamemode);
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
