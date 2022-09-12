@@ -96,12 +96,7 @@ public class cServerLogic {
                 xCon.ex("exec scripts/endgame " + highestId);
             }
         });
-        timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
-            //change map after game over
-            public void doCommand() {
-                xCon.ex("changemaprandom");
-            }
-        });
+        xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long finalT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
@@ -210,18 +205,15 @@ public class cServerLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
+            gBullet b = bulletsToRemovePlayerMap.get(p);
+            //calculate dmg
+            int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
+                    *((Math.abs(Math.max(0, gTime.gameTime - b.getLong("timestamp"))
+            )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
+            scene.getThingMap("THING_BULLET").remove(b.get("id"));
+            //handle damage serverside
+            xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", p.get("id"), dmg, b.get("srcid")));
         }
-    }
-
-    public static void createDamagePopup(gPlayer victim, gBullet bullet) {
-        //calculate dmg
-        int dmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                *((Math.abs(Math.max(0, gTime.gameTime - bullet.getLong("timestamp"))
-        )/(double)bullet.getInt("ttl")))); // dmg falloff based on age of bullet
-        scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
-        //handle damage serverside
-        xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", victim.get("id"), dmg, bullet.get("srcid")));
     }
 
     public static gPlayer getPlayerById(String id) {
