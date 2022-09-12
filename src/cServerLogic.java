@@ -25,9 +25,8 @@ public class cServerLogic {
     }
 
     public static void checkGameState() {
-        String[] pids = getPlayerIdArray();
-        for(String id : pids) {
-            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player
+        for(String id : nServer.instance().masterStateMap.keys()) {
+            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
                 continue;
             gPlayer obj = getPlayerById(id);
             if(obj == null)
@@ -142,8 +141,10 @@ public class cServerLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        for(String id : getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
@@ -191,7 +192,7 @@ public class cServerLogic {
                         pseeds.add(b);
                 }
             }
-            for(String playerId : getPlayerIds()) {
+            for(String playerId : nServer.instance().masterStateMap.keys()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
@@ -221,16 +222,6 @@ public class cServerLogic {
         scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
         //handle damage serverside
         xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", victim.get("id"), dmg, bullet.get("srcid")));
-    }
-
-    public static Collection<String> getPlayerIds() {
-        return scene.getThingMap("THING_PLAYER").keySet();
-    }
-
-    public static String[] getPlayerIdArray() {
-        Collection<String> pColl = scene.getThingMap("THING_PLAYER").keySet();
-        int psize = pColl.size();
-        return pColl.toArray(new String[psize]);
     }
 
     public static gPlayer getPlayerById(String id) {
