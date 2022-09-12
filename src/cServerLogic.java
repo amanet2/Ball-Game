@@ -92,14 +92,9 @@ public class cServerLogic {
             //game over
             public void doCommand() {
                 String highestId = gScoreboard.getWinnerId();
-                if(highestId.length() > 0) {
+                if(!highestId.equalsIgnoreCase("null"))
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
-                    nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().masterStateMap.get(highestId).get("name")
-                            + "#" + nServer.instance().masterStateMap.get(highestId).get("color")
-                            + " wins#" + nServer.instance().masterStateMap.get(highestId).get("color"));
-                }
-                xCon.ex("exec scripts/endgame");
+                xCon.ex("exec scripts/endgame " + highestId);
             }
         });
         timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {

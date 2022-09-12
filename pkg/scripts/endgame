@@ -1,3 +1,6 @@
+testresn $1 null getres wn setnstate $1 name
+testresn $1 null getres wc setnstate $1 color
+testresn $1 null addcomi server echo $wn#$wc wins#$wc
 getres rando getrand 0 10
 testres $rando 0 addcomi server playsound sounds/win/arncook2.wav
 testres $rando 1 addcomi server playsound sounds/win/bowtoyoursensei.wav
