@@ -15,7 +15,6 @@ public class xComForEachLong extends xCom {
             String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
             String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
             String es = String.join(" ", subarray);
-            System.out.println(es);
             xCon.ex(es);
             cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
         }

@@ -97,9 +97,6 @@ public class cServerLogic {
             }
         });
         xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
-        xCon.ex(String.format(
-                "foreachlong tv %d %d 1000 addevent $tv addcomi server echo $tv", starttime+1000, starttime+timelimit));
-//        xCon.ex("foreach tv 1 7 1 addcomi server echo $tv");
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long finalT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
@@ -110,31 +107,16 @@ public class cServerLogic {
             });
         }
         if(cGameLogic.isGame(cGameLogic.FLAG_MASTER)) {
-            for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/flagmaster");
-                    }
-                });
-            }
+            xCon.ex(String.format("foreachlong tv %d %d 1000 addevent $tv exec scripts/flagmaster",
+                    starttime+1000, starttime+timelimit));
         }
         else if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
-            for(long t = starttime+3000; t <= starttime+timelimit; t+=3000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/goldmaster");
-                    }
-                });
-            }
+            xCon.ex(String.format("foreachlong tv %d %d 3000 addevent $tv exec scripts/goldmaster",
+                    starttime+3000, starttime+timelimit));
         }
         else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
-            for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/checkvirus");
-                    }
-                });
-            }
+            xCon.ex(String.format("foreachlong tv %d %d 1000 addevent $tv exec scripts/checkvirus",
+                    starttime+1000, starttime+timelimit));
         }
     }
 
