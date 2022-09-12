@@ -11,6 +11,7 @@ public class cServerLogic {
     static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;
+    static int gamemode = cGameLogic.DEATHMATCH;
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
@@ -84,6 +85,8 @@ public class cServerLogic {
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
         timedEvents.clear();
+        if(sSettings.show_mapmaker_ui)
+            return;
         long starttime = gTime.gameTime;
         timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
             //game over
@@ -96,15 +99,9 @@ public class cServerLogic {
                             + "#" + nServer.instance().masterStateMap.get(highestId).get("color")
                             + " wins#" + nServer.instance().masterStateMap.get(highestId).get("color"));
                 }
-                int toplay = (int) (Math.random() * eManager.winSoundFileSelection.length);
-                nServer.instance().addExcludingNetCmd("server",
-                        "playsound sounds/win/"+eManager.winSoundFileSelection[toplay]);
-                nServer.instance().addExcludingNetCmd("server",
-                        "echo changing map...");
+                xCon.ex("exec scripts/endgame");
             }
         });
-        if(sSettings.show_mapmaker_ui)
-            return;
         timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
             //change map after game over
             public void doCommand() {
@@ -130,7 +127,7 @@ public class cServerLogic {
             }
         }
         else if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
-            for(long t = starttime+4000; t <= starttime+timelimit; t+=4000) {
+            for(long t = starttime+3000; t <= starttime+timelimit; t+=3000) {
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
                     public void doCommand() {
                         xCon.ex("exec scripts/goldmaster");
