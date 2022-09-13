@@ -97,11 +97,11 @@ public class cServerLogic {
         });
         xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-            long finalT = t;
+            long lastT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
                 public void doCommand() {
                     if(timelimit > 0)
-                        timeleft = Math.max(0, (starttime + timelimit) - finalT);
+                        timeleft = Math.max(0, (starttime + timelimit) - lastT);
                 }
             });
         }
