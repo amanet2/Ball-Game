@@ -10,7 +10,9 @@ testres $rando 4 addcomi server playsound sounds/win/impressive.wav
 testres $rando 5 addcomi server playsound sounds/win/laugh.wav
 testres $rando 6 addcomi server playsound sounds/win/moo.wav
 testres $rando 7 addcomi server playsound sounds/win/nicccce.wav
-testres $rando 8 addcomi server playsound sounds/win/ohmymg2.wav
-testres $rando 9 addcomi server playsound sounds/win/partyboy.wav
-testres $rando 10 addcomi server playsound sounds/win/winningmg.wav
+testres $rando 8 addcomi server playsound sounds/win/omg.wav
+testres $rando 9 addcomi server playsound sounds/win/ohmymg2.wav
+testres $rando 10 addcomi server playsound sounds/win/partyboy.wav
+testres $rando 11 addcomi server playsound sounds/win/winningmg.wav
+testres $rando 12 addcomi server playsound sounds/win/fun.wav
 addcomi server echo changing map...
