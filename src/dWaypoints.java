@@ -75,7 +75,7 @@ public class dWaypoints {
             HashMap<String, gThing> flagmap = scene.getThingMap("ITEM_FLAG");
             for(Object id : flagmap.keySet()) {
                 gThing flag = flagmap.get(id);
-                dWaypoints.drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
+                drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                         flag.getInt("coordy") + flag.getInt("dimh")/2, "PICK UP");
             }
             for(String id : nClient.instance().clientStateMap.keys()) {
@@ -84,22 +84,22 @@ public class dWaypoints {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if(p == null)
                         return;
-                    dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+                    drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
                             p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
                 }
             }
 
-            if(nClient.instance().clientStateMap != null) {
-                for (String id : nClient.instance().clientStateMap.keys()) {
-                    nState state = nClient.instance().clientStateMap.get(id);
-                    if(!state.contains("virus") || state.get("virus").equalsIgnoreCase("0"))
-                        continue;
-                    gPlayer p = cClientLogic.getPlayerById(id);
-                    if(p != null)
-                        dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "INFECTED");
-                }
-            }
+//            if(nClient.instance().clientStateMap != null) {
+//                for (String id : nClient.instance().clientStateMap.keys()) {
+//                    nState state = nClient.instance().clientStateMap.get(id);
+//                    if(!state.contains("virus") || state.get("virus").equalsIgnoreCase("0"))
+//                        continue;
+//                    gPlayer p = cClientLogic.getPlayerById(id);
+//                    if(p != null)
+//                        dWaypoints.drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+//                                p.getInt("coordy") + p.getInt("dimh") / 2, "INFECTED");
+//                }
+//            }
         }
     }
 }
