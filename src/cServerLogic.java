@@ -17,7 +17,7 @@ public class cServerLogic {
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-        checkHealthStatus();
+//        checkHealthStatus();  //player recharge has null bug right now
         checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
@@ -55,8 +55,7 @@ public class cServerLogic {
                 for (String itemId : ids) {
                     gItem item = (gItem) thingMap.get(itemId);
                     item.put("occupied", "0");
-                    if (player.willCollideWithThingAtCoords(item,
-                            player.getInt("coordx"), player.getInt("coordy"))) {
+                    if (player.collidesWithThing(item)) {
                         item.activateItem(player);
                         if(checkType.contains("ITEM_TELEPORTER"))
                             clearTeleporterFlag = 0;
@@ -70,10 +69,10 @@ public class cServerLogic {
     }
 
     public static void checkHealthStatus() {
-        //recharge players health
-//        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-//            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
-//        }
+//        recharge players health
+        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
+            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
+        }
     }
 
     static void changeMap(String mapPath) {
