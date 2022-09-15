@@ -17,7 +17,7 @@ public class cServerLogic {
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-//        checkHealthStatus();  //player recharge has null bug right now
+        xCon.ex("exec scripts/checkgamestate");
         checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
@@ -65,13 +65,6 @@ public class cServerLogic {
             //after checking all items
             if(clearTeleporterFlag > 0)
                 player.put("inteleporter", "0");
-        }
-    }
-
-    public static void checkHealthStatus() {
-//        recharge players health
-        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
         }
     }
 
