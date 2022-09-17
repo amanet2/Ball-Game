@@ -1,3 +1,6 @@
+* make the killing player process a script so it can be customized
+    -> this is where we can script deathmatch-givepoint logic
+* get rid of all the gamemode-related java code and have it in script
 * you don't need to use stringbuilder to get subarrays
     -> looks at the foreach console commands
 * create a new "exec" function for scripts

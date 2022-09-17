@@ -1,7 +1,6 @@
 import java.util.LinkedHashMap;
 
 public class gThing {
-    int id;
     private final int[] coords = {0, 0};
     private final int[] dims = {0, 0};
 
@@ -85,12 +84,6 @@ public class gThing {
     public boolean isInt(String k, int v) {
         return isVal(k, Integer.toString(v));
     }
-    public boolean isOne(String s) {
-        return isVal(s,"1");
-    }
-    public boolean isZero(String s) {
-        return isVal(s,"0");
-    }
 
     public boolean contains(String s) {
         return vars().containsKey(s);
@@ -120,12 +113,6 @@ public class gThing {
     public void refresh() {
         if(vars == null)
             vars = new LinkedHashMap<>();
-    }
-
-    public void subtractVal(String key, int val) {
-        if(contains(key)) {
-            putInt(key, getInt(key)-val);
-        }
     }
 
     public boolean coordsWithinBounds(int x, int y) {

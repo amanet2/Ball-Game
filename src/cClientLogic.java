@@ -218,10 +218,8 @@ public class cClientLogic {
     public static void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
-                - gCamera.getX());
-        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2
-                - gCamera.getY());
+        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
+        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;
