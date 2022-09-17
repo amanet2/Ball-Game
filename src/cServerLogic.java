@@ -146,7 +146,7 @@ public class cServerLogic {
             }
             for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = scene.getThingMap("BLOCK_COLLISION").get(blockId);
-                if(b.doesCollideWithThing(bl)) {
+                if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -155,7 +155,7 @@ public class cServerLogic {
             for(String playerId : nServer.instance().masterStateMap.keys()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
+                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.LinkedHashMap;
 
 public class gThing {
@@ -120,5 +121,16 @@ public class gThing {
                 && x <= eUtils.scaleInt(getInt("coordx")-gCamera.getX()+getInt("dimw")))
                 && (y >= eUtils.scaleInt(getInt("coordy")-gCamera.getY())
                 && y <= eUtils.scaleInt(getInt("coordy")-gCamera.getY()+getInt("dimh")));
+    }
+
+    public boolean collidesWithThing(gThing target) {
+        Shape bounds = new Rectangle(
+                target.getInt("coordx"),
+                target.getInt("coordy"),
+                target.getInt("dimw"),
+                target.getInt("dimh")
+        );
+        return bounds.intersects(new Rectangle(getInt("coordx"),getInt("coordy"),
+                getInt("dimw"),getInt("dimh")));
     }
 }

@@ -26,17 +26,6 @@ public class gPlayer extends gThing {
         return true;
     }
 
-    public boolean collidesWithThing(gThing target) {
-        Shape bounds = new Rectangle(
-                target.getInt("coordx"),
-                target.getInt("coordy"),
-                target.getInt("dimw"),
-                target.getInt("dimh")
-        );
-        return bounds.intersects(new Rectangle(getInt("coordx"),getInt("coordy"),
-                getInt("dimw"),getInt("dimh")));
-    }
-
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
         if(target != null ) {
             //check null fields
