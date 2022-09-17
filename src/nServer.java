@@ -415,8 +415,10 @@ public class nServer extends Thread {
     }
 
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        if(testmsg.strip().equalsIgnoreCase("thetime"))
+        if(testmsg.strip().equalsIgnoreCase("thetime")) {
             addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            return;
+        }
         else if(!testmsg.strip().equalsIgnoreCase("skip"))
             return;
         if(voteSkipList.contains(id)) {
