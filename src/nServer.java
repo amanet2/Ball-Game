@@ -229,8 +229,6 @@ public class nServer extends Thread {
     }
 
     void removeNetClient(String id) {
-        //NEW
-        //--
         String qn = masterStateMap.get(id).get("name");
         String qc = masterStateMap.get(id).get("color");
         clientCheckinMap.remove(id);
@@ -240,17 +238,9 @@ public class nServer extends Thread {
         gScoreboard.scoresMap.remove(id);
         cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
         addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
-        //OLD
-        //--
         if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
             gPlayer player = cServerLogic.getPlayerById(id);
-            int itemId = 0;
-            for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
-                if(itemId < Integer.parseInt(iid))
-                    itemId = Integer.parseInt(iid);
-            }
-            itemId++; //want to be the _next_ id
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
+            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
                     player.getInt("coordx"), player.getInt("coordy")));
         }
     }

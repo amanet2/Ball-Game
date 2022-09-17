@@ -37,13 +37,7 @@ public class xComDamagePlayer extends xCom {
 //                        handle flag carrier dying
                     if(nServer.instance().masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
                         nServer.instance().masterStateMap.get(id).put("flag", "0");
-                        int itemId = 0;
-                        for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
-                            if(itemId < Integer.parseInt(iid))
-                                itemId = Integer.parseInt(iid);
-                        }
-                        itemId++; //want to be the _next_ id
-                        xCon.ex(String.format("exec scripts/putflag %d %d %d", itemId, dcx, dcy));
+                        xCon.ex(String.format("exec scripts/putflag %d %d %d", cServerLogic.getNewItemId(), dcx, dcy));
                     }
                     //migrate all client death logic here
                     cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.respawnwaittime),
