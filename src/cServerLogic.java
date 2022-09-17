@@ -184,4 +184,13 @@ public class cServerLogic {
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
     }
+
+    public static int getNewItemId() {
+        int itemId = 0;
+        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+            if(itemId < Integer.parseInt(id))
+                itemId = Integer.parseInt(id);
+        }
+        return itemId+1; //want to be the _next_ id
+    }
 }
