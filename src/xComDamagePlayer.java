@@ -22,15 +22,8 @@ public class xComDamagePlayer extends xCom {
                     String vc = victimState.get("color");
                     victimname += ("#"+vc);
                     if(shooterid.length() > 0) {
-                        nState shooterState = masterState.get(shooterid);
-                        String killername = shooterState.get("name");
-                        killername += ("#"+shooterState.get("color"));
-                        xCon.ex("addcomi server echo " + killername + " rocked " + victimname);
-                        if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
-                            xCon.ex("givepoint " + shooterid + " 500");
-                        else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
-                            victimState.put("virus", "1");
-                        }
+                        xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
+                        xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
                     }
                     else
                         xCon.ex("addcomi server echo " + victimname + " exploded");

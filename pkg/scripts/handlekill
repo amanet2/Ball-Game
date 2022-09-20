@@ -1,0 +1,8 @@
+# usage: handlekill $victimid $shooterid
+getres vn setnstate $1 name
+getres vc setnstate $1 color
+getres sn setnstate $2 name
+getres sc setnstate $2 color
+addcomi server echo $sn#$sc rocked $vn#$vc
+testres $sv_gamemode $mode_deathmatch givepoint $2 500
+testres $sv_gamemode $mode_virus setnstate $1 virus 1
