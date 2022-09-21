@@ -16,22 +16,10 @@ public class xComDamagePlayer extends xCom {
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
                     xCon.ex("exec scripts/deleteplayer " + id);
-                    nStateMap masterState = nServer.instance().masterStateMap;
-                    nState victimState = masterState.get(id);
-                    String victimname = victimState.get("name");
-                    String vc = victimState.get("color");
-                    victimname += ("#"+vc);
-                    if(shooterid.length() > 0) {
-                        xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
-                        xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
-                    }
-                    else
-                        xCon.ex("addcomi server echo " + victimname + " exploded");
-//                        handle flag carrier dying
-                    if(nServer.instance().masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
-                        nServer.instance().masterStateMap.get(id).put("flag", "0");
-                        xCon.ex(String.format("exec scripts/putflag %d %d %d", cServerLogic.getNewItemId(), dcx, dcy));
-                    }
+                    if(shooterid.length() < 1)
+                        shooterid = "null";
+                    xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
+                    xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
                     //migrate all client death logic here
                     cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.respawnwaittime),
                         new gTimeEvent() {

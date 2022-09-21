@@ -136,6 +136,7 @@ public class xCon {
         commands.put("cl_getaddlong", new xComGetAddLongClient());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
+        commands.put("getnewitemid", new xComGetNewItemId());
         commands.put("getrand", new xComGetRandom());
         commands.put("getrandclid", new xComGetRandomClientId());
         commands.put("getrandthing", new xComGetRandomThing());
