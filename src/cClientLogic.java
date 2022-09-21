@@ -209,16 +209,6 @@ public class cClientLogic {
         }
     }
 
-    public static void changeWeapon(int newweapon) {
-        gPlayer p = cClientLogic.getUserPlayer();
-        if(p != null) {
-            if(newweapon != p.getInt("weapon"))
-                xCon.ex("playsound sounds/grenpinpull.wav");
-            p.putInt("weapon", newweapon);
-            cClientLogic.getUserPlayer().checkSpriteFlip();
-        }
-    }
-
     public static void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
