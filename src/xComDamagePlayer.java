@@ -20,14 +20,6 @@ public class xComDamagePlayer extends xCom {
                         shooterid = "null";
                     xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
                     xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
-                    //migrate all client death logic here
-                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.respawnwaittime),
-                        new gTimeEvent() {
-                            public void doCommand() {
-                                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
-                            }
-                        }
-                    );
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;
                     String colorName = nServer.instance().masterStateMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))

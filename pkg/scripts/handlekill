@@ -14,3 +14,5 @@ testres $hadflag 1 echo $newitemid
 testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/putflag $newitemid $newitemx $newitemy
+getaddlong respawntime $gametimemillis $respawnwaittime
+addevent $respawntime exec scripts/respawnnetplayer $1
