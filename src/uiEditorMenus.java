@@ -123,7 +123,7 @@ public class uiEditorMenus {
             public void actionPerformed(ActionEvent e) {
                 if(!cClientLogic.maploaded)
                     delegate();
-                else if(xCon.instance().getInt("e_showlossalert") <= 0)
+                else if(xCon.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
             }
