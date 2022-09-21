@@ -23,6 +23,10 @@ public class cClientLogic {
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
+    public static boolean isGame(int mode) {
+        return gamemode == mode;
+    }
+
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
