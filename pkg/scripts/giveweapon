@@ -1,1 +1,2 @@
-addcomx $1 cl_setthing THING_PLAYER $1 weapon $2
+addcomx server setthing THING_PLAYER $1 weapon $2
+addcomi server cl_setthing THING_PLAYER $1 weapon $2
