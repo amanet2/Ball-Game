@@ -191,8 +191,13 @@ public class uiEditorMenus {
             menus.get("Prefabs").add(prefabmenuitem);
         }
         //fill items menu
-        for(String itemname: new String[]{"ITEM_SPAWNPOINT", "ITEM_FLAG", "ITEM_TELEPORTER_BLUE", "ITEM_TELEPORTER_RED",
-                                          "ITEM_POINTGIVER", "ITEM_LANDMINE"}) {
+        StringBuilder sb = new StringBuilder();
+        for(String tt : gScene.object_titles) {
+            if(tt.startsWith("ITEM_"))
+                sb.append(";").append(tt);
+        }
+        String[] itemTitles = sb.substring(1).split(";");
+        for(String itemname : itemTitles) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
             if(itemMenuItem.getText().equals(newitemname))
