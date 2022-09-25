@@ -1,7 +1,7 @@
 addcomx server setthing THING_PLAYER $1 weapon $2
 addcomi server cl_setthing THING_PLAYER $1 weapon $2
-getres pname setnstate $itemactid name
-getres pcol setnstate $itemactid color
+getres pname setnstate $1 name
+getres pcol setnstate $1 color
 testres $2 1 addcomi server echo $pname#$pcol picked up a pistol
 testres $2 2 addcomi server echo $pname#$pcol picked up a shotgun
 testres $2 3 addcomi server echo $pname#$pcol picked up a rifle
