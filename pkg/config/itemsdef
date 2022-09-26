@@ -41,4 +41,3 @@ setvar ITEM_GLOVE_dimw 300
 setvar ITEM_GLOVE_dimh 200
 setvar ITEM_GLOVE_sprite misc/glove.png
 setvar ITEM_GLOVE_script exec items/glove
-
