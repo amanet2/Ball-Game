@@ -192,7 +192,7 @@ public class uiEditorMenus {
         }
         //fill items menu
         StringBuilder sb = new StringBuilder();
-        for(String tt : gScene.object_titles) {
+        for(String tt : sSettings.object_titles) {
             if(tt.startsWith("ITEM_"))
                 sb.append(";").append(tt);
         }
