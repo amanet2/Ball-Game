@@ -1,0 +1,2 @@
+addcomx server deleteitem $itemrcvid
+exec scripts/giveweapon $itemactid 2

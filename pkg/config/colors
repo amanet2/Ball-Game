@@ -6,7 +6,7 @@ cl_setvar clrf_normaltransparent 255 255 255 100
 cl_setvar clrf_normaldark 200 200 200 255
 cl_setvar clrf_background 0 0 0 255
 cl_setvar clrf_scoreboardbg 0 0 0 100
-cl_setvar clrf_spawnpoint 255 150 80 150
+cl_setvar clrf_spawnpoint 255 255 255 150
 cl_setvar clrf_flooroutline 100 100 255
 cl_setvar clrf_selected 255 100 255
 cl_setvar clrf_preview 50 255 100

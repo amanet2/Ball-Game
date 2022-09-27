@@ -15,17 +15,11 @@ import java.util.Queue;
  * play scenario.
  */
 public class gScene {
-    public static final String[] object_titles = new String[]{
-        "THING_PLAYER","THING_BULLET","THING_POPUP","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
-        "BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
-        "ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER", "ITEM_LANDMINE"
-    };
-
-	HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
+    HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
 
 	public gScene() {
         objectMaps = new HashMap<>();
-        for(String s : object_titles) {
+        for(String s : sSettings.object_titles) {
             objectMaps.put(s, new LinkedHashMap<>());
         }
     }

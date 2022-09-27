@@ -1,0 +1,11 @@
+getres rando getrand 1 5
+testres $rando 1 addcomx server putitem ITEM_PISTOL $1 $2 $3
+testres $rando 1 addcomi server cl_putitem ITEM_PISTOL $1 $2 $3
+testres $rando 2 addcomx server putitem ITEM_SHOTGUN $1 $2 $3
+testres $rando 2 addcomi server cl_putitem ITEM_SHOTGUN $1 $2 $3
+testres $rando 3 addcomx server putitem ITEM_RIFLE $1 $2 $3
+testres $rando 3 addcomi server cl_putitem ITEM_RIFLE $1 $2 $3
+testres $rando 4 addcomx server putitem ITEM_LAUNCHER $1 $2 $3
+testres $rando 4 addcomi server cl_putitem ITEM_LAUNCHER $1 $2 $3
+testres $rando 5 addcomx server putitem ITEM_GLOVE $1 $2 $3
+testres $rando 5 addcomi server cl_putitem ITEM_GLOVE $1 $2 $3

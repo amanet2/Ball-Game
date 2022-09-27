@@ -23,6 +23,10 @@ public class cClientLogic {
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
+    public static boolean isGame(int mode) {
+        return gamemode == mode;
+    }
+
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
     }
@@ -177,7 +181,7 @@ public class cClientLogic {
             }
             for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = scene.getThingMap("BLOCK_COLLISION").get(blockId);
-                if(b.doesCollideWithThing(bl)) {
+                if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -186,7 +190,7 @@ public class cClientLogic {
             for(String playerId : getPlayerIds()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
+                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -205,23 +209,11 @@ public class cClientLogic {
         }
     }
 
-    public static void changeWeapon(int newweapon) {
-        gPlayer p = cClientLogic.getUserPlayer();
-        if(p != null) {
-            if(newweapon != p.getInt("weapon"))
-                xCon.ex("playsound sounds/grenpinpull.wav");
-            p.putInt("weapon", newweapon);
-            cClientLogic.getUserPlayer().checkSpriteFlip();
-        }
-    }
-
     public static void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2
-                - gCamera.getX());
-        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2
-                - gCamera.getY());
+        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
+        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;
@@ -234,5 +226,14 @@ public class cClientLogic {
         if(!scene.getThingMap("THING_PLAYER").containsKey(id))
             return null;
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+    }
+
+    public static int getNewItemId() {
+        int itemId = 0;
+        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+            if(itemId < Integer.parseInt(id))
+                itemId = Integer.parseInt(id);
+        }
+        return itemId+1; //want to be the _next_ id
     }
 }

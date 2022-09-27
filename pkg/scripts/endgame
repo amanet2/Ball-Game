@@ -1,3 +1,6 @@
+testresn $1 null getres wn setnstate $1 name
+testresn $1 null getres wc setnstate $1 color
+testresn $1 null addcomi server echo $wn#$wc wins#$wc
 getres rando getrand 0 10
 testres $rando 0 addcomi server playsound sounds/win/arncook2.wav
 testres $rando 1 addcomi server playsound sounds/win/bowtoyoursensei.wav
@@ -7,7 +10,10 @@ testres $rando 4 addcomi server playsound sounds/win/impressive.wav
 testres $rando 5 addcomi server playsound sounds/win/laugh.wav
 testres $rando 6 addcomi server playsound sounds/win/moo.wav
 testres $rando 7 addcomi server playsound sounds/win/nicccce.wav
-testres $rando 8 addcomi server playsound sounds/win/ohmymg2.wav
-testres $rando 9 addcomi server playsound sounds/win/partyboy.wav
-testres $rando 10 addcomi server playsound sounds/win/winningmg.wav
+testres $rando 8 addcomi server playsound sounds/win/omg.wav
+testres $rando 9 addcomi server playsound sounds/win/ohmymg2.wav
+testres $rando 10 addcomi server playsound sounds/win/partyboy.wav
+testres $rando 11 addcomi server playsound sounds/win/winningmg.wav
+testres $rando 12 addcomi server playsound sounds/win/fun.wav
+testres $rando 13 addcomi server playsound sounds/win/like.wav
 addcomi server echo changing map...

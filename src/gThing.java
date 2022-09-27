@@ -1,7 +1,7 @@
+import java.awt.*;
 import java.util.LinkedHashMap;
 
 public class gThing {
-    int id;
     private final int[] coords = {0, 0};
     private final int[] dims = {0, 0};
 
@@ -85,12 +85,6 @@ public class gThing {
     public boolean isInt(String k, int v) {
         return isVal(k, Integer.toString(v));
     }
-    public boolean isOne(String s) {
-        return isVal(s,"1");
-    }
-    public boolean isZero(String s) {
-        return isVal(s,"0");
-    }
 
     public boolean contains(String s) {
         return vars().containsKey(s);
@@ -122,16 +116,21 @@ public class gThing {
             vars = new LinkedHashMap<>();
     }
 
-    public void subtractVal(String key, int val) {
-        if(contains(key)) {
-            putInt(key, getInt(key)-val);
-        }
-    }
-
     public boolean coordsWithinBounds(int x, int y) {
         return (x >= eUtils.scaleInt(getInt("coordx")-gCamera.getX())
                 && x <= eUtils.scaleInt(getInt("coordx")-gCamera.getX()+getInt("dimw")))
                 && (y >= eUtils.scaleInt(getInt("coordy")-gCamera.getY())
                 && y <= eUtils.scaleInt(getInt("coordy")-gCamera.getY()+getInt("dimh")));
+    }
+
+    public boolean collidesWithThing(gThing target) {
+        Shape bounds = new Rectangle(
+                target.getInt("coordx"),
+                target.getInt("coordy"),
+                target.getInt("dimw"),
+                target.getInt("dimh")
+        );
+        return bounds.intersects(new Rectangle(getInt("coordx"),getInt("coordy"),
+                getInt("dimw"),getInt("dimh")));
     }
 }

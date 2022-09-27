@@ -3,7 +3,7 @@ import java.awt.Image;
 public class gItem extends gThing {
     public Image sprite;
 
-    public void activateItem(gPlayer p) {
+    public void activateItem(gThing p) {
         if(contains("script")) {
             xCon.ex("setvar itemactid " + p.get("id"));
             xCon.ex("setvar itemrcvid " + get("id"));

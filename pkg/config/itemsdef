@@ -21,3 +21,23 @@ setvar ITEM_TELEPORTER_RED_dimw 300
 setvar ITEM_TELEPORTER_RED_dimh 300
 setvar ITEM_TELEPORTER_RED_sprite misc/teleporter_red.png
 setvar ITEM_TELEPORTER_RED_script exec items/teleporterred
+setvar ITEM_PISTOL_dimw 300
+setvar ITEM_PISTOL_dimh 200
+setvar ITEM_PISTOL_sprite misc/bfg.png
+setvar ITEM_PISTOL_script exec items/pistol
+setvar ITEM_SHOTGUN_dimw 300
+setvar ITEM_SHOTGUN_dimh 200
+setvar ITEM_SHOTGUN_sprite misc/shotgun.png
+setvar ITEM_SHOTGUN_script exec items/shotgun
+setvar ITEM_RIFLE_dimw 300
+setvar ITEM_RIFLE_dimh 200
+setvar ITEM_RIFLE_sprite misc/autorifle.png
+setvar ITEM_RIFLE_script exec items/rifle
+setvar ITEM_LAUNCHER_dimw 300
+setvar ITEM_LAUNCHER_dimh 200
+setvar ITEM_LAUNCHER_sprite misc/launcher.png
+setvar ITEM_LAUNCHER_script exec items/launcher
+setvar ITEM_GLOVE_dimw 300
+setvar ITEM_GLOVE_dimh 200
+setvar ITEM_GLOVE_sprite misc/glove.png
+setvar ITEM_GLOVE_script exec items/glove

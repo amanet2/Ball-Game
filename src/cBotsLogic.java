@@ -65,8 +65,10 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : cServerLogic.getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer p = cServerLogic.getPlayerById(id);
+            if(p == null)
+                continue;
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -93,8 +95,10 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : cServerLogic.getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer p = cServerLogic.getPlayerById(id);
+            if(p == null)
+                continue;
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(!p.get("id").equals(bot.get("id"))) {
@@ -140,8 +144,10 @@ public class cBotsLogic {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
         gPlayer waypoint = null;
-        for(String id : cServerLogic.getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer p = cServerLogic.getPlayerById(id);
+            if(p == null)
+                continue;
             int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
             int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
             if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -163,9 +169,11 @@ public class cBotsLogic {
         if(nServer.instance().serverVars.containsKey("virusids")) {
             String stateString = nServer.instance().serverVars.get("virusids");
             if(offense) {
-                for(String id : cServerLogic.getPlayerIds()) {
+                for(String id : nServer.instance().masterStateMap.keys()) {
                     if(!stateString.contains(id)) {
                         gPlayer p = cServerLogic.getPlayerById(id);
+                        if(p == null)
+                            continue;
                         int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
                         int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
                         if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
@@ -226,15 +234,15 @@ public class cBotsLogic {
     public static boolean inVirusChaseRange(gThing bot) {
         int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
         int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        for(String id : cServerLogic.getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer waypoint = cServerLogic.getPlayerById(id);
+            if(waypoint == null)
+                continue;
             if(!waypoint.isVal("id", bot.get("id"))) {
                 int x2 = waypoint.getInt("coordx") + waypoint.getInt("dimw")/2;
                 int y2 = waypoint.getInt("coordy") + waypoint.getInt("dimh")/2;
-                if(Math.abs(x2 - x1) <= botviruschaserange
-                        && Math.abs(y2-y1) <= botviruschaserange) {
+                if(Math.abs(x2 - x1) <= botviruschaserange && Math.abs(y2-y1) <= botviruschaserange)
                     return true;
-                }
             }
         }
         return false;

@@ -1,12 +1,13 @@
+* make the killing player process a script so it can be customized
+    -> this is where we can script deathmatch-givepoint logic
+* get rid of all the gamemode-related java code and have it in script
+* you don't need to use stringbuilder to get subarrays
+    -> looks at the foreach console commands
 * create a new "exec" function for scripts
-    -> should have block statements: if, for, while
+    -> should support block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
 * replace all usages of "new Random()" with threadlocal random
-* make banning a player a timeevent
-* need ability to add time events through script
-    -> make a "script" field like an item, will ex on schedule
-* user changeplayercolorclient from the client to tell server to set color of said client
-* convert ban relief into a timeEvent
+* convert banning/ban relief into a timeEvent
 * make a "willcollide" console comm with 2 ids for objects
 * make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
 * try to see if putitem can only have x y and have it do cl_putitem with an assigned id

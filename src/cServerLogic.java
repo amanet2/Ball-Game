@@ -11,23 +11,21 @@ public class cServerLogic {
     static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;
-    static int gamemode = cGameLogic.DEATHMATCH;
     static gScene scene = new gScene();
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
-        checkHealthStatus();
+        xCon.ex("exec scripts/checkgamestate");
         checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
     }
 
     public static void checkGameState() {
-        String[] pids = getPlayerIdArray();
-        for(String id : pids) {
-            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player
+        for(String id : nServer.instance().masterStateMap.keys()) {
+            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
                 continue;
             gPlayer obj = getPlayerById(id);
             if(obj == null)
@@ -57,8 +55,7 @@ public class cServerLogic {
                 for (String itemId : ids) {
                     gItem item = (gItem) thingMap.get(itemId);
                     item.put("occupied", "0");
-                    if (player.willCollideWithThingAtCoords(item,
-                            player.getInt("coordx"), player.getInt("coordy"))) {
+                    if (player.collidesWithThing(item)) {
                         item.activateItem(player);
                         if(checkType.contains("ITEM_TELEPORTER"))
                             clearTeleporterFlag = 0;
@@ -69,13 +66,6 @@ public class cServerLogic {
             if(clearTeleporterFlag > 0)
                 player.put("inteleporter", "0");
         }
-    }
-
-    public static void checkHealthStatus() {
-        //recharge players health
-//        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-//            xCon.ex(String.format("exec scripts/rechargehealth %s", id));
-//        }
     }
 
     static void changeMap(String mapPath) {
@@ -92,63 +82,29 @@ public class cServerLogic {
             //game over
             public void doCommand() {
                 String highestId = gScoreboard.getWinnerId();
-                if(highestId.length() > 0) {
+                if(!highestId.equalsIgnoreCase("null"))
                     gScoreboard.incrementScoreFieldById(highestId, "wins");
-                    nServer.instance().addExcludingNetCmd("server", "echo "
-                            + nServer.instance().masterStateMap.get(highestId).get("name")
-                            + "#" + nServer.instance().masterStateMap.get(highestId).get("color")
-                            + " wins#" + nServer.instance().masterStateMap.get(highestId).get("color"));
-                }
-                xCon.ex("exec scripts/endgame");
+                xCon.ex("exec scripts/endgame " + highestId);
             }
         });
-        timedEvents.put(Long.toString(starttime + timelimit + intermissionDelay), new gTimeEvent() {
-            //change map after game over
-            public void doCommand() {
-                xCon.ex("changemaprandom");
-            }
-        });
+        xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-            long finalT = t;
+            long lastT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
                 public void doCommand() {
                     if(timelimit > 0)
-                        timeleft = Math.max(0, (starttime + timelimit) - finalT);
+                        timeleft = Math.max(0, (starttime + timelimit) - lastT);
                 }
             });
         }
-        if(cGameLogic.isGame(cGameLogic.FLAG_MASTER)) {
-            for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/flagmaster");
-                    }
-                });
-            }
-        }
-        else if(cGameLogic.isGame(cGameLogic.GOLD_MASTER)) {
-            for(long t = starttime+3000; t <= starttime+timelimit; t+=3000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/goldmaster");
-                    }
-                });
-            }
-        }
-        else if(cGameLogic.isGame(cGameLogic.VIRUS)) {
-            for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
-                timedEvents.put(Long.toString(t), new gTimeEvent() {
-                    public void doCommand() {
-                        xCon.ex("exec scripts/checkvirus");
-                    }
-                });
-            }
-        }
+        xCon.ex("exec scripts/startgame " + cClientLogic.gamemode);
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
-        for(String id : getPlayerIds()) {
+        for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer obj = getPlayerById(id);
+            if(obj == null)
+                continue;
             String[] requiredFields = new String[]{
                     "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
             //check null fields
@@ -190,16 +146,16 @@ public class cServerLogic {
             }
             for(String blockId : scene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = scene.getThingMap("BLOCK_COLLISION").get(blockId);
-                if(b.doesCollideWithThing(bl)) {
+                if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
                 }
             }
-            for(String playerId : getPlayerIds()) {
+            for(String playerId : nServer.instance().masterStateMap.keys()) {
                 gPlayer t = getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.doesCollideWithThing(t) && !b.get("srcid").equals(playerId)) {
+                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                         pseeds.add(b);
@@ -214,31 +170,27 @@ public class cServerLogic {
             scene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            createDamagePopup(p, bulletsToRemovePlayerMap.get(p));
+            gBullet b = bulletsToRemovePlayerMap.get(p);
+            //calculate dmg
+            int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
+                    *((Math.abs(Math.max(0, gTime.gameTime - b.getLong("timestamp"))
+            )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
+            scene.getThingMap("THING_BULLET").remove(b.get("id"));
+            //handle damage serverside
+            xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", p.get("id"), dmg, b.get("srcid")));
         }
-    }
-
-    public static void createDamagePopup(gPlayer victim, gBullet bullet) {
-        //calculate dmg
-        int dmg = bullet.getInt("dmg") - (int)((double)bullet.getInt("dmg")/2
-                *((Math.abs(Math.max(0, gTime.gameTime - bullet.getLong("timestamp"))
-        )/(double)bullet.getInt("ttl")))); // dmg falloff based on age of bullet
-        scene.getThingMap("THING_BULLET").remove(bullet.get("id"));
-        //handle damage serverside
-        xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", victim.get("id"), dmg, bullet.get("srcid")));
-    }
-
-    public static Collection<String> getPlayerIds() {
-        return scene.getThingMap("THING_PLAYER").keySet();
-    }
-
-    public static String[] getPlayerIdArray() {
-        Collection<String> pColl = scene.getThingMap("THING_PLAYER").keySet();
-        int psize = pColl.size();
-        return pColl.toArray(new String[psize]);
     }
 
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+    }
+
+    public static int getNewItemId() {
+        int itemId = 0;
+        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+            if(itemId < Integer.parseInt(id))
+                itemId = Integer.parseInt(id);
+        }
+        return itemId+1; //want to be the _next_ id
     }
 }
