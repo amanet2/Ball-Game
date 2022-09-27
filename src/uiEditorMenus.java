@@ -53,17 +53,21 @@ public class uiEditorMenus {
         }
     }
 
+    public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
+        checkBoxMenuItem.setSelected(false);
+        if(checkBoxMenuItem.getText().equals("Rockmaster") && cClientLogic.isGame(cGameLogic.DEATHMATCH))
+            checkBoxMenuItem.setSelected(true);
+        else if(checkBoxMenuItem.getText().equals("Flagmaster") && cClientLogic.isGame(cGameLogic.FLAG_MASTER))
+            checkBoxMenuItem.setSelected(true);
+        else if(checkBoxMenuItem.getText().equals("Virusmaster") && cClientLogic.isGame(cGameLogic.VIRUS))
+            checkBoxMenuItem.setSelected(true);
+        else if(checkBoxMenuItem.getText().equals("Goldmaster") && cClientLogic.isGame(cGameLogic.GOLD_MASTER))
+            checkBoxMenuItem.setSelected(true);
+    }
+
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
-            checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals("Rockmaster") && cGameLogic.isGame(cGameLogic.DEATHMATCH))
-                checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Flagmaster") && cGameLogic.isGame(cGameLogic.FLAG_MASTER))
-                checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Virusmaster") && cGameLogic.isGame(cGameLogic.VIRUS))
-                checkBoxMenuItem.setSelected(true);
-            else if(checkBoxMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
-                checkBoxMenuItem.setSelected(true);
+            resetCheckBoxMenuItem(checkBoxMenuItem);
         }
     }
 
@@ -119,7 +123,7 @@ public class uiEditorMenus {
             public void actionPerformed(ActionEvent e) {
                 if(!cClientLogic.maploaded)
                     delegate();
-                else if(xCon.instance().getInt("e_showlossalert") <= 0)
+                else if(xCon.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
             }
@@ -187,8 +191,13 @@ public class uiEditorMenus {
             menus.get("Prefabs").add(prefabmenuitem);
         }
         //fill items menu
-        for(String itemname: new String[]{"ITEM_SPAWNPOINT", "ITEM_FLAG", "ITEM_TELEPORTER_BLUE", "ITEM_TELEPORTER_RED",
-                                          "ITEM_POINTGIVER", "ITEM_LANDMINE"}) {
+        StringBuilder sb = new StringBuilder();
+        for(String tt : sSettings.object_titles) {
+            if(tt.startsWith("ITEM_"))
+                sb.append(";").append(tt);
+        }
+        String[] itemTitles = sb.substring(1).split(";");
+        for(String itemname : itemTitles) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
             itemMenuItem.setFont(dFonts.getFontNormal());
             if(itemMenuItem.getText().equals(newitemname))
@@ -205,14 +214,7 @@ public class uiEditorMenus {
         for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
-            if(gametypeMenuItem.getText().equals("Rockmaster") && cGameLogic.isGame(cGameLogic.DEATHMATCH))
-                gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Flagmaster") && cGameLogic.isGame(cGameLogic.FLAG_MASTER))
-                gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Virusmaster") && cGameLogic.isGame(cGameLogic.VIRUS))
-                gametypeMenuItem.setSelected(true);
-            else if(gametypeMenuItem.getText().equals("Goldmaster") && cGameLogic.isGame(cGameLogic.GOLD_MASTER))
-                gametypeMenuItem.setSelected(true);
+            resetCheckBoxMenuItem(gametypeMenuItem);
             gametypeMenuItem.addActionListener(e -> {
                 if(gametypeMenuItem.getText().equals("Rockmaster"))
                     xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);

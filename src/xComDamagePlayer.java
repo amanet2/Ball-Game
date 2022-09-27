@@ -16,50 +16,10 @@ public class xComDamagePlayer extends xCom {
                     int dcx = player.getInt("coordx");
                     int dcy = player.getInt("coordy");
                     xCon.ex("exec scripts/deleteplayer " + id);
-                    nStateMap masterState = nServer.instance().masterStateMap;
-                    nState victimState = masterState.get(id);
-                    String victimname = victimState.get("name");
-                    String vc = victimState.get("color");
-                    victimname += ("#"+vc);
-                    if(shooterid.length() > 0) {
-                        nState shooterState = masterState.get(shooterid);
-                        String killername = shooterState.get("name");
-                        killername += ("#"+shooterState.get("color"));
-                        xCon.ex("addcomi server echo " + killername + " rocked " + victimname);
-                        if (cGameLogic.isGame(cGameLogic.DEATHMATCH))
-                            xCon.ex("givepoint " + shooterid + " 500");
-                        else if (cGameLogic.isGame(cGameLogic.VIRUS)) {
-                            if(nServer.instance().serverVars.containsKey("virusids")) {
-                                String virusids = nServer.instance().serverVars.get("virusids");
-                                if(!virusids.contains(id)) {
-                                    xCon.ex("setnargs virusids " + virusids + ":" + id);
-                                    xCon.ex("addcomi server echo " + victimname + " was infected");
-                                }
-                            }
-                        }
-                    }
-                    else
-                        xCon.ex("addcomi server echo " + victimname + " exploded");
-//                        handle flag carrier dying
-                    if(nServer.instance().serverVars.containsKey("flagmasterid")
-                    && nServer.instance().serverVars.get("flagmasterid").equals(id)) {
-                        nServer.instance().serverVars.remove("flagmasterid");
-                        int itemId = 0;
-                        for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
-                            if(itemId < Integer.parseInt(iid))
-                                itemId = Integer.parseInt(iid);
-                        }
-                        itemId++; //want to be the _next_ id
-                        xCon.ex(String.format("exec scripts/putflag %d %d %d", itemId, dcx, dcy));
-                    }
-                    //migrate all client death logic here
-                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.respawnwaittime),
-                        new gTimeEvent() {
-                            public void doCommand() {
-                                xCon.ex(String.format("exec scripts/respawnnetplayer %s", id));
-                            }
-                        }
-                    );
+                    if(shooterid.length() < 1)
+                        shooterid = "null";
+                    xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
+                    xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
                     int animInd = gAnimations.ANIM_EXPLOSION_REG;
                     String colorName = nServer.instance().masterStateMap.get(id).get("color");
                     if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))

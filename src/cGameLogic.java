@@ -10,8 +10,4 @@ public class cGameLogic {
             {"Flag Master", "Hold onto the flag"},
             {"Gold Master", "Pick up the gold"}
     };
-
-    public static boolean isGame(int mode) {
-        return cClientLogic.gamemode == mode;
-    }
 }

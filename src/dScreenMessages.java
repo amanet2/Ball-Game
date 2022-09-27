@@ -62,10 +62,11 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && cClientLogic.maploaded) {
-            long timeleft = Long.parseLong(nClient.instance().serverArgsMap.get("time"));
-            if(timeleft > -1) {
-                dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                        29 * sSettings.width / 30, 59*sSettings.height/64);
+            if(nClient.instance().serverArgsMap.containsKey("time")) {
+                long timeleft = Long.parseLong(nClient.instance().serverArgsMap.get("time"));
+                if (timeleft > -1)
+                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
+                            29 * sSettings.width / 30, 59 * sSettings.height / 64);
             }
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g,
@@ -74,14 +75,13 @@ public class dScreenMessages {
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");
-        dFonts.drawCenteredString(g, "WORK IN PROGRESS",
+        dFonts.drawCenteredString(g, "STALLION IN PROGRESS",
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
         //say
-        if(gMessages.enteringMessage) {
+        if(gMessages.enteringMessage)
             g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
-        }
         //sendmsg.. invisible?
         dFonts.setFontColor(g, "clrf_normal");
         //menus

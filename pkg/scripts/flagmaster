@@ -1,2 +1,1 @@
-getres fmid getnargs flagmasterid
-testresn $fmid null givepoint $fmid
+foreachclient flagmastercheckid exec scripts/flagmastercheckclient

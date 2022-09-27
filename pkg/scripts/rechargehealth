@@ -1,8 +1,8 @@
 setvar delayhp 3600
-getres playerhealth setthing THING_PLAYER $1 stockhp
-getres rctime setthing THING_PLAYER $1 hprechargetime
+getres playerhealth setthing THING_PLAYER $plid stockhp
+getres rctime setthing THING_PLAYER $plid hprechargetime
 testresn $rctime null getaddlong rcplusdelay $rctime $delayhp
 getaddint newhp $playerhealth $rechargehp
-testresn $rctime null testreslte $rcplusdelay $gametimemillis setthing THING_PLAYER $1 stockhp $newhp
-getres playerhealth setthing THING_PLAYER $1 stockhp
-testresn $playerhealth null testreslteint $maxhp $playerhealth setthing THING_PLAYER $1 stockhp $maxhp
+testresn $rctime null testreslte $rcplusdelay $gametimemillis setthing THING_PLAYER $plid stockhp $newhp
+getres playerhealth setthing THING_PLAYER $plid stockhp
+testresn $playerhealth null testreslteint $maxhp $playerhealth setthing THING_PLAYER $plid stockhp $maxhp

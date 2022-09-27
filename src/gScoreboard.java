@@ -19,7 +19,7 @@ public class gScoreboard {
 
     public static String getWinnerId() {
         int highestScore = 0;
-        String highestId = "";
+        String highestId = "null";
         boolean pass = false;
         while (!pass) {
             pass = true;

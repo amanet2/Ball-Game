@@ -12,6 +12,18 @@ public class nStateBallGame extends nState {
                 oldcolor = value;
             }
         });
+        map.putArg(new gArg("virus", "0") {
+            public void onChange() {
+                if(Integer.parseInt(value) == 1) {
+                    nState victimState = nServer.instance().masterStateMap.get(map.get("id"));
+                    String victimName = victimState.get("name");
+                    String victimColor = victimState.get("color");
+                    victimName += ("#"+victimColor);
+                    xCon.ex("addcomi server echo " + victimName + " was infected");
+                }
+            }
+        });
+        map.put("flag", "0");
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
@@ -80,7 +92,7 @@ public class nStateBallGame extends nState {
                     //handle special sounds, etc
                     String testmsg = value.substring(value.indexOf(':')+2);
                     xCon.ex("exec scripts/checkmsgforsound " + testmsg); //check for special sound
-                    nServer.instance().checkClientMessageForVoteSkip(get("id"), testmsg);
+                    nServer.instance().checkClientMessageForTimeAndVoteSkip(get("id"), testmsg);
                 }
             }
         });

@@ -1,6 +1,8 @@
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,7 +19,7 @@ public class nServer extends Thread {
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
-    HashMap<String, String> serverVars; // used for storing game vars such as flagmaster and who has the virus
+    HashMap<String, String> serverVars; // used for storing game vars
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
@@ -208,10 +210,6 @@ public class nServer extends Thread {
         checkLocalCmds();
         //send scores
         keys.put("time", Long.toString(cServerLogic.timeleft));
-        for(String s : new String[]{"flagmasterid", "virusids"}) {
-            if(serverVars.containsKey(s))
-                keys.put(s, serverVars.get(s));
-        }
         return keys;
     }
 
@@ -231,8 +229,6 @@ public class nServer extends Thread {
     }
 
     void removeNetClient(String id) {
-        //NEW
-        //--
         String qn = masterStateMap.get(id).get("name");
         String qc = masterStateMap.get(id).get("color");
         clientCheckinMap.remove(id);
@@ -242,18 +238,9 @@ public class nServer extends Thread {
         gScoreboard.scoresMap.remove(id);
         cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
         addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
-        //OLD
-        //--
-        if(serverVars.containsKey("flagmasterid") && serverVars.get("flagmasterid").equals(id)) {
-            serverVars.put("flagmasterid", "");
+        if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
             gPlayer player = cServerLogic.getPlayerById(id);
-            int itemId = 0;
-            for(String iid : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {;
-                if(itemId < Integer.parseInt(iid))
-                    itemId = Integer.parseInt(iid);
-            }
-            itemId++; //want to be the _next_ id
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", itemId,
+            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
                     player.getInt("coordx"), player.getInt("coordy")));
         }
     }
@@ -427,17 +414,22 @@ public class nServer extends Thread {
             addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
-    public void checkClientMessageForVoteSkip(String id, String testmsg) {
-        if(!testmsg.strip().equalsIgnoreCase("skip"))
+    public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
+        if(testmsg.strip().equalsIgnoreCase("thetime")) {
+            addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            return;
+        }
+        else if(!testmsg.strip().equalsIgnoreCase("skip"))
             return;
         if(voteSkipList.contains(id)) {
             addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
             return;
         }
         voteSkipList.add(id);
-        if(voteSkipList.size() < cServerLogic.voteskiplimit) {
+        int limit = Integer.parseInt(xCon.ex("setvar voteskiplimit"));
+        if(voteSkipList.size() < limit) {
             addExcludingNetCmd("server", String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                    voteSkipList.size(), cServerLogic.voteskiplimit));
+                    voteSkipList.size(), limit));
             return;
         }
         addExcludingNetCmd("server", String.format("playsound sounds/win/%s",

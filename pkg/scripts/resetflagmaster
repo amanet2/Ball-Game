@@ -1,0 +1,1 @@
+foreachclient pid setnstate $pid hasflag 0

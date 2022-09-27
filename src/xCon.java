@@ -119,9 +119,14 @@ public class xCon {
         commands.put("e_showlossalert", new xComEditorShowLossAlert());
         commands.put("echo", new xComEcho());
         commands.put("fireweapon", new xComFireWeapon());
+        commands.put("foreach", new xComForEach());
+        commands.put("foreachlong", new xComForEachLong());
+        commands.put("foreachclient", new xComForEachClient());
+        commands.put("foreachthing", new xComForEachThing());
         commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
+        commands.put("gametimemillis", new xComGameTimeMillis());
         commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
         commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
@@ -131,6 +136,7 @@ public class xCon {
         commands.put("cl_getaddlong", new xComGetAddLongClient());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
+        commands.put("getnewitemid", new xComGetNewItemId());
         commands.put("getrand", new xComGetRandom());
         commands.put("getrandclid", new xComGetRandomClientId());
         commands.put("getrandthing", new xComGetRandomThing());
@@ -170,7 +176,6 @@ public class xCon {
         commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
-        commands.put("thetime", new xComThetime());
         commands.put("unbind", new xComUnbind());
         commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());

@@ -57,12 +57,11 @@ public class dPlayer {
                 null
         );
         //flag for ctf
-        if(nClient.instance().serverArgsMap.containsKey("flagmasterid")
-                && nClient.instance().serverArgsMap.get("flagmasterid").equals(player.get("id"))) {
+        if(nClient.instance().clientStateMap.get(player.get("id")).get("flag").equalsIgnoreCase("1"))
             g2.drawImage(gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300),
-                    player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3, null
+                    player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3,
+                    null
             );
-        }
         //shading
         if(sSettings.vfxenableshading) {
             GradientPaint df = new GradientPaint(

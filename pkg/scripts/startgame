@@ -1,0 +1,7 @@
+getres gtime gametimemillis
+getaddlong estart $gtime 1000
+getaddlong eend $gtime $timelimit
+testres $1 $mode_virus foreachlong tv $estart $eend 1000 addevent $tv exec scripts/checkvirus
+testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 addevent $tv exec scripts/flagmaster
+testres $1 $mode_goldmaster getaddlong estart $gtime 3000
+testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
