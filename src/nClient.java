@@ -82,7 +82,11 @@ public class nClient {
     public void sendData() {
         InetAddress IPAddress = null;
         try {
-            IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
+            //TODO: if we are the server, have client send data thru localhost always
+            if(sSettings.IS_SERVER)
+                IPAddress = InetAddress.getByName("127.0.0.1");
+            else
+                IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
             String sendDataString = createSendDataString();
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,

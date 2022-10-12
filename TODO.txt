@@ -1,3 +1,4 @@
+* fix the bug where players pop out on top of walls they shouldnt be visible behind
 * make the killing player process a script so it can be customized
     -> this is where we can script deathmatch-givepoint logic
 * get rid of all the gamemode-related java code and have it in script
