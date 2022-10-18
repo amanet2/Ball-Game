@@ -14,14 +14,15 @@ testresn $2 null testres $sv_gamemode $mode_deathmatch givepoint $2 500
 testres $sv_gamemode $mode_virus setnstate $1 virus 1
 testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag
+getres uid setnstate $1 id
 setnstate $1 flag 0
 testres $hadflag 1 getres newitemid getnewitemid
-testres $hadflag 1 echo $newitemid
+#testres $hadflag 1 echo $newitemid
 testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/putflag $newitemid $newitemx $newitemy
 getaddlong respawntime $gametimemillis $respawnwaittime
-addevent $respawntime exec scripts/respawnnetplayer $1
+addevent $respawntime exec scripts/respawnnetplayer $uid
 # getres hadweapon setthing THING_PLAYER $1 weapon
 # testres $hadweapon 1 exec scripts/putpistol $newitemid $newitemx $newitemy
 # testres $hadweapon 2 exec scripts/putshotgun $newitemid $newitemx $newitemy

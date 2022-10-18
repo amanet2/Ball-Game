@@ -51,6 +51,7 @@ public class xComExec extends xCom {
         for(String arg : args) {
             tvb.append(" ").append(arg);
         }
+//        System.out.println(tvb);
         xCon.ex(tvb.substring(1));
     }
 }
