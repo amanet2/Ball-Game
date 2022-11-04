@@ -15,7 +15,7 @@ joinip 127.0.0.1
 # default net port
 joinport 5555
 # player color
-playercolor pink
+playercolor orange
 # player name
 playername player
 # available resolutions

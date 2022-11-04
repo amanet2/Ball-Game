@@ -166,7 +166,6 @@ public class xCon {
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
         commands.put("spawnplayer", new xComSpawnPlayer());
-        commands.put("spawnpointgiver", new xComSpawnPointgiver());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
