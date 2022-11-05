@@ -29,28 +29,28 @@ public class cBotsLogic {
         });
         behaviors.put("Flag Master", new gDoableThing(){
             public void doItem(gThing p) {
-                String flagmasterid = null;
-                if(nServer.instance().serverVars.containsKey("flagmasterid"))
-                    flagmasterid = nServer.instance().serverVars.get("flagmasterid");
-                if(flagmasterid == null)
-                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
-                else if(p.contains("id") && flagmasterid.equals(p.get("id")))
-                    cBotsLogic.runFromNearestPlayer(p);
-                else if(flagmasterid.length() > 0)
-                    cBotsLogic.goToFlagPlayer(p);
-                else
-                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
+//                String flagmasterid = null;
+//                if(nServer.instance().serverVars.containsKey("flagmasterid"))
+//                    flagmasterid = nServer.instance().serverVars.get("flagmasterid");
+//                if(flagmasterid == null)
+//                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
+//                else if(p.contains("id") && flagmasterid.equals(p.get("id")))
+//                    cBotsLogic.runFromNearestPlayer(p);
+//                else if(flagmasterid.length() > 0)
+//                    cBotsLogic.goToFlagPlayer(p);
+//                else
+//                    cBotsLogic.goToFirstThing(p, "ITEM_FLAG");
             }
         });
         behaviors.put("Virus Master", new gDoableThing(){
             public void doItem(gThing p) {
-                if(nServer.instance().serverVars.containsKey("virusids")
-                        && !nServer.instance().serverVars.get("virusids").contains(p.get("id"))){
-                    cBotsLogic.runFromNearestVirusPlayer(p);
-                }
-                else {
-                    cBotsLogic.goToNearestVirusPlayer(p);
-                }
+//                if(nServer.instance().serverVars.containsKey("virusids")
+//                        && !nServer.instance().serverVars.get("virusids").contains(p.get("id"))){
+//                    cBotsLogic.runFromNearestVirusPlayer(p);
+//                }
+//                else {
+//                    cBotsLogic.goToNearestVirusPlayer(p);
+//                }
             }
         });
         behaviors.put("Gold Master", new gDoableThing(){
@@ -116,14 +116,14 @@ public class cBotsLogic {
     }
 
     public static void goToFlagPlayer(gThing bot) {
-        if(nServer.instance().serverVars.containsKey("flagmasterid")) {
-            gPlayer waypoint = cServerLogic.getPlayerById(
-                    nServer.instance().serverVars.get("flagmasterid"));
-            if(waypoint != null) {
-                shootAtNearestPlayer(bot);
-                goToWaypoint(bot, waypoint);
-            }
-        }
+//        if(nServer.instance().serverVars.containsKey("flagmasterid")) {
+//            gPlayer waypoint = cServerLogic.getPlayerById(
+//                    nServer.instance().serverVars.get("flagmasterid"));
+//            if(waypoint != null) {
+//                shootAtNearestPlayer(bot);
+//                goToWaypoint(bot, waypoint);
+//            }
+//        }
     }
 
     public static void goToFirstThing(gThing bot, String thingType) {
@@ -163,55 +163,55 @@ public class cBotsLogic {
     }
 
     private static void actOnNearestVirusPlayer(gThing bot, boolean offense) {
-        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
-        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
-        gPlayer waypoint = null;
-        if(nServer.instance().serverVars.containsKey("virusids")) {
-            String stateString = nServer.instance().serverVars.get("virusids");
-            if(offense) {
-                for(String id : nServer.instance().masterStateMap.keys()) {
-                    if(!stateString.contains(id)) {
-                        gPlayer p = cServerLogic.getPlayerById(id);
-                        if(p == null)
-                            continue;
-                        int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-                        int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-                        if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                                && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                            if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                                waypoint = p;
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                String[] virusIds = stateString.split("-");
-                for(String id : virusIds) {
-                    if(id.length() > 0) {
-                        gPlayer p = cServerLogic.getPlayerById(id);
-                        if(p != null) {
-                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
-                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
-                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
-                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
-                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
-                                    waypoint = p;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        if(waypoint != null) {
-            shootAtNearestPlayer(bot);
-            if(offense)
-                goToWaypoint(bot, waypoint);
-            else
-                runFromWaypoint(bot, waypoint);
-        }
+//        int x1 = bot.getInt("coordx") + bot.getInt("dimw") / 2;
+//        int y1 = bot.getInt("coordy") + bot.getInt("dimh") / 2;
+//        gPlayer waypoint = null;
+//        if(nServer.instance().serverVars.containsKey("virusids")) {
+//            String stateString = nServer.instance().serverVars.get("virusids");
+//            if(offense) {
+//                for(String id : nServer.instance().masterStateMap.keys()) {
+//                    if(!stateString.contains(id)) {
+//                        gPlayer p = cServerLogic.getPlayerById(id);
+//                        if(p == null)
+//                            continue;
+//                        int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+//                        int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+//                        if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+//                                && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+//                            if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+//                                waypoint = p;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            else {
+//                String[] virusIds = stateString.split("-");
+//                for(String id : virusIds) {
+//                    if(id.length() > 0) {
+//                        gPlayer p = cServerLogic.getPlayerById(id);
+//                        if(p != null) {
+//                            int x2 = p.getInt("coordx") + p.getInt("dimw")/2;
+//                            int y2 = p.getInt("coordy") + p.getInt("dimh")/2;
+//                            if(waypoint == null || (Math.abs(x2 - x1) < Math.abs(waypoint.getInt("coordx") - x1)
+//                                    && Math.abs(y2 - y1) < Math.abs(waypoint.getInt("coordy") - y1))) {
+//                                if(p.getInt("coordx") > -9000 && p.getInt("coordy") > -9000){
+//                                    waypoint = p;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//        if(waypoint != null) {
+//            shootAtNearestPlayer(bot);
+//            if(offense)
+//                goToWaypoint(bot, waypoint);
+//            else
+//                runFromWaypoint(bot, waypoint);
+//        }
     }
     
     public static void runFromNearestVirusPlayer(gThing bot) {
