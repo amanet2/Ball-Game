@@ -1,6 +1,6 @@
 unbind all
-bind - exec scripts/zoomout
-bind = exec scripts/zoomin
+bind - cl_exec scripts/zoomout
+bind = cl_exec scripts/zoomin
 bind backspace e_delthing
 bind w exec scripts/playerup
 bind s exec scripts/playerdown
