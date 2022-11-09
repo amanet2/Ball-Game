@@ -1,6 +1,2 @@
 getres it setthing THING_PLAYER $itemactid inteleporter
-testres $it 0 getres exit getteleporterexitred $itemrcvid
-testres $it 0 testresn $exit null getres tx setthing ITEM_TELEPORTER_RED $exit coordx
-testres $it 0 testresn $exit null getres ty setthing ITEM_TELEPORTER_RED $exit coordy
-testres $it 0 testresn $exit null setthing THING_PLAYER $itemactid inteleporter 1
-testres $it 0 testresn $exit null addcomx $itemactid cl_setplayercoords $itemactid $tx $ty
+testres $it 0 foreachthing telexid ITEM_TELEPORTER_RED exec scripts/checkteleporterexit $itemrcvid $itemactid

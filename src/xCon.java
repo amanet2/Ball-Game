@@ -123,12 +123,9 @@ public class xCon {
         commands.put("foreachlong", new xComForEachLong());
         commands.put("foreachclient", new xComForEachClient());
         commands.put("foreachthing", new xComForEachThing());
-        commands.put("getnargs", new xComGetServerArgs());
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
         commands.put("gametimemillis", new xComGameTimeMillis());
-        commands.put("getteleporterexitblue", new xComGetTeleporterExitBlue());
-        commands.put("getteleporterexitred", new xComGetTeleporterExitRed());
         commands.put("getadd", new xComGetAdd());
         commands.put("getaddint", new xComGetAddInt());
         commands.put("getaddlong", new xComGetAddLong());
@@ -161,12 +158,10 @@ public class xCon {
         commands.put("setcamcoords", new xComSetCamCoords());
         commands.put("setcammovs", new xComSetCamMovs());
         commands.put("setthing", new xComSetThing());
-        commands.put("setnargs", new xComSetServerArgs());
         commands.put("setnstate", new xComSetState());
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
         commands.put("spawnplayer", new xComSpawnPlayer());
-        commands.put("spawnpointgiver", new xComSpawnPointgiver());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
