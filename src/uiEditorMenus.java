@@ -54,15 +54,23 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(false);
-        if(checkBoxMenuItem.getText().equals("Rockmaster") && cClientLogic.isGame(cGameLogic.DEATHMATCH))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Flagmaster") && cClientLogic.isGame(cGameLogic.FLAG_MASTER))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Virusmaster") && cClientLogic.isGame(cGameLogic.VIRUS))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Goldmaster") && cClientLogic.isGame(cGameLogic.GOLD_MASTER))
-            checkBoxMenuItem.setSelected(true);
+        switch(cClientLogic.gamemode) {
+            case cGameLogic.DEATHMATCH:
+                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Rockmaster"));
+                break;
+            case cGameLogic.FLAG_MASTER:
+                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Flagmaster"));
+                break;
+            case cGameLogic.VIRUS:
+                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Virusmaster"));
+                break;
+            case cGameLogic.GOLD_MASTER:
+                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Goldmaster"));
+                break;
+            default:
+                checkBoxMenuItem.setSelected(false);
+                break;
+        }
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
