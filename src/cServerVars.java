@@ -48,10 +48,6 @@ public class cServerVars extends gArgSet {
         });
         put("voteskiplimit", "2");
         put("goldspawntime", "0");
-        put("mode_deathmatch", Integer.toString(cGameLogic.DEATHMATCH));
-        put("mode_virus", Integer.toString(cGameLogic.VIRUS));
-        put("mode_flagmaster", Integer.toString(cGameLogic.FLAG_MASTER));
-        put("mode_goldmaster", Integer.toString(cGameLogic.GOLD_MASTER));
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);

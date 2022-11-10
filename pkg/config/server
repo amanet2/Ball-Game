@@ -12,3 +12,8 @@ respawnwaittime 3000
 velocityplayerbase 8
 # number of votes to skip map (say 'skip' in chat)
 voteskiplimit 2
+# game modes
+setvar mode_deathmatch 0
+setvar mode_virus 1
+setvar mode_flagmaster 2
+setvar mode_goldmaster 3
