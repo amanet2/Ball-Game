@@ -46,8 +46,6 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
-        put("voteskiplimit", "2");
-        put("goldspawntime", "0");
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);

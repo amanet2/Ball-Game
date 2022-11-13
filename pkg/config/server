@@ -17,3 +17,4 @@ setvar mode_deathmatch 0
 setvar mode_virus 1
 setvar mode_flagmaster 2
 setvar mode_goldmaster 3
+setvar goldspawntime 0
