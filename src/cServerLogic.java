@@ -11,7 +11,7 @@ public class cServerLogic {
     static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;
-    static gScene scene = new gScene();
+    static gScene scene;
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
     public static void gameLoop(long loopTimeMillis) {

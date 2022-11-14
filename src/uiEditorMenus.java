@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
-    static gScene previewScene = new gScene();
+    static gScene previewScene;
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";

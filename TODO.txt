@@ -1,3 +1,4 @@
+* GET RID OF STATIC SCENES TO ALLOW CUSTOM THING TITLES
 * replace getTeleporterExit with script
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
 * make the killing player process a script so it can be customized

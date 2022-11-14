@@ -20,7 +20,7 @@ public class cClientLogic {
     static int prevY = 0;
     static int prevW = 300;
     static int prevH = 300;
-    static gScene scene = new gScene();
+    static gScene scene;
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
     public static gPlayer getUserPlayer() {
