@@ -24,6 +24,7 @@ public class nStateBallGame extends nState {
             }
         });
         map.put("flag", "0");
+        map.put("waypoint", "0");
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {

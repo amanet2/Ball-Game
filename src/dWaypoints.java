@@ -68,21 +68,21 @@ public class dWaypoints {
     }
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
         if(uiInterface.inplay) {
+            for(String id : nClient.instance().clientStateMap.keys()) {
+                if(!id.equalsIgnoreCase(uiInterface.uuid)
+                        && nClient.instance().clientStateMap.get(id).get("waypoint").equals("1")) {
+                    gPlayer p = cClientLogic.getPlayerById(id);
+                    if(p != null)
+                        drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
+                                p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
+                }
+            }
+            // old
             HashMap<String, gThing> flagmap = scene.getThingMap("ITEM_FLAG");
             for(Object id : flagmap.keySet()) {
                 gThing flag = flagmap.get(id);
                 drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
                         flag.getInt("coordy") + flag.getInt("dimh")/2, "PICK UP");
-            }
-            for(String id : nClient.instance().clientStateMap.keys()) {
-                if(!id.equalsIgnoreCase(uiInterface.uuid)
-                        && nClient.instance().clientStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
-                    gPlayer p = cClientLogic.getPlayerById(id);
-                    if(p == null)
-                        return;
-                    drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                            p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
-                }
             }
         }
     }

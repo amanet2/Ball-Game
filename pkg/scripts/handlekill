@@ -16,6 +16,7 @@ testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag
 getres uid setnstate $1 id
 setnstate $1 flag 0
+testres $hadflag 1 setnstate $1 waypoint 0
 testres $hadflag 1 getres newitemid getnewitemid
 #testres $hadflag 1 echo $newitemid
 testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
