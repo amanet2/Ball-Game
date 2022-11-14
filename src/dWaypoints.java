@@ -78,11 +78,12 @@ public class dWaypoints {
                 }
             }
             // old
-            HashMap<String, gThing> flagmap = scene.getThingMap("ITEM_FLAG");
-            for(Object id : flagmap.keySet()) {
-                gThing flag = flagmap.get(id);
-                drawNavPointer(g2,flag.getInt("coordx") + flag.getInt("dimw")/2,
-                        flag.getInt("coordy") + flag.getInt("dimh")/2, "PICK UP");
+            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
+            for(Object id : itemMap.keySet()) {
+                gThing item = itemMap.get(id);
+                if(item.contains("waypoint") && item.isVal("waypoint", "1"))
+                    drawNavPointer(g2,item.getInt("coordx") + item.getInt("dimw")/2,
+                            item.getInt("coordy") + item.getInt("dimh")/2, "PICK UP");
             }
         }
     }
