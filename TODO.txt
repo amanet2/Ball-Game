@@ -1,3 +1,5 @@
+* make game modes modifiable and custom
+    -> cClientLogic should have a variable for gametype title and description that can be set by a server
 * GET RID OF STATIC SCENES TO ALLOW CUSTOM THING TITLES
 * replace getTeleporterExit with script
 * fix the bug where players pop out on top of walls they shouldnt be visible behind

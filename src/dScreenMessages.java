@@ -69,9 +69,8 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, 59 * sSettings.height / 64);
             }
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g,
-                    cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase(),
-                29 * sSettings.width / 30, 31*sSettings.height/32);
+            dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
+                    29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");

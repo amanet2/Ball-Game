@@ -7,9 +7,7 @@ public class dScoreboard {
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_highlight");
-        dFonts.drawCenteredString(g,
-                cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase() + ": "
-                        + cGameLogic.net_gamemode_strings[cClientLogic.gamemode][1],
+        dFonts.drawCenteredString(g, cClientLogic.gamemodeTitle.toUpperCase() + ": " + cClientLogic.gamemodeText,
                 sSettings.width/2, 2*sSettings.height/30);
         dFonts.setFontColor(g, "clrf_normal");
         g.drawString(clStateMap.keys().size() + " players",
