@@ -14,7 +14,7 @@ public class cClientLogic {
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
-    static int gamemode = cGameLogic.DEATHMATCH;
+    static int gamemode = 0;
     static String gamemodeTitle = "Rock Master";
     static String gamemodeText = "Rock Other Players";
     static boolean maploaded = false;
