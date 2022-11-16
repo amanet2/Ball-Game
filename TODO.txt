@@ -1,13 +1,6 @@
-* make game modes modifiable and custom
-    -> cClientLogic should have a variable for gametype title and description that can be set by a server
-* GET RID OF STATIC SCENES TO ALLOW CUSTOM THING TITLES
-* replace getTeleporterExit with script
+* separate client and server gamemode variables
+    -> will need for dedicated server
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
-* make the killing player process a script so it can be customized
-    -> this is where we can script deathmatch-givepoint logic
-* get rid of all the gamemode-related java code and have it in script
-* you don't need to use stringbuilder to get subarrays
-    -> looks at the foreach console commands
 * create a new "exec" function for scripts
     -> should support block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
@@ -15,9 +8,6 @@
 * convert banning/ban relief into a timeEvent
 * make a "willcollide" console comm with 2 ids for objects
 * make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
-* try to see if putitem can only have x y and have it do cl_putitem with an assigned id
-* VFX BUG: player sometimes appears in front of small tiletops
-    -> try putting a few units of buffer when testing collision
 * convert cClientLogic.newprefabname into client var so onChange() can be used
 * dont draw blocks that cant be seen on screen
 * see what "checkX" functions we can get rid of/change to commands
@@ -30,7 +20,6 @@
 * fix memory leaks
 * put the xCom classes into their own folder
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
-    -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
@@ -53,12 +42,10 @@
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
 * GAME: bring back squish effect for something
-* GAME: in virus, give players infinite ammo
-    -> infected have boxing glove
-    -> survivors have shotguns
+* GAME: infected have boxing glove survivors have shotguns
 * new Item: bonusblock
     -> (make them look like regular blocks)
-    -> get its health to 0 and it has a change to spawn a powerup
+    -> get its health to 0 and it has a chance to spawn a powerup
         --> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
         --> this will be the powerup delivery system.  no placing shotties on map, etc
     -> will respawn after X time
@@ -72,9 +59,8 @@
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
 * FUTURE: we can make "themes" for prefabs
-* make players bounce off each other
-    -> if a player is slower than another, make them take more and the other take less force accordingly
-* add ball skins
+* make players bounce off each other like billiard balls
+* add ball skins like polka dots stripes etc
     -> use existing color architecture
 * avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * cant have key bound to multiple actions
@@ -86,9 +72,8 @@
 * gungame mode
 * add "disable attacks" option
 * checksum checks
-    -> in a real game, would represent official vs "community" content/experiences (halo custom edition)
     -> client sends checksum of the jar, map file, and scripts currently played
-    -> server verifies these two MD5 hashes against its own md5s
+    -> server verifies these MD5 hashes against its own md5s
 * make players eyes blink
 * Create a server browser program
 * add voip
