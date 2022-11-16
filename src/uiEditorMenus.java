@@ -219,19 +219,20 @@ public class uiEditorMenus {
             menus.get("Items").add(itemMenuItem);
         }
         //fill gametypes menu
-        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
-            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
+        int ctr = 0;
+        ArrayList<String> gameTypeTitles = new ArrayList<>();
+        while(!xCon.ex("setvar GAMETYPE_"+ctr+"_title").equals("null")) {
+            gameTypeTitles.add(xCon.ex("setvar GAMETYPE_"+ctr+"_title"));
+            ctr++;
+        }
+        for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {
+            String gameTypeTitle = gameTypeTitles.get(gtr);
+            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gameTypeTitle);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
             resetCheckBoxMenuItem(gametypeMenuItem);
+            int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
-                if(gametypeMenuItem.getText().equals("Rockmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);
-                else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.FLAG_MASTER);
-                else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.VIRUS);
-                else if(gametypeMenuItem.getText().equals("Goldmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.GOLD_MASTER);
+                xCon.ex("cv_gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

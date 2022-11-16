@@ -11,7 +11,6 @@ public class eGameLogicBallGame implements eGameLogic {
     public void init() throws Exception {
         gCamera.init();
         gAnimations.init();
-        xCon.ex("exec config/gametypes");
         xCon.ex("exec config/itemsdef");
     }
 

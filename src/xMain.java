@@ -5,6 +5,7 @@ public class xMain {
 		eManager.init();
 		gExecDoableFactory.instance().init();
 		// init thing types from def
+		xCon.ex("exec config/gametypes");
 		xCon.ex("exec config/thingsdef");
 		int ctr = 0;
 		ArrayList<String> thingTypes = new ArrayList<>();
