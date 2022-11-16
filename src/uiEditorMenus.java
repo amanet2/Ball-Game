@@ -54,23 +54,10 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        switch(cClientLogic.gamemode) {
-            case cGameLogic.DEATHMATCH:
-                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Rockmaster"));
-                break;
-            case cGameLogic.FLAG_MASTER:
-                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Flagmaster"));
-                break;
-            case cGameLogic.VIRUS:
-                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Virusmaster"));
-                break;
-            case cGameLogic.GOLD_MASTER:
-                checkBoxMenuItem.setSelected(checkBoxMenuItem.getText().equals("Goldmaster"));
-                break;
-            default:
-                checkBoxMenuItem.setSelected(false);
-                break;
-        }
+        if(xCon.ex("setvar GAMETYPE_"+cClientLogic.gamemode+"_title").equalsIgnoreCase(checkBoxMenuItem.getText()))
+            checkBoxMenuItem.setSelected(true);
+        else
+            checkBoxMenuItem.setSelected(false);
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
