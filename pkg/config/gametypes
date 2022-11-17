@@ -6,3 +6,5 @@ setvar GAMETYPE_2_title Flag Master
 setvar GAMETYPE_2_text Hold the Flag
 setvar GAMETYPE_3_title Gold Master
 setvar GAMETYPE_3_text Get the Gold
+setvar GAMETYPE_4_title Point Master
+setvar GAMETYPE_4_text Get the Point or Explode

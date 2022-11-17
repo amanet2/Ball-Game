@@ -1,2 +1,3 @@
 givepoint $itemactid
 addcom deleteitem $itemrcvid
+cl_testres $cv_gamemode $mode_pointmaster exec scripts/pointmaster
