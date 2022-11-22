@@ -2,3 +2,5 @@ getres isv setnstate $1 virus
 testres $isv 0 givepoint $1
 testres $isv 0 setvar allvirus 0
 testresn $isv 0 exec scripts/createviruspopup $1
+testres $isv 0 getres cw setthing THING_PLAYER $1 weapon
+testres $isv 0 testresn $cw 2 exec scripts/giveweapon $1 2
