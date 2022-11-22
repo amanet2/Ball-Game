@@ -18,4 +18,10 @@ setvar mode_virus 1
 setvar mode_flagmaster 2
 setvar mode_goldmaster 3
 setvar mode_pointmaster 4
+setvar weap_none 0
+setvar weap_pistol 1
+setvar weap_shotgun 2
+setvar weap_rifle 3
+setvar weap_launcher 4
+setvar weap_gloves 5
 setvar goldspawntime 0
