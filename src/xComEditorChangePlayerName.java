@@ -1,26 +1,6 @@
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 public class xComEditorChangePlayerName extends xCom {
     public String doCommand(String fullCommand) {
-        Thread t = new Thread(() -> {
-            JLabel label = new JLabel("Change Player Name");
-            label.setFont(dFonts.getFontNormal());
-            String s = (String)JOptionPane.showInputDialog(
-                    oDisplay.instance().frame, null,
-                    "Change Player Name",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    null);
-            if(s != null && s.strip().replace(",", "").length() > 0) {
-                cClientVars.instance().put("playername", s.replace(",", ""));
-                uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
-                if(sSettings.show_mapmaker_ui)
-                    uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
-            }
-        });
-        t.start();
+        xCon.ex("chat Enter New Name");
         return "";
     }
 }

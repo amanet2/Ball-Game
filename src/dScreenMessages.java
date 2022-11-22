@@ -80,7 +80,8 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage)
-            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
+            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+                    0,25 * sSettings.height/32);
         //sendmsg.. invisible?
         dFonts.setFontColor(g, "clrf_normal");
         //menus
