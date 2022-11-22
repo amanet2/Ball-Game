@@ -1,0 +1,2 @@
+addcomx server putitem ITEM_POINTGIVER $1 $2 $3
+addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3

@@ -151,7 +151,7 @@ public class iInput {
                         cClientVars.instance().put("joinip", gMessages.msgInProgress);
                         gMessages.msgInProgress = "";
                     }
-                    if(gMessages.prompt.equals("Enter New Port")) {
+                    else if(gMessages.prompt.equals("Enter New Port")) {
                         cClientVars.instance().put("joinport", gMessages.msgInProgress);
                         gMessages.msgInProgress = "";
                     }
