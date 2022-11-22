@@ -1,3 +1,4 @@
+* make weapons always shoot the color of the shooter
 * make prefabs configurable/exandable
 * separate client and server gamemode variables
     -> will need for dedicated server
