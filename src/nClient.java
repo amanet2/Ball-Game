@@ -95,7 +95,9 @@ public class nClient {
                 clientSocket = new DatagramSocket();
                 clientSocket.setSoTimeout(timeout);
             }
+
             clientSocket.send(sendPacket);
+            cClientLogic.serverSendTime = System.currentTimeMillis();
             xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,6 +127,9 @@ public class nClient {
                             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
                                     clientReceiveData.length);
                             clientSocket.receive(receivePacket);
+                            cClientLogic.serverRcvTime = System.currentTimeMillis();
+                            if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
+                                cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
                             receivedPackets.add(receivePacket);
                             break;
                         }

@@ -24,6 +24,9 @@ public class cClientLogic {
     static int prevH = 300;
     static gScene scene;
     static gTimeEventSet timedEvents = new gTimeEventSet();
+    static long serverSendTime = 0;
+    static long serverRcvTime = 0;
+    static int ping = 0;
 
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);

@@ -26,8 +26,9 @@ public class dScreenMessages {
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
         //net
         if(shownet) {
-            g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 4 * sSettings.height / 64);
-            g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("PING:" + cClientLogic.ping, 0, 4 * sSettings.height / 64);
+//            g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 4 * sSettings.height / 64);
+//            g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 5 * sSettings.height / 64);
         }
         if(showcam) {
             //camera
