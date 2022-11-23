@@ -1,5 +1,13 @@
-* make weapons always shoot the color of the shooter
-* make prefabs configurable/exandable
+* for the environment map, have walls not be a part of the wall
+    -> set a wall height in the config or something
+    -> but effectively, if the prefabs can be represented in a pure top-down 2d
+        -> we can rotate them using matrix rotation
+* make prefabs not hardcoded
+    -> create some cool rooms/runs and duplicate them
+    -> bring back save as prefab button
+        -> prefab manager should have a check for new files every so often
+            -> maybe as a first check for selecting the prefab menu
+            -> or even better in the 'putObject' command
 * separate client and server gamemode variables
     -> will need for dedicated server
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
