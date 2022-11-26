@@ -1,1 +1,5 @@
 foreachclient cid testresn $cid $1 exec scripts/respawnnetplayerbackfilldelegate $1
+getres cname setnstate $1 name
+getres ccolor setnstate $1 color
+constr joinstr $cname # $ccolor
+addcomi server echo $joinstr joined the game

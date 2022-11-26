@@ -284,10 +284,7 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
-        // respawn the already-present players on the joining client
         xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
-        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
-                masterStateMap.get(id).get("name"), masterStateMap.get(id).get("color")));
     }
 
     public void checkBanStatus(String stateId) {
