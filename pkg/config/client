@@ -15,9 +15,9 @@ joinip localhost
 # default net port
 joinport 5555
 # player color
-playercolor green
+playercolor red
 # player name
-playername guest
+playername player
 # available resolutions
 resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
