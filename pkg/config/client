@@ -11,13 +11,13 @@ fontui None
 # available framerates
 framerates 24,30,60,75,98,120,144,165,240,320,360
 # default net address
-joinip 127.0.0.1
+joinip localhost
 # default net port
 joinport 5555
 # player color
-playercolor red
+playercolor green
 # player name
-playername player
+playername guest
 # available resolutions
 resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
@@ -37,6 +37,6 @@ vfxenableshading 1
 # enable shadows
 vfxenableshadows 1
 # video mode
-vidmode 1280,720,240
+vidmode 800,600,240
 # volume
-volume 50
+volume 100

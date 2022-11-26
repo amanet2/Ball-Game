@@ -276,6 +276,7 @@ public class nServer extends Thread {
         sendMap(id);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
             xCon.ex("exec scripts/respawnnetplayer " + id);
+//        xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
     }
 
     public void handleJoin(String id) {
@@ -284,6 +285,7 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
+        // respawn the already-present players on the joining client
         for(String clientId : masterStateMap.keys()) {
             gThing player = cServerLogic.scene.getPlayerById(clientId);
             if(clientId.equals(id) || player == null)
