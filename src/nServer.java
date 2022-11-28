@@ -167,7 +167,6 @@ public class nServer extends Thread {
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
@@ -176,10 +175,10 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
+            HashMap<String, gThing> botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
             if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
                 cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
-                for(Object id : botsMap.keySet()) {
+                for(String id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p, gameTimeMillis);
                     String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
@@ -234,13 +233,14 @@ public class nServer extends Thread {
         clientNetCmdMap.remove(id);
         clientStateSnapshots.remove(id);
         gScoreboard.scoresMap.remove(id);
-        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+//        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+        xCon.ex("exec scripts/handleremoveclient " + id);
         addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
-        if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
-            gPlayer player = cServerLogic.getPlayerById(id);
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
-                    player.getInt("coordx"), player.getInt("coordy")));
-        }
+//        if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
+//            gPlayer player = cServerLogic.getPlayerById(id);
+//            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
+//                    player.getInt("coordx"), player.getInt("coordy")));
+//        }
     }
 
     public void run() {
