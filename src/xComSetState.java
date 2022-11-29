@@ -7,6 +7,8 @@ public class xComSetState extends xCom {
         String[] args = eUtils.parseScriptArgsServer(fullCommand);
         String pid = args[1];
         nState clientState = serverState.get(pid);
+        if(clientState == null)
+            return "null";
         if(args.length < 3)
             return clientState.toString();
         String tk = args[2];
@@ -17,6 +19,8 @@ public class xComSetState extends xCom {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);
+        if(!clientState.contains(tk))
+            return "null";
         clientState.put(tk, tv);
         return clientState.get(tk);
     }
