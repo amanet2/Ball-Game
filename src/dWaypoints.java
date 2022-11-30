@@ -71,6 +71,7 @@ public class dWaypoints {
             // players
             for(String id : nClient.instance().clientStateMap.keys()) {
                 if(!id.equalsIgnoreCase(uiInterface.uuid)
+                        && nClient.instance().clientStateMap.get(id).contains("waypoint")
                         && nClient.instance().clientStateMap.get(id).get("waypoint").equals("1")) {
                     gPlayer p = cClientLogic.getPlayerById(id);
                     if(p != null)

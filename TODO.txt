@@ -1,3 +1,4 @@
+* code in "holding_ITEM_NAME" var for players that will replace hardoded "flag" check for drawing flag
 * for the environment map, have walls not be a part of the wall
     -> set a wall height in the config or something
     -> but effectively, if the prefabs can be represented in a pure top-down 2d

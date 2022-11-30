@@ -14,7 +14,7 @@ public class nStateBallGameClient extends nState {
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
             }
         });
-        map.put("name", "player");
+//        map.put("name", "player");
         map.putArg(new gArg("x", "0") {
             public void onChange() {
                 if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
@@ -27,7 +27,7 @@ public class nStateBallGameClient extends nState {
                     cClientLogic.getPlayerById(get("id")).put("coordy", value);
             }
         });
-        map.put("hp", "0");
+//        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))
@@ -53,13 +53,13 @@ public class nStateBallGameClient extends nState {
                 pl.put("vel3", vels[3]);
             }
         });
-        map.put("px", "0");
-        map.put("py", "0");
-        map.put("pw", "0");
-        map.put("ph", "0");
-        map.put("score", "0:0");
-        map.put("cmdrcv", "0");
-        map.put("cmd", "");
-        map.put("msg", "");
+//        map.put("px", "0");
+//        map.put("py", "0");
+//        map.put("pw", "0");
+//        map.put("ph", "0");
+//        map.put("score", "0:0");
+//        map.put("cmdrcv", "0");
+//        map.put("cmd", "");
+//        map.put("msg", "");
     }
 }

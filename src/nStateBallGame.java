@@ -3,7 +3,7 @@ public class nStateBallGame extends nState {
         //generates a "dummy snapshot" of all vars with value of 0/default
         //
         super();
-        map.put("id", "");
+//        map.put("id", "");
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
             public void onChange() {
@@ -23,8 +23,8 @@ public class nStateBallGame extends nState {
                 }
             }
         });
-        map.put("flag", "0");
-        map.put("waypoint", "0");
+//        map.put("flag", "0");
+//        map.put("waypoint", "0");
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
@@ -45,7 +45,7 @@ public class nStateBallGame extends nState {
                     cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
             }
         });
-        map.put("hp", "0");
+//        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(cServerLogic.scene.getPlayerById(get("id")) != null)
@@ -64,11 +64,11 @@ public class nStateBallGame extends nState {
                 pl.put("vel3", vels[3]);
             }
         });
-        map.put("px", "0");
-        map.put("py", "0");
-        map.put("pw", "0");
-        map.put("ph", "0");
-        map.put("score", "0:0");
+//        map.put("px", "0");
+//        map.put("py", "0");
+//        map.put("pw", "0");
+//        map.put("ph", "0");
+//        map.put("score", "0:0");
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
