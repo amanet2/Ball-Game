@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GradientPaint;
 import java.util.HashMap;
 
 public class dBlockTops {
