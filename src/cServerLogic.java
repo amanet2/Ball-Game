@@ -7,7 +7,6 @@ public class cServerLogic {
     static int timelimit = 180000;
     static int intermissionDelay = 10000;
     static int rechargehp = 1;
-    static int respawnwaittime = 3000;
     static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;

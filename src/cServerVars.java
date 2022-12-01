@@ -32,17 +32,13 @@ public class cServerVars extends gArgSet {
                     cServerLogic.rechargehp = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("respawnwaittime", "3000") {
-            public void onChange() {
-                cServerLogic.respawnwaittime = Integer.parseInt(value);
-            }
-        });
+        putArg(new gArg("respawnwaittime", "3000"));
         putArg(new gArg("velocityplayerbase", "8") {
             public void onChange() {
                 int newval = Integer.parseInt(value);
                 if(sSettings.IS_SERVER && cServerLogic.velocityplayerbase != newval) {
                     cServerLogic.velocityplayerbase = newval;
-                    nServer.instance().addNetCmd("cv_velocityplayer " + cServerLogic.velocityplayerbase);
+                    xCon.ex("addcom cv_velocityplayer " + newval);
                 }
             }
         });
