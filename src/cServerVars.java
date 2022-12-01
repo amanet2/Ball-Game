@@ -36,8 +36,7 @@ public class cServerVars extends gArgSet {
         putArg(new gArg("velocityplayerbase", "8") {
             public void onChange() {
                 int newval = Integer.parseInt(value);
-                if(sSettings.IS_SERVER && cServerLogic.velocityplayerbase != newval) {
-                    cServerLogic.velocityplayerbase = newval;
+                if(sSettings.IS_SERVER) {
                     xCon.ex("addcom cv_velocityplayer " + newval);
                 }
             }
