@@ -18,27 +18,20 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                cServerLogic.maxhp = Integer.parseInt(value);
-                nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
+                int newmaxhp = Integer.parseInt(value);
+                nServer.instance().addNetCmd("cv_maxhp " + newmaxhp);
                 for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
                     gPlayer p = cServerLogic.scene.getPlayerById(s);
-                    p.putInt("stockhp", cServerLogic.maxhp);
+                    p.putInt("stockhp", newmaxhp);
                 }
             }
         });
-        putArg(new gArg("rechargehp", "1") {
-            public void onChange() {
-                if(sSettings.IS_SERVER)
-                    cServerLogic.rechargehp = Integer.parseInt(value);
-            }
-        });
+        putArg(new gArg("rechargehp", "1"));
         putArg(new gArg("respawnwaittime", "3000"));
         putArg(new gArg("velocityplayerbase", "8") {
             public void onChange() {
-                int newval = Integer.parseInt(value);
-                if(sSettings.IS_SERVER) {
-                    xCon.ex("addcom cv_velocityplayer " + newval);
-                }
+                if(sSettings.IS_SERVER)
+                    xCon.ex("addcom cv_velocityplayer " + Integer.parseInt(value));
             }
         });
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);

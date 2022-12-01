@@ -3,10 +3,8 @@ import java.util.Collection;
 import java.util.ArrayList;
 
 public class cServerLogic {
-    static int maxhp = 500;
     static int timelimit = 180000;
     static int intermissionDelay = 10000;
-    static int rechargehp = 1;
     static long timeleft = 120000;
     static int listenPort = 5555;
     static gScene scene;
