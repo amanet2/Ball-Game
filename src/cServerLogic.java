@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class cServerLogic {
     static int timelimit = 180000;
-    static int intermissionDelay = 10000;
     static long timeleft = 120000;
     static int listenPort = 5555;
     static gScene scene;
@@ -83,7 +82,8 @@ public class cServerLogic {
                 xCon.ex("exec scripts/endgame " + highestId);
             }
         });
-        xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
+        xCon.ex(String.format("addevent %d changemaprandom",
+                starttime + timelimit + Integer.parseInt(xCon.ex("setvar intermissiondelay"))));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long lastT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
