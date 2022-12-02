@@ -26,8 +26,6 @@ public class cServerVars extends gArgSet {
                 }
             }
         });
-        putArg(new gArg("rechargehp", "1"));
-        putArg(new gArg("respawnwaittime", "3000"));
         putArg(new gArg("velocityplayerbase", "8") {
             public void onChange() {
                 if(sSettings.IS_SERVER)

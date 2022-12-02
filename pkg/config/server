@@ -5,9 +5,9 @@ maxhp 500
 # timelimit in ms
 timelimit 120000
 # rate of hp recharge
-rechargehp 1
+setvar rechargehp 1
 # respawn wait time in ms
-respawnwaittime 3000
+setvar respawnwaittime 3000
 # player speed
 velocityplayerbase 8
 # number of votes to skip map (say 'skip' in chat)
