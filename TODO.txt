@@ -1,3 +1,4 @@
+* create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
 * code in "holding_ITEM_NAME" var for players that will replace hardoded "flag" check for drawing flag
 * for the environment map, have walls not be a part of the wall
