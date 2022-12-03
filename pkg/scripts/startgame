@@ -9,3 +9,4 @@ testres $1 $mode_pointmaster getaddlong estart $gtime 30000
 testres $1 $mode_pointmaster getaddlong bstart $gtime 20000
 testres $1 $mode_pointmaster foreachlong tv $estart $eend 30000 addevent $tv exec scripts/pointmaster
 testres $1 $mode_pointmaster foreachlong tv $bstart $eend 30000 addevent $tv addcomi server echo scorepoint spawning in 10 seconds!
+addevent $eend exec scripts/endgame

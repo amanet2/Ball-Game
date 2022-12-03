@@ -1,6 +1,8 @@
-testresn $1 null getres wn setnstate $1 name
-testresn $1 null getres wc setnstate $1 color
-testresn $1 null addcomi server echo $wn#$wc wins#$wc
+getres winid getwinnerid
+testresn $winid null getres wn setnstate $winid name
+testresn $winid null getres wc setnstate $winid color
+testresn $winid null addcomi server echo $wn#$wc wins#$wc
+testresn $winid null givewin $winid
 getres rando getrand 0 10
 testres $rando 0 addcomi server playsound sounds/win/arncook2.wav
 testres $rando 1 addcomi server playsound sounds/win/bowtoyoursensei.wav
@@ -16,4 +18,6 @@ testres $rando 10 addcomi server playsound sounds/win/partyboy.wav
 testres $rando 11 addcomi server playsound sounds/win/winningmg.wav
 testres $rando 12 addcomi server playsound sounds/win/fun.wav
 testres $rando 13 addcomi server playsound sounds/win/like.wav
-addcomi server echo changing map...
+addcomi server echo changing map in $intermissiondelay milliseconds...
+getaddlong egt $gametimemillis $intermissiondelay
+addevent $egt changemaprandom

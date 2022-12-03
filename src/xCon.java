@@ -139,6 +139,8 @@ public class xCon {
         commands.put("getrand", new xComGetRandom());
         commands.put("getrandclid", new xComGetRandomClientId());
         commands.put("getrandthing", new xComGetRandomThing());
+        commands.put("getwinnerid", new xComGetWinnerId());
+        commands.put("givewin", new xComGiveWin());
         commands.put("givepoint", new xComGivePoint());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());

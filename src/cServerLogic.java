@@ -73,17 +73,6 @@ public class cServerLogic {
         if(sSettings.show_mapmaker_ui)
             return;
         long starttime = gTime.gameTime;
-        timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
-            //game over
-            public void doCommand() {
-                String highestId = gScoreboard.getWinnerId();
-                if(!highestId.equalsIgnoreCase("null"))
-                    gScoreboard.incrementScoreFieldById(highestId, "wins");
-                xCon.ex("exec scripts/endgame " + highestId);
-            }
-        });
-        xCon.ex(String.format("addevent %d changemaprandom",
-                starttime + timelimit + Integer.parseInt(xCon.ex("setvar intermissiondelay"))));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long lastT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
