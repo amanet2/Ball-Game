@@ -18,6 +18,7 @@ testres $rando 10 addcomi server playsound sounds/win/partyboy.wav
 testres $rando 11 addcomi server playsound sounds/win/winningmg.wav
 testres $rando 12 addcomi server playsound sounds/win/fun.wav
 testres $rando 13 addcomi server playsound sounds/win/like.wav
-addcomi server echo changing map in $intermissiondelay milliseconds...
+addcomi server echo coded fearlessly by Stallion 2021-2022
+addcomi server echo changing map in 10 seconds...
 getaddlong egt $gametimemillis $intermissiondelay
 addevent $egt changemaprandom
