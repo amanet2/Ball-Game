@@ -5,8 +5,6 @@ public class xComGiveWin extends xCom {
             return "null";
         String id = args[1];
         gScoreboard.incrementScoreFieldById(id, "wins");
-        nServer.instance().addExcludingNetCmd("server", String.format("cl_spawnpopup %s WINNER#%s",
-                id, nServer.instance().masterStateMap.get(id).get("color")));
         return id;
     }
 }
