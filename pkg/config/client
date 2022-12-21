@@ -1,5 +1,5 @@
 # mute volume
-audioenabled 1
+audioenabled 0
 # show debug info in console
 debug 0
 # save console log to file on close

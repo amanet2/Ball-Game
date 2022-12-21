@@ -11,6 +11,8 @@ testresn $2 null testres $sw $weap_rifle addcomi server echo $sn#$sc shot $vn#$v
 testresn $2 null testres $sw $weap_launcher addcomi server echo $sn#$sc blew up $vn#$vc with a bazooka
 testresn $2 null testres $sw $weap_gloves addcomi server echo $sn#$sc hit $vn#$vc with the gloves
 testresn $2 null testres $sv_gamemode $mode_deathmatch givepoint $2 500
+testresn $2 null getres kflag setnstate $2 flag
+testresn $2 null testres $sv_gamemode $mode_vipmaster testres $kflag 1 givepoint $2 500
 testres $sv_gamemode $mode_virus getres wasvirus setnstate $1 virus
 testres $sv_gamemode $mode_virus setnstate $1 virus 1
 testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvname setnstate $1 name

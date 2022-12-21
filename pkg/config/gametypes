@@ -8,3 +8,5 @@ setvar GAMETYPE_3_title Gold Master
 setvar GAMETYPE_3_text Get the Gold
 setvar GAMETYPE_4_title Point Master
 setvar GAMETYPE_4_text Get the Point or Explode
+setvar GAMETYPE_5_title VIP Master
+setvar GAMETYPE_5_text Only the VIP can Score for Rocks
