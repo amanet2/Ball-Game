@@ -97,6 +97,7 @@ public class xCon {
         commands.put("clientlist", new xComClientlist());
         commands.put("commandlist", new xComCommandlist());
         commands.put("console", new xComConsole());
+        commands.put("constr", new xComConStr());
         commands.put("cvarlist", new xComCVarList());
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
@@ -131,12 +132,15 @@ public class xCon {
         commands.put("getaddlong", new xComGetAddLong());
         commands.put("cl_getadd", new xComGetAddClient());
         commands.put("cl_getaddlong", new xComGetAddLongClient());
+        commands.put("getsnap", new xComGetSnapshot());
         commands.put("getsub", new xComGetSub());
         commands.put("cl_getsub", new xComGetSubClient());
         commands.put("getnewitemid", new xComGetNewItemId());
         commands.put("getrand", new xComGetRandom());
         commands.put("getrandclid", new xComGetRandomClientId());
         commands.put("getrandthing", new xComGetRandomThing());
+        commands.put("getwinnerid", new xComGetWinnerId());
+        commands.put("givewin", new xComGiveWin());
         commands.put("givepoint", new xComGivePoint());
         commands.put("gobackui", new xComGoBackUI());
         commands.put("joingame", new xComJoingame());

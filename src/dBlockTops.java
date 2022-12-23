@@ -1,6 +1,5 @@
 import java.awt.Graphics2D;
-import java.awt.TexturePaint;
-import java.awt.geom.Rectangle2D;
+import java.awt.GradientPaint;
 import java.util.HashMap;
 
 public class dBlockTops {
@@ -11,7 +10,7 @@ public class dBlockTops {
         if(block.contains("wallh") && block.getInt("wallh") < 300)
             dFonts.setFontColor(g2, "clrw_topcolordark");
         g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getInt("toph"));
-        dBlockTopsShading.drawBlockTopShadingCube(g2, block);
+        drawBlockTopShadingCube(g2, block);
     }
 
     public static void drawBlockTopCubesPreview(Graphics2D g2) {
@@ -38,5 +37,31 @@ public class dBlockTops {
                 eUtils.scaleInt(block.getWidth()/4),
                 eUtils.scaleInt(block.getInt("toph")/4)
         );
+    }
+
+    public static void drawBlockTopShadingCube(Graphics2D g2, gThing block) {
+        if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
+            GradientPaint gradient = new GradientPaint(
+                    block.getInt("coordx") + block.getInt("dimw") / 2
+                    ,
+                    block.getInt("coordy") ,
+                    gColors.instance().getColorFromName("clrw_roofoutline1"),
+                    block.getInt("coordx") + block.getInt("dimw") / 2
+                    ,
+                    block.getInt("coordy")
+                            + block.getInt("toph"),
+                    gColors.instance().getColorFromName("clrw_roofoutline2")
+            );
+            g2.setPaint(gradient);
+            g2.drawRoundRect(
+                    block.getInt("coordx") ,
+                    block.getInt("coordy") ,
+                    block.getInt("dimw"),
+                    block.getInt("toph"),
+                    5,
+                    5
+            );
+        }
     }
 }

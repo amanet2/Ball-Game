@@ -88,7 +88,7 @@ public class dScreenFX {
             snapY -= eUtils.unscaleInt(gCamera.getY());
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
-            int setw = sSettings.height / 96;
+            int setw = sSettings.height / 64;
             g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }

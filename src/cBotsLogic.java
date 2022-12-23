@@ -257,7 +257,7 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cServerLogic.velocityplayerbase/4;
+        int speed = 3*Integer.parseInt(xCon.ex("cv_velocityplayerbase"))/4;
         if(x2 > x1) {
             int modspeed = speed + (int)(
                     Math.random()*(speed)-(speed));
@@ -297,7 +297,7 @@ public class cBotsLogic {
         bot.put("botvel1", "0");
         bot.put("botvel2", "0");
         bot.put("botvel3", "0");
-        int speed = 3*cServerLogic.velocityplayerbase/4;
+        int speed = 3*Integer.parseInt(xCon.ex("cv_velocityplayerbase"))/4;
         if(x2 > x1)
             bot.putInt("botvel3", speed + (int)(Math.random()*(speed)-(speed)));
         if(x1 > x2)

@@ -6,9 +6,7 @@ import java.util.Queue;
 
 public class iKeyboard implements KeyListener {
     static Queue<Integer> inputReleaseQueue = new LinkedList<>();
-    static Queue<Integer> inputReleaseQueueGL = new LinkedList<>();
     static Queue<Integer> inputPressQueue = new LinkedList<>();
-    static Queue<Integer> inputPressQueueGL = new LinkedList<>();
     static boolean shiftMode = false;
     static boolean ctrlMode = false;
 

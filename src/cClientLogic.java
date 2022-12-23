@@ -14,18 +14,19 @@ public class cClientLogic {
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
-    static int gamemode = cGameLogic.DEATHMATCH;
+    static int gamemode = 0;
+    static String gamemodeTitle = "Rock Master";
+    static String gamemodeText = "Rock Other Players";
     static boolean maploaded = false;
     static int prevX = 0;
     static int prevY = 0;
     static int prevW = 300;
     static int prevH = 300;
-    static gScene scene = new gScene();
+    static gScene scene;
     static gTimeEventSet timedEvents = new gTimeEventSet();
-
-    public static boolean isGame(int mode) {
-        return gamemode == mode;
-    }
+    static long serverSendTime = 0;
+    static long serverRcvTime = 0;
+    static int ping = 0;
 
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);

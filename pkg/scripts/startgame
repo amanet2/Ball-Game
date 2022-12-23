@@ -5,3 +5,9 @@ testres $1 $mode_virus foreachlong tv $estart $eend 1000 addevent $tv exec scrip
 testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 addevent $tv exec scripts/flagmaster
 testres $1 $mode_goldmaster getaddlong estart $gtime 3000
 testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
+testres $1 $mode_vipmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
+testres $1 $mode_pointmaster getaddlong estart $gtime 10000
+testres $1 $mode_pointmaster getaddlong bstart $gtime 5000
+testres $1 $mode_pointmaster foreachlong tv $estart $eend 10000 addevent $tv exec scripts/pointmaster
+testres $1 $mode_pointmaster foreachlong tv $bstart $eend 10000 addevent $tv addcomi server echo scorepoint spawning in 5 seconds!
+addevent $eend exec scripts/endgame

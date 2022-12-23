@@ -140,7 +140,23 @@ public class iInput {
                                 gMessages.msgInProgress.length()-1);
                     return;
                 case KeyEvent.VK_ENTER:
-                    xCon.ex(String.format("say %s", gMessages.msgInProgress));
+                    if(gMessages.prompt.equals("Enter New Name")) {
+                        cClientVars.instance().put("playername", gMessages.msgInProgress);
+                        uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
+                        if(sSettings.show_mapmaker_ui)
+                            uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
+                        gMessages.msgInProgress = "";
+                    }
+                    else if(gMessages.prompt.equals("Enter New IP Address")) {
+                        cClientVars.instance().put("joinip", gMessages.msgInProgress);
+                        gMessages.msgInProgress = "";
+                    }
+                    else if(gMessages.prompt.equals("Enter New Port")) {
+                        cClientVars.instance().put("joinport", gMessages.msgInProgress);
+                        gMessages.msgInProgress = "";
+                    }
+                    else
+                        xCon.ex(String.format("say %s", gMessages.msgInProgress));
                     gMessages.enteringMessage = false;
                     return;
                 case KeyEvent.VK_SHIFT:

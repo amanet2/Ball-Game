@@ -12,13 +12,15 @@ import java.util.Arrays;
 public class nServer extends Thread {
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
+    static int ticks = 0;
+    static long nextsecondnanos = 0;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
+    final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
@@ -167,7 +169,6 @@ public class nServer extends Thread {
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
@@ -176,10 +177,10 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
+            HashMap<String, gThing> botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
             if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
                 cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
-                for(Object id : botsMap.keySet()) {
+                for(String id : botsMap.keySet()) {
                     gPlayer p = (gPlayer) botsMap.get(id);
                     nVarsBot.update(p, gameTimeMillis);
                     String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
@@ -227,20 +228,12 @@ public class nServer extends Thread {
     }
 
     void removeNetClient(String id) {
-        String qn = masterStateMap.get(id).get("name");
-        String qc = masterStateMap.get(id).get("color");
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
-        clientStateSnapshots.remove(id);
+//        clientStateSnapshots.remove(id);
         gScoreboard.scoresMap.remove(id);
-        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-        addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
-        if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
-            gPlayer player = cServerLogic.getPlayerById(id);
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
-                    player.getInt("coordx"), player.getInt("coordy")));
-        }
+        xCon.ex("exec scripts/handleremoveclient " + id);
     }
 
     public void run() {
@@ -257,6 +250,13 @@ public class nServer extends Thread {
                     processPackets(gameTime);
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextsecondnanos < theTime) {
+                        nextsecondnanos = theTime + 1000000000;
+                        uiInterface.netReportServer = ticks;
+                        ticks = 0;
+                    }
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
@@ -284,15 +284,7 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
-        for(String clientId : masterStateMap.keys()) {
-            gThing player = cServerLogic.scene.getPlayerById(clientId);
-            if(clientId.equals(id) || player == null)
-                continue;
-            addNetCmd(id, String.format("cl_spawnplayer %s %s %s", clientId,
-                    player.get("coordx"), player.get("coordy")));
-        }
-        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
-                masterStateMap.get(id).get("name"), masterStateMap.get(id).get("color")));
+        xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
     }
 
     public void checkBanStatus(String stateId) {
@@ -335,8 +327,8 @@ public class nServer extends Thread {
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %d\n",
-                cServerLogic.velocityplayerbase, cClientLogic.gamemode));
+        maplines.add(String.format("cv_velocityplayer %s;cv_maploaded 0;cv_gamemode %d\n",
+                xCon.ex("cv_velocityplayer"), cClientLogic.gamemode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);

@@ -3,15 +3,10 @@ import java.util.Collection;
 import java.util.ArrayList;
 
 public class cServerLogic {
-    static int maxhp = 500;
     static int timelimit = 180000;
-    static int intermissionDelay = 10000;
-    static int rechargehp = 1;
-    static int respawnwaittime = 3000;
-    static int velocityplayerbase = 8;
     static long timeleft = 120000;
     static int listenPort = 5555;
-    static gScene scene = new gScene();
+    static gScene scene;
     static gTimeEventSet timedEvents = new gTimeEventSet();
 
     public static void gameLoop(long loopTimeMillis) {
@@ -78,16 +73,6 @@ public class cServerLogic {
         if(sSettings.show_mapmaker_ui)
             return;
         long starttime = gTime.gameTime;
-        timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
-            //game over
-            public void doCommand() {
-                String highestId = gScoreboard.getWinnerId();
-                if(!highestId.equalsIgnoreCase("null"))
-                    gScoreboard.incrementScoreFieldById(highestId, "wins");
-                xCon.ex("exec scripts/endgame " + highestId);
-            }
-        });
-        xCon.ex(String.format("addevent %d changemaprandom", starttime + timelimit + intermissionDelay));
         for(long t = starttime+1000; t <= starttime+timelimit; t+=1000) {
             long lastT = t;
             timedEvents.put(Long.toString(t), new gTimeEvent() {
@@ -183,14 +168,5 @@ public class cServerLogic {
 
     public static gPlayer getPlayerById(String id) {
         return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
-    }
-
-    public static int getNewItemId() {
-        int itemId = 0;
-        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
-            if(itemId < Integer.parseInt(id))
-                itemId = Integer.parseInt(id);
-        }
-        return itemId+1; //want to be the _next_ id
     }
 }

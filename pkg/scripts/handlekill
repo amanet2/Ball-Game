@@ -4,20 +4,27 @@ getres vc setnstate $1 color
 testresn $2 null getres sn setnstate $2 name
 testresn $2 null getres sc setnstate $2 color
 testresn $2 null getres sw setthing THING_PLAYER $2 weapon
-testresn $2 null testres $sw 0 addcomi server echo $sn#$sc rocked $vn#$vc
-testresn $2 null testres $sw 1 addcomi server echo $sn#$sc shot $vn#$vc with a pistol
-testresn $2 null testres $sw 2 addcomi server echo $sn#$sc shotgunned $vn#$vc
-testresn $2 null testres $sw 3 addcomi server echo $sn#$sc shot $vn#$vc with a rifle
-testresn $2 null testres $sw 4 addcomi server echo $sn#$sc blew up $vn#$vc with a bazooka
-testresn $2 null testres $sw 5 addcomi server echo $sn#$sc hit $vn#$vc with the gloves
+testresn $2 null testres $sw $weap_none addcomi server echo $sn#$sc rocked $vn#$vc
+testresn $2 null testres $sw $weap_pistol addcomi server echo $sn#$sc shot $vn#$vc with a pistol
+testresn $2 null testres $sw $weap_shotgun addcomi server echo $sn#$sc shotgunned $vn#$vc
+testresn $2 null testres $sw $weap_rifle addcomi server echo $sn#$sc shot $vn#$vc with a rifle
+testresn $2 null testres $sw $weap_launcher addcomi server echo $sn#$sc blew up $vn#$vc with a bazooka
+testresn $2 null testres $sw $weap_gloves addcomi server echo $sn#$sc hit $vn#$vc with the gloves
 testresn $2 null testres $sv_gamemode $mode_deathmatch givepoint $2 500
+testresn $2 null getres kflag setnstate $2 flag
+testresn $2 null testres $sv_gamemode $mode_vipmaster testres $kflag 1 givepoint $2 500
+testres $sv_gamemode $mode_virus getres wasvirus setnstate $1 virus
 testres $sv_gamemode $mode_virus setnstate $1 virus 1
+testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvname setnstate $1 name
+testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvcolor setnstate $1 color
+testres $sv_gamemode $mode_virus testres $wasvirus 0 constr vvstr $vvname # $vvcolor
+testres $sv_gamemode $mode_virus testres $wasvirus 0 addcomi server eacho $vvstr was infected
 testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag
 getres uid setnstate $1 id
 setnstate $1 flag 0
+testres $hadflag 1 setnstate $1 waypoint 0
 testres $hadflag 1 getres newitemid getnewitemid
-#testres $hadflag 1 echo $newitemid
 testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/putflag $newitemid $newitemx $newitemy

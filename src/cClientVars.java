@@ -127,6 +127,8 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("cv_gamemode", "0") {
             public void onChange() {
                 cClientLogic.gamemode = Integer.parseInt(value);
+                cClientLogic.gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
+                cClientLogic.gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
             }
         });
         putArg(new gArg("cv_maploaded", "0") {

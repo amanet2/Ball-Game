@@ -20,39 +20,36 @@ public class dScreenMessages {
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
         //ticks
         if(showtick)
-            g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
+            g.drawString("GAME:" + uiInterface.tickReport, 0, 2*sSettings.height / 64);
         //fps
         if(showfps)
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
+            g.drawString("FPS:" + uiInterface.fpsReport, 0, 3*sSettings.height / 64);
         //net
         if(shownet) {
+            g.drawString("PING:" + cClientLogic.ping, 0, 4 * sSettings.height / 64);
             g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 5 * sSettings.height / 64);
             g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
-//            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
-//                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
-//                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-//                        0, 6 * sSettings.height / 64);
         }
         if(showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
                     gCamera.getX(), gCamera.getY());
-            g.drawString(camstring,0, 8 * sSettings.height / 64);
+            g.drawString(camstring,0, 7 * sSettings.height / 64);
         }
         if(showmouse) {
             int[] mc = uiInterface.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
-                        uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
+                        uiInterface.getPlaceObjCoords()[1]),0,8*sSettings.height/64);
             else
                 g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
-                        eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
+                        eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,8*sSettings.height/64);
         }
         if(showplayer && cClientLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
                     cClientLogic.getUserPlayer().getInt("coordx"),
                     cClientLogic.getUserPlayer().getInt("coordy")),
-                    0,10*sSettings.height/64);
+                    0,9*sSettings.height/64);
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
@@ -69,9 +66,8 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, 59 * sSettings.height / 64);
             }
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g,
-                    cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase(),
-                29 * sSettings.width / 30, 31*sSettings.height/32);
+            dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
+                    29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");
@@ -81,7 +77,8 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage)
-            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
+            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+                    0,25 * sSettings.height/32);
         //sendmsg.. invisible?
         dFonts.setFontColor(g, "clrf_normal");
         //menus

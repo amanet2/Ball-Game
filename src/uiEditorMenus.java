@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
-    static gScene previewScene = new gScene();
+    static gScene previewScene;
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";
@@ -54,15 +54,10 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(false);
-        if(checkBoxMenuItem.getText().equals("Rockmaster") && cClientLogic.isGame(cGameLogic.DEATHMATCH))
+        if(xCon.ex("setvar GAMETYPE_"+cClientLogic.gamemode+"_title").equalsIgnoreCase(checkBoxMenuItem.getText()))
             checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Flagmaster") && cClientLogic.isGame(cGameLogic.FLAG_MASTER))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Virusmaster") && cClientLogic.isGame(cGameLogic.VIRUS))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Goldmaster") && cClientLogic.isGame(cGameLogic.GOLD_MASTER))
-            checkBoxMenuItem.setSelected(true);
+        else
+            checkBoxMenuItem.setSelected(false);
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -211,19 +206,20 @@ public class uiEditorMenus {
             menus.get("Items").add(itemMenuItem);
         }
         //fill gametypes menu
-        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
-            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
+        int ctr = 0;
+        ArrayList<String> gameTypeTitles = new ArrayList<>();
+        while(!xCon.ex("setvar GAMETYPE_"+ctr+"_title").equals("null")) {
+            gameTypeTitles.add(xCon.ex("setvar GAMETYPE_"+ctr+"_title"));
+            ctr++;
+        }
+        for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {
+            String gameTypeTitle = gameTypeTitles.get(gtr);
+            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gameTypeTitle);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
             resetCheckBoxMenuItem(gametypeMenuItem);
+            int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
-                if(gametypeMenuItem.getText().equals("Rockmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);
-                else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.FLAG_MASTER);
-                else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.VIRUS);
-                else if(gametypeMenuItem.getText().equals("Goldmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.GOLD_MASTER);
+                xCon.ex("cv_gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
