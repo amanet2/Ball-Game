@@ -10,8 +10,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class nClient {
-    private int netticks;
-    private long nettickcounterTimeClient = -1;
+    private int ticks = 0;
+    private long nextSecondNanos = 0;
     private static final int retrylimit = 10;
     long netTime = -1;
     private static final int timeout = 500;
@@ -36,7 +36,6 @@ public class nClient {
         clientStateMap = new nStateMap();
         netSendMsgs.clear();
         netSendCmds.clear();
-        netticks = 0;
         netTime = -1;
         receivedPackets.clear();
         serverArgsMap.clear();
@@ -47,7 +46,6 @@ public class nClient {
 
     private nClient() {
         clientStateMap = new nStateMap();
-        netticks = 0;
     }
 
     void addSendMsg(String msg) {
@@ -108,16 +106,10 @@ public class nClient {
         int retries = 0;
         while(retries <= retrylimit) {
             try {
-                netticks += 1;
                 long gameTime = gTime.gameTime;
                 if(netTime >= gameTime)
                     return;
                 netTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-                if (nettickcounterTimeClient < gameTime) {
-                    uiInterface.netReportClient = netticks;
-                    netticks = 0;
-                    nettickcounterTimeClient = gameTime + 1000;
-                }
                 if (receivedPackets.size() < 1) {
                     int lretry = 0;
                     while (lretry <= retrylimit) {
@@ -147,6 +139,13 @@ public class nClient {
                     }
                 }
                 processPackets();
+                ticks++;
+                long theTime = System.nanoTime();
+                if(nextSecondNanos < theTime) {
+                    nextSecondNanos = theTime + 1000000000;
+                    uiInterface.netReportClient = ticks;
+                    ticks = 0;
+                }
             }
             catch (Exception ee) {
                 eUtils.echoException(ee);

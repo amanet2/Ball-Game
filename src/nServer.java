@@ -12,6 +12,8 @@ import java.util.Arrays;
 public class nServer extends Thread {
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
+    static int ticks = 0;
+    static long nextsecondnanos = 0;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -248,6 +250,13 @@ public class nServer extends Thread {
                     processPackets(gameTime);
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextsecondnanos < theTime) {
+                        nextsecondnanos = theTime + 1000000000;
+                        uiInterface.netReportServer = ticks;
+                        ticks = 0;
+                    }
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
