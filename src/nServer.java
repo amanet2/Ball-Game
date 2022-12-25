@@ -247,6 +247,8 @@ public class nServer extends Thread {
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
+                    // Everything above this line seems to be for receiving net data
+                    //all below it seems to be what a GAME server tick should check
                     processPackets(gameTime);
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
