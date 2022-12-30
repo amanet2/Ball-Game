@@ -33,8 +33,8 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			eGameEngine eng = new eGameEngine(new eGameLogicBallGame());
-			eng.run();
+			eGameClient client = new eGameClient();
+			client.run();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

@@ -1,14 +1,15 @@
-public class eGameLogicBallGame implements eGameLogic {
+public class eGameClientLogic implements eGameLogic {
     private int ticks = 0;
     private long frameCounterTime = -1;
     private long tickCounterTime = -1;
 
-    public eGameLogicBallGame() {
+    public eGameClientLogic() {
 
     }
 
     @Override
     public void init() throws Exception {
+        oDisplay.instance().showFrame();
         gCamera.init();
         gAnimations.init();
         xCon.ex("exec config/itemsdef");
@@ -16,6 +17,7 @@ public class eGameLogicBallGame implements eGameLogic {
 
     @Override
     public void input() {
+        gTime.gameTime = System.currentTimeMillis();
         iInput.readKeyInputs();
     }
 
@@ -36,6 +38,7 @@ public class eGameLogicBallGame implements eGameLogic {
 
     @Override
     public void render() {
+        oDisplay.instance().frame.repaint();
         long gameTimeMillis = gTime.gameTime;
         if (frameCounterTime < gameTimeMillis) {
             uiInterface.fpsReport = uiInterface.frames;
