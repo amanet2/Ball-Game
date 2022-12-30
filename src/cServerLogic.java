@@ -11,7 +11,7 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-        timedEvents.executeCommands();
+//        timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");
         checkGameState();
         updateEntityPositions(loopTimeMillis);

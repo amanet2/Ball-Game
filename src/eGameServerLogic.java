@@ -1,6 +1,6 @@
 public class eGameServerLogic implements eGameLogic {
     private int ticks = 0;
-    private long tickCounterTime = -1;
+    private long nextsecondnanos = 0;
 
     public eGameServerLogic() {
 
@@ -18,13 +18,13 @@ public class eGameServerLogic implements eGameLogic {
 
     @Override
     public void update() {
-        long gameTimeMillis = gTime.gameTime;
-
+        cServerLogic.timedEvents.executeCommands();
         ticks++;
-        if(tickCounterTime < gameTimeMillis) {
+        long theTime = System.nanoTime();
+        if(nextsecondnanos < theTime) {
+            nextsecondnanos = theTime + 1000000000;
             uiInterface.netReportServer = ticks;
             ticks = 0;
-            tickCounterTime = gameTimeMillis + 1000;
         }
     }
 

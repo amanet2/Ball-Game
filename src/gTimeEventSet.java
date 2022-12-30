@@ -26,7 +26,8 @@ public class gTimeEventSet {
         while (eventQueue.size() > 0) {
             gTimeEvent event = eventQueue.peek();
             event.doCommand();
-            eventQueue.remove();
+            if(eventQueue.size() > 0)
+                eventQueue.remove();
         }
     }
 

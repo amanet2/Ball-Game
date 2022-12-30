@@ -1,4 +1,4 @@
-public class eGameSession implements Runnable {
+public class eGameSession extends Thread implements Runnable {
     private final eTimer timer;
     private final eGameLogic gameLogic;
     private final boolean playing = true;
