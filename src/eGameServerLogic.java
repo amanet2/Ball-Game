@@ -8,7 +8,7 @@ public class eGameServerLogic implements eGameLogic {
 
     @Override
     public void init() throws Exception {
-        xCon.ex("exec config/itemsdef");
+
     }
 
     @Override
@@ -18,7 +18,6 @@ public class eGameServerLogic implements eGameLogic {
 
     @Override
     public void update() {
-        cServerLogic.timedEvents.executeCommands();
         ticks++;
         long theTime = System.nanoTime();
         if(nextsecondnanos < theTime) {

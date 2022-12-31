@@ -252,13 +252,6 @@ public class nServer extends Thread {
                     processPackets(gameTime);
                     checkForUnhandledQuitters();
                     cServerLogic.gameLoop(gameTime);
-//                    ticks++;
-//                    long theTime = System.nanoTime();
-//                    if(nextsecondnanos < theTime) {
-//                        nextsecondnanos = theTime + 1000000000;
-//                        uiInterface.netReportServer = ticks;
-//                        ticks = 0;
-//                    }
                     sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {

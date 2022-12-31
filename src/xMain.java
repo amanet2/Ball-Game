@@ -34,7 +34,7 @@ public class xMain {
 		try {
 			init(args);
 			eGameClient client = new eGameClient();
-			client.run();
+			client.start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

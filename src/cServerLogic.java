@@ -11,14 +11,14 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-//        timedEvents.executeCommands();
+        timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");
         checkGameState();
         updateEntityPositions(loopTimeMillis);
         checkBulletSplashes(loopTimeMillis);
     }
 
-    public static void checkGameState() {
+    private static void checkGameState() {
         for(String id : nServer.instance().masterStateMap.keys()) {
             if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
                 continue;
@@ -85,7 +85,7 @@ public class cServerLogic {
         xCon.ex("exec scripts/startgame " + cClientLogic.gamemode);
     }
 
-    public static void updateEntityPositions(long gameTimeMillis) {
+    private static void updateEntityPositions(long gameTimeMillis) {
         for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
@@ -115,7 +115,7 @@ public class cServerLogic {
         }
     }
 
-    public static void checkBulletSplashes(long gameTimeMillis) {
+    private static void checkBulletSplashes(long gameTimeMillis) {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
