@@ -18,6 +18,11 @@ public class eGameServerLogic implements eGameLogic {
 
     @Override
     public void update() {
+//        cServerLogic.gameLoop(System.currentTimeMillis()); // using this makes teleporters broken proly caus client
+        long gameTime = gTime.gameTime;
+        nServer.instance().processPackets(gameTime);
+        nServer.instance().checkForUnhandledQuitters();
+        cServerLogic.gameLoop(gameTime);
         ticks++;
         long theTime = System.nanoTime();
         if(nextsecondnanos < theTime) {
