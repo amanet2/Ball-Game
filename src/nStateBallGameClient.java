@@ -38,19 +38,36 @@ public class nStateBallGameClient extends nState {
                 pl.checkSpriteFlip();
             }
         });
-        map.putArg(new gArg("vels", "0-0-0-0") {
+        map.putArg(new gArg("vel0", "0") {
             public void onChange() {
-                if(get("id").equals(uiInterface.uuid))
-                    return;
-                gPlayer pl = cClientLogic.getPlayerById(get("id"));
-                if(pl == null)
-                    return;
-                String[] vels = value.split("-");
-                pl.put("vel0", vels[0]);
-                pl.put("vel1", vels[1]);
-                pl.put("vel2", vels[2]);
-                pl.put("vel3", vels[3]);
+                setVelVec("0", value);
+
             }
         });
+        map.putArg(new gArg("vel1", "0") {
+            public void onChange() {
+                setVelVec("1", value);
+
+            }
+        });
+        map.putArg(new gArg("vel2", "0") {
+            public void onChange() {
+                setVelVec("2", value);
+
+            }
+        });
+        map.putArg(new gArg("vel3", "0") {
+            public void onChange() {
+                setVelVec("3", value);
+            }
+        });
+    }
+
+    private void setVelVec(String dir, String val) {
+        if(get("id").equals(uiInterface.uuid))
+            return;
+        gPlayer pl = cClientLogic.getPlayerById(get("id"));
+        if(pl != null)
+            pl.put("vel"+dir, val);
     }
 }

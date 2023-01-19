@@ -25,11 +25,11 @@ public class cServerLogic {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
-            nState objState = nServer.instance().masterStateMap.get(obj.get("id"));
-            obj.putInt("vel0", Integer.parseInt(objState.get("vels").split("-")[0]));
-            obj.putInt("vel1", Integer.parseInt(objState.get("vels").split("-")[1]));
-            obj.putInt("vel2", Integer.parseInt(objState.get("vels").split("-")[2]));
-            obj.putInt("vel3", Integer.parseInt(objState.get("vels").split("-")[3]));
+            nState objState = nServer.instance().masterStateMap.get(id);
+            obj.put("vel0", objState.get("vel0"));
+            obj.put("vel1", objState.get("vel1"));
+            obj.put("vel2", objState.get("vel2"));
+            obj.put("vel3", objState.get("vel3"));
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
