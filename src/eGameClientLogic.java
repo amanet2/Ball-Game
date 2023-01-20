@@ -26,6 +26,7 @@ public class eGameClientLogic implements eGameLogic {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
             nClient.instance().netLoop();
+//            nClient.instance().processPackets();
             cClientLogic.gameLoop(gameTimeMillis);
         }
         ticks += 1;
