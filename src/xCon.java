@@ -204,7 +204,7 @@ public class xCon {
                 writer.write(line+"\n");
             }
         } catch (IOException e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }

@@ -28,7 +28,7 @@ public class xComExec extends xCom {
                 }
             }
             catch (Exception e) {
-                eUtils.echoException(e);
+                eLogging.logException(e);
                 e.printStackTrace();
             }
         }

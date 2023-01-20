@@ -112,7 +112,7 @@ public class gScene {
             }
             writer.write("cv_maploaded 1\n");
         } catch (IOException e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -162,7 +162,7 @@ public class gScene {
                 writer.write(str.toString());
             }
         } catch (IOException e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }

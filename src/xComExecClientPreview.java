@@ -30,7 +30,7 @@ public class xComExecClientPreview extends xCom {
                 }
             }
             catch (Exception e) {
-                eUtils.echoException(e);
+                eLogging.logException(e);
                 e.printStackTrace();
             }
         }

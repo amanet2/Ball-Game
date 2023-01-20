@@ -33,7 +33,7 @@ public class gArgSet {
             }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -59,7 +59,7 @@ public class gArgSet {
                 writer.write("\n");
             }
         } catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }

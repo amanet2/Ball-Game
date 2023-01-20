@@ -196,7 +196,7 @@ public class nServer extends Thread {
             }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -255,14 +255,14 @@ public class nServer extends Thread {
 //                    sleep(Math.max(0, networkTime - gameTime));
                 }
                 catch (Exception e) {
-                    eUtils.echoException(e);
+                    eLogging.logException(e);
                     e.printStackTrace();
                 }
             }
             interrupt();
         }
         catch (Exception ee) {
-            eUtils.echoException(ee);
+            eLogging.logException(ee);
             ee.printStackTrace();
         }
     }

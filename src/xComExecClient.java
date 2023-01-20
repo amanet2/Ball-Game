@@ -29,7 +29,7 @@ public class xComExecClient extends xCom {
                 }
             }
             catch (Exception e) {
-                eUtils.echoException(e);
+                eLogging.logException(e);
                 e.printStackTrace();
             }
         }
