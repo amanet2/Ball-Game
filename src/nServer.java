@@ -177,23 +177,23 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            HashMap<String, gThing> botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
-                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
-                for(String id : botsMap.keySet()) {
-                    gPlayer p = (gPlayer) botsMap.get(id);
-                    nVarsBot.update(p, gameTimeMillis);
-                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
-                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                            + receiveDataString.trim());
-                    readData(receiveDataString);
-                    //get player id of client
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                    String clientId = clientmap.get("id");
-                    //act as if responding
-                    createSendDataString(netVars, clientId);
-                }
-            }
+//            HashMap<String, gThing> botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
+//            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
+//                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
+//                for(String id : botsMap.keySet()) {
+//                    gPlayer p = (gPlayer) botsMap.get(id);
+//                    nVarsBot.update(p, gameTimeMillis);
+//                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
+//                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+//                            + receiveDataString.trim());
+//                    readData(receiveDataString);
+//                    //get player id of client
+//                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
+//                    String clientId = clientmap.get("id");
+//                    //act as if responding
+//                    createSendDataString(netVars, clientId);
+//                }
+//            }
         }
         catch (Exception e) {
             eLogging.logException(e);
@@ -249,8 +249,8 @@ public class nServer extends Thread {
                     long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
                     // Everything above this line seems to be for receiving net data
                     //all below it seems to be what a GAME server tick should check
-//                    processPackets(gameTime);
-//                    checkForUnhandledQuitters();
+                    processPackets(gameTime);
+                    checkForUnhandledQuitters();
 //                    cServerLogic.gameLoop(gameTime);
 //                    sleep(Math.max(0, networkTime - gameTime));
                 }
