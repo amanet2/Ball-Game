@@ -1,11 +1,9 @@
-* server should have thread dedicated to send, thread dedicated to recieve, and thread for simulation
-    -> sim thread reads from a queue produced to by rcv thread
-        -> THIS IS DONE
-    -> sim thread writes to queue consumed by the send thread
-        -> NEEDS TO BE DONE
-        -> CURRENTLY SIM THREAD WRITES DRIECTLY ON THE SOCKET
+* shotgun does no dmg?
 * client should have threads to match server
 * server should run simulation and set clients' coords instead of clients overriding server
+    -> i think server relies on clients x,y send to create simulation currently
+    -> TRY THIS: disable the server's x/y observer that sets player coords
+        -> then copy the clients code for updating entity positions
 * create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
 * code in "holding_ITEM_NAME" var for players that will replace hardoded "flag" check for drawing flag

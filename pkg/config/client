@@ -5,7 +5,7 @@ debug 0
 # save console log to file on close
 debuglog 0
 # 0=window||1=borderless||2=fullscreen
-displaymode 0
+displaymode 1
 # font name ui
 fontui None
 # available framerates
@@ -37,6 +37,6 @@ vfxenableshading 1
 # enable shadows
 vfxenableshadows 1
 # video mode
-vidmode 1280,720,240
+vidmode 3840,2160,240
 # volume
 volume 40
