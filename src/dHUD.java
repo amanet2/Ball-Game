@@ -37,9 +37,14 @@ public class dHUD {
             if(id.equals(uiInterface.uuid))
                 continue;
             dFonts.setFontColor(g, "clrf_normaldark");
-            String color = clStateMap.get(id).get("color");
+            String color = "blue";
+            if(clStateMap.get(id).contains("color"))
+                color = clStateMap.get(id).get("color");
             g.setColor(gColors.instance().getColorFromName("clrp_" + color));
-            g.drawString("$ " + clStateMap.get(id).get("score").split(":")[1],
+            String score = "0:0";
+            if(clStateMap.get(id).contains("score"))
+                clStateMap.get(id).get("score");
+            g.drawString("$ " + score.split(":")[1],
                     sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
             dFonts.setFontColor(g, "clrf_normaldark");
             g.drawString(clStateMap.get(id).get("name"), sSettings.width / 64,

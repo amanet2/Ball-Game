@@ -1,3 +1,6 @@
+* movement is all wrong
+    -> have server simulate great movement using mov dirs to increase/decrease velocity in a certain direction
+    -> currently the client makes velocity and sends that to server
 * shotgun does no dmg?
 * client should have threads to match server
 * server should run simulation and set clients' coords instead of clients overriding server

@@ -5,7 +5,7 @@ debug 0
 # save console log to file on close
 debuglog 0
 # 0=window||1=borderless||2=fullscreen
-displaymode 1
+displaymode 0
 # font name ui
 fontui None
 # available framerates
@@ -15,9 +15,9 @@ joinip localhost
 # default net port
 joinport 5555
 # player color
-playercolor blue
+playercolor yellow
 # player name
-playername player
+playername guest
 # available resolutions
 resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
@@ -37,6 +37,6 @@ vfxenableshading 1
 # enable shadows
 vfxenableshadows 1
 # video mode
-vidmode 3840,2160,240
+vidmode 1280,720,60
 # volume
 volume 40

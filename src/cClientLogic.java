@@ -110,15 +110,14 @@ public class cClientLogic {
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
             if(obj.getLong("acceltick") < gameTimeMillis) {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("accelrate"));
-                for (int i = 0; i < 4; i++) {
-                    //user player
-                    if(isUserPlayer(obj)) {
-                        if (obj.getInt("mov"+i) > 0) {
+                //user player
+                if(isUserPlayer(obj)) {
+                    for (int i = 0; i < 4; i++) {
+                        if (obj.getInt("mov" + i) > 0)
                             obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
                                     obj.getInt("vel" + i) + 1)));
-                        }
                         else
-                            obj.putInt("vel"+i,Math.max(0, obj.getInt("vel"+i) - 1));
+                            obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - 1));
                     }
                 }
             }

@@ -84,7 +84,7 @@ public class gArgSet {
     public String get(String key) {
         if(args.containsKey(key))
             return args.get(key).value;
-        return null;
+        return "null";
     }
 
     public int getInt(String key) {
