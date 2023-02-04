@@ -1,9 +1,9 @@
 # mute volume
 audioenabled 1
 # show debug info in console
-debug 0
+debug 1
 # save console log to file on close
-debuglog 0
+debuglog 1
 # 0=window||1=borderless||2=fullscreen
 displaymode 0
 # font name ui

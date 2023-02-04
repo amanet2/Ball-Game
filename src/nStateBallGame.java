@@ -19,18 +19,18 @@ public class nStateBallGame extends nState {
                 oldname = value;
             }
         });
-        map.putArg(new gArg("x", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
-            }
-        });
-        map.putArg(new gArg("y", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
-            }
-        });
+//        map.putArg(new gArg("x", "0") {
+//            public void onChange() {
+//                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
+//                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
+//            }
+//        });
+//        map.putArg(new gArg("y", "0") {
+//            public void onChange() {
+//                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
+//                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
+//            }
+//        });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(cServerLogic.scene.getPlayerById(get("id")) != null)
