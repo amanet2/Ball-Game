@@ -20,20 +20,16 @@ public class cServerLogic {
 
     private static void checkGameState() {
         for(String id : nServer.instance().masterStateMap.keys()) {
-            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
-                continue;
+//            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
+//                continue;
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
-            nState objState = nServer.instance().masterStateMap.get(id);
-            obj.put("vel0", objState.get("vel0"));
-            obj.put("vel1", objState.get("vel1"));
-            obj.put("vel2", objState.get("vel2"));
-            obj.put("vel3", objState.get("vel3"));
-            obj.put("mov0", objState.get("mov0"));
-            obj.put("mov1", objState.get("mov1"));
-            obj.put("mov2", objState.get("mov2"));
-            obj.put("mov3", objState.get("mov3"));
+//            nState objState = nServer.instance().masterStateMap.get(id);
+//            obj.put("mov0", objState.get("mov0"));
+//            obj.put("mov1", objState.get("mov1"));
+//            obj.put("mov2", objState.get("mov2"));
+//            obj.put("mov3", objState.get("mov3"));
         }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
@@ -104,9 +100,10 @@ public class cServerLogic {
             if(obj.getLong("acceltick") < gameTimeMillis) {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("accelrate"));
                 for (int i = 0; i < 4; i++) {
-                    if (obj.getInt("mov" + i) > 0)
+                    if (obj.getInt("mov" + i) > 0) {
                         obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
                                 obj.getInt("vel" + i) + 1)));
+                    }
                     else
                         obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - 1));
                 }
@@ -115,6 +112,11 @@ public class cServerLogic {
                 obj.putInt("coordx", dx);
             if(obj.wontClipOnMove(1,dy, scene))
                 obj.putInt("coordy", dy);
+            nState objState = nServer.instance().masterStateMap.get(id);
+            if(objState != null) {
+                objState.put("x", Integer.toString(dx));
+                objState.put("y", Integer.toString(dy));
+            }
         }
 
         HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
@@ -179,6 +181,6 @@ public class cServerLogic {
     }
 
     public static gPlayer getPlayerById(String id) {
-        return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+        return scene.getPlayerById(id);
     }
 }

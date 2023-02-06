@@ -87,12 +87,6 @@ public class gArgSet {
         return "null";
     }
 
-    public int getInt(String key) {
-        if(args.containsKey(key))
-            return Integer.parseInt(args.get(key).value);
-        return -1;
-    }
-
     public void put(String key, String val) {
         gArg arg = getArg(key);
         if(arg != null) {
@@ -104,7 +98,7 @@ public class gArgSet {
         else {
             putArg(new gArg(key, val) {
                 public void onChange() {
-                    // come up with a way to track a configable "script" in an arg that can exec on change
+
                 }
             });
         }

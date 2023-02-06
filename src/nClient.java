@@ -221,14 +221,14 @@ public class nClient extends Thread {
         }
         HashMap<String, String> workingMap = new HashMap<>(sendMap);
         //send delta of serverargs
-        if(clientStateMap.contains(uiInterface.uuid)) {
-            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
-                if (protectedArgs.contains(k) ||
-                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
-                    continue;
-                workingMap.remove(k);
-            }
-        }
+//        if(clientStateMap.contains(uiInterface.uuid)) {
+//            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
+//                if (protectedArgs.contains(k) ||
+//                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
+//                    continue;
+//                workingMap.remove(k);
+//            }
+//        }
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");

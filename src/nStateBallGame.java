@@ -57,29 +57,26 @@ public class nStateBallGame extends nState {
                 setPlayerVal("mov3", value);
             }
         });
-        map.putArg(new gArg("vel0", "0") {
-            public void onChange() {
-                setVelVec("0", value);
-
-            }
-        });
-        map.putArg(new gArg("vel1", "0") {
-            public void onChange() {
-                setVelVec("1", value);
-
-            }
-        });
-        map.putArg(new gArg("vel2", "0") {
-            public void onChange() {
-                setVelVec("2", value);
-
-            }
-        });
-        map.putArg(new gArg("vel3", "0") {
-            public void onChange() {
-                setVelVec("3", value);
-            }
-        });
+//        map.putArg(new gArg("vel0", "0") {
+//            public void onChange() {
+//                setPlayerVal("vel0", value);
+//            }
+//        });
+//        map.putArg(new gArg("vel1", "0") {
+//            public void onChange() {
+//                setPlayerVal("vel1", value);
+//            }
+//        });
+//        map.putArg(new gArg("vel2", "0") {
+//            public void onChange() {
+//                setPlayerVal("vel2", value);
+//            }
+//        });
+//        map.putArg(new gArg("vel3", "0") {
+//            public void onChange() {
+//                setPlayerVal("vel3", value);
+//            }
+//        });
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
@@ -108,12 +105,6 @@ public class nStateBallGame extends nState {
                 }
             }
         });
-    }
-
-    private void setVelVec(String dir, String val) {
-        gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
-        if(pl != null)
-            pl.put("vel"+dir, val);
     }
 
     private void setPlayerVal(String key, String val) {
