@@ -10,7 +10,7 @@ public class cClientLogic {
     static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
-    static int velocityPlayer = 8;
+    static int velocityPlayer = 64;
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
@@ -27,6 +27,9 @@ public class cClientLogic {
     static long serverSendTime = 0;
     static long serverRcvTime = 0;
     static int ping = 0;
+    static long coordsettimex = 0;
+    static long coordsettimey = 0;
+    static int coordsetdelay = 1000;
 
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
@@ -121,15 +124,15 @@ public class cClientLogic {
                     }
                 }
             }
-            if(obj.wontClipOnMove(0,dx, scene)) {
+            if(obj.wontClipOnMove(dx,obj.getInt("coordy"), scene)) {
                 obj.putInt("coordx", dx);
                 if(isUserPlayer(obj))
-                    gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
+                    gCamera.setX(obj.getInt("coordx") - eUtils.unscaleInt(sSettings.width/2));
             }
-            if(obj.wontClipOnMove(1,dy, scene)) {
+            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene)) {
                 obj.putInt("coordy", dy);
                 if(isUserPlayer(obj))
-                    gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
+                    gCamera.setY(obj.getInt("coordy") - eUtils.unscaleInt(sSettings.height/2));
             }
         }
 

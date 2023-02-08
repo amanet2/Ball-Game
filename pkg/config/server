@@ -9,7 +9,7 @@ setvar rechargehp 1
 # respawn wait time in ms
 setvar respawnwaittime 3000
 # player speed
-velocityplayerbase 8
+velocityplayerbase 64
 # number of votes to skip map (say 'skip' in chat)
 setvar voteskiplimit 2
 # time between game end and next map loads

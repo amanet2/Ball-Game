@@ -216,7 +216,8 @@ public class nServer extends Thread {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+//        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid));
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map

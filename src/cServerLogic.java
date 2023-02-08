@@ -19,18 +19,6 @@ public class cServerLogic {
     }
 
     private static void checkGameState() {
-        for(String id : nServer.instance().masterStateMap.keys()) {
-//            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
-//                continue;
-            gPlayer obj = getPlayerById(id);
-            if(obj == null)
-                continue;
-//            nState objState = nServer.instance().masterStateMap.get(id);
-//            obj.put("mov0", objState.get("mov0"));
-//            obj.put("mov1", objState.get("mov1"));
-//            obj.put("mov2", objState.get("mov2"));
-//            obj.put("mov3", objState.get("mov3"));
-        }
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
         for (String playerId : playerMap.keySet()) {
@@ -108,14 +96,18 @@ public class cServerLogic {
                         obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - 1));
                 }
             }
-            if(obj.wontClipOnMove(0,dx, scene))
+            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), scene))
                 obj.putInt("coordx", dx);
-            if(obj.wontClipOnMove(1,dy, scene))
+            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene))
                 obj.putInt("coordy", dy);
             nState objState = nServer.instance().masterStateMap.get(id);
             if(objState != null) {
-                objState.put("x", Integer.toString(dx));
-                objState.put("y", Integer.toString(dy));
+                objState.put("x", obj.get("coordx"));
+                objState.put("y", obj.get("coordy"));
+                objState.put("vel0", obj.get("vel0"));
+                objState.put("vel1", obj.get("vel1"));
+                objState.put("vel2", obj.get("vel2"));
+                objState.put("vel3", obj.get("vel3"));
             }
         }
 

@@ -16,14 +16,18 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("x", "0") {
             public void onChange() {
-                setPlayerVal("coordx", value);
-
+                if(cClientLogic.coordsettimex < gTime.gameTime) {
+                    cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordx", value);
+                }
             }
         });
         map.putArg(new gArg("y", "0") {
             public void onChange() {
-                setPlayerVal("coordy", value);
-
+                if(cClientLogic.coordsettimey < gTime.gameTime) {
+                    cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordy", value);
+                }
             }
         });
         map.putArg(new gArg("fv", "0") {

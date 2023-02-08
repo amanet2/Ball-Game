@@ -6,9 +6,7 @@ import java.awt.geom.Rectangle2D;
 public class gPlayer extends gThing {
     Image sprite;
 
-    public boolean wontClipOnMove(int coord, int coord2, gScene scene) {
-        int dx = coord == 0 ? coord2 : getInt("coordx");
-        int dy = coord == 1 ? coord2 : getInt("coordy");
+    public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
             Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));

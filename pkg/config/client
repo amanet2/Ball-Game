@@ -1,7 +1,7 @@
 # mute volume
 audioenabled 1
 # show debug info in console
-debug 1
+debug 0
 # save console log to file on close
 debuglog 0
 # 0=window||1=borderless||2=fullscreen
@@ -15,9 +15,9 @@ joinip localhost
 # default net port
 joinport 5555
 # player color
-playercolor yellow
+playercolor purple
 # player name
-playername guest
+playername player
 # available resolutions
 resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
