@@ -19,18 +19,6 @@ public class nStateBallGame extends nState {
                 oldname = value;
             }
         });
-//        map.putArg(new gArg("x", "0") {
-//            public void onChange() {
-//                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-//                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
-//            }
-//        });
-//        map.putArg(new gArg("y", "0") {
-//            public void onChange() {
-//                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-//                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
-//            }
-//        });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(cServerLogic.scene.getPlayerById(get("id")) != null)
@@ -57,26 +45,6 @@ public class nStateBallGame extends nState {
                 setPlayerVal("mov3", value);
             }
         });
-//        map.putArg(new gArg("vel0", "0") {
-//            public void onChange() {
-//                setPlayerVal("vel0", value);
-//            }
-//        });
-//        map.putArg(new gArg("vel1", "0") {
-//            public void onChange() {
-//                setPlayerVal("vel1", value);
-//            }
-//        });
-//        map.putArg(new gArg("vel2", "0") {
-//            public void onChange() {
-//                setPlayerVal("vel2", value);
-//            }
-//        });
-//        map.putArg(new gArg("vel3", "0") {
-//            public void onChange() {
-//                setPlayerVal("vel3", value);
-//            }
-//        });
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
