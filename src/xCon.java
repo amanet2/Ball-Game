@@ -22,53 +22,6 @@ public class xCon {
     int linesToShow;
     int cursorIndex;
 
-    public static xCon instance() {
-        if(instance == null)
-            instance = new xCon();
-        return instance;
-    }
-
-    public static String ex(String s) {
-        String[] commandTokens = s.split(";");
-        StringBuilder result = new StringBuilder();
-        for(String com : commandTokens) {
-            result.append(instance().doCommand(com)).append(";");
-        }
-        String resultString = result.toString();
-        return resultString.substring(0,resultString.length()-1);
-    }
-
-    public int getInt(String s) {
-        return Integer.parseInt(doCommand(s));
-    }
-
-    public static int charlimit() {
-        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
-            dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
-                dFonts.fontrendercontext).getWidth());
-    }
-
-    public void debug(String s) {
-        if(cClientLogic.debug) {
-            log(s);
-            System.out.println(s);
-        }
-    }
-
-    public void log(String s) {
-        if(s.length() > charlimit()) {
-            stringLines.add(s.substring(0, charlimit()));
-            for(int i = charlimit(); i < s.length();
-                i+= charlimit()) {
-                int lim = Math.min(s.length(), i+ charlimit());
-                stringLines.add(s.substring(i,lim));
-            }
-        }
-        else
-            stringLines.add(s);
-        linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
-    }
-
     private xCon() {
         linesToShowStart = 0;
         linesToShow = 24;
@@ -196,6 +149,53 @@ public class xCon {
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
+    }
+
+    public static xCon instance() {
+        if(instance == null)
+            instance = new xCon();
+        return instance;
+    }
+
+    public static String ex(String s) {
+        String[] commandTokens = s.split(";");
+        StringBuilder result = new StringBuilder();
+        for(String com : commandTokens) {
+            result.append(instance().doCommand(com)).append(";");
+        }
+        String resultString = result.toString();
+        return resultString.substring(0,resultString.length()-1);
+    }
+
+    public int getInt(String s) {
+        return Integer.parseInt(doCommand(s));
+    }
+
+    public static int charlimit() {
+        return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
+                dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+                dFonts.fontrendercontext).getWidth());
+    }
+
+    public void debug(String s) {
+        if(cClientLogic.debug) {
+            log(s);
+            System.out.println(s);
+        }
+    }
+
+    public void log(String s) {
+        if(s.length() > charlimit()) {
+            stringLines.add(s.substring(0, charlimit()));
+            for(int i = charlimit(); i < s.length();
+                i+= charlimit()) {
+                int lim = Math.min(s.length(), i+ charlimit());
+                stringLines.add(s.substring(i,lim));
+            }
+        }
+        else
+            stringLines.add(s);
+        linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
     }
 
     public void saveLog(String s) {
