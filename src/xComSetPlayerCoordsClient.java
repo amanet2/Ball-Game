@@ -1,9 +1,9 @@
-public class xComSetPlayerCoords extends xCom {
+public class xComSetPlayerCoordsClient extends xCom {
     public String doCommand(String fullCommand) {
         String[] args = fullCommand.split(" ");
         if(args.length < 4)
             return "null";
-        gPlayer p = cServerLogic.getPlayerById(args[1]);
+        gPlayer p = cClientLogic.getPlayerById(args[1]);
         if(p == null)
             return "null";
         p.put("coordx", args[2]);

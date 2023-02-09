@@ -161,6 +161,7 @@ public class xCon {
         commands.put("setcam", new xComSetCamera());
         commands.put("setcamcoords", new xComSetCamCoords());
         commands.put("setcammovs", new xComSetCamMovs());
+        commands.put("setplayercoords", new xComSetPlayerCoords());
         commands.put("setthing", new xComSetThing());
         commands.put("setnstate", new xComSetState());
         commands.put("cl_setthing", new xComSetThingClient());
@@ -190,7 +191,7 @@ public class xCon {
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("cl_putitem", new xComPutItemClient());
-        commands.put("cl_setplayercoords", new xComSetPlayerCoords());
+        commands.put("cl_setplayercoords", new xComSetPlayerCoordsClient());
         commands.put("cl_setvar", new xComSetVarClient());
         commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("cl_spawnpopup", new xComSpawnPopupClient());
