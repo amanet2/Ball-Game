@@ -1,3 +1,5 @@
+import javafx.scene.media.AudioClip;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -1367,14 +1369,434 @@ public class xCon {
                 return "new game (random) started";
             }
         });
-        commands.put("pause", new xComPause());
-        commands.put("playsound", new xComPlaySound());
-        commands.put("putblock", new xComPutBlock());
-        commands.put("cl_putblock", new xComPutBlockClient());
-        commands.put("cl_putblockpreview", new xComPutBlockPreview());
-        commands.put("putitem", new xComPutItem());
-        commands.put("cl_putitem", new xComPutItemClient());
-        commands.put("quit", new xComQuit());
+        commands.put("pause", new xCom() {
+            public String doCommand(String fullCommand) {
+                cClientVars.instance().put("inplay", uiInterface.inplay ? "0" : "1");
+                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                if(uiInterface.inplay)
+                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+                xCon.ex("exec scripts/editorspawn");
+                return fullCommand;
+            }
+        });
+        commands.put("playsound", new xCom() {
+            double sfxrange = 1800.0;
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1 && sSettings.audioenabled) {
+                    AudioClip soundClip = new AudioClip(getClass().getResource(eUtils.getPath(toks[1])).toString());
+                    if(toks.length > 2) {
+                        int cycs = Integer.parseInt(toks[2]);
+                        soundClip.setCycleCount(cycs);
+                        if(cycs < 1)
+                            soundClip.setCycleCount(AudioClip.INDEFINITE);
+                    }
+                    if(toks.length > 4) {
+                        int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                        int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                        double balance = 0.0;
+                        double ratio = Math.abs(diffx/(sfxrange-300));
+                        if(diffx < 0)
+                            balance = ratio;
+                        else if(diffx > 0)
+                            balance = -ratio;
+                        soundClip.setBalance(balance);
+                        soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
+                                *(cClientLogic.volume/100.0));
+                        oAudio.instance().clips.add(soundClip);
+                    }
+                    else {
+                        soundClip.play(cClientLogic.volume / 100.0);
+                        oAudio.instance().clips.add(soundClip);
+                    }
+                }
+                return fullCommand;
+            }
+        });
+        commands.put("putblock", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                // putblock BLOCK_FLOOR id prefabid x y width height
+                // putblock BLOCK_CUBE id prefabid x y width height top mid
+                if (toks.length < 8)
+                    return escape();
+                gBlockFactory factory = gBlockFactory.instance();
+                String blockString = toks[1];
+                String blockid = toks[2];
+                String prefabid = toks[3];
+                gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
+                String rawX = toks[4];
+                String rawY = toks[5];
+                String width = toks[6];
+                String height = toks[7];
+                //args are x y w h (t m)
+                String[] args = new String[toks.length - 4];
+                args[0] = rawX;
+                args[1] = rawY;
+                args[2] = width;
+                args[3] = height;
+
+                if (blockid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = blockid.split("\\+");
+                    String[] rxtokssub = blockid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(blockid);
+                    }
+                    blockid = Integer.toString(transformed);
+                }
+
+                if (prefabid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = prefabid.split("\\+");
+                    String[] rxtokssub = prefabid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(prefabid);
+                    }
+                    prefabid = Integer.toString(transformed);
+                }
+
+                if (rawX.charAt(0) == '$') {
+                    int transformedX;
+                    String[] rxtoksadd = rawX.split("\\+");
+                    String[] rxtokssub = rawX.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformedX = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformedX = rxmod0 - rxmod1;
+                    } else {
+                        transformedX = sVars.getInt(rawX);
+                    }
+                    args[0] = Integer.toString(transformedX);
+                }
+
+                if (rawY.charAt(0) == '$') {
+                    int transformedY;
+                    String[] rytoksadd = rawY.split("\\+");
+                    String[] rytokssub = rawY.split("-");
+                    if (rytoksadd.length > 1) {
+                        int rymod0 = sVars.getInt(rytoksadd[0]);
+                        int rymod1 = Integer.parseInt(rytoksadd[1]);
+                        transformedY = rymod0 + rymod1;
+                    } else if (rytokssub.length > 1) {
+                        int rymod0 = sVars.getInt(rytokssub[0]);
+                        int rymod1 = Integer.parseInt(rytokssub[1]);
+                        transformedY = rymod0 - rymod1;
+                    } else {
+                        transformedY = sVars.getInt(rawY);
+                    }
+                    args[1] = Integer.toString(transformedY);
+                }
+                if (args.length > 4) {
+                    args[4] = toks[8];
+                    args[5] = toks[9];
+                }
+                gThing newBlock = blockReturn.getThing(args);
+                newBlock.put("id", blockid);
+                newBlock.put("prefabid", prefabid);
+                cServerLogic.scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
+                cServerLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+                return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
+            }
+
+            private String escape() {
+                return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+            }
+        });
+        commands.put("cl_putblock", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                // putblock BLOCK_FLOOR id prefabid x y width height
+                // putblock BLOCK_CUBE id prefabid x y width height top mid
+                if (toks.length < 8)
+                    return escape();
+                gBlockFactory factory = gBlockFactory.instance();
+                String blockString = toks[1];
+                String blockid = toks[2];
+                String prefabid = toks[3];
+                gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
+                String rawX = toks[4];
+                String rawY = toks[5];
+                String width = toks[6];
+                String height = toks[7];
+                //args are x y w h (t m)
+                String[] args = new String[toks.length - 4];
+                args[0] = rawX;
+                args[1] = rawY;
+                args[2] = width;
+                args[3] = height;
+                if (blockid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = blockid.split("\\+");
+                    String[] rxtokssub = blockid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(blockid);
+                    }
+                    blockid = Integer.toString(transformed);
+                }
+
+                if (prefabid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = prefabid.split("\\+");
+                    String[] rxtokssub = prefabid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(prefabid);
+                    }
+                    prefabid = Integer.toString(transformed);
+                }
+
+                if (rawX.charAt(0) == '$') {
+                    int transformedX;
+                    String[] rxtoksadd = rawX.split("\\+");
+                    String[] rxtokssub = rawX.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformedX = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformedX = rxmod0 - rxmod1;
+                    } else {
+                        transformedX = sVars.getInt(rawX);
+                    }
+                    args[0] = Integer.toString(transformedX);
+                }
+
+                if (rawY.charAt(0) == '$') {
+                    int transformedY;
+                    String[] rytoksadd = rawY.split("\\+");
+                    String[] rytokssub = rawY.split("-");
+                    if (rytoksadd.length > 1) {
+                        int rymod0 = sVars.getInt(rytoksadd[0]);
+                        int rymod1 = Integer.parseInt(rytoksadd[1]);
+                        transformedY = rymod0 + rymod1;
+                    } else if (rytokssub.length > 1) {
+                        int rymod0 = sVars.getInt(rytokssub[0]);
+                        int rymod1 = Integer.parseInt(rytokssub[1]);
+                        transformedY = rymod0 - rymod1;
+                    } else {
+                        transformedY = sVars.getInt(rawY);
+                    }
+                    args[1] = Integer.toString(transformedY);
+                }
+                if (args.length > 4) {
+                    args[4] = toks[8];
+                    args[5] = toks[9];
+                }
+                gThing newBlock = blockReturn.getThing(args);
+                newBlock.put("id", blockid);
+                newBlock.put("prefabid", prefabid);
+                cClientLogic.scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
+                cClientLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+                return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
+            }
+
+            private String escape() {
+                return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+            }
+        });
+        commands.put("cl_putblockpreview", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                // putblock BLOCK_FLOOR id prefabid x y width height
+                // putblock BLOCK_CUBE id prefabid x y width height top mid
+                if (toks.length < 8)
+                    return escape();
+                gBlockFactory factory = gBlockFactory.instance();
+                String blockString = toks[1];
+                String blockid = toks[2];
+                String prefabid = toks[3];
+                gDoableThingReturn blockReturn = factory.blockLoadMap.get(blockString);
+                String rawX = toks[4];
+                String rawY = toks[5];
+                String width = toks[6];
+                String height = toks[7];
+                //args are x y w h (t m)
+                String[] args = new String[toks.length - 4];
+                args[0] = rawX;
+                args[1] = rawY;
+                args[2] = width;
+                args[3] = height;
+
+                if (blockid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = blockid.split("\\+");
+                    String[] rxtokssub = blockid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(blockid);
+                    }
+                    blockid = Integer.toString(transformed);
+                }
+
+                if (prefabid.charAt(0) == '$') {
+                    int transformed;
+                    String[] rxtoksadd = prefabid.split("\\+");
+                    String[] rxtokssub = prefabid.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformed = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformed = rxmod0 - rxmod1;
+                    } else {
+                        transformed = sVars.getInt(prefabid);
+                    }
+                    prefabid = Integer.toString(transformed);
+                }
+
+                if (rawX.charAt(0) == '$') {
+                    int transformedX;
+                    String[] rxtoksadd = rawX.split("\\+");
+                    String[] rxtokssub = rawX.split("-");
+                    if (rxtoksadd.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtoksadd[0]);
+                        int rxmod1 = Integer.parseInt(rxtoksadd[1]);
+                        transformedX = rxmod0 + rxmod1;
+                    } else if (rxtokssub.length > 1) {
+                        int rxmod0 = sVars.getInt(rxtokssub[0]);
+                        int rxmod1 = Integer.parseInt(rxtokssub[1]);
+                        transformedX = rxmod0 - rxmod1;
+                    } else {
+                        transformedX = sVars.getInt(rawX);
+                    }
+                    args[0] = Integer.toString(transformedX);
+                }
+
+                if (rawY.charAt(0) == '$') {
+                    int transformedY;
+                    String[] rytoksadd = rawY.split("\\+");
+                    String[] rytokssub = rawY.split("-");
+                    if (rytoksadd.length > 1) {
+                        int rymod0 = sVars.getInt(rytoksadd[0]);
+                        int rymod1 = Integer.parseInt(rytoksadd[1]);
+                        transformedY = rymod0 + rymod1;
+                    } else if (rytokssub.length > 1) {
+                        int rymod0 = sVars.getInt(rytokssub[0]);
+                        int rymod1 = Integer.parseInt(rytokssub[1]);
+                        transformedY = rymod0 - rymod1;
+                    } else {
+                        transformedY = sVars.getInt(rawY);
+                    }
+                    args[1] = Integer.toString(transformedY);
+                }
+                if (args.length > 4) {
+                    args[4] = toks[8];
+                    args[5] = toks[9];
+                }
+                gThing newBlock = blockReturn.getThing(args);
+                newBlock.put("id", blockid);
+                newBlock.put("prefabid", prefabid);
+                uiEditorMenus.previewScene.getThingMap("THING_BLOCK").put(blockid, newBlock);
+                uiEditorMenus.previewScene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+                return String.format("cl_putblockpreview %s id%s pid%s", blockString, blockid, prefabid);
+            }
+
+            private String escape() {
+                return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+            }
+        });
+        commands.put("putitem", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 5)
+                    return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
+                String itemTitle = toks[1];
+                String itemId = toks[2];
+                int iw = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimw"));
+                int ih = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimh"));
+                String isp = xCon.ex("setvar " + itemTitle + "_sprite");
+                String isc = xCon.ex("setvar " + itemTitle + "_script");
+                gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
+                        isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
+                                iw, ih));
+                if(!isc.equalsIgnoreCase("null"))
+                    item.put("script", isc);
+                item.put("id", itemId);
+                item.put("occupied", "0");
+                cServerLogic.scene.getThingMap("THING_ITEM").put(itemId, item);
+                cServerLogic.scene.getThingMap(item.get("type")).put(itemId, item);
+                return "put item";
+            }
+        });
+        commands.put("cl_putitem", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 5)
+                    return "usage: cl_putitem <ITEM_TITLE> <id> <x> <y>";
+                String itemTitle = toks[1];
+                String itemId = toks[2];
+                int iw = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimw"));
+                int ih = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimh"));
+                String isp = xCon.ex("setvar " + itemTitle + "_sprite");
+                String isc = xCon.ex("setvar " + itemTitle + "_script");
+                gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
+                        isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
+                                iw, ih));
+                if(!isc.equalsIgnoreCase("null"))
+                    item.put("script", isc);
+                item.put("id", itemId);
+                cClientLogic.scene.getThingMap("THING_ITEM").put(itemId, item);
+                cClientLogic.scene.getThingMap(item.get("type")).put(itemId, item);
+                return "cl_put item";
+            }
+        });
+        commands.put("quit", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
+                    if(!xCon.ex("e_showlossalert").equals("0"))
+                        return "";
+                }
+                uiInterface.exit();
+                return "";
+            }
+        });
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
         commands.put("selectleft", new xComSelectLeft());
