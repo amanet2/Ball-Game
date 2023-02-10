@@ -1259,13 +1259,17 @@ public class xCon {
             }
         });
         commands.put("load", new xComLoad());
+        commands.put("cl_load", new xComLoadClient());
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
         commands.put("pause", new xComPause());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
+        commands.put("cl_putblock", new xComPutBlockClient());
+        commands.put("cl_putblockpreview", new xComPutBlockPreview());
         commands.put("putitem", new xComPutItem());
+        commands.put("cl_putitem", new xComPutItemClient());
         commands.put("quit", new xComQuit());
         commands.put("say", new xComSay());
         commands.put("selectdown", new xComSelectDown());
@@ -1275,31 +1279,27 @@ public class xCon {
         commands.put("setcam", new xComSetCamera());
         commands.put("setcamcoords", new xComSetCamCoords());
         commands.put("setcammovs", new xComSetCamMovs());
-        commands.put("setplayercoords", new xComSetPlayerCoords());
-        commands.put("setthing", new xComSetThing());
         commands.put("setnstate", new xComSetState());
+        commands.put("setplayercoords", new xComSetPlayerCoords());
+        commands.put("cl_setplayercoords", new xComSetPlayerCoordsClient());
+        commands.put("setthing", new xComSetThing());
         commands.put("cl_setthing", new xComSetThingClient());
         commands.put("setvar", new xComSetVar());
+        commands.put("cl_setvar", new xComSetVarClient());
+        commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
         commands.put("spawnplayer", new xComSpawnPlayer());
+        commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
+        commands.put("cl_spawnpopup", new xComSpawnPopupClient());
         commands.put("startserver", new xComStartServer());
         commands.put("svarlist", new xComSVarlist());
         commands.put("testres", new xComTestRes());
+        commands.put("cl_testres", new xComTestResClient());
         commands.put("testreslte", new xComTestResLte());
         commands.put("cl_testreslte", new xComTestResLteClient());
         commands.put("testreslteint", new xComTestResLteInt());
-        commands.put("cl_testres", new xComTestResClient());
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_load", new xComLoadClient());
-        commands.put("cl_putblock", new xComPutBlockClient());
-        commands.put("cl_putblockpreview", new xComPutBlockPreview());
-        commands.put("cl_putitem", new xComPutItemClient());
-        commands.put("cl_setplayercoords", new xComSetPlayerCoordsClient());
-        commands.put("cl_setvar", new xComSetVarClient());
-        commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
-        commands.put("cl_spawnpopup", new xComSpawnPopupClient());
-        commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
     }
 
     public static xCon instance() {
