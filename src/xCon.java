@@ -862,11 +862,117 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("fireweapon", new xComFireWeapon());
-        commands.put("foreach", new xComForEach());
-        commands.put("foreachlong", new xComForEachLong());
-        commands.put("foreachclient", new xComForEachClient());
-        commands.put("foreachthing", new xComForEachThing());
+        commands.put("fireweapon", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 2) {
+                    String id = toks[1];
+                    int weapon = Integer.parseInt(toks[2]);
+                    gWeapons.fromCode(weapon).fireWeapon(cServerLogic.getPlayerById(id), cServerLogic.scene);
+                    return id + " fired weapon " + weapon;
+                }
+                return "usage: fireweapon <player_id> <weapon_code>";
+            }
+        });
+        commands.put("cl_fireweapon", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 2) {
+                    String id = toks[1];
+                    int weapon = Integer.parseInt(toks[2]);
+                    gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
+                    return id + " fired weapon " + weapon;
+                }
+                return "usage: cl_fireweapon <player_id> <weapon_code>";
+            }
+        });
+        commands.put("foreach", new xCom() {
+            //usage: foreach $var $start $end $incr <script to execute where $var is preloaded>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 6)
+                    return "usage: foreach $var $start $end $incr <script where $var is num>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String varname = args[1];
+                int start = Integer.parseInt(args[2]);
+                int end = Integer.parseInt(args[3]);
+                int incr = Integer.parseInt(args[4]);
+                for(int i = start; i <= end; i+=incr) {
+                    xCon.ex(String.format("setvar %s %s", varname, i));
+                    String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
+                    String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
+                    String es = String.join(" ", subarray);
+                    xCon.ex(es);
+                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                }
+                return "usage: foreach $var $start $end $incr <script where $var is num>";
+            }
+        });
+        commands.put("foreachclient", new xCom() {
+            //usage: foreachclient $id <script to execute where $id is preloaded>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "usage: foreachclient $id <script where $id is preloaded>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String varname = args[1];
+                for(String id : nServer.instance().masterStateMap.keys()) {
+                    xCon.ex(String.format("setvar %s %s", varname, id));
+                    String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
+                    StringBuilder esb = new StringBuilder();
+                    for(int i = 2; i < cargs.length; i++) {
+                        esb.append(" ").append(cargs[i]);
+                    }
+                    String es = esb.substring(1);
+                    xCon.ex(es);
+                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                }
+                return "usage: foreachclient $id <script to execute where $id is preloaded>";
+            }
+        });
+        commands.put("foreachlong", new xCom() {
+            //usage: foreachlong $var $start $end $incr <script to execute where $var is preloaded>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 6)
+                    return "usage: foreachlong $var $start $end $incr <script where $var is num>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String varname = args[1];
+                long start = Long.parseLong(args[2]);
+                long end = Long.parseLong(args[3]);
+                int incr = Integer.parseInt(args[4]);
+                for(long i = start; i <= end; i+=incr) {
+                    xCon.ex(String.format("setvar %s %s", varname, i));
+                    String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
+                    String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
+                    String es = String.join(" ", subarray);
+                    xCon.ex(es);
+                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                }
+                return "usage: foreachlong $var $start $end $incr <script where $var is num>";
+            }
+        });
+        commands.put("foreachthing", new xCom() {
+            //usage: foreachthing $var $THING_TYPE <script to execute where $var is preloaded>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "usage: foreach $var $THING_TYPE <script where $var is preloaded>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                gScene scene = cServerLogic.scene;
+                String varname = args[1];
+                String thingtype = args[2];
+                if(!scene.objectMaps.containsKey(thingtype))
+                    return "no thing type in scene: " + thingtype;
+                for(String id : scene.getThingMapIds(thingtype)) {
+                    xCon.ex(String.format("setvar %s %s", varname, id));
+                    String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
+                    StringBuilder esb = new StringBuilder();
+                    for(int i = 3; i < cargs.length; i++) {
+                        esb.append(" ").append(cargs[i]);
+                    }
+                    String es = esb.substring(1);
+                    xCon.ex(es);
+                }
+                return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
+            }g
+        });
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
         commands.put("gametimemillis", new xComGameTimeMillis());
@@ -920,7 +1026,6 @@ public class xCon {
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_fireweapon", new xComFireWeaponClient());
         commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
         commands.put("cl_putblockpreview", new xComPutBlockPreview());
