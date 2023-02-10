@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -189,9 +191,80 @@ public class xCon {
                 return "added time event @" + timeToExec + ": " + actStr;
             }
         });
-        commands.put("banid", new xComBanId());
-        commands.put("bind", new xComBind());
-        commands.put("bindlist", new xComBindList());
+        commands.put("banid", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 2) {
+                    int banTimeMillis = Integer.parseInt(toks[2]);
+                    nServer.instance().banIds.put(toks[1], gTime.gameTime+banTimeMillis);
+                    return "banned " + toks[1] + " for " + banTimeMillis +"ms";
+                }
+                else if(toks.length > 1) {
+                    nServer.instance().banIds.put(toks[1], gTime.gameTime+1000);
+                    return "banned " + toks[1] + " for 1000ms";
+                }
+                return "usage: banid <id> <optional: time_millis>";
+            }
+        });
+        commands.put("bind", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 2) {
+                    String key = toks[1];
+                    StringBuilder comm = new StringBuilder();
+                    for(int i = 2; i < toks.length; i++) {
+                        comm.append(toks[i]).append(" ");
+                    }
+                    Integer keycode = iKeyboard.getCodeForKey(key);
+                    if(keycode != null) {
+                        xCon.instance().pressBinds.put(keycode, comm.substring(0,comm.length()-1));
+                        return "";
+                    }
+                }
+                return "cannot bindpress ";
+            }
+
+            public String undoCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 2) {
+                    String key = toks[1];
+                    StringBuilder comm = new StringBuilder();
+                    for(int i = 2; i < toks.length; i++) {
+                        comm.append(toks[i]).append(" ");
+                    }
+                    Integer keycode = iKeyboard.getCodeForKey(key);
+                    if(keycode != null) {
+                        xCon.instance().releaseBinds.put(keycode, comm.substring(0,comm.length()-1));
+                        return "";
+                    }
+                }
+                return "cannot bindrelease ";
+            }
+        });
+        commands.put("bindlist", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.instance().stringLines.add("Current Bindings: ");
+                int size = xCon.instance().pressBinds.keySet().size() + xCon.instance().releaseBinds.keySet().size();
+                for(Integer j : xCon.instance().releaseBinds.keySet()) {
+                    if(xCon.instance().pressBinds.containsKey(j))
+                        size--;
+                }
+                String[] items = new String[size];
+                int ctr = 0;
+                for (Integer j : xCon.instance().pressBinds.keySet()) {
+                    items[ctr] = KeyEvent.getKeyText(j)+" : "+ xCon.instance().pressBinds.get(j);
+                    ctr++;
+                }
+                for (Integer j : xCon.instance().releaseBinds.keySet()) {
+                    if(!xCon.instance().pressBinds.containsKey(j)) {
+                        items[ctr] = KeyEvent.getKeyText(j)+ " : " + xCon.instance().releaseBinds.get(j);
+                        ctr++;
+                    }
+                }
+                Collections.addAll(xCon.instance().stringLines, items);
+                return "";
+            }
+        });
         commands.put("changemap", new xComChangeMap());
         commands.put("changemaprandom", new xComChangeMapRandom());
         commands.put("chat", new xComChat());
