@@ -971,7 +971,7 @@ public class xCon {
                     xCon.ex(es);
                 }
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
-            }g
+            }
         });
         commands.put("getres", new xComGetRes());
         commands.put("cl_getres", new xComGetResClient());
