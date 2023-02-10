@@ -1337,8 +1337,36 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("newgame", new xComNewgame());
-        commands.put("newgamerandom", new xComNewgameRandom());
+        commands.put("newgame", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.ex("startserver");
+                int toplay = eManager.mapSelectionIndex;
+                if(toplay < 0)
+                    xCon.ex("newgamerandom");
+                else
+                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[toplay]);
+                return "new game started";
+            }
+        });
+        commands.put("newgamerandom", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eManager.mapsFileSelection.length < 1)
+                    return "no maps found for new game (random)";
+                else if(eManager.mapsFileSelection.length > 1) {
+                    int rand = (int)(Math.random()*eManager.mapsFileSelection.length);
+                    while(rand == eManager.mapSelectionIndex) {
+                        rand = (int)(Math.random()*eManager.mapsFileSelection.length);
+                    }
+                    eManager.mapSelectionIndex = rand;
+                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[rand]);
+                }
+                else {
+                    eManager.mapSelectionIndex = 0;
+                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[0]);
+                }
+                return "new game (random) started";
+            }
+        });
         commands.put("pause", new xComPause());
         commands.put("playsound", new xComPlaySound());
         commands.put("putblock", new xComPutBlock());
