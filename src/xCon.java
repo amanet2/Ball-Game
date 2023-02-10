@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.*;
 
 public class xCon {
     private static xCon instance = null;
@@ -265,15 +263,150 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("changemap", new xComChangeMap());
-        commands.put("changemaprandom", new xComChangeMapRandom());
-        commands.put("chat", new xComChat());
-        commands.put("clearthingmap", new xComClearThingMap());
-        commands.put("clientlist", new xComClientlist());
-        commands.put("commandlist", new xComCommandlist());
-        commands.put("console", new xComConsole());
-        commands.put("constr", new xComConStr());
-        commands.put("cvarlist", new xComCVarList());
+        commands.put("changemap", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 2)
+                    return "usage: changemap <path_to_mapfile>";
+                String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
+                cServerLogic.changeMap(mapPath);
+                return "";
+            }
+        });
+        commands.put("changemaprandom", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eManager.mapsFileSelection.length < 1) {
+                    return "no maps found for changemap (random)";
+                }
+                else if(eManager.mapsFileSelection.length > 1) {
+                    int rand = eManager.mapSelectionIndex;
+                    while(rand == eManager.mapSelectionIndex) {
+                        rand = (int)(Math.random()*eManager.mapsFileSelection.length);
+                    }
+                    cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[rand]);
+                    eManager.mapSelectionIndex = rand;
+                }
+                else {
+                    cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[0]);
+                    eManager.mapSelectionIndex = 0;
+                }
+                return "changed map (random)";
+            }
+        });
+        commands.put("chat", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                gMessages.enteringMessage = true;
+                if(args.length > 1) {
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 1; i < args.length; i++) {
+                        sb.append(" ").append(args[i]);
+                    }
+                    gMessages.prompt = sb.substring(1);
+                }
+                else if(!gMessages.prompt.equals("SAY"))
+                    gMessages.prompt = "SAY";
+                return fullCommand;
+            }
+        });
+        commands.put("clearthingmap", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 1) {
+                    String thing_title = toks[1];
+                    ArrayList<String> toRemoveIds = new ArrayList<>();
+                    if(thing_title.contains("ITEM_")) {
+                        if(cServerLogic.scene.objectMaps.containsKey(thing_title))
+                            toRemoveIds.addAll(cServerLogic.scene.getThingMap(thing_title).keySet());
+                        for(String id : toRemoveIds) {
+                            cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
+                        }
+                    }
+                    if(cServerLogic.scene.objectMaps.containsKey(thing_title))
+                        cServerLogic.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+                }
+                return "usage: clearthingmap <thing_title>";
+            }
+        });
+        commands.put("cl_clearthingmap", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 1) {
+                    String thing_title = toks[1];
+                    ArrayList<String> toRemoveIds = new ArrayList<>();
+                    if(thing_title.contains("ITEM_")) {
+                        if(cClientLogic.scene.objectMaps.containsKey(thing_title))
+                            toRemoveIds.addAll(cClientLogic.scene.getThingMap(thing_title).keySet());
+                        for(String id : toRemoveIds) {
+                            cClientLogic.scene.getThingMap("THING_ITEM").remove(id);
+                        }
+                    }
+                    if(cClientLogic.scene.objectMaps.containsKey(thing_title))
+                        cClientLogic.scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+                }
+                return "usage: clearthingmap <thing_title>";
+            }
+        });
+        commands.put("cl_clearthingmappreview", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 1) {
+                    String thing_title = toks[1];
+                    ArrayList<String> toRemoveIds = new ArrayList<>();
+                    if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
+                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new LinkedHashMap<>());
+                }
+                for(String thing_title : uiEditorMenus.previewScene.objectMaps.keySet()) {
+                    uiEditorMenus.previewScene.objectMaps.get(thing_title).clear();
+                }
+                return "usage: cl_clearthingmappreview";
+            }
+        });
+        commands.put("clientlist", new xCom() {
+            public String doCommand(String fullCommand) {
+                StringBuilder s = new StringBuilder();
+                for(String k : nServer.instance().masterStateMap.keys()) {
+                    s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
+                            nServer.instance().masterStateMap.get(k).get("name"), k));
+                }
+                return s.substring(0, s.length()-1);
+            }
+        });
+        commands.put("commandlist", new xCom() {
+            public String doCommand(String fullCommand) {
+                TreeSet<String> sorted = new TreeSet<>(xCon.instance().commands.keySet());
+                return sorted.toString();
+            }
+        });
+        commands.put("console", new xCom() {
+            public String doCommand(String fullCommand) {
+                uiInterface.inconsole = !uiInterface.inconsole;
+                return "console";
+            }
+        });
+        commands.put("constr", new xCom() {
+            //concatenate two strings with optional joining char
+            //usage: constr $newvarname <disparate elements to combine and store in newvarname>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    esb.append(args[i]);
+                }
+                String es = esb.toString();
+                cServerVars.instance().put(tk, es);
+                return es;
+            }
+        });
+        commands.put("cvarlist", new xCom() {
+            public String doCommand(String fullCommand) {
+                TreeMap<String, gArg> sorted = new TreeMap<>(cClientVars.instance().args);
+                return sorted.toString();
+            }
+        });
         commands.put("damageplayer", new xComDamagePlayer());
         commands.put("deleteblock", new xComDeleteBlock());
         commands.put("deleteitem", new xComDeleteItem());
@@ -352,8 +485,6 @@ public class xCon {
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_clearthingmap", new xComClearThingMapClient());
-        commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
         commands.put("cl_deleteitem", new xComDeleteItemClient());
         commands.put("cl_deleteplayer", new xComDeletePlayerClient());
