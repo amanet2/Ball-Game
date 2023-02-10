@@ -1,10 +1,7 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -593,19 +590,278 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("exec", new xComExec());
-        commands.put("exportasprefab", new xComExportAsPrefab());
-        commands.put("e_changeplayername", new xComEditorChangePlayerName());
-        commands.put("e_changejoinip", new xComEditorChangeJoinIP());
-        commands.put("e_changejoinport", new xComEditorChangeJoinPort());
-        commands.put("e_delthing", new xComEditorDelThing());
-        commands.put("e_rotthing", new xComEditorRotNewThing());
-        commands.put("e_newmap", new xComEditorNewMap());
-        commands.put("e_openfile", new xComEditorOpenFile());
-        commands.put("e_openprefab", new xComEditorOpenPrefab());
-        commands.put("e_saveas", new xComEditorSaveAs());
-        commands.put("e_showlossalert", new xComEditorShowLossAlert());
-        commands.put("echo", new xComEcho());
+        commands.put("echo", new xCom() {
+            public String doCommand(String fullCommand) {
+                String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
+                gMessages.addScreenMessage(rs);
+                return rs;
+            }
+        });
+        commands.put("e_changejoinip", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.ex("chat Enter New IP Address");
+                return "";
+            }
+        });
+        commands.put("e_changejoinport", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.ex("chat Enter New Port");
+                return "";
+            }
+        });
+        commands.put("e_changeplayername", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.ex("chat Enter New Name");
+                return "";
+            }
+        });
+        commands.put("e_delthing", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(cClientLogic.selectedPrefabId.length() > 0) {
+                    xCon.ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
+                    return "deleted prefab " + cClientLogic.selectedPrefabId;
+                }
+                if(cClientLogic.selecteditemid.length() > 0) {
+                    xCon.ex("cl_addcom deleteitem " + cClientLogic.selecteditemid);
+                    return "deleted item " + cClientLogic.selecteditemid;
+                }
+                return "nothing to delete";
+            }
+        });
+        commands.put("e_newmap", new xCom() {
+            public String doCommand(String fullCommand) {
+                xCon.ex("exec scripts/e_newmap");
+                //reset game state
+                gScoreboard.resetScoresMap();
+                nServer.instance().voteSkipList = new ArrayList<>();
+                return "";
+            }
+        });
+        commands.put("e_openfile", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(sSettings.show_mapmaker_ui) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
+                    File workingDirectory = new File("maps");
+                    fileChooser.setCurrentDirectory(workingDirectory);
+                    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                        if(!xCon.ex("e_showlossalert").equals("0"))
+                            return "";
+                        File file = fileChooser.getSelectedFile();
+                        if(!nServer.instance().isAlive()) {
+                            xCon.ex("startserver");
+                            xCon.ex("load");
+                            xCon.ex("joingame localhost " + cServerLogic.listenPort);
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        xCon.ex("changemap " + file.getPath());
+                        uiEditorMenus.refreshGametypeCheckBoxMenuItems();
+                        return "opening " + file.getPath();
+                    }
+                }
+                return "";
+            }
+        });
+        commands.put("e_openprefab", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(sSettings.show_mapmaker_ui) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    File workingDirectory = new File("prefabs");
+                    fileChooser.setCurrentDirectory(workingDirectory);
+                    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        cClientLogic.newprefabname = file.getName();
+                        uiEditorMenus.newitemname = "";
+                        return "set prefab from file " + file.getPath();
+                    }
+                }
+                return "";
+            }
+        });
+        commands.put("e_rotthing", new xCom() {
+            public String doCommand(String fullCommand) {
+                String newprefabname = cClientLogic.newprefabname;
+                if (newprefabname.contains("_000"))
+                    cClientLogic.newprefabname = newprefabname.replace("_000", "_090");
+                else if (newprefabname.contains("_090"))
+                    cClientLogic.newprefabname = newprefabname.replace("_090", "_180");
+                else if (newprefabname.contains("_180"))
+                    cClientLogic.newprefabname = newprefabname.replace("_180", "_270");
+                else if (newprefabname.contains("_270"))
+                    cClientLogic.newprefabname = newprefabname.replace("_270", "_000");
+                if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
+                        || newprefabname.contains("_270")) {
+                    xCon.ex("cl_clearthingmappreview");
+                    xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                }
+                return "";
+            }
+        });
+        commands.put("e_saveas", new xCom() {
+            public String doCommand(String fullcommand) {
+                JFileChooser fileChooser = new JFileChooser();
+                uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
+                File workingDirectory = new File("maps");
+                fileChooser.setCurrentDirectory(workingDirectory);
+                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    String filename = file.getName();
+                    String foldername = file.getParent();
+                    cClientLogic.scene.saveAs(filename, foldername);
+                    return "saved " + file.getPath();
+                }
+                return "";
+            }
+        });
+        commands.put("e_showlossalert", new xCom() {
+            public  String doCommand(String fullcomm) {
+                return Integer.toString(JOptionPane.showConfirmDialog(oDisplay.instance(),
+                        "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
+            }
+        });
+        commands.put("exec", new xCom() {
+            public String doCommand(String fullcommand) {
+                String[] args = fullcommand.split(" ");
+                String title = args[1];
+                xCon.instance().debug("Loading exec: " + title);
+                if(args.length > 2) {
+                    //parse the $ vars for placing prefabs
+                    for(int i = 2; i < args.length; i++) {
+                        sVars.put(String.format("$%d", i-1), args[i]);
+                    }
+                }
+                if(gExecDoableFactory.instance().execDoableMap.containsKey(title)) {
+                    xCon.instance().debug("EXEC FROM MEMORY: " + title);
+                    for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
+                        //parse vars for exec calls within exec (changemap)
+                        handleLine(line);
+                    }
+                }
+                else {
+                    try (BufferedReader br = new BufferedReader(new FileReader(title))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                                handleLine(line);
+                        }
+                    }
+                    catch (Exception e) {
+                        eLogging.logException(e);
+                        e.printStackTrace();
+                    }
+                }
+                return String.format("%s finished", title);
+            }
+
+            private void handleLine(String line) {
+                String[] args = line.split(" ");
+                if(args[0].equalsIgnoreCase("exec")) {
+                    for (int i = 1; i < args.length; i++) {
+                        if (args[i].startsWith("$")) {
+                            if (cServerVars.instance().contains(args[i].substring(1)))
+                                args[i] = cServerVars.instance().get(args[i].substring(1));
+                            else if (sVars.get(args[i]) != null)
+                                args[i] = sVars.get(args[i]);
+                        }
+                    }
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(String arg : args) {
+                    tvb.append(" ").append(arg);
+                }
+//        System.out.println(tvb);
+                xCon.ex(tvb.substring(1));
+            }
+        });
+        commands.put("cl_exec", new xCom() {
+            public String doCommand(String fullcommand) {
+                String[] args = fullcommand.split(" ");
+                String s = args[1];
+                xCon.instance().debug("Loading exec: " + s);
+                if(args.length > 2) {
+                    //parse the $ vars for placing prefabs
+                    for(int i = 2; i < args.length; i++) {
+                        sVars.put(String.format("$%d", i-1), args[i]);
+                    }
+                }
+                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
+                    xCon.instance().debug("EXEC_CLIENT FROM MEMORY: " + s);
+                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
+                        xCon.ex(line.replace("putblock", "cl_putblock"
+                        ).replace("putitem", "cl_putitem"));
+                    }
+                }
+                else {
+                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                                xCon.ex(line.replace("putblock", "cl_putblock"
+                                ).replace("putitem", "cl_putitem"));
+                        }
+                    }
+                    catch (Exception e) {
+                        eLogging.logException(e);
+                        e.printStackTrace();
+                    }
+                }
+                return String.format("%s finished", s);
+            }
+        });
+        commands.put("cl_execpreview", new xCom() {
+            public String doCommand(String fullcommand) {
+                String[] args = fullcommand.split(" ");
+                String s = args[1];
+                xCon.instance().debug("Loading exec: " + s);
+                if(args.length > 2) {
+                    //parse the $ vars for placing prefabs
+                    for(int i = 2; i < args.length; i++) {
+                        sVars.put(String.format("$%d", i-1), args[i]);
+                    }
+                }
+                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
+//            xCon.instance().debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
+                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
+                        if(line.startsWith("putblock "))
+                            xCon.ex(line.replace("putblock", "cl_putblockpreview"));
+                    }
+                }
+                else {
+                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            String[] linetoks = line.split(" ");
+                            if(linetoks[0].equalsIgnoreCase("putblock")) {
+                                xCon.ex(line.replace("putblock", "cl_putblockpreview"));
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        eLogging.logException(e);
+                        e.printStackTrace();
+                    }
+                }
+                return String.format("%s finished", s);
+            }
+        });
+        commands.put("exportasprefab", new xCom() {
+            public String doCommand(String fullcommand) {
+                JFileChooser fileChooser = new JFileChooser();
+                File workingDirectory = new File("prefabs");
+                fileChooser.setCurrentDirectory(workingDirectory);
+                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    String filename = file.getName();
+                    cClientLogic.scene.exportasprefab(filename);
+                    return "exported " + file.getPath();
+                }
+                return "";
+            }
+        });
         commands.put("fireweapon", new xComFireWeapon());
         commands.put("foreach", new xComForEach());
         commands.put("foreachlong", new xComForEachLong());
@@ -664,8 +920,6 @@ public class xCon {
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_exec", new xComExecClient());
-        commands.put("cl_execpreview", new xComExecClientPreview());
         commands.put("cl_fireweapon", new xComFireWeaponClient());
         commands.put("cl_load", new xComLoadClient());
         commands.put("cl_putblock", new xComPutBlockClient());
