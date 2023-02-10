@@ -3,7 +3,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
     private static xCon instance = null;
@@ -973,25 +977,279 @@ public class xCon {
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
             }
         });
-        commands.put("getres", new xComGetRes());
-        commands.put("cl_getres", new xComGetResClient());
-        commands.put("gametimemillis", new xComGameTimeMillis());
-        commands.put("getadd", new xComGetAdd());
-        commands.put("getaddint", new xComGetAddInt());
-        commands.put("getaddlong", new xComGetAddLong());
-        commands.put("cl_getadd", new xComGetAddClient());
-        commands.put("cl_getaddlong", new xComGetAddLongClient());
-        commands.put("getsnap", new xComGetSnapshot());
-        commands.put("getsub", new xComGetSub());
-        commands.put("cl_getsub", new xComGetSubClient());
-        commands.put("getnewitemid", new xComGetNewItemId());
-        commands.put("getrand", new xComGetRandom());
-        commands.put("getrandclid", new xComGetRandomClientId());
-        commands.put("getrandthing", new xComGetRandomThing());
-        commands.put("getwinnerid", new xComGetWinnerId());
-        commands.put("givewin", new xComGiveWin());
-        commands.put("givepoint", new xComGivePoint());
-        commands.put("gobackui", new xComGoBackUI());
+        commands.put("gametimemillis", new xCom() {
+            public String doCommand(String fullCommand) {
+                return Long.toString(gTime.gameTime);
+            }
+        });
+        commands.put("getadd", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getadd $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                double n1 = Double.parseDouble(args[2]);
+                double n2 = Double.parseDouble(args[3]);
+                cServerVars.instance().put(tk, Double.toString(n1+n2));
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_getadd", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: cl_getadd $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                double n1 = Double.parseDouble(args[2]);
+                double n2 = Double.parseDouble(args[3]);
+                String s = Double.toString(n1+n2);
+                String ss = s.substring(0, s.indexOf('.')+2);
+                cClientVars.instance().put(tk, ss);
+                return ss;
+            }
+        });
+        commands.put("getaddint", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getaddint $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                Number n1 = null;
+                Number n2 = null;
+                try {
+                    n1 = NumberFormat.getInstance().parse(args[2]);
+                    n2 = NumberFormat.getInstance().parse(args[3]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                boolean n1d = n1 instanceof Double;
+                boolean n1l = n1 instanceof Long;
+                boolean n2d = n2 instanceof Double;
+                boolean n2l = n2 instanceof Long;
+                if(n1d || n2d)
+                    cServerVars.instance().put(tk, Integer.toString((int) ((double) n1 + (double) n2)));
+                else if(n1l || n2l)
+                    cServerVars.instance().put(tk, Long.toString((long) n1 + (long) n2));
+                else
+                    cServerVars.instance().put(tk, Integer.toString((int) n1 + (int) n2));
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("getaddlong", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getaddlong $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                long n1 = Long.parseLong(args[2]);
+                long n2 = Long.parseLong(args[3]);
+                cServerVars.instance().put(tk, Long.toString(n1+n2));
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_getaddlong", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: cl_getaddlong $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                long n1 = Long.parseLong(args[2]);
+                long n2 = Long.parseLong(args[3]);
+                cClientVars.instance().put(tk, Long.toString(n1+n2));
+                return cClientVars.instance().get(tk);
+            }
+        });
+        commands.put("getnewitemid", new xCom() {
+            public String doCommand(String fullCommand) {
+                int itemId = 0;
+                for(String id : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {
+                    if(itemId < Integer.parseInt(id))
+                        itemId = Integer.parseInt(id);
+                }
+                return Integer.toString(itemId+1); //want to be the NEXT id
+            }
+        });
+        commands.put("getrand", new xCom() {
+            // usage: getrand $min $max
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                int start = Integer.parseInt(args[1]);
+                int end = Integer.parseInt(args[2]);
+                return Integer.toString(ThreadLocalRandom.current().nextInt(start, end + 1));
+            }
+        });
+        commands.put("getrandclid", new xCom() {
+            // usage: getrandclid
+            public String doCommand(String fullCommand) {
+                if(nServer.instance().masterStateMap.keys().size() < 1)
+                    return "null";
+                int randomClientIndex = (int) (Math.random() * nServer.instance().masterStateMap.keys().size());
+                ArrayList<String> clientIds = new ArrayList<>(nServer.instance().masterStateMap.keys());
+                return clientIds.get(randomClientIndex);
+            }
+        });
+        commands.put("getrandthing", new xCom() {
+            // usage: getrandthing $type
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String type = args[1];
+                if(!cServerLogic.scene.objectMaps.containsKey(type) || cServerLogic.scene.objectMaps.get(type).size() < 1)
+                    return "null";
+                List<String> keysAsArray = new ArrayList<>(cServerLogic.scene.objectMaps.get(type).keySet());
+                return keysAsArray.get(ThreadLocalRandom.current().nextInt(0, keysAsArray.size()));
+            }
+        });
+        commands.put("getres", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                if(args.length < 3) {
+                    if (!cServerVars.instance().contains(tk))
+                        return "null";
+                    return cServerVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                String res = xCon.ex(tv);
+                cServerVars.instance().put(tk, res);
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_getres", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                if(args.length < 3) {
+                    if (!cClientVars.instance().contains(tk))
+                        return "null";
+                    return cClientVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                String res = xCon.ex(tv);
+                cClientVars.instance().put(tk, res);
+                return cClientVars.instance().get(tk);
+            }
+        });
+        commands.put("getsnap", new xCom() {
+            //usage: getsnap $id $key
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return nServer.instance().clientStateSnapshots.toString();
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String cid = args[1];
+                if(!nServer.instance().clientStateSnapshots.containsKey(cid))
+                    return "null";
+                nStateMap clientSnapshot = new nStateMap(nServer.instance().clientStateSnapshots.get(cid));
+                if(args.length < 3)
+                    return clientSnapshot.toString();
+                String tk = args[2];
+                nState clientState = clientSnapshot.get(cid);
+                if(!clientState.contains(tk))
+                    return "null";
+                return clientState.get(tk);
+            }
+        });
+        commands.put("getsub", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getsub $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                double n1 = Double.parseDouble(args[2]);
+                double n2 = Double.parseDouble(args[3]);
+                cServerVars.instance().put(tk, Double.toString(n1-n2));
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_getsub", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getsub $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                double n1 = Double.parseDouble(args[2]);
+                double n2 = Double.parseDouble(args[3]);
+                String s = Double.toString(n1-n2);
+                String ss = s.substring(0, s.indexOf('.')+2);
+                cClientVars.instance().put(tk, ss);
+                return ss;
+            }
+        });
+        commands.put("getwinnerid", new xCom() {
+            public String doCommand(String fullCommand) {
+                return gScoreboard.getWinnerId();
+            }
+        });
+        commands.put("givepoint", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: givepoint <playerid> <points#optional>";
+                String id = args[1];
+                int score = 100;
+                if(args.length > 2)
+                    score = Integer.parseInt(args[2]);
+                gScoreboard.addToScoreField(id, "score", score);
+                String color = nServer.instance().masterStateMap.get(id).get("color");
+                nServer.instance().addExcludingNetCmd("server",
+                        String.format("cl_spawnpopup %s +%d#%s", id, score, color));
+                return "gave point to " + id;
+            }
+        });
+        commands.put("givewin", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
+                String id = args[1];
+                gScoreboard.incrementScoreFieldById(id, "wins");
+                return id;
+            }
+        });
+        commands.put("gobackui", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(uiInterface.inplay)
+                    xCon.ex("pause");
+                else {
+                    if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
+                        if(!cClientLogic.maploaded) {
+                            //offline mode do this
+                            uiMenus.selectedMenu = uiMenus.MENU_QUIT;
+                            xCon.ex("playsound sounds/splash.wav");
+                        }
+                        else
+                            xCon.ex("pause");
+                    }
+                    else {
+                        uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
+                        xCon.ex("playsound sounds/splash.wav");
+                    }
+                }
+                return fullCommand;
+            }
+        });
         commands.put("joingame", new xComJoingame());
         commands.put("load", new xComLoad());
         commands.put("mouseleft", new xComMouseLeft());
