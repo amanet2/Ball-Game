@@ -407,13 +407,192 @@ public class xCon {
                 return sorted.toString();
             }
         });
-        commands.put("damageplayer", new xComDamagePlayer());
-        commands.put("deleteblock", new xComDeleteBlock());
-        commands.put("deleteitem", new xComDeleteItem());
-        commands.put("deleteplayer", new xComDeletePlayer());
-        commands.put("deleteprefab", new xComDeletePrefab());
-        commands.put("disconnect", new xComDisconnect());
-        commands.put("dobotbehavior", new xComDoBotBehavior());
+        commands.put("damageplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 2) {
+                    String id = toks[1];
+                    int dmg = Integer.parseInt(toks[2]);
+                    String shooterid = "";
+                    if(toks.length > 3)
+                        shooterid = toks[3];
+                    gPlayer player = cServerLogic.getPlayerById(id);
+                    if(player != null) {
+                        xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        //handle death
+                        if(player.getDouble("stockhp") < 1) {
+                            //more server-side stuff
+                            int dcx = player.getInt("coordx");
+                            int dcy = player.getInt("coordy");
+                            xCon.ex("exec scripts/deleteplayer " + id);
+                            if(shooterid.length() < 1)
+                                shooterid = "null";
+                            xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
+                            xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
+                            int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                            String colorName = nServer.instance().masterStateMap.get(id).get("color");
+                            if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
+                                animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
+                            xCon.ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
+                        }
+                        return id + " took " + dmg + " dmg from " + shooterid;
+                    }
+                }
+                return "usage: damageplayer <player_id> <dmg_amount> <optional-shooter_id>";
+            }
+        });
+        commands.put("deleteblock", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    if(cServerLogic.scene.getThingMap("THING_BLOCK").containsKey(id)) {
+                        gBlock blockToDelete = (gBlock) cServerLogic.scene.getThingMap("THING_BLOCK").get(id);
+                        String type = blockToDelete.get("type");
+                        cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
+                        cServerLogic.scene.getThingMap(type).remove(id);
+                    }
+                }
+                return "usage: deleteblock <id>";
+            }
+        });
+        commands.put("cl_deleteblock", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    if(cClientLogic.scene.getThingMap("THING_BLOCK").containsKey(id)) {
+                        gBlock blockToDelete = (gBlock) cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
+                        String type = blockToDelete.get("type");
+                        cClientLogic.scene.getThingMap("THING_BLOCK").remove(id);
+                        cClientLogic.scene.getThingMap(type).remove(id);
+                    }
+                }
+                return "usage: deleteblock <id>";
+            }
+        });
+        commands.put("deleteitem", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    if(cServerLogic.scene.getThingMap("THING_ITEM").containsKey(id)) {
+                        gItem itemToDelete = (gItem) cServerLogic.scene.getThingMap("THING_ITEM").get(id);
+                        String type = itemToDelete.get("type");
+                        cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
+                        cServerLogic.scene.getThingMap(type).remove(id);
+                        nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
+                    }
+                }
+                return "usage: deleteitem <id>";
+            }
+        });
+        commands.put("cl_deleteitem", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    if(cClientLogic.scene.getThingMap("THING_ITEM").containsKey(id)) {
+                        gItem itemToDelete = (gItem) cClientLogic.scene.getThingMap("THING_ITEM").get(id);
+                        String type = itemToDelete.get("type");
+                        cClientLogic.scene.getThingMap("THING_ITEM").remove(id);
+                        cClientLogic.scene.getThingMap(type).remove(id);
+                    }
+                }
+                return "usage: deleteitem <id>";
+            }
+        });
+        commands.put("deleteplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                    if(id.contains("bot"))
+                        cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
+                }
+                return "usage: deleteplayer <id>";
+            }
+        });
+        commands.put("cl_deleteplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String id = toks[1];
+                    if(id.equals(uiInterface.uuid))
+                        cClientVars.instance().put("userplayerid", "null");
+                    cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                    if(id.contains("bot"))
+                        cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
+                }
+                return "usage: deleteplayer <id>";
+            }
+        });
+        commands.put("deleteprefab", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String did = toks[1];
+                    for(String id : cServerLogic.scene.getThingMapIds("THING_BLOCK")) {
+                        gBlock block = (gBlock) cServerLogic.scene.getThingMap("THING_BLOCK").get(id);
+                        if(!block.isVal("prefabid", did))
+                            continue;
+                        String type = block.get("type");
+                        cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
+                        cServerLogic.scene.getThingMap(type).remove(id);
+                    }
+                }
+                return "usage: deleteprefab <id>";
+            }
+        });
+        commands.put("cl_deleteprefab", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 1) {
+                    String did = toks[1];
+                    for(String id : cClientLogic.scene.getThingMapIds("THING_BLOCK")) {
+                        gBlock block = (gBlock) cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
+                        if(!block.isVal("prefabid", did))
+                            continue;
+                        String type = block.get("type");
+                        cClientLogic.scene.getThingMap("THING_BLOCK").remove(id);
+                        cClientLogic.scene.getThingMap(type).remove(id);
+                    }
+                }
+                return "usage: deleteblock <id>";
+            }
+        });
+        commands.put("disconnect", new xCom() {
+            public String doCommand(String fullCommand) {
+                nClient.instance().disconnect();
+                xCon.ex("cl_load");
+                if (uiInterface.inplay)
+                    xCon.ex("pause");
+                return fullCommand;
+            }
+        });
+        commands.put("dobotbehavior", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length > 2) {
+                    String botid = toks[1];
+                    StringBuilder botbehavior = new StringBuilder();
+                    for(int i = 2; i < toks.length; i++) {
+                        botbehavior.append(" " + toks[i]);
+                    }
+                    String behaviorString = botbehavior.substring(1);
+                    gPlayer botPlayer = cServerLogic.getPlayerById(botid);
+                    if(botPlayer == null)
+                        return "botid does not exist: " + botid;
+                    gDoableThing behavior = cBotsLogic.getBehavior(behaviorString);
+                    if(behavior != null)
+                        behavior.doItem(botPlayer);
+                    else
+                        return "botbehavior does not exist: " + botbehavior;
+                }
+                return fullCommand;
+            }
+        });
         commands.put("exec", new xComExec());
         commands.put("exportasprefab", new xComExportAsPrefab());
         commands.put("e_changeplayername", new xComEditorChangePlayerName());
@@ -485,10 +664,6 @@ public class xCon {
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_deleteblock", new xComDeleteBlockClient());
-        commands.put("cl_deleteitem", new xComDeleteItemClient());
-        commands.put("cl_deleteplayer", new xComDeletePlayerClient());
-        commands.put("cl_deleteprefab", new xComDeletePrefabClient());
         commands.put("cl_exec", new xComExecClient());
         commands.put("cl_execpreview", new xComExecClientPreview());
         commands.put("cl_fireweapon", new xComFireWeaponClient());
