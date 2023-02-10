@@ -26,6 +26,7 @@ public class xCon {
         linesToShowStart = 0;
         linesToShow = 24;
         cursorIndex = 0;
+        commands = new HashMap<>();
         pressBinds = new HashMap<>();
         releaseBinds = new HashMap<>();
         previousCommands = new ArrayList<>();
@@ -33,13 +34,161 @@ public class xCon {
         commandString = "";
         prevCommandIndex = -1;
 
-        commands = new HashMap<>();
-        commands.put("activatemenu", new xComActivateMenu());
-        commands.put("addbot", new xComAddBot());
-        commands.put("addcom", new xComAddCommand());
-        commands.put("addcomi", new xComAddCommandIgnore());
-        commands.put("addcomx", new xComAddCommandExclusive());
-        commands.put("addevent", new xComAddTimeEvent());
+        commands.put("activatemenu", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!uiInterface.inplay && !sSettings.show_mapmaker_ui) {
+                    uiMenus.menuSelection[uiMenus.selectedMenu].items[
+                            uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
+                }
+                return "1";
+            }
+        });
+        commands.put("addbot", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] botnameselection = sSettings.botnameSelection;
+                String[] colorselection = sSettings.colorSelection;
+                String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
+                String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
+
+                gPlayer p = new gPlayer("bot"+eManager.createBotId(), -6000,-6000,
+                        Integer.parseInt(xCon.ex("cv_maxhp")),
+                        eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
+                cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
+                cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
+                nVarsBot.update(p, gTime.gameTime);
+                nServer.instance().masterStateMap.put(p.get("id"), new nStateBallGame());
+                nServer.instance().masterStateMap.get(p.get("id")).put("color", botcolor);
+                nServer.instance().masterStateMap.get(p.get("id")).put("name", botname);
+                gScoreboard.addId(p.get("id"));
+                nServer.instance().addExcludingNetCmd("server", "echo " + botname + " joined the game");
+                xCon.ex("exec scripts/respawnnetplayer " + p.get("id"));
+                return "spawned bot";
+            }
+        });
+        commands.put("addcom", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "addcom can only be used by active server";
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "usage: addcom <command to execute>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                StringBuilder act = new StringBuilder("");
+                for(int i = 1; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String actStr = act.substring(1);
+                nServer.instance().addNetCmd(actStr);
+                return "server net com: " + actStr;
+            }
+        });
+        commands.put("cl_addcom", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_CLIENT)
+                    return "cl_addcom can only be used by active clients";
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "usage: cl_addcom <command to execute>";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                StringBuilder act = new StringBuilder("");
+                for(int i = 1; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String actStr = act.substring(1);
+                nClient.instance().addNetCmd(actStr);
+                return "client net com: " + actStr;
+            }
+        });
+        commands.put("addcomi", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "addcomi can only be used by the host";
+                String[] args = fullCommand.split(" ");
+                if(args.length < 3)
+                    return "usage: addcomi <ignore id> <string>";
+                for(int i = 1; i < args.length; i++) {
+                    if(args[i].contains("#")) {
+                        String[] toks = args[i].split("#");
+                        for(int j = 0; j < toks.length; j++) {
+                            if(!toks[j].startsWith("$"))
+                                continue;
+                            if(cServerVars.instance().contains(toks[j].substring(1)))
+                                toks[j] = cServerVars.instance().get(toks[j].substring(1));
+                            else if(sVars.get(toks[j]) != null)
+                                toks[j] = sVars.get(toks[0]);
+                        }
+                        args[i] = toks[0] + "#" + toks[1];
+                    }
+                    else if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1)))
+                        args[i] = cServerVars.instance().get(args[i].substring(1));
+                    else if(args[i].startsWith("$") && sVars.get(args[i]) != null)
+                        args[i] = sVars.get(args[i]);
+                }
+                String ignoreId = args[1];
+                StringBuilder act = new StringBuilder("");
+                for(int i = 2; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String actStr = act.substring(1);
+                nServer.instance().addExcludingNetCmd(ignoreId, actStr);
+                return "server net com ignoring: " + actStr;
+            }
+        });
+        commands.put("addcomx", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "addcomx can only be used by active server";
+                String[] args = fullCommand.split(" ");
+                if(args.length < 3)
+                    return "usage: addcomx <exclusive id> <string>";
+                for(int i = 1; i < args.length; i++) {
+                    //parse the $ vars for placing prefabs
+                    if(args[i].startsWith("$")) {
+                        if(args[i].contains("#")) {
+                            String[] toks = args[i].split("#");
+                            if(cServerVars.instance().contains(toks[0].substring(1)))
+                                toks[0] = cServerVars.instance().get(toks[0].substring(1));
+                            if(cServerVars.instance().contains(toks[1].substring(1)))
+                                toks[1] = cServerVars.instance().get(toks[1].substring(1));
+                            args[i] = toks[0] + "#" + toks[1];
+                        }
+                        else if(cServerVars.instance().contains(args[i].substring(1)))
+                            args[i] = cServerVars.instance().get(args[i].substring(1));
+                        else if(sVars.get(args[i]) != null)
+                            args[i] = sVars.get(args[i]);
+                    }
+                }
+                String exlusiveId = args[1];
+                StringBuilder act = new StringBuilder("");
+                for(int i = 2; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String actStr = act.substring(1);
+                nServer.instance().addNetCmd(exlusiveId, actStr);
+                return "server net com exclusive: " + actStr;
+            }
+        });
+        commands.put("addevent", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "addevent can only be used by active server";
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "usage: addevent <time> <string to execute>";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                StringBuilder act = new StringBuilder("");
+                for(int i = 2; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String timeToExec = args[1];
+                String actStr = act.substring(1);
+                cServerLogic.timedEvents.put(timeToExec,
+                        new gTimeEvent() {
+                            public void doCommand() {
+                                xCon.ex(actStr);
+                            }
+                        }
+                );
+                return "added time event @" + timeToExec + ": " + actStr;
+            }
+        });
         commands.put("banid", new xComBanId());
         commands.put("bind", new xComBind());
         commands.put("bindlist", new xComBindList());
@@ -130,7 +279,6 @@ public class xCon {
         commands.put("testresn", new xComTestResN());
         commands.put("cl_testresn", new xComTestResNClient());
         commands.put("unbind", new xComUnbind());
-        commands.put("cl_addcom", new xComAddCommandClient());
         commands.put("cl_clearthingmap", new xComClearThingMapClient());
         commands.put("cl_clearthingmappreview", new xComClearThingMapPreview());
         commands.put("cl_deleteblock", new xComDeleteBlockClient());
