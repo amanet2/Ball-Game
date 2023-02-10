@@ -1258,8 +1258,24 @@ public class xCon {
                 return "joined game";
             }
         });
-        commands.put("load", new xComLoad());
-        commands.put("cl_load", new xComLoadClient());
+        commands.put("load", new xCom() {
+            public String doCommand(String fullCommand) {
+                //load the most basic blank map
+                gTextures.clear();
+                xCon.ex("cv_gamemode 0");
+                cServerLogic.scene = new gScene();
+                return "";
+            }
+        });
+        commands.put("cl_load", new xCom() {
+            public String doCommand(String fullCommand) {
+                //load the most basic blank map
+                gTextures.clear();
+                xCon.ex("cv_gamemode 0");
+                cClientLogic.scene = new gScene();
+                return "";
+            }
+        });
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("newgame", new xComNewgame());
         commands.put("newgamerandom", new xComNewgameRandom());
