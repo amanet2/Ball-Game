@@ -1250,7 +1250,14 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("joingame", new xComJoingame());
+        commands.put("joingame", new xCom() {
+            public String doCommand(String fullCommand) {
+                nClient.instance().reset();
+                sSettings.IS_CLIENT = true;
+//              nClient.instance().start();
+                return "joined game";
+            }
+        });
         commands.put("load", new xComLoad());
         commands.put("mouseleft", new xComMouseLeft());
         commands.put("newgame", new xComNewgame());
