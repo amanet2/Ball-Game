@@ -1256,7 +1256,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 nClient.instance().reset();
                 sSettings.IS_CLIENT = true;
-//              nClient.instance().start();
+              nClient.instance().start();
                 return "joined game";
             }
         });
