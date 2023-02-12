@@ -39,4 +39,4 @@ vfxenableshadows 1
 # video mode
 vidmode 1280,720,60
 # volume
-volume 40
+volume 10

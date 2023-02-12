@@ -298,7 +298,67 @@ public class uiMenus {
         new uiMenusResolution(),
         new uiMenusRefresh(),
         new uiMenusMap(),
-        new uiMenusVolume(),
+        new uiMenu(
+                "Volume Level",
+                new uiMenuItem[]{
+                        new uiMenuItem("0"){
+                            public void doItem() {
+                                xCon.ex("volume 0");
+                            }
+                        },
+                        new uiMenuItem("10"){
+                            public void doItem() {
+                                xCon.ex("volume 10");
+                            }
+                        },
+                        new uiMenuItem("20"){
+                            public void doItem() {
+                                xCon.ex("volume 20");
+                            }
+                        },
+                        new uiMenuItem("30"){
+                            public void doItem() {
+                                xCon.ex("volume 30");
+                            }
+                        },
+                        new uiMenuItem("40"){
+                            public void doItem() {
+                                xCon.ex("volume 40");
+                            }
+                        },
+                        new uiMenuItem("50"){
+                            public void doItem() {
+                                xCon.ex("volume 50");
+                            }
+                        },
+                        new uiMenuItem("60"){
+                            public void doItem() {
+                                xCon.ex("volume 60");
+                            }
+                        },
+                        new uiMenuItem("70"){
+                            public void doItem() {
+                                xCon.ex("volume 70");
+                            }
+                        },
+                        new uiMenuItem("80"){
+                            public void doItem() {
+                                xCon.ex("volume 80");
+                            }
+                        },
+                        new uiMenuItem("90"){
+                            public void doItem() {
+                                xCon.ex("volume 90");
+                            }
+                        },
+                        new uiMenuItem("100"){
+                            public void doItem() {
+                                xCon.ex("volume 100");
+                            }
+                        }
+                },
+                uiMenus.MENU_AUDIO
+        ),
         new uiMenusColor(),
         new uiMenu(
                 "Credits",
