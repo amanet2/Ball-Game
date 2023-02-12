@@ -64,6 +64,9 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("volume", "100") {
             public void onChange() {
                 cClientLogic.volume = Double.parseDouble(value);
+                uiMenus.menuSelection[uiMenus.MENU_AUDIO].refresh();
+                if(uiMenus.selectedMenu == uiMenus.MENU_VOLUME)
+                    uiMenus.selectedMenu = uiMenus.MENU_AUDIO;
             }
         });
         putArg(new gArg("playercolor", "blue") {
