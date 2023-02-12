@@ -109,7 +109,9 @@ public class gPlayer extends gThing {
         put("id", id);
         put("type", "THING_PLAYER");
         put("inteleporter", "0");
-        put("accelrate", "100");
+        put("acceldelay", "100");
+        put("accelrate", "2");
+        put("decelrate", "1");
         put("pathsprite", "");
         put("weapon", "0");
         put("cooldown", "0");
