@@ -64,6 +64,9 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("volume", "100") {
             public void onChange() {
                 cClientLogic.volume = Double.parseDouble(value);
+                uiMenus.menuSelection[uiMenus.MENU_AUDIO].refresh();
+                if(uiMenus.selectedMenu == uiMenus.MENU_VOLUME)
+                    uiMenus.selectedMenu = uiMenus.MENU_AUDIO;
             }
         });
         putArg(new gArg("playercolor", "blue") {
@@ -141,7 +144,7 @@ public class cClientVars extends gArgSet {
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("cv_velocityplayer", "8") {
+        putArg(new gArg("cv_velocityplayer", "64") {
             public void onChange() {
                 cClientLogic.velocityPlayer = Integer.parseInt(value);
             }

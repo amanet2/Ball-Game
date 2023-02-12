@@ -16,17 +16,24 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("x", "0") {
             public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordx", value);
+                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimex < gTime.gameTime) {
+                    cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordx", value);
+                }
+                else
+                    setPlayerVal("coordx", value);
             }
         });
         map.putArg(new gArg("y", "0") {
             public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordy", value);
+                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimey < gTime.gameTime) {
+                    cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordy", value);
+                }
+                else
+                    setPlayerVal("coordy", value);
             }
         });
-//        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))
@@ -38,19 +45,31 @@ public class nStateBallGameClient extends nState {
                 pl.checkSpriteFlip();
             }
         });
-        map.putArg(new gArg("vels", "0-0-0-0") {
+        map.putArg(new gArg("vel0", "0") {
             public void onChange() {
-                if(get("id").equals(uiInterface.uuid))
-                    return;
-                gPlayer pl = cClientLogic.getPlayerById(get("id"));
-                if(pl == null)
-                    return;
-                String[] vels = value.split("-");
-                pl.put("vel0", vels[0]);
-                pl.put("vel1", vels[1]);
-                pl.put("vel2", vels[2]);
-                pl.put("vel3", vels[3]);
+                setPlayerVal("vel0", value);
             }
         });
+        map.putArg(new gArg("vel1", "0") {
+            public void onChange() {
+                setPlayerVal("vel1", value);
+            }
+        });
+        map.putArg(new gArg("vel2", "0") {
+            public void onChange() {
+                setPlayerVal("vel2", value);
+            }
+        });
+        map.putArg(new gArg("vel3", "0") {
+            public void onChange() {
+                setPlayerVal("vel3", value);
+            }
+        });
+    }
+
+    private void setPlayerVal(String key, String val) {
+        gPlayer pl = cClientLogic.getPlayerById(get("id"));
+        if(pl != null)
+            pl.put(key, val);
     }
 }

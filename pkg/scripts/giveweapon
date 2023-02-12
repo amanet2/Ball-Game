@@ -1,3 +1,4 @@
+setnstate $1 weap $2
 addcomx server setthing THING_PLAYER $1 weapon $2
 addcomi server cl_setthing THING_PLAYER $1 weapon $2
 getres pname setnstate $1 name

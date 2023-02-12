@@ -19,34 +19,30 @@ public class nStateBallGame extends nState {
                 oldname = value;
             }
         });
-        map.putArg(new gArg("x", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
-            }
-        });
-        map.putArg(new gArg("y", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
-            }
-        });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(cServerLogic.scene.getPlayerById(get("id")) != null)
                     cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
             }
         });
-        map.putArg(new gArg("vels", "0-0-0-0") {
+        map.putArg(new gArg("mov0", "0") {
             public void onChange() {
-                gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
-                if(pl == null)
-                    return;
-                String[] vels = value.split("-");
-                pl.put("vel0", vels[0]);
-                pl.put("vel1", vels[1]);
-                pl.put("vel2", vels[2]);
-                pl.put("vel3", vels[3]);
+                setPlayerVal("mov0", value);
+            }
+        });
+        map.putArg(new gArg("mov1", "0") {
+            public void onChange() {
+                setPlayerVal("mov1", value);
+            }
+        });
+        map.putArg(new gArg("mov2", "0") {
+            public void onChange() {
+                setPlayerVal("mov2", value);
+            }
+        });
+        map.putArg(new gArg("mov3", "0") {
+            public void onChange() {
+                setPlayerVal("mov3", value);
             }
         });
         map.putArg(new gArg("cmdrcv", "0") {
@@ -77,5 +73,11 @@ public class nStateBallGame extends nState {
                 }
             }
         });
+    }
+
+    private void setPlayerVal(String key, String val) {
+        gPlayer pl = cServerLogic.getPlayerById(get("id"));
+        if(pl != null)
+            pl.put(key, val);
     }
 }

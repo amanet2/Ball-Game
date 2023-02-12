@@ -1,3 +1,12 @@
+* movement is all wrong
+    -> have server simulate great movement using mov dirs to increase/decrease velocity in a certain direction
+    -> currently the client makes velocity and sends that to server
+* shotgun does no dmg?
+* client should have threads to match server
+* server should run simulation and set clients' coords instead of clients overriding server
+    -> i think server relies on clients x,y send to create simulation currently
+    -> TRY THIS: disable the server's x/y observer that sets player coords
+        -> then copy the clients code for updating entity positions
 * create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
 * code in "holding_ITEM_NAME" var for players that will replace hardoded "flag" check for drawing flag

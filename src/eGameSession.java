@@ -1,11 +1,14 @@
-public class eGameEngine implements Runnable {
+public class eGameSession extends Thread implements Runnable {
     private final eTimer timer;
     private final eGameLogic gameLogic;
     private final boolean playing = true;
+    private long tickTimeNanos;
+    private int tickRate;
 
-    public eGameEngine(eGameLogic logic) {
+    public eGameSession(eGameLogic logic, int rate) {
         gameLogic = logic;
         timer = new eTimer();
+        tickRate = rate;
     }
 
     @Override
@@ -23,9 +26,9 @@ public class eGameEngine implements Runnable {
     }
 
     private void init() throws Exception {
-        oDisplay.instance().showFrame();
         timer.init();
         gameLogic.init();
+        tickTimeNanos = timer.snapshotTimeNanos();
     }
 
     private void cleanup() {
@@ -35,11 +38,9 @@ public class eGameEngine implements Runnable {
     private void loop() {
         while (playing) {
             timer.sync();
-
             input();
 
-            while(timer.behind()) {
-                timer.update();
+            while(behindTimer()) {
                 update();
             }
             render();
@@ -47,24 +48,27 @@ public class eGameEngine implements Runnable {
         }
     }
 
+    private boolean behindTimer() {
+        return tickTimeNanos < timer.snapshotTimeNanos();
+    }
+
     private void input() {
         gameLogic.input();
     }
 
     private void update() {
+        tickTimeNanos += (1000000000/tickRate);
         gameLogic.update();
     }
 
     private void render() {
-        //draw gfx
-        oDisplay.instance().frame.repaint();
         gameLogic.render();
     }
 
     private void sync() {
         // framerate limit
-        if(sSettings.framerate > 0) {
-            long nextFrameTime = (timer.gameTimeNanos() + (1000000000/sSettings.framerate));
+        if(tickRate > 0) {
+            long nextFrameTime = (timer.snapshotTimeNanos() + (1000000000/tickRate));
             while (nextFrameTime > timer.currentTimeNanos()) {
                 try {
                     Thread.sleep(1);

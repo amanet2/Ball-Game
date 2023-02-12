@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class nClient {
+public class nClient extends Thread {
     private int ticks = 0;
     private long nextSecondNanos = 0;
     private static final int retrylimit = 10;
@@ -44,6 +44,34 @@ public class nClient {
         sendMap.clear();
     }
 
+    public void run() {
+        try {
+            clientSocket = new DatagramSocket();
+            while (sSettings.IS_CLIENT) {
+                try {
+                    sendData();
+                    byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
+                            clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                    cClientLogic.serverRcvTime = System.currentTimeMillis();
+                    if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
+                        cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+                }
+                catch (Exception e) {
+                    eLogging.logException(e);
+                    e.printStackTrace();
+                }
+            }
+            interrupt();
+        }
+        catch (Exception ee) {
+            eLogging.logException(ee);
+            ee.printStackTrace();
+        }
+    }
+
     private nClient() {
         clientStateMap = new nStateMap();
     }
@@ -72,7 +100,7 @@ public class nClient {
             }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -119,14 +147,14 @@ public class nClient {
                             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
                                     clientReceiveData.length);
                             clientSocket.receive(receivePacket);
+                            receivedPackets.add(receivePacket);
                             cClientLogic.serverRcvTime = System.currentTimeMillis();
                             if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
-                            receivedPackets.add(receivePacket);
                             break;
                         }
                         catch (Exception e) {
-                            eUtils.echoException(e);
+                            eLogging.logException(e);
                             e.printStackTrace();
                             lretry++;
                             refreshSock(); // maybe optional
@@ -148,7 +176,7 @@ public class nClient {
                 }
             }
             catch (Exception ee) {
-                eUtils.echoException(ee);
+                eLogging.logException(ee);
                 ee.printStackTrace();
                 retries++;
                 if(retries > retrylimit) {
@@ -165,7 +193,7 @@ public class nClient {
             clientSocket.setSoTimeout(timeout);
         }
         catch (SocketException e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -184,17 +212,18 @@ public class nClient {
         keys.put("color", cClientLogic.playerColor);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("x", userPlayer.get("coordx"));
-            keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
-            keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
-                    userPlayer.get("vel2"), userPlayer.get("vel3")));
+            keys.put("mov0", userPlayer.get("mov0"));
+            keys.put("mov1", userPlayer.get("mov1"));
+            keys.put("mov2", userPlayer.get("mov2"));
+            keys.put("mov3", userPlayer.get("mov3"));
         }
         else {
-            keys.put("x", "0");
-            keys.put("y", "0");
             keys.put("fv", "0");
-            keys.put("vels", "0-0-0-0");
+            keys.put("mov0", "0");
+            keys.put("mov1", "0");
+            keys.put("mov2", "0");
+            keys.put("mov3", "0");
         }
         //name for spectator and gameplay
         keys.put("name", cClientLogic.playerName);
@@ -216,14 +245,14 @@ public class nClient {
         }
         HashMap<String, String> workingMap = new HashMap<>(sendMap);
         //send delta of serverargs
-        if(clientStateMap.contains(uiInterface.uuid)) {
-            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
-                if (protectedArgs.contains(k) ||
-                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
-                    continue;
-                workingMap.remove(k);
-            }
-        }
+//        if(clientStateMap.contains(uiInterface.uuid)) {
+//            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
+//                if (protectedArgs.contains(k) ||
+//                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
+//                    continue;
+//                workingMap.remove(k);
+//            }
+//        }
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");

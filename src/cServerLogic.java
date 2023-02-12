@@ -11,6 +11,8 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
+        nServer.instance().processPackets();
+        nServer.instance().checkForUnhandledQuitters();
         timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");
         checkGameState();
@@ -18,19 +20,7 @@ public class cServerLogic {
         checkBulletSplashes(loopTimeMillis);
     }
 
-    public static void checkGameState() {
-        for(String id : nServer.instance().masterStateMap.keys()) {
-            if(id.equals(uiInterface.uuid)) //ignore this part if we are server player (figure out why)
-                continue;
-            gPlayer obj = getPlayerById(id);
-            if(obj == null)
-                continue;
-            nState objState = nServer.instance().masterStateMap.get(obj.get("id"));
-            obj.putInt("vel0", Integer.parseInt(objState.get("vels").split("-")[0]));
-            obj.putInt("vel1", Integer.parseInt(objState.get("vels").split("-")[1]));
-            obj.putInt("vel2", Integer.parseInt(objState.get("vels").split("-")[2]));
-            obj.putInt("vel3", Integer.parseInt(objState.get("vels").split("-")[3]));
-        }
+    private static void checkGameState() {
         // NEW ITEMS CHECKING.  ACTUALLY WORKS
         HashMap<String, gThing> playerMap = scene.getThingMap("THING_PLAYER");
         for (String playerId : playerMap.keySet()) {
@@ -85,24 +75,56 @@ public class cServerLogic {
         xCon.ex("exec scripts/startgame " + cClientLogic.gamemode);
     }
 
-    public static void updateEntityPositions(long gameTimeMillis) {
+    private static void updateEntityPositions(long gameTimeMillis) {
         for(String id : nServer.instance().masterStateMap.keys()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
             String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "accelrate"};
+                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
+                    "decelrate"
+            };
             //check null fields
             if(!obj.containsFields(requiredFields))
                 continue;
             int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
             int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < gameTimeMillis)
-                obj.putLong("acceltick", gameTimeMillis + obj.getInt("accelrate"));
-            if(dx != obj.getInt("coordx") && obj.wontClipOnMove(0,dx, scene))
+            if(obj.getLong("acceltick") < gameTimeMillis) {
+                obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
+                for (int i = 0; i < 4; i++) {
+                    if (obj.getInt("mov" + i) > 0) {
+                        obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
+                                obj.getInt("vel" + i) + obj.getInt("accelrate"))));
+                    }
+                    else
+                        obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
+                }
+            }
+            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), scene))
                 obj.putInt("coordx", dx);
-            if(dy != obj.getInt("coordy") && obj.wontClipOnMove(1,dy, scene))
+            else {
+                if(obj.getInt("vel2") > obj.getInt("vel3"))
+                    obj.putInt("vel2", 0);
+                else
+                    obj.putInt("vel3", 0);
+            }
+            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene))
                 obj.putInt("coordy", dy);
+            else {
+                if(obj.getInt("vel0") > obj.getInt("vel1"))
+                    obj.putInt("vel0", 0);
+                else
+                    obj.putInt("vel1", 0);
+            }
+            nState objState = nServer.instance().masterStateMap.get(id);
+            if(objState != null) {
+                objState.put("x", obj.get("coordx"));
+                objState.put("y", obj.get("coordy"));
+                objState.put("vel0", obj.get("vel0"));
+                objState.put("vel1", obj.get("vel1"));
+                objState.put("vel2", obj.get("vel2"));
+                objState.put("vel3", obj.get("vel3"));
+            }
         }
 
         HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
@@ -115,7 +137,7 @@ public class cServerLogic {
         }
     }
 
-    public static void checkBulletSplashes(long gameTimeMillis) {
+    private static void checkBulletSplashes(long gameTimeMillis) {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
@@ -167,6 +189,6 @@ public class cServerLogic {
     }
 
     public static gPlayer getPlayerById(String id) {
-        return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+        return scene.getPlayerById(id);
     }
 }

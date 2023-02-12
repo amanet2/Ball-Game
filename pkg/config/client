@@ -15,7 +15,7 @@ joinip localhost
 # default net port
 joinport 5555
 # player color
-playercolor red
+playercolor purple
 # player name
 playername player
 # available resolutions
@@ -37,6 +37,6 @@ vfxenableshading 1
 # enable shadows
 vfxenableshadows 1
 # video mode
-vidmode 1280,720,240
+vidmode 1280,720,60
 # volume
-volume 40
+volume 10

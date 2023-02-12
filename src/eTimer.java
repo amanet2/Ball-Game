@@ -1,34 +1,23 @@
 public class eTimer {
-    private long gameTimeMillis;
-    private long gameTimeNanos;
-    private long tickTimeNanos;
+    private long snapshotTimeMillis;
+    private long snapshotTimeNanos;
 
     public void init() {
-        gameTimeMillis = currentTimeMillis();
-        gameTimeNanos = currentTimeNanos();
-        tickTimeNanos = gameTimeNanos;
+        snapshotTimeMillis = currentTimeMillis();
+        snapshotTimeNanos = currentTimeNanos();
     }
 
     public void sync() {
-        gameTimeMillis = currentTimeMillis();
-        gameTimeNanos = currentTimeNanos();
-        gTime.gameTime = gameTimeMillis();
+        snapshotTimeMillis = currentTimeMillis();
+        snapshotTimeNanos = currentTimeNanos();
     }
 
-    public void update() {
-        tickTimeNanos += (1000000000/sSettings.rategame);
+    public long snapshotTimeMillis() {
+        return snapshotTimeMillis;
     }
 
-    public boolean behind() {
-        return tickTimeNanos < gameTimeNanos;
-    }
-
-    public long gameTimeMillis() {
-        return gameTimeMillis;
-    }
-
-    public long gameTimeNanos() {
-        return gameTimeNanos;
+    public long snapshotTimeNanos() {
+        return snapshotTimeNanos;
     }
 
     public long currentTimeNanos() {

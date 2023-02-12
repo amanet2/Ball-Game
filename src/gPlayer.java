@@ -6,9 +6,7 @@ import java.awt.geom.Rectangle2D;
 public class gPlayer extends gThing {
     Image sprite;
 
-    public boolean wontClipOnMove(int coord, int coord2, gScene scene) {
-        int dx = coord == 0 ? coord2 : getInt("coordx");
-        int dy = coord == 1 ? coord2 : getInt("coordy");
+    public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
             Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
@@ -111,7 +109,9 @@ public class gPlayer extends gThing {
         put("id", id);
         put("type", "THING_PLAYER");
         put("inteleporter", "0");
-        put("accelrate", "100");
+        put("acceldelay", "100");
+        put("accelrate", "2");
+        put("decelrate", "1");
         put("pathsprite", "");
         put("weapon", "0");
         put("cooldown", "0");
