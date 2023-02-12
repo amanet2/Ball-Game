@@ -37,6 +37,6 @@ vfxenableshading 1
 # enable shadows
 vfxenableshadows 1
 # video mode
-vidmode 1280,720,60
+vidmode 1920,1080,60
 # volume
-volume 10
+volume 50

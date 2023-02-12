@@ -58,6 +58,13 @@ public class nClient extends Thread {
                     cClientLogic.serverRcvTime = System.currentTimeMillis();
                     if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                         cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextSecondNanos < theTime) {
+                        nextSecondNanos = theTime + 1000000000;
+                        uiInterface.netReportClient = ticks;
+                        ticks = 0;
+                    }
                 }
                 catch (Exception e) {
                     eLogging.logException(e);

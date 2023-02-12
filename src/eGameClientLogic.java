@@ -31,7 +31,7 @@ public class eGameClientLogic implements eGameLogic {
         }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {
-            uiInterface.netReportClient = ticks;
+            uiInterface.tickReport = ticks;
             ticks = 0;
             tickCounterTime = gameTimeMillis + 1000;
         }
