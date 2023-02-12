@@ -25,13 +25,13 @@ public class eGameClientLogic implements eGameLogic {
     public void update() {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-            nClient.instance().netLoop();
-//            nClient.instance().processPackets();
+//            nClient.instance().netLoop();
+            nClient.instance().processPackets();
             cClientLogic.gameLoop(gameTimeMillis);
         }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {
-            uiInterface.tickReport = ticks;
+            uiInterface.netReportClient = ticks;
             ticks = 0;
             tickCounterTime = gameTimeMillis + 1000;
         }

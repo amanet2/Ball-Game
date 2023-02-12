@@ -16,17 +16,24 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("x", "0") {
             public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordx", value);
+                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimex < gTime.gameTime) {
+                    cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordx", value);
+                }
+                else
+                    setPlayerVal("coordx", value);
             }
         });
         map.putArg(new gArg("y", "0") {
             public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordy", value);
+                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimey < gTime.gameTime) {
+                    cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordy", value);
+                }
+                else
+                    setPlayerVal("coordy", value);
             }
         });
-//        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))
@@ -40,34 +47,29 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("vel0", "0") {
             public void onChange() {
-                setVelVec("0", value);
-
+                setPlayerVal("vel0", value);
             }
         });
         map.putArg(new gArg("vel1", "0") {
             public void onChange() {
-                setVelVec("1", value);
-
+                setPlayerVal("vel1", value);
             }
         });
         map.putArg(new gArg("vel2", "0") {
             public void onChange() {
-                setVelVec("2", value);
-
+                setPlayerVal("vel2", value);
             }
         });
         map.putArg(new gArg("vel3", "0") {
             public void onChange() {
-                setVelVec("3", value);
+                setPlayerVal("vel3", value);
             }
         });
     }
 
-    private void setVelVec(String dir, String val) {
-        if(get("id").equals(uiInterface.uuid))
-            return;
+    private void setPlayerVal(String key, String val) {
         gPlayer pl = cClientLogic.getPlayerById(get("id"));
         if(pl != null)
-            pl.put("vel"+dir, val);
+            pl.put(key, val);
     }
 }

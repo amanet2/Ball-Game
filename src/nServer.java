@@ -12,8 +12,6 @@ import java.util.Arrays;
 public class nServer extends Thread {
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
-//    static int ticks = 0;
-//    static long nextsecondnanos = 0;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
     HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
@@ -147,7 +145,7 @@ public class nServer extends Thread {
             xCon.ex(serverLocalCmdQueue.remove());
     }
 
-    public void processPackets(long gameTimeMillis) {
+    public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
             if(receivedPackets.size() > 0) {
@@ -177,23 +175,6 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-//            HashMap<String, gThing> botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-//            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
-//                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
-//                for(String id : botsMap.keySet()) {
-//                    gPlayer p = (gPlayer) botsMap.get(id);
-//                    nVarsBot.update(p, gameTimeMillis);
-//                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
-//                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-//                            + receiveDataString.trim());
-//                    readData(receiveDataString);
-//                    //get player id of client
-//                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-//                    String clientId = clientmap.get("id");
-//                    //act as if responding
-//                    createSendDataString(netVars, clientId);
-//                }
-//            }
         }
         catch (Exception e) {
             eLogging.logException(e);
@@ -216,7 +197,8 @@ public class nServer extends Thread {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+//        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid));
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
@@ -241,18 +223,12 @@ public class nServer extends Thread {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
-                    long gameTime = gTime.gameTime;
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
-                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
-                    // Everything above this line seems to be for receiving net data
-                    //all below it seems to be what a GAME server tick should check
-                    processPackets(gameTime);
-                    checkForUnhandledQuitters();
-//                    cServerLogic.gameLoop(gameTime);
-//                    sleep(Math.max(0, networkTime - gameTime));
+//                    processPackets();
+//                    checkForUnhandledQuitters();
                 }
                 catch (Exception e) {
                     eLogging.logException(e);
