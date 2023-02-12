@@ -1797,35 +1797,552 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("say", new xComSay());
-        commands.put("selectdown", new xComSelectDown());
-        commands.put("selectleft", new xComSelectLeft());
-        commands.put("selectright", new xComSelectRight());
-        commands.put("selectup", new xComSelectUp());
-        commands.put("setcam", new xComSetCamera());
-        commands.put("setcamcoords", new xComSetCamCoords());
-        commands.put("setcammovs", new xComSetCamMovs());
-        commands.put("setnstate", new xComSetState());
-        commands.put("setplayercoords", new xComSetPlayerCoords());
-        commands.put("cl_setplayercoords", new xComSetPlayerCoordsClient());
-        commands.put("setthing", new xComSetThing());
-        commands.put("cl_setthing", new xComSetThingClient());
-        commands.put("setvar", new xComSetVar());
-        commands.put("cl_setvar", new xComSetVarClient());
-        commands.put("cl_spawnanimation", new xComSpawnAnimationClient());
-        commands.put("spawnplayer", new xComSpawnPlayer());
-        commands.put("cl_spawnplayer", new xComSpawnPlayerClient());
-        commands.put("cl_spawnpopup", new xComSpawnPopupClient());
-        commands.put("startserver", new xComStartServer());
-        commands.put("svarlist", new xComSVarlist());
-        commands.put("testres", new xComTestRes());
-        commands.put("cl_testres", new xComTestResClient());
-        commands.put("testreslte", new xComTestResLte());
-        commands.put("cl_testreslte", new xComTestResLteClient());
-        commands.put("testreslteint", new xComTestResLteInt());
-        commands.put("testresn", new xComTestResN());
-        commands.put("cl_testresn", new xComTestResNClient());
-        commands.put("unbind", new xComUnbind());
+        commands.put("say", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(fullCommand.length() > 0) {
+                    String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
+                    msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": " + msg;
+                    nClient.instance().addSendMsg(msg);
+                    gMessages.msgInProgress = "";
+                }
+                return fullCommand;
+            }
+        });
+        commands.put("selectdown", new xCom() {
+            public String doCommand(String fullCommand) {
+                uiMenus.nextItem();
+                return fullCommand;
+            }
+        });
+        commands.put("selectleft", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0))
+                    uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
+                return fullCommand;
+            }
+        });
+        commands.put("selectright", new xCom() {
+            public String doCommand(String fullCommand) {
+                uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
+                        uiMenus.selectedMenu].selectedItem].doItem();
+                return fullCommand;
+            }
+        });
+        commands.put("selectup", new xCom() {
+            public String doCommand(String fullCommand) {
+                uiMenus.prevItem();
+                return fullCommand;
+            }
+        });
+        commands.put("setcam", new xCom() {
+            //usage: setcam $key $val
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsAllSources(fullCommand);
+                String ck = args[1];
+                String sv = "null";
+                if(gCamera.contains(ck))
+                    sv = gCamera.get(ck);
+                if(args.length < 3)
+                    return sv;
+                gCamera.put(ck, args[2]);
+                return gCamera.get(ck);
+            }
+        });
+        commands.put("setcamcoords", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsAllSources(fullCommand);
+                gCamera.put("coordx", args[1]);
+                gCamera.put("coordy", args[2]);
+                return "1";
+            }
+        });
+        commands.put("setcammovs", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 5)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsAllSources(fullCommand);
+                gCamera.put("mov0", args[1]);
+                gCamera.put("mov1", args[2]);
+                gCamera.put("mov2", args[3]);
+                gCamera.put("mov3", args[4]);
+                return "1";
+            }
+        });
+        commands.put("setnstate", new xCom() {
+            //usage: setnstate $id $key $value
+            public String doCommand(String fullCommand) {
+                nStateMap serverState = nServer.instance().masterStateMap;
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return serverState.toString();
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String pid = args[1];
+                nState clientState = serverState.get(pid);
+                if(clientState == null)
+                    return "null";
+                if(args.length < 3)
+                    return clientState.toString();
+                String tk = args[2];
+                if(args.length < 4) {
+                    if(!clientState.contains(tk))
+                        return "null";
+                    return clientState.get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                clientState.put(tk, tv);
+                return clientState.get(tk);
+            }
+        });
+        commands.put("setplayercoords", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 4)
+                    return "null";
+                gPlayer p = cServerLogic.getPlayerById(args[1]);
+                if(p == null)
+                    return "null";
+                p.put("coordx", args[2]);
+                p.put("coordy", args[3]);
+                return fullCommand;
+            }
+        });
+        commands.put("cl_setplayercoords", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 4)
+                    return "null";
+                gPlayer p = cClientLogic.getPlayerById(args[1]);
+                if(p == null)
+                    return "null";
+                p.put("coordx", args[2]);
+                p.put("coordy", args[3]);
+                return fullCommand;
+            }
+        });
+        commands.put("setthing", new xCom() {
+            //usage: setthing $THING_TYPE $id $key $val
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String ttype = args[1];
+                if(cServerLogic.scene.getThingMap(ttype) == null)
+                    return "null";
+                HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(ttype);
+                if(args.length < 3)
+                    return thingMap.toString();
+                String tid = args[2];
+                if(!thingMap.containsKey(tid))
+                    return "null";
+                gThing thing = thingMap.get(tid);
+                if(args.length < 4)
+                    return thing.toString();
+                String tk = args[3];
+                if(args.length < 5) {
+                    if(thing.get(tk) == null)
+                        return "null";
+                    return thing.get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 4; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                thing.put(tk, tv);
+                return thing.get(tk);
+            }
+        });
+        commands.put("cl_setthing", new xCom() {
+            //usage cl_setthing $type $id $key $var
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String ttype = args[1];
+                if(cClientLogic.scene.getThingMap(ttype) == null)
+                    return "null";
+                HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap(ttype);
+                if(args.length < 3)
+                    return thingMap.toString();
+                String tid = args[2];
+                if(!thingMap.containsKey(tid))
+                    return "null";
+                gThing thing = thingMap.get(tid);
+                if(args.length < 4)
+                    return thing.toString();
+                String tk = args[3];
+                if(args.length < 5) {
+                    if(thing.get(tk) == null)
+                        return "null";
+                    return thing.get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 4; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                thing.put(tk, tv);
+                return thing.get(tk);
+            }
+        });
+        commands.put("setvar", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage setvar $key $val
+                if(eUtils.argsLength(fullCommand) < 2)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                if(args.length < 3) {
+                    if (!cServerVars.instance().contains(tk))
+                        return "null";
+                    return cServerVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                cServerVars.instance().put(tk, tv);
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_setvar", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 2)
+                    return "null";
+                String tk = toks[1];
+                if(toks.length < 3) {
+                    if (!cClientVars.instance().contains(tk))
+                        return "null";
+                    return cClientVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < toks.length; i++) {
+                    tvb.append(" ").append(toks[i]);
+                }
+                String tv = tvb.substring(1);
+                if(tv.charAt(0) == '$' && cClientVars.instance().contains(tv.substring(1)))
+                    cClientVars.instance().put(tk, cClientVars.instance().get(tv.substring(1)));
+                else
+                    cClientVars.instance().put(tk, tv);
+                return cClientVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_spawnanimation", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(sSettings.vfxenableanimations) {
+                    String[] toks = fullCommand.split(" ");
+                    if (toks.length > 3) {
+                        int animcode = Integer.parseInt(toks[1]);
+                        int x = Integer.parseInt(toks[2]);
+                        int y = Integer.parseInt(toks[3]);
+                        String aid = eManager.createId();
+                        cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
+                                new gAnimationEmitter(animcode, x, y));
+                        gAnimation anim = gAnimations.animation_selection[animcode];
+                        cClientLogic.timedEvents.put(
+                                Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
+                                    public void doCommand() {
+                                        cClientLogic.scene.getThingMap("THING_ANIMATION").remove(aid);
+                                    }
+                                });
+                        return "spawned animation " + animcode + " at " + x + " " + y;
+                    }
+                }
+                return "usage: cl_spawnanimation <animation_code> <x> <y>";
+            }
+        });
+        commands.put("spawnplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 3) {
+                    String playerId = toks[1];
+                    int x = Integer.parseInt(toks[2]);
+                    int y = Integer.parseInt(toks[3]);
+                    spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
+                    return "spawned player " + playerId + " at " + x + " " + y;
+                }
+                return "usage: spawnplayer <player_id> <x> <y>";
+            }
+
+            private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
+                sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
+                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
+                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(xCon.ex("cv_maxhp")),
+                        eUtils.getPath("animations/player_red/a03.png"));
+                sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                if(playerId.contains("bot"))
+                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
+            }
+        });
+        commands.put("cl_spawnplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 3) {
+                    String playerId = toks[1];
+                    int x = Integer.parseInt(toks[2]);
+                    int y = Integer.parseInt(toks[3]);
+                    spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
+                    if(playerId.equals(uiInterface.uuid))
+                        xCon.ex("cl_setvar userplayerid $userid");
+                    return "spawned player " + playerId + " at " + x + " " + y;
+                }
+                return "usage: spawnplayer <player_id> <x> <y>";
+            }
+
+            private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
+                sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
+                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
+                gPlayer newPlayer = new gPlayer(playerId, x, y, cClientLogic.maxhp,
+                        eUtils.getPath("animations/player_red/a03.png"));
+                if(nClient.instance().clientStateMap.contains(playerId)) {
+                    newPlayer.put("color", nClient.instance().clientStateMap.get(playerId).get("color"));
+                    newPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",
+                            nClient.instance().clientStateMap.get(playerId).get("color"))));
+                }
+                sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                if(playerId.contains("bot"))
+                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
+            }
+        });
+        commands.put("cl_spawnpopup", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length > 2) {
+                    gPlayer p = cClientLogic.getPlayerById(toks[1]);
+                    if(p == null)
+                        return "no player for id: " + toks[1];
+                    String msg = toks[2];
+                    String id = eManager.createId();
+                    cClientLogic.scene.getThingMap("THING_POPUP").put(id,
+                            new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
+                                    p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
+                                    msg, 0.0));
+                    cClientLogic.timedEvents.put(Long.toString(gTime.gameTime + sSettings.popuplivetime),
+                            new gTimeEvent() {
+                                public void doCommand() {
+                                    cClientLogic.scene.getThingMap("THING_POPUP").remove(id);
+                                }
+                            });
+                    return "spawned popup " + msg + " for player_id " + toks[1];
+                }
+                return "usage: cl_spawnpopup <player_id> <points>";
+            }
+        });
+        commands.put("startserver", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!nServer.instance().isAlive())
+                    nServer.instance().start();
+                new eGameServer().start();
+                sSettings.IS_SERVER = true;
+                return "new game started";
+            }
+        });
+        commands.put("svarlist", new xCom() {
+            public String doCommand(String fullCommand) {
+                TreeMap<String, gArg> sorted = new TreeMap<>(cServerVars.instance().args);
+                return sorted.toString();
+            }
+        });
+        commands.put("testres", new xCom() {
+            //usage: testres $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(tk.equalsIgnoreCase(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("cl_testres", new xCom() {
+            //usage: testres $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(tk.equalsIgnoreCase(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("testreslte", new xCom() {
+            //usage: testreslte $res $val <string that will exec if res <= val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(Long.parseLong(tk) <= Long.parseLong(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("cl_testreslte", new xCom() {
+            //usage: cl_testreslte $res $val <string that will exec if res <= val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(Long.parseLong(tk) <= Long.parseLong(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("testreslteint", new xCom() {
+            //usage: testreslte $res $val <string that will exec if res <= val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                Number n1 = null;
+                Number n2 = null;
+                try {
+                    n1 = NumberFormat.getInstance().parse(tk);
+                    n2 = NumberFormat.getInstance().parse(tv);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                boolean n1d = n1 instanceof Double;
+                boolean n1l = n1 instanceof Long;
+                boolean n2d = n2 instanceof Double;
+                boolean n2l = n2 instanceof Long;
+                if(n1d && n2d) {
+                    if((double) n1 <= (double) n2)
+                        return success(es);
+                }
+                else if(n1l && n2d) {
+                    if(Long.parseLong(tk) <= Double.parseDouble(tv))
+                        return success(es);
+                }
+                else if(n1d && n2l) {
+                    if(Double.parseDouble(tk) <= Long.parseLong(tv))
+                        return success(es);
+                }
+                else if(n1l && n2l) {
+                    if((long) n1 <= (long) n2)
+                        return success(es);
+                }
+                //default
+                if(Double.parseDouble(tk) <= Double.parseDouble(tv))
+                    return success(es);
+                return "0";
+            }
+
+            private String success(String es) {
+                xCon.ex(es);
+                return "1";
+            }
+        });
+        commands.put("testresn", new xCom() {
+            //usage: testres $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(!tk.equalsIgnoreCase(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("cl_testresn", new xCom() {
+            //usage: cl_testresn $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                String tk = args[1];
+                String tv = args[2];
+                StringBuilder esb = new StringBuilder();
+                for(int i = 3; i < args.length; i++) {
+                    esb.append(" ").append(args[i]);
+                }
+                String es = esb.substring(1);
+                if(!tk.equalsIgnoreCase(tv)) {
+                    xCon.ex(es);
+                    return "1";
+                }
+                return "0";
+            }
+        });
+        commands.put("unbind", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 2)
+                    return "cannot unbind";
+                String k = toks[1];
+                if(k.equalsIgnoreCase("all")) {
+                    xCon.instance().pressBinds.clear();
+                    xCon.instance().releaseBinds.clear();
+                    return "unbound all";
+                }
+                Integer kc = iKeyboard.getCodeForKey(k);
+                if(kc == null)
+                    return "cannot unbind";
+                xCon.instance().pressBinds.remove(kc);
+                xCon.instance().releaseBinds.remove(kc);
+                return String.format("unbound %s", k);
+            }
+        });
     }
 
     public static xCon instance() {
