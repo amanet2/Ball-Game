@@ -44,12 +44,36 @@ public class nClient extends Thread {
         sendMap.clear();
     }
 
-    private nClient() {
-        clientStateMap = new nStateMap();
+    public void run() {
+        try {
+            clientSocket = new DatagramSocket();
+            while (sSettings.IS_CLIENT) {
+                try {
+                    sendData();
+                    byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
+                            clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                    cClientLogic.serverRcvTime = System.currentTimeMillis();
+                    if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
+                        cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+                }
+                catch (Exception e) {
+                    eLogging.logException(e);
+                    e.printStackTrace();
+                }
+            }
+            interrupt();
+        }
+        catch (Exception ee) {
+            eLogging.logException(ee);
+            ee.printStackTrace();
+        }
     }
 
-    public void run() {
-        netLoop();
+    private nClient() {
+        clientStateMap = new nStateMap();
     }
 
     void addSendMsg(String msg) {
