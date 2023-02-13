@@ -137,63 +137,6 @@ public class nClient extends Thread {
         }
     }
 
-    public void netLoop() {
-        int retries = 0;
-        while(retries <= retrylimit) {
-            try {
-                long gameTime = gTime.gameTime;
-                if(netTime >= gameTime)
-                    return;
-                netTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-                if (receivedPackets.size() < 1) {
-                    int lretry = 0;
-                    while (lretry <= retrylimit) {
-                        try {
-                            sendData();
-                            byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
-                                    clientReceiveData.length);
-                            clientSocket.receive(receivePacket);
-                            receivedPackets.add(receivePacket);
-                            cClientLogic.serverRcvTime = System.currentTimeMillis();
-                            if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
-                                cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
-                            break;
-                        }
-                        catch (Exception e) {
-                            eLogging.logException(e);
-                            e.printStackTrace();
-                            lretry++;
-                            refreshSock(); // maybe optional
-                            if(lretry > retrylimit) {
-                                xCon.ex("disconnect");
-                                xCon.ex("echo Lost connection to server");
-                                return; // have to return here
-                            }
-                        }
-                    }
-                }
-                processPackets();
-                ticks++;
-                long theTime = System.nanoTime();
-                if(nextSecondNanos < theTime) {
-                    nextSecondNanos = theTime + 1000000000;
-                    uiInterface.netReportClient = ticks;
-                    ticks = 0;
-                }
-            }
-            catch (Exception ee) {
-                eLogging.logException(ee);
-                ee.printStackTrace();
-                retries++;
-                if(retries > retrylimit) {
-                    xCon.ex("disconnect");
-                    xCon.ex("echo Lost connection to server");
-                }
-            }
-        }
-    }
-
     private void refreshSock() {
         try {
             clientSocket = new DatagramSocket();

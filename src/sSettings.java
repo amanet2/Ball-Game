@@ -49,7 +49,6 @@ public class sSettings {
 	static int max_packet_size = 1200;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
-	static int rateclient = 30;  //client net send rate
 	static int rateserver = 60; //server internal game rate for simulation
 	static int rategame = 240; //client game rate like input, simulation
 }

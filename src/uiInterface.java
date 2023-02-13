@@ -3,10 +3,11 @@ import java.awt.MouseInfo;
 public class uiInterface {
     static boolean inplay = false; //must be FALSE for mapmaker to work right
     static boolean inconsole = false;
-    static int tickReport = 0;
-    static int fpsReport = 0;
-    static int netReportClient = 0;
-    static int netReportServer = 0;
+    static int tickReport = -1;
+    static int fpsReport = -1;
+    static int netReportClient = -1;
+    static int tickReportServer = -1;
+    static int netReportServer = -1;
     static int frames = 0;
     static String uuid = eManager.createId();
     static boolean blockMouseUI = false;

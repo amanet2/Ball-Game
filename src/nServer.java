@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Arrays;
 
 public class nServer extends Thread {
+    private int ticks = 0;
+    private long nextSecondNanos = 0;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
@@ -227,6 +229,13 @@ public class nServer extends Thread {
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextSecondNanos < theTime) {
+                        nextSecondNanos = theTime + 1000000000;
+                        uiInterface.netReportServer = ticks;
+                        ticks = 0;
+                    }
 //                    processPackets();
 //                    checkForUnhandledQuitters();
                 }
