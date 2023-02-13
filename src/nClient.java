@@ -111,8 +111,7 @@ public class nClient extends Thread {
             eLogging.logException(e);
             e.printStackTrace();
         }
-        if(receivedPackets.size() > 0)
-            receivedPackets.remove();
+        receivedPackets.clear();
     }
 
     public void sendData() {
