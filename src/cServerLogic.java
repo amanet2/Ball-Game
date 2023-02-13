@@ -11,7 +11,7 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-        nServer.instance().processPackets();
+//        nServer.instance().processPackets();
         nServer.instance().checkForUnhandledQuitters();
         timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");

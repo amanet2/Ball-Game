@@ -99,17 +99,20 @@ public class nClient extends Thread {
             }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
-                String receiveDataString = new String(receivePacket.getData());
-                xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
-                        receiveDataString.trim().length(), receiveDataString.trim()));
-                readData(receiveDataString);
-                receivedPackets.remove();
+                if(receivePacket != null && receivePacket.getData() != null) {
+                    String receiveDataString = new String(receivePacket.getData());
+                    xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
+                            receiveDataString.trim().length(), receiveDataString.trim()));
+                    readData(receiveDataString);
+                }
             }
         }
         catch (Exception e) {
             eLogging.logException(e);
             e.printStackTrace();
         }
+        if(receivedPackets.size() > 0)
+            receivedPackets.remove();
     }
 
     public void sendData() {
