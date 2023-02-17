@@ -65,6 +65,16 @@ public class nClient extends Thread {
                         uiInterface.netReportClient = ticks;
                         ticks = 0;
                     }
+                    // client rate limit
+                    int tickRate = 10;
+                    long nextFrameTime = (theTime + (1000000000/tickRate));
+                    while (nextFrameTime > System.nanoTime()) {
+                        try {
+                            Thread.sleep(1);
+                        }
+                        catch (InterruptedException ignored) {
+                        }
+                    }
                 }
                 catch (Exception e) {
                     eLogging.logException(e);
