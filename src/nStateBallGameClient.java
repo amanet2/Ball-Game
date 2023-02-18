@@ -20,7 +20,7 @@ public class nStateBallGameClient extends nState {
                     cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
                     setPlayerVal("coordx", value);
                 }
-                else
+                else if(!get("id").equals(uiInterface.uuid))
                     setPlayerVal("coordx", value);
             }
         });
@@ -30,7 +30,7 @@ public class nStateBallGameClient extends nState {
                     cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
                     setPlayerVal("coordy", value);
                 }
-                else
+                else if(!get("id").equals(uiInterface.uuid))
                     setPlayerVal("coordy", value);
             }
         });
