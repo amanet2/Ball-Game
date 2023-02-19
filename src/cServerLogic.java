@@ -118,8 +118,6 @@ public class cServerLogic {
             }
             nState objState = nServer.instance().masterStateMap.get(id);
             if(objState != null) {
-//                objState.put("x", obj.get("coordx"));
-//                objState.put("y", obj.get("coordy"));
                 objState.put("coords", obj.get("coordx") + ":" + obj.get("coordy"));
                 objState.put("vel0", obj.get("vel0"));
                 objState.put("vel1", obj.get("vel1"));

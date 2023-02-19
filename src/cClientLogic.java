@@ -27,10 +27,6 @@ public class cClientLogic {
     static long serverSendTime = 0;
     static long serverRcvTime = 0;
     static int ping = 0;
-    static long coordsettimex = 0;
-    static long coordsettimey = 0;
-    static long coordsettime = 0;
-    static int coordsetdelay = 1000;
 
     public static gPlayer getUserPlayer() {
         return scene.getPlayerById(uiInterface.uuid);
