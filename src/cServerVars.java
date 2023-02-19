@@ -31,6 +31,7 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("velocityplayerbase", "16") {
             public void onChange() {
+                xCon.ex("cv_velocityplayer " + value);
                 if(sSettings.IS_SERVER)
                     xCon.ex("addcom cv_velocityplayer " + Integer.parseInt(value));
             }
