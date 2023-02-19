@@ -55,14 +55,6 @@ public class gCamera {
 		return coords[1];
 	}
 
-	public static void setX(int x) {
-		coords[0] = x;
-	}
-
-	public static void setY(int y) {
-		coords[1] = y;
-	}
-
 	public static void updatePosition() {
 		coords[0] += (velocity * move[3] - velocity * move[2]);
 		coords[1] += (velocity * move[1] - velocity * move[0]);
