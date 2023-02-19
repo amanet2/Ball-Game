@@ -16,7 +16,6 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
-                System.out.println(value);
                 String[] coords = value.split(":");
                 if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimex < gTime.gameTime) {
                     cClientLogic.coordsettime = gTime.gameTime + cClientLogic.coordsetdelay;
