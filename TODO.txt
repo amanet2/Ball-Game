@@ -1,3 +1,5 @@
+* camera should function with the "mov->vel" strategy without its xy being explicitly tied to player
+    -> client player will be as smooth as the network, which is not very
 * some things like exploding on a mine can happen over and over when activated
 * create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
@@ -16,7 +18,6 @@
 * replace all usages of "new Random()" with threadlocal random
 * convert banning/ban relief into a timeEvent
 * make a "willcollide" console comm with 2 ids for objects
-* make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
 * convert cClientLogic.newprefabname into client var so onChange() can be used
 * dont draw blocks that cant be seen on screen
 * see what "checkX" functions we can get rid of/change to commands

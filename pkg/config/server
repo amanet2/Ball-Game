@@ -1,15 +1,15 @@
 # port clients connect to
-listenport 5555
+setvar listenport 5555
 # max hp
-maxhp 500
+setvar maxhp 500
 # timelimit in ms
-timelimit 120000
+setvar timelimit 120000
 # rate of hp recharge
 setvar rechargehp 1
 # respawn wait time in ms
 setvar respawnwaittime 3000
 # player speed
-velocityplayerbase 64
+setvar velocityplayerbase 64
 # number of votes to skip map (say 'skip' in chat)
 setvar voteskiplimit 2
 # time between game end and next map loads

@@ -56,7 +56,8 @@ public class cClientLogic {
                 pointPlayerAtMousePointer();
         }
         oAudio.instance().checkAudio();
-        gCamera.updatePosition();
+        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
+            gCamera.updatePosition();
         if(getUserPlayer() != null)
             checkPlayerFire();
         updateEntityPositions(loopTimeMillis);
@@ -126,16 +127,14 @@ public class cClientLogic {
                     }
                 }
             }
-            if(obj.wontClipOnMove(dx,obj.getInt("coordy"), scene)) {
-                obj.putInt("coordx", dx);
-                if(isUserPlayer(obj))
-                    gCamera.setX(obj.getInt("coordx") - eUtils.unscaleInt(sSettings.width/2));
-            }
-            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene)) {
-                obj.putInt("coordy", dy);
-                if(isUserPlayer(obj))
-                    gCamera.setY(obj.getInt("coordy") - eUtils.unscaleInt(sSettings.height/2));
-            }
+            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), scene))
+                dx = obj.getInt("coordx");
+            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, scene))
+                dy = obj.getInt("coordy");
+            if(isUserPlayer(obj))
+                gCamera.put("coords", dx + ":" + dy);
+            obj.putInt("coordx", dx);
+            obj.putInt("coordy", dy);
         }
 
         Collection<String> bulletcoll = scene.getThingMap("THING_BULLET").keySet();
