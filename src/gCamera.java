@@ -6,14 +6,11 @@ public class gCamera {
 
 	public static void init() {
 		argSet = new gArgSet();
-		argSet.putArg(new gArg("coordx", "0") {
+		argSet.putArg(new gArg("coords", "0:0") {
 			public void onChange() {
-				coords[0] = Integer.parseInt(value);
-			}
-		});
-		argSet.putArg(new gArg("coordy", "0") {
-			public void onChange() {
-				coords[1] = Integer.parseInt(value);
+				String[] vcoords = value.split(":");
+				coords[0] = Integer.parseInt(vcoords[0]) - eUtils.unscaleInt(sSettings.width/2);
+				coords[1] = Integer.parseInt(vcoords[1]) - eUtils.unscaleInt(sSettings.height/2);
 			}
 		});
 		argSet.putArg(new gArg("mov0", "0") {

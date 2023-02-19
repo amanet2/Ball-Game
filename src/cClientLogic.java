@@ -126,15 +126,21 @@ public class cClientLogic {
                     }
                 }
             }
-            if(obj.wontClipOnMove(dx,obj.getInt("coordy"), scene)) {
+            if(obj.wontClipOnMove(dx, dy, scene)) {
+                if(isUserPlayer(obj))
+                    gCamera.put("coords", dx + ":" + dy);
                 obj.putInt("coordx", dx);
-                if(isUserPlayer(obj))
-                    gCamera.setX(obj.getInt("coordx") - eUtils.unscaleInt(sSettings.width/2));
-            }
-            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene)) {
                 obj.putInt("coordy", dy);
+            }
+            else if(obj.wontClipOnMove(dx, obj.getInt("coordy"), scene)) {
                 if(isUserPlayer(obj))
-                    gCamera.setY(obj.getInt("coordy") - eUtils.unscaleInt(sSettings.height/2));
+                    gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
+                obj.putInt("coordx", dx);
+            }
+            else if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene)) {
+                if(isUserPlayer(obj))
+                    gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
+                obj.putInt("coordy", dy);
             }
         }
 
