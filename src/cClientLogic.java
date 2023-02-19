@@ -127,22 +127,14 @@ public class cClientLogic {
                     }
                 }
             }
-            if(obj.wontClipOnMove(dx, dy, scene)) {
-                if(isUserPlayer(obj))
-                    gCamera.put("coords", dx + ":" + dy);
-                obj.putInt("coordx", dx);
-                obj.putInt("coordy", dy);
-            }
-            else if(obj.wontClipOnMove(dx, obj.getInt("coordy"), scene)) {
-                if(isUserPlayer(obj))
-                    gCamera.setX(dx - eUtils.unscaleInt(sSettings.width/2));
-                obj.putInt("coordx", dx);
-            }
-            else if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene)) {
-                if(isUserPlayer(obj))
-                    gCamera.setY(dy - eUtils.unscaleInt(sSettings.height/2));
-                obj.putInt("coordy", dy);
-            }
+            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), scene))
+                dx = obj.getInt("coordx");
+            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, scene))
+                dy = obj.getInt("coordy");
+            if(isUserPlayer(obj))
+                gCamera.put("coords", dx + ":" + dy);
+            obj.putInt("coordx", dx);
+            obj.putInt("coordy", dy);
         }
 
         Collection<String> bulletcoll = scene.getThingMap("THING_BULLET").keySet();
