@@ -56,7 +56,8 @@ public class cClientLogic {
                 pointPlayerAtMousePointer();
         }
         oAudio.instance().checkAudio();
-        gCamera.updatePosition();
+        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
+            gCamera.updatePosition();
         if(getUserPlayer() != null)
             checkPlayerFire();
         updateEntityPositions(loopTimeMillis);
