@@ -29,6 +29,7 @@ public class cClientLogic {
     static int ping = 0;
     static long coordsettimex = 0;
     static long coordsettimey = 0;
+    static long coordsettime = 0;
     static int coordsetdelay = 1000;
 
     public static gPlayer getUserPlayer() {
@@ -100,6 +101,7 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
+        double mod = (double)sSettings.rateserver/(double)sSettings.rategame;
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);
             if(obj == null)
@@ -111,8 +113,10 @@ public class cClientLogic {
             //check null fields
             if(!obj.containsFields(requiredFields))
                 continue;
-            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
+            int mx = obj.getInt("vel3") - obj.getInt("vel2");
+            int my = obj.getInt("vel1") - obj.getInt("vel0");
+            int dx = obj.getInt("coordx") + (int)(mx*mod);
+            int dy = obj.getInt("coordy") + (int)(my*mod);
             if(obj.getLong("acceltick") < gameTimeMillis) {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
                 //user player

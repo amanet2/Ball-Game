@@ -27,7 +27,7 @@ public class eGameServerLogic implements eGameLogic {
         long theTime = System.nanoTime();
         if(nextsecondnanos < theTime) {
             nextsecondnanos = theTime + 1000000000;
-            uiInterface.netReportServer = ticks;
+            uiInterface.tickReportServer = ticks;
             ticks = 0;
         }
     }

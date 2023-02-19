@@ -11,7 +11,7 @@ public class cServerLogic {
 
     public static void gameLoop(long loopTimeMillis) {
         cServerVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
-        nServer.instance().processPackets();
+//        nServer.instance().processPackets();
         nServer.instance().checkForUnhandledQuitters();
         timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");
@@ -118,8 +118,9 @@ public class cServerLogic {
             }
             nState objState = nServer.instance().masterStateMap.get(id);
             if(objState != null) {
-                objState.put("x", obj.get("coordx"));
-                objState.put("y", obj.get("coordy"));
+//                objState.put("x", obj.get("coordx"));
+//                objState.put("y", obj.get("coordy"));
+                objState.put("coords", obj.get("coordx") + ":" + obj.get("coordy"));
                 objState.put("vel0", obj.get("vel0"));
                 objState.put("vel1", obj.get("vel1"));
                 objState.put("vel2", obj.get("vel2"));

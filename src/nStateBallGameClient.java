@@ -14,26 +14,40 @@ public class nStateBallGameClient extends nState {
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
             }
         });
-        map.putArg(new gArg("x", "0") {
+        map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
+                String[] coords = value.split(":");
                 if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimex < gTime.gameTime) {
-                    cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
-                    setPlayerVal("coordx", value);
+                    cClientLogic.coordsettime = gTime.gameTime + cClientLogic.coordsetdelay;
+                    setPlayerVal("coordx", coords[0]);
+                    setPlayerVal("coordy", coords[1]);
                 }
-                else
-                    setPlayerVal("coordx", value);
+                else if(!get("id").equals(uiInterface.uuid)) {
+                    setPlayerVal("coordx", coords[0]);
+                    setPlayerVal("coordy", coords[1]);
+                }
             }
         });
-        map.putArg(new gArg("y", "0") {
-            public void onChange() {
-                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimey < gTime.gameTime) {
-                    cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
-                    setPlayerVal("coordy", value);
-                }
-                else
-                    setPlayerVal("coordy", value);
-            }
-        });
+//        map.putArg(new gArg("x", "0") {
+//            public void onChange() {
+//                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimex < gTime.gameTime) {
+//                    cClientLogic.coordsettimex = gTime.gameTime + cClientLogic.coordsetdelay;
+//                    setPlayerVal("coordx", value);
+//                }
+//                else if(!get("id").equals(uiInterface.uuid))
+//                    setPlayerVal("coordx", value);
+//            }
+//        });
+//        map.putArg(new gArg("y", "0") {
+//            public void onChange() {
+//                if(get("id").equals(uiInterface.uuid) && cClientLogic.coordsettimey < gTime.gameTime) {
+//                    cClientLogic.coordsettimey = gTime.gameTime + cClientLogic.coordsetdelay;
+//                    setPlayerVal("coordy", value);
+//                }
+//                else if(!get("id").equals(uiInterface.uuid))
+//                    setPlayerVal("coordy", value);
+//            }
+//        });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))

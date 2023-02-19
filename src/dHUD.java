@@ -43,7 +43,7 @@ public class dHUD {
             g.setColor(gColors.instance().getColorFromName("clrp_" + color));
             String score = "0:0";
             if(clStateMap.get(id).contains("score"))
-                clStateMap.get(id).get("score");
+                score = clStateMap.get(id).get("score");
             g.drawString("$ " + score.split(":")[1],
                     sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
             dFonts.setFontColor(g, "clrf_normaldark");

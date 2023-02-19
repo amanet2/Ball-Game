@@ -1,19 +1,6 @@
-* movement is all wrong
-    -> have server simulate great movement using mov dirs to increase/decrease velocity in a certain direction
-    -> currently the client makes velocity and sends that to server
-* shotgun does no dmg?
-* client should have threads to match server
-* server should run simulation and set clients' coords instead of clients overriding server
-    -> i think server relies on clients x,y send to create simulation currently
-    -> TRY THIS: disable the server's x/y observer that sets player coords
-        -> then copy the clients code for updating entity positions
+* some things like exploding on a mine can happen over and over when activated
 * create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
-* code in "holding_ITEM_NAME" var for players that will replace hardoded "flag" check for drawing flag
-* for the environment map, have walls not be a part of the wall
-    -> set a wall height in the config or something
-    -> but effectively, if the prefabs can be represented in a pure top-down 2d
-        -> we can rotate them using matrix rotation
 * make prefabs not hardcoded
     -> create some cool rooms/runs and duplicate them
     -> bring back save as prefab button
@@ -37,10 +24,7 @@
         --> playercolor is set by console command in halo's engine (in-game)
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
-* low framerate on 1 client results in stuttering character on others' screens
-* move the dim/4 stuff to the preview block build call, not draw
-* fix memory leaks
-* put the xCom classes into their own folder
+* fix memory leaks if any
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
 * git reset --hard <last_working_commit_id>
     -> git push --force
@@ -48,12 +32,7 @@
     -> see for remotes: git reset --hard origin/<branch_name>
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* WEAPONS: send a holdingmouse netvar when holding mouse
-    -> clients will simulate the fire rate
-        --> server holds master state still
-    -> instead of sending cmd fireweapon
-    -> allows smooth use of automatic weapons
-* add zombies gametype, a zopmbie will be a prop
+* add zombies gametype, a zombie will be a prop
 * powerup idea
     -> egg, pick up to initiate the growing sequence
     -> chuck or drop it before it blows
@@ -64,7 +43,6 @@
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
 * GAME: bring back squish effect for something
-* GAME: infected have boxing glove survivors have shotguns
 * new Item: bonusblock
     -> (make them look like regular blocks)
     -> get its health to 0 and it has a chance to spawn a powerup
@@ -80,11 +58,10 @@
         --> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* FUTURE: we can make "themes" for prefabs
-* make players bounce off each other like billiard balls
+* can make "themes" for prefabs
+* make players bounce off each other and walls like billiard balls
 * add ball skins like polka dots stripes etc
     -> use existing color architecture
-* avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * cant have key bound to multiple actions
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
