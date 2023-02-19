@@ -103,18 +103,26 @@ public class cServerLogic {
             if(obj.wontClipOnMove(dx, obj.getInt("coordy"), scene))
                 obj.putInt("coordx", dx);
             else {
-                if(obj.getInt("vel2") > obj.getInt("vel3"))
+                if(obj.getInt("vel2") > obj.getInt("vel3")) {
+//                    obj.put("vel3", obj.get("vel2")); //bounce
                     obj.putInt("vel2", 0);
-                else
+                }
+                else {
+//                    obj.put("vel2", obj.get("vel3")); //bounce
                     obj.putInt("vel3", 0);
+                }
             }
             if(obj.wontClipOnMove(obj.getInt("coordx"), dy, scene))
                 obj.putInt("coordy", dy);
             else {
-                if(obj.getInt("vel0") > obj.getInt("vel1"))
+                if(obj.getInt("vel0") > obj.getInt("vel1")) {
+//                    obj.put("vel1", obj.get("vel0")); //bounce
                     obj.putInt("vel0", 0);
-                else
+                }
+                else {
+//                    obj.put("vel0", obj.get("vel1")); //bounce
                     obj.putInt("vel1", 0);
+                }
             }
             nState objState = nServer.instance().masterStateMap.get(id);
             if(objState != null) {
