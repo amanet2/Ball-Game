@@ -18,11 +18,14 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                int newmaxhp = Integer.parseInt(value);
-                nServer.instance().addNetCmd("cv_maxhp " + newmaxhp);
-                for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-                    gPlayer p = cServerLogic.scene.getPlayerById(s);
-                    p.putInt("stockhp", newmaxhp);
+                xCon.ex("cv_maxhp " + value);
+                if(sSettings.IS_SERVER) {
+                    int newmaxhp = Integer.parseInt(value);
+                    nServer.instance().addNetCmd("cv_maxhp " + newmaxhp);
+                    for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+                        gPlayer p = cServerLogic.scene.getPlayerById(s);
+                        p.putInt("stockhp", newmaxhp);
+                    }
                 }
             }
         });
