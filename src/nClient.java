@@ -66,7 +66,7 @@ public class nClient extends Thread {
                         ticks = 0;
                     }
                     // client rate limit
-                    int tickRate = 10;
+                    int tickRate = sSettings.rateclient;
                     long nextFrameTime = (theTime + (1000000000/tickRate));
                     while (nextFrameTime > System.nanoTime()) {
                         try {

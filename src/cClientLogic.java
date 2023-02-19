@@ -29,6 +29,7 @@ public class cClientLogic {
     static int ping = 0;
     static long coordsettimex = 0;
     static long coordsettimey = 0;
+    static long coordsettime = 0;
     static int coordsetdelay = 1000;
 
     public static gPlayer getUserPlayer() {

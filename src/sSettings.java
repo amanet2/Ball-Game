@@ -50,5 +50,6 @@ public class sSettings {
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
 	static int rateserver = 60; //server internal game rate for simulation
+	static int rateclient = 30; //client net rate to request update from server
 	static int rategame = 240; //client game rate like input, simulation
 }
