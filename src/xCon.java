@@ -54,7 +54,7 @@ public class xCon {
                 String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
 
                 gPlayer p = new gPlayer("bot"+eManager.createBotId(), -6000,-6000,
-                        Integer.parseInt(xCon.ex("cv_maxhp")),
+                        Integer.parseInt(xCon.ex("$cv_maxhp")),
                         eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
                 cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
                 cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
@@ -1264,7 +1264,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                xCon.ex("cv_gamemode 0");
+                xCon.ex("cl_setvar cv_gamemode 0");
                 cServerLogic.scene = new gScene();
                 return "";
             }
@@ -1273,7 +1273,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                xCon.ex("cv_gamemode 0");
+                xCon.ex("cl_setvar cv_gamemode 0");
                 cClientLogic.scene = new gScene();
                 return "";
             }
@@ -2054,7 +2054,7 @@ public class xCon {
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
                 sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
-                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(xCon.ex("cv_maxhp")),
+                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(xCon.ex("cl_setvar cv_maxhp")),
                         eUtils.getPath("animations/player_red/a03.png"));
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 if(playerId.contains("bot"))
@@ -2405,20 +2405,25 @@ public class xCon {
                 if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1))) {
                     args[i] = cServerVars.instance().get(args[i].substring(1));
                 }
+                else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1))) {
+                    args[i] = cClientVars.instance().get(args[i].substring(1));
+                }
             }
             if(args.length > 0) {
                 String configval = args[0];
                 if(cServerVars.instance().contains(configval)) {
-                    if(args.length > 1) {
-                        cServerVars.instance().put(configval, args[1]);
-                    }
-                    return cServerVars.instance().get(configval);
+                    System.out.println("SVAR SHORTCUT: " + configval);
+//                    if(args.length > 1) {
+//                        cServerVars.instance().put(configval, args[1]);
+//                    }
+//                    return cServerVars.instance().get(configval);
                 }
                 else if(cClientVars.instance().contains(configval)) {
-                    if(args.length > 1) {
-                        cClientVars.instance().put(configval, args[1]);
-                    }
-                    return cClientVars.instance().get(configval);
+                    System.out.println("CVAR SHORTCUT: " + configval);
+//                    if(args.length > 1) {
+//                        cClientVars.instance().put(configval, args[1]);
+//                    }
+//                    return cClientVars.instance().get(configval);
                 }
             }
             String command = args[0];

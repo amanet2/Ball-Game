@@ -18,6 +18,7 @@ public class dHUD {
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
                 sSettings.width/8*(int)userPlayer.getDouble("stockhp")/cClientLogic.maxhp,
                 sSettings.height/64);
+        g.drawString(userPlayer.get("stockhp"), 9*sSettings.width / 64, 59*sSettings.height/64);
         dFonts.setFontNormal(g);
         //score
         nStateMap clStateMap = nClient.instance().clientStateMap;
