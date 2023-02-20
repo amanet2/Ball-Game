@@ -2402,29 +2402,16 @@ public class xCon {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
-                if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1))) {
+                if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
-                }
-                else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1))) {
+                else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1)))
                     args[i] = cClientVars.instance().get(args[i].substring(1));
-                }
             }
             if(args.length > 0) {
-                String configval = args[0];
-                if(cServerVars.instance().contains(configval)) {
-                    System.out.println("SVAR SHORTCUT: " + configval);
-//                    if(args.length > 1) {
-//                        cServerVars.instance().put(configval, args[1]);
-//                    }
-//                    return cServerVars.instance().get(configval);
-                }
-                else if(cClientVars.instance().contains(configval)) {
-                    System.out.println("CVAR SHORTCUT: " + configval);
-//                    if(args.length > 1) {
-//                        cClientVars.instance().put(configval, args[1]);
-//                    }
-//                    return cClientVars.instance().get(configval);
-                }
+                if(cServerVars.instance().contains(args[0]))
+                    System.out.println("SVAR SHORTCUT (depr): " + args[0]);
+                else if(cClientVars.instance().contains(args[0]))
+                    System.out.println("CVAR SHORTCUT (depr): " + args[0]);
             }
             String command = args[0];
             if(command.startsWith("-"))
@@ -2432,8 +2419,8 @@ public class xCon {
             xCom cp = commands.get(command);
             if (cp != null) {
                 StringBuilder realcom = new StringBuilder();
-                for(int i = 0; i < args.length; i++) {
-                    realcom.append(" ").append(args[i]);
+                for(String arg : args) {
+                    realcom.append(" ").append(arg);
                 }
                 String comstring = realcom.substring(1);
                 stringLines.add(String.format("console:~$ %s", comstring));
