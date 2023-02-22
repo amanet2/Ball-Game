@@ -20,7 +20,7 @@ public class uiMenus {
 
     static void init() {
         menuSelection[MENU_MAP].setupMenuItems();
-//        menuSelection[MENU_CONTROLS].items = uiMenusControls.getControlsMenuItems();
+        menuSelection[MENU_CONTROLS].items = getControlMenuItems();
     }
 
     static final uiMenu[] menuSelection = new uiMenu[]{
@@ -82,49 +82,42 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("Controls") {
                             public void doItem(){
-                                uiMenus.selectedMenu = (uiMenus.MENU_CONTROLS);
+                                menuSelection[MENU_CONTROLS].refresh();
+                                selectedMenu = MENU_CONTROLS;
                             }
                         },
                         new uiMenuItem("Audio") {
                             public void doItem(){
-                                uiMenus.menuSelection[uiMenus.MENU_AUDIO].refresh();
-                                uiMenus.selectedMenu = (uiMenus.MENU_AUDIO);
+                                menuSelection[MENU_AUDIO].refresh();
+                                selectedMenu = (MENU_AUDIO);
                             }
                         },
                         new uiMenuItem("Video") {
                             public void doItem(){
-                                uiMenus.menuSelection[uiMenus.MENU_VIDEO].refresh();
-                                uiMenus.selectedMenu = (uiMenus.MENU_VIDEO);
+                                menuSelection[MENU_VIDEO].refresh();
+                                selectedMenu = (MENU_VIDEO);
                             }
                         },
                         new uiMenuItem("Profile") {
                             public void doItem(){
-                                uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
-                                uiMenus.selectedMenu = (uiMenus.MENU_PROFILE);
+                                menuSelection[MENU_PROFILE].refresh();
+                                selectedMenu = (MENU_PROFILE);
                             }
                         }
                 },
-                uiMenus.MENU_MAIN
+                MENU_MAIN
         ),
-        new uiMenu(
-                "Controls",
-                new uiMenuItem[] {
-                        new uiMenuItem("throw rock: MOUSE_LEFT"),
-                        new uiMenuItem("move up: "+(char)(int)xCon.getKeyCodeForComm("playerup")),
-                        new uiMenuItem("move down: "+(char)(int)xCon.getKeyCodeForComm("playerdown")),
-                        new uiMenuItem("move left: "+(char)(int)xCon.getKeyCodeForComm("playerleft")),
-                        new uiMenuItem("move right: "+(char)(int)xCon.getKeyCodeForComm("playerright")),
-                        new uiMenuItem("show scoreboard: TAB"),
-                        new uiMenuItem("chat: "+(char)(int)xCon.getKeyCodeForComm("chat"))
-                },
-                uiMenus.MENU_OPTIONS
-        ),
+        new uiMenu("Controls", new uiMenuItem[] {}, MENU_OPTIONS) {
+            public void refresh() {
+                this.items = getControlMenuItems();
+            }
+        },
         new uiMenu(
                 "Video",
                 new uiMenuItem[]{
                         new uiMenuItem(String.format("Resolution [%dx%d]",sSettings.width,sSettings.height)) {
                             public void doItem() {
-                                uiMenus.selectedMenu = (uiMenus.MENU_RESOLUTION);
+                                selectedMenu = MENU_RESOLUTION;
                             }
 
                             public void refreshText() {
@@ -133,7 +126,7 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
                             public void doItem() {
-                                uiMenus.selectedMenu = uiMenus.MENU_REFRESH;
+                                selectedMenu = MENU_REFRESH;
                             }
                         },
                         new uiMenuItem(String.format("Borderless [%s]",
@@ -178,7 +171,7 @@ public class uiMenus {
                             }
                         }
                 },
-                uiMenus.MENU_OPTIONS
+                MENU_OPTIONS
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
@@ -199,16 +192,16 @@ public class uiMenus {
                         new uiMenuItem("-Start-"){
                             public void doItem() {
                                 xCon.ex(String.format("exec scripts/hostgame %d", cServerLogic.listenPort));
-                                uiMenus.selectedMenu = uiMenus.MENU_MAIN;
+                                selectedMenu = MENU_MAIN;
                             }
                         },
                         new uiMenuItem("MAP [<random map>]"){
                             public void doItem() {
-                                uiMenus.selectedMenu = uiMenus.MENU_MAP;
+                                selectedMenu = MENU_MAP;
                             }
                         }
                 },
-                uiMenus.MENU_MAIN
+                MENU_MAIN
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
@@ -224,7 +217,7 @@ public class uiMenus {
                         new uiMenuItem("-Start-"){
                             public void doItem() {
                                 xCon.ex("joingame;pause");
-                                uiMenus.selectedMenu = uiMenus.MENU_MAIN;
+                                selectedMenu = MENU_MAIN;
                             }
                         },
                         new uiMenuItem("Join IP []") {
@@ -238,7 +231,7 @@ public class uiMenus {
                             }
                         }
                 },
-                uiMenus.MENU_MAIN
+                MENU_MAIN
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
@@ -258,11 +251,11 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Color [%s]", cClientLogic.playerColor)) {
                             public void doItem() {
-                                uiMenus.selectedMenu = uiMenus.MENU_COLOR;
+                                selectedMenu = MENU_COLOR;
                             }
                         },
                 },
-                uiMenus.MENU_OPTIONS
+                MENU_OPTIONS
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
@@ -277,16 +270,16 @@ public class uiMenus {
                         new uiMenuItem(String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X")) {
                             public void doItem() {
                                 cClientVars.instance().put("audioenabled", sSettings.audioenabled ? "0" : "1");
-                                uiMenus.menuSelection[uiMenus.MENU_AUDIO].refresh();
+                                menuSelection[MENU_AUDIO].refresh();
                             }
                         },
                         new uiMenuItem(String.format("Volume [%f]", cClientLogic.volume)) {
                             public void doItem() {
-                                uiMenus.selectedMenu = uiMenus.MENU_VOLUME;
+                                selectedMenu = MENU_VOLUME;
                             }
                         }
                 },
-                uiMenus.MENU_OPTIONS
+                MENU_OPTIONS
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
@@ -357,7 +350,7 @@ public class uiMenus {
                             }
                         }
                 },
-                uiMenus.MENU_AUDIO
+                MENU_AUDIO
         ),
         new uiMenusColor(),
         new uiMenu(
@@ -366,7 +359,7 @@ public class uiMenus {
                         new uiMenuItem("by Stallion 2021-2023"),
                         new uiMenuItem("venmo @StallionUSA")
                 },
-                uiMenus.MENU_MAIN
+                MENU_MAIN
         )
     };
 
@@ -382,5 +375,17 @@ public class uiMenus {
             menuSelection[selectedMenu].selectedItem--;
         else
             menuSelection[selectedMenu].selectedItem = menuSelection[selectedMenu].items.length-1;
+    }
+
+    private static uiMenuItem[] getControlMenuItems() {
+        return new uiMenuItem[] {
+                new uiMenuItem("throw rock: MOUSE_LEFT"),
+                new uiMenuItem("move up: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerup")),
+                new uiMenuItem("move down: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerdown")),
+                new uiMenuItem("move left: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerleft")),
+                new uiMenuItem("move right: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerright")),
+                new uiMenuItem("show scoreboard: TAB"),
+                new uiMenuItem("chat: "+(char)(int)xCon.instance().getKeyCodeForComm("chat"))
+        };
     }
 }

@@ -54,7 +54,7 @@ public class xCon {
                 String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
 
                 gPlayer p = new gPlayer("bot"+eManager.createBotId(), -6000,-6000,
-                        Integer.parseInt(xCon.ex("cl_setvar cv_maxhp")),
+                        Integer.parseInt(ex("cl_setvar cv_maxhp")),
                         eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
                 cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
                 cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
@@ -64,7 +64,7 @@ public class xCon {
                 nServer.instance().masterStateMap.get(p.get("id")).put("name", botname);
                 gScoreboard.addId(p.get("id"));
                 nServer.instance().addExcludingNetCmd("server", "echo " + botname + " joined the game");
-                xCon.ex("exec scripts/respawnnetplayer " + p.get("id"));
+                ex("exec scripts/respawnnetplayer " + p.get("id"));
                 return "spawned bot";
             }
         });
@@ -185,7 +185,7 @@ public class xCon {
                 cServerLogic.timedEvents.put(timeToExec,
                         new gTimeEvent() {
                             public void doCommand() {
-                                xCon.ex(actStr);
+                                ex(actStr);
                             }
                         }
                 );
@@ -218,7 +218,7 @@ public class xCon {
                     }
                     Integer keycode = iKeyboard.getCodeForKey(key);
                     if(keycode != null) {
-                        xCon.instance().pressBinds.put(keycode, comm.substring(0,comm.length()-1));
+                        pressBinds.put(keycode, comm.substring(0,comm.length()-1));
                         return "";
                     }
                 }
@@ -235,7 +235,7 @@ public class xCon {
                     }
                     Integer keycode = iKeyboard.getCodeForKey(key);
                     if(keycode != null) {
-                        xCon.instance().releaseBinds.put(keycode, comm.substring(0,comm.length()-1));
+                        releaseBinds.put(keycode, comm.substring(0,comm.length()-1));
                         return "";
                     }
                 }
@@ -244,25 +244,25 @@ public class xCon {
         });
         commands.put("bindlist", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.instance().stringLines.add("Current Bindings: ");
-                int size = xCon.instance().pressBinds.keySet().size() + xCon.instance().releaseBinds.keySet().size();
-                for(Integer j : xCon.instance().releaseBinds.keySet()) {
-                    if(xCon.instance().pressBinds.containsKey(j))
+                stringLines.add("Current Bindings: ");
+                int size = pressBinds.keySet().size() + releaseBinds.keySet().size();
+                for(Integer j : releaseBinds.keySet()) {
+                    if(pressBinds.containsKey(j))
                         size--;
                 }
                 String[] items = new String[size];
                 int ctr = 0;
-                for (Integer j : xCon.instance().pressBinds.keySet()) {
-                    items[ctr] = KeyEvent.getKeyText(j)+" : "+ xCon.instance().pressBinds.get(j);
+                for (Integer j : pressBinds.keySet()) {
+                    items[ctr] = KeyEvent.getKeyText(j)+" : "+ pressBinds.get(j);
                     ctr++;
                 }
-                for (Integer j : xCon.instance().releaseBinds.keySet()) {
-                    if(!xCon.instance().pressBinds.containsKey(j)) {
-                        items[ctr] = KeyEvent.getKeyText(j)+ " : " + xCon.instance().releaseBinds.get(j);
+                for (Integer j : releaseBinds.keySet()) {
+                    if(!pressBinds.containsKey(j)) {
+                        items[ctr] = KeyEvent.getKeyText(j)+ " : " + releaseBinds.get(j);
                         ctr++;
                     }
                 }
-                Collections.addAll(xCon.instance().stringLines, items);
+                Collections.addAll(stringLines, items);
                 return "";
             }
         });
@@ -377,7 +377,7 @@ public class xCon {
         });
         commands.put("commandlist", new xCom() {
             public String doCommand(String fullCommand) {
-                TreeSet<String> sorted = new TreeSet<>(xCon.instance().commands.keySet());
+                TreeSet<String> sorted = new TreeSet<>(commands.keySet());
                 return sorted.toString();
             }
         });
@@ -421,22 +421,22 @@ public class xCon {
                         shooterid = toks[3];
                     gPlayer player = cServerLogic.getPlayerById(id);
                     if(player != null) {
-                        xCon.ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
-                            xCon.ex("exec scripts/deleteplayer " + id);
+                            ex("exec scripts/deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
-                            xCon.ex("exec scripts/handlekill " + id + " " + shooterid);
+                            ex("setvar sv_gamemode " + cClientLogic.gamemode);
+                            ex("exec scripts/handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                                 animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
-                            xCon.ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
+                            ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
                         }
                         return id + " took " + dmg + " dmg from " + shooterid;
                     }
@@ -568,9 +568,9 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 nClient.instance().disconnect();
-                xCon.ex("cl_load");
+                ex("cl_load");
                 if (uiInterface.inplay)
-                    xCon.ex("pause");
+                    ex("pause");
                 return fullCommand;
             }
         });
@@ -605,30 +605,30 @@ public class xCon {
         });
         commands.put("e_changejoinip", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.ex("chat Enter New IP Address");
+                ex("chat Enter New IP Address");
                 return "";
             }
         });
         commands.put("e_changejoinport", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.ex("chat Enter New Port");
+                ex("chat Enter New Port");
                 return "";
             }
         });
         commands.put("e_changeplayername", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.ex("chat Enter New Name");
+                ex("chat Enter New Name");
                 return "";
             }
         });
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
                 if(cClientLogic.selectedPrefabId.length() > 0) {
-                    xCon.ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
+                    ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
                     return "deleted prefab " + cClientLogic.selectedPrefabId;
                 }
                 if(cClientLogic.selecteditemid.length() > 0) {
-                    xCon.ex("cl_addcom deleteitem " + cClientLogic.selecteditemid);
+                    ex("cl_addcom deleteitem " + cClientLogic.selecteditemid);
                     return "deleted item " + cClientLogic.selecteditemid;
                 }
                 return "nothing to delete";
@@ -636,7 +636,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.ex("exec scripts/e_newmap");
+                ex("exec scripts/e_newmap");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
@@ -651,20 +651,20 @@ public class xCon {
                     File workingDirectory = new File("maps");
                     fileChooser.setCurrentDirectory(workingDirectory);
                     if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                        if(!xCon.ex("e_showlossalert").equals("0"))
+                        if(!ex("e_showlossalert").equals("0"))
                             return "";
                         File file = fileChooser.getSelectedFile();
                         if(!nServer.instance().isAlive()) {
-                            xCon.ex("startserver");
-                            xCon.ex("load");
-                            xCon.ex("joingame localhost " + cServerLogic.listenPort);
+                            ex("startserver");
+                            ex("load");
+                            ex("joingame localhost " + cServerLogic.listenPort);
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
-                        xCon.ex("changemap " + file.getPath());
+                        ex("changemap " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
                     }
@@ -701,8 +701,8 @@ public class xCon {
                     cClientLogic.newprefabname = newprefabname.replace("_270", "_000");
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
-                    xCon.ex("cl_clearthingmappreview");
-                    xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex("cl_clearthingmappreview");
+                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -733,7 +733,7 @@ public class xCon {
             public String doCommand(String fullcommand) {
                 String[] args = fullcommand.split(" ");
                 String title = args[1];
-                xCon.instance().debug("Loading exec: " + title);
+                debug("Loading exec: " + title);
                 if(args.length > 2) {
                     //parse the $ vars for placing prefabs
                     for(int i = 2; i < args.length; i++) {
@@ -741,7 +741,7 @@ public class xCon {
                     }
                 }
                 if(gExecDoableFactory.instance().execDoableMap.containsKey(title)) {
-                    xCon.instance().debug("EXEC FROM MEMORY: " + title);
+                    debug("EXEC FROM MEMORY: " + title);
                     for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
                         //parse vars for exec calls within exec (changemap)
                         handleLine(line);
@@ -780,14 +780,14 @@ public class xCon {
                     tvb.append(" ").append(arg);
                 }
 //        System.out.println(tvb);
-                xCon.ex(tvb.substring(1));
+                ex(tvb.substring(1));
             }
         });
         commands.put("cl_exec", new xCom() {
             public String doCommand(String fullcommand) {
                 String[] args = fullcommand.split(" ");
                 String s = args[1];
-                xCon.instance().debug("Loading exec: " + s);
+                debug("Loading exec: " + s);
                 if(args.length > 2) {
                     //parse the $ vars for placing prefabs
                     for(int i = 2; i < args.length; i++) {
@@ -795,9 +795,9 @@ public class xCon {
                     }
                 }
                 if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-                    xCon.instance().debug("EXEC_CLIENT FROM MEMORY: " + s);
+                    debug("EXEC_CLIENT FROM MEMORY: " + s);
                     for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
-                        xCon.ex(line.replace("putblock", "cl_putblock"
+                        ex(line.replace("putblock", "cl_putblock"
                         ).replace("putitem", "cl_putitem"));
                     }
                 }
@@ -806,7 +806,7 @@ public class xCon {
                         String line;
                         while ((line = br.readLine()) != null) {
                             if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                xCon.ex(line.replace("putblock", "cl_putblock"
+                                ex(line.replace("putblock", "cl_putblock"
                                 ).replace("putitem", "cl_putitem"));
                         }
                     }
@@ -822,7 +822,7 @@ public class xCon {
             public String doCommand(String fullcommand) {
                 String[] args = fullcommand.split(" ");
                 String s = args[1];
-                xCon.instance().debug("Loading exec: " + s);
+                debug("Loading exec: " + s);
                 if(args.length > 2) {
                     //parse the $ vars for placing prefabs
                     for(int i = 2; i < args.length; i++) {
@@ -830,10 +830,10 @@ public class xCon {
                     }
                 }
                 if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-//            xCon.instance().debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
+//            debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
                     for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
                         if(line.startsWith("putblock "))
-                            xCon.ex(line.replace("putblock", "cl_putblockpreview"));
+                            ex(line.replace("putblock", "cl_putblockpreview"));
                     }
                 }
                 else {
@@ -842,7 +842,7 @@ public class xCon {
                         while ((line = br.readLine()) != null) {
                             String[] linetoks = line.split(" ");
                             if(linetoks[0].equalsIgnoreCase("putblock")) {
-                                xCon.ex(line.replace("putblock", "cl_putblockpreview"));
+                                ex(line.replace("putblock", "cl_putblockpreview"));
                             }
                         }
                     }
@@ -903,11 +903,11 @@ public class xCon {
                 int end = Integer.parseInt(args[3]);
                 int incr = Integer.parseInt(args[4]);
                 for(int i = start; i <= end; i+=incr) {
-                    xCon.ex(String.format("setvar %s %s", varname, i));
+                    ex(String.format("setvar %s %s", varname, i));
                     String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
                     String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
                     String es = String.join(" ", subarray);
-                    xCon.ex(es);
+                    ex(es);
                     cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreach $var $start $end $incr <script where $var is num>";
@@ -921,14 +921,14 @@ public class xCon {
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 String varname = args[1];
                 for(String id : nServer.instance().masterStateMap.keys()) {
-                    xCon.ex(String.format("setvar %s %s", varname, id));
+                    ex(String.format("setvar %s %s", varname, id));
                     String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
                     StringBuilder esb = new StringBuilder();
                     for(int i = 2; i < cargs.length; i++) {
                         esb.append(" ").append(cargs[i]);
                     }
                     String es = esb.substring(1);
-                    xCon.ex(es);
+                    ex(es);
                     cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreachclient $id <script to execute where $id is preloaded>";
@@ -945,11 +945,11 @@ public class xCon {
                 long end = Long.parseLong(args[3]);
                 int incr = Integer.parseInt(args[4]);
                 for(long i = start; i <= end; i+=incr) {
-                    xCon.ex(String.format("setvar %s %s", varname, i));
+                    ex(String.format("setvar %s %s", varname, i));
                     String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
                     String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
                     String es = String.join(" ", subarray);
-                    xCon.ex(es);
+                    ex(es);
                     cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreachlong $var $start $end $incr <script where $var is num>";
@@ -967,14 +967,14 @@ public class xCon {
                 if(!scene.objectMaps.containsKey(thingtype))
                     return "no thing type in scene: " + thingtype;
                 for(String id : scene.getThingMapIds(thingtype)) {
-                    xCon.ex(String.format("setvar %s %s", varname, id));
+                    ex(String.format("setvar %s %s", varname, id));
                     String[] cargs = eUtils.parseScriptArgsServer(fullCommand);
                     StringBuilder esb = new StringBuilder();
                     for(int i = 3; i < cargs.length; i++) {
                         esb.append(" ").append(cargs[i]);
                     }
                     String es = esb.substring(1);
-                    xCon.ex(es);
+                    ex(es);
                 }
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
             }
@@ -1126,7 +1126,7 @@ public class xCon {
                     tvb.append(" ").append(args[i]);
                 }
                 String tv = tvb.substring(1);
-                String res = xCon.ex(tv);
+                String res = ex(tv);
                 cServerVars.instance().put(tk, res);
                 return cServerVars.instance().get(tk);
             }
@@ -1147,7 +1147,7 @@ public class xCon {
                     tvb.append(" ").append(args[i]);
                 }
                 String tv = tvb.substring(1);
-                String res = xCon.ex(tv);
+                String res = ex(tv);
                 cClientVars.instance().put(tk, res);
                 return cClientVars.instance().get(tk);
             }
@@ -1233,20 +1233,20 @@ public class xCon {
         commands.put("gobackui", new xCom() {
             public String doCommand(String fullCommand) {
                 if(uiInterface.inplay)
-                    xCon.ex("pause");
+                    ex("pause");
                 else {
                     if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
                         if(!cClientLogic.maploaded) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            xCon.ex("playsound sounds/splash.wav");
+                            ex("playsound sounds/splash.wav");
                         }
                         else
-                            xCon.ex("pause");
+                            ex("pause");
                     }
                     else {
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        xCon.ex("playsound sounds/splash.wav");
+                        ex("playsound sounds/splash.wav");
                     }
                 }
                 return fullCommand;
@@ -1264,7 +1264,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                xCon.ex("cl_setvar cv_gamemode 0");
+                ex("cl_setvar cv_gamemode 0");
                 cServerLogic.scene = new gScene();
                 return "";
             }
@@ -1273,7 +1273,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                xCon.ex("cl_setvar cv_gamemode 0");
+                ex("cl_setvar cv_gamemode 0");
                 cClientLogic.scene = new gScene();
                 return "";
             }
@@ -1324,10 +1324,10 @@ public class xCon {
                             }
                         }
                         else if(uiMenus.gobackSelected) {
-                            xCon.ex("gobackui");
+                            ex("gobackui");
                         }
                         else if(uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem > -1) {
-                            xCon.ex("exec scripts/activatemenu");
+                            ex("exec scripts/activatemenu");
                         }
                     }
                 }
@@ -1341,12 +1341,12 @@ public class xCon {
         });
         commands.put("newgame", new xCom() {
             public String doCommand(String fullCommand) {
-                xCon.ex("startserver");
+                ex("startserver");
                 int toplay = eManager.mapSelectionIndex;
                 if(toplay < 0)
-                    xCon.ex("newgamerandom");
+                    ex("newgamerandom");
                 else
-                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[toplay]);
+                    ex("changemap maps/" + eManager.mapsFileSelection[toplay]);
                 return "new game started";
             }
         });
@@ -1360,11 +1360,11 @@ public class xCon {
                         rand = (int)(Math.random()*eManager.mapsFileSelection.length);
                     }
                     eManager.mapSelectionIndex = rand;
-                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[rand]);
+                    ex("changemap maps/" + eManager.mapsFileSelection[rand]);
                 }
                 else {
                     eManager.mapSelectionIndex = 0;
-                    xCon.ex("changemap maps/" + eManager.mapsFileSelection[0]);
+                    ex("changemap maps/" + eManager.mapsFileSelection[0]);
                 }
                 return "new game (random) started";
             }
@@ -1375,7 +1375,7 @@ public class xCon {
                 oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(uiInterface.inplay)
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-                xCon.ex("exec scripts/editorspawn");
+                ex("exec scripts/editorspawn");
                 return fullCommand;
             }
         });
@@ -1749,10 +1749,10 @@ public class xCon {
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 String itemTitle = toks[1];
                 String itemId = toks[2];
-                int iw = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimw"));
-                int ih = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimh"));
-                String isp = xCon.ex("setvar " + itemTitle + "_sprite");
-                String isc = xCon.ex("setvar " + itemTitle + "_script");
+                int iw = Integer.parseInt(ex("setvar " + itemTitle+"_dimw"));
+                int ih = Integer.parseInt(ex("setvar " + itemTitle+"_dimh"));
+                String isp = ex("setvar " + itemTitle + "_sprite");
+                String isc = ex("setvar " + itemTitle + "_script");
                 gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
                         isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
                                 iw, ih));
@@ -1772,10 +1772,10 @@ public class xCon {
                     return "usage: cl_putitem <ITEM_TITLE> <id> <x> <y>";
                 String itemTitle = toks[1];
                 String itemId = toks[2];
-                int iw = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimw"));
-                int ih = Integer.parseInt(xCon.ex("setvar " + itemTitle+"_dimh"));
-                String isp = xCon.ex("setvar " + itemTitle + "_sprite");
-                String isc = xCon.ex("setvar " + itemTitle + "_script");
+                int iw = Integer.parseInt(ex("setvar " + itemTitle+"_dimw"));
+                int ih = Integer.parseInt(ex("setvar " + itemTitle+"_dimh"));
+                String isp = ex("setvar " + itemTitle + "_sprite");
+                String isc = ex("setvar " + itemTitle + "_script");
                 gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
                         isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
                                 iw, ih));
@@ -1790,7 +1790,7 @@ public class xCon {
         commands.put("quit", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
-                    if(!xCon.ex("e_showlossalert").equals("0"))
+                    if(!ex("e_showlossalert").equals("0"))
                         return "";
                 }
                 uiInterface.exit();
@@ -2054,7 +2054,7 @@ public class xCon {
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
                 sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
-                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(xCon.ex("cl_setvar cv_maxhp")),
+                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(ex("cl_setvar cv_maxhp")),
                         eUtils.getPath("animations/player_red/a03.png"));
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 if(playerId.contains("bot"))
@@ -2070,7 +2070,7 @@ public class xCon {
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
                     if(playerId.equals(uiInterface.uuid))
-                        xCon.ex("cl_setvar userplayerid $userid");
+                        ex("cl_setvar userplayerid $userid");
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
@@ -2144,7 +2144,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(tk.equalsIgnoreCase(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2164,7 +2164,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(tk.equalsIgnoreCase(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2184,7 +2184,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(Long.parseLong(tk) <= Long.parseLong(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2204,7 +2204,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(Long.parseLong(tk) <= Long.parseLong(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2258,7 +2258,7 @@ public class xCon {
             }
 
             private String success(String es) {
-                xCon.ex(es);
+                ex(es);
                 return "1";
             }
         });
@@ -2276,7 +2276,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(!tk.equalsIgnoreCase(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2296,7 +2296,7 @@ public class xCon {
                 }
                 String es = esb.substring(1);
                 if(!tk.equalsIgnoreCase(tv)) {
-                    xCon.ex(es);
+                    ex(es);
                     return "1";
                 }
                 return "0";
@@ -2309,15 +2309,15 @@ public class xCon {
                     return "cannot unbind";
                 String k = toks[1];
                 if(k.equalsIgnoreCase("all")) {
-                    xCon.instance().pressBinds.clear();
-                    xCon.instance().releaseBinds.clear();
+                    pressBinds.clear();
+                    releaseBinds.clear();
                     return "unbound all";
                 }
                 Integer kc = iKeyboard.getCodeForKey(k);
                 if(kc == null)
                     return "cannot unbind";
-                xCon.instance().pressBinds.remove(kc);
-                xCon.instance().releaseBinds.remove(kc);
+                pressBinds.remove(kc);
+                releaseBinds.remove(kc);
                 return String.format("unbound %s", k);
             }
         });
@@ -2382,16 +2382,16 @@ public class xCon {
         }
     }
 
-    public static Integer getKeyCodeForComm(String comm) {
+    public Integer getKeyCodeForComm(String comm) {
         if(comm.length() > 0) {
             if(comm.charAt(0) == '-') {
-                for(Integer j : xCon.instance().releaseBinds.keySet()) {
-                    if(xCon.instance().releaseBinds.get(j).equals(comm))
+                for(Integer j : releaseBinds.keySet()) {
+                    if(releaseBinds.get(j).equals(comm))
                         return j;
                 }
             }
-            for(Integer j : xCon.instance().pressBinds.keySet()) {
-                if(xCon.instance().pressBinds.get(j).equals(comm))
+            for(Integer j : pressBinds.keySet()) {
+                if(pressBinds.get(j).equals(comm))
                     return j;
             }
         }
@@ -2406,12 +2406,6 @@ public class xCon {
                     args[i] = cServerVars.instance().get(args[i].substring(1));
                 else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1)))
                     args[i] = cClientVars.instance().get(args[i].substring(1));
-            }
-            if(args.length > 0) {
-                if(cServerVars.instance().contains(args[0]))
-                    System.out.println("SVAR SHORTCUT (depr): " + args[0]);
-                else if(cClientVars.instance().contains(args[0]))
-                    System.out.println("CVAR SHORTCUT (depr): " + args[0]);
             }
             String command = args[0];
             if(command.startsWith("-"))
