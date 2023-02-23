@@ -356,7 +356,7 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("by Stallion 2021-2023"),
+                        new uiMenuItem("coded by Stallion 2021-2023"),
                         new uiMenuItem("venmo @StallionUSA")
                 },
                 MENU_MAIN
