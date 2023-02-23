@@ -46,7 +46,7 @@ public class nClient extends Thread {
 
     public void run() {
         try {
-            clientSocket = new DatagramSocket();
+            refreshSock();
             while (sSettings.IS_CLIENT) {
                 try {
                     sendData();
@@ -136,10 +136,10 @@ public class nClient extends Thread {
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xCon.ex("cl_setvar joinport")));
-            if (clientSocket == null || clientSocket.isClosed()) {
-                clientSocket = new DatagramSocket();
-                clientSocket.setSoTimeout(timeout);
-            }
+//            if (clientSocket == null || clientSocket.isClosed()) {
+//                clientSocket = new DatagramSocket();
+//                clientSocket.setSoTimeout(timeout);
+//            }
 
             clientSocket.send(sendPacket);
             cClientLogic.serverSendTime = System.currentTimeMillis();
