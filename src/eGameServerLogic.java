@@ -27,7 +27,7 @@ public class eGameServerLogic implements eGameLogic {
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/checkgamestate");
-        checkGameState();
+        checkGameItems();
         updateEntityPositions(gameTimeMillis);
         checkBulletSplashes(gameTimeMillis);
         ticks++;
@@ -39,8 +39,7 @@ public class eGameServerLogic implements eGameLogic {
         }
     }
 
-    private void checkGameState() {
-        // NEW ITEMS CHECKING.  ACTUALLY WORKS
+    private void checkGameItems() {
         HashMap<String, gThing> playerMap = cServerLogic.scene.getThingMap("THING_PLAYER");
         for (String playerId : playerMap.keySet()) {
             gPlayer player = (gPlayer) playerMap.get(playerId);
