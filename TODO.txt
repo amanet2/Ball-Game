@@ -1,5 +1,10 @@
-* camera should function with the "mov->vel" strategy without its xy being explicitly tied to player
-    -> client player will be as smooth as the network, which is not very
+* create a client var for player id to track with the camera
+    -> maybe items too
+    -> can make an invisible item purely for the camera to trak
+        -> move this tracked item around to move the camera?
+* replace more java code with script
+* camera should track without its xy being explicitly tied to user player
+    -> user player will be as smooth as the network, which is not very
 * some things like exploding on a mine can happen over and over when activated
 * create onShoot script capability for items and players when they get hit by bullet object
 * change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"

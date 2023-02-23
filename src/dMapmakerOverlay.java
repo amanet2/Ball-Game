@@ -31,7 +31,8 @@ public class dMapmakerOverlay {
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
             }
-            if(block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
+            if(cClientLogic.getUserPlayer() == null &&
+                    block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
                 g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),

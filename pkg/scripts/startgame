@@ -1,4 +1,4 @@
-getres gtime gametimemillis
+getres gtime setvar gametimemillis
 getaddlong estart $gtime 1000
 getaddlong eend $gtime $timelimit
 testres $1 $mode_virus foreachlong tv $estart $eend 1000 addevent $tv exec scripts/checkvirus

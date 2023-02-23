@@ -18,10 +18,10 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                xCon.ex("cv_maxhp " + value);
+                xCon.ex("cl_setvar cv_maxhp " + value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    nServer.instance().addNetCmd("cv_maxhp " + newmaxhp);
+                    nServer.instance().addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
                     for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
                         gPlayer p = cServerLogic.scene.getPlayerById(s);
                         p.putInt("stockhp", newmaxhp);
@@ -31,9 +31,9 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("velocityplayerbase", "16") {
             public void onChange() {
-                xCon.ex("cv_velocityplayer " + value);
+                xCon.ex("cl_setvar cv_velocityplayer " + value);
                 if(sSettings.IS_SERVER)
-                    xCon.ex("addcom cv_velocityplayer " + Integer.parseInt(value));
+                    xCon.ex("addcom cl_setvar cv_velocityplayer " + Integer.parseInt(value));
             }
         });
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);

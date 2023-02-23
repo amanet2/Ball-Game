@@ -50,14 +50,12 @@ public class cClientLogic {
         cClientVars.instance().put("gametimemillis", Long.toString(loopTimeMillis));
         timedEvents.executeCommands();
         if(oDisplay.instance().frame.isVisible()) {
-            if(sSettings.show_mapmaker_ui)
-                cClientLogic.selectThingUnderMouse();
             if(getUserPlayer() != null)
                 pointPlayerAtMousePointer();
+            else if(sSettings.show_mapmaker_ui)
+                cClientLogic.selectThingUnderMouse();
         }
-        oAudio.instance().checkAudio();
-        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
-            gCamera.updatePosition();
+        oAudio.instance().checkAudio(); //setting to mute game when not in focus?
         if(getUserPlayer() != null)
             checkPlayerFire();
         updateEntityPositions(loopTimeMillis);
@@ -98,6 +96,8 @@ public class cClientLogic {
     }
 
     public static void updateEntityPositions(long gameTimeMillis) {
+        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
+            gCamera.updatePosition();
         double mod = (double)sSettings.rateserver/(double)sSettings.rategame;
         for(String id : getPlayerIds()) {
             gPlayer obj = getPlayerById(id);

@@ -1,6 +1,6 @@
 load
-cv_maploaded 0
-cv_gamemode 0
+cl_setvar cv_maploaded 0
+cl_setvar cv_gamemode 0
 putblock BLOCK_FLOOR 1 1 600 0 1200 1200
 putblock BLOCK_CUBE 2 1 600 -150 300 450 150 300
 putblock BLOCK_CUBE 3 1 1500 -150 300 450 150 300
@@ -197,4 +197,4 @@ putitem ITEM_TELEPORTER_RED 16 1050 -100
 putitem ITEM_TELEPORTER_RED 17 1050 4450
 putitem ITEM_TELEPORTER_BLUE 18 -600 2950
 putitem ITEM_TELEPORTER_BLUE 19 3900 1700
-cv_maploaded 1
+cl_setvar cv_maploaded 1
