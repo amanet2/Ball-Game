@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class eGameServerLogic implements eGameLogic {
+public class eGameLogicServer implements eGameLogic {
     private int ticks = 0;
     private long nextsecondnanos = 0;
 
-    public eGameServerLogic() {
+    public eGameLogicServer() {
 
     }
 

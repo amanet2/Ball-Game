@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class eGameClientLogic implements eGameLogic {
+public class eGameLogicClient implements eGameLogic {
     private int ticks = 0;
     private long frameCounterTime = -1;
     private long tickCounterTime = -1;
 
-    public eGameClientLogic() {
+    public eGameLogicClient() {
 
     }
 
