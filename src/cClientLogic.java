@@ -55,7 +55,7 @@ public class cClientLogic {
             else if(sSettings.show_mapmaker_ui)
                 cClientLogic.selectThingUnderMouse();
         }
-        oAudio.instance().checkAudio();
+        oAudio.instance().checkAudio(); //setting to mute game when not in focus?
         if(getUserPlayer() != null)
             checkPlayerFire();
         updateEntityPositions(loopTimeMillis);
