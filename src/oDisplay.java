@@ -98,13 +98,9 @@ public class oDisplay extends JLayeredPane {
 	public void createPanels() {
 	    removeAll();
         setBackground(gColors.instance().getColorFromName("clrf_background"));
-        int ox = getContentPaneOffsetDimension()[0];
-        int oy = getContentPaneOffsetDimension()[1];
-        int ow = sSettings.width;
-        int oh = sSettings.height;
+        int[] od = getContentPaneOffsetDimension();
         dPanel vfxPanel = new dPanel();
-        vfxPanel.setDoubleBuffered(false);
-        vfxPanel.setBounds(ox,oy,ow,oh);
+        vfxPanel.setBounds(od[0], od[1], sSettings.width, sSettings.height);
         add(vfxPanel, 0, 0);
     }
 }
