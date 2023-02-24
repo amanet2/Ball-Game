@@ -126,7 +126,6 @@ public class gPlayer extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         putInt("stockhp", health);
-        put("botthinktime", "0");
         setSpriteFromPath(tt);
     }
 }

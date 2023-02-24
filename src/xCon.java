@@ -46,28 +46,6 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("addbot", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] botnameselection = sSettings.botnameSelection;
-                String[] colorselection = sSettings.colorSelection;
-                String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
-                String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
-
-                gPlayer p = new gPlayer("bot"+eManager.createBotId(), -6000,-6000,
-                        Integer.parseInt(ex("cl_setvar cv_maxhp")),
-                        eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
-                cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
-                cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
-                nVarsBot.update(p, gTime.gameTime);
-                nServer.instance().masterStateMap.put(p.get("id"), new nStateBallGame());
-                nServer.instance().masterStateMap.get(p.get("id")).put("color", botcolor);
-                nServer.instance().masterStateMap.get(p.get("id")).put("name", botname);
-                gScoreboard.addId(p.get("id"));
-                nServer.instance().addExcludingNetCmd("server", "echo " + botname + " joined the game");
-                ex("exec scripts/respawnnetplayer " + p.get("id"));
-                return "spawned bot";
-            }
-        });
         commands.put("addcom", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
@@ -511,8 +489,6 @@ public class xCon {
                 if(toks.length > 1) {
                     String id = toks[1];
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                    if(id.contains("bot"))
-                        cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -525,8 +501,6 @@ public class xCon {
                     if(id.equals(uiInterface.uuid))
                         cClientVars.instance().put("userplayerid", "null");
                     cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                    if(id.contains("bot"))
-                        cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -571,28 +545,6 @@ public class xCon {
                 ex("cl_load");
                 if (uiInterface.inplay)
                     ex("pause");
-                return fullCommand;
-            }
-        });
-        commands.put("dobotbehavior", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 2) {
-                    String botid = toks[1];
-                    StringBuilder botbehavior = new StringBuilder();
-                    for(int i = 2; i < toks.length; i++) {
-                        botbehavior.append(" " + toks[i]);
-                    }
-                    String behaviorString = botbehavior.substring(1);
-                    gPlayer botPlayer = cServerLogic.getPlayerById(botid);
-                    if(botPlayer == null)
-                        return "botid does not exist: " + botid;
-                    gDoableThing behavior = cBotsLogic.getBehavior(behaviorString);
-                    if(behavior != null)
-                        behavior.doItem(botPlayer);
-                    else
-                        return "botbehavior does not exist: " + botbehavior;
-                }
                 return fullCommand;
             }
         });
@@ -2053,12 +2005,9 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(ex("cl_setvar cv_maxhp")),
                         eUtils.getPath("animations/player_red/a03.png"));
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                if(playerId.contains("bot"))
-                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             }
         });
         commands.put("cl_spawnplayer", new xCom() {
@@ -2078,7 +2027,6 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y, cClientLogic.maxhp,
                         eUtils.getPath("animations/player_red/a03.png"));
                 if(nClient.instance().clientStateMap.contains(playerId)) {
@@ -2087,8 +2035,6 @@ public class xCon {
                             nClient.instance().clientStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                if(playerId.contains("bot"))
-                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             }
         });
         commands.put("cl_spawnpopup", new xCom() {
@@ -2117,8 +2063,7 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                if(!nServer.instance().isAlive())
-                    nServer.instance().start();
+                nServer.instance().start();
                 new eGameSessionServer().start();
                 sSettings.IS_SERVER = true;
                 return "new game started";

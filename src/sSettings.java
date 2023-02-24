@@ -9,16 +9,10 @@ public class sSettings {
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
-	static String[] botnameSelection = {"bot0", "bot1", "bot2", "bot3", "bot4", "bot5", "bot6", "bot7", "bot8", "bot9"};
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1280x1024", "1680x1050", "1600x1200", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
-	public static String[] object_titles = new String[]{
-//			"THING_PLAYER","THING_BULLET","THING_POPUP","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
-//			"BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
-//			"ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER", "ITEM_LANDMINE", "ITEM_SHOTGUN", "ITEM_PISTOL",
-//			"ITEM_RIFLE", "ITEM_LAUNCHER", "ITEM_GLOVE"
-	};
+	public static String[] object_titles = new String[]{};
 	/**
 	* vfx
 	* */

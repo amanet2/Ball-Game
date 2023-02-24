@@ -35,8 +35,4 @@ public class eManager {
     public static String createId() {
         return xCon.ex("getrand 11111111 99999999");
     }
-
-    public static String createBotId() {
-        return xCon.ex("getrand 11111 99999");
-    }
 }
