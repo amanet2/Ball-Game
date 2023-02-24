@@ -33,7 +33,7 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			eGameClient client = new eGameClient();
+			eGameSessionClient client = new eGameSessionClient();
 			client.start();
 		}
 		catch (Exception err) {
