@@ -215,7 +215,6 @@ public class nServer extends Thread {
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
-//        clientStateSnapshots.remove(id);
         gScoreboard.scoresMap.remove(id);
         xCon.ex("exec scripts/handleremoveclient " + id);
     }
@@ -237,7 +236,6 @@ public class nServer extends Thread {
                         ticks = 0;
                     }
                     processPackets();
-//                    checkForUnhandledQuitters();
                 }
                 catch (Exception e) {
                     eLogging.logException(e);
@@ -267,25 +265,12 @@ public class nServer extends Thread {
         xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
     }
 
-    public void checkBanStatus(String stateId) {
-        if(banIds.containsKey(stateId)) {
-            if(banIds.get(stateId) < gTime.gameTime)
-                banIds.remove(stateId);
-            else {
-                addNetCmd(stateId, "echo You are banned for " + (banIds.get(stateId) - gTime.gameTime) + "ms");
-                addNetCmd(stateId, "disconnect");
-            }
-        }
-    }
-
     public void readData(String receiveDataString) {
         if(receiveDataString.length() < 1)
             return;
         //load received string into state object
         nState receivedState = new nState(receiveDataString.trim());
         String stateId = receivedState.get("id");
-        //relieve bans
-//        checkBanStatus(stateId);
         //check if masterState contains
         if(!masterStateMap.contains(stateId))
             handleJoin(stateId);

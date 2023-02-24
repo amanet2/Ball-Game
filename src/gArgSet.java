@@ -64,10 +64,6 @@ public class gArgSet {
         }
     }
 
-    protected void init() {
-
-    }
-
     protected void init(String[] args) {
 
     }

@@ -2,7 +2,6 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Polygon;
-import java.util.HashMap;
 
 public class dMapmakerOverlay {
     public static int[] getNewPrefabDims() {

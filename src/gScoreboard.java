@@ -39,8 +39,6 @@ public class gScoreboard {
         scoresMap.put(id, new HashMap<>());
         scoresMap.get(id).put("wins", 0);
         scoresMap.get(id).put("score", 0);
-//        scoresMap.get(id).put("kills", 0);
-//        scoresMap.get(id).put("ping", 0);
     }
 
     public static void incrementScoreFieldById(String id, String field) {

@@ -11,7 +11,7 @@ public class eGameLogicServer implements eGameLogic {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init(){
 
     }
 

@@ -166,9 +166,7 @@ public class dScreenMessages {
                 ctr++;
             }
             StringBuilder is = new StringBuilder();
-            for(int i = 0; i < xCon.instance().cursorIndex; i++) {
-                is.append(" ");
-            }
+            is.append(" ".repeat(Math.max(0, xCon.instance().cursorIndex)));
             is = new StringBuilder(gameTimeMillis % 500 > 250 ? is.toString() : String.format("%s_", is));
             g.drawString(String.format("console:~$ %s", xCon.instance().commandString),
                 0,(xCon.instance().linesToShow+1)*sSettings.height/64);

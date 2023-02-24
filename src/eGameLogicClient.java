@@ -12,7 +12,7 @@ public class eGameLogicClient implements eGameLogic {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         oDisplay.instance().showFrame();
         gCamera.init();
         gAnimations.init();

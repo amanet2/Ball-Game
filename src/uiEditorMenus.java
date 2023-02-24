@@ -54,10 +54,8 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        if(xCon.ex("setvar GAMETYPE_"+cClientLogic.gamemode+"_title").equalsIgnoreCase(checkBoxMenuItem.getText()))
-            checkBoxMenuItem.setSelected(true);
-        else
-            checkBoxMenuItem.setSelected(false);
+        checkBoxMenuItem.setSelected(xCon.ex(String.format(
+                "setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -334,11 +332,7 @@ public class uiEditorMenus {
     }
 
     private static void addConsoleActionToJMenuItem(JMenuItem item, String fullCommand) {
-        item.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex(fullCommand);
-            }
-        });
+        item.addActionListener(e -> xCon.ex(fullCommand));
     }
 
     public static String getRotateName(String s) {
@@ -347,13 +341,13 @@ public class uiEditorMenus {
     }
 
     public static void setFileChooserFont(Component[] comp) {
-        for (int x = 0; x < comp.length; x++) {
-            if (comp[x] instanceof Container)
-                setFileChooserFont(((Container) comp[x]).getComponents());
+        for (Component component : comp) {
+            if (component instanceof Container)
+                setFileChooserFont(((Container) component).getComponents());
 
             try {
-                    comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
-            } catch (Exception e) {
+                component.setFont(component.getFont().deriveFont(component.getFont().getSize() * 2f));
+            } catch (Exception ignored) {
             } // do nothing
         }
     }

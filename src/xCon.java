@@ -46,28 +46,6 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("addbot", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] botnameselection = sSettings.botnameSelection;
-                String[] colorselection = sSettings.colorSelection;
-                String botname = botnameselection[(int)(Math.random()*(botnameselection.length))];
-                String botcolor = colorselection[(int)(Math.random()*(colorselection.length))];
-
-                gPlayer p = new gPlayer("bot"+eManager.createBotId(), -6000,-6000,
-                        Integer.parseInt(ex("cl_setvar cv_maxhp")),
-                        eUtils.getPath(String.format("animations/player_%s/a03.png", botcolor)));
-                cServerLogic.scene.getThingMap("THING_PLAYER").put(p.get("id"), p);
-                cServerLogic.scene.getThingMap("THING_BOTPLAYER").put(p.get("id"), p);
-                nVarsBot.update(p, gTime.gameTime);
-                nServer.instance().masterStateMap.put(p.get("id"), new nStateBallGame());
-                nServer.instance().masterStateMap.get(p.get("id")).put("color", botcolor);
-                nServer.instance().masterStateMap.get(p.get("id")).put("name", botname);
-                gScoreboard.addId(p.get("id"));
-                nServer.instance().addExcludingNetCmd("server", "echo " + botname + " joined the game");
-                ex("exec scripts/respawnnetplayer " + p.get("id"));
-                return "spawned bot";
-            }
-        });
         commands.put("addcom", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
@@ -75,7 +53,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "usage: addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -91,7 +69,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "usage: cl_addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -126,7 +104,7 @@ public class xCon {
                         args[i] = sVars.get(args[i]);
                 }
                 String ignoreId = args[1];
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -160,7 +138,7 @@ public class xCon {
                     }
                 }
                 String exlusiveId = args[1];
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -176,7 +154,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "usage: addevent <time> <string to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -190,21 +168,6 @@ public class xCon {
                         }
                 );
                 return "added time event @" + timeToExec + ": " + actStr;
-            }
-        });
-        commands.put("banid", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 2) {
-                    int banTimeMillis = Integer.parseInt(toks[2]);
-                    nServer.instance().banIds.put(toks[1], gTime.gameTime+banTimeMillis);
-                    return "banned " + toks[1] + " for " + banTimeMillis +"ms";
-                }
-                else if(toks.length > 1) {
-                    nServer.instance().banIds.put(toks[1], gTime.gameTime+1000);
-                    return "banned " + toks[1] + " for 1000ms";
-                }
-                return "usage: banid <id> <optional: time_millis>";
             }
         });
         commands.put("bind", new xCom() {
@@ -278,22 +241,23 @@ public class xCon {
         });
         commands.put("changemaprandom", new xCom() {
             public String doCommand(String fullCommand) {
-                if(eManager.mapsFileSelection.length < 1) {
+                if(eManager.mapsFileSelection.length < 1)
                     return "no maps found for changemap (random)";
-                }
-                else if(eManager.mapsFileSelection.length > 1) {
+                if(eManager.mapsFileSelection.length > 1) {
                     int rand = eManager.mapSelectionIndex;
                     while(rand == eManager.mapSelectionIndex) {
                         rand = (int)(Math.random()*eManager.mapsFileSelection.length);
                     }
-                    cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[rand]);
-                    eManager.mapSelectionIndex = rand;
+                    delegate(rand);
                 }
-                else {
-                    cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[0]);
-                    eManager.mapSelectionIndex = 0;
-                }
+                else
+                    delegate(0);
                 return "changed map (random)";
+            }
+
+            private void delegate(int map) {
+                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[map]);
+                eManager.mapSelectionIndex = map;
             }
         });
         commands.put("chat", new xCom() {
@@ -355,7 +319,6 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 1) {
                     String thing_title = toks[1];
-                    ArrayList<String> toRemoveIds = new ArrayList<>();
                     if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
                         uiEditorMenus.previewScene.objectMaps.put(thing_title, new LinkedHashMap<>());
                 }
@@ -511,8 +474,6 @@ public class xCon {
                 if(toks.length > 1) {
                     String id = toks[1];
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                    if(id.contains("bot"))
-                        cServerLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -525,8 +486,6 @@ public class xCon {
                     if(id.equals(uiInterface.uuid))
                         cClientVars.instance().put("userplayerid", "null");
                     cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                    if(id.contains("bot"))
-                        cClientLogic.scene.getThingMap("THING_BOTPLAYER").remove(id);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -571,28 +530,6 @@ public class xCon {
                 ex("cl_load");
                 if (uiInterface.inplay)
                     ex("pause");
-                return fullCommand;
-            }
-        });
-        commands.put("dobotbehavior", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 2) {
-                    String botid = toks[1];
-                    StringBuilder botbehavior = new StringBuilder();
-                    for(int i = 2; i < toks.length; i++) {
-                        botbehavior.append(" " + toks[i]);
-                    }
-                    String behaviorString = botbehavior.substring(1);
-                    gPlayer botPlayer = cServerLogic.getPlayerById(botid);
-                    if(botPlayer == null)
-                        return "botid does not exist: " + botid;
-                    gDoableThing behavior = cBotsLogic.getBehavior(behaviorString);
-                    if(behavior != null)
-                        behavior.doItem(botPlayer);
-                    else
-                        return "botbehavior does not exist: " + botbehavior;
-                }
                 return fullCommand;
             }
         });
@@ -1380,7 +1317,7 @@ public class xCon {
             }
         });
         commands.put("playsound", new xCom() {
-            double sfxrange = 1800.0;
+            final double sfxrange = 1800.0;
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1 && sSettings.audioenabled) {
@@ -1419,7 +1356,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1518,10 +1455,6 @@ public class xCon {
                 cServerLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
             }
-
-            private String escape() {
-                return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-            }
         });
         commands.put("cl_putblock", new xCom() {
             public String doCommand(String fullCommand) {
@@ -1529,7 +1462,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1627,10 +1560,6 @@ public class xCon {
                 cClientLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
             }
-
-            private String escape() {
-                return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-            }
         });
         commands.put("cl_putblockpreview", new xCom() {
             public String doCommand(String fullCommand) {
@@ -1638,7 +1567,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1736,10 +1665,6 @@ public class xCon {
                 uiEditorMenus.previewScene.getThingMap("THING_BLOCK").put(blockid, newBlock);
                 uiEditorMenus.previewScene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("cl_putblockpreview %s id%s pid%s", blockString, blockid, prefabid);
-            }
-
-            private String escape() {
-                return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
             }
         });
         commands.put("putitem", new xCom() {
@@ -2053,12 +1978,9 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(ex("cl_setvar cv_maxhp")),
                         eUtils.getPath("animations/player_red/a03.png"));
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                if(playerId.contains("bot"))
-                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             }
         });
         commands.put("cl_spawnplayer", new xCom() {
@@ -2078,7 +2000,6 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                sceneToStore.getThingMap("THING_BOTPLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y, cClientLogic.maxhp,
                         eUtils.getPath("animations/player_red/a03.png"));
                 if(nClient.instance().clientStateMap.contains(playerId)) {
@@ -2087,8 +2008,6 @@ public class xCon {
                             nClient.instance().clientStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                if(playerId.contains("bot"))
-                    sceneToStore.getThingMap("THING_BOTPLAYER").put(playerId, newPlayer);
             }
         });
         commands.put("cl_spawnpopup", new xCom() {
@@ -2117,8 +2036,7 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                if(!nServer.instance().isAlive())
-                    nServer.instance().start();
+                nServer.instance().start();
                 new eGameSessionServer().start();
                 sSettings.IS_SERVER = true;
                 return "new game started";

@@ -42,10 +42,6 @@
 * powerup idea
     -> egg, pick up to initiate the growing sequence
     -> chuck or drop it before it blows
-* gametype
-    -> bot going after nearest character
-        --> if you touch the bot you die
-        --> get points for staying alive
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
 * GAME: bring back squish effect for something
