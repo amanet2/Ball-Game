@@ -12,14 +12,11 @@ import java.util.Queue;
 public class nClient extends Thread {
     private int ticks = 0;
     private long nextSecondNanos = 0;
-    private static final int retrylimit = 10;
-    long netTime = -1;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, String> serverArgsMap = new HashMap<>(); //hold server vars
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
     private final Queue<String> netSendMsgs = new LinkedList<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -36,7 +33,6 @@ public class nClient extends Thread {
         clientStateMap = new nStateMap();
         netSendMsgs.clear();
         netSendCmds.clear();
-        netTime = -1;
         receivedPackets.clear();
         serverArgsMap.clear();
         serverArgsMap.put("time", "180000");
@@ -136,10 +132,6 @@ public class nClient extends Thread {
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xCon.ex("cl_setvar joinport")));
-//            if (clientSocket == null || clientSocket.isClosed()) {
-//                clientSocket = new DatagramSocket();
-//                clientSocket.setSoTimeout(timeout);
-//            }
 
             clientSocket.send(sendPacket);
             cClientLogic.serverSendTime = System.currentTimeMillis();

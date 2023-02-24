@@ -40,17 +40,6 @@ public class gPlayer extends gThing {
         return false;
     }
 
-    public void pointAtCoords(int x, int y) {
-        double dx = x - getInt("coordx") + (float) getInt("dimw")/2;
-        double dy = y - getInt("coordy") + (float) getInt("dimh")/2;
-        double angle = Math.atan2(dy, dx);
-        if (angle < 0)
-            angle += 2*Math.PI;
-        angle += Math.PI/2;
-        putDouble("fv", angle);
-        checkSpriteFlip();
-    }
-
     public void checkSpriteFlip() {
         if((getDouble("fv") >= 7*Math.PI/4 && getDouble("fv") <= 9*Math.PI/4)) {
             if(!get("pathsprite").contains("a00")) {

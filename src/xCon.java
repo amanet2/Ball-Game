@@ -53,7 +53,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "usage: addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -69,7 +69,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "usage: cl_addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -104,7 +104,7 @@ public class xCon {
                         args[i] = sVars.get(args[i]);
                 }
                 String ignoreId = args[1];
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -138,7 +138,7 @@ public class xCon {
                     }
                 }
                 String exlusiveId = args[1];
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -154,7 +154,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "usage: addevent <time> <string to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                StringBuilder act = new StringBuilder("");
+                StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
                 }
@@ -168,21 +168,6 @@ public class xCon {
                         }
                 );
                 return "added time event @" + timeToExec + ": " + actStr;
-            }
-        });
-        commands.put("banid", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 2) {
-                    int banTimeMillis = Integer.parseInt(toks[2]);
-                    nServer.instance().banIds.put(toks[1], gTime.gameTime+banTimeMillis);
-                    return "banned " + toks[1] + " for " + banTimeMillis +"ms";
-                }
-                else if(toks.length > 1) {
-                    nServer.instance().banIds.put(toks[1], gTime.gameTime+1000);
-                    return "banned " + toks[1] + " for 1000ms";
-                }
-                return "usage: banid <id> <optional: time_millis>";
             }
         });
         commands.put("bind", new xCom() {
@@ -334,7 +319,6 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 1) {
                     String thing_title = toks[1];
-                    ArrayList<String> toRemoveIds = new ArrayList<>();
                     if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
                         uiEditorMenus.previewScene.objectMaps.put(thing_title, new LinkedHashMap<>());
                 }
@@ -1333,7 +1317,7 @@ public class xCon {
             }
         });
         commands.put("playsound", new xCom() {
-            double sfxrange = 1800.0;
+            final double sfxrange = 1800.0;
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1 && sSettings.audioenabled) {
@@ -1372,7 +1356,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1471,10 +1455,6 @@ public class xCon {
                 cServerLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
             }
-
-            private String escape() {
-                return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-            }
         });
         commands.put("cl_putblock", new xCom() {
             public String doCommand(String fullCommand) {
@@ -1482,7 +1462,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1580,10 +1560,6 @@ public class xCon {
                 cClientLogic.scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("put block %s id%s pid%s", blockString, blockid, prefabid);
             }
-
-            private String escape() {
-                return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-            }
         });
         commands.put("cl_putblockpreview", new xCom() {
             public String doCommand(String fullCommand) {
@@ -1591,7 +1567,7 @@ public class xCon {
                 // putblock BLOCK_FLOOR id prefabid x y width height
                 // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
-                    return escape();
+                    return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 gBlockFactory factory = gBlockFactory.instance();
                 String blockString = toks[1];
                 String blockid = toks[2];
@@ -1689,10 +1665,6 @@ public class xCon {
                 uiEditorMenus.previewScene.getThingMap("THING_BLOCK").put(blockid, newBlock);
                 uiEditorMenus.previewScene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
                 return String.format("cl_putblockpreview %s id%s pid%s", blockString, blockid, prefabid);
-            }
-
-            private String escape() {
-                return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
             }
         });
         commands.put("putitem", new xCom() {

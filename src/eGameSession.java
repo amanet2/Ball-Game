@@ -2,7 +2,7 @@ public class eGameSession extends Thread implements Runnable {
     private final eTimer timer;
     private final eGameLogic gameLogic;
     private long tickTimeNanos;
-    private int tickRate;
+    private final int tickRate;
 
     public eGameSession(eGameLogic logic, int rate) {
         gameLogic = logic;
@@ -24,7 +24,7 @@ public class eGameSession extends Thread implements Runnable {
         }
     }
 
-    private void init() throws Exception {
+    private void init(){
         timer.init();
         gameLogic.init();
         tickTimeNanos = timer.snapshotTimeNanos();
