@@ -89,13 +89,13 @@ public class uiMenus {
                         new uiMenuItem("Audio") {
                             public void doItem(){
                                 menuSelection[MENU_AUDIO].refresh();
-                                selectedMenu = (MENU_AUDIO);
+                                selectedMenu = MENU_AUDIO;
                             }
                         },
                         new uiMenuItem("Video") {
                             public void doItem(){
                                 menuSelection[MENU_VIDEO].refresh();
-                                selectedMenu = (MENU_VIDEO);
+                                selectedMenu = MENU_VIDEO;
                             }
                         },
                         new uiMenuItem("Profile") {
@@ -267,13 +267,13 @@ public class uiMenus {
         new uiMenu(
                 "Audio",
                 new uiMenuItem[]{
-                        new uiMenuItem(String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X")) {
+                        new uiMenuItem("mute") {
                             public void doItem() {
                                 cClientVars.instance().put("audioenabled", sSettings.audioenabled ? "0" : "1");
                                 menuSelection[MENU_AUDIO].refresh();
                             }
                         },
-                        new uiMenuItem(String.format("Volume [%f]", cClientLogic.volume)) {
+                        new uiMenuItem("volume") {
                             public void doItem() {
                                 selectedMenu = MENU_VOLUME;
                             }
@@ -284,7 +284,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X"),
-                        String.format("Volume [%f]", cClientLogic.volume)
+                        String.format("Volume [%d]", (int) cClientLogic.volume)
                 });
             }
         },
@@ -296,57 +296,58 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("0"){
                             public void doItem() {
-                                xCon.ex("volume 0");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("10"){
                             public void doItem() {
-                                xCon.ex("volume 10");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("20"){
                             public void doItem() {
-                                xCon.ex("volume 20");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("30"){
                             public void doItem() {
-                                xCon.ex("volume 30");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("40"){
                             public void doItem() {
-                                xCon.ex("volume 40");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("50"){
                             public void doItem() {
-                                xCon.ex("volume 50");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("60"){
                             public void doItem() {
-                                xCon.ex("volume 60");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("70"){
                             public void doItem() {
-                                xCon.ex("volume 70");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("80"){
                             public void doItem() {
-                                xCon.ex("volume 80");
+                                setVolume(this.text);
                             }
                         },
                         new uiMenuItem("90"){
                             public void doItem() {
-                                xCon.ex("volume 90");
+                                setVolume(this.text);
+
                             }
                         },
                         new uiMenuItem("100"){
                             public void doItem() {
-                                xCon.ex("volume 100");
+                                setVolume(this.text);
                             }
                         }
                 },
@@ -387,5 +388,11 @@ public class uiMenus {
                 new uiMenuItem("show scoreboard: TAB"),
                 new uiMenuItem("chat: "+(char)(int)xCon.instance().getKeyCodeForComm("chat"))
         };
+    }
+
+    private static void setVolume(String val) {
+        cClientVars.instance().put("volume", val);
+        menuSelection[MENU_AUDIO].refresh();
+        selectedMenu = MENU_AUDIO;
     }
 }
