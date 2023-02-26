@@ -1947,7 +1947,7 @@ public class xCon {
                         int animcode = Integer.parseInt(toks[1]);
                         int x = Integer.parseInt(toks[2]);
                         int y = Integer.parseInt(toks[3]);
-                        String aid = eManager.createId();
+                        String aid = eUtils.createId();
                         cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
                                 new gAnimationEmitter(animcode, x, y));
                         gAnimation anim = gAnimations.animation_selection[animcode];
@@ -2018,7 +2018,7 @@ public class xCon {
                     if(p == null)
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
-                    String id = eManager.createId();
+                    String id = eUtils.createId();
                     cClientLogic.scene.getThingMap("THING_POPUP").put(id,
                             new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                                     p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),

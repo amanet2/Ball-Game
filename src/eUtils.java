@@ -71,4 +71,8 @@ public class eUtils {
 	public static int roundToNearest(int val, int snap) {
 		return (Math.round(val/snap))*snap;
 	}
+
+    public static String createId() {
+        return xCon.ex("getrand 11111111 99999999");
+    }
 }

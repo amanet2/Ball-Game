@@ -16,7 +16,7 @@ public class gBullet extends gThing {
         putInt("ttl", 1000);
         putLong("timestamp", gTime.gameTime);
         putDouble("fv", fv);
-        put("id", eManager.createId());
+        put("id", eUtils.createId());
         put("srcid", "God");
         putInt("isexplosionpart", 0);
         sprite = gTextures.getGScaledImage(tt, getInt("dimw"), getInt("dimh"));
