@@ -2088,6 +2088,17 @@ public class xCon {
                 return "0";
             }
         });
+        commands.put("gte", new xCom() {
+            //usage: gte $res $val (return 1 if res >= val, else 0)
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(Integer.parseInt(args[1]) >= Integer.parseInt(args[2]))
+                    return "1";
+                return "0";
+            }
+        });
         commands.put("testreslte", new xCom() {
             //usage: testreslte $res $val <string that will exec if res <= val>
             public String doCommand(String fullCommand) {
