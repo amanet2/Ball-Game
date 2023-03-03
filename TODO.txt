@@ -1,3 +1,4 @@
+* rechargehealth might have an issue running if player is hit by landmine?
 * create a client var for player id to track with the camera
     -> maybe items too
     -> can make an invisible item purely for the camera to trak

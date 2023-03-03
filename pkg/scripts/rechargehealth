@@ -3,7 +3,8 @@ getres playerhealth setthing THING_PLAYER $plid stockhp
 getres rctime setthing THING_PLAYER $plid hprechargetime
 testresn $rctime null getaddlong rcplusdelay $rctime $delayhp
 testresn null $playerhealth testresn null $rechargehp getaddint newhp $playerhealth $rechargehp
-testresn $rctime null testreslte $rcplusdelay $gametimemillis setthing THING_PLAYER $plid stockhp $newhp
+testresn $rctime null getres doheal lte $rcplusdelay $gametimemillis
+testresn $rctime null testres $doheal 1 setthing THING_PLAYER $plid stockhp $newhp
 getres playerhealth setthing THING_PLAYER $plid stockhp
 testresn $playerhealth null getres setstock lteint $maxhp $playerhealth
 testresn $playerhealth null testresn $setstock 0 setthing THING_PLAYER $plid stockhp $maxhp

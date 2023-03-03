@@ -2099,21 +2099,15 @@ public class xCon {
                 return "0";
             }
         });
-        commands.put("testreslte", new xCom() {
-            //usage: testreslte $res $val <string that will exec if res <= val>
+        commands.put("lte", new xCom() {
+            //usage: lte $res $val //return 1 if true 0 if false
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 String tk = args[1];
                 String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
                 if(Long.parseLong(tk) <= Long.parseLong(tv)) {
-                    ex(es);
                     return "1";
                 }
                 return "0";
