@@ -5,4 +5,5 @@ testresn $rctime null getaddlong rcplusdelay $rctime $delayhp
 testresn null $playerhealth testresn null $rechargehp getaddint newhp $playerhealth $rechargehp
 testresn $rctime null testreslte $rcplusdelay $gametimemillis setthing THING_PLAYER $plid stockhp $newhp
 getres playerhealth setthing THING_PLAYER $plid stockhp
-testresn $playerhealth null testreslteint $maxhp $playerhealth setthing THING_PLAYER $plid stockhp $maxhp
+testresn $playerhealth null getres setstock lteint $maxhp $playerhealth
+testresn $playerhealth null testresn $setstock 0 setthing THING_PLAYER $plid stockhp $maxhp

@@ -2139,19 +2139,14 @@ public class xCon {
                 return "0";
             }
         });
-        commands.put("testreslteint", new xCom() {
-            //usage: testreslte $res $val <string that will exec if res <= val>
+        commands.put("lteint", new xCom() {
+            //usage: lteint $res $val // return 1 if true 0 if not
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 String tk = args[1];
                 String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
                 Number n1 = null;
                 Number n2 = null;
                 try {
@@ -2166,28 +2161,27 @@ public class xCon {
                 boolean n2l = n2 instanceof Long;
                 if(n1d && n2d) {
                     if((double) n1 <= (double) n2)
-                        return success(es);
+                        return success();
                 }
                 else if(n1l && n2d) {
                     if(Long.parseLong(tk) <= Double.parseDouble(tv))
-                        return success(es);
+                        return success();
                 }
                 else if(n1d && n2l) {
                     if(Double.parseDouble(tk) <= Long.parseLong(tv))
-                        return success(es);
+                        return success();
                 }
                 else if(n1l && n2l) {
                     if((long) n1 <= (long) n2)
-                        return success(es);
+                        return success();
                 }
                 //default
                 if(Double.parseDouble(tk) <= Double.parseDouble(tv))
-                    return success(es);
+                    return success();
                 return "0";
             }
 
-            private String success(String es) {
-                ex(es);
+            private String success() {
                 return "1";
             }
         });
