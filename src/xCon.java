@@ -2105,31 +2105,19 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                if(Long.parseLong(tk) <= Long.parseLong(tv)) {
+                if(Long.parseLong(args[1]) <= Long.parseLong(args[2]))
                     return "1";
-                }
                 return "0";
             }
         });
-        commands.put("cl_testreslte", new xCom() {
-            //usage: cl_testreslte $res $val <string that will exec if res <= val>
+        commands.put("cl_lte", new xCom() {
+            //usage: cl_lte $res $val //return 1 for T 0 for F
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
-                if(Long.parseLong(tk) <= Long.parseLong(tv)) {
-                    ex(es);
+                if(Long.parseLong(args[1]) <= Long.parseLong(args[2]))
                     return "1";
-                }
                 return "0";
             }
         });
