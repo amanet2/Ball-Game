@@ -1431,31 +1431,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String ttype = args[1];
-                if(cServerLogic.scene.getThingMap(ttype) == null)
-                    return "null";
-                HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(ttype);
-                if(args.length < 3)
-                    return thingMap.toString();
-                String tid = args[2];
-                if(!thingMap.containsKey(tid))
-                    return "null";
-                gThing thing = thingMap.get(tid);
-                if(args.length < 4)
-                    return thing.toString();
-                String tk = args[3];
-                if(args.length < 5) {
-                    if(thing.get(tk) == null)
-                        return "null";
-                    return thing.get(tk);
-                }
-                StringBuilder tvb = new StringBuilder();
-                for(int i = 4; i < args.length; i++) {
-                    tvb.append(" ").append(args[i]);
-                }
-                String tv = tvb.substring(1);
-                thing.put(tk, tv);
-                return thing.get(tk);
+                return setThingDelegate(args, cServerLogic.scene);
             }
         });
         commands.put("cl_setthing", new xCom() {
@@ -1464,31 +1440,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 2)
                     return "null";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String ttype = args[1];
-                if(cClientLogic.scene.getThingMap(ttype) == null)
-                    return "null";
-                HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap(ttype);
-                if(args.length < 3)
-                    return thingMap.toString();
-                String tid = args[2];
-                if(!thingMap.containsKey(tid))
-                    return "null";
-                gThing thing = thingMap.get(tid);
-                if(args.length < 4)
-                    return thing.toString();
-                String tk = args[3];
-                if(args.length < 5) {
-                    if(thing.get(tk) == null)
-                        return "null";
-                    return thing.get(tk);
-                }
-                StringBuilder tvb = new StringBuilder();
-                for(int i = 4; i < args.length; i++) {
-                    tvb.append(" ").append(args[i]);
-                }
-                String tv = tvb.substring(1);
-                thing.put(tk, tv);
-                return thing.get(tk);
+                return setThingDelegate(args, cClientLogic.scene);
             }
         });
         commands.put("setvar", new xCom() {
@@ -2000,6 +1952,34 @@ public class xCon {
         newBlock.put("prefabid", prefabid);
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
         scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+    }
+
+    private String setThingDelegate(String[] args, gScene scene) {
+        String ttype = args[1];
+        if(scene.getThingMap(ttype) == null)
+            return "null";
+        HashMap<String, gThing> thingMap = scene.getThingMap(ttype);
+        if(args.length < 3)
+            return thingMap.toString();
+        String tid = args[2];
+        if(!thingMap.containsKey(tid))
+            return "null";
+        gThing thing = thingMap.get(tid);
+        if(args.length < 4)
+            return thing.toString();
+        String tk = args[3];
+        if(args.length < 5) {
+            if(thing.get(tk) == null)
+                return "null";
+            return thing.get(tk);
+        }
+        StringBuilder tvb = new StringBuilder();
+        for(int i = 4; i < args.length; i++) {
+            tvb.append(" ").append(args[i]);
+        }
+        String tv = tvb.substring(1);
+        thing.put(tk, tv);
+        return thing.get(tk);
     }
 
     public static String ex(String s) {
