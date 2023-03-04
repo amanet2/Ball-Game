@@ -9,7 +9,6 @@
     -> user player will be as smooth as the network, which is not very
 * some things like exploding on a mine can happen over and over when activated
 * create onShoot script capability for items and players when they get hit by bullet object
-* change "getaddlong <var_to_store> <l1> <l2>" into "getres <var> getaddlong <l1> <l2>"
 * make prefabs not hardcoded
     -> create some cool rooms/runs and duplicate them
     -> bring back save as prefab button
