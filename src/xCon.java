@@ -2124,28 +2124,24 @@ public class xCon {
                 boolean n2l = n2 instanceof Long;
                 if(n1d && n2d) {
                     if((double) n1 <= (double) n2)
-                        return success();
+                        return "1";
                 }
                 else if(n1l && n2d) {
                     if(Long.parseLong(tk) <= Double.parseDouble(tv))
-                        return success();
+                        return "1";
                 }
                 else if(n1d && n2l) {
                     if(Double.parseDouble(tk) <= Long.parseLong(tv))
-                        return success();
+                        return "1";
                 }
                 else if(n1l && n2l) {
                     if((long) n1 <= (long) n2)
-                        return success();
+                        return "1";
                 }
                 //default
                 if(Double.parseDouble(tk) <= Double.parseDouble(tv))
-                    return success();
+                    return "1";
                 return "0";
-            }
-
-            private String success() {
-                return "1";
             }
         });
         commands.put("testresn", new xCom() {
@@ -2223,10 +2219,6 @@ public class xCon {
         }
         String resultString = result.toString();
         return resultString.substring(0,resultString.length()-1);
-    }
-
-    public int getInt(String s) {
-        return Integer.parseInt(doCommand(s));
     }
 
     public static int charlimit() {
