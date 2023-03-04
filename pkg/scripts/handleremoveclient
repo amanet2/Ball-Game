@@ -1,6 +1,6 @@
 getres dcn getsnap $1 name
 getres dcc getsnap $1 color
-constr dcs $dcn # $dcc
+getres dcs constr $dcn # $dcc
 addcomi server echo $dcs left the game
 getres hadflag getsnap $1 flag
 testres $hadflag 1 getres dcx setthing THING_PLAYER $1 coordx

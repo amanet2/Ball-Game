@@ -17,7 +17,7 @@ testres $sv_gamemode $mode_virus getres wasvirus setnstate $1 virus
 testres $sv_gamemode $mode_virus setnstate $1 virus 1
 testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvname setnstate $1 name
 testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvcolor setnstate $1 color
-testres $sv_gamemode $mode_virus testres $wasvirus 0 constr vvstr $vvname # $vvcolor
+testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvstr constr $vvname # $vvcolor
 testres $sv_gamemode $mode_virus testres $wasvirus 0 addcomi server eacho $vvstr was infected
 testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag

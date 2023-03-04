@@ -221,30 +221,6 @@ public class xCon {
                 return "cannot bindrelease ";
             }
         });
-        commands.put("bindlist", new xCom() {
-            public String doCommand(String fullCommand) {
-                stringLines.add("Current Bindings: ");
-                int size = pressBinds.keySet().size() + releaseBinds.keySet().size();
-                for(Integer j : releaseBinds.keySet()) {
-                    if(pressBinds.containsKey(j))
-                        size--;
-                }
-                String[] items = new String[size];
-                int ctr = 0;
-                for (Integer j : pressBinds.keySet()) {
-                    items[ctr] = KeyEvent.getKeyText(j)+" : "+ pressBinds.get(j);
-                    ctr++;
-                }
-                for (Integer j : releaseBinds.keySet()) {
-                    if(!pressBinds.containsKey(j)) {
-                        items[ctr] = KeyEvent.getKeyText(j)+ " : " + releaseBinds.get(j);
-                        ctr++;
-                    }
-                }
-                Collections.addAll(stringLines, items);
-                return "";
-            }
-        });
         commands.put("changemap", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -367,20 +343,17 @@ public class xCon {
             }
         });
         commands.put("constr", new xCom() {
-            //concatenate two strings with optional joining char
-            //usage: constr $newvarname <disparate elements to combine and store in newvarname>
+            //concatenate two or more strings
+            //usage: constr <disparate elements to combine and return>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
+                if(eUtils.argsLength(fullCommand) < 2)
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
                 StringBuilder esb = new StringBuilder();
-                for(int i = 2; i < args.length; i++) {
+                for(int i = 1; i < args.length; i++) {
                     esb.append(args[i]);
                 }
-                String es = esb.toString();
-                cServerVars.instance().put(tk, es);
-                return es;
+                return esb.toString();
             }
         });
         commands.put("cvarlist", new xCom() {
