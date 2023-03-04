@@ -2,8 +2,8 @@
 #include <string.h>
 
 int main(int argc, char * argv[]) {
-    char * findstr = "Ball-Game-Mac";
-    char * replacestr = "pkg/run_game.sh ";
+    char * findstr = "/Ball-Game-Mac";
+    char * replacestr = "/pkg/run_game.sh ";
     char * bashstr = "bash ";
     char * startstr = malloc(strlen(argv[0]) - strlen(findstr) + strlen(replacestr));
     char * ptr;
