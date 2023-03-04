@@ -921,77 +921,6 @@ public class xCon {
                 return Long.toString(gTime.gameTime);
             }
         });
-        commands.put("adddub", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: adddub $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
-            }
-        });
-        commands.put("cl_addub", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: cl_adddub $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
-            }
-        });
-        commands.put("addint", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: addint $num1 $num2 //return result (use getres)
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                Number n1;
-                Number n2;
-                try {
-                    n1 = NumberFormat.getInstance().parse(args[1]);
-                    n2 = NumberFormat.getInstance().parse(args[2]);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "null";
-                }
-                boolean n1d = n1 instanceof Double;
-                boolean n1l = n1 instanceof Long;
-                boolean n2d = n2 instanceof Double;
-                boolean n2l = n2 instanceof Long;
-                if(n1d || n2d)
-                    return Integer.toString((int) ((double) n1 + (double) n2));
-                else if(n1l || n2l)
-                    return Long.toString((long) n1 + (long) n2);
-                else
-                    return Integer.toString((int) n1 + (int) n2);
-            }
-        });
-        commands.put("getaddlong", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: getaddlong $result $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 4)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                long n1 = Long.parseLong(args[2]);
-                long n2 = Long.parseLong(args[3]);
-                cServerVars.instance().put(tk, Long.toString(n1+n2));
-                return cServerVars.instance().get(tk);
-            }
-        });
-        commands.put("cl_getaddlong", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: cl_getaddlong $result $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 4)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String tk = args[1];
-                long n1 = Long.parseLong(args[2]);
-                long n2 = Long.parseLong(args[3]);
-                cClientVars.instance().put(tk, Long.toString(n1+n2));
-                return cClientVars.instance().get(tk);
-            }
-        });
         commands.put("getnewitemid", new xCom() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
@@ -2029,6 +1958,73 @@ public class xCon {
                 new eGameSessionServer().start();
                 sSettings.IS_SERVER = true;
                 return "new game started";
+            }
+        });
+        commands.put("sumdub", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: sumdub $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
+            }
+        });
+        commands.put("cl_sumdub", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: cl_sumdub $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
+            }
+        });
+        commands.put("sumint", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: sumint $num1 $num2 //return result (use getres)
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                Number n1;
+                Number n2;
+                try {
+                    n1 = NumberFormat.getInstance().parse(args[1]);
+                    n2 = NumberFormat.getInstance().parse(args[2]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return "null";
+                }
+                boolean n1d = n1 instanceof Double;
+                boolean n1l = n1 instanceof Long;
+                boolean n2d = n2 instanceof Double;
+                boolean n2l = n2 instanceof Long;
+                if(n1d || n2d)
+                    return Integer.toString((int) ((double) n1 + (double) n2));
+                else if(n1l || n2l)
+                    return Long.toString((long) n1 + (long) n2);
+                else
+                    return Integer.toString((int) n1 + (int) n2);
+            }
+        });
+        commands.put("getaddlong", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: getaddlong $result $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 4)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                String tk = args[1];
+                long n1 = Long.parseLong(args[2]);
+                long n2 = Long.parseLong(args[3]);
+                cServerVars.instance().put(tk, Long.toString(n1+n2));
+                return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_sumlong", new xCom() {
+            public String doCommand(String fullCommand) {
+                //usage: cl_sumlong $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "null";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
             }
         });
         commands.put("svarlist", new xCom() {
