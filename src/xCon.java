@@ -1659,46 +1659,6 @@ public class xCon {
                 return sorted.toString();
             }
         });
-        commands.put("testres", new xCom() {
-            //usage: testres $res $val <string that will exec if res == val>
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
-                if(tk.equalsIgnoreCase(tv)) {
-                    ex(es);
-                    return "1";
-                }
-                return "0";
-            }
-        });
-        commands.put("cl_testres", new xCom() {
-            //usage: testres $res $val <string that will exec if res == val>
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
-                if(tk.equalsIgnoreCase(tv)) {
-                    ex(es);
-                    return "1";
-                }
-                return "0";
-            }
-        });
         commands.put("gte", new xCom() {
             //usage: gte $res $val (return 1 if res >= val, else 0)
             public String doCommand(String fullCommand) {
@@ -1774,24 +1734,31 @@ public class xCon {
                 return "0";
             }
         });
+        commands.put("testres", new xCom() {
+            //usage: testres $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                return testResDelegate(args);
+            }
+        });
+        commands.put("cl_testres", new xCom() {
+            //usage: testres $res $val <string that will exec if res == val>
+            public String doCommand(String fullCommand) {
+                if(eUtils.argsLength(fullCommand) < 3)
+                    return "0";
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                return testResDelegate(args);
+            }
+        });
         commands.put("testresn", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
-                if(!tk.equalsIgnoreCase(tv)) {
-                    ex(es);
-                    return "1";
-                }
-                return "0";
+                return testResNDelegate(args);
             }
         });
         commands.put("cl_testresn", new xCom() {
@@ -1800,18 +1767,7 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String tk = args[1];
-                String tv = args[2];
-                StringBuilder esb = new StringBuilder();
-                for(int i = 3; i < args.length; i++) {
-                    esb.append(" ").append(args[i]);
-                }
-                String es = esb.substring(1);
-                if(!tk.equalsIgnoreCase(tv)) {
-                    ex(es);
-                    return "1";
-                }
-                return "0";
+                return testResNDelegate(args);
             }
         });
         commands.put("unbind", new xCom() {
@@ -1980,6 +1936,28 @@ public class xCon {
         String tv = tvb.substring(1);
         thing.put(tk, tv);
         return thing.get(tk);
+    }
+
+    private String testResDelegate(String[] args) {
+        StringBuilder esb = new StringBuilder();
+        for(int i = 3; i < args.length; i++) {
+            esb.append(" ").append(args[i]);
+        }
+        String es = esb.substring(1);
+        if(args[1].equalsIgnoreCase(args[2]))
+            ex(es);
+        return "1";
+    }
+
+    private String testResNDelegate(String[] args) {
+        StringBuilder esb = new StringBuilder();
+        for(int i = 3; i < args.length; i++) {
+            esb.append(" ").append(args[i]);
+        }
+        String es = esb.substring(1);
+        if(!args[1].equalsIgnoreCase(args[2]))
+            ex(es);
+        return "1";
     }
 
     public static String ex(String s) {
