@@ -6,7 +6,6 @@ testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 addevent $tv exec 
 testres $1 $mode_goldmaster getres estart sumlong $gtime 3000
 testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
 testres $1 $mode_vipmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
-#testres $1 $mode_pointmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
 testres $1 $mode_pointmaster getres bstart sumlong $gtime 30000
 testres $1 $mode_pointmaster getres cstart sumlong $gtime 20000
 testres $1 $mode_pointmaster foreachlong tv $bstart $eend 30000 addevent $tv exec scripts/pointmaster
