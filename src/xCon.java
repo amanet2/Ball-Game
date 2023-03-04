@@ -2005,17 +2005,13 @@ public class xCon {
                     return Integer.toString((int) n1 + (int) n2);
             }
         });
-        commands.put("getaddlong", new xCom() {
+        commands.put("sumlong", new xCom() {
             public String doCommand(String fullCommand) {
-                //usage: getaddlong $result $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 4)
+                //usage: sumlong $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 3)
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                long n1 = Long.parseLong(args[2]);
-                long n2 = Long.parseLong(args[3]);
-                cServerVars.instance().put(tk, Long.toString(n1+n2));
-                return cServerVars.instance().get(tk);
+                return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
             }
         });
         commands.put("cl_sumlong", new xCom() {
