@@ -1,10 +1,8 @@
 setvar delayhp 3600
-getres playerhealth setthing THING_PLAYER $plid stockhp
+getres impossibledelay sumint $delayhp 5000
+setvar healdue 0
+getres rcplusdelay sumlong $gametimemillis $impossibledelay
 getres rctime setthing THING_PLAYER $plid hprechargetime
 testresn $rctime null getres rcplusdelay sumlong $rctime $delayhp
-testresn null $playerhealth testresn null $rechargehp getres newhp sumint $playerhealth $rechargehp
-testresn $rctime null getres doheal lte $rcplusdelay $gametimemillis
-testresn $rctime null testres $doheal 1 setthing THING_PLAYER $plid stockhp $newhp
-getres playerhealth setthing THING_PLAYER $plid stockhp
-testresn $playerhealth null getres setstock lteint $maxhp $playerhealth
-testresn $playerhealth null testresn $setstock 0 setthing THING_PLAYER $plid stockhp $maxhp
+getres healdue lte $rcplusdelay $gametimemillis
+testres $healdue 1 exec scripts/rechargehealthdelegate

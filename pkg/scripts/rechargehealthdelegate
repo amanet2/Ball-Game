@@ -1,0 +1,6 @@
+setvar rechargehp 1
+getres playerhp setthing THING_PLAYER $plid stockhp
+getres newhp sumint $playerhp $rechargehp
+getres toohealthy gte $newhp $maxhp
+testres $toohealthy 1 setthing THING_PLAYER $plid stockhp $maxhp
+testres $toohealthy 0 setthing THING_PLAYER $plid stockhp $newhp
