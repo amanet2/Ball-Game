@@ -1526,8 +1526,7 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                gPlayer newPlayer = new gPlayer(playerId, x, y, Integer.parseInt(ex("cl_setvar cv_maxhp")),
-                        eUtils.getPath("animations/player_red/a03.png"));
+                gPlayer newPlayer = new gPlayer(playerId, x, y);
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
             }
         });
@@ -1548,8 +1547,7 @@ public class xCon {
 
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
-                gPlayer newPlayer = new gPlayer(playerId, x, y, cClientLogic.maxhp,
-                        eUtils.getPath("animations/player_red/a03.png"));
+                gPlayer newPlayer = new gPlayer(playerId, x, y);
                 if(nClient.instance().clientStateMap.contains(playerId)) {
                     newPlayer.put("color", nClient.instance().clientStateMap.get(playerId).get("color"));
                     newPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",

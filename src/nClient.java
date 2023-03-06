@@ -238,27 +238,22 @@ public class nClient extends Thread {
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
-            //NEW --
-            //--
-            if(!idload.equalsIgnoreCase("server")) {
+            // SERVER time and cmd
+            if(idload.equals("server"))
+                handleReadDataServer(packArgs);
+            else {
                 if(!clientStateMap.contains(idload))
                     clientStateMap.put(idload, new nStateBallGameClient());
                 for(String k : packArgs.keySet()) {
                     clientStateMap.get(idload).put(k, packArgs.get(k));
                 }
-            }
-            //OLD --
-            //--
-            if(idload.equals("server"))
-                handleReadDataServer(packArgs);
-            else if(!idload.equals(uiInterface.uuid)) {
-                if(playerIds.contains(idload))
+                if(!idload.equals(uiInterface.uuid)) {
                     foundIds.add(idload);
-                else {
-                    playerIds.add(idload);
-                    foundIds.add(idload);
+                    if(!playerIds.contains(idload))
+                        playerIds.add(idload);
                 }
             }
+
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
@@ -290,7 +285,7 @@ public class nClient extends Thread {
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-//            //user's client-side firing (like in halo 5)
+            // user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
             xCon.instance().debug("TO_SERVER: " + cmdString);
