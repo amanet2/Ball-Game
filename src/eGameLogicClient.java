@@ -208,9 +208,17 @@ public class eGameLogicClient implements eGameLogic {
     }
 
     private void checkPlayerFire() {
-        if(cClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft)
-            xCon.ex(String.format("exec scripts/attack %d",
-                    (long)gWeapons.fromCode(cClientLogic.getUserPlayer().getInt("weapon")).refiredelay));
+        if(cClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft) {
+            gPlayer player = cClientLogic.getUserPlayer();
+            if(player.contains("cooldown")) {
+                int weapint = player.getInt("weapon");
+                long gametimemillis = gTime.gameTime;
+                if(player.getLong("cooldown") <= gametimemillis) {
+                    xCon.ex("cl_addcom fireweapon " + uiInterface.uuid + " " + weapint);
+                    player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
+                }
+            }
+        }
     }
 
     private void pointPlayerAtMousePointer() {

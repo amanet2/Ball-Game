@@ -1614,15 +1614,6 @@ public class xCon {
                 return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
             }
         });
-        commands.put("cl_sumlong", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: cl_sumlong $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
-            }
-        });
         commands.put("svarlist", new xCom() {
             public String doCommand(String fullCommand) {
                 TreeMap<String, gArg> sorted = new TreeMap<>(cServerVars.instance().args);
@@ -1646,17 +1637,6 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                if(Long.parseLong(args[1]) <= Long.parseLong(args[2]))
-                    return "1";
-                return "0";
-            }
-        });
-        commands.put("cl_lte", new xCom() {
-            //usage: cl_lte $res $val //return 1 for T 0 for F
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
                 if(Long.parseLong(args[1]) <= Long.parseLong(args[2]))
                     return "1";
                 return "0";
