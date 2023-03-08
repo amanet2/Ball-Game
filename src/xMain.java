@@ -21,7 +21,6 @@ public class xMain {
 		uiEditorMenus.previewScene = new gScene();
 		cServerVars.instance().init(args);
 		cClientVars.instance().init(args);
-		xCon.ex("exec config/autoexec");
 		uiMenus.init();
 		if(sSettings.show_mapmaker_ui) {
 			sSettings.drawhitboxes = true;
