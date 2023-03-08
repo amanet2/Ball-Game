@@ -375,31 +375,17 @@ public class xCon {
         commands.put("deleteblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(cServerLogic.scene.getThingMap("THING_BLOCK").containsKey(id)) {
-                        gBlock blockToDelete = (gBlock) cServerLogic.scene.getThingMap("THING_BLOCK").get(id);
-                        String type = blockToDelete.get("type");
-                        cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
-                        cServerLogic.scene.getThingMap(type).remove(id);
-                    }
-                }
+                if(toks.length > 1)
+                    deleteBlockDelegate(toks, cServerLogic.scene);
                 return "usage: deleteblock <id>";
             }
         });
         commands.put("cl_deleteblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(cClientLogic.scene.getThingMap("THING_BLOCK").containsKey(id)) {
-                        gBlock blockToDelete = (gBlock) cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-                        String type = blockToDelete.get("type");
-                        cClientLogic.scene.getThingMap("THING_BLOCK").remove(id);
-                        cClientLogic.scene.getThingMap(type).remove(id);
-                    }
-                }
-                return "usage: deleteblock <id>";
+                if(toks.length > 1)
+                    deleteBlockDelegate(toks, cClientLogic.scene);
+                return "usage: cl_deleteblock <id>";
             }
         });
         commands.put("deleteitem", new xCom() {
@@ -1871,6 +1857,16 @@ public class xCon {
         }
         if(scene.objectMaps.containsKey(thing_title))
             scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+    }
+
+    private void deleteBlockDelegate(String[] toks, gScene scene) {
+        String id = toks[1];
+        if(scene.getThingMap("THING_BLOCK").containsKey(id)) {
+            gBlock blockToDelete = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
+            String type = blockToDelete.get("type");
+            scene.getThingMap("THING_BLOCK").remove(id);
+            scene.getThingMap(type).remove(id);
+        }
     }
 
     private String testResDelegate(String[] args) {
