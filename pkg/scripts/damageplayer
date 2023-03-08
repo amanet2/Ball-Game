@@ -1,6 +1,6 @@
 addcomx $1 exec scripts/playdeathsound
 getres playerhp setthing THING_PLAYER $1 stockhp
-getsub newhp $playerhp $2
+getres newhp subint $playerhp $2
 setthing THING_PLAYER $1 stockhp $newhp
 setthing THING_PLAYER $1 hprechargetime $3
 getres stock setthing THING_PLAYER $1 stockhp

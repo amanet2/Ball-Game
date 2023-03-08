@@ -160,7 +160,7 @@ public class dScreenMessages {
                     dd = 0;
                 }
                 if(dd != 0) {
-                    if(xCon.instance().stringLines.size() > i)
+                    if(i < 1024 && xCon.instance().stringLines.size() > i)
                         g.drawString(xCon.instance().stringLines.get(i), 0, (ctr + 1) * sSettings.height / 64);
                 }
                 ctr++;

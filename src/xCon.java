@@ -1015,32 +1015,13 @@ public class xCon {
                 return clientState.get(tk);
             }
         });
-        commands.put("getsub", new xCom() {
+        commands.put("subint", new xCom() {
             public String doCommand(String fullCommand) {
-                //usage: getsub $result $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 4)
+                //usage: subint $num1 $num2
+                if(eUtils.argsLength(fullCommand) < 3)
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                String tk = args[1];
-                double n1 = Double.parseDouble(args[2]);
-                double n2 = Double.parseDouble(args[3]);
-                cServerVars.instance().put(tk, Double.toString(n1-n2));
-                return cServerVars.instance().get(tk);
-            }
-        });
-        commands.put("cl_getsub", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: getsub $result $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 4)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                String tk = args[1];
-                double n1 = Double.parseDouble(args[2]);
-                double n2 = Double.parseDouble(args[3]);
-                String s = Double.toString(n1-n2);
-                String ss = s.substring(0, s.indexOf('.')+2);
-                cClientVars.instance().put(tk, ss);
-                return ss;
+                return Integer.toString(Integer.parseInt(args[1]) - Integer.parseInt(args[2]));
             }
         });
         commands.put("getwinnerid", new xCom() {
@@ -1594,15 +1575,6 @@ public class xCon {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
-            }
-        });
-        commands.put("cl_sumdub", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: cl_sumdub $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
                 return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
             }
         });
