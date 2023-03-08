@@ -1,4 +1,3 @@
-unbind all
 bind - cl_exec scripts/zoomout
 bind = cl_exec scripts/zoomin
 bind backspace e_delthing

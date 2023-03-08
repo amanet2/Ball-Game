@@ -1746,11 +1746,6 @@ public class xCon {
                 if(toks.length < 2)
                     return "cannot unbind";
                 String k = toks[1];
-                if(k.equalsIgnoreCase("all")) {
-                    pressBinds.clear();
-                    releaseBinds.clear();
-                    return "unbound all";
-                }
                 Integer kc = iKeyboard.getCodeForKey(k);
                 if(kc == null)
                     return "cannot unbind";
