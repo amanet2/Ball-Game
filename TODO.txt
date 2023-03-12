@@ -1,14 +1,11 @@
-* change clientside scripts into console commands
-* after dying with weapon X cant pick up weapon X after respawning unless you pick up other weapon first
-* rechargehealth might have an issue running if player is hit by landmine?
+* ENG: change clientside scripts into console commands
+    -> e.g. playerup, selectup
+    -> think about what should be hardcoded and what should be customizable in script
+* BUG: after dying with weapon X cant pick up weapon X after respawning unless you pick up other weapon first
 * create a client var for player id to track with the camera
-    -> maybe items too
-    -> can make an invisible item purely for the camera to trak
-        -> move this tracked item around to move the camera?
-* replace more java code with script
+    -> can move an invisible item for the camera to track?
 * camera should track without its xy being explicitly tied to user player
     -> user player will be as smooth as the network, which is not very
-* some things like exploding on a mine can happen over and over when activated
 * create onShoot script capability for items and players when they get hit by bullet object
 * make prefabs not hardcoded
     -> create some cool rooms/runs and duplicate them
