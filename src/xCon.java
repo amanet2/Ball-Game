@@ -1115,7 +1115,7 @@ public class xCon {
                             ex("gobackui");
                         }
                         else if(uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem > -1) {
-                            ex("exec scripts/activatemenu");
+                            ex("activatemenu");
                         }
                     }
                 }
