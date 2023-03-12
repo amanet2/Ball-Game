@@ -49,7 +49,7 @@ bind s exec scripts/playerdown
 bind a exec scripts/playerleft
 bind d exec scripts/playerright
 bind tab exec scripts/showscore
-bind enter exec scripts/activatemenu
+bind enter activatemenu
 bind escape gobackui
 bind up exec scripts/selectup
 bind down exec scripts/selectdown

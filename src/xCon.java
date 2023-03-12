@@ -54,6 +54,7 @@ public class xCon {
         commands.put("activatemenu", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!uiInterface.inplay && !sSettings.show_mapmaker_ui) {
+                    ex("playsound sounds/tap.wav");
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
                 }
