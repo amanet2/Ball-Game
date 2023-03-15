@@ -2,17 +2,11 @@ import java.awt.Color;
 import java.util.HashMap;
 
 public class gColors {
-    private final HashMap<String, Color> colorMap = new HashMap<>();
-
-    private static gColors instance = null;
-
-    private gColors() {
-        xCon.ex("exec config/colors");
-    }
+    private static final HashMap<String, Color> colorMap = new HashMap<>();
 
     public static int hpAlpha = 230;
 
-    public Color getColorFromName(String name) {
+    public static Color getColorFromName(String name) {
         //return color if in the map
         if(colorMap.containsKey(name))
             return colorMap.get(name);
@@ -44,11 +38,5 @@ public class gColors {
         );
         colorMap.put(name, c);
         return colorMap.get(name);
-    }
-
-    public static gColors instance() {
-        if(instance == null)
-            instance = new gColors();
-        return instance;
     }
 }

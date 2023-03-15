@@ -7,7 +7,7 @@ public class nStateBallGameClient extends nState {
         map.putArg(new gArg("color", "blue") {
             public void onChange() {
                 gPlayer p = cClientLogic.getPlayerById(get("id"));
-                if(p == null || gColors.instance().getColorFromName("clrp_" + value) == null)
+                if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
                 p.put("color", value);
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", value,

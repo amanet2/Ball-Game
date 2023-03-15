@@ -81,6 +81,6 @@ public class dFonts {
     }
 
     public static void setFontColor(Graphics g, String name) {
-        g.setColor(gColors.instance().getColorFromName(name));
+        g.setColor(gColors.getColorFromName(name));
     }
 }

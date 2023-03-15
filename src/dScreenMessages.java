@@ -197,13 +197,13 @@ public class dScreenMessages {
                     if(word.contains("#")) {
                         if(word.split("#").length != 2)
                             ts.append(word).append(" ");
-                        else if(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                        else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString())+3,
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32))+3);
-                            g.setColor(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                            g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))

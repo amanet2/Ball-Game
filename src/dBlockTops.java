@@ -46,12 +46,12 @@ public class dBlockTops {
                     block.getInt("coordx") + block.getInt("dimw") / 2
                     ,
                     block.getInt("coordy") ,
-                    gColors.instance().getColorFromName("clrw_roofoutline1"),
+                    gColors.getColorFromName("clrw_roofoutline1"),
                     block.getInt("coordx") + block.getInt("dimw") / 2
                     ,
                     block.getInt("coordy")
                             + block.getInt("toph"),
-                    gColors.instance().getColorFromName("clrw_roofoutline2")
+                    gColors.getColorFromName("clrw_roofoutline2")
             );
             g2.setPaint(gradient);
             g2.drawRoundRect(

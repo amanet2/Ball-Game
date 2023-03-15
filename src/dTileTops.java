@@ -76,12 +76,12 @@ public class dTileTops {
                 if(word.contains("#")) {
                     if(word.split("#").length != 2)
                         ts.append(word).append(" ");
-                    else if(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                    else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                         g.setColor(Color.BLACK);
                         g.drawString(word.split("#")[0]+" ",
                                 p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
                                 p.getInt("coordy") + 3);
-                        g.setColor(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                        g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                         g.drawString(word.split("#")[0]+" ",
                                 p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
                                 p.getInt("coordy"));
@@ -129,7 +129,7 @@ public class dTileTops {
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
             int coordy = userPlayer.getInt("coordy") - 200;
             Polygon pg = getPolygon(midx, coordy);
-            Color color = gColors.instance().getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
+            Color color = gColors.getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
             g2.setStroke(dFonts.thickStroke);
             dFonts.setFontColor(g2, "clrf_normaltransparent");
             g2.drawPolygon(pg);
@@ -150,7 +150,7 @@ public class dTileTops {
             int coordx = p.getInt("coordx");
             int coordy = p.getInt("coordy");
             String ck = clState.get("color");
-            Color color = gColors.instance().getColorFromName("clrp_" + ck);
+            Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
             //SAVE THIS: draw flashlight/spawnprotection glow
 //            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {

@@ -357,8 +357,7 @@ public class nServer extends Thread {
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
                 xCon.ex(cmd);
-                addExcludingNetCmd("server", String.format("%s",
-                        cmd.replace("exec ", "cl_exec ")));
+                addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
             }
             else if(cmd.startsWith("exec scripts/respawnnetplayer"))
                 xCon.ex(cmd);
