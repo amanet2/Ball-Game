@@ -1161,9 +1161,13 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 cClientVars.instance().put("inplay", uiInterface.inplay ? "0" : "1");
                 oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                if(uiInterface.inplay)
+                if(uiInterface.inplay) {
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
-                ex("exec scripts/editorspawn");
+                    if(sSettings.show_mapmaker_ui)
+                        nClient.instance().addNetCmd("exec scripts/respawnnetplayer " + uiInterface.uuid);
+                }
+                else if(sSettings.show_mapmaker_ui)
+                    nClient.instance().addNetCmd("deleteplayer " + uiInterface.uuid);
                 return fullCommand;
             }
         });

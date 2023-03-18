@@ -1,2 +1,0 @@
-cl_testres $showmapmakerui 1 cl_testres $inplay 1 cl_addcom exec scripts/respawnnetplayer $userid
-cl_testres $showmapmakerui 1 cl_testres $inplay 0 cl_addcom deleteplayer $userid
