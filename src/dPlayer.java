@@ -18,7 +18,7 @@ public class dPlayer {
         if(cState == null)
             return;
         if(cState.contains("color")) {
-            Color pc = gColors.instance().getColorFromName("clrp_" + cState.get("color"));
+            Color pc = gColors.getColorFromName("clrp_" + cState.get("color"));
             if (pc != null) {
                 int x = player.getInt("coordx") - player.getInt("dimw") / 4;
                 int y = player.getInt("coordy") - player.getInt("dimh") / 4;
@@ -42,8 +42,8 @@ public class dPlayer {
             RadialGradientPaint df = new RadialGradientPaint(
                     shadowBounds, new float[]{0f, 1f},
                     new Color[]{
-                            gColors.instance().getColorFromName("clrw_shadow1"),
-                            gColors.instance().getColorFromName("clrw_clear")
+                            gColors.getColorFromName("clrw_shadow1"),
+                            gColors.getColorFromName("clrw_clear")
                     }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
             g2.setPaint(df);
             g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
@@ -57,7 +57,8 @@ public class dPlayer {
                 null
         );
         //flag for ctf
-        if(nClient.instance().clientStateMap.get(player.get("id")).get("flag").equalsIgnoreCase("1"))
+        if(nClient.instance().clientStateMap.get(player.get("id")).contains("flag")
+                && nClient.instance().clientStateMap.get(player.get("id")).get("flag").equalsIgnoreCase("1"))
             g2.drawImage(gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300),
                     player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3,
                     null
@@ -67,10 +68,10 @@ public class dPlayer {
             GradientPaint df = new GradientPaint(
                     player.getInt("coordx"),
                     player.getInt("coordy") + 2*player.getInt("dimh")/3,
-                    gColors.instance().getColorFromName("clrw_clear"),
+                    gColors.getColorFromName("clrw_clear"),
                     player.getInt("coordx"),
                     player.getInt("coordy") + player.getInt("dimh"),
-                    gColors.instance().getColorFromName("clrw_shadow1half")
+                    gColors.getColorFromName("clrw_shadow1half")
             );
             g2.setPaint(df);
             g2.fillOval(

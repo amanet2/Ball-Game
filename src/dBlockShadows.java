@@ -8,11 +8,11 @@ public class dBlockShadows {
             if (block.getInt("wallh") + block.getInt("toph") == block.getHeight()) {
                 GradientPaint gradient = new GradientPaint(
                         block.getX() + block.getWidth()/2,block.getY() + block.getHeight(),
-                        gColors.instance().getColorFromName("clrw_shadow1"),
+                        gColors.getColorFromName("clrw_shadow1"),
                         block.getX() + block.getWidth()/2,
                         block.getY() + block.getHeight()
                                 + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor),
-                        gColors.instance().getColorFromName("clrw_shadow2")
+                        gColors.getColorFromName("clrw_shadow2")
                 );
                 g2.setPaint(gradient);
                 g2.fillRect(
@@ -26,12 +26,12 @@ public class dBlockShadows {
                 GradientPaint gradient = new GradientPaint(
                         block.getX() + block.getWidth()/2,
                         block.getY() + block.getHeight() - block.getInt("toph"),
-                        gColors.instance().getColorFromName("clrw_shadow1"),
+                        gColors.getColorFromName("clrw_shadow1"),
                         block.getX() + block.getWidth()/2,
                         block.getY() + block.getHeight()
                                 + (int)((block.getHeight() - block.getInt("toph") - block.getInt("toph")
                         )*sSettings.vfxshadowfactor),
-                        gColors.instance().getColorFromName("clrw_shadow2")
+                        gColors.getColorFromName("clrw_shadow2")
                 );
                 g2.setPaint(gradient);
                 g2.fillRect(block.getX(), block.getY() + block.getHeight() - block.getInt("toph"),

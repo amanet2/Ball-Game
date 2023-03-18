@@ -1,6 +1,6 @@
 load
-cv_maploaded 0
-cv_gamemode 3
+cl_setvar cv_maploaded 0
+cl_setvar cv_gamemode 3
 putblock BLOCK_FLOOR 1 1 1200 -300 1200 1200
 putblock BLOCK_FLOOR 2 1 0 900 1200 1200
 putblock BLOCK_FLOOR 3 1 1200 900 1200 1200
@@ -161,4 +161,4 @@ putitem ITEM_SPAWNPOINT 54 100 -1050
 putitem ITEM_SPAWNPOINT 55 -350 -1100
 putitem ITEM_SPAWNPOINT 56 -800 -1100
 putitem ITEM_SPAWNPOINT 57 -650 -700
-cv_maploaded 1
+cl_setvar cv_maploaded 1

@@ -1,0 +1,5 @@
+testresn $1 $telexid getres tex setthing THING_ITEM $telexid coordx
+testresn $1 $telexid getres tey setthing THING_ITEM $telexid coordy
+testresn $1 $telexid setthing THING_PLAYER $2 inteleporter 1
+testresn $1 $telexid addcomx server setplayercoords $2 $tex $tey
+testresn $1 $telexid addcomx $2 cl_setplayercoords $2 $tex $tey

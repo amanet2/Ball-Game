@@ -1,18 +1,27 @@
-* make the killing player process a script so it can be customized
-    -> this is where we can script deathmatch-givepoint logic
-* get rid of all the gamemode-related java code and have it in script
-* you don't need to use stringbuilder to get subarrays
-    -> looks at the foreach console commands
+* ENG: change clientside scripts into console commands
+    -> e.g. playerup, selectup
+    -> think about what should be hardcoded and what should be customizable in script
+* BUG: after dying with weapon X cant pick up weapon X after respawning unless you pick up other weapon first
+* create a client var for player id to track with the camera
+    -> can move an invisible item for the camera to track?
+* camera should track without its xy being explicitly tied to user player
+    -> user player will be as smooth as the network, which is not very
+* create onShoot script capability for items and players when they get hit by bullet object
+* make prefabs not hardcoded
+    -> create some cool rooms/runs and duplicate them
+    -> bring back save as prefab button
+        -> prefab manager should have a check for new files every so often
+            -> maybe as a first check for selecting the prefab menu
+            -> or even better in the 'putObject' command
+* separate client and server gamemode variables
+    -> will need for dedicated server
+* fix the bug where players pop out on top of walls they shouldnt be visible behind
 * create a new "exec" function for scripts
     -> should support block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
 * replace all usages of "new Random()" with threadlocal random
 * convert banning/ban relief into a timeEvent
 * make a "willcollide" console comm with 2 ids for objects
-* make weapons a "hidden" thing with instances in a scene so we can check their variables in scripts for weapon usage
-* try to see if putitem can only have x y and have it do cl_putitem with an assigned id
-* VFX BUG: player sometimes appears in front of small tiletops
-    -> try putting a few units of buffer when testing collision
 * convert cClientLogic.newprefabname into client var so onChange() can be used
 * dont draw blocks that cant be seen on screen
 * see what "checkX" functions we can get rid of/change to commands
@@ -20,40 +29,24 @@
         --> playercolor is set by console command in halo's engine (in-game)
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
-* low framerate on 1 client results in stuttering character on others' screens
-* move the dim/4 stuff to the preview block build call, not draw
-* fix memory leaks
-* put the xCom classes into their own folder
+* fix memory leaks if any
 * make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
-    -> so we don't have explicit checks for virus mode in the "drawWaypoints" function
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
     -> see for remotes: git reset --hard origin/<branch_name>
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* WEAPONS: send a holdingmouse netvar when holding mouse
-    -> clients will simulate the fire rate
-        --> server holds master state still
-    -> instead of sending cmd fireweapon
-    -> allows smooth use of automatic weapons
-* add zombies gametype, a zopmbie will be a prop
+* add zombies gametype, a zombie will be a prop
 * powerup idea
     -> egg, pick up to initiate the growing sequence
     -> chuck or drop it before it blows
-* gametype
-    -> bot going after nearest character
-        --> if you touch the bot you die
-        --> get points for staying alive
 * ATTACK: the rock from gungame
     -> have it be wildly inaccurate
 * GAME: bring back squish effect for something
-* GAME: in virus, give players infinite ammo
-    -> infected have boxing glove
-    -> survivors have shotguns
 * new Item: bonusblock
     -> (make them look like regular blocks)
-    -> get its health to 0 and it has a change to spawn a powerup
+    -> get its health to 0 and it has a chance to spawn a powerup
         --> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
         --> this will be the powerup delivery system.  no placing shotties on map, etc
     -> will respawn after X time
@@ -66,12 +59,10 @@
         --> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* FUTURE: we can make "themes" for prefabs
-* make players bounce off each other
-    -> if a player is slower than another, make them take more and the other take less force accordingly
-* add ball skins
+* can make "themes" for prefabs
+* make players bounce off each other and walls like billiard balls
+* add ball skins like polka dots stripes etc
     -> use existing color architecture
-* avoid casting from WIDE scope to NARROWER scope as it introduces overhead
 * cant have key bound to multiple actions
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
@@ -81,9 +72,8 @@
 * gungame mode
 * add "disable attacks" option
 * checksum checks
-    -> in a real game, would represent official vs "community" content/experiences (halo custom edition)
     -> client sends checksum of the jar, map file, and scripts currently played
-    -> server verifies these two MD5 hashes against its own md5s
+    -> server verifies these MD5 hashes against its own md5s
 * make players eyes blink
 * Create a server browser program
 * add voip

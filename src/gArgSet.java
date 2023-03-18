@@ -33,7 +33,7 @@ public class gArgSet {
             }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -59,13 +59,9 @@ public class gArgSet {
                 writer.write("\n");
             }
         } catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
-    }
-
-    protected void init() {
-
     }
 
     protected void init(String[] args) {
@@ -84,13 +80,7 @@ public class gArgSet {
     public String get(String key) {
         if(args.containsKey(key))
             return args.get(key).value;
-        return null;
-    }
-
-    public int getInt(String key) {
-        if(args.containsKey(key))
-            return Integer.parseInt(args.get(key).value);
-        return -1;
+        return "null";
     }
 
     public void put(String key, String val) {
@@ -104,7 +94,7 @@ public class gArgSet {
         else {
             putArg(new gArg(key, val) {
                 public void onChange() {
-                    // come up with a way to track a configable "script" in an arg that can exec on change
+
                 }
             });
         }

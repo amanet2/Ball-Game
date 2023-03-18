@@ -1,5 +1,3 @@
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,11 +72,7 @@ public class eUtils {
 		return (Math.round(val/snap))*snap;
 	}
 
-    public static void echoException(Exception e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String sStackTrace = sw.toString(); // stack trace as a string
-        xCon.ex("echo " + sStackTrace.split("\\n")[0]);
+    public static String createId() {
+        return xCon.ex("getrand 11111111 99999999");
     }
 }

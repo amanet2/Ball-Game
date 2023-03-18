@@ -18,40 +18,24 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                cServerLogic.maxhp = Integer.parseInt(value);
-                nServer.instance().addNetCmd("cv_maxhp " + cServerLogic.maxhp);
-                for(String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-                    gPlayer p = cServerLogic.scene.getPlayerById(s);
-                    p.putInt("stockhp", cServerLogic.maxhp);
+                xCon.ex("cl_setvar cv_maxhp " + value);
+                if(sSettings.IS_SERVER) {
+                    int newmaxhp = Integer.parseInt(value);
+                    nServer.instance().addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
+                    for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+                        gPlayer p = cServerLogic.scene.getPlayerById(s);
+                        p.putInt("stockhp", newmaxhp);
+                    }
                 }
             }
         });
-        putArg(new gArg("rechargehp", "1") {
+        putArg(new gArg("velocityplayerbase", "16") {
             public void onChange() {
+                xCon.ex("cl_setvar cv_velocityplayer " + value);
                 if(sSettings.IS_SERVER)
-                    cServerLogic.rechargehp = Integer.parseInt(value);
+                    xCon.ex("addcom cl_setvar cv_velocityplayer " + Integer.parseInt(value));
             }
         });
-        putArg(new gArg("respawnwaittime", "3000") {
-            public void onChange() {
-                cServerLogic.respawnwaittime = Integer.parseInt(value);
-            }
-        });
-        putArg(new gArg("velocityplayerbase", "8") {
-            public void onChange() {
-                int newval = Integer.parseInt(value);
-                if(sSettings.IS_SERVER && cServerLogic.velocityplayerbase != newval) {
-                    cServerLogic.velocityplayerbase = newval;
-                    nServer.instance().addNetCmd("cv_velocityplayer " + cServerLogic.velocityplayerbase);
-                }
-            }
-        });
-        put("voteskiplimit", "2");
-        put("goldspawntime", "0");
-        put("mode_deathmatch", Integer.toString(cGameLogic.DEATHMATCH));
-        put("mode_virus", Integer.toString(cGameLogic.VIRUS));
-        put("mode_flagmaster", Integer.toString(cGameLogic.FLAG_MASTER));
-        put("mode_goldmaster", Integer.toString(cGameLogic.GOLD_MASTER));
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);

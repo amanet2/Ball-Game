@@ -9,17 +9,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class nClient {
-    private int netticks;
-    private long nettickcounterTimeClient = -1;
-    private static final int retrylimit = 10;
-    long netTime = -1;
+public class nClient extends Thread {
+    private int ticks = 0;
+    private long nextSecondNanos = 0;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
     HashMap<String, String> serverArgsMap = new HashMap<>(); //hold server vars
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private final ArrayList<String> protectedArgs = new ArrayList<>(Arrays.asList("id", "cmdrcv", "cmd"));
     private final Queue<String> netSendMsgs = new LinkedList<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
@@ -36,8 +33,6 @@ public class nClient {
         clientStateMap = new nStateMap();
         netSendMsgs.clear();
         netSendCmds.clear();
-        netticks = 0;
-        netTime = -1;
         receivedPackets.clear();
         serverArgsMap.clear();
         serverArgsMap.put("time", "180000");
@@ -45,9 +40,53 @@ public class nClient {
         sendMap.clear();
     }
 
+    public void run() {
+        try {
+            refreshSock();
+            while (sSettings.IS_CLIENT) {
+                try {
+                    sendData();
+                    byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+                    DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
+                            clientReceiveData.length);
+                    clientSocket.receive(receivePacket);
+                    receivedPackets.add(receivePacket);
+                    cClientLogic.serverRcvTime = System.currentTimeMillis();
+                    if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
+                        cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextSecondNanos < theTime) {
+                        nextSecondNanos = theTime + 1000000000;
+                        uiInterface.netReportClient = ticks;
+                        ticks = 0;
+                    }
+                    // client rate limit
+                    int tickRate = sSettings.rateclient;
+                    long nextFrameTime = (theTime + (1000000000/tickRate));
+                    while (nextFrameTime > System.nanoTime()) {
+                        try {
+                            Thread.sleep(1);
+                        }
+                        catch (InterruptedException ignored) {
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    eLogging.logException(e);
+                    e.printStackTrace();
+                }
+            }
+            interrupt();
+        }
+        catch (Exception ee) {
+            eLogging.logException(ee);
+            ee.printStackTrace();
+        }
+    }
+
     private nClient() {
         clientStateMap = new nStateMap();
-        netticks = 0;
     }
 
     void addSendMsg(String msg) {
@@ -66,88 +105,39 @@ public class nClient {
             }
             if(receivedPackets.size() > 0) {
                 DatagramPacket receivePacket = receivedPackets.peek();
-                String receiveDataString = new String(receivePacket.getData());
-                xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
-                        receiveDataString.trim().length(), receiveDataString.trim()));
-                readData(receiveDataString);
-                receivedPackets.remove();
+                if(receivePacket != null && receivePacket.getData() != null) {
+                    String receiveDataString = new String(receivePacket.getData());
+                    xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
+                            receiveDataString.trim().length(), receiveDataString.trim()));
+                    readData(receiveDataString);
+                }
             }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
+        receivedPackets.clear();
     }
 
     public void sendData() {
         InetAddress IPAddress = null;
         try {
-            IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
+            //TODO: if we are the server, have client send data thru localhost always
+            if(sSettings.IS_SERVER)
+                IPAddress = InetAddress.getByName("127.0.0.1");
+            else
+                IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
             String sendDataString = createSendDataString();
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xCon.ex("cl_setvar joinport")));
-            if (clientSocket == null || clientSocket.isClosed()) {
-                clientSocket = new DatagramSocket();
-                clientSocket.setSoTimeout(timeout);
-            }
+
             clientSocket.send(sendPacket);
+            cClientLogic.serverSendTime = System.currentTimeMillis();
             xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void netLoop() {
-        int retries = 0;
-        while(retries <= retrylimit) {
-            try {
-                netticks += 1;
-                long gameTime = gTime.gameTime;
-                if(netTime >= gameTime)
-                    return;
-                netTime = gameTime + (long) (1000.0 / (double) sSettings.rateclient);
-                if (nettickcounterTimeClient < gameTime) {
-                    uiInterface.netReportClient = netticks;
-                    netticks = 0;
-                    nettickcounterTimeClient = gameTime + 1000;
-                }
-                if (receivedPackets.size() < 1) {
-                    int lretry = 0;
-                    while (lretry <= retrylimit) {
-                        try {
-                            sendData();
-                            byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-                            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
-                                    clientReceiveData.length);
-                            clientSocket.receive(receivePacket);
-                            receivedPackets.add(receivePacket);
-                            break;
-                        }
-                        catch (Exception e) {
-                            eUtils.echoException(e);
-                            e.printStackTrace();
-                            lretry++;
-                            refreshSock(); // maybe optional
-                            if(lretry > retrylimit) {
-                                xCon.ex("disconnect");
-                                xCon.ex("echo Lost connection to server");
-                                return; // have to return here
-                            }
-                        }
-                    }
-                }
-                processPackets();
-            }
-            catch (Exception ee) {
-                eUtils.echoException(ee);
-                ee.printStackTrace();
-                retries++;
-                if(retries > retrylimit) {
-                    xCon.ex("disconnect");
-                    xCon.ex("echo Lost connection to server");
-                }
-            }
         }
     }
 
@@ -157,7 +147,7 @@ public class nClient {
             clientSocket.setSoTimeout(timeout);
         }
         catch (SocketException e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -176,17 +166,18 @@ public class nClient {
         keys.put("color", cClientLogic.playerColor);
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("x", userPlayer.get("coordx"));
-            keys.put("y", userPlayer.get("coordy"));
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
-            keys.put("vels", String.format("%s-%s-%s-%s", userPlayer.get("vel0"), userPlayer.get("vel1"),
-                    userPlayer.get("vel2"), userPlayer.get("vel3")));
+            keys.put("mov0", userPlayer.get("mov0"));
+            keys.put("mov1", userPlayer.get("mov1"));
+            keys.put("mov2", userPlayer.get("mov2"));
+            keys.put("mov3", userPlayer.get("mov3"));
         }
         else {
-            keys.put("x", "0");
-            keys.put("y", "0");
             keys.put("fv", "0");
-            keys.put("vels", "0-0-0-0");
+            keys.put("mov0", "0");
+            keys.put("mov1", "0");
+            keys.put("mov2", "0");
+            keys.put("mov3", "0");
         }
         //name for spectator and gameplay
         keys.put("name", cClientLogic.playerName);
@@ -208,14 +199,14 @@ public class nClient {
         }
         HashMap<String, String> workingMap = new HashMap<>(sendMap);
         //send delta of serverargs
-        if(clientStateMap.contains(uiInterface.uuid)) {
-            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
-                if (protectedArgs.contains(k) ||
-                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
-                    continue;
-                workingMap.remove(k);
-            }
-        }
+//        if(clientStateMap.contains(uiInterface.uuid)) {
+//            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
+//                if (protectedArgs.contains(k) ||
+//                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
+//                    continue;
+//                workingMap.remove(k);
+//            }
+//        }
         sendDataString = new StringBuilder(workingMap.toString());
         //handle removing variables after the fact
         sendMap.remove("cmd");
@@ -247,27 +238,22 @@ public class nClient {
         HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
-            //NEW --
-            //--
-            if(!idload.equalsIgnoreCase("server")) {
+            // SERVER time and cmd
+            if(idload.equals("server"))
+                handleReadDataServer(packArgs);
+            else {
                 if(!clientStateMap.contains(idload))
                     clientStateMap.put(idload, new nStateBallGameClient());
                 for(String k : packArgs.keySet()) {
                     clientStateMap.get(idload).put(k, packArgs.get(k));
                 }
-            }
-            //OLD --
-            //--
-            if(idload.equals("server"))
-                handleReadDataServer(packArgs);
-            else if(!idload.equals(uiInterface.uuid)) {
-                if(playerIds.contains(idload))
+                if(!idload.equals(uiInterface.uuid)) {
                     foundIds.add(idload);
-                else {
-                    playerIds.add(idload);
-                    foundIds.add(idload);
+                    if(!playerIds.contains(idload))
+                        playerIds.add(idload);
                 }
             }
+
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
@@ -299,7 +285,7 @@ public class nClient {
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-//            //user's client-side firing (like in halo 5)
+            // user's client-side firing (like in halo 5)
             if(cmdString.contains("fireweapon")) //handle special firing case
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
             xCon.instance().debug("TO_SERVER: " + cmdString);

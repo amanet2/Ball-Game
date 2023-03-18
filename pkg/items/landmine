@@ -1,2 +1,4 @@
-damageplayer $itemactid 1000
-addcomx server deleteitem $itemrcvid
+getres playerhealth setthing THING_PLAYER $itemactid stockhp
+getres doexplode gte $playerhealth 1
+testres $doexplode 1 damageplayer $itemactid 1000
+testres $doexplode 1 addcomx server deleteitem $itemrcvid

@@ -2,7 +2,6 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Polygon;
-import java.util.HashMap;
 
 public class dMapmakerOverlay {
     public static int[] getNewPrefabDims() {
@@ -31,8 +30,9 @@ public class dMapmakerOverlay {
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
             }
-            if(block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
-                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
+            if(cClientLogic.getUserPlayer() == null &&
+                    block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
+                g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
@@ -42,7 +42,7 @@ public class dMapmakerOverlay {
         for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
             gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.isVal("id", cClientLogic.selecteditemid)) {
-                g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
+                g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(item.getInt("coordx"),
                         item.getInt("coordy"),
                         item.getInt("dimw"), item.getInt("dimh"));
@@ -76,14 +76,14 @@ public class dMapmakerOverlay {
             String phs = clState.get("ph");
             String cs = clState.get("color");
             String nm = clState.get("name");
-            g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
+            g2.setColor(gColors.getColorFromName("clrp_" + cs));
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
             dFonts.setFontGNormal(g2);
-            g2.setColor(gColors.instance().getColorFromName("clrp_" + cs));
+            g2.setColor(gColors.getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
             if(id.equals(uiInterface.uuid)) { //draw arrow over our own preview box
                 Polygon pg = dTileTops.getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
-                Color color = gColors.instance().getColorFromName("clrp_" + cs);
+                Color color = gColors.getColorFromName("clrp_" + cs);
                 g2.setStroke(dFonts.thickStroke);
                 dFonts.setFontColor(g2, "clrf_normaltransparent");
                 g2.drawPolygon(pg);

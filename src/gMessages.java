@@ -5,10 +5,10 @@ import java.util.Queue;
 public class gMessages {
     static ArrayList<String> screenMessages = new ArrayList<>();
     static Queue<Long> expirs = new LinkedList<>();
-    static boolean messageSend = false;
     static boolean enteringMessage = false;
     static String msgInProgress = "";
     static int fadetime = 10000;
+    static String prompt = "SAY";
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
@@ -16,13 +16,6 @@ public class gMessages {
     }
 
     public static void checkMessages() {
-        if(messageSend) {
-            if(msgInProgress.equalsIgnoreCase("thetime")) {
-                addScreenMessage(xCon.instance().commands.get("thetime").doCommand("thetime"));
-            }
-            msgInProgress = "";
-            messageSend = false;
-        }
         //expired msgs
         if(expirs.size() > 0) {
             if(expirs.peek() != null && expirs.peek() < gTime.gameTime) {

@@ -18,20 +18,18 @@ public class dScreenMessages {
         //scale
         if(showscale)
             g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
-        //ticks
-        if(showtick)
-            g.drawString("GAME:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
         //fps
         if(showfps)
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 4*sSettings.height / 64);
+            g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);
+        //client
+        if(showtick)
+            g.drawString("CLIENT:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
+            g.drawString("CLIENT_NET:" + uiInterface.netReportClient, 0, 4*sSettings.height / 64);
         //net
         if(shownet) {
-            g.drawString("NET_CL:" + uiInterface.netReportClient, 0, 5 * sSettings.height / 64);
-            g.drawString("NET_SV:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
-//            if(gScoreboard.scoresMap.containsKey(uiInterface.uuid)
-//                    && gScoreboard.scoresMap.get(uiInterface.uuid).containsKey("ping"))
-//                g.drawString("Ping:" + gScoreboard.scoresMap.get(uiInterface.uuid).get("ping"),
-//                        0, 6 * sSettings.height / 64);
+            g.drawString("SERVER:" + uiInterface.tickReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
+            g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
             //camera
@@ -69,9 +67,8 @@ public class dScreenMessages {
                             29 * sSettings.width / 30, 59 * sSettings.height / 64);
             }
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g,
-                    cGameLogic.net_gamemode_strings[cClientLogic.gamemode][0].toUpperCase(),
-                29 * sSettings.width / 30, 31*sSettings.height/32);
+            dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
+                    29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");
@@ -81,7 +78,8 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //say
         if(gMessages.enteringMessage)
-            g.drawString(String.format("SAY: %s",gMessages.msgInProgress),0,25 * sSettings.height/32);
+            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+                    0,25 * sSettings.height/32);
         //sendmsg.. invisible?
         dFonts.setFontColor(g, "clrf_normal");
         //menus
@@ -162,15 +160,13 @@ public class dScreenMessages {
                     dd = 0;
                 }
                 if(dd != 0) {
-                    if(xCon.instance().stringLines.size() > i)
+                    if(i < 1024 && xCon.instance().stringLines.size() > i)
                         g.drawString(xCon.instance().stringLines.get(i), 0, (ctr + 1) * sSettings.height / 64);
                 }
                 ctr++;
             }
             StringBuilder is = new StringBuilder();
-            for(int i = 0; i < xCon.instance().cursorIndex; i++) {
-                is.append(" ");
-            }
+            is.append(" ".repeat(Math.max(0, xCon.instance().cursorIndex)));
             is = new StringBuilder(gameTimeMillis % 500 > 250 ? is.toString() : String.format("%s_", is));
             g.drawString(String.format("console:~$ %s", xCon.instance().commandString),
                 0,(xCon.instance().linesToShow+1)*sSettings.height/64);
@@ -201,13 +197,13 @@ public class dScreenMessages {
                     if(word.contains("#")) {
                         if(word.split("#").length != 2)
                             ts.append(word).append(" ");
-                        else if(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
+                        else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString())+3,
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32))+3);
-                            g.setColor(gColors.instance().getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
+                            g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
                                     24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))

@@ -3,7 +3,6 @@ public class nStateBallGame extends nState {
         //generates a "dummy snapshot" of all vars with value of 0/default
         //
         super();
-        map.put("id", "");
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
             public void onChange() {
@@ -12,18 +11,6 @@ public class nStateBallGame extends nState {
                 oldcolor = value;
             }
         });
-        map.putArg(new gArg("virus", "0") {
-            public void onChange() {
-                if(Integer.parseInt(value) == 1) {
-                    nState victimState = nServer.instance().masterStateMap.get(map.get("id"));
-                    String victimName = victimState.get("name");
-                    String victimColor = victimState.get("color");
-                    victimName += ("#"+victimColor);
-                    xCon.ex("addcomi server echo " + victimName + " was infected");
-                }
-            }
-        });
-        map.put("flag", "0");
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
@@ -32,42 +19,32 @@ public class nStateBallGame extends nState {
                 oldname = value;
             }
         });
-        map.putArg(new gArg("x", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordx", value);
-            }
-        });
-        map.putArg(new gArg("y", "0") {
-            public void onChange() {
-                if(sSettings.smoothing && cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("coordy", value);
-            }
-        });
-        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(cServerLogic.scene.getPlayerById(get("id")) != null)
                     cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
             }
         });
-        map.putArg(new gArg("vels", "0-0-0-0") {
+        map.putArg(new gArg("mov0", "0") {
             public void onChange() {
-                gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
-                if(pl == null)
-                    return;
-                String[] vels = value.split("-");
-                pl.put("vel0", vels[0]);
-                pl.put("vel1", vels[1]);
-                pl.put("vel2", vels[2]);
-                pl.put("vel3", vels[3]);
+                setPlayerVal("mov0", value);
             }
         });
-        map.put("px", "0");
-        map.put("py", "0");
-        map.put("pw", "0");
-        map.put("ph", "0");
-        map.put("score", "0:0");
+        map.putArg(new gArg("mov1", "0") {
+            public void onChange() {
+                setPlayerVal("mov1", value);
+            }
+        });
+        map.putArg(new gArg("mov2", "0") {
+            public void onChange() {
+                setPlayerVal("mov2", value);
+            }
+        });
+        map.putArg(new gArg("mov3", "0") {
+            public void onChange() {
+                setPlayerVal("mov3", value);
+            }
+        });
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
@@ -96,5 +73,11 @@ public class nStateBallGame extends nState {
                 }
             }
         });
+    }
+
+    private void setPlayerVal(String key, String val) {
+        gPlayer pl = cServerLogic.getPlayerById(get("id"));
+        if(pl != null)
+            pl.put(key, val);
     }
 }

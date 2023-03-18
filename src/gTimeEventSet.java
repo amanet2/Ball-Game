@@ -7,7 +7,7 @@ public class gTimeEventSet {
     protected HashMap<String, Queue<gTimeEvent>> events;
     protected Queue<gTimeEvent> eventQueue;
 
-    private void dequeueCommands() {
+    private synchronized void dequeueCommands() {
         long gtime = gTime.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
         for(String timestampkey : events.keySet()) {
@@ -26,7 +26,8 @@ public class gTimeEventSet {
         while (eventQueue.size() > 0) {
             gTimeEvent event = eventQueue.peek();
             event.doCommand();
-            eventQueue.remove();
+            if(eventQueue.size() > 0)
+                eventQueue.remove();
         }
     }
 

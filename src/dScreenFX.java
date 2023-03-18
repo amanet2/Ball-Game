@@ -43,7 +43,7 @@ public class dScreenFX {
             if (userhp < cClientLogic.maxhp) {
                 int factors = sSettings.vfxfactor;
                 int maxl = gColors.hpAlpha;
-                Color color = gColors.instance().getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
+                Color color = gColors.getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
                         int w = sSettings.width / factors;
@@ -88,8 +88,8 @@ public class dScreenFX {
             snapY -= eUtils.unscaleInt(gCamera.getY());
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
-            int setw = sSettings.height / 96;
-            g2.setColor(gColors.instance().getColorFromName("clrp_" + cClientLogic.playerColor));
+            int setw = sSettings.height / 64;
+            g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }

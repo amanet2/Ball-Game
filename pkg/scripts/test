@@ -1,2 +1,0 @@
-getres foo maxhp
-addcomi server echo max hp on this server is $foo

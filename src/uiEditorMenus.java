@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
-    static gScene previewScene = new gScene();
+    static gScene previewScene;
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";
@@ -54,15 +54,8 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(false);
-        if(checkBoxMenuItem.getText().equals("Rockmaster") && cClientLogic.isGame(cGameLogic.DEATHMATCH))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Flagmaster") && cClientLogic.isGame(cGameLogic.FLAG_MASTER))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Virusmaster") && cClientLogic.isGame(cGameLogic.VIRUS))
-            checkBoxMenuItem.setSelected(true);
-        else if(checkBoxMenuItem.getText().equals("Goldmaster") && cClientLogic.isGame(cGameLogic.GOLD_MASTER))
-            checkBoxMenuItem.setSelected(true);
+        checkBoxMenuItem.setSelected(xCon.ex(String.format(
+                "setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -211,19 +204,20 @@ public class uiEditorMenus {
             menus.get("Items").add(itemMenuItem);
         }
         //fill gametypes menu
-        for(String gametype : new String[]{"Rockmaster", "Flagmaster", "Virusmaster", "Goldmaster"}) {
-            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gametype);
+        int ctr = 0;
+        ArrayList<String> gameTypeTitles = new ArrayList<>();
+        while(!xCon.ex("setvar GAMETYPE_"+ctr+"_title").equals("null")) {
+            gameTypeTitles.add(xCon.ex("setvar GAMETYPE_"+ctr+"_title"));
+            ctr++;
+        }
+        for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {
+            String gameTypeTitle = gameTypeTitles.get(gtr);
+            JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gameTypeTitle);
             gametypeMenuItem.setFont(dFonts.getFontNormal());
             resetCheckBoxMenuItem(gametypeMenuItem);
+            int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
-                if(gametypeMenuItem.getText().equals("Rockmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.DEATHMATCH);
-                else if(gametypeMenuItem.getText().equals("Flagmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.FLAG_MASTER);
-                else if(gametypeMenuItem.getText().equals("Virusmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.VIRUS);
-                else if(gametypeMenuItem.getText().equals("Goldmaster"))
-                    xCon.ex("cv_gamemode " + cGameLogic.GOLD_MASTER);
+                xCon.ex("cl_setvar cv_gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
@@ -338,11 +332,7 @@ public class uiEditorMenus {
     }
 
     private static void addConsoleActionToJMenuItem(JMenuItem item, String fullCommand) {
-        item.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                xCon.ex(fullCommand);
-            }
-        });
+        item.addActionListener(e -> xCon.ex(fullCommand));
     }
 
     public static String getRotateName(String s) {
@@ -351,13 +341,13 @@ public class uiEditorMenus {
     }
 
     public static void setFileChooserFont(Component[] comp) {
-        for (int x = 0; x < comp.length; x++) {
-            if (comp[x] instanceof Container)
-                setFileChooserFont(((Container) comp[x]).getComponents());
+        for (Component component : comp) {
+            if (component instanceof Container)
+                setFileChooserFont(((Container) component).getComponents());
 
             try {
-                    comp[x].setFont(comp[x].getFont().deriveFont(comp[x].getFont().getSize() * 2f));
-            } catch (Exception e) {
+                component.setFont(component.getFont().deriveFont(component.getFont().getSize() * 2f));
+            } catch (Exception ignored) {
             } // do nothing
         }
     }

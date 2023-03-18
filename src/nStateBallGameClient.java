@@ -7,27 +7,20 @@ public class nStateBallGameClient extends nState {
         map.putArg(new gArg("color", "blue") {
             public void onChange() {
                 gPlayer p = cClientLogic.getPlayerById(get("id"));
-                if(p == null || gColors.instance().getColorFromName("clrp_" + value) == null)
+                if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
                 p.put("color", value);
                 p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", value,
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
             }
         });
-        map.put("name", "player");
-        map.putArg(new gArg("x", "0") {
+        map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordx", value);
+                String[] coords = value.split(":");
+                    setPlayerVal("coordx", coords[0]);
+                    setPlayerVal("coordy", coords[1]);
             }
         });
-        map.putArg(new gArg("y", "0") {
-            public void onChange() {
-                if(!get("id").equals(uiInterface.uuid) && cClientLogic.getPlayerById(get("id")) != null)
-                    cClientLogic.getPlayerById(get("id")).put("coordy", value);
-            }
-        });
-        map.put("hp", "0");
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))
@@ -39,27 +32,31 @@ public class nStateBallGameClient extends nState {
                 pl.checkSpriteFlip();
             }
         });
-        map.putArg(new gArg("vels", "0-0-0-0") {
+        map.putArg(new gArg("vel0", "0") {
             public void onChange() {
-                if(get("id").equals(uiInterface.uuid))
-                    return;
-                gPlayer pl = cClientLogic.getPlayerById(get("id"));
-                if(pl == null)
-                    return;
-                String[] vels = value.split("-");
-                pl.put("vel0", vels[0]);
-                pl.put("vel1", vels[1]);
-                pl.put("vel2", vels[2]);
-                pl.put("vel3", vels[3]);
+                setPlayerVal("vel0", value);
             }
         });
-        map.put("px", "0");
-        map.put("py", "0");
-        map.put("pw", "0");
-        map.put("ph", "0");
-        map.put("score", "0:0");
-        map.put("cmdrcv", "0");
-        map.put("cmd", "");
-        map.put("msg", "");
+        map.putArg(new gArg("vel1", "0") {
+            public void onChange() {
+                setPlayerVal("vel1", value);
+            }
+        });
+        map.putArg(new gArg("vel2", "0") {
+            public void onChange() {
+                setPlayerVal("vel2", value);
+            }
+        });
+        map.putArg(new gArg("vel3", "0") {
+            public void onChange() {
+                setPlayerVal("vel3", value);
+            }
+        });
+    }
+
+    private void setPlayerVal(String key, String val) {
+        gPlayer pl = cClientLogic.getPlayerById(get("id"));
+        if(pl != null)
+            pl.put(key, val);
     }
 }

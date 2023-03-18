@@ -1,2 +1,3 @@
-addcomx server deleteitem $itemrcvid
-exec scripts/giveweapon $itemactid 4
+getres pw setnstate $itemactid weap
+testresn $pw 4 addcomx server deleteitem $itemrcvid
+testresn $pw 4 exec scripts/giveweapon $itemactid 4

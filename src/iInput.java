@@ -140,7 +140,25 @@ public class iInput {
                                 gMessages.msgInProgress.length()-1);
                     return;
                 case KeyEvent.VK_ENTER:
-                    xCon.ex(String.format("say %s", gMessages.msgInProgress));
+                    switch (gMessages.prompt) {
+                        case "Enter New Name":
+                            cClientVars.instance().put("playername", gMessages.msgInProgress);
+                            uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
+                            if (sSettings.show_mapmaker_ui)
+                                uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
+                            gMessages.msgInProgress = "";
+                            break;
+                        case "Enter New IP Address":
+                            cClientVars.instance().put("joinip", gMessages.msgInProgress);
+                            gMessages.msgInProgress = "";
+                            break;
+                        case "Enter New Port":
+                            cClientVars.instance().put("joinport", gMessages.msgInProgress);
+                            gMessages.msgInProgress = "";
+                            break;
+                        default:
+                            xCon.ex(String.format("say %s", gMessages.msgInProgress));
+                    }
                     gMessages.enteringMessage = false;
                     return;
                 case KeyEvent.VK_SHIFT:
@@ -157,55 +175,8 @@ public class iInput {
                         ? KeyEvent.getKeyText(command) : KeyEvent.getKeyText(command).toLowerCase();
             }
         }
-        else {
-            // key shortcuts like ctrl+s
-//            if(sSettings.show_mapmaker_ui) {
-//                switch(command) {
-//                    case KeyEvent.VK_SHIFT:
-//                        iKeyboard.shiftMode = true;
-//                        return;
-//                    case KeyEvent.VK_CONTROL:
-//                        iKeyboard.ctrlMode = true;
-//                        return;
-//                    case KeyEvent.VK_Q:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            xCon.ex("quit");
-//                        }
-//                        break;
-//                    case KeyEvent.VK_O:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            xCon.ex("e_openfile");
-//                        }
-//                        break;
-//                    case KeyEvent.VK_N:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            if(xCon.instance().getInt("e_showlossalert") > 0)
-//                                xCon.ex("load");
-//                        }
-//                        break;
-//                    case KeyEvent.VK_S:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            xCon.ex("e_saveas");
-//                        }
-//                        break;
-//                    case KeyEvent.VK_E:
-//                        if(iKeyboard.ctrlMode) {
-//                            iKeyboard.ctrlMode = false;
-//                            xCon.ex("exportasprefab");
-//                        }
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-	        if(xCon.instance().pressBinds.containsKey(command)) {
-                xCon.ex(xCon.instance().pressBinds.get(command));
-            }
-        }
+        else if(xCon.instance().pressBinds.containsKey(command))
+            xCon.ex(xCon.instance().pressBinds.get(command));
 	}
 
 	public static void processKeyReleaseInput(int command) {

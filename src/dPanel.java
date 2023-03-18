@@ -57,6 +57,7 @@ public class dPanel extends JPanel {
 
     public dPanel() {
         super();
+        super.setDoubleBuffered(false);
         setLayout(new GridBagLayout());
         setOpaque(false);
         setDoubleBuffered(false);

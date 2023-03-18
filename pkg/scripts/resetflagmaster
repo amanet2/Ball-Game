@@ -1,1 +1,2 @@
-foreachclient pid setnstate $pid hasflag 0
+foreachclient pid setnstate $pid flag 0
+foreachclient pid setnstate $pid waypoint 0

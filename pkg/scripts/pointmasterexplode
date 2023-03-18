@@ -1,0 +1,1 @@
+foreachclient pmcid damageplayer $pmcid 1000

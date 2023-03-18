@@ -10,14 +10,6 @@ public class gThing {
         coords[1] = y;
     }
 
-    public void setX(int x) {
-        coords[0] = x;
-    }
-
-    public void setY(int y) {
-        coords[1] = y;
-    }
-
     public int getX() {
         return coords[0];
     }
@@ -28,14 +20,6 @@ public class gThing {
 
     public void setDims(int w, int h) {
         dims[0] = w;
-        dims[1] = h;
-    }
-
-    public void setW(int w) {
-        dims[0] = w;
-    }
-
-    public void setH(int h) {
         dims[1] = h;
     }
 
@@ -71,10 +55,6 @@ public class gThing {
     }
     public void putLong(String s, long v) {
         put(s, Long.toString(v));
-    }
-
-    public void remove(String s) {
-        vars.remove(s);
     }
 
     public boolean isVal(String k, String v) {

@@ -127,6 +127,8 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("cv_gamemode", "0") {
             public void onChange() {
                 cClientLogic.gamemode = Integer.parseInt(value);
+                cClientLogic.gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
+                cClientLogic.gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
             }
         });
         putArg(new gArg("cv_maploaded", "0") {
@@ -139,7 +141,7 @@ public class cClientVars extends gArgSet {
                 cClientLogic.maxhp = Integer.parseInt(value);
             }
         });
-        putArg(new gArg("cv_velocityplayer", "8") {
+        putArg(new gArg("cv_velocityplayer", "64") {
             public void onChange() {
                 cClientLogic.velocityPlayer = Integer.parseInt(value);
             }
@@ -214,11 +216,6 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
-            }
-        });
-        putArg(new gArg("zoomlevel", "1.0") {
-            public void onChange() {
-                eUtils.zoomLevel = Double.parseDouble(value);
             }
         });
         putArg(new gArg("newprefabname", "room") {

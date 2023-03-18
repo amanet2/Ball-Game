@@ -1,36 +1,125 @@
 # mute volume
-audioenabled 1
+cl_setvar audioenabled 1
 # show debug info in console
-debug 0
+cl_setvar debug 0
 # save console log to file on close
-debuglog 0
+cl_setvar debuglog 0
 # 0=window||1=borderless||2=fullscreen
-displaymode 0
+cl_setvar displaymode 0
 # font name ui
-fontui None
+cl_setvar fontui None
 # available framerates
-framerates 24,30,60,75,98,120,144,165,240,320,360
+cl_setvar framerates 24,30,60,75,98,120,144,165,240,320,360
 # default net address
-joinip 127.0.0.1
+cl_setvar joinip localhost
 # default net port
-joinport 5555
+cl_setvar joinport 5555
 # player color
-playercolor orange
+cl_setvar playercolor blue
 # player name
-playername player
+cl_setvar playername player
 # available resolutions
-resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
+cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
-showfps 1
+cl_setvar showfps 1
+cl_setvar showcam 1
+cl_setvar showmouse 1
+cl_setvar shownet 1
+cl_setvar showplayer 1
+cl_setvar showtick 1
+cl_setvar showscale 1
 # enable animations
-vfxenableanimations 1
+cl_setvar vfxenableanimations 1
 # enable flares
-vfxenableflares 1
+cl_setvar vfxenableflares 1
 # enable shading
-vfxenableshading 1
+cl_setvar vfxenableshading 1
 # enable shadows
-vfxenableshadows 1
+cl_setvar vfxenableshadows 1
 # video mode
-vidmode 1280,720,240
+cl_setvar vidmode 1280,720,60
 # volume
-volume 100
+cl_setvar volume 50
+# bindings
+bind - -zoom
+bind = zoom
+bind backspace e_delthing
+bind w exec scripts/playerup
+bind s exec scripts/playerdown
+bind a exec scripts/playerleft
+bind d exec scripts/playerright
+bind tab exec scripts/showscore
+bind enter activatemenu
+bind escape gobackui
+bind up exec scripts/selectup
+bind down exec scripts/selectdown
+bind left exec scripts/selectleft
+bind right exec scripts/selectright
+bind y chat
+-bind ` console
+-bind w exec scripts/playerupx
+-bind s exec scripts/playerdownx
+-bind a exec scripts/playerleftx
+-bind d exec scripts/playerrightx
+-bind tab exec scripts/showscorex
+-bind up exec scripts/playerupx
+-bind down exec scripts/playerdownx
+-bind left exec scripts/playerleftx
+-bind right exec scripts/playerrightx
+-bind r e_rotthing
+# colors
+cl_setvar clrf_alert 200 0 50 200
+cl_setvar clrf_bonus 0 200 0 200
+cl_setvar clrf_highlight 220 175 0 255
+cl_setvar clrf_normal 255 255 255 200
+cl_setvar clrf_normaltransparent 255 255 255 100
+cl_setvar clrf_normaldark 200 200 200 255
+cl_setvar clrf_background 0 0 0 255
+cl_setvar clrf_scoreboardbg 0 0 0 100
+cl_setvar clrf_spawnpoint 255 255 255 150
+cl_setvar clrf_flooroutline 100 100 255
+cl_setvar clrf_selected 255 100 255
+cl_setvar clrf_preview 50 255 100
+cl_setvar clrf_console 100 100 150 100
+cl_setvar clrf_mapmakergrid 255 255 255 125
+cl_setvar clrf_playerarrow1 0 150 50 255
+cl_setvar clrf_playerarrow2 0 200 0 100
+cl_setvar clrf_waypoint1 255 100 50 150
+cl_setvar clrf_waypoint2 255 100 50 220
+cl_setvar clrp_red 200 50 50
+cl_setvar clrp_orange 200 100 50
+cl_setvar clrp_yellow 200 180 0
+cl_setvar clrp_green 0 180 50
+cl_setvar clrp_blue 50 160 200
+cl_setvar clrp_teal 0 200 160
+cl_setvar clrp_pink 200 0 200
+cl_setvar clrp_purple 100 0 200
+cl_setvar clrw_flooroutline1 0 0 0 30
+cl_setvar clrw_flooroutline2 0 0 0 20
+cl_setvar clrw_floorshading1 0 0 0 30
+cl_setvar clrw_floorshading2 0 0 0 20
+cl_setvar clrw_shadow1 0 0 0 200
+cl_setvar clrw_shadow1half 0 0 0 100
+cl_setvar clrw_shadow2 0 0 0 0
+cl_setvar clrw_clear 0 0 0 0
+cl_setvar clrw_roofvertoutline1 0 0 0 20
+cl_setvar clrw_roofvertoutline2 0 0 0 90
+cl_setvar clrw_roofvertshading1 0 0 0 0
+cl_setvar clrw_roofvertshading2 0 0 0 20
+cl_setvar clrw_roofoutline1 0 0 0 100
+cl_setvar clrw_roofoutline2 0 0 0 0
+cl_setvar clrw_roofshading1 0 0 0 100
+cl_setvar clrw_roofshading2 0 0 0 0
+cl_setvar clrw_walloutline1 0 0 0 80
+cl_setvar clrw_walloutline2 0 0 0 255
+cl_setvar clrw_walllowoutline1 0 0 0 140
+cl_setvar clrw_walllowoutline2 0 0 0 255
+cl_setvar clrw_wallshading1 0 0 0 80
+cl_setvar clrw_wallshading2 0 0 0 200
+cl_setvar clrw_walllowshading1 0 0 0 120
+cl_setvar clrw_walllowshading2 0 0 0 200
+cl_setvar clrw_topcolor 125 125 125 100
+cl_setvar clrw_topcolordark 0 0 0 100
+cl_setvar clrw_toppolorpreview 190 190 180 255
+cl_setvar clrw_wallcolorpreview 120 120 200 255
+cl_setvar clrw_floorcolorpreview 100 100 60 255

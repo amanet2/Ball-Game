@@ -1,1 +1,1 @@
-load;cv_maploaded 1;addcomi server cl_load;addcomi server cv_maploaded 1
+load;cl_setvar cv_maploaded 1;addcomi server cl_load;addcomi server cl_setvar cv_maploaded 1

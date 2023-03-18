@@ -9,16 +9,10 @@ public class sSettings {
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
-	static String[] botnameSelection = {"bot0", "bot1", "bot2", "bot3", "bot4", "bot5", "bot6", "bot7", "bot8", "bot9"};
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
 	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1280x1024", "1680x1050", "1600x1200", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
-	public static final String[] object_titles = new String[]{
-			"THING_PLAYER","THING_BULLET","THING_POPUP","THING_ANIMATION", "THING_BOTPLAYER", "THING_BLOCK",
-			"BLOCK_CUBE", "BLOCK_FLOOR", "BLOCK_COLLISION", "THING_ITEM", "ITEM_SPAWNPOINT", "ITEM_TELEPORTER_RED",
-			"ITEM_TELEPORTER_BLUE", "ITEM_FLAG", "ITEM_POINTGIVER", "ITEM_LANDMINE", "ITEM_SHOTGUN", "ITEM_PISTOL",
-			"ITEM_RIFLE", "ITEM_LAUNCHER", "ITEM_GLOVE"
-	};
+	public static String[] object_titles = new String[]{};
 	/**
 	* vfx
 	* */
@@ -49,9 +43,7 @@ public class sSettings {
 	static int max_packet_size = 1200;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
-	static int rateclient = 60;
-	static int rateserver = 1000;
-	static int rategame = 240;
-	static int ratebots = 30;
-	static boolean smoothing = true;
+	static int rateserver = 60; //server internal game rate for simulation
+	static int rateclient = 30; //client net rate to request update from server
+	static int rategame = 240; //client game rate like input, simulation
 }

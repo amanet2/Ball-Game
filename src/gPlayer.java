@@ -6,9 +6,7 @@ import java.awt.geom.Rectangle2D;
 public class gPlayer extends gThing {
     Image sprite;
 
-    public boolean wontClipOnMove(int coord, int coord2, gScene scene) {
-        int dx = coord == 0 ? coord2 : getInt("coordx");
-        int dy = coord == 1 ? coord2 : getInt("coordy");
+    public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
             Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
@@ -40,17 +38,6 @@ public class gPlayer extends gThing {
             return bounds.intersects(new Rectangle(dx,dy,getInt("dimw"),getInt("dimh")));
         }
         return false;
-    }
-
-    public void pointAtCoords(int x, int y) {
-        double dx = x - getInt("coordx") + (float) getInt("dimw")/2;
-        double dy = y - getInt("coordy") + (float) getInt("dimh")/2;
-        double angle = Math.atan2(dy, dx);
-        if (angle < 0)
-            angle += 2*Math.PI;
-        angle += Math.PI/2;
-        putDouble("fv", angle);
-        checkSpriteFlip();
     }
 
     public void checkSpriteFlip() {
@@ -102,7 +89,7 @@ public class gPlayer extends gThing {
         sprite = gTextures.getGScaledImage(get("pathsprite"), getInt("dimw"), getInt("dimh"));
     }
 
-    public gPlayer(String id, int x, int y, int health, String tt) {
+    public gPlayer(String id, int x, int y) {
         super();
         putInt("coordx", x);
         putInt("coordy", y);
@@ -111,7 +98,9 @@ public class gPlayer extends gThing {
         put("id", id);
         put("type", "THING_PLAYER");
         put("inteleporter", "0");
-        put("accelrate", "100");
+        put("acceldelay", "100");
+        put("accelrate", "2");
+        put("decelrate", "1");
         put("pathsprite", "");
         put("weapon", "0");
         put("cooldown", "0");
@@ -125,9 +114,7 @@ public class gPlayer extends gThing {
         put("mov1", "0");
         put("mov2", "0");
         put("mov3", "0");
-        put("hprechargetime", "0");
-        putInt("stockhp", health);
-        put("botthinktime", "0");
-        setSpriteFromPath(tt);
+        putInt("stockhp", cClientLogic.maxhp);
+        setSpriteFromPath(eUtils.getPath("animations/player_red/a03.png"));
     }
 }

@@ -10,6 +10,8 @@ import java.util.Queue;
 import java.util.Arrays;
 
 public class nServer extends Thread {
+    private int ticks = 0;
+    private long nextSecondNanos = 0;
     private static final int sendbatchsize = 320;
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
@@ -18,8 +20,7 @@ public class nServer extends Thread {
     nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    private final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
-    HashMap<String, String> serverVars; // used for storing game vars
+    final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
@@ -48,7 +49,6 @@ public class nServer extends Thread {
 
     private nServer() {
         masterStateMap = new nStateMap();
-        serverVars = new HashMap<>();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
         clientCmdDoables.put("fireweapon",
@@ -147,7 +147,7 @@ public class nServer extends Thread {
             xCon.ex(serverLocalCmdQueue.remove());
     }
 
-    public void processPackets(long gameTimeMillis) {
+    public void processPackets() {
         try {
             HashMap<String, String> netVars = getNetVars();
             if(receivedPackets.size() > 0) {
@@ -169,7 +169,6 @@ public class nServer extends Thread {
                     byte[] sendData = sendDataString.getBytes();
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                     serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
                     xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                     if(sendDataString.length() > sSettings.max_packet_size)
@@ -178,26 +177,9 @@ public class nServer extends Thread {
                 }
                 receivedPackets.remove();
             }
-            HashMap botsMap = cServerLogic.scene.getThingMap("THING_BOTPLAYER");
-            if(botsMap.size() > 0 && cBotsLogic.bottime < gameTimeMillis) {
-                cBotsLogic.bottime = gameTimeMillis + (long)(1000.0/(double)sSettings.ratebots);
-                for(Object id : botsMap.keySet()) {
-                    gPlayer p = (gPlayer) botsMap.get(id);
-                    nVarsBot.update(p, gameTimeMillis);
-                    String receiveDataString = nVarsBot.dumpArgsForId(p.get("id"));
-                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                            + receiveDataString.trim());
-                    readData(receiveDataString);
-                    //get player id of client
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                    String clientId = clientmap.get("id");
-                    //act as if responding
-                    createSendDataString(netVars, clientId);
-                }
-            }
         }
         catch (Exception e) {
-            eUtils.echoException(e);
+            eLogging.logException(e);
             e.printStackTrace();
         }
     }
@@ -217,7 +199,8 @@ public class nServer extends Thread {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+//        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid));
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
@@ -229,20 +212,11 @@ public class nServer extends Thread {
     }
 
     void removeNetClient(String id) {
-        String qn = masterStateMap.get(id).get("name");
-        String qc = masterStateMap.get(id).get("color");
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
-        clientStateSnapshots.remove(id);
         gScoreboard.scoresMap.remove(id);
-        cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-        addExcludingNetCmd("server", String.format("echo %s#%s left the game", qn, qc));
-        if(masterStateMap.get(id).get("flag").equalsIgnoreCase("1")) {
-            gPlayer player = cServerLogic.getPlayerById(id);
-            addNetCmd(String.format("putitem ITEM_FLAG %d %d %d", cServerLogic.getNewItemId(),
-                    player.getInt("coordx"), player.getInt("coordy")));
-        }
+        xCon.ex("exec scripts/handleremoveclient " + id);
     }
 
     public void run() {
@@ -250,26 +224,28 @@ public class nServer extends Thread {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
-                    long gameTime = gTime.gameTime;
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     serverSocket.receive(receivePacket);
                     receivedPackets.add(receivePacket);
-                    long networkTime = gameTime + (long) (1000.0 / (double) sSettings.rateserver);
-                    processPackets(gameTime);
-                    checkForUnhandledQuitters();
-                    cServerLogic.gameLoop(gameTime);
-                    sleep(Math.max(0, networkTime - gameTime));
+                    ticks++;
+                    long theTime = System.nanoTime();
+                    if(nextSecondNanos < theTime) {
+                        nextSecondNanos = theTime + 1000000000;
+                        uiInterface.netReportServer = ticks;
+                        ticks = 0;
+                    }
+                    processPackets();
                 }
                 catch (Exception e) {
-                    eUtils.echoException(e);
+                    eLogging.logException(e);
                     e.printStackTrace();
                 }
             }
             interrupt();
         }
         catch (Exception ee) {
-            eUtils.echoException(ee);
+            eLogging.logException(ee);
             ee.printStackTrace();
         }
     }
@@ -286,26 +262,7 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
-        for(String clientId : masterStateMap.keys()) {
-            gThing player = cServerLogic.scene.getPlayerById(clientId);
-            if(clientId.equals(id) || player == null)
-                continue;
-            addNetCmd(id, String.format("cl_spawnplayer %s %s %s", clientId,
-                    player.get("coordx"), player.get("coordy")));
-        }
-        addExcludingNetCmd("server", String.format("echo %s#%s joined the game",
-                masterStateMap.get(id).get("name"), masterStateMap.get(id).get("color")));
-    }
-
-    public void checkBanStatus(String stateId) {
-        if(banIds.containsKey(stateId)) {
-            if(banIds.get(stateId) < gTime.gameTime)
-                banIds.remove(stateId);
-            else {
-                addNetCmd(stateId, "echo You are banned for " + (banIds.get(stateId) - gTime.gameTime) + "ms");
-                addNetCmd(stateId, "disconnect");
-            }
-        }
+        xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
     }
 
     public void readData(String receiveDataString) {
@@ -314,8 +271,6 @@ public class nServer extends Thread {
         //load received string into state object
         nState receivedState = new nState(receiveDataString.trim());
         String stateId = receivedState.get("id");
-        //relieve bans
-//        checkBanStatus(stateId);
         //check if masterState contains
         if(!masterStateMap.contains(stateId))
             handleJoin(stateId);
@@ -337,8 +292,8 @@ public class nServer extends Thread {
     public void sendMap(String packId) {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cv_velocityplayer %d;cv_maploaded 0;cv_gamemode %d\n",
-                cServerLogic.velocityplayerbase, cClientLogic.gamemode));
+        maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
+                xCon.ex("cl_setvar cv_velocityplayer"), cClientLogic.gamemode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -376,7 +331,7 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        maplines.add("cv_maploaded 1");
+        maplines.add("cl_setvar cv_maploaded 1");
         //iterate through the maplines and send in batches
         StringBuilder sendStringBuilder = new StringBuilder();
         int linectr = 0;
@@ -402,8 +357,7 @@ public class nServer extends Thread {
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec prefabs/")) {
                 xCon.ex(cmd);
-                addExcludingNetCmd("server", String.format("%s",
-                        cmd.replace("exec ", "cl_exec ")));
+                addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
             }
             else if(cmd.startsWith("exec scripts/respawnnetplayer"))
                 xCon.ex(cmd);

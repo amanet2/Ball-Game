@@ -19,7 +19,7 @@ public class eManager {
         winSoundFileSelection = getFilesSelection(eUtils.getPath("sounds/win"));
     }
 
-	public static String[] getFilesSelection(String dirPath) {
+	private static String[] getFilesSelection(String dirPath) {
 	    String[] selectionArray = new String[]{};
         File fp = new File(dirPath);
         File[] fpContents = fp.listFiles();
@@ -30,13 +30,5 @@ public class eManager {
             }
         }
         return selectionArray;
-    }
-
-    public static String createId() {
-        return xCon.ex("getrand 11111111 99999999");
-    }
-
-    public static String createBotId() {
-        return xCon.ex("getrand 11111 99999");
     }
 }

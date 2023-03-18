@@ -6,9 +6,10 @@ public class uiInterface {
     static int tickReport = 0;
     static int fpsReport = 0;
     static int netReportClient = 0;
+    static int tickReportServer = 0;
     static int netReportServer = 0;
     static int frames = 0;
-    static String uuid = eManager.createId();
+    static String uuid = eUtils.createId();
     static boolean blockMouseUI = false;
 
     public static int[] getMouseCoordinates() {
