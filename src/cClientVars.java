@@ -218,11 +218,6 @@ public class cClientVars extends gArgSet {
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
             }
         });
-        putArg(new gArg("zoomlevel", "1.0") {
-            public void onChange() {
-                eUtils.zoomLevel = Double.parseDouble(value);
-            }
-        });
         putArg(new gArg("newprefabname", "room") {
             public void onChange() {
                 cClientLogic.newprefabname = value;

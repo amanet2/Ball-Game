@@ -1,3 +1,0 @@
-cl_setvar sz $zoomlevel
-cl_testres $sz 0.5 cl_setvar zoomlevel 1.0
-cl_testres $sz 1.0 cl_setvar zoomlevel 1.5

@@ -1697,6 +1697,22 @@ public class xCon {
                 return String.format("unbound %s", k);
             }
         });
+        commands.put("zoom", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(eUtils.zoomLevel == 0.5)
+                    eUtils.zoomLevel = 1.0;
+                else if(eUtils.zoomLevel == 1.0)
+                    eUtils.zoomLevel = 1.5;
+                return "zoom in";
+            }
+            public String undoCommand(String fullCommand) {
+                if(eUtils.zoomLevel == 1.5)
+                    eUtils.zoomLevel = 1.0;
+                else if(eUtils.zoomLevel == 1.0)
+                    eUtils.zoomLevel = 0.5;
+                return "zoom out";
+            }
+        });
     }
 
     public static xCon instance() {

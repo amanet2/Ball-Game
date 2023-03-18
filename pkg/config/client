@@ -41,8 +41,8 @@ cl_setvar vidmode 1280,720,60
 # volume
 cl_setvar volume 50
 # bindings
-bind - cl_exec scripts/zoomout
-bind = cl_exec scripts/zoomin
+bind - -zoom
+bind = zoom
 bind backspace e_delthing
 bind w exec scripts/playerup
 bind s exec scripts/playerdown
