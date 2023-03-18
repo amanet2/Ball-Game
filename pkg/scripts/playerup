@@ -1,2 +1,0 @@
-cl_testresn $userplayerid null cl_setthing THING_PLAYER $userplayerid mov0 1
-cl_testres $userplayerid null cl_testres $showmapmakerui 1 setcam mov0 1

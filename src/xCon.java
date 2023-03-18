@@ -1295,6 +1295,9 @@ public class xCon {
         });
         commands.put("selectup", new xCom() {
             public String doCommand(String fullCommand) {
+//                exec scripts/playerup
+//                cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 cl_setvar blockmouseui 1
+//                cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 selectup
                 uiMenus.prevItem();
                 return fullCommand;
             }
@@ -1647,6 +1650,56 @@ public class xCon {
                 return "0";
             }
         });
+        commands.put("playerdown", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(1);
+                return "player down";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(1);
+                return "stop player down";
+            }
+        });
+        commands.put("playerleft", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(2);
+                return "player left";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(2);
+                return "stop player left";
+            }
+        });
+        commands.put("playerright", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(3);
+                return "player right";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(3);
+                return "stop player right";
+            }
+        });
+        commands.put("playerup", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(0);
+                return "player up";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(0);
+                return "stop player up";
+            }
+        });
+        commands.put("showscore", new xCom() {
+            public String doCommand(String fullCommand) {
+                cClientVars.instance().put("showscore", "1");
+                return "show score";
+            }
+            public String undoCommand(String fullCommand) {
+                cClientVars.instance().put("showscore", "0");
+                return "hide score";
+            }
+        });
         commands.put("testres", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
@@ -1699,17 +1752,11 @@ public class xCon {
         });
         commands.put("zoom", new xCom() {
             public String doCommand(String fullCommand) {
-                if(eUtils.zoomLevel == 0.5)
-                    eUtils.zoomLevel = 1.0;
-                else if(eUtils.zoomLevel == 1.0)
-                    eUtils.zoomLevel = 1.5;
+                eUtils.zoomLevel = Math.min(1.5, eUtils.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                if(eUtils.zoomLevel == 1.5)
-                    eUtils.zoomLevel = 1.0;
-                else if(eUtils.zoomLevel == 1.0)
-                    eUtils.zoomLevel = 0.5;
+                eUtils.zoomLevel = Math.max(0.5, eUtils.zoomLevel - 0.5);
                 return "zoom out";
             }
         });
@@ -1719,6 +1766,22 @@ public class xCon {
         if(instance == null)
             instance = new xCon();
         return instance;
+    }
+
+    private void playerMoveDelegate(int dir) {
+        gPlayer p = cClientLogic.getUserPlayer();
+        if(p != null)
+            p.put("mov" + dir, "1");
+        else if(sSettings.show_mapmaker_ui) {
+            gCamera.put("mov" + dir, "1");
+        }
+    }
+
+    private void playerStopMoveDelegate(int dir) {
+        gPlayer p = cClientLogic.getUserPlayer();
+        if(p != null)
+            p.put("mov" + dir, "0");
+        gCamera.put("mov" + dir, "0");
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {
