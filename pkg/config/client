@@ -51,10 +51,10 @@ bind d playerright
 bind tab showscore
 bind enter activatemenu
 bind escape gobackui
-bind up exec scripts/selectup
-bind down exec scripts/selectdown
-bind left exec scripts/selectleft
-bind right exec scripts/selectright
+bind up selectup
+bind down selectdown
+bind left selectleft
+bind right selectright
 bind y chat
 -bind ` console
 -bind w -playerup
@@ -62,10 +62,10 @@ bind y chat
 -bind a -playerleft
 -bind d -playerright
 -bind tab -showscore
--bind up exec scripts/playerupx
--bind down exec scripts/playerdownx
--bind left exec scripts/playerleftx
--bind right exec scripts/playerrightx
+-bind up -playerup
+-bind down -playerdown
+-bind left -playerleft
+-bind right -playerright
 -bind r e_rotthing
 # colors
 cl_setvar clrf_alert 200 0 50 200

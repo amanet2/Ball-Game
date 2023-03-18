@@ -1275,30 +1275,41 @@ public class xCon {
         });
         commands.put("selectdown", new xCom() {
             public String doCommand(String fullCommand) {
-                uiMenus.nextItem();
+                ex("playerdown");
+                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                    uiInterface.blockMouseUI = true;
+                    uiMenus.nextItem();
+                }
                 return fullCommand;
             }
         });
         commands.put("selectleft", new xCom() {
             public String doCommand(String fullCommand) {
-                if(!(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0))
+                ex("playerleft");
+                if((!sSettings.show_mapmaker_ui && !uiInterface.inplay) &&
+                        !(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0))
                     uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                 return fullCommand;
             }
         });
         commands.put("selectright", new xCom() {
             public String doCommand(String fullCommand) {
-                uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
-                        uiMenus.selectedMenu].selectedItem].doItem();
+                ex("playerright");
+                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                    uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
+                            uiMenus.selectedMenu].selectedItem].doItem();
+                    ex("playsound sounds/splash.wav");
+                }
                 return fullCommand;
             }
         });
         commands.put("selectup", new xCom() {
             public String doCommand(String fullCommand) {
-//                exec scripts/playerup
-//                cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 cl_setvar blockmouseui 1
-//                cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 selectup
-                uiMenus.prevItem();
+                ex("playerup");
+                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                    uiInterface.blockMouseUI = true;
+                    uiMenus.prevItem();
+                }
                 return fullCommand;
             }
         });
@@ -1692,11 +1703,11 @@ public class xCon {
         });
         commands.put("showscore", new xCom() {
             public String doCommand(String fullCommand) {
-                cClientVars.instance().put("showscore", "1");
+                dScreenMessages.showscore = true;
                 return "show score";
             }
             public String undoCommand(String fullCommand) {
-                cClientVars.instance().put("showscore", "0");
+                dScreenMessages.showscore = false;
                 return "hide score";
             }
         });
