@@ -1,3 +1,0 @@
-exec scripts/playerright
-cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 selectright
-cl_testresn $inplay 1 cl_testresn $showmapmakerui 1 playsound sounds/splash.wav

@@ -1,3 +1,3 @@
 givepoint $itemactid
 addcom deleteitem $itemrcvid
-cl_testres $cv_gamemode $mode_pointmaster exec scripts/pointmasterexplode
+cl_testres $cv_gamemode $mode_pointmaster foreachclient pmcid damageplayer $pmcid 1000
