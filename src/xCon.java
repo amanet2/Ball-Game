@@ -175,7 +175,7 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                synchronized (cServerLogic.timedEvents) {
+                synchronized (cServerLogic.timedEvents.events) {
                     cServerLogic.timedEvents.put(timeToExec,
                             new gTimeEvent() {
                                 public void doCommand() {
