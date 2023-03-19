@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 
 public class xMain {
-	private static void init(String[] args) {
-		eManager.init();
-		gExecDoableFactory.instance().init();
-		// init thing types from def
+	private static void initGameObjects() {
 		xCon.ex("exec config/gametypes");
 		xCon.ex("exec config/thingsdef");
 		int ctr = 0;
@@ -13,27 +10,33 @@ public class xMain {
 			thingTypes.add(xCon.ex("setvar THING_"+ctr));
 			ctr++;
 		}
-		if(thingTypes.size() > 0)
-			sSettings.object_titles = thingTypes.toArray(String[]::new);
-		// end thing types
+		sSettings.object_titles = thingTypes.toArray(String[]::new);
+	}
+
+	private static void initGameScenes() {
 		cClientLogic.scene = new gScene();
 		cServerLogic.scene = new gScene();
 		uiEditorMenus.previewScene = new gScene();
+	}
+
+	private static void initGameVars(String [] args) {
 		cServerVars.instance().init(args);
 		cClientVars.instance().init(args);
+	}
+
+	private static void init(String[] args) {
+		eManager.init();
+		gExecDoableFactory.instance().init();
+		initGameObjects();
+		initGameScenes();
+		initGameVars(args);
 		uiMenus.init();
-		if(sSettings.show_mapmaker_ui) {
-			sSettings.drawhitboxes = true;
-			sSettings.drawmapmakergrid = true;
-			cClientVars.instance().put("zoomlevel", "0.5");
-		}
 	}
 
 	public static void main(String[] args) {
 		try {
 			init(args);
-			eGameSessionClient client = new eGameSessionClient();
-			client.start();
+			new eGameSessionClient().start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

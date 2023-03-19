@@ -77,6 +77,11 @@ public class dMapmakerOverlay {
             String cs = clState.get("color");
             String nm = clState.get("name");
             g2.setColor(gColors.getColorFromName("clrp_" + cs));
+            //check for null fields
+            for(String s : new String[]{pxs,pys,pws,phs,cs,nm}) {
+                if(s.equalsIgnoreCase("null"))
+                    return;
+            }
             g2.drawRect(Integer.parseInt(pxs), Integer.parseInt(pys), Integer.parseInt(pws), Integer.parseInt(phs));
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.getColorFromName("clrp_" + cs));
