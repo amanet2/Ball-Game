@@ -4,17 +4,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class gTimeEventSet {
-    protected HashMap<String, Queue<gTimeEvent>> events;
+    protected final HashMap<String, Queue<gTimeEvent>> events;
     protected Queue<gTimeEvent> eventQueue;
 
     private void dequeueCommands() {
         long gtime = gTime.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
-        for(String timestampkey : events.keySet()) {
-            if(Long.parseLong(timestampkey) > gtime)
-                continue;
-            eventQueue.addAll(events.get(timestampkey));
-            toRemoveIds.add(timestampkey);
+        synchronized (events) {
+            for (String timestampkey : events.keySet()) {
+                if (Long.parseLong(timestampkey) > gtime)
+                    continue;
+                eventQueue.addAll(events.get(timestampkey));
+                toRemoveIds.add(timestampkey);
+            }
         }
         for(String timeStampKey : toRemoveIds) {
             events.remove(timeStampKey);
