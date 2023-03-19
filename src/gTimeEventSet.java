@@ -1,10 +1,10 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class gTimeEventSet {
-    protected final HashMap<String, Queue<gTimeEvent>> events;
+    protected final ConcurrentHashMap<String, Queue<gTimeEvent>> events;
     protected Queue<gTimeEvent> eventQueue;
 
     private void dequeueCommands() {
@@ -45,7 +45,7 @@ public class gTimeEventSet {
     }
 
     public gTimeEventSet() {
-        events = new HashMap<>();
+        events = new ConcurrentHashMap<>();
         eventQueue = new LinkedList<>();
     }
 }
