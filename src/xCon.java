@@ -175,13 +175,15 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                cServerLogic.timedEvents.put(timeToExec,
-                        new gTimeEvent() {
-                            public void doCommand() {
-                                ex(actStr);
+                synchronized (cServerLogic.timedEvents) {
+                    cServerLogic.timedEvents.put(timeToExec,
+                            new gTimeEvent() {
+                                public void doCommand() {
+                                    ex(actStr);
+                                }
                             }
-                        }
-                );
+                    );
+                }
                 return "added time event @" + timeToExec + ": " + actStr;
             }
         });
