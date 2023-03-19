@@ -124,6 +124,9 @@ public class eGameLogicClient implements eGameLogic {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
+        if(sSettings.bulletsMapLock.isLocked())
+            return;
+        sSettings.bulletsMapLock.lock();
         HashMap<String, gThing> bulletsMap = cClientLogic.scene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gBullet b = (gBullet) bulletsMap.get(id);
@@ -162,6 +165,7 @@ public class eGameLogicClient implements eGameLogic {
             for(gBullet pseed : pseeds)
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
+        sSettings.bulletsMapLock.unlock();
         for(Object bulletId : bulletsToRemoveIds) {
             cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletId);
         }

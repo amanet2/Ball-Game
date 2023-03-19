@@ -1,4 +1,6 @@
-* ENG: editor spawn handling for client?
+* CRASH: concurrent modifications with multiple threads and game objects
+    -> drawing, deleting, adding, moving
+    -> need to draw out threads in diagram
 * BUG: after dying with weapon X cant pick up weapon X after respawning unless you pick up other weapon first
 * create a client var for player id to track with the camera
     -> can move an invisible item for the camera to track?

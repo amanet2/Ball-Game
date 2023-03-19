@@ -777,6 +777,12 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
+                    long gtime = gTime.gameTime + 500;
+                    while(sSettings.bulletsMapLock.isLocked()) {
+                        //wait
+                        if(gtime < System.currentTimeMillis())
+                            return "failed to fire weapon";
+                    }
                     gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
                     return id + " fired weapon " + weapon;
                 }
