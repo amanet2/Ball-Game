@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class eGameLogicClient implements eGameLogic {
     private int ticks = 0;
@@ -8,7 +6,11 @@ public class eGameLogicClient implements eGameLogic {
     private long tickCounterTime = -1;
 
     public eGameLogicClient() {
-
+        if(sSettings.show_mapmaker_ui) {
+            sSettings.drawhitboxes = true;
+            sSettings.drawmapmakergrid = true;
+            cClientVars.instance().put("zoomlevel", "0.5");
+        }
     }
 
     @Override
@@ -124,40 +126,41 @@ public class eGameLogicClient implements eGameLogic {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        if(sSettings.bulletsMapLock.isLocked())
-            return;
-        sSettings.bulletsMapLock.lock();
         HashMap<String, gThing> bulletsMap = cClientLogic.scene.getThingMap("THING_BULLET");
-        for(String id : bulletsMap.keySet()) {
-            gBullet b = (gBullet) bulletsMap.get(id);
-            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")){
-                bulletsToRemoveIds.add(id);
+        Queue<gThing> checkThings = new LinkedList<>();
+        for (String id : bulletsMap.keySet()) {
+            checkThings.add(bulletsMap.get(id));
+        }
+        while (checkThings.size() > 0) {
+            gBullet t = (gBullet) checkThings.remove();
+            if(gameTimeMillis - t.getLong("timestamp") > t.getInt("ttl")){
+                bulletsToRemoveIds.add(t.get("id"));
 //                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
 //                    currentMap.scene.getThingMap("THING_ANIMATION").put(
 //                            createId(), new gAnimationEmitter(b.getInt("anim"),
 //                                    b.getInt("coordx"), b.getInt("coordy")));
 //                }
                 //grenade explosion
-                if(b.isInt("src", gWeapons.type.LAUNCHER.code())) {
-                    pseeds.add(b);
+                if(t.isInt("src", gWeapons.type.LAUNCHER.code())) {
+                    pseeds.add(t);
                 }
                 continue;
             }
             for(String blockId : cClientLogic.scene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = cClientLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
-                if(b.collidesWithThing(bl)) {
-                    bulletsToRemoveIds.add(b.get("id"));
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
-                        pseeds.add(b);
+                if(t.collidesWithThing(bl)) {
+                    bulletsToRemoveIds.add(t.get("id"));
+                    if(t.isInt("src", gWeapons.type.LAUNCHER.code()))
+                        pseeds.add(t);
                 }
             }
             for(String playerId : cClientLogic.getPlayerIds()) {
-                gPlayer t = cClientLogic.getPlayerById(playerId);
-                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
-                    bulletsToRemovePlayerMap.put(t, b);
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
-                        pseeds.add(b);
+                gPlayer p = cClientLogic.getPlayerById(playerId);
+                if(p != null && p.containsFields(new String[]{"coordx", "coordy"})
+                        && t.collidesWithThing(p) && !t.get("srcid").equals(playerId)) {
+                    bulletsToRemovePlayerMap.put(p, t);
+                    if(t.isInt("src", gWeapons.type.LAUNCHER.code()))
+                        pseeds.add(t);
                 }
             }
         }
@@ -165,7 +168,6 @@ public class eGameLogicClient implements eGameLogic {
             for(gBullet pseed : pseeds)
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
-        sSettings.bulletsMapLock.unlock();
         for(Object bulletId : bulletsToRemoveIds) {
             cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletId);
         }

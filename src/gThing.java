@@ -110,7 +110,7 @@ public class gThing {
                 target.getInt("dimw"),
                 target.getInt("dimh")
         );
-        return bounds.intersects(new Rectangle(getInt("coordx"),getInt("coordy"),
+        return bounds.intersects(new Rectangle(getInt("coordx"), getInt("coordy"),
                 getInt("dimw"),getInt("dimh")));
     }
 }

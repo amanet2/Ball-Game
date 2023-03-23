@@ -1,5 +1,3 @@
-import java.util.concurrent.locks.ReentrantLock;
-
 public class sSettings {
     /**
 	 * data source
@@ -48,6 +46,4 @@ public class sSettings {
 	static int rateserver = 60; //server internal game rate for simulation
 	static int rateclient = 30; //client net rate to request update from server
 	static int rategame = 240; //client game rate like input, simulation
-
-	static final ReentrantLock bulletsMapLock = new ReentrantLock();
 }

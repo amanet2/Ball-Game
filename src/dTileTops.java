@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
@@ -51,11 +53,14 @@ public class dTileTops {
     }
 
     public static void drawBullets(Graphics2D g2, gScene scene) {
-        HashMap bulletsMap = scene.getThingMap("THING_BULLET");
-        for (Object id : bulletsMap.keySet()) {
-            gBullet t = (gBullet) bulletsMap.get(id);
-            g2.drawImage(t.sprite, t.getInt("coordx"),
-                    t.getInt("coordy"), null);
+        HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        Queue<gThing> drawThings = new LinkedList<>();
+        for (String id : bulletsMap.keySet()) {
+            drawThings.add(bulletsMap.get(id));
+        }
+        while (drawThings.size() > 0) {
+            gBullet t = (gBullet) drawThings.remove();
+            g2.drawImage(t.sprite, t.getInt("coordx"), t.getInt("coordy"), null);
         }
     }
 
