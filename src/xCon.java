@@ -1043,6 +1043,12 @@ public class xCon {
                 return fullCommand;
             }
         });
+        commands.put("hostgame", new xCom() {
+            public String doCommand(String fullCommand) {
+                ex(new String[] {"newgame", "joingame localhost " + cServerLogic.listenPort, "pause"});
+                return "hosting game on port " + cServerLogic.listenPort;
+            }
+        });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
                 nClient.instance().reset();
@@ -1987,6 +1993,14 @@ public class xCon {
         if(!args[1].equalsIgnoreCase(args[2]))
             ex(es);
         return "1";
+    }
+
+    public static String[] ex(String[] ss) {
+        String[] rr = new String[ss.length];
+        for(int i = 0; i < ss.length; i++) {
+            rr[i] = ex(ss[i]);
+        }
+        return rr;
     }
 
     public static String ex(String s) {

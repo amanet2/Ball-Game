@@ -191,7 +191,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
-                                xCon.ex(String.format("exec scripts/hostgame %d", cServerLogic.listenPort));
+                                xCon.ex("hostgame");
                                 selectedMenu = MENU_MAIN;
                             }
                         },
