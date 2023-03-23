@@ -1,6 +1,7 @@
 * STABILITY: make sure we're not iterating over maps of objects
     -> get keys of object map
-    -> have function take id and return hashmap of vars (copy of object vars if available)
+    -> have function take id and return hashmap of vars (copy of object vars if available)\
+    -> looks like an example of this is how we update players in gameLogicCli/Srver kinda
 * CRASH: concurrent modifications with multiple threads and game objects
     -> drawing, deleting, adding, moving
     -> need to draw out threads in diagram
