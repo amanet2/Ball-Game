@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class eGameLogicServer implements eGameLogic {
     private int ticks = 0;
@@ -52,11 +50,12 @@ public class eGameLogicServer implements eGameLogic {
                 if(!checkType.contains("ITEM_"))
                     continue;
                 HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(checkType);
-                Collection<String> idCol = thingMap.keySet();
-                int isize = idCol.size();
-                String[] ids = idCol.toArray(new String[isize]);
-                for (String itemId : ids) {
-                    gItem item = (gItem) thingMap.get(itemId);
+                Queue<gThing> itemQueue = new LinkedList<>();
+                for(String id : thingMap.keySet()) {
+                    itemQueue.add(thingMap.get(id));
+                }
+                while(itemQueue.size() > 0) {
+                    gItem item = (gItem) itemQueue.remove();
                     item.put("occupied", "0");
                     if (player.collidesWithThing(item)) {
                         item.activateItem(player);
