@@ -104,13 +104,26 @@ public class gThing {
     }
 
     public boolean collidesWithThing(gThing target) {
-        Shape bounds = new Rectangle(
-                target.getInt("coordx"),
-                target.getInt("coordy"),
-                target.getInt("dimw"),
-                target.getInt("dimh")
-        );
-        return bounds.intersects(new Rectangle(getInt("coordx"), getInt("coordy"),
-                getInt("dimw"),getInt("dimh")));
+        String tx = target.get("coordx");
+        String ty = target.get("coordy");
+        String tw = target.get("dimw");
+        String th = target.get("dimh");
+        String dx = get("coordx");
+        String dy = get("coordy");
+        String dw = get("dimw");
+        String dh = get("dimh");
+        for(String s : new String[]{tx,ty,tw,th,dx,dy,dw,dh}) {
+            if(s == null || s.equalsIgnoreCase("null"))
+                return false;
+        }
+        int itx = Integer.parseInt(tx);
+        int ity = Integer.parseInt(ty);
+        int itw = Integer.parseInt(tw);
+        int ith = Integer.parseInt(th);
+        int idx = Integer.parseInt(dx);
+        int idy = Integer.parseInt(dy);
+        int idw = Integer.parseInt(dw);
+        int idh = Integer.parseInt(dh);
+        return new Rectangle(itx, ity, itw, ith).intersects(new Rectangle(idx, idy, idw, idh));
     }
 }

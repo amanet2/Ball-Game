@@ -148,10 +148,14 @@ public class eGameLogicServer implements eGameLogic {
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        for(String id : bulletsMap.keySet()) {
-            gBullet b = (gBullet) bulletsMap.get(id);
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : bulletsMap.keySet()) {
+            checkQueue.add(bulletsMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gBullet b = (gBullet) checkQueue.remove();
             if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
-                bulletsToRemoveIds.add(id);
+                bulletsToRemoveIds.add(b.get("id"));
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                     pseeds.add(b);
