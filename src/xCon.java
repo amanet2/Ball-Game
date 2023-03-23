@@ -1217,8 +1217,6 @@ public class xCon {
         commands.put("putblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
@@ -1228,8 +1226,6 @@ public class xCon {
         commands.put("cl_putblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cClientLogic.scene, toks[1], toks[2], toks[3]);
@@ -1239,8 +1235,6 @@ public class xCon {
         commands.put("cl_putblockpreview", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, uiEditorMenus.previewScene, toks[1], toks[2], toks[3]);
