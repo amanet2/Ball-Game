@@ -39,8 +39,12 @@ public class eGameLogicServer implements eGameLogic {
 
     private void checkGameItems() {
         HashMap<String, gThing> playerMap = cServerLogic.scene.getThingMap("THING_PLAYER");
-        for (String playerId : playerMap.keySet()) {
-            gPlayer player = (gPlayer) playerMap.get(playerId);
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : playerMap.keySet()) {
+            checkQueue.add(playerMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gPlayer player = (gPlayer) checkQueue.remove();
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
                 continue;
