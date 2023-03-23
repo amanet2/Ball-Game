@@ -1770,11 +1770,11 @@ public class xCon {
         });
         commands.put("zoom", new xCom() {
             public String doCommand(String fullCommand) {
-                eUtils.zoomLevel = Math.min(1.5, eUtils.zoomLevel + 0.5);
+                sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                eUtils.zoomLevel = Math.max(0.5, eUtils.zoomLevel - 0.5);
+                sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
                 return "zoom out";
             }
         });

@@ -9,7 +9,7 @@ public class eGameLogicClient implements eGameLogic {
         if(sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
-            cClientVars.instance().put("zoomlevel", "0.5");
+            sSettings.zoomLevel = 0.5;
         }
     }
 

@@ -3,8 +3,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class eUtils {
-    static double zoomLevel = 1.0;
-
     public static int argsLength(String full) {
         return full.trim().split(" ").length;
     }
