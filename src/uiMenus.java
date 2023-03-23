@@ -132,8 +132,8 @@ public class uiMenus {
                         new uiMenuItem(String.format("Borderless [%s]",
                                 sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                             public void doItem() {
-                                cClientVars.instance().put("displaymode",
-                                        sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0");
+                                xCon.ex("cl_setvar displaymode "
+                                        + (sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0"));
                                 oDisplay.instance().refreshDisplaymode();
                                 refreshText();
                             }
@@ -144,29 +144,26 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
                             public void doItem() {
-                                sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
-                                cClientVars.instance().put("vfxenableanimations", sSettings.vfxenableanimations ? "1" : "0");
+                                xCon.ex("cl_setvar vfxenableanimations "
+                                        + (sSettings.vfxenableanimations ? "0" : "1"));
                                 text = String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ")){
                             public void doItem() {
-                                sSettings.vfxenableflares = !sSettings.vfxenableflares;
-                                cClientVars.instance().put("vfxenableflares", sSettings.vfxenableflares ? "1" : "0");
+                                xCon.ex("cl_setvar vfxenableflares " + (sSettings.vfxenableflares ? "0" : "1"));
                                 text = String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ")){
                             public void doItem() {
-                                sSettings.vfxenableshading = !sSettings.vfxenableshading;
-                                cClientVars.instance().put("vfxenableshading", sSettings.vfxenableshading ? "1" : "0");
+                                xCon.ex("cl_setvar vfxenableshading " + (sSettings.vfxenableshading ? "0" : "1"));
                                 text = String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")){
                             public void doItem() {
-                                sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
-                                cClientVars.instance().put("vfxenableshadows", sSettings.vfxenableshadows ? "1" : "0");
+                                xCon.ex("cl_setvar vfxenableshadows " + (sSettings.vfxenableshadows ? "0" : "1"));
                                 text = String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ");
                             }
                         }
@@ -269,7 +266,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("mute") {
                             public void doItem() {
-                                cClientVars.instance().put("audioenabled", sSettings.audioenabled ? "0" : "1");
+                                xCon.ex("cl_setvar audioenabled " + (sSettings.audioenabled ? "0" : "1"));
                                 menuSelection[MENU_AUDIO].refresh();
                             }
                         },
@@ -391,7 +388,7 @@ public class uiMenus {
     }
 
     private static void setVolume(String val) {
-        cClientVars.instance().put("volume", val);
+        xCon.ex("cl_setvar volume " + val);
         menuSelection[MENU_AUDIO].refresh();
         selectedMenu = MENU_AUDIO;
     }

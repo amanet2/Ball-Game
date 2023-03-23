@@ -12,7 +12,7 @@ public class uiMenusColor extends uiMenu {
             items = Arrays.copyOf(items,items.length+1);
             items[items.length-1] = new uiMenuItem(selection[i]){
                 public void doItem() {
-                    cClientVars.instance().put("playercolor", text);
+                    xCon.ex("cl_setvar playercolor " + text);
                     uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                     uiMenus.selectedMenu = parentMenu;
                 }
