@@ -95,25 +95,25 @@ public class eGameLogicClient implements eGameLogic {
             obj.putInt("coordx", dx);
             obj.putInt("coordy", dy);
         }
-
-        Collection<String> bulletcoll = cClientLogic.scene.getThingMap("THING_BULLET").keySet();
-        int bsize = bulletcoll.size();
-        String[] bids = bulletcoll.toArray(new String[bsize]);
-        for(String id : bids) {
-            gBullet obj = (gBullet) cClientLogic.scene.getThingMap("THING_BULLET").get(id);
-            if(obj == null)
-                continue;
+        HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap("THING_BULLET");
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : thingMap.keySet()) {
+            checkQueue.add(thingMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gBullet obj = (gBullet) checkQueue.remove();
             obj.putInt("coordx", obj.getInt("coordx")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
         }
-
-        Collection<String> pColl = cClientLogic.scene.getThingMap("THING_POPUP").keySet();
-        int psize = pColl.size();
-        String[] pids = pColl.toArray(new String[psize]);
-        for(String id : pids) {
-            gPopup obj = (gPopup) cClientLogic.scene.getThingMap("THING_POPUP").get(id);
+        thingMap = cClientLogic.scene.getThingMap("THING_POPUP");
+        checkQueue = new LinkedList<>();
+        for (String id : thingMap.keySet()) {
+            checkQueue.add(thingMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gPopup obj = (gPopup) checkQueue.remove();
             obj.put("coordx", Integer.toString(obj.getInt("coordx")
                     - (int) (sSettings.velocity_popup*Math.cos(obj.getDouble("fv")+Math.PI/2))));
             obj.put("coordy", Integer.toString(obj.getInt("coordy")

@@ -129,10 +129,13 @@ public class eGameLogicServer implements eGameLogic {
                 objState.put("vel3", obj.get("vel3"));
             }
         }
-
-        HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        for(String id : bulletsMap.keySet()) {
-            gBullet obj = (gBullet) bulletsMap.get(id);
+        HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap("THING_BULLET");
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : thingMap.keySet()) {
+            checkQueue.add(thingMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gBullet obj = (gBullet) checkQueue.remove();
             obj.putInt("coordx", obj.getInt("coordx")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
