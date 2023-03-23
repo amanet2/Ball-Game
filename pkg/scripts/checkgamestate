@@ -1,2 +1,1 @@
-# player hp recharge -> watch out for bugs
 foreachthing plid THING_PLAYER exec scripts/rechargehealth
