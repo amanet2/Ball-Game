@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 public class xMain {
 	private static void initGameObjects() {
-		xCon.ex("exec config/gametypes");
-		xCon.ex("exec config/thingsdef");
+		xCon.ex("exec config/game");
 		int ctr = 0;
 		ArrayList<String> thingTypes = new ArrayList<>();
 		while(!xCon.ex("setvar THING_"+ctr).equals("null")) {

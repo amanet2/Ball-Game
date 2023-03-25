@@ -18,7 +18,6 @@ public class eGameLogicClient implements eGameLogic {
         oDisplay.instance().showFrame();
         gCamera.init();
         gAnimations.init();
-        xCon.ex("exec config/itemsdef");
     }
 
     @Override
