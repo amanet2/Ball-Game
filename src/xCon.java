@@ -162,12 +162,12 @@ public class xCon {
                 return "server net com exclusive: " + actStr;
             }
         });
-        commands.put("addevent", new xCom() {
+        commands.put("scheduleevent", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
-                    return "addevent can only be used by active server";
+                    return "scheduleevent can only be used by active server";
                 if(eUtils.argsLength(fullCommand) < 3)
-                    return "usage: addevent <time> <string to execute>";
+                    return "usage: scheduleevent <time> <string to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -670,7 +670,8 @@ public class xCon {
                 for(String arg : args) {
                     tvb.append(" ").append(arg);
                 }
-//        System.out.println(tvb);
+                if(cClientLogic.debug)
+                    System.out.println("script line: " + tvb);
                 ex(tvb.substring(1));
             }
         });

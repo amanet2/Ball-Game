@@ -1,13 +1,13 @@
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
-testres $1 $mode_virus foreachlong tv $estart $eend 1000 addevent $tv exec scripts/checkvirus
-testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 addevent $tv exec scripts/flagmaster
+testres $1 $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
+testres $1 $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/flagmaster
 testres $1 $mode_goldmaster getres estart sumlong $gtime 3000
-testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
-testres $1 $mode_vipmaster foreachlong tv $estart $eend 3000 addevent $tv exec scripts/goldmaster
+testres $1 $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
+testres $1 $mode_vipmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
 testres $1 $mode_pointmaster getres bstart sumlong $gtime 30000
 testres $1 $mode_pointmaster getres cstart sumlong $gtime 20000
-testres $1 $mode_pointmaster foreachlong tv $bstart $eend 30000 addevent $tv exec scripts/pointmaster
-testres $1 $mode_pointmaster foreachlong tv $cstart $eend 10000 addevent $tv addcomi server echo scorepoint spawning in 10 seconds!
-addevent $eend exec scripts/endgame
+testres $1 $mode_pointmaster foreachlong tv $bstart $eend 30000 scheduleevent $tv exec scripts/pointmaster
+testres $1 $mode_pointmaster foreachlong tv $cstart $eend 10000 scheduleevent $tv addcomi server echo scorepoint spawning in 10 seconds!
+scheduleevent $eend exec scripts/endgame
