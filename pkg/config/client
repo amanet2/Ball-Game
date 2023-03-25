@@ -1,7 +1,7 @@
 # mute volume
 cl_setvar audioenabled 1
 # show debug info in console
-cl_setvar debug 0
+cl_setvar debug 1
 # save console log to file on close
 cl_setvar debuglog 0
 # 0=window||1=borderless||2=fullscreen
