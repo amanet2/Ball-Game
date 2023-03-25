@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class eGameLogicServer implements eGameLogic {
     private int ticks = 0;
@@ -41,8 +39,12 @@ public class eGameLogicServer implements eGameLogic {
 
     private void checkGameItems() {
         HashMap<String, gThing> playerMap = cServerLogic.scene.getThingMap("THING_PLAYER");
-        for (String playerId : playerMap.keySet()) {
-            gPlayer player = (gPlayer) playerMap.get(playerId);
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : playerMap.keySet()) {
+            checkQueue.add(playerMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gPlayer player = (gPlayer) checkQueue.remove();
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
                 continue;
@@ -52,11 +54,12 @@ public class eGameLogicServer implements eGameLogic {
                 if(!checkType.contains("ITEM_"))
                     continue;
                 HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(checkType);
-                Collection<String> idCol = thingMap.keySet();
-                int isize = idCol.size();
-                String[] ids = idCol.toArray(new String[isize]);
-                for (String itemId : ids) {
-                    gItem item = (gItem) thingMap.get(itemId);
+                Queue<gThing> itemQueue = new LinkedList<>();
+                for(String id : thingMap.keySet()) {
+                    itemQueue.add(thingMap.get(id));
+                }
+                while(itemQueue.size() > 0) {
+                    gItem item = (gItem) itemQueue.remove();
                     item.put("occupied", "0");
                     if (player.collidesWithThing(item)) {
                         item.activateItem(player);
@@ -130,10 +133,13 @@ public class eGameLogicServer implements eGameLogic {
                 objState.put("vel3", obj.get("vel3"));
             }
         }
-
-        HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        for(String id : bulletsMap.keySet()) {
-            gBullet obj = (gBullet) bulletsMap.get(id);
+        HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap("THING_BULLET");
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : thingMap.keySet()) {
+            checkQueue.add(thingMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gBullet obj = (gBullet) checkQueue.remove();
             obj.putInt("coordx", obj.getInt("coordx")
                     - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
             obj.putInt("coordy", obj.getInt("coordy")
@@ -146,10 +152,14 @@ public class eGameLogicServer implements eGameLogic {
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        for(String id : bulletsMap.keySet()) {
-            gBullet b = (gBullet) bulletsMap.get(id);
+        Queue<gThing> checkQueue = new LinkedList<>();
+        for (String id : bulletsMap.keySet()) {
+            checkQueue.add(bulletsMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gBullet b = (gBullet) checkQueue.remove();
             if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
-                bulletsToRemoveIds.add(id);
+                bulletsToRemoveIds.add(b.get("id"));
                 //grenade explosion
                 if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
                     pseeds.add(b);

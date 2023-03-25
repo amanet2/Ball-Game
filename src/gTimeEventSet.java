@@ -1,20 +1,22 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class gTimeEventSet {
-    protected HashMap<String, Queue<gTimeEvent>> events;
+    protected final ConcurrentHashMap<String, Queue<gTimeEvent>> events;
     protected Queue<gTimeEvent> eventQueue;
 
-    private synchronized void dequeueCommands() {
+    private void dequeueCommands() {
         long gtime = gTime.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
-        for(String timestampkey : events.keySet()) {
-            if(Long.parseLong(timestampkey) > gtime)
-                continue;
-            eventQueue.addAll(events.get(timestampkey));
-            toRemoveIds.add(timestampkey);
+        synchronized (events) {
+            for (String timestampkey : events.keySet()) {
+                if (Long.parseLong(timestampkey) > gtime)
+                    continue;
+                eventQueue.addAll(events.get(timestampkey));
+                toRemoveIds.add(timestampkey);
+            }
         }
         for(String timeStampKey : toRemoveIds) {
             events.remove(timeStampKey);
@@ -43,7 +45,7 @@ public class gTimeEventSet {
     }
 
     public gTimeEventSet() {
-        events = new HashMap<>();
+        events = new ConcurrentHashMap<>();
         eventQueue = new LinkedList<>();
     }
 }

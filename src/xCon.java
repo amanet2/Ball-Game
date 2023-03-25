@@ -175,13 +175,15 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                cServerLogic.timedEvents.put(timeToExec,
-                        new gTimeEvent() {
-                            public void doCommand() {
-                                ex(actStr);
+                synchronized (cServerLogic.timedEvents.events) {
+                    cServerLogic.timedEvents.put(timeToExec,
+                            new gTimeEvent() {
+                                public void doCommand() {
+                                    ex(actStr);
+                                }
                             }
-                        }
-                );
+                    );
+                }
                 return "added time event @" + timeToExec + ": " + actStr;
             }
         });
@@ -775,6 +777,7 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
+                    long gtime = gTime.gameTime + 500;
                     gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
                     return id + " fired weapon " + weapon;
                 }
@@ -1040,6 +1043,12 @@ public class xCon {
                 return fullCommand;
             }
         });
+        commands.put("hostgame", new xCom() {
+            public String doCommand(String fullCommand) {
+                ex(new String[] {"newgame", "joingame localhost " + cServerLogic.listenPort, "pause"});
+                return "hosting game on port " + cServerLogic.listenPort;
+            }
+        });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
                 nClient.instance().reset();
@@ -1208,8 +1217,6 @@ public class xCon {
         commands.put("putblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
@@ -1219,8 +1226,6 @@ public class xCon {
         commands.put("cl_putblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cClientLogic.scene, toks[1], toks[2], toks[3]);
@@ -1230,8 +1235,6 @@ public class xCon {
         commands.put("cl_putblockpreview", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                // putblock BLOCK_FLOOR id prefabid x y width height
-                // putblock BLOCK_CUBE id prefabid x y width height top mid
                 if (toks.length < 8)
                     return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, uiEditorMenus.previewScene, toks[1], toks[2], toks[3]);
@@ -1767,11 +1770,11 @@ public class xCon {
         });
         commands.put("zoom", new xCom() {
             public String doCommand(String fullCommand) {
-                eUtils.zoomLevel = Math.min(1.5, eUtils.zoomLevel + 0.5);
+                sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                eUtils.zoomLevel = Math.max(0.5, eUtils.zoomLevel - 0.5);
+                sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
                 return "zoom out";
             }
         });
@@ -1984,6 +1987,14 @@ public class xCon {
         if(!args[1].equalsIgnoreCase(args[2]))
             ex(es);
         return "1";
+    }
+
+    public static String[] ex(String[] ss) {
+        String[] rr = new String[ss.length];
+        for(int i = 0; i < ss.length; i++) {
+            rr[i] = ex(ss[i]);
+        }
+        return rr;
     }
 
     public static String ex(String s) {

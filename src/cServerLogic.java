@@ -17,7 +17,6 @@ public class cServerLogic {
         if(sSettings.show_mapmaker_ui)
             return;
         long starttime = gTime.gameTime;
-        synchronized (timedEvents) {
             for (long t = starttime + 1000; t <= starttime + timelimit; t += 1000) {
                 long lastT = t;
                 timedEvents.put(Long.toString(t), new gTimeEvent() {
@@ -27,7 +26,6 @@ public class cServerLogic {
                     }
                 });
             }
-        }
         xCon.ex("exec scripts/startgame " + cClientLogic.gamemode);
     }
 

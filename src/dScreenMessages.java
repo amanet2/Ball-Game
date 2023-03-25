@@ -17,7 +17,7 @@ public class dScreenMessages {
         dFonts.setFontSmall(g);
         //scale
         if(showscale)
-            g.drawString("ZOOM:" + eUtils.zoomLevel, 0, sSettings.height / 64);
+            g.drawString("ZOOM:" + sSettings.zoomLevel, 0, sSettings.height / 64);
         //fps
         if(showfps)
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);

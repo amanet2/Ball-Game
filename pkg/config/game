@@ -1,3 +1,35 @@
+setvar GAMETYPE_0_title Rock Master
+setvar GAMETYPE_0_text Rock Other Players
+setvar GAMETYPE_1_title Virus Master
+setvar GAMETYPE_1_text Players Respawn Infected
+setvar GAMETYPE_2_title Flag Master
+setvar GAMETYPE_2_text Hold the Flag
+setvar GAMETYPE_3_title Gold Master
+setvar GAMETYPE_3_text Get the Gold
+setvar GAMETYPE_4_title Point Master
+setvar GAMETYPE_4_text Get the Point or Explode
+setvar GAMETYPE_5_title VIP Master
+setvar GAMETYPE_5_text Only the VIP can Score for Rocks
+setvar THING_0 THING_PLAYER
+setvar THING_1 THING_BULLET
+setvar THING_2 THING_POPUP
+setvar THING_3 THING_ANIMATION
+setvar THING_4 THING_BLOCK
+setvar THING_5 BLOCK_CUBE
+setvar THING_6 BLOCK_FLOOR
+setvar THING_7 BLOCK_COLLISION
+setvar THING_8 THING_ITEM
+setvar THING_9 ITEM_SPAWNPOINT
+setvar THING_10 ITEM_TELEPORTER_RED
+setvar THING_11 ITEM_TELEPORTER_BLUE
+setvar THING_12 ITEM_FLAG
+setvar THING_13 ITEM_POINTGIVER
+setvar THING_14 ITEM_LANDMINE
+setvar THING_15 ITEM_SHOTGUN
+setvar THING_16 ITEM_PISTOL
+setvar THING_17 ITEM_RIFLE
+setvar THING_18 ITEM_LAUNCHER
+setvar THING_19 ITEM_GLOVE
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png

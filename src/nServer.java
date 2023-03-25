@@ -143,7 +143,7 @@ public class nServer extends Thread {
     }
 
     public void checkLocalCmds() {
-        if(serverLocalCmdQueue.size() > 0)
+        if(serverLocalCmdQueue.peek() != null)
             xCon.ex(serverLocalCmdQueue.remove());
     }
 

@@ -13,9 +13,7 @@ public class uiMenusResolution extends uiMenu {
             items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
-                    cClientVars.instance().put("vidmode",
-                            String.format("%d,%d,%d", Integer.parseInt(toks[0]), Integer.parseInt(toks[1]),
-                            sSettings.framerate));
+                    xCon.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
                     uiMenus.menuSelection[uiMenus.MENU_VIDEO].items[0].refreshText();
                     uiMenus.selectedMenu = parentMenu;
                 }
