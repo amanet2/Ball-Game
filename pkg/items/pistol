@@ -1,3 +1,3 @@
 getres pw setnstate $itemactid weap
 testresn $pw 1 addcomx server deleteitem $itemrcvid
-testresn $pw 1 exec scripts/giveweapon $itemactid 1
+testresn $pw 1 giveweapon $itemactid 1

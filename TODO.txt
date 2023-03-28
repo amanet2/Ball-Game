@@ -1,3 +1,5 @@
+* FEATURE: replace hardcoded "flag" item with "holdingitem" player var that works like "weapon" does
+* REFAC: can "sv_resetgame" be combined into "sv_startgame"?
 * STABILITY: Watch out for weird error of null item from queue in checkitems
 * STABILITY: make sure we're not iterating over maps of objects
     -> get keys of object map

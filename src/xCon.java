@@ -352,7 +352,9 @@ public class xCon {
                         shooterid = toks[3];
                     gPlayer player = cServerLogic.getPlayerById(id);
                     if(player != null) {
-                        ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        player.putInt("stockhp", player.getInt("stockhp") - dmg);
+                        nServer.instance().masterStateMap.get(id).put("hp", player.get("stockhp"));
+                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
@@ -363,7 +365,7 @@ public class xCon {
                             if(shooterid.length() < 1)
                                 shooterid = "null";
                             ex("setvar sv_gamemode " + cClientLogic.gamemode);
-                            ex("exec scripts/handlekill " + id + " " + shooterid);
+                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -983,6 +985,21 @@ public class xCon {
                 return clientState.get(tk);
             }
         });
+        commands.put("giveweapon", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: giveweapon <player_id> <weap_code>";
+                String pid = args[1];
+                String weap = args[2];
+                nServer.instance().masterStateMap.get(pid).put("weap", weap);
+                String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
+                nServer.instance().addNetCmd("server", giveString);
+                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                xCon.ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
+                return "gave weapon " + weap + " to player " + pid;
+            }
+        });
         commands.put("subint", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: subint $num1 $num2
@@ -1505,7 +1522,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    xCon.ex("exec scripts/handlespawnplayer " + playerId);
+                    xCon.ex("exec scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";

@@ -220,7 +220,7 @@ public class nServer extends Thread {
         nState snap = new nState(clientStateSnapshots.get(id));
         addExcludingNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
         xCon.ex("deleteplayer " + id);
-        xCon.ex("exec scripts/handleremoveclient " + id);
+        xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
 
     public void run() {
@@ -385,7 +385,7 @@ public class nServer extends Thread {
     }
 
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        xCon.ex("exec scripts/checkclientmsg " + id + " " + testmsg); //check for special sound
+        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg); //check for special sound
         if(testmsg.strip().equalsIgnoreCase("thetime"))
             addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         else if(testmsg.strip().equalsIgnoreCase("skip")) {
