@@ -369,26 +369,32 @@ public class nServer extends Thread {
     }
 
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        if(testmsg.strip().equalsIgnoreCase("thetime")) {
+        xCon.ex("exec scripts/checkclientmsg " + id + " " + testmsg); //check for special sound
+        if(testmsg.strip().equalsIgnoreCase("thetime"))
             addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            return;
+        else if(testmsg.strip().equalsIgnoreCase("skip")) {
+            if(voteSkipList.contains(id))
+                addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+            else {
+                voteSkipList.add(id);
+                int votes = voteSkipList.size();
+                int limit = cServerVars.voteskiplimit;
+                if(votes < limit) {
+                    addExcludingNetCmd("server", String.format("echo [%s/%s] SAY 'skip' TO END ROUND.", votes, limit));
+                }
+                else {
+                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
+                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+                    addExcludingNetCmd("server", "echo [VOTE_SKIP] VOTE TARGET REACHED");
+                    addExcludingNetCmd("server", "echo changing map...");
+                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
+                        public void doCommand() {
+                            xCon.ex("changemaprandom");
+                        }
+                    });
+                }
+            }
         }
-        else if(!testmsg.strip().equalsIgnoreCase("skip"))
-            return;
-        if(voteSkipList.contains(id)) {
-            addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
-            return;
-        }
-        voteSkipList.add(id);
-        int limit = Integer.parseInt(xCon.ex("setvar voteskiplimit"));
-        if(voteSkipList.size() < limit) {
-            addExcludingNetCmd("server", String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                    voteSkipList.size(), limit));
-            return;
-        }
-        addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
-                eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
-        xCon.ex("exec scripts/sv_voteskip");
     }
 
     public void sendMapToClients() {
