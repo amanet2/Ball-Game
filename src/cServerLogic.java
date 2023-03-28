@@ -9,7 +9,6 @@ public class cServerLogic {
 
     static void changeMap(String mapPath) {
         cServerLogic.scene.clearThingMap("THING_PLAYER");
-//        xCon.ex("exec scripts/sv_resetgamestate");
         xCon.ex("exec " + mapPath);
         nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap THING_PLAYER");
         nServer.instance().addExcludingNetCmd("server", "cl_load");
