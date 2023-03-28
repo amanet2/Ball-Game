@@ -1,4 +1,0 @@
-getres pid setthing THING_PLAYER $cid id
-testresn $pid null getres plx setthing THING_PLAYER $pid coordx
-testresn $pid null getres ply setthing THING_PLAYER $pid coordy
-testresn $pid null addcomx $1 cl_spawnplayer $pid $plx $ply

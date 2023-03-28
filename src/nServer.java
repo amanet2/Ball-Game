@@ -262,10 +262,19 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
-        xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
+        handleBackfill(id);
         String cname =  masterStateMap.get(id).get("name");
         String ccolor =  masterStateMap.get(id).get("color");
-        nServer.instance().addExcludingNetCmd("server", String.format("echo %s#%s joined the game", cname, ccolor));
+        addExcludingNetCmd("server", String.format("echo %s#%s joined the game", cname, ccolor));
+    }
+
+    public void handleBackfill(String id) {
+        for(String cId : masterStateMap.keys()) {
+            if(!id.equals(cId)) {
+                gPlayer p = cServerLogic.getPlayerById(cId);
+                addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
+            }
+        }
     }
 
     public void readData(String receiveDataString) {
