@@ -263,6 +263,9 @@ public class nServer extends Thread {
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
         xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
+        String cname =  masterStateMap.get(id).get("name");
+        String ccolor =  masterStateMap.get(id).get("color");
+        nServer.instance().addExcludingNetCmd("server", String.format("echo %s#%s joined the game", cname, ccolor));
     }
 
     public void readData(String receiveDataString) {

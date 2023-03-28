@@ -97,7 +97,6 @@ public class gPlayer extends gThing {
         putInt("dimh", 200);
         put("id", id);
         put("type", "THING_PLAYER");
-        put("inteleporter", "0");
         put("acceldelay", "100");
         put("accelrate", "2");
         put("decelrate", "1");

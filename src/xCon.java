@@ -358,7 +358,8 @@ public class xCon {
                             //more server-side stuff
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
-                            ex("exec scripts/deleteplayer " + id);
+                            nServer.instance().addNetCmd("server", "deleteplayer " + id);
+                            nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
                             ex("setvar sv_gamemode " + cClientLogic.gamemode);
@@ -527,7 +528,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("exec scripts/e_newmap");
+                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_load;addcomi server cl_setvar cv_maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
@@ -1485,6 +1486,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
+                    xCon.ex("exec scripts/handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
