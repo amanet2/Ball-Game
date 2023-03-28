@@ -1945,17 +1945,7 @@ public class xCon {
     }
 
     private void clearThingMapDelegate(String[] toks, gScene scene) {
-        String thing_title = toks[1];
-        ArrayList<String> toRemoveIds = new ArrayList<>();
-        if(thing_title.contains("ITEM_")) {
-            if(scene.objectMaps.containsKey(thing_title))
-                toRemoveIds.addAll(scene.getThingMap(thing_title).keySet());
-            for(String id : toRemoveIds) {
-                scene.getThingMap("THING_ITEM").remove(id);
-            }
-        }
-        if(scene.objectMaps.containsKey(thing_title))
-            scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+        scene.clearThingMap(toks[1]);
     }
 
     private void deleteBlockDelegate(String[] toks, gScene scene) {

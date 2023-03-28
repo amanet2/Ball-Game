@@ -8,7 +8,11 @@ public class cServerLogic {
     static final gTimeEventSet timedEvents = new gTimeEventSet();
 
     static void changeMap(String mapPath) {
-        xCon.ex(String.format("exec scripts/changemap %s", mapPath));
+        cServerLogic.scene.clearThingMap("THING_PLAYER");
+        xCon.ex("exec scripts/resetgamestate");
+        xCon.ex("exec " + mapPath);
+        nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap THING_PLAYER");
+        nServer.instance().addExcludingNetCmd("server", "cl_load");
         nServer.instance().sendMapToClients();
         //reset game state
         gScoreboard.resetScoresMap();
