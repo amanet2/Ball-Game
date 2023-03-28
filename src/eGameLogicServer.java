@@ -48,8 +48,6 @@ public class eGameLogicServer implements eGameLogic {
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
                 continue;
-            //check player teleporters
-            int clearTeleporterFlag = 1;
             for(String checkType : cServerLogic.scene.objectMaps.keySet()) {
                 if(!checkType.contains("ITEM_"))
                     continue;
@@ -63,14 +61,9 @@ public class eGameLogicServer implements eGameLogic {
                     item.put("occupied", "0");
                     if (player.collidesWithThing(item)) {
                         item.activateItem(player);
-                        if(checkType.contains("ITEM_TELEPORTER"))
-                            clearTeleporterFlag = 0;
                     }
                 }
             }
-            //after checking all items
-            if(clearTeleporterFlag > 0)
-                player.put("inteleporter", "0");
         }
     }
 

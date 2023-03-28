@@ -7,4 +7,4 @@ testres $hadflag 1 getres dcx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres dcy setthing THING_PLAYER $1 coordy
 deleteplayer $1
 testres $hadflag 1 getres nid getnewitemid
-testres $hadflag 1 exec scripts/putflag $nid $dcx $dcy
+testres $hadflag 1 exec scripts/dropflag $nid $dcx $dcy
