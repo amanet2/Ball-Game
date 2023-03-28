@@ -1,10 +1,5 @@
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.RadialGradientPaint;
-import java.awt.Rectangle;
-import java.awt.MultipleGradientPaint;
 import java.awt.geom.Rectangle2D;
 
 public class dPlayer {
@@ -56,13 +51,14 @@ public class dPlayer {
                 player.getInt("coordy"),
                 null
         );
-        //flag for ctf
-        if(nClient.instance().clientStateMap.get(player.get("id")).contains("flag")
-                && nClient.instance().clientStateMap.get(player.get("id")).get("flag").equalsIgnoreCase("1"))
-            g2.drawImage(gTextures.getGScaledImage(eUtils.getPath("misc/flag.png"), 200, 300),
+        String decor = player.get("decorationsprite");
+        if(!decor.equalsIgnoreCase("null")) {
+            g2.drawImage(
+                    gTextures.getGScaledImage(eUtils.getPath(decor), 200, 300),
                     player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3,
                     null
             );
+        }
         //shading
         if(sSettings.vfxenableshading) {
             GradientPaint df = new GradientPaint(

@@ -102,6 +102,7 @@ public class gPlayer extends gThing {
         put("decelrate", "1");
         put("pathsprite", "");
         put("weapon", "0");
+        put("decorationsprite", "null");
         put("cooldown", "0");
         put("acceltick", "0");
         put("fv", "0.0");

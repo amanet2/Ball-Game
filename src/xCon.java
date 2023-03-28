@@ -1000,6 +1000,19 @@ public class xCon {
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
+        commands.put("givedecoration", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: givedecoration <player_id> <sprite_path>";
+                String pid = args[1];
+                String path = args[2];
+                String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
+                nServer.instance().addNetCmd("server", giveString);
+                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                return "applied decoration " + path + " to player " + pid;
+            }
+        });
         commands.put("subint", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: subint $num1 $num2
