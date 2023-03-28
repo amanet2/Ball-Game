@@ -1022,11 +1022,6 @@ public class xCon {
                 return Integer.toString(Integer.parseInt(args[1]) - Integer.parseInt(args[2]));
             }
         });
-        commands.put("getwinnerid", new xCom() {
-            public String doCommand(String fullCommand) {
-                return gScoreboard.getWinnerId();
-            }
-        });
         commands.put("givepoint", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
