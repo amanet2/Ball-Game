@@ -1,4 +1,0 @@
-getres rsp getrandthing ITEM_SPAWNPOINT
-testresn $rsp null getres spo setthing ITEM_SPAWNPOINT $rsp occupied
-testresn $rsp null testres $spo 0 exec scripts/respawnnetplayerdelegate $1 $rsp
-testresn $rsp null testres $spo 1 exec scripts/respawnnetplayer $1

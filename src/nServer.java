@@ -26,7 +26,7 @@ public class nServer extends Thread {
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
-    //VERY IMPORTANT LIST. whats allowed to be done by the clients
+    //VERY IMPORTANT. commands allowed from clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
             "deleteitem",
@@ -37,6 +37,7 @@ public class nServer extends Thread {
             "fireweapon",
             "putblock",
             "putitem",
+            "respawnnetplayer",
             "requestdisconnect",
             "setnstate"
     ));
@@ -256,7 +257,7 @@ public class nServer extends Thread {
     public void sendMapAndRespawn(String id) {
         sendMap(id);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            xCon.ex("exec scripts/respawnnetplayer " + id);
+            xCon.ex("respawnnetplayer " + id);
     }
 
     public void handleJoin(String id) {
@@ -374,7 +375,7 @@ public class nServer extends Thread {
                 xCon.ex(cmd);
                 addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
             }
-            else if(cmd.startsWith("exec scripts/respawnnetplayer"))
+            else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
                 xCon.ex(cmd);
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);

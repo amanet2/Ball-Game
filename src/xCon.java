@@ -1175,7 +1175,7 @@ public class xCon {
                 if(uiInterface.inplay) {
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
                     if(sSettings.show_mapmaker_ui)
-                        nClient.instance().addNetCmd("exec scripts/respawnnetplayer " + uiInterface.uuid);
+                        nClient.instance().addNetCmd("respawnnetplayer " + uiInterface.uuid);
                 }
                 else if(sSettings.show_mapmaker_ui)
                     nClient.instance().addNetCmd("deleteplayer " + uiInterface.uuid);
@@ -1269,6 +1269,25 @@ public class xCon {
                 }
                 uiInterface.exit();
                 return "";
+            }
+        });
+        commands.put("respawnnetplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length < 2)
+                    return "usage: respawnnetplayer <id>";
+                String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
+                if(!randomSpawnId.equalsIgnoreCase("null")) {
+                    gThing randomSpawn = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
+                    if(randomSpawn.get("occupied").equals("1"))
+                        ex("respawnnetplayer " + toks[1]);
+                    else {
+                        String spawnString = String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy"));
+                        nServer.instance().addNetCmd("server", spawnString);
+                        nServer.instance().addExcludingNetCmd("server", spawnString.replaceFirst("spawnplayer", "cl_spawnplayer"));
+                    }
+                }
+                return fullCommand;
             }
         });
         commands.put("say", new xCom() {

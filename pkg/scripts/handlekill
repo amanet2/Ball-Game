@@ -29,10 +29,10 @@ testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/dropflag $newitemid $newitemx $newitemy
 getres respawntime sumlong $gametimemillis $respawnwaittime
-scheduleevent $respawntime exec scripts/respawnnetplayer $uid
+scheduleevent $respawntime respawnnetplayer $uid
 # getres hadweapon setthing THING_PLAYER $1 weapon
-# testres $hadweapon 1 exec scripts/putpistol $newitemid $newitemx $newitemy
-# testres $hadweapon 2 exec scripts/putshotgun $newitemid $newitemx $newitemy
-# testres $hadweapon 3 exec scripts/putrifle $newitemid $newitemx $newitemy
-# testres $hadweapon 4 exec scripts/putlauncher $newitemid $newitemx $newitemy
-# testres $hadweapon 5 exec scripts/putglove $newitemid $newitemx $newitemy
+# testres $hadweapon 1 exec scripts/droppistol $newitemid $newitemx $newitemy
+# testres $hadweapon 2 exec scripts/dropshotgun $newitemid $newitemx $newitemy
+# testres $hadweapon 3 exec scripts/droprifle $newitemid $newitemx $newitemy
+# testres $hadweapon 4 exec scripts/droplauncher $newitemid $newitemx $newitemy
+# testres $hadweapon 5 exec scripts/dropglove $newitemid $newitemx $newitemy
