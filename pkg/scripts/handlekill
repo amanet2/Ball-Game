@@ -24,15 +24,14 @@ getres hadflag setnstate $1 flag
 getres uid setnstate $1 id
 setnstate $1 flag 0
 testres $hadflag 1 setnstate $1 waypoint 0
-testres $hadflag 1 getres newitemid getnewitemid
 testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
-testres $hadflag 1 exec scripts/dropflag $newitemid $newitemx $newitemy
+testres $hadflag 1 exec scripts/dropflag $newitemx $newitemy
 getres respawntime sumlong $gametimemillis $respawnwaittime
 scheduleevent $respawntime respawnnetplayer $uid
 # getres hadweapon setthing THING_PLAYER $1 weapon
-# testres $hadweapon 1 exec scripts/droppistol $newitemid $newitemx $newitemy
-# testres $hadweapon 2 exec scripts/dropshotgun $newitemid $newitemx $newitemy
-# testres $hadweapon 3 exec scripts/droprifle $newitemid $newitemx $newitemy
-# testres $hadweapon 4 exec scripts/droplauncher $newitemid $newitemx $newitemy
-# testres $hadweapon 5 exec scripts/dropglove $newitemid $newitemx $newitemy
+# testres $hadweapon 1 exec scripts/droppistol $newitemx $newitemy
+# testres $hadweapon 2 exec scripts/dropshotgun $newitemx $newitemy
+# testres $hadweapon 3 exec scripts/droprifle $newitemx $newitemy
+# testres $hadweapon 4 exec scripts/droplauncher $newitemx $newitemy
+# testres $hadweapon 5 exec scripts/dropglove $newitemx $newitemy
