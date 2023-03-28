@@ -1,2 +1,2 @@
 foreachclient flagmastercheckid exec scripts/flagmastercheckclient
-foreachthing fid ITEM_FLAG exec scripts/flagmastercheckflags
+foreachthing fid ITEM_FLAG addcomi server cl_setthing ITEM_FLAG $fid waypoint 1
