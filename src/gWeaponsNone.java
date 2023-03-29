@@ -1,7 +1,6 @@
 public class gWeaponsNone extends gWeapon {
     public gWeaponsNone() {
         super();
-        name = "ROCK";
         dims = new int[]{225,150};
         bulletDims = new int[]{150,150};
         soundFilePath = "sounds/splash.wav";

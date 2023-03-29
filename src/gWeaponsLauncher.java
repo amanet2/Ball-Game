@@ -1,7 +1,6 @@
 public class gWeaponsLauncher extends gWeapon {
     public gWeaponsLauncher() {
         super();
-        name = "LAUNCHER";
         dims = new int[]{200,100};
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");

@@ -1,7 +1,6 @@
 public class gWeaponsAutorifle extends gWeapon {
     public gWeaponsAutorifle() {
         super();
-        name = "AUTORIFLE";
         dims = new int[]{200,100};
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireorange.png");

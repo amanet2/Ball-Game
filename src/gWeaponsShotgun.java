@@ -1,7 +1,6 @@
 public class gWeaponsShotgun extends gWeapon {
     public gWeaponsShotgun() {
         super();
-        name = "SHOTGUN";
         dims = new int[]{200,100};
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireblue.png");
