@@ -28,9 +28,6 @@ public class gWeaponsLauncher extends gWeapon {
         b.putInt("src", gWeapons.type.LAUNCHER.code());
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
-        if(p == cClientLogic.getUserPlayer()) {
-            cClientLogic.weaponStocks[gWeapons.type.LAUNCHER.code()] -= 1;
-        }
     }
 
     public static void createGrenadeExplosion(gBullet seed) {

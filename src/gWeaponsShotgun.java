@@ -34,8 +34,5 @@ public class gWeaponsShotgun extends gWeapon {
             b.putInt("anim", gAnimations.ANIM_SPLASH_BLUE);
             scene.getThingMap("THING_BULLET").put(b.get("id"), b);
         }
-        if(p == cClientLogic.getUserPlayer()) {
-            cClientLogic.weaponStocks[gWeapons.type.SHOTGUN.code()] -= 1;
-        }
     }
 }
