@@ -1,4 +1,4 @@
-getres rando getrand 0 1
-testresn $rando 0 addcomx server putitem ITEM_POINTGIVER $1 $2 $3
-testresn $rando 0 addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3
-testres $rando 0 exec scripts/spawnpointgiverbonus $1 $2 $3
+getres rando getrand 0 3
+testres $rando 0 addcomx server putitem ITEM_POINTGIVER $1 $2 $3
+testres $rando 0 addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3
+testresn $rando 0 exec scripts/spawnpointgiverbonus $1 $2 $3
