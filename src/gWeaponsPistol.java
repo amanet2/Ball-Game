@@ -8,7 +8,6 @@ public class gWeaponsPistol extends gWeapon {
         soundFilePath = "sounds/laser.wav";
         refiredelay = 300;
         damage = 350;
-        maxAmmo = 6;
         sprite = gTextures.getGScaledImage(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;

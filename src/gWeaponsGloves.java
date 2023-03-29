@@ -7,7 +7,6 @@ public class gWeaponsGloves extends gWeapon {
         soundFilePath = "sounds/splash.wav";
         refiredelay = 450;
         damage = 550;
-        maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
         sprite = gTextures.getGScaledImage(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
         flipdimr = 225;

@@ -7,7 +7,6 @@ public class gWeaponsNone extends gWeapon {
         soundFilePath = "sounds/splash.wav";
         refiredelay = 500;
         damage = 300;
-        maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
         sprite = gTextures.getGScaledImage(eUtils.getPath(""),dims[0],dims[1]);
         flipdimr = 225;
