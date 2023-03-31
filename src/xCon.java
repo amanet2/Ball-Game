@@ -162,12 +162,12 @@ public class xCon {
                 return "server net com exclusive: " + actStr;
             }
         });
-        commands.put("addevent", new xCom() {
+        commands.put("scheduleevent", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
-                    return "addevent can only be used by active server";
+                    return "scheduleevent can only be used by active server";
                 if(eUtils.argsLength(fullCommand) < 3)
-                    return "usage: addevent <time> <string to execute>";
+                    return "usage: scheduleevent <time> <string to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -352,17 +352,20 @@ public class xCon {
                         shooterid = toks[3];
                     gPlayer player = cServerLogic.getPlayerById(id);
                     if(player != null) {
-                        ex(String.format("exec scripts/damageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        player.putInt("stockhp", player.getInt("stockhp") - dmg);
+                        nServer.instance().masterStateMap.get(id).put("hp", player.get("stockhp"));
+                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
-                            ex("exec scripts/deleteplayer " + id);
+                            nServer.instance().addNetCmd("server", "deleteplayer " + id);
+                            nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
                             ex("setvar sv_gamemode " + cClientLogic.gamemode);
-                            ex("exec scripts/handlekill " + id + " " + shooterid);
+                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -527,7 +530,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("exec scripts/e_newmap");
+                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_load;addcomi server cl_setvar cv_maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
@@ -670,7 +673,8 @@ public class xCon {
                 for(String arg : args) {
                     tvb.append(" ").append(arg);
                 }
-//        System.out.println(tvb);
+                if(cClientLogic.debug)
+                    System.out.println("script line: " + tvb);
                 ex(tvb.substring(1));
             }
         });
@@ -981,6 +985,34 @@ public class xCon {
                 return clientState.get(tk);
             }
         });
+        commands.put("giveweapon", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: giveweapon <player_id> <weap_code>";
+                String pid = args[1];
+                String weap = args[2];
+                nServer.instance().masterStateMap.get(pid).put("weap", weap);
+                String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
+                nServer.instance().addNetCmd("server", giveString);
+                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                xCon.ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
+                return "gave weapon " + weap + " to player " + pid;
+            }
+        });
+        commands.put("givedecoration", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: givedecoration <player_id> <sprite_path>";
+                String pid = args[1];
+                String path = args[2];
+                String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
+                nServer.instance().addNetCmd("server", giveString);
+                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                return "applied decoration " + path + " to player " + pid;
+            }
+        });
         commands.put("subint", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: subint $num1 $num2
@@ -988,11 +1020,6 @@ public class xCon {
                     return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 return Integer.toString(Integer.parseInt(args[1]) - Integer.parseInt(args[2]));
-            }
-        });
-        commands.put("getwinnerid", new xCom() {
-            public String doCommand(String fullCommand) {
-                return gScoreboard.getWinnerId();
             }
         });
         commands.put("givepoint", new xCom() {
@@ -1173,7 +1200,7 @@ public class xCon {
                 if(uiInterface.inplay) {
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
                     if(sSettings.show_mapmaker_ui)
-                        nClient.instance().addNetCmd("exec scripts/respawnnetplayer " + uiInterface.uuid);
+                        nClient.instance().addNetCmd("respawnnetplayer " + uiInterface.uuid);
                 }
                 else if(sSettings.show_mapmaker_ui)
                     nClient.instance().addNetCmd("deleteplayer " + uiInterface.uuid);
@@ -1267,6 +1294,25 @@ public class xCon {
                 }
                 uiInterface.exit();
                 return "";
+            }
+        });
+        commands.put("respawnnetplayer", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if (toks.length < 2)
+                    return "usage: respawnnetplayer <id>";
+                String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
+                if(!randomSpawnId.equalsIgnoreCase("null")) {
+                    gThing randomSpawn = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
+                    if(randomSpawn.get("occupied").equals("1"))
+                        ex("respawnnetplayer " + toks[1]);
+                    else {
+                        String spawnString = String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy"));
+                        nServer.instance().addNetCmd("server", spawnString);
+                        nServer.instance().addExcludingNetCmd("server", spawnString.replaceFirst("spawnplayer", "cl_spawnplayer"));
+                    }
+                }
+                return fullCommand;
             }
         });
         commands.put("say", new xCom() {
@@ -1484,6 +1530,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
+                    xCon.ex("exec scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
@@ -1944,17 +1991,7 @@ public class xCon {
     }
 
     private void clearThingMapDelegate(String[] toks, gScene scene) {
-        String thing_title = toks[1];
-        ArrayList<String> toRemoveIds = new ArrayList<>();
-        if(thing_title.contains("ITEM_")) {
-            if(scene.objectMaps.containsKey(thing_title))
-                toRemoveIds.addAll(scene.getThingMap(thing_title).keySet());
-            for(String id : toRemoveIds) {
-                scene.getThingMap("THING_ITEM").remove(id);
-            }
-        }
-        if(scene.objectMaps.containsKey(thing_title))
-            scene.objectMaps.put(thing_title, new LinkedHashMap<>());
+        scene.clearThingMap(toks[1]);
     }
 
     private void deleteBlockDelegate(String[] toks, gScene scene) {

@@ -1,4 +1,6 @@
 public class cServerVars extends gArgSet {
+    static int voteskiplimit = 2;
+    static int voteskipdelay = 10000;
     private static gArgSet instance;
 
     private cServerVars() {
@@ -34,6 +36,11 @@ public class cServerVars extends gArgSet {
                 xCon.ex("cl_setvar cv_velocityplayer " + value);
                 if(sSettings.IS_SERVER)
                     xCon.ex("addcom cl_setvar cv_velocityplayer " + Integer.parseInt(value));
+            }
+        });
+        putArg(new gArg("voteskiplimit", "2") {
+            public void onChange() {
+                voteskiplimit = Integer.parseInt(value);
             }
         });
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);

@@ -160,18 +160,30 @@ public class uiEditorMenus {
 //        });
 
         //fill prefabs menu
-        String[] prefabs = {"corner", "cube", "hallway", "junction", "room",
-                            "room_large"};
-        String[] prefabsRotate = {"corner", "hallway", "junction"};
-        ArrayList<String> prefabRotateList = new ArrayList<>(Arrays.asList(prefabsRotate));
-        for(String s : prefabs) {
+        ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));
+        ArrayList<String> allPrefabs = new ArrayList<>();
+        ArrayList<String> allPrefabsRotate = new ArrayList<>();
+        for(String s : allPrefabFiles) {
+            String rs = s;
+            for(String rt : new String[]{"_000", "_090", "_180", "_270"}) {
+                if(s.contains(rt)) {
+                    rs = s.split(rt)[0];
+                    if(!allPrefabsRotate.contains(rs))
+                        allPrefabsRotate.add(rs);
+                    break;
+                }
+            }
+            if(!allPrefabs.contains(rs))
+                allPrefabs.add(rs);
+        }
+        for(String s : allPrefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
             prefabmenuitem.setFont(dFonts.getFontNormal());
             if(uiEditorMenus.getRotateName(cClientLogic.newprefabname).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
             prefabmenuitem.addActionListener(e -> {
                 String name = prefabmenuitem.getText();
-                if(prefabRotateList.contains(name))
+                if(allPrefabsRotate.contains(name))
                     cClientLogic.newprefabname = name+"_000";
                 else
                     cClientLogic.newprefabname = name;

@@ -13,7 +13,7 @@ public class dFonts {
     static Stroke hudStroke = new BasicStroke(eUtils.scaleInt(10));
     static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
     static int fontsize = 90;
-    static String fontnameconsole = "Courier";
+    static String fontnameconsole = "monospaced";
     static Font fontNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN,
             fontsize * sSettings.height / sSettings.gamescale);
     static Font fontGNormal = new Font(cClientVars.instance().get("fontui"), Font.PLAIN, fontsize);

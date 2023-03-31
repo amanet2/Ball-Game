@@ -1,2 +1,0 @@
-addcomx server putitem ITEM_FLAG $1 $2 $3
-addcomi server cl_putitem ITEM_FLAG $1 $2 $3

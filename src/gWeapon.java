@@ -1,9 +1,8 @@
 import java.awt.Image;
 
 public class gWeapon {
-    String name;
+    String spritePath;
     Image sprite;
-    int maxAmmo;
     int[] dims;
     int[] bulletDims;
     int damage;

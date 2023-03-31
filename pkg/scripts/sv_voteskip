@@ -1,4 +1,0 @@
-addcomi server echo [VOTE_SKIP] VOTE TARGET REACHED
-addcomi server echo changing map...
-getres time sumlong $gametimemillis 10000
-addevent $time changemaprandom

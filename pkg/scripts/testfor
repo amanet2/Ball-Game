@@ -1,1 +1,0 @@
-foreachthing pid THING_PLAYER addcomi server echo playerid $pid

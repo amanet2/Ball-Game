@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class gExecDoableFactory {
@@ -9,8 +10,11 @@ public class gExecDoableFactory {
     }
 
     public void init() {
+        sSettings.prefab_titles = new String[eManager.prefabFileSelection.length];
+        int c = 0;
         for(String prefabName : eManager.prefabFileSelection) {
             execDoableMap.put("prefabs/" + prefabName, new gExecDoable("prefabs/" + prefabName));
+            sSettings.prefab_titles[c++] = prefabName;
         }
         for(String fileName : eManager.configFileSelection) {
             execDoableMap.put("config/" + fileName, new gExecDoable("config/" + fileName));

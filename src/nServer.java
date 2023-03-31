@@ -26,7 +26,7 @@ public class nServer extends Thread {
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
-    //VERY IMPORTANT LIST. whats allowed to be done by the clients
+    //VERY IMPORTANT. commands allowed from clients
     private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
             "deleteblock",
             "deleteitem",
@@ -37,6 +37,7 @@ public class nServer extends Thread {
             "fireweapon",
             "putblock",
             "putitem",
+            "respawnnetplayer",
             "requestdisconnect",
             "setnstate"
     ));
@@ -216,7 +217,10 @@ public class nServer extends Thread {
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
         gScoreboard.scoresMap.remove(id);
-        xCon.ex("exec scripts/handleremoveclient " + id);
+        nState snap = new nState(clientStateSnapshots.get(id));
+        addExcludingNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
+        xCon.ex("deleteplayer " + id);
+        xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
 
     public void run() {
@@ -253,7 +257,7 @@ public class nServer extends Thread {
     public void sendMapAndRespawn(String id) {
         sendMap(id);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
-            xCon.ex("exec scripts/respawnnetplayer " + id);
+            xCon.ex("respawnnetplayer " + id);
     }
 
     public void handleJoin(String id) {
@@ -262,7 +266,19 @@ public class nServer extends Thread {
         clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
-        xCon.ex("exec scripts/respawnnetplayerbackfill " + id);
+        handleBackfill(id);
+        String cname =  masterStateMap.get(id).get("name");
+        String ccolor =  masterStateMap.get(id).get("color");
+        addExcludingNetCmd("server", String.format("echo %s#%s joined the game", cname, ccolor));
+    }
+
+    public void handleBackfill(String id) {
+        for(String cId : masterStateMap.keys()) {
+            if(!id.equals(cId)) {
+                gPlayer p = cServerLogic.getPlayerById(cId);
+                addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
+            }
+        }
     }
 
     public void readData(String receiveDataString) {
@@ -359,7 +375,7 @@ public class nServer extends Thread {
                 xCon.ex(cmd);
                 addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
             }
-            else if(cmd.startsWith("exec scripts/respawnnetplayer"))
+            else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
                 xCon.ex(cmd);
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
@@ -369,26 +385,32 @@ public class nServer extends Thread {
     }
 
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        if(testmsg.strip().equalsIgnoreCase("thetime")) {
+        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg); //check for special sound
+        if(testmsg.strip().equalsIgnoreCase("thetime"))
             addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            return;
+        else if(testmsg.strip().equalsIgnoreCase("skip")) {
+            if(voteSkipList.contains(id))
+                addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+            else {
+                voteSkipList.add(id);
+                int votes = voteSkipList.size();
+                int limit = cServerVars.voteskiplimit;
+                if(votes < limit) {
+                    addExcludingNetCmd("server", String.format("echo [%s/%s] SAY 'skip' TO END ROUND.", votes, limit));
+                }
+                else {
+                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
+                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+                    addExcludingNetCmd("server", "echo [VOTE_SKIP] VOTE TARGET REACHED");
+                    addExcludingNetCmd("server", "echo changing map...");
+                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
+                        public void doCommand() {
+                            xCon.ex("changemaprandom");
+                        }
+                    });
+                }
+            }
         }
-        else if(!testmsg.strip().equalsIgnoreCase("skip"))
-            return;
-        if(voteSkipList.contains(id)) {
-            addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
-            return;
-        }
-        voteSkipList.add(id);
-        int limit = Integer.parseInt(xCon.ex("setvar voteskiplimit"));
-        if(voteSkipList.size() < limit) {
-            addExcludingNetCmd("server", String.format("echo [VOTE_SKIP] SAY 'skip' TO END ROUND. (%s/%s)",
-                    voteSkipList.size(), limit));
-            return;
-        }
-        addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
-                eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
-        xCon.ex("exec scripts/sv_voteskip");
     }
 
     public void sendMapToClients() {

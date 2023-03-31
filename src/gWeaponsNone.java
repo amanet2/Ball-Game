@@ -1,15 +1,14 @@
 public class gWeaponsNone extends gWeapon {
     public gWeaponsNone() {
         super();
-        name = "ROCK";
         dims = new int[]{225,150};
         bulletDims = new int[]{150,150};
         soundFilePath = "sounds/splash.wav";
         refiredelay = 500;
         damage = 300;
-        maxAmmo = 0;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
-        sprite = gTextures.getGScaledImage(eUtils.getPath(""),dims[0],dims[1]);
+        spritePath = eUtils.getPath("");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 45;

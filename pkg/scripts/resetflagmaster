@@ -1,2 +1,0 @@
-foreachclient pid setnstate $pid flag 0
-foreachclient pid setnstate $pid waypoint 0

@@ -24,7 +24,7 @@ public class eGameLogicServer implements eGameLogic {
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
-        xCon.ex("exec scripts/checkgamestate");
+        xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
         checkBulletSplashes(gameTimeMillis);
@@ -48,8 +48,6 @@ public class eGameLogicServer implements eGameLogic {
             //check null fields
             if (!player.containsFields(new String[]{"coordx", "coordy"}))
                 continue;
-            //check player teleporters
-            int clearTeleporterFlag = 1;
             for(String checkType : cServerLogic.scene.objectMaps.keySet()) {
                 if(!checkType.contains("ITEM_"))
                     continue;
@@ -63,14 +61,9 @@ public class eGameLogicServer implements eGameLogic {
                     item.put("occupied", "0");
                     if (player.collidesWithThing(item)) {
                         item.activateItem(player);
-                        if(checkType.contains("ITEM_TELEPORTER"))
-                            clearTeleporterFlag = 0;
                     }
                 }
             }
-            //after checking all items
-            if(clearTeleporterFlag > 0)
-                player.put("inteleporter", "0");
         }
     }
 
@@ -161,7 +154,7 @@ public class eGameLogicServer implements eGameLogic {
             if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
                 bulletsToRemoveIds.add(b.get("id"));
                 //grenade explosion
-                if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                if(b.isInt("src", gWeapons.launcher))
                     pseeds.add(b);
                 continue;
             }
@@ -169,7 +162,7 @@ public class eGameLogicServer implements eGameLogic {
                 gThing bl = cServerLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.launcher))
                         pseeds.add(b);
                 }
             }
@@ -178,7 +171,7 @@ public class eGameLogicServer implements eGameLogic {
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.launcher))
                         pseeds.add(b);
                 }
             }
@@ -198,7 +191,8 @@ public class eGameLogicServer implements eGameLogic {
             )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
             cServerLogic.scene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside
-            xCon.ex(String.format("exec scripts/sv_createpopupdmg %s %d %s", p.get("id"), dmg, b.get("srcid")));
+            nServer.instance().addNetCmd("server", String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
+            nServer.instance().addExcludingNetCmd("server", String.format("cl_spawnpopup %s %d", p.get("id"), dmg));
         }
     }
 

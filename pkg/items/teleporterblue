@@ -1,2 +1,3 @@
-getres it setthing THING_PLAYER $itemactid inteleporter
-testres $it 0 foreachthing telexid ITEM_TELEPORTER_BLUE exec scripts/checkteleporterexit $itemrcvid $itemactid
+getres tld setthing THING_PLAYER $itemactid teledelay
+getres dotele lte $tld $gametimemillis
+testres $dotele 1 foreachthing telexid ITEM_TELEPORTER_BLUE exec scripts/checkteleporterexit $itemrcvid $itemactid

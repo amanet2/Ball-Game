@@ -5,7 +5,6 @@ public class cClientLogic {
     static double volume = 100.0;
     static String selecteditemid = "";
     static String selectedPrefabId = "";
-    static int[] weaponStocks = {0, 30, 30, 30, 30, 0};
     static String playerName = "player";
     static String playerColor = "blue";
     static int velocityPlayer = 64;

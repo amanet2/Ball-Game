@@ -1,15 +1,14 @@
 public class gWeaponsPistol extends gWeapon {
     public gWeaponsPistol() {
         super();
-        name = "PISTOL";
         dims = new int[]{200,100};
         bulletDims = new int[]{75,75};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/laser.wav";
         refiredelay = 300;
         damage = 350;
-        maxAmmo = 6;
-        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/bfg.png"),dims[0],dims[1]);
+        spritePath = eUtils.getPath("misc/bfg.png");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 560;
@@ -26,13 +25,10 @@ public class gWeaponsPistol extends gWeapon {
             damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.type.PISTOL.code());
+        b.putInt("src", gWeapons.pistol);
         double randomOffset = (Math.random() * ((Math.PI/10))) - Math.PI/20;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
-        if(p == cClientLogic.getUserPlayer()) {
-            cClientLogic.weaponStocks[gWeapons.type.PISTOL.code()] -= 1;
-        }
     }
 }

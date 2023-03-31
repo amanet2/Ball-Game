@@ -92,12 +92,12 @@ public class gArgSet {
                 arg.onChange();
         }
         else {
+            xCon.instance().debug("gArgSet.put: no arg for key: " + key);
             putArg(new gArg(key, val) {
                 public void onChange() {
 
                 }
             });
         }
-            xCon.instance().debug("gArgSet.put: no arg for key: " + key);
     }
 }

@@ -1,0 +1,3 @@
+getres dropflagid getnewitemid
+addcomx server putitem ITEM_FLAG $dropflagid $1 $2
+addcomi server cl_putitem ITEM_FLAG $dropflagid $1 $2

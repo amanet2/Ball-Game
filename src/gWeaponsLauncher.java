@@ -1,15 +1,14 @@
 public class gWeaponsLauncher extends gWeapon {
     public gWeaponsLauncher() {
         super();
-        name = "LAUNCHER";
         dims = new int[]{200,100};
         bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/bfg.wav";
         refiredelay = 1000;
         damage = 1500; //damage will come from the pellets spawned in the explosion
-        maxAmmo = 1;
-        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/launcher.png"),dims[0],dims[1]);
+        spritePath = eUtils.getPath("misc/launcher.png");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 180;
@@ -25,12 +24,9 @@ public class gWeaponsLauncher extends gWeapon {
                 eUtils.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.type.LAUNCHER.code());
+        b.putInt("src", gWeapons.launcher);
         b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
-        if(p == cClientLogic.getUserPlayer()) {
-            cClientLogic.weaponStocks[gWeapons.type.LAUNCHER.code()] -= 1;
-        }
     }
 
     public static void createGrenadeExplosion(gBullet seed) {
@@ -38,7 +34,7 @@ public class gWeaponsLauncher extends gWeapon {
         for (int i = 0; i < 8; i++) {
             gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 300, 300,
                     seed.get("sprite"), 0,
-                    gWeapons.get(gWeapons.type.LAUNCHER).damage);
+                    gWeapons.fromCode(gWeapons.launcher).damage);
             double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
             g.putDouble("fv", g.getDouble("fv")+(i * (2.0*Math.PI/8.0) - Math.PI / 16 + randomOffset));
             g.putInt("ttl",75);

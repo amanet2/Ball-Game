@@ -1,2 +1,0 @@
-addcomx server damageplayer $1 $2 $3
-addcomi server cl_spawnpopup $1 $2

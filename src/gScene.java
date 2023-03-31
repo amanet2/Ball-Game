@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * A scene holds the background and objects for a game
@@ -67,6 +63,19 @@ public class gScene {
             }
         }
         return visualQueue;
+    }
+
+    public void clearThingMap(String thing_title) {
+        ArrayList<String> toRemoveIds = new ArrayList<>();
+        if(thing_title.contains("ITEM_")) {
+            if(objectMaps.containsKey(thing_title))
+                toRemoveIds.addAll(getThingMap(thing_title).keySet());
+            for(String id : toRemoveIds) {
+                getThingMap("THING_ITEM").remove(id);
+            }
+        }
+        if(objectMaps.containsKey(thing_title))
+            objectMaps.put(thing_title, new LinkedHashMap<>());
     }
 
     public void saveAs(String filename, String foldername) {

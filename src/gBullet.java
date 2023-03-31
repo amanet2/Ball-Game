@@ -11,7 +11,7 @@ public class gBullet extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         putInt("dmg", dmg);
-        putInt("src", gWeapons.type.NONE.code());
+        putInt("src", gWeapons.none);
         putInt("anim", -1);
         putInt("ttl", 1000);
         putLong("timestamp", gTime.gameTime);
