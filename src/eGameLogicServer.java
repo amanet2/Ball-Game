@@ -154,7 +154,7 @@ public class eGameLogicServer implements eGameLogic {
             if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
                 bulletsToRemoveIds.add(b.get("id"));
                 //grenade explosion
-                if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                if(b.isInt("src", gWeapons.launcher))
                     pseeds.add(b);
                 continue;
             }
@@ -162,7 +162,7 @@ public class eGameLogicServer implements eGameLogic {
                 gThing bl = cServerLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.launcher))
                         pseeds.add(b);
                 }
             }
@@ -171,7 +171,7 @@ public class eGameLogicServer implements eGameLogic {
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
-                    if(b.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(b.isInt("src", gWeapons.launcher))
                         pseeds.add(b);
                 }
             }

@@ -7,7 +7,8 @@ public class gWeaponsGloves extends gWeapon {
         refiredelay = 450;
         damage = 550;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
-        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/glove.png"),dims[0],dims[1]);
+        spritePath = eUtils.getPath("misc/glove.png");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 50;
@@ -22,7 +23,7 @@ public class gWeaponsGloves extends gWeapon {
             bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.type.GLOVES.code());
+        b.putInt("src", gWeapons.gloves);
         scene.getThingMap("THING_BULLET").put(b.get("id"), b);
     }
 }

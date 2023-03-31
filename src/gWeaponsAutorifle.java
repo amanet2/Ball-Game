@@ -7,7 +7,8 @@ public class gWeaponsAutorifle extends gWeapon {
         soundFilePath = "sounds/30cal.wav";
         refiredelay = 80;
         damage = 200;
-        sprite = gTextures.getGScaledImage(eUtils.getPath("misc/autorifle.png"),dims[0],dims[1]);
+        spritePath = eUtils.getPath("misc/autorifle.png");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
         bulletTtl = 210;
@@ -22,7 +23,7 @@ public class gWeaponsAutorifle extends gWeapon {
             p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
                 eUtils.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
         b.putInt("ttl",bulletTtl);
-        b.putInt("src", gWeapons.type.AUTORIFLE.code());
+        b.putInt("src", gWeapons.autorifle);
         b.put("srcid", p.get("id"));
         double randomOffset = (Math.random() * Math.PI/8) - Math.PI/16;
         b.putDouble("fv", b.getDouble("fv") + randomOffset);

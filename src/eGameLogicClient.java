@@ -140,7 +140,7 @@ public class eGameLogicClient implements eGameLogic {
 //                                    b.getInt("coordx"), b.getInt("coordy")));
 //                }
                 //grenade explosion
-                if(t.isInt("src", gWeapons.type.LAUNCHER.code())) {
+                if(t.isInt("src", gWeapons.launcher)) {
                     pseeds.add(t);
                 }
                 continue;
@@ -149,7 +149,7 @@ public class eGameLogicClient implements eGameLogic {
                 gThing bl = cClientLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(t.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(t.get("id"));
-                    if(t.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(t.isInt("src", gWeapons.launcher))
                         pseeds.add(t);
                 }
             }
@@ -158,7 +158,7 @@ public class eGameLogicClient implements eGameLogic {
                 if(p != null && p.containsFields(new String[]{"coordx", "coordy"})
                         && t.collidesWithThing(p) && !t.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(p, t);
-                    if(t.isInt("src", gWeapons.type.LAUNCHER.code()))
+                    if(t.isInt("src", gWeapons.launcher))
                         pseeds.add(t);
                 }
             }

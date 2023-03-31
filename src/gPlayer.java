@@ -41,45 +41,28 @@ public class gPlayer extends gThing {
     }
 
     public void checkSpriteFlip() {
-        if((getDouble("fv") >= 7*Math.PI/4 && getDouble("fv") <= 9*Math.PI/4)) {
-            if(!get("pathsprite").contains("a00")) {
-                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", get("color"))));
-            }
+        boolean a00 = (getDouble("fv") >= 7*Math.PI/4 && getDouble("fv") <= 9*Math.PI/4);
+        boolean a03 = (getDouble("fv") >= 1*Math.PI/4 && getDouble("fv") <= 3*Math.PI/4);
+        boolean a04 = (getDouble("fv") >= 3*Math.PI/4 && getDouble("fv") <= 5*Math.PI/4);
+        boolean a05 = (getDouble("fv") >= 5*Math.PI/4 && getDouble("fv") <= 7*Math.PI/4);
+
+        if(a00 && !get("pathsprite").contains("a00")) {
+            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", get("color"))));
         }
-        else if((getDouble("fv") <= 3*Math.PI/4)
-                || (getDouble("fv") >= 2*Math.PI || getDouble("fv") <= 3*Math.PI/4)) {
-            if(!get("pathsprite").contains("a03")) {
-                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",get("color"))));
-                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle.png" :
-                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun.png" :
-                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove.png" :
-                                        isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher.png" :
-                                                        "misc/bfg.png";
-                gWeapons.fromCode(getInt("weapon")).dims[1] =
-                        gWeapons.fromCode(getInt("weapon")).flipdimr;
-                gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-            }
+        else if(a03 && !get("pathsprite").contains("a03")) {
+            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png", get("color"))));
+            gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdimr;
+            gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(gWeapons.fromCode(getInt("weapon")).spritePath);
         }
-        else if(getDouble("fv") <= 5*Math.PI/4) {
-            if(!get("pathsprite").contains("a04")) {
-                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",get("color"))));
-            }
+        else if(a04 && !get("pathsprite").contains("a04")) {
+            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",get("color"))));
         }
-        else {
-            if(!get("pathsprite").contains("a05")) {
-                setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
-                String sprite = isInt("weapon", gWeapons.type.AUTORIFLE.code()) ? "misc/autorifle_flip.png" :
-                        isInt("weapon", gWeapons.type.SHOTGUN.code()) ? "misc/shotgun_flip.png" :
-                                isInt("weapon", gWeapons.type.GLOVES.code()) ? "misc/glove_flip.png" :
-                                        isInt("weapon", gWeapons.type.NONE.code()) ? "" :
-                                                isInt("weapon", gWeapons.type.LAUNCHER.code()) ? "misc/launcher_flip.png" :
-                                                        "misc/bfg_flip.png";
-                if(gWeapons.fromCode(getInt("weapon")) != null) {
-                    gWeapons.fromCode(getInt("weapon")).dims[1] =
-                            gWeapons.fromCode(getInt("weapon")).flipdiml;
-                    gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(eUtils.getPath(sprite));
-                }
+        else if(a05 && !get("pathsprite").contains("a05")) {
+            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
+            String flippedSprite = gWeapons.fromCode(getInt("weapon")).spritePath.replace(".png", "_flip.png");
+            if(gWeapons.fromCode(getInt("weapon")) != null) {
+                gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdiml;
+                gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(flippedSprite);
             }
         }
     }

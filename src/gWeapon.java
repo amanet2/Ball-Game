@@ -1,6 +1,7 @@
 import java.awt.Image;
 
 public class gWeapon {
+    String spritePath;
     Image sprite;
     int[] dims;
     int[] bulletDims;

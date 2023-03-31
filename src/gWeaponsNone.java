@@ -7,7 +7,8 @@ public class gWeaponsNone extends gWeapon {
         refiredelay = 500;
         damage = 300;
         bulletSpritePath = eUtils.getPath("misc/rock.png");
-        sprite = gTextures.getGScaledImage(eUtils.getPath(""),dims[0],dims[1]);
+        spritePath = eUtils.getPath("");
+        sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
         bulletTtl = 45;
