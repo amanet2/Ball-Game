@@ -239,7 +239,7 @@ public class nServer extends Thread {
                         uiInterface.netReportServer = ticks;
                         ticks = 0;
                     }
-                    processPackets();
+//                    processPackets();
                 }
                 catch (Exception e) {
                     eLogging.logException(e);

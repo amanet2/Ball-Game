@@ -21,6 +21,7 @@ public class eGameLogicServer implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
+        nServer.instance().processPackets();
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
