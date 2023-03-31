@@ -1,3 +1,4 @@
 setthing THING_PLAYER $1 teledelay $gametimemillis
 addcomx server testres $mode_virus $sv_gamemode getres iv setnstate $1 virus
 addcomx server testres $mode_virus $sv_gamemode testres 1 $iv giveweapon $1 $weap_gloves
+addcomx server testres $mode_virus $sv_gamemode testres 1 $iv givedecoration $1 misc/forbidden.png
