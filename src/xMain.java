@@ -35,7 +35,7 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			new eGameSessionClient().start();
+			new eGameSession(new eGameLogicClient(), sSettings.rategame).start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

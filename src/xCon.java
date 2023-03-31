@@ -1595,7 +1595,7 @@ public class xCon {
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
                 nServer.instance().start();
-                new eGameSessionServer().start();
+                new eGameSession(new eGameLogicServer(), sSettings.rateserver).start();
                 sSettings.IS_SERVER = true;
                 return "new game started";
             }
