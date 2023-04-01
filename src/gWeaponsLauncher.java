@@ -40,7 +40,6 @@ public class gWeaponsLauncher extends gWeapon {
             g.putInt("ttl",75);
             g.put("srcid", seed.get("srcid"));
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
-            g.putInt("isexplosionpart",1);
             if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
                 cServerLogic.scene.getThingMap("THING_BULLET").put(g.get("id"), g);
                 cClientLogic.scene.getThingMap("THING_BULLET").put(g.get("id"), g);

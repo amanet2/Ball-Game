@@ -39,14 +39,6 @@ public class gCamera {
 		argSet.put(k, v);
 	}
 
-	public static String get(String k) {
-		return argSet.get(k);
-	}
-
-	public static boolean contains(String k) {
-		return argSet.contains(k);
-	}
-
 	public static int getX() {
 		return coords[0];
 	}

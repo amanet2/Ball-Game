@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class gArgSet {
     protected HashMap<String, gArg> args;
-    protected ArrayList<String> filelines;
+    private final ArrayList<String> filelines;
 
     public String toString() {
         return args.toString();
@@ -73,10 +73,6 @@ public class gArgSet {
         arg.onChange();
     }
 
-    protected gArg getArg(String key) {
-        return args.get(key);
-    }
-
     public String get(String key) {
         if(args.containsKey(key))
             return args.get(key).value;
@@ -84,7 +80,7 @@ public class gArgSet {
     }
 
     public void put(String key, String val) {
-        gArg arg = getArg(key);
+        gArg arg = args.get(key);
         if(arg != null) {
             String old = arg.value;
             arg.value = val;
