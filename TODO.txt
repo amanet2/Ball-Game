@@ -1,3 +1,4 @@
+* REFACTOR: eUtils.argsLength seems redundant when we get args back on the next line anyways
 * STABILITY: Watch out for weird error of null item from queue in checkitems
 * STABILITY: make sure we're not iterating over maps of objects
     -> get keys of object map
