@@ -1,5 +1,4 @@
 getres isv setnstate $1 virus
-# fix a bug with virus mode
 testres $isv null setnstate $1 virus 0
 testres $isv null setvar isv 0
 testres $isv 0 givepoint $1
