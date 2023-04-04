@@ -992,7 +992,6 @@ public class xCon {
                     return "usage: giveweapon <player_id> <weap_code>";
                 String pid = args[1];
                 String weap = args[2];
-                nServer.instance().masterStateMap.get(pid).put("weap", weap);
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
                 nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
