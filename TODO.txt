@@ -1,4 +1,11 @@
 * REFACTOR: eUtils.argsLength seems redundant when we get args back on the next line anyways
+* SANITY: how the hell is the launcher explosion's velocity being set?
+* WEAPONS: make multiple bullet classes like we have for weapons
+    -> we can customize these projectile's properties in a cfg
+    -> in the cfg files, we will reference the bullet we want to come out of a weapon
+        -> e.g. setvar WEAP_LAUNCHER_projectile PROJECTILE_ROCKET
+        -> e.g. setvar WEAP_SHOTGUN_projectile PROJECTILE_SHOTGUN
+        -> e.g. setvar PROJECTILE_SHOTGUN_spread 5
 * STABILITY: Watch out for weird error of null item from queue in checkitems
 * STABILITY: make sure we're not iterating over maps of objects
     -> get keys of object map

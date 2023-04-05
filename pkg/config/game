@@ -98,7 +98,9 @@ setvar WEAPON_LAUNCHER_delay 1000
 setvar WEAPON_LAUNCHER_vel 30
 setvar WEAPON_LAUNCHER_ttl 180
 setvar WEAPON_LAUNCHER_rad 50
-setvar WEAPON_LAUNCHER_vel
+setvar WEAPON_LAUNCHER_vel_xpl 75
+setvar WEAPON_LAUNCHER_ttl_xpl 75
+setvar WEAPON_LAUNCHER_rad_xpl 300
 setvar WEAPON_GLOVES_dmg 550
 setvar WEAPON_GLOVES_delay 450
 setvar WEAPON_GLOVES_vel 30
