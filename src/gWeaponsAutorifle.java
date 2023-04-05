@@ -1,18 +1,13 @@
 public class gWeaponsAutorifle extends gWeapon {
     public gWeaponsAutorifle() {
-        super();
+        super("AUTORFILE");
         dims = new int[]{200,100};
-        bulletDims = new int[]{50,50};
         bulletSpritePath = eUtils.getPath("objects/misc/fireorange.png");
         soundFilePath = "sounds/30cal.wav";
-        refiredelay = 80;
-        damage = 200;
         spritePath = eUtils.getPath("misc/autorifle.png");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
-        bulletTtl = 210;
-        bulletVel = 70;
     }
 
     public void fireWeapon(gPlayer p, gScene scene) {
