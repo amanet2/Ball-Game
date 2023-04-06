@@ -1,3 +1,9 @@
+setvar mode_deathmatch 0
+setvar mode_virus 1
+setvar mode_flagmaster 2
+setvar mode_goldmaster 3
+setvar mode_pointmaster 4
+setvar mode_vipmaster 5
 setvar GAMETYPE_0_title Rock Master
 setvar GAMETYPE_0_text Rock Other Players
 setvar GAMETYPE_1_title Virus Master
@@ -73,6 +79,12 @@ setvar ITEM_GLOVE_dimw 300
 setvar ITEM_GLOVE_dimh 200
 setvar ITEM_GLOVE_sprite misc/glove.png
 setvar ITEM_GLOVE_script exec items/glove
+setvar weap_none 0
+setvar weap_pistol 1
+setvar weap_shotgun 2
+setvar weap_autorifle 3
+setvar weap_launcher 4
+setvar weap_gloves 5
 setvar WEAPON_NONE_dmg 300
 setvar WEAPON_NONE_delay 500
 setvar WEAPON_NONE_vel 30

@@ -12,16 +12,3 @@ setvar velocityplayerbase 64
 setvar voteskiplimit 2
 # time between game end and next map loads
 setvar intermissiondelay 10000
-# game modes
-setvar mode_deathmatch 0
-setvar mode_virus 1
-setvar mode_flagmaster 2
-setvar mode_goldmaster 3
-setvar mode_pointmaster 4
-setvar mode_vipmaster 5
-setvar weap_none 0
-setvar weap_pistol 1
-setvar weap_shotgun 2
-setvar weap_rifle 3
-setvar weap_launcher 4
-setvar weap_gloves 5
