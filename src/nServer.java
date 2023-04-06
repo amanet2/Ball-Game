@@ -149,40 +149,43 @@ public class nServer extends Thread {
     }
 
     public void processPackets() {
-        try {
             HashMap<String, String> netVars = getNetVars();
-            if(receivedPackets.size() > 0) {
-                DatagramPacket receivePacket = receivedPackets.peek();
-                String receiveDataString = new String(receivePacket.getData());
-                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                        + receiveDataString.trim());
-                //get the ip address of the client
-                InetAddress addr = receivePacket.getAddress();
-                int port = receivePacket.getPort();
-                //read data of packet
-                readData(receiveDataString); //and respond too
-                //get player id of client
-                HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                String clientId = clientmap.get("id");
-                if(clientId != null) {
-                    //create response
-                    String sendDataString = createSendDataString(netVars, clientId);
-                    byte[] sendData = sendDataString.getBytes();
-                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
-                    serverSocket.send(sendPacket);
-                    xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
-                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                    if(sendDataString.length() > sSettings.max_packet_size)
-                        System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
-                                + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+//            if(receivedPackets.size() > 0) {
+                try {
+                    DatagramPacket receivePacket = receivedPackets.peek();
+                    if(receivePacket == null)
+                        return;
+                    String receiveDataString = new String(receivePacket.getData());
+                    receivedPackets.remove();
+                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+                            + receiveDataString.trim());
+                    //get the ip address of the client
+                    InetAddress addr = receivePacket.getAddress();
+                    int port = receivePacket.getPort();
+                    //read data of packet
+                    readData(receiveDataString); //and respond too
+                    //get player id of client
+                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
+                    String clientId = clientmap.get("id");
+                    if(clientId != null) {
+                        //create response
+                        String sendDataString = createSendDataString(netVars, clientId);
+                        byte[] sendData = sendDataString.getBytes();
+                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
+                        serverSocket.send(sendPacket);
+                        xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+                        xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                        if(sendDataString.length() > sSettings.max_packet_size)
+                            System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
+                                    + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    }
                 }
-                receivedPackets.remove();
-            }
-        }
-        catch (Exception e) {
-            eLogging.logException(e);
-            e.printStackTrace();
-        }
+                catch (Exception e) {
+                    eLogging.logException(e);
+                    e.printStackTrace();
+                }
+//                receivedPackets.remove();
+//            }
     }
 
     public HashMap<String, String> getNetVars() {
