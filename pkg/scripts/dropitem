@@ -1,0 +1,3 @@
+getres dropitemid getnewitemid
+addcomx server putitem $1 $dropitemid $2 $3
+addcomi server cl_putitem $1 $dropitemid $2 $3
