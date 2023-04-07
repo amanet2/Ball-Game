@@ -94,31 +94,38 @@ public class eGameLogicClient implements eGameLogic {
             obj.putInt("coordx", dx);
             obj.putInt("coordy", dy);
         }
-        HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap("THING_BULLET");
-        Queue<gThing> checkQueue = new LinkedList<>();
-        for (String id : thingMap.keySet()) {
-            checkQueue.add(thingMap.get(id));
+        try {
+            HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap("THING_BULLET");
+            Queue<gThing> checkQueue = new LinkedList<>();
+            String[] keys = thingMap.keySet().toArray(new String[0]);
+            for (String id : keys) {
+                checkQueue.add(thingMap.get(id));
+            }
+            while (checkQueue.size() > 0) {
+                gBullet obj = (gBullet) checkQueue.remove();
+                obj.putInt("coordx", obj.getInt("coordx")
+                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
+                obj.putInt("coordy", obj.getInt("coordy")
+                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
+            }
+            checkBulletSplashes(gameTimeMillis);
+            //popups
+            thingMap = cClientLogic.scene.getThingMap("THING_POPUP");
+            checkQueue = new LinkedList<>();
+            for (String id : thingMap.keySet()) {
+                checkQueue.add(thingMap.get(id));
+            }
+            while (checkQueue.size() > 0) {
+                gPopup obj = (gPopup) checkQueue.remove();
+                obj.put("coordx", Integer.toString(obj.getInt("coordx")
+                        - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
+                obj.put("coordy", Integer.toString(obj.getInt("coordy")
+                        - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
+            }
         }
-        while(checkQueue.size() > 0) {
-            gBullet obj = (gBullet) checkQueue.remove();
-            obj.putInt("coordx", obj.getInt("coordx")
-                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-            obj.putInt("coordy", obj.getInt("coordy")
-                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+        catch (Exception e) {
+            e.printStackTrace();
         }
-        thingMap = cClientLogic.scene.getThingMap("THING_POPUP");
-        checkQueue = new LinkedList<>();
-        for (String id : thingMap.keySet()) {
-            checkQueue.add(thingMap.get(id));
-        }
-        while(checkQueue.size() > 0) {
-            gPopup obj = (gPopup) checkQueue.remove();
-            obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                    - (int) (sSettings.velocity_popup*Math.cos(obj.getDouble("fv")+Math.PI/2))));
-            obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                    - (int) (sSettings.velocity_popup*Math.sin(obj.getDouble("fv")+Math.PI/2))));
-        }
-        checkBulletSplashes(gameTimeMillis);
     }
 
     private void checkBulletSplashes(long gameTimeMillis) {
@@ -127,7 +134,8 @@ public class eGameLogicClient implements eGameLogic {
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = cClientLogic.scene.getThingMap("THING_BULLET");
         Queue<gThing> checkThings = new LinkedList<>();
-        for (String id : bulletsMap.keySet()) {
+        String[] keys = bulletsMap.keySet().toArray(new String[0]);
+        for (String id : keys) {
             checkThings.add(bulletsMap.get(id));
         }
         while (checkThings.size() > 0) {

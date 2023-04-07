@@ -1,3 +1,9 @@
+setvar mode_deathmatch 0
+setvar mode_virus 1
+setvar mode_flagmaster 2
+setvar mode_goldmaster 3
+setvar mode_pointmaster 4
+setvar mode_vipmaster 5
 setvar GAMETYPE_0_title Rock Master
 setvar GAMETYPE_0_text Rock Other Players
 setvar GAMETYPE_1_title Virus Master
@@ -73,3 +79,42 @@ setvar ITEM_GLOVE_dimw 300
 setvar ITEM_GLOVE_dimh 200
 setvar ITEM_GLOVE_sprite misc/glove.png
 setvar ITEM_GLOVE_script exec items/glove
+setvar weap_none 0
+setvar weap_pistol 1
+setvar weap_shotgun 2
+setvar weap_autorifle 3
+setvar weap_launcher 4
+setvar weap_gloves 5
+setvar WEAPON_NONE_dmg 300
+setvar WEAPON_NONE_delay 500
+setvar WEAPON_NONE_vel 30
+setvar WEAPON_NONE_ttl 45
+setvar WEAPON_NONE_rad 150
+setvar WEAPON_PISTOL_dmg 350
+setvar WEAPON_PISTOL_delay 300
+setvar WEAPON_PISTOL_vel 70
+setvar WEAPON_PISTOL_ttl 560
+setvar WEAPON_PISTOL_rad 75
+setvar WEAPON_SHOTGUN_dmg 2100
+setvar WEAPON_SHOTGUN_delay 750
+setvar WEAPON_SHOTGUN_vel 60
+setvar WEAPON_SHOTGUN_ttl 140
+setvar WEAPON_SHOTGUN_rad 50
+setvar WEAPON_AUTORFILE_dmg 200
+setvar WEAPON_AUTORFILE_delay 80
+setvar WEAPON_AUTORFILE_vel 70
+setvar WEAPON_AUTORFILE_ttl 210
+setvar WEAPON_AUTORFILE_rad 50
+setvar WEAPON_LAUNCHER_dmg 1500
+setvar WEAPON_LAUNCHER_delay 1000
+setvar WEAPON_LAUNCHER_vel 30
+setvar WEAPON_LAUNCHER_ttl 180
+setvar WEAPON_LAUNCHER_rad 50
+setvar WEAPON_LAUNCHER_vel_xpl 75
+setvar WEAPON_LAUNCHER_ttl_xpl 75
+setvar WEAPON_LAUNCHER_rad_xpl 300
+setvar WEAPON_GLOVES_dmg 550
+setvar WEAPON_GLOVES_delay 450
+setvar WEAPON_GLOVES_vel 30
+setvar WEAPON_GLOVES_ttl 50
+setvar WEAPON_GLOVES_rad 300

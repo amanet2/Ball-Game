@@ -7,7 +7,7 @@ testresn $2 null getres sw setthing THING_PLAYER $2 weapon
 testresn $2 null testres $sw $weap_none addcomi server echo $sn#$sc rocked $vn#$vc
 testresn $2 null testres $sw $weap_pistol addcomi server echo $sn#$sc shot $vn#$vc with a pistol
 testresn $2 null testres $sw $weap_shotgun addcomi server echo $sn#$sc shotgunned $vn#$vc
-testresn $2 null testres $sw $weap_rifle addcomi server echo $sn#$sc shot $vn#$vc with a rifle
+testresn $2 null testres $sw $weap_autorifle addcomi server echo $sn#$sc shot $vn#$vc with a rifle
 testresn $2 null testres $sw $weap_launcher addcomi server echo $sn#$sc blew up $vn#$vc with a bazooka
 testresn $2 null testres $sw $weap_gloves addcomi server echo $sn#$sc hit $vn#$vc with the gloves
 testresn $2 null testres $sv_gamemode $mode_deathmatch givepoint $2 500
@@ -23,15 +23,15 @@ testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag
 getres uid setnstate $1 id
 setnstate $1 flag 0
-testres $hadflag 1 setnstate $1 waypoint 0
-testres $hadflag 1 getres newitemx setthing THING_PLAYER $1 coordx
-testres $hadflag 1 getres newitemy setthing THING_PLAYER $1 coordy
-testres $hadflag 1 exec scripts/dropflag $newitemx $newitemy
+setnstate $1 waypoint 0
+getres pldropx setthing THING_PLAYER $1 coordx
+getres pldropy setthing THING_PLAYER $1 coordy
+testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $pldropx $pldropy
+# getres hadweapon setthing THING_PLAYER $1 weapon
+# testres $hadweapon $weap_pistol exec scripts/dropitem ITEM_PISTOL $pldropx $pldropy
+# testres $hadweapon $weap_shotgun exec scripts/dropitem ITEM_SHOTGUN $pldropx $pldropy
+# testres $hadweapon $weap_autorifle exec scripts/dropitem ITEM_AUTORIFLE $pldropx $pldropy
+# testres $hadweapon $weap_launcher exec scripts/dropitem ITEM_LAUNCHER $pldropx $pldropy
+# testres $hadweapon $weap_gloves exec scripts/dropitem ITEM_GLOVES $pldropx $pldropy
 getres respawntime sumlong $gametimemillis $respawnwaittime
 scheduleevent $respawntime respawnnetplayer $uid
-# getres hadweapon setthing THING_PLAYER $1 weapon
-# testres $hadweapon 1 exec scripts/droppistol $newitemx $newitemy
-# testres $hadweapon 2 exec scripts/dropshotgun $newitemx $newitemy
-# testres $hadweapon 3 exec scripts/droprifle $newitemx $newitemy
-# testres $hadweapon 4 exec scripts/droplauncher $newitemx $newitemy
-# testres $hadweapon 5 exec scripts/dropglove $newitemx $newitemy

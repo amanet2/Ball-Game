@@ -1,6 +1,7 @@
 import java.awt.Image;
 
 public class gWeapon {
+    gArgSet argSet;
     String spritePath;
     Image sprite;
     int[] dims;
@@ -14,7 +15,42 @@ public class gWeapon {
     int bulletTtl;
     int bulletVel;
 
-    public gWeapon() {
+    public gWeapon(String title) {
+        argSet = new gArgSet();
+        argSet.putArg(new gArg("dmg", "0") {
+            public void onChange() {
+                damage = Integer.parseInt(value);
+            }
+        });
+        argSet.putArg(new gArg("delay", "500") {
+            public void onChange() {
+                refiredelay = Integer.parseInt(value);
+            }
+        });
+        argSet.putArg(new gArg("vel", "30") {
+            public void onChange() {
+                bulletVel = Integer.parseInt(value);
+            }
+        });
+        argSet.putArg(new gArg("ttl", "45") {
+            public void onChange() {
+                bulletTtl = Integer.parseInt(value);
+            }
+        });
+        argSet.putArg(new gArg("rad", "150") {
+            public void onChange() {
+                int d = Integer.parseInt(value);
+                bulletDims = new int[]{d, d};
+            }
+        });
+        for(String s : new String[]{"dmg", "delay", "vel", "ttl", "rad"}) {
+            String vk = String.format("setvar WEAPON_%s_%s", title, s);
+            String cfg = xCon.ex(vk);
+            if(!cfg.equalsIgnoreCase("null"))
+                argSet.put(s, cfg);
+            else
+                System.out.println("VALUE IS NULL: " + vk);
+        }
     }
 
     public void setSpriteFromPath(String path) {

@@ -1,18 +1,13 @@
 public class gWeaponsGloves extends gWeapon {
     public gWeaponsGloves() {
-        super();
+        super("GLOVES");
         dims = new int[]{225,150};
-        bulletDims = new int[]{300,300};
         soundFilePath = "sounds/splash.wav";
-        refiredelay = 450;
-        damage = 550;
         bulletSpritePath = eUtils.getPath("misc/glove.png");
         spritePath = eUtils.getPath("misc/glove.png");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;
-        bulletTtl = 50;
-        bulletVel = 30;
     }
 
     public void fireWeapon(gPlayer p, gScene scene) {

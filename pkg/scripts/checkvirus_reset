@@ -1,3 +1,4 @@
 foreachclient pid setnstate $pid virus 0
+foreachclient pid givedecoration $pid null
 getres rando getrandclid
 testresn $rando null setnstate $rando virus 1

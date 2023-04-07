@@ -992,7 +992,6 @@ public class xCon {
                     return "usage: giveweapon <player_id> <weap_code>";
                 String pid = args[1];
                 String weap = args[2];
-                nServer.instance().masterStateMap.get(pid).put("weap", weap);
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
                 nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
@@ -1366,22 +1365,6 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("setcam", new xCom() {
-            //usage: setcam $key $val
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsAllSources(fullCommand);
-                String ck = args[1];
-                String sv = "null";
-                if(gCamera.contains(ck))
-                    sv = gCamera.get(ck);
-                if(args.length < 3)
-                    return sv;
-                gCamera.put(ck, args[2]);
-                return gCamera.get(ck);
-            }
-        });
         commands.put("setnstate", new xCom() {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
@@ -1595,7 +1578,7 @@ public class xCon {
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
                 nServer.instance().start();
-                new eGameSessionServer().start();
+                new eGameSession(new eGameLogicServer(), sSettings.rateserver).start();
                 sSettings.IS_SERVER = true;
                 return "new game started";
             }

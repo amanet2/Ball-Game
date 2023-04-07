@@ -21,13 +21,13 @@ public class eGameLogicServer implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
+        nServer.instance().processPackets();
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
-        checkBulletSplashes(gameTimeMillis);
         ticks++;
         long theTime = System.nanoTime();
         if(nextsecondnanos < theTime) {
@@ -126,18 +126,27 @@ public class eGameLogicServer implements eGameLogic {
                 objState.put("vel3", obj.get("vel3"));
             }
         }
-        HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        Queue<gThing> checkQueue = new LinkedList<>();
-        for (String id : thingMap.keySet()) {
-            checkQueue.add(thingMap.get(id));
+
+        try {
+            HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap("THING_BULLET");
+            Queue<gThing> checkQueue = new LinkedList<>();
+            String[] keys = thingMap.keySet().toArray(new String[0]);
+            for (String id : keys) {
+                checkQueue.add(thingMap.get(id));
+            }
+            while(checkQueue.size() > 0) {
+                gBullet obj = (gBullet) checkQueue.remove();
+                obj.putInt("coordx", obj.getInt("coordx")
+                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
+                obj.putInt("coordy", obj.getInt("coordy")
+                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+            }
+            checkBulletSplashes(gameTimeMillis);
         }
-        while(checkQueue.size() > 0) {
-            gBullet obj = (gBullet) checkQueue.remove();
-            obj.putInt("coordx", obj.getInt("coordx")
-                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-            obj.putInt("coordy", obj.getInt("coordy")
-                    - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
+        catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private void checkBulletSplashes(long gameTimeMillis) {
@@ -146,7 +155,8 @@ public class eGameLogicServer implements eGameLogic {
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
         Queue<gThing> checkQueue = new LinkedList<>();
-        for (String id : bulletsMap.keySet()) {
+        String[] keys = bulletsMap.keySet().toArray(new String[0]);
+        for (String id : keys) {
             checkQueue.add(bulletsMap.get(id));
         }
         while(checkQueue.size() > 0) {

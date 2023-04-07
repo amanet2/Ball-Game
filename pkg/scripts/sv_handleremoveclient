@@ -1,4 +1,4 @@
 getres hadflag getsnap $1 flag
 testres $hadflag 1 getres dcx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres dcy setthing THING_PLAYER $1 coordy
-testres $hadflag 1 exec scripts/dropflag $dcx $dcy
+testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $dcx $dcy

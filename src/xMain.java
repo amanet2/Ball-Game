@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class xMain {
 	private static void initGameObjects() {
-		xCon.ex("exec config/game");
+		xCon.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
 		int ctr = 0;
 		ArrayList<String> thingTypes = new ArrayList<>();
 		while(!xCon.ex("setvar THING_"+ctr).equals("null")) {
@@ -35,7 +35,7 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			new eGameSessionClient().start();
+			new eGameSession(new eGameLogicClient(), sSettings.rategame).start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();
