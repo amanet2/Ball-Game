@@ -4,5 +4,5 @@ setvar healdue 0
 getres rcplusdelay sumlong $gametimemillis $impossibledelay
 getres rctime setthing THING_PLAYER $plid hprechargetime
 testresn $rctime null getres rcplusdelay sumlong $rctime $delayhp
-getres healdue lte $rcplusdelay $gametimemillis
+getres healdue gte $gametimemillis $rcplusdelay
 testres $healdue 1 exec scripts/rechargehealthdelegate

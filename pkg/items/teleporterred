@@ -1,3 +1,3 @@
 getres tld setthing THING_PLAYER $itemactid teledelay
-getres dotele lte $tld $gametimemillis
+getres dotele gte $gametimemillis $tld
 testres $dotele 1 foreachthing telexid ITEM_TELEPORTER_RED exec scripts/checkteleporterexit $itemrcvid $itemactid

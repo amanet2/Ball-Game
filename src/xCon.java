@@ -1611,29 +1611,7 @@ public class xCon {
             }
         });
         commands.put("gte", new xCom() {
-            //usage: gte $res $val (return 1 if res >= val, else 0)
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                if(Integer.parseInt(args[1]) >= Integer.parseInt(args[2]))
-                    return "1";
-                return "0";
-            }
-        });
-        commands.put("lte", new xCom() {
-            //usage: lte $res $val //return 1 if true 0 if false
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                if(Long.parseLong(args[1]) <= Long.parseLong(args[2]))
-                    return "1";
-                return "0";
-            }
-        });
-        commands.put("gteint", new xCom() {
-            //usage: gteint $res $val // return 1 if res >= val
+            //usage: gte $res $val // return 1 if res >= val
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";

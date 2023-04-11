@@ -1,4 +1,3 @@
-* CLEANUP: consolidate math script functions (lte, lteint, gte) combine into the lteint turn into a new 'gte'
 * REFACTOR: eUtils.argsLength seems redundant when we get args back on the next line anyways
 * SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
