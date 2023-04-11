@@ -223,8 +223,6 @@ public class cClientVars extends gArgSet {
                 cClientLogic.newprefabname = value;
             }
         });
-        put("userplayerid", "null");
-        put("userid", uiInterface.uuid);
         putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
             public void onChange() {
                 uiInterface.inplay = value.equals("1");
@@ -241,9 +239,8 @@ public class cClientVars extends gArgSet {
         loadFromLaunchArgs(launchArgs);
     }
     public static gArgSet instance() {
-        if(instance == null) {
+        if(instance == null)
             instance = new cClientVars();
-        }
         return instance;
     }
 }

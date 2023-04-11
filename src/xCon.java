@@ -438,12 +438,8 @@ public class xCon {
         commands.put("cl_deleteplayer", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(id.equals(uiInterface.uuid))
-                        cClientVars.instance().put("userplayerid", "null");
-                    cClientLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                }
+                if(toks.length > 1)
+                    cClientLogic.scene.getThingMap("THING_PLAYER").remove(toks[1]);
                 return "usage: deleteplayer <id>";
             }
         });
@@ -1012,15 +1008,6 @@ public class xCon {
                 return "applied decoration " + path + " to player " + pid;
             }
         });
-        commands.put("subint", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: subint $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                return Integer.toString(Integer.parseInt(args[1]) - Integer.parseInt(args[2]));
-            }
-        });
         commands.put("givepoint", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
@@ -1533,8 +1520,6 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
-                    if(playerId.equals(uiInterface.uuid))
-                        ex("cl_setvar userplayerid $userid");
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
@@ -1581,15 +1566,6 @@ public class xCon {
                 new eGameSession(new eGameLogicServer(), sSettings.rateserver).start();
                 sSettings.IS_SERVER = true;
                 return "new game started";
-            }
-        });
-        commands.put("sumdub", new xCom() {
-            public String doCommand(String fullCommand) {
-                //usage: sumdub $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                return Double.toString(Double.parseDouble(args[1]) + Double.parseDouble(args[2]));
             }
         });
         commands.put("sumint", new xCom() {
@@ -1656,8 +1632,8 @@ public class xCon {
                 return "0";
             }
         });
-        commands.put("lteint", new xCom() {
-            //usage: lteint $res $val // return 1 if true 0 if not
+        commands.put("gteint", new xCom() {
+            //usage: gteint $res $val // return 1 if res >= val
             public String doCommand(String fullCommand) {
                 if(eUtils.argsLength(fullCommand) < 3)
                     return "0";
@@ -1677,23 +1653,23 @@ public class xCon {
                 boolean n2d = n2 instanceof Double;
                 boolean n2l = n2 instanceof Long;
                 if(n1d && n2d) {
-                    if((double) n1 <= (double) n2)
+                    if((double) n1 >= (double) n2)
                         return "1";
                 }
                 else if(n1l && n2d) {
-                    if(Long.parseLong(tk) <= Double.parseDouble(tv))
+                    if(Long.parseLong(tk) >= Double.parseDouble(tv))
                         return "1";
                 }
                 else if(n1d && n2l) {
-                    if(Double.parseDouble(tk) <= Long.parseLong(tv))
+                    if(Double.parseDouble(tk) >= Long.parseLong(tv))
                         return "1";
                 }
                 else if(n1l && n2l) {
-                    if((long) n1 <= (long) n2)
+                    if((long) n1 >= (long) n2)
                         return "1";
                 }
                 //default
-                if(Double.parseDouble(tk) <= Double.parseDouble(tv))
+                if(Double.parseDouble(tk) >= Double.parseDouble(tv))
                     return "1";
                 return "0";
             }
