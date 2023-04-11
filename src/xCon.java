@@ -1711,30 +1711,12 @@ public class xCon {
                 return testResDelegate(args);
             }
         });
-        commands.put("cl_testres", new xCom() {
-            //usage: testres $res $val <string that will exec if res == val>
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                return testResDelegate(args);
-            }
-        });
         commands.put("testresn", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                return testResNDelegate(args);
-            }
-        });
-        commands.put("cl_testresn", new xCom() {
-            //usage: cl_testresn $res $val <string that will exec if res == val>
-            public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
+                if(args.length < 3)
                     return "0";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
                 return testResNDelegate(args);
             }
         });
