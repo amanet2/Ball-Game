@@ -1356,9 +1356,9 @@ public class xCon {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
                 nStateMap serverState = nServer.instance().masterStateMap;
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return serverState.toString();
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return serverState.toString();
                 String pid = args[1];
                 nState clientState = serverState.get(pid);
                 if(clientState == null)
@@ -1409,27 +1409,27 @@ public class xCon {
         commands.put("setthing", new xCom() {
             //usage: setthing $THING_TYPE $id $key $val
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 return setThingDelegate(args, cServerLogic.scene);
             }
         });
         commands.put("cl_setthing", new xCom() {
             //usage cl_setthing $type $id $key $var
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 return setThingDelegate(args, cClientLogic.scene);
             }
         });
         commands.put("setvar", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage setvar $key $val
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 String tk = args[1];
                 if(args.length < 3) {
                     if (!cServerVars.instance().contains(tk))
@@ -1571,9 +1571,9 @@ public class xCon {
         commands.put("sumint", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: sumint $num1 $num2 //return result (use getres)
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "null";
                 Number n1;
                 Number n2;
                 try {
@@ -1598,9 +1598,9 @@ public class xCon {
         commands.put("sumlong", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: sumlong $num1 $num2
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "null";
                 return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
             }
         });
@@ -1613,9 +1613,9 @@ public class xCon {
         commands.put("gte", new xCom() {
             //usage: gte $res $val // return 1 if res >= val
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "0";
                 String tk = args[1];
                 String tv = args[2];
                 Number n1 = null;
@@ -1705,9 +1705,9 @@ public class xCon {
         commands.put("testres", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "0";
                 return testResDelegate(args);
             }
         });
