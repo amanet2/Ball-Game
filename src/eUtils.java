@@ -3,9 +3,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class eUtils {
-    public static int argsLength(String full) {
-        return full.trim().split(" ").length;
-    }
 
     public static String[] parseScriptArgsServer(String full) {
         String[] args = full.trim().split(" ");

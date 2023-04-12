@@ -65,9 +65,9 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcom can only be used by active server";
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "usage: addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "usage: addcom <command to execute>";
                 StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
@@ -81,9 +81,9 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_CLIENT)
                     return "cl_addcom can only be used by active clients";
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "usage: cl_addcom <command to execute>";
                 String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                if(args.length < 2)
+                    return "usage: cl_addcom <command to execute>";
                 StringBuilder act = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     act.append(" ").append(args[i]);
@@ -166,9 +166,9 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "scheduleevent can only be used by active server";
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "usage: scheduleevent <time> <string to execute>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: scheduleevent <time> <string to execute>";
                 StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     act.append(" ").append(args[i]);
@@ -325,9 +325,9 @@ public class xCon {
             //concatenate two or more strings
             //usage: constr <disparate elements to combine and return>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 StringBuilder esb = new StringBuilder();
                 for(int i = 1; i < args.length; i++) {
                     esb.append(args[i]);
@@ -787,9 +787,9 @@ public class xCon {
         commands.put("foreach", new xCom() {
             //usage: foreach $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 6)
-                    return "usage: foreach $var $start $end $incr <script where $var is num>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 6)
+                    return "usage: foreach $var $start $end $incr <script where $var is num>";
                 String varname = args[1];
                 int start = Integer.parseInt(args[2]);
                 int end = Integer.parseInt(args[3]);
@@ -808,9 +808,9 @@ public class xCon {
         commands.put("foreachclient", new xCom() {
             //usage: foreachclient $id <script to execute where $id is preloaded>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "usage: foreachclient $id <script where $id is preloaded>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: foreachclient $id <script where $id is preloaded>";
                 String varname = args[1];
                 for(String id : nServer.instance().masterStateMap.keys()) {
                     ex(String.format("setvar %s %s", varname, id));
@@ -829,9 +829,9 @@ public class xCon {
         commands.put("foreachlong", new xCom() {
             //usage: foreachlong $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 6)
-                    return "usage: foreachlong $var $start $end $incr <script where $var is num>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 6)
+                    return "usage: foreachlong $var $start $end $incr <script where $var is num>";
                 String varname = args[1];
                 long start = Long.parseLong(args[2]);
                 long end = Long.parseLong(args[3]);
@@ -850,9 +850,9 @@ public class xCon {
         commands.put("foreachthing", new xCom() {
             //usage: foreachthing $var $THING_TYPE <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 4)
-                    return "usage: foreach $var $THING_TYPE <script where $var is preloaded>";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 4)
+                    return "usage: foreach $var $THING_TYPE <script where $var is preloaded>";
                 gScene scene = cServerLogic.scene;
                 String varname = args[1];
                 String thingtype = args[2];
@@ -889,9 +889,9 @@ public class xCon {
         commands.put("getrand", new xCom() {
             // usage: getrand $min $max
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 3)
-                    return "0";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "0";
                 int start = Integer.parseInt(args[1]);
                 int end = Integer.parseInt(args[2]);
                 return Integer.toString(ThreadLocalRandom.current().nextInt(start, end + 1));
@@ -910,9 +910,9 @@ public class xCon {
         commands.put("getrandthing", new xCom() {
             // usage: getrandthing $type
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 String type = args[1];
                 if(!cServerLogic.scene.objectMaps.containsKey(type) || cServerLogic.scene.objectMaps.get(type).size() < 1)
                     return "null";
@@ -922,9 +922,9 @@ public class xCon {
         });
         commands.put("getres", new xCom() {
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return "null";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return "null";
                 String tk = args[1];
                 if(args.length < 3) {
                     if (!cServerVars.instance().contains(tk))
@@ -944,9 +944,9 @@ public class xCon {
         commands.put("getsnap", new xCom() {
             //usage: getsnap $id $key
             public String doCommand(String fullCommand) {
-                if(eUtils.argsLength(fullCommand) < 2)
-                    return nServer.instance().clientStateSnapshots.toString();
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return nServer.instance().clientStateSnapshots.toString();
                 String cid = args[1];
                 if(!nServer.instance().clientStateSnapshots.containsKey(cid))
                     return "null";
