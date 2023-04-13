@@ -1,4 +1,5 @@
-* REFACTOR: eUtils.argsLength seems redundant when we get args back on the next line anyways
+* FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
+    -> then we will call this script when picking up new weapons with the delay
 * SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
     -> we can customize these projectile's properties in a cfg
