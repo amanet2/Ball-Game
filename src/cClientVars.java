@@ -116,12 +116,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("vfxenableshadows", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableshadows = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
             }
         });
         putArg(new gArg("cv_gamemode", "0") {
@@ -216,16 +211,6 @@ public class cClientVars extends gArgSet {
         putArg(new gArg("joinport", "5555"){
             public void onChange() {
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
-            }
-        });
-        putArg(new gArg("newprefabname", "room") {
-            public void onChange() {
-                cClientLogic.newprefabname = value;
-            }
-        });
-        putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
-            public void onChange() {
-                uiInterface.inplay = value.equals("1");
             }
         });
         

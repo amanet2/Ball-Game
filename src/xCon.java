@@ -1160,7 +1160,7 @@ public class xCon {
         });
         commands.put("pause", new xCom() {
             public String doCommand(String fullCommand) {
-                cClientVars.instance().put("inplay", uiInterface.inplay ? "0" : "1");
+                uiInterface.inplay = !uiInterface.inplay;
                 oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(uiInterface.inplay) {
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
