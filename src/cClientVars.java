@@ -228,11 +228,6 @@ public class cClientVars extends gArgSet {
                 uiInterface.inplay = value.equals("1");
             }
         });
-        putArg(new gArg("blockmouseui", uiInterface.blockMouseUI ? "1" : "0") {
-            public void onChange() {
-                uiInterface.blockMouseUI = value.equals("1");
-            }
-        });
         
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);

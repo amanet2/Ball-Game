@@ -1295,7 +1295,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 ex("playerdown");
                 if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
-                    uiInterface.blockMouseUI = true;
+                    uiInterface.hideMouseUI = true;
                     uiMenus.nextItem();
                 }
                 return fullCommand;
@@ -1325,7 +1325,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 ex("playerup");
                 if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
-                    uiInterface.blockMouseUI = true;
+                    uiInterface.hideMouseUI = true;
                     uiMenus.prevItem();
                 }
                 return fullCommand;
