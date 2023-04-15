@@ -1,0 +1,8 @@
+getres pldropx setthing THING_PLAYER $1 coordx
+getres pldropy setthing THING_PLAYER $1 coordy
+getres hadweapon setthing THING_PLAYER $1 weapon
+testres $hadweapon $weap_pistol exec scripts/dropitem ITEM_PISTOL $pldropx $pldropy
+testres $hadweapon $weap_shotgun exec scripts/dropitem ITEM_SHOTGUN $pldropx $pldropy
+testres $hadweapon $weap_autorifle exec scripts/dropitem ITEM_AUTORIFLE $pldropx $pldropy
+testres $hadweapon $weap_launcher exec scripts/dropitem ITEM_LAUNCHER $pldropx $pldropy
+testres $hadweapon $weap_gloves exec scripts/dropitem ITEM_GLOVES $pldropx $pldropy
