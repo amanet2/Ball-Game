@@ -116,12 +116,7 @@ public class cClientVars extends gArgSet {
         });
         putArg(new gArg("vfxenableshadows", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableshadows = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
             }
         });
         putArg(new gArg("cv_gamemode", "0") {
@@ -218,32 +213,14 @@ public class cClientVars extends gArgSet {
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
             }
         });
-        putArg(new gArg("newprefabname", "room") {
-            public void onChange() {
-                cClientLogic.newprefabname = value;
-            }
-        });
-        put("userplayerid", "null");
-        put("userid", uiInterface.uuid);
-        putArg(new gArg("inplay", uiInterface.inplay ? "1" : "0") {
-            public void onChange() {
-                uiInterface.inplay = value.equals("1");
-            }
-        });
-        putArg(new gArg("blockmouseui", uiInterface.blockMouseUI ? "1" : "0") {
-            public void onChange() {
-                uiInterface.blockMouseUI = value.equals("1");
-            }
-        });
         
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromLaunchArgs(launchArgs);
     }
     public static gArgSet instance() {
-        if(instance == null) {
+        if(instance == null)
             instance = new cClientVars();
-        }
         return instance;
     }
 }
