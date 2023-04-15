@@ -47,7 +47,8 @@ public class cServerLogic {
                 xCon.ex("exec scripts/sv_endgame");
             }
         });
-        xCon.ex("exec scripts/sv_startgame " + cClientLogic.gamemode);
+        xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
+        xCon.ex("exec scripts/sv_startgame");
     }
 
     public static gPlayer getPlayerById(String id) {

@@ -364,7 +364,6 @@ public class xCon {
                             nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("setvar sv_gamemode " + cClientLogic.gamemode);
                             ex("exec scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
