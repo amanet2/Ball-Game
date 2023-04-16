@@ -1129,6 +1129,8 @@ public class xCon {
         });
         commands.put("newgame", new xCom() {
             public String doCommand(String fullCommand) {
+                gScript script = new gScript("test_newscript", "getres toecho constr $1 # $2\necho $toecho");
+                script.callScript(new String[]{"helloworld", "purple"});
                 ex("startserver");
                 int toplay = eManager.mapSelectionIndex;
                 if(toplay < 0)
