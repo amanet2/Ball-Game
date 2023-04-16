@@ -1,3 +1,4 @@
+* ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
 * FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
     -> then we will call this script when picking up new weapons with the delay
 * SANITY: how the hell is the launcher explosion's velocity being set?

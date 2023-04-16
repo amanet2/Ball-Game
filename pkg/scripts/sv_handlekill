@@ -21,6 +21,7 @@ testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvstr constr $vvname
 testres $sv_gamemode $mode_virus testres $wasvirus 0 addcomi server eacho $vvstr was infected
 testres $2 null addcomi server echo $vn#$vc exploded
 getres hadflag setnstate $1 flag
+getres deadid setnstate $1 id
 setnstate $1 flag 0
 setnstate $1 waypoint 0
 getres pldropx setthing THING_PLAYER $1 coordx
@@ -28,4 +29,4 @@ getres pldropy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $pldropx $pldropy
 exec scripts/handleplayerweapondrop $1
 getres respawntime sumlong $gametimemillis $respawnwaittime
-scheduleevent $respawntime respawnnetplayer $1
+scheduleevent $respawntime respawnnetplayer $deadid
