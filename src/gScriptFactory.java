@@ -30,6 +30,12 @@ public class gScriptFactory {
 //        System.out.println(scriptMap.toString());
     }
 
+    public gScript getScript(String id) {
+        if(scriptMap.containsKey(id))
+            return scriptMap.get(id);
+        return null;
+    }
+
     public static gScriptFactory instance() {
         if(instance == null)
             instance = new gScriptFactory();

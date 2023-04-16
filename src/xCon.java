@@ -618,6 +618,27 @@ public class xCon {
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
+        commands.put("exec_new", new xCom() {
+            public  String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: exec_new <script_id> <optional: args>";
+                String scriptId = args[1];
+                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                if(theScript == null)
+                    return "no script found for: " + scriptId;
+                if(args.length > 2) {
+                    String[] callArgs = new String[args.length - 2];
+                    for(int i = 2; i < args.length; i++) {
+                        callArgs[i-2] = args[i];
+                    }
+                    theScript.callScript(callArgs);
+                }
+                else
+                    theScript.callScript(new String[]{});
+                return "script completed successfully";
+            }
+        });
         commands.put("exec", new xCom() {
             public String doCommand(String fullcommand) {
                 String[] args = fullcommand.split(" ");
@@ -1129,8 +1150,7 @@ public class xCon {
         });
         commands.put("newgame", new xCom() {
             public String doCommand(String fullCommand) {
-                gScript script = new gScript("test_newscript", "getres toecho constr $1 # $2\necho $toecho");
-                script.callScript(new String[]{"helloworld", "purple"});
+                ex("exec_new scripts/test_newscript helloworld purple");
                 ex("startserver");
                 int toplay = eManager.mapSelectionIndex;
                 if(toplay < 0)
