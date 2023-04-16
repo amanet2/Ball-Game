@@ -11,6 +11,7 @@ public class gScript {
         lines = new ArrayList<>();
         argSet = new gArgSet();
         lines.addAll(Arrays.asList(content.split("\n")));
+        System.out.printf("CREATED SCRIPT: id=%s, contents=%s%n", id, content.replace("\n", "\\n"));
     }
 
     public void callScript(String[] args) {
@@ -19,7 +20,7 @@ public class gScript {
         for(String arg : args) {
             argSet.put("$" + argCtr++, arg);
         }
-        System.out.println(argSet.toString());
+        System.out.println("SCRIPT CALLED: " + argSet.toString());
         for(String line : lines) {
             String[] lineArgCallTokens = line.trim().split(" ");
             for(int i = 0; i < lineArgCallTokens.length; i++) {
@@ -35,5 +36,9 @@ public class gScript {
             }
             xCon.ex(execStringBuilder.substring(1));
         }
+    }
+
+    public String toString() {
+        return lines.toString();
     }
 }

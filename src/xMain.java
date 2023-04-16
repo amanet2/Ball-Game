@@ -26,6 +26,7 @@ public class xMain {
 	private static void init(String[] args) {
 		eManager.init();
 		gExecDoableFactory.instance().init();
+		gScriptFactory.instance().init();
 		initGameObjects();
 		initGameScenes();
 		initGameVars(args);
