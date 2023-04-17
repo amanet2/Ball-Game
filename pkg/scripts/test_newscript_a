@@ -1,0 +1,4 @@
+getres toecho constr $1 # $2
+echo $toecho
+exec_new scripts/test_newscript_b FOOBAR
+echo $1
