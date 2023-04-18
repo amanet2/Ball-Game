@@ -278,7 +278,8 @@ public class nServer extends Thread {
         for(String cId : masterStateMap.keys()) {
             if(!id.equals(cId)) {
                 gPlayer p = cServerLogic.getPlayerById(cId);
-                addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
+                if(p != null)
+                    addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
             }
         }
     }
