@@ -629,8 +629,13 @@ public class xCon {
                     return "no script found for: " + scriptId;
                 if(args.length > 2) {
                     String[] callArgs = new String[args.length - 2];
-                    for(int i = 2; i < args.length; i++) {
-                        callArgs[i-2] = args[i];
+                    for(int i = 0; i < callArgs.length; i++) {
+                        callArgs[i] = args[i+2];
+                        if(callArgs[i].startsWith("$")) {
+                            String tokenKey = callArgs[i];
+                            if(cServerVars.instance().contains(tokenKey))
+                                callArgs[i] = cServerVars.instance().get(tokenKey);
+                        }
                     }
                     theScript.callScript(callArgs);
                 }
@@ -1150,7 +1155,6 @@ public class xCon {
         });
         commands.put("newgame", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("exec_new scripts/test_newscript helloworld purple");
                 ex("startserver");
                 int toplay = eManager.mapSelectionIndex;
                 if(toplay < 0)
