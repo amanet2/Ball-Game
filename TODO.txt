@@ -1,3 +1,4 @@
+* FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
     -> SOLUTION: the "exec_new" command should fix the $1, $2 arg overrides
         -> sVars can be removed if every "exec" command has an "exec_new" equivalent
