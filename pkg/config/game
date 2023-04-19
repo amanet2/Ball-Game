@@ -54,11 +54,11 @@ setvar ITEM_SPAWNPOINT_script exec items/spawnpoint
 setvar ITEM_TELEPORTER_BLUE_dimw 300
 setvar ITEM_TELEPORTER_BLUE_dimh 300
 setvar ITEM_TELEPORTER_BLUE_sprite misc/teleporter_blue.png
-setvar ITEM_TELEPORTER_BLUE_script exec items/teleporterblue
+setvar ITEM_TELEPORTER_BLUE_script exec_new items/teleporterblue
 setvar ITEM_TELEPORTER_RED_dimw 300
 setvar ITEM_TELEPORTER_RED_dimh 300
 setvar ITEM_TELEPORTER_RED_sprite misc/teleporter_red.png
-setvar ITEM_TELEPORTER_RED_script exec items/teleporterred
+setvar ITEM_TELEPORTER_RED_script exec_new items/teleporterred
 setvar ITEM_PISTOL_dimw 300
 setvar ITEM_PISTOL_dimh 200
 setvar ITEM_PISTOL_sprite misc/bfg.png
