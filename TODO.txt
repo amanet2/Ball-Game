@@ -1,10 +1,8 @@
+* BUG: on-screen score doesnt appear for p2 on p2's screen in mapmaker
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
     -> SOLUTION: the "exec_new" command should fix the $1, $2 arg overrides
-        -> sVars can be removed if every "exec" command has an "exec_new" equivalent
-        -> prefabs will be tricky
-            -> that damn shorthand (+) notation
-            -> see if we can get rid of the w and h for prefabs in scripting, let those vars be engine level
+        -> prefabs may be tricky b/c of shorthand (+) notation
 * FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
     -> then we will call this script when picking up new weapons with the delay
 * SANITY: how the hell is the launcher explosion's velocity being set?

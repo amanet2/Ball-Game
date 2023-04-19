@@ -229,6 +229,8 @@ public class uiEditorMenus {
             resetCheckBoxMenuItem(gametypeMenuItem);
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
+                if(sSettings.IS_SERVER)
+                    xCon.ex("setvar sv_gamemode " + mygameType);
                 xCon.ex("cl_setvar cv_gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });

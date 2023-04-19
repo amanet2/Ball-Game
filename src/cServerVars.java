@@ -18,6 +18,11 @@ public class cServerVars extends gArgSet {
                 cServerLogic.timelimit = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("sv_gamemode", "0") {
+            public void onChange() {
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_gamemode " + value);
+            }
+        });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 xCon.ex("cl_setvar cv_maxhp " + value);

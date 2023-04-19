@@ -1,3 +1,3 @@
-givepoint $itemactid
-addcom deleteitem $itemrcvid
+givepoint $2
+addcom deleteitem $1
 testres $sv_gamemode $mode_pointmaster foreachclient pmcid damageplayer $pmcid 1000
