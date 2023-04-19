@@ -27,6 +27,22 @@ public class gScriptFactory {
                 e.printStackTrace();
             }
         }
+        for(String fileName : eManager.itemFilesSelection) {
+            String scriptMapKey = "items/" + fileName;
+            try (BufferedReader br = new BufferedReader(new FileReader(scriptMapKey))) {
+                StringBuilder fileContents = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                        fileContents.append("\n").append(line);
+                }
+                scriptMap.put(scriptMapKey, new gScript(scriptMapKey, fileContents.substring(1)));
+            }
+            catch (Exception e) {
+                eLogging.logException(e);
+                e.printStackTrace();
+            }
+        }
 //        System.out.println(scriptMap.toString());
     }
 

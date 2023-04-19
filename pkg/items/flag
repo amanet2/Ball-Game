@@ -1,9 +1,9 @@
-getres hf setnstate $itemactid flag
-setnstate $itemactid flag 1
-setnstate $itemactid waypoint 1
-getres pname setnstate $itemactid name
-getres pcol setnstate $itemactid color
+getres hf setnstate $2 flag
+setnstate $2 flag 1
+setnstate $2 waypoint 1
+getres pname setnstate $2 name
+getres pcol setnstate $2 color
 testresn $pname null getres pfs constr $pname # $pcol
 testresn $hf 1 testresn $pname null addcomi server echo $pfs has the flag
-testresn $hf 1 testresn $pname null addcomx server deleteitem $itemrcvid
-testresn $hf 1 testresn $pname null addcomx server givedecoration $itemactid misc/flag.png
+testresn $hf 1 testresn $pname null addcomx server deleteitem $1
+testresn $hf 1 testresn $pname null addcomx server givedecoration $2 misc/flag.png

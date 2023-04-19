@@ -39,7 +39,7 @@ setvar THING_19 ITEM_GLOVE
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
-setvar ITEM_FLAG_script exec items/flag
+setvar ITEM_FLAG_script exec_new items/flag
 setvar ITEM_LANDMINE_dimw 300
 setvar ITEM_LANDMINE_dimh 300
 setvar ITEM_LANDMINE_sprite misc/forbidden.png
