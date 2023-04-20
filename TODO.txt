@@ -1,5 +1,7 @@
 * BUG: Mapmaker completely borked when opening map
     -> weird stuff when changing map too
+    -> putblockdelegate maybe shouldnt call client beacuse we want server to hide loading from clients when opening map
+        -> joining a brand new in progress map seems fine
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
     -> SOLUTION: the "exec_new" command should fix the $1, $2 arg overrides
