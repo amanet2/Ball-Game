@@ -73,6 +73,7 @@ public class nServer extends Thread {
                     }
                 });
 
+        //I don't think 'putblock' needs to be here
         for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab", "setthing"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {

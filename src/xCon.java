@@ -554,6 +554,7 @@ public class xCon {
                             }
                         }
                         ex("changemap " + file.getPath());
+                        System.out.println("CHANGEMAP " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
                     }
@@ -700,132 +701,6 @@ public class xCon {
                 else
                     theScript.callScript(new String[]{});
                 return "script completed successfully";
-            }
-        });
-        commands.put("exec", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String title = args[1];
-                debug("Loading exec: " + title);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
-                    }
-                }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(title)) {
-                    debug("EXEC FROM MEMORY: " + title);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
-                        //parse vars for exec calls within exec (changemap)
-                        handleLine(line);
-                    }
-                }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(title))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                handleLine(line);
-                        }
-                    }
-                    catch (Exception e) {
-                        eLogging.logException(e);
-                        e.printStackTrace();
-                    }
-                }
-                return String.format("%s finished", title);
-            }
-
-            private void handleLine(String line) {
-                String[] args = line.split(" ");
-                if(args[0].equalsIgnoreCase("exec")) {
-                    for (int i = 1; i < args.length; i++) {
-                        if (args[i].startsWith("$")) {
-                            if (cServerVars.instance().contains(args[i].substring(1)))
-                                args[i] = cServerVars.instance().get(args[i].substring(1));
-                            else if (sVars.get(args[i]) != null)
-                                args[i] = sVars.get(args[i]);
-                        }
-                    }
-                }
-                StringBuilder tvb = new StringBuilder();
-                for(String arg : args) {
-                    tvb.append(" ").append(arg);
-                }
-                if(cClientLogic.debug)
-                    System.out.println("script line: " + tvb);
-                ex(tvb.substring(1));
-            }
-        });
-        commands.put("cl_exec", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String s = args[1];
-                debug("Loading exec: " + s);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
-                    }
-                }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-                    debug("EXEC_CLIENT FROM MEMORY: " + s);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
-                        ex(line.replace("putblock", "cl_putblock"
-                        ).replace("putitem", "cl_putitem"));
-                    }
-                }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                ex(line.replace("putblock", "cl_putblock"
-                                ).replace("putitem", "cl_putitem"));
-                        }
-                    }
-                    catch (Exception e) {
-                        eLogging.logException(e);
-                        e.printStackTrace();
-                    }
-                }
-                return String.format("%s finished", s);
-            }
-        });
-        commands.put("cl_execpreview", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String s = args[1];
-                debug("Loading exec: " + s);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
-                    }
-                }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-//            debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
-                        if(line.startsWith("putblock "))
-                            ex(line.replace("putblock", "cl_putblockpreview"));
-                    }
-                }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            String[] linetoks = line.split(" ");
-                            if(linetoks[0].equalsIgnoreCase("putblock")) {
-                                ex(line.replace("putblock", "cl_putblockpreview"));
-                            }
-                        }
-                    }
-                    catch (Exception e) {
-                        eLogging.logException(e);
-                        e.printStackTrace();
-                    }
-                }
-                return String.format("%s finished", s);
             }
         });
         commands.put("exportasprefab", new xCom() {
@@ -1861,77 +1736,6 @@ public class xCon {
         args[1] = rawY;
         args[2] = width;
         args[3] = height;
-        if (blockid.charAt(0) == '$') {
-            int transformed;
-            String[] rxtoksadd = blockid.split("\\+");
-            String[] rxtokssub = blockid.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformed = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformed = rxmod0 - rxmod1;
-            } else {
-                transformed = sVars.getInt(blockid);
-            }
-            blockid = Integer.toString(transformed);
-        }
-
-        if (prefabid.charAt(0) == '$') {
-            int transformed;
-            String[] rxtoksadd = prefabid.split("\\+");
-            String[] rxtokssub = prefabid.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformed = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformed = rxmod0 - rxmod1;
-            } else {
-                transformed = sVars.getInt(prefabid);
-            }
-            prefabid = Integer.toString(transformed);
-        }
-
-        if (rawX.charAt(0) == '$') {
-            int transformedX;
-            String[] rxtoksadd = rawX.split("\\+");
-            String[] rxtokssub = rawX.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformedX = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformedX = rxmod0 - rxmod1;
-            } else {
-                transformedX = sVars.getInt(rawX);
-            }
-            args[0] = Integer.toString(transformedX);
-        }
-
-        if (rawY.charAt(0) == '$') {
-            int transformedY;
-            String[] rytoksadd = rawY.split("\\+");
-            String[] rytokssub = rawY.split("-");
-            if (rytoksadd.length > 1) {
-                int rymod0 = sVars.getInt(rytoksadd[0]);
-                int rymod1 = Integer.parseInt(rytoksadd[1]);
-                transformedY = rymod0 + rymod1;
-            } else if (rytokssub.length > 1) {
-                int rymod0 = sVars.getInt(rytokssub[0]);
-                int rymod1 = Integer.parseInt(rytokssub[1]);
-                transformedY = rymod0 - rymod1;
-            } else {
-                transformedY = sVars.getInt(rawY);
-            }
-            args[1] = Integer.toString(transformedY);
-        }
         if (args.length > 4) {
             args[4] = toks[8];
             args[5] = toks[9];
@@ -1941,7 +1745,6 @@ public class xCon {
         newBlock.put("prefabid", prefabid);
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
         scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
-
     }
 
     private String setThingDelegate(String[] args, gScene scene) {
