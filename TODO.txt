@@ -1,4 +1,4 @@
-* BUG: on-screen score doesnt appear for p2 on p2's screen in mapmaker
+* BUG: Mapmaker completely borked when opening map
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
     -> SOLUTION: the "exec_new" command should fix the $1, $2 arg overrides
