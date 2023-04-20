@@ -11,7 +11,7 @@ public class gScript {
         lines = new ArrayList<>();
         argSet = new gArgSet();
         lines.addAll(Arrays.asList(content.split("\n")));
-        System.out.printf("CREATED SCRIPT: id=%s, contents=%s%n", id, content.replace("\n", "\\n"));
+//        System.out.printf("CREATED SCRIPT: id=%s, contents=%s%n", id, content.replace("\n", "\\n"));
     }
 
     public void callScript(String[] args) {
@@ -36,7 +36,7 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-            System.out.println("SCRIPT LINE:" + execStringBuilder);
+//            System.out.println("SCRIPT LINE:" + execStringBuilder);
             xCon.ex(execStringBuilder.substring(1));
         }
     }

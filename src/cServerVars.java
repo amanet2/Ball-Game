@@ -48,7 +48,7 @@ public class cServerVars extends gArgSet {
                 voteskiplimit = Integer.parseInt(value);
             }
         });
-        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
+        xCon.ex("exec_new "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);
     }

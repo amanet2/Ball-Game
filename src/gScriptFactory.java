@@ -11,8 +11,15 @@ public class gScriptFactory {
     }
 
     public void init() {
-        for(String fileName : eManager.scriptFilesSelection) {
-            String scriptMapKey = "scripts/" + fileName;
+        initScriptSelectionDelegate(eManager.scriptFilesSelection, "scripts");
+        initScriptSelectionDelegate(eManager.itemFilesSelection, "items");
+        initScriptSelectionDelegate(eManager.configFileSelection, "config");
+        System.out.println("SCRIPTS LOADED: " + scriptMap.toString());
+    }
+
+    private void initScriptSelectionDelegate(String[] filesSelection, String prefix) {
+        for(String fileName : filesSelection) {
+            String scriptMapKey = prefix + "/" + fileName;
             try (BufferedReader br = new BufferedReader(new FileReader(scriptMapKey))) {
                 StringBuilder fileContents = new StringBuilder();
                 String line;
@@ -27,23 +34,6 @@ public class gScriptFactory {
                 e.printStackTrace();
             }
         }
-        for(String fileName : eManager.itemFilesSelection) {
-            String scriptMapKey = "items/" + fileName;
-            try (BufferedReader br = new BufferedReader(new FileReader(scriptMapKey))) {
-                StringBuilder fileContents = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                        fileContents.append("\n").append(line);
-                }
-                scriptMap.put(scriptMapKey, new gScript(scriptMapKey, fileContents.substring(1)));
-            }
-            catch (Exception e) {
-                eLogging.logException(e);
-                e.printStackTrace();
-            }
-        }
-//        System.out.println(scriptMap.toString());
     }
 
     public gScript getScript(String id) {
