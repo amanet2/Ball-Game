@@ -1170,7 +1170,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
-                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putblock", "cl_putblock"));
+//                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putblock", "cl_putblock"));
                 return "1";
             }
         });

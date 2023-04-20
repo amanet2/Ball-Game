@@ -1,5 +1,8 @@
 * BUG: Mapmaker completely borked when opening map
     -> weird stuff when changing map too
+        -> looks like when werver puts block they go into client stacking on top of already loaded map
+            -> then server clears client's map and sendsmap properly
+                -> works fine when putblockdelegate dont have the addcom stuff
     -> putblockdelegate maybe shouldnt call client beacuse we want server to hide loading from clients when opening map
         -> joining a brand new in progress map seems fine
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
