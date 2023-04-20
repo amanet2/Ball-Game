@@ -36,7 +36,7 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-//            System.out.println("SCRIPT LINE:" + execStringBuilder);
+            System.out.println("SCRIPT LINE:" + execStringBuilder);
             xCon.ex(execStringBuilder.substring(1));
         }
     }

@@ -9,7 +9,7 @@ public class cServerLogic {
 
     static void changeMap(String mapPath) {
         cServerLogic.scene.clearThingMap("THING_PLAYER");
-        xCon.ex("exec " + mapPath);
+        xCon.ex("exec_new " + mapPath);
         nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap THING_PLAYER");
         nServer.instance().addExcludingNetCmd("server", "cl_load");
         nServer.instance().sendMapToClients();
@@ -44,11 +44,11 @@ public class cServerLogic {
                         nServer.instance().addExcludingNetCmd("server", s);
                     }
                 }
-                xCon.ex("exec scripts/sv_endgame");
+                xCon.ex("exec_new scripts/sv_endgame");
             }
         });
         xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
-        xCon.ex("exec scripts/sv_startgame");
+        xCon.ex("exec_new scripts/sv_startgame");
     }
 
     public static gPlayer getPlayerById(String id) {

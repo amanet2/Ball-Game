@@ -354,7 +354,7 @@ public class xCon {
                     if(player != null) {
                         player.putInt("stockhp", player.getInt("stockhp") - dmg);
                         nServer.instance().masterStateMap.get(id).put("hp", player.get("stockhp"));
-                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        ex(String.format("exec_new scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
@@ -364,7 +364,7 @@ public class xCon {
                             nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
+                            ex("exec_new scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -995,7 +995,7 @@ public class xCon {
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
                 nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
-                xCon.ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
+                xCon.ex(String.format("exec_new scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
@@ -1504,7 +1504,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    xCon.ex("exec scripts/sv_handlespawnplayer " + playerId);
+                    xCon.ex("exec_new scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
