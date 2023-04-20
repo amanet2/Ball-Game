@@ -1,4 +1,4 @@
 setvar allvirus 1
-foreachclient cid exec scripts/checkvirus_client $cid
+foreachclient cid exec_new scripts/checkvirus_client $cid
 testres $allvirus 1 addcomi server echo all players infected
 testres $allvirus 1 exec_new scripts/checkvirus_reset
