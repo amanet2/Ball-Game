@@ -28,8 +28,10 @@ public class gScript {
                     String tokenKey = lineArgCallTokens[i];
                     if(argSet.contains(tokenKey))
                         lineArgCallTokens[i] = argSet.get(tokenKey);
-                    else if(cServerVars.instance().contains(tokenKey))
-                        lineArgCallTokens[i] = cServerVars.instance().get(tokenKey);
+                    else if(cServerVars.instance().contains(tokenKey.substring(1)))
+                        lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
+                    else if(cClientVars.instance().contains(tokenKey.substring(1)))
+                        lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
                 }
             }
             StringBuilder execStringBuilder = new StringBuilder();

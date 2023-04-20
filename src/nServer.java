@@ -33,7 +33,7 @@ public class nServer extends Thread {
             "deleteplayer",
             "deleteprefab",
             "setthing",
-            "exec",
+            "exec_new",
             "fireweapon",
             "putblock",
             "putitem",
@@ -374,9 +374,9 @@ public class nServer extends Thread {
         if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            else if(cmd.startsWith("exec prefabs/")) {
+            else if(cmd.startsWith("exec_new prefabs/")) {
                 xCon.ex(cmd);
-                addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
+                addExcludingNetCmd("server", cmd.replace("exec_new ", "cl_exec_new "));
             }
             else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
                 xCon.ex(cmd);

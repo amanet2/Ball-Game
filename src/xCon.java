@@ -591,7 +591,7 @@ public class xCon {
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -636,6 +636,64 @@ public class xCon {
                             if(cServerVars.instance().contains(tokenKey))
                                 callArgs[i] = cServerVars.instance().get(tokenKey);
                         }
+                    }
+                    theScript.callScript(callArgs);
+                }
+                else
+                    theScript.callScript(new String[]{});
+                return "script completed successfully";
+            }
+        });
+        commands.put("cl_exec_new", new xCom() {
+            public  String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: cl_exec_new <script_id> <optional: args>";
+                String scriptId = args[1];
+                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                if(theScript == null)
+                    return "no script found for: " + scriptId;
+                if(args.length > 2) {
+                    String[] callArgs = new String[args.length - 2];
+                    for(int i = 0; i < callArgs.length; i++) {
+                        callArgs[i] = args[i+2];
+                        if(callArgs[i].startsWith("$")) {
+                            String tokenKey = callArgs[i];
+                            if(cClientVars.instance().contains(tokenKey))
+                                callArgs[i] = cClientVars.instance().get(tokenKey);
+                        }
+                        else if(callArgs[i].startsWith("putblock"))
+                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblock");
+                        else if(callArgs[i].startsWith("putitem"))
+                            callArgs[i] = callArgs[i].replace("putitem", "cl_putitem");
+                    }
+                    theScript.callScript(callArgs);
+                }
+                else
+                    theScript.callScript(new String[]{});
+                return "script completed successfully";
+            }
+        });
+        commands.put("cl_execpreview_new", new xCom() {
+            public  String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: cl_exec_new <script_id> <optional: args>";
+                String scriptId = args[1];
+                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                if(theScript == null)
+                    return "no script found for: " + scriptId;
+                if(args.length > 2) {
+                    String[] callArgs = new String[args.length - 2];
+                    for(int i = 0; i < callArgs.length; i++) {
+                        callArgs[i] = args[i+2];
+                        if(callArgs[i].startsWith("$")) {
+                            String tokenKey = callArgs[i];
+                            if(cServerVars.instance().contains(tokenKey))
+                                callArgs[i] = cServerVars.instance().get(tokenKey);
+                        }
+                        else if(callArgs[i].startsWith("putblock"))
+                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblockpreview");
                     }
                     theScript.callScript(callArgs);
                 }
@@ -1120,7 +1178,7 @@ public class xCon {
                                 }
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
-                                String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
+                                String cmd = String.format("exec_new prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
                                 nClient.instance().addNetCmd(cmd);
                                 return "put prefab " + cClientLogic.newprefabname;
                             }
@@ -1237,6 +1295,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
+                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putblock", "cl_putblock"));
                 return "1";
             }
         });
@@ -1802,7 +1861,6 @@ public class xCon {
         args[1] = rawY;
         args[2] = width;
         args[3] = height;
-
         if (blockid.charAt(0) == '$') {
             int transformed;
             String[] rxtoksadd = blockid.split("\\+");
@@ -1883,6 +1941,7 @@ public class xCon {
         newBlock.put("prefabid", prefabid);
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
         scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+
     }
 
     private String setThingDelegate(String[] args, gScene scene) {
