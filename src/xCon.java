@@ -554,7 +554,6 @@ public class xCon {
                             }
                         }
                         ex("changemap " + file.getPath());
-                        System.out.println("CHANGEMAP " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
                     }
@@ -592,7 +591,7 @@ public class xCon {
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+//                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -690,8 +689,8 @@ public class xCon {
                         callArgs[i] = args[i+2];
                         if(callArgs[i].startsWith("$")) {
                             String tokenKey = callArgs[i];
-                            if(cServerVars.instance().contains(tokenKey))
-                                callArgs[i] = cServerVars.instance().get(tokenKey);
+                            if(cClientVars.instance().contains(tokenKey))
+                                callArgs[i] = cClientVars.instance().get(tokenKey);
                         }
                         else if(callArgs[i].startsWith("putblock"))
                             callArgs[i] = callArgs[i].replace("putblock", "cl_putblockpreview");

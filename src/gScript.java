@@ -20,7 +20,7 @@ public class gScript {
         for(String arg : args) {
             argSet.put("$" + argCtr++, arg);
         }
-        System.out.println("SCRIPT CALLED: " + argSet.toString());
+//        System.out.println("SCRIPT CALLED: " + argSet.toString());
         for(String line : lines) {
             String[] lineArgCallTokens = line.trim().split(" ");
             for(int i = 0; i < lineArgCallTokens.length; i++) {
@@ -38,7 +38,7 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-            System.out.println("SCRIPT LINE:" + execStringBuilder);
+//            System.out.println("SCRIPT LINE:" + execStringBuilder);
             xCon.ex(execStringBuilder.substring(1));
         }
     }

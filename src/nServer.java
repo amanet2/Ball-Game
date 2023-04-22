@@ -377,7 +377,7 @@ public class nServer extends Thread {
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else if(cmd.startsWith("exec_new prefabs/")) {
                 xCon.ex(cmd);
-                addExcludingNetCmd("server", cmd.replace("exec_new ", "cl_exec_new "));
+//                addExcludingNetCmd("server", cmd.replace("exec_new ", "cl_exec_new "));
             }
             else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
                 xCon.ex(cmd);
