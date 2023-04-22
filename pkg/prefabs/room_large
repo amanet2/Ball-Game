@@ -1,28 +1,67 @@
-putblock BLOCK_FLOOR $1 $2 $3+1200 $4 1200 1200
-putblock BLOCK_FLOOR $1+1 $2 $3 $4+1200 1200 1200
-putblock BLOCK_FLOOR $1+2 $2 $3+1200 $4+1200 1200 1200
-putblock BLOCK_CUBE $1+3 $2 $3+900 $4+2100 300 450 150 300
-putblock BLOCK_CUBE $1+4 $2 $3+1200 $4+2100 300 450 150 300
-putblock BLOCK_CUBE $1+5 $2 $3+2100 $4+2100 300 450 150 300
-putblock BLOCK_CUBE $1+6 $2 $3 $4+2100 300 450 150 300
-putblock BLOCK_CUBE $1+7 $2 $3+2100 $4+1050 300 450 150 300
-putblock BLOCK_CUBE $1+8 $2 $3 $4+1050 300 450 150 300
-putblock BLOCK_CUBE $1+9 $2 $3+2100 $4+900 300 450 150 300
-putblock BLOCK_CUBE $1+10 $2 $3 $4+900 300 450 150 300
-putblock BLOCK_FLOOR $1+11 $2 $3 $4 1200 1200
-putblock BLOCK_CUBE $1+12 $2 $3 $4-150 300 450 150 300
-putblock BLOCK_CUBE $1+13 $2 $3+900 $4-150 300 450 150 300
-putblock BLOCK_CUBE $1+14 $2 $3+1200 $4-150 300 450 150 300
-putblock BLOCK_CUBE $1+15 $2 $3+2100 $4-150 300 450 150 300
-putblock BLOCK_COLLISION $1+16 $2 $3+900 $4+2300 300 150
-putblock BLOCK_COLLISION $1+17 $2 $3+1200 $4+2300 300 150
-putblock BLOCK_COLLISION $1+18 $2 $3+2100 $4+2300 300 150
-putblock BLOCK_COLLISION $1+19 $2 $3 $4+2300 300 150
-putblock BLOCK_COLLISION $1+20 $2 $3+2100 $4+1250 300 150
-putblock BLOCK_COLLISION $1+21 $2 $3 $4+1250 300 150
-putblock BLOCK_COLLISION $1+22 $2 $3+2100 $4+1100 300 150
-putblock BLOCK_COLLISION $1+23 $2 $3 $4+1100 300 150
-putblock BLOCK_COLLISION $1+24 $2 $3 $4+50 300 150
-putblock BLOCK_COLLISION $1+25 $2 $3+900 $4+50 300 150
-putblock BLOCK_COLLISION $1+26 $2 $3+1200 $4+50 300 150
-putblock BLOCK_COLLISION $1+27 $2 $3+2100 $4+50 300 150
+getres idmod1 sumint $1 1
+getres idmod2 sumint $1 2
+getres idmod3 sumint $1 3
+getres idmod4 sumint $1 4
+getres idmod5 sumint $1 5
+getres idmod6 sumint $1 6
+getres idmod7 sumint $1 7
+getres idmod8 sumint $1 8
+getres idmod9 sumint $1 9
+getres idmod10 sumint $1 10
+getres idmod11 sumint $1 11
+getres idmod12 sumint $1 12
+getres idmod13 sumint $1 13
+getres idmod14 sumint $1 14
+getres idmod15 sumint $1 15
+getres idmod16 sumint $1 16
+getres idmod17 sumint $1 17
+getres idmod18 sumint $1 18
+getres idmod19 sumint $1 19
+getres idmod20 sumint $1 20
+getres idmod21 sumint $1 21
+getres idmod22 sumint $1 22
+getres idmod23 sumint $1 23
+getres idmod24 sumint $1 24
+getres idmod25 sumint $1 25
+getres idmod26 sumint $1 26
+getres idmod27 sumint $1 27
+getres xmod1 sumint $3 900
+getres xmod2 sumint $3 1200
+getres xmod3 sumint $3 2100
+getres ymod1 sumint $4 -150
+getres ymod2 sumint $4 900
+getres ymod3 sumint $4 50
+getres ymod4 sumint $4 1100
+getres ymod5 sumint $4 1200
+getres ymod6 sumint $4 2100
+getres ymod7 sumint $4 1050
+getres ymod8 sumint $4 2300
+getres ymod9 sumint $4 1250
+putblock BLOCK_FLOOR $1 $2 $xmod2 $4 1200 1200
+putblock BLOCK_FLOOR $idmod1 $2 $3 $ymod5 1200 1200
+putblock BLOCK_FLOOR $idmod2 $2 $xmod2 $ymod5 1200 1200
+putblock BLOCK_CUBE $idmod3 $2 $xmod1 $ymod6 300 450 150 300
+putblock BLOCK_CUBE $idmod4 $2 $xmod2 $ymod6 300 450 150 300
+putblock BLOCK_CUBE $idmod5 $2 $xmod3 $ymod6 300 450 150 300
+putblock BLOCK_CUBE $idmod6 $2 $3 $ymod6 300 450 150 300
+putblock BLOCK_CUBE $idmod7 $2 $xmod3 $ymod7 300 450 150 300
+putblock BLOCK_CUBE $idmod8 $2 $3 $ymod7 300 450 150 300
+putblock BLOCK_CUBE $idmod9 $2 $xmod3 $ymod2 300 450 150 300
+putblock BLOCK_CUBE $idmod10 $2 $3 $ymod2 300 450 150 300
+putblock BLOCK_FLOOR $idmod11 $2 $3 $4 1200 1200
+putblock BLOCK_CUBE $idmod12 $2 $3 $ymod1 300 450 150 300
+putblock BLOCK_CUBE $idmod13 $2 $xmod1 $ymod1 300 450 150 300
+putblock BLOCK_CUBE $idmod14 $2 $xmod2 $ymod1 300 450 150 300
+putblock BLOCK_CUBE $idmod15 $2 $xmod3 $ymod1 300 450 150 300
+putblock BLOCK_COLLISION $idmod16 $2 $xmod1 $ymod8 300 150
+putblock BLOCK_COLLISION $idmod17 $2 $xmod2 $ymod8 300 150
+putblock BLOCK_COLLISION $idmod18 $2 $xmod3 $ymod8 300 150
+putblock BLOCK_COLLISION $idmod19 $2 $3 $ymod8 300 150
+putblock BLOCK_COLLISION $idmod20 $2 $xmod3 $ymod9 300 150
+putblock BLOCK_COLLISION $idmod21 $2 $3 $ymod9 300 150
+putblock BLOCK_COLLISION $idmod22 $2 $xmod3 $ymod4 300 150
+putblock BLOCK_COLLISION $idmod23 $2 $3 $ymod4 300 150
+putblock BLOCK_COLLISION $idmod24 $2 $3 $ymod3 300 150
+putblock BLOCK_COLLISION $idmod25 $2 $xmod1 $ymod3 300 150
+putblock BLOCK_COLLISION $idmod26 $2 $xmod2 $ymod3 300 150
+putblock BLOCK_COLLISION $idmod27 $2 $xmod3 $ymod3 300 150
