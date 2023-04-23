@@ -626,17 +626,19 @@ public class xCon {
                 String scriptId = args[1];
                 if(scriptId.contains("maps\\")) { //detect loading from openFile
                     System.out.println("FUFUFUFU");
+                    nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
                     try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
                         while ((line = br.readLine()) != null) {
                             if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                xCon.ex(line);
+                                ex(line);
                         }
                     }
                     catch (Exception e) {
                         eLogging.logException(e);
                         e.printStackTrace();
                     }
+                    nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
                     return "loaded map " + scriptId;
                 }
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
@@ -651,36 +653,6 @@ public class xCon {
                             if(cServerVars.instance().contains(tokenKey))
                                 callArgs[i] = cServerVars.instance().get(tokenKey);
                         }
-                    }
-                    theScript.callScript(callArgs);
-                }
-                else
-                    theScript.callScript(new String[]{});
-                return "script completed successfully";
-            }
-        });
-        commands.put("cl_exec_new", new xCom() {
-            public  String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 2)
-                    return "usage: cl_exec_new <script_id> <optional: args>";
-                String scriptId = args[1];
-                gScript theScript = gScriptFactory.instance().getScript(scriptId);
-                if(theScript == null)
-                    return "no script found for: " + scriptId;
-                if(args.length > 2) {
-                    String[] callArgs = new String[args.length - 2];
-                    for(int i = 0; i < callArgs.length; i++) {
-                        callArgs[i] = args[i+2];
-                        if(callArgs[i].startsWith("$")) {
-                            String tokenKey = callArgs[i];
-                            if(cClientVars.instance().contains(tokenKey))
-                                callArgs[i] = cClientVars.instance().get(tokenKey);
-                        }
-                        else if(callArgs[i].startsWith("putblock"))
-                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblock");
-                        else if(callArgs[i].startsWith("putitem"))
-                            callArgs[i] = callArgs[i].replace("putitem", "cl_putitem");
                     }
                     theScript.callScript(callArgs);
                 }
