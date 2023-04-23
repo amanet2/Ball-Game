@@ -2,10 +2,6 @@ getres idmod1 sumint $1 1
 getres idmod2 sumint $1 2
 getres idmod3 sumint $1 3
 getres idmod4 sumint $1 4
-getres idmod5 sumint $1 5
-getres idmod6 sumint $1 6
-getres idmod7 sumint $1 7
-getres idmod8 sumint $1 8
 getres xmod1 sumint $3 900
 getres ymod1 sumint $4 -150
 getres ymod2 sumint $4 900
