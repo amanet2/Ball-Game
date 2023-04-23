@@ -525,7 +525,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_setvar cv_maploaded 1");
+                ex("load;addcomi server cl_setvar cv_maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
