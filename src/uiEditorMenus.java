@@ -188,7 +188,7 @@ public class uiEditorMenus {
                 else
                     cClientLogic.newprefabname = name;
                 xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+//                xCon.ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
                 refreshCheckBoxItems();
             });
@@ -230,8 +230,9 @@ public class uiEditorMenus {
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
                 if(sSettings.IS_SERVER)
-                    xCon.ex("setvar sv_gamemode " + mygameType);
-                xCon.ex("cl_setvar cv_gamemode " + mygameType);
+                    xCon.ex("gamemode " + mygameType);
+                else
+                    nClient.instance().addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

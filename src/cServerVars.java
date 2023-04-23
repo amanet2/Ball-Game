@@ -20,7 +20,7 @@ public class cServerVars extends gArgSet {
         });
         putArg(new gArg("sv_gamemode", "0") {
             public void onChange() {
-                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_gamemode " + value);
+                cServerLogic.gameMode = Integer.parseInt(value);
             }
         });
         putArg(new gArg("maxhp", "500") {

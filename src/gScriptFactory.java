@@ -16,7 +16,7 @@ public class gScriptFactory {
         initScriptSelectionDelegate(eManager.configFileSelection, "config");
         initScriptSelectionDelegate(eManager.mapsFileSelection, "maps");
         initScriptSelectionDelegate(eManager.prefabFileSelection, "prefabs");
-        System.out.println("SCRIPTS LOADED: " + scriptMap.toString());
+//        System.out.println("SCRIPTS LOADED: " + scriptMap.toString());
     }
 
     private void initScriptSelectionDelegate(String[] filesSelection, String prefix) {

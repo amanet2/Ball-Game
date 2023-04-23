@@ -33,8 +33,9 @@ public class nServer extends Thread {
             "deleteplayer",
             "deleteprefab",
             "setthing",
-            "exec",
+            "exec_new",
             "fireweapon",
+            "gamemode",
             "putblock",
             "putitem",
             "respawnnetplayer",
@@ -60,12 +61,6 @@ public class nServer extends Thread {
                         xCon.ex(cmd);
                     }
                 });
-        clientCmdDoables.put("setnstate",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        xCon.ex(cmd);
-                    }
-                });
         clientCmdDoables.put("requestdisconnect",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
@@ -73,12 +68,20 @@ public class nServer extends Thread {
                     }
                 });
 
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab", "setthing"}) {
+        for(String rcs : new String[]{"setnstate", "putblock", "putitem", "deleteblock", "deleteitem", "gamemode"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
                             xCon.ex(cmd);
-                            addExcludingNetCmd("server", cmd.replaceFirst(rcs, "cl_" + rcs));
+                        }
+                    });
+        }
+        for(String rcs : new String[]{"deleteprefab", "setthing"}) {
+            clientCmdDoables.put(rcs,
+                    new gDoableCmd() {
+                        void ex(String id, String cmd) {
+                            xCon.ex(cmd);
+                            addExcludingNetCmd("server", "cl_" + cmd);
                         }
                     });
         }
@@ -90,8 +93,7 @@ public class nServer extends Thread {
                             String reqid = toks[1];
                             if(reqid.equals(id)) //client can only remove itself
                                 xCon.ex(cmd);
-                            addExcludingNetCmd("server",
-                                    cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
+                            addExcludingNetCmd("server", "cl_" + cmd);
                         }
                     }
                 });
@@ -309,10 +311,11 @@ public class nServer extends Thread {
     }
     
     public void sendMap(String packId) {
+        // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
-                xCon.ex("cl_setvar cv_velocityplayer"), cClientLogic.gamemode));
+                xCon.ex("cl_setvar cv_velocityplayer"), cServerLogic.gameMode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -352,20 +355,23 @@ public class nServer extends Thread {
         }
         maplines.add("cl_setvar cv_maploaded 1");
         //iterate through the maplines and send in batches
-        StringBuilder sendStringBuilder = new StringBuilder();
-        int linectr = 0;
+//        StringBuilder sendStringBuilder = new StringBuilder();
+//        int linectr = 0;
         for(int i = 0; i < maplines.size(); i++) {
             String line = maplines.get(i);
-            String next = "";
-            if(maplines.size() > i+1)
-                next = maplines.get(i+1);
-            sendStringBuilder.append(line).append(";");
-            linectr++;
-            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
-                String sendString = sendStringBuilder.toString();
-                addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
-                sendStringBuilder = new StringBuilder();
-            }
+            // slow way, but consistent with new exec loading and server sync
+            addNetCmd(packId, line);
+            // batch send below, old but better
+//            String next = "";
+//            if(maplines.size() > i+1)
+//                next = maplines.get(i+1);
+//            sendStringBuilder.append(";").append(line);
+//            linectr++;
+//            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
+//                String sendString = sendStringBuilder.toString();
+//                addNetCmd(packId, sendString.substring(1));
+//                sendStringBuilder = new StringBuilder();
+//            }
         }
     }
 
@@ -374,9 +380,9 @@ public class nServer extends Thread {
         if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            else if(cmd.startsWith("exec prefabs/")) {
+            else if(cmd.startsWith("exec_new prefabs/")) {
                 xCon.ex(cmd);
-                addExcludingNetCmd("server", cmd.replace("exec ", "cl_exec "));
+//                addExcludingNetCmd("server", cmd.replace("exec_new ", "cl_exec_new "));
             }
             else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
                 xCon.ex(cmd);
@@ -413,12 +419,6 @@ public class nServer extends Thread {
                     });
                 }
             }
-        }
-    }
-
-    public void sendMapToClients() {
-        for(String id : masterStateMap.keys()) {
-            sendMapAndRespawn(id);
         }
     }
 }
