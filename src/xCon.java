@@ -802,6 +802,19 @@ public class xCon {
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
             }
         });
+        commands.put("gamemode", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only server can do 'gamemode'";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return cServerVars.instance().get("sv_gamemode");
+                String setmode = args[1];
+                cServerVars.instance().put("sv_gamemode", setmode);
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_gamemode " + setmode);
+                return "changed game mode to " + cServerVars.instance().get("sv_gamemode");
+            }
+        });
         commands.put("gametimemillis", new xCom() {
             public String doCommand(String fullCommand) {
                 return Long.toString(gTime.gameTime);
@@ -984,7 +997,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("cl_setvar cv_gamemode 0");
+                ex("setvar sv_gamemode 0");
                 cServerLogic.scene = new gScene();
                 nServer.instance().addExcludingNetCmd("server", "cl_load");
                 return "";

@@ -7,6 +7,7 @@ public class cServerLogic {
     static gScene scene;
     static final gTimeEventSet timedEvents = new gTimeEventSet();
     static boolean isLoadingFromHDD = false;
+    static int gameMode = 0;
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
@@ -51,7 +52,6 @@ public class cServerLogic {
                 xCon.ex("exec_new scripts/sv_endgame");
             }
         });
-        xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
         xCon.ex("exec_new scripts/sv_startgame");
     }
 

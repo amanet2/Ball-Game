@@ -230,8 +230,9 @@ public class uiEditorMenus {
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
                 if(sSettings.IS_SERVER)
-                    xCon.ex("setvar sv_gamemode " + mygameType);
-                xCon.ex("cl_setvar cv_gamemode " + mygameType);
+                    xCon.ex("gamemode " + mygameType);
+                else
+                    nClient.instance().addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

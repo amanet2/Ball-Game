@@ -35,6 +35,7 @@ public class nServer extends Thread {
             "setthing",
             "exec_new",
             "fireweapon",
+            "gamemode",
             "putblock",
             "putitem",
             "respawnnetplayer",
@@ -60,12 +61,6 @@ public class nServer extends Thread {
                         xCon.ex(cmd);
                     }
                 });
-        clientCmdDoables.put("setnstate",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        xCon.ex(cmd);
-                    }
-                });
         clientCmdDoables.put("requestdisconnect",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
@@ -73,7 +68,7 @@ public class nServer extends Thread {
                     }
                 });
 
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem"}) {
+        for(String rcs : new String[]{"setnstate", "putblock", "putitem", "deleteblock", "deleteitem", "gamemode"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
@@ -98,8 +93,7 @@ public class nServer extends Thread {
                             String reqid = toks[1];
                             if(reqid.equals(id)) //client can only remove itself
                                 xCon.ex(cmd);
-                            addExcludingNetCmd("server",
-                                    cmd.replaceFirst("deleteplayer ", "cl_deleteplayer "));
+                            addExcludingNetCmd("server", "cl_" + cmd);
                         }
                     }
                 });
@@ -317,6 +311,7 @@ public class nServer extends Thread {
     }
     
     public void sendMap(String packId) {
+        // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",

@@ -1,5 +1,5 @@
 load
-cl_setvar cv_gamemode 3
+gamemode 3
 putblock BLOCK_FLOOR 1 1 1200 -300 1200 1200
 putblock BLOCK_FLOOR 2 1 0 900 1200 1200
 putblock BLOCK_FLOOR 3 1 1200 900 1200 1200
