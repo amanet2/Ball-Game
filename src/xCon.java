@@ -626,7 +626,7 @@ public class xCon {
                         eLogging.logException(e);
                         e.printStackTrace();
                     }
-                    ex("loadingscreenoff");
+                    ex("-loadingscreen");
                     return "loaded map " + scriptId;
                 }
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
@@ -995,9 +995,7 @@ public class xCon {
                 nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
                 return "loading screen ON";
             }
-        });
-        commands.put("loadingscreenoff", new xCom() {
-            public String doCommand(String fullCommand) {
+            public String undoCommand(String fullCommand) {
                 nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
                 return "loading screen OFF";
             }

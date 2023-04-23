@@ -11,7 +11,7 @@ public class cServerLogic {
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
         xCon.ex("exec_new " + mapPath); //by exec'ing the map, server is actively streaming blocks
-        xCon.ex("loadingscreenoff");
+        xCon.ex("-loadingscreen");
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
             for(String id : nServer.instance().masterStateMap.keys()) {
                 nServer.instance().addNetCmd("server", "respawnnetplayer " + id);
