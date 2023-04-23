@@ -624,6 +624,21 @@ public class xCon {
                 if(args.length < 2)
                     return "usage: exec_new <script_id> <optional: args>";
                 String scriptId = args[1];
+                if(scriptId.contains("maps\\")) { //detect loading from openFile
+                    System.out.println("FUFUFUFU");
+                    try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                                xCon.ex(line);
+                        }
+                    }
+                    catch (Exception e) {
+                        eLogging.logException(e);
+                        e.printStackTrace();
+                    }
+                    return "loaded map " + scriptId;
+                }
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
                 if(theScript == null)
                     return "no script found for: " + scriptId;
@@ -734,7 +749,6 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    long gtime = gTime.gameTime + 500;
                     gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
                     return id + " fired weapon " + weapon;
                 }
