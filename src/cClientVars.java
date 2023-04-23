@@ -124,6 +124,8 @@ public class cClientVars extends gArgSet {
                 cClientLogic.gamemode = Integer.parseInt(value);
                 cClientLogic.gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
                 cClientLogic.gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         });
         putArg(new gArg("cv_maploaded", "0") {
