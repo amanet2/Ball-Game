@@ -625,7 +625,7 @@ public class xCon {
                     return "usage: exec_new <script_id> <optional: args>";
                 String scriptId = args[1];
                 if(scriptId.contains("maps\\")) { //detect loading from openFile
-                    System.out.println("FUFUFUFU");
+                    System.out.println("LOADING MAP FROM HDD");
                     nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
                     try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
