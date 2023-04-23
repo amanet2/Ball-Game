@@ -1,3 +1,4 @@
+* GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * NET: why does ui show client not communicating at full 30hz
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
