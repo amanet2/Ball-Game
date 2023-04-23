@@ -6,6 +6,7 @@ public class cServerLogic {
     static int listenPort = 5555;
     static gScene scene;
     static final gTimeEventSet timedEvents = new gTimeEventSet();
+    static boolean isLoadingFromHDD = false;
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");

@@ -269,22 +269,6 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("clearthingmap", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length > 1)
-                    clearThingMapDelegate(toks, cServerLogic.scene);
-                return "usage: clearthingmap <thing_title>";
-            }
-        });
-        commands.put("cl_clearthingmap", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length > 1)
-                    clearThingMapDelegate(toks, cClientLogic.scene);
-                return "usage: clearthingmap <thing_title>";
-            }
-        });
         commands.put("cl_clearthingmappreview", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -380,9 +364,11 @@ public class xCon {
         commands.put("deleteblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1)
-                    deleteBlockDelegate(toks, cServerLogic.scene);
-                return "usage: deleteblock <id>";
+                if(toks.length < 2)
+                    return "usage: deleteblock <id>";
+                deleteBlockDelegate(toks, cServerLogic.scene);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                return "deleted block";
             }
         });
         commands.put("cl_deleteblock", new xCom() {
@@ -553,6 +539,7 @@ public class xCon {
                                 e.printStackTrace();
                             }
                         }
+                        cServerLogic.isLoadingFromHDD = true;
                         ex("changemap " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
@@ -624,8 +611,9 @@ public class xCon {
                 if(args.length < 2)
                     return "usage: exec_new <script_id> <optional: args>";
                 String scriptId = args[1];
-                if(scriptId.contains("maps\\")) { //detect loading from openFile
+                if(cServerLogic.isLoadingFromHDD) { //detect loading from openFile
                     System.out.println("LOADING MAP FROM HDD");
+                    cServerLogic.isLoadingFromHDD = false;
                     ex("loadingscreen");
                     try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
@@ -912,8 +900,8 @@ public class xCon {
                 String weap = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
-                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
-                xCon.ex(String.format("exec_new scripts/sv_handlegiveweapon %s %s", pid, weap));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                ex(String.format("exec_new scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
@@ -926,7 +914,7 @@ public class xCon {
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
                 nServer.instance().addNetCmd("server", giveString);
-                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
         });
@@ -1168,7 +1156,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
-                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putblock", "cl_putblock"));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return "1";
             }
         });
@@ -1196,7 +1184,7 @@ public class xCon {
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 putItemDelegate(toks, cServerLogic.scene);
-                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putitem", "cl_putitem"));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return "put item";
             }
         });
@@ -1437,7 +1425,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    xCon.ex("exec_new scripts/sv_handlespawnplayer " + playerId);
+                    ex("exec_new scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";

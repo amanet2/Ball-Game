@@ -73,13 +73,20 @@ public class nServer extends Thread {
                     }
                 });
 
-        //I don't think 'putblock' needs to be here
-        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem", "deleteprefab", "setthing"}) {
+        for(String rcs : new String[]{"putblock", "putitem", "deleteblock", "deleteitem"}) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
                             xCon.ex(cmd);
-                            addExcludingNetCmd("server", cmd.replaceFirst(rcs, "cl_" + rcs));
+                        }
+                    });
+        }
+        for(String rcs : new String[]{"deleteprefab", "setthing"}) {
+            clientCmdDoables.put(rcs,
+                    new gDoableCmd() {
+                        void ex(String id, String cmd) {
+                            xCon.ex(cmd);
+                            addExcludingNetCmd("server", "cl_" + cmd);
                         }
                     });
         }
