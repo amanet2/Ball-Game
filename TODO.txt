@@ -3,6 +3,7 @@
 * FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
     -> then we will call this script when picking up new weapons with the delay
+* FEATURE: support block statements in scripts
 * SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
     -> we can customize these projectile's properties in a cfg
@@ -24,8 +25,6 @@
     -> user player will be as smooth as the network, which is not very
 * create onShot script capability for items and players when they get hit by bullet object
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
-* create a new "exec" function for scripts
-    -> should support block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
 * replace all usages of "Math.Random()" with threadlocal random
 * create ban system using timeevents and saving timestamps to a file on close and loading
