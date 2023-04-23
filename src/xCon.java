@@ -626,7 +626,7 @@ public class xCon {
                 String scriptId = args[1];
                 if(scriptId.contains("maps\\")) { //detect loading from openFile
                     System.out.println("LOADING MAP FROM HDD");
-                    nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
+                    ex("loadingscreen");
                     try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
                         while ((line = br.readLine()) != null) {
@@ -638,7 +638,7 @@ public class xCon {
                         eLogging.logException(e);
                         e.printStackTrace();
                     }
-                    nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
+                    ex("loadingscreenoff");
                     return "loaded map " + scriptId;
                 }
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
