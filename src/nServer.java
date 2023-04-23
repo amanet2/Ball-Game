@@ -355,20 +355,23 @@ public class nServer extends Thread {
         }
         maplines.add("cl_setvar cv_maploaded 1");
         //iterate through the maplines and send in batches
-        StringBuilder sendStringBuilder = new StringBuilder();
-        int linectr = 0;
+//        StringBuilder sendStringBuilder = new StringBuilder();
+//        int linectr = 0;
         for(int i = 0; i < maplines.size(); i++) {
             String line = maplines.get(i);
-            String next = "";
-            if(maplines.size() > i+1)
-                next = maplines.get(i+1);
-            sendStringBuilder.append(line).append(";");
-            linectr++;
-            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
-                String sendString = sendStringBuilder.toString();
-                addNetCmd(packId, sendString.substring(0, sendString.lastIndexOf(';')));
-                sendStringBuilder = new StringBuilder();
-            }
+            // slow way, but consistent with new exec loading and server sync
+            addNetCmd(packId, line);
+            // batch send below, old but better
+//            String next = "";
+//            if(maplines.size() > i+1)
+//                next = maplines.get(i+1);
+//            sendStringBuilder.append(";").append(line);
+//            linectr++;
+//            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
+//                String sendString = sendStringBuilder.toString();
+//                addNetCmd(packId, sendString.substring(1));
+//                sendStringBuilder = new StringBuilder();
+//            }
         }
     }
 
