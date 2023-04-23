@@ -1890,10 +1890,10 @@ public class xCon {
                     realcom.append(" ").append(arg);
                 }
                 String comstring = realcom.substring(1);
-                stringLines.add(String.format("console:~$ %s", comstring));
+//                stringLines.add(String.format("console:~$ %s", comstring));
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
-                if (result.length() > 0)
-                    stringLines.add(result);
+//                if (result.length() > 0)
+//                    stringLines.add(result);
                 linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);
