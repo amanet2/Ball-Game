@@ -8,11 +8,14 @@ public class cServerLogic {
     static final gTimeEventSet timedEvents = new gTimeEventSet();
 
     static void changeMap(String mapPath) {
-        cServerLogic.scene.clearThingMap("THING_PLAYER");
-        xCon.ex("exec_new " + mapPath);
-        nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap THING_PLAYER");
-        nServer.instance().addExcludingNetCmd("server", "cl_load");
-        nServer.instance().sendMapToClients();
+        xCon.ex("loadingscreen");
+        xCon.ex("exec_new " + mapPath); //by exec'ing the map, server is actively streaming blocks
+        xCon.ex("loadingscreenoff");
+        if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
+            for(String id : nServer.instance().masterStateMap.keys()) {
+                nServer.instance().addNetCmd("server", "respawnnetplayer " + id);
+            }
+        }
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();

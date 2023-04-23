@@ -525,7 +525,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_load;addcomi server cl_setvar cv_maploaded 1");
+                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_setvar cv_maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
@@ -998,7 +998,20 @@ public class xCon {
                 gTextures.clear();
                 ex("cl_setvar cv_gamemode 0");
                 cServerLogic.scene = new gScene();
+                nServer.instance().addExcludingNetCmd("server", "cl_load");
                 return "";
+            }
+        });
+        commands.put("loadingscreen", new xCom() {
+            public String doCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
+                return "loading screen ON";
+            }
+        });
+        commands.put("loadingscreenoff", new xCom() {
+            public String doCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
+                return "loading screen OFF";
             }
         });
         commands.put("cl_load", new xCom() {
@@ -1183,6 +1196,7 @@ public class xCon {
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 putItemDelegate(toks, cServerLogic.scene);
+                nServer.instance().addExcludingNetCmd("server", fullCommand.replace("putitem", "cl_putitem"));
                 return "put item";
             }
         });

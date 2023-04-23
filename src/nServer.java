@@ -416,10 +416,4 @@ public class nServer extends Thread {
             }
         }
     }
-
-    public void sendMapToClients() {
-        for(String id : masterStateMap.keys()) {
-            sendMapAndRespawn(id);
-        }
-    }
 }
