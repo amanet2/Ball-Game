@@ -51,16 +51,19 @@ public class gArgSet {
                 new FileOutputStream(s), StandardCharsets.UTF_8))) {
             boolean clientSave = s.equals(sSettings.CONFIG_FILE_LOCATION_CLIENT);
             for(String line : filelines) {
-                System.out.println("SAVING FILE LINE " + line + " -> " + s);
                 String[] largs = line.split(" ");
                 if(!largs[0].equals("#") && largs.length > 2 && largs[0].contains("setvar")) {
-                    System.out.println("SAVING FILE ARGED LINE " + line + " -> " + s);
                     String tk = largs[1]; //var key
                     if(contains(tk)) {
-                        writer.write(String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk)));
+                        String argLine = String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk));
+                        if(cClientLogic.debug)
+                            xCon.instance().debug("SAVING FILE LINE W/ ARG" + argLine + " -> " + s);
+                        writer.write(argLine);
                         continue;
                     }
                 }
+                if(cClientLogic.debug)
+                    xCon.instance().debug("SAVING FILE LINE " + line + " -> " + s);
                 writer.write(line);
                 writer.write("\n");
             }
