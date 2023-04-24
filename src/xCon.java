@@ -578,7 +578,7 @@ public class xCon {
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-//                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -653,28 +653,39 @@ public class xCon {
             public  String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
-                    return "usage: cl_exec_new <script_id> <optional: args>";
+                    return "usage: cl_execpreview_new <script_id> <optional: args>";
                 String scriptId = args[1];
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
-                if(theScript == null)
-                    return "no script found for: " + scriptId;
-                if(args.length > 2) {
-                    String[] callArgs = new String[args.length - 2];
-                    for(int i = 0; i < callArgs.length; i++) {
-                        callArgs[i] = args[i+2];
-                        if(callArgs[i].startsWith("$")) {
-                            String tokenKey = callArgs[i];
-                            if(cClientVars.instance().contains(tokenKey))
-                                callArgs[i] = cClientVars.instance().get(tokenKey);
-                        }
-                        else if(callArgs[i].startsWith("putblock"))
-                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblockpreview");
+                ArrayList<String> clCallLines = new ArrayList<>();
+                for(String rawLine : theScript.lines) {
+                    if(!rawLine.contains("putblock BLOCK_COLLISION")) {
+                        String clRawLine = rawLine.replace("getres",
+                                "cl_getres").replace("putblock",
+                                "cl_putblockpreview");
+                        clCallLines.add(clRawLine);
                     }
-                    theScript.callScript(callArgs);
                 }
-                else
-                    theScript.callScript(new String[]{});
-                return "script completed successfully";
+                System.out.println("CL_EXECPREVIEW: " + clCallLines.toString());
+                return "execpreview";
+//                if(theScript == null)
+//                    return "no script found for: " + scriptId;
+//                if(args.length > 2) {
+//                    String[] callArgs = new String[args.length - 2];
+//                    for(int i = 0; i < callArgs.length; i++) {
+//                        callArgs[i] = args[i+2];
+//                        if(callArgs[i].startsWith("$")) {
+//                            String tokenKey = callArgs[i];
+//                            if(cClientVars.instance().contains(tokenKey))
+//                                callArgs[i] = cClientVars.instance().get(tokenKey);
+//                        }
+//                        else if(callArgs[i].startsWith("putblock"))
+//                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblockpreview");
+//                    }
+//                    theScript.callScript(callArgs);
+//                }
+//                else
+//                    theScript.callScript(new String[]{});
+//                return "script completed successfully";
             }
         });
         commands.put("exportasprefab", new xCom() {
