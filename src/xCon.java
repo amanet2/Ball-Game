@@ -16,13 +16,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
@@ -656,36 +650,25 @@ public class xCon {
                     return "usage: cl_execpreview_new <script_id> <optional: args>";
                 String scriptId = args[1];
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
-                ArrayList<String> clCallLines = new ArrayList<>();
+                StringBuilder moddedScriptContentBuilder = new StringBuilder();
                 for(String rawLine : theScript.lines) {
-                    if(!rawLine.contains("putblock BLOCK_COLLISION")) {
+                    if(rawLine.contains("putblock BLOCK_FLOOR")
+                            || rawLine.contains("putblock BLOCK_CUBE")
+                            || rawLine.contains("getres")) {
                         String clRawLine = rawLine.replace("getres",
                                 "cl_getres").replace("putblock",
                                 "cl_putblockpreview");
-                        clCallLines.add(clRawLine);
+                        moddedScriptContentBuilder.append("\n").append(clRawLine);
                     }
                 }
-                System.out.println("CL_EXECPREVIEW: " + clCallLines.toString());
+                gScript moddedScript = new gScript("tmp_script", moddedScriptContentBuilder.substring(1));
+//                System.out.println("CL_EXECPREVIEW: " + moddedScript.lines);
+                String[] callArgs = new String[args.length - 2];
+                for(int i = 0; i < callArgs.length; i++) {
+                    callArgs[i] = args[i+2];
+                }
+                moddedScript.callScriptClientPreview(callArgs);
                 return "execpreview";
-//                if(theScript == null)
-//                    return "no script found for: " + scriptId;
-//                if(args.length > 2) {
-//                    String[] callArgs = new String[args.length - 2];
-//                    for(int i = 0; i < callArgs.length; i++) {
-//                        callArgs[i] = args[i+2];
-//                        if(callArgs[i].startsWith("$")) {
-//                            String tokenKey = callArgs[i];
-//                            if(cClientVars.instance().contains(tokenKey))
-//                                callArgs[i] = cClientVars.instance().get(tokenKey);
-//                        }
-//                        else if(callArgs[i].startsWith("putblock"))
-//                            callArgs[i] = callArgs[i].replace("putblock", "cl_putblockpreview");
-//                    }
-//                    theScript.callScript(callArgs);
-//                }
-//                else
-//                    theScript.callScript(new String[]{});
-//                return "script completed successfully";
             }
         });
         commands.put("exportasprefab", new xCom() {
@@ -894,6 +877,27 @@ public class xCon {
                 String res = ex(tv);
                 cServerVars.instance().put(tk, res);
                 return cServerVars.instance().get(tk);
+            }
+        });
+        commands.put("cl_getres", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                if(args.length < 2)
+                    return "null";
+                String tk = args[1];
+                if(args.length < 3) {
+                    if (!cClientVars.instance().contains(tk))
+                        return "null";
+                    return cClientVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                String res = ex(tv);
+                cClientVars.instance().put(tk, res);
+                return cClientVars.instance().get(tk);
             }
         });
         commands.put("getsnap", new xCom() {

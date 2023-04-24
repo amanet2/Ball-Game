@@ -30,6 +30,35 @@ public class gScript {
                         lineArgCallTokens[i] = argSet.get(tokenKey);
                     else if(cServerVars.instance().contains(tokenKey.substring(1)))
                         lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
+                    else if(cClientVars.instance().contains(tokenKey.substring(1))) {
+                        System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
+                        lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                    }
+                }
+            }
+            StringBuilder execStringBuilder = new StringBuilder();
+            for(String lineArgtoken : lineArgCallTokens) {
+                execStringBuilder.append(" ").append(lineArgtoken);
+            }
+//            System.out.println("SCRIPT LINE:" + execStringBuilder);
+            xCon.ex(execStringBuilder.substring(1));
+        }
+    }
+
+    public void callScriptClientPreview(String[] args) {
+        argSet.put("$0", id);
+        int argCtr = 1;
+        for(String arg : args) {
+            argSet.put("$" + argCtr++, arg);
+        }
+//        System.out.println("CLIENTPREVIEW SCRIPT CALLED: " + argSet.toString());
+        for(String line : lines) {
+            String[] lineArgCallTokens = line.trim().split(" ");
+            for(int i = 0; i < lineArgCallTokens.length; i++) {
+                if(lineArgCallTokens[i].startsWith("$")) {
+                    String tokenKey = lineArgCallTokens[i];
+                    if(argSet.contains(tokenKey))
+                        lineArgCallTokens[i] = argSet.get(tokenKey);
                     else if(cClientVars.instance().contains(tokenKey.substring(1)))
                         lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
                 }
@@ -38,7 +67,7 @@ public class gScript {
             for(String lineArgtoken : lineArgCallTokens) {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
-//            System.out.println("SCRIPT LINE:" + execStringBuilder);
+//            System.out.println("CLIENTPREVIEW SCRIPT LINE:" + execStringBuilder);
             xCon.ex(execStringBuilder.substring(1));
         }
     }
