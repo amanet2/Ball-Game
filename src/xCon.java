@@ -1833,13 +1833,19 @@ public class xCon {
     }
 
     public static String ex(String s) {
-        String[] commandTokens = s.split(";");
-        StringBuilder result = new StringBuilder();
-        for(String com : commandTokens) {
-            result.append(instance().doCommand(com)).append(";");
+        try {
+            String[] commandTokens = s.split(";");
+            StringBuilder result = new StringBuilder();
+            for (String com : commandTokens) {
+                result.append(instance().doCommand(com)).append(";");
+            }
+            String resultString = result.toString();
+            return resultString.substring(0, resultString.length() - 1);
         }
-        String resultString = result.toString();
-        return resultString.substring(0,resultString.length()-1);
+        catch (Exception ee) {
+            ee.printStackTrace();
+            return "Exception caused by line: " + s;
+        }
     }
 
     public static int charlimit() {
