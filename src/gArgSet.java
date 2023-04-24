@@ -49,13 +49,19 @@ public class gArgSet {
     public void saveToFile(String s) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(s), StandardCharsets.UTF_8))) {
+            boolean clientSave = s.equals(sSettings.CONFIG_FILE_LOCATION_CLIENT);
             for(String line : filelines) {
-                String arg = line.split(" ")[0];
-                if(!arg.equals("#") && contains(arg)) {
-                    writer.write(String.format("%s %s", arg, get(arg)));
+                System.out.println("SAVING FILE LINE " + line + " -> " + s);
+                String[] largs = line.split(" ");
+                if(!largs[0].equals("#") && largs.length > 2 && largs[0].contains("setvar")) {
+                    System.out.println("SAVING FILE ARGED LINE " + line + " -> " + s);
+                    String tk = largs[1]; //var key
+                    if(contains(tk)) {
+                        writer.write(String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk)));
+                        continue;
+                    }
                 }
-                else
-                    writer.write(line);
+                writer.write(line);
                 writer.write("\n");
             }
         } catch (Exception e) {
