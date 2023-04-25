@@ -26,22 +26,6 @@ public class nServer extends Thread {
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
-    //VERY IMPORTANT. commands allowed from clients
-    private static final ArrayList<String> legalClientCommands = new ArrayList<>(Arrays.asList(
-            "deleteblock",
-            "deleteitem",
-            "deleteplayer",
-            "deleteprefab",
-            "setthing",
-            "exec_new",
-            "fireweapon",
-            "gamemode",
-            "putblock",
-            "putitem",
-            "respawnnetplayer",
-            "requestdisconnect",
-            "setnstate"
-    ));
 
     public static nServer instance() {
         if(instance == null)
@@ -56,9 +40,9 @@ public class nServer extends Thread {
         clientCmdDoables.put("fireweapon",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
+                        xCon.ex(cmd);
                         addExcludingNetCmd(id+",server,",
                                 cmd.replaceFirst("fireweapon", "cl_fireweapon"));
-                        xCon.ex(cmd);
                     }
                 });
         clientCmdDoables.put("requestdisconnect",
@@ -67,21 +51,21 @@ public class nServer extends Thread {
                         quitClientIds.add(id);
                     }
                 });
-
-        for(String rcs : new String[]{"setnstate", "putblock", "putitem", "deleteblock", "deleteitem", "gamemode"}) {
+        clientCmdDoables.put("setthing", // dont want EVERY setthing on server to be synced, only ones requested here
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        xCon.ex(cmd);
+                        addExcludingNetCmd("server", "cl_" + cmd);
+                    }
+                });
+        for(String rcs : new String[]{
+                "respawnnetplayer", "setnstate", "putblock", "putitem", "deleteblock", "deleteitem",
+                "gamemode"
+        }) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
                             xCon.ex(cmd);
-                        }
-                    });
-        }
-        for(String rcs : new String[]{"deleteprefab", "setthing"}) {
-            clientCmdDoables.put(rcs,
-                    new gDoableCmd() {
-                        void ex(String id, String cmd) {
-                            xCon.ex(cmd);
-                            addExcludingNetCmd("server", "cl_" + cmd);
                         }
                     });
         }
@@ -89,12 +73,16 @@ public class nServer extends Thread {
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         String[] toks = cmd.split(" ");
-                        if(toks.length > 1) {
-                            String reqid = toks[1];
-                            if(reqid.equals(id)) //client can only remove itself
-                                xCon.ex(cmd);
-                            addExcludingNetCmd("server", "cl_" + cmd);
-                        }
+                        if(toks.length > 1 && toks[1].equals(id)) //client can only remove itself
+                            xCon.ex(cmd);
+                    }
+                });
+        clientCmdDoables.put("exec_new",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        String[] toks = cmd.split(" ");
+                        if(toks.length > 1 && toks[1].startsWith("prefabs/")) //client can only add prefabs
+                            xCon.ex(cmd);
                     }
                 });
     }
@@ -377,20 +365,10 @@ public class nServer extends Thread {
 
     void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
-        if(legalClientCommands.contains(ccmd)) {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
-            else if(cmd.startsWith("exec_new prefabs/")) {
-                xCon.ex(cmd);
-//                addExcludingNetCmd("server", cmd.replace("exec_new ", "cl_exec_new "));
-            }
-            else if(cmd.startsWith("respawnnetplayer"))  // I think this is for mapmaker clients unpausing
-                xCon.ex(cmd);
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
-        }
-        else
-            addNetCmd(id, "echo ILLEGAL CMD REQUEST: " + cmd);
     }
 
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {

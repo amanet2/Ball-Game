@@ -230,21 +230,13 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(eManager.mapsFileSelection.length < 1)
                     return "no maps found for changemap (random)";
-                if(eManager.mapsFileSelection.length > 1) {
-                    int rand = eManager.mapSelectionIndex;
-                    while(rand == eManager.mapSelectionIndex) {
-                        rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                    }
-                    delegate(rand);
+                int rand = (int)(Math.random()*eManager.mapsFileSelection.length);
+                while(rand == eManager.mapSelectionIndex) {
+                    rand = (int)(Math.random()*eManager.mapsFileSelection.length);
                 }
-                else
-                    delegate(0);
+                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[rand]);
+                eManager.mapSelectionIndex = rand;
                 return "changed map (random)";
-            }
-
-            private void delegate(int map) {
-                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[map]);
-                eManager.mapSelectionIndex = map;
             }
         });
         commands.put("chat", new xCom() {
@@ -339,7 +331,6 @@ public class xCon {
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
                             nServer.instance().addNetCmd("server", "deleteplayer " + id);
-                            nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
                             ex("exec_new scripts/sv_handlekill " + id + " " + shooterid);
@@ -411,6 +402,7 @@ public class xCon {
                     String id = toks[1];
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
                 }
+                nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
                 return "usage: deleteplayer <id>";
             }
         });
@@ -435,6 +427,7 @@ public class xCon {
                         cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
                         cServerLogic.scene.getThingMap(type).remove(id);
                     }
+                    nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
             }
