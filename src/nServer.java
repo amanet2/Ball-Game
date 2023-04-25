@@ -60,7 +60,7 @@ public class nServer extends Thread {
                 });
         for(String rcs : new String[]{
                 "respawnnetplayer", "setnstate", "putblock", "putitem", "deleteblock", "deleteitem",
-                "gamemode"
+                "gamemode", "deleteprefab"
         }) {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
