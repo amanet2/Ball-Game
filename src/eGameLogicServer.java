@@ -42,6 +42,7 @@ public class eGameLogicServer implements eGameLogic {
         HashMap<String, gThing> itemsMap = cServerLogic.scene.getThingMap("THING_ITEM");
         Queue<gThing> playerQueue = new LinkedList<>();
         Queue<gThing> itemsQueue = new LinkedList<>();
+        //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         for(String id : itemsMap.keySet()) {
             itemsQueue.add(itemsMap.get(id));
         }
