@@ -84,7 +84,7 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
-            writer.write(String.format("load\ncl_setvar cv_maploaded 0\ncl_setvar cv_gamemode %d\n", cClientLogic.gamemode));
+            writer.write(String.format("load\ngamemode %d\n", cClientLogic.gamemode));
             HashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
@@ -119,7 +119,6 @@ public class gScene {
                 str.append('\n');
                 writer.write(str.toString());
             }
-            writer.write("cl_setvar cv_maploaded 1\n");
         } catch (IOException e) {
             eLogging.logException(e);
             e.printStackTrace();

@@ -1,6 +1,11 @@
-* ENGINE: weird bug where calling other script from the original overwrites $1, $2, etc
+* BUG: client config and other configs (possibly) arent saving correctly
+* GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
+* NET: why does ui show client not communicating at full 30hz
+* BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
+* FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
 * FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
     -> then we will call this script when picking up new weapons with the delay
+* FEATURE: support block statements in scripts
 * SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
     -> we can customize these projectile's properties in a cfg
@@ -16,32 +21,22 @@
 * CRASH: concurrent modifications with multiple threads and game objects
     -> drawing, deleting, adding, moving
     -> need to draw out threads in diagram
-* BUG: after dying with weapon X cant pick up weapon X after respawning unless you pick up other weapon first
 * create a client var for player id to track with the camera
     -> can move an invisible item for the camera to track?
 * camera should track without its xy being explicitly tied to user player
     -> user player will be as smooth as the network, which is not very
-* create onShoot script capability for items and players when they get hit by bullet object
-* make prefabs not hardcoded
-    -> create some cool rooms/runs and duplicate them
-    -> bring back save as prefab button
-        -> prefab manager should have a check for new files every so often
-            -> maybe as a first check for selecting the prefab menu
-            -> or even better in the 'putObject' command
-* separate client and server gamemode variables
-    -> will need for dedicated server
+* create onShot script capability for items and players when they get hit by bullet object
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
-* create a new "exec" function for scripts
-    -> should support block statements: if, for, while
 * look into getting rid of unneeded linked hashmap in gScene. also other linked lists
-* replace all usages of "new Random()" with threadlocal random
-* convert banning/ban relief into a timeEvent
-* make a "willcollide" console comm with 2 ids for objects
-* convert cClientLogic.newprefabname into client var so onChange() can be used
+* replace all usages of "Math.Random()" with threadlocal random
+* create ban system using timeevents and saving timestamps to a file on close and loading
+    -> on server start, check for unban vars in config file, load ids into ban map
+    -> loop: check if any ban times have expire and remove player from ban map
+    -> console command: banid will schedule the event to unban (remove from list of banned ids) and create svar
+    -> on server close, save to file: setvar unban_<id> <time_millis>
+* make a "iscolliding" console comm with 2 ids for objects
+* convert cClientLogic.newprefabname into client var so console and onChange() can be used
 * dont draw blocks that cant be seen on screen
-* see what "checkX" functions we can get rid of/change to commands
-    -> e.g. instead of checking colors, have a comm "changeplayercolor <id> <color>"
-        --> playercolor is set by console command in halo's engine (in-game)
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
 * fix memory leaks if any
@@ -60,11 +55,7 @@
     -> have it be wildly inaccurate
 * GAME: bring back squish effect for something
 * new Item: bonusblock
-    -> (make them look like regular blocks)
     -> get its health to 0 and it has a chance to spawn a powerup
-        --> powerups: small mode, big mode, shotgun(?), bigger rock, fire rate ++, health++
-        --> this will be the powerup delivery system.  no placing shotties on map, etc
-    -> will respawn after X time
 * Interesting attack:
     -> hold mouse to increase size of projectile
     -> click mouse to start blowing up a bubble. click again to launch it before it pops
@@ -75,10 +66,9 @@
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
 * can make "themes" for prefabs
-* make players bounce off each other and walls like billiard balls
+* make players bounce off each other and walls in a satisfying way
 * add ball skins like polka dots stripes etc
     -> use existing color architecture
-* cant have key bound to multiple actions
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>

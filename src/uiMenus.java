@@ -378,10 +378,10 @@ public class uiMenus {
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
                 new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerup")),
-                new uiMenuItem("move down: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerdown")),
-                new uiMenuItem("move left: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerleft")),
-                new uiMenuItem("move right: "+(char)(int)xCon.instance().getKeyCodeForComm("exec scripts/playerright")),
+                new uiMenuItem("move up: "+(char)(int)xCon.instance().getKeyCodeForComm("playerup")),
+                new uiMenuItem("move down: "+(char)(int)xCon.instance().getKeyCodeForComm("playerdown")),
+                new uiMenuItem("move left: "+(char)(int)xCon.instance().getKeyCodeForComm("playerleft")),
+                new uiMenuItem("move right: "+(char)(int)xCon.instance().getKeyCodeForComm("playerright")),
                 new uiMenuItem("show scoreboard: TAB"),
                 new uiMenuItem("chat: "+(char)(int)xCon.instance().getKeyCodeForComm("chat"))
         };

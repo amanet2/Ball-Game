@@ -6,13 +6,18 @@ public class cServerLogic {
     static int listenPort = 5555;
     static gScene scene;
     static final gTimeEventSet timedEvents = new gTimeEventSet();
+    static boolean isLoadingFromHDD = false;
+    static int gameMode = 0;
 
     static void changeMap(String mapPath) {
-        cServerLogic.scene.clearThingMap("THING_PLAYER");
-        xCon.ex("exec " + mapPath);
-        nServer.instance().addExcludingNetCmd("server", "cl_clearthingmap THING_PLAYER");
-        nServer.instance().addExcludingNetCmd("server", "cl_load");
-        nServer.instance().sendMapToClients();
+        xCon.ex("loadingscreen");
+        xCon.ex("exec_new " + mapPath); //by exec'ing the map, server is actively streaming blocks
+        xCon.ex("-loadingscreen");
+        if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
+            for(String id : nServer.instance().masterStateMap.keys()) {
+                nServer.instance().addNetCmd("server", "respawnnetplayer " + id);
+            }
+        }
         //reset game state
         gScoreboard.resetScoresMap();
         nServer.instance().voteSkipList = new ArrayList<>();
@@ -44,11 +49,10 @@ public class cServerLogic {
                         nServer.instance().addExcludingNetCmd("server", s);
                     }
                 }
-                xCon.ex("exec scripts/sv_endgame");
+                xCon.ex("exec_new scripts/sv_endgame");
             }
         });
-        xCon.ex("setvar sv_gamemode " + cClientLogic.gamemode);
-        xCon.ex("exec scripts/sv_startgame");
+        xCon.ex("exec_new scripts/sv_startgame");
     }
 
     public static gPlayer getPlayerById(String id) {

@@ -2,5 +2,5 @@ getres spid getrandthing ITEM_SPAWNPOINT
 testresn null $spid getres spx setthing ITEM_SPAWNPOINT $spid coordx
 testresn null $spid getres spy setthing ITEM_SPAWNPOINT $spid coordy
 testresn null $spid getres nid getnewitemid
-testresn null $spid exec scripts/spawnpointgiverpm $nid $spx $spy
+testresn null $spid exec_new scripts/spawnpointgiverpm $nid $spx $spy
 testresn null $spid addcomi server echo scorepoint spawned!

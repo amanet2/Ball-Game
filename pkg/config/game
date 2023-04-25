@@ -39,46 +39,46 @@ setvar THING_19 ITEM_GLOVE
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
-setvar ITEM_FLAG_script exec items/flag
+setvar ITEM_FLAG_script exec_new items/flag
 setvar ITEM_LANDMINE_dimw 300
 setvar ITEM_LANDMINE_dimh 300
 setvar ITEM_LANDMINE_sprite misc/forbidden.png
-setvar ITEM_LANDMINE_script exec items/landmine
+setvar ITEM_LANDMINE_script exec_new items/landmine
 setvar ITEM_POINTGIVER_dimw 300
 setvar ITEM_POINTGIVER_dimh 300
 setvar ITEM_POINTGIVER_sprite misc/light1.png
-setvar ITEM_POINTGIVER_script exec items/pointgiver
+setvar ITEM_POINTGIVER_script exec_new items/pointgiver
 setvar ITEM_SPAWNPOINT_dimw 300
 setvar ITEM_SPAWNPOINT_dimh 300
-setvar ITEM_SPAWNPOINT_script exec items/spawnpoint
+setvar ITEM_SPAWNPOINT_script exec_new items/spawnpoint
 setvar ITEM_TELEPORTER_BLUE_dimw 300
 setvar ITEM_TELEPORTER_BLUE_dimh 300
 setvar ITEM_TELEPORTER_BLUE_sprite misc/teleporter_blue.png
-setvar ITEM_TELEPORTER_BLUE_script exec items/teleporterblue
+setvar ITEM_TELEPORTER_BLUE_script exec_new items/teleporterblue
 setvar ITEM_TELEPORTER_RED_dimw 300
 setvar ITEM_TELEPORTER_RED_dimh 300
 setvar ITEM_TELEPORTER_RED_sprite misc/teleporter_red.png
-setvar ITEM_TELEPORTER_RED_script exec items/teleporterred
+setvar ITEM_TELEPORTER_RED_script exec_new items/teleporterred
 setvar ITEM_PISTOL_dimw 300
 setvar ITEM_PISTOL_dimh 200
 setvar ITEM_PISTOL_sprite misc/bfg.png
-setvar ITEM_PISTOL_script exec items/pistol
+setvar ITEM_PISTOL_script exec_new items/pistol
 setvar ITEM_SHOTGUN_dimw 300
 setvar ITEM_SHOTGUN_dimh 200
 setvar ITEM_SHOTGUN_sprite misc/shotgun.png
-setvar ITEM_SHOTGUN_script exec items/shotgun
+setvar ITEM_SHOTGUN_script exec_new items/shotgun
 setvar ITEM_RIFLE_dimw 300
 setvar ITEM_RIFLE_dimh 200
 setvar ITEM_RIFLE_sprite misc/autorifle.png
-setvar ITEM_RIFLE_script exec items/rifle
+setvar ITEM_RIFLE_script exec_new items/rifle
 setvar ITEM_LAUNCHER_dimw 300
 setvar ITEM_LAUNCHER_dimh 200
 setvar ITEM_LAUNCHER_sprite misc/launcher.png
-setvar ITEM_LAUNCHER_script exec items/launcher
+setvar ITEM_LAUNCHER_script exec_new items/launcher
 setvar ITEM_GLOVE_dimw 300
 setvar ITEM_GLOVE_dimh 200
 setvar ITEM_GLOVE_sprite misc/glove.png
-setvar ITEM_GLOVE_script exec items/glove
+setvar ITEM_GLOVE_script exec_new items/glove
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2

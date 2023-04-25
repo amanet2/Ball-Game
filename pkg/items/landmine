@@ -1,4 +1,4 @@
-getres playerhealth setthing THING_PLAYER $itemactid stockhp
+getres playerhealth setthing THING_PLAYER $2 stockhp
 getres doexplode gte $playerhealth 1
-testres $doexplode 1 damageplayer $itemactid 1000
-testres $doexplode 1 addcomx server deleteitem $itemrcvid
+testres $doexplode 1 damageplayer $2 1000
+testres $doexplode 1 deleteitem $1

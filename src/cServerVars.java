@@ -18,6 +18,11 @@ public class cServerVars extends gArgSet {
                 cServerLogic.timelimit = Integer.parseInt(value);
             }
         });
+        putArg(new gArg("sv_gamemode", "0") {
+            public void onChange() {
+                cServerLogic.gameMode = Integer.parseInt(value);
+            }
+        });
         putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 xCon.ex("cl_setvar cv_maxhp " + value);
@@ -43,7 +48,7 @@ public class cServerVars extends gArgSet {
                 voteskiplimit = Integer.parseInt(value);
             }
         });
-        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
+        xCon.ex("exec_new "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);
     }

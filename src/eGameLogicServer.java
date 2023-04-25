@@ -25,7 +25,7 @@ public class eGameLogicServer implements eGameLogic {
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
-        xCon.ex("exec scripts/sv_checkgamestate");
+        xCon.ex("exec_new scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
         ticks++;
@@ -39,30 +39,22 @@ public class eGameLogicServer implements eGameLogic {
 
     private void checkGameItems() {
         HashMap<String, gThing> playerMap = cServerLogic.scene.getThingMap("THING_PLAYER");
-        Queue<gThing> checkQueue = new LinkedList<>();
-        for (String id : playerMap.keySet()) {
-            checkQueue.add(playerMap.get(id));
+        HashMap<String, gThing> itemsMap = cServerLogic.scene.getThingMap("THING_ITEM");
+        Queue<gThing> playerQueue = new LinkedList<>();
+        Queue<gThing> itemsQueue = new LinkedList<>();
+        for(String id : itemsMap.keySet()) {
+            itemsQueue.add(itemsMap.get(id));
         }
-        while(checkQueue.size() > 0) {
-            gPlayer player = (gPlayer) checkQueue.remove();
-            //check null fields
-            if (!player.containsFields(new String[]{"coordx", "coordy"}))
-                continue;
-            for(String checkType : cServerLogic.scene.objectMaps.keySet()) {
-                if(!checkType.contains("ITEM_"))
-                    continue;
-                HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap(checkType);
-                Queue<gThing> itemQueue = new LinkedList<>();
-                for(String id : thingMap.keySet()) {
-                    itemQueue.add(thingMap.get(id));
-                }
-                while(itemQueue.size() > 0) {
-                    gItem item = (gItem) itemQueue.remove();
-                    item.put("occupied", "0");
-                    if (player.collidesWithThing(item)) {
-                        item.activateItem(player);
-                    }
-                }
+        while(itemsQueue.size() > 0) {
+            gItem item = (gItem) itemsQueue.remove();
+            item.put("occupied", "0");
+            for (String id : playerMap.keySet()) {
+                playerQueue.add(playerMap.get(id));
+            }
+            while(playerQueue.size() > 0) {
+                gPlayer player = (gPlayer) playerQueue.remove();
+                if(player.containsFields(new String[]{"coordx", "coordy"}) && player.collidesWithThing(item))
+                    item.activateItem(player);
             }
         }
     }

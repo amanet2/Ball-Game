@@ -16,13 +16,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
@@ -269,22 +263,6 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("clearthingmap", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length > 1)
-                    clearThingMapDelegate(toks, cServerLogic.scene);
-                return "usage: clearthingmap <thing_title>";
-            }
-        });
-        commands.put("cl_clearthingmap", new xCom() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length > 1)
-                    clearThingMapDelegate(toks, cClientLogic.scene);
-                return "usage: clearthingmap <thing_title>";
-            }
-        });
         commands.put("cl_clearthingmappreview", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -354,7 +332,7 @@ public class xCon {
                     if(player != null) {
                         player.putInt("stockhp", player.getInt("stockhp") - dmg);
                         nServer.instance().masterStateMap.get(id).put("hp", player.get("stockhp"));
-                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        ex(String.format("exec_new scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
@@ -364,7 +342,7 @@ public class xCon {
                             nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
+                            ex("exec_new scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -380,9 +358,11 @@ public class xCon {
         commands.put("deleteblock", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1)
-                    deleteBlockDelegate(toks, cServerLogic.scene);
-                return "usage: deleteblock <id>";
+                if(toks.length < 2)
+                    return "usage: deleteblock <id>";
+                deleteBlockDelegate(toks, cServerLogic.scene);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                return "deleted block";
             }
         });
         commands.put("cl_deleteblock", new xCom() {
@@ -525,7 +505,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("load;cl_setvar cv_maploaded 1;addcomi server cl_load;addcomi server cl_setvar cv_maploaded 1");
+                ex("load;addcomi server cl_setvar cv_maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 nServer.instance().voteSkipList = new ArrayList<>();
@@ -553,6 +533,7 @@ public class xCon {
                                 e.printStackTrace();
                             }
                         }
+                        cServerLogic.isLoadingFromHDD = true;
                         ex("changemap " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
@@ -591,7 +572,7 @@ public class xCon {
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -618,130 +599,76 @@ public class xCon {
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
-        commands.put("exec", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String title = args[1];
-                debug("Loading exec: " + title);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
-                    }
-                }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(title)) {
-                    debug("EXEC FROM MEMORY: " + title);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(title).fileLines) {
-                        //parse vars for exec calls within exec (changemap)
-                        handleLine(line);
-                    }
-                }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(title))) {
+        commands.put("exec_new", new xCom() {
+            public  String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: exec_new <script_id> <optional: args>";
+                String scriptId = args[1];
+                if(cServerLogic.isLoadingFromHDD) { //detect loading from openFile
+                    System.out.println("LOADING MAP FROM HDD");
+                    cServerLogic.isLoadingFromHDD = false;
+                    ex("loadingscreen");
+                    try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
                         while ((line = br.readLine()) != null) {
                             if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                handleLine(line);
+                                ex(line);
                         }
                     }
                     catch (Exception e) {
                         eLogging.logException(e);
                         e.printStackTrace();
                     }
+                    ex("-loadingscreen");
+                    return "loaded map " + scriptId;
                 }
-                return String.format("%s finished", title);
-            }
-
-            private void handleLine(String line) {
-                String[] args = line.split(" ");
-                if(args[0].equalsIgnoreCase("exec")) {
-                    for (int i = 1; i < args.length; i++) {
-                        if (args[i].startsWith("$")) {
-                            if (cServerVars.instance().contains(args[i].substring(1)))
-                                args[i] = cServerVars.instance().get(args[i].substring(1));
-                            else if (sVars.get(args[i]) != null)
-                                args[i] = sVars.get(args[i]);
+                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                if(theScript == null)
+                    return "no script found for: " + scriptId;
+                if(args.length > 2) {
+                    String[] callArgs = new String[args.length - 2];
+                    for(int i = 0; i < callArgs.length; i++) {
+                        callArgs[i] = args[i+2];
+                        if(callArgs[i].startsWith("$")) {
+                            String tokenKey = callArgs[i];
+                            if(cServerVars.instance().contains(tokenKey))
+                                callArgs[i] = cServerVars.instance().get(tokenKey);
                         }
                     }
+                    theScript.callScript(callArgs);
                 }
-                StringBuilder tvb = new StringBuilder();
-                for(String arg : args) {
-                    tvb.append(" ").append(arg);
-                }
-                if(cClientLogic.debug)
-                    System.out.println("script line: " + tvb);
-                ex(tvb.substring(1));
+                else
+                    theScript.callScript(new String[]{});
+                return "script completed successfully";
             }
         });
-        commands.put("cl_exec", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String s = args[1];
-                debug("Loading exec: " + s);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
+        commands.put("cl_execpreview_new", new xCom() {
+            public  String doCommand(String fullCommand) {
+                String[] args = fullCommand.split(" ");
+                if(args.length < 2)
+                    return "usage: cl_execpreview_new <script_id> <optional: args>";
+                String scriptId = args[1];
+                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                StringBuilder moddedScriptContentBuilder = new StringBuilder();
+                for(String rawLine : theScript.lines) {
+                    if(rawLine.contains("putblock BLOCK_FLOOR")
+                            || rawLine.contains("putblock BLOCK_CUBE")
+                            || rawLine.contains("getres")) {
+                        String clRawLine = rawLine.replace("getres",
+                                "cl_getres").replace("putblock",
+                                "cl_putblockpreview");
+                        moddedScriptContentBuilder.append("\n").append(clRawLine);
                     }
                 }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-                    debug("EXEC_CLIENT FROM MEMORY: " + s);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
-                        ex(line.replace("putblock", "cl_putblock"
-                        ).replace("putitem", "cl_putitem"));
-                    }
+                gScript moddedScript = new gScript("tmp_script", moddedScriptContentBuilder.substring(1));
+//                System.out.println("CL_EXECPREVIEW: " + moddedScript.lines);
+                String[] callArgs = new String[args.length - 2];
+                for(int i = 0; i < callArgs.length; i++) {
+                    callArgs[i] = args[i+2];
                 }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                ex(line.replace("putblock", "cl_putblock"
-                                ).replace("putitem", "cl_putitem"));
-                        }
-                    }
-                    catch (Exception e) {
-                        eLogging.logException(e);
-                        e.printStackTrace();
-                    }
-                }
-                return String.format("%s finished", s);
-            }
-        });
-        commands.put("cl_execpreview", new xCom() {
-            public String doCommand(String fullcommand) {
-                String[] args = fullcommand.split(" ");
-                String s = args[1];
-                debug("Loading exec: " + s);
-                if(args.length > 2) {
-                    //parse the $ vars for placing prefabs
-                    for(int i = 2; i < args.length; i++) {
-                        sVars.put(String.format("$%d", i-1), args[i]);
-                    }
-                }
-                if(gExecDoableFactory.instance().execDoableMap.containsKey(s)) {
-//            debug("EXEC_CLIENT_PREVIEW FROM MEMORY: " + s);
-                    for(String line : gExecDoableFactory.instance().execDoableMap.get(s).fileLines) {
-                        if(line.startsWith("putblock "))
-                            ex(line.replace("putblock", "cl_putblockpreview"));
-                    }
-                }
-                else {
-                    try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            String[] linetoks = line.split(" ");
-                            if(linetoks[0].equalsIgnoreCase("putblock")) {
-                                ex(line.replace("putblock", "cl_putblockpreview"));
-                            }
-                        }
-                    }
-                    catch (Exception e) {
-                        eLogging.logException(e);
-                        e.printStackTrace();
-                    }
-                }
-                return String.format("%s finished", s);
+                moddedScript.callScriptClientPreview(callArgs);
+                return "execpreview";
             }
         });
         commands.put("exportasprefab", new xCom() {
@@ -776,7 +703,6 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    long gtime = gTime.gameTime + 500;
                     gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
                     return id + " fired weapon " + weapon;
                 }
@@ -870,6 +796,19 @@ public class xCon {
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
             }
         });
+        commands.put("gamemode", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only server can do 'gamemode'";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 2)
+                    return cServerVars.instance().get("sv_gamemode");
+                String setmode = args[1];
+                cServerVars.instance().put("sv_gamemode", setmode);
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_gamemode " + setmode);
+                return "changed game mode to " + cServerVars.instance().get("sv_gamemode");
+            }
+        });
         commands.put("gametimemillis", new xCom() {
             public String doCommand(String fullCommand) {
                 return Long.toString(gTime.gameTime);
@@ -940,6 +879,27 @@ public class xCon {
                 return cServerVars.instance().get(tk);
             }
         });
+        commands.put("cl_getres", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsClient(fullCommand);
+                if(args.length < 2)
+                    return "null";
+                String tk = args[1];
+                if(args.length < 3) {
+                    if (!cClientVars.instance().contains(tk))
+                        return "null";
+                    return cClientVars.instance().get(tk);
+                }
+                StringBuilder tvb = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    tvb.append(" ").append(args[i]);
+                }
+                String tv = tvb.substring(1);
+                String res = ex(tv);
+                cClientVars.instance().put(tk, res);
+                return cClientVars.instance().get(tk);
+            }
+        });
         commands.put("getsnap", new xCom() {
             //usage: getsnap $id $key
             public String doCommand(String fullCommand) {
@@ -968,8 +928,8 @@ public class xCon {
                 String weap = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
-                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
-                xCon.ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                ex(String.format("exec_new scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
@@ -982,7 +942,7 @@ public class xCon {
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
                 nServer.instance().addNetCmd("server", giveString);
-                nServer.instance().addExcludingNetCmd("server", giveString.replaceFirst("setthing", "cl_setthing"));
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
         });
@@ -1052,9 +1012,20 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("cl_setvar cv_gamemode 0");
+                ex("setvar sv_gamemode 0");
                 cServerLogic.scene = new gScene();
+                nServer.instance().addExcludingNetCmd("server", "cl_load");
                 return "";
+            }
+        });
+        commands.put("loadingscreen", new xCom() {
+            public String doCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
+                return "loading screen ON";
+            }
+            public String undoCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
+                return "loading screen OFF";
             }
         });
         commands.put("cl_load", new xCom() {
@@ -1094,7 +1065,7 @@ public class xCon {
                                 }
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
-                                String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
+                                String cmd = String.format("exec_new prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
                                 nClient.instance().addNetCmd(cmd);
                                 return "put prefab " + cClientLogic.newprefabname;
                             }
@@ -1211,6 +1182,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return "1";
             }
         });
@@ -1238,6 +1210,7 @@ public class xCon {
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 putItemDelegate(toks, cServerLogic.scene);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return "put item";
             }
         });
@@ -1478,7 +1451,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    xCon.ex("exec scripts/sv_handlespawnplayer " + playerId);
+                    ex("exec_new scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
@@ -1776,78 +1749,6 @@ public class xCon {
         args[1] = rawY;
         args[2] = width;
         args[3] = height;
-
-        if (blockid.charAt(0) == '$') {
-            int transformed;
-            String[] rxtoksadd = blockid.split("\\+");
-            String[] rxtokssub = blockid.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformed = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformed = rxmod0 - rxmod1;
-            } else {
-                transformed = sVars.getInt(blockid);
-            }
-            blockid = Integer.toString(transformed);
-        }
-
-        if (prefabid.charAt(0) == '$') {
-            int transformed;
-            String[] rxtoksadd = prefabid.split("\\+");
-            String[] rxtokssub = prefabid.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformed = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformed = rxmod0 - rxmod1;
-            } else {
-                transformed = sVars.getInt(prefabid);
-            }
-            prefabid = Integer.toString(transformed);
-        }
-
-        if (rawX.charAt(0) == '$') {
-            int transformedX;
-            String[] rxtoksadd = rawX.split("\\+");
-            String[] rxtokssub = rawX.split("-");
-            if (rxtoksadd.length > 1) {
-                int rxmod0 = sVars.getInt(rxtoksadd[0]);
-                int rxmod1 = Integer.parseInt(rxtoksadd[1]);
-                transformedX = rxmod0 + rxmod1;
-            } else if (rxtokssub.length > 1) {
-                int rxmod0 = sVars.getInt(rxtokssub[0]);
-                int rxmod1 = Integer.parseInt(rxtokssub[1]);
-                transformedX = rxmod0 - rxmod1;
-            } else {
-                transformedX = sVars.getInt(rawX);
-            }
-            args[0] = Integer.toString(transformedX);
-        }
-
-        if (rawY.charAt(0) == '$') {
-            int transformedY;
-            String[] rytoksadd = rawY.split("\\+");
-            String[] rytokssub = rawY.split("-");
-            if (rytoksadd.length > 1) {
-                int rymod0 = sVars.getInt(rytoksadd[0]);
-                int rymod1 = Integer.parseInt(rytoksadd[1]);
-                transformedY = rymod0 + rymod1;
-            } else if (rytokssub.length > 1) {
-                int rymod0 = sVars.getInt(rytokssub[0]);
-                int rymod1 = Integer.parseInt(rytokssub[1]);
-                transformedY = rymod0 - rymod1;
-            } else {
-                transformedY = sVars.getInt(rawY);
-            }
-            args[1] = Integer.toString(transformedY);
-        }
         if (args.length > 4) {
             args[4] = toks[8];
             args[5] = toks[9];
@@ -1932,13 +1833,19 @@ public class xCon {
     }
 
     public static String ex(String s) {
-        String[] commandTokens = s.split(";");
-        StringBuilder result = new StringBuilder();
-        for(String com : commandTokens) {
-            result.append(instance().doCommand(com)).append(";");
+        try {
+            String[] commandTokens = s.split(";");
+            StringBuilder result = new StringBuilder();
+            for (String com : commandTokens) {
+                result.append(instance().doCommand(com)).append(";");
+            }
+            String resultString = result.toString();
+            return resultString.substring(0, resultString.length() - 1);
         }
-        String resultString = result.toString();
-        return resultString.substring(0,resultString.length()-1);
+        catch (Exception ee) {
+            ee.printStackTrace();
+            return "Exception caused by line: " + s;
+        }
     }
 
     public static int charlimit() {
@@ -2015,10 +1922,10 @@ public class xCon {
                     realcom.append(" ").append(arg);
                 }
                 String comstring = realcom.substring(1);
-                stringLines.add(String.format("console:~$ %s", comstring));
+//                stringLines.add(String.format("console:~$ %s", comstring));
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
-                if (result.length() > 0)
-                    stringLines.add(result);
+//                if (result.length() > 0)
+//                    stringLines.add(result);
                 linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);

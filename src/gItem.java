@@ -7,7 +7,12 @@ public class gItem extends gThing {
         if(contains("script")) {
             xCon.ex("setvar itemactid " + p.get("id"));
             xCon.ex("setvar itemrcvid " + get("id"));
-            xCon.ex(get("script"));
+            //call script with $1 and $2 as the item and player id
+            String theScript = get("script");
+            if(theScript.startsWith("exec_new"))
+                xCon.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
+            else
+                xCon.ex(theScript);
         }
     }
 

@@ -1,0 +1,1 @@
+exec_new scripts/test_newscript_a helloworld purple

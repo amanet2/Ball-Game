@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class xMain {
 	private static void initGameObjects() {
-		xCon.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
+		xCon.ex("exec_new " + sSettings.CONFIG_FILE_LOCATION_GAME);
 		int ctr = 0;
 		ArrayList<String> thingTypes = new ArrayList<>();
 		while(!xCon.ex("setvar THING_"+ctr).equals("null")) {
@@ -26,6 +26,7 @@ public class xMain {
 	private static void init(String[] args) {
 		eManager.init();
 		gExecDoableFactory.instance().init();
+		gScriptFactory.instance().init();
 		initGameObjects();
 		initGameScenes();
 		initGameVars(args);
