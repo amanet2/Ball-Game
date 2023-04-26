@@ -1,3 +1,5 @@
+* GENERAL: make a givewaypoint function that will work like the givedecoration
+    -> dont need waypoint in netstate afterward
 * GENERAL: think about how prefabs are placed
     -> option 1: have comms for "putprefab" and "deleteprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly

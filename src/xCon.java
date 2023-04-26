@@ -934,7 +934,7 @@ public class xCon {
                 String pid = args[1];
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
-                nServer.instance().addNetCmd("server", giveString);
+                xCon.ex(giveString);
                 nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
@@ -1334,6 +1334,7 @@ public class xCon {
                     return "null";
                 p.put("coordx", args[2]);
                 p.put("coordy", args[3]);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return fullCommand;
             }
         });
