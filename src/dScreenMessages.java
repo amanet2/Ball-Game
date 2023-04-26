@@ -187,8 +187,8 @@ public class dScreenMessages {
         //loading
         if(sSettings.IS_CLIENT && !cClientLogic.maploaded) {
 //            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
-            dFonts.drawRightJustifiedString(g, "LOADING...",
-                    29 * sSettings.width / 30, 31*sSettings.height/32);
+            if(gTime.gameTime % 1000 < 500)
+                dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
