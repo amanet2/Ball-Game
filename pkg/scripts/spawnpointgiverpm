@@ -1,3 +1,3 @@
 foreachthing fid ITEM_POINTGIVER deleteitem $fid
 putitem ITEM_POINTGIVER $1 $2 $3
-addcomi server cl_setthing ITEM_POINTGIVER $1 waypoint 1
+addcomi server cl_setthing ITEM_POINTGIVER $1 waypoint PORTAL

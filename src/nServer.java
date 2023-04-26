@@ -261,7 +261,7 @@ public class nServer extends Thread {
         handleBackfill(id);
         String cname =  masterStateMap.get(id).get("name");
         String ccolor =  masterStateMap.get(id).get("color");
-        addExcludingNetCmd("server", String.format("echo %s#%s joined the game", cname, ccolor));
+        xCon.ex(String.format("echo %s#%s joined the game", cname, ccolor));
     }
 
     public void handleBackfill(String id) {
@@ -374,22 +374,22 @@ public class nServer extends Thread {
     public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
         xCon.ex("exec_new scripts/sv_handleclientmessage " + id + " " + testmsg); //check for special sound
         if(testmsg.strip().equalsIgnoreCase("thetime"))
-            addNetCmd(id, "echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         else if(testmsg.strip().equalsIgnoreCase("skip")) {
             if(voteSkipList.contains(id))
-                addNetCmd(id, "echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+                addNetCmd(id, "cl_echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
             else {
                 voteSkipList.add(id);
                 int votes = voteSkipList.size();
                 int limit = cServerVars.voteskiplimit;
                 if(votes < limit) {
-                    addExcludingNetCmd("server", String.format("echo [%s/%s] SAY 'skip' TO END ROUND.", votes, limit));
+                    xCon.ex(String.format("echo [VOTE_SKIP] %s/%s VOTED TO SKIP MAP. SAY 'skip' TO END ROUND.", votes, limit));
                 }
                 else {
                     addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
                             eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
-                    addExcludingNetCmd("server", "echo [VOTE_SKIP] VOTE TARGET REACHED");
-                    addExcludingNetCmd("server", "echo changing map...");
+                    xCon.ex("echo [VOTE_SKIP] VOTE TARGET REACHED");
+                    xCon.ex("echo changing map...");
                     cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
                         public void doCommand() {
                             xCon.ex("changemaprandom");

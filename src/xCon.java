@@ -460,6 +460,14 @@ public class xCon {
         });
         commands.put("echo", new xCom() {
             public String doCommand(String fullCommand) {
+//                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
+                gMessages.addScreenMessage(rs);
+                return rs;
+            }
+        });
+        commands.put("cl_echo", new xCom() {
+            public String doCommand(String fullCommand) {
                 String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
                 gMessages.addScreenMessage(rs);
                 return rs;
@@ -937,6 +945,19 @@ public class xCon {
                 xCon.ex(giveString);
                 nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
+            }
+        });
+        commands.put("givewaypoint", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: givewaypoint <player_id> <waypoint_string>";
+                String pid = args[1];
+                String val = args[2];
+                String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
+                xCon.ex(giveString);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                return String.format("Set waypoint '%s' for player %s", val, pid);
             }
         });
         commands.put("givepoint", new xCom() {

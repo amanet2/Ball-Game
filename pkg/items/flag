@@ -1,9 +1,9 @@
 getres hf setnstate $2 flag
 setnstate $2 flag 1
-setnstate $2 waypoint 1
-getres pname setnstate $2 name
-getres pcol setnstate $2 color
-testresn $pname null getres pfs constr $pname # $pcol
-testresn $hf 1 testresn $pname null addcomi echo $pfs has the flag
+testresn $hf 1 getres pname setnstate $2 name
+testresn $hf 1 getres pcol setnstate $2 color
+testresn $hf 1 getres pfs constr $pname # $pcol
+testresn $hf 1 testresn $pname null echo $pfs has the flag
 testresn $hf 1 testresn $pname null deleteitem $1
 testresn $hf 1 testresn $pname null givedecoration $2 misc/flag.png
+testresn $hf 1 testresn $pname null givewaypoint $2 FLAG

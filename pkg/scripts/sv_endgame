@@ -13,6 +13,6 @@ testres $rando 10 addcomi server playsound sounds/win/partyboy.wav
 testres $rando 11 addcomi server playsound sounds/win/winningmg.wav
 testres $rando 12 addcomi server playsound sounds/win/fun.wav
 testres $rando 13 addcomi server playsound sounds/win/like.wav
-addcomi server echo changing map in 10 seconds...
+echo changing map in 10 seconds...
 getres egt sumlong $gametimemillis $intermissiondelay
 scheduleevent $egt changemaprandom
