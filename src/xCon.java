@@ -460,10 +460,39 @@ public class xCon {
         });
         commands.put("echo", new xCom() {
             public String doCommand(String fullCommand) {
-//                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
-                String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
-                gMessages.addScreenMessage(rs);
-                return rs;
+                String[] lineArgCallTokens = fullCommand.trim().split(" ");
+                for(int i = 0; i < lineArgCallTokens.length; i++) {
+                    if(lineArgCallTokens[i].contains("#")) {
+                        String[] toks = lineArgCallTokens[i].split("#");
+                        for(int j = 0; j < toks.length; j++) {
+                            if(!toks[j].startsWith("$"))
+                                continue;
+                            if(cServerVars.instance().contains(toks[j].substring(1)))
+                                toks[j] = cServerVars.instance().get(toks[j].substring(1));
+                            else if (cClientVars.instance().contains(toks[j].substring(1))) {
+                                System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
+                                toks[j] = cClientVars.instance().get(toks[j].substring(1));
+                            }
+                        }
+                        lineArgCallTokens[i] = toks[0] + "#" + toks[1];
+                    }
+                    else if(lineArgCallTokens[i].startsWith("$")) {
+                        String tokenKey = lineArgCallTokens[i];
+                        if (cServerVars.instance().contains(tokenKey.substring(1)))
+                            lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
+                        else if (cClientVars.instance().contains(tokenKey.substring(1))) {
+                            System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
+                            lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                        }
+                    }
+                }
+                StringBuilder parsedStringBuilder = new StringBuilder();
+                for(String lineArgtoken : lineArgCallTokens) {
+                    parsedStringBuilder.append(" ").append(lineArgtoken);
+                }
+                String parsedCommand = parsedStringBuilder.substring(1);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + parsedCommand);
+                return "FANOUT to clients: cl_" + parsedCommand;
             }
         });
         commands.put("cl_echo", new xCom() {
