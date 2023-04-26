@@ -446,7 +446,7 @@ public class xCon {
                         cClientLogic.scene.getThingMap(type).remove(id);
                     }
                 }
-                return "usage: deleteblock <id>";
+                return "usage: cl_deleteprefab <id>";
             }
         });
         commands.put("disconnect", new xCom() {
@@ -1781,9 +1781,6 @@ public class xCon {
         return thing.get(tk);
     }
 
-    private void clearThingMapDelegate(String[] toks, gScene scene) {
-        scene.clearThingMap(toks[1]);
-    }
 
     private void deleteBlockDelegate(String[] toks, gScene scene) {
         String id = toks[1];

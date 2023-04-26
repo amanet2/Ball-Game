@@ -1,4 +1,12 @@
-* BUG: client config and other configs (possibly) arent saving correctly
+* GENERAL: think about how prefabs are placed
+    -> option 1: have comms for "putprefab" and "deleteprefab" to the effect that executed on each machine w/out server routing
+        -> this makes prefab appear and disappear instantly
+            -> server and clients need same prefab files
+    -> option 2: have server receive deleteprefab and putprefab requests and route via the base putblock and deleteblock
+        -> this is slower but less special code and it supports custom prefabs
+            -> I like this one better for this reason
+    -> option 3: leave as is (deleteprefab needs no work)
+        -> we have slow putprefab and fast deleteprefab
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * NET: why does ui show client not communicating at full 30hz
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
