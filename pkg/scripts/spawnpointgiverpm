@@ -1,5 +1,3 @@
-foreachthing fid ITEM_POINTGIVER addcomx server deleteitem $fid
-foreachthing fid ITEM_POINTGIVER addcomi server cl_deleteitem $fid
-addcomx server putitem ITEM_POINTGIVER $1 $2 $3
-addcomi server cl_putitem ITEM_POINTGIVER $1 $2 $3
+foreachthing fid ITEM_POINTGIVER deleteitem $fid
+putitem ITEM_POINTGIVER $1 $2 $3
 addcomi server cl_setthing ITEM_POINTGIVER $1 waypoint 1
