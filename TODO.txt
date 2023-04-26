@@ -1,3 +1,4 @@
+* GENERAL: look at playsound function and see if we can use server routing
 * GENERAL: make a givewaypoint function that will work like the givedecoration
     -> dont need waypoint in netstate afterward
 * GENERAL: think about how prefabs are placed
