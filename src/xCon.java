@@ -71,22 +71,6 @@ public class xCon {
                 return "server net com: " + actStr;
             }
         });
-        commands.put("cl_addcom", new xCom() {
-            public String doCommand(String fullCommand) {
-                if(!sSettings.IS_CLIENT)
-                    return "cl_addcom can only be used by active clients";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                if(args.length < 2)
-                    return "usage: cl_addcom <command to execute>";
-                StringBuilder act = new StringBuilder();
-                for(int i = 1; i < args.length; i++) {
-                    act.append(" ").append(args[i]);
-                }
-                String actStr = act.substring(1);
-                nClient.instance().addNetCmd(actStr);
-                return "client net com: " + actStr;
-            }
-        });
         commands.put("addcomi", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
@@ -523,11 +507,11 @@ public class xCon {
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
                 if(cClientLogic.selectedPrefabId.length() > 0) {
-                    ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
+                    nClient.instance().addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
                     return "deleted prefab " + cClientLogic.selectedPrefabId;
                 }
                 if(cClientLogic.selecteditemid.length() > 0) {
-                    ex("cl_addcom deleteitem " + cClientLogic.selecteditemid);
+                    nClient.instance().addNetCmd("deleteitem " + cClientLogic.selecteditemid);
                     return "deleted item " + cClientLogic.selecteditemid;
                 }
                 return "nothing to delete";
@@ -1000,8 +984,7 @@ public class xCon {
                     score = Integer.parseInt(args[2]);
                 gScoreboard.addToScoreField(id, "score", score);
                 String color = nServer.instance().masterStateMap.get(id).get("color");
-                nServer.instance().addExcludingNetCmd("server",
-                        String.format("cl_spawnpopup %s +%d#%s", id, score, color));
+                xCon.ex(String.format("spawnpopup %s +%d#%s", id, score, color));
                 return "gave point to " + id;
             }
         });
@@ -1531,6 +1514,12 @@ public class xCon {
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
             }
         });
+        commands.put("spawnpopup", new xCom() {
+            public String doCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                return "spawned popup";
+            }
+        });
         commands.put("cl_spawnpopup", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -1848,9 +1837,8 @@ public class xCon {
         for(int i = 3; i < args.length; i++) {
             esb.append(" ").append(args[i]);
         }
-        String es = esb.substring(1);
         if(args[1].equalsIgnoreCase(args[2]))
-            ex(es);
+            ex(esb.substring(1));
         return "1";
     }
 
@@ -1859,9 +1847,8 @@ public class xCon {
         for(int i = 3; i < args.length; i++) {
             esb.append(" ").append(args[i]);
         }
-        String es = esb.substring(1);
         if(!args[1].equalsIgnoreCase(args[2]))
-            ex(es);
+            ex(esb.substring(1));
         return "1";
     }
 

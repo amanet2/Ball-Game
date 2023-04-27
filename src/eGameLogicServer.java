@@ -194,8 +194,8 @@ public class eGameLogicServer implements eGameLogic {
             )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
             cServerLogic.scene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside
-            nServer.instance().addNetCmd("server", String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
-            nServer.instance().addExcludingNetCmd("server", String.format("cl_spawnpopup %s %d", p.get("id"), dmg));
+            xCon.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
+            xCon.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));
         }
     }
 

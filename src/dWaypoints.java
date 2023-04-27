@@ -81,13 +81,12 @@ public class dWaypoints {
                             wpPlayer.get("waypoint"));
             }
             // items
-            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
-            for(Object id : itemMap.keySet()) {
-                gThing item = itemMap.get(id);
+            String[] itemIds = scene.getThingMapIds("THING_ITEM");
+            for(String id : itemIds) {
+                gThing item = scene.getThingMap("THING_ITEM").get(id);
                 if(!(item.get("waypoint").equals("null") || item.get("waypoint").equals("0")))
                     drawNavPointer(g2,item.getInt("coordx") + item.getInt("dimw")/2,
-                            item.getInt("coordy") + item.getInt("dimh")/2,
-                            item.get("type").replace("ITEM_",""));
+                            item.getInt("coordy") + item.getInt("dimh")/2, item.get("waypoint"));
             }
         }
     }

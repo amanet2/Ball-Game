@@ -43,11 +43,8 @@ public class cServerLogic {
                     String wname = winState.get("name");
                     String wcolor = winState.get("color");
                     xCon.ex("givewin " + winid);
-                    for(String s : new String[]{
-                            String.format("echo %s#%s wins!#%s", wname, wcolor, wcolor),
-                            String.format("cl_spawnpopup %s WINNER!#%s", winid, wcolor)}) {
-                        nServer.instance().addExcludingNetCmd("server", s);
-                    }
+                    xCon.ex(String.format("echo %s#%s wins!#%s", wname, wcolor, wcolor));
+                    xCon.ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
                 }
                 xCon.ex("exec_new scripts/sv_endgame");
             }
