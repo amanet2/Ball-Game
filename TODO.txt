@@ -1,9 +1,5 @@
-* GENERAL: new gametype - Day of Defeat
-    -> use scorepoints to hold ids of activating character
-        -> have waypoint be the name of holder
-    -> give points every second for scorepoints held
-    -> give point for capping a scorepoint
-* GENERAL: look at playsound function and see if we can use server routing
+* GENERAL: cl_setthing shortcomings
+    -> if client is also running the server, cl_setthing can still be exec'd by server
 * GENERAL: think about how prefabs are placed
     -> option 1: have comms for "putprefab" and "deleteprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly
