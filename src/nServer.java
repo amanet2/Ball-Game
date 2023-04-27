@@ -100,7 +100,7 @@ public class nServer extends Thread {
     }
 
     void addExcludingNetCmd(String excludedids, String cmd) {
-        //excludedids is comma-separated string of ids
+        //excludedids is any-char separated string of ids
         if(!excludedids.contains("server"))
             xCon.ex(cmd);
         for(String id : clientNetCmdMap.keySet()) {
