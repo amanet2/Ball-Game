@@ -1,5 +1,4 @@
 getres dropitemid getnewitemid
 getres pldropx setthing THING_PLAYER $2 coordx
 getres pldropy setthing THING_PLAYER $2 coordy
-addcomx server putitem $1 $dropitemid $pldropx $pldropy
-addcomi server cl_putitem $1 $dropitemid $pldropx $pldropy
+putitem $1 $dropitemid $pldropx $pldropy

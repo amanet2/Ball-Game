@@ -1,0 +1,6 @@
+getres checkstring constr cap_ $cpid
+getres capper setvar $checkstring
+testresn $capper null givepoint $capper
+testres $capper null addcomi server cl_setthing ITEM_CAPTUREPOINT $cpid waypoint CAPTURE
+testresn $capper null getres ignorestring constr server: $capper
+testresn $capper null addcomi $ignorestring cl_setthing ITEM_CAPTUREPOINT $cpid waypoint CAPTURE

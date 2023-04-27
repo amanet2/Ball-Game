@@ -69,24 +69,24 @@ public class dWaypoints {
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
         if(uiInterface.inplay) {
             // players
-            for(String id : nClient.instance().clientStateMap.keys()) {
-                if(!id.equalsIgnoreCase(uiInterface.uuid)
-                        && nClient.instance().clientStateMap.get(id).contains("waypoint")
-                        && nClient.instance().clientStateMap.get(id).get("waypoint").equals("1")) {
-                    gPlayer p = cClientLogic.getPlayerById(id);
-                    if(p != null)
-                        drawNavPointer(g2, p.getInt("coordx") + p.getInt("dimw") / 2,
-                                p.getInt("coordy") + p.getInt("dimh") / 2, "ROCK");
-                }
+            for(String id : scene.getThingMapIds("THING_PLAYER")) {
+                if(id.equals(uiInterface.uuid))
+                    continue;
+                gPlayer wpPlayer = scene.getPlayerById(id);
+                if(wpPlayer == null)
+                    continue;
+                if(!(wpPlayer.get("waypoint").equals("null") || wpPlayer.get("waypoint").equals("0")))
+                    drawNavPointer(g2, wpPlayer.getInt("coordx") + wpPlayer.getInt("dimw") / 2,
+                            wpPlayer.getInt("coordy") + wpPlayer.getInt("dimh") / 2,
+                            wpPlayer.get("waypoint"));
             }
             // items
-            HashMap<String, gThing> itemMap = scene.getThingMap("THING_ITEM");
-            for(Object id : itemMap.keySet()) {
-                gThing item = itemMap.get(id);
-                if(item.contains("waypoint") && item.isVal("waypoint", "1"))
+            String[] itemIds = scene.getThingMapIds("THING_ITEM");
+            for(String id : itemIds) {
+                gThing item = scene.getThingMap("THING_ITEM").get(id);
+                if(!(item.get("waypoint").equals("null") || item.get("waypoint").equals("0")))
                     drawNavPointer(g2,item.getInt("coordx") + item.getInt("dimw")/2,
-                            item.getInt("coordy") + item.getInt("dimh")/2,
-                            item.get("type").replace("ITEM_",""));
+                            item.getInt("coordy") + item.getInt("dimh")/2, item.get("waypoint"));
             }
         }
     }

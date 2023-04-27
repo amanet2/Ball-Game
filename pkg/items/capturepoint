@@ -1,0 +1,13 @@
+#get the name of scorepoint var using id
+getres scorestring constr cap_ $1
+#get current capper (or null)
+getres currentcapper setvar $scorestring
+#if activator ($2) is not capper, give point and possession, set waypoint
+testresn $currentcapper $2 givepoint $2
+testresn $currentcapper $2 setvar $scorestring $2
+testresn $currentcapper $2 getres newcappername setnstate $2 name
+testresn $currentcapper $2 getres newcappercolor setnstate $2 color
+testresn $currentcapper $2 getres newcappernamecolor constr $newcappername # $newcappercolor
+testresn $currentcapper $2 addcomi server cl_setthing ITEM_CAPTUREPOINT $1 waypoint CAPTURE
+testresn $currentcapper $2 addcomx $2 cl_setthing ITEM_CAPTUREPOINT $1 waypoint 0
+testresn $currentcapper $2 echo $newcappernamecolor captured a point!

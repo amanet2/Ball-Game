@@ -71,22 +71,6 @@ public class xCon {
                 return "server net com: " + actStr;
             }
         });
-        commands.put("cl_addcom", new xCom() {
-            public String doCommand(String fullCommand) {
-                if(!sSettings.IS_CLIENT)
-                    return "cl_addcom can only be used by active clients";
-                String[] args = eUtils.parseScriptArgsClient(fullCommand);
-                if(args.length < 2)
-                    return "usage: cl_addcom <command to execute>";
-                StringBuilder act = new StringBuilder();
-                for(int i = 1; i < args.length; i++) {
-                    act.append(" ").append(args[i]);
-                }
-                String actStr = act.substring(1);
-                nClient.instance().addNetCmd(actStr);
-                return "client net com: " + actStr;
-            }
-        });
         commands.put("addcomi", new xCom() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
@@ -230,21 +214,13 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(eManager.mapsFileSelection.length < 1)
                     return "no maps found for changemap (random)";
-                if(eManager.mapsFileSelection.length > 1) {
-                    int rand = eManager.mapSelectionIndex;
-                    while(rand == eManager.mapSelectionIndex) {
-                        rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                    }
-                    delegate(rand);
+                int rand = (int)(Math.random()*eManager.mapsFileSelection.length);
+                while(rand == eManager.mapSelectionIndex) {
+                    rand = (int)(Math.random()*eManager.mapsFileSelection.length);
                 }
-                else
-                    delegate(0);
+                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[rand]);
+                eManager.mapSelectionIndex = rand;
                 return "changed map (random)";
-            }
-
-            private void delegate(int map) {
-                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[map]);
-                eManager.mapSelectionIndex = map;
             }
         });
         commands.put("chat", new xCom() {
@@ -339,7 +315,6 @@ public class xCon {
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
                             nServer.instance().addNetCmd("server", "deleteplayer " + id);
-                            nServer.instance().addExcludingNetCmd("server", "cl_deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
                             ex("exec_new scripts/sv_handlekill " + id + " " + shooterid);
@@ -411,6 +386,7 @@ public class xCon {
                     String id = toks[1];
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
                 }
+                nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
                 return "usage: deleteplayer <id>";
             }
         });
@@ -435,6 +411,7 @@ public class xCon {
                         cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
                         cServerLogic.scene.getThingMap(type).remove(id);
                     }
+                    nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
             }
@@ -453,7 +430,7 @@ public class xCon {
                         cClientLogic.scene.getThingMap(type).remove(id);
                     }
                 }
-                return "usage: deleteblock <id>";
+                return "usage: cl_deleteprefab <id>";
             }
         });
         commands.put("disconnect", new xCom() {
@@ -466,6 +443,43 @@ public class xCon {
             }
         });
         commands.put("echo", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] lineArgCallTokens = fullCommand.trim().split(" ");
+                for(int i = 0; i < lineArgCallTokens.length; i++) {
+                    if(lineArgCallTokens[i].contains("#")) {
+                        String[] toks = lineArgCallTokens[i].split("#");
+                        for(int j = 0; j < toks.length; j++) {
+                            if(!toks[j].startsWith("$"))
+                                continue;
+                            if(cServerVars.instance().contains(toks[j].substring(1)))
+                                toks[j] = cServerVars.instance().get(toks[j].substring(1));
+                            else if (cClientVars.instance().contains(toks[j].substring(1))) {
+                                System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
+                                toks[j] = cClientVars.instance().get(toks[j].substring(1));
+                            }
+                        }
+                        lineArgCallTokens[i] = toks[0] + "#" + toks[1];
+                    }
+                    else if(lineArgCallTokens[i].startsWith("$")) {
+                        String tokenKey = lineArgCallTokens[i];
+                        if (cServerVars.instance().contains(tokenKey.substring(1)))
+                            lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
+                        else if (cClientVars.instance().contains(tokenKey.substring(1))) {
+                            System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
+                            lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                        }
+                    }
+                }
+                StringBuilder parsedStringBuilder = new StringBuilder();
+                for(String lineArgtoken : lineArgCallTokens) {
+                    parsedStringBuilder.append(" ").append(lineArgtoken);
+                }
+                String parsedCommand = parsedStringBuilder.substring(1);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + parsedCommand);
+                return "FANOUT to clients: cl_" + parsedCommand;
+            }
+        });
+        commands.put("cl_echo", new xCom() {
             public String doCommand(String fullCommand) {
                 String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
                 gMessages.addScreenMessage(rs);
@@ -493,11 +507,11 @@ public class xCon {
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
                 if(cClientLogic.selectedPrefabId.length() > 0) {
-                    ex("cl_addcom deleteprefab " + cClientLogic.selectedPrefabId);
+                    nClient.instance().addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
                     return "deleted prefab " + cClientLogic.selectedPrefabId;
                 }
                 if(cClientLogic.selecteditemid.length() > 0) {
-                    ex("cl_addcom deleteitem " + cClientLogic.selecteditemid);
+                    nClient.instance().addNetCmd("deleteitem " + cClientLogic.selecteditemid);
                     return "deleted item " + cClientLogic.selecteditemid;
                 }
                 return "nothing to delete";
@@ -941,9 +955,22 @@ public class xCon {
                 String pid = args[1];
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
-                nServer.instance().addNetCmd("server", giveString);
+                xCon.ex(giveString);
                 nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
+            }
+        });
+        commands.put("givewaypoint", new xCom() {
+            public String doCommand(String fullCommand) {
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: givewaypoint <player_id> <waypoint_string>";
+                String pid = args[1];
+                String val = args[2];
+                String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
+                xCon.ex(giveString);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                return String.format("Set waypoint '%s' for player %s", val, pid);
             }
         });
         commands.put("givepoint", new xCom() {
@@ -957,8 +984,7 @@ public class xCon {
                     score = Integer.parseInt(args[2]);
                 gScoreboard.addToScoreField(id, "score", score);
                 String color = nServer.instance().masterStateMap.get(id).get("color");
-                nServer.instance().addExcludingNetCmd("server",
-                        String.format("cl_spawnpopup %s +%d#%s", id, score, color));
+                xCon.ex(String.format("spawnpopup %s +%d#%s", id, score, color));
                 return "gave point to " + id;
             }
         });
@@ -1341,6 +1367,7 @@ public class xCon {
                     return "null";
                 p.put("coordx", args[2]);
                 p.put("coordy", args[3]);
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 return fullCommand;
             }
         });
@@ -1485,6 +1512,12 @@ public class xCon {
                             nClient.instance().clientStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+            }
+        });
+        commands.put("spawnpopup", new xCom() {
+            public String doCommand(String fullCommand) {
+                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                return "spawned popup";
             }
         });
         commands.put("cl_spawnpopup", new xCom() {
@@ -1788,9 +1821,6 @@ public class xCon {
         return thing.get(tk);
     }
 
-    private void clearThingMapDelegate(String[] toks, gScene scene) {
-        scene.clearThingMap(toks[1]);
-    }
 
     private void deleteBlockDelegate(String[] toks, gScene scene) {
         String id = toks[1];
@@ -1807,9 +1837,8 @@ public class xCon {
         for(int i = 3; i < args.length; i++) {
             esb.append(" ").append(args[i]);
         }
-        String es = esb.substring(1);
         if(args[1].equalsIgnoreCase(args[2]))
-            ex(es);
+            ex(esb.substring(1));
         return "1";
     }
 
@@ -1818,9 +1847,8 @@ public class xCon {
         for(int i = 3; i < args.length; i++) {
             esb.append(" ").append(args[i]);
         }
-        String es = esb.substring(1);
         if(!args[1].equalsIgnoreCase(args[2]))
-            ex(es);
+            ex(esb.substring(1));
         return "1";
     }
 

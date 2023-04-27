@@ -1,4 +1,15 @@
-* BUG: client config and other configs (possibly) arent saving correctly
+* GENERAL: cl_setthing shortcomings
+    -> if client is also running the server, cl_setthing can still be exec'd by server
+* GENERAL: think about how prefabs are placed
+    -> option 1: have comms for "putprefab" and "deleteprefab" to the effect that executed on each machine w/out server routing
+        -> this makes prefab appear and disappear instantly
+            -> server and clients need same prefab files
+    -> option 2: have server receive deleteprefab and putprefab requests and route via the base putblock and deleteblock
+        -> this is slower but less special code and it supports custom prefabs
+            -> I like this one better for this reason
+    -> option 3: leave as is (deleteprefab needs no work)
+        -> we have slow putprefab and fast deleteprefab
+    -> should server tell clients which prefabs are available? or can clients bring their own prefabs?
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * NET: why does ui show client not communicating at full 30hz
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
@@ -40,7 +51,6 @@
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
 * fix memory leaks if any
-* make it so you have separate "waypoint-WITH-arrow" and "waypoint-WITHOUT-arrow"
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force

@@ -25,6 +25,7 @@ public class gItem extends gThing {
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
+        put("waypoint", "0");
         sprite = sp;
     }
 }
