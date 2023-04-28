@@ -1,15 +1,23 @@
+* IDEA: multi-line for loops in scripting language
+    -> iterate over parsedLines in gScript
+    -> "for" should trigger a function that gets all line #'s of the script to loop over
+    -> later when iterating over parsedLines and get to a loop line, we can call a function and pass all loop lines
+        -> this function then does the for i in range code in java
+    -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
 * GENERAL: cl_setthing shortcomings
-    -> if client is also running the server, cl_setthing can still be exec'd by server
+    -> if a client is also running the server, cl_setthing can be called by the server if client is ignored
 * GENERAL: think about how prefabs are placed
-    -> option 1: have comms for "putprefab" and "deleteprefab" to the effect that executed on each machine w/out server routing
+    -> current state: client requests "exec_"
+        -> client requests server to "exec_new prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
+            -> client does not get prefabs selection from server, so client needs same prefabs the server has
+        -> client requests server to "deleteprefab", server fans-out "cl_deleteprefab" (instant, OK)
+    -> option 1: have comm for "putprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly
-            -> server and clients need same prefab files
-    -> option 2: have server receive deleteprefab and putprefab requests and route via the base putblock and deleteblock
-        -> this is slower but less special code and it supports custom prefabs
-            -> I like this one better for this reason
-    -> option 3: leave as is (deleteprefab needs no work)
-        -> we have slow putprefab and fast deleteprefab
-    -> should server tell clients which prefabs are available? or can clients bring their own prefabs?
+            -> server and clients need same prefab files (already the case)
+    -> option 2: have client request "putblock" for each individual block in local prefab file
+        -> even slower but does not require requesting "exec_new prefabs/X" and it supports client-custom prefabs
+            -> clients might put malicious script calls into prefabs, like playing sounds
+                -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * NET: why does ui show client not communicating at full 30hz
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
