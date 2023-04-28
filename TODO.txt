@@ -1,9 +1,10 @@
 * IDEA: multi-line for loops in scripting language
-    -> iterate over parsedLines in gScript
+    -> iterate over lines in gScript
     -> "for" should trigger a function that gets all line #'s of the script to loop over
-    -> later when iterating over parsedLines and get to a loop line, we can call a function and pass all loop lines
-        -> this function then does the for i in range code in java
+    -> we can pass all loop lines to a function which then does the for i in range code in java
     -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
+    -> remember to properly parse and fill in args and global variables for each line in loop
+        -> same code as we currently have in gScript
 * GENERAL: cl_setthing shortcomings
     -> if a client is also running the server, cl_setthing can be called by the server if client is ignored
 * GENERAL: think about how prefabs are placed
