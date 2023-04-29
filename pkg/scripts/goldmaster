@@ -1,3 +1,3 @@
 getres rando getrand 0 4
-testresn $rando 0 exec_new scripts/spawnpointgiver
-testres $rando 0 exec_new scripts/spawnpointgiverbonus
+testresn $rando 0 exec scripts/spawnpointgiver
+testres $rando 0 exec scripts/spawnpointgiverbonus

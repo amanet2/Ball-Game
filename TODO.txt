@@ -9,14 +9,14 @@
     -> if a client is also running the server, cl_setthing can be called by the server if client is ignored
 * GENERAL: think about how prefabs are placed
     -> current state: client requests "exec_"
-        -> client requests server to "exec_new prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
+        -> client requests server to "exec prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
             -> client does not get prefabs selection from server, so client needs same prefabs the server has
         -> client requests server to "deleteprefab", server fans-out "cl_deleteprefab" (instant, OK)
     -> option 1: have comm for "putprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly
             -> server and clients need same prefab files (already the case)
     -> option 2: have client request "putblock" for each individual block in local prefab file
-        -> even slower but does not require requesting "exec_new prefabs/X" and it supports client-custom prefabs
+        -> even slower but does not require requesting "exec prefabs/X" and it supports client-custom prefabs
             -> clients might put malicious script calls into prefabs, like playing sounds
                 -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)

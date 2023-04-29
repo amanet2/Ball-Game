@@ -1,1 +1,1 @@
-foreachthing cpid ITEM_CAPTUREPOINT exec_new scripts/dodmaster_checkpoints
+foreachthing cpid ITEM_CAPTUREPOINT exec scripts/dodmaster_checkpoints

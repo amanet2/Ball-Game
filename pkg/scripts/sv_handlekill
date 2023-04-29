@@ -25,7 +25,7 @@ getres deadid setnstate $1 id
 setnstate $1 flag 0
 getres pldropx setthing THING_PLAYER $1 coordx
 getres pldropy setthing THING_PLAYER $1 coordy
-testres $hadflag 1 exec_new scripts/dropitem ITEM_FLAG $1
-testresn $sv_gamemode $mode_virus exec_new scripts/handleplayerweapondrop $1
+testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $1
+testresn $sv_gamemode $mode_virus exec scripts/handleplayerweapondrop $1
 getres respawntime sumlong $gametimemillis $respawnwaittime
 scheduleevent $respawntime respawnnetplayer $deadid

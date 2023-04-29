@@ -308,7 +308,7 @@ public class xCon {
                     if(player != null) {
                         player.putInt("stockhp", player.getInt("stockhp") - dmg);
                         nServer.instance().masterStateMap.get(id).put("hp", player.get("stockhp"));
-                        ex(String.format("exec_new scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
+                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
                             //more server-side stuff
@@ -317,7 +317,7 @@ public class xCon {
                             nServer.instance().addNetCmd("server", "deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("exec_new scripts/sv_handlekill " + id + " " + shooterid);
+                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -586,7 +586,7 @@ public class xCon {
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-                    ex(String.format("cl_execpreview_new prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 }
                 return "";
             }
@@ -613,11 +613,11 @@ public class xCon {
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
-        commands.put("exec_new", new xCom() {
+        commands.put("exec", new xCom() {
             public  String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
-                    return "usage: exec_new <script_id> <optional: args>";
+                    return "usage: exec <script_id> <optional: args>";
                 String scriptId = args[1];
                 if(cServerLogic.isLoadingFromHDD) { //detect loading from openFile
                     System.out.println("LOADING MAP FROM HDD");
@@ -657,11 +657,11 @@ public class xCon {
                 return "script completed successfully";
             }
         });
-        commands.put("cl_execpreview_new", new xCom() {
+        commands.put("cl_execpreview", new xCom() {
             public  String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
-                    return "usage: cl_execpreview_new <script_id> <optional: args>";
+                    return "usage: cl_execpreview <script_id> <optional: args>";
                 String scriptId = args[1];
                 gScript theScript = gScriptFactory.instance().getScript(scriptId);
                 StringBuilder moddedScriptContentBuilder = new StringBuilder();
@@ -943,7 +943,7 @@ public class xCon {
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
                 nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
-                ex(String.format("exec_new scripts/sv_handlegiveweapon %s %s", pid, weap));
+                ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
@@ -1091,7 +1091,7 @@ public class xCon {
                                 }
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
-                                String cmd = String.format("exec_new prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
+                                String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
                                 nClient.instance().addNetCmd(cmd);
                                 return "put prefab " + cClientLogic.newprefabname;
                             }
@@ -1478,7 +1478,7 @@ public class xCon {
                     int x = Integer.parseInt(toks[2]);
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    ex("exec_new scripts/sv_handlespawnplayer " + playerId);
+                    ex("exec scripts/sv_handlespawnplayer " + playerId);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
