@@ -1,3 +1,6 @@
 getres pw setthing THING_PLAYER $2 weapon
-testresn $pw 2 deleteitem $1
-testresn $pw 2 giveweapon $2 2
+testresn $pw 2 getres dwd setthing THING_PLAYER $2 dropweapondelay
+testresn $pw 2 getres dodw gte $gametimemillis $dwd
+testresn $pw 2 testres $dodw 1 exec scripts/handleplayerweapondrop $2
+testresn $pw 2 testres $dodw 1 deleteitem $1
+testresn $pw 2 testres $dodw 1 giveweapon $2 2
