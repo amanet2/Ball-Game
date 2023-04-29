@@ -314,10 +314,10 @@ public class xCon {
                             //more server-side stuff
                             int dcx = player.getInt("coordx");
                             int dcy = player.getInt("coordy");
-                            nServer.instance().addNetCmd("server", "deleteplayer " + id);
+                            ex("deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("exec scripts/sv_handlekill " + id + " " + shooterid);
+                            ex("exec scripts/sv_handlekillplayer " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
@@ -384,9 +384,10 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
+                    ex("exec scripts/sv_handledeleteplayer " + id);
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                    nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
                 }
-                nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
                 return "usage: deleteplayer <id>";
             }
         });
