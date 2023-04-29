@@ -7,4 +7,4 @@ testres $hadweapon $weap_pistol exec scripts/dropitem ITEM_PISTOL $1
 testres $hadweapon $weap_shotgun exec scripts/dropitem ITEM_SHOTGUN $1
 testres $hadweapon $weap_autorifle exec scripts/dropitem ITEM_RIFLE $1
 testres $hadweapon $weap_launcher exec scripts/dropitem ITEM_LAUNCHER $1
-testres $hadweapon $weap_gloves exec scripts/dropitem ITEM_GLOVES $1
+testres $hadweapon $weap_gloves exec scripts/dropitem ITEM_GLOVE $1
