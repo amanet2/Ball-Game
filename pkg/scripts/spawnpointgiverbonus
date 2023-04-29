@@ -1,7 +1,11 @@
-getres rando getrand 0 5
-testres $rando 0 putitem ITEM_LANDMINE $1 $2 $3
-testres $rando 1 putitem ITEM_PISTOL $1 $2 $3
-testres $rando 2 putitem ITEM_SHOTGUN $1 $2 $3
-testres $rando 3 putitem ITEM_RIFLE $1 $2 $3
-testres $rando 4 putitem ITEM_LAUNCHER $1 $2 $3
-testres $rando 5 putitem ITEM_GLOVE $1 $2 $3
+getres spid getrandthing ITEM_SPAWNPOINT
+testresn null $spid getres spx setthing ITEM_SPAWNPOINT $spid coordx
+testresn null $spid getres spy setthing ITEM_SPAWNPOINT $spid coordy
+testresn null $spid getres nid getnewitemid
+testresn null $spid getres rando getrand 0 5
+testresn null $spid testres $rando 0 putitem ITEM_LANDMINE $nid $spx $spy
+testresn null $spid testres $rando 1 putitem ITEM_PISTOL $nid $spx $spy
+testresn null $spid testres $rando 2 putitem ITEM_SHOTGUN $nid $spx $spy
+testresn null $spid testres $rando 3 putitem ITEM_RIFLE $nid $spx $spy
+testresn null $spid testres $rando 4 putitem ITEM_LAUNCHER $nid $spx $spy
+testresn null $spid testres $rando 5 putitem ITEM_GLOVE $nid $spx $spy

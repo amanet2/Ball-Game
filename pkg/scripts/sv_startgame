@@ -2,13 +2,17 @@ foreachclient pid setnstate $pid flag 0
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
-testres $sv_gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec_new scripts/flagmaster
+testres $sv_gamemode $mode_deathmatch foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_dodmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_pointmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_flagmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/flagmaster
 testres $sv_gamemode $mode_goldmaster getres estart sumlong $gtime 3000
-testres $sv_gamemode $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec_new scripts/goldmaster
+testres $sv_gamemode $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
 testres $sv_gamemode $mode_pointmaster getres bstart sumlong $gtime 30000
 testres $sv_gamemode $mode_pointmaster getres cstart sumlong $gtime 20000
-testres $sv_gamemode $mode_pointmaster foreachlong tv $bstart $eend 30000 scheduleevent $tv exec_new scripts/pointmaster
+testres $sv_gamemode $mode_pointmaster foreachlong tv $bstart $eend 30000 scheduleevent $tv exec scripts/pointmaster
 testres $sv_gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 scheduleevent $tv echo scorepoint spawning in 10 seconds!
-testres $sv_gamemode $mode_vipmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec_new scripts/goldmaster
-testres $sv_gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec_new scripts/checkvirus
-testres $sv_gamemode $mode_dodmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec_new scripts/dodmaster
+testres $sv_gamemode $mode_vipmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
+testres $sv_gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
+testres $sv_gamemode $mode_dodmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/dodmaster

@@ -216,7 +216,7 @@ public class cClientVars extends gArgSet {
             }
         });
         
-        xCon.ex("exec_new "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromLaunchArgs(launchArgs);
     }

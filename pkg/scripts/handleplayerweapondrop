@@ -1,8 +1,10 @@
+getres dropweapondelay sumlong $gametimemillis 2000
+setthing THING_PLAYER $1 dropweapondelay $dropweapondelay
 getres pldropx setthing THING_PLAYER $1 coordx
 getres pldropy setthing THING_PLAYER $1 coordy
 getres hadweapon setthing THING_PLAYER $1 weapon
-testres $hadweapon $weap_pistol exec_new scripts/dropitem ITEM_PISTOL $1
-testres $hadweapon $weap_shotgun exec_new scripts/dropitem ITEM_SHOTGUN $1
-testres $hadweapon $weap_autorifle exec_new scripts/dropitem ITEM_AUTORIFLE $1
-testres $hadweapon $weap_launcher exec_new scripts/dropitem ITEM_LAUNCHER $1
-testres $hadweapon $weap_gloves exec_new scripts/dropitem ITEM_GLOVES $1
+testres $hadweapon $weap_pistol exec scripts/dropitem ITEM_PISTOL $1
+testres $hadweapon $weap_shotgun exec scripts/dropitem ITEM_SHOTGUN $1
+testres $hadweapon $weap_autorifle exec scripts/dropitem ITEM_RIFLE $1
+testres $hadweapon $weap_launcher exec scripts/dropitem ITEM_LAUNCHER $1
+testres $hadweapon $weap_gloves exec scripts/dropitem ITEM_GLOVES $1

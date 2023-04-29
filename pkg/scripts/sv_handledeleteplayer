@@ -1,0 +1,4 @@
+testresn $sv_gamemode $mode_virus exec scripts/handleplayerweapondrop $1
+getres hadflag setnstate $1 flag
+testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $1
+setnstate $1 flag 0

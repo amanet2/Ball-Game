@@ -9,7 +9,7 @@ public class gItem extends gThing {
             xCon.ex("setvar itemrcvid " + get("id"));
             //call script with $1 and $2 as the item and player id
             String theScript = get("script");
-            if(theScript.startsWith("exec_new"))
+            if(theScript.startsWith("exec"))
                 xCon.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
             else
                 xCon.ex(theScript);

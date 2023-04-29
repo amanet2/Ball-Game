@@ -25,7 +25,7 @@ public class eGameLogicServer implements eGameLogic {
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
         nServer.instance().checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
-        xCon.ex("exec_new scripts/sv_checkgamestate");
+        xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
         ticks++;

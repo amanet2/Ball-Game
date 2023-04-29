@@ -11,7 +11,7 @@ public class cServerLogic {
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
-        xCon.ex("exec_new " + mapPath); //by exec'ing the map, server is actively streaming blocks
+        xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
         xCon.ex("-loadingscreen");
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
             for(String id : nServer.instance().masterStateMap.keys()) {
@@ -46,10 +46,10 @@ public class cServerLogic {
                     xCon.ex(String.format("echo %s#%s wins!#%s", wname, wcolor, wcolor));
                     xCon.ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
                 }
-                xCon.ex("exec_new scripts/sv_endgame");
+                xCon.ex("exec scripts/sv_endgame");
             }
         });
-        xCon.ex("exec_new scripts/sv_startgame");
+        xCon.ex("exec scripts/sv_startgame");
     }
 
     public static gPlayer getPlayerById(String id) {
