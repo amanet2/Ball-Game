@@ -2,6 +2,10 @@ foreachclient pid setnstate $pid flag 0
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
+testres $sv_gamemode $mode_deathmatch foreachlong tv $estart $eend 10000 scheduleevent $tv exec_new scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_dodmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec_new scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_pointmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec_new scripts/spawnpointgiverbonus
+testres $sv_gamemode $mode_flagmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec_new scripts/spawnpointgiverbonus
 testres $sv_gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec_new scripts/flagmaster
 testres $sv_gamemode $mode_goldmaster getres estart sumlong $gtime 3000
 testres $sv_gamemode $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec_new scripts/goldmaster

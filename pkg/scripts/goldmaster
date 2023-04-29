@@ -1,5 +1,3 @@
-getres spid getrandthing ITEM_SPAWNPOINT
-testresn null $spid getres spx setthing ITEM_SPAWNPOINT $spid coordx
-testresn null $spid getres spy setthing ITEM_SPAWNPOINT $spid coordy
-testresn null $spid getres nid getnewitemid
-testresn null $spid exec_new scripts/spawnpointgiver $nid $spx $spy
+getres rando getrand 0 4
+testresn $rando 0 exec_new scripts/spawnpointgiver
+testres $rando 0 exec_new scripts/spawnpointgiverbonus
