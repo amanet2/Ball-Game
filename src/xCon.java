@@ -1261,16 +1261,22 @@ public class xCon {
             }
         });
         commands.put("respawnnetplayer", new xCom() {
+            int tries = 0;
+            final int trylimit = 5;
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 2)
                     return "usage: respawnnetplayer <id>";
+                tries++;
+                if(tries > trylimit)
+                    return "couldn't find available ITEM_SPAWNPOINT";
                 String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
                     gThing randomSpawn = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
                     if(randomSpawn.get("occupied").equals("1"))
                         ex("respawnnetplayer " + toks[1]);
                     else {
+                        tries = 0;
                         String spawnString = String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy"));
                         nServer.instance().addNetCmd("server", spawnString);
                         nServer.instance().addExcludingNetCmd("server", spawnString.replaceFirst("spawnplayer", "cl_spawnplayer"));
