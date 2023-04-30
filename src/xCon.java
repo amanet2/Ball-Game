@@ -1760,11 +1760,14 @@ public class xCon {
         int ih = Integer.parseInt(ex("setvar " + itemTitle+"_dimh"));
         String isp = ex("setvar " + itemTitle + "_sprite");
         String isc = ex("setvar " + itemTitle + "_script");
+        String newItemFlare = ex("setvar " + itemTitle + "_flare");
         gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
                 isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
                         iw, ih));
         if(!isc.equalsIgnoreCase("null"))
             item.put("script", isc);
+        if(!newItemFlare.equalsIgnoreCase("null"))
+            item.put("flare", newItemFlare);
         item.put("id", itemId);
         item.put("occupied", "0");
         scene.getThingMap("THING_ITEM").put(itemId, item);

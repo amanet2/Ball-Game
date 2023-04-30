@@ -65,19 +65,6 @@ public class gScene {
         return visualQueue;
     }
 
-    public void clearThingMap(String thing_title) {
-        ArrayList<String> toRemoveIds = new ArrayList<>();
-        if(thing_title.contains("ITEM_")) {
-            if(objectMaps.containsKey(thing_title))
-                toRemoveIds.addAll(getThingMap(thing_title).keySet());
-            for(String id : toRemoveIds) {
-                getThingMap("THING_ITEM").remove(id);
-            }
-        }
-        if(objectMaps.containsKey(thing_title))
-            objectMaps.put(thing_title, new LinkedHashMap<>());
-    }
-
     public void saveAs(String filename, String foldername) {
         if(foldername == null || foldername.strip().length() < 1)
             foldername="maps";

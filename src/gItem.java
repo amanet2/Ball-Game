@@ -26,6 +26,7 @@ public class gItem extends gThing {
         putInt("dimw", w);
         putInt("dimh", h);
         put("waypoint", "0");
+        put("flare", "null");
         sprite = sp;
     }
 }
