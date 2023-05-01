@@ -73,12 +73,11 @@ public class xCon {
         });
         commands.put("addcomi", new xCom() {
             public String doCommand(String fullCommand) {
-                //TODO: clean this up (i dont think we need # process)
                 if(!sSettings.IS_SERVER)
                     return "addcomi can only be used by the host";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
                 if(args.length < 3)
-                    return "usage: addcomi <ignore id> <string>";
+                    return "usage: addcomi <ids to ignore separated by any token except ',' > <string>";
                 String ignoreId = args[1];
                 StringBuilder act = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -91,7 +90,6 @@ public class xCon {
         });
         commands.put("addcomx", new xCom() {
             public String doCommand(String fullCommand) {
-                //TODO: clean this up too
                 if(!sSettings.IS_SERVER)
                     return "addcomx can only be used by active server";
                 String[] args = eUtils.parseScriptArgsServer(fullCommand);
@@ -105,31 +103,6 @@ public class xCon {
                 String actStr = act.substring(1);
                 nServer.instance().addNetCmd(exlusiveId, actStr);
                 return "server net com exclusive: " + actStr;
-            }
-        });
-        commands.put("scheduleevent", new xCom() {
-            public String doCommand(String fullCommand) {
-                if(!sSettings.IS_SERVER)
-                    return "scheduleevent can only be used by active server";
-                String[] args = eUtils.parseScriptArgsServer(fullCommand);
-                if(args.length < 3)
-                    return "usage: scheduleevent <time> <string to execute>";
-                StringBuilder act = new StringBuilder();
-                for(int i = 2; i < args.length; i++) {
-                    act.append(" ").append(args[i]);
-                }
-                String timeToExec = args[1];
-                String actStr = act.substring(1);
-                synchronized (cServerLogic.timedEvents.events) {
-                    cServerLogic.timedEvents.put(timeToExec,
-                            new gTimeEvent() {
-                                public void doCommand() {
-                                    ex(actStr);
-                                }
-                            }
-                    );
-                }
-                return "added time event @" + timeToExec + ": " + actStr;
             }
         });
         commands.put("bind", new xCom() {
@@ -370,15 +343,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
-                    String did = toks[1];
-                    for(String id : cServerLogic.scene.getThingMapIds("THING_BLOCK")) {
-                        gBlock block = (gBlock) cServerLogic.scene.getThingMap("THING_BLOCK").get(id);
-                        if(!block.isVal("prefabid", did))
-                            continue;
-                        String type = block.get("type");
-                        cServerLogic.scene.getThingMap("THING_BLOCK").remove(id);
-                        cServerLogic.scene.getThingMap(type).remove(id);
-                    }
+                    deletePrefabDelegate(cServerLogic.scene, toks[1]);
                     nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
@@ -388,15 +353,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
-                    String did = toks[1];
-                    for(String id : cClientLogic.scene.getThingMapIds("THING_BLOCK")) {
-                        gBlock block = (gBlock) cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-                        if(!block.isVal("prefabid", did))
-                            continue;
-                        String type = block.get("type");
-                        cClientLogic.scene.getThingMap("THING_BLOCK").remove(id);
-                        cClientLogic.scene.getThingMap(type).remove(id);
-                    }
+                    deletePrefabDelegate(cClientLogic.scene, toks[1]);
                 }
                 return "usage: cl_deleteprefab <id>";
             }
@@ -1136,6 +1093,46 @@ public class xCon {
                 return fullCommand;
             }
         });
+        commands.put("playerdown", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(1);
+                return "player down";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(1);
+                return "stop player down";
+            }
+        });
+        commands.put("playerleft", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(2);
+                return "player left";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(2);
+                return "stop player left";
+            }
+        });
+        commands.put("playerright", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(3);
+                return "player right";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(3);
+                return "stop player right";
+            }
+        });
+        commands.put("playerup", new xCom() {
+            public String doCommand(String fullCommand) {
+                playerMoveDelegate(0);
+                return "player up";
+            }
+            public String undoCommand(String fullCommand) {
+                playerStopMoveDelegate(0);
+                return "stop player up";
+            }
+        });
         commands.put("playsound", new xCom() {
             final double sfxrange = 1800.0;
             public String doCommand(String fullCommand) {
@@ -1259,6 +1256,31 @@ public class xCon {
                     gMessages.msgInProgress = "";
                 }
                 return fullCommand;
+            }
+        });
+        commands.put("scheduleevent", new xCom() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "scheduleevent can only be used by active server";
+                String[] args = eUtils.parseScriptArgsServer(fullCommand);
+                if(args.length < 3)
+                    return "usage: scheduleevent <time> <string to execute>";
+                StringBuilder act = new StringBuilder();
+                for(int i = 2; i < args.length; i++) {
+                    act.append(" ").append(args[i]);
+                }
+                String timeToExec = args[1];
+                String actStr = act.substring(1);
+                synchronized (cServerLogic.timedEvents.events) {
+                    cServerLogic.timedEvents.put(timeToExec,
+                            new gTimeEvent() {
+                                public void doCommand() {
+                                    ex(actStr);
+                                }
+                            }
+                    );
+                }
+                return "added time event @" + timeToExec + ": " + actStr;
             }
         });
         commands.put("selectdown", new xCom() {
@@ -1609,46 +1631,6 @@ public class xCon {
                 return "0";
             }
         });
-        commands.put("playerdown", new xCom() {
-            public String doCommand(String fullCommand) {
-                playerMoveDelegate(1);
-                return "player down";
-            }
-            public String undoCommand(String fullCommand) {
-                playerStopMoveDelegate(1);
-                return "stop player down";
-            }
-        });
-        commands.put("playerleft", new xCom() {
-            public String doCommand(String fullCommand) {
-                playerMoveDelegate(2);
-                return "player left";
-            }
-            public String undoCommand(String fullCommand) {
-                playerStopMoveDelegate(2);
-                return "stop player left";
-            }
-        });
-        commands.put("playerright", new xCom() {
-            public String doCommand(String fullCommand) {
-                playerMoveDelegate(3);
-                return "player right";
-            }
-            public String undoCommand(String fullCommand) {
-                playerStopMoveDelegate(3);
-                return "stop player right";
-            }
-        });
-        commands.put("playerup", new xCom() {
-            public String doCommand(String fullCommand) {
-                playerMoveDelegate(0);
-                return "player up";
-            }
-            public String undoCommand(String fullCommand) {
-                playerStopMoveDelegate(0);
-                return "stop player up";
-            }
-        });
         commands.put("showscore", new xCom() {
             public String doCommand(String fullCommand) {
                 dScreenMessages.showscore = true;
@@ -1801,6 +1783,17 @@ public class xCon {
         if(scene.getThingMap("THING_BLOCK").containsKey(id)) {
             gBlock blockToDelete = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
             String type = blockToDelete.get("type");
+            scene.getThingMap("THING_BLOCK").remove(id);
+            scene.getThingMap(type).remove(id);
+        }
+    }
+
+    private void deletePrefabDelegate(gScene scene, String prefabId) {
+        for(String id : scene.getThingMapIds("THING_BLOCK")) {
+            gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
+            if(!block.isVal("prefabid", prefabId))
+                continue;
+            String type = block.get("type");
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
         }
