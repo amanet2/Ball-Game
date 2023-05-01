@@ -24,26 +24,7 @@ public class dPlayer {
             }
         }
         //player shadow
-        if(sSettings.vfxenableshadows) {
-            //check null fieldss
-            if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                return;
-            int yadj = 5*player.getInt("dimh")/6;
-            Rectangle2D shadowBounds = new Rectangle.Double(
-                    player.getInt("coordx"),
-                    player.getInt("coordy") + yadj,
-                    player.getInt("dimw"),
-                    (double)player.getInt("dimh")/3);
-            RadialGradientPaint df = new RadialGradientPaint(
-                    shadowBounds, new float[]{0f, 1f},
-                    new Color[]{
-                            gColors.getColorFromName("clrw_shadow1"),
-                            gColors.getColorFromName("clrw_clear")
-                    }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-            g2.setPaint(df);
-            g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                    (int)shadowBounds.getHeight());
-        }
+        dBlockShadows.drawThingShadow(g2, player);
         //player itself
         g2.drawImage(
                 player.sprite,

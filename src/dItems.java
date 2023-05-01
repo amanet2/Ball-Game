@@ -4,27 +4,8 @@ import java.awt.geom.Rectangle2D;
 public class dItems {
     public static void drawItem(Graphics2D g2, gItem item) {
         if(item.sprite != null) {
-            //player shadow
-            if(sSettings.vfxenableshadows) {
-                //check null fieldss
-                if(!item.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                    return;
-                int yadj = 5*item.getInt("dimh")/6;
-                Rectangle2D shadowBounds = new Rectangle.Double(
-                        item.getInt("coordx"),
-                        item.getInt("coordy") + yadj,
-                        item.getInt("dimw"),
-                        (double)item.getInt("dimh")/3);
-                RadialGradientPaint df = new RadialGradientPaint(
-                        shadowBounds, new float[]{0f, 1f},
-                        new Color[]{
-                                gColors.getColorFromName("clrw_shadow1"),
-                                gColors.getColorFromName("clrw_clear")
-                        }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-                g2.setPaint(df);
-                g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                        (int)shadowBounds.getHeight());
-            }
+            //item shadow
+            dBlockShadows.drawThingShadow(g2, item);
             g2.drawImage(item.sprite,
                     item.getInt("coordx"),
                     item.getInt("coordy"),
