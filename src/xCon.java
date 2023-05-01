@@ -1232,8 +1232,10 @@ public class xCon {
                 if (toks.length < 2)
                     return "usage: respawnnetplayer <id>";
                 tries++;
-                if(tries > trylimit)
+                if(tries > trylimit) {
+                    tries = 0;
                     return "couldn't find available ITEM_SPAWNPOINT";
+                }
                 String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
                     gThing randomSpawn = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
