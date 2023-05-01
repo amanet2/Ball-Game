@@ -1277,9 +1277,7 @@ public class xCon {
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
-                        String spawnString = String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy"));
-                        nServer.instance().addNetCmd("server", spawnString);
-                        nServer.instance().addExcludingNetCmd("server", spawnString.replaceFirst("spawnplayer", "cl_spawnplayer"));
+                        xCon.ex(String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy")));
                     }
                 }
                 return fullCommand;
@@ -1486,6 +1484,7 @@ public class xCon {
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
                     ex("exec scripts/sv_handlespawnplayer " + playerId);
+                    nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";

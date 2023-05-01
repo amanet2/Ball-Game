@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 public class dPlayer {
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
