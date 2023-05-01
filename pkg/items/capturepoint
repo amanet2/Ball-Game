@@ -10,4 +10,4 @@ testresn $currentcapper $2 getres newcappercolor setnstate $2 color
 testresn $currentcapper $2 getres newcappernamecolor constr $newcappername # $newcappercolor
 testresn $currentcapper $2 addcomi server cl_setthing ITEM_CAPTUREPOINT $1 waypoint CAPTURE
 testresn $currentcapper $2 addcomx $2 cl_setthing ITEM_CAPTUREPOINT $1 waypoint 0
-testresn $currentcapper $2 echo $newcappernamecolor captured a point!
+testresn $currentcapper $2 echo $newcappernamecolor capped a point!

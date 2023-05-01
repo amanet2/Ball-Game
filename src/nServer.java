@@ -377,13 +377,13 @@ public class nServer extends Thread {
             addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         else if(testmsg.strip().equalsIgnoreCase("skip")) {
             if(voteSkipList.contains(id))
-                addNetCmd(id, "cl_echo [VOTE_SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+                addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
             else {
                 voteSkipList.add(id);
                 int votes = voteSkipList.size();
                 int limit = cServerVars.voteskiplimit;
                 if(votes < limit) {
-                    xCon.ex(String.format("echo [VOTE_SKIP] %s/%s VOTED TO SKIP MAP. SAY 'skip' TO END ROUND.", votes, limit));
+                    xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                 }
                 else {
                     addExcludingNetCmd("server", String.format("playsound sounds/win/%s",

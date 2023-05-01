@@ -25,7 +25,7 @@ public class dPlayer {
         }
         //player shadow
         if(sSettings.vfxenableshadows) {
-            //check null fields
+            //check null fieldss
             if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
                 return;
             int yadj = 5*player.getInt("dimh")/6;

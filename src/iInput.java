@@ -8,13 +8,15 @@ public class iInput {
 	static final iMouseWheel mouseWheelInput = new iMouseWheel();
 
 	public static void readKeyInputs() {
-		while (iKeyboard.inputPressQueue.size() > 0) {
-			Integer cm = iKeyboard.inputPressQueue.remove();
-			processKeyPressInput(cm);
+        while (iKeyboard.inputPressQueue.size() > 0) {
+            Integer cm = iKeyboard.inputPressQueue.poll();
+            if(cm != null)
+                processKeyPressInput(cm);
         }
         while (iKeyboard.inputReleaseQueue.size() > 0) {
-            Integer cm = iKeyboard.inputReleaseQueue.remove();
-            processKeyReleaseInput(cm);
+            Integer cm = iKeyboard.inputReleaseQueue.poll();
+            if(cm != null)
+                processKeyReleaseInput(cm);
         }
 	}
 

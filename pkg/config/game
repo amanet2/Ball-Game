@@ -4,7 +4,7 @@ setvar mode_flagmaster 2
 setvar mode_goldmaster 3
 setvar mode_pointmaster 4
 setvar mode_vipmaster 5
-setvar mode_dodmaster 6
+setvar mode_capmaster 6
 setvar GAMETYPE_0_title Rock Master
 setvar GAMETYPE_0_text Rock Other Players
 setvar GAMETYPE_1_title Virus Master
@@ -17,8 +17,8 @@ setvar GAMETYPE_4_title Point Master
 setvar GAMETYPE_4_text Get the Point or Explode
 setvar GAMETYPE_5_title VIP Master
 setvar GAMETYPE_5_text Only the VIP can Score for Rocks
-setvar GAMETYPE_6_title DOD Master
-setvar GAMETYPE_6_text Hold Points for Points
+setvar GAMETYPE_6_title Cap Master
+setvar GAMETYPE_6_text Cap the Points
 setvar THING_0 THING_PLAYER
 setvar THING_1 THING_BULLET
 setvar THING_2 THING_POPUP

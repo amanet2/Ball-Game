@@ -1,0 +1,1 @@
+foreachthing cpid ITEM_CAPTUREPOINT exec scripts/capmaster_checkpoints
