@@ -1,4 +1,5 @@
 * ENGINE: Gotta make newgame, disconnect, all work right
+    -> make sure server instances aren't created when client is joining and disconnecting
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
 * IDEA: multi-line for loops in scripting language
