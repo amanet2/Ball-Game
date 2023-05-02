@@ -43,7 +43,6 @@ public class eGameLogicClient implements eGameLogic {
             if(cClientLogic.getUserPlayer() != null)
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
-            gMessages.checkMessages();
         }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {

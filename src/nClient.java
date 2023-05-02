@@ -29,6 +29,10 @@ public class nClient extends Thread {
         return instance;
     }
 
+    public static void refreshInstance() {
+        instance = new nClient();
+    }
+
     public void reset() {
         clientStateMap = new nStateMap();
         netSendMsgs.clear();
@@ -77,7 +81,7 @@ public class nClient extends Thread {
                     e.printStackTrace();
                 }
             }
-            interrupt();
+            clientSocket.close();
         }
         catch (Exception ee) {
             eLogging.logException(ee);
@@ -297,7 +301,6 @@ public class nClient extends Thread {
     public void disconnect() {
         if(sSettings.IS_CLIENT) {
             sSettings.IS_CLIENT = false;
-            clientSocket.close();
             serverArgsMap = new HashMap<>();
             clientStateMap = new nStateMap();
             playerIds = new ArrayList<>();

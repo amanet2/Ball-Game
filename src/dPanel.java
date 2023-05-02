@@ -28,6 +28,7 @@ public class dPanel extends JPanel {
             dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
             dBlockTops.drawBlockTopCubesPreview(g2);
         }
+        gMessages.checkMessages();
     }
 
     public void drawFrame(Graphics2D g2, long gameTimeMillis) {

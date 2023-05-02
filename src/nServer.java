@@ -25,13 +25,16 @@ public class nServer extends Thread {
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
-    private DatagramSocket serverSocket = null;    //socket object
-    private boolean doStop = false;
+    public DatagramSocket serverSocket = null;    //socket object
 
     public static nServer instance() {
         if(instance == null)
             instance = new nServer();
         return instance;
+    }
+
+    public static void refreshInstance() {
+        instance = new nServer();
     }
 
     private nServer() {
@@ -219,7 +222,8 @@ public class nServer extends Thread {
 
     public void run() {
         try {
-            serverSocket = new DatagramSocket(cServerLogic.listenPort);
+            if(serverSocket == null)
+                serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
@@ -239,7 +243,7 @@ public class nServer extends Thread {
                     e.printStackTrace();
                 }
             }
-            interrupt();
+            System.out.println("ending server thread");
         }
         catch (Exception ee) {
             eLogging.logException(ee);

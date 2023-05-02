@@ -15,6 +15,7 @@ public class uiMenus {
     static final int MENU_VOLUME = 12;
     static final int MENU_COLOR = 13;
     static final int MENU_CREDITS = 14;
+    static final int MENU_DISCONNECT = 15;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -39,8 +40,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Disconnect") {
                             public void doItem(){
-                                if(xCon.ex("e_showlossalert").equals("0"))
-                                    xCon.ex("disconnect");
+                                selectedMenu = MENU_DISCONNECT;
                             }
                         },
                         new uiMenuItem("Options") {
@@ -55,7 +55,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Quit") {
                             public void doItem(){
-                                selectedMenu = (MENU_QUIT);
+                                selectedMenu = MENU_QUIT;
                             }
                         }
                 },
@@ -356,6 +356,23 @@ public class uiMenus {
                 new uiMenuItem[] {
                         new uiMenuItem("coded by Anthony Manetti 2021-2023"),
                         new uiMenuItem("venmo @StallionUSA")
+                },
+                MENU_MAIN
+        ),
+        new uiMenu(
+                "Disconnect?",
+                new uiMenuItem[] {
+                        new uiMenuItem("No") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                            }
+                        },
+                        new uiMenuItem("Yes") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                                xCon.ex("disconnect");
+                            }
+                        }
                 },
                 MENU_MAIN
         )

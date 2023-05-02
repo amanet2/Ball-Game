@@ -364,6 +364,9 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 nClient.instance().disconnect();
                 sSettings.IS_SERVER = false;
+                nServer.instance().serverSocket.close();
+                nServer.refreshInstance();
+                nClient.refreshInstance();
                 ex("cl_load");
                 if (uiInterface.inplay)
                     ex("pause");
@@ -958,7 +961,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 nClient.instance().reset();
                 sSettings.IS_CLIENT = true;
-              nClient.instance().start();
+                nClient.instance().start();
                 return "joined game";
             }
         });
