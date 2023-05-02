@@ -11,7 +11,7 @@ cl_setvar fontui None
 # available framerates
 cl_setvar framerates 24,30,60,75,98,120,144,165,240,320,360
 # default net address
-cl_setvar joinip localhost
+cl_setvar joinip 192.168.1.174
 # default net port
 cl_setvar joinport 5555
 # player color

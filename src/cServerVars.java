@@ -1,6 +1,7 @@
 public class cServerVars extends gArgSet {
     static int voteskiplimit = 2;
     static int voteskipdelay = 10000;
+    static int respawnwaittime = 3000;
     private static gArgSet instance;
 
     private cServerVars() {
@@ -46,6 +47,11 @@ public class cServerVars extends gArgSet {
         putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 voteskiplimit = Integer.parseInt(value);
+            }
+        });
+        putArg(new gArg("respawnwaittime", Integer.toString(respawnwaittime)) {
+            public void onChange() {
+                respawnwaittime = Integer.parseInt(value);
             }
         });
         xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);

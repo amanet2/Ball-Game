@@ -26,6 +26,7 @@ public class nServer extends Thread {
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
     private static nServer instance = null;    //singleton-instance
     private DatagramSocket serverSocket = null;    //socket object
+    private boolean doStop = false;
 
     public static nServer instance() {
         if(instance == null)

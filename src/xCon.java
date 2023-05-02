@@ -257,12 +257,14 @@ public class xCon {
                             ex("deleteplayer " + id);
                             if(shooterid.length() < 1)
                                 shooterid = "null";
-                            ex("exec scripts/sv_handlekillplayer " + id + " " + shooterid);
+                            ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
                             String colorName = nServer.instance().masterStateMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                                 animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                             ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
+                            ex(String.format("scheduleevent %d respawnnetplayer %s",
+                                    gTime.gameTime + cServerVars.respawnwaittime, id));
                         }
                         return id + " took " + dmg + " dmg from " + shooterid;
                     }
@@ -361,6 +363,7 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 nClient.instance().disconnect();
+                sSettings.IS_SERVER = false;
                 ex("cl_load");
                 if (uiInterface.inplay)
                     ex("pause");
@@ -929,7 +932,7 @@ public class xCon {
                     ex("pause");
                 else {
                     if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
-                        if(!cClientLogic.maploaded) {
+                        if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
                             ex("playsound sounds/splash.wav");

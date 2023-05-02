@@ -20,6 +20,3 @@ testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvcolor setnstate $1
 testres $sv_gamemode $mode_virus testres $wasvirus 0 getres vvstr constr $vvname # $vvcolor
 testres $sv_gamemode $mode_virus testres $wasvirus 0 echo $vvstr was infected
 testres $2 null echo $vn#$vc exploded
-getres deadid setnstate $1 id
-getres respawntime sumlong $gametimemillis $respawnwaittime
-scheduleevent $respawntime respawnnetplayer $deadid
