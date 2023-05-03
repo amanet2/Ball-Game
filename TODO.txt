@@ -1,7 +1,4 @@
-* Engine: if nClient and nServer extends Thread they shouldnt have the whole instance thing going on
-    -> make a threadFactory/threadHolding class that we can access active server thread
-        -> e.g. cServerLogic.netServerThread
-    -> also xCon console should be split up into server and client
+* Engine: xCon console should be split up into server and client
 * ENGINE: Gotta make newgame, disconnect, all work right
     -> make sure server instances aren't created when client is joining and disconnecting
 * BUG: Escape comma ',' characters that appear in net values

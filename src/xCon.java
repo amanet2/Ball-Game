@@ -362,9 +362,14 @@ public class xCon {
         });
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
-                cClientLogic.netClientThread.disconnect();
-                cServerLogic.netServerThread.disconnect();
-                ex("cl_load");
+                if(sSettings.IS_CLIENT) {
+                    cClientLogic.netClientThread.disconnect();
+                    ex("cl_load");
+                }
+                if(sSettings.IS_SERVER) {
+                    cServerLogic.netServerThread.disconnect();
+                    ex("load");
+                }
                 if (uiInterface.inplay)
                     ex("pause");
                 return fullCommand;
@@ -956,9 +961,9 @@ public class xCon {
         });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
-                sSettings.IS_CLIENT = true;
                 cClientLogic.netClientThread = new nClient();
                 cClientLogic.netClientThread.start();
+                sSettings.IS_CLIENT = true;
                 return "joined game";
             }
         });

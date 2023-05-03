@@ -36,13 +36,7 @@ public class nServer extends Thread {
                                 cmd.replaceFirst("fireweapon", "cl_fireweapon"));
                     }
                 });
-        clientCmdDoables.put("requestdisconnect",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        quitClientIds.add(id);
-                    }
-                });
-        clientCmdDoables.put("setthing", // dont want EVERY setthing on server to be synced, only ones requested here
+        clientCmdDoables.put("setthing", // don't want EVERY setthing on server to be synced, only ones requested here
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         xCon.ex(cmd);
@@ -404,5 +398,6 @@ public class nServer extends Thread {
     public void disconnect() {
         sSettings.IS_SERVER = false;
         serverSocket.close();
+        cServerLogic.netServerThread = null;
     }
 }

@@ -59,6 +59,7 @@ public class nClient extends Thread {
                 }
             }
             clientSocket.close();
+            System.out.println("client thread ended");
         }
         catch (Exception ee) {
             eLogging.logException(ee);
@@ -273,8 +274,8 @@ public class nClient extends Thread {
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-            // user's client-side firing (like in halo 5)
-            if(cmdString.contains("fireweapon")) //handle special firing case
+            // user's client-side firing
+            if(cmdString.contains("fireweapon"))
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
             xCon.instance().debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
@@ -283,10 +284,9 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        if(sSettings.IS_CLIENT) {
-            sSettings.IS_CLIENT = false;
-            clientStateMap = new nStateMap();
-            playerIds = new ArrayList<>();
-        }
+        sSettings.IS_CLIENT = false;
+        clientStateMap = new nStateMap();
+        playerIds = new ArrayList<>();
+        cServerLogic.netServerThread = null;
     }
 }
