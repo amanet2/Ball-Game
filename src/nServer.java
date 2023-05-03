@@ -247,7 +247,7 @@ public class nServer extends Thread {
         clientNetCmdMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         nState snap = new nState(clientStateSnapshots.get(id));
-        addIgnoringNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
+        xCon.ex(String.format("echo %s#%s left the game", snap.get("name"), snap.get("color")));
         xCon.ex("deleteplayer " + id);
         xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
