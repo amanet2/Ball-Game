@@ -27,7 +27,15 @@ public class dMenus {
         int ctr = 0;
         int sel = 0;
         for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
-            if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
+            if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS) {
+                String action = i.text.split(":")[0];
+                String input = i.text.split(":")[1];
+                dFonts.drawRightJustifiedString(g," "+action,
+                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
+                g.drawString(" "+input,
+                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
+            }
+            else if(uiMenus.selectedMenu != uiMenus.MENU_CREDITS && ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
                 dFonts.setFontColor(g, "clrf_bonus");
                 dFonts.drawCenteredString(g,i.text,
@@ -44,35 +52,5 @@ public class dMenus {
         }
         if(sel == 0 && oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
             oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-    }
-
-    public static void showControlsMenu(Graphics g) {
-        uiInterface.getUIMenuItemUnderMouse();
-        dFonts.setFontColor(g, "clrf_scoreboardbg");
-        g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColor(g, "clrf_highlight");
-        dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
-            sSettings.width/2,10*sSettings.height/30);
-        dFonts.setFontColor(g, "clrf_normal");
-        dFonts.drawCenteredString(g, "_________",sSettings.width/2,21*sSettings.height/60);
-        int ctr = 0;
-        for(uiMenuItem i : uiMenus.menuSelection[uiMenus.selectedMenu].items){
-            String action = i.text.split(":")[0];
-            String input = i.text.split(":")[1];
-            if(ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
-                dFonts.drawRightJustifiedString(g,">"+action,
-                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-                g.drawString(">"+input,
-                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-            }
-            else {
-                dFonts.drawRightJustifiedString(g," "+action,
-                    sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-                g.drawString(" "+input,
-                        sSettings.width/2, 12*sSettings.height/30+ctr%16*sSettings.height/30);
-            }
-            ctr++;
-        }
     }
 }

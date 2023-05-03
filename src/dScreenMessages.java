@@ -81,10 +81,7 @@ public class dScreenMessages {
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
-                if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS)
-                    dMenus.showControlsMenu(g);
-                else
-                    dMenus.showPauseMenu(g);
+                dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
