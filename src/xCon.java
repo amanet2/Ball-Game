@@ -362,13 +362,15 @@ public class xCon {
         });
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
-                if(sSettings.IS_CLIENT) {
+                if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
+                    cClientVars.instance().put("cv_maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
-                }
-                if(sSettings.IS_SERVER) {
                     cServerLogic.netServerThread.disconnect();
-                    ex("load");
+                }
+                else if(sSettings.IS_CLIENT) {
+                    cClientLogic.netClientThread.disconnect();
+                    ex("cl_load");
                 }
                 if (uiInterface.inplay)
                     ex("pause");

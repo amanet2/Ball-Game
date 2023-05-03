@@ -287,6 +287,6 @@ public class nClient extends Thread {
         sSettings.IS_CLIENT = false;
         clientStateMap = new nStateMap();
         playerIds = new ArrayList<>();
-        cServerLogic.netServerThread = null;
+        cClientLogic.netClientThread = null;
     }
 }
