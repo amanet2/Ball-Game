@@ -29,7 +29,7 @@ public class cServerVars extends gArgSet {
                 xCon.ex("cl_setvar cv_maxhp " + value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    nServer.instance().addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
+                    cServerLogic.netServerThread.addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
                     for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
                         gPlayer p = cServerLogic.scene.getPlayerById(s);
                         p.putInt("stockhp", newmaxhp);

@@ -46,9 +46,9 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
-//                    xCon.instance().debug("SERVER_CMDRCV_" + get("id") + ": " + nServer.instance().clientNetCmdMap.toString());
-                    if(nServer.instance().clientNetCmdMap.get(get("id")).size() > 0)
-                        nServer.instance().clientNetCmdMap.get(get("id")).remove();
+//                    xCon.instance().debug("SERVER_CMDRCV_" + get("id") + ": " + cServerLogic.netServerThread.clientNetCmdMap.toString());
+                    if(cServerLogic.netServerThread.clientNetCmdMap.get(get("id")).size() > 0)
+                        cServerLogic.netServerThread.clientNetCmdMap.get(get("id")).remove();
                     value = "0";
                 }
             }
@@ -56,7 +56,7 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmd", "") {
             public void onChange() {
                 if(value.length() > 0) {
-                    nServer.instance().handleClientCommand(get("id"), value);
+                    cServerLogic.netServerThread.handleClientCommand(get("id"), value);
                 }
             }
         });

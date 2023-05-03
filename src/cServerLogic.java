@@ -8,19 +8,20 @@ public class cServerLogic {
     static final gTimeEventSet timedEvents = new gTimeEventSet();
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
+    static nServer netServerThread;
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
         xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
         xCon.ex("-loadingscreen");
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
-            for(String id : nServer.instance().masterStateMap.keys()) {
-                nServer.instance().addNetCmd("server", "respawnnetplayer " + id);
+            for(String id : cServerLogic.netServerThread.masterStateMap.keys()) {
+                cServerLogic.netServerThread.addNetCmd("server", "respawnnetplayer " + id);
             }
         }
         //reset game state
         gScoreboard.resetScoresMap();
-        nServer.instance().voteSkipList = new ArrayList<>();
+        cServerLogic.netServerThread.voteSkipList = new ArrayList<>();
         timedEvents.clear();
         if(sSettings.show_mapmaker_ui)
             return;
@@ -39,7 +40,7 @@ public class cServerLogic {
                 //select winner and run postgame script
                 String winid = gScoreboard.getWinnerId();
                 if(!winid.equalsIgnoreCase("null")) {
-                    nState winState = nServer.instance().masterStateMap.get(winid);
+                    nState winState = cServerLogic.netServerThread.masterStateMap.get(winid);
                     String wname = winState.get("name");
                     String wcolor = winState.get("color");
                     xCon.ex("givewin " + winid);

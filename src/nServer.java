@@ -22,16 +22,9 @@ public class nServer extends Thread {
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
-    private static nServer instance = null;    //singleton-instance
     public DatagramSocket serverSocket = null;    //socket object
 
-    public static nServer instance() {
-        if(instance == null)
-            instance = new nServer();
-        return instance;
-    }
-
-    private nServer() {
+    public nServer() {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
@@ -411,6 +404,5 @@ public class nServer extends Thread {
     public void disconnect() {
         sSettings.IS_SERVER = false;
         serverSocket.close();
-        instance = new nServer();
     }
 }

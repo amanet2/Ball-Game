@@ -12,7 +12,8 @@ public class eGameLogicServer implements eGameLogic {
     @Override
     public void init(){
         sSettings.IS_SERVER = true;
-        nServer.instance().start();
+        cServerLogic.netServerThread = new nServer();
+        cServerLogic.netServerThread.start();
     }
 
     @Override
@@ -23,10 +24,10 @@ public class eGameLogicServer implements eGameLogic {
     @Override
     public void update() {
         long gameTimeMillis = gTime.gameTime;
-        nServer.instance().checkLocalCmds();
-        nServer.instance().processPackets();
+        cServerLogic.netServerThread.checkLocalCmds();
+        cServerLogic.netServerThread.processPackets();
         cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
-        nServer.instance().checkForUnhandledQuitters();
+        cServerLogic.netServerThread.checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
@@ -65,7 +66,7 @@ public class eGameLogicServer implements eGameLogic {
 
 
     private void updateEntityPositions(long gameTimeMillis) {
-        for(String id : nServer.instance().masterStateMap.keys()) {
+        for(String id : cServerLogic.netServerThread.masterStateMap.keys()) {
             gPlayer obj = cServerLogic.getPlayerById(id);
             if(obj == null)
                 continue;
@@ -113,7 +114,7 @@ public class eGameLogicServer implements eGameLogic {
                     obj.putInt("vel1", 0);
                 }
             }
-            nState objState = nServer.instance().masterStateMap.get(id);
+            nState objState = cServerLogic.netServerThread.masterStateMap.get(id);
             if(objState != null) {
                 objState.put("coords", obj.get("coordx") + ":" + obj.get("coordy"));
                 objState.put("vel0", obj.get("vel0"));
@@ -172,7 +173,7 @@ public class eGameLogicServer implements eGameLogic {
                         pseeds.add(b);
                 }
             }
-            for(String playerId : nServer.instance().masterStateMap.keys()) {
+            for(String playerId : cServerLogic.netServerThread.masterStateMap.keys()) {
                 gPlayer t = cServerLogic.getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
