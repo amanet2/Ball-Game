@@ -179,7 +179,6 @@ public class nServer extends Thread {
     }
 
     public void processPackets() {
-            HashMap<String, String> netVars = getNetVars();
 //            if(receivedPackets.size() > 0) {
                 try {
                     DatagramPacket receivePacket = receivedPackets.peek();
@@ -199,7 +198,7 @@ public class nServer extends Thread {
                     String clientId = clientmap.get("id");
                     if(clientId != null) {
                         //create response
-                        String sendDataString = createSendDataString(netVars, clientId);
+                        String sendDataString = createSendDataString(getNetVars(), clientId);
                         byte[] sendData = sendDataString.getBytes();
                         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                         serverSocket.send(sendPacket);
@@ -229,14 +228,11 @@ public class nServer extends Thread {
     }
 
     public HashMap<String, String> getNetVars() {
-        HashMap<String, String> keys = new HashMap<>();
-        //handle outgoing cmd
-        keys.put("cmd", "");
-        //handle server outgoing cmds that loopback to the server
-        checkLocalCmds();
-        //send scores
-        keys.put("time", Long.toString(cServerLogic.timeleft));
-        return keys;
+        HashMap<String, String> vars = new HashMap<>();
+        //handle outgoing cmd & time
+        vars.put("cmd", "");
+        vars.put("time", Long.toString(cServerLogic.timeleft));
+        return vars;
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
