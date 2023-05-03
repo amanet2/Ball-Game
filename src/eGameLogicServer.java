@@ -5,14 +5,14 @@ public class eGameLogicServer implements eGameLogic {
     private long nextsecondnanos = 0;
 
     public eGameLogicServer() {
-
+        cServerLogic.netServerThread = new nServer();
+        cServerLogic.netServerThread.start();
+        sSettings.IS_SERVER = true;
     }
 
     @Override
     public void init(){
-        cServerLogic.netServerThread = new nServer();
-        cServerLogic.netServerThread.start();
-        sSettings.IS_SERVER = true;
+
     }
 
     @Override

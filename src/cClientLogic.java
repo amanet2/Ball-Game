@@ -167,21 +167,21 @@ public class cClientLogic {
                 sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
             }
         });
-        vars.putArg(new gArg("cv_gamemode", "0") {
+        vars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
                 gamemode = Integer.parseInt(value);
-                gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
-                gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
+                gamemodeTitle = xCon.ex("cl_setvar GAMETYPE_"+value+"_title");
+                gamemodeText = xCon.ex("cl_setvar GAMETYPE_"+value+"_text");
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         });
-        vars.putArg(new gArg("cv_maploaded", "0") {
+        vars.putArg(new gArg("maploaded", "0") {
             public void onChange() {
                 maploaded = Integer.parseInt(value) > 0;
             }
         });
-        vars.putArg(new gArg("cv_maxhp", "500") {
+        vars.putArg(new gArg("maxhp", "500") {
             public void onChange() {
                 maxhp = Integer.parseInt(value);
             }

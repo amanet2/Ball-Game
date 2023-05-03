@@ -55,7 +55,7 @@ public class uiEditorMenus {
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
         checkBoxMenuItem.setSelected(xCon.ex(String.format(
-                "setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
+                "cl_setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -218,8 +218,8 @@ public class uiEditorMenus {
         //fill gametypes menu
         int ctr = 0;
         ArrayList<String> gameTypeTitles = new ArrayList<>();
-        while(!xCon.ex("setvar GAMETYPE_"+ctr+"_title").equals("null")) {
-            gameTypeTitles.add(xCon.ex("setvar GAMETYPE_"+ctr+"_title"));
+        while(!xCon.ex("cl_setvar GAMETYPE_"+ctr+"_title").equals("null")) {
+            gameTypeTitles.add(xCon.ex("cl_setvar GAMETYPE_"+ctr+"_title"));
             ctr++;
         }
         for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {

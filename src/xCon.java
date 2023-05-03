@@ -363,13 +363,13 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
-                    cClientLogic.vars.put("cv_maploaded", "0");
+                    cClientLogic.vars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
-                    cClientLogic.vars.put("cv_maploaded", "0");
+                    cClientLogic.vars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
@@ -455,7 +455,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("load;addcomi server cl_setvar cv_maploaded 1");
+                ex("load;addcomi server cl_setvar maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 cServerLogic.netServerThread.voteSkipList = new ArrayList<>();
@@ -755,7 +755,7 @@ public class xCon {
                     return cServerLogic.vars.get("gamemode");
                 String setmode = args[1];
                 cServerLogic.vars.put("gamemode", setmode);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_gamemode " + setmode);
+                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar gamemode " + setmode);
                 return "changed game mode to " + cServerLogic.vars.get("gamemode");
             }
         });
@@ -976,17 +976,20 @@ public class xCon {
                 gTextures.clear();
                 ex("setvar gamemode 0");
                 cServerLogic.scene = new gScene();
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
                 return "";
             }
         });
         commands.put("loadingscreen", new xCom() {
             public String doCommand(String fullCommand) {
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_maploaded 0");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 0");
                 return "loading screen ON";
             }
             public String undoCommand(String fullCommand) {
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_maploaded 1");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 1");
                 return "loading screen OFF";
             }
         });
@@ -994,7 +997,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("cl_setvar cv_gamemode 0");
+                ex("cl_setvar gamemode 0");
                 cClientLogic.scene = new gScene();
                 return "";
             }

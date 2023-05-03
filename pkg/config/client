@@ -15,9 +15,9 @@ cl_setvar joinip localhost
 # default net port
 cl_setvar joinport 5555
 # player color
-cl_setvar playercolor yellow
+cl_setvar playercolor blue
 # player name
-cl_setvar playername guest
+cl_setvar playername player
 # available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
@@ -67,6 +67,21 @@ bind y chat
 -bind left -playerleft
 -bind right -playerright
 -bind r e_rotthing
+# strings
+cl_setvar GAMETYPE_0_title Rock Master
+cl_setvar GAMETYPE_0_text Rock Other Players
+cl_setvar GAMETYPE_1_title Virus Master
+cl_setvar GAMETYPE_1_text Players Respawn Infected
+cl_setvar GAMETYPE_2_title Flag Master
+cl_setvar GAMETYPE_2_text Hold the Flag
+cl_setvar GAMETYPE_3_title Gold Master
+cl_setvar GAMETYPE_3_text Get the Gold
+cl_setvar GAMETYPE_4_title Point Master
+cl_setvar GAMETYPE_4_text Get the Point or Explode
+cl_setvar GAMETYPE_5_title VIP Master
+cl_setvar GAMETYPE_5_text Only the VIP can Score for Rocks
+cl_setvar GAMETYPE_6_title Cap Master
+cl_setvar GAMETYPE_6_text Cap the Points
 # colors
 cl_setvar clrf_alert 200 0 50 200
 cl_setvar clrf_bonus 0 200 0 200

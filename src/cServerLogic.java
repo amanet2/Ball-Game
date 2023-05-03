@@ -86,7 +86,7 @@ public class cServerLogic {
                 maxhp = Integer.parseInt(value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    netServerThread.addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
+                    netServerThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
                     for (String s : scene.getThingMap("THING_PLAYER").keySet()) {
                         gPlayer p = scene.getPlayerById(s);
                         p.putInt("stockhp", newmaxhp);
