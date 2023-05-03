@@ -92,7 +92,7 @@ public class nServer extends Thread {
                             else {
                                 voteSkipList.add(id);
                                 int votes = voteSkipList.size();
-                                int limit = cServerVars.voteskiplimit;
+                                int limit = cServerLogic.voteskiplimit;
                                 if(votes < limit)
                                     xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                                 else {
@@ -100,7 +100,7 @@ public class nServer extends Thread {
                                             eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
                                     xCon.ex("echo [SKIP] VOTE TARGET REACHED");
                                     xCon.ex("echo changing map...");
-                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
+                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.voteskipdelay), new gTimeEvent(){
                                         public void doCommand() {
                                             xCon.ex("changemaprandom");
                                         }

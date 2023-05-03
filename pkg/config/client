@@ -15,9 +15,9 @@ cl_setvar joinip localhost
 # default net port
 cl_setvar joinport 5555
 # player color
-cl_setvar playercolor blue
+cl_setvar playercolor yellow
 # player name
-cl_setvar playername player
+cl_setvar playername guest
 # available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160
 # show frames per second
@@ -39,7 +39,7 @@ cl_setvar vfxenableshadows 1
 # video mode
 cl_setvar vidmode 1280,720,-1
 # volume
-cl_setvar volume 50
+cl_setvar volume 100
 # bindings
 bind - -zoom
 bind = zoom

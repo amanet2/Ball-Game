@@ -25,7 +25,7 @@ public class eGameLogicServer implements eGameLogic {
         long gameTimeMillis = gTime.gameTime;
         cServerLogic.netServerThread.checkLocalCmds();
         cServerLogic.netServerThread.processPackets();
-        cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
+        cServerLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
         cServerLogic.netServerThread.checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");

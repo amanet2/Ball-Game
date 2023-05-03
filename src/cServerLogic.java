@@ -9,6 +9,10 @@ public class cServerLogic {
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
     static nServer netServerThread;
+    static gArgSet vars;
+    static int voteskiplimit = 2;
+    static int voteskipdelay = 10000;
+    static int respawnwaittime = 3000;
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
@@ -55,5 +59,55 @@ public class cServerLogic {
 
     public static gPlayer getPlayerById(String id) {
         return scene.getPlayerById(id);
+    }
+
+    public static void init(String[] launchArgs) {
+        vars = new gArgSet();
+
+        vars.putArg(new gArg("listenport", "5555") {
+            public void onChange() {
+                cServerLogic.listenPort = Integer.parseInt(value);
+            }
+        });
+        vars.putArg(new gArg("timelimit", "180000") {
+            public void onChange() {
+                cServerLogic.timelimit = Integer.parseInt(value);
+            }
+        });
+        vars.putArg(new gArg("sv_gamemode", "0") {
+            public void onChange() {
+                cServerLogic.gameMode = Integer.parseInt(value);
+            }
+        });
+        vars.putArg(new gArg("maxhp", "500") {
+            public void onChange() {
+                if(sSettings.IS_SERVER) {
+                    int newmaxhp = Integer.parseInt(value);
+                    cServerLogic.netServerThread.addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
+                    for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
+                        gPlayer p = cServerLogic.scene.getPlayerById(s);
+                        p.putInt("stockhp", newmaxhp);
+                    }
+                }
+            }
+        });
+        vars.putArg(new gArg("velocityplayerbase", "16") {
+            public void onChange() {
+                if(sSettings.IS_SERVER)
+                    xCon.ex("addcom cl_setvar cv_velocityplayer " + Integer.parseInt(value));
+            }
+        });
+        vars.putArg(new gArg("voteskiplimit", "2") {
+            public void onChange() {
+                voteskiplimit = Integer.parseInt(value);
+            }
+        });
+        vars.putArg(new gArg("respawnwaittime", Integer.toString(respawnwaittime)) {
+            public void onChange() {
+                respawnwaittime = Integer.parseInt(value);
+            }
+        });
+        vars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        vars.loadFromLaunchArgs(launchArgs);
     }
 }
