@@ -363,10 +363,7 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 nClient.instance().disconnect();
-                sSettings.IS_SERVER = false;
-                nServer.instance().serverSocket.close();
-                nServer.refreshInstance();
-                nClient.refreshInstance();
+                nServer.instance().disconnect();
                 ex("cl_load");
                 if (uiInterface.inplay)
                     ex("pause");
@@ -1549,9 +1546,7 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                nServer.instance().start();
                 new eGameSession(new eGameLogicServer(), sSettings.rateserver).start();
-                sSettings.IS_SERVER = true;
                 return "new game started";
             }
         });

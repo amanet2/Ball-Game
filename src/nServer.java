@@ -404,4 +404,10 @@ public class nServer extends Thread {
             }
         }
     }
+
+    public void disconnect() {
+        sSettings.IS_SERVER = false;
+        serverSocket.close();
+        refreshInstance();
+    }
 }

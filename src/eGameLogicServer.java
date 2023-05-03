@@ -3,6 +3,7 @@ import java.util.*;
 public class eGameLogicServer implements eGameLogic {
     private int ticks = 0;
     private long nextsecondnanos = 0;
+    private Thread netListenThread;
 
     public eGameLogicServer() {
 
@@ -10,7 +11,8 @@ public class eGameLogicServer implements eGameLogic {
 
     @Override
     public void init(){
-
+        sSettings.IS_SERVER = true;
+        nServer.instance().start();
     }
 
     @Override

@@ -304,6 +304,7 @@ public class nClient extends Thread {
             serverArgsMap = new HashMap<>();
             clientStateMap = new nStateMap();
             playerIds = new ArrayList<>();
+            refreshInstance();
         }
     }
 }
