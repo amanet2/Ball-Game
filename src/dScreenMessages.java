@@ -83,8 +83,6 @@ public class dScreenMessages {
             if(!sSettings.show_mapmaker_ui) {
                 if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS)
                     dMenus.showControlsMenu(g);
-                else if(uiMenus.selectedMenu == uiMenus.MENU_CREDITS)
-                    dMenus.showCreditsMenu(g);
                 else
                     dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)

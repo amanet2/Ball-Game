@@ -17,6 +17,7 @@ public class dMenus {
         uiInterface.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
+        g.drawImage(coverimg,0,0,null);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
@@ -73,16 +74,5 @@ public class dMenus {
             }
             ctr++;
         }
-    }
-
-    public static void showCreditsMenu(Graphics g) {
-        uiInterface.getUIMenuItemUnderMouse();
-        dFonts.setFontColor(g, "clrf_scoreboardbg");
-        g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(coverimg,0,0,null);
-        //copyright notice
-        dFonts.setFontColor(g, "clrf_normal");
-        g.drawString("by Stallion",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 15);
-        g.drawString("venmo @StallionUSA",sSettings.width - sSettings.width / 3, sSettings.height - sSettings.height / 30);
     }
 }

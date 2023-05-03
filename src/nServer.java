@@ -262,7 +262,7 @@ public class nServer extends Thread {
                     e.printStackTrace();
                 }
             }
-            System.out.println("ending server thread");
+            System.out.println("server thread ended");
         }
         catch (Exception ee) {
             eLogging.logException(ee);
@@ -392,7 +392,7 @@ public class nServer extends Thread {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else
-                addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
+                addNetCmd(id, "cl_echo NO HANDLER FOUND FOR CMD: " + cmd);
     }
 
     public void disconnect() {

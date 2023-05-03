@@ -369,6 +369,7 @@ public class xCon {
                     cServerLogic.netServerThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
+                    cClientVars.instance().put("cv_maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
