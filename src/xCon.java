@@ -1140,7 +1140,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1 && sSettings.audioenabled) {
-                    AudioClip soundClip = new AudioClip(getClass().getResource(eUtils.getPath(toks[1])).toString());
+                    AudioClip soundClip = new AudioClip(getClass().getResource(eManager.getPath(toks[1])).toString());
                     if(toks.length > 2) {
                         int cycs = Integer.parseInt(toks[2]);
                         soundClip.setCycleCount(cycs);
@@ -1507,7 +1507,7 @@ public class xCon {
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 if(nClient.instance().clientStateMap.contains(playerId)) {
                     newPlayer.put("color", nClient.instance().clientStateMap.get(playerId).get("color"));
-                    newPlayer.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png",
+                    newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
                             nClient.instance().clientStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
@@ -1718,7 +1718,7 @@ public class xCon {
         String isc = ex("setvar " + itemTitle + "_script");
         String newItemFlare = ex("setvar " + itemTitle + "_flare");
         gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
-                isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eUtils.getPath(isp),
+                isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eManager.getPath(isp),
                         iw, ih));
         item.put("script", isc);
         item.put("flare", newItemFlare);

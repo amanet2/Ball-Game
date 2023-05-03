@@ -60,7 +60,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && cClientLogic.maploaded) {
-            dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cClientLogic.timeleft),
+            dFonts.drawRightJustifiedString(g, gTime.getTimeString(cClientLogic.timeleft),
                     29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),

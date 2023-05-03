@@ -2,9 +2,9 @@ public class gWeaponsLauncher extends gWeapon {
     public gWeaponsLauncher() {
         super("LAUNCHER");
         dims = new int[]{200,100};
-        bulletSpritePath = eUtils.getPath("objects/misc/firegreen.png");
+        bulletSpritePath = eManager.getPath("objects/misc/firegreen.png");
         soundFilePath = "sounds/bfg.wav";
-        spritePath = eUtils.getPath("misc/launcher.png");
+        spritePath = eManager.getPath("misc/launcher.png");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 100;
         flipdiml = 100;
@@ -16,7 +16,7 @@ public class gWeaponsLauncher extends gWeapon {
             return;
         gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
                 p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
-                eUtils.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
+                eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
         b.put("srcid", p.get("id"));
         b.putInt("ttl",bulletTtl);
         b.putInt("src", gWeapons.launcher);

@@ -3,14 +3,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class dMenus {
-    private static Image coverimg = gTextures.getGScaledImage(eUtils.getPath("misc/cover.png"),
+    private static Image coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"),
                                                              sSettings.width, sSettings.height);
-    private static Image logoimg = gTextures.getGScaledImage(eUtils.getPath("misc/logo.png"),
+    private static Image logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"),
                                                             sSettings.width, sSettings.height/3);
 
     public static void refreshLogos() {
-        coverimg = gTextures.getGScaledImage(eUtils.getPath("misc/cover.png"), sSettings.width, sSettings.height);
-        logoimg = gTextures.getGScaledImage(eUtils.getPath("misc/logo.png"), sSettings.width, sSettings.height/3);
+        coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"), sSettings.width, sSettings.height);
+        logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"), sSettings.width, sSettings.height/3);
     }
 
     public static void showPauseMenu(Graphics g) {
