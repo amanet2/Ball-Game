@@ -84,7 +84,7 @@ public class xCon {
                     act.append(" ").append(args[i]);
                 }
                 String actStr = act.substring(1);
-                nServer.instance().addExcludingNetCmd(ignoreId, actStr);
+                nServer.instance().addIgnoringNetCmd(ignoreId, actStr);
                 return "server net com ignoring: " + actStr;
             }
         });
@@ -278,7 +278,7 @@ public class xCon {
                 if(toks.length < 2)
                     return "usage: deleteblock <id>";
                 deleteBlockDelegate(toks, cServerLogic.scene);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "deleted block";
             }
         });
@@ -300,7 +300,7 @@ public class xCon {
                         String type = itemToDelete.get("type");
                         cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
                         cServerLogic.scene.getThingMap(type).remove(id);
-                        nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
+                        nServer.instance().addIgnoringNetCmd("server", "cl_"+fullCommand);
                     }
                 }
                 return "usage: deleteitem <id>";
@@ -328,7 +328,7 @@ public class xCon {
                     String id = toks[1];
                     ex("exec scripts/sv_handledeleteplayer " + id);
                     cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
-                    nServer.instance().addExcludingNetCmd("server", "cl_"+fullCommand);
+                    nServer.instance().addIgnoringNetCmd("server", "cl_"+fullCommand);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -346,7 +346,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     deletePrefabDelegate(cServerLogic.scene, toks[1]);
-                    nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                    nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
             }
@@ -403,7 +403,7 @@ public class xCon {
                     parsedStringBuilder.append(" ").append(lineArgtoken);
                 }
                 String parsedCommand = parsedStringBuilder.substring(1);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + parsedCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + parsedCommand);
                 return "FANOUT to clients: cl_" + parsedCommand;
             }
         });
@@ -747,7 +747,7 @@ public class xCon {
                     return cServerVars.instance().get("sv_gamemode");
                 String setmode = args[1];
                 cServerVars.instance().put("sv_gamemode", setmode);
-                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_gamemode " + setmode);
+                nServer.instance().addIgnoringNetCmd("server", "cl_setvar cv_gamemode " + setmode);
                 return "changed game mode to " + cServerVars.instance().get("sv_gamemode");
             }
         });
@@ -870,7 +870,7 @@ public class xCon {
                 String weap = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 nServer.instance().addNetCmd("server", giveString);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + giveString);
                 ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
@@ -884,7 +884,7 @@ public class xCon {
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
                 xCon.ex(giveString);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
         });
@@ -897,7 +897,7 @@ public class xCon {
                 String val = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
                 xCon.ex(giveString);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + giveString);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + giveString);
                 return String.format("Set waypoint '%s' for player %s", val, pid);
             }
         });
@@ -967,17 +967,17 @@ public class xCon {
                 gTextures.clear();
                 ex("setvar sv_gamemode 0");
                 cServerLogic.scene = new gScene();
-                nServer.instance().addExcludingNetCmd("server", "cl_load");
+                nServer.instance().addIgnoringNetCmd("server", "cl_load");
                 return "";
             }
         });
         commands.put("loadingscreen", new xCom() {
             public String doCommand(String fullCommand) {
-                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 0");
+                nServer.instance().addIgnoringNetCmd("server", "cl_setvar cv_maploaded 0");
                 return "loading screen ON";
             }
             public String undoCommand(String fullCommand) {
-                nServer.instance().addExcludingNetCmd("server", "cl_setvar cv_maploaded 1");
+                nServer.instance().addIgnoringNetCmd("server", "cl_setvar cv_maploaded 1");
                 return "loading screen OFF";
             }
         });
@@ -1175,7 +1175,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "1";
             }
         });
@@ -1203,7 +1203,7 @@ public class xCon {
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 putItemDelegate(toks, cServerLogic.scene);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "put item";
             }
         });
@@ -1365,7 +1365,7 @@ public class xCon {
                     return "null";
                 p.put("coordx", args[2]);
                 p.put("coordy", args[3]);
-                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return fullCommand;
             }
         });
@@ -1477,7 +1477,7 @@ public class xCon {
                     int y = Integer.parseInt(toks[3]);
                     spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
                     ex("exec scripts/sv_handlespawnplayer " + playerId);
-                    nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                    nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                     return "spawned player " + playerId + " at " + x + " " + y;
                 }
                 return "usage: spawnplayer <player_id> <x> <y>";
@@ -1515,7 +1515,7 @@ public class xCon {
         });
         commands.put("spawnpopup", new xCom() {
             public String doCommand(String fullCommand) {
-                nServer.instance().addExcludingNetCmd("server", "cl_" + fullCommand);
+                nServer.instance().addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "spawned popup";
             }
         });

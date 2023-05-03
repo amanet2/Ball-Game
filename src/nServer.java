@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Arrays;
 
 public class nServer extends Thread {
     private int ticks = 0;
@@ -16,7 +15,6 @@ public class nServer extends Thread {
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
-    HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
@@ -41,7 +39,7 @@ public class nServer extends Thread {
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         xCon.ex(cmd);
-                        addExcludingNetCmd(id+",server,",
+                        addIgnoringNetCmd(id+",server,",
                                 cmd.replaceFirst("fireweapon", "cl_fireweapon"));
                     }
                 });
@@ -55,7 +53,7 @@ public class nServer extends Thread {
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         xCon.ex(cmd);
-                        addExcludingNetCmd("server", "cl_" + cmd);
+                        addIgnoringNetCmd("server", "cl_" + cmd);
                     }
                 });
         for(String rcs : new String[]{
@@ -91,7 +89,7 @@ public class nServer extends Thread {
                         String[] toks = cmd.split(" ");
                         if(toks.length < 3) //only want to allow messages from clients, not any other echo usage
                             return;
-                        addExcludingNetCmd("server", "cl_" + cmd);
+                        addIgnoringNetCmd("server", "cl_" + cmd);
                         StringBuilder clientMessageBuilder = new StringBuilder();
                         for(int i = 2; i < toks.length; i++) {
                             clientMessageBuilder.append(" ").append(toks[i]);
@@ -111,7 +109,7 @@ public class nServer extends Thread {
                                 if(votes < limit)
                                     xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                                 else {
-                                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
+                                    addIgnoringNetCmd("server", String.format("playsound sounds/win/%s",
                                             eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
                                     xCon.ex("echo [SKIP] VOTE TARGET REACHED");
                                     xCon.ex("echo changing map...");
@@ -139,12 +137,12 @@ public class nServer extends Thread {
         }
     }
 
-    void addExcludingNetCmd(String excludedids, String cmd) {
-        //excludedids is any-char separated string of ids
-        if(!excludedids.contains("server"))
+    void addIgnoringNetCmd(String ignoreIds, String cmd) {
+        //ignoreIds is any-char separated string of ids
+        if(!ignoreIds.contains("server"))
             xCon.ex(cmd);
         for(String id : clientNetCmdMap.keySet()) {
-            if(!excludedids.contains(id))
+            if(!ignoreIds.contains(id))
                 addNetCmd(id, cmd);
         }
     }
@@ -179,42 +177,42 @@ public class nServer extends Thread {
     }
 
     public void processPackets() {
-//            if(receivedPackets.size() > 0) {
-                try {
-                    DatagramPacket receivePacket = receivedPackets.peek();
-                    if(receivePacket == null)
-                        return;
-                    String receiveDataString = new String(receivePacket.getData());
-                    receivedPackets.remove();
-                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                            + receiveDataString.trim());
-                    //get the ip address of the client
-                    InetAddress addr = receivePacket.getAddress();
-                    int port = receivePacket.getPort();
-                    //read data of packet
-                    readData(receiveDataString); //and respond too
-                    //get player id of client
-                    HashMap<String, String> clientmap = getMapFromNetString(receiveDataString);
-                    String clientId = clientmap.get("id");
-                    if(clientId != null) {
-                        //create response
-                        String sendDataString = createSendDataString(getNetVars(), clientId);
-                        byte[] sendData = sendDataString.getBytes();
-                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
-                        serverSocket.send(sendPacket);
-                        xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
-                        xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                        if(sendDataString.length() > sSettings.max_packet_size)
-                            System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
-                                    + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                    }
+            try {
+                DatagramPacket receivePacket = receivedPackets.peek();
+                if(receivePacket == null)
+                    return;
+                String receiveDataString = new String(receivePacket.getData());
+                receivedPackets.remove();
+                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+                        + receiveDataString.trim());
+                //get the ip address of the client
+                InetAddress addr = receivePacket.getAddress();
+                int port = receivePacket.getPort();
+                //read data of packet
+                readData(receiveDataString); //and respond too
+                //get player id of client
+                HashMap<String, String> clientmap = getMapFromNetString(receiveDataString);
+                String clientId = clientmap.get("id");
+                if(clientId != null) {
+                    //create response
+                    HashMap<String, String> netVars = new HashMap<>();
+                    netVars.put("cmd", "");
+                    netVars.put("time", Long.toString(cServerLogic.timeleft));
+                    String sendDataString = createSendDataString(netVars, clientId);
+                    byte[] sendData = sendDataString.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
+                    serverSocket.send(sendPacket);
+                    xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    if(sendDataString.length() > sSettings.max_packet_size)
+                        System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
+                                + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
-                catch (Exception e) {
-                    eLogging.logException(e);
-                    e.printStackTrace();
-                }
-//                receivedPackets.remove();
-//            }
+            }
+            catch (Exception e) {
+                eLogging.logException(e);
+                e.printStackTrace();
+            }
     }
 
     public HashMap<String,String> getMapFromNetString(String argload) {
@@ -227,20 +225,12 @@ public class nServer extends Thread {
         return  toReturn;
     }
 
-    public HashMap<String, String> getNetVars() {
-        HashMap<String, String> vars = new HashMap<>();
-        //handle outgoing cmd & time
-        vars.put("cmd", "");
-        vars.put("time", Long.toString(cServerLogic.timeleft));
-        return vars;
-    }
-
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
 //        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid));
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)); //is not actually a delta
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
@@ -257,7 +247,7 @@ public class nServer extends Thread {
         clientNetCmdMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         nState snap = new nState(clientStateSnapshots.get(id));
-        addExcludingNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
+        addIgnoringNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
         xCon.ex("deleteplayer " + id);
         xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
