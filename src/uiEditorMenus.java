@@ -232,7 +232,7 @@ public class uiEditorMenus {
                 if(sSettings.IS_SERVER)
                     xCon.ex("gamemode " + mygameType);
                 else
-                    nClient.instance().addNetCmd("gamemode " + mygameType);
+                    cClientLogic.netClientThread.addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);

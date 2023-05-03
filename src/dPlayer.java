@@ -8,7 +8,7 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        nState cState = nClient.instance().clientStateMap.get(player.get("id"));
+        nState cState = cClientLogic.netClientThread.clientStateMap.get(player.get("id"));
         if(cState == null)
             return;
         if(cState.contains("color")) {

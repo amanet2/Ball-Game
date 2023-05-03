@@ -362,7 +362,7 @@ public class xCon {
         });
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
-                nClient.instance().disconnect();
+                cClientLogic.netClientThread.disconnect();
                 nServer.instance().disconnect();
                 ex("cl_load");
                 if (uiInterface.inplay)
@@ -435,11 +435,11 @@ public class xCon {
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
                 if(cClientLogic.selectedPrefabId.length() > 0) {
-                    nClient.instance().addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
+                    cClientLogic.netClientThread.addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
                     return "deleted prefab " + cClientLogic.selectedPrefabId;
                 }
                 if(cClientLogic.selecteditemid.length() > 0) {
-                    nClient.instance().addNetCmd("deleteitem " + cClientLogic.selecteditemid);
+                    cClientLogic.netClientThread.addNetCmd("deleteitem " + cClientLogic.selecteditemid);
                     return "deleted item " + cClientLogic.selecteditemid;
                 }
                 return "nothing to delete";
@@ -957,7 +957,8 @@ public class xCon {
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
                 sSettings.IS_CLIENT = true;
-                nClient.instance().start();
+                cClientLogic.netClientThread = new nClient();
+                cClientLogic.netClientThread.start();
                 return "joined game";
             }
         });
@@ -1019,7 +1020,7 @@ public class xCon {
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
                                 String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
-                                nClient.instance().addNetCmd(cmd);
+                                cClientLogic.netClientThread.addNetCmd(cmd);
                                 return "put prefab " + cClientLogic.newprefabname;
                             }
                             if(uiEditorMenus.newitemname.length() > 0) {
@@ -1031,7 +1032,7 @@ public class xCon {
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, cClientLogic.getNewItemId(), ix, iy);
-                                nClient.instance().addNetCmd(cmd);
+                                cClientLogic.netClientThread.addNetCmd(cmd);
                                 return "put item " + uiEditorMenus.newitemname;
                             }
                         }
@@ -1088,10 +1089,10 @@ public class xCon {
                 if(uiInterface.inplay) {
                     oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
                     if(sSettings.show_mapmaker_ui)
-                        nClient.instance().addNetCmd("respawnnetplayer " + uiInterface.uuid);
+                        cClientLogic.netClientThread.addNetCmd("respawnnetplayer " + uiInterface.uuid);
                 }
                 else if(sSettings.show_mapmaker_ui)
-                    nClient.instance().addNetCmd("deleteplayer " + uiInterface.uuid);
+                    cClientLogic.netClientThread.addNetCmd("deleteplayer " + uiInterface.uuid);
                 return fullCommand;
             }
         });
@@ -1256,7 +1257,7 @@ public class xCon {
                 if(fullCommand.length() > 0) {
                     String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
                     msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": " + msg;
-                    nClient.instance().addNetCmd("echo " + msg);
+                    cClientLogic.netClientThread.addNetCmd("echo " + msg);
                     gMessages.msgInProgress = "";
                 }
                 return fullCommand;
@@ -1505,10 +1506,10 @@ public class xCon {
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
-                if(nClient.instance().clientStateMap.contains(playerId)) {
-                    newPlayer.put("color", nClient.instance().clientStateMap.get(playerId).get("color"));
+                if(cClientLogic.netClientThread.clientStateMap.contains(playerId)) {
+                    newPlayer.put("color", cClientLogic.netClientThread.clientStateMap.get(playerId).get("color"));
                     newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
-                            nClient.instance().clientStateMap.get(playerId).get("color"))));
+                            cClientLogic.netClientThread.clientStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
             }

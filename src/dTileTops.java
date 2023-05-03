@@ -144,7 +144,7 @@ public class dTileTops {
     }
 
     public static void drawPlayerNames(Graphics g) {
-        nStateMap clStateMap = nClient.instance().clientStateMap;
+        nStateMap clStateMap = cClientLogic.netClientThread.clientStateMap;
         for(String id : clStateMap.keys()) {
             gPlayer p = cClientLogic.getPlayerById(id);
             if(p == null)

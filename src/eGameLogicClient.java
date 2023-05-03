@@ -30,7 +30,7 @@ public class eGameLogicClient implements eGameLogic {
     public void update() {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-            nClient.instance().processPackets();
+            cClientLogic.netClientThread.processPackets();
             cClientVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
@@ -226,7 +226,7 @@ public class eGameLogicClient implements eGameLogic {
                 int weapint = player.getInt("weapon");
                 long gametimemillis = gTime.gameTime;
                 if(player.getLong("cooldown") <= gametimemillis) {
-                    nClient.instance().addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
+                    cClientLogic.netClientThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
                     player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
                 }
             }

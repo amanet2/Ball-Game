@@ -18,15 +18,8 @@ public class nClient extends Thread {
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
-    private static nClient instance = null;
     private DatagramSocket clientSocket = null;
     nStateMap clientStateMap; //hold net player vars
-
-    public static nClient instance() {
-        if(instance == null)
-            instance = new nClient();
-        return instance;
-    }
 
     public void run() {
         try {
@@ -73,7 +66,7 @@ public class nClient extends Thread {
         }
     }
 
-    private nClient() {
+    public nClient() {
         clientStateMap = new nStateMap();
         receivedArgsSetServer = new gArgSet();
         receivedArgsSetServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
@@ -294,7 +287,6 @@ public class nClient extends Thread {
             sSettings.IS_CLIENT = false;
             clientStateMap = new nStateMap();
             playerIds = new ArrayList<>();
-            instance = new nClient();
         }
     }
 }
