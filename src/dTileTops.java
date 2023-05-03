@@ -52,7 +52,7 @@ public class dTileTops {
         }
     }
 
-    public static void drawBullets(Graphics2D g2, gScene scene) {
+    public static void drawBulletsAndAnimations(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         Queue<gThing> drawThings = new LinkedList<>();
         for (String id : bulletsMap.keySet()) {
@@ -61,6 +61,30 @@ public class dTileTops {
         while (drawThings.size() > 0) {
             gBullet t = (gBullet) drawThings.remove();
             g2.drawImage(t.sprite, t.getInt("coordx"), t.getInt("coordy"), null);
+        }
+        if(!sSettings.vfxenableanimations)
+            return;
+        HashMap animationsMap = scene.getThingMap("THING_ANIMATION");
+        long gameTimeMillis = gTime.gameTime;
+        for(Object id : animationsMap.keySet()) {
+            gAnimationEmitter a = (gAnimationEmitter) animationsMap.get(id);
+            if(a.getInt("frame") < gAnimations.animation_selection[a.getInt("animation")
+                    ].frames.length) {
+                if (gAnimations.animation_selection[a.getInt("animation")].frames[a.getInt("frame")]
+                        != null) {
+                    g2.drawImage(gAnimations.animation_selection[a.getInt("animation")].frames[
+                                    a.getInt("frame")],
+                            a.getInt("coordx"),
+                            a.getInt("coordy"),
+                            null
+                    );
+                    if (a.getLong("frametime") + 1000/gAnimations.animation_selection[a.getInt("animation")].framerate
+                            < gameTimeMillis) {
+                        a.putInt("frame", a.getInt("frame")+1);
+                        a.putLong("frametime", gameTimeMillis);
+                    }
+                }
+            }
         }
     }
 
