@@ -13,19 +13,21 @@ public class cServerLogic {
     static int voteskiplimit = 2;
     static int voteskipdelay = 10000;
     static int respawnwaittime = 3000;
+    static int maxhp = 500;
+    static int velocityplayerbase = 16;
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
         xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
         xCon.ex("-loadingscreen");
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
-            for(String id : cServerLogic.netServerThread.masterStateMap.keys()) {
-                cServerLogic.netServerThread.addNetCmd("server", "respawnnetplayer " + id);
+            for(String id : netServerThread.masterStateMap.keys()) {
+                netServerThread.addNetCmd("server", "respawnnetplayer " + id);
             }
         }
         //reset game state
         gScoreboard.resetScoresMap();
-        cServerLogic.netServerThread.voteSkipList = new ArrayList<>();
+        netServerThread.voteSkipList = new ArrayList<>();
         timedEvents.clear();
         if(sSettings.show_mapmaker_ui)
             return;
@@ -39,12 +41,12 @@ public class cServerLogic {
                 }
             });
         }
-        timedEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
+        timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
             public void doCommand() {
                 //select winner and run postgame script
                 String winid = gScoreboard.getWinnerId();
                 if(!winid.equalsIgnoreCase("null")) {
-                    nState winState = cServerLogic.netServerThread.masterStateMap.get(winid);
+                    nState winState = netServerThread.masterStateMap.get(winid);
                     String wname = winState.get("name");
                     String wcolor = winState.get("color");
                     xCon.ex("givewin " + winid);
@@ -66,35 +68,37 @@ public class cServerLogic {
 
         vars.putArg(new gArg("listenport", "5555") {
             public void onChange() {
-                cServerLogic.listenPort = Integer.parseInt(value);
+                listenPort = Integer.parseInt(value);
             }
         });
         vars.putArg(new gArg("timelimit", "180000") {
             public void onChange() {
-                cServerLogic.timelimit = Integer.parseInt(value);
+                timelimit = Integer.parseInt(value);
             }
         });
-        vars.putArg(new gArg("sv_gamemode", "0") {
+        vars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
-                cServerLogic.gameMode = Integer.parseInt(value);
+                gameMode = Integer.parseInt(value);
             }
         });
-        vars.putArg(new gArg("maxhp", "500") {
+        vars.putArg(new gArg("maxhp", Integer.toString(maxhp)) {
             public void onChange() {
+                maxhp = Integer.parseInt(value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    cServerLogic.netServerThread.addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
-                    for (String s : cServerLogic.scene.getThingMap("THING_PLAYER").keySet()) {
-                        gPlayer p = cServerLogic.scene.getPlayerById(s);
+                    netServerThread.addNetCmd("cl_setvar cv_maxhp " + newmaxhp);
+                    for (String s : scene.getThingMap("THING_PLAYER").keySet()) {
+                        gPlayer p = scene.getPlayerById(s);
                         p.putInt("stockhp", newmaxhp);
                     }
                 }
             }
         });
-        vars.putArg(new gArg("velocityplayerbase", "16") {
+        vars.putArg(new gArg("velocityplayerbase", Integer.toString(velocityplayerbase)) {
             public void onChange() {
+                velocityplayerbase = Integer.parseInt(value);
                 if(sSettings.IS_SERVER)
-                    xCon.ex("addcom cl_setvar cv_velocityplayer " + Integer.parseInt(value));
+                    xCon.ex("addcom cl_setvar velocityplayerbase " + velocityplayerbase);
             }
         });
         vars.putArg(new gArg("voteskiplimit", "2") {

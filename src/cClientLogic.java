@@ -10,7 +10,7 @@ public class cClientLogic {
     static String selectedPrefabId = "";
     static String playerName = "player";
     static String playerColor = "blue";
-    static int velocityPlayer = 64;
+    static int velocityPlayerBase = 16;
     static boolean debug = false;
     static boolean debuglog = false;
     static String newprefabname = "room";
@@ -69,10 +69,10 @@ public class cClientLogic {
                     sSettings.width = sres[0];
                     sSettings.height = sres[1];
                     //refresh fonts
-                    dFonts.fontNormal = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN,
+                    dFonts.fontNormal = new Font(vars.get("fontui"), Font.PLAIN,
                             dFonts.fontsize * sSettings.height / sSettings.gamescale);
-                    dFonts.fontGNormal = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN, dFonts.fontsize);
-                    dFonts.fontSmall = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN,
+                    dFonts.fontGNormal = new Font(vars.get("fontui"), Font.PLAIN, dFonts.fontsize);
+                    dFonts.fontSmall = new Font(vars.get("fontui"), Font.PLAIN,
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
                     dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
@@ -96,7 +96,7 @@ public class cClientLogic {
         });
         vars.putArg(new gArg("debug", "0") {
             public void onChange() {
-                cClientLogic.debug = Integer.parseInt(value) > 0;
+                debug = Integer.parseInt(value) > 0;
             }
         });
         vars.putArg(new gArg("showmapmakerui", "0") {
@@ -106,22 +106,22 @@ public class cClientLogic {
         });
         vars.putArg(new gArg("debuglog", "0") {
             public void onChange() {
-                cClientLogic.debuglog = Integer.parseInt(value) > 0;
+                debuglog = Integer.parseInt(value) > 0;
             }
         });
         vars.putArg(new gArg("volume", "100") {
             public void onChange() {
-                cClientLogic.volume = Double.parseDouble(value);
+                volume = Double.parseDouble(value);
             }
         });
         vars.putArg(new gArg("playercolor", "blue") {
             public void onChange() {
-                cClientLogic.playerColor = value;
+                playerColor = value;
             }
         });
         vars.putArg(new gArg("playername", "player") {
             public void onChange() {
-                cClientLogic.playerName = value;
+                playerName = value;
             }
         });
         vars.putArg(new gArg("displaymode", "0") {
@@ -169,26 +169,26 @@ public class cClientLogic {
         });
         vars.putArg(new gArg("cv_gamemode", "0") {
             public void onChange() {
-                cClientLogic.gamemode = Integer.parseInt(value);
-                cClientLogic.gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
-                cClientLogic.gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
+                gamemode = Integer.parseInt(value);
+                gamemodeTitle = xCon.ex("setvar GAMETYPE_"+value+"_title");
+                gamemodeText = xCon.ex("setvar GAMETYPE_"+value+"_text");
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         });
         vars.putArg(new gArg("cv_maploaded", "0") {
             public void onChange() {
-                cClientLogic.maploaded = Integer.parseInt(value) > 0;
+                maploaded = Integer.parseInt(value) > 0;
             }
         });
         vars.putArg(new gArg("cv_maxhp", "500") {
             public void onChange() {
-                cClientLogic.maxhp = Integer.parseInt(value);
+                maxhp = Integer.parseInt(value);
             }
         });
-        vars.putArg(new gArg("cv_velocityplayer", "64") {
+        vars.putArg(new gArg("velocityplayerbase", Integer.toString(velocityPlayerBase)) {
             public void onChange() {
-                cClientLogic.velocityPlayer = Integer.parseInt(value);
+                velocityPlayerBase = Integer.parseInt(value);
             }
         });
         vars.putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {

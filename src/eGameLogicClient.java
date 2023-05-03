@@ -77,7 +77,7 @@ public class eGameLogicClient implements eGameLogic {
                 if(isUserPlayer(obj)) {
                     for (int i = 0; i < 4; i++) {
                         if (obj.getInt("mov" + i) > 0)
-                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
+                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayerBase,
                                     obj.getInt("vel" + i) + obj.getInt("accelrate"))));
                         else
                             obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));

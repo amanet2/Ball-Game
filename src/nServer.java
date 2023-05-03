@@ -326,8 +326,8 @@ public class nServer extends Thread {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
-                xCon.ex("cl_setvar cv_velocityplayer"), cServerLogic.gameMode));
+        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
+                cServerLogic.velocityplayerbase, cServerLogic.gameMode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);

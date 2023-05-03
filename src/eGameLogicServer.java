@@ -82,7 +82,7 @@ public class eGameLogicServer implements eGameLogic {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
                 for (int i = 0; i < 4; i++) {
                     if (obj.getInt("mov" + i) > 0) {
-                        obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
+                        obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayerBase,
                                 obj.getInt("vel" + i) + obj.getInt("accelrate"))));
                     }
                     else

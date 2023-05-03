@@ -752,11 +752,11 @@ public class xCon {
                     return "only server can do 'gamemode'";
                 String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
-                    return cServerLogic.vars.get("sv_gamemode");
+                    return cServerLogic.vars.get("gamemode");
                 String setmode = args[1];
-                cServerLogic.vars.put("sv_gamemode", setmode);
+                cServerLogic.vars.put("gamemode", setmode);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_gamemode " + setmode);
-                return "changed game mode to " + cServerLogic.vars.get("sv_gamemode");
+                return "changed game mode to " + cServerLogic.vars.get("gamemode");
             }
         });
         commands.put("gametimemillis", new xCom() {
@@ -974,7 +974,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("setvar sv_gamemode 0");
+                ex("setvar gamemode 0");
                 cServerLogic.scene = new gScene();
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
                 return "";
