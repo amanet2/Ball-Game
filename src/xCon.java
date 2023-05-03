@@ -956,7 +956,6 @@ public class xCon {
         });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
-                nClient.instance().reset();
                 sSettings.IS_CLIENT = true;
                 nClient.instance().start();
                 return "joined game";

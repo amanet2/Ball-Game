@@ -14,7 +14,7 @@ public class nClient extends Thread {
     private long nextSecondNanos = 0;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    HashMap<String, String> serverArgsMap = new HashMap<>(); //hold server vars
+    gArgSet receivedArgsSetServer;
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
     private final Queue<String> netSendMsgs = new LinkedList<>();
@@ -27,21 +27,6 @@ public class nClient extends Thread {
         if(instance == null)
             instance = new nClient();
         return instance;
-    }
-
-    public static void refreshInstance() {
-        instance = new nClient();
-    }
-
-    public void reset() {
-        clientStateMap = new nStateMap();
-        netSendMsgs.clear();
-        netSendCmds.clear();
-        receivedPackets.clear();
-        serverArgsMap.clear();
-        serverArgsMap.put("time", "180000");
-        playerIds.clear();
-        sendMap.clear();
     }
 
     public void run() {
@@ -91,6 +76,12 @@ public class nClient extends Thread {
 
     private nClient() {
         clientStateMap = new nStateMap();
+        receivedArgsSetServer = new gArgSet();
+        receivedArgsSetServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+            public void onChange() {
+                cClientLogic.timeleft = Long.parseLong(value);
+            }
+        });
     }
 
     void addSendMsg(String msg) {
@@ -104,7 +95,7 @@ public class nClient extends Thread {
     public void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
-                //this means all other packets are thrown out, bad in long run
+                //this means all older packets are thrown out
                 receivedPackets.remove();
             }
             if(receivedPackets.size() > 0) {
@@ -226,7 +217,7 @@ public class nClient extends Thread {
 
     private void handleReadDataServer(HashMap<String, String> packArgs) {
         for (String k : packArgs.keySet()) {
-            serverArgsMap.put(k, packArgs.get(k));
+            receivedArgsSetServer.put(k, packArgs.get(k));
         }
         //check cmd from server only
         String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
@@ -301,10 +292,9 @@ public class nClient extends Thread {
     public void disconnect() {
         if(sSettings.IS_CLIENT) {
             sSettings.IS_CLIENT = false;
-            serverArgsMap = new HashMap<>();
             clientStateMap = new nStateMap();
             playerIds = new ArrayList<>();
-            refreshInstance();
+            instance = new nClient();
         }
     }
 }

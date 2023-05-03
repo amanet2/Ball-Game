@@ -60,12 +60,8 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && cClientLogic.maploaded) {
-            if(nClient.instance().serverArgsMap.containsKey("time")) {
-                long timeleft = Long.parseLong(nClient.instance().serverArgsMap.get("time"));
-                if (timeleft > -1)
-                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                            29 * sSettings.width / 30, 59 * sSettings.height / 64);
-            }
+            dFonts.drawRightJustifiedString(g, eUtils.getTimeString(cClientLogic.timeleft),
+                    29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
                     29 * sSettings.width / 30, 31*sSettings.height/32);

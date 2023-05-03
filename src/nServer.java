@@ -33,10 +33,6 @@ public class nServer extends Thread {
         return instance;
     }
 
-    public static void refreshInstance() {
-        instance = new nServer();
-    }
-
     private nServer() {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
@@ -408,6 +404,6 @@ public class nServer extends Thread {
     public void disconnect() {
         sSettings.IS_SERVER = false;
         serverSocket.close();
-        refreshInstance();
+        instance = new nServer();
     }
 }
