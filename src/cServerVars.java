@@ -54,10 +54,10 @@ public class cServerVars extends gArgSet {
                 respawnwaittime = Integer.parseInt(value);
             }
         });
-        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         loadFromLaunchArgs(launchArgs);
     }
+
     public static gArgSet instance() {
         if(instance == null) {
             instance = new cServerVars();

@@ -27,6 +27,7 @@ public class gArgSet {
 
     public void loadFromFile(String s) {
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
+            xCon.ex("exec " + s);
             String line;
             while ((line = br.readLine()) != null) {
                 filelines.add(line);
@@ -86,6 +87,15 @@ public class gArgSet {
         if(args.containsKey(key))
             return args.get(key).value;
         return "null";
+    }
+
+    public String[] parseScriptArgs(String full) {
+        String[] args = full.trim().split(" ");
+        for(int i = 0; i < args.length; i++) {
+            if(args[i].startsWith("$") && contains(args[i].substring(1)))
+                args[i] = get(args[i].substring(1));
+        }
+        return args;
     }
 
     public void put(String key, String val) {

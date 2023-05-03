@@ -215,8 +215,6 @@ public class cClientVars extends gArgSet {
                 uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
             }
         });
-        
-        xCon.ex("exec "+sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         loadFromLaunchArgs(launchArgs);
     }

@@ -4,32 +4,6 @@ import java.util.Date;
 
 public class eUtils {
 
-    public static String[] parseScriptArgsServer(String full) {
-        String[] args = full.trim().split(" ");
-        for(int i = 0; i < args.length; i++) {
-            if(!args[i].startsWith("$"))
-                continue;
-            if(cServerVars.instance().contains(args[i].substring(1)))
-                args[i] = cServerVars.instance().get(args[i].substring(1));
-            else if(sVars.get(args[i]) != null)
-                args[i] = sVars.get(args[i]);
-        }
-        return args;
-    }
-
-    public static String[] parseScriptArgsClient(String full) {
-        String[] args = full.trim().split(" ");
-        for(int i = 0; i < args.length; i++) {
-            if(!args[i].startsWith("$"))
-                continue;
-            if(cClientVars.instance().contains(args[i].substring(1)))
-                args[i] = cClientVars.instance().get(args[i].substring(1));
-            else if(sVars.get(args[i]) != null)
-                args[i] = sVars.get(args[i]);
-        }
-        return args;
-    }
-
     public static String getPath(String s) {
         return sSettings.datapath + "/" + s;
     }
