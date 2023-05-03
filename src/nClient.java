@@ -82,6 +82,15 @@ public class nClient extends Thread {
                 cClientLogic.timeleft = Long.parseLong(value);
             }
         });
+        receivedArgsSetServer.putArg(new gArg("cmd", "") {
+            public void onUpdate() {
+                if(value.length() > 0) {
+                    xCon.instance().debug("FROM_SERVER: " + value);
+                    sendMap.put("cmdrcv", "1");
+                    xCon.ex(value);
+                }
+            }
+        });
     }
 
     void addSendMsg(String msg) {
@@ -210,23 +219,6 @@ public class nClient extends Thread {
         return sendDataString.toString().replace(", ", ",");
     }
 
-    private void processCmd(String cmdload) {
-        sendMap.put("cmdrcv", "1");
-        xCon.ex(cmdload);
-    }
-
-    private void handleReadDataServer(HashMap<String, String> packArgs) {
-        for (String k : packArgs.keySet()) {
-            receivedArgsSetServer.put(k, packArgs.get(k));
-        }
-        //check cmd from server only
-        String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
-        if(cmdload.length() > 0) {
-            xCon.instance().debug("FROM_SERVER: " + cmdload);
-            processCmd(cmdload);
-        }
-    }
-
     public void readData(String receiveDataString) {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
@@ -234,8 +226,11 @@ public class nClient extends Thread {
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             // SERVER time and cmd
-            if(idload.equals("server"))
-                handleReadDataServer(packArgs);
+            if(idload.equals("server")) {
+                for (String k : packArgs.keySet()) {
+                    receivedArgsSetServer.put(k, packArgs.get(k));
+                }
+            }
             else {
                 if(!clientStateMap.contains(idload))
                     clientStateMap.put(idload, new nStateBallGameClient());

@@ -95,6 +95,7 @@ public class gArgSet {
             arg.value = val;
             if(!arg.value.equals(old))
                 arg.onChange();
+            arg.onUpdate();
         }
         else {
             xCon.instance().debug("gArgSet.put: no arg for key: " + key);

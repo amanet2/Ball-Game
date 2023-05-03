@@ -23,10 +23,10 @@ public class dScreenMessages {
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);
         //client
         if(showtick)
-            g.drawString("CLIENT:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
-            g.drawString("CLIENT_NET:" + uiInterface.netReportClient, 0, 4*sSettings.height / 64);
+            g.drawString("CLIENT:" + uiInterface.tickReport, 0, 3 * sSettings.height / 64);
         //net
         if(shownet) {
+            g.drawString("CLIENT_NET:" + uiInterface.netReportClient, 0, 4 * sSettings.height / 64);
             g.drawString("SERVER:" + uiInterface.tickReportServer, 0, 5 * sSettings.height / 64);
             g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
             g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
@@ -177,15 +177,11 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //respawn msg
         //scoreboard
-        if(showscore) {
+        if(showscore)
             dScoreboard.showScoreBoard(g);
-        }
         //loading
-        if(sSettings.IS_CLIENT && !cClientLogic.maploaded) {
-//            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
-            if(gTime.gameTime % 1000 < 500)
-                dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
-        }
+        if(sSettings.IS_CLIENT && !cClientLogic.maploaded && gTime.gameTime % 1000 < 500)
+            dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
