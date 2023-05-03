@@ -31,7 +31,7 @@ public class eGameLogicClient implements eGameLogic {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
             cClientLogic.netClientThread.processPackets();
-            cClientVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
+            cClientLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
                 if(cClientLogic.getUserPlayer() != null)

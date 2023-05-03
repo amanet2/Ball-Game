@@ -231,7 +231,7 @@ public class xCon {
         });
         commands.put("cvarlist", new xCom() {
             public String doCommand(String fullCommand) {
-                TreeMap<String, gArg> sorted = new TreeMap<>(cClientVars.instance().args);
+                TreeMap<String, gArg> sorted = new TreeMap<>(cClientLogic.vars.args);
                 return sorted.toString();
             }
         });
@@ -363,13 +363,13 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
-                    cClientVars.instance().put("cv_maploaded", "0");
+                    cClientLogic.vars.put("cv_maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
-                    cClientVars.instance().put("cv_maploaded", "0");
+                    cClientLogic.vars.put("cv_maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
@@ -389,9 +389,9 @@ public class xCon {
                                 continue;
                             if(cServerVars.instance().contains(toks[j].substring(1)))
                                 toks[j] = cServerVars.instance().get(toks[j].substring(1));
-                            else if (cClientVars.instance().contains(toks[j].substring(1))) {
+                            else if (cClientLogic.vars.contains(toks[j].substring(1))) {
                                 System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                                toks[j] = cClientVars.instance().get(toks[j].substring(1));
+                                toks[j] = cClientLogic.vars.get(toks[j].substring(1));
                             }
                         }
                         lineArgCallTokens[i] = toks[0] + "#" + toks[1];
@@ -400,9 +400,9 @@ public class xCon {
                         String tokenKey = lineArgCallTokens[i];
                         if (cServerVars.instance().contains(tokenKey.substring(1)))
                             lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
-                        else if (cClientVars.instance().contains(tokenKey.substring(1))) {
+                        else if (cClientLogic.vars.contains(tokenKey.substring(1))) {
                             System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                            lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                            lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
                         }
                     }
                 }
@@ -831,14 +831,14 @@ public class xCon {
         });
         commands.put("cl_getres", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cClientVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String tk = args[1];
                 if(args.length < 3) {
-                    if (!cClientVars.instance().contains(tk))
+                    if (!cClientLogic.vars.contains(tk))
                         return "null";
-                    return cClientVars.instance().get(tk);
+                    return cClientLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -846,8 +846,8 @@ public class xCon {
                 }
                 String tv = tvb.substring(1);
                 String res = ex(tv);
-                cClientVars.instance().put(tk, res);
-                return cClientVars.instance().get(tk);
+                cClientLogic.vars.put(tk, res);
+                return cClientLogic.vars.get(tk);
             }
         });
         commands.put("getsnap", new xCom() {
@@ -1403,7 +1403,7 @@ public class xCon {
         commands.put("cl_setthing", new xCom() {
             //usage cl_setthing $type $id $key $var
             public String doCommand(String fullCommand) {
-                String[] args = cClientVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 return setThingDelegate(args, cClientLogic.scene);
@@ -1437,20 +1437,20 @@ public class xCon {
                     return "null";
                 String tk = toks[1];
                 if(toks.length < 3) {
-                    if (!cClientVars.instance().contains(tk))
+                    if (!cClientLogic.vars.contains(tk))
                         return "null";
-                    return cClientVars.instance().get(tk);
+                    return cClientLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < toks.length; i++) {
                     tvb.append(" ").append(toks[i]);
                 }
                 String tv = tvb.substring(1);
-                if(tv.charAt(0) == '$' && cClientVars.instance().contains(tv.substring(1)))
-                    cClientVars.instance().put(tk, cClientVars.instance().get(tv.substring(1)));
+                if(tv.charAt(0) == '$' && cClientLogic.vars.contains(tv.substring(1)))
+                    cClientLogic.vars.put(tk, cClientLogic.vars.get(tv.substring(1)));
                 else
-                    cClientVars.instance().put(tk, tv);
-                return cClientVars.instance().get(tk);
+                    cClientLogic.vars.put(tk, tv);
+                return cClientLogic.vars.get(tk);
             }
         });
         commands.put("cl_spawnanimation", new xCom() {
@@ -1915,8 +1915,8 @@ public class xCon {
             for(int i = 0; i < args.length; i++) {
                 if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1)))
                     args[i] = cServerVars.instance().get(args[i].substring(1));
-                else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1)))
-                    args[i] = cClientVars.instance().get(args[i].substring(1));
+                else if(args[i].startsWith("$") && cClientLogic.vars.contains(args[i].substring(1)))
+                    args[i] = cClientLogic.vars.get(args[i].substring(1));
             }
             String command = args[0];
             if(command.startsWith("-"))

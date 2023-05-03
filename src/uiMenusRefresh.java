@@ -28,7 +28,7 @@ public class uiMenusRefresh extends uiMenu {
     }
 
     private void afterSubmit() {
-        cClientVars.instance().put("vidmode",
+        cClientLogic.vars.put("vidmode",
                 String.format("%d,%d,%d", sSettings.width, sSettings.height,
                         sSettings.framerate));
         uiMenus.menuSelection[uiMenus.MENU_VIDEO].refresh();

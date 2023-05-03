@@ -20,13 +20,13 @@ public class xMain {
 
 	private static void initGameVars(String [] args) {
 		cServerVars.instance().init(args);
-		cClientVars.instance().init(args);
 	}
 
 	private static void init(String[] args) {
 		eManager.init();
 		gExecDoableFactory.instance().init();
 		gScriptFactory.instance().init();
+		cClientLogic.init(args);
 		initGameObjects();
 		initGameScenes();
 		initGameVars(args);

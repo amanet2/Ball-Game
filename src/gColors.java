@@ -11,7 +11,7 @@ public class gColors {
         if(colorMap.containsKey(name))
             return colorMap.get(name);
         //not in the map, check our cvars for color info
-        String s = cClientVars.instance().get(name);
+        String s = cClientLogic.vars.get(name);
         //if not in cvars, return default white
         if(s == null)
             return Color.WHITE;

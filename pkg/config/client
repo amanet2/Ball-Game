@@ -1,5 +1,5 @@
 # mute volume
-cl_setvar audioenabled 0
+cl_setvar audioenabled 1
 # show debug info in console
 cl_setvar debug 0
 # save console log to file on close
