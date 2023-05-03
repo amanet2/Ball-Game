@@ -17,7 +17,6 @@ public class nClient extends Thread {
     gArgSet receivedArgsSetServer;
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private final Queue<String> netSendMsgs = new LinkedList<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
     private static nClient instance = null;
     private DatagramSocket clientSocket = null;
@@ -215,7 +214,7 @@ public class nClient extends Thread {
     public void readData(String receiveDataString) {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
-        HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
+        HashMap<String, HashMap<String, String>> packargmap = getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             // SERVER time and cmd
@@ -258,11 +257,24 @@ public class nClient extends Thread {
         }
     }
 
-    public String dequeueNetMsg() {
-        if(netSendMsgs.size() > 0) {
-            return netSendMsgs.remove();
+    public HashMap<String, HashMap<String, String>> getMapFromNetMapString(String argload) {
+        HashMap<String, HashMap<String, String>> toReturn = new HashMap<>();
+        String modstr = argload.substring(1,argload.length()-1);
+        String[] idsplit = modstr.split("},");
+        for(String s : idsplit) {
+            String idtok = s.substring(0,s.indexOf("={"));
+            toReturn.put(idtok, new HashMap<>());
+            String argstr = s.replace(idtok+"={","");
+            if(argstr.length() < 1)
+                continue;
+            if(argstr.charAt(argstr.length()-1) == '}')
+                argstr = argstr.substring(0, argstr.length()-1);
+            for(String pair : argstr.split(",")) {
+                String[] vals = pair.split("=");
+                toReturn.get(idtok).put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+            }
         }
-        return null;
+        return toReturn;
     }
 
     public String dequeueNetCmd() {

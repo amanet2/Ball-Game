@@ -88,16 +88,41 @@ public class nServer extends Thread {
         clientCmdDoables.put("echo",
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
-                        //handle special sounds, etc
                         String[] toks = cmd.split(" ");
-                        if(toks.length < 3)
+                        if(toks.length < 3) //only want to allow messages from clients, not any other echo usage
                             return;
                         addExcludingNetCmd("server", "cl_" + cmd);
                         StringBuilder clientMessageBuilder = new StringBuilder();
                         for(int i = 2; i < toks.length; i++) {
                             clientMessageBuilder.append(" ").append(toks[i]);
                         }
-                        checkClientMessageForTimeAndVoteSkip(id, clientMessageBuilder.substring(1));
+                        //check msg for special string
+                        String testmsg = clientMessageBuilder.substring(1);
+                        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg);  //custom check
+                        if(testmsg.strip().equalsIgnoreCase("thetime"))
+                            addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                        else if(testmsg.strip().equalsIgnoreCase("skip")) {
+                            if(voteSkipList.contains(id))
+                                addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+                            else {
+                                voteSkipList.add(id);
+                                int votes = voteSkipList.size();
+                                int limit = cServerVars.voteskiplimit;
+                                if(votes < limit)
+                                    xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
+                                else {
+                                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
+                                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+                                    xCon.ex("echo [SKIP] VOTE TARGET REACHED");
+                                    xCon.ex("echo changing map...");
+                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
+                                        public void doCommand() {
+                                            xCon.ex("changemaprandom");
+                                        }
+                                    });
+                                }
+                            }
+                        }
                     }
                 });
     }
@@ -170,7 +195,7 @@ public class nServer extends Thread {
                     //read data of packet
                     readData(receiveDataString); //and respond too
                     //get player id of client
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
+                    HashMap<String, String> clientmap = getMapFromNetString(receiveDataString);
                     String clientId = clientmap.get("id");
                     if(clientId != null) {
                         //create response
@@ -191,6 +216,16 @@ public class nServer extends Thread {
                 }
 //                receivedPackets.remove();
 //            }
+    }
+
+    public HashMap<String,String> getMapFromNetString(String argload) {
+        HashMap<String,String> toReturn = new HashMap<>();
+        String argstr = argload.substring(1,argload.length()-1);
+        for(String pair : argstr.split(",")) {
+            String[] vals = pair.split("=");
+            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+        }
+        return  toReturn;
     }
 
     public HashMap<String, String> getNetVars() {
@@ -385,35 +420,6 @@ public class nServer extends Thread {
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else
                 addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
-    }
-
-    public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg); //check for special sound
-        if(testmsg.strip().equalsIgnoreCase("thetime"))
-            addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        else if(testmsg.strip().equalsIgnoreCase("skip")) {
-            if(voteSkipList.contains(id))
-                addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
-            else {
-                voteSkipList.add(id);
-                int votes = voteSkipList.size();
-                int limit = cServerVars.voteskiplimit;
-                if(votes < limit) {
-                    xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
-                }
-                else {
-                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
-                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
-                    xCon.ex("echo [VOTE_SKIP] VOTE TARGET REACHED");
-                    xCon.ex("echo changing map...");
-                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
-                        public void doCommand() {
-                            xCon.ex("changemaprandom");
-                        }
-                    });
-                }
-            }
-        }
     }
 
     public void disconnect() {
