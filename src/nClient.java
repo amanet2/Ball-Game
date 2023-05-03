@@ -93,10 +93,6 @@ public class nClient extends Thread {
         });
     }
 
-    void addSendMsg(String msg) {
-        netSendMsgs.add(msg);
-    }
-
     public void addNetCmd(String cmd) {
         netSendCmds.add(cmd);
     }
@@ -159,9 +155,6 @@ public class nClient extends Thread {
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         gPlayer userPlayer = cClientLogic.getUserPlayer();
-        //handle outgoing msg
-        String outgoingMsg = dequeueNetMsg(); //dequeues w/ every call so call once a tick
-        keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
         //handle outgoing cmd
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");

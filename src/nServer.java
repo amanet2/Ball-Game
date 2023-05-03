@@ -85,6 +85,21 @@ public class nServer extends Thread {
                             xCon.ex(cmd);
                     }
                 });
+        clientCmdDoables.put("echo",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        //handle special sounds, etc
+                        String[] toks = cmd.split(" ");
+                        if(toks.length < 3)
+                            return;
+                        addExcludingNetCmd("server", "cl_" + cmd);
+                        StringBuilder clientMessageBuilder = new StringBuilder();
+                        for(int i = 2; i < toks.length; i++) {
+                            clientMessageBuilder.append(" ").append(toks[i]);
+                        }
+                        checkClientMessageForTimeAndVoteSkip(id, clientMessageBuilder.substring(1));
+                    }
+                });
     }
 
     public void checkForUnhandledQuitters() {

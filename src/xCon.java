@@ -1256,7 +1256,7 @@ public class xCon {
                 if(fullCommand.length() > 0) {
                     String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
                     msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": " + msg;
-                    nClient.instance().addSendMsg(msg);
+                    nClient.instance().addNetCmd("echo " + msg);
                     gMessages.msgInProgress = "";
                 }
                 return fullCommand;

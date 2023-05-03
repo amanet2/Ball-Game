@@ -60,16 +60,6 @@ public class nStateBallGame extends nState {
                 }
             }
         });
-        map.putArg(new gArg("msg", "") {
-            public void onChange() {
-                if(value.length() > 0) {
-                    xCon.ex( "echo " + value);
-                    //handle special sounds, etc
-                    String testmsg = value.substring(value.indexOf(':')+2);
-                    nServer.instance().checkClientMessageForTimeAndVoteSkip(get("id"), testmsg);
-                }
-            }
-        });
     }
 
     private void setPlayerVal(String key, String val) {
