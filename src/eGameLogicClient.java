@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class eGameLogicClient implements eGameLogic {
-    private int ticks;
-    private long nextsecondnanos;
+public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
     private Queue<DatagramPacket> receivedPackets;
@@ -18,15 +16,8 @@ public class eGameLogicClient implements eGameLogic {
     public nStateMap clientStateMap; //hold net player vars
     private gArgSet receivedArgsSetServer;
     private ArrayList<String> playerIds;
-    private eGameSession parentSession;
-
-    public void setParentSession(eGameSession session) {
-        parentSession = session;
-    }
 
     public eGameLogicClient() {
-        ticks = 0;
-        nextsecondnanos = 0;
         netSendCmds = new LinkedList<>();
         receivedPackets = new LinkedList<>();
         sendMap = new HashMap<>();
@@ -55,16 +46,6 @@ public class eGameLogicClient implements eGameLogic {
                 }
             }
         });
-    }
-
-    @Override
-    public void init(){
-
-    }
-
-    @Override
-    public void input() {
-
     }
 
     public void processPackets() {
@@ -158,6 +139,7 @@ public class eGameLogicClient implements eGameLogic {
 
     @Override
     public void update() {
+        super.update();
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
@@ -170,17 +152,15 @@ public class eGameLogicClient implements eGameLogic {
                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
 //            processPackets();
         }
+        catch (SocketException se) {
+            //just to catch the closing
+            return;
+        }
         catch (Exception e) {
             eLogging.logException(e);
             e.printStackTrace();
         }
-        ticks++;
-        long theTime = System.nanoTime();
-        if(nextsecondnanos < theTime) {
-            nextsecondnanos = theTime + 1000000000;
-            uiInterface.tickReportClient = ticks;
-            ticks = 0;
-        }
+        uiInterface.tickReportClient = getTickReport();
     }
 
     public void addNetCmd(String cmd) {
@@ -281,17 +261,8 @@ public class eGameLogicClient implements eGameLogic {
     }
 
     @Override
-    public void render() {
-
-    }
-
-    @Override
-    public void disconnect() {
-        parentSession.destroy();
-    }
-
-    @Override
     public void cleanup() {
+        super.cleanup();
         sSettings.IS_CLIENT = false;
         cClientLogic.netClientThread = null;
         clientSocket.close();
