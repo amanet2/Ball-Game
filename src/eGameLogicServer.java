@@ -22,6 +22,8 @@ public class eGameLogicServer implements eGameLogic {
 
     @Override
     public void update() {
+        if(!sSettings.IS_SERVER)
+            return;
         long gameTimeMillis = gTime.gameTime;
         cServerLogic.netServerThread.checkLocalCmds();
         cServerLogic.netServerThread.processPackets();

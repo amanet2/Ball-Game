@@ -153,6 +153,8 @@ public class eGameLogicClient implements eGameLogic {
 
     @Override
     public void update() {
+        if(!sSettings.IS_CLIENT)
+            return;
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
