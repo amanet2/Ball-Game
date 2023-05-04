@@ -18,18 +18,14 @@ public class xMain {
 		uiEditorMenus.previewScene = new gScene();
 	}
 
-	private static void initGameVars(String [] args) {
-		cServerVars.instance().init(args);
-		cClientVars.instance().init(args);
-	}
-
 	private static void init(String[] args) {
 		eManager.init();
 		gExecDoableFactory.instance().init();
 		gScriptFactory.instance().init();
+		cServerLogic.init(args);
+		cClientLogic.init(args);
 		initGameObjects();
 		initGameScenes();
-		initGameVars(args);
 		uiMenus.init();
 	}
 

@@ -68,8 +68,8 @@ public class uiInterface {
     }
 
     public static void exit() {
-        cServerVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cClientVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        cServerLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         if(cClientLogic.debuglog)
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         System.exit(0);

@@ -92,7 +92,7 @@ public class nServer extends Thread {
                             else {
                                 voteSkipList.add(id);
                                 int votes = voteSkipList.size();
-                                int limit = cServerVars.voteskiplimit;
+                                int limit = cServerLogic.voteskiplimit;
                                 if(votes < limit)
                                     xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                                 else {
@@ -100,7 +100,7 @@ public class nServer extends Thread {
                                             eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
                                     xCon.ex("echo [SKIP] VOTE TARGET REACHED");
                                     xCon.ex("echo changing map...");
-                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
+                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.voteskipdelay), new gTimeEvent(){
                                         public void doCommand() {
                                             xCon.ex("changemaprandom");
                                         }
@@ -326,8 +326,8 @@ public class nServer extends Thread {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
-                xCon.ex("cl_setvar cv_velocityplayer"), cServerLogic.gameMode));
+        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
+                cServerLogic.velocityplayerbase, cServerLogic.gameMode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -365,7 +365,7 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        maplines.add("cl_setvar cv_maploaded 1");
+        maplines.add("cl_setvar maploaded 1");
         //iterate through the maplines and send in batches
 //        StringBuilder sendStringBuilder = new StringBuilder();
 //        int linectr = 0;

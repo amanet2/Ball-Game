@@ -59,7 +59,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcom can only be used by active server";
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "usage: addcom <command to execute>";
                 StringBuilder act = new StringBuilder();
@@ -75,7 +75,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcomi can only be used by the host";
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: addcomi <ids to ignore separated by any token except ',' > <string>";
                 String ignoreId = args[1];
@@ -92,7 +92,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcomx can only be used by active server";
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: addcomx <exclusive id> <string>";
                 String exlusiveId = args[1];
@@ -219,7 +219,7 @@ public class xCon {
             //concatenate two or more strings
             //usage: constr <disparate elements to combine and return>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 StringBuilder esb = new StringBuilder();
@@ -231,7 +231,7 @@ public class xCon {
         });
         commands.put("cvarlist", new xCom() {
             public String doCommand(String fullCommand) {
-                TreeMap<String, gArg> sorted = new TreeMap<>(cClientVars.instance().args);
+                TreeMap<String, gArg> sorted = new TreeMap<>(cClientLogic.vars.args);
                 return sorted.toString();
             }
         });
@@ -264,7 +264,7 @@ public class xCon {
                                 animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                             ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
                             ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                    gTime.gameTime + cServerVars.respawnwaittime, id));
+                                    gTime.gameTime + cServerLogic.respawnwaittime, id));
                         }
                         return id + " took " + dmg + " dmg from " + shooterid;
                     }
@@ -363,13 +363,13 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
-                    cClientVars.instance().put("cv_maploaded", "0");
+                    cClientLogic.vars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
-                    cClientVars.instance().put("cv_maploaded", "0");
+                    cClientLogic.vars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
@@ -387,22 +387,22 @@ public class xCon {
                         for(int j = 0; j < toks.length; j++) {
                             if(!toks[j].startsWith("$"))
                                 continue;
-                            if(cServerVars.instance().contains(toks[j].substring(1)))
-                                toks[j] = cServerVars.instance().get(toks[j].substring(1));
-                            else if (cClientVars.instance().contains(toks[j].substring(1))) {
+                            if(cServerLogic.vars.contains(toks[j].substring(1)))
+                                toks[j] = cServerLogic.vars.get(toks[j].substring(1));
+                            else if (cClientLogic.vars.contains(toks[j].substring(1))) {
                                 System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                                toks[j] = cClientVars.instance().get(toks[j].substring(1));
+                                toks[j] = cClientLogic.vars.get(toks[j].substring(1));
                             }
                         }
                         lineArgCallTokens[i] = toks[0] + "#" + toks[1];
                     }
                     else if(lineArgCallTokens[i].startsWith("$")) {
                         String tokenKey = lineArgCallTokens[i];
-                        if (cServerVars.instance().contains(tokenKey.substring(1)))
-                            lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
-                        else if (cClientVars.instance().contains(tokenKey.substring(1))) {
+                        if (cServerLogic.vars.contains(tokenKey.substring(1)))
+                            lineArgCallTokens[i] = cServerLogic.vars.get(tokenKey.substring(1));
+                        else if (cClientLogic.vars.contains(tokenKey.substring(1))) {
                             System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                            lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                            lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
                         }
                     }
                 }
@@ -455,7 +455,7 @@ public class xCon {
         });
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
-                ex("load;addcomi server cl_setvar cv_maploaded 1");
+                ex("load;addcomi server cl_setvar maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
                 cServerLogic.netServerThread.voteSkipList = new ArrayList<>();
@@ -582,8 +582,8 @@ public class xCon {
                         callArgs[i] = args[i+2];
                         if(callArgs[i].startsWith("$")) {
                             String tokenKey = callArgs[i];
-                            if(cServerVars.instance().contains(tokenKey))
-                                callArgs[i] = cServerVars.instance().get(tokenKey);
+                            if(cServerLogic.vars.contains(tokenKey))
+                                callArgs[i] = cServerLogic.vars.get(tokenKey);
                         }
                     }
                     theScript.callScript(callArgs);
@@ -662,7 +662,7 @@ public class xCon {
         commands.put("foreach", new xCom() {
             //usage: foreach $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 6)
                     return "usage: foreach $var $start $end $incr <script where $var is num>";
                 String varname = args[1];
@@ -671,11 +671,11 @@ public class xCon {
                 int incr = Integer.parseInt(args[4]);
                 for(int i = start; i <= end; i+=incr) {
                     ex(String.format("setvar %s %s", varname, i));
-                    String[] cargs = cServerVars.instance().parseScriptArgs(fullCommand);
+                    String[] cargs = cServerLogic.vars.parseScriptArgs(fullCommand);
                     String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
                     String es = String.join(" ", subarray);
                     ex(es);
-                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                    cServerLogic.vars.args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreach $var $start $end $incr <script where $var is num>";
             }
@@ -683,20 +683,20 @@ public class xCon {
         commands.put("foreachclient", new xCom() {
             //usage: foreachclient $id <script to execute where $id is preloaded>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: foreachclient $id <script where $id is preloaded>";
                 String varname = args[1];
                 for(String id : cServerLogic.netServerThread.masterStateMap.keys()) {
                     ex(String.format("setvar %s %s", varname, id));
-                    String[] cargs = cServerVars.instance().parseScriptArgs(fullCommand);
+                    String[] cargs = cServerLogic.vars.parseScriptArgs(fullCommand);
                     StringBuilder esb = new StringBuilder();
                     for(int i = 2; i < cargs.length; i++) {
                         esb.append(" ").append(cargs[i]);
                     }
                     String es = esb.substring(1);
                     ex(es);
-                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                    cServerLogic.vars.args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreachclient $id <script to execute where $id is preloaded>";
             }
@@ -704,7 +704,7 @@ public class xCon {
         commands.put("foreachlong", new xCom() {
             //usage: foreachlong $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 6)
                     return "usage: foreachlong $var $start $end $incr <script where $var is num>";
                 String varname = args[1];
@@ -713,11 +713,11 @@ public class xCon {
                 int incr = Integer.parseInt(args[4]);
                 for(long i = start; i <= end; i+=incr) {
                     ex(String.format("setvar %s %s", varname, i));
-                    String[] cargs = cServerVars.instance().parseScriptArgs(fullCommand);
+                    String[] cargs = cServerLogic.vars.parseScriptArgs(fullCommand);
                     String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
                     String es = String.join(" ", subarray);
                     ex(es);
-                    cServerVars.instance().args.remove(varname); //why is this needed here and not in foreachthing???
+                    cServerLogic.vars.args.remove(varname); //why is this needed here and not in foreachthing???
                 }
                 return "usage: foreachlong $var $start $end $incr <script where $var is num>";
             }
@@ -725,7 +725,7 @@ public class xCon {
         commands.put("foreachthing", new xCom() {
             //usage: foreachthing $var $THING_TYPE <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 4)
                     return "usage: foreach $var $THING_TYPE <script where $var is preloaded>";
                 gScene scene = cServerLogic.scene;
@@ -735,7 +735,7 @@ public class xCon {
                     return "no thing type in scene: " + thingtype;
                 for(String id : scene.getThingMapIds(thingtype)) {
                     ex(String.format("setvar %s %s", varname, id));
-                    String[] cargs = cServerVars.instance().parseScriptArgs(fullCommand);
+                    String[] cargs = cServerLogic.vars.parseScriptArgs(fullCommand);
                     StringBuilder esb = new StringBuilder();
                     for(int i = 3; i < cargs.length; i++) {
                         esb.append(" ").append(cargs[i]);
@@ -750,13 +750,13 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "only server can do 'gamemode'";
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
-                    return cServerVars.instance().get("sv_gamemode");
+                    return cServerLogic.vars.get("gamemode");
                 String setmode = args[1];
-                cServerVars.instance().put("sv_gamemode", setmode);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_gamemode " + setmode);
-                return "changed game mode to " + cServerVars.instance().get("sv_gamemode");
+                cServerLogic.vars.put("gamemode", setmode);
+                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar gamemode " + setmode);
+                return "changed game mode to " + cServerLogic.vars.get("gamemode");
             }
         });
         commands.put("gametimemillis", new xCom() {
@@ -777,7 +777,7 @@ public class xCon {
         commands.put("getrand", new xCom() {
             // usage: getrand $min $max
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "0";
                 int start = Integer.parseInt(args[1]);
@@ -798,7 +798,7 @@ public class xCon {
         commands.put("getrandthing", new xCom() {
             // usage: getrandthing $type
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String type = args[1];
@@ -810,14 +810,14 @@ public class xCon {
         });
         commands.put("getres", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String tk = args[1];
                 if(args.length < 3) {
-                    if (!cServerVars.instance().contains(tk))
+                    if (!cServerLogic.vars.contains(tk))
                         return "null";
-                    return cServerVars.instance().get(tk);
+                    return cServerLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -825,20 +825,20 @@ public class xCon {
                 }
                 String tv = tvb.substring(1);
                 String res = ex(tv);
-                cServerVars.instance().put(tk, res);
-                return cServerVars.instance().get(tk);
+                cServerLogic.vars.put(tk, res);
+                return cServerLogic.vars.get(tk);
             }
         });
         commands.put("cl_getres", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cClientVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String tk = args[1];
                 if(args.length < 3) {
-                    if (!cClientVars.instance().contains(tk))
+                    if (!cClientLogic.vars.contains(tk))
                         return "null";
-                    return cClientVars.instance().get(tk);
+                    return cClientLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -846,14 +846,14 @@ public class xCon {
                 }
                 String tv = tvb.substring(1);
                 String res = ex(tv);
-                cClientVars.instance().put(tk, res);
-                return cClientVars.instance().get(tk);
+                cClientLogic.vars.put(tk, res);
+                return cClientLogic.vars.get(tk);
             }
         });
         commands.put("getsnap", new xCom() {
             //usage: getsnap $id $key
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return cServerLogic.netServerThread.clientStateSnapshots.toString();
                 String cid = args[1];
@@ -871,7 +871,7 @@ public class xCon {
         });
         commands.put("giveweapon", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: giveweapon <player_id> <weap_code>";
                 String pid = args[1];
@@ -885,7 +885,7 @@ public class xCon {
         });
         commands.put("givedecoration", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: givedecoration <player_id> <sprite_path>";
                 String pid = args[1];
@@ -898,7 +898,7 @@ public class xCon {
         });
         commands.put("givewaypoint", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: givewaypoint <player_id> <waypoint_string>";
                 String pid = args[1];
@@ -926,7 +926,7 @@ public class xCon {
         });
         commands.put("givewin", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String id = args[1];
@@ -974,19 +974,22 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("setvar sv_gamemode 0");
+                ex("setvar gamemode 0");
                 cServerLogic.scene = new gScene();
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
                 return "";
             }
         });
         commands.put("loadingscreen", new xCom() {
             public String doCommand(String fullCommand) {
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_maploaded 0");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 0");
                 return "loading screen ON";
             }
             public String undoCommand(String fullCommand) {
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar cv_maploaded 1");
+                if(sSettings.IS_SERVER)
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 1");
                 return "loading screen OFF";
             }
         });
@@ -994,7 +997,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
-                ex("cl_setvar cv_gamemode 0");
+                ex("cl_setvar gamemode 0");
                 cClientLogic.scene = new gScene();
                 return "";
             }
@@ -1275,7 +1278,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "scheduleevent can only be used by active server";
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "usage: scheduleevent <time> <string to execute>";
                 StringBuilder act = new StringBuilder();
@@ -1340,7 +1343,7 @@ public class xCon {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
                 nStateMap serverState = cServerLogic.netServerThread.masterStateMap;
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return serverState.toString();
                 String pid = args[1];
@@ -1394,7 +1397,7 @@ public class xCon {
         commands.put("setthing", new xCom() {
             //usage: setthing $THING_TYPE $id $key $val
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 return setThingDelegate(args, cServerLogic.scene);
@@ -1403,7 +1406,7 @@ public class xCon {
         commands.put("cl_setthing", new xCom() {
             //usage cl_setthing $type $id $key $var
             public String doCommand(String fullCommand) {
-                String[] args = cClientVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 return setThingDelegate(args, cClientLogic.scene);
@@ -1412,22 +1415,22 @@ public class xCon {
         commands.put("setvar", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage setvar $key $val
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String tk = args[1];
                 if(args.length < 3) {
-                    if (!cServerVars.instance().contains(tk))
+                    if (!cServerLogic.vars.contains(tk))
                         return "null";
-                    return cServerVars.instance().get(tk);
+                    return cServerLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
                     tvb.append(" ").append(args[i]);
                 }
                 String tv = tvb.substring(1);
-                cServerVars.instance().put(tk, tv);
-                return cServerVars.instance().get(tk);
+                cServerLogic.vars.put(tk, tv);
+                return cServerLogic.vars.get(tk);
             }
         });
         commands.put("cl_setvar", new xCom() {
@@ -1437,20 +1440,20 @@ public class xCon {
                     return "null";
                 String tk = toks[1];
                 if(toks.length < 3) {
-                    if (!cClientVars.instance().contains(tk))
+                    if (!cClientLogic.vars.contains(tk))
                         return "null";
-                    return cClientVars.instance().get(tk);
+                    return cClientLogic.vars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < toks.length; i++) {
                     tvb.append(" ").append(toks[i]);
                 }
                 String tv = tvb.substring(1);
-                if(tv.charAt(0) == '$' && cClientVars.instance().contains(tv.substring(1)))
-                    cClientVars.instance().put(tk, cClientVars.instance().get(tv.substring(1)));
+                if(tv.charAt(0) == '$' && cClientLogic.vars.contains(tv.substring(1)))
+                    cClientLogic.vars.put(tk, cClientLogic.vars.get(tv.substring(1)));
                 else
-                    cClientVars.instance().put(tk, tv);
-                return cClientVars.instance().get(tk);
+                    cClientLogic.vars.put(tk, tv);
+                return cClientLogic.vars.get(tk);
             }
         });
         commands.put("cl_spawnanimation", new xCom() {
@@ -1561,7 +1564,7 @@ public class xCon {
         commands.put("sumint", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: sumint $num1 $num2 //return result (use getres)
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "null";
                 Number n1;
@@ -1588,7 +1591,7 @@ public class xCon {
         commands.put("sumlong", new xCom() {
             public String doCommand(String fullCommand) {
                 //usage: sumlong $num1 $num2
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "null";
                 return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
@@ -1596,14 +1599,14 @@ public class xCon {
         });
         commands.put("svarlist", new xCom() {
             public String doCommand(String fullCommand) {
-                TreeMap<String, gArg> sorted = new TreeMap<>(cServerVars.instance().args);
+                TreeMap<String, gArg> sorted = new TreeMap<>(cServerLogic.vars.args);
                 return sorted.toString();
             }
         });
         commands.put("gte", new xCom() {
             //usage: gte $res $val // return 1 if res >= val
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "0";
                 String tk = args[1];
@@ -1655,7 +1658,7 @@ public class xCon {
         commands.put("testres", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "0";
                 return testResDelegate(args);
@@ -1664,7 +1667,7 @@ public class xCon {
         commands.put("testresn", new xCom() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
-                String[] args = cServerVars.instance().parseScriptArgs(fullCommand);
+                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
                     return "0";
                 return testResNDelegate(args);
@@ -1913,10 +1916,10 @@ public class xCon {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
-                if(args[i].startsWith("$") && cServerVars.instance().contains(args[i].substring(1)))
-                    args[i] = cServerVars.instance().get(args[i].substring(1));
-                else if(args[i].startsWith("$") && cClientVars.instance().contains(args[i].substring(1)))
-                    args[i] = cClientVars.instance().get(args[i].substring(1));
+                if(args[i].startsWith("$") && cServerLogic.vars.contains(args[i].substring(1)))
+                    args[i] = cServerLogic.vars.get(args[i].substring(1));
+                else if(args[i].startsWith("$") && cClientLogic.vars.contains(args[i].substring(1)))
+                    args[i] = cClientLogic.vars.get(args[i].substring(1));
             }
             String command = args[0];
             if(command.startsWith("-"))

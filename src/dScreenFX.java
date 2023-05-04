@@ -43,7 +43,7 @@ public class dScreenFX {
             if (userhp < cClientLogic.maxhp) {
                 int factors = sSettings.vfxfactor;
                 int maxl = gColors.hpAlpha;
-                Color color = gColors.getColorFromName("clrp_" + cClientVars.instance().get("playercolor"));
+                Color color = gColors.getColorFromName("clrp_" + cClientLogic.vars.get("playercolor"));
                 for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
                     for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
                         int w = sSettings.width / factors;

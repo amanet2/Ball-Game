@@ -5,14 +5,14 @@ public class eGameLogicServer implements eGameLogic {
     private long nextsecondnanos = 0;
 
     public eGameLogicServer() {
-
+        cServerLogic.netServerThread = new nServer();
+        cServerLogic.netServerThread.start();
+        sSettings.IS_SERVER = true;
     }
 
     @Override
     public void init(){
-        cServerLogic.netServerThread = new nServer();
-        cServerLogic.netServerThread.start();
-        sSettings.IS_SERVER = true;
+
     }
 
     @Override
@@ -25,7 +25,7 @@ public class eGameLogicServer implements eGameLogic {
         long gameTimeMillis = gTime.gameTime;
         cServerLogic.netServerThread.checkLocalCmds();
         cServerLogic.netServerThread.processPackets();
-        cServerVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
+        cServerLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
         cServerLogic.netServerThread.checkForUnhandledQuitters();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");
@@ -82,7 +82,7 @@ public class eGameLogicServer implements eGameLogic {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
                 for (int i = 0; i < 4; i++) {
                     if (obj.getInt("mov" + i) > 0) {
-                        obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
+                        obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayerBase,
                                 obj.getInt("vel" + i) + obj.getInt("accelrate"))));
                     }
                     else
