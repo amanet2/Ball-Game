@@ -1561,7 +1561,16 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                new eGameSession(new eGameLogicServer(), sSettings.rateserver).start();
+                eGameLogicServer localGameInstance = new eGameLogicServer();
+                eGameSession localGameSession = new eGameSession(localGameInstance, sSettings.rateserver);
+                localGameInstance.setParentSession(localGameSession);
+                localGameSession.start();
+
+//                cServerLogic.netServerThread = new eGameLogicServerNet();
+//                eGameSession serverNetSesssion = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
+//                cServerLogic.netServerThread.setParentSession(serverNetSesssion);
+//                serverNetSesssion.start();
+//                sSettings.IS_SERVER = true;
                 return "new game started";
             }
         });

@@ -55,7 +55,7 @@ public class eGameLogicShell implements eGameLogic {
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && cClientLogic.getUserPlayer() == null)
             gCamera.updatePosition();
-        double mod = (double)sSettings.rateserver/(double)sSettings.rategame;
+        double mod = (double)sSettings.rateserver/(double)sSettings.rateShell;
         for(String id : cClientLogic.getPlayerIds()) {
             gPlayer obj = cClientLogic.getPlayerById(id);
             if(obj == null)

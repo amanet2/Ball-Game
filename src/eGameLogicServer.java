@@ -3,11 +3,17 @@ import java.util.*;
 public class eGameLogicServer implements eGameLogic {
     private int ticks = 0;
     private long nextsecondnanos = 0;
+    private eGameSession parentSession;
+
+    public void setParentSession(eGameSession session) {
+        parentSession = session;
+    }
 
     public eGameLogicServer() {
+        sSettings.IS_SERVER = true;
         cServerLogic.netServerThread = new nServer();
         cServerLogic.netServerThread.start();
-        sSettings.IS_SERVER = true;
+//        sSettings.IS_SERVER = true;
     }
 
     @Override
@@ -211,10 +217,11 @@ public class eGameLogicServer implements eGameLogic {
 
     @Override
     public void disconnect() {
+        parentSession.destroy();
     }
 
     @Override
     public void cleanup() {
-        sSettings.IS_SERVER = false;
+
     }
 }

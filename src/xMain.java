@@ -32,7 +32,7 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			init(args);
-			new eGameSession(new eGameLogicShell(), sSettings.rategame).start();
+			new eGameSession(new eGameLogicShell(), sSettings.rateShell).start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();
