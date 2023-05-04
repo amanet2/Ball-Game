@@ -1569,8 +1569,8 @@ public class xCon {
                 cServerLogic.netServerThread = new eGameLogicServerNet();
                 eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
                 cServerLogic.netServerThread.setParentSession(serverNetSession);
-                serverNetSession.start();
                 sSettings.IS_SERVER = true;
+                serverNetSession.start();
                 return "new game started";
             }
         });

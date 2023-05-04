@@ -130,6 +130,7 @@ public class eGameLogicServerNet implements eGameLogic {
         // init the socket and reach out to internet last
         try {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
+//            serverSocket.setSoTimeout(1000);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -399,11 +400,17 @@ public class eGameLogicServerNet implements eGameLogic {
 
     @Override
     public void update() {
+//        if(!sSettings.IS_SERVER)
+//            return;
         try {
             byte[] receiveData = new byte[sSettings.rcvbytesserver];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             serverSocket.receive(receivePacket);
             receivedPackets.add(receivePacket);
+        }
+        catch (SocketException se) {
+            //just to catch the closing
+            return;
         }
         catch (Exception e) {
             eLogging.logException(e);
@@ -425,6 +432,8 @@ public class eGameLogicServerNet implements eGameLogic {
 
     @Override
     public void disconnect() {
+        sSettings.IS_SERVER = false;
+        serverSocket.close();
         parentSession.destroy();
     }
 
