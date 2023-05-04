@@ -1,3 +1,4 @@
+* Use String snapshots of clientStateMap to avoid concurrency issues
 * Engine: xCon console should be split up into server and client
 * ENGINE: Gotta make newgame, disconnect, all work right
     -> make sure server instances aren't created when client is joining and disconnecting

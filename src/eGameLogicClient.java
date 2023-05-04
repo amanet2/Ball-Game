@@ -18,6 +18,11 @@ public class eGameLogicClient implements eGameLogic {
     public nStateMap clientStateMap; //hold net player vars
     private gArgSet receivedArgsSetServer;
     private ArrayList<String> playerIds;
+    private eGameSession parentSession;
+
+    public void setParentSession(eGameSession session) {
+        parentSession = session;
+    }
 
     public eGameLogicClient() {
         ticks = 0;
@@ -165,7 +170,7 @@ public class eGameLogicClient implements eGameLogic {
             cClientLogic.serverRcvTime = System.currentTimeMillis();
             if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
-            processPackets();
+//            processPackets();
         }
         catch (Exception e) {
             eLogging.logException(e);
@@ -280,6 +285,10 @@ public class eGameLogicClient implements eGameLogic {
     @Override
     public void render() {
 
+    }
+
+    public void disconnect() {
+        parentSession.destroy();
     }
 
     @Override

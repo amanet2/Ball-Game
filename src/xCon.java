@@ -364,13 +364,13 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
                     cClientLogic.vars.put("maploaded", "0");
-                    cClientLogic.netClientThread.cleanup();
+                    cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
                     cClientLogic.vars.put("maploaded", "0");
-                    cClientLogic.netClientThread.cleanup();
+                    cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
                 if (uiInterface.inplay)
@@ -380,6 +380,8 @@ public class xCon {
         });
         commands.put("echo", new xCom() {
             public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only server can use command: echo";
                 String[] lineArgCallTokens = fullCommand.trim().split(" ");
                 for(int i = 0; i < lineArgCallTokens.length; i++) {
                     if(lineArgCallTokens[i].contains("#")) {
@@ -968,7 +970,9 @@ public class xCon {
 //                cClientLogic.netClientThread.start();
 //                sSettings.IS_CLIENT = true;
                 cClientLogic.netClientThread = new eGameLogicClient();
-                new eGameSession(cClientLogic.netClientThread, sSettings.rateclient).start();
+                eGameSession clientSession = new eGameSession(cClientLogic.netClientThread, sSettings.rateclient);
+                cClientLogic.netClientThread.setParentSession(clientSession);
+                clientSession.start();
                 sSettings.IS_CLIENT = true;
                 return "joined game";
             }

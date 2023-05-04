@@ -30,7 +30,7 @@ public class eGameLogicShell implements eGameLogic {
     public void update() {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-//            cClientLogic.netClientThread.processPackets();
+            cClientLogic.netClientThread.processPackets();
             cClientLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
