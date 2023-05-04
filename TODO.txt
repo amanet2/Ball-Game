@@ -1,3 +1,6 @@
+* Replace raw thread of nServer with a gameLogic usage liek client
+    -> client socket needs to have close() called, I think new server will have similar call
+    -> the new server session has to run at unlimited rate
 * Use String snapshots of clientStateMap to avoid concurrency issues
 * Engine: xCon console should be split up into server and client
 * ENGINE: Gotta make newgame, disconnect, all work right

@@ -966,9 +966,6 @@ public class xCon {
         });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
-//                cClientLogic.netClientThread = new nClient();
-//                cClientLogic.netClientThread.start();
-//                sSettings.IS_CLIENT = true;
                 cClientLogic.netClientThread = new eGameLogicClient();
                 eGameSession clientSession = new eGameSession(cClientLogic.netClientThread, sSettings.rateclient);
                 cClientLogic.netClientThread.setParentSession(clientSession);

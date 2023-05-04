@@ -158,8 +158,6 @@ public class eGameLogicClient implements eGameLogic {
 
     @Override
     public void update() {
-        if(!sSettings.IS_CLIENT)
-            return;
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
@@ -287,6 +285,7 @@ public class eGameLogicClient implements eGameLogic {
 
     }
 
+    @Override
     public void disconnect() {
         parentSession.destroy();
     }
@@ -295,5 +294,6 @@ public class eGameLogicClient implements eGameLogic {
     public void cleanup() {
         sSettings.IS_CLIENT = false;
         cClientLogic.netClientThread = null;
+        clientSocket.close();
     }
 }

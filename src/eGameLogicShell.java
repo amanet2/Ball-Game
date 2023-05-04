@@ -261,4 +261,9 @@ public class eGameLogicShell implements eGameLogic {
     public void cleanup() {
 
     }
+
+    @Override
+    public void disconnect() {
+
+    }
 }

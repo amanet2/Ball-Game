@@ -9,4 +9,6 @@ public interface eGameLogic {
     void render();
 
     void cleanup();
+
+    void disconnect();
 }

@@ -210,7 +210,11 @@ public class eGameLogicServer implements eGameLogic {
     }
 
     @Override
-    public void cleanup() {
+    public void disconnect() {
+    }
 
+    @Override
+    public void cleanup() {
+        sSettings.IS_SERVER = false;
     }
 }
