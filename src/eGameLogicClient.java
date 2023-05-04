@@ -295,5 +295,6 @@ public class eGameLogicClient implements eGameLogic {
         sSettings.IS_CLIENT = false;
         cClientLogic.netClientThread = null;
         clientSocket.close();
+        uiInterface.tickReportClient = 0;
     }
 }

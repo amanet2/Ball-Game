@@ -442,5 +442,6 @@ public class eGameLogicServerNet implements eGameLogic {
         sSettings.IS_SERVER = false;
         serverSocket.close();
         cServerLogic.netServerThread = null;
+        uiInterface.netReportServer = 0;
     }
 }
