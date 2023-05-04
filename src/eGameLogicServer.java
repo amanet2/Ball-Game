@@ -10,10 +10,11 @@ public class eGameLogicServer implements eGameLogic {
     }
 
     public eGameLogicServer() {
-        sSettings.IS_SERVER = true;
-        cServerLogic.netServerThread = new nServer();
-        cServerLogic.netServerThread.start();
 //        sSettings.IS_SERVER = true;
+//        cServerLogic.netServerThread = new eGameLogicServerNet();
+//        eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
+//        cServerLogic.netServerThread.setParentSession(serverNetSession);
+//        serverNetSession.start();
     }
 
     @Override

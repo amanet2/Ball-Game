@@ -51,6 +51,7 @@ public class eGameSession extends Thread implements Runnable {
             render();
             sync();
         }
+        System.out.println("SESSION LOOP EXITED " + gameLogic.toString());
     }
 
     private boolean behindTimer() {

@@ -8,8 +8,8 @@ public class cServerLogic {
     static final gTimeEventSet timedEvents = new gTimeEventSet();
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
-    static nServer netServerThread;
-//    static eGameLogicServerNet netServerThread;
+    static eGameLogicServer localGameThread;
+    static eGameLogicServerNet netServerThread;
     static gArgSet vars;
     static int voteskiplimit = 2;
     static int voteskipdelay = 10000;

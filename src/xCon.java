@@ -367,6 +367,7 @@ public class xCon {
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
+                    cServerLogic.localGameThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
                     cClientLogic.vars.put("maploaded", "0");
@@ -475,7 +476,7 @@ public class xCon {
                         if(!ex("e_showlossalert").equals("0"))
                             return "";
                         File file = fileChooser.getSelectedFile();
-                        if(cServerLogic.netServerThread == null || !cServerLogic.netServerThread.isAlive()) {
+                        if(!sSettings.IS_SERVER) {
                             ex("startserver");
                             ex("load");
                             ex("joingame localhost " + cServerLogic.listenPort);
@@ -1561,16 +1562,15 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                eGameLogicServer localGameInstance = new eGameLogicServer();
-                eGameSession localGameSession = new eGameSession(localGameInstance, sSettings.rateserver);
-                localGameInstance.setParentSession(localGameSession);
+                cServerLogic.localGameThread = new eGameLogicServer();
+                eGameSession localGameSession = new eGameSession(cServerLogic.localGameThread, sSettings.rateserver);
+                cServerLogic.localGameThread.setParentSession(localGameSession);
                 localGameSession.start();
-
-//                cServerLogic.netServerThread = new eGameLogicServerNet();
-//                eGameSession serverNetSesssion = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
-//                cServerLogic.netServerThread.setParentSession(serverNetSesssion);
-//                serverNetSesssion.start();
-//                sSettings.IS_SERVER = true;
+                cServerLogic.netServerThread = new eGameLogicServerNet();
+                eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
+                cServerLogic.netServerThread.setParentSession(serverNetSession);
+                serverNetSession.start();
+                sSettings.IS_SERVER = true;
                 return "new game started";
             }
         });
