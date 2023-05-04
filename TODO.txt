@@ -1,10 +1,5 @@
-* Replace raw thread of nServer with a gameLogic usage liek client
-    -> client socket needs to have close() called, I think new server will have similar call
-    -> the new server session has to run at unlimited rate
 * Use String snapshots of clientStateMap to avoid concurrency issues
 * Engine: xCon console should be split up into server and client
-* ENGINE: Gotta make newgame, disconnect, all work right
-    -> make sure server instances aren't created when client is joining and disconnecting
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
 * IDEA: multi-line for loops in scripting language
@@ -29,12 +24,7 @@
             -> clients might put malicious script calls into prefabs, like playing sounds
                 -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
-* NET: why does ui show client not communicating at full 30hz
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
-* FEATURE: handle "removeplayer" instead of "killplayer" so that leaving/mapmaker stuff works same as dying currently
-* FEATURE: need to take code from handlekill to drop weapon and use it in new sv_ script
-    -> then we will call this script when picking up new weapons with the delay
-* FEATURE: support block statements in scripts
 * SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
     -> we can customize these projectile's properties in a cfg
@@ -104,9 +94,6 @@
 * BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * gungame mode
 * add "disable attacks" option
-* checksum checks
-    -> client sends checksum of the jar, map file, and scripts currently played
-    -> server verifies these MD5 hashes against its own md5s
 * make players eyes blink
 * Create a server browser program
 * add voip
