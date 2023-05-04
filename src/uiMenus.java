@@ -13,7 +13,7 @@ public class uiMenus {
     static final int MENU_PROFILE = 7;
     static final int MENU_AUDIO = 8;
     static final int MENU_RESOLUTION = 9;
-    static final int MENU_REFRESH = 10;
+    static final int MENU_FRAMERATE = 10;
     static final int MENU_MAP = 11;
     static final int MENU_VOLUME = 12;
     static final int MENU_COLOR = 13;
@@ -124,7 +124,7 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
                             public void doItem() {
-                                selectedMenu = MENU_REFRESH;
+                                selectedMenu = MENU_FRAMERATE;
                             }
                         },
                         new uiMenuItem(String.format("Borderless [%s]",
@@ -283,8 +283,8 @@ public class uiMenus {
                 });
             }
         },
-        new uiMenusResolution(),
-        new uiMenusRefresh(),
+        new uiMenu("Select Resolution", getResolutionMenuItems(), MENU_VIDEO),
+        new uiMenu("Select Framerate", getFramerateMenuItems(), MENU_VIDEO),
         new uiMenu("Select Map", getMapMenuItems(), MENU_NEWGAME),
         new uiMenu(
                 "Volume Level",
@@ -418,6 +418,51 @@ public class uiMenus {
             };
         }
         return items;
+    }
+
+    private static uiMenuItem[] getResolutionMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[] {};
+        for(int i = 0; i < sSettings.resolutions.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
+                public void doItem() {
+                    String[] toks = text.split("x");
+                    xCon.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
+                    menuSelection[MENU_VIDEO].items[0].refreshText();
+                    selectedMenu = MENU_VIDEO;
+                }
+            };
+        }
+        return items;
+    }
+    
+    private static uiMenuItem[] getFramerateMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[]{
+                new uiMenuItem("<None>") {
+                    public void doItem() {
+                        sSettings.framerate = -1;
+                        selectFramerateAfterSubmit();
+                    }
+                }
+        };
+        for(int i = 0; i < sSettings.framerates.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
+                public void doItem() {
+                    sSettings.framerate = Integer.parseInt(text);
+                    selectFramerateAfterSubmit();
+                }
+            };
+        }
+        return items;
+    }
+    
+    private static void selectFramerateAfterSubmit() {
+        cClientLogic.vars.put("vidmode",
+                String.format("%d,%d,%d", sSettings.width, sSettings.height,
+                        sSettings.framerate));
+        menuSelection[MENU_VIDEO].refresh();
+        selectedMenu = MENU_VIDEO;
     }
 
     private static uiMenuItem[] getColorMenuItems() {
