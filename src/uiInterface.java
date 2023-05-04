@@ -7,7 +7,7 @@ public class uiInterface {
     static int fpsReport = 0;
     static int tickReportClient = 0;
     static int netReportClient = 0;
-    static int tickReportServer = 0;
+    static int tickReportSimulation = 0;
     static int netReportServer = 0;
     static int frames = 0;
     static String uuid = eUtils.createId();

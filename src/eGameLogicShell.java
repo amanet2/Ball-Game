@@ -3,12 +3,33 @@ import java.util.*;
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
 
-    public eGameLogicShell() {
+    public eGameLogicShell(String[] args) {
+        eManager.init();
+        gExecDoableFactory.instance().init();
+        gScriptFactory.instance().init();
+        cServerLogic.init(args);
+        cClientLogic.init(args);
+        initGameObjectsAndScenes();
+        uiMenus.init();
         if(sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
         }
+    }
+
+    private static void initGameObjectsAndScenes() {
+        xCon.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
+        int ctr = 0;
+        ArrayList<String> thingTypes = new ArrayList<>();
+        while(!xCon.ex("setvar THING_"+ctr).equals("null")) {
+            thingTypes.add(xCon.ex("setvar THING_"+ctr));
+            ctr++;
+        }
+        sSettings.object_titles = thingTypes.toArray(String[]::new);
+        cClientLogic.scene = new gScene();
+        cServerLogic.scene = new gScene();
+        uiEditorMenus.previewScene = new gScene();
     }
 
     @Override
@@ -49,7 +70,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && cClientLogic.getUserPlayer() == null)
             gCamera.updatePosition();
-        double mod = (double)sSettings.rateserver/(double)sSettings.rateShell;
+        double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
         for(String id : cClientLogic.getPlayerIds()) {
             gPlayer obj = cClientLogic.getPlayerById(id);
             if(obj == null)

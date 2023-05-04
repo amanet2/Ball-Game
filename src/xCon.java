@@ -1554,12 +1554,12 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                cServerLogic.localGameThread = new eGameLogicServer();
-                eGameSession localGameSession = new eGameSession(cServerLogic.localGameThread, sSettings.rateserver);
+                cServerLogic.localGameThread = new eGameLogicSimulation();
+                eGameSession localGameSession = new eGameSession(cServerLogic.localGameThread, sSettings.ratesimulation);
                 cServerLogic.localGameThread.setParentSession(localGameSession);
                 localGameSession.start();
-                cServerLogic.netServerThread = new eGameLogicServerNet();
-                eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateservernet);
+                cServerLogic.netServerThread = new eGameLogicServer();
+                eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateserver);
                 cServerLogic.netServerThread.setParentSession(serverNetSession);
                 sSettings.IS_SERVER = true;
                 serverNetSession.start();
