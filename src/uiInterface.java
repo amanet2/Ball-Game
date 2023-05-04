@@ -5,6 +5,7 @@ public class uiInterface {
     static boolean inconsole = false;
     static int tickReport = 0;
     static int fpsReport = 0;
+    static int tickReportClient = 0;
     static int netReportClient = 0;
     static int tickReportServer = 0;
     static int netReportServer = 0;

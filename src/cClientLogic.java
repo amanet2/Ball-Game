@@ -28,7 +28,8 @@ public class cClientLogic {
     static long serverRcvTime = 0;
     static int ping = 0;
     static long timeleft = 120000;
-    static nClient netClientThread;
+//    static nClient netClientThread;
+    static eGameLogicClient netClientThread;
     static gArgSet vars;
 
     public static gPlayer getUserPlayer() {
