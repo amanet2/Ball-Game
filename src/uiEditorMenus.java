@@ -122,7 +122,7 @@ public class uiEditorMenus {
             }
 
             private void delegate() {
-                if(!cServerLogic.netServerThread.isAlive()) {
+                if(cServerLogic.netServerThread == null || !cServerLogic.netServerThread.isAlive()) {
                     xCon.ex("startserver");
                     xCon.ex("load");
                     xCon.ex("joingame localhost " + cServerLogic.listenPort);

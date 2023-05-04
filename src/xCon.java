@@ -473,7 +473,7 @@ public class xCon {
                         if(!ex("e_showlossalert").equals("0"))
                             return "";
                         File file = fileChooser.getSelectedFile();
-                        if(!cServerLogic.netServerThread.isAlive()) {
+                        if(cServerLogic.netServerThread == null || !cServerLogic.netServerThread.isAlive()) {
                             ex("startserver");
                             ex("load");
                             ex("joingame localhost " + cServerLogic.listenPort);
