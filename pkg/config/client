@@ -39,7 +39,7 @@ cl_setvar vfxenableshadows 1
 # video mode
 cl_setvar vidmode 1280,720,-1
 # volume
-cl_setvar volume 50
+cl_setvar volume 100
 # bindings
 bind - -zoom
 bind = zoom
@@ -67,6 +67,21 @@ bind y chat
 -bind left -playerleft
 -bind right -playerright
 -bind r e_rotthing
+# strings
+cl_setvar GAMETYPE_0_title Rock Master
+cl_setvar GAMETYPE_0_text Rock Other Players
+cl_setvar GAMETYPE_1_title Virus Master
+cl_setvar GAMETYPE_1_text Players Respawn Infected
+cl_setvar GAMETYPE_2_title Flag Master
+cl_setvar GAMETYPE_2_text Hold the Flag
+cl_setvar GAMETYPE_3_title Gold Master
+cl_setvar GAMETYPE_3_text Get the Gold
+cl_setvar GAMETYPE_4_title Point Master
+cl_setvar GAMETYPE_4_text Get the Point or Explode
+cl_setvar GAMETYPE_5_title VIP Master
+cl_setvar GAMETYPE_5_text Only the VIP can Score for Rocks
+cl_setvar GAMETYPE_6_title Cap Master
+cl_setvar GAMETYPE_6_text Cap the Points
 # colors
 cl_setvar clrf_alert 200 0 50 200
 cl_setvar clrf_bonus 0 200 0 200

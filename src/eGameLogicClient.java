@@ -30,8 +30,8 @@ public class eGameLogicClient implements eGameLogic {
     public void update() {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-            nClient.instance().processPackets();
-            cClientVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
+            cClientLogic.netClientThread.processPackets();
+            cClientLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
                 if(cClientLogic.getUserPlayer() != null)
@@ -43,7 +43,6 @@ public class eGameLogicClient implements eGameLogic {
             if(cClientLogic.getUserPlayer() != null)
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
-            gMessages.checkMessages();
         }
         ticks += 1;
         if(tickCounterTime < gameTimeMillis) {
@@ -78,7 +77,7 @@ public class eGameLogicClient implements eGameLogic {
                 if(isUserPlayer(obj)) {
                     for (int i = 0; i < 4; i++) {
                         if (obj.getInt("mov" + i) > 0)
-                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
+                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayerBase,
                                     obj.getInt("vel" + i) + obj.getInt("accelrate"))));
                         else
                             obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
@@ -227,7 +226,7 @@ public class eGameLogicClient implements eGameLogic {
                 int weapint = player.getInt("weapon");
                 long gametimemillis = gTime.gameTime;
                 if(player.getLong("cooldown") <= gametimemillis) {
-                    nClient.instance().addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
+                    cClientLogic.netClientThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
                     player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
                 }
             }

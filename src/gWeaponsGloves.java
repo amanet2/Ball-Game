@@ -3,8 +3,8 @@ public class gWeaponsGloves extends gWeapon {
         super("GLOVES");
         dims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
-        bulletSpritePath = eUtils.getPath("misc/glove.png");
-        spritePath = eUtils.getPath("misc/glove.png");
+        bulletSpritePath = eManager.getPath("misc/glove.png");
+        spritePath = eManager.getPath("misc/glove.png");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;

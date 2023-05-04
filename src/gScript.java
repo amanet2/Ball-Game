@@ -28,11 +28,11 @@ public class gScript {
                     String tokenKey = lineArgCallTokens[i];
                     if(argSet.contains(tokenKey))
                         lineArgCallTokens[i] = argSet.get(tokenKey);
-                    else if(cServerVars.instance().contains(tokenKey.substring(1)))
-                        lineArgCallTokens[i] = cServerVars.instance().get(tokenKey.substring(1));
-                    else if(cClientVars.instance().contains(tokenKey.substring(1))) {
+                    else if(cServerLogic.vars.contains(tokenKey.substring(1)))
+                        lineArgCallTokens[i] = cServerLogic.vars.get(tokenKey.substring(1));
+                    else if(cClientLogic.vars.contains(tokenKey.substring(1))) {
                         System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
-                        lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                        lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
                     }
                 }
             }
@@ -59,8 +59,8 @@ public class gScript {
                     String tokenKey = lineArgCallTokens[i];
                     if(argSet.contains(tokenKey))
                         lineArgCallTokens[i] = argSet.get(tokenKey);
-                    else if(cClientVars.instance().contains(tokenKey.substring(1)))
-                        lineArgCallTokens[i] = cClientVars.instance().get(tokenKey.substring(1));
+                    else if(cClientLogic.vars.contains(tokenKey.substring(1)))
+                        lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
                 }
             }
             StringBuilder execStringBuilder = new StringBuilder();

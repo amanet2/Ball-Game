@@ -8,7 +8,7 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        nState cState = nClient.instance().clientStateMap.get(player.get("id"));
+        nState cState = cClientLogic.netClientThread.clientStateMap.get(player.get("id"));
         if(cState == null)
             return;
         if(cState.contains("color")) {
@@ -34,7 +34,7 @@ public class dPlayer {
         String decor = player.get("decorationsprite");
         if(!decor.equalsIgnoreCase("null")) {
             g2.drawImage(
-                    gTextures.getGScaledImage(eUtils.getPath(decor), 300, 300),
+                    gTextures.getGScaledImage(eManager.getPath(decor), 300, 300),
                     player.getInt("coordx"), player.getInt("coordy") - 2*player.getInt("dimh")/3,
                     null
             );

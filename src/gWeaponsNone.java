@@ -3,8 +3,8 @@ public class gWeaponsNone extends gWeapon {
         super("NONE");
         dims = new int[]{225,150};
         soundFilePath = "sounds/splash.wav";
-        bulletSpritePath = eUtils.getPath("misc/rock.png");
-        spritePath = eUtils.getPath("");
+        bulletSpritePath = eManager.getPath("misc/rock.png");
+        spritePath = eManager.getPath("");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);
         flipdimr = 225;
         flipdiml = 225;

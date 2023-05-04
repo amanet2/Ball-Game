@@ -13,7 +13,7 @@ public class dPanel extends JPanel {
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();
         long gameTime = gTime.gameTime;
-        drawFrame(g2v, gameTime);
+        drawFrame(g2v);
         drawFrameUI(g2u, gameTime);
         uiInterface.frames++;
         g2v.dispose();
@@ -28,9 +28,10 @@ public class dPanel extends JPanel {
             dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
             dBlockTops.drawBlockTopCubesPreview(g2);
         }
+        gMessages.checkMessages();
     }
 
-    public void drawFrame(Graphics2D g2, long gameTimeMillis) {
+    public void drawFrame(Graphics2D g2) {
         if(!cClientLogic.maploaded) // comment out for no loading screens
             return;
         g2.translate(sSettings.width / 2, sSettings.height / 2);
@@ -45,8 +46,7 @@ public class dPanel extends JPanel {
         dBlockFloors.drawBlockFloors(g2, scene);
         dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
         dTileTops.drawMapmakerOverlay(g2, scene);
-        dTileTops.drawBullets(g2, scene);
-        dAnimations.drawAnimations(g2, scene, gameTimeMillis);
+        dTileTops.drawBulletsAndAnimations(g2, scene);
         dWaypoints.drawWaypoints(g2, scene);
         dTileTops.drawPopups(g2, scene);
         dTileTops.drawUserPlayerArrow(g2);

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Arrays;
 
 public class nServer extends Thread {
     private int ticks = 0;
@@ -16,7 +15,6 @@ public class nServer extends Thread {
     private static final int timeout = 10000;
     private final Queue<DatagramPacket> receivedPackets = new LinkedList<>(); //packets from clients in order rcvd
     private final Queue<String> quitClientIds = new LinkedList<>(); //holds ids that are quitting
-    HashMap<String, Long> banIds = new HashMap<>(); // ids mapped to the time to be allowed back
     nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     HashMap<String, Queue<String>> clientNetCmdMap = new HashMap<>(); //id maps to queue of cmds to be sent
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
@@ -24,16 +22,9 @@ public class nServer extends Thread {
     private final HashMap<String, gDoableCmd> clientCmdDoables = new HashMap<>(); //doables for handling client cmds
     ArrayList<String> voteSkipList = new ArrayList<>();    //map of skip votes
     private final Queue<String> serverLocalCmdQueue = new LinkedList<>(); //local cmd queue for server
-    private static nServer instance = null;    //singleton-instance
-    private DatagramSocket serverSocket = null;    //socket object
+    public DatagramSocket serverSocket = null;    //socket object
 
-    public static nServer instance() {
-        if(instance == null)
-            instance = new nServer();
-        return instance;
-    }
-
-    private nServer() {
+    public nServer() {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
@@ -41,21 +32,15 @@ public class nServer extends Thread {
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         xCon.ex(cmd);
-                        addExcludingNetCmd(id+",server,",
+                        addIgnoringNetCmd(id+",server,",
                                 cmd.replaceFirst("fireweapon", "cl_fireweapon"));
                     }
                 });
-        clientCmdDoables.put("requestdisconnect",
-                new gDoableCmd() {
-                    void ex(String id, String cmd) {
-                        quitClientIds.add(id);
-                    }
-                });
-        clientCmdDoables.put("setthing", // dont want EVERY setthing on server to be synced, only ones requested here
+        clientCmdDoables.put("setthing", // don't want EVERY setthing on server to be synced, only ones requested here
                 new gDoableCmd() {
                     void ex(String id, String cmd) {
                         xCon.ex(cmd);
-                        addExcludingNetCmd("server", "cl_" + cmd);
+                        addIgnoringNetCmd("server", "cl_" + cmd);
                     }
                 });
         for(String rcs : new String[]{
@@ -85,6 +70,46 @@ public class nServer extends Thread {
                             xCon.ex(cmd);
                     }
                 });
+        clientCmdDoables.put("echo",
+                new gDoableCmd() {
+                    void ex(String id, String cmd) {
+                        String[] toks = cmd.split(" ");
+                        if(toks.length < 3) //only want to allow messages from clients, not any other echo usage
+                            return;
+                        addIgnoringNetCmd("server", "cl_" + cmd);
+                        StringBuilder clientMessageBuilder = new StringBuilder();
+                        for(int i = 2; i < toks.length; i++) {
+                            clientMessageBuilder.append(" ").append(toks[i]);
+                        }
+                        //check msg for special string
+                        String testmsg = clientMessageBuilder.substring(1);
+                        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg);  //custom check
+                        if(testmsg.strip().equalsIgnoreCase("thetime"))
+                            addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                        else if(testmsg.strip().equalsIgnoreCase("skip")) {
+                            if(voteSkipList.contains(id))
+                                addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
+                            else {
+                                voteSkipList.add(id);
+                                int votes = voteSkipList.size();
+                                int limit = cServerLogic.voteskiplimit;
+                                if(votes < limit)
+                                    xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
+                                else {
+                                    addIgnoringNetCmd("server", String.format("playsound sounds/win/%s",
+                                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+                                    xCon.ex("echo [SKIP] VOTE TARGET REACHED");
+                                    xCon.ex("echo changing map...");
+                                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.voteskipdelay), new gTimeEvent(){
+                                        public void doCommand() {
+                                            xCon.ex("changemaprandom");
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
     }
 
     public void checkForUnhandledQuitters() {
@@ -99,12 +124,12 @@ public class nServer extends Thread {
         }
     }
 
-    void addExcludingNetCmd(String excludedids, String cmd) {
-        //excludedids is any-char separated string of ids
-        if(!excludedids.contains("server"))
+    void addIgnoringNetCmd(String ignoreIds, String cmd) {
+        //ignoreIds is any-char separated string of ids
+        if(!ignoreIds.contains("server"))
             xCon.ex(cmd);
         for(String id : clientNetCmdMap.keySet()) {
-            if(!excludedids.contains(id))
+            if(!ignoreIds.contains(id))
                 addNetCmd(id, cmd);
         }
     }
@@ -139,54 +164,52 @@ public class nServer extends Thread {
     }
 
     public void processPackets() {
-            HashMap<String, String> netVars = getNetVars();
-//            if(receivedPackets.size() > 0) {
-                try {
-                    DatagramPacket receivePacket = receivedPackets.peek();
-                    if(receivePacket == null)
-                        return;
-                    String receiveDataString = new String(receivePacket.getData());
-                    receivedPackets.remove();
-                    xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                            + receiveDataString.trim());
-                    //get the ip address of the client
-                    InetAddress addr = receivePacket.getAddress();
-                    int port = receivePacket.getPort();
-                    //read data of packet
-                    readData(receiveDataString); //and respond too
-                    //get player id of client
-                    HashMap<String, String> clientmap = nVars.getMapFromNetString(receiveDataString);
-                    String clientId = clientmap.get("id");
-                    if(clientId != null) {
-                        //create response
-                        String sendDataString = createSendDataString(netVars, clientId);
-                        byte[] sendData = sendDataString.getBytes();
-                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
-                        serverSocket.send(sendPacket);
-                        xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
-                        xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                        if(sendDataString.length() > sSettings.max_packet_size)
-                            System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
-                                    + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                    }
+            try {
+                DatagramPacket receivePacket = receivedPackets.peek();
+                if(receivePacket == null)
+                    return;
+                String receiveDataString = new String(receivePacket.getData());
+                receivedPackets.remove();
+                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+                        + receiveDataString.trim());
+                //get the ip address of the client
+                InetAddress addr = receivePacket.getAddress();
+                int port = receivePacket.getPort();
+                //read data of packet
+                readData(receiveDataString); //and respond too
+                //get player id of client
+                HashMap<String, String> clientmap = getMapFromNetString(receiveDataString);
+                String clientId = clientmap.get("id");
+                if(clientId != null) {
+                    //create response
+                    HashMap<String, String> netVars = new HashMap<>();
+                    netVars.put("cmd", "");
+                    netVars.put("time", Long.toString(cServerLogic.timeleft));
+                    String sendDataString = createSendDataString(netVars, clientId);
+                    byte[] sendData = sendDataString.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
+                    serverSocket.send(sendPacket);
+                    xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+                    xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
+                    if(sendDataString.length() > sSettings.max_packet_size)
+                        System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
+                                + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 }
-                catch (Exception e) {
-                    eLogging.logException(e);
-                    e.printStackTrace();
-                }
-//                receivedPackets.remove();
-//            }
+            }
+            catch (Exception e) {
+                eLogging.logException(e);
+                e.printStackTrace();
+            }
     }
 
-    public HashMap<String, String> getNetVars() {
-        HashMap<String, String> keys = new HashMap<>();
-        //handle outgoing cmd
-        keys.put("cmd", "");
-        //handle server outgoing cmds that loopback to the server
-        checkLocalCmds();
-        //send scores
-        keys.put("time", Long.toString(cServerLogic.timeleft));
-        return keys;
+    public HashMap<String,String> getMapFromNetString(String argload) {
+        HashMap<String,String> toReturn = new HashMap<>();
+        String argstr = argload.substring(1,argload.length()-1);
+        for(String pair : argstr.split(",")) {
+            String[] vals = pair.split("=");
+            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+        }
+        return  toReturn;
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
@@ -194,7 +217,7 @@ public class nServer extends Thread {
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
 //        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid));
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)); //is not actually a delta
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map
@@ -211,14 +234,15 @@ public class nServer extends Thread {
         clientNetCmdMap.remove(id);
         gScoreboard.scoresMap.remove(id);
         nState snap = new nState(clientStateSnapshots.get(id));
-        addExcludingNetCmd("server", String.format("%s#%s left the game", snap.get("name"), snap.get("color")));
+        xCon.ex(String.format("echo %s#%s left the game", snap.get("name"), snap.get("color")));
         xCon.ex("deleteplayer " + id);
         xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
 
     public void run() {
         try {
-            serverSocket = new DatagramSocket(cServerLogic.listenPort);
+            if(serverSocket == null)
+                serverSocket = new DatagramSocket(cServerLogic.listenPort);
             while (sSettings.IS_SERVER) {
                 try {
                     byte[] receiveData = new byte[sSettings.rcvbytesserver];
@@ -238,7 +262,7 @@ public class nServer extends Thread {
                     e.printStackTrace();
                 }
             }
-            interrupt();
+            System.out.println("server thread ended");
         }
         catch (Exception ee) {
             eLogging.logException(ee);
@@ -302,8 +326,8 @@ public class nServer extends Thread {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
-        maplines.add(String.format("cl_setvar cv_velocityplayer %s;cl_setvar cv_maploaded 0;cl_setvar cv_gamemode %d\n",
-                xCon.ex("cl_setvar cv_velocityplayer"), cServerLogic.gameMode));
+        maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
+                cServerLogic.velocityplayerbase, cServerLogic.gameMode));
         HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
@@ -341,7 +365,7 @@ public class nServer extends Thread {
             }
             maplines.add(str.toString());
         }
-        maplines.add("cl_setvar cv_maploaded 1");
+        maplines.add("cl_setvar maploaded 1");
         //iterate through the maplines and send in batches
 //        StringBuilder sendStringBuilder = new StringBuilder();
 //        int linectr = 0;
@@ -368,35 +392,12 @@ public class nServer extends Thread {
             if(clientCmdDoables.containsKey(ccmd))
                 clientCmdDoables.get(ccmd).ex(id, cmd);
             else
-                addNetCmd(id, "echo NO HANDLER FOUND FOR CMD: " + cmd);
+                addNetCmd(id, "cl_echo NO HANDLER FOUND FOR CMD: " + cmd);
     }
 
-    public void checkClientMessageForTimeAndVoteSkip(String id, String testmsg) {
-        xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg); //check for special sound
-        if(testmsg.strip().equalsIgnoreCase("thetime"))
-            addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        else if(testmsg.strip().equalsIgnoreCase("skip")) {
-            if(voteSkipList.contains(id))
-                addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
-            else {
-                voteSkipList.add(id);
-                int votes = voteSkipList.size();
-                int limit = cServerVars.voteskiplimit;
-                if(votes < limit) {
-                    xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
-                }
-                else {
-                    addExcludingNetCmd("server", String.format("playsound sounds/win/%s",
-                            eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
-                    xCon.ex("echo [VOTE_SKIP] VOTE TARGET REACHED");
-                    xCon.ex("echo changing map...");
-                    cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerVars.voteskipdelay), new gTimeEvent(){
-                        public void doCommand() {
-                            xCon.ex("changemaprandom");
-                        }
-                    });
-                }
-            }
-        }
+    public void disconnect() {
+        sSettings.IS_SERVER = false;
+        serverSocket.close();
+        cServerLogic.netServerThread = null;
     }
 }

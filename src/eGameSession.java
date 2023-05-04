@@ -26,8 +26,8 @@ public class eGameSession extends Thread implements Runnable {
 
     private void init(){
         timer.init();
-        gameLogic.init();
         tickTimeNanos = timer.snapshotTimeNanos();
+        gameLogic.init();
     }
 
     private void cleanup() {

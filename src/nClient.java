@@ -14,31 +14,12 @@ public class nClient extends Thread {
     private long nextSecondNanos = 0;
     private static final int timeout = 500;
     Queue<DatagramPacket> receivedPackets = new LinkedList<>();
-    HashMap<String, String> serverArgsMap = new HashMap<>(); //hold server vars
+    gArgSet receivedArgsSetServer;
     ArrayList<String> playerIds = new ArrayList<>(); //insertion-ordered list of client ids
     HashMap<String, String> sendMap = new HashMap<>();
-    private final Queue<String> netSendMsgs = new LinkedList<>();
     private final Queue<String> netSendCmds = new LinkedList<>();
-    private static nClient instance = null;
     private DatagramSocket clientSocket = null;
     nStateMap clientStateMap; //hold net player vars
-
-    public static nClient instance() {
-        if(instance == null)
-            instance = new nClient();
-        return instance;
-    }
-
-    public void reset() {
-        clientStateMap = new nStateMap();
-        netSendMsgs.clear();
-        netSendCmds.clear();
-        receivedPackets.clear();
-        serverArgsMap.clear();
-        serverArgsMap.put("time", "180000");
-        playerIds.clear();
-        sendMap.clear();
-    }
 
     public void run() {
         try {
@@ -77,7 +58,8 @@ public class nClient extends Thread {
                     e.printStackTrace();
                 }
             }
-            interrupt();
+            clientSocket.close();
+            System.out.println("client thread ended");
         }
         catch (Exception ee) {
             eLogging.logException(ee);
@@ -85,12 +67,23 @@ public class nClient extends Thread {
         }
     }
 
-    private nClient() {
+    public nClient() {
         clientStateMap = new nStateMap();
-    }
-
-    void addSendMsg(String msg) {
-        netSendMsgs.add(msg);
+        receivedArgsSetServer = new gArgSet();
+        receivedArgsSetServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+            public void onChange() {
+                cClientLogic.timeleft = Long.parseLong(value);
+            }
+        });
+        receivedArgsSetServer.putArg(new gArg("cmd", "") {
+            public void onUpdate() {
+                if(value.length() > 0) {
+                    xCon.instance().debug("FROM_SERVER: " + value);
+                    sendMap.put("cmdrcv", "1");
+                    xCon.ex(value);
+                }
+            }
+        });
     }
 
     public void addNetCmd(String cmd) {
@@ -100,7 +93,7 @@ public class nClient extends Thread {
     public void processPackets() {
         try {
             while(receivedPackets.size() > 1) {
-                //this means all other packets are thrown out, bad in long run
+                //this means all older packets are thrown out
                 receivedPackets.remove();
             }
             if(receivedPackets.size() > 0) {
@@ -155,9 +148,6 @@ public class nClient extends Thread {
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
         gPlayer userPlayer = cClientLogic.getUserPlayer();
-        //handle outgoing msg
-        String outgoingMsg = dequeueNetMsg(); //dequeues w/ every call so call once a tick
-        keys.put("msg", outgoingMsg != null ? outgoingMsg : "");
         //handle outgoing cmd
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
@@ -215,32 +205,18 @@ public class nClient extends Thread {
         return sendDataString.toString().replace(", ", ",");
     }
 
-    private void processCmd(String cmdload) {
-        sendMap.put("cmdrcv", "1");
-        xCon.ex(cmdload);
-    }
-
-    private void handleReadDataServer(HashMap<String, String> packArgs) {
-        for (String k : packArgs.keySet()) {
-            serverArgsMap.put(k, packArgs.get(k));
-        }
-        //check cmd from server only
-        String cmdload = packArgs.get("cmd") != null ? packArgs.get("cmd") : "";
-        if(cmdload.length() > 0) {
-            xCon.instance().debug("FROM_SERVER: " + cmdload);
-            processCmd(cmdload);
-        }
-    }
-
     public void readData(String receiveDataString) {
         ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
-        HashMap<String, HashMap<String, String>> packargmap = nVars.getMapFromNetMapString(netmapstring);
+        HashMap<String, HashMap<String, String>> packargmap = getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
             HashMap<String, String> packArgs = new HashMap<>(packargmap.get(idload));
             // SERVER time and cmd
-            if(idload.equals("server"))
-                handleReadDataServer(packArgs);
+            if(idload.equals("server")) {
+                for (String k : packArgs.keySet()) {
+                    receivedArgsSetServer.put(k, packArgs.get(k));
+                }
+            }
             else {
                 if(!clientStateMap.contains(idload))
                     clientStateMap.put(idload, new nStateBallGameClient());
@@ -275,18 +251,31 @@ public class nClient extends Thread {
         }
     }
 
-    public String dequeueNetMsg() {
-        if(netSendMsgs.size() > 0) {
-            return netSendMsgs.remove();
+    public HashMap<String, HashMap<String, String>> getMapFromNetMapString(String argload) {
+        HashMap<String, HashMap<String, String>> toReturn = new HashMap<>();
+        String modstr = argload.substring(1,argload.length()-1);
+        String[] idsplit = modstr.split("},");
+        for(String s : idsplit) {
+            String idtok = s.substring(0,s.indexOf("={"));
+            toReturn.put(idtok, new HashMap<>());
+            String argstr = s.replace(idtok+"={","");
+            if(argstr.length() < 1)
+                continue;
+            if(argstr.charAt(argstr.length()-1) == '}')
+                argstr = argstr.substring(0, argstr.length()-1);
+            for(String pair : argstr.split(",")) {
+                String[] vals = pair.split("=");
+                toReturn.get(idtok).put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
+            }
         }
-        return null;
+        return toReturn;
     }
 
     public String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
-            // user's client-side firing (like in halo 5)
-            if(cmdString.contains("fireweapon")) //handle special firing case
+            // user's client-side firing
+            if(cmdString.contains("fireweapon"))
                 xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
             xCon.instance().debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
@@ -295,12 +284,7 @@ public class nClient extends Thread {
     }
 
     public void disconnect() {
-        if(sSettings.IS_CLIENT) {
-            sSettings.IS_CLIENT = false;
-            clientSocket.close();
-            serverArgsMap = new HashMap<>();
-            clientStateMap = new nStateMap();
-            playerIds = new ArrayList<>();
-        }
+        sSettings.IS_CLIENT = false;
+        cClientLogic.netClientThread = null;
     }
 }

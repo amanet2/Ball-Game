@@ -1,3 +1,5 @@
+import java.awt.event.KeyEvent;
+
 public class uiMenus {
     static boolean gobackSelected = false;
     static final int MENU_MAIN = 0;
@@ -15,6 +17,7 @@ public class uiMenus {
     static final int MENU_VOLUME = 12;
     static final int MENU_COLOR = 13;
     static final int MENU_CREDITS = 14;
+    static final int MENU_DISCONNECT = 15;
 
     static int selectedMenu = MENU_MAIN;
 
@@ -39,8 +42,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Disconnect") {
                             public void doItem(){
-                                if(xCon.ex("e_showlossalert").equals("0"))
-                                    xCon.ex("disconnect");
+                                selectedMenu = MENU_DISCONNECT;
                             }
                         },
                         new uiMenuItem("Options") {
@@ -55,7 +57,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Quit") {
                             public void doItem(){
-                                selectedMenu = (MENU_QUIT);
+                                selectedMenu = MENU_QUIT;
                             }
                         }
                 },
@@ -354,8 +356,26 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("coded by Anthony Manetti 2021-2023"),
-                        new uiMenuItem("venmo @StallionUSA")
+                        new uiMenuItem("Programming & Design by Anthony Manetti"),
+                        new uiMenuItem("venmo @StallionUSA"),
+                        new uiMenuItem("Ballmaster 2021-2023")
+                },
+                MENU_MAIN
+        ),
+        new uiMenu(
+                "Disconnect?",
+                new uiMenuItem[] {
+                        new uiMenuItem("No") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                            }
+                        },
+                        new uiMenuItem("Yes") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                                xCon.ex("disconnect");
+                            }
+                        }
                 },
                 MENU_MAIN
         )
@@ -378,12 +398,12 @@ public class uiMenus {
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
                 new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+(char)(int)xCon.instance().getKeyCodeForComm("playerup")),
-                new uiMenuItem("move down: "+(char)(int)xCon.instance().getKeyCodeForComm("playerdown")),
-                new uiMenuItem("move left: "+(char)(int)xCon.instance().getKeyCodeForComm("playerleft")),
-                new uiMenuItem("move right: "+(char)(int)xCon.instance().getKeyCodeForComm("playerright")),
-                new uiMenuItem("show scoreboard: TAB"),
-                new uiMenuItem("chat: "+(char)(int)xCon.instance().getKeyCodeForComm("chat"))
+                new uiMenuItem("move up: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerup"))),
+                new uiMenuItem("move down: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerdown"))),
+                new uiMenuItem("move left: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerleft"))),
+                new uiMenuItem("move right: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerright"))),
+                new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("showscore"))),
+                new uiMenuItem("chat: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("chat")))
         };
     }
 

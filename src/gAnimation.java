@@ -10,7 +10,7 @@ public class gAnimation {
     public gAnimation(String folder, int w, int h, int r) {
         dims = new int[]{w, h};
         framerate = r;
-        File fp = new File(eUtils.getPath(folder));
+        File fp = new File(eManager.getPath(folder));
         fpContents = fp.listFiles();
         frames = new Image[fpContents.length];
         for(int i = 0; i < frames.length; i++) {
