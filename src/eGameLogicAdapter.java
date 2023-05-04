@@ -51,6 +51,6 @@ public class eGameLogicAdapter implements eGameLogic {
 
     @Override
     public void cleanup() {
-        uiInterface.tickReportServer = 0;
+        tickReport = 0;
     }
 }

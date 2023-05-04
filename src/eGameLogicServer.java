@@ -1,30 +1,12 @@
 import java.util.*;
 
-public class eGameLogicServer implements eGameLogic {
-    private int ticks = 0;
-    private long nextsecondnanos = 0;
-    private eGameSession parentSession;
-
-    public void setParentSession(eGameSession session) {
-        parentSession = session;
-    }
-
+public class eGameLogicServer extends eGameLogicAdapter {
     public eGameLogicServer() {
 
     }
 
-    @Override
-    public void init(){
-
-    }
-
-    @Override
-    public void input() {
-
-    }
-
-    @Override
     public void update() {
+        super.update();
         if(!sSettings.IS_SERVER)
             return;
         long gameTimeMillis = gTime.gameTime;
@@ -36,13 +18,7 @@ public class eGameLogicServer implements eGameLogic {
         xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
-        ticks++;
-        long theTime = System.nanoTime();
-        if(nextsecondnanos < theTime) {
-            nextsecondnanos = theTime + 1000000000;
-            uiInterface.tickReportServer = ticks;
-            ticks = 0;
-        }
+        uiInterface.tickReportServer = getTickReport();
     }
 
     private void checkGameItems() {
@@ -205,20 +181,5 @@ public class eGameLogicServer implements eGameLogic {
             xCon.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
             xCon.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));
         }
-    }
-
-    @Override
-    public void render() {
-
-    }
-
-    @Override
-    public void disconnect() {
-        parentSession.destroy();
-    }
-
-    @Override
-    public void cleanup() {
-        uiInterface.tickReportServer = 0;
     }
 }
