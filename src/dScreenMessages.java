@@ -27,8 +27,8 @@ public class dScreenMessages {
         //net
         if(shownet) {
             g.drawString("CLIENT_NET:" + uiInterface.tickReportClient, 0, 4 * sSettings.height / 64);
-            g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 5 * sSettings.height / 64);
-            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
+            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 6 * sSettings.height / 64);
             g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
