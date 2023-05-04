@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class xMain {
-	private static void initGameObjects() {
+	private static void initGameObjectsAndScenes() {
 		xCon.ex("exec " + sSettings.CONFIG_FILE_LOCATION_GAME);
 		int ctr = 0;
 		ArrayList<String> thingTypes = new ArrayList<>();
@@ -10,9 +10,6 @@ public class xMain {
 			ctr++;
 		}
 		sSettings.object_titles = thingTypes.toArray(String[]::new);
-	}
-
-	private static void initGameScenes() {
 		cClientLogic.scene = new gScene();
 		cServerLogic.scene = new gScene();
 		uiEditorMenus.previewScene = new gScene();
@@ -24,15 +21,19 @@ public class xMain {
 		gScriptFactory.instance().init();
 		cServerLogic.init(args);
 		cClientLogic.init(args);
-		initGameObjects();
-		initGameScenes();
+		initGameObjectsAndScenes();
 		uiMenus.init();
 	}
+
+	public static eGameLogicShell shellLogic;
 
 	public static void main(String[] args) {
 		try {
 			init(args);
-			new eGameSession(new eGameLogicShell(), sSettings.rateShell).start();
+			shellLogic = new eGameLogicShell();
+			eGameSession shellSession = new eGameSession(shellLogic, sSettings.rateShell);
+			shellLogic.setParentSession(shellSession);
+			shellSession.start();
 		}
 		catch (Exception err) {
 			err.printStackTrace();

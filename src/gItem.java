@@ -4,16 +4,9 @@ public class gItem extends gThing {
     public Image sprite;
 
     public void activateItem(gThing p) {
-        if(contains("script")) {
-            xCon.ex("setvar itemactid " + p.get("id"));
-            xCon.ex("setvar itemrcvid " + get("id"));
-            //call script with $1 and $2 as the item and player id
-            String theScript = get("script");
-            if(theScript.startsWith("exec"))
-                xCon.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
-            else
-                xCon.ex(theScript);
-        }
+        String theScript = get("script");
+        if(!theScript.equals("null"))
+            xCon.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
     }
 
     public gItem(String type, int x, int y, int w, int h, Image sp) {
@@ -25,6 +18,7 @@ public class gItem extends gThing {
         putInt("coordy", y);
         putInt("dimw", w);
         putInt("dimh", h);
+        put("script", "null");
         put("waypoint", "0");
         put("flare", "null");
         sprite = sp;

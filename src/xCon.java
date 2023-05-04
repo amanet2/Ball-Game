@@ -392,10 +392,6 @@ public class xCon {
                                 continue;
                             if(cServerLogic.vars.contains(toks[j].substring(1)))
                                 toks[j] = cServerLogic.vars.get(toks[j].substring(1));
-                            else if (cClientLogic.vars.contains(toks[j].substring(1))) {
-                                System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                                toks[j] = cClientLogic.vars.get(toks[j].substring(1));
-                            }
                         }
                         lineArgCallTokens[i] = toks[0] + "#" + toks[1];
                     }
@@ -403,10 +399,6 @@ public class xCon {
                         String tokenKey = lineArgCallTokens[i];
                         if (cServerLogic.vars.contains(tokenKey.substring(1)))
                             lineArgCallTokens[i] = cServerLogic.vars.get(tokenKey.substring(1));
-                        else if (cClientLogic.vars.contains(tokenKey.substring(1))) {
-                            System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + fullCommand);
-                            lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
-                        }
                     }
                 }
                 StringBuilder parsedStringBuilder = new StringBuilder();
@@ -1239,7 +1231,7 @@ public class xCon {
                     if(!ex("e_showlossalert").equals("0"))
                         return "";
                 }
-                uiInterface.exit();
+                xMain.shellLogic.disconnect();
                 return "";
             }
         });

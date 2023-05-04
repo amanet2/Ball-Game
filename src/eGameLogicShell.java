@@ -4,6 +4,7 @@ public class eGameLogicShell implements eGameLogic {
     private int ticks = 0;
     private long frameCounterTime = -1;
     private long tickCounterTime = -1;
+    private eGameSession parentSession;
 
     public eGameLogicShell() {
         if(sSettings.show_mapmaker_ui) {
@@ -11,6 +12,10 @@ public class eGameLogicShell implements eGameLogic {
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
         }
+    }
+
+    public void setParentSession(eGameSession session) {
+        parentSession = session;
     }
 
     @Override
@@ -259,11 +264,15 @@ public class eGameLogicShell implements eGameLogic {
 
     @Override
     public void cleanup() {
-
+        cServerLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        cClientLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        if(cClientLogic.debuglog)
+            xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
+        System.exit(0);
     }
 
     @Override
     public void disconnect() {
-
+        parentSession.destroy();
     }
 }

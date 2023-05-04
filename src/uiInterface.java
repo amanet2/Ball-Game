@@ -67,12 +67,4 @@ public class uiInterface {
             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
         }
     }
-
-    public static void exit() {
-        cServerLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cClientLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        if(cClientLogic.debuglog)
-            xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
-        System.exit(0);
-    }
 }
