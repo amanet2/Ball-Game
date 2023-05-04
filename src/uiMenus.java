@@ -22,11 +22,6 @@ public class uiMenus {
 
     static int selectedMenu = MENU_MAIN;
 
-    static void init() {
-        menuSelection[MENU_MAP].setupMenuItems();
-        menuSelection[MENU_CONTROLS].items = getControlMenuItems();
-    }
-
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
                 "Welcome",
@@ -110,7 +105,7 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Controls", new uiMenuItem[] {}, MENU_OPTIONS) {
+        new uiMenu("Controls", getControlMenuItems(), MENU_OPTIONS) {
             public void refresh() {
                 this.items = getControlMenuItems();
             }
@@ -422,7 +417,6 @@ public class uiMenus {
                 }
             };
         }
-        System.out.println(Arrays.toString(items));
         return items;
     }
 

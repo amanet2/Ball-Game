@@ -10,7 +10,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
         cServerLogic.init(args);
         cClientLogic.init(args);
         initGameObjectsAndScenes();
-        uiMenus.init();
         if(sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
