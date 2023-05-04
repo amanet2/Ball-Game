@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class eGameLogicServerNet implements eGameLogic {
-    private int ticks;
-    private long nextsecondnanos;
-    private eGameSession parentSession;
+public class eGameLogicServerNet extends eGameLogicAdapter {
     private DatagramSocket serverSocket;
     private static final int timeout = 10000;
     private final Queue<String> quitClientIds;
@@ -25,14 +22,7 @@ public class eGameLogicServerNet implements eGameLogic {
     ArrayList<String> voteSkipList;    //map of skip votes
     private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
 
-    public void setParentSession(eGameSession session) {
-        parentSession = session;
-    }
-
     public eGameLogicServerNet() {
-        ticks = 0;
-        nextsecondnanos = 0;
-
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientStateSnapshots = new HashMap<>();
@@ -130,7 +120,6 @@ public class eGameLogicServerNet implements eGameLogic {
         // init the socket and reach out to internet last
         try {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
-//            serverSocket.setSoTimeout(1000);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
@@ -389,19 +378,8 @@ public class eGameLogicServerNet implements eGameLogic {
     }
 
     @Override
-    public void init(){
-
-    }
-
-    @Override
-    public void input() {
-
-    }
-
-    @Override
     public void update() {
-//        if(!sSettings.IS_SERVER)
-//            return;
+        super.update();
         try {
             byte[] receiveData = new byte[sSettings.rcvbytesserver];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -416,29 +394,19 @@ public class eGameLogicServerNet implements eGameLogic {
             eLogging.logException(e);
             e.printStackTrace();
         }
-        ticks++;
-        long theTime = System.nanoTime();
-        if(nextsecondnanos < theTime) {
-            nextsecondnanos = theTime + 1000000000;
-            uiInterface.netReportServer = ticks;
-            ticks = 0;
-        }
-    }
-
-    @Override
-    public void render() {
-
+        uiInterface.netReportServer = getTickReport();
     }
 
     @Override
     public void disconnect() {
+        super.disconnect();
         sSettings.IS_SERVER = false;
         serverSocket.close();
-        parentSession.destroy();
     }
 
     @Override
     public void cleanup() {
+        super.cleanup();
         sSettings.IS_SERVER = false;
         serverSocket.close();
         cServerLogic.netServerThread = null;
