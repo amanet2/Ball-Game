@@ -1,10 +1,7 @@
 import java.util.*;
 
-public class eGameLogicShell implements eGameLogic {
-    private int ticks = 0;
+public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
-    private long tickCounterTime = -1;
-    private eGameSession parentSession;
 
     public eGameLogicShell() {
         if(sSettings.show_mapmaker_ui) {
@@ -12,10 +9,6 @@ public class eGameLogicShell implements eGameLogic {
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
         }
-    }
-
-    public void setParentSession(eGameSession session) {
-        parentSession = session;
     }
 
     @Override
@@ -33,6 +26,7 @@ public class eGameLogicShell implements eGameLogic {
 
     @Override
     public void update() {
+        super.update();
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
             cClientLogic.netClientThread.processPackets();
@@ -49,12 +43,7 @@ public class eGameLogicShell implements eGameLogic {
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
-        ticks += 1;
-        if(tickCounterTime < gameTimeMillis) {
-            uiInterface.tickReport = ticks;
-            ticks = 0;
-            tickCounterTime = gameTimeMillis + 1000;
-        }
+        uiInterface.tickReport = getTickReport();
     }
 
     private void updateEntityPositions(long gameTimeMillis) {
@@ -269,10 +258,5 @@ public class eGameLogicShell implements eGameLogic {
         if(cClientLogic.debuglog)
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         System.exit(0);
-    }
-
-    @Override
-    public void disconnect() {
-        parentSession.destroy();
     }
 }
