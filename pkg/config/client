@@ -15,7 +15,7 @@ cl_setvar joinip localhost
 # default net port
 cl_setvar joinport 5555
 # player color
-cl_setvar playercolor blue
+cl_setvar playercolor red
 # player name
 cl_setvar playername player
 # available resolutions

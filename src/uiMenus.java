@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class uiMenus {
     static boolean gobackSelected = false;
@@ -289,7 +290,7 @@ public class uiMenus {
         },
         new uiMenusResolution(),
         new uiMenusRefresh(),
-        new uiMenusMap(),
+        new uiMenu("Select Map", getMapMenuItems(), MENU_NEWGAME),
         new uiMenu(
                 "Volume Level",
                 new uiMenuItem[]{
@@ -352,7 +353,7 @@ public class uiMenus {
                 },
                 MENU_AUDIO
         ),
-        new uiMenusColor(),
+        new uiMenu("Select Color", getColorMenuItems(), MENU_PROFILE),
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
@@ -393,6 +394,52 @@ public class uiMenus {
             menuSelection[selectedMenu].selectedItem--;
         else
             menuSelection[selectedMenu].selectedItem = menuSelection[selectedMenu].items.length-1;
+    }
+
+    private static uiMenuItem[] getMapMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[]{
+            new uiMenuItem("<random map>") {
+                public void doItem() {
+                    eManager.mapSelectionIndex = -1;
+                    menuSelection[MENU_NEWGAME].items[1].text = "MAP [<random map>]";
+                    selectedMenu = MENU_NEWGAME;
+                }
+            }
+        };
+        for(int i = 0; i < eManager.mapsFileSelection.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(eManager.mapsFileSelection[i]){
+                public void doItem() {
+                    for(int i = 0; i < eManager.mapsFileSelection.length; i++) {
+                        if(eManager.mapsFileSelection[i].equals(text))
+                            eManager.mapSelectionIndex = i;
+                    }
+                    if(eManager.mapSelectionIndex > -1) {
+                        menuSelection[MENU_NEWGAME].items[1].text =
+                                String.format("Map [%s]", eManager.mapsFileSelection[eManager.mapSelectionIndex]);
+                    }
+                    selectedMenu = MENU_NEWGAME;
+                }
+            };
+        }
+        System.out.println(Arrays.toString(items));
+        return items;
+    }
+
+    private static uiMenuItem[] getColorMenuItems() {
+        String[] selection = sSettings.colorSelection;
+        uiMenuItem[] items = new uiMenuItem[] {};
+        for (String s : selection) {
+            items = Arrays.copyOf(items, items.length + 1);
+            items[items.length - 1] = new uiMenuItem(s) {
+                public void doItem() {
+                    xCon.ex("cl_setvar playercolor " + text);
+                    menuSelection[MENU_PROFILE].refresh();
+                    selectedMenu = MENU_PROFILE;
+                }
+            };
+        }
+        return items;
     }
 
     private static uiMenuItem[] getControlMenuItems() {
