@@ -14,6 +14,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final Queue<String> quitClientIds;
     private HashMap<String, Queue<String>> clientNetCmdMap;
     public nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
+    public String masterStateSnapshot; //what we want publicly accessible
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     public HashMap<String, String> clientStateSnapshots; //use to make deltas when sending state to clients
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
@@ -29,6 +30,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         quitClientIds = new LinkedList<>();
         serverLocalCmdQueue = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
+        masterStateSnapshot = "{}";
 
         //init doables
         clientCmdDoables.put("fireweapon",
@@ -204,7 +206,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                 serverSocket.send(sendPacket);
-                xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateMap.toString());
+                xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot);
                 xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 if(sendDataString.length() > sSettings.max_packet_size)
                     System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
@@ -304,6 +306,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
+        masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
     }
 
     public void sendMap(String packId) {

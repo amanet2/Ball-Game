@@ -99,18 +99,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     userPlayer.put("stockhp", packArgs.get("hp"));
             }
         }
-        //check for ids that have been taken out of the server argmap
-        String tr = "";
-        for(String s : clientStateMap.keys()) {
-            if(!s.equals(uiInterface.uuid) && !foundIds.contains(s)) {
-                tr = s;
-            }
-        }
-        if(tr.length() > 0) {
-            clientStateMap.remove(tr);
-            gScoreboard.scoresMap.remove(tr);
-            cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
-        }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
     }
 

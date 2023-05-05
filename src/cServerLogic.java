@@ -22,8 +22,9 @@ public class cServerLogic {
         xCon.ex("loadingscreen");
         xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
         xCon.ex("-loadingscreen");
+        nStateMap svMap = netServerThread.masterStateMap;
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
-            for(String id : netServerThread.masterStateMap.keys()) {
+            for(String id : svMap.keys()) {
                 netServerThread.addNetCmd("server", "respawnnetplayer " + id);
             }
         }
@@ -47,8 +48,9 @@ public class cServerLogic {
             public void doCommand() {
                 //select winner and run postgame script
                 String winid = gScoreboard.getWinnerId();
+                nStateMap svMap = netServerThread.masterStateMap;
                 if(!winid.equalsIgnoreCase("null")) {
-                    nState winState = netServerThread.masterStateMap.get(winid);
+                    nState winState = svMap.get(winid);
                     String wname = winState.get("name");
                     String wcolor = winState.get("color");
                     xCon.ex("givewin " + winid);
