@@ -8,7 +8,8 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        nState cState = cClientLogic.netClientThread.clientStateMap.get(player.get("id"));
+        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
+        nState cState = clStateMap.get(player.get("id"));
         if(cState == null)
             return;
         if(cState.contains("color")) {

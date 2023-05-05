@@ -3,7 +3,7 @@ import java.awt.Graphics;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
-        nStateMap clStateMap = cClientLogic.netClientThread.clientStateMap;
+        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_highlight");

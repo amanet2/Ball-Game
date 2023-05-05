@@ -12,7 +12,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
     private Queue<DatagramPacket> receivedPackets;
-    public nStateMap clientStateMap; //hold net player vars
+    private nStateMap clientStateMap; //hold net player vars
+    public String clientStateSnapshot; //hold snapshot of clientStateMap
     private gArgSet receivedArgsServer;
     private boolean cmdReceived;
 
@@ -29,6 +30,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             e.printStackTrace();
         }
         clientStateMap = new nStateMap();
+        clientStateSnapshot = "{}";
         receivedArgsServer = new gArgSet();
         receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
             public void onChange() {
@@ -109,6 +111,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             gScoreboard.scoresMap.remove(tr);
             cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
         }
+        clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
     }
 
     public HashMap<String, HashMap<String, String>> getMapFromNetMapString(String argload) {

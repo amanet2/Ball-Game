@@ -168,7 +168,7 @@ public class dTileTops {
     }
 
     public static void drawPlayerNames(Graphics g) {
-        nStateMap clStateMap = cClientLogic.netClientThread.clientStateMap;
+        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
             gPlayer p = cClientLogic.getPlayerById(id);
             if(p == null)

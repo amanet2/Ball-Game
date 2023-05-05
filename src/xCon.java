@@ -1514,10 +1514,11 @@ public class xCon {
             private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
                 sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
-                if(cClientLogic.netClientThread.clientStateMap.contains(playerId)) {
-                    newPlayer.put("color", cClientLogic.netClientThread.clientStateMap.get(playerId).get("color"));
+                nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
+                if(clStateMap.contains(playerId)) {
+                    newPlayer.put("color", clStateMap.get(playerId).get("color"));
                     newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
-                            cClientLogic.netClientThread.clientStateMap.get(playerId).get("color"))));
+                            clStateMap.get(playerId).get("color"))));
                 }
                 sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
             }

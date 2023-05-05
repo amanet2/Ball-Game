@@ -65,7 +65,7 @@ public class dMapmakerOverlay {
         cClientLogic.prevY = py;
         cClientLogic.prevW = w;
         cClientLogic.prevH = h;
-        nStateMap clStateMap = cClientLogic.netClientThread.clientStateMap;
+        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
             if(cClientLogic.scene.getPlayerById(id) != null)
                 continue;
