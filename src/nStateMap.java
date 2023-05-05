@@ -48,7 +48,7 @@ public class nStateMap {
         map = new HashMap<>();
         if(mapString == null)
             return;
-        String l1String = mapString.substring(1,mapString.length()-1); //get rid of outer '{}'
+        String l1String = mapString.substring(1,mapString.length()-1); //ignore outer '{}'
         String[] playerLoads = l1String.split("},");
         for(int i = 0; i < playerLoads.length; i++) {
             String[] idArgs = playerLoads[i].split("=\\{");
