@@ -453,7 +453,7 @@ public class xCon {
                 ex("load;addcomi server cl_setvar maploaded 1");
                 //reset game state
                 gScoreboard.resetScoresMap();
-                cServerLogic.netServerThread.voteSkipList = new ArrayList<>();
+                cServerLogic.voteSkipList = new ArrayList<>();
                 return "";
             }
         });

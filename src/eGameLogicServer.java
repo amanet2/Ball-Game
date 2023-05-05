@@ -11,15 +11,13 @@ import java.util.Queue;
 
 public class eGameLogicServer extends eGameLogicAdapter {
     private DatagramSocket serverSocket;
-    private static final int timeout = 10000;
     private final Queue<String> quitClientIds;
-    HashMap<String, Queue<String>> clientNetCmdMap;
-    nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
+    private HashMap<String, Queue<String>> clientNetCmdMap;
+    public nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    final HashMap<String, String> clientStateSnapshots; // use to make deltas when sending state to clients
+    public HashMap<String, String> clientStateSnapshots; //use to make deltas when sending state to clients
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
     private final Queue<DatagramPacket> receivedPackets; //packets from clients in order rcvd
-    ArrayList<String> voteSkipList;    //map of skip votes
     private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
 
     public eGameLogicServer() {
@@ -30,7 +28,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         receivedPackets = new LinkedList<>();
         quitClientIds = new LinkedList<>();
         serverLocalCmdQueue = new LinkedList<>();
-        voteSkipList = new ArrayList<>();
         clientNetCmdMap = new HashMap<>();
 
         //init doables
@@ -93,11 +90,11 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     if(testmsg.strip().equalsIgnoreCase("thetime"))
                         addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                     else if(testmsg.strip().equalsIgnoreCase("skip")) {
-                        if(voteSkipList.contains(id))
+                        if(cServerLogic.voteSkipList.contains(id))
                             addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
                         else {
-                            voteSkipList.add(id);
-                            int votes = voteSkipList.size();
+                            cServerLogic.voteSkipList.add(id);
+                            int votes = cServerLogic.voteSkipList.size();
                             int limit = cServerLogic.voteskiplimit;
                             if(votes < limit)
                                 xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
@@ -129,7 +126,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //other players
         for(String id : clientCheckinMap.keySet()) {
             long pt = Long.parseLong(clientCheckinMap.get(id));
-            if(gTime.gameTime > pt + timeout)
+            if(gTime.gameTime > pt + 10000) //consider client a dc after 10 seconds
                 quitClientIds.add(id);
         }
         while(quitClientIds.size() > 0) {
@@ -174,6 +171,11 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void checkLocalCmds() {
         if(serverLocalCmdQueue.peek() != null)
             xCon.ex(serverLocalCmdQueue.remove());
+    }
+
+    public void clientReceivedCmd(String id) {
+        if(clientNetCmdMap.get(id).size() > 0)
+            clientNetCmdMap.get(id).remove();
     }
 
     public void processPackets() {

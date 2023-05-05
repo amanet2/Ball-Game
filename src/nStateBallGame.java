@@ -47,8 +47,7 @@ public class nStateBallGame extends nState {
             public void onChange() {
                 if(value.equals("1")) {
 //                    xCon.instance().debug("SERVER_CMDRCV_" + get("id") + ": " + cServerLogic.netServerThread.clientNetCmdMap.toString());
-                    if(cServerLogic.netServerThread.clientNetCmdMap.get(get("id")).size() > 0)
-                        cServerLogic.netServerThread.clientNetCmdMap.get(get("id")).remove();
+                    cServerLogic.netServerThread.clientReceivedCmd(get("id"));
                     value = "0";
                 }
             }

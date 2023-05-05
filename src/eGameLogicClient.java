@@ -13,9 +13,9 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private DatagramSocket clientSocket;
     private Queue<DatagramPacket> receivedPackets;
     private nStateMap clientStateMap; //hold net player vars
-    public String clientStateSnapshot; //hold snapshot of clientStateMap
     private gArgSet receivedArgsServer;
     private boolean cmdReceived;
+    public String clientStateSnapshot; //hold snapshot of clientStateMap
 
     public eGameLogicClient() {
         netSendCmds = new LinkedList<>();
@@ -147,7 +147,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
             cClientLogic.serverRcvTime = System.currentTimeMillis();
             if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
-//            processPackets();
         }
         catch (SocketException se) {
             //just to catch the closing
