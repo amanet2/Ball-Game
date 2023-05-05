@@ -207,7 +207,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
                 serverSocket.send(sendPacket);
-                xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot);
+                xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
                 xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
                 if(sendDataString.length() > sSettings.max_packet_size)
                     System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "

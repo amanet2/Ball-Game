@@ -71,6 +71,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     public void readData(String receiveDataString) {
+        StringBuilder foundIdsBuilder = new StringBuilder();
         String netmapstring = receiveDataString.trim();
         HashMap<String, HashMap<String, String>> packargmap = getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
@@ -87,11 +88,24 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 for(String k : packArgs.keySet()) {
                     clientStateMap.get(idload).put(k, packArgs.get(k));
                 }
+                foundIdsBuilder.append(", ").append(idload);
             }
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
                     userPlayer.put("stockhp", packArgs.get("hp"));
+            }
+        }
+        String foundIds = foundIdsBuilder.substring(1);
+        StringBuilder toRemove = new StringBuilder();
+        for(String k : clientStateMap.keys()) {
+            if(!foundIds.contains(k)) {
+                toRemove.append(",").append(k);
+            }
+        }
+        if(toRemove.toString().length() > 0) {
+            for(String tr : toRemove.substring(1).split(",")) {
+                clientStateMap.remove(tr);
             }
         }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
