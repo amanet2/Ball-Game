@@ -388,6 +388,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
         catch (SocketException se) {
             //just to catch the closing
+            se.printStackTrace();
             return;
         }
         catch (Exception e) {

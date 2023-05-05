@@ -12,16 +12,14 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
     private Queue<DatagramPacket> receivedPackets;
-    private HashMap<String, String> sendMap;
     public nStateMap clientStateMap; //hold net player vars
-    private gArgSet receivedArgsSetServer;
-    private ArrayList<String> playerIds;
+    private gArgSet receivedArgsServer;
+    private boolean cmdReceived;
 
     public eGameLogicClient() {
         netSendCmds = new LinkedList<>();
         receivedPackets = new LinkedList<>();
-        sendMap = new HashMap<>();
-        playerIds = new ArrayList<>();
+        cmdReceived = false;
         try {
             clientSocket = new DatagramSocket();
             clientSocket.setSoTimeout(500);
@@ -31,17 +29,17 @@ public class eGameLogicClient extends eGameLogicAdapter {
             e.printStackTrace();
         }
         clientStateMap = new nStateMap();
-        receivedArgsSetServer = new gArgSet();
-        receivedArgsSetServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+        receivedArgsServer = new gArgSet();
+        receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
             public void onChange() {
                 cClientLogic.timeleft = Long.parseLong(value);
             }
         });
-        receivedArgsSetServer.putArg(new gArg("cmd", "") {
+        receivedArgsServer.putArg(new gArg("cmd", "") {
             public void onUpdate() {
                 if(value.length() > 0) {
                     xCon.instance().debug("FROM_SERVER: " + value);
-                    sendMap.put("cmdrcv", "1");
+                    cmdReceived = true;
                     xCon.ex(value);
                 }
             }
@@ -80,7 +78,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             // SERVER time and cmd
             if(idload.equals("server")) {
                 for (String k : packArgs.keySet()) {
-                    receivedArgsSetServer.put(k, packArgs.get(k));
+                    receivedArgsServer.put(k, packArgs.get(k));
                 }
             }
             else {
@@ -89,11 +87,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 for(String k : packArgs.keySet()) {
                     clientStateMap.get(idload).put(k, packArgs.get(k));
                 }
-                if(!idload.equals(uiInterface.uuid)) {
+                if(!idload.equals(uiInterface.uuid))
                     foundIds.add(idload);
-                    if(!playerIds.contains(idload))
-                        playerIds.add(idload);
-                }
             }
 
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
@@ -104,15 +99,14 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
         //check for ids that have been taken out of the server argmap
         String tr = "";
-        for(String s : playerIds) {
-            if(!foundIds.contains(s)) {
+        for(String s : clientStateMap.keys()) {
+            if(!s.equals(uiInterface.uuid) && !foundIds.contains(s)) {
                 tr = s;
             }
         }
         if(tr.length() > 0) {
             clientStateMap.remove(tr);
             gScoreboard.scoresMap.remove(tr);
-            playerIds.remove(tr);
             cClientLogic.scene.getThingMap("THING_PLAYER").remove(tr);
         }
     }
@@ -154,6 +148,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
         catch (SocketException se) {
             //just to catch the closing
+            se.printStackTrace();
             return;
         }
         catch (Exception e) {
@@ -168,14 +163,14 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     private void sendData() {
-        InetAddress IPAddress = null;
+        InetAddress IPAddress;
         try {
             //if we are the server, have client send data thru localhost always
             if(sSettings.IS_SERVER)
                 IPAddress = InetAddress.getByName("127.0.0.1");
             else
                 IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
-            String sendDataString = createSendDataString();
+            String sendDataString = getNetVars().toString().replace(", ", ",");
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xCon.ex("cl_setvar joinport")));
@@ -188,40 +183,17 @@ public class eGameLogicClient extends eGameLogicAdapter {
         }
     }
 
-    private String createSendDataString() {
-        StringBuilder sendDataString;
-        HashMap<String, String> netVars = getNetVars();
-        //this BS has to be decoded
-        for(String k : netVars.keySet()) {
-            sendMap.put(k, netVars.get(k));
-        }
-        HashMap<String, String> workingMap = new HashMap<>(sendMap);
-        //send delta of serverargs
-//        if(clientStateMap.contains(uiInterface.uuid)) {
-//            for (String k : clientStateMap.get(uiInterface.uuid).keys()) {
-//                if (protectedArgs.contains(k) ||
-//                        (sendMap.containsKey(k) && !sendMap.get(k).equals(clientStateMap.get(uiInterface.uuid).get(k))))
-//                    continue;
-//                workingMap.remove(k);
-//            }
-//        }
-        sendDataString = new StringBuilder(workingMap.toString());
-        //handle removing variables after the fact
-        sendMap.remove("cmd");
-        if(sendMap.containsKey("cmdrcv") && sendMap.get("cmdrcv").equals("1")) // turn off our own rcv when we see we sent it last time
-            sendMap.put("cmdrcv", "0");
-        return sendDataString.toString().replace(", ", ",");
-    }
-
     private HashMap<String, String> getNetVars() {
         HashMap<String, String> keys = new HashMap<>();
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
-        //handle outgoing cmd
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
+        if(cmdReceived)
+            keys.put("cmdrcv", "1");
         //update id in net args
         keys.put("id", uiInterface.uuid);
         keys.put("color", cClientLogic.playerColor);
+        keys.put("name", cClientLogic.playerName);
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
@@ -237,14 +209,13 @@ public class eGameLogicClient extends eGameLogicAdapter {
             keys.put("mov2", "0");
             keys.put("mov3", "0");
         }
-        //name for spectator and gameplay
-        keys.put("name", cClientLogic.playerName);
         if(sSettings.show_mapmaker_ui) {
             keys.put("px", Integer.toString(cClientLogic.prevX));
             keys.put("py", Integer.toString(cClientLogic.prevY));
             keys.put("pw", Integer.toString(cClientLogic.prevW));
             keys.put("ph", Integer.toString(cClientLogic.prevH));
         }
+        cmdReceived = false; //always open up to new commands
         return keys;
     }
 
@@ -252,8 +223,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
             // user's client-side firing
-            if(cmdString.contains("fireweapon"))
-                xCon.ex(cmdString.replaceFirst("fireweapon", "cl_fireweapon"));
+            if(cmdString.startsWith("fireweapon"))
+                xCon.ex("cl_" + cmdString);
             xCon.instance().debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }

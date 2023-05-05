@@ -1,3 +1,5 @@
+* add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
+* move client packet reading code to shell logic
 * ENGINE: think about whether net threads should have 'update' be called or 'render'
     -> one is in a while loop while syncing with current time, other is called after sync
 * Use String snapshots of clientStateMap to avoid concurrency issues
