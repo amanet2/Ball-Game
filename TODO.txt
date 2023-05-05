@@ -1,6 +1,6 @@
 * fix these disappearing players wtf
-    -> host works fine til player 2 joins
-        -> test player 3
+    -> since the first commit on May 5
+    -> maybe it's the client global "sendmap" I removed?
 * add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * move client packet reading code to shell logic
 * ENGINE: think about whether net threads should have 'update' be called or 'render'

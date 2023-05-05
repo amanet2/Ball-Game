@@ -55,6 +55,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             clientCmdDoables.put(rcs,
                     new gDoableCmd() {
                         void ex(String id, String cmd) {
+                            //maybe add this as a net command for the server-only, to avoid concurrency issues
                             xCon.ex(cmd);
                         }
                     });
@@ -234,7 +235,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
         //fetch old snapshot for client
 //        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)); //is not actually a delta
+        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid).replace(", ", ",")); //is not actually a delta
         //record the master state at last communication time
         clientStateSnapshots.put(clientid, masterStateMap.toString());
         //add server vars to the sending map

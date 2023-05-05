@@ -3,7 +3,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -72,7 +71,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     public void readData(String receiveDataString) {
-        ArrayList<String> foundIds = new ArrayList<>();
         String netmapstring = receiveDataString.trim();
         HashMap<String, HashMap<String, String>> packargmap = getMapFromNetMapString(netmapstring);
         for(String idload : packargmap.keySet()) {
@@ -89,10 +87,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 for(String k : packArgs.keySet()) {
                     clientStateMap.get(idload).put(k, packArgs.get(k));
                 }
-                if(!idload.equals(uiInterface.uuid))
-                    foundIds.add(idload);
             }
-
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
                 if(userPlayer != null && packArgs.containsKey("hp"))
@@ -177,8 +172,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         HashMap<String, String> keys = new HashMap<>();
         String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
-        if(cmdReceived)
-            keys.put("cmdrcv", "1");
+        keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
         keys.put("id", uiInterface.uuid);
         keys.put("color", cClientLogic.playerColor);

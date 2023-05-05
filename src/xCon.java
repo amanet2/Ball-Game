@@ -196,7 +196,7 @@ public class xCon {
         commands.put("clientlist", new xCom() {
             public String doCommand(String fullCommand) {
                 StringBuilder s = new StringBuilder();
-                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap svMap = cServerLogic.netServerThread.masterStateMap;
                 for(String k : svMap.keys()) {
                     s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
                             svMap.get(k).get("name"), k));
@@ -855,7 +855,7 @@ public class xCon {
                 String cid = args[1];
                 if(!cServerLogic.netServerThread.clientStateSnapshots.containsKey(cid))
                     return "null";
-                nStateMap clientSnapshot = new nStateMap(cServerLogic.netServerThread.clientStateSnapshots.get(cid));
+                nStateMap clientSnapshot = new nStateMap(cServerLogic.netServerThread.clientStateSnapshots.get(cid).replace(", ", ","));
                 if(args.length < 3)
                     return clientSnapshot.toString();
                 String tk = args[2];

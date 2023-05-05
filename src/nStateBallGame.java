@@ -46,7 +46,6 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
-//                    xCon.instance().debug("SERVER_CMDRCV_" + get("id") + ": " + cServerLogic.netServerThread.clientNetCmdMap.toString());
                     cServerLogic.netServerThread.clientReceivedCmd(get("id"));
                     value = "0";
                 }
