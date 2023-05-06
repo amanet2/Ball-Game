@@ -14,10 +14,6 @@ public class uiMenu {
         }
     }
 
-    public void setupMenuItems() {
-        items = new uiMenuItem[]{};
-    }
-
     public uiMenu(String t, uiMenuItem[] i, int parent) {
         title = t;
         items = i;

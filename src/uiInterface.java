@@ -6,7 +6,6 @@ public class uiInterface {
     static int tickReport = 0;
     static int fpsReport = 0;
     static int tickReportClient = 0;
-    static int netReportClient = 0;
     static int tickReportSimulation = 0;
     static int netReportServer = 0;
     static int frames = 0;
