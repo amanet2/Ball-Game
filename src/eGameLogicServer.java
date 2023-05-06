@@ -16,7 +16,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     public String masterStateSnapshot; //what we want publicly accessible
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    public HashMap<String, String> clientStateSnapshots; //use to make deltas when sending state to clients
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
     private final Queue<DatagramPacket> receivedPackets; //packets from clients in order rcvd
     private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
@@ -24,7 +23,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public eGameLogicServer() {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
-        clientStateSnapshots = new HashMap<>();
         clientCmdDoables = new HashMap<>();
         receivedPackets = new LinkedList<>();
         quitClientIds = new LinkedList<>();
@@ -233,11 +231,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-        //fetch old snapshot for client
-//        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid)).getDelta(masterStateMap);
-        nStateMap deltaStateMap = new nStateMap(clientStateSnapshots.get(clientid).replace(", ", ",")); //is not actually a delta
-        //record the master state at last communication time
-        clientStateSnapshots.put(clientid, masterStateMap.toString());
+        nStateMap deltaStateMap = new nStateMap(masterStateMap.toString().replace(", ", ","));
         //add server vars to the sending map
         deltaStateMap.put("server", new nState());
         for(String k : netVars.keySet()) {
@@ -247,14 +241,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     void removeNetClient(String id) {
+        xCon.ex("exec scripts/sv_handleremoveclient " + id);
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
         clientNetCmdMap.remove(id);
         gScoreboard.scoresMap.remove(id);
-        nState snap = new nState(clientStateSnapshots.get(id));
-        xCon.ex(String.format("echo %s#%s left the game", snap.get("name"), snap.get("color")));
         xCon.ex("deleteplayer " + id);
-        xCon.ex("exec scripts/sv_handleremoveclient " + id);
     }
 
     public void sendMapAndRespawn(String id) {
@@ -266,7 +258,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
-        clientStateSnapshots.put(id, masterStateMap.toString());
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
         handleBackfill(id);

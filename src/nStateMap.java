@@ -24,18 +24,6 @@ public class nStateMap {
         return map.keySet();
     }
 
-    public nStateMap getDelta(nStateMap oStateMap) {
-        nStateMap deltaStateMap = new nStateMap();
-        for(String id : oStateMap.keys()) {
-            if(!contains(id)) { //new state has client we havent tracked
-                deltaStateMap.put(id, oStateMap.get(id));
-                continue;
-            }
-            deltaStateMap.put(id, get(id).getDelta(oStateMap.get(id)));
-        }
-        return deltaStateMap;
-    }
-
     public String toString() {
         return map.toString();
     }
@@ -48,7 +36,7 @@ public class nStateMap {
         map = new HashMap<>();
         if(mapString == null)
             return;
-        String l1String = mapString.substring(1,mapString.length()-1); //ignore outer '{}'
+        String l1String = mapString.replace(", ", ",").substring(1,mapString.length()-1); //ignore outer '{}'
         String[] playerLoads = l1String.split("},");
         for(int i = 0; i < playerLoads.length; i++) {
             String[] idArgs = playerLoads[i].split("=\\{");
@@ -64,6 +52,5 @@ public class nStateMap {
                 map.get(id).put(kvs[0].trim(), kvs.length > 1 ? kvs[1].trim() : "");
             }
         }
-//        System.out.println(this);
     }
 }

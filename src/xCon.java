@@ -846,25 +846,6 @@ public class xCon {
                 return cClientLogic.vars.get(tk);
             }
         });
-        commands.put("getsnap", new xCom() {
-            //usage: getsnap $id $key
-            public String doCommand(String fullCommand) {
-                String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
-                if(args.length < 2)
-                    return cServerLogic.netServerThread.clientStateSnapshots.toString();
-                String cid = args[1];
-                if(!cServerLogic.netServerThread.clientStateSnapshots.containsKey(cid))
-                    return "null";
-                nStateMap clientSnapshot = new nStateMap(cServerLogic.netServerThread.clientStateSnapshots.get(cid).replace(", ", ","));
-                if(args.length < 3)
-                    return clientSnapshot.toString();
-                String tk = args[2];
-                nState clientState = clientSnapshot.get(cid);
-                if(!clientState.contains(tk))
-                    return "null";
-                return clientState.get(tk);
-            }
-        });
         commands.put("giveweapon", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
