@@ -1441,39 +1441,31 @@ public class xCon {
         commands.put("spawnplayer", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if (toks.length > 3) {
-                    String playerId = toks[1];
-                    int x = Integer.parseInt(toks[2]);
-                    int y = Integer.parseInt(toks[3]);
-                    spawnPlayerDelegate(playerId, x, y, cServerLogic.scene);
-                    ex("exec scripts/sv_handlespawnplayer " + playerId);
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
-                    return "spawned player " + playerId + " at " + x + " " + y;
-                }
+                if (toks.length > 3)
+                    return spawnPlayerDelegate(toks[1], Integer.parseInt(toks[2]), Integer.parseInt(toks[3]));
                 return "usage: spawnplayer <player_id> <x> <y>";
             }
 
-            private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
-                sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
+            private String spawnPlayerDelegate(String playerId, int x, int y) {
+                cServerLogic.scene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
-                sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                cServerLogic.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                ex("exec scripts/sv_handlespawnplayer " + playerId);
+                cServerLogic.netServerThread.addIgnoringNetCmd("server",
+                        String.format("cl_spawnplayer %s %d %d", playerId, x, y));
+                return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
         commands.put("cl_spawnplayer", new xCom() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if (toks.length > 3) {
-                    String playerId = toks[1];
-                    int x = Integer.parseInt(toks[2]);
-                    int y = Integer.parseInt(toks[3]);
-                    spawnPlayerDelegate(playerId, x, y, cClientLogic.scene);
-                    return "spawned player " + playerId + " at " + x + " " + y;
-                }
+                if (toks.length > 3)
+                    return clSpawnPlayerDelegate(toks[1], Integer.parseInt(toks[2]), Integer.parseInt(toks[3]));
                 return "usage: spawnplayer <player_id> <x> <y>";
             }
 
-            private void spawnPlayerDelegate(String playerId, int x, int y, gScene sceneToStore) {
-                sceneToStore.getThingMap("THING_PLAYER").remove(playerId);
+            private String clSpawnPlayerDelegate(String playerId, int x, int y) {
+                cClientLogic.scene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
                 if(clStateMap.contains(playerId)) {
@@ -1481,7 +1473,8 @@ public class xCon {
                     newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
                             clStateMap.get(playerId).get("color"))));
                 }
-                sceneToStore.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                cClientLogic.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
         commands.put("spawnpopup", new xCom() {
