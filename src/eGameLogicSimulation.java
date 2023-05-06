@@ -46,7 +46,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 
 
     private void updateEntityPositions(long gameTimeMillis) {
-        nStateMap svMap = cServerLogic.netServerThread.masterStateMap;
+        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         for(String id : svMap.keys()) {
             gPlayer obj = cServerLogic.getPlayerById(id);
             if(obj == null)
@@ -132,7 +132,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
         HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
-        nStateMap svMap = cServerLogic.netServerThread.masterStateMap;
+        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         Queue<gThing> checkQueue = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);
         for (String id : keys) {

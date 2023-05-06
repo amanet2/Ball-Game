@@ -36,6 +36,8 @@ public class nStateMap {
         map = new HashMap<>();
         if(mapString == null)
             return;
+        if(mapString.trim().equals("{}"))
+            return;
         String l1String = mapString.replace(", ", ",").substring(1,mapString.length()-1); //ignore outer '{}'
         String[] playerLoads = l1String.split("},");
         for(int i = 0; i < playerLoads.length; i++) {
