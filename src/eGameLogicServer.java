@@ -194,8 +194,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
             //read data of packet
             readData(receiveDataString); //and respond too
             //get player id of client
-            HashMap<String, String> clientmap = getMapFromNetString(receiveDataString);
-            String clientId = clientmap.get("id");
+            nState clientState = new nState(receiveDataString);
+            String clientId = clientState.get("id");
             if(clientId != null) {
                 //create response
                 HashMap<String, String> netVars = new HashMap<>();
@@ -216,16 +216,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
             eLogging.logException(e);
             e.printStackTrace();
         }
-    }
-
-    public HashMap<String,String> getMapFromNetString(String argload) {
-        HashMap<String,String> toReturn = new HashMap<>();
-        String argstr = argload.substring(1,argload.length()-1);
-        for(String pair : argstr.split(",")) {
-            String[] vals = pair.split("=");
-            toReturn.put(vals[0].trim(), vals.length > 1 ? vals[1].trim() : "");
-        }
-        return  toReturn;
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
@@ -345,24 +335,11 @@ public class eGameLogicServer extends eGameLogicAdapter {
             maplines.add(str.toString());
         }
         maplines.add("cl_setvar maploaded 1");
-        //iterate through the maplines and send in batches
-//        StringBuilder sendStringBuilder = new StringBuilder();
-//        int linectr = 0;
         for(int i = 0; i < maplines.size(); i++) {
             String line = maplines.get(i);
             // slow way, but consistent with new exec loading and server sync
+            // try batching in the future
             addNetCmd(packId, line);
-            // batch send below, old but better
-//            String next = "";
-//            if(maplines.size() > i+1)
-//                next = maplines.get(i+1);
-//            sendStringBuilder.append(";").append(line);
-//            linectr++;
-//            if(sendStringBuilder.length() + next.length() >= sendbatchsize || linectr == maplines.size()) {
-//                String sendString = sendStringBuilder.toString();
-//                addNetCmd(packId, sendString.substring(1));
-//                sendStringBuilder = new StringBuilder();
-//            }
         }
     }
 
