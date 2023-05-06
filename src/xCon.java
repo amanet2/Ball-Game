@@ -117,7 +117,7 @@ public class xCon {
                     Integer keycode = iKeyboard.getCodeForKey(key);
                     if(keycode != null) {
                         pressBinds.put(keycode, comm.substring(0,comm.length()-1));
-                        return "";
+                        return "bound press to keycode " + keycode + " -> " + comm;
                     }
                 }
                 return "cannot bindpress ";
@@ -134,7 +134,7 @@ public class xCon {
                     Integer keycode = iKeyboard.getCodeForKey(key);
                     if(keycode != null) {
                         releaseBinds.put(keycode, comm.substring(0,comm.length()-1));
-                        return "";
+                        return "bound release to keycode " + keycode + " -> ";
                     }
                 }
                 return "cannot bindrelease ";
@@ -147,20 +147,14 @@ public class xCon {
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 cServerLogic.changeMap(mapPath);
-                return "";
+                return "changed map to " + mapPath;
             }
         });
         commands.put("changemaprandom", new xCom() {
             public String doCommand(String fullCommand) {
                 if(eManager.mapsFileSelection.length < 1)
-                    return "no maps found for changemap (random)";
-                int rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                while(rand == eManager.mapSelectionIndex) {
-                    rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                }
-                cServerLogic.changeMap("maps/" + eManager.mapsFileSelection[rand]);
-                eManager.mapSelectionIndex = rand;
-                return "changed map (random)";
+                    return "no maps found for changemaprandom";
+                return ex("changemap maps/" + eManager.mapsFileSelection[(int)(Math.random()*eManager.mapsFileSelection.length)]);
             }
         });
         commands.put("chat", new xCom() {
@@ -1026,29 +1020,10 @@ public class xCon {
                 ex("startserver");
                 int toplay = eManager.mapSelectionIndex;
                 if(toplay < 0)
-                    ex("newgamerandom");
+                    ex("changemaprandom");
                 else
                     ex("changemap maps/" + eManager.mapsFileSelection[toplay]);
                 return "new game started";
-            }
-        });
-        commands.put("newgamerandom", new xCom() {
-            public String doCommand(String fullCommand) {
-                if(eManager.mapsFileSelection.length < 1)
-                    return "no maps found for new game (random)";
-                else if(eManager.mapsFileSelection.length > 1) {
-                    int rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                    while(rand == eManager.mapSelectionIndex) {
-                        rand = (int)(Math.random()*eManager.mapsFileSelection.length);
-                    }
-                    eManager.mapSelectionIndex = rand;
-                    ex("changemap maps/" + eManager.mapsFileSelection[rand]);
-                }
-                else {
-                    eManager.mapSelectionIndex = 0;
-                    ex("changemap maps/" + eManager.mapsFileSelection[0]);
-                }
-                return "new game (random) started";
             }
         });
         commands.put("pause", new xCom() {
