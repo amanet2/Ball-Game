@@ -907,7 +907,7 @@ public class xCon {
                 if(args.length < 2)
                     return "null";
                 String id = args[1];
-                gScoreboard.incrementScoreFieldById(id, "wins");
+                gScoreboard.addToScoreField(id, "wins", 1);
                 return id;
             }
         });

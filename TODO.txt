@@ -1,6 +1,4 @@
-* fix these disappearing players wtf
-    -> since the first commit on May 5
-    -> maybe it's the client global "sendmap" I removed?
+* target where the simulation thread accesses the statemap in the server thread
 * add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * move client packet reading code to shell logic
 * ENGINE: think about whether net threads should have 'update' be called or 'render'

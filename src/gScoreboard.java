@@ -41,16 +41,6 @@ public class gScoreboard {
         scoresMap.get(id).put("score", 0);
     }
 
-    public static void incrementScoreFieldById(String id, String field) {
-        if(!scoresMap.containsKey(id))
-            scoresMap.put(id, new HashMap<>());
-        HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
-        if(!scoresMapIdMap.containsKey(field))
-            scoresMapIdMap.put(field, 0);
-        int nscore = scoresMapIdMap.get(field) + 1;
-        scoresMapIdMap.put(field, nscore);
-    }
-
     public static void addToScoreField(String id, String field, int score) {
         if(!scoresMap.containsKey(id))
             scoresMap.put(id, new HashMap<>());
