@@ -68,7 +68,7 @@ public class xCon {
                 }
                 String actStr = act.substring(1);
                 cServerLogic.netServerThread.addNetCmd(actStr);
-                return "server net com: " + actStr;
+                return "server fanout comm: " + actStr;
             }
         });
         commands.put("addcomi", new xCom() {
@@ -85,7 +85,7 @@ public class xCon {
                 }
                 String actStr = act.substring(1);
                 cServerLogic.netServerThread.addIgnoringNetCmd(ignoreId, actStr);
-                return "server net com ignoring: " + actStr;
+                return "server fanout comm ignoring: " + actStr;
             }
         });
         commands.put("addcomx", new xCom() {
@@ -102,7 +102,7 @@ public class xCon {
                 }
                 String actStr = act.substring(1);
                 cServerLogic.netServerThread.addNetCmd(exlusiveId, actStr);
-                return "server net com exclusive: " + actStr;
+                return "server comm exclusive: " + actStr;
             }
         });
         commands.put("bind", new xCom() {
