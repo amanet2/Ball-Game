@@ -739,11 +739,6 @@ public class xCon {
                 return "changed game mode to " + cServerLogic.vars.get("gamemode");
             }
         });
-        commands.put("gametimemillis", new xCom() {
-            public String doCommand(String fullCommand) {
-                return Long.toString(gTime.gameTime);
-            }
-        });
         commands.put("getnewitemid", new xCom() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
