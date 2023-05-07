@@ -1195,12 +1195,12 @@ public class xCon {
         commands.put("say", new xCom() {
             public String doCommand(String fullCommand) {
                 if(fullCommand.length() > 0) {
-                    String msg = fullCommand.substring(fullCommand.indexOf(" ")+1);
-                    msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": " + msg;
+                    String msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": "
+                            + fullCommand.substring(fullCommand.indexOf(" ") + 1);
                     cClientLogic.netClientThread.addNetCmd("echo " + msg);
                     gMessages.msgInProgress = "";
                 }
-                return fullCommand;
+                return "said enough";
             }
         });
         commands.put("scheduleevent", new xCom() {

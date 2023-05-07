@@ -1,6 +1,9 @@
-* target where the simulation thread accesses the statemap in the server thread
-* add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
-* move client packet reading code to shell logic
+* CRASH: all clients lose connection to server at some random time but dont know why
+    -> see if the "disconnect" feature is a workaround now
+* ENGINE: have players use "coords" instead of serparate coordx and coordy stuff
+* ENGINE: target where the simulation thread accesses the statemap in the server thread
+* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
+* ENGINE: move client packet reading code to shell logic
 * ENGINE: think about whether net threads should have 'update' be called or 'render'
     -> one is in a while loop while syncing with current time, other is called after sync
 * Use String snapshots of clientStateMap to avoid concurrency issues
