@@ -1018,11 +1018,7 @@ public class xCon {
         commands.put("newgame", new xCom() {
             public String doCommand(String fullCommand) {
                 ex("startserver");
-                int toplay = eManager.mapSelectionIndex;
-                if(toplay < 0)
-                    ex("changemaprandom");
-                else
-                    ex("changemap maps/" + eManager.mapsFileSelection[toplay]);
+                ex(String.format("changemap%s", eManager.mapSelectionIndex < 0 ? "random" : " maps/"+eManager.mapsFileSelection[eManager.mapSelectionIndex]));
                 return "new game started";
             }
         });
