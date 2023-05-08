@@ -49,7 +49,7 @@ public class cServerLogic {
                 //select winner and run postgame script
                 String winid = gScoreboard.getWinnerId();
                 if(!winid.equalsIgnoreCase("null")) {
-                    nState winState = netServerThread.masterStateMap.get(winid);
+                    nState winState = new nStateMap(netServerThread.masterStateSnapshot).get(winid);
                     String wname = winState.get("name");
                     String wcolor = winState.get("color");
                     xCon.ex("givewin " + winid);

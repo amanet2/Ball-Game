@@ -10,11 +10,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class eGameLogicServer extends eGameLogicAdapter {
-    private DatagramSocket serverSocket;
-    private final Queue<String> quitClientIds;
-    private HashMap<String, Queue<String>> clientNetCmdMap;
-    public nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     public String masterStateSnapshot; //what we want publicly accessible
+    private final DatagramSocket serverSocket;
+    private final Queue<String> quitClientIds;
+    private final HashMap<String, Queue<String>> clientNetCmdMap;
+    private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
     private final Queue<DatagramPacket> receivedPackets; //packets from clients in order rcvd
@@ -296,6 +296,13 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
 
         masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
+    }
+
+    public String setClientState(String id, String key, String val) {
+        if(!masterStateMap.contains(id))
+            return "null";
+        masterStateMap.get(id).put(key, val);
+        return masterStateMap.get(id).get(key);
     }
 
     public void sendMap(String packId) {
