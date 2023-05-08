@@ -8,13 +8,15 @@ public class iInput {
 	static final iMouseWheel mouseWheelInput = new iMouseWheel();
 
 	public static void readKeyInputs() {
-		while (iKeyboard.inputPressQueue.size() > 0) {
-			Integer cm = iKeyboard.inputPressQueue.remove();
-			processKeyPressInput(cm);
+        while (iKeyboard.inputPressQueue.size() > 0) {
+            Integer cm = iKeyboard.inputPressQueue.poll();
+            if(cm != null)
+                processKeyPressInput(cm);
         }
         while (iKeyboard.inputReleaseQueue.size() > 0) {
-            Integer cm = iKeyboard.inputReleaseQueue.remove();
-            processKeyReleaseInput(cm);
+            Integer cm = iKeyboard.inputReleaseQueue.poll();
+            if(cm != null)
+                processKeyReleaseInput(cm);
         }
 	}
 
@@ -152,18 +154,18 @@ public class iInput {
                 case KeyEvent.VK_ENTER -> {
                     switch (gMessages.prompt) {
                         case "Enter New Name" -> {
-                            cClientVars.instance().put("playername", gMessages.msgInProgress);
+                            cClientLogic.vars.put("playername", gMessages.msgInProgress);
                             uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                             if (sSettings.show_mapmaker_ui)
                                 uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
                             gMessages.msgInProgress = "";
                         }
                         case "Enter New IP Address" -> {
-                            cClientVars.instance().put("joinip", gMessages.msgInProgress);
+                            cClientLogic.vars.put("joinip", gMessages.msgInProgress);
                             gMessages.msgInProgress = "";
                         }
                         case "Enter New Port" -> {
-                            cClientVars.instance().put("joinport", gMessages.msgInProgress);
+                            cClientLogic.vars.put("joinport", gMessages.msgInProgress);
                             gMessages.msgInProgress = "";
                         }
                         default -> xCon.ex(String.format("say %s", gMessages.msgInProgress));

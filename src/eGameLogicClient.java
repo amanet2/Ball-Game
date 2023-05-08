@@ -1,265 +1,220 @@
-import java.util.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class eGameLogicClient implements eGameLogic {
-    private int ticks = 0;
-    private long frameCounterTime = -1;
-    private long tickCounterTime = -1;
+public class eGameLogicClient extends eGameLogicAdapter {
+    private Queue<String> netSendCmds;
+    private DatagramSocket clientSocket;
+    private Queue<DatagramPacket> receivedPackets;
+    private nStateMap clientStateMap; //hold net player vars
+    private gArgSet receivedArgsServer;
+    private boolean cmdReceived;
+    public String clientStateSnapshot; //hold snapshot of clientStateMap
 
     public eGameLogicClient() {
-        if(sSettings.show_mapmaker_ui) {
-            sSettings.drawhitboxes = true;
-            sSettings.drawmapmakergrid = true;
-            sSettings.zoomLevel = 0.5;
+        netSendCmds = new LinkedList<>();
+        receivedPackets = new LinkedList<>();
+        cmdReceived = false;
+        try {
+            clientSocket = new DatagramSocket();
+            clientSocket.setSoTimeout(500);
         }
+        catch (SocketException e) {
+            eLogging.logException(e);
+            e.printStackTrace();
+        }
+        clientStateMap = new nStateMap();
+        clientStateSnapshot = "{}";
+        receivedArgsServer = new gArgSet();
+        receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+            public void onChange() {
+                cClientLogic.timeleft = Long.parseLong(value);
+            }
+        });
+        receivedArgsServer.putArg(new gArg("cmd", "") {
+            public void onUpdate() {
+                if(value.length() > 0) {
+                    xCon.instance().debug("FROM_SERVER: " + value);
+                    cmdReceived = true;
+                    xCon.ex(value);
+                }
+            }
+        });
     }
 
-    @Override
-    public void init() {
-        oDisplay.instance().showFrame();
-        gCamera.init();
-        gAnimations.init();
+    public void processPackets() {
+        try {
+            while(receivedPackets.size() > 1) {
+                //this means all older packets are thrown out
+                receivedPackets.remove();
+            }
+            if(receivedPackets.size() > 0) {
+                DatagramPacket receivePacket = receivedPackets.peek();
+                if(receivePacket != null && receivePacket.getData() != null) {
+                    String receiveDataString = new String(receivePacket.getData());
+                    xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
+                            receiveDataString.trim().length(), receiveDataString.trim()));
+                    readData(receiveDataString);
+                }
+            }
+        }
+        catch (Exception e) {
+            eLogging.logException(e);
+            e.printStackTrace();
+        }
+        receivedPackets.clear();
     }
 
-    @Override
-    public void input() {
-        gTime.gameTime = System.currentTimeMillis();
-        iInput.readKeyInputs();
+    private void readData(String receiveDataString) {
+        StringBuilder foundIdsBuilder = new StringBuilder();
+        String netmapstring = receiveDataString.trim();
+        nStateMap packArgStateMap = new nStateMap(netmapstring);
+        for(String idload : packArgStateMap.keys()) {
+            nState packArgState = packArgStateMap.get(idload);
+            // SERVER time and cmd
+            if(idload.equals("server")) {
+                for (String k : packArgState.keys()) {
+                    receivedArgsServer.put(k, packArgState.get(k));
+                }
+            }
+            else {
+                if(!clientStateMap.contains(idload))
+                    clientStateMap.put(idload, new nStateBallGameClient());
+                for(String k : packArgState.keys()) {
+                    clientStateMap.get(idload).put(k, packArgState.get(k));
+                }
+                foundIdsBuilder.append(", ").append(idload);
+            }
+            if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
+                gPlayer userPlayer = cClientLogic.getUserPlayer();
+                if(userPlayer != null && packArgState.contains("hp"))
+                    userPlayer.put("stockhp", packArgState.get("hp"));
+            }
+        }
+        String foundIds = foundIdsBuilder.substring(1);
+        StringBuilder toRemove = new StringBuilder();
+        for(String k : clientStateMap.keys()) {
+            if(!foundIds.contains(k)) {
+                toRemove.append(",").append(k);
+            }
+        }
+        if(toRemove.toString().length() > 0) {
+            for(String tr : toRemove.substring(1).split(",")) {
+                clientStateMap.remove(tr);
+            }
+        }
+        clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
     }
 
     @Override
     public void update() {
-        long gameTimeMillis = gTime.gameTime;
-        if(sSettings.IS_CLIENT) {
-            nClient.instance().processPackets();
-            cClientVars.instance().put("gametimemillis", Long.toString(gameTimeMillis));
-            cClientLogic.timedEvents.executeCommands();
-            if(oDisplay.instance().frame.isVisible()) {
-                if(cClientLogic.getUserPlayer() != null)
-                   pointPlayerAtMousePointer();
-                else if(sSettings.show_mapmaker_ui)
-                    selectThingUnderMouse();
-            }
-            oAudio.instance().checkAudio(); //setting to mute game when not in focus?
-            if(cClientLogic.getUserPlayer() != null)
-                checkPlayerFire();
-            updateEntityPositions(gameTimeMillis);
-            gMessages.checkMessages();
-        }
-        ticks += 1;
-        if(tickCounterTime < gameTimeMillis) {
-            uiInterface.tickReport = ticks;
-            ticks = 0;
-            tickCounterTime = gameTimeMillis + 1000;
-        }
-    }
-
-    private void updateEntityPositions(long gameTimeMillis) {
-        if(sSettings.show_mapmaker_ui && cClientLogic.getUserPlayer() == null)
-            gCamera.updatePosition();
-        double mod = (double)sSettings.rateserver/(double)sSettings.rategame;
-        for(String id : cClientLogic.getPlayerIds()) {
-            gPlayer obj = cClientLogic.getPlayerById(id);
-            if(obj == null)
-                continue;
-            String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
-                    "decelrate"
-            };
-            //check null fields
-            if(!obj.containsFields(requiredFields))
-                continue;
-            int mx = obj.getInt("vel3") - obj.getInt("vel2");
-            int my = obj.getInt("vel1") - obj.getInt("vel0");
-            int dx = obj.getInt("coordx") + (int)(mx*mod);
-            int dy = obj.getInt("coordy") + (int)(my*mod);
-            if(obj.getLong("acceltick") < gameTimeMillis) {
-                obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
-                //user player
-                if(isUserPlayer(obj)) {
-                    for (int i = 0; i < 4; i++) {
-                        if (obj.getInt("mov" + i) > 0)
-                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayer,
-                                    obj.getInt("vel" + i) + obj.getInt("accelrate"))));
-                        else
-                            obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
-                    }
-                }
-            }
-            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), cClientLogic.scene))
-                dx = obj.getInt("coordx");
-            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, cClientLogic.scene))
-                dy = obj.getInt("coordy");
-            if(isUserPlayer(obj))
-                gCamera.put("coords", dx + ":" + dy);
-            obj.putInt("coordx", dx);
-            obj.putInt("coordy", dy);
-        }
+        super.update();
         try {
-            HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap("THING_BULLET");
-            Queue<gThing> checkQueue = new LinkedList<>();
-            String[] keys = thingMap.keySet().toArray(new String[0]);
-            for (String id : keys) {
-                checkQueue.add(thingMap.get(id));
-            }
-            while (checkQueue.size() > 0) {
-                gBullet obj = (gBullet) checkQueue.remove();
-                obj.putInt("coordx", obj.getInt("coordx")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
-                obj.putInt("coordy", obj.getInt("coordy")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
-            }
-            checkBulletSplashes(gameTimeMillis);
-            //popups
-            thingMap = cClientLogic.scene.getThingMap("THING_POPUP");
-            checkQueue = new LinkedList<>();
-            for (String id : thingMap.keySet()) {
-                checkQueue.add(thingMap.get(id));
-            }
-            while (checkQueue.size() > 0) {
-                gPopup obj = (gPopup) checkQueue.remove();
-                obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                        - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
-                obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                        - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
-            }
+            sendData();
+            byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
+            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
+                    clientReceiveData.length);
+            clientSocket.receive(receivePacket);
+            receivedPackets.add(receivePacket);
+            cClientLogic.serverRcvTime = System.currentTimeMillis();
+            if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
+                cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+        }
+        catch (SocketException se) {
+            //just to catch the closing
+            se.printStackTrace();
+            return;
         }
         catch (Exception e) {
+            eLogging.logException(e);
+            e.printStackTrace();
+        }
+        uiInterface.tickReportClient = getTickReport();
+    }
+
+    public void addNetCmd(String cmd) {
+        netSendCmds.add(cmd);
+    }
+
+    private void sendData() {
+        InetAddress IPAddress;
+        try {
+            //if we are the server, have client send data thru localhost always
+            if(sSettings.IS_SERVER)
+                IPAddress = InetAddress.getByName("127.0.0.1");
+            else
+                IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
+            String sendDataString = getNetVars().toString().replace(", ", ",");
+            byte[] clientSendData = sendDataString.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
+                    Integer.parseInt(xCon.ex("cl_setvar joinport")));
+
+            clientSocket.send(sendPacket);
+            cClientLogic.serverSendTime = System.currentTimeMillis();
+            xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void checkBulletSplashes(long gameTimeMillis) {
-        ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
-        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = cClientLogic.scene.getThingMap("THING_BULLET");
-        Queue<gThing> checkThings = new LinkedList<>();
-        String[] keys = bulletsMap.keySet().toArray(new String[0]);
-        for (String id : keys) {
-            checkThings.add(bulletsMap.get(id));
+    private HashMap<String, String> getNetVars() {
+        HashMap<String, String> keys = new HashMap<>();
+        String outgoingCmd = dequeueNetCmd(); //dequeues w/ every call so call once a tick
+        keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
+        keys.put("cmdrcv", cmdReceived ? "1" : "0");
+        //update id in net args
+        keys.put("id", uiInterface.uuid);
+        keys.put("color", cClientLogic.playerColor);
+        keys.put("name", cClientLogic.playerName);
+        gPlayer userPlayer = cClientLogic.getUserPlayer();
+        //userplayer vars like coords and dirs and weapon
+        if(userPlayer != null) {
+            keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
+            keys.put("mov0", userPlayer.get("mov0"));
+            keys.put("mov1", userPlayer.get("mov1"));
+            keys.put("mov2", userPlayer.get("mov2"));
+            keys.put("mov3", userPlayer.get("mov3"));
         }
-        while (checkThings.size() > 0) {
-            gBullet t = (gBullet) checkThings.remove();
-            if(gameTimeMillis - t.getLong("timestamp") > t.getInt("ttl")){
-                bulletsToRemoveIds.add(t.get("id"));
-//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                            createId(), new gAnimationEmitter(b.getInt("anim"),
-//                                    b.getInt("coordx"), b.getInt("coordy")));
-//                }
-                //grenade explosion
-                if(t.isInt("src", gWeapons.launcher)) {
-                    pseeds.add(t);
-                }
-                continue;
-            }
-            for(String blockId : cClientLogic.scene.getThingMapIds("BLOCK_COLLISION")) {
-                gThing bl = cClientLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
-                if(t.collidesWithThing(bl)) {
-                    bulletsToRemoveIds.add(t.get("id"));
-                    if(t.isInt("src", gWeapons.launcher))
-                        pseeds.add(t);
-                }
-            }
-            for(String playerId : cClientLogic.getPlayerIds()) {
-                gPlayer p = cClientLogic.getPlayerById(playerId);
-                if(p != null && p.containsFields(new String[]{"coordx", "coordy"})
-                        && t.collidesWithThing(p) && !t.get("srcid").equals(playerId)) {
-                    bulletsToRemovePlayerMap.put(p, t);
-                    if(t.isInt("src", gWeapons.launcher))
-                        pseeds.add(t);
-                }
-            }
+        else {
+            keys.put("fv", "0");
+            keys.put("mov0", "0");
+            keys.put("mov1", "0");
+            keys.put("mov2", "0");
+            keys.put("mov3", "0");
         }
-        if(pseeds.size() > 0) {
-            for(gBullet pseed : pseeds)
-                gWeaponsLauncher.createGrenadeExplosion(pseed);
+        if(sSettings.show_mapmaker_ui) {
+            keys.put("px", Integer.toString(cClientLogic.prevX));
+            keys.put("py", Integer.toString(cClientLogic.prevY));
+            keys.put("pw", Integer.toString(cClientLogic.prevW));
+            keys.put("ph", Integer.toString(cClientLogic.prevH));
         }
-        for(Object bulletId : bulletsToRemoveIds) {
-            cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletId);
-        }
-        for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
-        }
+        cmdReceived = false; //always open up to new commands
+        return keys;
     }
 
-    private void selectThingUnderMouse() {
-        if(!cClientLogic.maploaded)
-            return;
-        int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selecteditemid = item.get("id");
-                cClientLogic.selectedPrefabId = "";
-                return;
-            }
+    private String dequeueNetCmd() {
+        if(netSendCmds.size() > 0) {
+            String cmdString = netSendCmds.peek();
+            // user's client-side firing
+            if(cmdString.startsWith("fireweapon"))
+                xCon.ex("cl_" + cmdString);
+            xCon.instance().debug("TO_SERVER: " + cmdString);
+            return netSendCmds.remove();
         }
-        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
-            if(!block.get("type").equals("BLOCK_FLOOR")
-                    && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selectedPrefabId = block.get("prefabid");
-                cClientLogic.selecteditemid = "";
-                return;
-            }
-        }
-        for(String id : cClientLogic.scene.getThingMap("BLOCK_FLOOR").keySet()) {
-            gThing block = cClientLogic.scene.getThingMap("BLOCK_FLOOR").get(id);
-            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selectedPrefabId = block.get("prefabid");
-                cClientLogic.selecteditemid = "";
-                return;
-            }
-        }
-        cClientLogic.selectedPrefabId = "";
-        cClientLogic.selecteditemid = "";
-    }
-
-    private boolean isUserPlayer(gPlayer player) {
-        return player.isVal("id", uiInterface.uuid);
-    }
-
-    private void checkPlayerFire() {
-        if(cClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft) {
-            gPlayer player = cClientLogic.getUserPlayer();
-            if(player.contains("cooldown")) {
-                int weapint = player.getInt("weapon");
-                long gametimemillis = gTime.gameTime;
-                if(player.getLong("cooldown") <= gametimemillis) {
-                    nClient.instance().addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
-                    player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
-                }
-            }
-        }
-    }
-
-    private void pointPlayerAtMousePointer() {
-        gPlayer p = cClientLogic.getUserPlayer();
-        int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
-        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());
-        double angle = Math.atan2(dy, dx);
-        if (angle < 0)
-            angle += 2*Math.PI;
-        angle += Math.PI/2;
-        p.putDouble("fv", angle);
-        p.checkSpriteFlip();
-    }
-
-    @Override
-    public void render() {
-        oDisplay.instance().frame.repaint();
-        long gameTimeMillis = gTime.gameTime;
-        if (frameCounterTime < gameTimeMillis) {
-            uiInterface.fpsReport = uiInterface.frames;
-            uiInterface.frames = 0;
-            frameCounterTime = gameTimeMillis + 1000;
-        }
+        return null;
     }
 
     @Override
     public void cleanup() {
-
+        super.cleanup();
+        sSettings.IS_CLIENT = false;
+        cClientLogic.netClientThread = null;
+        clientSocket.close();
+        uiInterface.tickReportClient = 0;
     }
 }

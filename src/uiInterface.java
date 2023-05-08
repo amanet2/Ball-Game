@@ -5,8 +5,8 @@ public class uiInterface {
     static boolean inconsole = false;
     static int tickReport = 0;
     static int fpsReport = 0;
-    static int netReportClient = 0;
-    static int tickReportServer = 0;
+    static int tickReportClient = 0;
+    static int tickReportSimulation = 0;
     static int netReportServer = 0;
     static int frames = 0;
     static String uuid = eUtils.createId();
@@ -65,13 +65,5 @@ public class uiInterface {
             }
             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem = -1;
         }
-    }
-
-    public static void exit() {
-        cServerVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cClientVars.instance().saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        if(cClientLogic.debuglog)
-            xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
-        System.exit(0);
     }
 }

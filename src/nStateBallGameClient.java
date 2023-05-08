@@ -10,7 +10,7 @@ public class nStateBallGameClient extends nState {
                 if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
                 p.put("color", value);
-                p.setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/%s", value,
+                p.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/%s", value,
                         p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
             }
         });

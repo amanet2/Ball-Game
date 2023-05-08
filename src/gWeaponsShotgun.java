@@ -2,9 +2,9 @@ public class gWeaponsShotgun extends gWeapon {
     public gWeaponsShotgun() {
         super("SHOTGUN");
         dims = new int[]{200,100};
-        bulletSpritePath = eUtils.getPath("objects/misc/fireblue.png");
+        bulletSpritePath = eManager.getPath("objects/misc/fireblue.png");
         soundFilePath = "sounds/shotgun.wav";
-        spritePath = eUtils.getPath("misc/shotgun.png");
+        spritePath = eManager.getPath("misc/shotgun.png");
         sprite = gTextures.getGScaledImage(spritePath, dims[0],dims[1]);        flipdimr = 100;
         flipdiml = 100;
     }
@@ -17,7 +17,7 @@ public class gWeaponsShotgun extends gWeapon {
         for (int i = 0; i < numpellets; i++) {
             gBullet b = new gBullet(p.getInt("coordx") + p.getInt("dimw") / 2 - bulletDims[0] / 2,
                 p.getInt("coordy") + p.getInt("dimh") / 2 - bulletDims[1] / 2, bulletDims[0], bulletDims[1],
-                    eUtils.getPath(String.format("objects/misc/fire%s.png", p.get("color"))),
+                    eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))),
                     p.getDouble("fv"), damage/numpellets);
             b.putInt("ttl",bulletTtl);
             b.put("srcid", p.get("id"));

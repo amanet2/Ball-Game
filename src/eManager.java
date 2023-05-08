@@ -16,7 +16,7 @@ public class eManager {
         prefabFileSelection = getFilesSelection("prefabs");
         scriptFilesSelection = getFilesSelection("scripts");
         mapsFileSelection = getFilesSelection("maps");
-        winSoundFileSelection = getFilesSelection(eUtils.getPath("sounds/win"));
+        winSoundFileSelection = getFilesSelection(getPath("sounds/win"));
     }
 
 	private static String[] getFilesSelection(String dirPath) {
@@ -30,5 +30,9 @@ public class eManager {
             }
         }
         return selectionArray;
+    }
+
+    public static String getPath(String s) {
+        return sSettings.datapath + "/" + s;
     }
 }

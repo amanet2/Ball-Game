@@ -47,18 +47,18 @@ public class gPlayer extends gThing {
         boolean a05 = (getDouble("fv") >= 5*Math.PI/4 && getDouble("fv") <= 7*Math.PI/4);
 
         if(a00 && !get("pathsprite").contains("a00")) {
-            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a00.png", get("color"))));
+            setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a00.png", get("color"))));
         }
         else if(a03 && !get("pathsprite").contains("a03")) {
-            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a03.png", get("color"))));
+            setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png", get("color"))));
             gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdimr;
             gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(gWeapons.fromCode(getInt("weapon")).spritePath);
         }
         else if(a04 && !get("pathsprite").contains("a04")) {
-            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a04.png",get("color"))));
+            setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a04.png",get("color"))));
         }
         else if(a05 && !get("pathsprite").contains("a05")) {
-            setSpriteFromPath(eUtils.getPath(String.format("animations/player_%s/a05.png",get("color"))));
+            setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a05.png",get("color"))));
             String flippedSprite = gWeapons.fromCode(getInt("weapon")).spritePath.replace(".png", "_flip.png");
             if(gWeapons.fromCode(getInt("weapon")) != null) {
                 gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdiml;
@@ -99,6 +99,6 @@ public class gPlayer extends gThing {
         put("mov2", "0");
         put("mov3", "0");
         putInt("stockhp", cClientLogic.maxhp);
-        setSpriteFromPath(eUtils.getPath("animations/player_red/a03.png"));
+        setSpriteFromPath(eManager.getPath("animations/player_red/a03.png"));
     }
 }

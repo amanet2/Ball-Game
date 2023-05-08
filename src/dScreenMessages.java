@@ -23,12 +23,12 @@ public class dScreenMessages {
             g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);
         //client
         if(showtick)
-            g.drawString("CLIENT:" + uiInterface.tickReport, 0, 3*sSettings.height / 64);
-            g.drawString("CLIENT_NET:" + uiInterface.netReportClient, 0, 4*sSettings.height / 64);
+            g.drawString("SHELL:" + uiInterface.tickReport, 0, 3 * sSettings.height / 64);
         //net
         if(shownet) {
-            g.drawString("SERVER:" + uiInterface.tickReportServer, 0, 5 * sSettings.height / 64);
-            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 6 * sSettings.height / 64);
+            g.drawString("CLIENT_NET:" + uiInterface.tickReportClient, 0, 4 * sSettings.height / 64);
+            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 6 * sSettings.height / 64);
             g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
@@ -60,12 +60,8 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && cClientLogic.maploaded) {
-            if(nClient.instance().serverArgsMap.containsKey("time")) {
-                long timeleft = Long.parseLong(nClient.instance().serverArgsMap.get("time"));
-                if (timeleft > -1)
-                    dFonts.drawRightJustifiedString(g, eUtils.getTimeString(timeleft),
-                            29 * sSettings.width / 30, 59 * sSettings.height / 64);
-            }
+            dFonts.drawRightJustifiedString(g, gTime.getTimeString(cClientLogic.timeleft),
+                    29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
                     29 * sSettings.width / 30, 31*sSettings.height/32);
@@ -76,27 +72,15 @@ public class dScreenMessages {
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
-        //say
-        if(gMessages.enteringMessage)
-            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
-                    0,25 * sSettings.height/32);
-        //sendmsg.. invisible?
-        dFonts.setFontColor(g, "clrf_normal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
-                if(uiMenus.selectedMenu == uiMenus.MENU_CONTROLS)
-                    dMenus.showControlsMenu(g);
-                else if(uiMenus.selectedMenu == uiMenus.MENU_CREDITS)
-                    dMenus.showCreditsMenu(g);
-                else
-                    dMenus.showPauseMenu(g);
+                dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cClientLogic.maploaded){
-                dFonts.setFontNormal(g);
                 String newThingString = cClientLogic.newprefabname;
                 //preview
                 g.setColor(Color.BLACK);
@@ -179,17 +163,12 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        //respawn msg
         //scoreboard
-        if(showscore) {
+        if(showscore)
             dScoreboard.showScoreBoard(g);
-        }
         //loading
-        if(sSettings.IS_CLIENT && !cClientLogic.maploaded) {
-//            dFonts.drawCenteredString(g, "LOADING...", sSettings.width / 2, 9 * sSettings.height / 12);
-            if(gTime.gameTime % 1000 < 500)
-                dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
-        }
+        if(sSettings.IS_CLIENT && !cClientLogic.maploaded && gTime.gameTime % 1000 < 500)
+            dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {
@@ -231,5 +210,11 @@ public class dScreenMessages {
                 }
             }
         }
+        //big font
+        dFonts.setFontNormal(g);
+        //say
+        if(gMessages.enteringMessage)
+            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+                    0,25 * sSettings.height/32);
     }
 }

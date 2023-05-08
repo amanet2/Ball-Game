@@ -1,3 +1,6 @@
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
+
 public class uiMenus {
     static boolean gobackSelected = false;
     static final int MENU_MAIN = 0;
@@ -10,18 +13,14 @@ public class uiMenus {
     static final int MENU_PROFILE = 7;
     static final int MENU_AUDIO = 8;
     static final int MENU_RESOLUTION = 9;
-    static final int MENU_REFRESH = 10;
+    static final int MENU_FRAMERATE = 10;
     static final int MENU_MAP = 11;
     static final int MENU_VOLUME = 12;
     static final int MENU_COLOR = 13;
     static final int MENU_CREDITS = 14;
+    static final int MENU_DISCONNECT = 15;
 
     static int selectedMenu = MENU_MAIN;
-
-    static void init() {
-        menuSelection[MENU_MAP].setupMenuItems();
-        menuSelection[MENU_CONTROLS].items = getControlMenuItems();
-    }
 
     static final uiMenu[] menuSelection = new uiMenu[]{
         new uiMenu(
@@ -39,8 +38,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Disconnect") {
                             public void doItem(){
-                                if(xCon.ex("e_showlossalert").equals("0"))
-                                    xCon.ex("disconnect");
+                                selectedMenu = MENU_DISCONNECT;
                             }
                         },
                         new uiMenuItem("Options") {
@@ -55,7 +53,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Quit") {
                             public void doItem(){
-                                selectedMenu = (MENU_QUIT);
+                                selectedMenu = MENU_QUIT;
                             }
                         }
                 },
@@ -107,7 +105,7 @@ public class uiMenus {
                 },
                 MENU_MAIN
         ),
-        new uiMenu("Controls", new uiMenuItem[] {}, MENU_OPTIONS) {
+        new uiMenu("Controls", getControlMenuItems(), MENU_OPTIONS) {
             public void refresh() {
                 this.items = getControlMenuItems();
             }
@@ -126,7 +124,7 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
                             public void doItem() {
-                                selectedMenu = MENU_REFRESH;
+                                selectedMenu = MENU_FRAMERATE;
                             }
                         },
                         new uiMenuItem(String.format("Borderless [%s]",
@@ -285,9 +283,9 @@ public class uiMenus {
                 });
             }
         },
-        new uiMenusResolution(),
-        new uiMenusRefresh(),
-        new uiMenusMap(),
+        new uiMenu("Select Resolution", getResolutionMenuItems(), MENU_VIDEO),
+        new uiMenu("Select Framerate", getFramerateMenuItems(), MENU_VIDEO),
+        new uiMenu("Select Map", getMapMenuItems(), MENU_NEWGAME),
         new uiMenu(
                 "Volume Level",
                 new uiMenuItem[]{
@@ -350,12 +348,30 @@ public class uiMenus {
                 },
                 MENU_AUDIO
         ),
-        new uiMenusColor(),
+        new uiMenu("Select Color", getColorMenuItems(), MENU_PROFILE),
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("coded by Anthony Manetti 2021-2023"),
-                        new uiMenuItem("venmo @StallionUSA")
+                        new uiMenuItem("Programming & Design by Anthony Manetti"),
+                        new uiMenuItem("venmo @StallionUSA"),
+                        new uiMenuItem("Ballmaster 2021-2023")
+                },
+                MENU_MAIN
+        ),
+        new uiMenu(
+                "Disconnect?",
+                new uiMenuItem[] {
+                        new uiMenuItem("No") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                            }
+                        },
+                        new uiMenuItem("Yes") {
+                            public void doItem(){
+                                selectedMenu = MENU_MAIN;
+                                xCon.ex("disconnect");
+                            }
+                        }
                 },
                 MENU_MAIN
         )
@@ -375,15 +391,105 @@ public class uiMenus {
             menuSelection[selectedMenu].selectedItem = menuSelection[selectedMenu].items.length-1;
     }
 
+    private static uiMenuItem[] getMapMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[]{
+            new uiMenuItem("<random map>") {
+                public void doItem() {
+                    eManager.mapSelectionIndex = -1;
+                    menuSelection[MENU_NEWGAME].items[1].text = "MAP [<random map>]";
+                    selectedMenu = MENU_NEWGAME;
+                }
+            }
+        };
+        for(int i = 0; i < eManager.mapsFileSelection.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(eManager.mapsFileSelection[i]){
+                public void doItem() {
+                    for(int i = 0; i < eManager.mapsFileSelection.length; i++) {
+                        if(eManager.mapsFileSelection[i].equals(text))
+                            eManager.mapSelectionIndex = i;
+                    }
+                    if(eManager.mapSelectionIndex > -1) {
+                        menuSelection[MENU_NEWGAME].items[1].text =
+                                String.format("Map [%s]", eManager.mapsFileSelection[eManager.mapSelectionIndex]);
+                    }
+                    selectedMenu = MENU_NEWGAME;
+                }
+            };
+        }
+        return items;
+    }
+
+    private static uiMenuItem[] getResolutionMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[] {};
+        for(int i = 0; i < sSettings.resolutions.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
+                public void doItem() {
+                    String[] toks = text.split("x");
+                    xCon.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
+                    menuSelection[MENU_VIDEO].items[0].refreshText();
+                    selectedMenu = MENU_VIDEO;
+                }
+            };
+        }
+        return items;
+    }
+    
+    private static uiMenuItem[] getFramerateMenuItems() {
+        uiMenuItem[] items = new uiMenuItem[]{
+                new uiMenuItem("<None>") {
+                    public void doItem() {
+                        sSettings.framerate = -1;
+                        selectFramerateAfterSubmit();
+                    }
+                }
+        };
+        for(int i = 0; i < sSettings.framerates.length; i++){
+            items = Arrays.copyOf(items,items.length+1);
+            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
+                public void doItem() {
+                    sSettings.framerate = Integer.parseInt(text);
+                    selectFramerateAfterSubmit();
+                }
+            };
+        }
+        return items;
+    }
+    
+    private static void selectFramerateAfterSubmit() {
+        cClientLogic.vars.put("vidmode",
+                String.format("%d,%d,%d", sSettings.width, sSettings.height,
+                        sSettings.framerate));
+        menuSelection[MENU_VIDEO].refresh();
+        selectedMenu = MENU_VIDEO;
+    }
+
+    private static uiMenuItem[] getColorMenuItems() {
+        String[] selection = sSettings.colorSelection;
+        uiMenuItem[] items = new uiMenuItem[] {};
+        for (String s : selection) {
+            items = Arrays.copyOf(items, items.length + 1);
+            items[items.length - 1] = new uiMenuItem(s) {
+                public void doItem() {
+                    xCon.ex("cl_setvar playercolor " + text);
+                    menuSelection[MENU_PROFILE].refresh();
+                    selectedMenu = MENU_PROFILE;
+                }
+            };
+        }
+        return items;
+    }
+
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
                 new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+(char)(int)xCon.instance().getKeyCodeForComm("playerup")),
-                new uiMenuItem("move down: "+(char)(int)xCon.instance().getKeyCodeForComm("playerdown")),
-                new uiMenuItem("move left: "+(char)(int)xCon.instance().getKeyCodeForComm("playerleft")),
-                new uiMenuItem("move right: "+(char)(int)xCon.instance().getKeyCodeForComm("playerright")),
-                new uiMenuItem("show scoreboard: TAB"),
-                new uiMenuItem("chat: "+(char)(int)xCon.instance().getKeyCodeForComm("chat"))
+                new uiMenuItem("move up: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerup"))),
+                new uiMenuItem("move down: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerdown"))),
+                new uiMenuItem("move left: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerleft"))),
+                new uiMenuItem("move right: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerright"))),
+                new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("showscore"))),
+                new uiMenuItem("chat: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("chat")))
         };
     }
 

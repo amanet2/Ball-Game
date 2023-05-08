@@ -21,7 +21,7 @@ public class dHUD {
         g.drawString(userPlayer.get("stockhp"), 37*sSettings.width / 256, 15*sSettings.height/16);
         dFonts.setFontNormal(g);
         //score
-        nStateMap clStateMap = nClient.instance().clientStateMap;
+        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
         if(clStateMap.contains(uiInterface.uuid) && clStateMap.get(uiInterface.uuid).contains("score")) {
             g.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
             g.drawString("$ "+ clStateMap.get(uiInterface.uuid).get("score").split(":")[1],

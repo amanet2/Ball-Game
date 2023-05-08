@@ -1,4 +1,8 @@
-getres hadflag getsnap $1 flag
+getres hadflag setnstate $1 flag
+getres olname setnstate $1 name
+getres olcolor setnstate $1 color
+getres olnamecolor constr $olname # $olcolor
+echo $olnamecolor left the game
 testres $hadflag 1 getres dcx setthing THING_PLAYER $1 coordx
 testres $hadflag 1 getres dcy setthing THING_PLAYER $1 coordy
 testres $hadflag 1 exec scripts/dropitem ITEM_FLAG $1

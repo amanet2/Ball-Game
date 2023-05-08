@@ -12,4 +12,8 @@ public class uiMenuItem {
     public uiMenuItem(String t) {
         text = t;
     }
+
+    public String toString() {
+        return text;
+    }
 }

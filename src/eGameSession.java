@@ -3,11 +3,13 @@ public class eGameSession extends Thread implements Runnable {
     private final eGameLogic gameLogic;
     private long tickTimeNanos;
     private final int tickRate;
+    private boolean playing;
 
     public eGameSession(eGameLogic logic, int rate) {
         gameLogic = logic;
         timer = new eTimer();
         tickRate = rate;
+        playing = true;
     }
 
     @Override
@@ -24,10 +26,14 @@ public class eGameSession extends Thread implements Runnable {
         }
     }
 
+    public void destroy() {
+        playing = false;
+    }
+
     private void init(){
         timer.init();
-        gameLogic.init();
         tickTimeNanos = timer.snapshotTimeNanos();
+        gameLogic.init();
     }
 
     private void cleanup() {
@@ -35,7 +41,6 @@ public class eGameSession extends Thread implements Runnable {
     }
 
     private void loop() {
-        boolean playing = true;
         while (playing) {
             timer.sync();
             input();
@@ -46,6 +51,7 @@ public class eGameSession extends Thread implements Runnable {
             render();
             sync();
         }
+        System.out.println("SESSION LOOP EXITED " + gameLogic.toString());
     }
 
     private boolean behindTimer() {

@@ -14,4 +14,8 @@ public class gArg {
     public void onChange() {
 
     }
+
+    public void onUpdate() {
+        //executed every time argset.put is called for this arg
+    }
 }
