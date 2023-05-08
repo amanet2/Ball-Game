@@ -95,14 +95,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.putInt("vel1", 0);
                 }
             }
-            nState objState = cServerLogic.netServerThread.masterStateMap.get(id);
-            if(objState != null) {
-                objState.put("coords", obj.get("coordx") + ":" + obj.get("coordy"));
-                objState.put("vel0", obj.get("vel0"));
-                objState.put("vel1", obj.get("vel1"));
-                objState.put("vel2", obj.get("vel2"));
-                objState.put("vel3", obj.get("vel3"));
-            }
         }
 
         try {

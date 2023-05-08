@@ -283,11 +283,18 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
         //update players
         gPlayer pl = cServerLogic.getPlayerById(stateId);
-        if(pl != null)    //store player object's health in outgoing network arg map
+        if(pl != null) {    //store player object's health in outgoing network arg map
             masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
+            masterStateMap.get(stateId).put("coords", pl.get("coordx") + ":" + pl.get("coordy"));
+            masterStateMap.get(stateId).put("vel0", pl.get("vel0"));
+            masterStateMap.get(stateId).put("vel1", pl.get("vel1"));
+            masterStateMap.get(stateId).put("vel2", pl.get("vel2"));
+            masterStateMap.get(stateId).put("vel3", pl.get("vel3"));
+        }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
+
         masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
     }
 
