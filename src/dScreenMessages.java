@@ -72,12 +72,6 @@ public class dScreenMessages {
                 sSettings.width/2, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
-        //say
-        if(gMessages.enteringMessage)
-            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
-                    0,25 * sSettings.height/32);
-        //sendmsg.. invisible?
-        dFonts.setFontColor(g, "clrf_normal");
         //menus
         if(!uiInterface.inplay) {
             if(!sSettings.show_mapmaker_ui) {
@@ -87,7 +81,6 @@ public class dScreenMessages {
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(cClientLogic.maploaded){
-                dFonts.setFontNormal(g);
                 String newThingString = cClientLogic.newprefabname;
                 //preview
                 g.setColor(Color.BLACK);
@@ -170,7 +163,6 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        //respawn msg
         //scoreboard
         if(showscore)
             dScoreboard.showScoreBoard(g);
@@ -218,5 +210,11 @@ public class dScreenMessages {
                 }
             }
         }
+        //big font
+        dFonts.setFontNormal(g);
+        //say
+        if(gMessages.enteringMessage)
+            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+                    0,25 * sSettings.height/32);
     }
 }
