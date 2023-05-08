@@ -221,7 +221,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
-        nStateMap deltaStateMap = new nStateMap(masterStateMap.toString().replace(", ", ","));
+        nStateMap deltaStateMap = new nStateMap(masterStateSnapshot);
         //add server vars to the sending map
         deltaStateMap.put("server", new nState());
         for(String k : netVars.keySet()) {

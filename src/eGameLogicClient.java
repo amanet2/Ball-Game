@@ -70,7 +70,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         receivedPackets.clear();
     }
 
-    public void readData(String receiveDataString) {
+    private void readData(String receiveDataString) {
         StringBuilder foundIdsBuilder = new StringBuilder();
         String netmapstring = receiveDataString.trim();
         nStateMap packArgStateMap = new nStateMap(netmapstring);
@@ -197,7 +197,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         return keys;
     }
 
-    public String dequeueNetCmd() {
+    private String dequeueNetCmd() {
         if(netSendCmds.size() > 0) {
             String cmdString = netSendCmds.peek();
             // user's client-side firing

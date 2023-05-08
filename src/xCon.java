@@ -661,7 +661,8 @@ public class xCon {
                 if(args.length < 3)
                     return "usage: foreachclient $id <script where $id is preloaded>";
                 String varname = args[1];
-                for(String id : cServerLogic.netServerThread.masterStateMap.keys()) {
+                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                for(String id : svMap.keys()) {
                     ex(String.format("setvar %s %s", varname, id));
                     String[] cargs = cServerLogic.vars.parseScriptArgs(fullCommand);
                     StringBuilder esb = new StringBuilder();
