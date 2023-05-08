@@ -1,4 +1,5 @@
 foreachclient pid setnstate $pid flag 0
+foreachclient pid setnstate $pid virus 0
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
