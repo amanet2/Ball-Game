@@ -190,7 +190,7 @@ public class xCon {
         commands.put("clientlist", new xCom() {
             public String doCommand(String fullCommand) {
                 StringBuilder s = new StringBuilder();
-                nStateMap svMap = cServerLogic.netServerThread.masterStateMap;
+                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
                 for(String k : svMap.keys()) {
                     s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
                             svMap.get(k).get("name"), k));
@@ -241,8 +241,10 @@ public class xCon {
                         shooterid = toks[3];
                     gPlayer player = cServerLogic.getPlayerById(id);
                     if(player != null) {
+                        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
                         player.putInt("stockhp", player.getInt("stockhp") - dmg);
-                        cServerLogic.netServerThread.masterStateMap.get(id).put("hp", player.get("stockhp"));
+                        cServerLogic.netServerThread.setClientState(id, "hp", player.get("stockhp"));
+//                        cServerLogic.netServerThread.masterStateMap.get(id).put("hp", player.get("stockhp"));
                         ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
@@ -254,7 +256,7 @@ public class xCon {
                                 shooterid = "null";
                             ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
                             int animInd = gAnimations.ANIM_EXPLOSION_REG;
-                            String colorName = cServerLogic.netServerThread.masterStateMap.get(id).get("color");
+                            String colorName = svMap.get(id).get("color");
                             if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                                 animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                             ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
@@ -758,10 +760,11 @@ public class xCon {
         commands.put("getrandclid", new xCom() {
             // usage: getrandclid
             public String doCommand(String fullCommand) {
-                if(cServerLogic.netServerThread.masterStateMap.keys().size() < 1)
+                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                if(svMap.keys().size() < 1)
                     return "null";
-                int randomClientIndex = (int) (Math.random() * cServerLogic.netServerThread.masterStateMap.keys().size());
-                ArrayList<String> clientIds = new ArrayList<>(cServerLogic.netServerThread.masterStateMap.keys());
+                int randomClientIndex = (int) (Math.random() * svMap.keys().size());
+                ArrayList<String> clientIds = new ArrayList<>(svMap.keys());
                 return clientIds.get(randomClientIndex);
             }
         });
@@ -870,7 +873,8 @@ public class xCon {
                 if(args.length > 2)
                     score = Integer.parseInt(args[2]);
                 gScoreboard.addToScoreField(id, "score", score);
-                String color = cServerLogic.netServerThread.masterStateMap.get(id).get("color");
+                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                String color = svMap.get(id).get("color");
                 xCon.ex(String.format("spawnpopup %s +%d#%s", id, score, color));
                 return "gave point to " + id;
             }
@@ -1272,12 +1276,12 @@ public class xCon {
         commands.put("setnstate", new xCom() {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
-                nStateMap serverState = cServerLogic.netServerThread.masterStateMap;
+                nStateMap serverStateSnapshot = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
                 String[] args = cServerLogic.vars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
-                    return serverState.toString();
+                    return serverStateSnapshot.toString();
                 String pid = args[1];
-                nState clientState = serverState.get(pid);
+                nState clientState = serverStateSnapshot.get(pid);
                 if(clientState == null)
                     return "null";
                 if(args.length < 3)
@@ -1293,8 +1297,7 @@ public class xCon {
                     tvb.append(" ").append(args[i]);
                 }
                 String tv = tvb.substring(1);
-                clientState.put(tk, tv);
-                return clientState.get(tk);
+                return cServerLogic.netServerThread.setClientState(pid, tk, tv);
             }
         });
         commands.put("setplayercoords", new xCom() {
