@@ -133,7 +133,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    void addIgnoringNetCmd(String ignoreIds, String cmd) {
+    public void addIgnoringNetCmd(String ignoreIds, String cmd) {
         //ignoreIds is any-char separated string of ids
         if(!ignoreIds.contains("server"))
             xCon.ex(cmd);
@@ -189,7 +189,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         return deltaStateMap.toString().replace(", ", ",");
     }
 
-    void removeNetClient(String id) {
+    private void removeNetClient(String id) {
         xCon.ex("exec scripts/sv_handleremoveclient " + id);
         clientCheckinMap.remove(id);
         masterStateMap.remove(id);
@@ -198,13 +198,13 @@ public class eGameLogicServer extends eGameLogicAdapter {
         xCon.ex("deleteplayer " + id);
     }
 
-    public void sendMapAndRespawn(String id) {
+    private void sendMapAndRespawn(String id) {
         sendMap(id);
         if(!sSettings.show_mapmaker_ui) //spawn in after finished loading
             xCon.ex("respawnnetplayer " + id);
     }
 
-    public void handleJoin(String id) {
+    private void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
@@ -215,7 +215,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         xCon.ex(String.format("echo %s#%s joined the game", cname, ccolor));
     }
 
-    public void handleBackfill(String id) {
+    private void handleBackfill(String id) {
         for(String cId : masterStateMap.keys()) {
             if(!id.equals(cId)) {
                 gPlayer p = cServerLogic.getPlayerById(cId);
@@ -225,7 +225,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    public void readData(String receiveDataString) {
+    private void readData(String receiveDataString) {
         if(receiveDataString.length() < 1)
             return;
         //load received string into state object
@@ -264,7 +264,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         return masterStateMap.get(id).get(key);
     }
 
-    public void sendMap(String packId) {
+    private void sendMap(String packId) {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
@@ -316,7 +316,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
     }
 
-    void handleClientCommand(String id, String cmd) {
+    public void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(clientCmdDoables.containsKey(ccmd))
             clientCmdDoables.get(ccmd).ex(id, cmd);
