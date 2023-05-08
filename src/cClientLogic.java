@@ -87,10 +87,10 @@ public class cClientLogic {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
                 if(!sSettings.audioenabled) {
-                    for(AudioClip c : oAudio.instance().clips) {
+                    for(AudioClip c : xMain.shellLogic.audioClips) {
                         c.stop();
                     }
-                    oAudio.instance().clips.clear();
+//                    oAudio.instance().clips.clear(); //maybe needed?
                 }
             }
         });

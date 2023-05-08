@@ -1105,11 +1105,11 @@ public class xCon {
                         soundClip.setBalance(balance);
                         soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
                                 *(cClientLogic.volume/100.0));
-                        oAudio.instance().clips.add(soundClip);
+                        xMain.shellLogic.audioClips.add(soundClip);
                     }
                     else {
                         soundClip.play(cClientLogic.volume / 100.0);
-                        oAudio.instance().clips.add(soundClip);
+                        xMain.shellLogic.audioClips.add(soundClip);
                     }
                 }
                 return fullCommand;

@@ -1,9 +1,13 @@
+import javafx.scene.media.AudioClip;
+
 import java.util.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
+    ArrayList<AudioClip> audioClips;
 
     public eGameLogicShell(String[] args) {
+        audioClips = new ArrayList<>();
         eManager.init();
         gExecDoableFactory.instance().init();
         gScriptFactory.instance().init();
@@ -58,12 +62,27 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 else if(sSettings.show_mapmaker_ui)
                     selectThingUnderMouse();
             }
-            oAudio.instance().checkAudio(); //setting to mute game when not in focus?
+            checkAudio(); //setting to mute game when not in focus?
             if(cClientLogic.getUserPlayer() != null)
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
         uiInterface.tickReport = getTickReport();
+    }
+
+    private void checkAudio() {
+        //TODO: fix concurrency issues here
+        if(audioClips.size() > 0){
+            ArrayList<AudioClip> tr = new ArrayList<>();
+            for (AudioClip c : audioClips) {
+                if (!c.isPlaying()) {
+                    tr.add(c);
+                }
+            }
+            for (AudioClip c : tr) {
+                audioClips.remove(c);
+            }
+        }
     }
 
     private void updateEntityPositions(long gameTimeMillis) {
