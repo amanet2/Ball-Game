@@ -17,16 +17,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
-    private final Queue<DatagramPacket> receivedPackets; //packets from clients in order rcvd
-    private final Queue<DatagramPacket> sendPackets; //packets from clients in order rcvd
     private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
 
     public eGameLogicServer() {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
-        receivedPackets = new LinkedList<>();
-        sendPackets = new LinkedList<>();
         quitClientIds = new LinkedList<>();
         serverLocalCmdQueue = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
@@ -181,65 +177,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
             clientNetCmdMap.get(id).remove();
     }
 
-    public void processReceivedPackets() {
-        try {
-            DatagramPacket receivePacket = receivedPackets.peek();
-            if(receivePacket == null)
-                return;
-            String receiveDataString = new String(receivePacket.getData());
-            receivedPackets.remove();
-            xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-                    + receiveDataString.trim());
-            //get the ip address of the client
-            InetAddress addr = receivePacket.getAddress();
-            int port = receivePacket.getPort();
-            //read data of packet
-            readData(receiveDataString); //and respond too
-            //get player id of client
-            nState clientState = new nState(receiveDataString);
-            String clientId = clientState.get("id");
-            if(clientId != null) {
-                //create response
-                HashMap<String, String> netVars = new HashMap<>();
-                netVars.put("cmd", "");
-                netVars.put("time", Long.toString(cServerLogic.timeleft));
-                String sendDataString = createSendDataString(netVars, clientId);
-                byte[] sendData = sendDataString.getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
-                sendPackets.add(sendPacket);
-//                serverSocket.send(sendPacket);
-                xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
-                xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-                if(sendDataString.length() > sSettings.max_packet_size)
-                    System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: "
-                            + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
-            }
-        }
-        catch (Exception e) {
-            eLogging.logException(e);
-            e.printStackTrace();
-        }
-    }
-
-    public void processOutgoingPackets() {
-        try {
-            DatagramPacket sendPacket = sendPackets.peek();
-            if(sendPacket == null)
-                return;
-//            String sendDataString = new String(sendPacket.getData());
-            sendPackets.remove();
-            serverSocket.send(sendPacket);
-//            xCon.instance().debug("SERVER SND [" + sendDataString.trim().length() + "]: "
-//                    + sendDataString.trim());
-//                if(sendDataString.length() > sSettings.max_packet_size)
-//                    System.out.println("*WARNING* PACKET LENGTH EXCEED " + sSettings.max_packet_size + " BYTES: " + sendDataString);
-        }
-        catch (Exception e) {
-            eLogging.logException(e);
-            e.printStackTrace();
-        }
-    }
-
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
         if(clientNetCmdMap.containsKey(clientid) && clientNetCmdMap.get(clientid).size() > 0)
             netVars.put("cmd", clientNetCmdMap.get(clientid).peek());
@@ -391,18 +328,14 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void update() {
         super.update();
         try {
+            checkForUnhandledQuitters();
             byte[] receiveData = new byte[sSettings.rcvbytesserver];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             serverSocket.receive(receivePacket);
-            receivedPackets.add(receivePacket);
             try {
-//                DatagramPacket receivePacket = receivedPackets.peek();
-//                if(receivePacket == null)
-//                    return;
                 String receiveDataString = new String(receivePacket.getData());
-//                receivedPackets.remove();
-//                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
-//                        + receiveDataString.trim());
+                xCon.instance().debug("SERVER RCV [" + receiveDataString.trim().length() + "]: "
+                        + receiveDataString.trim());
                 //get the ip address of the client
                 InetAddress addr = receivePacket.getAddress();
                 int port = receivePacket.getPort();
@@ -418,7 +351,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
-//                sendPackets.add(sendPacket);
                 serverSocket.send(sendPacket);
                 xCon.instance().debug("SERVER_STATE_" + clientId + " [" + masterStateSnapshot + "]");
                 xCon.instance().debug("SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
@@ -430,7 +362,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 eLogging.logException(e);
                 e.printStackTrace();
             }
-            cServerLogic.netServerThread.checkForUnhandledQuitters();
         }
         catch (SocketException se) {
             //just to catch the closing
