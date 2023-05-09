@@ -75,9 +75,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(audioClips.size() > 0){
             ArrayList<AudioClip> tr = new ArrayList<>();
             for (AudioClip c : audioClips) {
-                if (!c.isPlaying()) {
+                if (!c.isPlaying())
                     tr.add(c);
-                }
             }
             for (AudioClip c : tr) {
                 audioClips.remove(c);
@@ -174,15 +173,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
             gBullet t = (gBullet) checkThings.remove();
             if(gameTimeMillis - t.getLong("timestamp") > t.getInt("ttl")){
                 bulletsToRemoveIds.add(t.get("id"));
-//                if (sVars.isOne("vfxenableanimations") && b.getInt("anim") > -1) {
-//                    currentMap.scene.getThingMap("THING_ANIMATION").put(
-//                            createId(), new gAnimationEmitter(b.getInt("anim"),
-//                                    b.getInt("coordx"), b.getInt("coordy")));
-//                }
                 //grenade explosion
-                if(t.isInt("src", gWeapons.launcher)) {
+                if(t.isInt("src", gWeapons.launcher))
                     pseeds.add(t);
-                }
                 continue;
             }
             for(String blockId : cClientLogic.scene.getThingMapIds("BLOCK_COLLISION")) {

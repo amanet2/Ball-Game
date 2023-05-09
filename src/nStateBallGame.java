@@ -1,27 +1,18 @@
 public class nStateBallGame extends nState {
     public nStateBallGame() {
         //generates a "dummy snapshot" of all vars with value of 0/default
-        //
         super();
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
-            int ctr = 0;
             public void onChange() {
-                if(ctr < 1)
-                    ctr++;
-                else
-                    xCon.ex(String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
+                xCon.ex(String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
                 oldcolor = value;
             }
         });
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
-            int ctr = 0;
             public void onChange() {
-                if(ctr < 1)
-                    ctr++;
-                else
-                    xCon.ex(String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
+                xCon.ex(String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
                 oldname = value;
             }
         });
@@ -61,9 +52,8 @@ public class nStateBallGame extends nState {
         });
         map.putArg(new gArg("cmd", "") {
             public void onChange() {
-                if(value.length() > 0) {
+                if(value.length() > 0)
                     cServerLogic.netServerThread.handleClientCommand(get("id"), value);
-                }
             }
         });
     }
