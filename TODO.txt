@@ -1,3 +1,5 @@
+* get rid of queueing receive packets for client
+* ENGINE: move timedEvents into net client thread
 * CRASH: all clients lose connection to server at some random time but dont know why
     -> see if the "disconnect" feature is a workaround now
     -> maybe socket is not be re-created on rety?

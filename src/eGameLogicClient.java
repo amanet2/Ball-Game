@@ -10,7 +10,6 @@ import java.util.Queue;
 public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
-    private Queue<DatagramPacket> receivedPackets;
     private nStateMap clientStateMap; //hold net player vars
     private gArgSet receivedArgsServer;
     private boolean cmdReceived;
@@ -18,7 +17,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
 
     public eGameLogicClient() {
         netSendCmds = new LinkedList<>();
-        receivedPackets = new LinkedList<>();
         cmdReceived = false;
         try {
             clientSocket = new DatagramSocket();
@@ -45,29 +43,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 }
             }
         });
-    }
-
-    public void processPackets() {
-        try {
-            while(receivedPackets.size() > 1) {
-                //this means all older packets are thrown out
-                receivedPackets.remove();
-            }
-            if(receivedPackets.size() > 0) {
-                DatagramPacket receivePacket = receivedPackets.peek();
-                if(receivePacket != null && receivePacket.getData() != null) {
-                    String receiveDataString = new String(receivePacket.getData());
-                    xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
-                            receiveDataString.trim().length(), receiveDataString.trim()));
-                    readData(receiveDataString);
-                }
-            }
-        }
-        catch (Exception e) {
-            eLogging.logException(e);
-            e.printStackTrace();
-        }
-        receivedPackets.clear();
     }
 
     private void readData(String receiveDataString) {
@@ -120,7 +95,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
                     clientReceiveData.length);
             clientSocket.receive(receivePacket);
-            receivedPackets.add(receivePacket);
+            String receiveDataString = new String(receivePacket.getData());
+            xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
+                    receiveDataString.trim().length(), receiveDataString.trim()));
+            readData(receiveDataString);
             cClientLogic.serverRcvTime = System.currentTimeMillis();
             if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);

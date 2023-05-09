@@ -53,7 +53,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
         super.update();
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-            cClientLogic.netClientThread.processPackets();
             cClientLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
