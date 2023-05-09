@@ -22,10 +22,8 @@ public class gTextures {
             else
                 base_gsprites.put(s, new ImageIcon(s));
         }
-        if(gscaled_sprites.get(rk) == null) {
-            gscaled_sprites.put(rk,
-                    base_gsprites.get(s).getImage().getScaledInstance(w, h, Image.SCALE_FAST));
-        }
+        if(gscaled_sprites.get(rk) == null)
+            gscaled_sprites.put(rk, base_gsprites.get(s).getImage().getScaledInstance(w, h, Image.SCALE_FAST));
         return gscaled_sprites.get(rk);
     }
 
