@@ -2,10 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class dTileTops {
     public static void drawMapmakerOverlay(Graphics2D g2, gScene scene) {
@@ -64,24 +61,18 @@ public class dTileTops {
         }
         if(!sSettings.vfxenableanimations)
             return;
-        HashMap animationsMap = scene.getThingMap("THING_ANIMATION");
+        HashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
         long gameTimeMillis = gTime.gameTime;
-        for(Object id : animationsMap.keySet()) {
-            gAnimationEmitter a = (gAnimationEmitter) animationsMap.get(id);
-            if(a.getInt("frame") < gAnimations.animation_selection[a.getInt("animation")
-                    ].frames.length) {
-                if (gAnimations.animation_selection[a.getInt("animation")].frames[a.getInt("frame")]
-                        != null) {
-                    g2.drawImage(gAnimations.animation_selection[a.getInt("animation")].frames[
-                                    a.getInt("frame")],
-                            a.getInt("coordx"),
-                            a.getInt("coordy"),
-                            null
-                    );
-                    if (a.getLong("frametime") + 1000/gAnimations.animation_selection[a.getInt("animation")].framerate
+        for(String id : animationsMap.keySet()) {
+            gThing emit = animationsMap.get(id);
+            if(emit.getInt("frame") < gAnimations.animation_selection[emit.getInt("animation")].frames.length) {
+                if (gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")] != null) {
+                    g2.drawImage(gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")],
+                            emit.getInt("coordx"), emit.getInt("coordy"), null);
+                    if (emit.getLong("frametime") + 1000/gAnimations.animation_selection[emit.getInt("animation")].framerate
                             < gameTimeMillis) {
-                        a.putInt("frame", a.getInt("frame")+1);
-                        a.putLong("frametime", gameTimeMillis);
+                        emit.putInt("frame", emit.getInt("frame")+1);
+                        emit.putLong("frametime", gameTimeMillis);
                     }
                 }
             }
@@ -126,24 +117,17 @@ public class dTileTops {
                         p.getInt("coordy") + 3);
                 dFonts.setFontColor(g, "clrf_normal");
                 g.drawString(word.split("#")[0]+" ",
-                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
-                        p.getInt("coordy"));
+                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()), p.getInt("coordy"));
                 ts.append(word).append(" ");
             }
         }
     }
 
     public static Polygon getPolygon(int midx, int coordy) {
-        int[][] polygonBase = new int[][]{
-                new int[]{1,1,1},
-                new int[]{0,0,1}
-        };
+        int[][] polygonBase = new int[][]{new int[]{1,1,1}, new int[]{0,0,1}};
         int polygonSize = eUtils.unscaleInt(sSettings.width/32);
         int[][] polygon = new int[][]{
-                new int[]{midx - polygonBase[0][0]*polygonSize,
-                        midx + polygonBase[0][1]*polygonSize,
-                        midx
-                },
+                new int[]{midx - polygonBase[0][0]*polygonSize, midx + polygonBase[0][1]*polygonSize, midx},
                 new int[]{coordy + polygonBase[1][0]*polygonSize, coordy + polygonBase[1][1]*polygonSize,
                         coordy + polygonBase[1][2]*polygonSize}
         };

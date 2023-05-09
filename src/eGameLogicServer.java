@@ -364,7 +364,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             eLogging.logException(e);
             e.printStackTrace();
         }
-        uiInterface.netReportServer = getTickReport();
+        uiInterface.tickReportServer = getTickReport();
     }
 
     @Override
@@ -380,6 +380,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         sSettings.IS_SERVER = false;
         serverSocket.close();
         cServerLogic.netServerThread = null;
-        uiInterface.netReportServer = 0;
+        uiInterface.tickReportServer = 0;
     }
 }

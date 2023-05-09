@@ -845,7 +845,7 @@ public class xCon {
                 String pid = args[1];
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
-                xCon.ex(giveString);
+                ex(giveString);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
@@ -858,7 +858,7 @@ public class xCon {
                 String pid = args[1];
                 String val = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
-                xCon.ex(giveString);
+                ex(giveString);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 return String.format("Set waypoint '%s' for player %s", val, pid);
             }
@@ -875,7 +875,7 @@ public class xCon {
                 gScoreboard.addToScoreField(id, "score", score);
                 nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
                 String color = svMap.get(id).get("color");
-                xCon.ex(String.format("spawnpopup %s +%d#%s", id, score, color));
+                ex(String.format("spawnpopup %s +%d#%s", id, score, color));
                 return "gave point to " + id;
             }
         });
@@ -938,6 +938,15 @@ public class xCon {
                 return "";
             }
         });
+        commands.put("cl_load", new xCom() {
+            public String doCommand(String fullCommand) {
+                //load the most basic blank map
+                gTextures.clear();
+                ex("cl_setvar gamemode 0");
+                cClientLogic.scene = new gScene();
+                return "";
+            }
+        });
         commands.put("loadingscreen", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER)
@@ -950,21 +959,11 @@ public class xCon {
                 return "loading screen OFF";
             }
         });
-        commands.put("cl_load", new xCom() {
-            public String doCommand(String fullCommand) {
-                //load the most basic blank map
-                gTextures.clear();
-                ex("cl_setvar gamemode 0");
-                cClientLogic.scene = new gScene();
-                return "";
-            }
-        });
         commands.put("mouseleft", new xCom() {
             public String doCommand(String fullCommand) {
                 if(oDisplay.instance().frame.hasFocus()) {
-                    if (uiInterface.inplay) {
+                    if (uiInterface.inplay)
                         iMouse.holdingMouseLeft = true;
-                    }
                     else {
                         if(sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
                             int[] mc = uiInterface.getMouseCoordinates();
@@ -1191,7 +1190,7 @@ public class xCon {
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
-                        xCon.ex(String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy")));
+                        ex(String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy")));
                     }
                 }
                 return fullCommand;
@@ -1879,9 +1878,8 @@ public class xCon {
                 }
                 return result;
             }
-            else {
+            else
                 return String.format("No result: %s", command);
-            }
         }
         return "";
     }

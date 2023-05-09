@@ -110,13 +110,11 @@ public class uiEditorMenus {
         addSubMenuLabel("Controls", " - : zoom out ");
         addSubMenuLabel("Controls", " ~ : console ");
 
-        addConsoleActionToJMenuItem(exit,"quit");
+        exit.addActionListener(e -> xCon.ex("quit"));
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(!cClientLogic.maploaded)
-                    delegate();
-                else if(xCon.ex("e_showlossalert").equals("0"))
+                if(!cClientLogic.maploaded || xCon.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
             }
@@ -152,12 +150,7 @@ public class uiEditorMenus {
 
         saveas.addActionListener(e -> xCon.ex("e_saveas"));
 
-
-//        exportasprefab.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                xCon.ex("exportasprefab");
-//            }
-//        });
+//        exportasprefab.addActionListener(e -> xCon.ex("exportasprefab"));
 
         //fill prefabs menu
         ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));
@@ -344,10 +337,6 @@ public class uiEditorMenus {
               newmenu.setFont(dFonts.getFontNormal());
         menus.put(subtitle,newmenu);
         menus.get(title).add(newmenu);
-    }
-
-    private static void addConsoleActionToJMenuItem(JMenuItem item, String fullCommand) {
-        item.addActionListener(e -> xCon.ex(fullCommand));
     }
 
     public static String getRotateName(String s) {

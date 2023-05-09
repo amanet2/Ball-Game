@@ -3,13 +3,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class dMenus {
-    private static Image coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"),
-                                                             sSettings.width, sSettings.height);
     private static Image logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"),
                                                             sSettings.width, sSettings.height/3);
 
     public static void refreshLogos() {
-        coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"), sSettings.width, sSettings.height);
         logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"), sSettings.width, sSettings.height/3);
     }
 
@@ -17,7 +14,6 @@ public class dMenus {
         uiInterface.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(coverimg,0,0,null);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
