@@ -181,18 +181,16 @@ public class dTileTops {
             String ck = clState.get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
-            //SAVE THIS: draw flashlight/spawnprotection glow
-//            if(sVars.isOne("vfxenableflares") && p.isOne("flashlight")) {
-//                if (!p.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh", "flashlight"}))
-//                    continue;
-//                int x = p.getInt("coordx")
-//                        - p.getInt("dimw") / 4);
-//                int y = p.getInt("coordy")
-//                        - p.getInt("dimh") / 4);
-//                int w = 3 * p.getInt("dimw") / 2);
-//                int h = 3 * p.getInt("dimh") / 2);
-//                dFlares.drawFlare(g2, x, y, w, h, 1, new int[]{255, 255, 255, 255}, new int[4]);
-//            }
+            int[] bounds = {
+                    coordx + p.getInt("dimw")/2-(int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
+                            - eUtils.unscaleInt(5*sSettings.height/128),
+                    coordy - eUtils.unscaleInt(sSettings.height/32),
+                    eUtils.unscaleInt(sSettings.height/32),
+                    eUtils.unscaleInt(sSettings.height/32)
+            };
+            g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
+            dFonts.setFontColor(g, "clrf_normaltransparent");
+            g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 }

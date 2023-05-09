@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class dScoreboard {
     public static void showScoreBoard(Graphics g) {
@@ -55,16 +54,16 @@ public class dScoreboard {
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
+            Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height/30, sSettings.height/30);
+            g.drawImage(sprite, coordx - dFonts.getStringWidth(g, hudName)/2 - sSettings.height/30, coordy - height, null);
             g.setColor(color);
             if(isMe)
                 g.drawRect(coordx - dFonts.getStringWidth(g, hudName)/2, coordy - height,
                         dFonts.getStringWidth(g, hudName + spaceStringA + "  "), dFonts.getStringHeight(g, hudName));
             g.drawString("                           "
-                            + clStateMap.get(id).get("score").split(":")[0],
-                    sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+                            + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
             g.drawString("                                       "
-                            + clStateMap.get(id).get("score").split(":")[1],
-                    sSettings.width/3,7 * sSettings.height / 30 + ctr * sSettings.height / 30);
+                            + clStateMap.get(id).get("score").split(":")[1], sSettings.width/3, coordy);
             dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;

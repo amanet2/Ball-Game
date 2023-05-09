@@ -4,7 +4,6 @@ import java.util.Arrays;
 public class eManager {
 	static int mapSelectionIndex = -1;
 	static String[] mapsFileSelection;
-	static String[] winSoundFileSelection;
 	static String[] prefabFileSelection;
 	static String[] configFileSelection;
 	static String[] itemFilesSelection;
@@ -16,7 +15,6 @@ public class eManager {
         prefabFileSelection = getFilesSelection("prefabs");
         scriptFilesSelection = getFilesSelection("scripts");
         mapsFileSelection = getFilesSelection("maps");
-        winSoundFileSelection = getFilesSelection(getPath("sounds/win"));
     }
 
 	private static String[] getFilesSelection(String dirPath) {

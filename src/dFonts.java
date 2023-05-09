@@ -43,16 +43,6 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
         g.setColor(color);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-        int[] bounds = {
-                x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2
-                        - eUtils.unscaleInt(5*sSettings.height/128),
-                y - eUtils.unscaleInt(sSettings.height/32),
-                eUtils.unscaleInt(sSettings.height/32),
-                eUtils.unscaleInt(sSettings.height/32)
-        };
-        g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-        dFonts.setFontColor(g, "clrf_normaltransparent");
-        g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
     }
 
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {

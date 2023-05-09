@@ -85,7 +85,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     }
                     //check msg for special string
                     String testmsg = clientMessageBuilder.substring(1);
-                    xCon.ex("exec scripts/sv_handleclientmessage " + id + " " + testmsg);  //custom check
                     if(testmsg.strip().equalsIgnoreCase("thetime"))
                         addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                     else if(testmsg.strip().equalsIgnoreCase("skip")) {
@@ -98,8 +97,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                             if(votes < limit)
                                 xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                             else {
-                                addIgnoringNetCmd("server", String.format("playsound sounds/win/%s",
-                                        eManager.winSoundFileSelection[(int)(Math.random() * eManager.winSoundFileSelection.length)]));
+                                addIgnoringNetCmd("server", "playsound sounds/bfg2.wav");
                                 xCon.ex("echo [SKIP] VOTE TARGET REACHED");
                                 xCon.ex("echo changing map...");
                                 cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.voteskipdelay), new gTimeEvent(){
