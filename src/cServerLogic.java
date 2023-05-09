@@ -12,7 +12,6 @@ public class cServerLogic {
     static eGameLogicServer netServerThread;
     static gArgSet vars;
     static int voteskiplimit = 2;
-    static int voteskipdelay = 10000;
     static int respawnwaittime = 3000;
     static int maxhp = 500;
     static int velocityplayerbase = 16;

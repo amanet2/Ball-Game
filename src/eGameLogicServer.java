@@ -97,14 +97,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
                             if(votes < limit)
                                 xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
                             else {
-                                addIgnoringNetCmd("server", "playsound sounds/bfg2.wav");
                                 xCon.ex("echo [SKIP] VOTE TARGET REACHED");
-                                xCon.ex("echo changing map...");
-                                cServerLogic.timedEvents.put(Long.toString(gTime.gameTime + cServerLogic.voteskipdelay), new gTimeEvent(){
-                                    public void doCommand() {
-                                        xCon.ex("changemaprandom");
-                                    }
-                                });
+                                xCon.ex("exec scripts/sv_endgame");
                             }
                         }
                     }

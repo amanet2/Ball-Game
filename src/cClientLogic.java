@@ -85,8 +85,9 @@ public class cClientLogic {
         });
         vars.putArg(new gArg("audioenabled", "1") {
             public void onChange() {
+                //TODO: clean this up by holding audio clips in the proper place
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(!sSettings.audioenabled) {
+                if(xMain.shellLogic != null && !sSettings.audioenabled) {
                     for(AudioClip c : xMain.shellLogic.audioClips) {
                         c.stop();
                     }
