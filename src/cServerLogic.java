@@ -15,20 +15,19 @@ public class cServerLogic {
     static int velocityplayerbase = 16;
 
     static void changeMap(String mapPath) {
-        xCon.ex("loadingscreen");
-        xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
-        xCon.ex("-loadingscreen");
-        if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
-            nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
-            for(String id : svMap.keys()) {
-                netServerThread.addNetCmd("server", "respawnnetplayer " + id);
-            }
-        }
         //reset game state
         gScoreboard.resetScoresMap();
         timedEvents.clear();
+        xCon.ex("loadingscreen");
+        xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
+        xCon.ex("-loadingscreen");
         if(sSettings.show_mapmaker_ui)
             return;
+        //spawn in after finished loading
+        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+        for(String id : svMap.keys()) {
+            netServerThread.addNetCmd("server", "respawnnetplayer " + id);
+        }
         long starttime = gTime.gameTime;
         for (long t = starttime + 1000; t <= starttime + timelimit; t += 1000) {
             long lastT = t;
