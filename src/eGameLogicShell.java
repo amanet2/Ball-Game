@@ -5,20 +5,11 @@ import java.util.*;
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
     ArrayList<AudioClip> audioClips;
+    gArgSet serverVars;
 
     public eGameLogicShell(String[] args) {
         audioClips = new ArrayList<>();
-        eManager.init();
-        gExecDoableFactory.instance().init();
-        gScriptFactory.instance().init();
-        cServerLogic.init(args);
-        cClientLogic.init(args);
-        initGameObjectsAndScenes();
-        if(sSettings.show_mapmaker_ui) {
-            sSettings.drawhitboxes = true;
-            sSettings.drawmapmakergrid = true;
-            sSettings.zoomLevel = 0.5;
-        }
+        serverVars = new gArgSet();
     }
 
     private static void initGameObjectsAndScenes() {
@@ -37,6 +28,69 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void init() {
+        eManager.init();
+        gExecDoableFactory.instance().init();
+        gScriptFactory.instance().init();
+
+        //init serverVars
+
+        serverVars.putArg(new gArg("listenport", "5555") {
+            public void onChange() {
+                cServerLogic.listenPort = Integer.parseInt(value);
+            }
+        });
+        serverVars.putArg(new gArg("timelimit", "180000") {
+            public void onChange() {
+                cServerLogic.timelimit = Integer.parseInt(value);
+            }
+        });
+        serverVars.putArg(new gArg("gamemode", "0") {
+            public void onChange() {
+                cServerLogic.gameMode = Integer.parseInt(value);
+            }
+        });
+        serverVars.putArg(new gArg("maxhp", Integer.toString(cServerLogic.maxhp)) {
+            public void onChange() {
+                cServerLogic.maxhp = Integer.parseInt(value);
+                if(sSettings.IS_SERVER) {
+                    int newmaxhp = Integer.parseInt(value);
+                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
+                    nStateMap cState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                    for(String clid : cState.keys()) {
+                        cServerLogic.netServerThread.setClientState(clid, "hp", value);
+                    }
+                }
+            }
+        });
+        serverVars.putArg(new gArg("velocityplayerbase", Integer.toString(cServerLogic.velocityplayerbase)) {
+            public void onChange() {
+                cServerLogic.velocityplayerbase = Integer.parseInt(value);
+                if(sSettings.IS_SERVER)
+                    xCon.ex("addcom cl_setvar velocityplayerbase " + cServerLogic.velocityplayerbase);
+            }
+        });
+        serverVars.putArg(new gArg("voteskiplimit", "2") {
+            public void onChange() {
+                cServerLogic.voteskiplimit = Integer.parseInt(value);
+                if(cServerLogic.netServerThread != null)
+                    cServerLogic.netServerThread.checkForVoteSkip();
+            }
+        });
+        serverVars.putArg(new gArg("respawnwaittime", Integer.toString(cServerLogic.respawnwaittime)) {
+            public void onChange() {
+                cServerLogic.respawnwaittime = Integer.parseInt(value);
+            }
+        });
+        serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        serverVars.loadFromLaunchArgs(xMain.launchArgs);
+
+        cClientLogic.init(xMain.launchArgs);
+        initGameObjectsAndScenes();
+        if(sSettings.show_mapmaker_ui) {
+            sSettings.drawhitboxes = true;
+            sSettings.drawmapmakergrid = true;
+            sSettings.zoomLevel = 0.5;
+        }
         oDisplay.instance().showFrame();
         gCamera.init();
         gAnimations.init();
@@ -284,7 +338,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void cleanup() {
-        cServerLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+       serverVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         cClientLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         if(cClientLogic.debuglog)
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);

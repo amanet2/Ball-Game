@@ -28,8 +28,8 @@ public class gScript {
                     String tokenKey = lineArgCallTokens[i];
                     if(argSet.contains(tokenKey))
                         lineArgCallTokens[i] = argSet.get(tokenKey);
-                    else if(cServerLogic.vars.contains(tokenKey.substring(1)))
-                        lineArgCallTokens[i] = cServerLogic.vars.get(tokenKey.substring(1));
+                    else if(xMain.shellLogic.serverVars.contains(tokenKey.substring(1)))
+                        lineArgCallTokens[i] = xMain.shellLogic.serverVars.get(tokenKey.substring(1));
                     else if(cClientLogic.vars.contains(tokenKey.substring(1))) {
                         System.out.println("SCRIPT CALLED CLIENT VARS (thats bad): " + id);
                         lineArgCallTokens[i] = cClientLogic.vars.get(tokenKey.substring(1));
