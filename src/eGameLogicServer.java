@@ -218,7 +218,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         if(receiveDataString.length() < 1)
             return;
         //load received string into state object
-        nState receivedState = new nState(receiveDataString.trim());
+        nState receivedState = new nState(receiveDataString);
         String stateId = receivedState.get("id");
         //check if masterState contains
         if(!masterStateMap.contains(stateId))

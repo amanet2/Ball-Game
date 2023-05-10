@@ -21,8 +21,8 @@ public class cServerLogic {
         xCon.ex("loadingscreen");
         xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
         xCon.ex("-loadingscreen");
-        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         if(!sSettings.show_mapmaker_ui) { //spawn in after finished loading
+            nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
             for(String id : svMap.keys()) {
                 netServerThread.addNetCmd("server", "respawnnetplayer " + id);
             }

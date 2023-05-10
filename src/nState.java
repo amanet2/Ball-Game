@@ -19,24 +19,20 @@ public class nState {
         return map.args.keySet();
     }
 
+    // worth keeping
     public nState getDelta(nState oState) {
-        //the dummy state is the first state passed to delta
-        //server will receive data from client and create...
-        //...the state which will call newState.delta(prevSavedState)
         nState deltaState = new nState();
         for(String k : oState.keys()) {
             String tv = oState.get(k);
-            if(!contains(k) || !get(k).equals(tv)) {
+            if(!contains(k) || !get(k).equals(tv))
                 deltaState.put(k, tv);
-            }
         }
         return deltaState;
     }
 
     public nState(String stateMapString) {
-        //create return hashmap of key/value pairs
         map = new gArgSet();
-        //get rid of the surrounding {} brackets.  this is fake/1-D parsing
+        stateMapString = stateMapString.trim();
         String argstr = stateMapString.substring(1, stateMapString.length()-1);
         for(String pair : argstr.split(",")) {
             String[] vals = pair.split("=");

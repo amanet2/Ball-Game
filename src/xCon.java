@@ -912,7 +912,12 @@ public class xCon {
         });
         commands.put("hostgame", new xCom() {
             public String doCommand(String fullCommand) {
-                ex(new String[] {"newgame", "joingame localhost " + cServerLogic.listenPort, "pause"});
+                ex(new String[] {
+                        "startserver",
+                        String.format("changemap%s", eManager.mapSelectionIndex < 0 ? "random" : " maps/"+eManager.mapsFileSelection[eManager.mapSelectionIndex]),
+                        "joingame localhost " + cServerLogic.listenPort,
+                        "pause"
+                });
                 return "hosting game on port " + cServerLogic.listenPort;
             }
         });
@@ -1016,13 +1021,6 @@ public class xCon {
             public String undoCommand(String fullCommand) {
                 iMouse.holdingMouseLeft = false;
                 return fullCommand;
-            }
-        });
-        commands.put("newgame", new xCom() {
-            public String doCommand(String fullCommand) {
-                ex("startserver");
-                ex(String.format("changemap%s", eManager.mapSelectionIndex < 0 ? "random" : " maps/"+eManager.mapsFileSelection[eManager.mapSelectionIndex]));
-                return "new game started";
             }
         });
         commands.put("pause", new xCom() {

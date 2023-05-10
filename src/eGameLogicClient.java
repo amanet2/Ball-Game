@@ -46,10 +46,9 @@ public class eGameLogicClient extends eGameLogicAdapter {
         });
     }
 
-    private void readData(String receiveDataString) {
+    private void readData(String netmapstring) {
         ArrayList<String> foundIds = new ArrayList<>();
         Queue<String> toRemove = new LinkedList<>();
-        String netmapstring = receiveDataString.trim();
         xCon.instance().debug(String.format("CLIENT RCV [%d]: %s", netmapstring.length(), netmapstring));
         nStateMap packArgStateMap = new nStateMap(netmapstring);
         for(String idload : packArgStateMap.keys()) {
@@ -88,7 +87,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
             clientSocket.receive(receivePacket);
-            readData(new String(receivePacket.getData()));
+            readData(new String(receivePacket.getData()).trim());
             cClientLogic.serverRcvTime = System.currentTimeMillis();
             if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
                 cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
