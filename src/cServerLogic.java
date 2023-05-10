@@ -104,7 +104,8 @@ public class cServerLogic {
         vars.putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 voteskiplimit = Integer.parseInt(value);
-                netServerThread.checkForVoteSkip();
+                if(netServerThread != null)
+                    netServerThread.checkForVoteSkip();
             }
         });
         vars.putArg(new gArg("respawnwaittime", Integer.toString(respawnwaittime)) {
