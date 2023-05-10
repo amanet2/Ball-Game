@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -46,7 +47,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
     }
 
     private void readData(String receiveDataString) {
-        StringBuilder foundIdsBuilder = new StringBuilder();
+        ArrayList<String> foundIds = new ArrayList<>();
+        Queue<String> toRemove = new LinkedList<>();
         String netmapstring = receiveDataString.trim();
         xCon.instance().debug(String.format("CLIENT RCV [%d]: %s", netmapstring.length(), netmapstring));
         nStateMap packArgStateMap = new nStateMap(netmapstring);
@@ -64,7 +66,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 for(String k : packArgState.keys()) {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
                 }
-                foundIdsBuilder.append(", ").append(idload);
+                foundIds.add(idload);
             }
             if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
                 gPlayer userPlayer = cClientLogic.getUserPlayer();
@@ -72,17 +74,13 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     userPlayer.put("stockhp", packArgState.get("hp"));
             }
         }
-        String foundIds = foundIdsBuilder.substring(1);
-        StringBuilder toRemove = new StringBuilder();
+        // check for IDs that are absent from received snapshot
         for(String k : clientStateMap.keys()) {
-            if(!foundIds.contains(k)) {
-                toRemove.append(",").append(k);
-            }
+            if(!foundIds.contains(k))
+                toRemove.add(k);
         }
-        if(toRemove.toString().length() > 0) {
-            for(String tr : toRemove.substring(1).split(",")) {
-                clientStateMap.remove(tr);
-            }
+        while(toRemove.size() > 0) {
+            clientStateMap.remove(toRemove.remove());
         }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
     }
@@ -93,8 +91,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
-                    clientReceiveData.length);
+            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
             clientSocket.receive(receivePacket);
             readData(new String(receivePacket.getData()));
             cClientLogic.serverRcvTime = System.currentTimeMillis();
