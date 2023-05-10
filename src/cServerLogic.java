@@ -15,7 +15,6 @@ public class cServerLogic {
     static int respawnwaittime = 3000;
     static int maxhp = 500;
     static int velocityplayerbase = 16;
-    static ArrayList<String> voteSkipList = new ArrayList<>();
 
     static void changeMap(String mapPath) {
         xCon.ex("loadingscreen");
@@ -29,7 +28,6 @@ public class cServerLogic {
         }
         //reset game state
         gScoreboard.resetScoresMap();
-        voteSkipList = new ArrayList<>();
         timedEvents.clear();
         if(sSettings.show_mapmaker_ui)
             return;
@@ -106,6 +104,7 @@ public class cServerLogic {
         vars.putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 voteskiplimit = Integer.parseInt(value);
+                netServerThread.checkForVoteSkip();
             }
         });
         vars.putArg(new gArg("respawnwaittime", Integer.toString(respawnwaittime)) {

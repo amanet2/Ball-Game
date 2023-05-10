@@ -447,9 +447,7 @@ public class xCon {
         commands.put("e_newmap", new xCom() {
             public String doCommand(String fullCommand) {
                 ex("load;addcomi server cl_setvar maploaded 1");
-                //reset game state
                 gScoreboard.resetScoresMap();
-                cServerLogic.voteSkipList = new ArrayList<>();
                 return "";
             }
         });

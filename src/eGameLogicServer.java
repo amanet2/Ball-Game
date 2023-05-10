@@ -18,6 +18,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
     private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
+    private final ArrayList<String> voteSkipList;
 
     public eGameLogicServer() {
         masterStateMap = new nStateMap();
@@ -27,7 +28,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         serverLocalCmdQueue = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
         masterStateSnapshot = "{}";
-
+        voteSkipList = new ArrayList<>();
         //init doables
         clientCmdDoables.put("fireweapon",
             new gDoableCmd() {
@@ -88,28 +89,30 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     if(testmsg.strip().equalsIgnoreCase("thetime"))
                         addNetCmd(id, "cl_echo the time is " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
                     else if(testmsg.strip().equalsIgnoreCase("skip")) {
-                        if(cServerLogic.voteSkipList.contains(id))
+                        if(voteSkipList.contains(id))
                             addNetCmd(id, "cl_echo [SKIP] YOU HAVE ALREADY VOTED TO SKIP");
                         else {
-                            cServerLogic.voteSkipList.add(id);
-                            int votes = cServerLogic.voteSkipList.size();
-                            int limit = cServerLogic.voteskiplimit;
-                            if(votes < limit)
-                                xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.", votes, limit));
-                            else {
-                                xCon.ex("echo [SKIP] VOTE TARGET REACHED");
-                                xCon.ex("exec scripts/sv_endgame");
-                            }
+                            voteSkipList.add(id);
+                            xCon.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.",
+                                    voteSkipList.size(), cServerLogic.voteskiplimit));
+                            checkForVoteSkip();
                         }
                     }
                 }
             });
-
-        // init the socket and reach out to internet last
+        // init the socket
         try {
             serverSocket = new DatagramSocket(cServerLogic.listenPort);
         } catch (SocketException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void checkForVoteSkip() {
+        if(voteSkipList.size() >= cServerLogic.voteskiplimit) {
+            voteSkipList.clear();
+            xCon.ex("echo [SKIP] VOTE TARGET REACHED");
+            xCon.ex("exec scripts/sv_endgame");
         }
     }
 
