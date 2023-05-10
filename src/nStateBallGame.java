@@ -24,7 +24,8 @@ public class nStateBallGame extends nState {
         });
         map.putArg(new gArg("hp", Integer.toString(cServerLogic.maxhp)) {
             public void onChange() {
-
+                if(Integer.parseInt(value) < 0)
+                    value = Integer.toString(cServerLogic.maxhp);
             }
         });
         map.putArg(new gArg("mov0", "0") {

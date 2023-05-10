@@ -245,7 +245,7 @@ public class xCon {
                         return "no player found: " ;
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     cServerLogic.netServerThread.setClientState(id, "hp", Integer.toString(newhp));
-                    ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
+                    ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
                     //handle death
                     if(newhp < 1) {
                         //more server-side stuff

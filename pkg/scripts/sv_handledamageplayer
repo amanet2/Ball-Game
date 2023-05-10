@@ -2,4 +2,4 @@ getres cds getrand 0 2
 testres $cds 0 addcomx $1 playsound sounds/growl.wav
 testres $cds 1 addcomx $1 playsound sounds/shout.wav
 testres $cds 2 addcomx $1 playsound sounds/death.wav
-setthing THING_PLAYER $1 hprechargetime $3
+setthing THING_PLAYER $1 hprechargetime $gametimemillis
