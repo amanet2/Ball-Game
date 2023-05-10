@@ -68,11 +68,12 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 }
                 foundIds.add(idload);
             }
-            if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
-                gPlayer userPlayer = cClientLogic.getUserPlayer();
-                if(userPlayer != null && packArgState.contains("hp"))
-                    userPlayer.put("stockhp", packArgState.get("hp"));
-            }
+        }
+        //update user player's hp
+        if(packArgStateMap.contains(uiInterface.uuid) && packArgStateMap.get(uiInterface.uuid).contains("hp")) {
+            gPlayer userPlayer = cClientLogic.getUserPlayer();
+            if(userPlayer != null)
+                userPlayer.put("stockhp", packArgStateMap.get(uiInterface.uuid).get("hp"));
         }
         // check for IDs that are absent from received snapshot
         for(String k : clientStateMap.keys()) {
@@ -117,7 +118,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private void sendData() {
         InetAddress IPAddress;
         try {
-            //if we are the server, have client send data thru localhost always
+            //if we are the server, have local client send data thru localhost always
             if(sSettings.IS_SERVER)
                 IPAddress = InetAddress.getByName("127.0.0.1");
             else
@@ -126,7 +127,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xCon.ex("cl_setvar joinport")));
-
             clientSocket.send(sendPacket);
             cClientLogic.serverSendTime = System.currentTimeMillis();
             xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
