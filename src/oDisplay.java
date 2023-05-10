@@ -16,15 +16,7 @@ public class oDisplay extends JLayeredPane {
 	JFrame frame;
     Cursor blankCursor;
 
-    private static oDisplay instance = null;
-
-	public static oDisplay instance() {
-		if (instance == null)
-			instance = new oDisplay();
-		return instance;
-	}
-
-	private oDisplay() {
+	public oDisplay() {
 		super();
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -94,7 +86,7 @@ public class oDisplay extends JLayeredPane {
         };
     }
 
-	public void createPanels() {
+	private void createPanels() {
 	    removeAll();
         setBackground(gColors.getColorFromName("clrf_background"));
         int[] od = getContentPaneOffsetDimension();

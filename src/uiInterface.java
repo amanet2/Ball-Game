@@ -14,10 +14,10 @@ public class uiInterface {
 
     public static int[] getMouseCoordinates() {
         return new int[]{
-                MouseInfo.getPointerInfo().getLocation().x - oDisplay.instance().frame.getLocationOnScreen().x
-                        - oDisplay.instance().getContentPaneOffsetDimension()[0],
-                MouseInfo.getPointerInfo().getLocation().y - oDisplay.instance().frame.getLocationOnScreen().y
-                        - oDisplay.instance().getContentPaneOffsetDimension()[1]
+                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.displayPane.frame.getLocationOnScreen().x
+                        - xMain.shellLogic.displayPane.getContentPaneOffsetDimension()[0],
+                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.displayPane.frame.getLocationOnScreen().y
+                        - xMain.shellLogic.displayPane.getContentPaneOffsetDimension()[1]
         };
     }
 

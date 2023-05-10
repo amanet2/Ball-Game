@@ -10,6 +10,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gArgSet clientVars;
     gScriptFactory scriptFactory;
     gBlockFactory blockFactory;
+    oDisplay displayPane;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();
@@ -17,6 +18,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
         blockFactory = new gBlockFactory();
+        displayPane = new oDisplay();
     }
 
     private static void initGameObjectsAndScenes() {
@@ -109,8 +111,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
                     dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
-                    if(oDisplay.instance().frame != null) {
-                        oDisplay.instance().refreshResolution();
+                    if(displayPane.frame != null) {
+                        displayPane.refreshResolution();
                         dMenus.refreshLogos();
                     }
                 }
@@ -118,13 +120,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("audioenabled", "1") {
             public void onChange() {
-                //TODO: clean this up by holding audio clips in the proper place
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
-                if(xMain.shellLogic != null && !sSettings.audioenabled) {
-                    for(AudioClip c : xMain.shellLogic.audioClips) {
+                if(!sSettings.audioenabled) {
+                    for(AudioClip c : audioClips) {
                         c.stop();
                     }
-//                    oAudio.instance().clips.clear(); //maybe needed?
                 }
             }
         });
@@ -161,8 +161,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("displaymode", "0") {
             public void onChange() {
                 sSettings.displaymode = Integer.parseInt(value);
-                if(oDisplay.instance().frame != null) {
-                    oDisplay.instance().refreshDisplaymode();
+                if(displayPane.frame != null) {
+                    displayPane.refreshDisplaymode();
                 }
             }
         });
@@ -306,7 +306,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
         }
-        oDisplay.instance().showFrame();
+        displayPane.showFrame();
         gCamera.init();
         gAnimations.init();
     }
@@ -324,7 +324,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(sSettings.IS_CLIENT) {
             clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
-            if(oDisplay.instance().frame.isVisible()) {
+            if(displayPane.frame.isVisible()) {
                 if(cClientLogic.getUserPlayer() != null)
                    pointPlayerAtMousePointer();
                 else if(sSettings.show_mapmaker_ui)
@@ -542,7 +542,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void render() {
-        oDisplay.instance().frame.repaint();
+        displayPane.frame.repaint();
         long gameTimeMillis = gTime.gameTime;
         if (frameCounterTime < gameTimeMillis) {
             uiInterface.fpsReport = uiInterface.frames;

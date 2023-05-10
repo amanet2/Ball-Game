@@ -79,7 +79,7 @@ public class uiEditorMenus {
 
     public static void setupMapMakerWindow() {
         JMenuBar menubar = new JMenuBar();
-        oDisplay.instance().frame.setJMenuBar(menubar);
+        xMain.shellLogic.displayPane.frame.setJMenuBar(menubar);
         createNewMenu("File");
         createNewMenu("Multiplayer");
         createNewMenu("Prefabs");
@@ -329,7 +329,7 @@ public class uiEditorMenus {
         JMenu newmenu = new JMenu(title);
         newmenu.setFont(dFonts.getFontNormal());
         menus.put(title, newmenu);
-        oDisplay.instance().frame.getJMenuBar().add(newmenu);
+        xMain.shellLogic.displayPane.frame.getJMenuBar().add(newmenu);
     }
 
     private static void createNewSubmenu(String title, String subtitle) {

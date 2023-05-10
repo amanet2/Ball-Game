@@ -18,8 +18,8 @@ public class dMapmakerOverlay {
     public static void drawSelectionBoxes(Graphics2D g2) {
         int mousex = MouseInfo.getPointerInfo().getLocation().x;
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
-        int window_offsetx = oDisplay.instance().frame.getLocationOnScreen().x;
-        int window_offsety = oDisplay.instance().frame.getLocationOnScreen().y;
+        int window_offsetx = xMain.shellLogic.displayPane.frame.getLocationOnScreen().x;
+        int window_offsety = xMain.shellLogic.displayPane.frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
         for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {

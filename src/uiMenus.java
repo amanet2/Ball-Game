@@ -132,7 +132,7 @@ public class uiMenus {
                             public void doItem() {
                                 xCon.ex("cl_setvar displaymode "
                                         + (sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0"));
-                                oDisplay.instance().refreshDisplaymode();
+                                xMain.shellLogic.displayPane.refreshDisplaymode();
                                 refreshText();
                             }
                             public void refreshText() {

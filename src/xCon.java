@@ -557,7 +557,7 @@ public class xCon {
         });
         commands.put("e_showlossalert", new xCom() {
             public  String doCommand(String fullcomm) {
-                return Integer.toString(JOptionPane.showConfirmDialog(oDisplay.instance(),
+                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
@@ -1002,7 +1002,7 @@ public class xCon {
         });
         commands.put("mouseleft", new xCom() {
             public String doCommand(String fullCommand) {
-                if(oDisplay.instance().frame.hasFocus()) {
+                if(xMain.shellLogic.displayPane.frame.hasFocus()) {
                     if (uiInterface.inplay)
                         iMouse.holdingMouseLeft = true;
                     else {
@@ -1063,9 +1063,9 @@ public class xCon {
         commands.put("pause", new xCom() {
             public String doCommand(String fullCommand) {
                 uiInterface.inplay = !uiInterface.inplay;
-                oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(uiInterface.inplay) {
-                    oDisplay.instance().frame.setCursor(oDisplay.instance().blankCursor);
+                    xMain.shellLogic.displayPane.frame.setCursor(xMain.shellLogic.displayPane.blankCursor);
                     if(sSettings.show_mapmaker_ui)
                         cClientLogic.netClientThread.addNetCmd("respawnnetplayer " + uiInterface.uuid);
                 }
