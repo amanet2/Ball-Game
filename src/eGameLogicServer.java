@@ -17,7 +17,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
-    private final Queue<String> serverLocalCmdQueue; //local cmd queue for server
     private final ArrayList<String> voteSkipList;
 
     public eGameLogicServer() {
@@ -25,7 +24,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
         quitClientIds = new LinkedList<>();
-        serverLocalCmdQueue = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
         masterStateSnapshot = "{}";
         voteSkipList = new ArrayList<>();
@@ -138,7 +136,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void addNetCmd(String id, String cmd) {
         xCon.instance().debug("SERVER_ADDCOM_" + id + ": " + cmd);
         if(id.equalsIgnoreCase("server"))
-            serverLocalCmdQueue.add(cmd);
+            cServerLogic.localGameThread.addLocalCmd(cmd);
         else
             addNetSendData(id, cmd);
     }
@@ -157,11 +155,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         for(String id: clientNetCmdMap.keySet()) {
             addNetSendData( id, data);
         }
-    }
-
-    public void checkLocalCmds() {
-        if(serverLocalCmdQueue.peek() != null)
-            xCon.ex(serverLocalCmdQueue.remove());
     }
 
     public void clientReceivedCmd(String id) {

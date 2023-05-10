@@ -1,8 +1,19 @@
 import java.util.*;
 
 public class eGameLogicSimulation extends eGameLogicAdapter {
-    public eGameLogicSimulation() {
+    private final Queue<String> cmdQueue; //local cmd queue for server
 
+    public eGameLogicSimulation() {
+        cmdQueue = new LinkedList<>();
+    }
+
+    public void addLocalCmd(String cmd) {
+        cmdQueue.add(cmd);
+    }
+
+    public void checkLocalCmds() {
+        if(cmdQueue.peek() != null)
+            xCon.ex(cmdQueue.remove());
     }
 
     public void update() {
@@ -10,7 +21,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         if(!sSettings.IS_SERVER)
             return;
         long gameTimeMillis = gTime.gameTime;
-        cServerLogic.netServerThread.checkLocalCmds();
+        cServerLogic.localGameThread.checkLocalCmds();
         cServerLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");
