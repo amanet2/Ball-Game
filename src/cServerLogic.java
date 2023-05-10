@@ -14,48 +14,6 @@ public class cServerLogic {
     static int maxhp = 500;
     static int velocityplayerbase = 16;
 
-    static void changeMap(String mapPath) {
-        //reset game state
-        gScoreboard.resetScoresMap();
-        timedEvents.clear();
-        xCon.ex("loadingscreen");
-        xCon.ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
-        xCon.ex("-loadingscreen");
-        if(sSettings.show_mapmaker_ui)
-            return;
-        //spawn in after finished loading
-        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
-        for(String id : svMap.keys()) {
-            netServerThread.addNetCmd("server", "respawnnetplayer " + id);
-        }
-        long starttime = gTime.gameTime;
-        for (long t = starttime + 1000; t <= starttime + timelimit; t += 1000) {
-            long lastT = t;
-            timedEvents.put(Long.toString(t), new gTimeEvent() {
-                public void doCommand() {
-                    if (timelimit > 0)
-                        timeleft = Math.max(0, (starttime + timelimit) - lastT);
-                }
-            });
-        }
-        timedEvents.put(Long.toString(starttime + timelimit), new gTimeEvent() {
-            public void doCommand() {
-                //select winner and run postgame script
-                String winid = gScoreboard.getWinnerId();
-                if(!winid.equalsIgnoreCase("null")) {
-                    nState winState = new nStateMap(netServerThread.masterStateSnapshot).get(winid);
-                    String wname = winState.get("name");
-                    String wcolor = winState.get("color");
-                    xCon.ex("givewin " + winid);
-                    xCon.ex(String.format("echo %s#%s wins!#%s", wname, wcolor, wcolor));
-                    xCon.ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
-                }
-                xCon.ex("exec scripts/sv_endgame");
-            }
-        });
-        xCon.ex("exec scripts/sv_startgame");
-    }
-
     public static gPlayer getPlayerById(String id) {
         return scene.getPlayerById(id);
     }

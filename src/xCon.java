@@ -146,7 +146,44 @@ public class xCon {
                 if(toks.length < 2)
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
-                cServerLogic.changeMap(mapPath);
+                gScoreboard.resetScoresMap();
+                cServerLogic.timedEvents.clear();
+                ex("loadingscreen");
+                ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
+                ex("-loadingscreen");
+                if(!sSettings.show_mapmaker_ui) {
+                    //spawn in after finished loading
+                    nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                    for (String id : svMap.keys()) {
+                        cServerLogic.netServerThread.addNetCmd("server", "respawnnetplayer " + id);
+                    }
+                    long starttime = gTime.gameTime;
+                    for (long t = starttime + 1000; t <= starttime + cServerLogic.timelimit; t += 1000) {
+                        long lastT = t;
+                        cServerLogic.timedEvents.put(Long.toString(t), new gTimeEvent() {
+                            public void doCommand() {
+                                if (cServerLogic.timelimit > 0)
+                                    cServerLogic.timeleft = Math.max(0, (starttime + cServerLogic.timelimit) - lastT);
+                            }
+                        });
+                    }
+                    cServerLogic.timedEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
+                        public void doCommand() {
+                            //select winner and run postgame script
+                            String winid = gScoreboard.getWinnerId();
+                            if (!winid.equalsIgnoreCase("null")) {
+                                nState winState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(winid);
+                                String wname = winState.get("name");
+                                String wcolor = winState.get("color");
+                                ex("givewin " + winid);
+                                ex(String.format("echo %s#%s wins!#%s", wname, wcolor, wcolor));
+                                ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
+                            }
+                            ex("exec scripts/sv_endgame");
+                        }
+                    });
+                    ex("exec scripts/sv_startgame");
+                }
                 return "changed map to " + mapPath;
             }
         });
