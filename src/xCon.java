@@ -244,7 +244,6 @@ public class xCon {
                         nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
                         player.putInt("stockhp", player.getInt("stockhp") - dmg);
                         cServerLogic.netServerThread.setClientState(id, "hp", player.get("stockhp"));
-//                        cServerLogic.netServerThread.masterStateMap.get(id).put("hp", player.get("stockhp"));
                         ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
                         //handle death
                         if(player.getDouble("stockhp") < 1) {
