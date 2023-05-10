@@ -41,7 +41,7 @@ public class gScript {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
 //            System.out.println("SCRIPT LINE:" + execStringBuilder);
-            xCon.ex(execStringBuilder.substring(1));
+            xMain.shellLogic.console.ex(execStringBuilder.substring(1));
         }
     }
 
@@ -68,7 +68,7 @@ public class gScript {
                 execStringBuilder.append(" ").append(lineArgtoken);
             }
 //            System.out.println("CLIENTPREVIEW SCRIPT LINE:" + execStringBuilder);
-            xCon.ex(execStringBuilder.substring(1));
+            xMain.shellLogic.console.ex(execStringBuilder.substring(1));
         }
     }
 

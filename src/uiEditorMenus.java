@@ -54,7 +54,7 @@ public class uiEditorMenus {
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
-        checkBoxMenuItem.setSelected(xCon.ex(String.format(
+        checkBoxMenuItem.setSelected(xMain.shellLogic.console.ex(String.format(
                 "cl_setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
@@ -93,8 +93,8 @@ public class uiEditorMenus {
 //        JMenuItem exportasprefab = addMenuItem("File", "Export as Prefab");
         JMenuItem exit = addMenuItem("File", "Exit");
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
-        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xCon.ex("cl_setvar joinip"));
-        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + xCon.ex("cl_setvar joinport"));
+        JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xMain.shellLogic.console.ex("cl_setvar joinip"));
+        JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + xMain.shellLogic.console.ex("cl_setvar joinport"));
         JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
@@ -110,47 +110,47 @@ public class uiEditorMenus {
         addSubMenuLabel("Controls", " - : zoom out ");
         addSubMenuLabel("Controls", " ~ : console ");
 
-        exit.addActionListener(e -> xCon.ex("quit"));
+        exit.addActionListener(e -> xMain.shellLogic.console.ex("quit"));
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(!cClientLogic.maploaded || xCon.ex("e_showlossalert").equals("0"))
+                if(!cClientLogic.maploaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
             }
 
             private void delegate() {
                 if(!sSettings.IS_SERVER) {
-                    xCon.ex("startserver");
-                    xCon.ex("load");
-                    xCon.ex("joingame localhost " + cServerLogic.listenPort);
+                    xMain.shellLogic.console.ex("startserver");
+                    xMain.shellLogic.console.ex("load");
+                    xMain.shellLogic.console.ex("joingame localhost " + cServerLogic.listenPort);
                 }
                 else
-                    xCon.ex("e_newmap");
+                    xMain.shellLogic.console.ex("e_newmap");
             }
         });
 
         join.addActionListener(e -> {
-            xCon.ex("joingame");
+            xMain.shellLogic.console.ex("joingame");
             newtopmap.setEnabled(false);
             open.setEnabled(false);
             saveas.setEnabled(true);
         });
 
-        joinip.addActionListener(e -> xCon.ex("e_changejoinip"));
+        joinip.addActionListener(e -> xMain.shellLogic.console.ex("e_changejoinip"));
 
-        joinport.addActionListener(e -> xCon.ex("e_changejoinport"));
+        joinport.addActionListener(e -> xMain.shellLogic.console.ex("e_changejoinport"));
 
-        playerName.addActionListener(e -> xCon.ex("e_changeplayername"));
+        playerName.addActionListener(e -> xMain.shellLogic.console.ex("e_changeplayername"));
 
         open.addActionListener(e -> {
-            xCon.ex("e_openfile");
+            xMain.shellLogic.console.ex("e_openfile");
             saveas.setEnabled(true);
         });
 
-        saveas.addActionListener(e -> xCon.ex("e_saveas"));
+        saveas.addActionListener(e -> xMain.shellLogic.console.ex("e_saveas"));
 
-//        exportasprefab.addActionListener(e -> xCon.ex("exportasprefab"));
+//        exportasprefab.addActionListener(e -> xMain.shellLogic.console.ex("exportasprefab"));
 
         //fill prefabs menu
         ArrayList<String> allPrefabFiles = new ArrayList<>(Arrays.asList(sSettings.prefab_titles));
@@ -180,8 +180,8 @@ public class uiEditorMenus {
                     cClientLogic.newprefabname = name+"_000";
                 else
                     cClientLogic.newprefabname = name;
-                xCon.ex("cl_clearthingmappreview");
-                xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                xMain.shellLogic.console.ex("cl_clearthingmappreview");
+                xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
                 newitemname = "";
                 refreshCheckBoxItems();
             });
@@ -211,8 +211,8 @@ public class uiEditorMenus {
         //fill gametypes menu
         int ctr = 0;
         ArrayList<String> gameTypeTitles = new ArrayList<>();
-        while(!xCon.ex("cl_setvar GAMETYPE_"+ctr+"_title").equals("null")) {
-            gameTypeTitles.add(xCon.ex("cl_setvar GAMETYPE_"+ctr+"_title"));
+        while(!xMain.shellLogic.console.ex("cl_setvar GAMETYPE_"+ctr+"_title").equals("null")) {
+            gameTypeTitles.add(xMain.shellLogic.console.ex("cl_setvar GAMETYPE_"+ctr+"_title"));
             ctr++;
         }
         for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {
@@ -223,7 +223,7 @@ public class uiEditorMenus {
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
                 if(sSettings.IS_SERVER)
-                    xCon.ex("gamemode " + mygameType);
+                    xMain.shellLogic.console.ex("gamemode " + mygameType);
                 else
                     cClientLogic.netClientThread.addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();

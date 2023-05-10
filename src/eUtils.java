@@ -13,6 +13,6 @@ public class eUtils {
 	}
 
     public static String createId() {
-        return xCon.ex("getrand 11111111 99999999");
+        return xMain.shellLogic.console.ex("getrand 11111111 99999999");
     }
 }

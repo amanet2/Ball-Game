@@ -24,74 +24,74 @@ public class iInput {
 	    if(uiInterface.inconsole) {
             switch (command) {
                 case KeyEvent.VK_UP -> {
-                    xCon.instance().prevCommandIndex =
-                            xCon.instance().prevCommandIndex > -1 ? xCon.instance().prevCommandIndex - 1
-                                    : xCon.instance().previousCommands.size() - 1;
-                    xCon.instance().commandString = xCon.instance().prevCommandIndex > -1
-                            ? xCon.instance().previousCommands.get(xCon.instance().prevCommandIndex) : "";
-                    xCon.instance().cursorIndex = xCon.instance().commandString.length();
+                    xMain.shellLogic.console.prevCommandIndex =
+                            xMain.shellLogic.console.prevCommandIndex > -1 ? xMain.shellLogic.console.prevCommandIndex - 1
+                                    : xMain.shellLogic.console.previousCommands.size() - 1;
+                    xMain.shellLogic.console.commandString = xMain.shellLogic.console.prevCommandIndex > -1
+                            ? xMain.shellLogic.console.previousCommands.get(xMain.shellLogic.console.prevCommandIndex) : "";
+                    xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.commandString.length();
                     return;
                 }
                 case KeyEvent.VK_DOWN -> {
-                    xCon.instance().prevCommandIndex =
-                            xCon.instance().prevCommandIndex < xCon.instance().previousCommands.size() - 1
-                                    ? xCon.instance().prevCommandIndex + 1 : -1;
-                    xCon.instance().commandString = xCon.instance().prevCommandIndex > -1
-                            ? xCon.instance().previousCommands.get(xCon.instance().prevCommandIndex) : "";
-                    xCon.instance().cursorIndex = xCon.instance().commandString.length();
+                    xMain.shellLogic.console.prevCommandIndex =
+                            xMain.shellLogic.console.prevCommandIndex < xMain.shellLogic.console.previousCommands.size() - 1
+                                    ? xMain.shellLogic.console.prevCommandIndex + 1 : -1;
+                    xMain.shellLogic.console.commandString = xMain.shellLogic.console.prevCommandIndex > -1
+                            ? xMain.shellLogic.console.previousCommands.get(xMain.shellLogic.console.prevCommandIndex) : "";
+                    xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.commandString.length();
                     return;
                 }
                 case KeyEvent.VK_LEFT -> {
-                    xCon.instance().cursorIndex = xCon.instance().cursorIndex > 0
-                            ? xCon.instance().cursorIndex - 1 : 0;
+                    xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.cursorIndex > 0
+                            ? xMain.shellLogic.console.cursorIndex - 1 : 0;
                     return;
                 }
                 case KeyEvent.VK_RIGHT -> {
-                    xCon.instance().cursorIndex = xCon.instance().cursorIndex
-                            < xCon.instance().commandString.length() ? xCon.instance().cursorIndex + 1
-                            : xCon.instance().commandString.length();
+                    xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.cursorIndex
+                            < xMain.shellLogic.console.commandString.length() ? xMain.shellLogic.console.cursorIndex + 1
+                            : xMain.shellLogic.console.commandString.length();
                     return;
                 }
                 case KeyEvent.VK_ESCAPE -> {
-                    xCon.ex("console");
+                    xMain.shellLogic.console.ex("console");
                     return;
                 }
                 case KeyEvent.VK_BACK_SPACE -> {
-                    if (xCon.instance().cursorIndex > 0 && xCon.instance().commandString.length() > 0) {
-                        String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex - 1);
-                        String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
-                        xCon.instance().commandString = a + b;
-                        xCon.instance().cursorIndex--;
+                    if (xMain.shellLogic.console.cursorIndex > 0 && xMain.shellLogic.console.commandString.length() > 0) {
+                        String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex - 1);
+                        String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex);
+                        xMain.shellLogic.console.commandString = a + b;
+                        xMain.shellLogic.console.cursorIndex--;
                     }
                     return;
                 }
                 case KeyEvent.VK_DELETE -> {
-                    if (xCon.instance().cursorIndex > 0 && xCon.instance().commandString.length() > 0) {
-                        String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                        String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex + 1);
-                        xCon.instance().commandString = a + b;
+                    if (xMain.shellLogic.console.cursorIndex > 0 && xMain.shellLogic.console.commandString.length() > 0) {
+                        String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
+                        String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex + 1);
+                        xMain.shellLogic.console.commandString = a + b;
                     }
                     return;
                 }
                 case KeyEvent.VK_ENTER -> {
-                    String res = xCon.ex(xCon.instance().commandString);
-                    xCon.instance().previousCommands.add(xCon.instance().commandString);
-                    xCon.instance().stringLines.add(String.format("console:~$ %s",
-                            xCon.instance().commandString));
+                    String res = xMain.shellLogic.console.ex(xMain.shellLogic.console.commandString);
+                    xMain.shellLogic.console.previousCommands.add(xMain.shellLogic.console.commandString);
+                    xMain.shellLogic.console.stringLines.add(String.format("console:~$ %s",
+                            xMain.shellLogic.console.commandString));
                     if (res.length() > xCon.charlimit()) {
-                        xCon.instance().stringLines.add(res.substring(0, xCon.charlimit()));
+                        xMain.shellLogic.console.stringLines.add(res.substring(0, xCon.charlimit()));
                         for (int i = xCon.charlimit(); i < res.length();
                              i += xCon.charlimit()) {
                             int lim = Math.min(res.length(), i + xCon.charlimit());
-                            xCon.instance().stringLines.add(res.substring(i, lim));
+                            xMain.shellLogic.console.stringLines.add(res.substring(i, lim));
                         }
                     } else
-                        xCon.instance().stringLines.add(res);
-                    xCon.instance().linesToShowStart = Math.max(0,
-                            xCon.instance().stringLines.size() - xCon.instance().linesToShow);
-                    xCon.instance().prevCommandIndex = -1;
-                    xCon.instance().commandString = "";
-                    xCon.instance().cursorIndex = 0;
+                        xMain.shellLogic.console.stringLines.add(res);
+                    xMain.shellLogic.console.linesToShowStart = Math.max(0,
+                            xMain.shellLogic.console.stringLines.size() - xMain.shellLogic.console.linesToShow);
+                    xMain.shellLogic.console.prevCommandIndex = -1;
+                    xMain.shellLogic.console.commandString = "";
+                    xMain.shellLogic.console.cursorIndex = 0;
                     return;
                 }
                 case KeyEvent.VK_SHIFT -> {
@@ -104,31 +104,31 @@ public class iInput {
             if(iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
                 String key = iKeyboard.getShiftKeyForCode(command);
                 if(key != null) {
-                    String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                    String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
-                    xCon.instance().commandString = a+key+b;
-                    xCon.instance().cursorIndex++;
+                    String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
+                    String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex);
+                    xMain.shellLogic.console.commandString = a+key+b;
+                    xMain.shellLogic.console.cursorIndex++;
                     return;
                 }
             }
             String specialKey = iKeyboard.getSpecialKeyForCode(command);
             if (specialKey != null) {
-                String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
-                xCon.instance().commandString = a+specialKey+b;
-                xCon.instance().cursorIndex = xCon.instance().commandString.length();
+                String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
+                String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex);
+                xMain.shellLogic.console.commandString = a+specialKey+b;
+                xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.commandString.length();
                 return;
             }
-            if(xCon.instance().commandString.length() < xCon.maxlinelength){
-                String a = xCon.instance().commandString.substring(0, xCon.instance().cursorIndex);
-                String b = xCon.instance().commandString.substring(xCon.instance().cursorIndex);
+            if(xMain.shellLogic.console.commandString.length() < xCon.maxlinelength){
+                String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
+                String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex);
                 String toAdd = KeyEvent.getKeyText(command).toLowerCase().contains("numpad")
                     ? KeyEvent.getKeyText(command).toLowerCase().replace("numpad",
                     "").replace("-","").replace(" ", "")
                     : iKeyboard.shiftMode || Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)
                         ? KeyEvent.getKeyText(command) : KeyEvent.getKeyText(command).toLowerCase();
-                xCon.instance().commandString = a + toAdd + b;
-                xCon.instance().cursorIndex++;
+                xMain.shellLogic.console.commandString = a + toAdd + b;
+                xMain.shellLogic.console.cursorIndex++;
             }
         }
 	    else if(gMessages.enteringMessage) {
@@ -168,7 +168,7 @@ public class iInput {
                             xMain.shellLogic.clientVars.put("joinport", gMessages.msgInProgress);
                             gMessages.msgInProgress = "";
                         }
-                        default -> xCon.ex(String.format("say %s", gMessages.msgInProgress));
+                        default -> xMain.shellLogic.console.ex(String.format("say %s", gMessages.msgInProgress));
                     }
                     gMessages.enteringMessage = false;
                     return;
@@ -188,15 +188,15 @@ public class iInput {
                         ? KeyEvent.getKeyText(command) : KeyEvent.getKeyText(command).toLowerCase();
             }
         }
-        else if(xCon.instance().pressBinds.containsKey(command))
-            xCon.ex(xCon.instance().pressBinds.get(command));
+        else if(xMain.shellLogic.console.pressBinds.containsKey(command))
+            xMain.shellLogic.console.ex(xMain.shellLogic.console.pressBinds.get(command));
 	}
 
 	public static void processKeyReleaseInput(int command) {
 	    if(uiInterface.inconsole) {
             switch (command) {
                 case KeyEvent.VK_BACK_QUOTE -> {
-                    xCon.ex("console");
+                    xMain.shellLogic.console.ex("console");
                 }
                 case KeyEvent.VK_SHIFT -> iKeyboard.shiftMode = false;
                 default -> {
@@ -224,8 +224,8 @@ public class iInput {
                 }
             }
             //regular comms
-            if(xCon.instance().releaseBinds.containsKey(command)) {
-                xCon.ex(xCon.instance().releaseBinds.get(command));
+            if(xMain.shellLogic.console.releaseBinds.containsKey(command)) {
+                xMain.shellLogic.console.ex(xMain.shellLogic.console.releaseBinds.get(command));
             }
         }
 	}

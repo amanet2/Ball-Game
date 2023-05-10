@@ -45,7 +45,7 @@ public class gWeapon {
         });
         for(String s : new String[]{"dmg", "delay", "vel", "ttl", "rad"}) {
             String vk = String.format("setvar WEAPON_%s_%s", title, s);
-            String cfg = xCon.ex(vk);
+            String cfg = xMain.shellLogic.console.ex(vk);
             if(!cfg.equalsIgnoreCase("null"))
                 argSet.put(s, cfg);
             else
@@ -60,6 +60,6 @@ public class gWeapon {
 
     public void fireWeapon(gPlayer p, gScene scene) {
         if(p != null && scene != null)
-            xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
+            xMain.shellLogic.console.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
     }
 }

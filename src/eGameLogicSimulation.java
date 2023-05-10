@@ -13,7 +13,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 
     public void checkLocalCmds() {
         if(cmdQueue.peek() != null)
-            xCon.ex(cmdQueue.remove());
+            xMain.shellLogic.console.ex(cmdQueue.remove());
     }
 
     public void update() {
@@ -24,7 +24,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
         cServerLogic.localGameThread.checkLocalCmds();
         cServerLogic.timedEvents.executeCommands();
-        xCon.ex("exec scripts/sv_checkgamestate");
+        xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
         uiInterface.tickReportSimulation = getTickReport();
@@ -182,8 +182,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
             cServerLogic.scene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside
-            xCon.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
-            xCon.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));
+            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
+            xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));
         }
     }
 

@@ -123,29 +123,29 @@ public class dScreenMessages {
             dFonts.setFontColor(g, "clrf_scoreboardbg");
             g.fillRect(0,0,sSettings.width,sSettings.height);
             dFonts.setFontColor(g, "clrf_console");
-            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
+            g.fillRect(0,0,sSettings.width, (xMain.shellLogic.console.linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColor(g, "clrf_normal");
             int ctr = 0;
-            for(int i = xCon.instance().linesToShowStart;
-                i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
+            for(int i = xMain.shellLogic.console.linesToShowStart;
+                i < xMain.shellLogic.console.linesToShowStart + xMain.shellLogic.console.linesToShow; i++) {
                 int dd = 1;
-                if(i == xCon.instance().linesToShowStart && xCon.instance().linesToShowStart > 0) {
-                    g.drawString(String.format("--- (%d) scroll up ---", xCon.instance().linesToShowStart),
+                if(i == xMain.shellLogic.console.linesToShowStart && xMain.shellLogic.console.linesToShowStart > 0) {
+                    g.drawString(String.format("--- (%d) scroll up ---", xMain.shellLogic.console.linesToShowStart),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(i == xCon.instance().linesToShowStart + xCon.instance().linesToShow-1
-                    && xCon.instance().linesToShowStart
-                    < xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
+                if(i == xMain.shellLogic.console.linesToShowStart + xMain.shellLogic.console.linesToShow-1
+                    && xMain.shellLogic.console.linesToShowStart
+                    < xMain.shellLogic.console.stringLines.size() - xMain.shellLogic.console.linesToShow) {
                     g.drawString(String.format("--- (%d) scroll down ---",
-                        xCon.instance().stringLines.size()- xCon.instance().linesToShowStart
-                            - xCon.instance().linesToShow),
+                        xMain.shellLogic.console.stringLines.size()- xMain.shellLogic.console.linesToShowStart
+                            - xMain.shellLogic.console.linesToShow),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
                 if(dd != 0) {
-                    if(i < 1024 && xCon.instance().stringLines.size() > i) {
-                        String ds = xCon.instance().stringLines.get(i);
+                    if(i < 1024 && xMain.shellLogic.console.stringLines.size() > i) {
+                        String ds = xMain.shellLogic.console.stringLines.get(i);
                         if(ds == null)
                             ds = "null";
                         g.drawString(ds, 0, (ctr + 1) * sSettings.height / 64);
@@ -154,12 +154,12 @@ public class dScreenMessages {
                 ctr++;
             }
             StringBuilder is = new StringBuilder();
-            is.append(" ".repeat(Math.max(0, xCon.instance().cursorIndex)));
+            is.append(" ".repeat(Math.max(0, xMain.shellLogic.console.cursorIndex)));
             is = new StringBuilder(gameTimeMillis % 500 > 250 ? is.toString() : String.format("%s_", is));
-            g.drawString(String.format("console:~$ %s", xCon.instance().commandString),
-                0,(xCon.instance().linesToShow+1)*sSettings.height/64);
+            g.drawString(String.format("console:~$ %s", xMain.shellLogic.console.commandString),
+                0,(xMain.shellLogic.console.linesToShow+1)*sSettings.height/64);
             g.drawString(String.format("           %s", is), 0,
-                (xCon.instance().linesToShow+1)*sSettings.height/64);
+                (xMain.shellLogic.console.linesToShow+1)*sSettings.height/64);
         }
         //big font
         dFonts.setFontNormal(g);

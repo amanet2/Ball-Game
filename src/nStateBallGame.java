@@ -5,14 +5,14 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("color", "blue") {
             String oldcolor = "blue";
             public void onChange() {
-                xCon.ex(String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
+                xMain.shellLogic.console.ex(String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
                 oldcolor = value;
             }
         });
         map.putArg(new gArg("name", "player") {
             String oldname = "player";
             public void onChange() {
-                xCon.ex(String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
+                xMain.shellLogic.console.ex(String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
                 oldname = value;
             }
         });

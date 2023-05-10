@@ -7,6 +7,6 @@ public class eLogging {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String sStackTrace = sw.toString(); // stack trace as a string
-        xCon.ex("echo " + sStackTrace.split("\\n")[0]);
+        xMain.shellLogic.console.ex("echo " + sStackTrace.split("\\n")[0]);
     }
 }

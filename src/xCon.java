@@ -20,7 +20,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
-    private static xCon instance = null;
     static int maxlinelength = 128;
     HashMap<String, xCom> commands;
     HashMap<Integer, String> releaseBinds;
@@ -33,7 +32,7 @@ public class xCon {
     int linesToShow;
     int cursorIndex;
 
-    private xCon() {
+    public xCon() {
         linesToShowStart = 0;
         linesToShow = 24;
         cursorIndex = 0;
@@ -1667,12 +1666,6 @@ public class xCon {
         });
     }
 
-    public static xCon instance() {
-        if(instance == null)
-            instance = new xCon();
-        return instance;
-    }
-
     private void playerMoveDelegate(int dir) {
         gPlayer p = cClientLogic.getUserPlayer();
         if(p != null)
@@ -1801,7 +1794,7 @@ public class xCon {
         return "1";
     }
 
-    public static String[] ex(String[] ss) {
+    public String[] ex(String[] ss) {
         String[] rr = new String[ss.length];
         for(int i = 0; i < ss.length; i++) {
             rr[i] = ex(ss[i]);
@@ -1809,12 +1802,12 @@ public class xCon {
         return rr;
     }
 
-    public static String ex(String s) {
+    public String ex(String s) {
         try {
             String[] commandTokens = s.split(";");
             StringBuilder result = new StringBuilder();
             for (String com : commandTokens) {
-                result.append(instance().doCommand(com)).append(";");
+                result.append(doCommand(com)).append(";");
             }
             String resultString = result.toString();
             return resultString.substring(0, resultString.length() - 1);

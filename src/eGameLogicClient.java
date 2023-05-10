@@ -38,9 +38,9 @@ public class eGameLogicClient extends eGameLogicAdapter {
         receivedArgsServer.putArg(new gArg("cmd", "") {
             public void onUpdate() {
                 if(value.length() > 0) {
-                    xCon.instance().debug("FROM_SERVER: " + value);
+                    xMain.shellLogic.console.debug("FROM_SERVER: " + value);
                     cmdReceived = true;
-                    xCon.ex(value);
+                    xMain.shellLogic.console.ex(value);
                 }
             }
         });
@@ -49,7 +49,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private void readData(String netmapstring) {
         ArrayList<String> foundIds = new ArrayList<>();
         Queue<String> toRemove = new LinkedList<>();
-        xCon.instance().debug(String.format("CLIENT RCV [%d]: %s", netmapstring.length(), netmapstring));
+        xMain.shellLogic.console.debug(String.format("CLIENT RCV [%d]: %s", netmapstring.length(), netmapstring));
         nStateMap packArgStateMap = new nStateMap(netmapstring);
         for(String idload : packArgStateMap.keys()) {
             nState packArgState = packArgStateMap.get(idload);
@@ -115,14 +115,14 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(sSettings.IS_SERVER)
                 IPAddress = InetAddress.getByName("127.0.0.1");
             else
-                IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
+                IPAddress = InetAddress.getByName(xMain.shellLogic.console.ex("cl_setvar joinip"));
             String sendDataString = getNetVars().toString().replace(", ", ",");
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                    Integer.parseInt(xCon.ex("cl_setvar joinport")));
+                    Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar joinport")));
             clientSocket.send(sendPacket);
             cClientLogic.serverSendTime = System.currentTimeMillis();
-            xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+            xMain.shellLogic.console.debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,8 +168,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
             String cmdString = netSendCmds.peek();
             // user's client-side firing
             if(cmdString.startsWith("fireweapon"))
-                xCon.ex("cl_" + cmdString);
-            xCon.instance().debug("TO_SERVER: " + cmdString);
+                xMain.shellLogic.console.ex("cl_" + cmdString);
+            xMain.shellLogic.console.debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;
