@@ -11,7 +11,7 @@ public class dBlockFloors {
     }
 
     public static void drawBlockFloor(Graphics2D g2, gThing block) {
-        g2.setPaint(gBlockFactory.instance().floorTexture);
+        g2.setPaint(xMain.shellLogic.blockFactory.floorTexture);
         g2.fillRect(block.getInt("coordx"), block.getY(), block.getWidth(), block.getHeight());
     }
 

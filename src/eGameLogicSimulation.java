@@ -21,8 +21,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         if(!sSettings.IS_SERVER)
             return;
         long gameTimeMillis = gTime.gameTime;
-        cServerLogic.localGameThread.checkLocalCmds();
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
+        cServerLogic.localGameThread.checkLocalCmds();
         cServerLogic.timedEvents.executeCommands();
         xCon.ex("exec scripts/sv_checkgamestate");
         checkGameItems();

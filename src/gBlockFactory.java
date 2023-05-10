@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public class gBlockFactory {
     HashMap<String, gDoableThingReturn> blockLoadMap;
-    private static gBlockFactory instance = null;
+    // TODO: this factory is used by both client and server maybe textures should be elsewhere?
     TexturePaint floorTexture;
     TexturePaint wallTexture;
     TexturePaint topTexture;
 
-    private gBlockFactory() {
+    public gBlockFactory() {
         blockLoadMap = new HashMap<>();
         blockLoadMap.put("BLOCK_CUBE", new gDoableThingReturn(){
             public gThing getThing(String[] args) {
@@ -50,11 +50,5 @@ public class gBlockFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static gBlockFactory instance() {
-        if(instance == null)
-            instance = new gBlockFactory();
-        return instance;
     }
 }

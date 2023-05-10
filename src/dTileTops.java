@@ -142,7 +142,7 @@ public class dTileTops {
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
             int coordy = userPlayer.getInt("coordy") - 200;
             Polygon pg = getPolygon(midx, coordy);
-            Color color = gColors.getColorFromName("clrp_" + cClientLogic.vars.get("playercolor"));
+            Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
             g2.setStroke(dFonts.thickStroke);
             dFonts.setFontColor(g2, "clrf_normaltransparent");
             g2.drawPolygon(pg);

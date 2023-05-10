@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class dBlockTops {
     public static void drawBlockTopCube(Graphics2D g2, gThing block) {
-        g2.setPaint(gBlockFactory.instance().topTexture);
+        g2.setPaint(xMain.shellLogic.blockFactory.topTexture);
         g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getInt("toph"));
         dFonts.setFontColor(g2, "clrw_topcolor");
         if(block.contains("wallh") && block.getInt("wallh") < 300)

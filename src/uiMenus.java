@@ -458,7 +458,7 @@ public class uiMenus {
     }
     
     private static void selectFramerateAfterSubmit() {
-        cClientLogic.vars.put("vidmode",
+        xMain.shellLogic.clientVars.put("vidmode",
                 String.format("%d,%d,%d", sSettings.width, sSettings.height,
                         sSettings.framerate));
         menuSelection[MENU_VIDEO].refresh();

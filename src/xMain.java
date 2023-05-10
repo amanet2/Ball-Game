@@ -4,7 +4,7 @@ public class xMain {
 	public static void main(String[] args) {
 		try {
 			launchArgs = args;
-			shellLogic = new eGameLogicShell(args);
+			shellLogic = new eGameLogicShell();
 			eGameSession shellSession = new eGameSession(shellLogic, sSettings.rateShell);
 			shellLogic.setParentSession(shellSession);
 			shellSession.start();

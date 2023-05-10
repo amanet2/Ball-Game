@@ -154,18 +154,18 @@ public class iInput {
                 case KeyEvent.VK_ENTER -> {
                     switch (gMessages.prompt) {
                         case "Enter New Name" -> {
-                            cClientLogic.vars.put("playername", gMessages.msgInProgress);
+                            xMain.shellLogic.clientVars.put("playername", gMessages.msgInProgress);
                             uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                             if (sSettings.show_mapmaker_ui)
                                 uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
                             gMessages.msgInProgress = "";
                         }
                         case "Enter New IP Address" -> {
-                            cClientLogic.vars.put("joinip", gMessages.msgInProgress);
+                            xMain.shellLogic.clientVars.put("joinip", gMessages.msgInProgress);
                             gMessages.msgInProgress = "";
                         }
                         case "Enter New Port" -> {
-                            cClientLogic.vars.put("joinport", gMessages.msgInProgress);
+                            xMain.shellLogic.clientVars.put("joinport", gMessages.msgInProgress);
                             gMessages.msgInProgress = "";
                         }
                         default -> xCon.ex(String.format("say %s", gMessages.msgInProgress));

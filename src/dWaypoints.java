@@ -11,7 +11,7 @@ public class dWaypoints {
                     dy - cClientLogic.getUserPlayer().getInt("coordy")
                             + cClientLogic.getUserPlayer().getDouble("dimh")/2
             };
-            g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.vars.get("playercolor")));
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             int[][] polygondims = new int[][]{
                     new int[]{
                             dx - eUtils.unscaleInt(sSettings.height / 16),
@@ -57,7 +57,7 @@ public class dWaypoints {
                             eUtils.unscaleInt(0)
                     }
             };
-            g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.vars.get("playercolor")));
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
             dFonts.setFontColor(g2, "clrf_normaltransparent");
             g2.setStroke(dFonts.waypointStroke);

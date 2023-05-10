@@ -182,6 +182,8 @@ public class xCon {
                             ex("exec scripts/sv_endgame");
                         }
                     });
+                    //ensure this servervar is ready right when script execs, sometimes it isn't
+                    xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(System.currentTimeMillis()));
                     ex("exec scripts/sv_startgame");
                 }
                 return "changed map to " + mapPath;
@@ -263,7 +265,7 @@ public class xCon {
         });
         commands.put("cvarlist", new xCom() {
             public String doCommand(String fullCommand) {
-                TreeMap<String, gArg> sorted = new TreeMap<>(cClientLogic.vars.args);
+                TreeMap<String, gArg> sorted = new TreeMap<>(xMain.shellLogic.clientVars.args);
                 return sorted.toString();
             }
         });
@@ -396,14 +398,14 @@ public class xCon {
         commands.put("disconnect", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
-                    cClientLogic.vars.put("maploaded", "0");
+                    xMain.shellLogic.clientVars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
                     cServerLogic.localGameThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
-                    cClientLogic.vars.put("maploaded", "0");
+                    xMain.shellLogic.clientVars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                 }
@@ -583,7 +585,7 @@ public class xCon {
                     ex("-loadingscreen");
                     return "loaded map " + scriptId;
                 }
-                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
                 if(theScript == null)
                     return "no script found for: " + scriptId;
                 if(args.length > 2) {
@@ -609,7 +611,7 @@ public class xCon {
                 if(args.length < 2)
                     return "usage: cl_execpreview <script_id> <optional: args>";
                 String scriptId = args[1];
-                gScript theScript = gScriptFactory.instance().getScript(scriptId);
+                gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
                 StringBuilder moddedScriptContentBuilder = new StringBuilder();
                 for(String rawLine : theScript.lines) {
                     if(rawLine.contains("putblock BLOCK_FLOOR")
@@ -838,14 +840,14 @@ public class xCon {
         });
         commands.put("cl_getres", new xCom() {
             public String doCommand(String fullCommand) {
-                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
+                String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 String tk = args[1];
                 if(args.length < 3) {
-                    if (!cClientLogic.vars.contains(tk))
+                    if (!xMain.shellLogic.clientVars.contains(tk))
                         return "null";
-                    return cClientLogic.vars.get(tk);
+                    return xMain.shellLogic.clientVars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < args.length; i++) {
@@ -853,8 +855,8 @@ public class xCon {
                 }
                 String tv = tvb.substring(1);
                 String res = ex(tv);
-                cClientLogic.vars.put(tk, res);
-                return cClientLogic.vars.get(tk);
+                xMain.shellLogic.clientVars.put(tk, res);
+                return xMain.shellLogic.clientVars.get(tk);
             }
         });
         commands.put("giveweapon", new xCom() {
@@ -1370,7 +1372,7 @@ public class xCon {
         commands.put("cl_setthing", new xCom() {
             //usage cl_setthing $type $id $key $var
             public String doCommand(String fullCommand) {
-                String[] args = cClientLogic.vars.parseScriptArgs(fullCommand);
+                String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
                 return setThingDelegate(args, cClientLogic.scene);
@@ -1404,20 +1406,20 @@ public class xCon {
                     return "null";
                 String tk = toks[1];
                 if(toks.length < 3) {
-                    if(!cClientLogic.vars.contains(tk))
+                    if(!xMain.shellLogic.clientVars.contains(tk))
                         return "null";
-                    return cClientLogic.vars.get(tk);
+                    return xMain.shellLogic.clientVars.get(tk);
                 }
                 StringBuilder tvb = new StringBuilder();
                 for(int i = 2; i < toks.length; i++) {
                     tvb.append(" ").append(toks[i]);
                 }
                 String tv = tvb.substring(1);
-                if(tv.charAt(0) == '$' && cClientLogic.vars.contains(tv.substring(1)))
-                    cClientLogic.vars.put(tk, cClientLogic.vars.get(tv.substring(1)));
+                if(tv.charAt(0) == '$' && xMain.shellLogic.clientVars.contains(tv.substring(1)))
+                    xMain.shellLogic.clientVars.put(tk, xMain.shellLogic.clientVars.get(tv.substring(1)));
                 else
-                    cClientLogic.vars.put(tk, tv);
-                return cClientLogic.vars.get(tk);
+                    xMain.shellLogic.clientVars.put(tk, tv);
+                return xMain.shellLogic.clientVars.get(tk);
             }
         });
         commands.put("cl_spawnanimation", new xCom() {
@@ -1707,7 +1709,7 @@ public class xCon {
     }
 
     private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
-        gDoableThingReturn blockReturn = gBlockFactory.instance().blockLoadMap.get(blockString);
+        gDoableThingReturn blockReturn = xMain.shellLogic.blockFactory.blockLoadMap.get(blockString);
         String rawX = toks[4];
         String rawY = toks[5];
         String width = toks[6];
@@ -1884,8 +1886,8 @@ public class xCon {
             for(int i = 0; i < args.length; i++) {
                 if(args[i].startsWith("$") && xMain.shellLogic.serverVars.contains(args[i].substring(1)))
                     args[i] = xMain.shellLogic.serverVars.get(args[i].substring(1));
-                else if(args[i].startsWith("$") && cClientLogic.vars.contains(args[i].substring(1)))
-                    args[i] = cClientLogic.vars.get(args[i].substring(1));
+                else if(args[i].startsWith("$") && xMain.shellLogic.clientVars.contains(args[i].substring(1)))
+                    args[i] = xMain.shellLogic.clientVars.get(args[i].substring(1));
             }
             String command = args[0];
             if(command.startsWith("-"))

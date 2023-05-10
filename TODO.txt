@@ -1,3 +1,4 @@
+* ENGINE: get rid of cClient and cServer data structures beyond config vals
 * ENGINE: move timedEvents into net client thread
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable

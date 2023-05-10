@@ -1,15 +1,22 @@
 import javafx.scene.media.AudioClip;
 
+import java.awt.*;
 import java.util.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
     ArrayList<AudioClip> audioClips;
     gArgSet serverVars;
+    gArgSet clientVars;
+    gScriptFactory scriptFactory;
+    gBlockFactory blockFactory;
 
-    public eGameLogicShell(String[] args) {
+    public eGameLogicShell() {
         audioClips = new ArrayList<>();
         serverVars = new gArgSet();
+        clientVars = new gArgSet();
+        scriptFactory = new gScriptFactory();
+        blockFactory = new gBlockFactory();
     }
 
     private static void initGameObjectsAndScenes() {
@@ -29,11 +36,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
     @Override
     public void init() {
         eManager.init();
-        gExecDoableFactory.instance().init();
-        gScriptFactory.instance().init();
+        scriptFactory.init();
 
         //init serverVars
-
         serverVars.putArg(new gArg("listenport", "5555") {
             public void onChange() {
                 cServerLogic.listenPort = Integer.parseInt(value);
@@ -83,8 +88,218 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
+        //init client vars
+        clientVars.putArg(new gArg("vidmode", "1920,1080,60") {
+            public void onChange() {
+                String[] vidmodetoks = value.split(",");
+                int[] sres = new int[]{
+                        Integer.parseInt(vidmodetoks[0]),
+                        Integer.parseInt(vidmodetoks[1]),
+                        Integer.parseInt(vidmodetoks[2])
+                };
+                sSettings.framerate = sres[2];
+                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
+                    sSettings.width = sres[0];
+                    sSettings.height = sres[1];
+                    //refresh fonts
+                    dFonts.fontNormal = new Font(clientVars.get("fontui"), Font.PLAIN,
+                            dFonts.fontsize * sSettings.height / sSettings.gamescale);
+                    dFonts.fontGNormal = new Font(clientVars.get("fontui"), Font.PLAIN, dFonts.fontsize);
+                    dFonts.fontSmall = new Font(clientVars.get("fontui"), Font.PLAIN,
+                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                    dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
+                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                    if(oDisplay.instance().frame != null) {
+                        oDisplay.instance().refreshResolution();
+                        dMenus.refreshLogos();
+                    }
+                }
+            }
+        });
+        clientVars.putArg(new gArg("audioenabled", "1") {
+            public void onChange() {
+                //TODO: clean this up by holding audio clips in the proper place
+                sSettings.audioenabled = Integer.parseInt(value) > 0;
+                if(xMain.shellLogic != null && !sSettings.audioenabled) {
+                    for(AudioClip c : xMain.shellLogic.audioClips) {
+                        c.stop();
+                    }
+//                    oAudio.instance().clips.clear(); //maybe needed?
+                }
+            }
+        });
+        clientVars.putArg(new gArg("debug", "0") {
+            public void onChange() {
+                cClientLogic.debug = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("showmapmakerui", "0") {
+            public void onChange() {
+                sSettings.show_mapmaker_ui = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("debuglog", "0") {
+            public void onChange() {
+                cClientLogic.debuglog = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("volume", "100") {
+            public void onChange() {
+                cClientLogic.volume = Double.parseDouble(value);
+            }
+        });
+        clientVars.putArg(new gArg("playercolor", "blue") {
+            public void onChange() {
+                cClientLogic.playerColor = value;
+            }
+        });
+        clientVars.putArg(new gArg("playername", "player") {
+            public void onChange() {
+                cClientLogic.playerName = value;
+            }
+        });
+        clientVars.putArg(new gArg("displaymode", "0") {
+            public void onChange() {
+                sSettings.displaymode = Integer.parseInt(value);
+                if(oDisplay.instance().frame != null) {
+                    oDisplay.instance().refreshDisplaymode();
+                }
+            }
+        });
+        clientVars.putArg(new gArg("vfxenableanimations", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableanimations = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
 
-        cClientLogic.init(xMain.launchArgs);
+                }
+            }
+        });
+        clientVars.putArg(new gArg("vfxenableflares", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableflares = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        clientVars.putArg(new gArg("vfxenableshading", "1"){
+            public void onChange() {
+                try {
+                    sSettings.vfxenableshading = Integer.parseInt(value) == 1;
+                }
+                catch (Exception ignored) {
+
+                }
+            }
+        });
+        clientVars.putArg(new gArg("vfxenableshadows", "1"){
+            public void onChange() {
+                sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("gamemode", "0") {
+            public void onChange() {
+                cClientLogic.gamemode = Integer.parseInt(value);
+                cClientLogic.gamemodeTitle = xCon.ex("cl_setvar GAMETYPE_"+value+"_title");
+                cClientLogic.gamemodeText = xCon.ex("cl_setvar GAMETYPE_"+value+"_text");
+                if(sSettings.show_mapmaker_ui)
+                    uiEditorMenus.refreshGametypeCheckBoxMenuItems();
+            }
+        });
+        clientVars.putArg(new gArg("maploaded", "0") {
+            public void onChange() {
+                cClientLogic.maploaded = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("maxhp", "500") {
+            public void onChange() {
+                cClientLogic.maxhp = Integer.parseInt(value);
+            }
+        });
+        clientVars.putArg(new gArg("velocityplayerbase", Integer.toString(cClientLogic.velocityPlayerBase)) {
+            public void onChange() {
+                cClientLogic.velocityPlayerBase = Integer.parseInt(value);
+            }
+        });
+        clientVars.putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.framerates = new int[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    int tok = Integer.parseInt(toks[i].strip());
+                    sSettings.framerates[i] = tok;
+                }
+            }
+        });
+        clientVars.putArg(new gArg("resolutions",
+                "640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160") {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.resolutions = new String[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    String tok = toks[i].strip();
+                    sSettings.resolutions[i] = tok;
+                }
+            }
+        });
+        clientVars.putArg(new gArg("fontui", "None"));
+        clientVars.putArg(new gArg("showfps", "0"){
+            public void onChange() {
+                dScreenMessages.showfps = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showcam", "0"){
+            public void onChange() {
+                dScreenMessages.showcam = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showmouse", "0"){
+            public void onChange() {
+                dScreenMessages.showmouse = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("shownet", "0"){
+            public void onChange() {
+                dScreenMessages.shownet = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showplayer", "0"){
+            public void onChange() {
+                dScreenMessages.showplayer = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showtick", "0"){
+            public void onChange() {
+                dScreenMessages.showtick = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showscale", "0"){
+            public void onChange() {
+                dScreenMessages.showscale = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("showscore", "0"){
+            public void onChange() {
+                dScreenMessages.showscore = value.equals("1");
+            }
+        });
+        clientVars.putArg(new gArg("joinip", "localhost"){
+            public void onChange() {
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+            }
+        });
+        clientVars.putArg(new gArg("joinport", "5555"){
+            public void onChange() {
+                uiMenus.menuSelection[uiMenus.MENU_JOINGAME].refresh();
+            }
+        });
+        clientVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        clientVars.loadFromLaunchArgs(xMain.launchArgs);
+        
         initGameObjectsAndScenes();
         if(sSettings.show_mapmaker_ui) {
             sSettings.drawhitboxes = true;
@@ -107,7 +322,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         super.update();
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
-            cClientLogic.vars.put("gametimemillis", Long.toString(gameTimeMillis));
+            clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
             cClientLogic.timedEvents.executeCommands();
             if(oDisplay.instance().frame.isVisible()) {
                 if(cClientLogic.getUserPlayer() != null)
@@ -338,8 +553,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void cleanup() {
-       serverVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
-        cClientLogic.vars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
+        serverVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
+        clientVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
         if(cClientLogic.debuglog)
             xCon.instance().saveLog(sSettings.CONSOLE_LOG_LOCATION);
         System.exit(0);
