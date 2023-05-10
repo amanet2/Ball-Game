@@ -126,10 +126,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void addIgnoringNetCmd(String ignoreIds, String cmd) {
-        //ignoreIds is any-char separated string of ids
-        if(!ignoreIds.contains("server"))
-            xCon.ex(cmd);
-        for(String id : clientNetCmdMap.keySet()) {
+        for(String id : masterStateMap.keys()) {
             if(!ignoreIds.contains(id))
                 addNetCmd(id, cmd);
         }
@@ -235,7 +232,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //update players
         gPlayer pl = cServerLogic.getPlayerById(stateId);
         if(pl != null) {    //store player object's health in outgoing network arg map
-            masterStateMap.get(stateId).put("hp", cServerLogic.getPlayerById(stateId).get("stockhp"));
             masterStateMap.get(stateId).put("coords", pl.get("coordx") + ":" + pl.get("coordy"));
             masterStateMap.get(stateId).put("vel0", pl.get("vel0"));
             masterStateMap.get(stateId).put("vel1", pl.get("vel1"));

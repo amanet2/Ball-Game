@@ -69,12 +69,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 foundIds.add(idload);
             }
         }
-        //update user player's hp
-        if(packArgStateMap.contains(uiInterface.uuid) && packArgStateMap.get(uiInterface.uuid).contains("hp")) {
-            gPlayer userPlayer = cClientLogic.getUserPlayer();
-            if(userPlayer != null)
-                userPlayer.put("stockhp", packArgStateMap.get(uiInterface.uuid).get("hp"));
-        }
         // check for IDs that are absent from received snapshot
         for(String k : clientStateMap.keys()) {
             if(!foundIds.contains(k))

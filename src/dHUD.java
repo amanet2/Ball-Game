@@ -5,8 +5,10 @@ import java.awt.Color;
 
 public class dHUD {
     public static void drawHUD(Graphics g) {
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
-        if(userPlayer == null)
+        if(!sSettings.IS_CLIENT)
+            return;
+        nState userState = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot).get(uiInterface.uuid);
+        if(userState == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
@@ -16,9 +18,9 @@ public class dHUD {
                 sSettings.height/64);
         g.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
-                sSettings.width/8*(int)userPlayer.getDouble("stockhp")/cClientLogic.maxhp,
+                sSettings.width/8*Integer.parseInt(userState.get("hp"))/cClientLogic.maxhp,
                 sSettings.height/64);
-        g.drawString(userPlayer.get("stockhp"), 37*sSettings.width / 256, 15*sSettings.height/16);
+        g.drawString(userState.get("hp"), 37*sSettings.width / 256, 15*sSettings.height/16);
         dFonts.setFontNormal(g);
         //score
         nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);

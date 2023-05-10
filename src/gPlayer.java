@@ -98,7 +98,6 @@ public class gPlayer extends gThing {
         put("mov1", "0");
         put("mov2", "0");
         put("mov3", "0");
-        putInt("stockhp", cClientLogic.maxhp);
         setSpriteFromPath(eManager.getPath("animations/player_red/a03.png"));
     }
 }

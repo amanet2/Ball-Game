@@ -22,6 +22,11 @@ public class nStateBallGame extends nState {
                     cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
             }
         });
+        map.putArg(new gArg("hp", Integer.toString(cServerLogic.maxhp)) {
+            public void onChange() {
+
+            }
+        });
         map.putArg(new gArg("mov0", "0") {
             public void onChange() {
                 setPlayerVal("mov0", value);

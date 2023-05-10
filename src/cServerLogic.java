@@ -89,9 +89,9 @@ public class cServerLogic {
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
                     netServerThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
-                    for (String s : scene.getThingMap("THING_PLAYER").keySet()) {
-                        gPlayer p = scene.getPlayerById(s);
-                        p.putInt("stockhp", newmaxhp);
+                    nStateMap cState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                    for(String clid : cState.keys()) {
+                        netServerThread.setClientState(clid, "hp", value);
                     }
                 }
             }

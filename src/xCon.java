@@ -85,7 +85,7 @@ public class xCon {
                 }
                 String actStr = act.substring(1);
                 cServerLogic.netServerThread.addIgnoringNetCmd(ignoreId, actStr);
-                return "server fanout comm ignoring: " + actStr;
+                return "server fanout comm ignoring " + ignoreId + ": " + actStr;
             }
         });
         commands.put("addcomx", new xCom() {
@@ -240,30 +240,30 @@ public class xCon {
                     if(toks.length > 3)
                         shooterid = toks[3];
                     gPlayer player = cServerLogic.getPlayerById(id);
-                    if(player != null) {
-                        nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
-                        player.putInt("stockhp", player.getInt("stockhp") - dmg);
-                        cServerLogic.netServerThread.setClientState(id, "hp", player.get("stockhp"));
-                        ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
-                        //handle death
-                        if(player.getDouble("stockhp") < 1) {
-                            //more server-side stuff
-                            int dcx = player.getInt("coordx");
-                            int dcy = player.getInt("coordy");
-                            ex("deleteplayer " + id);
-                            if(shooterid.length() < 1)
-                                shooterid = "null";
-                            ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
-                            int animInd = gAnimations.ANIM_EXPLOSION_REG;
-                            String colorName = svMap.get(id).get("color");
-                            if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
-                                animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
-                            ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
-                            ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                    gTime.gameTime + cServerLogic.respawnwaittime, id));
-                        }
-                        return id + " took " + dmg + " dmg from " + shooterid;
+                    nState playerState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(id);
+                    if(player == null || playerState == null)
+                        return "no player found: " ;
+                    int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
+                    cServerLogic.netServerThread.setClientState(id, "hp", Integer.toString(newhp));
+                    ex(String.format("exec scripts/sv_handledamageplayer %s %d %d", id, dmg, gTime.gameTime));
+                    //handle death
+                    if(newhp < 1) {
+                        //more server-side stuff
+                        int dcx = player.getInt("coordx");
+                        int dcy = player.getInt("coordy");
+                        ex("deleteplayer " + id);
+                        if(shooterid.length() < 1)
+                            shooterid = "null";
+                        ex("exec scripts/sv_handledestroyplayer " + id + " " + shooterid);
+                        int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                        String colorName = playerState.get("color");
+                        if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
+                            animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
+                        ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
+                        ex(String.format("scheduleevent %d respawnnetplayer %s",
+                                gTime.gameTime + cServerLogic.respawnwaittime, id));
                     }
+                    return id + " took " + dmg + " dmg from " + shooterid;
                 }
                 return "usage: damageplayer <player_id> <dmg_amount> <optional-shooter_id>";
             }
@@ -1371,7 +1371,7 @@ public class xCon {
                     return "null";
                 String tk = toks[1];
                 if(toks.length < 3) {
-                    if (!cClientLogic.vars.contains(tk))
+                    if(!cClientLogic.vars.contains(tk))
                         return "null";
                     return cClientLogic.vars.get(tk);
                 }
