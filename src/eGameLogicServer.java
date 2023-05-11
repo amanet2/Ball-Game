@@ -203,7 +203,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private void handleBackfill(String id) {
         for(String cId : masterStateMap.keys()) {
             if(!id.equals(cId)) {
-                gPlayer p = cServerLogic.scene.getPlayerById(cId);
+                gPlayer p = xMain.shellLogic.serverScene.getPlayerById(cId);
                 if(p != null)
                     addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
             }
@@ -226,7 +226,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.get(stateId).put(k, receivedState.get(k));
         }
         //update players
-        gPlayer pl = cServerLogic.scene.getPlayerById(stateId);
+        gPlayer pl = xMain.shellLogic.serverScene.getPlayerById(stateId);
         if(pl != null) {    //store player object's health in outgoing network arg map
             masterStateMap.get(stateId).put("coords", pl.get("coordx") + ":" + pl.get("coordy"));
             masterStateMap.get(stateId).put("vel0", pl.get("vel0"));
@@ -254,7 +254,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
                 cServerLogic.velocityplayerbase, cServerLogic.gameMode));
-        HashMap<String, gThing> blockMap = cServerLogic.scene.getThingMap("THING_BLOCK");
+        HashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
             String[] args = new String[]{
@@ -275,7 +275,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             }
             maplines.add(blockString.toString());
         }
-        HashMap<String, gThing> itemMap = cServerLogic.scene.getThingMap("THING_ITEM");
+        HashMap<String, gThing> itemMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{

@@ -33,8 +33,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void checkGameItems() {
-        HashMap<String, gThing> playerMap = cServerLogic.scene.getThingMap("THING_PLAYER");
-        HashMap<String, gThing> itemsMap = cServerLogic.scene.getThingMap("THING_ITEM");
+        HashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
+        HashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         Queue<gThing> playerQueue = new LinkedList<>();
         Queue<gThing> itemsQueue = new LinkedList<>();
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
@@ -60,7 +60,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void updateEntityPositions(long gameTimeMillis) {
         nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         for(String id : svMap.keys()) {
-            gPlayer obj = cServerLogic.scene.getPlayerById(id);
+            gPlayer obj = xMain.shellLogic.serverScene.getPlayerById(id);
             if(obj == null)
                 continue;
             String[] requiredFields = new String[]{
@@ -83,7 +83,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                         obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
                 }
             }
-            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), cServerLogic.scene))
+            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), xMain.shellLogic.serverScene))
                 obj.putInt("coordx", dx);
             else {
                 if(obj.getInt("vel2") > obj.getInt("vel3")) {
@@ -95,7 +95,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.putInt("vel3", 0);
                 }
             }
-            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, cServerLogic.scene))
+            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, xMain.shellLogic.serverScene))
                 obj.putInt("coordy", dy);
             else {
                 if(obj.getInt("vel0") > obj.getInt("vel1")) {
@@ -110,7 +110,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         }
 
         try {
-            HashMap<String, gThing> thingMap = cServerLogic.scene.getThingMap("THING_BULLET");
+            HashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
             Queue<gThing> checkQueue = new LinkedList<>();
             String[] keys = thingMap.keySet().toArray(new String[0]);
             for (String id : keys) {
@@ -135,7 +135,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = cServerLogic.scene.getThingMap("THING_BULLET");
+        HashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
         nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         Queue<gThing> checkQueue = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);
@@ -151,8 +151,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     pseeds.add(b);
                 continue;
             }
-            for(String blockId : cServerLogic.scene.getThingMapIds("BLOCK_COLLISION")) {
-                gThing bl = cServerLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
+            for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.get("id"));
                     if(b.isInt("src", gWeapons.launcher))
@@ -160,7 +160,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 }
             }
             for(String playerId : svMap.keys()) {
-                gPlayer t = cServerLogic.scene.getPlayerById(playerId);
+                gPlayer t = xMain.shellLogic.serverScene.getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
@@ -174,7 +174,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
         for(Object bulletId : bulletsToRemoveIds) {
-            cServerLogic.scene.getThingMap("THING_BULLET").remove(bulletId);
+            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
             gBullet b = bulletsToRemovePlayerMap.get(p);
@@ -182,7 +182,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
                     *((Math.abs(Math.max(0, gTime.gameTime - b.getLong("timestamp"))
             )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
-            cServerLogic.scene.getThingMap("THING_BULLET").remove(b.get("id"));
+            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside
             xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
             xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));

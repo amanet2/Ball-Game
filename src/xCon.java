@@ -277,7 +277,7 @@ public class xCon {
                     String shooterid = "";
                     if(toks.length > 3)
                         shooterid = toks[3];
-                    gPlayer player = cServerLogic.scene.getPlayerById(id);
+                    gPlayer player = xMain.shellLogic.serverScene.getPlayerById(id);
                     nState playerState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
@@ -311,7 +311,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 2)
                     return "usage: deleteblock <id>";
-                deleteBlockDelegate(toks, cServerLogic.scene);
+                deleteBlockDelegate(toks, xMain.shellLogic.serverScene);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "deleted block";
             }
@@ -329,11 +329,11 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    if(cServerLogic.scene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) cServerLogic.scene.getThingMap("THING_ITEM").get(id);
+                    if(xMain.shellLogic.serverScene.getThingMap("THING_ITEM").containsKey(id)) {
+                        gItem itemToDelete = (gItem) xMain.shellLogic.serverScene.getThingMap("THING_ITEM").get(id);
                         String type = itemToDelete.get("type");
-                        cServerLogic.scene.getThingMap("THING_ITEM").remove(id);
-                        cServerLogic.scene.getThingMap(type).remove(id);
+                        xMain.shellLogic.serverScene.getThingMap("THING_ITEM").remove(id);
+                        xMain.shellLogic.serverScene.getThingMap(type).remove(id);
                         cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                     }
                 }
@@ -361,7 +361,7 @@ public class xCon {
                 if(toks.length > 1) {
                     String id = toks[1];
                     ex("exec scripts/sv_handledeleteplayer " + id);
-                    cServerLogic.scene.getThingMap("THING_PLAYER").remove(id);
+                    xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(id);
                     cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 }
                 return "usage: deleteplayer <id>";
@@ -379,7 +379,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
-                    deletePrefabDelegate(cServerLogic.scene, toks[1]);
+                    deletePrefabDelegate(xMain.shellLogic.serverScene, toks[1]);
                     cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
@@ -652,7 +652,7 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    gWeapons.fromCode(weapon).fireWeapon(cServerLogic.scene.getPlayerById(id), cServerLogic.scene);
+                    gWeapons.fromCode(weapon).fireWeapon(xMain.shellLogic.serverScene.getPlayerById(id), xMain.shellLogic.serverScene);
                     return id + " fired weapon " + weapon;
                 }
                 return "usage: fireweapon <player_id> <weapon_code>";
@@ -740,7 +740,7 @@ public class xCon {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 4)
                     return "usage: foreach $var $THING_TYPE <script where $var is preloaded>";
-                gScene scene = cServerLogic.scene;
+                gScene scene = xMain.shellLogic.serverScene;
                 String varname = args[1];
                 String thingtype = args[2];
                 if(!scene.objectMaps.containsKey(thingtype))
@@ -774,7 +774,7 @@ public class xCon {
         commands.put("getnewitemid", new xCom() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
-                for(String id : cServerLogic.scene.getThingMap("THING_ITEM").keySet()) {
+                for(String id : xMain.shellLogic.serverScene.getThingMap("THING_ITEM").keySet()) {
                     if(itemId < Integer.parseInt(id))
                         itemId = Integer.parseInt(id);
                 }
@@ -810,9 +810,9 @@ public class xCon {
                 if(args.length < 2)
                     return "null";
                 String type = args[1];
-                if(!cServerLogic.scene.objectMaps.containsKey(type) || cServerLogic.scene.objectMaps.get(type).size() < 1)
+                if(!xMain.shellLogic.serverScene.objectMaps.containsKey(type) || xMain.shellLogic.serverScene.objectMaps.get(type).size() < 1)
                     return "null";
-                List<String> keysAsArray = new ArrayList<>(cServerLogic.scene.objectMaps.get(type).keySet());
+                List<String> keysAsArray = new ArrayList<>(xMain.shellLogic.serverScene.objectMaps.get(type).keySet());
                 return keysAsArray.get(ThreadLocalRandom.current().nextInt(0, keysAsArray.size()));
             }
         });
@@ -972,7 +972,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("setvar gamemode 0");
-                cServerLogic.scene = new gScene();
+                xMain.shellLogic.serverScene = new gScene();
                 if(sSettings.IS_SERVER)
                     cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
                 return "";
@@ -1152,7 +1152,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, cServerLogic.scene, toks[1], toks[2], toks[3]);
+                putBlockDelegate(toks, xMain.shellLogic.serverScene, toks[1], toks[2], toks[3]);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "1";
             }
@@ -1180,7 +1180,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
-                putItemDelegate(toks, cServerLogic.scene);
+                putItemDelegate(toks, xMain.shellLogic.serverScene);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "put item";
             }
@@ -1218,7 +1218,7 @@ public class xCon {
                 }
                 String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
-                    gThing randomSpawn = cServerLogic.scene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
+                    gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
                     if(randomSpawn.get("occupied").equals("1"))
                         ex("respawnnetplayer " + toks[1]);
                     else {
@@ -1337,7 +1337,7 @@ public class xCon {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 4)
                     return "null";
-                gPlayer p = cServerLogic.scene.getPlayerById(args[1]);
+                gPlayer p = xMain.shellLogic.serverScene.getPlayerById(args[1]);
                 if(p == null)
                     return "null";
                 p.put("coordx", args[2]);
@@ -1365,7 +1365,7 @@ public class xCon {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
-                return setThingDelegate(args, cServerLogic.scene);
+                return setThingDelegate(args, xMain.shellLogic.serverScene);
             }
         });
         commands.put("cl_setthing", new xCom() {
@@ -1454,9 +1454,9 @@ public class xCon {
             }
 
             private String spawnPlayerDelegate(String playerId, int x, int y) {
-                cServerLogic.scene.getThingMap("THING_PLAYER").remove(playerId);
+                xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
-                cServerLogic.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 ex("exec scripts/sv_handlespawnplayer " + playerId);
                 cServerLogic.netServerThread.addIgnoringNetCmd("server",
                         String.format("cl_spawnplayer %s %d %d", playerId, x, y));

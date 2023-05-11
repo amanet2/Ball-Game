@@ -12,6 +12,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gBlockFactory blockFactory;
     oDisplay displayPane;
     xCon console;
+    gScene serverScene;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();
@@ -33,7 +34,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         sSettings.object_titles = thingTypes.toArray(String[]::new);
         cClientLogic.scene = new gScene();
-        cServerLogic.scene = new gScene();
+        serverScene = new gScene();
         uiEditorMenus.previewScene = new gScene();
     }
 
@@ -75,7 +76,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 cServerLogic.velocityplayerbase = Integer.parseInt(value);
                 if(sSettings.IS_SERVER)
-                    xMain.shellLogic.console.ex("addcom cl_setvar velocityplayerbase " + cServerLogic.velocityplayerbase);
+                    console.ex("addcom cl_setvar velocityplayerbase " + cServerLogic.velocityplayerbase);
             }
         });
         serverVars.putArg(new gArg("voteskiplimit", "2") {
@@ -206,8 +207,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
                 cClientLogic.gamemode = Integer.parseInt(value);
-                cClientLogic.gamemodeTitle = xMain.shellLogic.console.ex("cl_setvar GAMETYPE_"+value+"_title");
-                cClientLogic.gamemodeText = xMain.shellLogic.console.ex("cl_setvar GAMETYPE_"+value+"_text");
+                cClientLogic.gamemodeTitle = console.ex("cl_setvar GAMETYPE_"+value+"_title");
+                cClientLogic.gamemodeText = console.ex("cl_setvar GAMETYPE_"+value+"_text");
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }

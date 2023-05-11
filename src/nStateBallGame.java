@@ -18,8 +18,8 @@ public class nStateBallGame extends nState {
         });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
-                if(cServerLogic.scene.getPlayerById(get("id")) != null)
-                    cServerLogic.scene.getPlayerById(get("id")).put("fv", value);
+                if(xMain.shellLogic.serverScene.getPlayerById(get("id")) != null)
+                    xMain.shellLogic.serverScene.getPlayerById(get("id")).put("fv", value);
             }
         });
         map.putArg(new gArg("hp", Integer.toString(cServerLogic.maxhp)) {
@@ -65,7 +65,7 @@ public class nStateBallGame extends nState {
     }
 
     private void setPlayerVal(String key, String val) {
-        gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
+        gPlayer pl = xMain.shellLogic.serverScene.getPlayerById(get("id"));
         if(pl != null)
             pl.put(key, val);
     }
