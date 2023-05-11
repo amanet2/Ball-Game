@@ -2,9 +2,11 @@ import java.util.*;
 
 public class eGameLogicSimulation extends eGameLogicAdapter {
     private final Queue<String> cmdQueue; //local cmd queue for server
+    final gTimeEventSet scheduledEvents;
 
     public eGameLogicSimulation() {
         cmdQueue = new LinkedList<>();
+        scheduledEvents = new gTimeEventSet();
     }
 
     public void addLocalCmd(String cmd) {
@@ -23,7 +25,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         long gameTimeMillis = gTime.gameTime;
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
         cServerLogic.localGameThread.checkLocalCmds();
-        cServerLogic.timedEvents.executeCommands();
+        scheduledEvents.executeCommands();
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
@@ -58,7 +60,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void updateEntityPositions(long gameTimeMillis) {
         nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
         for(String id : svMap.keys()) {
-            gPlayer obj = cServerLogic.getPlayerById(id);
+            gPlayer obj = cServerLogic.scene.getPlayerById(id);
             if(obj == null)
                 continue;
             String[] requiredFields = new String[]{
@@ -158,7 +160,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 }
             }
             for(String playerId : svMap.keys()) {
-                gPlayer t = cServerLogic.getPlayerById(playerId);
+                gPlayer t = cServerLogic.scene.getPlayerById(playerId);
                 if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
                         && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);

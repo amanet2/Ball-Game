@@ -146,7 +146,7 @@ public class xCon {
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
-                cServerLogic.timedEvents.clear();
+                cServerLogic.localGameThread.scheduledEvents.clear();
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
@@ -159,14 +159,14 @@ public class xCon {
                     long starttime = gTime.gameTime;
                     for (long t = starttime + 1000; t <= starttime + cServerLogic.timelimit; t += 1000) {
                         long lastT = t;
-                        cServerLogic.timedEvents.put(Long.toString(t), new gTimeEvent() {
+                        cServerLogic.localGameThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
                             public void doCommand() {
                                 if (cServerLogic.timelimit > 0)
                                     cServerLogic.timeleft = Math.max(0, (starttime + cServerLogic.timelimit) - lastT);
                             }
                         });
                     }
-                    cServerLogic.timedEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
+                    cServerLogic.localGameThread.scheduledEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
                         public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
@@ -277,7 +277,7 @@ public class xCon {
                     String shooterid = "";
                     if(toks.length > 3)
                         shooterid = toks[3];
-                    gPlayer player = cServerLogic.getPlayerById(id);
+                    gPlayer player = cServerLogic.scene.getPlayerById(id);
                     nState playerState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
@@ -652,7 +652,7 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    gWeapons.fromCode(weapon).fireWeapon(cServerLogic.getPlayerById(id), cServerLogic.scene);
+                    gWeapons.fromCode(weapon).fireWeapon(cServerLogic.scene.getPlayerById(id), cServerLogic.scene);
                     return id + " fired weapon " + weapon;
                 }
                 return "usage: fireweapon <player_id> <weapon_code>";
@@ -1253,8 +1253,8 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                synchronized (cServerLogic.timedEvents.events) {
-                    cServerLogic.timedEvents.put(timeToExec,
+                synchronized (cServerLogic.localGameThread.scheduledEvents.events) {
+                    cServerLogic.localGameThread.scheduledEvents.put(timeToExec,
                             new gTimeEvent() {
                                 public void doCommand() {
                                     ex(actStr);
@@ -1337,7 +1337,7 @@ public class xCon {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 4)
                     return "null";
-                gPlayer p = cServerLogic.getPlayerById(args[1]);
+                gPlayer p = cServerLogic.scene.getPlayerById(args[1]);
                 if(p == null)
                     return "null";
                 p.put("coordx", args[2]);

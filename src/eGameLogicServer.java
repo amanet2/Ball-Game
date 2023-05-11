@@ -203,7 +203,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private void handleBackfill(String id) {
         for(String cId : masterStateMap.keys()) {
             if(!id.equals(cId)) {
-                gPlayer p = cServerLogic.getPlayerById(cId);
+                gPlayer p = cServerLogic.scene.getPlayerById(cId);
                 if(p != null)
                     addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
             }
@@ -226,7 +226,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.get(stateId).put(k, receivedState.get(k));
         }
         //update players
-        gPlayer pl = cServerLogic.getPlayerById(stateId);
+        gPlayer pl = cServerLogic.scene.getPlayerById(stateId);
         if(pl != null) {    //store player object's health in outgoing network arg map
             masterStateMap.get(stateId).put("coords", pl.get("coordx") + ":" + pl.get("coordy"));
             masterStateMap.get(stateId).put("vel0", pl.get("vel0"));

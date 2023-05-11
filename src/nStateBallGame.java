@@ -65,7 +65,7 @@ public class nStateBallGame extends nState {
     }
 
     private void setPlayerVal(String key, String val) {
-        gPlayer pl = cServerLogic.getPlayerById(get("id"));
+        gPlayer pl = cServerLogic.scene.getPlayerById(get("id"));
         if(pl != null)
             pl.put(key, val);
     }
