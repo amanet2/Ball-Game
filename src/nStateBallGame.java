@@ -51,7 +51,7 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmdrcv", "0") {
             public void onChange() {
                 if(value.equals("1")) {
-                    cServerLogic.netServerThread.clientReceivedCmd(get("id"));
+                    xMain.shellLogic.serverNetThread.clientReceivedCmd(get("id"));
                     value = "0";
                 }
             }
@@ -59,7 +59,7 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("cmd", "") {
             public void onChange() {
                 if(value.length() > 0)
-                    cServerLogic.netServerThread.handleClientCommand(get("id"), value);
+                    xMain.shellLogic.serverNetThread.handleClientCommand(get("id"), value);
             }
         });
     }

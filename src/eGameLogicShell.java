@@ -15,6 +15,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gScene serverScene;
     gTimeEventSet scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
+    eGameLogicServer serverNetThread;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();
@@ -67,10 +68,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 cServerLogic.maxhp = Integer.parseInt(value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
-                    nStateMap cState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
+                    nStateMap cState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                     for(String clid : cState.keys()) {
-                        cServerLogic.netServerThread.setClientState(clid, "hp", value);
+                        xMain.shellLogic.serverNetThread.setClientState(clid, "hp", value);
                     }
                 }
             }
@@ -85,8 +86,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         serverVars.putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 cServerLogic.voteskiplimit = Integer.parseInt(value);
-                if(cServerLogic.netServerThread != null)
-                    cServerLogic.netServerThread.checkForVoteSkip();
+                if(xMain.shellLogic.serverNetThread != null)
+                    xMain.shellLogic.serverNetThread.checkForVoteSkip();
             }
         });
         serverVars.putArg(new gArg("respawnwaittime", Integer.toString(cServerLogic.respawnwaittime)) {

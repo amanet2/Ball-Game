@@ -66,7 +66,7 @@ public class xCon {
                     act.append(" ").append(args[i]);
                 }
                 String actStr = act.substring(1);
-                cServerLogic.netServerThread.addNetCmd(actStr);
+                xMain.shellLogic.serverNetThread.addNetCmd(actStr);
                 return "server fanout comm: " + actStr;
             }
         });
@@ -83,7 +83,7 @@ public class xCon {
                     act.append(" ").append(args[i]);
                 }
                 String actStr = act.substring(1);
-                cServerLogic.netServerThread.addIgnoringNetCmd(ignoreId, actStr);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd(ignoreId, actStr);
                 return "server fanout comm ignoring " + ignoreId + ": " + actStr;
             }
         });
@@ -100,7 +100,7 @@ public class xCon {
                     act.append(" ").append(args[i]);
                 }
                 String actStr = act.substring(1);
-                cServerLogic.netServerThread.addNetCmd(exlusiveId, actStr);
+                xMain.shellLogic.serverNetThread.addNetCmd(exlusiveId, actStr);
                 return "server comm exclusive: " + actStr;
             }
         });
@@ -152,9 +152,9 @@ public class xCon {
                 ex("-loadingscreen");
                 if(!sSettings.show_mapmaker_ui) {
                     //spawn in after finished loading
-                    nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                    nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                     for (String id : svMap.keys()) {
-                        cServerLogic.netServerThread.addNetCmd("server", "respawnnetplayer " + id);
+                        xMain.shellLogic.serverNetThread.addNetCmd("server", "respawnnetplayer " + id);
                     }
                     long starttime = gTime.gameTime;
                     for (long t = starttime + 1000; t <= starttime + cServerLogic.timelimit; t += 1000) {
@@ -171,7 +171,7 @@ public class xCon {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
                             if (!winid.equalsIgnoreCase("null")) {
-                                nState winState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(winid);
+                                nState winState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(winid);
                                 String wname = winState.get("name");
                                 String wcolor = winState.get("color");
                                 ex("givewin " + winid);
@@ -228,7 +228,7 @@ public class xCon {
         commands.put("clientlist", new xCom() {
             public String doCommand(String fullCommand) {
                 StringBuilder s = new StringBuilder();
-                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 for(String k : svMap.keys()) {
                     s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
                             svMap.get(k).get("name"), k));
@@ -278,11 +278,11 @@ public class xCon {
                     if(toks.length > 3)
                         shooterid = toks[3];
                     gPlayer player = xMain.shellLogic.serverScene.getPlayerById(id);
-                    nState playerState = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot).get(id);
+                    nState playerState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
-                    cServerLogic.netServerThread.setClientState(id, "hp", Integer.toString(newhp));
+                    xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
                     //handle death
                     if(newhp < 1) {
@@ -312,7 +312,7 @@ public class xCon {
                 if(toks.length < 2)
                     return "usage: deleteblock <id>";
                 deleteBlockDelegate(toks, xMain.shellLogic.serverScene);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "deleted block";
             }
         });
@@ -334,7 +334,7 @@ public class xCon {
                         String type = itemToDelete.get("type");
                         xMain.shellLogic.serverScene.getThingMap("THING_ITEM").remove(id);
                         xMain.shellLogic.serverScene.getThingMap(type).remove(id);
-                        cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
+                        xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                     }
                 }
                 return "usage: deleteitem <id>";
@@ -362,7 +362,7 @@ public class xCon {
                     String id = toks[1];
                     ex("exec scripts/sv_handledeleteplayer " + id);
                     xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(id);
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 }
                 return "usage: deleteplayer <id>";
             }
@@ -380,7 +380,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     deletePrefabDelegate(xMain.shellLogic.serverScene, toks[1]);
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 }
                 return "usage: deleteprefab <id>";
             }
@@ -400,7 +400,7 @@ public class xCon {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
-                    cServerLogic.netServerThread.disconnect();
+                    xMain.shellLogic.serverNetThread.disconnect();
                     xMain.shellLogic.serverSimulationThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
@@ -440,7 +440,7 @@ public class xCon {
                     parsedStringBuilder.append(" ").append(lineArgtoken);
                 }
                 String parsedCommand = parsedStringBuilder.substring(1);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + parsedCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + parsedCommand);
                 return "FANOUT to clients: cl_" + parsedCommand;
             }
         });
@@ -698,7 +698,7 @@ public class xCon {
                 if(args.length < 3)
                     return "usage: foreachclient $id <script where $id is preloaded>";
                 String varname = args[1];
-                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 for(String id : svMap.keys()) {
                     ex(String.format("setvar %s %s", varname, id));
                     String[] cargs = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -767,7 +767,7 @@ public class xCon {
                     return xMain.shellLogic.serverVars.get("gamemode");
                 String setmode = args[1];
                 xMain.shellLogic.serverVars.put("gamemode", setmode);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar gamemode " + setmode);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar gamemode " + setmode);
                 return "changed game mode to " + xMain.shellLogic.serverVars.get("gamemode");
             }
         });
@@ -795,7 +795,7 @@ public class xCon {
         commands.put("getrandclid", new xCom() {
             // usage: getrandclid
             public String doCommand(String fullCommand) {
-                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 if(svMap.keys().size() < 1)
                     return "null";
                 int randomClientIndex = (int) (Math.random() * svMap.keys().size());
@@ -866,8 +866,8 @@ public class xCon {
                 String pid = args[1];
                 String weap = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
-                cServerLogic.netServerThread.addNetCmd("server", giveString);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + giveString);
+                xMain.shellLogic.serverNetThread.addNetCmd("server", giveString);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
@@ -881,7 +881,7 @@ public class xCon {
                 String path = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
                 ex(giveString);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + giveString);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 return "applied decoration " + path + " to player " + pid;
             }
         });
@@ -894,7 +894,7 @@ public class xCon {
                 String val = args[2];
                 String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
                 ex(giveString);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + giveString);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 return String.format("Set waypoint '%s' for player %s", val, pid);
             }
         });
@@ -908,7 +908,7 @@ public class xCon {
                 if(args.length > 2)
                     score = Integer.parseInt(args[2]);
                 gScoreboard.addToScoreField(id, "score", score);
-                nStateMap svMap = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 String color = svMap.get(id).get("color");
                 ex(String.format("spawnpopup %s +%d#%s", id, score, color));
                 return "gave point to " + id;
@@ -974,7 +974,7 @@ public class xCon {
                 ex("setvar gamemode 0");
                 xMain.shellLogic.serverScene = new gScene();
                 if(sSettings.IS_SERVER)
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_load");
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_load");
                 return "";
             }
         });
@@ -990,12 +990,12 @@ public class xCon {
         commands.put("loadingscreen", new xCom() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER)
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 0");
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maploaded 0");
                 return "loading screen ON";
             }
             public String undoCommand(String fullCommand) {
                 if(sSettings.IS_SERVER)
-                    cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_setvar maploaded 1");
+                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maploaded 1");
                 return "loading screen OFF";
             }
         });
@@ -1153,7 +1153,7 @@ public class xCon {
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
                 putBlockDelegate(toks, xMain.shellLogic.serverScene, toks[1], toks[2], toks[3]);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "1";
             }
         });
@@ -1181,7 +1181,7 @@ public class xCon {
                 if(toks.length < 5)
                     return "usage: putitem <ITEM_TITLE> <id> <x> <y>";
                 putItemDelegate(toks, xMain.shellLogic.serverScene);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "put item";
             }
         });
@@ -1308,7 +1308,7 @@ public class xCon {
         commands.put("setnstate", new xCom() {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
-                nStateMap serverStateSnapshot = new nStateMap(cServerLogic.netServerThread.masterStateSnapshot);
+                nStateMap serverStateSnapshot = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return serverStateSnapshot.toString();
@@ -1329,7 +1329,7 @@ public class xCon {
                     tvb.append(" ").append(args[i]);
                 }
                 String tv = tvb.substring(1);
-                return cServerLogic.netServerThread.setClientState(pid, tk, tv);
+                return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
             }
         });
         commands.put("setplayercoords", new xCom() {
@@ -1342,7 +1342,7 @@ public class xCon {
                     return "null";
                 p.put("coordx", args[2]);
                 p.put("coordy", args[3]);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return fullCommand;
             }
         });
@@ -1458,7 +1458,7 @@ public class xCon {
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 ex("exec scripts/sv_handlespawnplayer " + playerId);
-                cServerLogic.netServerThread.addIgnoringNetCmd("server",
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server",
                         String.format("cl_spawnplayer %s %d %d", playerId, x, y));
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
@@ -1486,7 +1486,7 @@ public class xCon {
         });
         commands.put("spawnpopup", new xCom() {
             public String doCommand(String fullCommand) {
-                cServerLogic.netServerThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "spawned popup";
             }
         });
@@ -1520,9 +1520,9 @@ public class xCon {
                 eGameSession localGameSession = new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
                 xMain.shellLogic.serverSimulationThread.setParentSession(localGameSession);
                 localGameSession.start();
-                cServerLogic.netServerThread = new eGameLogicServer();
-                eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateserver);
-                cServerLogic.netServerThread.setParentSession(serverNetSession);
+                xMain.shellLogic.serverNetThread = new eGameLogicServer();
+                eGameSession serverNetSession = new eGameSession(xMain.shellLogic.serverNetThread, sSettings.rateserver);
+                xMain.shellLogic.serverNetThread.setParentSession(serverNetSession);
                 sSettings.IS_SERVER = true;
                 serverNetSession.start();
                 return "new game started";

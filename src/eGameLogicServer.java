@@ -371,7 +371,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         super.cleanup();
         sSettings.IS_SERVER = false;
         serverSocket.close();
-        cServerLogic.netServerThread = null;
+        xMain.shellLogic.serverNetThread = null;
         uiInterface.tickReportServer = 0;
     }
 }
