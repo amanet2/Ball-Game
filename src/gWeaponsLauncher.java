@@ -37,12 +37,12 @@ public class gWeaponsLauncher extends gWeapon {
             g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
             if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
                 xMain.shellLogic.serverScene.getThingMap("THING_BULLET").put(g.get("id"), g);
-                cClientLogic.scene.getThingMap("THING_BULLET").put(g.get("id"), g);
+                xMain.shellLogic.clientScene.getThingMap("THING_BULLET").put(g.get("id"), g);
             }
             else if(sSettings.IS_SERVER)
                 xMain.shellLogic.serverScene.getThingMap("THING_BULLET").put(g.get("id"), g);
             else if(sSettings.IS_CLIENT)
-                cClientLogic.scene.getThingMap("THING_BULLET").put(g.get("id"), g);
+                xMain.shellLogic.clientScene.getThingMap("THING_BULLET").put(g.get("id"), g);
         }
     }
 }

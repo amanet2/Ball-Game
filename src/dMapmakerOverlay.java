@@ -22,8 +22,8 @@ public class dMapmakerOverlay {
         int window_offsety = xMain.shellLogic.displayPane.frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
-        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
                 dFonts.setFontColor(g2, "clrf_flooroutline");
                 g2.drawRect(block.getInt("coordx"),
@@ -39,8 +39,8 @@ public class dMapmakerOverlay {
             }
         }
         // -- selected item
-        for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.isVal("id", cClientLogic.selecteditemid)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
                 g2.drawRect(item.getInt("coordx"),
@@ -67,7 +67,7 @@ public class dMapmakerOverlay {
         cClientLogic.prevH = h;
         nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
-            if(cClientLogic.scene.getPlayerById(id) != null)
+            if(xMain.shellLogic.clientScene.getPlayerById(id) != null)
                 continue;
             nState clState = clStateMap.get(id);
             String pxs = clState.get("px");

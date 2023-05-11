@@ -13,6 +13,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     oDisplay displayPane;
     xCon console;
     gScene serverScene;
+    gScene clientScene;
     gTimeEventSet scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
     eGameLogicServer serverNetThread;
@@ -37,7 +38,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             ctr++;
         }
         sSettings.object_titles = thingTypes.toArray(String[]::new);
-        cClientLogic.scene = new gScene();
+        xMain.shellLogic.clientScene = new gScene();
         serverScene = new gScene();
         uiEditorMenus.previewScene = new gScene();
     }
@@ -391,9 +392,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     }
                 }
             }
-            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), cClientLogic.scene))
+            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), xMain.shellLogic.clientScene))
                 dx = obj.getInt("coordx");
-            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, cClientLogic.scene))
+            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, xMain.shellLogic.clientScene))
                 dy = obj.getInt("coordy");
             if(isUserPlayer(obj))
                 gCamera.put("coords", dx + ":" + dy);
@@ -401,7 +402,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             obj.putInt("coordy", dy);
         }
         try {
-            HashMap<String, gThing> thingMap = cClientLogic.scene.getThingMap("THING_BULLET");
+            HashMap<String, gThing> thingMap = xMain.shellLogic.clientScene.getThingMap("THING_BULLET");
             Queue<gThing> checkQueue = new LinkedList<>();
             String[] keys = thingMap.keySet().toArray(new String[0]);
             for (String id : keys) {
@@ -416,7 +417,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
             checkBulletSplashes(gameTimeMillis);
             //popups
-            thingMap = cClientLogic.scene.getThingMap("THING_POPUP");
+            thingMap = xMain.shellLogic.clientScene.getThingMap("THING_POPUP");
             checkQueue = new LinkedList<>();
             for (String id : thingMap.keySet()) {
                 checkQueue.add(thingMap.get(id));
@@ -438,7 +439,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = cClientLogic.scene.getThingMap("THING_BULLET");
+        HashMap<String, gThing> bulletsMap = xMain.shellLogic.clientScene.getThingMap("THING_BULLET");
         Queue<gThing> checkThings = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);
         for (String id : keys) {
@@ -453,8 +454,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     pseeds.add(t);
                 continue;
             }
-            for(String blockId : cClientLogic.scene.getThingMapIds("BLOCK_COLLISION")) {
-                gThing bl = cClientLogic.scene.getThingMap("BLOCK_COLLISION").get(blockId);
+            for(String blockId : xMain.shellLogic.clientScene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = xMain.shellLogic.clientScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(t.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(t.get("id"));
                     if(t.isInt("src", gWeapons.launcher))
@@ -476,10 +477,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
         for(Object bulletId : bulletsToRemoveIds) {
-            cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletId);
+            xMain.shellLogic.clientScene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            cClientLogic.scene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
+            xMain.shellLogic.clientScene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
         }
     }
 
@@ -487,16 +488,16 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(!cClientLogic.maploaded)
             return;
         int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : cClientLogic.scene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = cClientLogic.scene.getThingMap("THING_ITEM").get(id);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
                 cClientLogic.selecteditemid = item.get("id");
                 cClientLogic.selectedPrefabId = "";
                 return;
             }
         }
-        for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = cClientLogic.scene.getThingMap("THING_BLOCK").get(id);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cClientLogic.selectedPrefabId = block.get("prefabid");
@@ -504,8 +505,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 return;
             }
         }
-        for(String id : cClientLogic.scene.getThingMap("BLOCK_FLOOR").keySet()) {
-            gThing block = cClientLogic.scene.getThingMap("BLOCK_FLOOR").get(id);
+        for(String id : xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").keySet()) {
+            gThing block = xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 cClientLogic.selectedPrefabId = block.get("prefabid");
                 cClientLogic.selecteditemid = "";

@@ -19,7 +19,6 @@ public class cClientLogic {
     static int prevY = 0;
     static int prevW = 300;
     static int prevH = 300;
-    static gScene scene;
     static long serverSendTime = 0;
     static long serverRcvTime = 0;
     static int ping = 0;
@@ -27,22 +26,22 @@ public class cClientLogic {
     static eGameLogicClient netClientThread;
 
     public static gPlayer getUserPlayer() {
-        return scene.getPlayerById(uiInterface.uuid);
+        return xMain.shellLogic.clientScene.getPlayerById(uiInterface.uuid);
     }
 
     public static Collection<String> getPlayerIds() {
-        return scene.getThingMap("THING_PLAYER").keySet();
+        return xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").keySet();
     }
 
     public static gPlayer getPlayerById(String id) {
-        if(!scene.getThingMap("THING_PLAYER").containsKey(id))
+        if(!xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").containsKey(id))
             return null;
-        return (gPlayer) scene.getThingMap("THING_PLAYER").get(id);
+        return (gPlayer) xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").get(id);
     }
 
     public static int getNewItemId() {
         int itemId = 0;
-        for(String id : scene.getThingMap("THING_ITEM").keySet()) {
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
             if(itemId < Integer.parseInt(id))
                 itemId = Integer.parseInt(id);
         }

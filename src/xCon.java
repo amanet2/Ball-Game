@@ -320,7 +320,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1)
-                    deleteBlockDelegate(toks, cClientLogic.scene);
+                    deleteBlockDelegate(toks, xMain.shellLogic.clientScene);
                 return "usage: cl_deleteblock <id>";
             }
         });
@@ -345,11 +345,11 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
                     String id = toks[1];
-                    if(cClientLogic.scene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) cClientLogic.scene.getThingMap("THING_ITEM").get(id);
+                    if(xMain.shellLogic.clientScene.getThingMap("THING_ITEM").containsKey(id)) {
+                        gItem itemToDelete = (gItem) xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
                         String type = itemToDelete.get("type");
-                        cClientLogic.scene.getThingMap("THING_ITEM").remove(id);
-                        cClientLogic.scene.getThingMap(type).remove(id);
+                        xMain.shellLogic.clientScene.getThingMap("THING_ITEM").remove(id);
+                        xMain.shellLogic.clientScene.getThingMap(type).remove(id);
                     }
                 }
                 return "usage: deleteitem <id>";
@@ -371,7 +371,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1)
-                    cClientLogic.scene.getThingMap("THING_PLAYER").remove(toks[1]);
+                    xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").remove(toks[1]);
                 return "usage: deleteplayer <id>";
             }
         });
@@ -389,7 +389,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
-                    deletePrefabDelegate(cClientLogic.scene, toks[1]);
+                    deletePrefabDelegate(xMain.shellLogic.clientScene, toks[1]);
                 }
                 return "usage: cl_deleteprefab <id>";
             }
@@ -548,7 +548,7 @@ public class xCon {
                     File file = fileChooser.getSelectedFile();
                     String filename = file.getName();
                     String foldername = file.getParent();
-                    cClientLogic.scene.saveAs(filename, foldername);
+                    xMain.shellLogic.clientScene.saveAs(filename, foldername);
                     return "saved " + file.getPath();
                 }
                 return "";
@@ -640,7 +640,7 @@ public class xCon {
                 if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
                     String filename = file.getName();
-                    cClientLogic.scene.exportasprefab(filename);
+                    xMain.shellLogic.clientScene.exportasprefab(filename);
                     return "exported " + file.getPath();
                 }
                 return "";
@@ -664,7 +664,7 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), cClientLogic.scene);
+                    gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), xMain.shellLogic.clientScene);
                     return id + " fired weapon " + weapon;
                 }
                 return "usage: cl_fireweapon <player_id> <weapon_code>";
@@ -981,7 +981,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("cl_setvar gamemode 0");
-                cClientLogic.scene = new gScene();
+                xMain.shellLogic.clientScene = new gScene();
                 return "";
             }
         });
@@ -1015,10 +1015,10 @@ public class xCon {
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
-                                for(String id : cClientLogic.scene.getThingMap("THING_BLOCK").keySet()) {
+                                for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
                                     if(bid < Integer.parseInt(id))
                                         bid = Integer.parseInt(id);
-                                    int tpid = cClientLogic.scene.getThingMap("THING_BLOCK").get(id).getInt("prefabid");
+                                    int tpid = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id).getInt("prefabid");
                                     if(pid < tpid)
                                         pid = tpid;
                                 }
@@ -1160,7 +1160,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, cClientLogic.scene, toks[1], toks[2], toks[3]);
+                putBlockDelegate(toks, xMain.shellLogic.clientScene, toks[1], toks[2], toks[3]);
                 return "1";
             }
         });
@@ -1188,7 +1188,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 5)
                     return "usage: cl_putitem <ITEM_TITLE> <id> <x> <y>";
-                putItemDelegate(toks, cClientLogic.scene);
+                putItemDelegate(toks, xMain.shellLogic.clientScene);
                 return "cl_put item";
             }
         });
@@ -1372,7 +1372,7 @@ public class xCon {
                 String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
                     return "null";
-                return setThingDelegate(args, cClientLogic.scene);
+                return setThingDelegate(args, xMain.shellLogic.clientScene);
             }
         });
         commands.put("setvar", new xCom() {
@@ -1428,13 +1428,13 @@ public class xCon {
                         int x = Integer.parseInt(toks[2]);
                         int y = Integer.parseInt(toks[3]);
                         String aid = eUtils.createId();
-                        cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
+                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid,
                                 new gAnimationEmitter(animcode, x, y));
                         gAnimation anim = gAnimations.animation_selection[animcode];
                         xMain.shellLogic.scheduledEvents.put(
                                 Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
                                     public void doCommand() {
-                                        cClientLogic.scene.getThingMap("THING_ANIMATION").remove(aid);
+                                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(aid);
                                     }
                                 });
                         return "spawned animation " + animcode + " at " + x + " " + y;
@@ -1470,7 +1470,7 @@ public class xCon {
             }
 
             private String clSpawnPlayerDelegate(String playerId, int x, int y) {
-                cClientLogic.scene.getThingMap("THING_PLAYER").remove(playerId);
+                xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
                 if(clStateMap.contains(playerId)) {
@@ -1478,7 +1478,7 @@ public class xCon {
                     newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
                             clStateMap.get(playerId).get("color"))));
                 }
-                cClientLogic.scene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
@@ -1497,14 +1497,14 @@ public class xCon {
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
                     String id = eUtils.createId();
-                    cClientLogic.scene.getThingMap("THING_POPUP").put(id,
+                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id,
                             new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                                     p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                                     msg, 0.0));
                     xMain.shellLogic.scheduledEvents.put(Long.toString(gTime.gameTime + sSettings.popuplivetime),
                             new gTimeEvent() {
                                 public void doCommand() {
-                                    cClientLogic.scene.getThingMap("THING_POPUP").remove(id);
+                                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });
                     return "spawned popup " + msg + " for player_id " + toks[1];
