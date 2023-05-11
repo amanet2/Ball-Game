@@ -960,9 +960,7 @@ public class xCon {
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
                 cClientLogic.netClientThread = new eGameLogicClient();
-                eGameSession clientSession = new eGameSession(cClientLogic.netClientThread, sSettings.rateclient);
-                cClientLogic.netClientThread.setParentSession(clientSession);
-                clientSession.start();
+                new eGameSession(cClientLogic.netClientThread, sSettings.rateclient);
                 sSettings.IS_CLIENT = true;
                 return "joined game";
             }
@@ -1517,14 +1515,10 @@ public class xCon {
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
                 xMain.shellLogic.serverSimulationThread = new eGameLogicSimulation();
-                eGameSession localGameSession = new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
-                xMain.shellLogic.serverSimulationThread.setParentSession(localGameSession);
-                localGameSession.start();
+                new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
                 xMain.shellLogic.serverNetThread = new eGameLogicServer();
-                eGameSession serverNetSession = new eGameSession(xMain.shellLogic.serverNetThread, sSettings.rateserver);
-                xMain.shellLogic.serverNetThread.setParentSession(serverNetSession);
+                new eGameSession(xMain.shellLogic.serverNetThread, sSettings.rateserver);
                 sSettings.IS_SERVER = true;
-                serverNetSession.start();
                 return "new game started";
             }
         });

@@ -10,6 +10,8 @@ public class eGameSession extends Thread implements Runnable {
         timer = new eTimer();
         tickRate = rate;
         playing = true;
+        ((eGameLogicAdapter) logic).setParentSession(this);
+        start();
     }
 
     @Override

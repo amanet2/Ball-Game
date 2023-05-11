@@ -5,9 +5,7 @@ public class xMain {
 		try {
 			launchArgs = args;
 			shellLogic = new eGameLogicShell();
-			eGameSession shellSession = new eGameSession(shellLogic, sSettings.rateShell);
-			shellLogic.setParentSession(shellSession);
-			shellSession.start();
+			new eGameSession(shellLogic, sSettings.rateShell);
 		}
 		catch (Exception err) {
 			err.printStackTrace();
