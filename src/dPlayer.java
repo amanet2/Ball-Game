@@ -8,7 +8,7 @@ public class dPlayer {
             return;
         if(!player.contains("id"))
             return;
-        nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
+        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         nState cState = clStateMap.get(player.get("id"));
         if(cState == null)
             return;

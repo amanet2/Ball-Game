@@ -17,6 +17,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gTimeEventSet scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
     eGameLogicServer serverNetThread;
+    eGameLogicClient clientNetThread;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();
@@ -528,7 +529,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 int weapint = player.getInt("weapon");
                 long gametimemillis = gTime.gameTime;
                 if(player.getLong("cooldown") <= gametimemillis) {
-                    cClientLogic.netClientThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
+                    clientNetThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
                     player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
                 }
             }

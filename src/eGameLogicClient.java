@@ -179,7 +179,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     public void cleanup() {
         super.cleanup();
         sSettings.IS_CLIENT = false;
-        cClientLogic.netClientThread = null;
+        xMain.shellLogic.clientNetThread = null;
         clientSocket.close();
         uiInterface.tickReportClient = 0;
     }

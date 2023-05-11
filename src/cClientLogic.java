@@ -23,7 +23,6 @@ public class cClientLogic {
     static long serverRcvTime = 0;
     static int ping = 0;
     static long timeleft = 120000;
-    static eGameLogicClient netClientThread;
 
     public static gPlayer getUserPlayer() {
         return xMain.shellLogic.clientScene.getPlayerById(uiInterface.uuid);

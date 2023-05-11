@@ -398,14 +398,14 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
-                    cClientLogic.netClientThread.disconnect();
+                    xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
                     xMain.shellLogic.serverNetThread.disconnect();
                     xMain.shellLogic.serverSimulationThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
-                    cClientLogic.netClientThread.disconnect();
+                    xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
                 }
                 if (uiInterface.inplay)
@@ -472,11 +472,11 @@ public class xCon {
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
                 if(cClientLogic.selectedPrefabId.length() > 0) {
-                    cClientLogic.netClientThread.addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
                     return "deleted prefab " + cClientLogic.selectedPrefabId;
                 }
                 if(cClientLogic.selecteditemid.length() > 0) {
-                    cClientLogic.netClientThread.addNetCmd("deleteitem " + cClientLogic.selecteditemid);
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteitem " + cClientLogic.selecteditemid);
                     return "deleted item " + cClientLogic.selecteditemid;
                 }
                 return "nothing to delete";
@@ -959,8 +959,8 @@ public class xCon {
         });
         commands.put("joingame", new xCom() {
             public String doCommand(String fullCommand) {
-                cClientLogic.netClientThread = new eGameLogicClient();
-                new eGameSession(cClientLogic.netClientThread, sSettings.rateclient);
+                xMain.shellLogic.clientNetThread = new eGameLogicClient();
+                new eGameSession(xMain.shellLogic.clientNetThread, sSettings.rateclient);
                 sSettings.IS_CLIENT = true;
                 return "joined game";
             }
@@ -1025,7 +1025,7 @@ public class xCon {
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
                                 String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
-                                cClientLogic.netClientThread.addNetCmd(cmd);
+                                xMain.shellLogic.clientNetThread.addNetCmd(cmd);
                                 return "put prefab " + cClientLogic.newprefabname;
                             }
                             if(uiEditorMenus.newitemname.length() > 0) {
@@ -1037,7 +1037,7 @@ public class xCon {
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, cClientLogic.getNewItemId(), ix, iy);
-                                cClientLogic.netClientThread.addNetCmd(cmd);
+                                xMain.shellLogic.clientNetThread.addNetCmd(cmd);
                                 return "put item " + uiEditorMenus.newitemname;
                             }
                         }
@@ -1064,10 +1064,10 @@ public class xCon {
                 if(uiInterface.inplay) {
                     xMain.shellLogic.displayPane.frame.setCursor(xMain.shellLogic.displayPane.blankCursor);
                     if(sSettings.show_mapmaker_ui)
-                        cClientLogic.netClientThread.addNetCmd("respawnnetplayer " + uiInterface.uuid);
+                        xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + uiInterface.uuid);
                 }
                 else if(sSettings.show_mapmaker_ui)
-                    cClientLogic.netClientThread.addNetCmd("deleteplayer " + uiInterface.uuid);
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + uiInterface.uuid);
                 return fullCommand;
             }
         });
@@ -1232,7 +1232,7 @@ public class xCon {
                 if(fullCommand.length() > 0) {
                     String msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": "
                             + fullCommand.substring(fullCommand.indexOf(" ") + 1);
-                    cClientLogic.netClientThread.addNetCmd("echo " + msg);
+                    xMain.shellLogic.clientNetThread.addNetCmd("echo " + msg);
                     gMessages.msgInProgress = "";
                 }
                 return "said enough";
@@ -1472,7 +1472,7 @@ public class xCon {
             private String clSpawnPlayerDelegate(String playerId, int x, int y) {
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
-                nStateMap clStateMap = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot);
+                nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
                 if(clStateMap.contains(playerId)) {
                     newPlayer.put("color", clStateMap.get(playerId).get("color"));
                     newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",

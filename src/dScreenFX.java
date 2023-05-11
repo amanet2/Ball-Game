@@ -6,7 +6,7 @@ public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
-        nState userState = new nStateMap(cClientLogic.netClientThread.clientStateSnapshot).get(uiInterface.uuid);
+        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(uiInterface.uuid);
         if(userState == null)
             return;
         Graphics2D g2 = (Graphics2D) g;

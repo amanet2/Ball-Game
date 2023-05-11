@@ -225,7 +225,7 @@ public class uiEditorMenus {
                 if(sSettings.IS_SERVER)
                     xMain.shellLogic.console.ex("gamemode " + mygameType);
                 else
-                    cClientLogic.netClientThread.addNetCmd("gamemode " + mygameType);
+                    xMain.shellLogic.clientNetThread.addNetCmd("gamemode " + mygameType);
                 refreshGametypeCheckBoxMenuItems();
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
