@@ -162,9 +162,7 @@ public class xCon {
                         xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
                             public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
-                                    xMain.shellLogic.serverNetThread.setTimeLeft(
-                                            Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT)
-                                    );
+                                    sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }

@@ -48,4 +48,5 @@ public class sSettings {
 
 	// server
 	static int serverTimeLimit = 180000;
+    static long serverTimeLeft = 180000;
 }

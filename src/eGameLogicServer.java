@@ -18,7 +18,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
     private final ArrayList<String> voteSkipList;
-    private long timeLeft;
 
     public eGameLogicServer() {
         masterStateMap = new nStateMap();
@@ -28,7 +27,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         clientNetCmdMap = new HashMap<>();
         masterStateSnapshot = "{}";
         voteSkipList = new ArrayList<>();
-        timeLeft = 180000;
         //init doables
         clientCmdDoables.put("fireweapon",
             new gDoableCmd() {
@@ -114,10 +112,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.ex("echo [SKIP] VOTE TARGET REACHED");
             xMain.shellLogic.console.ex("exec scripts/sv_endgame");
         }
-    }
-
-    public void setTimeLeft(long newtime) {
-        timeLeft = newtime;
     }
 
     private void checkForUnhandledQuitters() {
@@ -337,7 +331,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 //create response
                 HashMap<String, String> netVars = new HashMap<>();
                 netVars.put("cmd", "");
-                netVars.put("time", Long.toString(timeLeft));
+                netVars.put("time", Long.toString(sSettings.serverTimeLeft));
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
