@@ -1,5 +1,4 @@
 public class cServerLogic {
-    static long timeleft = 120000;
     static int listenPort = 5555;
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
