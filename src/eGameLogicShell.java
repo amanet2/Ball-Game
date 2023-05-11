@@ -13,6 +13,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     oDisplay displayPane;
     xCon console;
     gScene serverScene;
+    gTimeEventSet scheduledEvents;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();
@@ -22,6 +23,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         blockFactory = new gBlockFactory();
         displayPane = new oDisplay();
         console = new xCon();
+        scheduledEvents = new gTimeEventSet();
     }
 
     private void initGameObjectsAndScenes() {
@@ -326,7 +328,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         long gameTimeMillis = gTime.gameTime;
         if(sSettings.IS_CLIENT) {
             clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
-            cClientLogic.timedEvents.executeCommands();
+            scheduledEvents.executeCommands();
             if(displayPane.frame.isVisible()) {
                 if(cClientLogic.getUserPlayer() != null)
                    pointPlayerAtMousePointer();

@@ -1,6 +1,7 @@
 * GAMETYPE: flags spawn on random points and players have to carry the flags to a scorepoint to get points
     -> new item: remove flag state and decoration on intersection, give point (if they have flag)
 * ENGINE: get rid of cClient and cServer data structures beyond config vals
+    -> move serverScene and clientScene into shell (they should be in shell trust me)
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * ENGINE: think about whether net threads should have 'update' be called or 'render'

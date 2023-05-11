@@ -2,7 +2,6 @@ public class cServerLogic {
     static int timelimit = 180000;
     static long timeleft = 120000;
     static int listenPort = 5555;
-    static gScene scene;
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
     static eGameLogicSimulation localGameThread;

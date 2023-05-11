@@ -1433,7 +1433,7 @@ public class xCon {
                         cClientLogic.scene.getThingMap("THING_ANIMATION").put(aid,
                                 new gAnimationEmitter(animcode, x, y));
                         gAnimation anim = gAnimations.animation_selection[animcode];
-                        cClientLogic.timedEvents.put(
+                        xMain.shellLogic.scheduledEvents.put(
                                 Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
                                     public void doCommand() {
                                         cClientLogic.scene.getThingMap("THING_ANIMATION").remove(aid);
@@ -1503,7 +1503,7 @@ public class xCon {
                             new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                                     p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                                     msg, 0.0));
-                    cClientLogic.timedEvents.put(Long.toString(gTime.gameTime + sSettings.popuplivetime),
+                    xMain.shellLogic.scheduledEvents.put(Long.toString(gTime.gameTime + sSettings.popuplivetime),
                             new gTimeEvent() {
                                 public void doCommand() {
                                     cClientLogic.scene.getThingMap("THING_POPUP").remove(id);
