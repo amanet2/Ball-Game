@@ -299,7 +299,7 @@ public class xCon {
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                         ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
                         ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                gTime.gameTime + cServerLogic.respawnwaittime, id));
+                                gTime.gameTime + sSettings.serverRespawnDelay, id));
                     }
                     return id + " took " + dmg + " dmg from " + shooterid;
                 }
@@ -503,14 +503,14 @@ public class xCon {
                         if(!sSettings.IS_SERVER) {
                             ex("startserver");
                             ex("load");
-                            ex("joingame localhost " + cServerLogic.listenPort);
+                            ex("joingame localhost " + sSettings.serverListenPort);
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
-                        cServerLogic.isLoadingFromHDD = true;
+                        sSettings.serverLoadingFromHDD = true;
                         ex("changemap " + file.getPath());
                         uiEditorMenus.refreshGametypeCheckBoxMenuItems();
                         return "opening " + file.getPath();
@@ -566,9 +566,9 @@ public class xCon {
                 if(args.length < 2)
                     return "usage: exec <script_id> <optional: args>";
                 String scriptId = args[1];
-                if(cServerLogic.isLoadingFromHDD) { //detect loading from openFile
+                if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
                     System.out.println("LOADING MAP FROM HDD");
-                    cServerLogic.isLoadingFromHDD = false;
+                    sSettings.serverLoadingFromHDD = false;
                     ex("loadingscreen");
                     try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
                         String line;
@@ -951,10 +951,10 @@ public class xCon {
                 ex(new String[] {
                         "startserver",
                         String.format("changemap%s", eManager.mapSelectionIndex < 0 ? "random" : " maps/"+eManager.mapsFileSelection[eManager.mapSelectionIndex]),
-                        "joingame localhost " + cServerLogic.listenPort,
+                        "joingame localhost " + sSettings.serverListenPort,
                         "pause"
                 });
-                return "hosting game on port " + cServerLogic.listenPort;
+                return "hosting game on port " + sSettings.serverListenPort;
             }
         });
         commands.put("joingame", new xCom() {

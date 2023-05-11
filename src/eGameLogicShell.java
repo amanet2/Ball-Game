@@ -52,7 +52,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         //init serverVars
         serverVars.putArg(new gArg("listenport", "5555") {
             public void onChange() {
-                cServerLogic.listenPort = Integer.parseInt(value);
+                sSettings.serverListenPort = Integer.parseInt(value);
             }
         });
         serverVars.putArg(new gArg("timelimit", "180000") {
@@ -62,12 +62,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         serverVars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
-                cServerLogic.gameMode = Integer.parseInt(value);
+                sSettings.serverGameMode = Integer.parseInt(value);
             }
         });
-        serverVars.putArg(new gArg("maxhp", Integer.toString(cServerLogic.maxhp)) {
+        serverVars.putArg(new gArg("maxhp", Integer.toString(sSettings.serverMaxHP)) {
             public void onChange() {
-                cServerLogic.maxhp = Integer.parseInt(value);
+                sSettings.serverMaxHP = Integer.parseInt(value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
                     xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
@@ -78,23 +78,23 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
             }
         });
-        serverVars.putArg(new gArg("velocityplayerbase", Integer.toString(cServerLogic.velocityplayerbase)) {
+        serverVars.putArg(new gArg("velocityplayerbase", Integer.toString(sSettings.serverVelocityPlayerBase)) {
             public void onChange() {
-                cServerLogic.velocityplayerbase = Integer.parseInt(value);
+                sSettings.serverVelocityPlayerBase = Integer.parseInt(value);
                 if(sSettings.IS_SERVER)
-                    console.ex("addcom cl_setvar velocityplayerbase " + cServerLogic.velocityplayerbase);
+                    console.ex("addcom cl_setvar velocityplayerbase " + sSettings.serverVelocityPlayerBase);
             }
         });
         serverVars.putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
-                cServerLogic.voteskiplimit = Integer.parseInt(value);
+                sSettings.serverVoteSkipLimit = Integer.parseInt(value);
                 if(xMain.shellLogic.serverNetThread != null)
                     xMain.shellLogic.serverNetThread.checkForVoteSkip();
             }
         });
-        serverVars.putArg(new gArg("respawnwaittime", Integer.toString(cServerLogic.respawnwaittime)) {
+        serverVars.putArg(new gArg("respawnwaittime", Integer.toString(sSettings.serverRespawnDelay)) {
             public void onChange() {
-                cServerLogic.respawnwaittime = Integer.parseInt(value);
+                sSettings.serverRespawnDelay = Integer.parseInt(value);
             }
         });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);

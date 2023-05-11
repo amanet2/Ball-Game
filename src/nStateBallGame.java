@@ -22,10 +22,10 @@ public class nStateBallGame extends nState {
                     xMain.shellLogic.serverScene.getPlayerById(get("id")).put("fv", value);
             }
         });
-        map.putArg(new gArg("hp", Integer.toString(cServerLogic.maxhp)) {
+        map.putArg(new gArg("hp", Integer.toString(sSettings.serverMaxHP)) {
             public void onChange() {
                 if(Integer.parseInt(value) < 0)
-                    value = Integer.toString(cServerLogic.maxhp);
+                    value = Integer.toString(sSettings.serverMaxHP);
             }
         });
         map.putArg(new gArg("mov0", "0") {

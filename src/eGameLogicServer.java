@@ -92,7 +92,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                         else {
                             voteSkipList.add(id);
                             xMain.shellLogic.console.ex(String.format("echo [SKIP] %s/%s VOTED TO SKIP. SAY 'skip' TO END ROUND.",
-                                    voteSkipList.size(), cServerLogic.voteskiplimit));
+                                    voteSkipList.size(), sSettings.serverVoteSkipLimit));
                             checkForVoteSkip();
                         }
                     }
@@ -100,14 +100,14 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         // init the socket
         try {
-            serverSocket = new DatagramSocket(cServerLogic.listenPort);
+            serverSocket = new DatagramSocket(sSettings.serverListenPort);
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void checkForVoteSkip() {
-        if(voteSkipList.size() >= cServerLogic.voteskiplimit) {
+        if(voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
             voteSkipList.clear();
             xMain.shellLogic.console.ex("echo [SKIP] VOTE TARGET REACHED");
             xMain.shellLogic.console.ex("exec scripts/sv_endgame");
@@ -253,7 +253,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
-                cServerLogic.velocityplayerbase, cServerLogic.gameMode));
+                sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
         HashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);

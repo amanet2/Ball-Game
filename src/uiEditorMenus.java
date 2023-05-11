@@ -123,7 +123,7 @@ public class uiEditorMenus {
                 if(!sSettings.IS_SERVER) {
                     xMain.shellLogic.console.ex("startserver");
                     xMain.shellLogic.console.ex("load");
-                    xMain.shellLogic.console.ex("joingame localhost " + cServerLogic.listenPort);
+                    xMain.shellLogic.console.ex("joingame localhost " + sSettings.serverListenPort);
                 }
                 else
                     xMain.shellLogic.console.ex("e_newmap");

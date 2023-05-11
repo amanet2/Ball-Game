@@ -49,4 +49,11 @@ public class sSettings {
 	// server
 	static int serverTimeLimit = 180000;
     static long serverTimeLeft = 180000;
+	static int serverListenPort = 5555;
+	static boolean serverLoadingFromHDD = false;
+	static int serverGameMode = 0;
+	static int serverVoteSkipLimit = 2;
+	static int serverRespawnDelay = 3000;
+	static int serverMaxHP = 500;
+	static int serverVelocityPlayerBase = 16;
 }
