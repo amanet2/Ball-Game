@@ -55,7 +55,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         serverVars.putArg(new gArg("timelimit", "180000") {
             public void onChange() {
-                cServerLogic.timelimit = Integer.parseInt(value);
+                sSettings.serverTimeLimit = Integer.parseInt(value);
             }
         });
         serverVars.putArg(new gArg("gamemode", "0") {

@@ -157,16 +157,16 @@ public class xCon {
                         xMain.shellLogic.serverNetThread.addNetCmd("server", "respawnnetplayer " + id);
                     }
                     long starttime = gTime.gameTime;
-                    for (long t = starttime + 1000; t <= starttime + cServerLogic.timelimit; t += 1000) {
+                    for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
                         xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
                             public void doCommand() {
-                                if (cServerLogic.timelimit > 0)
-                                    cServerLogic.timeleft = Math.max(0, (starttime + cServerLogic.timelimit) - lastT);
+                                if (sSettings.serverTimeLimit > 0)
+                                    cServerLogic.timeleft = Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gTimeEvent() {
                         public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();

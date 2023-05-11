@@ -1,5 +1,4 @@
 public class cServerLogic {
-    static int timelimit = 180000;
     static long timeleft = 120000;
     static int listenPort = 5555;
     static boolean isLoadingFromHDD = false;

@@ -1,7 +1,5 @@
 public class sSettings {
-    /**
-	 * data source
-	 */
+    // sources
 	static String CONFIG_FILE_LOCATION_SERVER = "config/server";
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client";
 	static String CONFIG_FILE_LOCATION_GAME = "config/game";
@@ -15,9 +13,8 @@ public class sSettings {
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
-	/**
-	* vfx
-	* */
+
+	// vfx
 	static int gamescale = 2160;
 	static int width = 1920;
 	static int height = 1080;
@@ -36,13 +33,11 @@ public class sSettings {
 	static int popuplivetime = 2000;
 	static int velocity_popup = 2;
 	static double zoomLevel = 1.0;
-	/**
-	 * AUDIO
-	 * **/
+
+	// audio
 	static boolean audioenabled = true;
-	/**
-	 * NET
-	 * **/
+
+	// net
 	static int max_packet_size = 1200;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
@@ -50,4 +45,7 @@ public class sSettings {
 	static int rateserver = 1000; //server rate to poll for packet (<= 0 means unlimited)
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 240; //desktop window rate like input, visual update
+
+	// server
+	static int serverTimeLimit = 180000;
 }
