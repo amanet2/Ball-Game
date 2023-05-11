@@ -14,6 +14,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     xCon console;
     gScene serverScene;
     gTimeEventSet scheduledEvents;
+    eGameLogicSimulation serverSimulationThread;
 
     public eGameLogicShell() {
         audioClips = new ArrayList<>();

@@ -4,7 +4,6 @@ public class cServerLogic {
     static int listenPort = 5555;
     static boolean isLoadingFromHDD = false;
     static int gameMode = 0;
-    static eGameLogicSimulation localGameThread;
     static eGameLogicServer netServerThread;
     static int voteskiplimit = 2;
     static int respawnwaittime = 3000;

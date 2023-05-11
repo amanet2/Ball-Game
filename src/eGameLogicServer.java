@@ -136,7 +136,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void addNetCmd(String id, String cmd) {
         xMain.shellLogic.console.debug("SERVER_ADDCOM_" + id + ": " + cmd);
         if(id.equalsIgnoreCase("server"))
-            cServerLogic.localGameThread.addLocalCmd(cmd);
+            xMain.shellLogic.serverSimulationThread.addLocalCmd(cmd);
         else
             addNetSendData(id, cmd);
     }

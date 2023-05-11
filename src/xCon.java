@@ -146,7 +146,7 @@ public class xCon {
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
-                cServerLogic.localGameThread.scheduledEvents.clear();
+                xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
@@ -159,14 +159,14 @@ public class xCon {
                     long starttime = gTime.gameTime;
                     for (long t = starttime + 1000; t <= starttime + cServerLogic.timelimit; t += 1000) {
                         long lastT = t;
-                        cServerLogic.localGameThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
+                        xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
                             public void doCommand() {
                                 if (cServerLogic.timelimit > 0)
                                     cServerLogic.timeleft = Math.max(0, (starttime + cServerLogic.timelimit) - lastT);
                             }
                         });
                     }
-                    cServerLogic.localGameThread.scheduledEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + cServerLogic.timelimit), new gTimeEvent() {
                         public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
@@ -401,7 +401,7 @@ public class xCon {
                     cClientLogic.netClientThread.disconnect();
                     ex("cl_load");
                     cServerLogic.netServerThread.disconnect();
-                    cServerLogic.localGameThread.disconnect();
+                    xMain.shellLogic.serverSimulationThread.disconnect();
                 }
                 else if(sSettings.IS_CLIENT) {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
@@ -1253,8 +1253,8 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                synchronized (cServerLogic.localGameThread.scheduledEvents.events) {
-                    cServerLogic.localGameThread.scheduledEvents.put(timeToExec,
+                synchronized (xMain.shellLogic.serverSimulationThread.scheduledEvents.events) {
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
                             new gTimeEvent() {
                                 public void doCommand() {
                                     ex(actStr);
@@ -1516,9 +1516,9 @@ public class xCon {
         });
         commands.put("startserver", new xCom() {
             public String doCommand(String fullCommand) {
-                cServerLogic.localGameThread = new eGameLogicSimulation();
-                eGameSession localGameSession = new eGameSession(cServerLogic.localGameThread, sSettings.ratesimulation);
-                cServerLogic.localGameThread.setParentSession(localGameSession);
+                xMain.shellLogic.serverSimulationThread = new eGameLogicSimulation();
+                eGameSession localGameSession = new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
+                xMain.shellLogic.serverSimulationThread.setParentSession(localGameSession);
                 localGameSession.start();
                 cServerLogic.netServerThread = new eGameLogicServer();
                 eGameSession serverNetSession = new eGameSession(cServerLogic.netServerThread, sSettings.rateserver);
