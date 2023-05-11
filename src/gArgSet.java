@@ -57,13 +57,13 @@ public class gArgSet {
                     String tk = largs[1]; //var key
                     if(contains(tk)) {
                         String argLine = String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk));
-                        if(cClientLogic.debug)
+                        if(sSettings.clientDebug)
                             xMain.shellLogic.console.debug("SAVING FILE LINE W/ ARG" + argLine + " -> " + s);
                         writer.write(argLine);
                         continue;
                     }
                 }
-                if(cClientLogic.debug)
+                if(sSettings.clientDebug)
                     xMain.shellLogic.console.debug("SAVING FILE LINE " + line + " -> " + s);
                 writer.write(line);
                 writer.write("\n");

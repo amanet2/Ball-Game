@@ -42,7 +42,7 @@ public class dScreenFX {
 //        }
         // health overlay
         int userhp = Math.max(Integer.parseInt(userState.get("hp")), 0);
-        if (userhp < cClientLogic.maxhp) {
+        if (userhp < sSettings.clientMaxHP) {
             int factors = sSettings.vfxfactor;
             int maxl = gColors.hpAlpha;
             Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
@@ -52,7 +52,7 @@ public class dScreenFX {
                     int h = sSettings.height / factors;
                     if (Math.random() > 0.95 && Math.random() > 0.95) {
                         g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-                                - maxl * userhp / cClientLogic.maxhp
+                                - maxl * userhp / sSettings.clientMaxHP
                                 + (int) (Math.random() * (-25) + 25)));
                         g.fillRect(i, j, w, h);
                     }
@@ -65,14 +65,14 @@ public class dScreenFX {
                 Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
                         Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
                                 - (factorsw / 2))) - maxl)
-                                * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
                 g.setColor(hpvfxColor);
                 g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
             }
             for (int i = 0; i < factorsh; i++) {
                 Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
                         Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-                                * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
+                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
                 g.setColor(hpvfxColor);
                 g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
             }
@@ -90,7 +90,7 @@ public class dScreenFX {
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
             int setw = sSettings.height / 64;
-            g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+            g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }

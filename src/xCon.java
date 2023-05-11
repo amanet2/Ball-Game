@@ -471,13 +471,13 @@ public class xCon {
         });
         commands.put("e_delthing", new xCom() {
             public String doCommand(String fullCommand) {
-                if(cClientLogic.selectedPrefabId.length() > 0) {
-                    xMain.shellLogic.clientNetThread.addNetCmd("deleteprefab " + cClientLogic.selectedPrefabId);
-                    return "deleted prefab " + cClientLogic.selectedPrefabId;
+                if(sSettings.clientSelectedPrefabId.length() > 0) {
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteprefab " + sSettings.clientSelectedPrefabId);
+                    return "deleted prefab " + sSettings.clientSelectedPrefabId;
                 }
-                if(cClientLogic.selecteditemid.length() > 0) {
-                    xMain.shellLogic.clientNetThread.addNetCmd("deleteitem " + cClientLogic.selecteditemid);
-                    return "deleted item " + cClientLogic.selecteditemid;
+                if(sSettings.clientSelectedItemId.length() > 0) {
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteitem " + sSettings.clientSelectedItemId);
+                    return "deleted item " + sSettings.clientSelectedItemId;
                 }
                 return "nothing to delete";
             }
@@ -521,19 +521,19 @@ public class xCon {
         });
         commands.put("e_rotthing", new xCom() {
             public String doCommand(String fullCommand) {
-                String newprefabname = cClientLogic.newprefabname;
+                String newprefabname = sSettings.clientNewPrefabName;
                 if (newprefabname.contains("_000"))
-                    cClientLogic.newprefabname = newprefabname.replace("_000", "_090");
+                    sSettings.clientNewPrefabName = newprefabname.replace("_000", "_090");
                 else if (newprefabname.contains("_090"))
-                    cClientLogic.newprefabname = newprefabname.replace("_090", "_180");
+                    sSettings.clientNewPrefabName = newprefabname.replace("_090", "_180");
                 else if (newprefabname.contains("_180"))
-                    cClientLogic.newprefabname = newprefabname.replace("_180", "_270");
+                    sSettings.clientNewPrefabName = newprefabname.replace("_180", "_270");
                 else if (newprefabname.contains("_270"))
-                    cClientLogic.newprefabname = newprefabname.replace("_270", "_000");
+                    sSettings.clientNewPrefabName = newprefabname.replace("_270", "_000");
                 if(newprefabname.contains("_000") || newprefabname.contains("_090") || newprefabname.contains("_180")
                         || newprefabname.contains("_270")) {
                     ex("cl_clearthingmappreview");
-                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                    ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
                 }
                 return "";
             }
@@ -1003,9 +1003,9 @@ public class xCon {
                     if (uiInterface.inplay)
                         iMouse.holdingMouseLeft = true;
                     else {
-                        if(sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
+                        if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = uiInterface.getMouseCoordinates();
-                            if(cClientLogic.newprefabname.length() > 0) {
+                            if(sSettings.clientNewPrefabName.length() > 0) {
                                 int[] pfd = dMapmakerOverlay.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
@@ -1024,9 +1024,9 @@ public class xCon {
                                 }
                                 bid++; //want to be the _next_ id
                                 pid++; //want to be the _next_ id
-                                String cmd = String.format("exec prefabs/%s %d %d %d %d", cClientLogic.newprefabname, bid, pid, pfx, pfy);
+                                String cmd = String.format("exec prefabs/%s %d %d %d %d", sSettings.clientNewPrefabName, bid, pid, pfx, pfy);
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
-                                return "put prefab " + cClientLogic.newprefabname;
+                                return "put prefab " + sSettings.clientNewPrefabName;
                             }
                             if(uiEditorMenus.newitemname.length() > 0) {
                                 int iw = 300;
@@ -1134,11 +1134,11 @@ public class xCon {
                             balance = -ratio;
                         soundClip.setBalance(balance);
                         soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
-                                *(cClientLogic.volume/100.0));
+                                *(sSettings.clientVolume /100.0));
                         xMain.shellLogic.audioClips.add(soundClip);
                     }
                     else {
-                        soundClip.play(cClientLogic.volume / 100.0);
+                        soundClip.play(sSettings.clientVolume / 100.0);
                         xMain.shellLogic.audioClips.add(soundClip);
                     }
                 }
@@ -1194,7 +1194,7 @@ public class xCon {
         });
         commands.put("quit", new xCom() {
             public String doCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
+                if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                     if(!ex("e_showlossalert").equals("0"))
                         return "";
                 }
@@ -1230,7 +1230,7 @@ public class xCon {
         commands.put("say", new xCom() {
             public String doCommand(String fullCommand) {
                 if(fullCommand.length() > 0) {
-                    String msg = cClientLogic.playerName + "#"+cClientLogic.playerColor+": "
+                    String msg = sSettings.clientPlayerName + "#"+ sSettings.clientPlayerColor +": "
                             + fullCommand.substring(fullCommand.indexOf(" ") + 1);
                     xMain.shellLogic.clientNetThread.addNetCmd("echo " + msg);
                     gMessages.msgInProgress = "";
@@ -1819,7 +1819,7 @@ public class xCon {
     }
 
     public void debug(String s) {
-        if(cClientLogic.debug) {
+        if(sSettings.clientDebug) {
             log(s);
             System.out.println(s);
         }

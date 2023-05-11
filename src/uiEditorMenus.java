@@ -25,7 +25,7 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
-        if(cClientLogic.newprefabname.contains("cube") || newitemname.length() > 0) {
+        if(sSettings.clientNewPrefabName.contains("cube") || newitemname.length() > 0) {
             snapToX = 50;
             snapToY = 50;
         }
@@ -35,7 +35,7 @@ public class uiEditorMenus {
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : prefabCheckboxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(cClientLogic.newprefabname)))
+            if(checkBoxMenuItem.getText().equals(uiEditorMenus.getRotateName(sSettings.clientNewPrefabName)))
                 checkBoxMenuItem.setSelected(true);
         }
         for(JCheckBoxMenuItem checkBoxMenuItem : itemCheckBoxMenuItems) {
@@ -48,14 +48,14 @@ public class uiEditorMenus {
     public static void refreshColorCheckBoxItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : colorCheckBoxMenuItems) {
             checkBoxMenuItem.setSelected(false);
-            if(checkBoxMenuItem.getText().equals(cClientLogic.playerColor))
+            if(checkBoxMenuItem.getText().equals(sSettings.clientPlayerColor))
                 checkBoxMenuItem.setSelected(true);
         }
     }
 
     public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
         checkBoxMenuItem.setSelected(xMain.shellLogic.console.ex(String.format(
-                "cl_setvar GAMETYPE_%d_title", cClientLogic.gamemode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
+                "cl_setvar GAMETYPE_%d_title", sSettings.clientGameMode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
@@ -95,7 +95,7 @@ public class uiEditorMenus {
         JMenuItem join = addMenuItem("Multiplayer", "Join Game");
         JMenuItem joinip = addMenuItem("Multiplayer", "Address: " + xMain.shellLogic.console.ex("cl_setvar joinip"));
         JMenuItem joinport = addMenuItem("Multiplayer", "Port: " + xMain.shellLogic.console.ex("cl_setvar joinport"));
-        JMenuItem playerName = addMenuItem("Settings", "Name: " + cClientLogic.playerName);
+        JMenuItem playerName = addMenuItem("Settings", "Name: " + sSettings.clientPlayerName);
         createNewSubmenu("Settings", "Color");
         createNewSubmenu("Settings", "Controls");
         createNewSubmenu("Settings", "Overlays");
@@ -114,7 +114,7 @@ public class uiEditorMenus {
 
         newtopmap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(!cClientLogic.maploaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
+                if(!sSettings.clientMapLoaded || xMain.shellLogic.console.ex("e_showlossalert").equals("0"))
                     delegate();
                 saveas.setEnabled(true);
             }
@@ -172,16 +172,16 @@ public class uiEditorMenus {
         for(String s : allPrefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
             prefabmenuitem.setFont(dFonts.getFontNormal());
-            if(uiEditorMenus.getRotateName(cClientLogic.newprefabname).contains(prefabmenuitem.getText()))
+            if(uiEditorMenus.getRotateName(sSettings.clientNewPrefabName).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
             prefabmenuitem.addActionListener(e -> {
                 String name = prefabmenuitem.getText();
                 if(allPrefabsRotate.contains(name))
-                    cClientLogic.newprefabname = name+"_000";
+                    sSettings.clientNewPrefabName = name+"_000";
                 else
-                    cClientLogic.newprefabname = name;
+                    sSettings.clientNewPrefabName = name;
                 xMain.shellLogic.console.ex("cl_clearthingmappreview");
-                xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+                xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
                 newitemname = "";
                 refreshCheckBoxItems();
             });
@@ -201,7 +201,7 @@ public class uiEditorMenus {
             if(itemMenuItem.getText().equals(newitemname))
                 itemMenuItem.setSelected(true);
             itemMenuItem.addActionListener(e -> {
-                cClientLogic.newprefabname = "";
+                sSettings.clientNewPrefabName = "";
                 newitemname = itemname;
                 refreshCheckBoxItems();
             });
@@ -235,10 +235,10 @@ public class uiEditorMenus {
         for(String color : sSettings.colorSelection) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
             colorMenuItem.setFont(dFonts.getFontNormal());
-            if(colorMenuItem.getText().equals(cClientLogic.playerColor))
+            if(colorMenuItem.getText().equals(sSettings.clientPlayerColor))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
-                cClientLogic.playerColor = colorMenuItem.getText();
+                sSettings.clientPlayerColor = colorMenuItem.getText();
                 refreshColorCheckBoxItems();
             });
             colorCheckBoxMenuItems.add(colorMenuItem);

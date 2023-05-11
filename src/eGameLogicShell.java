@@ -139,7 +139,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("debug", "0") {
             public void onChange() {
-                cClientLogic.debug = Integer.parseInt(value) > 0;
+                sSettings.clientDebug = Integer.parseInt(value) > 0;
             }
         });
         clientVars.putArg(new gArg("showmapmakerui", "0") {
@@ -149,22 +149,22 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("debuglog", "0") {
             public void onChange() {
-                cClientLogic.debuglog = Integer.parseInt(value) > 0;
+                sSettings.clientDebugLog = Integer.parseInt(value) > 0;
             }
         });
         clientVars.putArg(new gArg("volume", "100") {
             public void onChange() {
-                cClientLogic.volume = Double.parseDouble(value);
+                sSettings.clientVolume = Double.parseDouble(value);
             }
         });
         clientVars.putArg(new gArg("playercolor", "blue") {
             public void onChange() {
-                cClientLogic.playerColor = value;
+                sSettings.clientPlayerColor = value;
             }
         });
         clientVars.putArg(new gArg("playername", "player") {
             public void onChange() {
-                cClientLogic.playerName = value;
+                sSettings.clientPlayerName = value;
             }
         });
         clientVars.putArg(new gArg("displaymode", "0") {
@@ -212,26 +212,26 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("gamemode", "0") {
             public void onChange() {
-                cClientLogic.gamemode = Integer.parseInt(value);
-                cClientLogic.gamemodeTitle = console.ex("cl_setvar GAMETYPE_"+value+"_title");
-                cClientLogic.gamemodeText = console.ex("cl_setvar GAMETYPE_"+value+"_text");
+                sSettings.clientGameMode = Integer.parseInt(value);
+                sSettings.clientGameModeTitle = console.ex("cl_setvar GAMETYPE_"+value+"_title");
+                sSettings.clientGameModeText = console.ex("cl_setvar GAMETYPE_"+value+"_text");
                 if(sSettings.show_mapmaker_ui)
                     uiEditorMenus.refreshGametypeCheckBoxMenuItems();
             }
         });
         clientVars.putArg(new gArg("maploaded", "0") {
             public void onChange() {
-                cClientLogic.maploaded = Integer.parseInt(value) > 0;
+                sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
             }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
             public void onChange() {
-                cClientLogic.maxhp = Integer.parseInt(value);
+                sSettings.clientMaxHP = Integer.parseInt(value);
             }
         });
-        clientVars.putArg(new gArg("velocityplayerbase", Integer.toString(cClientLogic.velocityPlayerBase)) {
+        clientVars.putArg(new gArg("velocityplayerbase", Integer.toString(sSettings.clientVelocityPlayerBase)) {
             public void onChange() {
-                cClientLogic.velocityPlayerBase = Integer.parseInt(value);
+                sSettings.clientVelocityPlayerBase = Integer.parseInt(value);
             }
         });
         clientVars.putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
@@ -386,7 +386,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(isUserPlayer(obj)) {
                     for (int i = 0; i < 4; i++) {
                         if (obj.getInt("mov" + i) > 0)
-                            obj.putInt("vel" + i, (Math.min(cClientLogic.velocityPlayerBase,
+                            obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
                                     obj.getInt("vel" + i) + obj.getInt("accelrate"))));
                         else
                             obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
@@ -486,14 +486,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void selectThingUnderMouse() {
-        if(!cClientLogic.maploaded)
+        if(!sSettings.clientMapLoaded)
             return;
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selecteditemid = item.get("id");
-                cClientLogic.selectedPrefabId = "";
+                sSettings.clientSelectedItemId = item.get("id");
+                sSettings.clientSelectedPrefabId = "";
                 return;
             }
         }
@@ -501,21 +501,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
             gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selectedPrefabId = block.get("prefabid");
-                cClientLogic.selecteditemid = "";
+                sSettings.clientSelectedPrefabId = block.get("prefabid");
+                sSettings.clientSelectedItemId = "";
                 return;
             }
         }
         for(String id : xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").keySet()) {
             gThing block = xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                cClientLogic.selectedPrefabId = block.get("prefabid");
-                cClientLogic.selecteditemid = "";
+                sSettings.clientSelectedPrefabId = block.get("prefabid");
+                sSettings.clientSelectedItemId = "";
                 return;
             }
         }
-        cClientLogic.selectedPrefabId = "";
-        cClientLogic.selecteditemid = "";
+        sSettings.clientSelectedPrefabId = "";
+        sSettings.clientSelectedItemId = "";
     }
 
     private boolean isUserPlayer(gPlayer player) {
@@ -564,7 +564,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     public void cleanup() {
         serverVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         clientVars.saveToFile(sSettings.CONFIG_FILE_LOCATION_CLIENT);
-        if(cClientLogic.debuglog)
+        if(sSettings.clientDebugLog)
             console.saveLog(sSettings.CONSOLE_LOG_LOCATION);
         System.exit(0);
     }

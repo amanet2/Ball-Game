@@ -6,10 +6,10 @@ import java.awt.Polygon;
 public class dMapmakerOverlay {
     public static int[] getNewPrefabDims() {
         //TODO: this sucks, find a better way to set size
-        if(cClientLogic.newprefabname.contains("_large")) {
+        if(sSettings.clientNewPrefabName.contains("_large")) {
             return new int[]{2400, 2400};
         }
-        else if(cClientLogic.newprefabname.contains("cube")) {
+        else if(sSettings.clientNewPrefabName.contains("cube")) {
             return new int[]{300, 300};
         }
         return new int[]{1200, 1200};
@@ -31,8 +31,8 @@ public class dMapmakerOverlay {
                         block.getInt("dimw"), block.getInt("dimh"));
             }
             if(cClientLogic.getUserPlayer() == null &&
-                    block.contains("prefabid") && block.isVal("prefabid", cClientLogic.selectedPrefabId)) {
-                g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+                    block.contains("prefabid") && block.isVal("prefabid", sSettings.clientSelectedPrefabId)) {
+                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
                 g2.drawRect(block.getInt("coordx"),
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
@@ -41,8 +41,8 @@ public class dMapmakerOverlay {
         // -- selected item
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("id") && item.isVal("id", cClientLogic.selecteditemid)) {
-                g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+            if(item.contains("id") && item.isVal("id", sSettings.clientSelectedItemId)) {
+                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
                 g2.drawRect(item.getInt("coordx"),
                         item.getInt("coordy"),
                         item.getInt("dimw"), item.getInt("dimh"));
@@ -52,7 +52,7 @@ public class dMapmakerOverlay {
         // -- preview rect
         int w = 300;
         int h = 300;
-        if(cClientLogic.newprefabname.length() > 0) {
+        if(sSettings.clientNewPrefabName.length() > 0) {
             int[] pfd = getNewPrefabDims();
             w = pfd[0];
             h = pfd[1];
@@ -61,10 +61,10 @@ public class dMapmakerOverlay {
                 + gCamera.getX() - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
                 + gCamera.getY() - h/2, uiEditorMenus.snapToY);
-        cClientLogic.prevX = px;
-        cClientLogic.prevY = py;
-        cClientLogic.prevW = w;
-        cClientLogic.prevH = h;
+        sSettings.clientPrevX = px;
+        sSettings.clientPrevY = py;
+        sSettings.clientPrevW = w;
+        sSettings.clientPrevH = h;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
             if(xMain.shellLogic.clientScene.getPlayerById(id) != null)

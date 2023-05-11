@@ -32,7 +32,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         receivedArgsServer = new gArgSet();
         receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
             public void onChange() {
-                cClientLogic.timeleft = Long.parseLong(value);
+                sSettings.clientTimeLeft = Long.parseLong(value);
             }
         });
         receivedArgsServer.putArg(new gArg("cmd", "") {
@@ -88,9 +88,9 @@ public class eGameLogicClient extends eGameLogicAdapter {
             DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
             clientSocket.receive(receivePacket);
             readData(new String(receivePacket.getData()).trim());
-            cClientLogic.serverRcvTime = System.currentTimeMillis();
-            if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
-                cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+            sSettings.clientNetRcvTime = System.currentTimeMillis();
+            if(sSettings.clientNetRcvTime > sSettings.clientNetSendTime)
+                sSettings.clientPing = (int) (sSettings.clientNetRcvTime - sSettings.clientNetSendTime);
         }
         catch (SocketException se) {
             //just to catch the closing
@@ -121,7 +121,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
                     Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar joinport")));
             clientSocket.send(sendPacket);
-            cClientLogic.serverSendTime = System.currentTimeMillis();
+            sSettings.clientNetSendTime = System.currentTimeMillis();
             xMain.shellLogic.console.debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,8 +135,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
         keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
         keys.put("id", uiInterface.uuid);
-        keys.put("color", cClientLogic.playerColor);
-        keys.put("name", cClientLogic.playerName);
+        keys.put("color", sSettings.clientPlayerColor);
+        keys.put("name", sSettings.clientPlayerName);
         gPlayer userPlayer = cClientLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
@@ -154,10 +154,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
             keys.put("mov3", "0");
         }
         if(sSettings.show_mapmaker_ui) {
-            keys.put("px", Integer.toString(cClientLogic.prevX));
-            keys.put("py", Integer.toString(cClientLogic.prevY));
-            keys.put("pw", Integer.toString(cClientLogic.prevW));
-            keys.put("ph", Integer.toString(cClientLogic.prevH));
+            keys.put("px", Integer.toString(sSettings.clientPrevX));
+            keys.put("py", Integer.toString(sSettings.clientPrevY));
+            keys.put("pw", Integer.toString(sSettings.clientPrevW));
+            keys.put("ph", Integer.toString(sSettings.clientPrevH));
         }
         cmdReceived = false; //always open up to new commands
         return keys;

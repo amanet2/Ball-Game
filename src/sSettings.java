@@ -56,4 +56,28 @@ public class sSettings {
 	static int serverRespawnDelay = 3000;
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
+
+	//client
+	static int clientMaxHP = 500;
+	static double clientVolume = 100.0;
+	static String clientSelectedItemId = "";
+	static String clientSelectedPrefabId = "";
+	static String clientPlayerName = "player";
+	static String clientPlayerColor = "blue";
+	static int clientVelocityPlayerBase = 16;
+	static boolean clientDebug = false;
+	static boolean clientDebugLog = false;
+	static String clientNewPrefabName = "room";
+	static int clientGameMode = 0;
+	static String clientGameModeTitle = "Rock Master";
+	static String clientGameModeText = "Rock Other Players";
+	static boolean clientMapLoaded = false;
+	static int clientPrevX = 0;
+	static int clientPrevY = 0;
+	static int clientPrevW = 300;
+	static int clientPrevH = 300;
+	static long clientNetSendTime = 0;
+	static long clientNetRcvTime = 0;
+	static int clientPing = 0;
+	static long clientTimeLeft = 120000;
 }

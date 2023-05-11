@@ -157,7 +157,7 @@ public class iInput {
                             xMain.shellLogic.clientVars.put("playername", gMessages.msgInProgress);
                             uiMenus.menuSelection[uiMenus.MENU_PROFILE].refresh();
                             if (sSettings.show_mapmaker_ui)
-                                uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + cClientLogic.playerName);
+                                uiEditorMenus.menus.get("Settings").getItem(0).setText("Name: " + sSettings.clientPlayerName);
                             gMessages.msgInProgress = "";
                         }
                         case "Enter New IP Address" -> {

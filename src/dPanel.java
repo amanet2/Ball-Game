@@ -24,7 +24,7 @@ public class dPanel extends JPanel {
     public void drawFrameUI(Graphics2D g2, long gameTimeMillis) {
         dScreenFX.drawScreenFX(g2);
         dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
-        if(!uiInterface.inplay && sSettings.show_mapmaker_ui && cClientLogic.maploaded) {
+        if(!uiInterface.inplay && sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
             dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
             dBlockTops.drawBlockTopCubesPreview(g2);
         }
@@ -32,7 +32,7 @@ public class dPanel extends JPanel {
     }
 
     public void drawFrame(Graphics2D g2) {
-        if(!cClientLogic.maploaded) // comment out for no loading screens
+        if(!sSettings.clientMapLoaded) // comment out for no loading screens
             return;
         g2.translate(sSettings.width / 2, sSettings.height / 2);
         g2.scale(sSettings.zoomLevel, sSettings.zoomLevel);

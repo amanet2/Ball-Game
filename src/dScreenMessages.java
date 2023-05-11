@@ -29,7 +29,7 @@ public class dScreenMessages {
             g.drawString("CLIENT_NET:" + uiInterface.tickReportClient, 0, 4 * sSettings.height / 64);
             g.drawString("SERVER_NET:" + uiInterface.tickReportServer, 0, 5 * sSettings.height / 64);
             g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 6 * sSettings.height / 64);
-            g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
+            g.drawString("PING:" + sSettings.clientPing, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
             //camera
@@ -59,11 +59,11 @@ public class dScreenMessages {
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay && cClientLogic.maploaded) {
-            dFonts.drawRightJustifiedString(g, gTime.getTimeString(cClientLogic.timeleft),
+        if(uiInterface.inplay && sSettings.clientMapLoaded) {
+            dFonts.drawRightJustifiedString(g, gTime.getTimeString(sSettings.clientTimeLeft),
                     29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
+            dFonts.drawRightJustifiedString(g, sSettings.clientGameModeTitle.toUpperCase(),
                     29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
@@ -80,8 +80,8 @@ public class dScreenMessages {
                     dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
-            else if(cClientLogic.maploaded){
-                String newThingString = cClientLogic.newprefabname;
+            else if(sSettings.clientMapLoaded){
+                String newThingString = sSettings.clientNewPrefabName;
                 //preview
                 g.setColor(Color.BLACK);
                 g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
@@ -99,15 +99,15 @@ public class dScreenMessages {
                 String[] rotates = {"_000", "_090", "_180", "_270"};
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
                 for(String s : rotatesList) {
-                    if(cClientLogic.newprefabname.contains(s)) {
+                    if(sSettings.clientNewPrefabName.contains(s)) {
                         g.drawString(String.format("[R] - ROTATE %s",
-                                uiEditorMenus.getRotateName(cClientLogic.newprefabname)),0, 27*sSettings.height/32);
+                                uiEditorMenus.getRotateName(sSettings.clientNewPrefabName)),0, 27*sSettings.height/32);
                         drawnRotate = true;
                         break;
                     }
                 }
 
-                if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
+                if(sSettings.clientSelectedPrefabId.length() > 0 || sSettings.clientSelectedItemId.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
                 }
@@ -167,7 +167,7 @@ public class dScreenMessages {
         if(showscore)
             dScoreboard.showScoreBoard(g);
         //loading
-        if(sSettings.IS_CLIENT && !cClientLogic.maploaded && gTime.gameTime % 1000 < 500)
+        if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && gTime.gameTime % 1000 < 500)
             dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {

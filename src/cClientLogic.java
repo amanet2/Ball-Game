@@ -1,29 +1,6 @@
 import java.util.Collection;
 
 public class cClientLogic {
-    static int maxhp = 500;
-    static double volume = 100.0;
-    static String selecteditemid = "";
-    static String selectedPrefabId = "";
-    static String playerName = "player";
-    static String playerColor = "blue";
-    static int velocityPlayerBase = 16;
-    static boolean debug = false;
-    static boolean debuglog = false;
-    static String newprefabname = "room";
-    static int gamemode = 0;
-    static String gamemodeTitle = "Rock Master";
-    static String gamemodeText = "Rock Other Players";
-    static boolean maploaded = false;
-    static int prevX = 0;
-    static int prevY = 0;
-    static int prevW = 300;
-    static int prevH = 300;
-    static long serverSendTime = 0;
-    static long serverRcvTime = 0;
-    static int ping = 0;
-    static long timeleft = 120000;
-
     public static gPlayer getUserPlayer() {
         return xMain.shellLogic.clientScene.getPlayerById(uiInterface.uuid);
     }

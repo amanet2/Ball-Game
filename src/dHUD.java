@@ -16,22 +16,22 @@ public class dHUD {
         g.setColor(Color.black);
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
-        g.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+        g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
         g.fillRect(sSettings.width/64,59 * sSettings.height/64,
-                sSettings.width/8*Integer.parseInt(userState.get("hp"))/cClientLogic.maxhp,
+                sSettings.width/8*Integer.parseInt(userState.get("hp"))/ sSettings.clientMaxHP,
                 sSettings.height/64);
         g.drawString(userState.get("hp"), 37*sSettings.width / 256, 15*sSettings.height/16);
         dFonts.setFontNormal(g);
         //score
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         if(clStateMap.contains(uiInterface.uuid) && clStateMap.get(uiInterface.uuid).contains("score")) {
-            g.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g.drawString("$ "+ clStateMap.get(uiInterface.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
         dFonts.setFontColor(g, "clrf_normaldark");
-        g.drawString(cClientLogic.playerName, sSettings.width / 64, 62*sSettings.height/64);
-        g.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+        g.drawString(sSettings.clientPlayerName, sSettings.width / 64, 62*sSettings.height/64);
+        g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
         g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
         // other players on server
         dFonts.setFontSmall(g);

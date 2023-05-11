@@ -239,12 +239,12 @@ public class uiMenus {
         new uiMenu(
                 "Profile",
                 new uiMenuItem[]{
-                        new uiMenuItem(String.format("Name [%s]", cClientLogic.playerName)) {
+                        new uiMenuItem(String.format("Name [%s]", sSettings.clientPlayerName)) {
                             public void doItem() {
                                 xMain.shellLogic.console.ex("e_changeplayername");
                             }
                         },
-                        new uiMenuItem(String.format("Color [%s]", cClientLogic.playerColor)) {
+                        new uiMenuItem(String.format("Color [%s]", sSettings.clientPlayerColor)) {
                             public void doItem() {
                                 selectedMenu = MENU_COLOR;
                             }
@@ -254,8 +254,8 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Name [%s]", cClientLogic.playerName),
-                        String.format("Color [%s]", cClientLogic.playerColor),
+                        String.format("Name [%s]", sSettings.clientPlayerName),
+                        String.format("Color [%s]", sSettings.clientPlayerColor),
                 });
             }
         },
@@ -279,7 +279,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X"),
-                        String.format("Volume [%d]", (int) cClientLogic.volume)
+                        String.format("Volume [%d]", (int) sSettings.clientVolume)
                 });
             }
         },
