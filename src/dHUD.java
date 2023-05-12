@@ -204,7 +204,7 @@ public class dHUD {
         if(!sSettings.vfxenableanimations)
             return;
         HashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
-        long gameTimeMillis = gTime.gameTime;
+        long gameTimeMillis = sSettings.gameTime;
         for(String id : animationsMap.keySet()) {
             gThing emit = animationsMap.get(id);
             if(emit.getInt("frame") < gAnimations.animation_selection[emit.getInt("animation")].frames.length) {

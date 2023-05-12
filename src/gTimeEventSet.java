@@ -8,7 +8,7 @@ public class gTimeEventSet {
     protected Queue<gTimeEvent> eventQueue;
 
     private void dequeueCommands() {
-        long gtime = gTime.gameTime;
+        long gtime = sSettings.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
         synchronized (events) {
             for (String timestampkey : events.keySet()) {

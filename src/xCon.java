@@ -149,7 +149,7 @@ public class xCon {
                     for (String id : svMap.keys()) {
                         xMain.shellLogic.serverNetThread.addNetCmd("server", "respawnnetplayer " + id);
                     }
-                    long starttime = gTime.gameTime;
+                    long starttime = sSettings.gameTime;
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
                         xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
@@ -292,7 +292,7 @@ public class xCon {
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                         ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
                         ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                gTime.gameTime + sSettings.serverRespawnDelay, id));
+                                sSettings.gameTime + sSettings.serverRespawnDelay, id));
                     }
                     return id + " took " + dmg + " dmg from " + shooterid;
                 }
@@ -1425,7 +1425,7 @@ public class xCon {
                                 new gAnimationEmitter(animcode, x, y));
                         gAnimation anim = gAnimations.animation_selection[animcode];
                         xMain.shellLogic.scheduledEvents.put(
-                                Long.toString(gTime.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
+                                Long.toString(sSettings.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
                                     public void doCommand() {
                                         xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(aid);
                                     }
@@ -1494,7 +1494,7 @@ public class xCon {
                             new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
                                     p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                                     msg, 0.0));
-                    xMain.shellLogic.scheduledEvents.put(Long.toString(gTime.gameTime + sSettings.popuplivetime),
+                    xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gTimeEvent() {
                                 public void doCommand() {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);

@@ -22,7 +22,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         super.update();
         if(!sSettings.IS_SERVER)
             return;
-        long gameTimeMillis = gTime.gameTime;
+        long gameTimeMillis = sSettings.gameTime;
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
         checkLocalCmds();
         scheduledEvents.executeCommands();
@@ -180,7 +180,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             gBullet b = bulletsToRemovePlayerMap.get(p);
             //calculate dmg
             int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
-                    *((Math.abs(Math.max(0, gTime.gameTime - b.getLong("timestamp"))
+                    *((Math.abs(Math.max(0, sSettings.gameTime - b.getLong("timestamp"))
             )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside

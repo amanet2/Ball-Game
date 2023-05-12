@@ -1,3 +1,7 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class eUtils {
 
     public static int scaleInt(int inputInt) {
@@ -14,5 +18,11 @@ public class eUtils {
 
     public static String createId() {
         return xMain.shellLogic.console.ex("getrand 11111111 99999999");
+    }
+
+    public static String getTimeString(Long l) {
+        Date date = new Date(l);
+        DateFormat formatter = new SimpleDateFormat("mm:ss");
+        return formatter.format(date);
     }
 }

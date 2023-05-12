@@ -30,7 +30,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         clientStateMap = new nStateMap();
         clientStateSnapshot = "{}";
         receivedArgsServer = new gArgSet();
-        receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+        receivedArgsServer.putArg(new gArg("time", Long.toString(sSettings.gameTime)) {
             public void onChange() {
                 sSettings.clientTimeLeft = Long.parseLong(value);
             }

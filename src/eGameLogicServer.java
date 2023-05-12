@@ -118,7 +118,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //other players
         for(String id : clientCheckinMap.keySet()) {
             long pt = Long.parseLong(clientCheckinMap.get(id));
-            if(gTime.gameTime > pt + 10000) //consider client a dc after 10 seconds
+            if(sSettings.gameTime > pt + 10000) //consider client a dc after 10 seconds
                 quitClientIds.add(id);
         }
         while(quitClientIds.size() > 0) {
@@ -220,7 +220,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         if(!masterStateMap.contains(stateId))
             handleJoin(stateId);
         //record checkin time for client
-        clientCheckinMap.put(stateId, Long.toString(gTime.gameTime));
+        clientCheckinMap.put(stateId, Long.toString(sSettings.gameTime));
         //load the keys from received data into our state map
         for(String k : receivedState.keys()) {
             masterStateMap.get(stateId).put(k, receivedState.get(k));

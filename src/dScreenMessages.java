@@ -60,7 +60,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         if(uiInterface.inplay && sSettings.clientMapLoaded) {
-            dFonts.drawRightJustifiedString(g, gTime.getTimeString(sSettings.clientTimeLeft),
+            dFonts.drawRightJustifiedString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
                     29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawRightJustifiedString(g, sSettings.clientGameModeTitle.toUpperCase(),
@@ -167,7 +167,7 @@ public class dScreenMessages {
         if(showscore)
             dHUD.showScoreBoard(g);
         //loading
-        if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && gTime.gameTime % 1000 < 500)
+        if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && sSettings.gameTime % 1000 < 500)
             dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {

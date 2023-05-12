@@ -80,4 +80,5 @@ public class sSettings {
 	static long clientNetRcvTime = 0;
 	static int clientPing = 0;
 	static long clientTimeLeft = 120000;
+    static long gameTime = System.currentTimeMillis();
 }

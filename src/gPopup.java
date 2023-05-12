@@ -5,7 +5,7 @@ public class gPopup extends gThing {
         putInt("coordx", x);
         putInt("coordy", y);
         put("text", tt);
-        putLong("timestamp", gTime.gameTime);
+        putLong("timestamp", sSettings.gameTime);
         putDouble("fv", fv);
     }
 }

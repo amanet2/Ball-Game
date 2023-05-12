@@ -322,14 +322,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void input() {
-        gTime.gameTime = System.currentTimeMillis();
+        sSettings.gameTime = System.currentTimeMillis();
         iInput.readKeyInputs();
     }
 
     @Override
     public void update() {
         super.update();
-        long gameTimeMillis = gTime.gameTime;
+        long gameTimeMillis = sSettings.gameTime;
         if(sSettings.IS_CLIENT) {
             clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
             scheduledEvents.executeCommands();
@@ -550,7 +550,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             gPlayer player = getUserPlayer();
             if(player.contains("cooldown")) {
                 int weapint = player.getInt("weapon");
-                long gametimemillis = gTime.gameTime;
+                long gametimemillis = sSettings.gameTime;
                 if(player.getLong("cooldown") <= gametimemillis) {
                     clientNetThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
                     player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
@@ -575,7 +575,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     @Override
     public void render() {
         displayPane.frame.repaint();
-        long gameTimeMillis = gTime.gameTime;
+        long gameTimeMillis = sSettings.gameTime;
         if (frameCounterTime < gameTimeMillis) {
             uiInterface.fpsReport = uiInterface.frames;
             uiInterface.frames = 0;

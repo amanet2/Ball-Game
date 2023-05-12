@@ -12,7 +12,7 @@ public class dPanel extends JPanel {
         removeAll();
         Graphics2D g2v = (Graphics2D) g.create();
         Graphics2D g2u = (Graphics2D) g.create();
-        long gameTime = gTime.gameTime;
+        long gameTime = sSettings.gameTime;
         drawFrame(g2v);
         drawFrameUI(g2u, gameTime);
         uiInterface.frames++;
