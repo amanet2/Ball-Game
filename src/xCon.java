@@ -1697,7 +1697,6 @@ public class xCon {
     }
 
     private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
-        gDoable blockReturn = xMain.shellLogic.blockFactory.blockLoadMap.get(blockString);
         String rawX = toks[4];
         String rawY = toks[5];
         String width = toks[6];
@@ -1712,7 +1711,13 @@ public class xCon {
             args[4] = toks[8];
             args[5] = toks[9];
         }
-        gThing newBlock = blockReturn.getThing(args);
+        gThing newBlock = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+        newBlock.put("type", blockString);
+        if(blockString.equals("BLOCK_CUBE")) {
+            newBlock.put("toph", args[4]);
+            newBlock.put("wallh", args[5]);
+        }
         newBlock.put("id", blockid);
         newBlock.put("prefabid", prefabid);
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
