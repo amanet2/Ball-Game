@@ -2,7 +2,9 @@
     -> create folder \pkg_ballmaster
     -> copy \Ball-Game\bin\*, \Ball-Game\pkg\*, and \Ball-Game\readme.txt -> \pkg_ballmaster
     -> remove manifest and batch scripts from \pkg_ballmaster\pkg
+    -> move all files from \pkg_ballmaster\pkg into root of \pkg_ballmaster (remove extra pkg dir)
     -> use launch4j to create the exes
+    -> be sure to update ballmaster.xml
 * BUILD: after seeing how launch4j works, rethink workflow
     -> for example, in building our jars, we can reference the "lib" folder of javafx instead of that other lib folder
     -> with launch4j we don't need a batch script to launch jar, and dont need .c code to compile into exe wrapper

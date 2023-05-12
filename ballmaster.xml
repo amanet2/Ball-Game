@@ -3,7 +3,7 @@
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
   <jar>BALL_GAME.jar</jar>
-  <outfile>C:\Users\Stallion\Desktop\pkg_Ball-Game\Ballmaster.exe</outfile>
+  <outfile>C:\Code\pkg_ballmaster\Ballmaster.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -16,11 +16,11 @@
   <icon></icon>
   <var>PATH=..\bin\javafx-sdk-11.0.2\bin\;..\bin\jdk-18.0.2.1\bin\</var>
   <jre>
-    <path>jre-1.8\bin\javaw.exe</path>
+    <path>bin\jre-1.8\bin\javaw.exe</path>
     <requiresJdk>true</requiresJdk>
     <requires64Bit>false</requires64Bit>
     <minVersion>1.8</minVersion>
     <maxVersion></maxVersion>
-    <opt>-Dsun.java2d.uiScale=1.0 -jar --module-path &quot;C:\Users\Stallion\Desktop\pkg_Ball-Game\bin\javafx-sdk-11.0.2\lib&quot; --add-modules=javafx.media</opt>
+    <opt>-Dsun.java2d.uiScale=1.0 -jar --module-path &quot;%EXEDIR%\bin\javafx-sdk-11.0.2\lib&quot; --add-modules=javafx.media</opt>
   </jre>
 </launch4jConfig>
