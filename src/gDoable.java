@@ -1,14 +1,17 @@
 public class gDoable {
-    public void exec() {
-        //do nothing
+    public gDoable() {
+        //override this class and methods to do arbitrary things
+    }
+    public void doCommand() {
+
     }
 
-    public boolean check() {
+    public boolean checkValue() {
         return true;
     }
 
-    void exec(String id, String cmd) {
-        // do nothing
+    void doCommandAsServerFromClient(String clientId, String cmd) {
+
     }
 
     public gThing getThing(String[] args) {

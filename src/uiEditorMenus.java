@@ -248,66 +248,66 @@ public class uiEditorMenus {
         HashMap<String, gDoable> overlaySelectionActionMap = new HashMap<>();
         overlaySelectionActionMap.put("drawhitboxes",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.drawhitboxes = !sSettings.drawhitboxes;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.drawhitboxes;
                     }
                 }
         );
         overlaySelectionActionMap.put("drawmapmakergrid",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.drawmapmakergrid = !sSettings.drawmapmakergrid;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.drawmapmakergrid;
                     }
                 }
         );
         overlaySelectionActionMap.put("vfxenableshading",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.vfxenableshading = !sSettings.vfxenableshading;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.vfxenableshading;
                     }
                 }
         );
         overlaySelectionActionMap.put("vfxenableshadows",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.vfxenableshadows = !sSettings.vfxenableshadows;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.vfxenableshadows;
                     }
                 }
         );
         overlaySelectionActionMap.put("vfxenableflares",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.vfxenableflares = !sSettings.vfxenableflares;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.vfxenableflares;
                     }
                 }
         );
         overlaySelectionActionMap.put("vfxenableanimations",
                 new gDoable(){
-                    public void exec() {
+                    public void doCommand() {
                         sSettings.vfxenableanimations = !sSettings.vfxenableanimations;
                     }
 
-                    public boolean check() {
+                    public boolean checkValue() {
                         return sSettings.vfxenableanimations;
                     }
                 }
@@ -316,10 +316,10 @@ public class uiEditorMenus {
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
             ovmenuitem.setFont(dFonts.getFontNormal());
-            ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
+            ovmenuitem.setSelected(overlaySelectionActionMap.get(option).checkValue());
             ovmenuitem.addActionListener(e -> {
-                overlaySelectionActionMap.get(option).exec();
-                ovmenuitem.setSelected(overlaySelectionActionMap.get(option).check());
+                overlaySelectionActionMap.get(option).doCommand();
+                ovmenuitem.setSelected(overlaySelectionActionMap.get(option).checkValue());
             });
             menus.get("Overlays").add(ovmenuitem);
         }

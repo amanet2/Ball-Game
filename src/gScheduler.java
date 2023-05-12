@@ -27,7 +27,7 @@ public class gScheduler {
         dequeueCommands();
         while (eventQueue.size() > 0) {
             gDoable event = eventQueue.peek();
-            event.exec();
+            event.doCommand();
             if(eventQueue.size() > 0)
                 eventQueue.remove();
         }

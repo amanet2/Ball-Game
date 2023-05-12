@@ -153,14 +153,14 @@ public class xCon {
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
                         xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gDoable() {
-                            public void exec() {
+                            public void doCommand() {
                                 if (sSettings.serverTimeLimit > 0)
                                     sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
                     xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
-                        public void exec() {
+                        public void doCommand() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
                             if (!winid.equalsIgnoreCase("null")) {
@@ -1247,7 +1247,7 @@ public class xCon {
                 synchronized (xMain.shellLogic.serverSimulationThread.scheduledEvents.events) {
                     xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
                             new gDoable() {
-                                public void exec() {
+                                public void doCommand() {
                                     ex(actStr);
                                 }
                             }
@@ -1496,7 +1496,7 @@ public class xCon {
                                     msg, 0.0));
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gDoable() {
-                                public void exec() {
+                                public void doCommand() {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });
