@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class gBlockFactory {
-    HashMap<String, gDoableThingReturn> blockLoadMap;
+    HashMap<String, gDoable> blockLoadMap;
     // TODO: this factory is used by both client and server maybe textures should be elsewhere?
     TexturePaint floorTexture;
     TexturePaint wallTexture;
@@ -14,7 +14,7 @@ public class gBlockFactory {
 
     public gBlockFactory() {
         blockLoadMap = new HashMap<>();
-        blockLoadMap.put("BLOCK_CUBE", new gDoableThingReturn(){
+        blockLoadMap.put("BLOCK_CUBE", new gDoable(){
             public gThing getThing(String[] args) {
                 gBlock block = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
                         Integer.parseInt(args[2]), Integer.parseInt(args[3]));
@@ -24,7 +24,7 @@ public class gBlockFactory {
                 return block;
             }
         });
-        blockLoadMap.put("BLOCK_FLOOR", new gDoableThingReturn() {
+        blockLoadMap.put("BLOCK_FLOOR", new gDoable() {
             public gThing getThing(String[] args) {
                 gBlock block = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
                         Integer.parseInt(args[2]), Integer.parseInt(args[3]));
@@ -32,7 +32,7 @@ public class gBlockFactory {
                 return block;
             }
         });
-        blockLoadMap.put("BLOCK_COLLISION", new gDoableThingReturn() {
+        blockLoadMap.put("BLOCK_COLLISION", new gDoable() {
             public gThing getThing(String[] args) {
                 gBlock block = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
                         Integer.parseInt(args[2]), Integer.parseInt(args[3]));

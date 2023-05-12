@@ -16,7 +16,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final HashMap<String, Queue<String>> clientNetCmdMap;
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
-    private final HashMap<String, gDoableCmd> clientCmdDoables; //doables for handling client cmds
+    private final HashMap<String, gDoable> clientCmdDoables; //doables for handling client cmds
     private final ArrayList<String> voteSkipList;
 
     public eGameLogicServer() {
@@ -29,7 +29,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         voteSkipList = new ArrayList<>();
         //init doables
         clientCmdDoables.put("fireweapon",
-            new gDoableCmd() {
+            new gDoable() {
                 void ex(String id, String cmd) {
                     xMain.shellLogic.console.ex(cmd);
                     addIgnoringNetCmd(id+",server,",
@@ -37,7 +37,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 }
             });
         clientCmdDoables.put("setthing", // don't want EVERY setthing on server to be synced, only ones requested here
-            new gDoableCmd() {
+            new gDoable() {
                 void ex(String id, String cmd) {
                     xMain.shellLogic.console.ex(cmd);
                     addIgnoringNetCmd("server", "cl_" + cmd);
@@ -48,7 +48,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 "gamemode", "deleteprefab"
         }) {
             clientCmdDoables.put(rcs,
-                    new gDoableCmd() {
+                    new gDoable() {
                         void ex(String id, String cmd) {
                             //maybe add this as a net command for the server-only, to avoid concurrency issues
                             xMain.shellLogic.console.ex(cmd);
@@ -56,7 +56,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     });
         }
         clientCmdDoables.put("deleteplayer",
-            new gDoableCmd() {
+            new gDoable() {
                 void ex(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length > 1 && toks[1].equals(id)) //client can only remove itself
@@ -64,7 +64,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 }
             });
         clientCmdDoables.put("exec",
-            new gDoableCmd() {
+            new gDoable() {
                 void ex(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length > 1 && toks[1].startsWith("prefabs/")) //client can only add prefabs
@@ -72,7 +72,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 }
             });
         clientCmdDoables.put("echo",
-            new gDoableCmd() {
+            new gDoable() {
                 void ex(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length < 3) //only want to allow messages from clients, not any other echo usage
@@ -303,7 +303,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void handleClientCommand(String id, String cmd) {
         String ccmd = cmd.split(" ")[0];
         if(clientCmdDoables.containsKey(ccmd))
-            clientCmdDoables.get(ccmd).ex(id, cmd);
+            clientCmdDoables.get(ccmd).exec(id, cmd);
         else
             addNetCmd(id, "cl_echo NO HANDLER FOUND FOR CMD: " + cmd);
     }

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
     static int maxlinelength = 128;
-    HashMap<String, xCom> commands;
+    HashMap<String, gDoable> commands;
     HashMap<Integer, String> releaseBinds;
     HashMap<Integer, String> pressBinds;
     ArrayList<String> previousCommands;
@@ -37,7 +37,7 @@ public class xCon {
         commandString = "";
         prevCommandIndex = -1;
 
-        commands.put("activatemenu", new xCom() {
+        commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!uiInterface.inplay && !sSettings.show_mapmaker_ui) {
                     ex("playsound sounds/tap.wav");
@@ -47,7 +47,7 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("addcom", new xCom() {
+        commands.put("addcom", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcom can only be used by active server";
@@ -63,7 +63,7 @@ public class xCon {
                 return "server fanout comm: " + actStr;
             }
         });
-        commands.put("addcomi", new xCom() {
+        commands.put("addcomi", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcomi can only be used by the host";
@@ -80,7 +80,7 @@ public class xCon {
                 return "server fanout comm ignoring " + ignoreId + ": " + actStr;
             }
         });
-        commands.put("addcomx", new xCom() {
+        commands.put("addcomx", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "addcomx can only be used by active server";
@@ -97,7 +97,7 @@ public class xCon {
                 return "server comm exclusive: " + actStr;
             }
         });
-        commands.put("bind", new xCom() {
+        commands.put("bind", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 2) {
@@ -132,7 +132,7 @@ public class xCon {
                 return "cannot bindrelease ";
             }
         });
-        commands.put("changemap", new xCom() {
+        commands.put("changemap", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 2)
@@ -181,14 +181,14 @@ public class xCon {
                 return "changed map to " + mapPath;
             }
         });
-        commands.put("changemaprandom", new xCom() {
+        commands.put("changemaprandom", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(eManager.mapsFileSelection.length < 1)
                     return "no maps found for changemaprandom";
                 return ex("changemap maps/" + eManager.mapsFileSelection[(int)(Math.random()*eManager.mapsFileSelection.length)]);
             }
         });
-        commands.put("chat", new xCom() {
+        commands.put("chat", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 gMessages.enteringMessage = true;
@@ -204,7 +204,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("cl_clearthingmappreview", new xCom() {
+        commands.put("cl_clearthingmappreview", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 1) {
@@ -218,7 +218,7 @@ public class xCon {
                 return "usage: cl_clearthingmappreview";
             }
         });
-        commands.put("clientlist", new xCom() {
+        commands.put("clientlist", new gDoable() {
             public String doCommand(String fullCommand) {
                 StringBuilder s = new StringBuilder();
                 nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -229,19 +229,19 @@ public class xCon {
                 return s.substring(0, s.length()-1);
             }
         });
-        commands.put("commandlist", new xCom() {
+        commands.put("commandlist", new gDoable() {
             public String doCommand(String fullCommand) {
                 TreeSet<String> sorted = new TreeSet<>(commands.keySet());
                 return sorted.toString();
             }
         });
-        commands.put("console", new xCom() {
+        commands.put("console", new gDoable() {
             public String doCommand(String fullCommand) {
                 uiInterface.inconsole = !uiInterface.inconsole;
                 return "console";
             }
         });
-        commands.put("constr", new xCom() {
+        commands.put("constr", new gDoable() {
             //concatenate two or more strings
             //usage: constr <disparate elements to combine and return>
             public String doCommand(String fullCommand) {
@@ -255,13 +255,13 @@ public class xCon {
                 return esb.toString();
             }
         });
-        commands.put("cvarlist", new xCom() {
+        commands.put("cvarlist", new gDoable() {
             public String doCommand(String fullCommand) {
                 TreeMap<String, gArg> sorted = new TreeMap<>(xMain.shellLogic.clientVars.args);
                 return sorted.toString();
             }
         });
-        commands.put("damageplayer", new xCom() {
+        commands.put("damageplayer", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
@@ -299,7 +299,7 @@ public class xCon {
                 return "usage: damageplayer <player_id> <dmg_amount> <optional-shooter_id>";
             }
         });
-        commands.put("deleteblock", new xCom() {
+        commands.put("deleteblock", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 2)
@@ -309,7 +309,7 @@ public class xCon {
                 return "deleted block";
             }
         });
-        commands.put("cl_deleteblock", new xCom() {
+        commands.put("cl_deleteblock", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1)
@@ -317,7 +317,7 @@ public class xCon {
                 return "usage: cl_deleteblock <id>";
             }
         });
-        commands.put("deleteitem", new xCom() {
+        commands.put("deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
@@ -333,7 +333,7 @@ public class xCon {
                 return "usage: deleteitem <id>";
             }
         });
-        commands.put("cl_deleteitem", new xCom() {
+        commands.put("cl_deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
@@ -348,7 +348,7 @@ public class xCon {
                 return "usage: deleteitem <id>";
             }
         });
-        commands.put("deleteplayer", new xCom() {
+        commands.put("deleteplayer", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
@@ -360,7 +360,7 @@ public class xCon {
                 return "usage: deleteplayer <id>";
             }
         });
-        commands.put("cl_deleteplayer", new xCom() {
+        commands.put("cl_deleteplayer", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1)
@@ -368,7 +368,7 @@ public class xCon {
                 return "usage: deleteplayer <id>";
             }
         });
-        commands.put("deleteprefab", new xCom() {
+        commands.put("deleteprefab", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
@@ -378,7 +378,7 @@ public class xCon {
                 return "usage: deleteprefab <id>";
             }
         });
-        commands.put("cl_deleteprefab", new xCom() {
+        commands.put("cl_deleteprefab", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1) {
@@ -387,7 +387,7 @@ public class xCon {
                 return "usage: cl_deleteprefab <id>";
             }
         });
-        commands.put("disconnect", new xCom() {
+        commands.put("disconnect", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
                     xMain.shellLogic.clientVars.put("maploaded", "0");
@@ -406,7 +406,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("echo", new xCom() {
+        commands.put("echo", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "only server can use command: echo";
@@ -437,32 +437,32 @@ public class xCon {
                 return "FANOUT to clients: cl_" + parsedCommand;
             }
         });
-        commands.put("cl_echo", new xCom() {
+        commands.put("cl_echo", new gDoable() {
             public String doCommand(String fullCommand) {
                 String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
                 gMessages.addScreenMessage(rs);
                 return rs;
             }
         });
-        commands.put("e_changejoinip", new xCom() {
+        commands.put("e_changejoinip", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("chat Enter New IP Address");
                 return "";
             }
         });
-        commands.put("e_changejoinport", new xCom() {
+        commands.put("e_changejoinport", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("chat Enter New Port");
                 return "";
             }
         });
-        commands.put("e_changeplayername", new xCom() {
+        commands.put("e_changeplayername", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("chat Enter New Name");
                 return "";
             }
         });
-        commands.put("e_delthing", new xCom() {
+        commands.put("e_delthing", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.clientSelectedPrefabId.length() > 0) {
                     xMain.shellLogic.clientNetThread.addNetCmd("deleteprefab " + sSettings.clientSelectedPrefabId);
@@ -475,14 +475,14 @@ public class xCon {
                 return "nothing to delete";
             }
         });
-        commands.put("e_newmap", new xCom() {
+        commands.put("e_newmap", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("load;addcomi server cl_setvar maploaded 1");
                 gScoreboard.resetScoresMap();
                 return "";
             }
         });
-        commands.put("e_openfile", new xCom() {
+        commands.put("e_openfile", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.show_mapmaker_ui) {
                     JFileChooser fileChooser = new JFileChooser();
@@ -512,7 +512,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("e_rotthing", new xCom() {
+        commands.put("e_rotthing", new gDoable() {
             public String doCommand(String fullCommand) {
                 String newprefabname = sSettings.clientNewPrefabName;
                 if (newprefabname.contains("_000"))
@@ -531,7 +531,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("e_saveas", new xCom() {
+        commands.put("e_saveas", new gDoable() {
             public String doCommand(String fullcommand) {
                 JFileChooser fileChooser = new JFileChooser();
                 uiEditorMenus.setFileChooserFont(fileChooser.getComponents());
@@ -547,13 +547,13 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("e_showlossalert", new xCom() {
+        commands.put("e_showlossalert", new gDoable() {
             public  String doCommand(String fullcomm) {
                 return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
-        commands.put("exec", new xCom() {
+        commands.put("exec", new gDoable() {
             public  String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
@@ -597,7 +597,7 @@ public class xCon {
                 return "script completed successfully";
             }
         });
-        commands.put("cl_execpreview", new xCom() {
+        commands.put("cl_execpreview", new gDoable() {
             public  String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
@@ -625,7 +625,7 @@ public class xCon {
                 return "execpreview";
             }
         });
-        commands.put("exportasprefab", new xCom() {
+        commands.put("exportasprefab", new gDoable() {
             public String doCommand(String fullcommand) {
                 JFileChooser fileChooser = new JFileChooser();
                 File workingDirectory = new File("prefabs");
@@ -639,7 +639,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("fireweapon", new xCom() {
+        commands.put("fireweapon", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
@@ -651,7 +651,7 @@ public class xCon {
                 return "usage: fireweapon <player_id> <weapon_code>";
             }
         });
-        commands.put("cl_fireweapon", new xCom() {
+        commands.put("cl_fireweapon", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
@@ -663,7 +663,7 @@ public class xCon {
                 return "usage: cl_fireweapon <player_id> <weapon_code>";
             }
         });
-        commands.put("foreach", new xCom() {
+        commands.put("foreach", new gDoable() {
             //usage: foreach $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -684,7 +684,7 @@ public class xCon {
                 return "usage: foreach $var $start $end $incr <script where $var is num>";
             }
         });
-        commands.put("foreachclient", new xCom() {
+        commands.put("foreachclient", new gDoable() {
             //usage: foreachclient $id <script to execute where $id is preloaded>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -706,7 +706,7 @@ public class xCon {
                 return "usage: foreachclient $id <script to execute where $id is preloaded>";
             }
         });
-        commands.put("foreachlong", new xCom() {
+        commands.put("foreachlong", new gDoable() {
             //usage: foreachlong $var $start $end $incr <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -727,7 +727,7 @@ public class xCon {
                 return "usage: foreachlong $var $start $end $incr <script where $var is num>";
             }
         });
-        commands.put("foreachthing", new xCom() {
+        commands.put("foreachthing", new gDoable() {
             //usage: foreachthing $var $THING_TYPE <script to execute where $var is preloaded>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -751,7 +751,7 @@ public class xCon {
                 return "usage: foreach $var $THING_TYPE <script to execute where $var is preloaded>";
             }
         });
-        commands.put("gamemode", new xCom() {
+        commands.put("gamemode", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "only server can do 'gamemode'";
@@ -764,7 +764,7 @@ public class xCon {
                 return "changed game mode to " + xMain.shellLogic.serverVars.get("gamemode");
             }
         });
-        commands.put("getnewitemid", new xCom() {
+        commands.put("getnewitemid", new gDoable() {
             public String doCommand(String fullCommand) {
                 int itemId = 0;
                 for(String id : xMain.shellLogic.serverScene.getThingMap("THING_ITEM").keySet()) {
@@ -774,7 +774,7 @@ public class xCon {
                 return Integer.toString(itemId+1); //want to be the NEXT id
             }
         });
-        commands.put("getrand", new xCom() {
+        commands.put("getrand", new gDoable() {
             // usage: getrand $min $max
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -785,7 +785,7 @@ public class xCon {
                 return Integer.toString(ThreadLocalRandom.current().nextInt(start, end + 1));
             }
         });
-        commands.put("getrandclid", new xCom() {
+        commands.put("getrandclid", new gDoable() {
             // usage: getrandclid
             public String doCommand(String fullCommand) {
                 nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -796,7 +796,7 @@ public class xCon {
                 return clientIds.get(randomClientIndex);
             }
         });
-        commands.put("getrandthing", new xCom() {
+        commands.put("getrandthing", new gDoable() {
             // usage: getrandthing $type
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -809,7 +809,7 @@ public class xCon {
                 return keysAsArray.get(ThreadLocalRandom.current().nextInt(0, keysAsArray.size()));
             }
         });
-        commands.put("getres", new xCom() {
+        commands.put("getres", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
@@ -830,7 +830,7 @@ public class xCon {
                 return xMain.shellLogic.serverVars.get(tk);
             }
         });
-        commands.put("cl_getres", new xCom() {
+        commands.put("cl_getres", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
@@ -851,7 +851,7 @@ public class xCon {
                 return xMain.shellLogic.clientVars.get(tk);
             }
         });
-        commands.put("giveweapon", new xCom() {
+        commands.put("giveweapon", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
@@ -865,7 +865,7 @@ public class xCon {
                 return "gave weapon " + weap + " to player " + pid;
             }
         });
-        commands.put("givedecoration", new xCom() {
+        commands.put("givedecoration", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
@@ -878,7 +878,7 @@ public class xCon {
                 return "applied decoration " + path + " to player " + pid;
             }
         });
-        commands.put("givewaypoint", new xCom() {
+        commands.put("givewaypoint", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 3)
@@ -891,7 +891,7 @@ public class xCon {
                 return String.format("Set waypoint '%s' for player %s", val, pid);
             }
         });
-        commands.put("givepoint", new xCom() {
+        commands.put("givepoint", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 2)
@@ -907,7 +907,7 @@ public class xCon {
                 return "gave point to " + id;
             }
         });
-        commands.put("givewin", new xCom() {
+        commands.put("givewin", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 2)
@@ -917,7 +917,7 @@ public class xCon {
                 return id;
             }
         });
-        commands.put("gobackui", new xCom() {
+        commands.put("gobackui", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(uiInterface.inplay)
                     ex("pause");
@@ -939,7 +939,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("hostgame", new xCom() {
+        commands.put("hostgame", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex(new String[] {
                         "startserver",
@@ -950,7 +950,7 @@ public class xCon {
                 return "hosting game on port " + sSettings.serverListenPort;
             }
         });
-        commands.put("joingame", new xCom() {
+        commands.put("joingame", new gDoable() {
             public String doCommand(String fullCommand) {
                 xMain.shellLogic.clientNetThread = new eGameLogicClient();
                 new eGameSession(xMain.shellLogic.clientNetThread, sSettings.rateclient);
@@ -958,7 +958,7 @@ public class xCon {
                 return "joined game";
             }
         });
-        commands.put("load", new xCom() {
+        commands.put("load", new gDoable() {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
@@ -969,7 +969,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("cl_load", new xCom() {
+        commands.put("cl_load", new gDoable() {
             public String doCommand(String fullCommand) {
                 //load the most basic blank map
                 gTextures.clear();
@@ -978,7 +978,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("loadingscreen", new xCom() {
+        commands.put("loadingscreen", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.IS_SERVER)
                     xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maploaded 0");
@@ -990,7 +990,7 @@ public class xCon {
                 return "loading screen OFF";
             }
         });
-        commands.put("mouseleft", new xCom() {
+        commands.put("mouseleft", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(xMain.shellLogic.displayPane.frame.hasFocus()) {
                     if (uiInterface.inplay)
@@ -1050,7 +1050,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("pause", new xCom() {
+        commands.put("pause", new gDoable() {
             public String doCommand(String fullCommand) {
                 uiInterface.inplay = !uiInterface.inplay;
                 xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -1064,7 +1064,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("playerdown", new xCom() {
+        commands.put("playerdown", new gDoable() {
             public String doCommand(String fullCommand) {
                 playerMoveDelegate(1);
                 return "player down";
@@ -1074,7 +1074,7 @@ public class xCon {
                 return "stop player down";
             }
         });
-        commands.put("playerleft", new xCom() {
+        commands.put("playerleft", new gDoable() {
             public String doCommand(String fullCommand) {
                 playerMoveDelegate(2);
                 return "player left";
@@ -1084,7 +1084,7 @@ public class xCon {
                 return "stop player left";
             }
         });
-        commands.put("playerright", new xCom() {
+        commands.put("playerright", new gDoable() {
             public String doCommand(String fullCommand) {
                 playerMoveDelegate(3);
                 return "player right";
@@ -1094,7 +1094,7 @@ public class xCon {
                 return "stop player right";
             }
         });
-        commands.put("playerup", new xCom() {
+        commands.put("playerup", new gDoable() {
             public String doCommand(String fullCommand) {
                 playerMoveDelegate(0);
                 return "player up";
@@ -1104,7 +1104,7 @@ public class xCon {
                 return "stop player up";
             }
         });
-        commands.put("playsound", new xCom() {
+        commands.put("playsound", new gDoable() {
             final double sfxrange = 1800.0;
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -1138,7 +1138,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("putblock", new xCom() {
+        commands.put("putblock", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
@@ -1148,7 +1148,7 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("cl_putblock", new xCom() {
+        commands.put("cl_putblock", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
@@ -1157,7 +1157,7 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("cl_putblockpreview", new xCom() {
+        commands.put("cl_putblockpreview", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
@@ -1166,7 +1166,7 @@ public class xCon {
                 return "1";
             }
         });
-        commands.put("putitem", new xCom() {
+        commands.put("putitem", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 5)
@@ -1176,7 +1176,7 @@ public class xCon {
                 return "put item";
             }
         });
-        commands.put("cl_putitem", new xCom() {
+        commands.put("cl_putitem", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 5)
@@ -1185,7 +1185,7 @@ public class xCon {
                 return "cl_put item";
             }
         });
-        commands.put("quit", new xCom() {
+        commands.put("quit", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                     if(!ex("e_showlossalert").equals("0"))
@@ -1195,7 +1195,7 @@ public class xCon {
                 return "";
             }
         });
-        commands.put("respawnnetplayer", new xCom() {
+        commands.put("respawnnetplayer", new gDoable() {
             int tries = 0;
             final int trylimit = 5;
             public String doCommand(String fullCommand) {
@@ -1220,7 +1220,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("say", new xCom() {
+        commands.put("say", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(fullCommand.length() > 0) {
                     String msg = sSettings.clientPlayerName + "#"+ sSettings.clientPlayerColor +": "
@@ -1231,7 +1231,7 @@ public class xCon {
                 return "said enough";
             }
         });
-        commands.put("scheduleevent", new xCom() {
+        commands.put("scheduleevent", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "scheduleevent can only be used by active server";
@@ -1256,7 +1256,7 @@ public class xCon {
                 return "added time event @" + timeToExec + ": " + actStr;
             }
         });
-        commands.put("selectdown", new xCom() {
+        commands.put("selectdown", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerdown");
                 if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
@@ -1266,7 +1266,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("selectleft", new xCom() {
+        commands.put("selectleft", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerleft");
                 if((!sSettings.show_mapmaker_ui && !uiInterface.inplay) &&
@@ -1275,7 +1275,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("selectright", new xCom() {
+        commands.put("selectright", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerright");
                 if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
@@ -1286,7 +1286,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("selectup", new xCom() {
+        commands.put("selectup", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerup");
                 if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
@@ -1296,7 +1296,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("setnstate", new xCom() {
+        commands.put("setnstate", new gDoable() {
             //usage: setnstate $id $key $value
             public String doCommand(String fullCommand) {
                 nStateMap serverStateSnapshot = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -1323,7 +1323,7 @@ public class xCon {
                 return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
             }
         });
-        commands.put("setplayercoords", new xCom() {
+        commands.put("setplayercoords", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 4)
@@ -1337,7 +1337,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("cl_setplayercoords", new xCom() {
+        commands.put("cl_setplayercoords", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 4)
@@ -1350,7 +1350,7 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("setthing", new xCom() {
+        commands.put("setthing", new gDoable() {
             //usage: setthing $THING_TYPE $id $key $val
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1359,7 +1359,7 @@ public class xCon {
                 return setThingDelegate(args, xMain.shellLogic.serverScene);
             }
         });
-        commands.put("cl_setthing", new xCom() {
+        commands.put("cl_setthing", new gDoable() {
             //usage cl_setthing $type $id $key $var
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
@@ -1368,7 +1368,7 @@ public class xCon {
                 return setThingDelegate(args, xMain.shellLogic.clientScene);
             }
         });
-        commands.put("setvar", new xCom() {
+        commands.put("setvar", new gDoable() {
             public String doCommand(String fullCommand) {
                 //usage setvar $key $val
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1389,7 +1389,7 @@ public class xCon {
                 return xMain.shellLogic.serverVars.get(tk);
             }
         });
-        commands.put("cl_setvar", new xCom() {
+        commands.put("cl_setvar", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 2)
@@ -1412,7 +1412,7 @@ public class xCon {
                 return xMain.shellLogic.clientVars.get(tk);
             }
         });
-        commands.put("cl_spawnanimation", new xCom() {
+        commands.put("cl_spawnanimation", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.vfxenableanimations) {
                     String[] toks = fullCommand.split(" ");
@@ -1436,7 +1436,7 @@ public class xCon {
                 return "usage: cl_spawnanimation <animation_code> <x> <y>";
             }
         });
-        commands.put("spawnplayer", new xCom() {
+        commands.put("spawnplayer", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 3)
@@ -1454,7 +1454,7 @@ public class xCon {
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
-        commands.put("cl_spawnplayer", new xCom() {
+        commands.put("cl_spawnplayer", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 3)
@@ -1475,13 +1475,13 @@ public class xCon {
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
-        commands.put("spawnpopup", new xCom() {
+        commands.put("spawnpopup", new gDoable() {
             public String doCommand(String fullCommand) {
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "spawned popup";
             }
         });
-        commands.put("cl_spawnpopup", new xCom() {
+        commands.put("cl_spawnpopup", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
@@ -1505,7 +1505,7 @@ public class xCon {
                 return "usage: cl_spawnpopup <player_id> <points>";
             }
         });
-        commands.put("startserver", new xCom() {
+        commands.put("startserver", new gDoable() {
             public String doCommand(String fullCommand) {
                 xMain.shellLogic.serverSimulationThread = new eGameLogicSimulation();
                 new eGameSession(xMain.shellLogic.serverSimulationThread, sSettings.ratesimulation);
@@ -1515,7 +1515,7 @@ public class xCon {
                 return "new game started";
             }
         });
-        commands.put("sumint", new xCom() {
+        commands.put("sumint", new gDoable() {
             public String doCommand(String fullCommand) {
                 //usage: sumint $num1 $num2 //return result (use getres)
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1542,7 +1542,7 @@ public class xCon {
                     return Integer.toString((int) n1 + (int) n2);
             }
         });
-        commands.put("sumlong", new xCom() {
+        commands.put("sumlong", new gDoable() {
             public String doCommand(String fullCommand) {
                 //usage: sumlong $num1 $num2
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1551,13 +1551,13 @@ public class xCon {
                 return Long.toString(Long.parseLong(args[1]) + Long.parseLong(args[2]));
             }
         });
-        commands.put("svarlist", new xCom() {
+        commands.put("svarlist", new gDoable() {
             public String doCommand(String fullCommand) {
                 TreeMap<String, gArg> sorted = new TreeMap<>(xMain.shellLogic.serverVars.args);
                 return sorted.toString();
             }
         });
-        commands.put("gte", new xCom() {
+        commands.put("gte", new gDoable() {
             //usage: gte $res $val // return 1 if res >= val
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1599,7 +1599,7 @@ public class xCon {
                 return "0";
             }
         });
-        commands.put("showscore", new xCom() {
+        commands.put("showscore", new gDoable() {
             public String doCommand(String fullCommand) {
                 dScreenMessages.showscore = true;
                 return "show score";
@@ -1609,7 +1609,7 @@ public class xCon {
                 return "hide score";
             }
         });
-        commands.put("testres", new xCom() {
+        commands.put("testres", new gDoable() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1618,7 +1618,7 @@ public class xCon {
                 return testResDelegate(args);
             }
         });
-        commands.put("testresn", new xCom() {
+        commands.put("testresn", new gDoable() {
             //usage: testres $res $val <string that will exec if res == val>
             public String doCommand(String fullCommand) {
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
@@ -1627,7 +1627,7 @@ public class xCon {
                 return testResNDelegate(args);
             }
         });
-        commands.put("unbind", new xCom() {
+        commands.put("unbind", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 2)
@@ -1641,7 +1641,7 @@ public class xCon {
                 return String.format("unbound %s", k);
             }
         });
-        commands.put("zoom", new xCom() {
+        commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
                 sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
@@ -1697,7 +1697,7 @@ public class xCon {
     }
 
     private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
-        gDoableThingReturn blockReturn = xMain.shellLogic.blockFactory.blockLoadMap.get(blockString);
+        gDoable blockReturn = xMain.shellLogic.blockFactory.blockLoadMap.get(blockString);
         String rawX = toks[4];
         String rawY = toks[5];
         String width = toks[6];
@@ -1879,7 +1879,7 @@ public class xCon {
             String command = args[0];
             if(command.startsWith("-"))
                 command = command.substring(1);
-            xCom cp = commands.get(command);
+            gDoable cp = commands.get(command);
             if (cp != null) {
                 StringBuilder realcom = new StringBuilder();
                 for(String arg : args) {
