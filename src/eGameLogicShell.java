@@ -1,6 +1,10 @@
 import javafx.scene.media.AudioClip;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
@@ -9,7 +13,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
-    gBlockFactory blockFactory;
     oDisplay displayPane;
     xCon console;
     gScene serverScene;
@@ -18,16 +21,24 @@ public class eGameLogicShell extends eGameLogicAdapter {
     eGameLogicSimulation serverSimulationThread;
     eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
+    TexturePaint floorTexture;
+    TexturePaint wallTexture;
+    TexturePaint topTexture;
 
-    public eGameLogicShell() {
+    public eGameLogicShell() throws IOException {
         audioClips = new ArrayList<>();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
-        blockFactory = new gBlockFactory();
         displayPane = new oDisplay();
         console = new xCon();
         scheduledEvents = new gScheduler();
+        floorTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/floor.png"))),
+                new Rectangle2D.Double(0,0,1200, 1200));
+        wallTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/wall.png"))),
+                new Rectangle2D.Double(0,0, 300, 300));
+        topTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/top.png"))),
+                new Rectangle2D.Double(0,0, 300, 300));
     }
 
     private void initGameObjectsAndScenes() {

@@ -18,7 +18,7 @@ public class dThings {
                     if (thing.contains("wallh")) {
                         drawShadowBlockFlat(g2, (gBlock) thing);
                         if (thing.contains("wallh")) {
-                            g2.setPaint(xMain.shellLogic.blockFactory.wallTexture);
+                            g2.setPaint(xMain.shellLogic.wallTexture);
                             g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
                                     thing.getWidth(), thing.getInt("wallh")
                             );
@@ -92,7 +92,7 @@ public class dThings {
         HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) {
             gThing block = floorMap.get(tag);
-            g2.setPaint(xMain.shellLogic.blockFactory.floorTexture);
+            g2.setPaint(xMain.shellLogic.floorTexture);
             g2.fillRect(block.getInt("coordx"), block.getY(), block.getWidth(), block.getHeight());
         }
     }
@@ -111,7 +111,7 @@ public class dThings {
     }
 
     public static void drawBlockTopCube(Graphics2D g2, gThing block) {
-        g2.setPaint(xMain.shellLogic.blockFactory.topTexture);
+        g2.setPaint(xMain.shellLogic.topTexture);
         g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getInt("toph"));
         dFonts.setFontColor(g2, "clrw_topcolor");
         if(block.contains("wallh") && block.getInt("wallh") < 300)
