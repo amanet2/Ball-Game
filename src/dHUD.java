@@ -90,7 +90,7 @@ public class dHUD {
                         block.getInt("coordy"),
                         block.getInt("dimw"), block.getInt("dimh"));
             }
-            if(cClientLogic.getUserPlayer() == null &&
+            if(xMain.shellLogic.getUserPlayer() == null &&
                     block.contains("prefabid") && block.isVal("prefabid", sSettings.clientSelectedPrefabId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
                 g2.drawRect(block.getInt("coordx"),
@@ -278,7 +278,7 @@ public class dHUD {
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sSettings.drawplayerarrow) {
-            gPlayer userPlayer = cClientLogic.getUserPlayer();
+            gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
             if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
                 return;
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
@@ -296,7 +296,7 @@ public class dHUD {
     public static void drawPlayerNames(Graphics g) {
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         for(String id : clStateMap.keys()) {
-            gPlayer p = cClientLogic.getPlayerById(id);
+            gPlayer p = xMain.shellLogic.getPlayerById(id);
             if(p == null)
                 continue;
             nState clState = clStateMap.get(id);
@@ -370,7 +370,7 @@ public class dHUD {
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
-            if(cClientLogic.getPlayerById(id) != null) {
+            if(xMain.shellLogic.getPlayerById(id) != null) {
                 Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height / 30, sSettings.height / 30);
                 g.drawImage(sprite, coordx - sSettings.height / 30, coordy - height, null);
             }
@@ -391,12 +391,12 @@ public class dHUD {
     }
 
     public static void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
-        if(uiInterface.inplay && cClientLogic.getUserPlayer() != null) {
+        if(uiInterface.inplay && xMain.shellLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
-                    dx - cClientLogic.getUserPlayer().getInt("coordx")
-                            + cClientLogic.getUserPlayer().getDouble("dimw")/2,
-                    dy - cClientLogic.getUserPlayer().getInt("coordy")
-                            + cClientLogic.getUserPlayer().getDouble("dimh")/2
+                    dx - xMain.shellLogic.getUserPlayer().getInt("coordx")
+                            + xMain.shellLogic.getUserPlayer().getDouble("dimw")/2,
+                    dy - xMain.shellLogic.getUserPlayer().getInt("coordy")
+                            + xMain.shellLogic.getUserPlayer().getDouble("dimh")/2
             };
             g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             int[][] polygondims = new int[][]{

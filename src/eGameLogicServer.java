@@ -30,7 +30,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //init doables
         clientCmdDoables.put("fireweapon",
             new gDoable() {
-                void ex(String id, String cmd) {
+                void exec(String id, String cmd) {
                     xMain.shellLogic.console.ex(cmd);
                     addIgnoringNetCmd(id+",server,",
                             cmd.replaceFirst("fireweapon", "cl_fireweapon"));
@@ -38,7 +38,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         clientCmdDoables.put("setthing", // don't want EVERY setthing on server to be synced, only ones requested here
             new gDoable() {
-                void ex(String id, String cmd) {
+                void exec(String id, String cmd) {
                     xMain.shellLogic.console.ex(cmd);
                     addIgnoringNetCmd("server", "cl_" + cmd);
                 }
@@ -49,7 +49,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }) {
             clientCmdDoables.put(rcs,
                     new gDoable() {
-                        void ex(String id, String cmd) {
+                        void exec(String id, String cmd) {
                             //maybe add this as a net command for the server-only, to avoid concurrency issues
                             xMain.shellLogic.console.ex(cmd);
                         }
@@ -57,7 +57,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         }
         clientCmdDoables.put("deleteplayer",
             new gDoable() {
-                void ex(String id, String cmd) {
+                void exec(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length > 1 && toks[1].equals(id)) //client can only remove itself
                         xMain.shellLogic.console.ex(cmd);
@@ -65,7 +65,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         clientCmdDoables.put("exec",
             new gDoable() {
-                void ex(String id, String cmd) {
+                void exec(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length > 1 && toks[1].startsWith("prefabs/")) //client can only add prefabs
                         xMain.shellLogic.console.ex(cmd);
@@ -73,7 +73,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             });
         clientCmdDoables.put("echo",
             new gDoable() {
-                void ex(String id, String cmd) {
+                void exec(String id, String cmd) {
                     String[] toks = cmd.split(" ");
                     if(toks.length < 3) //only want to allow messages from clients, not any other echo usage
                         return;

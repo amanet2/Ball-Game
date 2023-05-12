@@ -46,10 +46,10 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
                         eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
-        if(showplayer && cClientLogic.getUserPlayer() != null) {
+        if(showplayer && xMain.shellLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
-                    cClientLogic.getUserPlayer().getInt("coordx"),
-                    cClientLogic.getUserPlayer().getInt("coordy")),
+                    xMain.shellLogic.getUserPlayer().getInt("coordx"),
+                    xMain.shellLogic.getUserPlayer().getInt("coordy")),
                     0,10*sSettings.height/64);
         }
         //ingame messages

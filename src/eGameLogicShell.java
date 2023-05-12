@@ -39,7 +39,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             ctr++;
         }
         sSettings.object_titles = thingTypes.toArray(String[]::new);
-        xMain.shellLogic.clientScene = new gScene();
+        clientScene = new gScene();
         serverScene = new gScene();
         uiEditorMenus.previewScene = new gScene();
     }
@@ -70,10 +70,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.serverMaxHP = Integer.parseInt(value);
                 if(sSettings.IS_SERVER) {
                     int newmaxhp = Integer.parseInt(value);
-                    xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
-                    nStateMap cState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
+                    serverNetThread.addIgnoringNetCmd("server", "cl_setvar maxhp " + newmaxhp);
+                    nStateMap cState = new nStateMap(serverNetThread.masterStateSnapshot);
                     for(String clid : cState.keys()) {
-                        xMain.shellLogic.serverNetThread.setClientState(clid, "hp", value);
+                        serverNetThread.setClientState(clid, "hp", value);
                     }
                 }
             }
@@ -88,8 +88,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         serverVars.putArg(new gArg("voteskiplimit", "2") {
             public void onChange() {
                 sSettings.serverVoteSkipLimit = Integer.parseInt(value);
-                if(xMain.shellLogic.serverNetThread != null)
-                    xMain.shellLogic.serverNetThread.checkForVoteSkip();
+                if(serverNetThread != null)
+                    serverNetThread.checkForVoteSkip();
             }
         });
         serverVars.putArg(new gArg("respawnwaittime", Integer.toString(sSettings.serverRespawnDelay)) {
@@ -334,17 +334,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
             clientVars.put("gametimemillis", Long.toString(gameTimeMillis));
             scheduledEvents.executeCommands();
             if(displayPane.frame.isVisible()) {
-                if(cClientLogic.getUserPlayer() != null)
+                if(getUserPlayer() != null)
                    pointPlayerAtMousePointer();
                 else if(sSettings.show_mapmaker_ui)
                     selectThingUnderMouse();
             }
             checkAudio(); //setting to mute game when not in focus?
-            if(cClientLogic.getUserPlayer() != null)
+            if(getUserPlayer() != null)
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
         uiInterface.tickReport = getTickReport();
+    }
+
+    public gPlayer getUserPlayer() {
+        return clientScene.getPlayerById(uiInterface.uuid);
     }
 
     private void checkAudio() {
@@ -361,12 +365,25 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
     }
 
+    public Collection<String> getPlayerIds() {
+        return clientScene.getThingMap("THING_PLAYER").keySet();
+    }
+
+    public int getNewItemIdClient() {
+        int itemId = 0;
+        for(String id : clientScene.getThingMap("THING_ITEM").keySet()) {
+            if(itemId < Integer.parseInt(id))
+                itemId = Integer.parseInt(id);
+        }
+        return itemId+1; //want to be the _next_ id
+    }
+
     private void updateEntityPositions(long gameTimeMillis) {
-        if(sSettings.show_mapmaker_ui && cClientLogic.getUserPlayer() == null)
+        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
             gCamera.updatePosition();
         double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
-        for(String id : cClientLogic.getPlayerIds()) {
-            gPlayer obj = cClientLogic.getPlayerById(id);
+        for(String id : getPlayerIds()) {
+            gPlayer obj = getPlayerById(id);
             if(obj == null)
                 continue;
             String[] requiredFields = new String[]{
@@ -393,9 +410,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     }
                 }
             }
-            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), xMain.shellLogic.clientScene))
+            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
                 dx = obj.getInt("coordx");
-            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, xMain.shellLogic.clientScene))
+            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
                 dy = obj.getInt("coordy");
             if(isUserPlayer(obj))
                 gCamera.put("coords", dx + ":" + dy);
@@ -403,7 +420,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             obj.putInt("coordy", dy);
         }
         try {
-            HashMap<String, gThing> thingMap = xMain.shellLogic.clientScene.getThingMap("THING_BULLET");
+            HashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
             Queue<gThing> checkQueue = new LinkedList<>();
             String[] keys = thingMap.keySet().toArray(new String[0]);
             for (String id : keys) {
@@ -418,7 +435,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
             checkBulletSplashes(gameTimeMillis);
             //popups
-            thingMap = xMain.shellLogic.clientScene.getThingMap("THING_POPUP");
+            thingMap = clientScene.getThingMap("THING_POPUP");
             checkQueue = new LinkedList<>();
             for (String id : thingMap.keySet()) {
                 checkQueue.add(thingMap.get(id));
@@ -440,7 +457,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = xMain.shellLogic.clientScene.getThingMap("THING_BULLET");
+        HashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
         Queue<gThing> checkThings = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);
         for (String id : keys) {
@@ -455,16 +472,16 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     pseeds.add(t);
                 continue;
             }
-            for(String blockId : xMain.shellLogic.clientScene.getThingMapIds("BLOCK_COLLISION")) {
-                gThing bl = xMain.shellLogic.clientScene.getThingMap("BLOCK_COLLISION").get(blockId);
+            for(String blockId : clientScene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = clientScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(t.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(t.get("id"));
                     if(t.isInt("src", gWeapons.launcher))
                         pseeds.add(t);
                 }
             }
-            for(String playerId : cClientLogic.getPlayerIds()) {
-                gPlayer p = cClientLogic.getPlayerById(playerId);
+            for(String playerId : getPlayerIds()) {
+                gPlayer p = getPlayerById(playerId);
                 if(p != null && p.containsFields(new String[]{"coordx", "coordy"})
                         && t.collidesWithThing(p) && !t.get("srcid").equals(playerId)) {
                     bulletsToRemovePlayerMap.put(p, t);
@@ -478,27 +495,33 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 gWeaponsLauncher.createGrenadeExplosion(pseed);
         }
         for(Object bulletId : bulletsToRemoveIds) {
-            xMain.shellLogic.clientScene.getThingMap("THING_BULLET").remove(bulletId);
+            clientScene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            xMain.shellLogic.clientScene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
+            clientScene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
         }
+    }
+
+    public gPlayer getPlayerById(String id) {
+        if(!clientScene.getThingMap("THING_PLAYER").containsKey(id))
+            return null;
+        return (gPlayer) clientScene.getThingMap("THING_PLAYER").get(id);
     }
 
     private void selectThingUnderMouse() {
         if(!sSettings.clientMapLoaded)
             return;
         int[] mc = uiInterface.getMouseCoordinates();
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
+        for(String id : clientScene.getThingMap("THING_ITEM").keySet()) {
+            gThing item = clientScene.getThingMap("THING_ITEM").get(id);
             if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
                 sSettings.clientSelectedItemId = item.get("id");
                 sSettings.clientSelectedPrefabId = "";
                 return;
             }
         }
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
+        for(String id : clientScene.getThingMap("THING_BLOCK").keySet()) {
+            gThing block = clientScene.getThingMap("THING_BLOCK").get(id);
             if(!block.get("type").equals("BLOCK_FLOOR")
                     && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 sSettings.clientSelectedPrefabId = block.get("prefabid");
@@ -506,8 +529,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 return;
             }
         }
-        for(String id : xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").keySet()) {
-            gThing block = xMain.shellLogic.clientScene.getThingMap("BLOCK_FLOOR").get(id);
+        for(String id : clientScene.getThingMap("BLOCK_FLOOR").keySet()) {
+            gThing block = clientScene.getThingMap("BLOCK_FLOOR").get(id);
             if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
                 sSettings.clientSelectedPrefabId = block.get("prefabid");
                 sSettings.clientSelectedItemId = "";
@@ -523,8 +546,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkPlayerFire() {
-        if(cClientLogic.getUserPlayer() != null && iMouse.holdingMouseLeft) {
-            gPlayer player = cClientLogic.getUserPlayer();
+        if(getUserPlayer() != null && iMouse.holdingMouseLeft) {
+            gPlayer player = getUserPlayer();
             if(player.contains("cooldown")) {
                 int weapint = player.getInt("weapon");
                 long gametimemillis = gTime.gameTime;
@@ -537,7 +560,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void pointPlayerAtMousePointer() {
-        gPlayer p = cClientLogic.getUserPlayer();
+        gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
         double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
         double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());

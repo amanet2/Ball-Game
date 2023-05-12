@@ -137,7 +137,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         keys.put("id", uiInterface.uuid);
         keys.put("color", sSettings.clientPlayerColor);
         keys.put("name", sSettings.clientPlayerName);
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
+        gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));

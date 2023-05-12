@@ -6,7 +6,7 @@ public class nStateBallGameClient extends nState {
         map.put("id", "");
         map.putArg(new gArg("color", "blue") {
             public void onChange() {
-                gPlayer p = cClientLogic.getPlayerById(get("id"));
+                gPlayer p = xMain.shellLogic.getPlayerById(get("id"));
                 if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
                 p.put("color", value);
@@ -25,7 +25,7 @@ public class nStateBallGameClient extends nState {
             public void onChange() {
                 if(get("id").equals(uiInterface.uuid))
                     return;
-                gPlayer pl = cClientLogic.getPlayerById(get("id"));
+                gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
                 if(pl == null)
                     return;
                 pl.put("fv", value);
@@ -55,7 +55,7 @@ public class nStateBallGameClient extends nState {
     }
 
     private void setPlayerVal(String key, String val) {
-        gPlayer pl = cClientLogic.getPlayerById(get("id"));
+        gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
         if(pl != null)
             pl.put(key, val);
     }

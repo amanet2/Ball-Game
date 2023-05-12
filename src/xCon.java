@@ -657,7 +657,7 @@ public class xCon {
                 if (toks.length > 2) {
                     String id = toks[1];
                     int weapon = Integer.parseInt(toks[2]);
-                    gWeapons.fromCode(weapon).fireWeapon(cClientLogic.getPlayerById(id), xMain.shellLogic.clientScene);
+                    gWeapons.fromCode(weapon).fireWeapon(xMain.shellLogic.getPlayerById(id), xMain.shellLogic.clientScene);
                     return id + " fired weapon " + weapon;
                 }
                 return "usage: cl_fireweapon <player_id> <weapon_code>";
@@ -1029,7 +1029,7 @@ public class xCon {
                                 int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
-                                        uiEditorMenus.newitemname, cClientLogic.getNewItemId(), ix, iy);
+                                        uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
                                 xMain.shellLogic.clientNetThread.addNetCmd(cmd);
                                 return "put item " + uiEditorMenus.newitemname;
                             }
@@ -1342,7 +1342,7 @@ public class xCon {
                 String[] args = fullCommand.split(" ");
                 if(args.length < 4)
                     return "null";
-                gPlayer p = cClientLogic.getPlayerById(args[1]);
+                gPlayer p = xMain.shellLogic.getPlayerById(args[1]);
                 if(p == null)
                     return "null";
                 p.put("coordx", args[2]);
@@ -1485,7 +1485,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
-                    gPlayer p = cClientLogic.getPlayerById(toks[1]);
+                    gPlayer p = xMain.shellLogic.getPlayerById(toks[1]);
                     if(p == null)
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
@@ -1662,7 +1662,7 @@ public class xCon {
     }
 
     private void playerMoveDelegate(int dir) {
-        gPlayer p = cClientLogic.getUserPlayer();
+        gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "1");
         else if(sSettings.show_mapmaker_ui) {
@@ -1671,7 +1671,7 @@ public class xCon {
     }
 
     private void playerStopMoveDelegate(int dir) {
-        gPlayer p = cClientLogic.getUserPlayer();
+        gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "0");
         gCamera.put("mov" + dir, "0");
