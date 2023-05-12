@@ -343,7 +343,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                             + "SERVER_SEND_" + clientId + " [" + sendDataString.length() + "]: " + sendDataString);
             }
             catch (Exception e) {
-                eLogging.logException(e);
+                xMain.shellLogic.console.logException(e);
                 e.printStackTrace();
             }
         }
@@ -353,7 +353,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             return;
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
         uiInterface.tickReportServer = getTickReport();

@@ -24,7 +24,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             clientSocket.setSoTimeout(500);
         }
         catch (SocketException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
         clientStateMap = new nStateMap();
@@ -98,7 +98,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             return;
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
         uiInterface.tickReportClient = getTickReport();

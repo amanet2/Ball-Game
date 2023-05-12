@@ -22,7 +22,7 @@ public class gExecDoable {
             }
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }

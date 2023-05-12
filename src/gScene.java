@@ -107,7 +107,7 @@ public class gScene {
                 writer.write(str.toString());
             }
         } catch (IOException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
@@ -157,7 +157,7 @@ public class gScene {
                 writer.write(str.toString());
             }
         } catch (IOException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }

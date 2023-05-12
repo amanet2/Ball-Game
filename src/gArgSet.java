@@ -34,7 +34,7 @@ public class gArgSet {
             }
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
@@ -69,7 +69,7 @@ public class gArgSet {
                 writer.write("\n");
             }
         } catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
