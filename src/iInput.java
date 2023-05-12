@@ -21,7 +21,7 @@ public class iInput {
 	}
 
 	public static void processKeyPressInput(int command) {
-	    if(uiInterface.inconsole) {
+	    if(sSettings.inconsole) {
             switch (command) {
                 case KeyEvent.VK_UP -> {
                     xMain.shellLogic.console.prevCommandIndex =
@@ -193,7 +193,7 @@ public class iInput {
 	}
 
 	public static void processKeyReleaseInput(int command) {
-	    if(uiInterface.inconsole) {
+	    if(sSettings.inconsole) {
             switch (command) {
                 case KeyEvent.VK_BACK_QUOTE -> {
                     xMain.shellLogic.console.ex("console");

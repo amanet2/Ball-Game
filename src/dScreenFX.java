@@ -4,7 +4,7 @@ public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
-        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(uiInterface.uuid);
+        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
         if(userState == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
@@ -76,7 +76,7 @@ public class dScreenFX {
             }
         }
         // -- aimer
-        if(uiInterface.inplay) {
+        if(sSettings.inplay) {
             int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
             int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
             int cx = eUtils.unscaleInt(gCamera.getX());

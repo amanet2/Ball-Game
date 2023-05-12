@@ -1,16 +1,6 @@
 import java.awt.MouseInfo;
 
 public class uiInterface {
-    static boolean inplay = false; //must be FALSE for mapmaker to work right
-    static boolean inconsole = false;
-    static int tickReport = 0;
-    static int fpsReport = 0;
-    static int tickReportClient = 0;
-    static int tickReportSimulation = 0;
-    static int tickReportServer = 0;
-    static int frames = 0;
-    static String uuid = eUtils.createId();
-    static boolean hideMouseUI = false;
 
     public static int[] getMouseCoordinates() {
         return new int[]{
@@ -32,7 +22,7 @@ public class uiInterface {
     }
 
     public static synchronized void getUIMenuItemUnderMouse() {
-        if(!hideMouseUI) {
+        if(!sSettings.hideMouseUI) {
             int[] mc = uiInterface.getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
             int[] yBounds = sSettings.displaymode > 0

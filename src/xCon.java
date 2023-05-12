@@ -39,7 +39,7 @@ public class xCon {
 
         commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(!uiInterface.inplay && !sSettings.show_mapmaker_ui) {
+                if(!sSettings.inplay && !sSettings.show_mapmaker_ui) {
                     ex("playsound sounds/tap.wav");
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
@@ -223,7 +223,7 @@ public class xCon {
                 StringBuilder s = new StringBuilder();
                 nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
                 for(String k : svMap.keys()) {
-                    s.append(String.format("%s%s/%s,", k.equals(uiInterface.uuid) ? "*": "",
+                    s.append(String.format("%s%s/%s,", k.equals(sSettings.uuid) ? "*": "",
                             svMap.get(k).get("name"), k));
                 }
                 return s.substring(0, s.length()-1);
@@ -237,7 +237,7 @@ public class xCon {
         });
         commands.put("console", new gDoable() {
             public String doCommand(String fullCommand) {
-                uiInterface.inconsole = !uiInterface.inconsole;
+                sSettings.inconsole = !sSettings.inconsole;
                 return "console";
             }
         });
@@ -401,7 +401,7 @@ public class xCon {
                     xMain.shellLogic.clientNetThread.disconnect();
                     ex("cl_load");
                 }
-                if (uiInterface.inplay)
+                if (sSettings.inplay)
                     ex("pause");
                 return fullCommand;
             }
@@ -919,7 +919,7 @@ public class xCon {
         });
         commands.put("gobackui", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(uiInterface.inplay)
+                if(sSettings.inplay)
                     ex("pause");
                 else {
                     if(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0) {
@@ -993,7 +993,7 @@ public class xCon {
         commands.put("mouseleft", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(xMain.shellLogic.displayPane.frame.hasFocus()) {
-                    if (uiInterface.inplay)
+                    if (sSettings.inplay)
                         iMouse.holdingMouseLeft = true;
                     else {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
@@ -1052,15 +1052,15 @@ public class xCon {
         });
         commands.put("pause", new gDoable() {
             public String doCommand(String fullCommand) {
-                uiInterface.inplay = !uiInterface.inplay;
+                sSettings.inplay = !sSettings.inplay;
                 xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                if(uiInterface.inplay) {
+                if(sSettings.inplay) {
                     xMain.shellLogic.displayPane.frame.setCursor(xMain.shellLogic.displayPane.blankCursor);
                     if(sSettings.show_mapmaker_ui)
-                        xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + uiInterface.uuid);
+                        xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + sSettings.uuid);
                 }
                 else if(sSettings.show_mapmaker_ui)
-                    xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + uiInterface.uuid);
+                    xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + sSettings.uuid);
                 return fullCommand;
             }
         });
@@ -1259,8 +1259,8 @@ public class xCon {
         commands.put("selectdown", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerdown");
-                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
-                    uiInterface.hideMouseUI = true;
+                if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
+                    sSettings.hideMouseUI = true;
                     uiMenus.nextItem();
                 }
                 return fullCommand;
@@ -1269,7 +1269,7 @@ public class xCon {
         commands.put("selectleft", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerleft");
-                if((!sSettings.show_mapmaker_ui && !uiInterface.inplay) &&
+                if((!sSettings.show_mapmaker_ui && !sSettings.inplay) &&
                         !(uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu < 0))
                     uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                 return fullCommand;
@@ -1278,7 +1278,7 @@ public class xCon {
         commands.put("selectright", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerright");
-                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
+                if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
                     ex("playsound sounds/splash.wav");
@@ -1289,8 +1289,8 @@ public class xCon {
         commands.put("selectup", new gDoable() {
             public String doCommand(String fullCommand) {
                 ex("playerup");
-                if(!sSettings.show_mapmaker_ui && !uiInterface.inplay) {
-                    uiInterface.hideMouseUI = true;
+                if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
+                    sSettings.hideMouseUI = true;
                     uiMenus.prevItem();
                 }
                 return fullCommand;

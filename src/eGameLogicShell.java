@@ -355,11 +355,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 checkPlayerFire();
             updateEntityPositions(gameTimeMillis);
         }
-        uiInterface.tickReport = getTickReport();
+        sSettings.tickReport = getTickReport();
     }
 
     public gPlayer getUserPlayer() {
-        return clientScene.getPlayerById(uiInterface.uuid);
+        return clientScene.getPlayerById(sSettings.uuid);
     }
 
     private void checkAudio() {
@@ -553,7 +553,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private boolean isUserPlayer(gPlayer player) {
-        return player.isVal("id", uiInterface.uuid);
+        return player.isVal("id", sSettings.uuid);
     }
 
     private void checkPlayerFire() {
@@ -563,7 +563,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 int weapint = player.getInt("weapon");
                 long gametimemillis = sSettings.gameTime;
                 if(player.getLong("cooldown") <= gametimemillis) {
-                    clientNetThread.addNetCmd(String.format("fireweapon %s %d", uiInterface.uuid, weapint));
+                    clientNetThread.addNetCmd(String.format("fireweapon %s %d", sSettings.uuid, weapint));
                     player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
                 }
             }
@@ -588,8 +588,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         displayPane.frame.repaint();
         long gameTimeMillis = sSettings.gameTime;
         if (frameCounterTime < gameTimeMillis) {
-            uiInterface.fpsReport = uiInterface.frames;
-            uiInterface.frames = 0;
+            sSettings.fpsReport = sSettings.frames;
+            sSettings.frames = 0;
             frameCounterTime = gameTimeMillis + 1000;
         }
     }

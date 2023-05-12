@@ -23,7 +23,7 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
-                if(get("id").equals(uiInterface.uuid))
+                if(get("id").equals(sSettings.uuid))
                     return;
                 gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
                 if(pl == null)

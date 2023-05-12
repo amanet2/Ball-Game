@@ -20,15 +20,15 @@ public class dScreenMessages {
             g.drawString("ZOOM:" + sSettings.zoomLevel, 0, sSettings.height / 64);
         //fps
         if(showfps)
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);
+            g.drawString("FPS:" + sSettings.fpsReport, 0, 2*sSettings.height / 64);
         //client
         if(showtick)
-            g.drawString("SHELL:" + uiInterface.tickReport, 0, 3 * sSettings.height / 64);
+            g.drawString("SHELL:" + sSettings.tickReport, 0, 3 * sSettings.height / 64);
         //net
         if(shownet) {
-            g.drawString("CLIENT_NET:" + uiInterface.tickReportClient, 0, 4 * sSettings.height / 64);
-            g.drawString("SERVER_NET:" + uiInterface.tickReportServer, 0, 5 * sSettings.height / 64);
-            g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 6 * sSettings.height / 64);
+            g.drawString("CLIENT_NET:" + sSettings.tickReportClient, 0, 4 * sSettings.height / 64);
+            g.drawString("SERVER_NET:" + sSettings.tickReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("SIMULATION:" + sSettings.tickReportSimulation, 0, 6 * sSettings.height / 64);
             g.drawString("PING:" + sSettings.clientPing, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
@@ -54,12 +54,12 @@ public class dScreenMessages {
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
-        if(uiInterface.inplay) {
+        if(sSettings.inplay) {
             dHUD.drawHUD(g);
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay && sSettings.clientMapLoaded) {
+        if(sSettings.inplay && sSettings.clientMapLoaded) {
             dFonts.drawRightJustifiedString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
                     29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
@@ -73,7 +73,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         //menus
-        if(!uiInterface.inplay) {
+        if(!sSettings.inplay) {
             if(!sSettings.show_mapmaker_ui) {
                 dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
@@ -119,7 +119,7 @@ public class dScreenMessages {
         }
         //console
         dFonts.setFontConsole(g);
-        if(uiInterface.inconsole) {
+        if(sSettings.inconsole) {
             dFonts.setFontColor(g, "clrf_scoreboardbg");
             g.fillRect(0,0,sSettings.width,sSettings.height);
             dFonts.setFontColor(g, "clrf_console");

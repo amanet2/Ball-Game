@@ -101,7 +101,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
-        uiInterface.tickReportClient = getTickReport();
+        sSettings.tickReportClient = getTickReport();
     }
 
     public void addNetCmd(String cmd) {
@@ -134,7 +134,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
-        keys.put("id", uiInterface.uuid);
+        keys.put("id", sSettings.uuid);
         keys.put("color", sSettings.clientPlayerColor);
         keys.put("name", sSettings.clientPlayerName);
         gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
@@ -181,6 +181,6 @@ public class eGameLogicClient extends eGameLogicAdapter {
         sSettings.IS_CLIENT = false;
         xMain.shellLogic.clientNetThread = null;
         clientSocket.close();
-        uiInterface.tickReportClient = 0;
+        sSettings.tickReportClient = 0;
     }
 }

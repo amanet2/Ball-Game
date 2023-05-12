@@ -356,7 +356,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
-        uiInterface.tickReportServer = getTickReport();
+        sSettings.tickReportServer = getTickReport();
     }
 
     @Override
@@ -372,6 +372,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         sSettings.IS_SERVER = false;
         serverSocket.close();
         xMain.shellLogic.serverNetThread = null;
-        uiInterface.tickReportServer = 0;
+        sSettings.tickReportServer = 0;
     }
 }

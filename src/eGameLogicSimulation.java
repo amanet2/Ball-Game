@@ -29,7 +29,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
-        uiInterface.tickReportSimulation = getTickReport();
+        sSettings.tickReportSimulation = getTickReport();
     }
 
     private void checkGameItems() {
@@ -192,6 +192,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     @Override
     public void cleanup() {
         super.cleanup();
-        uiInterface.tickReportSimulation = 0;
+        sSettings.tickReportSimulation = 0;
     }
 }

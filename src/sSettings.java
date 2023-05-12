@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class sSettings {
     // sources
 	static String CONFIG_FILE_LOCATION_SERVER = "config/server";
@@ -81,4 +83,14 @@ public class sSettings {
 	static int clientPing = 0;
 	static long clientTimeLeft = 120000;
     static long gameTime = System.currentTimeMillis();
+    static boolean inplay = false; //must be FALSE for mapmaker to work right
+    static boolean inconsole = false;
+    static int tickReport = 0;
+    static int fpsReport = 0;
+    static int tickReportClient = 0;
+    static int tickReportSimulation = 0;
+    static int tickReportServer = 0;
+    static int frames = 0;
+    static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
+    static boolean hideMouseUI = false;
 }

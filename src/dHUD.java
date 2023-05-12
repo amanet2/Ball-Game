@@ -12,7 +12,7 @@ public class dHUD {
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
-        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(uiInterface.uuid);
+        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
         if(userState == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
@@ -29,9 +29,9 @@ public class dHUD {
         dFonts.setFontNormal(g);
         //score
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-        if(clStateMap.contains(uiInterface.uuid) && clStateMap.get(uiInterface.uuid).contains("score")) {
+        if(clStateMap.contains(sSettings.uuid) && clStateMap.get(sSettings.uuid).contains("score")) {
             g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g.drawString("$ "+ clStateMap.get(uiInterface.uuid).get("score").split(":")[1],
+            g.drawString("$ "+ clStateMap.get(sSettings.uuid).get("score").split(":")[1],
                     sSettings.width / 64, 58*sSettings.height/64);
         }
         dFonts.setFontColor(g, "clrf_normaldark");
@@ -42,7 +42,7 @@ public class dHUD {
         dFonts.setFontSmall(g);
         int ctr = 1;
         for (String id : clStateMap.keys()) {
-            if(id.equals(uiInterface.uuid))
+            if(id.equals(sSettings.uuid))
                 continue;
             dFonts.setFontColor(g, "clrf_normaldark");
             String color = "blue";
@@ -146,7 +146,7 @@ public class dHUD {
             dFonts.setFontGNormal(g2);
             g2.setColor(gColors.getColorFromName("clrp_" + cs));
             g2.drawString(nm, Integer.parseInt(pxs), Integer.parseInt(pys));
-            if(id.equals(uiInterface.uuid)) { //draw arrow over our own preview box
+            if(id.equals(sSettings.uuid)) { //draw arrow over our own preview box
                 Polygon pg = getPolygon(Integer.parseInt(pxs), Integer.parseInt(pys) - 200);
                 Color color = gColors.getColorFromName("clrp_" + cs);
                 g2.setStroke(dFonts.thickStroke);
@@ -279,7 +279,7 @@ public class dHUD {
     public static void drawUserPlayerArrow(Graphics2D g2) {
         if(sSettings.drawplayerarrow) {
             gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
-            if(userPlayer == null || (sSettings.show_mapmaker_ui && !uiInterface.inplay))
+            if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
                 return;
             int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
             int coordy = userPlayer.getInt("coordy") - 200;
@@ -359,7 +359,7 @@ public class dHUD {
         int prevscore = -1;
         boolean isMe = false;
         for(String id : sortedScoreIds.toString().split(",")) {
-            if(id.equals(uiInterface.uuid))
+            if(id.equals(sSettings.uuid))
                 isMe = true;
             if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) < prevscore)
                 place++;
@@ -391,7 +391,7 @@ public class dHUD {
     }
 
     public static void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
-        if(uiInterface.inplay && xMain.shellLogic.getUserPlayer() != null) {
+        if(sSettings.inplay && xMain.shellLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - xMain.shellLogic.getUserPlayer().getInt("coordx")
                             + xMain.shellLogic.getUserPlayer().getDouble("dimw")/2,
@@ -449,10 +449,10 @@ public class dHUD {
     }
 
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
-        if(uiInterface.inplay) {
+        if(sSettings.inplay) {
             // players
             for(String id : scene.getThingMapIds("THING_PLAYER")) {
-                if(id.equals(uiInterface.uuid))
+                if(id.equals(sSettings.uuid))
                     continue;
                 gPlayer wpPlayer = scene.getPlayerById(id);
                 if(wpPlayer == null)
