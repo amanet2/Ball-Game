@@ -999,7 +999,7 @@ public class xCon {
                         if(sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
                             int[] mc = uiInterface.getMouseCoordinates();
                             if(sSettings.clientNewPrefabName.length() > 0) {
-                                int[] pfd = dMapmakerOverlay.getNewPrefabDims();
+                                int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
                                 int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - w / 2,
@@ -1829,8 +1829,7 @@ public class xCon {
     public void log(String s) {
         if(s.length() > charlimit()) {
             stringLines.add(s.substring(0, charlimit()));
-            for(int i = charlimit(); i < s.length();
-                i+= charlimit()) {
+            for(int i = charlimit(); i < s.length(); i+= charlimit()) {
                 int lim = Math.min(s.length(), i+ charlimit());
                 stringLines.add(s.substring(i,lim));
             }

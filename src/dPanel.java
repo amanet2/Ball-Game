@@ -25,8 +25,8 @@ public class dPanel extends JPanel {
         dScreenFX.drawScreenFX(g2);
         dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
         if(!uiInterface.inplay && sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
-            dBlockFloors.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
-            dBlockTops.drawBlockTopCubesPreview(g2);
+            dThings.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
+            dThings.drawBlockTopCubesPreview(g2);
         }
         gMessages.checkMessages();
     }
@@ -43,16 +43,16 @@ public class dPanel extends JPanel {
             ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
         g2.translate(-gCamera.getX(), -gCamera.getY());
-        dBlockFloors.drawBlockFloors(g2, scene);
-        dBlockWalls.drawBlockWallsAndPlayers(g2, scene);
-        dTileTops.drawMapmakerOverlay(g2, scene);
-        dTileTops.drawBulletsAndAnimations(g2, scene);
-        dWaypoints.drawWaypoints(g2, scene);
-        dTileTops.drawPopups(g2, scene);
-        dTileTops.drawUserPlayerArrow(g2);
-        dTileTops.drawPlayerNames(g2);
+        dThings.drawBlockFloors(g2, scene);
+        dThings.drawBlockWallsAndPlayers(g2, scene);
+        dHUD.drawMapmakerOverlay(g2, scene);
+        dHUD.drawBulletsAndAnimations(g2, scene);
+        dHUD.drawWaypoints(g2, scene);
+        dHUD.drawPopups(g2, scene);
+        dHUD.drawUserPlayerArrow(g2);
+        dHUD.drawPlayerNames(g2);
         if(sSettings.show_mapmaker_ui)
-            dMapmakerOverlay.drawSelectionBoxes(g2);
+            dHUD.drawSelectionBoxes(g2);
     }
 
     public dPanel() {

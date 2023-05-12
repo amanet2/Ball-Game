@@ -165,7 +165,7 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         //scoreboard
         if(showscore)
-            dScoreboard.showScoreBoard(g);
+            dHUD.showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && gTime.gameTime % 1000 < 500)
             dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);

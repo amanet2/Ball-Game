@@ -1,6 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
@@ -93,5 +91,14 @@ public class dScreenFX {
             g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
+    }
+
+    public static void drawFlareFromColor(Graphics2D g2, int x, int y, int w, int h, int mode, Color c1, Color c2) {
+        RadialGradientPaint df = new RadialGradientPaint(new Point(x + w/2, y + h/2),
+                mode == 1 ? Math.max(w/2, h/2) : Math.min(w/2, h/2),
+                new float[]{0f, 1f}, new Color[]{c1, c2}
+        );
+        g2.setPaint(df);
+        g2.fillRect(x, y, w, h);
     }
 }

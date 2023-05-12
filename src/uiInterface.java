@@ -23,7 +23,7 @@ public class uiInterface {
 
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
-        int[] fabdims = dMapmakerOverlay.getNewPrefabDims();
+        int[] fabdims = dHUD.getNewPrefabDims();
         int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+gCamera.getX() - fabdims[0]/2,
                 uiEditorMenus.snapToX);
         int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+gCamera.getY() - fabdims[1]/2,
