@@ -4,4 +4,3 @@ cd %~dp0..\pkg
 jar cmf MANIFEST.MF BALL_GAME.jar *.class
 del *.class
 cd %~dp0
-REM pause
