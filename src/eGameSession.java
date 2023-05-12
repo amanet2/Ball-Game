@@ -36,7 +36,7 @@ public class eGameSession extends Thread implements Runnable {
                     }
                 }
             }
-            System.out.println("SESSION LOOP EXITED " + gameLogic.toString());
+            System.out.println("SESSION LOOP EXITED " + gameLogic);
         }
         catch (Exception err) {
             err.printStackTrace();

@@ -152,15 +152,15 @@ public class xCon {
                     long starttime = sSettings.gameTime;
                     for (long t = starttime + 1000; t <= starttime + sSettings.serverTimeLimit; t += 1000) {
                         long lastT = t;
-                        xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gTimeEvent() {
-                            public void doCommand() {
+                        xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(t), new gDoable() {
+                            public void exec() {
                                 if (sSettings.serverTimeLimit > 0)
                                     sSettings.serverTimeLeft =  Math.max(0, (starttime + sSettings.serverTimeLimit) - lastT);
                             }
                         });
                     }
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gTimeEvent() {
-                        public void doCommand() {
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + sSettings.serverTimeLimit), new gDoable() {
+                        public void exec() {
                             //select winner and run postgame script
                             String winid = gScoreboard.getWinnerId();
                             if (!winid.equalsIgnoreCase("null")) {
@@ -1246,8 +1246,8 @@ public class xCon {
                 String actStr = act.substring(1);
                 synchronized (xMain.shellLogic.serverSimulationThread.scheduledEvents.events) {
                     xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
-                            new gTimeEvent() {
-                                public void doCommand() {
+                            new gDoable() {
+                                public void exec() {
                                     ex(actStr);
                                 }
                             }
@@ -1425,7 +1425,7 @@ public class xCon {
                                 new gAnimationEmitter(animcode, x, y));
                         gAnimation anim = gAnimations.animation_selection[animcode];
                         xMain.shellLogic.scheduledEvents.put(
-                                Long.toString(sSettings.gameTime + anim.frames.length*anim.framerate), new gTimeEvent() {
+                                Long.toString(sSettings.gameTime + anim.frames.length*anim.framerate), new gDoable() {
                                     public void doCommand() {
                                         xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(aid);
                                     }
@@ -1495,8 +1495,8 @@ public class xCon {
                                     p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
                                     msg, 0.0));
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
-                            new gTimeEvent() {
-                                public void doCommand() {
+                            new gDoable() {
+                                public void exec() {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });

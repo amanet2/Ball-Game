@@ -1,5 +1,6 @@
 public class gDoable {
     public void exec() {
+        //do nothing
     }
 
     public boolean check() {
@@ -7,7 +8,7 @@ public class gDoable {
     }
 
     void exec(String id, String cmd) {
-        //sub-class and do stuff here
+        // do nothing
     }
 
     public gThing getThing(String[] args) {

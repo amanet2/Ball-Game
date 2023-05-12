@@ -2,11 +2,11 @@ import java.util.*;
 
 public class eGameLogicSimulation extends eGameLogicAdapter {
     private final Queue<String> cmdQueue; //local cmd queue for server
-    final gTimeEventSet scheduledEvents;
+    final gScheduler scheduledEvents;
 
     public eGameLogicSimulation() {
         cmdQueue = new LinkedList<>();
-        scheduledEvents = new gTimeEventSet();
+        scheduledEvents = new gScheduler();
     }
 
     public void addLocalCmd(String cmd) {

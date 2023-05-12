@@ -3,9 +3,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class gTimeEventSet {
-    protected final ConcurrentHashMap<String, Queue<gTimeEvent>> events;
-    protected Queue<gTimeEvent> eventQueue;
+public class gScheduler {
+    protected final ConcurrentHashMap<String, Queue<gDoable>> events;
+    protected Queue<gDoable> eventQueue;
 
     private void dequeueCommands() {
         long gtime = sSettings.gameTime;
@@ -26,14 +26,14 @@ public class gTimeEventSet {
     public void executeCommands() {
         dequeueCommands();
         while (eventQueue.size() > 0) {
-            gTimeEvent event = eventQueue.peek();
-            event.doCommand();
+            gDoable event = eventQueue.peek();
+            event.exec();
             if(eventQueue.size() > 0)
                 eventQueue.remove();
         }
     }
 
-    public void put(String key, gTimeEvent event) {
+    public void put(String key, gDoable event) {
         if(!events.containsKey(key))
             events.put(key, new LinkedList<>());
         events.get(key).add(event);
@@ -44,7 +44,7 @@ public class gTimeEventSet {
         eventQueue.clear();
     }
 
-    public gTimeEventSet() {
+    public gScheduler() {
         events = new ConcurrentHashMap<>();
         eventQueue = new LinkedList<>();
     }

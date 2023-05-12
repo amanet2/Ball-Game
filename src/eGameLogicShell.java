@@ -14,7 +14,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     xCon console;
     gScene serverScene;
     gScene clientScene;
-    gTimeEventSet scheduledEvents;
+    gScheduler scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
     eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
@@ -27,7 +27,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         blockFactory = new gBlockFactory();
         displayPane = new oDisplay();
         console = new xCon();
-        scheduledEvents = new gTimeEventSet();
+        scheduledEvents = new gScheduler();
     }
 
     private void initGameObjectsAndScenes() {
