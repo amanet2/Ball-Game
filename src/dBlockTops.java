@@ -18,25 +18,26 @@ public class dBlockTops {
         for(String tag : squareMap.keySet()) {
             gThing block = squareMap.get(tag);
             if(block.contains("wallh")) {
-                dBlockWalls.drawBlockWallCubePreview(g2, block);
+                dFonts.setFontColor(g2, "clrw_wallcolorpreview");
+                g2.fillRect(eUtils.scaleInt(block.getX()/4),
+                        eUtils.scaleInt(block.getY()/4+ block.getInt("toph")/4),
+                        eUtils.scaleInt(block.getWidth()/4),
+                        eUtils.scaleInt(block.getInt("wallh")/4)
+                );
             }
         }
         for(String tag : squareMap.keySet()) {
             gThing block = squareMap.get(tag);
             if(block.contains("toph")) {
-                dBlockTops.drawBlockTopCubePreview(g2, block);
+                dFonts.setFontColor(g2, "clrw_topcolorpreview");
+                g2.fillRect(
+                        eUtils.scaleInt(block.getX()/4),
+                        eUtils.scaleInt(block.getY()/4),
+                        eUtils.scaleInt(block.getWidth()/4),
+                        eUtils.scaleInt(block.getInt("toph")/4)
+                );
             }
         }
-    }
-
-    public static void drawBlockTopCubePreview(Graphics2D g2, gThing block) {
-        dFonts.setFontColor(g2, "clrw_topcolorpreview");
-        g2.fillRect(
-                eUtils.scaleInt(block.getX()/4),
-                eUtils.scaleInt(block.getY()/4),
-                eUtils.scaleInt(block.getWidth()/4),
-                eUtils.scaleInt(block.getInt("toph")/4)
-        );
     }
 
     public static void drawBlockTopShadingCube(Graphics2D g2, gThing block) {

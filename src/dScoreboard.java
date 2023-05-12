@@ -1,7 +1,10 @@
 import java.awt.*;
 
 public class dScoreboard {
+    private static final String dividerString = "_______________________";
     public static void showScoreBoard(Graphics g) {
+        if(!sSettings.IS_CLIENT)
+            return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
@@ -13,7 +16,7 @@ public class dScoreboard {
                 sSettings.width/3,5*sSettings.height/30);
         g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
         g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
-        g.drawString("_______________________",
+        g.drawString(dividerString,
                 sSettings.width/3, 11*sSettings.height/60);
 
         StringBuilder sortedScoreIds = new StringBuilder();
@@ -38,28 +41,25 @@ public class dScoreboard {
         int prevscore = -1;
         boolean isMe = false;
         for(String id : sortedScoreIds.toString().split(",")) {
-            String spectatorstring = "";
-            if(cClientLogic.getPlayerById(id) == null)
-                spectatorstring = "[SPECTATE] ";
-            if(id.equals(uiInterface.uuid)) {
+            if(id.equals(uiInterface.uuid))
                 isMe = true;
-            }
             if(Integer.parseInt(clStateMap.get(id).get("score").split(":")[1]) < prevscore)
                 place++;
-            String hudName = String.format("%s%d. ", spectatorstring, place) + clStateMap.get(id).get("name");
-            int coordx = sSettings.width/3 - dFonts.getStringWidth(g, spectatorstring);
+            String hudName = place + "." + clStateMap.get(id).get("name");
+            int coordx = sSettings.width/3;
             int coordy = 7 * sSettings.height / 30 + ctr * sSettings.height / 30;
             int height = sSettings.height / 30;
-            String spaceStringA = "                                       ";
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
-            dFonts.drawPlayerNameHud(g, hudName, coordx, coordy, color);
-            Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height/30, sSettings.height/30);
-            g.drawImage(sprite, coordx - dFonts.getStringWidth(g, hudName)/2 - sSettings.height/30, coordy - height, null);
+            dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
+            if(cClientLogic.getPlayerById(id) != null) {
+                Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height / 30, sSettings.height / 30);
+                g.drawImage(sprite, coordx - sSettings.height / 30, coordy - height, null);
+            }
             g.setColor(color);
             if(isMe)
-                g.drawRect(coordx - dFonts.getStringWidth(g, hudName)/2, coordy - height,
-                        dFonts.getStringWidth(g, hudName + spaceStringA + "  "), dFonts.getStringHeight(g, hudName));
+                g.drawRect(coordx, coordy - height,
+                        dFonts.getStringWidth(g, dividerString), dFonts.getStringHeight(g, hudName));
             g.drawString("                           "
                             + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
             g.drawString("                                       "

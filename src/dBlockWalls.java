@@ -15,32 +15,17 @@ public class dBlockWalls {
                 if(thing.get("type").contains("CUBE")) {
                     if (thing.contains("wallh")) {
                         dBlockShadows.drawShadowBlockFlat(g2, (gBlock) thing);
-                        drawBlockWallCube(g2, thing);
+                        if (thing.contains("wallh")) {
+                            g2.setPaint(xMain.shellLogic.blockFactory.wallTexture);
+                            g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
+                                    thing.getWidth(), thing.getInt("wallh")
+                            );
+                            drawBlockWallsShadingFlat(g2, thing);
+                        }
                         dBlockTops.drawBlockTopCube(g2, thing);
                     }
                 }
             }
-        }
-    }
-
-    public static void drawBlockWallCube(Graphics2D g2, gThing block) {
-        if (block.contains("wallh")) {
-            g2.setPaint(xMain.shellLogic.blockFactory.wallTexture);
-            g2.fillRect(block.getX(), block.getY() + block.getInt("toph"),
-                        block.getWidth(), block.getInt("wallh")
-            );
-            drawBlockWallsShadingFlat(g2, block);
-        }
-    }
-
-    public static void drawBlockWallCubePreview(Graphics2D g2, gThing block) {
-        if (block.contains("wallh")) {
-            dFonts.setFontColor(g2, "clrw_wallcolorpreview");
-            g2.fillRect(eUtils.scaleInt(block.getX()/4),
-                        eUtils.scaleInt(block.getY()/4+ block.getInt("toph")/4),
-                        eUtils.scaleInt(block.getWidth()/4),
-                        eUtils.scaleInt(block.getInt("wallh")/4)
-            );
         }
     }
 

@@ -18,12 +18,12 @@ public class dItems {
                         Integer.parseInt(flareToks[2]),
                         Integer.parseInt(flareToks[3])
                 };
-                dFlares.drawFlare(g2,
+                dFlares.drawFlareFromColor(g2,
                         item.getInt("coordx") - item.getInt("dimw")/2,
                         item.getInt("coordy") - item.getInt("dimh")/2,
                         item.getInt("dimw")*2,
                         item.getInt("dimh")*2,
-                        1, new int[]{flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]}, new int[4]
+                        1, new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]), new Color(0,0,0,0)
                 );
             }
         }

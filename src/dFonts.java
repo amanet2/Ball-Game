@@ -45,6 +45,13 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
+    public static void drawPlayerNameScoreboard(Graphics g, String s, int x, int y, Color color) {
+        g.setColor(Color.BLACK);
+        g.drawString(s,x+3,y+3);
+        g.setColor(color);
+        g.drawString(s,x,y);
+    }
+
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth(),y);
     }

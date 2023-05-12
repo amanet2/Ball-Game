@@ -13,17 +13,11 @@ public class dWaypoints {
             };
             g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             int[][] polygondims = new int[][]{
-                    new int[]{
-                            dx - eUtils.unscaleInt(sSettings.height / 16),
-                            dx,
-                            dx + eUtils.unscaleInt(sSettings.height / 16),
-                            dx
+                    new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
+                            dx + eUtils.unscaleInt(sSettings.height / 16), dx
                     },
-                    new int[]{
-                            dy,
-                            dy - eUtils.unscaleInt(sSettings.height / 16),
-                            dy,
-                            dy + eUtils.unscaleInt(sSettings.height / 16)
+                    new int[]{dy, dy - eUtils.unscaleInt(sSettings.height / 16),
+                            dy, dy + eUtils.unscaleInt(sSettings.height / 16)
                     }
             };
             g2.fillPolygon(polygondims[0], polygondims[1], 4);

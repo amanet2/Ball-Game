@@ -11,14 +11,8 @@ public class dTileTops {
             dFonts.setFontColor(g2, "clrf_mapmakergrid");
             g2.setStroke(dFonts.defaultStroke);
             for(int i = -12000; i <= 12000; i+=300) {
-                g2.drawLine(-12000,
-                        i,
-                        12000,
-                        i);
-                g2.drawLine(i,
-                        -12000,
-                        i,
-                        12000);
+                g2.drawLine(-12000, i, 12000, i);
+                g2.drawLine(i, -12000, i, 12000);
             }
         }
         //draw hitboxes
@@ -39,12 +33,7 @@ public class dTileTops {
                     continue;
                 int x1 = player.getInt("coordx");
                 int y1 = player.getInt("coordy");
-                g2.drawRect(
-                        x1,
-                        y1,
-                        player.getInt("dimw"),
-                        player.getInt("dimh")
-                );
+                g2.drawRect(x1, y1, player.getInt("dimw"), player.getInt("dimh"));
             }
         }
     }
