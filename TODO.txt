@@ -1,3 +1,5 @@
+* TWO COMMITS TANGHLED UP
+    -> on target: git config pull.rebase true && git pull && git config pull.rebase falseiii
 * SCRIPT: make an console doable like batch script "REM"
 * BUILD: see output of intellij application
 * BUILD: current steps
