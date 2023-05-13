@@ -7,6 +7,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
@@ -1109,7 +1110,7 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length > 1 && sSettings.audioenabled) {
-                    AudioClip soundClip = new AudioClip(getClass().getResource(eManager.getPath(toks[1])).toString());
+                    AudioClip soundClip = new AudioClip(Paths.get(eManager.getPath(toks[1])).toUri().toString());
                     if(toks.length > 2) {
                         int cycs = Integer.parseInt(toks[2]);
                         soundClip.setCycleCount(cycs);
