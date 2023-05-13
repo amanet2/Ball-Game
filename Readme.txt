@@ -1,6 +1,9 @@
 ## Ball-Game
+Getting Started
+* Go to the folder "pkg"
+* Double-Click "run_game.bat"
 ---
-Starting a New Game
+Hosting a Game
 * From the home screen, select 'New Game'
 * Select the map you want to play first. Following maps are randomized
 * Select "- Start -" to start the server
