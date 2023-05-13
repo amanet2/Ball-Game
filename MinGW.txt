@@ -1,7 +1,0 @@
-1. Use mingw gui to install packages(MinGW\libexec\mingw-get\guimain.exe)
-2. Under "Basic Setup" tick "mingw32-base-bin"
-3. Installion -> Apply Changes
-4. Be patient, it takes an uncomfortable amount of time
-5. Edit environment SYSTEM path variable to include "<drive>:\MinGW\bin"
-
-* Helpful article: http://www.codebind.com/cprogramming/install-mingw-windows-10-gcc/
