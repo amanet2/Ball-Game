@@ -1,3 +1,5 @@
+* SCRIPT: make an console doable like batch script "REM"
+* BUILD: see output of intellij application
 * BUILD: current steps
     -> create folder \pkg_ballmaster
     -> copy \Ball-Game\bin\*, \Ball-Game\pkg\*, and \Ball-Game\readme.txt -> \pkg_ballmaster
