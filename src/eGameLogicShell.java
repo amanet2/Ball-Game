@@ -1,6 +1,5 @@
-import javafx.scene.media.AudioClip;
-
 import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -9,7 +8,7 @@ import java.util.*;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
-    ArrayList<AudioClip> audioClips;
+    ArrayList<Clip> soundClips;
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
@@ -26,7 +25,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint topTexture;
 
     public eGameLogicShell() throws IOException {
-        audioClips = new ArrayList<>();
+        soundClips = new ArrayList<>();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
@@ -142,7 +141,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
                 if(!sSettings.audioenabled) {
-                    for(AudioClip c : audioClips) {
+//                    for(AudioClip c : audioClips) {
+//                        c.stop();
+//                    }
+                    for(Clip c : soundClips) {
                         c.stop();
                     }
                 }
@@ -364,14 +366,16 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     private void checkAudio() {
         //TODO: fix concurrency issues here
-        if(audioClips.size() > 0){
-            ArrayList<AudioClip> tr = new ArrayList<>();
-            for (AudioClip c : audioClips) {
-                if (!c.isPlaying())
+        if(soundClips.size() > 0){
+            ArrayList<Clip> tr = new ArrayList<>();
+            for (Clip c : soundClips) {
+                if (!c.isActive()) {
                     tr.add(c);
+                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c.toString());
+                }
             }
-            for (AudioClip c : tr) {
-                audioClips.remove(c);
+            for (Clip c : tr) {
+                soundClips.remove(c);
             }
         }
     }

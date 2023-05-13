@@ -1,22 +1,16 @@
-* TWO COMMITS TANGHLED UP
+* ENGINE: got to redo sound stuff
+    -> make a hashmap to hold the loaded audio files
+        -> on init()
+    -> have to reimplement volume and panning
+* TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
 * SCRIPT: make an console doable like batch script "REM"
-* BUILD: see output of intellij application
 * BUILD: current steps
-    -> create folder \pkg_ballmaster
-    -> copy \Ball-Game\bin\*, \Ball-Game\pkg\*, and \Ball-Game\readme.txt -> \pkg_ballmaster
-    -> remove manifest and batch scripts from \pkg_ballmaster\pkg
-    -> move all files from \pkg_ballmaster\pkg into root of \pkg_ballmaster (remove extra pkg dir)
-    -> use launch4j to create the exes
-    -> be sure to update ballmaster.xml
-* BUILD: after seeing how launch4j works, rethink workflow
-    -> for example, in building our jars, we can reference the "lib" folder of javafx instead of that other lib folder
-    -> with launch4j we don't need a batch script to launch jar, and dont need .c code to compile into exe wrapper
-        -> howerver we can keep this stuff as a backup workflow
-            -> create legacy folder or something
-        -> also its worth having our own wrapper system in case launch4j aint around
-            -> try getting rid of the intermediary batch script anyway
-    -> should focus on windows platform for now
+    -> compile java into .class files
+    -> jar archive these files
+    -> call jar with jdk java
+    -> move all pkg and bin files into a dir for distributing
+    -> Executing: .exe that calls java (.c or launch4j) -OR- .bat that calls java
 * GAMETYPE: flags spawn on random points and players have to carry the flags to a scorepoint to get points
     -> new item: remove flag state and decoration on intersection, give point (if they have flag)
 * ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo

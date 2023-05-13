@@ -1,5 +1,6 @@
-import javafx.scene.media.AudioClip;
-
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -7,7 +8,6 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
@@ -1108,33 +1108,38 @@ public class xCon {
         commands.put("playsound", new gDoable() {
             final double sfxrange = 1800.0;
             public String doCommand(String fullCommand) {
+                if(!sSettings.audioenabled)
+                    return "audio muted";
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1 && sSettings.audioenabled) {
-                    AudioClip soundClip = new AudioClip(Paths.get(eManager.getPath(toks[1])).toUri().toString());
+                try{
+                    Clip clip = AudioSystem.getClip();
+                    clip.open(AudioSystem.getAudioInputStream(new File(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
-                        int cycs = Integer.parseInt(toks[2]);
-                        soundClip.setCycleCount(cycs);
-                        if(cycs < 1)
-                            soundClip.setCycleCount(AudioClip.INDEFINITE);
+                        if(toks.length > 4) {
+                            int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                            int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                            double balance = 0.0;
+                            double ratio = Math.abs(diffx/(sfxrange-300));
+                            if(diffx < 0)
+                                balance = ratio;
+                            else if(diffx > 0)
+                                balance = -ratio;
+                            if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
+                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
+                                balControl.setValue((float) balance);
+                            }
+                            else if(clip.isControlSupported(FloatControl.Type.PAN)) {
+                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
+                                balControl.setValue((float) balance);
+                            }
+                        }
+                        clip.loop(Integer.parseInt(toks[2]));
                     }
-                    if(toks.length > 4) {
-                        int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                        int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
-                        double balance = 0.0;
-                        double ratio = Math.abs(diffx/(sfxrange-300));
-                        if(diffx < 0)
-                            balance = ratio;
-                        else if(diffx > 0)
-                            balance = -ratio;
-                        soundClip.setBalance(balance);
-                        soundClip.play((sfxrange/Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2)))
-                                *(sSettings.clientVolume /100.0));
-                        xMain.shellLogic.audioClips.add(soundClip);
-                    }
-                    else {
-                        soundClip.play(sSettings.clientVolume / 100.0);
-                        xMain.shellLogic.audioClips.add(soundClip);
-                    }
+                    else
+                        clip.start();
+                    xMain.shellLogic.soundClips.add(clip);
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
                 return fullCommand;
             }
