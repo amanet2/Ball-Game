@@ -4,22 +4,10 @@
 #include <unistd.h>
 
 int main(int argc, char * argv[]) {
-    // 1. get the prefix of our current executable, save as prefix
-    // 2. get this string to exec: cd {prefix}/pkg && {prefix}/bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar {prefix}/pkg/BALL_GAME.jar
+    // 1. get the prefix of our current executable
+    // 2. get this to exec: cd {prefix}/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar
     char * findstr = "/ballmaster_mac";
-    char * replacestr = "/bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "; //edit here for mapmaker
-    char * startstr = malloc(strlen(argv[0]) - strlen(findstr) + strlen(replacestr));
-    char * ptr;
-
-    strcpy(startstr, argv[0]);
-    ptr = strstr(startstr, findstr);
-    if(ptr)
-    {
-        memmove(ptr + strlen(replacestr), ptr + strlen(findstr), strlen(ptr + strlen(findstr)) + 1);
-        strncpy(ptr, replacestr, strlen(replacestr));
-    }
-
-    char * cdreplacestr = "/pkg";
+    char * cdreplacestr = "/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar ";
     char * cdstr = malloc(strlen("cd ") + strlen(argv[0]) - strlen(findstr) + strlen("/pkg"));
     char * cptr;
 
@@ -30,7 +18,6 @@ int main(int argc, char * argv[]) {
         memmove(cptr + strlen(cdreplacestr), cptr + strlen(findstr), strlen(cptr + strlen(findstr)) + 1);
         strncpy(cptr, cdreplacestr, strlen(cdreplacestr));
     }
-//    printf("cdstr %s\n", cdstr);
 
     int argmalloc = 0;
     int i;
@@ -39,21 +26,15 @@ int main(int argc, char * argv[]) {
         if(i < argc-1)
             argmalloc++; //for the space
     }
-    char runstr[sizeof(char)*strlen(startstr) + argmalloc];
-    strcpy(runstr, startstr);
-    free(startstr);
+    char runstr[sizeof(char)*strlen(cdstr) + argmalloc];
+    strcpy(runstr, cdstr);
+    free(cdstr);
     for(i = 1; i < argc; i++) {
         strcat(runstr, argv[i]);
         if(i < argc-1)
             strcat(runstr, " ");
     }
 //    printf("runstr %s\n", runstr);
-    char * gomustring = malloc(strlen(cdstr) + strlen(" && ") + strlen(runstr));
-    strcpy(gomustring, cdstr);
-    strcat(gomustring, " && ");
-    strcat(gomustring, runstr);
-    system(gomustring);
-//    system("cd ~/Code/Ball-Game/pkg && ~/Code/Ball-Game/bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar ~/Code/Ball-Game/pkg/BALL_GAME.jar");
-//    free(runstr);
+    system(runstr);
     return 0;
 }
