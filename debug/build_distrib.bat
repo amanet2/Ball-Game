@@ -5,6 +5,7 @@ mkdir %pkg_dir%
 xcopy /y /e /i %~dp0..\bin %pkg_dir%\bin
 xcopy /y /e /i %~dp0..\pkg %pkg_dir%\pkg
 xcopy /y %~dp0..\Readme.txt %pkg_dir%
-xcopy /y %~dp0..\run_game.bat %pkg_dir%
+xcopy /y %~dp0..\ballmaster.exe %pkg_dir%
+xcopy /y %~dp0..\ballmaster_editor.exe %pkg_dir%
 if exist %pkg_dir%.zip del %pkg_dir%.zip
 powershell.exe Compress-Archive -Path %pkg_dir%\* -DestinationPath %pkg_dir%.zip

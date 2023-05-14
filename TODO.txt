@@ -10,7 +10,8 @@
     -> jar archive these files
     -> call jar with jdk java
     -> move all pkg and bin files into a dir for distributing
-    -> Executing: .exe that calls java (.c or launch4j) -OR- .bat that calls java
+    -> Executing: .exe that calls java (.c) -OR- .bat that calls java
+        -> manually edit the internal system call in .c file when compiling into mapmaker exe
 * GAMETYPE: flags spawn on random points and players have to carry the flags to a scorepoint to get points
     -> new item: remove flag state and decoration on intersection, give point (if they have flag)
 * ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
