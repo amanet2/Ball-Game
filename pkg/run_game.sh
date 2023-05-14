@@ -1,1 +1,0 @@
-"$(cd $(dirname "$0");pwd)"/../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar --module-path "$(cd $(dirname "$0");pwd)"/../bin/javafx-sdk-18/lib --add-modules=javafx.media "$(cd $(dirname "$1");pwd)"/BALL_GAME.jar "$@"
