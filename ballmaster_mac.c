@@ -18,7 +18,6 @@ int main(int argc, char * argv[]) {
         memmove(ptr + strlen(replacestr), ptr + strlen(findstr), strlen(ptr + strlen(findstr)) + 1);
         strncpy(ptr, replacestr, strlen(replacestr));
     }
-    printf("foobar %s\n", startstr);
 
     char * cdreplacestr = "/pkg";
     char * cdstr = malloc(strlen("cd ") + strlen(argv[0]) - strlen(findstr) + strlen("/pkg"));
@@ -31,7 +30,7 @@ int main(int argc, char * argv[]) {
         memmove(cptr + strlen(cdreplacestr), cptr + strlen(findstr), strlen(cptr + strlen(findstr)) + 1);
         strncpy(cptr, cdreplacestr, strlen(cdreplacestr));
     }
-    printf("foobar %s\n", cdstr);
+//    printf("cdstr %s\n", cdstr);
 
     int argmalloc = 0;
     int i;
@@ -48,8 +47,13 @@ int main(int argc, char * argv[]) {
         if(i < argc-1)
             strcat(runstr, " ");
     }
-    printf("%s\n", runstr);
-    system("cd ~/Code/Ball-Game/pkg && ~/Code/Ball-Game/bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar ~/Code/Ball-Game/pkg/BALL_GAME.jar");
+//    printf("runstr %s\n", runstr);
+    char * gomustring = malloc(strlen(cdstr) + strlen(" && ") + strlen(runstr));
+    strcpy(gomustring, cdstr);
+    strcat(gomustring, " && ");
+    strcat(gomustring, runstr);
+    system(gomustring);
+//    system("cd ~/Code/Ball-Game/pkg && ~/Code/Ball-Game/bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar ~/Code/Ball-Game/pkg/BALL_GAME.jar");
 //    free(runstr);
     return 0;
 }
