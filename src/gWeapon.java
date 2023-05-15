@@ -60,6 +60,6 @@ public class gWeapon {
 
     public void fireWeapon(gPlayer p, gScene scene) {
         if(p != null && scene != null)
-            xMain.shellLogic.console.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
+            xMain.shellLogic.console.ex(String.format("playsound %s 0 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
     }
 }

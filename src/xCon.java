@@ -1118,25 +1118,33 @@ public class xCon {
                         if(toks.length > 4) {
                             int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
                             int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
-                            double balance = 0.0;
-                            double ratio = Math.abs(diffx/(sfxrange-300));
-                            if(diffx < 0)
-                                balance = ratio;
-                            else if(diffx > 0)
-                                balance = -ratio;
-                            if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
-                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
-                                balControl.setValue((float) balance);
-                            }
-                            else if(clip.isControlSupported(FloatControl.Type.PAN)) {
-                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
-                                balControl.setValue((float) balance);
+                            double distanceAdj = 1.0 - (Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2))/sfxrange);
+                            if(distanceAdj < 0 )
+                                return "sound too far away to hear";
+//                            if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
+//                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
+//                                balControl.setValue(volumeAdj);
+//                            }
+//                            else if(clip.isControlSupported(FloatControl.Type.PAN)) {
+//                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
+//                                balControl.setValue(volumeAdj);
+//                            }
+                            if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                                float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0));
+                                gainControl.setValue(dB);
                             }
                         }
                         clip.loop(Integer.parseInt(toks[2]));
                     }
-                    else
+                    else {
+                        if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                            float dB = (float) (Math.log((sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0);
+                            gainControl.setValue(dB);
+                        }
                         clip.start();
+                    }
                     xMain.shellLogic.soundClips.add(clip);
                 } catch (Exception e){
                     e.printStackTrace();

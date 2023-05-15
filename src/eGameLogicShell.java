@@ -371,7 +371,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             for (Clip c : soundClips) {
                 if (!c.isActive()) {
                     tr.add(c);
-                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c.toString());
+//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c.toString());
                 }
             }
             for (Clip c : tr) {
