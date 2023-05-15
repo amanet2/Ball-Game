@@ -1,4 +1,4 @@
-set pkg_dir=%~dp0..\..\pkg_ballmaster_new
+set pkg_dir=%~dp0..\..\pkg_ballmaster
 if exist %pkg_dir% del /f /s /q %pkg_dir%
 if exist %pkg_dir% rmdir /s /q %pkg_dir%
 mkdir %pkg_dir%
