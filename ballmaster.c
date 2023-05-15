@@ -4,7 +4,8 @@
 
 int main(int argc, char * argv[]) {
     int argmalloc = 0;
-    char * startstr = "start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "; //edit here for mapmaker
+    char * startstr = "start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "; // for regular
+//    char * startstr = "start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar showmapmakerui 1 "; // for editor
     int i;
     for(i = 1; i < argc; i++) {
         argmalloc += sizeof(char)*strlen(argv[i]);
