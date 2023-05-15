@@ -1106,7 +1106,7 @@ public class xCon {
             }
         });
         commands.put("playsound", new gDoable() {
-            final double sfxrange = 1800.0;
+            final double sfxrange = 2400.0;
             public String doCommand(String fullCommand) {
                 if(!sSettings.audioenabled)
                     return "audio muted";
@@ -1118,17 +1118,22 @@ public class xCon {
                         if(toks.length > 4) {
                             int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
                             int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
-                            double distanceAdj = 1.0 - (Math.sqrt(Math.pow((diffx),2)+Math.pow((diffy),2))/sfxrange);
+                            double absdistance = Math.sqrt(Math.pow((diffx), 2) + Math.pow((diffy), 2));
+                            double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )
                                 return "sound too far away to hear";
-//                            if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
-//                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
-//                                balControl.setValue(volumeAdj);
-//                            }
-//                            else if(clip.isControlSupported(FloatControl.Type.PAN)) {
-//                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
-//                                balControl.setValue(volumeAdj);
-//                            }
+                            float panAdjust = (float) (absdistance/sfxrange);
+                            if(diffx > 0)
+                                panAdjust = -panAdjust;
+//                            System.out.println("PAN: " + panAdjust);
+                            if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
+                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
+                                balControl.setValue(panAdjust);
+                            }
+                            else if(clip.isControlSupported(FloatControl.Type.PAN)) {
+                                FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
+                                balControl.setValue(panAdjust);
+                            }
                             if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                                 float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0));

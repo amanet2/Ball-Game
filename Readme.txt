@@ -1,7 +1,6 @@
 ## Ball-Game
 Getting Started
-* Go to the folder "pkg"
-* Double-Click "run_game.bat"
+* Double-Click "ballmaster.exe"
 ---
 Hosting a Game
 * From the home screen, select 'New Game'
@@ -18,10 +17,6 @@ Mapmaker
 * Save your map by going to File->Save As
 * Edit an existing map by going to File->Open
 * To join an editing session, go to Multiplayer->Join Game
-* Use existing prefabs to create a new prefab
-    -> the origin when exporting is  0,0
-    -> mouse info can be displayed in the top left corner by command: showmouse 1
-    -> to export, enter command "exportasprefab"
 ---
 Customization
 * Edit scripts in config/, items/, scripts/ to customize experience
