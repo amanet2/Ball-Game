@@ -4,10 +4,8 @@
 #include <unistd.h>
 
 int main(int argc, char * argv[]) {
-    // 1. get the prefix of our current executable
-    // 2. get this to exec: cd {prefix}/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar
-    char * findstr = "/ballmaster_mac";
-    char * cdreplacestr = "/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar ";
+    char * findstr = "/ballmaster_mac"; // add suffix '_editor' for editor
+    char * cdreplacestr = "/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "; // add args for editor
     char * cdstr = malloc(strlen("cd ") + strlen(argv[0]) - strlen(findstr) + strlen("/pkg"));
     char * cptr;
 
