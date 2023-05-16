@@ -10,12 +10,11 @@ public class gWeapon {
     int refiredelay;
     String bulletSpritePath;
     String soundFilePath;
-    int flipdimr;
-    int flipdiml;
+    int[] flipdims;
     int bulletTtl;
     int bulletVel;
 
-    public gWeapon(String title, int[] dims, String bulletSpritePath, String soundFilePath, String spritePath, int flipdiml, int flipdimr) {
+    public gWeapon(String title, int[] dims, String bulletSpritePath, String soundFilePath, String spritePath, int[] flipdims) {
         argSet = new gArgSet();
         argSet.putArg(new gArg("dmg", "0") {
             public void onChange() {
@@ -56,8 +55,7 @@ public class gWeapon {
         this.soundFilePath = soundFilePath;
         this.spritePath = eManager.getPath(spritePath);
         this.setSpriteFromPath(spritePath);
-        this.flipdiml = flipdiml;
-        this.flipdimr = flipdimr;
+        this.flipdims = flipdims;
     }
 
     public void setSpriteFromPath(String path) {

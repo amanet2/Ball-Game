@@ -19,7 +19,7 @@ public class gWeapons {
 						"misc/rock.png",
 						"sounds/splash.wav",
 						"",
-						225, 225
+						new int[] {225, 225}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
@@ -43,7 +43,7 @@ public class gWeapons {
 						"objects/misc/firegreen.png",
 						"sounds/laser.wav",
 						"misc/bfg.png",
-						100, 100
+						new int[] {100, 100}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
@@ -71,7 +71,7 @@ public class gWeapons {
 						"objects/misc/fireblue.png",
 						"sounds/shotgun.wav",
 						"misc/shotgun.png",
-						100, 0
+						new int[] {100, 0}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
@@ -103,7 +103,7 @@ public class gWeapons {
 					"objects/misc/fireorange.png",
 					"sounds/30cal.wav",
 						"misc/autorifle.png",
-						100, 100
+						new int[] {100, 100}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
@@ -131,7 +131,7 @@ public class gWeapons {
 						"objects/misc/firegreen.png",
 						"sounds/bfg.wav",
 						"misc/launcher.png",
-						100, 100
+						new int[] {100, 100}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
@@ -155,7 +155,7 @@ public class gWeapons {
 						"misc/glove.png",
 						"sounds/splash.wav",
 						"misc/glove.png",
-						225, 225
+						new int[] {225, 225}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
