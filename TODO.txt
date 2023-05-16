@@ -1,3 +1,6 @@
+* WEAPONS: have all the weapons constructor vars be set by passing vars to constructor of gWeapon
+    -> then in gWeapons make all the weapons in-place declared instead of referencing the weapon class
+    -> also have the flip dims in an array and also have more settings set through config vars
 * ENGINE: got to redo sound stuff
     -> make a hashmap to hold the loaded audio files
         -> on init()

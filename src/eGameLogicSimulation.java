@@ -171,7 +171,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         }
         if(pseeds.size() > 0) {
             for(gBullet pseed : pseeds)
-                gWeaponsLauncher.createGrenadeExplosion(pseed);
+                gWeapons.createGrenadeExplosion(pseed);
         }
         for(Object bulletId : bulletsToRemoveIds) {
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(bulletId);

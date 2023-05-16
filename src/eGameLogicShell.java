@@ -52,6 +52,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientScene = new gScene();
         serverScene = new gScene();
         uiEditorMenus.previewScene = new gScene();
+        gWeapons.init();
     }
 
     @Override
@@ -507,7 +508,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         if(pseeds.size() > 0) {
             for(gBullet pseed : pseeds)
-                gWeaponsLauncher.createGrenadeExplosion(pseed);
+                gWeapons.createGrenadeExplosion(pseed);
         }
         for(Object bulletId : bulletsToRemoveIds) {
             clientScene.getThingMap("THING_BULLET").remove(bulletId);

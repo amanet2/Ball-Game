@@ -15,7 +15,7 @@ public class gWeapon {
     int bulletTtl;
     int bulletVel;
 
-    public gWeapon(String title) {
+    public gWeapon(String title, int[] dims, String bulletSpritePath, String soundFilePath, String spritePath, int flipdiml, int flipdimr) {
         argSet = new gArgSet();
         argSet.putArg(new gArg("dmg", "0") {
             public void onChange() {
@@ -51,6 +51,13 @@ public class gWeapon {
             else
                 System.out.println("VALUE IS NULL: " + vk);
         }
+        this.dims = dims;
+        this.bulletSpritePath =  eManager.getPath(bulletSpritePath);
+        this.soundFilePath = soundFilePath;
+        this.spritePath = eManager.getPath(spritePath);
+        this.setSpriteFromPath(spritePath);
+        this.flipdiml = flipdiml;
+        this.flipdimr = flipdimr;
     }
 
     public void setSpriteFromPath(String path) {
