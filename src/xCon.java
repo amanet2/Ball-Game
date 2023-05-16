@@ -1113,7 +1113,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 try{
                     Clip clip = AudioSystem.getClip();
-                    clip.open(AudioSystem.getAudioInputStream(new File(eManager.getPath(toks[1]))));
+                    clip.open(AudioSystem.getAudioInputStream(eManager.getAudioFile(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
                         if(toks.length > 4) {
                             int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
