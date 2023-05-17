@@ -8,7 +8,8 @@ import java.util.Queue;
 
 public class dHUD {
     private static final String dividerString = "_______________________";
-
+    static int marginX = sSettings.width/128;
+    static int spriteRad = sSettings.height/30;
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
@@ -19,25 +20,26 @@ public class dHUD {
         g2.setStroke(dFonts.hudStroke);
 //        health
         g.setColor(Color.black);
-        g.fillRect(sSettings.width/64,59 * sSettings.height/64,sSettings.width/8,
+        g.fillRect(marginX,59 * sSettings.height/64,sSettings.width/8,
                 sSettings.height/64);
         g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-        g.fillRect(sSettings.width/64,59 * sSettings.height/64,
+        g.fillRect(marginX,59 * sSettings.height/64,
                 sSettings.width/8*Integer.parseInt(userState.get("hp"))/ sSettings.clientMaxHP,
                 sSettings.height/64);
-        g.drawString(userState.get("hp"), 37*sSettings.width / 256, 15*sSettings.height/16);
+//        g.drawString(userState.get("hp"), 37*sSettings.width / 256, 15*sSettings.height/16);
         dFonts.setFontNormal(g);
         //score
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         if(clStateMap.contains(sSettings.uuid) && clStateMap.get(sSettings.uuid).contains("score")) {
             g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g.drawString("$ "+ clStateMap.get(sSettings.uuid).get("score").split(":")[1],
-                    sSettings.width / 64, 58*sSettings.height/64);
+            g.drawString(clStateMap.get(sSettings.uuid).get("score").split(":")[1],
+                    2*marginX + spriteRad, 58*sSettings.height/64);
         }
         dFonts.setFontColor(g, "clrf_normaldark");
-        g.drawString(sSettings.clientPlayerName, sSettings.width / 64, 62*sSettings.height/64);
+        g.drawString(sSettings.clientPlayerName, marginX, 62*sSettings.height/64);
         g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-        g.fillRect(sSettings.width/128, 28*sSettings.height/32, sSettings.width/256, 3*sSettings.height/32);
+        Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", sSettings.clientPlayerColor)), sSettings.height / 30, sSettings.height / 30);
+        g.drawImage(sprite, marginX, 28*sSettings.height/32, null);
         // other players on server
         dFonts.setFontSmall(g);
         int ctr = 1;
@@ -52,14 +54,14 @@ public class dHUD {
             String score = "0:0";
             if(clStateMap.get(id).contains("score"))
                 score = clStateMap.get(id).get("score");
-            g.drawString("$ " + score.split(":")[1],
-                    sSettings.width / 64, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+            g.drawString(score.split(":")[1],
+                    marginX + spriteRad, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
             dFonts.setFontColor(g, "clrf_normaldark");
-            g.drawString(clStateMap.get(id).get("name"), sSettings.width / 64,
+            g.drawString(clStateMap.get(id).get("name"), marginX + spriteRad,
                     56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
             g.setColor(gColors.getColorFromName("clrp_" + color));
-            g.fillRect(sSettings.width / 128, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)),
-                    sSettings.width / 256, sSettings.height / 32);
+            Image oclsprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", color)), sSettings.height / 30, sSettings.height / 30);
+            g.drawImage(oclsprite, marginX, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)), null);
             ctr++;
         }
     }
@@ -328,12 +330,12 @@ public class dHUD {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, sSettings.clientGameModeTitle.toUpperCase() + ": " + sSettings.clientGameModeText,
-                sSettings.width/2, 2*sSettings.height/30);
+                sSettings.width/2, 2*spriteRad);
         dFonts.setFontColor(g, "clrf_normal");
         g.drawString(clStateMap.keys().size() + " players",
-                sSettings.width/3,5*sSettings.height/30);
-        g.drawString("                           Wins",sSettings.width/3,5*sSettings.height/30);
-        g.drawString("                                       Score",sSettings.width/3,5*sSettings.height/30);
+                sSettings.width/3,5*spriteRad);
+        g.drawString("                           Wins",sSettings.width/3,5*spriteRad);
+        g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
         g.drawString(dividerString,
                 sSettings.width/3, 11*sSettings.height/60);
 
