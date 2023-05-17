@@ -142,9 +142,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
                 if(!sSettings.audioenabled) {
-//                    for(AudioClip c : audioClips) {
-//                        c.stop();
-//                    }
                     for(Clip c : soundClips) {
                         c.stop();
                     }

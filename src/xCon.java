@@ -812,44 +812,12 @@ public class xCon {
         });
         commands.put("getres", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 2)
-                    return "null";
-                String tk = args[1];
-                if(args.length < 3) {
-                    if (!xMain.shellLogic.serverVars.contains(tk))
-                        return "null";
-                    return xMain.shellLogic.serverVars.get(tk);
-                }
-                StringBuilder tvb = new StringBuilder();
-                for(int i = 2; i < args.length; i++) {
-                    tvb.append(" ").append(args[i]);
-                }
-                String tv = tvb.substring(1);
-                String res = ex(tv);
-                xMain.shellLogic.serverVars.put(tk, res);
-                return xMain.shellLogic.serverVars.get(tk);
+                return getResDelegate(xMain.shellLogic.serverVars, fullCommand);
             }
         });
         commands.put("cl_getres", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.clientVars.parseScriptArgs(fullCommand);
-                if(args.length < 2)
-                    return "null";
-                String tk = args[1];
-                if(args.length < 3) {
-                    if (!xMain.shellLogic.clientVars.contains(tk))
-                        return "null";
-                    return xMain.shellLogic.clientVars.get(tk);
-                }
-                StringBuilder tvb = new StringBuilder();
-                for(int i = 2; i < args.length; i++) {
-                    tvb.append(" ").append(args[i]);
-                }
-                String tv = tvb.substring(1);
-                String res = ex(tv);
-                xMain.shellLogic.clientVars.put(tk, res);
-                return xMain.shellLogic.clientVars.get(tk);
+                return getResDelegate(xMain.shellLogic.clientVars, fullCommand);
             }
         });
         commands.put("giveweapon", new gDoable() {
@@ -1467,9 +1435,9 @@ public class xCon {
                 xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                ex("exec scripts/sv_handlespawnplayer " + playerId);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server",
                         String.format("cl_spawnplayer %s %d %d", playerId, x, y));
+                ex("exec scripts/sv_handlespawnplayer " + playerId);
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
@@ -1873,6 +1841,26 @@ public class xCon {
             logException(e);
             e.printStackTrace();
         }
+    }
+
+    private String getResDelegate(gArgSet argSet, String fullCommand) {
+        String[] args = argSet.parseScriptArgs(fullCommand);
+        if(args.length < 2)
+            return "null";
+        String tk = args[1];
+        if(args.length < 3) {
+            if (!argSet.contains(tk))
+                return "null";
+            return argSet.get(tk);
+        }
+        StringBuilder tvb = new StringBuilder();
+        for(int i = 2; i < args.length; i++) {
+            tvb.append(" ").append(args[i]);
+        }
+        String tv = tvb.substring(1);
+        String res = ex(tv);
+        argSet.put(tk, res);
+        return argSet.get(tk);
     }
 
     public Integer getKeyCodeForComm(String comm) {

@@ -59,7 +59,6 @@ public class gWeapon {
     }
 
     public void setSpriteFromPath(String path) {
-        // TODO: make more optimized
         sprite = gTextures.getGScaledImage(path, dims[0], dims[1]);
     }
 
