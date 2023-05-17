@@ -23,6 +23,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint floorTexture;
     TexturePaint wallTexture;
     TexturePaint topTexture;
+    Queue<int[]> drawFloorsQueue;
+    Queue<dDrawPayload> drawWallsAndPlayersQueue; // use null sprite to designate wall, two nulls for top
 
     public eGameLogicShell() throws IOException {
         soundClips = new ArrayList<>();
@@ -38,6 +40,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 new Rectangle2D.Double(0,0, 300, 300));
         topTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/top.png"))),
                 new Rectangle2D.Double(0,0, 300, 300));
+        drawFloorsQueue = new LinkedList<>();
+        drawWallsAndPlayersQueue = new LinkedList<>();
     }
 
     private void initGameObjectsAndScenes() {
@@ -587,6 +591,82 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void render() {
+        //TODO: set up thread-safe queues that will be used by the draw functions
+        drawFloorsQueue = new LinkedList<>();
+        for(String fs : clientScene.getThingMapIds("BLOCK_FLOOR")) {
+            gThing block = clientScene.getThingMap("BLOCK_FLOOR").get(fs);
+            if(block != null)
+                drawFloorsQueue.add(new int[] {block.getX(), block.getY(), block.getWidth(), block.getHeight()});
+        }
+        drawWallsAndPlayersQueue = new LinkedList<>();
+        Queue<gThing> wallsAndPlayersSorted = clientScene.getWallsAndPlayersSortedByCoordY();
+        while(wallsAndPlayersSorted.size() > 0) {
+            gThing thing = wallsAndPlayersSorted.remove();
+            if(thing.isVal("type", "THING_PLAYER")) {
+                drawWallsAndPlayersQueue.add(
+                        new dDrawPayload(
+                            new Image[]{
+                                    ((gPlayer) thing).sprite
+                            },
+                            new int[]{
+                                    thing.getInt("coordx"),
+                                    thing.getInt("coordy"),
+                                    thing.getWidth(),
+                                    thing.getHeight()
+                            }
+                        )
+                );
+            }
+            else if(thing.get("type").contains("ITEM_")) {
+                drawWallsAndPlayersQueue.add(
+                        new dDrawPayload(
+                                new Image[]{
+                                        ((gItem) thing).sprite
+                                },
+                                new int[]{
+                                        thing.getInt("coordx"),
+                                        thing.getInt("coordy"),
+                                        thing.getWidth(),
+                                        thing.getHeight()
+                                }
+                        )
+                );
+            }
+            else {
+                if(thing.get("type").contains("CUBE")) {
+                    if (thing.contains("wallh")) {
+                        drawWallsAndPlayersQueue.add(
+                                new dDrawPayload(
+                                        new Image[]{
+                                                null
+                                        },
+                                        new int[]{
+                                                thing.getX(),
+                                                thing.getY() + thing.getInt("toph"),
+                                                thing.getWidth(),
+                                                thing.getInt("wallh")
+                                        }
+                                )
+                        );
+                        // add the top
+                        drawWallsAndPlayersQueue.add(
+                                new dDrawPayload(
+                                        new Image[]{
+                                                null,
+                                                null
+                                        },
+                                        new int[]{
+                                                thing.getX(),
+                                                thing.getY(),
+                                                thing.getWidth(),
+                                                thing.getInt("toph")
+                                        }
+                                )
+                        );
+                    }
+                }
+            }
+        }
         displayPane.frame.repaint();
         long gameTimeMillis = sSettings.gameTime;
         if (frameCounterTime < gameTimeMillis) {

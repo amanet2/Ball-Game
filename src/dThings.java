@@ -5,6 +5,37 @@ import java.util.HashMap;
 import java.util.Queue;
 
 public class dThings {
+    public static void drawBlockFloors(Graphics2D g2) {
+        g2.setPaint(xMain.shellLogic.floorTexture);
+        while(xMain.shellLogic.drawFloorsQueue.size() > 0) {
+            int[] dvars = xMain.shellLogic.drawFloorsQueue.remove();
+            g2.fillRect(dvars[0], dvars[1], dvars[2], dvars[3]);
+        }
+    }
+
+    public static void drawBlockWallsAndPlayersNew(Graphics2D g2) {
+        while(xMain.shellLogic.drawWallsAndPlayersQueue.size() > 0) {
+            dDrawPayload drawPayload = xMain.shellLogic.drawWallsAndPlayersQueue.remove();
+            if(drawPayload.sprites.length > 0) {
+                if(drawPayload.sprites[0] != null) {
+                    g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
+                }
+                else {
+                    if(drawPayload.sprites.length > 1 && drawPayload.sprites[1] == null) {
+                        g2.setPaint(xMain.shellLogic.topTexture);
+                        g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1], drawPayload.spriteDims[2], drawPayload.spriteDims[3]);
+                    }
+                    else {
+                        g2.setPaint(xMain.shellLogic.wallTexture);
+                        g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1],
+                                drawPayload.spriteDims[2], drawPayload.spriteDims[3]
+                        );
+                    }
+                }
+            }
+        }
+    }
+
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
         while(visualQueue.size() > 0) {
@@ -88,14 +119,7 @@ public class dThings {
         }
     }
 
-    public static void drawBlockFloors(Graphics2D g2, gScene scene) {
-        HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
-            gThing block = floorMap.get(tag);
-            g2.setPaint(xMain.shellLogic.floorTexture);
-            g2.fillRect(block.getInt("coordx"), block.getY(), block.getWidth(), block.getHeight());
-        }
-    }
+
 
     public static void drawMapmakerPreviewBlockFloors(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
