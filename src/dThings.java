@@ -18,14 +18,32 @@ public class dThings {
             dDrawPayload drawPayload = xMain.shellLogic.drawWallsAndPlayersQueue.remove();
             if(drawPayload.sprites.length > 0) {
                 if(drawPayload.sprites[0] != null) {
+                    //shadows
+                    if(sSettings.vfxenableshadows && drawPayload.shadow) {
+                            Rectangle2D shadowBounds = new Rectangle.Double(
+                                    drawPayload.spriteDims[0],
+                                    drawPayload.spriteDims[1] + (double) 5*drawPayload.spriteDims[3]/6,
+                                    drawPayload.spriteDims[2],
+                                    (double) drawPayload.spriteDims[3]/3
+                                );
+                            RadialGradientPaint df = new RadialGradientPaint(
+                                    shadowBounds, new float[]{0f, 1f},
+                                    new Color[]{
+                                            gColors.getColorFromName("clrw_shadow1"),
+                                            gColors.getColorFromName("clrw_clear")
+                                    }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+                            g2.setPaint(df);
+                            g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
+                                    (int)shadowBounds.getHeight());
+                    }
                     g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
                 }
                 else {
-                    if(drawPayload.sprites.length > 1 && drawPayload.sprites[1] == null) {
+                    if(drawPayload.sprites.length > 2 && drawPayload.sprites[2] == null) {
                         g2.setPaint(xMain.shellLogic.topTexture);
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1], drawPayload.spriteDims[2], drawPayload.spriteDims[3]);
                     }
-                    else {
+                    else if(drawPayload.sprites.length > 1 && drawPayload.sprites[1] == null){
                         g2.setPaint(xMain.shellLogic.wallTexture);
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1],
                                 drawPayload.spriteDims[2], drawPayload.spriteDims[3]

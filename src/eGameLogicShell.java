@@ -611,9 +611,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             new int[]{
                                     thing.getInt("coordx"),
                                     thing.getInt("coordy"),
-                                    thing.getWidth(),
-                                    thing.getHeight()
-                            }
+                                    thing.getInt("dimw"),
+                                    thing.getInt("dimh")
+                            },
+                            true
                         )
                 );
             }
@@ -626,9 +627,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                 new int[]{
                                         thing.getInt("coordx"),
                                         thing.getInt("coordy"),
-                                        thing.getWidth(),
-                                        thing.getHeight()
-                                }
+                                        thing.getInt("dimw"),
+                                        thing.getInt("dimh")
+                                },
+                                true
                         )
                 );
             }
@@ -638,6 +640,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         drawWallsAndPlayersQueue.add(
                                 new dDrawPayload(
                                         new Image[]{
+                                                null,
                                                 null
                                         },
                                         new int[]{
@@ -645,13 +648,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getY() + thing.getInt("toph"),
                                                 thing.getWidth(),
                                                 thing.getInt("wallh")
-                                        }
+                                        },
+                                        false
                                 )
                         );
                         // add the top
                         drawWallsAndPlayersQueue.add(
                                 new dDrawPayload(
                                         new Image[]{
+                                                null,
                                                 null,
                                                 null
                                         },
@@ -660,7 +665,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getY(),
                                                 thing.getWidth(),
                                                 thing.getInt("toph")
-                                        }
+                                        },
+                                        false
                                 )
                         );
                     }
