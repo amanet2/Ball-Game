@@ -1,6 +1,6 @@
 * DRAWING CRASH: I think its cause waypoints are accessing the scene's items while in use by other client-side thread
     -> solution is to add these waypoints to the queue-based drawing loop
-* Instead of hard drawn shading use gimp layers for shading
+* DRAWING: maybe go back to the way it was before i implemented the drawing queues
 * ENGINE: got to redo sound stuff
     -> have to reimplement volume and panning
 * TWO COMMITS TANGLED UP
