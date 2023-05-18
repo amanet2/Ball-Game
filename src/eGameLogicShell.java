@@ -605,9 +605,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             if(thing.isVal("type", "THING_PLAYER")) {
                 drawWallsAndPlayersQueue.add(
                         new dDrawPayload(
-                            new Image[]{
-                                    ((gPlayer) thing).sprite
-                            },
+                                new Image[] {((gPlayer) thing).sprite},
                             new int[]{
                                     thing.getInt("coordx"),
                                     thing.getInt("coordy"),
@@ -617,6 +615,20 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             true
                         )
                 );
+                if(!thing.get("decorationsprite").equalsIgnoreCase("null")) {
+                    drawWallsAndPlayersQueue.add(
+                            new dDrawPayload(
+                                    new Image[] {gTextures.getGScaledImage(eManager.getPath(thing.get("decorationsprite")), 300, 300)},
+                                    new int[]{
+                                            thing.getInt("coordx"),
+                                            thing.getInt("coordy") - 2*thing.getInt("dimh")/3,
+                                            thing.getInt("dimw"),
+                                            thing.getInt("dimh")
+                                    },
+                                    true
+                            )
+                    );
+                }
             }
             else if(thing.get("type").contains("ITEM_")) {
                 drawWallsAndPlayersQueue.add(

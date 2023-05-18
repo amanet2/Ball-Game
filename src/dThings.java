@@ -141,6 +141,17 @@ public class dThings {
                             );
                         }
                     }
+                    else {
+                        if(sSettings.show_mapmaker_ui){
+                            dFonts.setFontColor(g2, "clrf_spawnpoint");
+                            g2.fillRect(
+                                    drawPayload.spriteDims[0],
+                                    drawPayload.spriteDims[1],
+                                    drawPayload.spriteDims[2],
+                                    drawPayload.spriteDims[3]
+                            );
+                        }
+                    }
                 }
             }
         }
