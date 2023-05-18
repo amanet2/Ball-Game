@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
-import java.util.Queue;
 
 public class dThings {
     public static void drawBlockFloors(Graphics2D g2) {
@@ -42,8 +41,48 @@ public class dThings {
                     if(drawPayload.sprites.length > 2 && drawPayload.sprites[2] == null) {
                         g2.setPaint(xMain.shellLogic.topTexture);
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1], drawPayload.spriteDims[2], drawPayload.spriteDims[3]);
+                        //top shading
+                        if (sSettings.vfxenableshading) {
+                            g2.setStroke(dFonts.thickStroke);
+                            GradientPaint gradient = new GradientPaint(
+                                    drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                    drawPayload.spriteDims[1] ,
+                                    gColors.getColorFromName("clrw_roofoutline1"),
+                                    drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                    drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                    gColors.getColorFromName("clrw_roofoutline2")
+                            );
+                            g2.setPaint(gradient);
+                            g2.drawRoundRect(
+                                    drawPayload.spriteDims[0] ,
+                                    drawPayload.spriteDims[1] ,
+                                    drawPayload.spriteDims[2],
+                                    drawPayload.spriteDims[3],
+                                    5,
+                                    5
+                            );
+                        }
                     }
                     else if(drawPayload.sprites.length > 1 && drawPayload.sprites[1] == null){
+                        //block shadow
+                        if(sSettings.vfxenableshadows) {
+                            g2.setStroke(dFonts.thickStroke);
+                            GradientPaint gradient = new GradientPaint(
+                                    drawPayload.spriteDims[0] + drawPayload.spriteDims[2]/2,drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                    gColors.getColorFromName("clrw_shadow1"),
+                                    drawPayload.spriteDims[0] + drawPayload.spriteDims[2]/2,
+                                    drawPayload.spriteDims[1] + drawPayload.spriteDims[3]
+                                            + (int)((drawPayload.spriteDims[3])*sSettings.vfxshadowfactor),
+                                    gColors.getColorFromName("clrw_shadow2")
+                            );
+                            g2.setPaint(gradient);
+                            g2.fillRect(
+                                    drawPayload.spriteDims[0],
+                                    drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                    drawPayload.spriteDims[2],
+                                    (int)(drawPayload.spriteDims[3]*sSettings.vfxshadowfactor)
+                            );
+                        }
                         g2.setPaint(xMain.shellLogic.wallTexture);
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1],
                                 drawPayload.spriteDims[2], drawPayload.spriteDims[3]
@@ -107,91 +146,6 @@ public class dThings {
         }
     }
 
-    public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
-        Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-        while(visualQueue.size() > 0) {
-            gThing thing = visualQueue.remove();
-            if(thing.isVal("type", "THING_PLAYER"))
-                drawPlayer(g2, (gPlayer) thing);
-            else if(thing.get("type").contains("ITEM_"))
-                drawItem(g2, (gItem) thing);
-            else {
-                if(thing.get("type").contains("CUBE")) {
-                    if (thing.contains("wallh")) {
-                        drawShadowBlockFlat(g2, (gBlock) thing);
-                        if (thing.contains("wallh")) {
-                            g2.setPaint(xMain.shellLogic.wallTexture);
-                            g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
-                                    thing.getWidth(), thing.getInt("wallh")
-                            );
-                            drawBlockWallsShadingFlat(g2, thing);
-                        }
-                        drawBlockTopCube(g2, thing);
-                    }
-                }
-            }
-        }
-    }
-
-    public static void drawBlockWallsShadingFlat(Graphics2D g2, gThing block) {
-        if (sSettings.vfxenableshading) {
-            g2.setStroke(dFonts.thickStroke);
-            if (block.getInt("wallh") > 0) {
-                GradientPaint gradient;
-                if(block.getInt("wallh") < 300) {
-                    gradient = new GradientPaint(
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getInt("toph"),
-                            gColors.getColorFromName("clrw_walllowshading1"),
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getHeight(),
-                            gColors.getColorFromName("clrw_walllowshading2")
-                    );
-                }
-                else {
-                    gradient = new GradientPaint(
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getInt("toph"),
-                            gColors.getColorFromName("clrw_wallshading1"),
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getHeight(),
-                            gColors.getColorFromName("clrw_wallshading2")
-                    );
-                }
-                g2.setPaint(gradient);
-                g2.fillRect(block.getX(), block.getY() + block.getInt("toph"), block.getWidth(),
-                        block.getInt("wallh")
-                );
-                if(block.getInt("wallh") < 300) {
-                    gradient = new GradientPaint(
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getInt("toph"),
-                            gColors.getColorFromName("clrw_walllowoutline1"),
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getHeight(),
-                            gColors.getColorFromName("clrw_walllowoutline2")
-                    );
-                }
-                else {
-                    gradient = new GradientPaint(
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getInt("toph"),
-                            gColors.getColorFromName("clrw_walloutline1"),
-                            block.getX() + block.getWidth() / 2,
-                            block.getY() + block.getHeight(),
-                            gColors.getColorFromName("clrw_walloutline2")
-                    );
-                }
-                g2.setPaint(gradient);
-                g2.drawRoundRect(block.getX(), block.getY() + block.getInt("toph"),
-                        block.getWidth(), block.getInt("wallh"), 5, 5
-                );
-            }
-        }
-    }
-
-
-
     public static void drawMapmakerPreviewBlockFloors(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) {
@@ -203,16 +157,6 @@ public class dThings {
                     eUtils.scaleInt(block.getHeight()/4)
             );
         }
-    }
-
-    public static void drawBlockTopCube(Graphics2D g2, gThing block) {
-        g2.setPaint(xMain.shellLogic.topTexture);
-        g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getInt("toph"));
-        dFonts.setFontColor(g2, "clrw_topcolor");
-        if(block.contains("wallh") && block.getInt("wallh") < 300)
-            dFonts.setFontColor(g2, "clrw_topcolordark");
-        g2.fillRect(block.getX(), block.getY(), block.getWidth(), block.getInt("toph"));
-        drawBlockTopShadingCube(g2, block);
     }
 
     public static void drawBlockTopCubesPreview(Graphics2D g2) {
@@ -242,94 +186,6 @@ public class dThings {
         }
     }
 
-    public static void drawBlockTopShadingCube(Graphics2D g2, gThing block) {
-        if (sSettings.vfxenableshading) {
-            g2.setStroke(dFonts.thickStroke);
-            GradientPaint gradient = new GradientPaint(
-                    block.getInt("coordx") + block.getInt("dimw") / 2
-                    ,
-                    block.getInt("coordy") ,
-                    gColors.getColorFromName("clrw_roofoutline1"),
-                    block.getInt("coordx") + block.getInt("dimw") / 2
-                    ,
-                    block.getInt("coordy")
-                            + block.getInt("toph"),
-                    gColors.getColorFromName("clrw_roofoutline2")
-            );
-            g2.setPaint(gradient);
-            g2.drawRoundRect(
-                    block.getInt("coordx") ,
-                    block.getInt("coordy") ,
-                    block.getInt("dimw"),
-                    block.getInt("toph"),
-                    5,
-                    5
-            );
-        }
-    }
-
-    public static void drawShadowBlockFlat(Graphics2D g2, gBlock block) {
-        if(sSettings.vfxenableshadows) {
-            g2.setStroke(dFonts.thickStroke);
-            if (block.getInt("wallh") + block.getInt("toph") == block.getHeight()) {
-                GradientPaint gradient = new GradientPaint(
-                        block.getX() + block.getWidth()/2,block.getY() + block.getHeight(),
-                        gColors.getColorFromName("clrw_shadow1"),
-                        block.getX() + block.getWidth()/2,
-                        block.getY() + block.getHeight()
-                                + (int)((block.getInt("wallh"))*sSettings.vfxshadowfactor),
-                        gColors.getColorFromName("clrw_shadow2")
-                );
-                g2.setPaint(gradient);
-                g2.fillRect(
-                        block.getX(),
-                        block.getY() + block.getHeight(),
-                        block.getWidth(),
-                        (int)(block.getInt("wallh")*sSettings.vfxshadowfactor)
-                );
-            }
-            else if (block.getInt("toph") > 0) {
-                GradientPaint gradient = new GradientPaint(
-                        block.getX() + block.getWidth()/2,
-                        block.getY() + block.getHeight() - block.getInt("toph"),
-                        gColors.getColorFromName("clrw_shadow1"),
-                        block.getX() + block.getWidth()/2,
-                        block.getY() + block.getHeight()
-                                + (int)((block.getHeight() - block.getInt("toph") - block.getInt("toph")
-                        )*sSettings.vfxshadowfactor),
-                        gColors.getColorFromName("clrw_shadow2")
-                );
-                g2.setPaint(gradient);
-                g2.fillRect(block.getX(), block.getY() + block.getHeight() - block.getInt("toph"),
-                        block.getWidth(), (int)((block.getHeight() - block.getInt("toph"))*sSettings.vfxshadowfactor)
-                );
-            }
-        }
-    }
-
-    public static void drawThingShadow(Graphics2D g2, gThing thing) {
-        if(sSettings.vfxenableshadows) {
-            //check null fields
-            if(!thing.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                return;
-            int yadj = 5*thing.getInt("dimh")/6;
-            Rectangle2D shadowBounds = new Rectangle.Double(
-                    thing.getInt("coordx"),
-                    thing.getInt("coordy") + yadj,
-                    thing.getInt("dimw"),
-                    (double)thing.getInt("dimh")/3);
-            RadialGradientPaint df = new RadialGradientPaint(
-                    shadowBounds, new float[]{0f, 1f},
-                    new Color[]{
-                            gColors.getColorFromName("clrw_shadow1"),
-                            gColors.getColorFromName("clrw_clear")
-                    }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-            g2.setPaint(df);
-            g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                    (int)shadowBounds.getHeight());
-        }
-    }
-
     public static void drawPlayer(Graphics2D g2, gPlayer player) {
         //player glow
         if(player == null)
@@ -352,7 +208,7 @@ public class dThings {
             }
         }
         //player shadow
-        drawThingShadow(g2, player);
+//        drawThingShadow(g2, player);
         //player itself
         g2.drawImage(
                 player.sprite,
@@ -405,7 +261,7 @@ public class dThings {
     public static void drawItem(Graphics2D g2, gItem item) {
         if(item.sprite != null) {
             //item shadow
-            drawThingShadow(g2, item);
+//            drawThingShadow(g2, item);
             g2.drawImage(item.sprite,
                     item.getInt("coordx"),
                     item.getInt("coordy"),
