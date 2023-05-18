@@ -45,7 +45,6 @@ public class dPanel extends JPanel {
         g2.translate(-gCamera.getX(), -gCamera.getY());
         dThings.drawBlockFloors(g2);
         dThings.drawBlockWallsAndPlayersNew(g2);
-//        dThings.drawBlockWallsAndPlayers(g2, scene);
         dHUD.drawMapmakerOverlay(g2, scene);
         dHUD.drawBulletsAndAnimations(g2, scene);
         dHUD.drawWaypoints(g2, scene);

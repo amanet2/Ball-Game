@@ -451,6 +451,7 @@ public class dHUD {
     }
 
     public static void drawWaypoints(Graphics2D g2, gScene scene) {
+        //TODO: fix concurrecny here
         if(sSettings.inplay) {
             // players
             for(String id : scene.getThingMapIds("THING_PLAYER")) {

@@ -71,7 +71,7 @@ public class gWeapons {
 						"objects/misc/fireblue.png",
 						"sounds/shotgun.wav",
 						"misc/shotgun.png",
-						new int[] {100, 0}
+						new int[] {100, 100}
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);

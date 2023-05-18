@@ -1,4 +1,5 @@
-* REDO DRAWING: instead of complicated ass payloads, make copies of the gThing we want to draw and draw those instead
+* DRAWING CRASH: I think its cause waypoints are accessing the scene's items while in use by other client-side thread
+    -> solution is to add these waypoints to the queue-based drawing loop
 * Instead of hard drawn shading use gimp layers for shading
 * ENGINE: got to redo sound stuff
     -> have to reimplement volume and panning
