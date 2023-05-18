@@ -48,6 +48,59 @@ public class dThings {
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1],
                                 drawPayload.spriteDims[2], drawPayload.spriteDims[3]
                         );
+                        //wall shading
+                        if (sSettings.vfxenableshading) {
+                            g2.setStroke(dFonts.thickStroke);
+                            GradientPaint gradient;
+                            if(drawPayload.spriteDims[3] < 300) {
+                                gradient = new GradientPaint(
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1],
+                                        gColors.getColorFromName("clrw_walllowshading1"),
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                        gColors.getColorFromName("clrw_walllowshading2")
+                                );
+                            }
+                            else {
+                                gradient = new GradientPaint(
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1],
+                                        gColors.getColorFromName("clrw_wallshading1"),
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                        gColors.getColorFromName("clrw_wallshading2")
+                                );
+                            }
+                            g2.setPaint(gradient);
+                            g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1], drawPayload.spriteDims[2],
+                                    drawPayload.spriteDims[3]
+                            );
+                            if(drawPayload.spriteDims[3] < 300) {
+                                gradient = new GradientPaint(
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1],
+                                        gColors.getColorFromName("clrw_walllowoutline1"),
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                        gColors.getColorFromName("clrw_walllowoutline2")
+                                );
+                            }
+                            else {
+                                gradient = new GradientPaint(
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1],
+                                        gColors.getColorFromName("clrw_walloutline1"),
+                                        drawPayload.spriteDims[0] + drawPayload.spriteDims[2] / 2,
+                                        drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                        gColors.getColorFromName("clrw_walloutline2")
+                                );
+                            }
+                            g2.setPaint(gradient);
+                            g2.drawRoundRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1],
+                                    drawPayload.spriteDims[2], drawPayload.spriteDims[3], 5, 5
+                            );
+                        }
                     }
                 }
             }

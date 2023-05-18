@@ -1,14 +1,6 @@
-* GAME: get rid of scoreboard
-    -> it's one less thing to worry about
-    -> all info can be show on main screen
-    -> actually keep the scoreboard and make it a multi-line screen showing game rules in better detail
-        -> like fusion frenzy
-* WEAPONS: have all the weapons constructor vars be set by passing vars to constructor of gWeapon
-    -> then in gWeapons make all the weapons in-place declared instead of referencing the weapon class
-    -> also have the flip dims in an array and also have more settings set through config vars
+* REDO DRAWING: instead of complicated ass payloads, make copies of the gThing we want to draw and draw those instead
+* Instead of hard drawn shading use gimp layers for shading
 * ENGINE: got to redo sound stuff
-    -> make a hashmap to hold the loaded audio files
-        -> on init()
     -> have to reimplement volume and panning
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
