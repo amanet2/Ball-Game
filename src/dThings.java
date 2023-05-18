@@ -20,7 +20,7 @@ public class dThings {
         while(drawQueueCopy.size() > 0) {
             dDrawPayload drawPayload = drawQueueCopy.remove();
             if(drawPayload.sprites.length > 0) {
-                if(drawPayload.sprites[0] != null) { //player or object
+                if(drawPayload.sprites[0] != null) { //player or object or weapon
                     //shadows
                     if(sSettings.vfxenableshadows && drawPayload.shadow) {
                             Rectangle2D shadowBounds = new Rectangle.Double(
@@ -39,7 +39,20 @@ public class dThings {
                             g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
                                     (int)shadowBounds.getHeight());
                     }
-                    g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
+                    if(drawPayload.isWeapon) {
+                        //player weapon
+                        AffineTransform backup = g2.getTransform();
+                        AffineTransform a = g2.getTransform();
+                        a.rotate(drawPayload.fv - Math.PI/2, drawPayload.spriteDims[0], drawPayload.spriteDims[1]);
+                        g2.setTransform(a);
+                        g2.drawImage(drawPayload.sprites[0],
+                                drawPayload.spriteDims[0],
+                                drawPayload.spriteDims[2],
+                                null);
+                        g2.setTransform(backup);
+                    }
+                    else
+                        g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
                 }
                 else {
                     if(sSettings.vfxenableflares && drawPayload.isFlare && drawPayload.flareColor != null) {

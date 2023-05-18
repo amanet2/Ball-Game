@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -618,7 +619,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 3 * thing.getInt("dimw") / 2,
                                                 3 * thing.getInt("dimh") / 2
                                         },
-                                        true, false, true, cState.get("color"), null
+                                        true, false, true, cState.get("color"), null, false, 0.0
                                 )
                         );
                     }
@@ -634,7 +635,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                     thing.getInt("dimw"),
                                     thing.getInt("dimh")
                             },
-                            true, false, false, "", null
+                            true, false, false, "", null, false, 0.0
                         )
                 );
                 drawWallsAndPlayersQueue.add(
@@ -648,7 +649,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                         thing.getInt("dimw"),
                                         thing.getInt("dimh")
                                 },
-                                false, true, false, "", null
+                                false, true, false, "", null, false, 0.0
                         )
                 );
                 if(!thing.get("decorationsprite").equalsIgnoreCase("null")) {
@@ -661,10 +662,23 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                             thing.getInt("dimw"),
                                             thing.getInt("dimh")
                                     },
-                                    true, false, false, "", null
+                                    true, false, false, "", null, false, 0.0
                             )
                     );
                 }
+                //player weapon
+                drawWallsAndPlayersQueue.add(
+                        new dDrawPayload(
+                                new Image[]{gWeapons.fromCode(thing.getInt("weapon")).sprite},
+                                new int[]{
+                                        thing.getInt("coordx") + thing.getInt("dimw")/2,
+                                        thing.getInt("coordy") + thing.getInt("dimh")/2,
+                                        thing.getInt("coordy") + thing.getInt("dimh")/2 - gWeapons.fromCode(thing.getInt("weapon")).dims[1] / 2,
+                                        thing.getInt("dimh")
+                                },
+                                false, false, false, "", null, true, thing.getDouble("fv")
+                        )
+                );
             }
             else if(thing.get("type").contains("ITEM_")) {
                 drawWallsAndPlayersQueue.add(
@@ -678,7 +692,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                         thing.getInt("dimw"),
                                         thing.getInt("dimh")
                                 },
-                                true, false, false, "", null
+                                true, false, false, "", null, false, 0.0
                         )
                 );
                 if(sSettings.vfxenableflares && !thing.get("flare").equals("null")) {
@@ -701,7 +715,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                             thing.getInt("dimh")*2
                                     },
                                     true, false, true, "",
-                                    new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3])
+                                    new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]), false, 0.0
                             )
                     );
                 }
@@ -721,7 +735,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("wallh")
                                         },
-                                        false, false, false, "", null
+                                        false, false, false, "", null, false, 0.0
                                 )
                         );
                         // add the top
@@ -738,7 +752,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("toph")
                                         },
-                                        false, false, false, "", null
+                                        false, false, false, "", null, false, 0.0
                                 )
                         );
                     }

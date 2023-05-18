@@ -8,9 +8,10 @@ public class dDrawPayload {
     boolean isFlare;
     String flareColorString;
     Color flareColor;
-    int holdingWeapon;
+    boolean isWeapon;
+    double fv;
 
-    public dDrawPayload(Image[] sprites, int[] dims, boolean shadow, boolean isPlayerShading, boolean isFlare, String flareColorString, Color flareColor) {
+    public dDrawPayload(Image[] sprites, int[] dims, boolean shadow, boolean isPlayerShading, boolean isFlare, String flareColorString, Color flareColor, boolean isWeapon, double fv) {
         this.sprites = sprites;
         this.spriteDims = dims;
         this.shadow = shadow;
@@ -18,6 +19,7 @@ public class dDrawPayload {
         this.isFlare = isFlare;
         this.flareColorString = flareColorString;
         this.flareColor = flareColor;
-        holdingWeapon = 0;
+        this.isWeapon = isWeapon;
+        this.fv = fv;
     }
 }
