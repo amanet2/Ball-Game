@@ -38,7 +38,26 @@ public class dThings {
                     g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
                 }
                 else {
-                    if(sSettings.vfxenableshading && drawPayload.isPlayerShading) {
+                    if(sSettings.vfxenableflares && drawPayload.isFlare && drawPayload.flareColor != null) {
+                        dScreenFX.drawFlareFromColor(g2,
+                                drawPayload.spriteDims[0],
+                                drawPayload.spriteDims[1],
+                                drawPayload.spriteDims[2],
+                                drawPayload.spriteDims[3],
+                                1, drawPayload.flareColor, new Color(0, 0, 0, 0));
+                    }
+                    else if(sSettings.vfxenableflares && drawPayload.isFlare) {
+                        Color pc = gColors.getColorFromName("clrp_" + drawPayload.flareColorString);
+                        if (pc != null) {
+                            dScreenFX.drawFlareFromColor(g2,
+                                    drawPayload.spriteDims[0],
+                                    drawPayload.spriteDims[1],
+                                    drawPayload.spriteDims[2],
+                                    drawPayload.spriteDims[3],
+                                    1, pc, new Color(0, 0, 0, 0));
+                        }
+                    }
+                    else if(sSettings.vfxenableshading && drawPayload.isPlayerShading) {
                         GradientPaint df = new GradientPaint(
                                 drawPayload.spriteDims[0],
                                 drawPayload.spriteDims[1] + 2*drawPayload.spriteDims[3]/3,

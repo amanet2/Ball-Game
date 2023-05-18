@@ -603,16 +603,38 @@ public class eGameLogicShell extends eGameLogicAdapter {
         while(wallsAndPlayersSorted.size() > 0) {
             gThing thing = wallsAndPlayersSorted.remove();
             if(thing.isVal("type", "THING_PLAYER")) {
+                if(sSettings.vfxenableflares) {
+                    nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
+                    nState cState = clStateMap.get(thing.get("id"));
+                    if(cState != null && cState.contains("color")) {
+                        drawWallsAndPlayersQueue.add(
+                                new dDrawPayload(
+                                        new Image[] {
+                                                null
+                                        },
+                                        new int[]{
+                                                thing.getInt("coordx") - thing.getInt("dimw") / 4,
+                                                thing.getInt("coordy") - thing.getInt("dimh") / 4,
+                                                3 * thing.getInt("dimw") / 2,
+                                                3 * thing.getInt("dimh") / 2
+                                        },
+                                        true, false, true, cState.get("color"), null
+                                )
+                        );
+                    }
+                }
                 drawWallsAndPlayersQueue.add(
                         new dDrawPayload(
-                                new Image[] {((gPlayer) thing).sprite},
+                                new Image[] {
+                                        ((gPlayer) thing).sprite
+                                },
                             new int[]{
                                     thing.getInt("coordx"),
                                     thing.getInt("coordy"),
                                     thing.getInt("dimw"),
                                     thing.getInt("dimh")
                             },
-                            true, false
+                            true, false, false, "", null
                         )
                 );
                 drawWallsAndPlayersQueue.add(
@@ -626,7 +648,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                         thing.getInt("dimw"),
                                         thing.getInt("dimh")
                                 },
-                                false, true
+                                false, true, false, "", null
                         )
                 );
                 if(!thing.get("decorationsprite").equalsIgnoreCase("null")) {
@@ -639,7 +661,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                             thing.getInt("dimw"),
                                             thing.getInt("dimh")
                                     },
-                                    true, false
+                                    true, false, false, "", null
                             )
                     );
                 }
@@ -656,9 +678,33 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                         thing.getInt("dimw"),
                                         thing.getInt("dimh")
                                 },
-                                true, false
+                                true, false, false, "", null
                         )
                 );
+                if(sSettings.vfxenableflares && !thing.get("flare").equals("null")) {
+                    String[] flareToks = thing.get("flare").split(":");
+                    int[] flareArgs = new int[] {
+                            Integer.parseInt(flareToks[0]),
+                            Integer.parseInt(flareToks[1]),
+                            Integer.parseInt(flareToks[2]),
+                            Integer.parseInt(flareToks[3])
+                    };
+                    drawWallsAndPlayersQueue.add(
+                            new dDrawPayload(
+                                    new Image[] {
+                                            null
+                                    },
+                                    new int[]{
+                                            thing.getInt("coordx") - thing.getInt("dimw") / 2,
+                                            thing.getInt("coordy") - thing.getInt("dimh") / 2,
+                                            thing.getInt("dimw")*2,
+                                            thing.getInt("dimh")*2
+                                    },
+                                    true, false, true, "",
+                                    new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3])
+                            )
+                    );
+                }
             }
             else {
                 if(thing.get("type").contains("CUBE")) {
@@ -675,7 +721,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("wallh")
                                         },
-                                        false, false
+                                        false, false, false, "", null
                                 )
                         );
                         // add the top
@@ -692,7 +738,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("toph")
                                         },
-                                        false, false
+                                        false, false, false, "", null
                                 )
                         );
                     }
