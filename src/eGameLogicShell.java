@@ -612,7 +612,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                     thing.getInt("dimw"),
                                     thing.getInt("dimh")
                             },
-                            true
+                            true, false
+                        )
+                );
+                drawWallsAndPlayersQueue.add(
+                        new dDrawPayload(
+                                new Image[] {
+                                        null
+                                },
+                                new int[]{
+                                        thing.getInt("coordx"),
+                                        thing.getInt("coordy"),
+                                        thing.getInt("dimw"),
+                                        thing.getInt("dimh")
+                                },
+                                false, true
                         )
                 );
                 if(!thing.get("decorationsprite").equalsIgnoreCase("null")) {
@@ -625,7 +639,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                             thing.getInt("dimw"),
                                             thing.getInt("dimh")
                                     },
-                                    true
+                                    true, false
                             )
                     );
                 }
@@ -642,7 +656,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                         thing.getInt("dimw"),
                                         thing.getInt("dimh")
                                 },
-                                true
+                                true, false
                         )
                 );
             }
@@ -661,7 +675,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("wallh")
                                         },
-                                        false
+                                        false, false
                                 )
                         );
                         // add the top
@@ -678,7 +692,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                                 thing.getWidth(),
                                                 thing.getInt("toph")
                                         },
-                                        false
+                                        false, false
                                 )
                         );
                     }

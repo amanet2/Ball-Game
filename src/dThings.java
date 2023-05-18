@@ -16,7 +16,7 @@ public class dThings {
         while(xMain.shellLogic.drawWallsAndPlayersQueue.size() > 0) {
             dDrawPayload drawPayload = xMain.shellLogic.drawWallsAndPlayersQueue.remove();
             if(drawPayload.sprites.length > 0) {
-                if(drawPayload.sprites[0] != null) {
+                if(drawPayload.sprites[0] != null) { //player or object
                     //shadows
                     if(sSettings.vfxenableshadows && drawPayload.shadow) {
                             Rectangle2D shadowBounds = new Rectangle.Double(
@@ -38,7 +38,24 @@ public class dThings {
                     g2.drawImage(drawPayload.sprites[0], drawPayload.spriteDims[0], drawPayload.spriteDims[1], null);
                 }
                 else {
-                    if(drawPayload.sprites.length > 2 && drawPayload.sprites[2] == null) {
+                    if(sSettings.vfxenableshading && drawPayload.isPlayerShading) {
+                        GradientPaint df = new GradientPaint(
+                                drawPayload.spriteDims[0],
+                                drawPayload.spriteDims[1] + 2*drawPayload.spriteDims[3]/3,
+                                gColors.getColorFromName("clrw_clear"),
+                                drawPayload.spriteDims[0],
+                                drawPayload.spriteDims[1] + drawPayload.spriteDims[3],
+                                gColors.getColorFromName("clrw_shadow1half")
+                        );
+                        g2.setPaint(df);
+                        g2.fillOval(
+                                drawPayload.spriteDims[0],
+                                drawPayload.spriteDims[1],
+                                drawPayload.spriteDims[2],
+                                drawPayload.spriteDims[3]
+                        );
+                    }
+                    else if(drawPayload.sprites.length > 2 && drawPayload.sprites[2] == null) {
                         g2.setPaint(xMain.shellLogic.topTexture);
                         g2.fillRect(drawPayload.spriteDims[0], drawPayload.spriteDims[1], drawPayload.spriteDims[2], drawPayload.spriteDims[3]);
                         //top shading
