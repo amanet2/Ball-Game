@@ -5,16 +5,17 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A scene holds the background and objects for a game
  * play scenario.
  */
 public class gScene {
-    HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
+    ConcurrentHashMap<String, LinkedHashMap<String, gThing>> objectMaps;
 
 	public gScene() {
-        objectMaps = new HashMap<>();
+        objectMaps = new ConcurrentHashMap<>();
         for(String s : sSettings.object_titles) {
             objectMaps.put(s, new LinkedHashMap<>());
         }
