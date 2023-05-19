@@ -211,7 +211,7 @@ public class xCon {
                 if (toks.length > 1) {
                     String thing_title = toks[1];
                     if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
-                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new LinkedHashMap<>());
+                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new HashMap<>());
                 }
                 for(String thing_title : uiEditorMenus.previewScene.objectMaps.keySet()) {
                     uiEditorMenus.previewScene.objectMaps.get(thing_title).clear();

@@ -2,29 +2,31 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
-import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class dThings {
+    static final ConcurrentLinkedQueue<gThing> visualQueue = new ConcurrentLinkedQueue<>();
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
-        Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-        while(visualQueue.size() > 0) {
-            gThing thing = visualQueue.remove();
-            if(thing.isVal("type", "THING_PLAYER"))
-                drawPlayer(g2, (gPlayer) thing);
-            else if(thing.get("type").contains("ITEM_"))
-                drawItem(g2, (gItem) thing);
-            else {
-                if(thing.get("type").contains("CUBE")) {
-                    if (thing.contains("wallh")) {
-                        drawShadowBlockFlat(g2, (gBlock) thing);
+        synchronized (visualQueue) {
+            while(visualQueue.size() > 0) {
+                gThing thing = visualQueue.remove();
+                if(thing.isVal("type", "THING_PLAYER"))
+                    drawPlayer(g2, (gPlayer) thing);
+                else if(thing.get("type").contains("ITEM_"))
+                    drawItem(g2, (gItem) thing);
+                else {
+                    if(thing.get("type").contains("CUBE")) {
                         if (thing.contains("wallh")) {
-                            g2.setPaint(xMain.shellLogic.wallTexture);
-                            g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
-                                    thing.getWidth(), thing.getInt("wallh")
-                            );
-                            drawBlockWallsShadingFlat(g2, thing);
+                            drawShadowBlockFlat(g2, (gBlock) thing);
+                            if (thing.contains("wallh")) {
+                                g2.setPaint(xMain.shellLogic.wallTexture);
+                                g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
+                                        thing.getWidth(), thing.getInt("wallh")
+                                );
+                                drawBlockWallsShadingFlat(g2, thing);
+                            }
+                            drawBlockTopCube(g2, thing);
                         }
-                        drawBlockTopCube(g2, thing);
                     }
                 }
             }
@@ -90,7 +92,7 @@ public class dThings {
 
     public static void drawBlockFloors(Graphics2D g2, gScene scene) {
         HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
+        for(String tag : floorMap.keySet()) { //TODO: concurrent exception occured on this line
             gThing block = floorMap.get(tag);
             g2.setPaint(xMain.shellLogic.floorTexture);
             g2.fillRect(block.getInt("coordx"), block.getY(), block.getWidth(), block.getHeight());

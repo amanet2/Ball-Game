@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 public class gThing {
     private final int[] coords = {0, 0};
@@ -31,7 +31,7 @@ public class gThing {
         return dims[1];
     }
 
-    private LinkedHashMap<String, String> vars;
+    private HashMap<String, String> vars;
     public String get(String s) {
         return vars.get(s);
     }
@@ -70,7 +70,7 @@ public class gThing {
         return vars().containsKey(s);
     }
 
-    public LinkedHashMap<String, String> vars() {
+    public HashMap<String, String> vars() {
         refresh();
         return vars;
     }
@@ -93,7 +93,7 @@ public class gThing {
 
     public void refresh() {
         if(vars == null)
-            vars = new LinkedHashMap<>();
+            vars = new HashMap<>();
     }
 
     public boolean coordsWithinBounds(int x, int y) {

@@ -1,4 +1,6 @@
-
+* ENGINE: Concurrency exceptions plague draw functions
+    -> already using concurrentHashMap in thingMaps
+    -> looks at the other branch's commits to see how the drawqueues were handled
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>

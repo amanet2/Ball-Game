@@ -84,7 +84,7 @@ public class dHUD {
         int window_offsety = xMain.shellLogic.displayPane.frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
+        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
             gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
                 dFonts.setFontColor(g2, "clrf_flooroutline");
