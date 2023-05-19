@@ -6,22 +6,24 @@ import java.awt.geom.Rectangle2D;
 public class gPlayer extends gThing {
     Image sprite;
 
-    public boolean wontClipOnMove(int dx, int dy, gScene scene) {
-        for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-            gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
-            Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
-            Rectangle2D collRect = new Rectangle(coll.getX(), coll.getY(), coll.getWidth(), coll.getHeight());
-            if(playerRect.intersects(collRect))
-                return false;
+    public synchronized boolean wontClipOnMove(int dx, int dy, gScene scene) {
+        synchronized(scene.objectMaps) {
+            for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
+                gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
+                Rectangle2D playerRect = new Rectangle(dx, dy, getInt("dimw"), getInt("dimh"));
+                Rectangle2D collRect = new Rectangle(coll.getX(), coll.getY(), coll.getWidth(), coll.getHeight());
+                if(playerRect.intersects(collRect))
+                    return false;
+            }
+            for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
+                if(get("id").equals(id))
+                    continue;
+                if (willCollideWithPlayerAtCoordsTopDown(
+                        (gPlayer) scene.getThingMap("THING_PLAYER").get(id), dx, dy))
+                    return false;
+            }
+            return true;
         }
-        for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            if(get("id").equals(id))
-                continue;
-            if (willCollideWithPlayerAtCoordsTopDown(
-                    (gPlayer) scene.getThingMap("THING_PLAYER").get(id), dx, dy))
-                return false;
-        }
-        return true;
     }
 
     public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
