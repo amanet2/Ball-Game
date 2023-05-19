@@ -58,10 +58,10 @@ public class dHUD {
                     marginX + spriteRad, 55 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
             dFonts.setFontColor(g, "clrf_normaldark");
             g.drawString(clStateMap.get(id).get("name"), marginX + spriteRad,
-                    56 * sSettings.height / 64 - (ctr * (sSettings.height / 32)));
+                    28 * sSettings.height / 32 - (ctr * (sSettings.height / 30)));
             g.setColor(gColors.getColorFromName("clrp_" + color));
             Image oclsprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", color)), sSettings.height / 30, sSettings.height / 30);
-            g.drawImage(oclsprite, marginX, 54 * sSettings.height / 64 - (ctr * (sSettings.height / 32)), null);
+            g.drawImage(oclsprite, marginX, 28 * sSettings.height / 32 - (ctr * (sSettings.height / 30)), null);
             ctr++;
         }
     }
