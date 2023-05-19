@@ -8,6 +8,7 @@ public class dThings {
     static final ConcurrentLinkedQueue<gThing> visualQueue = new ConcurrentLinkedQueue<>();
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
         synchronized (visualQueue) {
+            xMain.shellLogic.clientScene.getWallsAndPlayersSortedByCoordY();
             while(visualQueue.size() > 0) {
                 gThing thing = visualQueue.remove();
                 if(thing.isVal("type", "THING_PLAYER"))

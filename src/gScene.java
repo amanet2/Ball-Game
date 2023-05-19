@@ -13,10 +13,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * play scenario.
  */
 public class gScene {
-    ConcurrentHashMap<String, HashMap<String, gThing>> objectMaps;
+    static final ConcurrentHashMap<String, HashMap<String, gThing>> objectMaps  = new ConcurrentHashMap<>();
 
 	public gScene() {
-        objectMaps = new ConcurrentHashMap<>();
         for(String s : sSettings.object_titles) {
             objectMaps.put(s, new HashMap<>());
         }
@@ -28,8 +27,10 @@ public class gScene {
         return pColl.toArray(new String[psize]);
     }
 
-    public HashMap<String, gThing> getThingMap(String thing_title) {
-	    return objectMaps.get(thing_title);
+    public synchronized HashMap<String, gThing> getThingMap(String thing_title) {
+        synchronized (objectMaps) {
+            return objectMaps.get(thing_title);
+        }
     }
 
     public gPlayer getPlayerById(String id) {

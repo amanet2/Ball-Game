@@ -587,7 +587,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     @Override
     public void render() {
-        clientScene.getWallsAndPlayersSortedByCoordY();
         displayPane.frame.repaint();
         long gameTimeMillis = sSettings.gameTime;
         if (frameCounterTime < gameTimeMillis) {
