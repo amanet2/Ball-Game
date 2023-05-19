@@ -1,3 +1,5 @@
+* ENGINE: why did trying to synchronize the objectsMap ruin everything?
+    -> look at commit history
 * ENGINE: Concurrency exceptions plague draw functions
     -> already using concurrentHashMap in thingMaps
     -> looks at the other branch's commits to see how the drawqueues were handled
