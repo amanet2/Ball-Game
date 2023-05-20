@@ -1231,15 +1231,13 @@ public class xCon {
                 }
                 String timeToExec = args[1];
                 String actStr = act.substring(1);
-                synchronized (xMain.shellLogic.serverSimulationThread.scheduledEvents.events) {
-                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
-                            new gDoable() {
-                                public void doCommand() {
-                                    ex(actStr);
-                                }
+                xMain.shellLogic.serverSimulationThread.scheduledEvents.put(timeToExec,
+                        new gDoable() {
+                            public void doCommand() {
+                                ex(actStr);
                             }
-                    );
-                }
+                        }
+                );
                 return "added time event @" + timeToExec + ": " + actStr;
             }
         });

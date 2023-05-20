@@ -10,13 +10,11 @@ public class gScheduler {
     private void dequeueCommands() {
         long gtime = sSettings.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
-        synchronized (events) {
-            for (String timestampkey : events.keySet()) {
-                if (Long.parseLong(timestampkey) > gtime)
-                    continue;
-                eventQueue.addAll(events.get(timestampkey));
-                toRemoveIds.add(timestampkey);
-            }
+        for (String timestampkey : events.keySet()) {
+            if (Long.parseLong(timestampkey) > gtime)
+                continue;
+            eventQueue.addAll(events.get(timestampkey));
+            toRemoveIds.add(timestampkey);
         }
         for(String timeStampKey : toRemoveIds) {
             events.remove(timeStampKey);
