@@ -1,7 +1,0 @@
-getres pname setnstate $1 name
-getres pcol setnstate $1 color
-testres $2 1 echo $pname#$pcol picked up a pistol
-testres $2 2 echo $pname#$pcol picked up a shotgun
-testres $2 3 echo $pname#$pcol picked up a rifle
-testres $2 4 echo $pname#$pcol picked up a launcher
-testres $2 5 echo $pname#$pcol picked up the gloves

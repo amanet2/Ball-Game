@@ -1,3 +1,5 @@
+* CRASH: concurrency crash in eGameLogicShell.updateEntityPositions:398
+    -> scene objectMaps I think?
 * ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)
     -> idk what to do about the "synchronized" keyword in front of some functions
 * ENGINE: why did trying to synchronize the objectsMap ruin everything?

@@ -830,7 +830,6 @@ public class xCon {
                 String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
                 xMain.shellLogic.serverNetThread.addNetCmd("server", giveString);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                ex(String.format("exec scripts/sv_handlegiveweapon %s %s", pid, weap));
                 return "gave weapon " + weap + " to player " + pid;
             }
         });

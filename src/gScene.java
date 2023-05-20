@@ -28,7 +28,7 @@ public class gScene {
         return pColl.toArray(new String[psize]);
     }
 
-    public HashMap<String, gThing> getThingMap(String thing_title) {
+    public synchronized HashMap<String, gThing> getThingMap(String thing_title) {
         return objectMaps.get(thing_title);
     }
 
