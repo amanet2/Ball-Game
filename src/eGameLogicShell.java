@@ -395,74 +395,75 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
             gCamera.updatePosition();
         double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
-        for(String id : getPlayerIds()) {
-            gPlayer obj = getPlayerById(id);
-            if(obj == null)
-                continue;
-            String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
-                    "decelrate"
-            };
-            //check null fields
-            if(!obj.containsFields(requiredFields))
-                continue;
-            int mx = obj.getInt("vel3") - obj.getInt("vel2");
-            int my = obj.getInt("vel1") - obj.getInt("vel0");
-            int dx = obj.getInt("coordx") + (int)(mx*mod);
-            int dy = obj.getInt("coordy") + (int)(my*mod);
-            if(obj.getLong("acceltick") < gameTimeMillis) {
-                obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
-                //user player
-                if(isUserPlayer(obj)) {
-                    for (int i = 0; i < 4; i++) {
-                        if (obj.getInt("mov" + i) > 0)
-                            obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
-                                    obj.getInt("vel" + i) + obj.getInt("accelrate"))));
-                        else
-                            obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
+        synchronized (clientScene.objectMaps) {
+            for (String id : getPlayerIds()) {
+                gPlayer obj = getPlayerById(id);
+                if (obj == null)
+                    continue;
+                String[] requiredFields = new String[]{
+                        "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
+                        "decelrate"
+                };
+                //check null fields
+                if (!obj.containsFields(requiredFields))
+                    continue;
+                int mx = obj.getInt("vel3") - obj.getInt("vel2");
+                int my = obj.getInt("vel1") - obj.getInt("vel0");
+                int dx = obj.getInt("coordx") + (int) (mx * mod);
+                int dy = obj.getInt("coordy") + (int) (my * mod);
+                if (obj.getLong("acceltick") < gameTimeMillis) {
+                    obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
+                    //user player
+                    if (isUserPlayer(obj)) {
+                        for (int i = 0; i < 4; i++) {
+                            if (obj.getInt("mov" + i) > 0)
+                                obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
+                                        obj.getInt("vel" + i) + obj.getInt("accelrate"))));
+                            else
+                                obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
+                        }
                     }
                 }
+                if (!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
+                    dx = obj.getInt("coordx");
+                if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
+                    dy = obj.getInt("coordy");
+                if (isUserPlayer(obj))
+                    gCamera.put("coords", dx + ":" + dy);
+                obj.putInt("coordx", dx);
+                obj.putInt("coordy", dy);
             }
-            if(!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
-                dx = obj.getInt("coordx");
-            if(!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
-                dy = obj.getInt("coordy");
-            if(isUserPlayer(obj))
-                gCamera.put("coords", dx + ":" + dy);
-            obj.putInt("coordx", dx);
-            obj.putInt("coordy", dy);
-        }
-        try {
-            HashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
-            Queue<gThing> checkQueue = new LinkedList<>();
-            String[] keys = thingMap.keySet().toArray(new String[0]);
-            for (String id : keys) {
-                checkQueue.add(thingMap.get(id));
+            try {
+                HashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
+                Queue<gThing> checkQueue = new LinkedList<>();
+                String[] keys = thingMap.keySet().toArray(new String[0]);
+                for (String id : keys) {
+                    checkQueue.add(thingMap.get(id));
+                }
+                while (checkQueue.size() > 0) {
+                    gBullet obj = (gBullet) checkQueue.remove();
+                    obj.putInt("coordx", obj.getInt("coordx")
+                            - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
+                    obj.putInt("coordy", obj.getInt("coordy")
+                            - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
+                }
+                checkBulletSplashes(gameTimeMillis);
+                //popups
+                thingMap = clientScene.getThingMap("THING_POPUP");
+                checkQueue = new LinkedList<>();
+                for (String id : thingMap.keySet()) {
+                    checkQueue.add(thingMap.get(id));
+                }
+                while (checkQueue.size() > 0) {
+                    gPopup obj = (gPopup) checkQueue.remove();
+                    obj.put("coordx", Integer.toString(obj.getInt("coordx")
+                            - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
+                    obj.put("coordy", Integer.toString(obj.getInt("coordy")
+                            - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            while (checkQueue.size() > 0) {
-                gBullet obj = (gBullet) checkQueue.remove();
-                obj.putInt("coordx", obj.getInt("coordx")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
-                obj.putInt("coordy", obj.getInt("coordy")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
-            }
-            checkBulletSplashes(gameTimeMillis);
-            //popups
-            thingMap = clientScene.getThingMap("THING_POPUP");
-            checkQueue = new LinkedList<>();
-            for (String id : thingMap.keySet()) {
-                checkQueue.add(thingMap.get(id));
-            }
-            while (checkQueue.size() > 0) {
-                gPopup obj = (gPopup) checkQueue.remove();
-                obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                        - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
-                obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                        - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

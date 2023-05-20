@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * play scenario.
  */
 public class gScene {
-    ConcurrentHashMap<String, HashMap<String, gThing>> objectMaps;
+    final ConcurrentHashMap<String, HashMap<String, gThing>> objectMaps;
 
 	public gScene() {
         objectMaps = new ConcurrentHashMap<>();
