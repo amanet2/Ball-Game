@@ -7,7 +7,7 @@ public class gScheduler {
     protected final ConcurrentHashMap<String, Queue<gDoable>> events;
     protected Queue<gDoable> eventQueue;
 
-    private void dequeueCommands() {
+    public void executeCommands() {
         long gtime = sSettings.gameTime;
         ArrayList<String> toRemoveIds = new ArrayList<>();
         for (String timestampkey : events.keySet()) {
@@ -19,21 +19,13 @@ public class gScheduler {
         for(String timeStampKey : toRemoveIds) {
             events.remove(timeStampKey);
         }
-    }
-
-    public void executeCommands() {
-        dequeueCommands();
         while (eventQueue.size() > 0) {
-            gDoable event = eventQueue.peek();
-            event.doCommand();
-            if(eventQueue.size() > 0)
-                eventQueue.remove();
+            eventQueue.remove().doCommand();
         }
     }
 
     public void put(String key, gDoable event) {
-        if(!events.containsKey(key))
-            events.put(key, new LinkedList<>());
+        events.putIfAbsent(key, new LinkedList<>());
         events.get(key).add(event);
     }
 
