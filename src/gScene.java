@@ -28,7 +28,7 @@ public class gScene {
         return pColl.toArray(new String[psize]);
     }
 
-    public synchronized HashMap<String, gThing> getThingMap(String thing_title) {
+    public HashMap<String, gThing> getThingMap(String thing_title) {
         return objectMaps.get(thing_title);
     }
 
@@ -36,7 +36,7 @@ public class gScene {
         return (gPlayer) getThingMap("THING_PLAYER").get(id);
     }
 
-    public synchronized void getWallsAndPlayersSortedByCoordY() {
+    public void getWallsAndPlayersSortedByCoordY() {
         synchronized(objectMaps) {
             HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
             HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
