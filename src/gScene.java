@@ -37,7 +37,7 @@ public class gScene {
     }
 
     public synchronized void getWallsAndPlayersSortedByCoordY() {
-        synchronized(dThings.visualQueue) {
+        synchronized(objectMaps) {
             HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
             HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
             HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));

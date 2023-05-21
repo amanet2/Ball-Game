@@ -396,44 +396,44 @@ public class eGameLogicShell extends eGameLogicAdapter {
             gCamera.updatePosition();
         double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
         synchronized (clientScene.objectMaps) {
-            for (String id : getPlayerIds()) {
-                gPlayer obj = getPlayerById(id);
-                if (obj == null)
-                    continue;
-                String[] requiredFields = new String[]{
-                        "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
-                        "decelrate"
-                };
-                //check null fields
-                if (!obj.containsFields(requiredFields))
-                    continue;
-                int mx = obj.getInt("vel3") - obj.getInt("vel2");
-                int my = obj.getInt("vel1") - obj.getInt("vel0");
-                int dx = obj.getInt("coordx") + (int) (mx * mod);
-                int dy = obj.getInt("coordy") + (int) (my * mod);
-                if (obj.getLong("acceltick") < gameTimeMillis) {
-                    obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
-                    //user player
-                    if (isUserPlayer(obj)) {
-                        for (int i = 0; i < 4; i++) {
-                            if (obj.getInt("mov" + i) > 0)
-                                obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
-                                        obj.getInt("vel" + i) + obj.getInt("accelrate"))));
-                            else
-                                obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
+            try {
+                for (String id : getPlayerIds()) {
+                    gPlayer obj = getPlayerById(id);
+                    if (obj == null)
+                        continue;
+                    String[] requiredFields = new String[]{
+                            "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
+                            "decelrate"
+                    };
+                    //check null fields
+                    if (!obj.containsFields(requiredFields))
+                        continue;
+                    int mx = obj.getInt("vel3") - obj.getInt("vel2");
+                    int my = obj.getInt("vel1") - obj.getInt("vel0");
+                    int dx = obj.getInt("coordx") + (int) (mx * mod);
+                    int dy = obj.getInt("coordy") + (int) (my * mod);
+                    if (obj.getLong("acceltick") < gameTimeMillis) {
+                        obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
+                        //user player
+                        if (isUserPlayer(obj)) {
+                            for (int i = 0; i < 4; i++) {
+                                if (obj.getInt("mov" + i) > 0)
+                                    obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
+                                            obj.getInt("vel" + i) + obj.getInt("accelrate"))));
+                                else
+                                    obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
+                            }
                         }
                     }
+                    if (!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
+                        dx = obj.getInt("coordx");
+                    if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
+                        dy = obj.getInt("coordy");
+                    if (isUserPlayer(obj))
+                        gCamera.put("coords", dx + ":" + dy);
+                    obj.putInt("coordx", dx);
+                    obj.putInt("coordy", dy);
                 }
-                if (!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
-                    dx = obj.getInt("coordx");
-                if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
-                    dy = obj.getInt("coordy");
-                if (isUserPlayer(obj))
-                    gCamera.put("coords", dx + ":" + dy);
-                obj.putInt("coordx", dx);
-                obj.putInt("coordy", dy);
-            }
-            try {
                 HashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
                 Queue<gThing> checkQueue = new LinkedList<>();
                 String[] keys = thingMap.keySet().toArray(new String[0]);
