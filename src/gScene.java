@@ -36,8 +36,9 @@ public class gScene {
         return (gPlayer) getThingMap("THING_PLAYER").get(id);
     }
 
-    public void getWallsAndPlayersSortedByCoordY() {
+    public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         synchronized(objectMaps) {
+            Queue<gThing> visualQueue = new LinkedList<>();
             HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
             HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
             HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
@@ -60,10 +61,11 @@ public class gScene {
                     }
                 }
                 if(lowestId.length() > 0) {
-                    dThings.visualQueue.add(combinedMap.get(lowestId));
+                    visualQueue.add(combinedMap.get(lowestId));
                     combinedMap.remove(lowestId);
                 }
             }
+            return visualQueue;
         }
     }
 

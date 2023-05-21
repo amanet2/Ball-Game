@@ -2,13 +2,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Queue;
 
 public class dThings {
-    static final ConcurrentLinkedQueue<gThing> visualQueue = new ConcurrentLinkedQueue<>();
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
-        synchronized (visualQueue) {
-            xMain.shellLogic.clientScene.getWallsAndPlayersSortedByCoordY();
+            Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
             while(visualQueue.size() > 0) {
                 gThing thing = visualQueue.remove();
                 if(thing.isVal("type", "THING_PLAYER"))
@@ -31,7 +29,6 @@ public class dThings {
                     }
                 }
             }
-        }
     }
 
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gThing block) {
