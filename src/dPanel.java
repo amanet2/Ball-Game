@@ -43,16 +43,18 @@ public class dPanel extends JPanel {
             ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
         g2.translate(-gCamera.getX(), -gCamera.getY());
-        dThings.drawBlockFloors(g2, scene);
-        dThings.drawBlockWallsAndPlayers(g2, scene);
-        dHUD.drawMapmakerOverlay(g2, scene);
-        dHUD.drawBulletsAndAnimations(g2, scene);
-        dHUD.drawWaypoints(g2, scene);
-        dHUD.drawPopups(g2, scene);
-        dHUD.drawUserPlayerArrow(g2);
-        dHUD.drawPlayerNames(g2);
-        if(sSettings.show_mapmaker_ui)
-            dHUD.drawSelectionBoxes(g2);
+        synchronized (scene.objectMaps) {
+            dThings.drawBlockFloors(g2, scene);
+            dThings.drawBlockWallsAndPlayers(g2, scene);
+            dHUD.drawMapmakerOverlay(g2, scene);
+            dHUD.drawBulletsAndAnimations(g2, scene);
+            dHUD.drawWaypoints(g2, scene);
+            dHUD.drawPopups(g2, scene);
+            dHUD.drawUserPlayerArrow(g2);
+            dHUD.drawPlayerNames(g2);
+            if (sSettings.show_mapmaker_ui)
+                dHUD.drawSelectionBoxes(g2);
+        }
     }
 
     public dPanel() {

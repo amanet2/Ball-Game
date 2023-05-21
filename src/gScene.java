@@ -37,36 +37,34 @@ public class gScene {
     }
 
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
-        synchronized(objectMaps) {
-            Queue<gThing> visualQueue = new LinkedList<>();
-            HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
-            HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
-            HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
-            for(String id : playerMap.keySet()) {
-                combinedMap.put(id, playerMap.get(id));
-            }
-            for(String id : itemMap.keySet()) {
-                combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
-            }
-            boolean sorted = false;
-            while(!sorted) {
-                sorted = true;
-                int lowestY = 1000000000;
-                String lowestId = "";
-                for(String id : combinedMap.keySet()) {
-                    if(combinedMap.get(id).getInt("coordy") <= lowestY) {
-                        sorted = false;
-                        lowestId = id;
-                        lowestY = combinedMap.get(id).getInt("coordy");
-                    }
-                }
-                if(lowestId.length() > 0) {
-                    visualQueue.add(combinedMap.get(lowestId));
-                    combinedMap.remove(lowestId);
-                }
-            }
-            return visualQueue;
+        Queue<gThing> visualQueue = new LinkedList<>();
+        HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
+        HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
+        HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
+        for(String id : playerMap.keySet()) {
+            combinedMap.put(id, playerMap.get(id));
         }
+        for(String id : itemMap.keySet()) {
+            combinedMap.put(id+"_1", itemMap.get(id)); //avoid overlap with any tiles
+        }
+        boolean sorted = false;
+        while(!sorted) {
+            sorted = true;
+            int lowestY = 1000000000;
+            String lowestId = "";
+            for(String id : combinedMap.keySet()) {
+                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
+                    sorted = false;
+                    lowestId = id;
+                    lowestY = combinedMap.get(id).getInt("coordy");
+                }
+            }
+            if(lowestId.length() > 0) {
+                visualQueue.add(combinedMap.get(lowestId));
+                combinedMap.remove(lowestId);
+            }
+        }
+        return visualQueue;
     }
 
     public void saveAs(String filename, String foldername) {

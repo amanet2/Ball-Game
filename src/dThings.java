@@ -6,29 +6,29 @@ import java.util.Queue;
 
 public class dThings {
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
-            Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
-            while(visualQueue.size() > 0) {
-                gThing thing = visualQueue.remove();
-                if(thing.isVal("type", "THING_PLAYER"))
-                    drawPlayer(g2, (gPlayer) thing);
-                else if(thing.get("type").contains("ITEM_"))
-                    drawItem(g2, (gItem) thing);
-                else {
-                    if(thing.get("type").contains("CUBE")) {
+        Queue<gThing> visualQueue = scene.getWallsAndPlayersSortedByCoordY();
+        while(visualQueue.size() > 0) {
+            gThing thing = visualQueue.remove();
+            if(thing.isVal("type", "THING_PLAYER"))
+                drawPlayer(g2, (gPlayer) thing);
+            else if(thing.get("type").contains("ITEM_"))
+                drawItem(g2, (gItem) thing);
+            else {
+                if(thing.get("type").contains("CUBE")) {
+                    if (thing.contains("wallh")) {
+                        drawShadowBlockFlat(g2, (gBlock) thing);
                         if (thing.contains("wallh")) {
-                            drawShadowBlockFlat(g2, (gBlock) thing);
-                            if (thing.contains("wallh")) {
-                                g2.setPaint(xMain.shellLogic.wallTexture);
-                                g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
-                                        thing.getWidth(), thing.getInt("wallh")
-                                );
-                                drawBlockWallsShadingFlat(g2, thing);
-                            }
-                            drawBlockTopCube(g2, thing);
+                            g2.setPaint(xMain.shellLogic.wallTexture);
+                            g2.fillRect(thing.getX(), thing.getY() + thing.getInt("toph"),
+                                    thing.getWidth(), thing.getInt("wallh")
+                            );
+                            drawBlockWallsShadingFlat(g2, thing);
                         }
+                        drawBlockTopCube(g2, thing);
                     }
                 }
             }
+        }
     }
 
     public static void drawBlockWallsShadingFlat(Graphics2D g2, gThing block) {
