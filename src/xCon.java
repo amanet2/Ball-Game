@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class xCon {
@@ -211,7 +212,7 @@ public class xCon {
                 if (toks.length > 1) {
                     String thing_title = toks[1];
                     if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
-                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new HashMap<>());
+                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new ConcurrentHashMap<>());
                 }
                 for(String thing_title : uiEditorMenus.previewScene.objectMaps.keySet()) {
                     uiEditorMenus.previewScene.objectMaps.get(thing_title).clear();
@@ -1712,7 +1713,7 @@ public class xCon {
         String ttype = args[1];
         if(scene.getThingMap(ttype) == null)
             return "null";
-        HashMap<String, gThing> thingMap = scene.getThingMap(ttype);
+        ConcurrentHashMap<String, gThing> thingMap = scene.getThingMap(ttype);
         if(args.length < 3)
             return thingMap.toString();
         String tid = args[2];

@@ -3,6 +3,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class dThings {
     public static void drawBlockWallsAndPlayers(Graphics2D g2, gScene scene) {
@@ -89,7 +90,7 @@ public class dThings {
     }
 
     public static void drawBlockFloors(Graphics2D g2, gScene scene) {
-        HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
+        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) { //TODO: concurrent exception occured on this line
             gThing block = floorMap.get(tag);
             g2.setPaint(xMain.shellLogic.floorTexture);
@@ -98,7 +99,7 @@ public class dThings {
     }
 
     public static void drawMapmakerPreviewBlockFloors(Graphics2D g2, gScene scene) {
-        HashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
+        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) {
             gThing block = floorMap.get(tag);
             dFonts.setFontColor(g2, "clrw_floorcolorpreview");
@@ -121,7 +122,7 @@ public class dThings {
     }
 
     public static void drawBlockTopCubesPreview(Graphics2D g2) {
-        HashMap<String, gThing> squareMap = uiEditorMenus.previewScene.getThingMap("BLOCK_CUBE");
+        ConcurrentHashMap<String, gThing> squareMap = uiEditorMenus.previewScene.getThingMap("BLOCK_CUBE");
         for(String tag : squareMap.keySet()) {
             gThing block = squareMap.get(tag);
             if(block.contains("wallh")) {

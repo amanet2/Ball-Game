@@ -13,12 +13,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * play scenario.
  */
 public class gScene {
-    final ConcurrentHashMap<String, HashMap<String, gThing>> objectMaps;
+    final ConcurrentHashMap<String, ConcurrentHashMap<String, gThing>> objectMaps;
 
 	public gScene() {
         objectMaps = new ConcurrentHashMap<>();
         for(String s : sSettings.object_titles) {
-            objectMaps.put(s, new HashMap<>());
+            objectMaps.put(s, new ConcurrentHashMap<>());
         }
     }
 
@@ -28,7 +28,7 @@ public class gScene {
         return pColl.toArray(new String[psize]);
     }
 
-    public HashMap<String, gThing> getThingMap(String thing_title) {
+    public ConcurrentHashMap<String, gThing> getThingMap(String thing_title) {
         return objectMaps.get(thing_title);
     }
 
@@ -38,9 +38,9 @@ public class gScene {
 
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         Queue<gThing> visualQueue = new LinkedList<>();
-        HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
-        HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
-        HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
+        ConcurrentHashMap<String, gThing> playerMap = new ConcurrentHashMap<>(getThingMap("THING_PLAYER"));
+        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
         for(String id : playerMap.keySet()) {
             combinedMap.put(id, playerMap.get(id));
         }
@@ -74,7 +74,7 @@ public class gScene {
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
             writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
-            HashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
+            ConcurrentHashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
@@ -90,7 +90,7 @@ public class gScene {
                 blockString.append('\n');
                 writer.write(blockString.toString());
             }
-            HashMap<String, gThing> itemMap = getThingMap("THING_ITEM");
+            ConcurrentHashMap<String, gThing> itemMap = getThingMap("THING_ITEM");
             for(String id : itemMap.keySet()) {
                 gItem item = (gItem) itemMap.get(id);
                 String[] args = new String[]{

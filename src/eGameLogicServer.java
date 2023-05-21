@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class eGameLogicServer extends eGameLogicAdapter {
     public String masterStateSnapshot; //what we want publicly accessible
@@ -254,7 +255,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
-        HashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
+        ConcurrentHashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
             gBlock block = (gBlock) blockMap.get(id);
             String[] args = new String[]{
@@ -275,7 +276,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             }
             maplines.add(blockString.toString());
         }
-        HashMap<String, gThing> itemMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
+        ConcurrentHashMap<String, gThing> itemMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{

@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
@@ -434,7 +435,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     obj.putInt("coordx", dx);
                     obj.putInt("coordy", dy);
                 }
-                HashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
+                ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
                 Queue<gThing> checkQueue = new LinkedList<>();
                 String[] keys = thingMap.keySet().toArray(new String[0]);
                 for (String id : keys) {
@@ -471,7 +472,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
+        ConcurrentHashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
         Queue<gThing> checkThings = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);
         for (String id : keys) {

@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class eGameLogicSimulation extends eGameLogicAdapter {
     private final Queue<String> cmdQueue; //local cmd queue for server
@@ -33,8 +34,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void checkGameItems() {
-        HashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
-        HashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
+        ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
+        ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         Queue<gThing> playerQueue = new LinkedList<>();
         Queue<gThing> itemsQueue = new LinkedList<>();
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
@@ -110,7 +111,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         }
 
         try {
-            HashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
+            ConcurrentHashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
             Queue<gThing> checkQueue = new LinkedList<>();
             String[] keys = thingMap.keySet().toArray(new String[0]);
             for (String id : keys) {
@@ -135,7 +136,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gBullet> pseeds = new ArrayList<>();
-        HashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
+        ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
         nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
         Queue<gThing> checkQueue = new LinkedList<>();
         String[] keys = bulletsMap.keySet().toArray(new String[0]);

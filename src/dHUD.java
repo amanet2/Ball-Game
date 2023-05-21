@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class dHUD {
@@ -194,7 +195,7 @@ public class dHUD {
     }
 
     public static void drawBulletsAndAnimations(Graphics2D g2, gScene scene) {
-        HashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
+        ConcurrentHashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
         Queue<gThing> drawThings = new LinkedList<>();
         for (String id : bulletsMap.keySet()) {
             drawThings.add(bulletsMap.get(id));
@@ -205,7 +206,7 @@ public class dHUD {
         }
         if(!sSettings.vfxenableanimations)
             return;
-        HashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
+        ConcurrentHashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
         long gameTimeMillis = sSettings.gameTime;
         for(String id : animationsMap.keySet()) {
             gThing emit = animationsMap.get(id);
