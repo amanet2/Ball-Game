@@ -1090,17 +1090,16 @@ public class xCon {
                             double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )
                                 return "sound too far away to hear";
-                            float panAdjust = (float) (absdistance/sfxrange);
+                            double panAdjust = absdistance/sfxrange;
                             if(diffx > 0)
                                 panAdjust = -panAdjust;
-//                            System.out.println("PAN: " + panAdjust);
                             if(clip.isControlSupported(FloatControl.Type.BALANCE)) {
                                 FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.BALANCE);
-                                balControl.setValue(panAdjust);
+                                balControl.setValue((float) panAdjust);
                             }
                             else if(clip.isControlSupported(FloatControl.Type.PAN)) {
                                 FloatControl balControl = (FloatControl) clip.getControl(FloatControl.Type.PAN);
-                                balControl.setValue(panAdjust);
+                                balControl.setValue((float) panAdjust);
                             }
                             if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
