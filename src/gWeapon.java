@@ -54,7 +54,7 @@ public class gWeapon {
         this.bulletSpritePath =  eManager.getPath(bulletSpritePath);
         this.soundFilePath = soundFilePath;
         this.spritePath = eManager.getPath(spritePath);
-        this.setSpriteFromPath(spritePath);
+        this.setSpriteFromPath(this.spritePath);
         this.flipdims = flipdims;
     }
 
