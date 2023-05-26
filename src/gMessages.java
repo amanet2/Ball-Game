@@ -12,13 +12,13 @@ public class gMessages {
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
-        expirs.add(gTime.gameTime + fadetime);
+        expirs.add(sSettings.gameTime + fadetime);
     }
 
     public static void checkMessages() {
         //expired msgs
         if(expirs.size() > 0) {
-            if(expirs.peek() != null && expirs.peek() < gTime.gameTime) {
+            if(expirs.peek() != null && expirs.peek() < sSettings.gameTime) {
                 screenMessages.remove(0);
                 expirs.remove();
             }

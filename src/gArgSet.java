@@ -27,14 +27,14 @@ public class gArgSet {
 
     public void loadFromFile(String s) {
         try (BufferedReader br = new BufferedReader(new FileReader(s))) {
-            xCon.ex("exec " + s);
+            xMain.shellLogic.console.ex("exec " + s);
             String line;
             while ((line = br.readLine()) != null) {
                 filelines.add(line);
             }
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
@@ -57,19 +57,19 @@ public class gArgSet {
                     String tk = largs[1]; //var key
                     if(contains(tk)) {
                         String argLine = String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk));
-                        if(cClientLogic.debug)
-                            xCon.instance().debug("SAVING FILE LINE W/ ARG" + argLine + " -> " + s);
+                        if(sSettings.clientDebug)
+                            xMain.shellLogic.console.debug("SAVING FILE LINE W/ ARG" + argLine + " -> " + s);
                         writer.write(argLine);
                         continue;
                     }
                 }
-                if(cClientLogic.debug)
-                    xCon.instance().debug("SAVING FILE LINE " + line + " -> " + s);
+                if(sSettings.clientDebug)
+                    xMain.shellLogic.console.debug("SAVING FILE LINE " + line + " -> " + s);
                 writer.write(line);
                 writer.write("\n");
             }
         } catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
@@ -108,7 +108,7 @@ public class gArgSet {
             arg.onUpdate();
         }
         else {
-            xCon.instance().debug("gArgSet.put: no arg for key: " + key);
+            xMain.shellLogic.console.debug("gArgSet.put: no arg for key: " + key);
             putArg(new gArg(key, val) {
                 public void onChange() {
 

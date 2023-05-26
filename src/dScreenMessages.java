@@ -20,16 +20,16 @@ public class dScreenMessages {
             g.drawString("ZOOM:" + sSettings.zoomLevel, 0, sSettings.height / 64);
         //fps
         if(showfps)
-            g.drawString("FPS:" + uiInterface.fpsReport, 0, 2*sSettings.height / 64);
+            g.drawString("FPS:" + sSettings.fpsReport, 0, 2*sSettings.height / 64);
         //client
         if(showtick)
-            g.drawString("SHELL:" + uiInterface.tickReport, 0, 3 * sSettings.height / 64);
+            g.drawString("SHELL:" + sSettings.tickReport, 0, 3 * sSettings.height / 64);
         //net
         if(shownet) {
-            g.drawString("CLIENT_NET:" + uiInterface.tickReportClient, 0, 4 * sSettings.height / 64);
-            g.drawString("SERVER_NET:" + uiInterface.netReportServer, 0, 5 * sSettings.height / 64);
-            g.drawString("SIMULATION:" + uiInterface.tickReportSimulation, 0, 6 * sSettings.height / 64);
-            g.drawString("PING:" + cClientLogic.ping, 0, 7 * sSettings.height / 64);
+            g.drawString("CLIENT_NET:" + sSettings.tickReportClient, 0, 4 * sSettings.height / 64);
+            g.drawString("SERVER_NET:" + sSettings.tickReportServer, 0, 5 * sSettings.height / 64);
+            g.drawString("SIMULATION:" + sSettings.tickReportSimulation, 0, 6 * sSettings.height / 64);
+            g.drawString("PING:" + sSettings.clientPing, 0, 7 * sSettings.height / 64);
         }
         if(showcam) {
             //camera
@@ -46,24 +46,24 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
                         eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
-        if(showplayer && cClientLogic.getUserPlayer() != null) {
+        if(showplayer && xMain.shellLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
-                    cClientLogic.getUserPlayer().getInt("coordx"),
-                    cClientLogic.getUserPlayer().getInt("coordy")),
+                    xMain.shellLogic.getUserPlayer().getInt("coordx"),
+                    xMain.shellLogic.getUserPlayer().getInt("coordy")),
                     0,10*sSettings.height/64);
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
-        if(uiInterface.inplay) {
+        if(sSettings.inplay) {
             dHUD.drawHUD(g);
         }
         //big font
         dFonts.setFontNormal(g);
-        if(uiInterface.inplay && cClientLogic.maploaded) {
-            dFonts.drawRightJustifiedString(g, gTime.getTimeString(cClientLogic.timeleft),
+        if(sSettings.inplay && sSettings.clientMapLoaded) {
+            dFonts.drawRightJustifiedString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
                     29 * sSettings.width / 30, 59 * sSettings.height / 64);
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g, cClientLogic.gamemodeTitle.toUpperCase(),
+            dFonts.drawRightJustifiedString(g, sSettings.clientGameModeTitle.toUpperCase(),
                     29 * sSettings.width / 30, 31*sSettings.height/32);
         }
         //wip notice -> needs to be transparent
@@ -73,15 +73,15 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         //menus
-        if(!uiInterface.inplay) {
+        if(!sSettings.inplay) {
             if(!sSettings.show_mapmaker_ui) {
                 dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
                     dFonts.setFontColor(g, "clrf_bonus");
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
-            else if(cClientLogic.maploaded){
-                String newThingString = cClientLogic.newprefabname;
+            else if(sSettings.clientMapLoaded){
+                String newThingString = sSettings.clientNewPrefabName;
                 //preview
                 g.setColor(Color.BLACK);
                 g.fillRoundRect(4*sSettings.width/5,20*sSettings.height/32,
@@ -99,15 +99,15 @@ public class dScreenMessages {
                 String[] rotates = {"_000", "_090", "_180", "_270"};
                 ArrayList<String> rotatesList = new ArrayList<>(Arrays.asList(rotates));
                 for(String s : rotatesList) {
-                    if(cClientLogic.newprefabname.contains(s)) {
+                    if(sSettings.clientNewPrefabName.contains(s)) {
                         g.drawString(String.format("[R] - ROTATE %s",
-                                uiEditorMenus.getRotateName(cClientLogic.newprefabname)),0, 27*sSettings.height/32);
+                                uiEditorMenus.getRotateName(sSettings.clientNewPrefabName)),0, 27*sSettings.height/32);
                         drawnRotate = true;
                         break;
                     }
                 }
 
-                if(cClientLogic.selectedPrefabId.length() > 0 || cClientLogic.selecteditemid.length() > 0) {
+                if(sSettings.clientSelectedPrefabId.length() > 0 || sSettings.clientSelectedItemId.length() > 0) {
                     g.drawString("[BACKSPACE] - DELETE SELECTED", 0, !drawnRotate ? 27 * sSettings.height / 32
                                                                                         : 25 * sSettings.height / 32);
                 }
@@ -119,33 +119,33 @@ public class dScreenMessages {
         }
         //console
         dFonts.setFontConsole(g);
-        if(uiInterface.inconsole) {
+        if(sSettings.inconsole) {
             dFonts.setFontColor(g, "clrf_scoreboardbg");
             g.fillRect(0,0,sSettings.width,sSettings.height);
             dFonts.setFontColor(g, "clrf_console");
-            g.fillRect(0,0,sSettings.width, (xCon.instance().linesToShow + 2) * sSettings.height/64);
+            g.fillRect(0,0,sSettings.width, (xMain.shellLogic.console.linesToShow + 2) * sSettings.height/64);
             dFonts.setFontColor(g, "clrf_normal");
             int ctr = 0;
-            for(int i = xCon.instance().linesToShowStart;
-                i < xCon.instance().linesToShowStart + xCon.instance().linesToShow; i++) {
+            for(int i = xMain.shellLogic.console.linesToShowStart;
+                i < xMain.shellLogic.console.linesToShowStart + xMain.shellLogic.console.linesToShow; i++) {
                 int dd = 1;
-                if(i == xCon.instance().linesToShowStart && xCon.instance().linesToShowStart > 0) {
-                    g.drawString(String.format("--- (%d) scroll up ---", xCon.instance().linesToShowStart),
+                if(i == xMain.shellLogic.console.linesToShowStart && xMain.shellLogic.console.linesToShowStart > 0) {
+                    g.drawString(String.format("--- (%d) scroll up ---", xMain.shellLogic.console.linesToShowStart),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
-                if(i == xCon.instance().linesToShowStart + xCon.instance().linesToShow-1
-                    && xCon.instance().linesToShowStart
-                    < xCon.instance().stringLines.size() - xCon.instance().linesToShow) {
+                if(i == xMain.shellLogic.console.linesToShowStart + xMain.shellLogic.console.linesToShow-1
+                    && xMain.shellLogic.console.linesToShowStart
+                    < xMain.shellLogic.console.stringLines.size() - xMain.shellLogic.console.linesToShow) {
                     g.drawString(String.format("--- (%d) scroll down ---",
-                        xCon.instance().stringLines.size()- xCon.instance().linesToShowStart
-                            - xCon.instance().linesToShow),
+                        xMain.shellLogic.console.stringLines.size()- xMain.shellLogic.console.linesToShowStart
+                            - xMain.shellLogic.console.linesToShow),
                         0, (ctr + 1) * sSettings.height / 64);
                     dd = 0;
                 }
                 if(dd != 0) {
-                    if(i < 1024 && xCon.instance().stringLines.size() > i) {
-                        String ds = xCon.instance().stringLines.get(i);
+                    if(i < 1024 && xMain.shellLogic.console.stringLines.size() > i) {
+                        String ds = xMain.shellLogic.console.stringLines.get(i);
                         if(ds == null)
                             ds = "null";
                         g.drawString(ds, 0, (ctr + 1) * sSettings.height / 64);
@@ -154,20 +154,20 @@ public class dScreenMessages {
                 ctr++;
             }
             StringBuilder is = new StringBuilder();
-            is.append(" ".repeat(Math.max(0, xCon.instance().cursorIndex)));
+            is.append(" ".repeat(Math.max(0, xMain.shellLogic.console.cursorIndex)));
             is = new StringBuilder(gameTimeMillis % 500 > 250 ? is.toString() : String.format("%s_", is));
-            g.drawString(String.format("console:~$ %s", xCon.instance().commandString),
-                0,(xCon.instance().linesToShow+1)*sSettings.height/64);
+            g.drawString(String.format("console:~$ %s", xMain.shellLogic.console.commandString),
+                0,(xMain.shellLogic.console.linesToShow+1)*sSettings.height/64);
             g.drawString(String.format("           %s", is), 0,
-                (xCon.instance().linesToShow+1)*sSettings.height/64);
+                (xMain.shellLogic.console.linesToShow+1)*sSettings.height/64);
         }
         //big font
         dFonts.setFontNormal(g);
         //scoreboard
         if(showscore)
-            dScoreboard.showScoreBoard(g);
+            dHUD.showScoreBoard(g);
         //loading
-        if(sSettings.IS_CLIENT && !cClientLogic.maploaded && gTime.gameTime % 1000 < 500)
+        if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && sSettings.gameTime % 1000 < 500)
             dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {

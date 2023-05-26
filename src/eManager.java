@@ -1,14 +1,15 @@
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class eManager {
 	static int mapSelectionIndex = -1;
 	static String[] mapsFileSelection;
-	static String[] winSoundFileSelection;
 	static String[] prefabFileSelection;
 	static String[] configFileSelection;
 	static String[] itemFilesSelection;
 	static String[] scriptFilesSelection;
+    static HashMap<String, File> audioFiles;
 
     public static void init() {
         configFileSelection = getFilesSelection("config");
@@ -16,7 +17,13 @@ public class eManager {
         prefabFileSelection = getFilesSelection("prefabs");
         scriptFilesSelection = getFilesSelection("scripts");
         mapsFileSelection = getFilesSelection("maps");
-        winSoundFileSelection = getFilesSelection(getPath("sounds/win"));
+        audioFiles = new HashMap<>();
+    }
+
+    public static File getAudioFile(String path) {
+        if(!audioFiles.containsKey(path))
+            audioFiles.put(path, new File(path));
+        return audioFiles.get(path);
     }
 
 	private static String[] getFilesSelection(String dirPath) {

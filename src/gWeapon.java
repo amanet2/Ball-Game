@@ -10,12 +10,11 @@ public class gWeapon {
     int refiredelay;
     String bulletSpritePath;
     String soundFilePath;
-    int flipdimr;
-    int flipdiml;
+    int[] flipdims;
     int bulletTtl;
     int bulletVel;
 
-    public gWeapon(String title) {
+    public gWeapon(String title, int[] dims, String bulletSpritePath, String soundFilePath, String spritePath, int[] flipdims) {
         argSet = new gArgSet();
         argSet.putArg(new gArg("dmg", "0") {
             public void onChange() {
@@ -45,21 +44,26 @@ public class gWeapon {
         });
         for(String s : new String[]{"dmg", "delay", "vel", "ttl", "rad"}) {
             String vk = String.format("setvar WEAPON_%s_%s", title, s);
-            String cfg = xCon.ex(vk);
+            String cfg = xMain.shellLogic.console.ex(vk);
             if(!cfg.equalsIgnoreCase("null"))
                 argSet.put(s, cfg);
             else
                 System.out.println("VALUE IS NULL: " + vk);
         }
+        this.dims = dims;
+        this.bulletSpritePath =  eManager.getPath(bulletSpritePath);
+        this.soundFilePath = soundFilePath;
+        this.spritePath = eManager.getPath(spritePath);
+        this.setSpriteFromPath(this.spritePath);
+        this.flipdims = flipdims;
     }
 
     public void setSpriteFromPath(String path) {
-        // TODO: make more optimized
         sprite = gTextures.getGScaledImage(path, dims[0], dims[1]);
     }
 
     public void fireWeapon(gPlayer p, gScene scene) {
         if(p != null && scene != null)
-            xCon.ex(String.format("playsound %s 1 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
+            xMain.shellLogic.console.ex(String.format("playsound %s 0 %d %d", soundFilePath,p.getInt("coordx"),p.getInt("coordy")));
     }
 }

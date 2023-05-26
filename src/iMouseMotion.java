@@ -10,7 +10,7 @@ public class iMouseMotion implements MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(uiInterface.hideMouseUI)
-            uiInterface.hideMouseUI = false;
+        if(sSettings.hideMouseUI)
+            sSettings.hideMouseUI = false;
     }
 }

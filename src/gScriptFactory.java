@@ -3,14 +3,19 @@ import java.io.FileReader;
 import java.util.HashMap;
 
 public class gScriptFactory {
-    HashMap<String, gScript> scriptMap;
-    private static gScriptFactory instance = null;
+    private HashMap<String, gScript> scriptMap;
 
-    private gScriptFactory() {
+    public gScriptFactory() {
         scriptMap = new HashMap<>();
     }
 
     public void init() {
+        //init prefabs
+        sSettings.prefab_titles = new String[eManager.prefabFileSelection.length];
+        int prefabFileCtr = 0;
+        for(String prefabName : eManager.prefabFileSelection) {
+            sSettings.prefab_titles[prefabFileCtr++] = prefabName;
+        }
         initScriptSelectionDelegate(eManager.scriptFilesSelection, "scripts");
         initScriptSelectionDelegate(eManager.itemFilesSelection, "items");
         initScriptSelectionDelegate(eManager.configFileSelection, "config");
@@ -32,7 +37,7 @@ public class gScriptFactory {
                 scriptMap.put(scriptMapKey, new gScript(scriptMapKey, fileContents.substring(1)));
             }
             catch (Exception e) {
-                eLogging.logException(e);
+                xMain.shellLogic.console.logException(e);
                 e.printStackTrace();
             }
         }
@@ -42,11 +47,5 @@ public class gScriptFactory {
         if(scriptMap.containsKey(id))
             return scriptMap.get(id);
         return null;
-    }
-
-    public static gScriptFactory instance() {
-        if(instance == null)
-            instance = new gScriptFactory();
-        return instance;
     }
 }

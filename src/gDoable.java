@@ -1,8 +1,25 @@
 public class gDoable {
-    public void exec() {
+    public gDoable() {
+        //override this class and methods to do arbitrary things
     }
 
-    public boolean check() {
+    public void doCommand() {
+
+    }
+
+    public boolean checkValue() {
         return true;
+    }
+
+    void doCommandAsServerFromClient(String clientId, String cmd) {
+
+    }
+
+    public String doCommand(String fullCommand) {
+        return "";
+    }
+
+    public String undoCommand(String fullCommand) {
+        return "";
     }
 }

@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,7 +11,6 @@ import java.util.Queue;
 public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
     private DatagramSocket clientSocket;
-    private Queue<DatagramPacket> receivedPackets;
     private nStateMap clientStateMap; //hold net player vars
     private gArgSet receivedArgsServer;
     private boolean cmdReceived;
@@ -18,61 +18,38 @@ public class eGameLogicClient extends eGameLogicAdapter {
 
     public eGameLogicClient() {
         netSendCmds = new LinkedList<>();
-        receivedPackets = new LinkedList<>();
         cmdReceived = false;
         try {
             clientSocket = new DatagramSocket();
             clientSocket.setSoTimeout(500);
         }
         catch (SocketException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
         clientStateMap = new nStateMap();
         clientStateSnapshot = "{}";
         receivedArgsServer = new gArgSet();
-        receivedArgsServer.putArg(new gArg("time", Long.toString(gTime.gameTime)) {
+        receivedArgsServer.putArg(new gArg("time", Long.toString(sSettings.gameTime)) {
             public void onChange() {
-                cClientLogic.timeleft = Long.parseLong(value);
+                sSettings.clientTimeLeft = Long.parseLong(value);
             }
         });
         receivedArgsServer.putArg(new gArg("cmd", "") {
             public void onUpdate() {
                 if(value.length() > 0) {
-                    xCon.instance().debug("FROM_SERVER: " + value);
+                    xMain.shellLogic.console.debug("FROM_SERVER: " + value);
                     cmdReceived = true;
-                    xCon.ex(value);
+                    xMain.shellLogic.console.ex(value);
                 }
             }
         });
     }
 
-    public void processPackets() {
-        try {
-            while(receivedPackets.size() > 1) {
-                //this means all older packets are thrown out
-                receivedPackets.remove();
-            }
-            if(receivedPackets.size() > 0) {
-                DatagramPacket receivePacket = receivedPackets.peek();
-                if(receivePacket != null && receivePacket.getData() != null) {
-                    String receiveDataString = new String(receivePacket.getData());
-                    xCon.instance().debug(String.format("CLIENT RCV [%d]: %s",
-                            receiveDataString.trim().length(), receiveDataString.trim()));
-                    readData(receiveDataString);
-                }
-            }
-        }
-        catch (Exception e) {
-            eLogging.logException(e);
-            e.printStackTrace();
-        }
-        receivedPackets.clear();
-    }
-
-    private void readData(String receiveDataString) {
-        StringBuilder foundIdsBuilder = new StringBuilder();
-        String netmapstring = receiveDataString.trim();
+    private void readData(String netmapstring) {
+        ArrayList<String> foundIds = new ArrayList<>();
+        Queue<String> toRemove = new LinkedList<>();
+        xMain.shellLogic.console.debug(String.format("CLIENT RCV [%d]: %s", netmapstring.length(), netmapstring));
         nStateMap packArgStateMap = new nStateMap(netmapstring);
         for(String idload : packArgStateMap.keys()) {
             nState packArgState = packArgStateMap.get(idload);
@@ -88,25 +65,16 @@ public class eGameLogicClient extends eGameLogicAdapter {
                 for(String k : packArgState.keys()) {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
                 }
-                foundIdsBuilder.append(", ").append(idload);
-            }
-            if(idload.equals(uiInterface.uuid)) { // handle our own player to get things like stockhp from server
-                gPlayer userPlayer = cClientLogic.getUserPlayer();
-                if(userPlayer != null && packArgState.contains("hp"))
-                    userPlayer.put("stockhp", packArgState.get("hp"));
+                foundIds.add(idload);
             }
         }
-        String foundIds = foundIdsBuilder.substring(1);
-        StringBuilder toRemove = new StringBuilder();
+        // check for IDs that are absent from received snapshot
         for(String k : clientStateMap.keys()) {
-            if(!foundIds.contains(k)) {
-                toRemove.append(",").append(k);
-            }
+            if(!foundIds.contains(k))
+                toRemove.add(k);
         }
-        if(toRemove.toString().length() > 0) {
-            for(String tr : toRemove.substring(1).split(",")) {
-                clientStateMap.remove(tr);
-            }
+        while(toRemove.size() > 0) {
+            clientStateMap.remove(toRemove.remove());
         }
         clientStateSnapshot = clientStateMap.toString().replace(", ", ",");
     }
@@ -117,13 +85,12 @@ public class eGameLogicClient extends eGameLogicAdapter {
         try {
             sendData();
             byte[] clientReceiveData = new byte[sSettings.rcvbytesclient];
-            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData,
-                    clientReceiveData.length);
+            DatagramPacket receivePacket = new DatagramPacket(clientReceiveData, clientReceiveData.length);
             clientSocket.receive(receivePacket);
-            receivedPackets.add(receivePacket);
-            cClientLogic.serverRcvTime = System.currentTimeMillis();
-            if(cClientLogic.serverRcvTime > cClientLogic.serverSendTime)
-                cClientLogic.ping = (int) (cClientLogic.serverRcvTime - cClientLogic.serverSendTime);
+            readData(new String(receivePacket.getData()).trim());
+            sSettings.clientNetRcvTime = System.currentTimeMillis();
+            if(sSettings.clientNetRcvTime > sSettings.clientNetSendTime)
+                sSettings.clientPing = (int) (sSettings.clientNetRcvTime - sSettings.clientNetSendTime);
         }
         catch (SocketException se) {
             //just to catch the closing
@@ -131,10 +98,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
             return;
         }
         catch (Exception e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
-        uiInterface.tickReportClient = getTickReport();
+        sSettings.tickReportClient = getTickReport();
     }
 
     public void addNetCmd(String cmd) {
@@ -144,19 +111,18 @@ public class eGameLogicClient extends eGameLogicAdapter {
     private void sendData() {
         InetAddress IPAddress;
         try {
-            //if we are the server, have client send data thru localhost always
+            //if we are the server, have local client send data thru localhost always
             if(sSettings.IS_SERVER)
                 IPAddress = InetAddress.getByName("127.0.0.1");
             else
-                IPAddress = InetAddress.getByName(xCon.ex("cl_setvar joinip"));
+                IPAddress = InetAddress.getByName(xMain.shellLogic.console.ex("cl_setvar joinip"));
             String sendDataString = getNetVars().toString().replace(", ", ",");
             byte[] clientSendData = sendDataString.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(clientSendData, clientSendData.length, IPAddress,
-                    Integer.parseInt(xCon.ex("cl_setvar joinport")));
-
+                    Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar joinport")));
             clientSocket.send(sendPacket);
-            cClientLogic.serverSendTime = System.currentTimeMillis();
-            xCon.instance().debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
+            sSettings.clientNetSendTime = System.currentTimeMillis();
+            xMain.shellLogic.console.debug("CLIENT SND [" + clientSendData.length + "]:" + sendDataString);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,10 +134,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
         keys.put("cmd", outgoingCmd != null ? outgoingCmd : "");
         keys.put("cmdrcv", cmdReceived ? "1" : "0");
         //update id in net args
-        keys.put("id", uiInterface.uuid);
-        keys.put("color", cClientLogic.playerColor);
-        keys.put("name", cClientLogic.playerName);
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
+        keys.put("id", sSettings.uuid);
+        keys.put("color", sSettings.clientPlayerColor);
+        keys.put("name", sSettings.clientPlayerName);
+        gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
             keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
@@ -188,10 +154,10 @@ public class eGameLogicClient extends eGameLogicAdapter {
             keys.put("mov3", "0");
         }
         if(sSettings.show_mapmaker_ui) {
-            keys.put("px", Integer.toString(cClientLogic.prevX));
-            keys.put("py", Integer.toString(cClientLogic.prevY));
-            keys.put("pw", Integer.toString(cClientLogic.prevW));
-            keys.put("ph", Integer.toString(cClientLogic.prevH));
+            keys.put("px", Integer.toString(sSettings.clientPrevX));
+            keys.put("py", Integer.toString(sSettings.clientPrevY));
+            keys.put("pw", Integer.toString(sSettings.clientPrevW));
+            keys.put("ph", Integer.toString(sSettings.clientPrevH));
         }
         cmdReceived = false; //always open up to new commands
         return keys;
@@ -202,8 +168,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
             String cmdString = netSendCmds.peek();
             // user's client-side firing
             if(cmdString.startsWith("fireweapon"))
-                xCon.ex("cl_" + cmdString);
-            xCon.instance().debug("TO_SERVER: " + cmdString);
+                xMain.shellLogic.console.ex("cl_" + cmdString);
+            xMain.shellLogic.console.debug("TO_SERVER: " + cmdString);
             return netSendCmds.remove();
         }
         return null;
@@ -213,8 +179,8 @@ public class eGameLogicClient extends eGameLogicAdapter {
     public void cleanup() {
         super.cleanup();
         sSettings.IS_CLIENT = false;
-        cClientLogic.netClientThread = null;
+        xMain.shellLogic.clientNetThread = null;
         clientSocket.close();
-        uiInterface.tickReportClient = 0;
+        sSettings.tickReportClient = 0;
     }
 }

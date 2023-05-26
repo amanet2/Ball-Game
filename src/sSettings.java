@@ -1,7 +1,7 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class sSettings {
-    /**
-	 * data source
-	 */
+    // sources
 	static String CONFIG_FILE_LOCATION_SERVER = "config/server";
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client";
 	static String CONFIG_FILE_LOCATION_GAME = "config/game";
@@ -15,9 +15,8 @@ public class sSettings {
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
-	/**
-	* vfx
-	* */
+
+	// vfx
 	static int gamescale = 2160;
 	static int width = 1920;
 	static int height = 1080;
@@ -36,13 +35,11 @@ public class sSettings {
 	static int popuplivetime = 2000;
 	static int velocity_popup = 2;
 	static double zoomLevel = 1.0;
-	/**
-	 * AUDIO
-	 * **/
+
+	// audio
 	static boolean audioenabled = true;
-	/**
-	 * NET
-	 * **/
+
+	// net
 	static int max_packet_size = 1200;
 	static int rcvbytesclient = 2048;
 	static int rcvbytesserver = 512;
@@ -50,4 +47,50 @@ public class sSettings {
 	static int rateserver = 1000; //server rate to poll for packet (<= 0 means unlimited)
 	static int rateclient = 30; //client net rate to request update from server
 	static int rateShell = 240; //desktop window rate like input, visual update
+
+	// server
+	static int serverTimeLimit = 180000;
+    static long serverTimeLeft = 180000;
+	static int serverListenPort = 5555;
+	static boolean serverLoadingFromHDD = false;
+	static int serverGameMode = 0;
+	static int serverVoteSkipLimit = 2;
+	static int serverRespawnDelay = 3000;
+	static int serverMaxHP = 500;
+	static int serverVelocityPlayerBase = 16;
+
+	//client
+	static int clientMaxHP = 500;
+	static double clientVolume = 100.0;
+	static String clientSelectedItemId = "";
+	static String clientSelectedPrefabId = "";
+	static String clientPlayerName = "player";
+	static String clientPlayerColor = "blue";
+	static int clientVelocityPlayerBase = 16;
+	static boolean clientDebug = false;
+	static boolean clientDebugLog = false;
+	static String clientNewPrefabName = "room";
+	static int clientGameMode = 0;
+	static String clientGameModeTitle = "Rock Master";
+	static String clientGameModeText = "Rock Other Players";
+	static boolean clientMapLoaded = false;
+	static int clientPrevX = 0;
+	static int clientPrevY = 0;
+	static int clientPrevW = 300;
+	static int clientPrevH = 300;
+	static long clientNetSendTime = 0;
+	static long clientNetRcvTime = 0;
+	static int clientPing = 0;
+	static long clientTimeLeft = 120000;
+    static long gameTime = System.currentTimeMillis();
+    static boolean inplay = false; //must be FALSE for mapmaker to work right
+    static boolean inconsole = false;
+    static int tickReport = 0;
+    static int fpsReport = 0;
+    static int tickReportClient = 0;
+    static int tickReportSimulation = 0;
+    static int tickReportServer = 0;
+    static int frames = 0;
+    static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
+    static boolean hideMouseUI = false;
 }

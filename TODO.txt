@@ -1,13 +1,36 @@
-* CRASH: all clients lose connection to server at some random time but dont know why
-    -> see if the "disconnect" feature is a workaround now
-    -> maybe socket is not be re-created on rety?
-* ENGINE: have players use "coords" instead of serparate coordx and coordy stuff
-* ENGINE: target where the simulation thread accesses the statemap in the server thread
+* CRASH: concurrency crash in eGameLogicShell.updateEntityPositions:398
+    -> scene objectMaps I think?
+* ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)
+    -> idk what to do about the "synchronized" keyword in front of some functions
+* ENGINE: why did trying to synchronize the objectsMap ruin everything?
+    -> look at commit history
+* ENGINE: Concurrency exceptions plague draw functions
+    -> already using concurrentHashMap in thingMaps
+    -> looks at the other branch's commits to see how the drawqueues were handled
+* GIT: want to go back in time
+    -> git checkout <old working commit>
+    -> git checkout -b <new branch>
+    -> push this branch
+        -> retarget the older branch into this new stable branch, stable branch targets main now
+* ENGINE: got to redo sound stuff
+    -> have to reimplement panning
+* TWO COMMITS TANGLED UP
+    -> on target: git config pull.rebase true && git pull && git config pull.rebase false
+* SCRIPT: make an console doable like batch script "REM"
+* BUILD: current steps
+    -> compile java into .class files
+    -> jar archive these files
+    -> call jar with jdk java
+    -> move all pkg and bin files into a dir for distributing
+    -> Executing: .exe that calls java (.c) -OR- .bat that calls java
+        -> manually edit the internal system call in .c file when compiling into mapmaker exe
+* GAMETYPE: flags spawn on random points and players have to carry the flags to a scorepoint to get points
+    -> new item: remove flag state and decoration on intersection, give point (if they have flag)
+* ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
+* ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
-* ENGINE: move client packet reading code to shell logic
 * ENGINE: think about whether net threads should have 'update' be called or 'render'
     -> one is in a while loop while syncing with current time, other is called after sync
-* Use String snapshots of clientStateMap to avoid concurrency issues
 * Engine: xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data

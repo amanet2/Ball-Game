@@ -3,13 +3,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 public class dMenus {
-    private static Image coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"),
-                                                             sSettings.width, sSettings.height);
     private static Image logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"),
                                                             sSettings.width, sSettings.height/3);
 
     public static void refreshLogos() {
-        coverimg = gTextures.getGScaledImage(eManager.getPath("misc/cover.png"), sSettings.width, sSettings.height);
         logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"), sSettings.width, sSettings.height/3);
     }
 
@@ -17,7 +14,6 @@ public class dMenus {
         uiInterface.getUIMenuItemUnderMouse();
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        g.drawImage(coverimg,0,0,null);
         g.drawImage(logoimg,0,0,null);
         dFonts.setFontColor(g, "clrf_highlight");
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
@@ -41,8 +37,8 @@ public class dMenus {
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
-                if(oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
-                    oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                if(xMain.shellLogic.displayPane.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
                 dFonts.drawCenteredString(g,i.text,
@@ -50,7 +46,7 @@ public class dMenus {
             }
             ctr++;
         }
-        if(sel == 0 && oDisplay.instance().frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
-            oDisplay.instance().frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if(sel == 0 && xMain.shellLogic.displayPane.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
+            xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

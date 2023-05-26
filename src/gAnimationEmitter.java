@@ -6,6 +6,6 @@ public class gAnimationEmitter extends gThing {
         putInt("coordy", y);
         putInt("animation", a);
         putInt("frame", 0);
-        putLong("frametime", gTime.gameTime);
+        putLong("frametime", sSettings.gameTime);
     }
 }

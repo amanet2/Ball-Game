@@ -22,10 +22,8 @@ public class gTextures {
             else
                 base_gsprites.put(s, new ImageIcon(s));
         }
-        if(gscaled_sprites.get(rk) == null) {
-            gscaled_sprites.put(rk,
-                    base_gsprites.get(s).getImage().getScaledInstance(w, h, Image.SCALE_FAST));
-        }
+        if(gscaled_sprites.get(rk) == null)
+            gscaled_sprites.put(rk, base_gsprites.get(s).getImage().getScaledInstance(w, h, Image.SCALE_FAST));
         return gscaled_sprites.get(rk);
     }
 
@@ -36,8 +34,8 @@ public class gTextures {
 
     public static void refreshObjectSprites() {
         gscaled_sprites.clear();
-        for(String id : cClientLogic.getPlayerIds()) {
-            gPlayer p = cClientLogic.getPlayerById(id);
+        for(String id : xMain.shellLogic.getPlayerIds()) {
+            gPlayer p = xMain.shellLogic.getPlayerById(id);
             p.sprite = getGScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
         }
     }

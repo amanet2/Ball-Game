@@ -51,7 +51,7 @@ public class gPlayer extends gThing {
         }
         else if(a03 && !get("pathsprite").contains("a03")) {
             setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png", get("color"))));
-            gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdimr;
+            gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdims[1];
             gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(gWeapons.fromCode(getInt("weapon")).spritePath);
         }
         else if(a04 && !get("pathsprite").contains("a04")) {
@@ -61,7 +61,7 @@ public class gPlayer extends gThing {
             setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a05.png",get("color"))));
             String flippedSprite = gWeapons.fromCode(getInt("weapon")).spritePath.replace(".png", "_flip.png");
             if(gWeapons.fromCode(getInt("weapon")) != null) {
-                gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdiml;
+                gWeapons.fromCode(getInt("weapon")).dims[1] = gWeapons.fromCode(getInt("weapon")).flipdims[0];
                 gWeapons.fromCode(getInt("weapon")).setSpriteFromPath(flippedSprite);
             }
         }
@@ -86,6 +86,7 @@ public class gPlayer extends gThing {
         put("pathsprite", "");
         put("weapon", "0");
         put("decorationsprite", "null");
+        put("weaponsprite", "null");
         put("waypoint", "0");
         put("cooldown", "0");
         put("acceltick", "0");
@@ -98,7 +99,6 @@ public class gPlayer extends gThing {
         put("mov1", "0");
         put("mov2", "0");
         put("mov3", "0");
-        putInt("stockhp", cClientLogic.maxhp);
         setSpriteFromPath(eManager.getPath("animations/player_red/a03.png"));
     }
 }

@@ -1,10 +1,12 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public class dScreenFX {
     public static void drawScreenFX(Graphics g) {
-        gPlayer userPlayer = cClientLogic.getUserPlayer();
+        if(!sSettings.IS_CLIENT)
+            return;
+        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
+        if(userState == null)
+            return;
         Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {
@@ -37,47 +39,44 @@ public class dScreenFX {
 //
 //        }
         // health overlay
-        if(userPlayer != null) {
-            //threshold to turn on screen fx
-            int userhp = Math.max((int)userPlayer.getDouble("stockhp"), 0);
-            if (userhp < cClientLogic.maxhp) {
-                int factors = sSettings.vfxfactor;
-                int maxl = gColors.hpAlpha;
-                Color color = gColors.getColorFromName("clrp_" + cClientLogic.vars.get("playercolor"));
-                for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
-                    for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
-                        int w = sSettings.width / factors;
-                        int h = sSettings.height / factors;
-                        if (Math.random() > 0.95 && Math.random() > 0.95) {
-                            g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
-                                    - maxl * userhp / cClientLogic.maxhp
-                                    + (int) (Math.random() * (-25) + 25)));
-                            g.fillRect(i, j, w, h);
-                        }
+        int userhp = Math.max(Integer.parseInt(userState.get("hp")), 0);
+        if (userhp < sSettings.clientMaxHP) {
+            int factors = sSettings.vfxfactor;
+            int maxl = gColors.hpAlpha;
+            Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
+            for (int i = 0; i < sSettings.width; i += sSettings.width / factors) {
+                for (int j = 0; j < sSettings.height; j += sSettings.height / factors) {
+                    int w = sSettings.width / factors;
+                    int h = sSettings.height / factors;
+                    if (Math.random() > 0.95 && Math.random() > 0.95) {
+                        g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), maxl
+                                - maxl * userhp / sSettings.clientMaxHP
+                                + (int) (Math.random() * (-25) + 25)));
+                        g.fillRect(i, j, w, h);
                     }
                 }
-                int factorsdiv = sSettings.vfxfactordiv;
-                int factorsw = sSettings.width / factorsdiv;
-                int factorsh = sSettings.height / factorsdiv;
-                for (int i = 0; i < factorsw; i++) {
-                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
-                            Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
-                                    - (factorsw / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
-                    g.setColor(hpvfxColor);
-                    g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
-                }
-                for (int i = 0; i < factorsh; i++) {
-                    Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
-                            Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
-                                    * (cClientLogic.maxhp - userhp) / cClientLogic.maxhp / 2);
-                    g.setColor(hpvfxColor);
-                    g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
-                }
+            }
+            int factorsdiv = sSettings.vfxfactordiv;
+            int factorsw = sSettings.width / factorsdiv;
+            int factorsh = sSettings.height / factorsdiv;
+            for (int i = 0; i < factorsw; i++) {
+                Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+                        Math.abs(Math.abs((maxl / (factorsw / 2)) * (Math.abs(((factorsw / 2) - i))
+                                - (factorsw / 2))) - maxl)
+                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
+                g.setColor(hpvfxColor);
+                g.fillRect(sSettings.width / factorsw * i, 0, sSettings.width / factorsw, sSettings.height);
+            }
+            for (int i = 0; i < factorsh; i++) {
+                Color hpvfxColor = new Color(color.getRed(), color.getGreen(), color.getBlue(),
+                        Math.abs(Math.abs((maxl / (factorsh / 2)) * (Math.abs(((factorsh / 2) - i)) - (factorsh / 2))) - maxl)
+                                * (sSettings.clientMaxHP - userhp) / sSettings.clientMaxHP / 2);
+                g.setColor(hpvfxColor);
+                g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
             }
         }
         // -- aimer
-        if(uiInterface.inplay) {
+        if(sSettings.inplay) {
             int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
             int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
             int cx = eUtils.unscaleInt(gCamera.getX());
@@ -89,8 +88,17 @@ public class dScreenFX {
             snapX = eUtils.scaleInt(snapX);
             snapY = eUtils.scaleInt(snapY);
             int setw = sSettings.height / 64;
-            g2.setColor(gColors.getColorFromName("clrp_" + cClientLogic.playerColor));
+            g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
             g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
+    }
+
+    public static void drawFlareFromColor(Graphics2D g2, int x, int y, int w, int h, int mode, Color c1, Color c2) {
+        RadialGradientPaint df = new RadialGradientPaint(new Point(x + w/2, y + h/2),
+                mode == 1 ? Math.max(w/2, h/2) : Math.min(w/2, h/2),
+                new float[]{0f, 1f}, new Color[]{c1, c2}
+        );
+        g2.setPaint(df);
+        g2.fillRect(x, y, w, h);
     }
 }

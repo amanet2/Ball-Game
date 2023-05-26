@@ -5,18 +5,20 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * A scene holds the background and objects for a game
  * play scenario.
  */
 public class gScene {
-    HashMap<String, LinkedHashMap<String, gThing>> objectMaps;
+    final ConcurrentHashMap<String, ConcurrentHashMap<String, gThing>> objectMaps;
 
 	public gScene() {
-        objectMaps = new HashMap<>();
+        objectMaps = new ConcurrentHashMap<>();
         for(String s : sSettings.object_titles) {
-            objectMaps.put(s, new LinkedHashMap<>());
+            objectMaps.put(s, new ConcurrentHashMap<>());
         }
     }
 
@@ -26,8 +28,8 @@ public class gScene {
         return pColl.toArray(new String[psize]);
     }
 
-    public LinkedHashMap<String, gThing> getThingMap(String thing_title) {
-	    return objectMaps.get(thing_title);
+    public ConcurrentHashMap<String, gThing> getThingMap(String thing_title) {
+        return objectMaps.get(thing_title);
     }
 
     public gPlayer getPlayerById(String id) {
@@ -36,9 +38,9 @@ public class gScene {
 
     public Queue<gThing> getWallsAndPlayersSortedByCoordY() {
         Queue<gThing> visualQueue = new LinkedList<>();
-        HashMap<String, gThing> playerMap = new HashMap<>(getThingMap("THING_PLAYER"));
-        HashMap<String, gThing> combinedMap = new HashMap<>(getThingMap("BLOCK_CUBE"));
-        HashMap<String, gThing> itemMap = new HashMap<>(getThingMap("THING_ITEM"));
+        ConcurrentHashMap<String, gThing> playerMap = new ConcurrentHashMap<>(getThingMap("THING_PLAYER"));
+        ConcurrentHashMap<String, gThing> combinedMap = new ConcurrentHashMap<>(getThingMap("BLOCK_CUBE"));
+        ConcurrentHashMap<String, gThing> itemMap = new ConcurrentHashMap<>(getThingMap("THING_ITEM"));
         for(String id : playerMap.keySet()) {
             combinedMap.put(id, playerMap.get(id));
         }
@@ -71,8 +73,8 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
-            writer.write(String.format("load\ngamemode %d\n", cClientLogic.gamemode));
-            HashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
+            writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
+            ConcurrentHashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
                 gBlock block = (gBlock) blockMap.get(id);
                 String[] args = new String[]{
@@ -88,7 +90,7 @@ public class gScene {
                 blockString.append('\n');
                 writer.write(blockString.toString());
             }
-            HashMap<String, gThing> itemMap = getThingMap("THING_ITEM");
+            ConcurrentHashMap<String, gThing> itemMap = getThingMap("THING_ITEM");
             for(String id : itemMap.keySet()) {
                 gItem item = (gItem) itemMap.get(id);
                 String[] args = new String[]{
@@ -107,7 +109,7 @@ public class gScene {
                 writer.write(str.toString());
             }
         } catch (IOException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }
@@ -157,7 +159,7 @@ public class gScene {
                 writer.write(str.toString());
             }
         } catch (IOException e) {
-            eLogging.logException(e);
+            xMain.shellLogic.console.logException(e);
             e.printStackTrace();
         }
     }

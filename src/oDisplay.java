@@ -16,15 +16,7 @@ public class oDisplay extends JLayeredPane {
 	JFrame frame;
     Cursor blankCursor;
 
-    private static oDisplay instance = null;
-
-	public static oDisplay instance() {
-		if (instance == null)
-			instance = new oDisplay();
-		return instance;
-	}
-
-	private oDisplay() {
+	public oDisplay() {
 		super();
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
@@ -52,13 +44,13 @@ public class oDisplay extends JLayeredPane {
         {
             public void windowClosing(WindowEvent e)
             {
-                xCon.ex("quit");
+                xMain.shellLogic.console.ex("quit");
             }
         });
         frame.setUndecorated(sSettings.displaymode != displaymode_windowed);
 		if(sSettings.show_mapmaker_ui) {
             uiEditorMenus.setupMapMakerWindow();
-            xCon.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", cClientLogic.newprefabname));
+            xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
         }
 		frame.setResizable(false);
         setPreferredSize(new Dimension(sSettings.width,sSettings.height));
@@ -94,7 +86,7 @@ public class oDisplay extends JLayeredPane {
         };
     }
 
-	public void createPanels() {
+	private void createPanels() {
 	    removeAll();
         setBackground(gColors.getColorFromName("clrf_background"));
         int[] od = getContentPaneOffsetDimension();

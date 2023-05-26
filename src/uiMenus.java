@@ -69,7 +69,7 @@ public class uiMenus {
                         },
                         new uiMenuItem("Yes") {
                             public void doItem(){
-                                xCon.ex("quit");
+                                xMain.shellLogic.console.ex("quit");
                             }
                         }
                 },
@@ -130,9 +130,9 @@ public class uiMenus {
                         new uiMenuItem(String.format("Borderless [%s]",
                                 sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
                             public void doItem() {
-                                xCon.ex("cl_setvar displaymode "
+                                xMain.shellLogic.console.ex("cl_setvar displaymode "
                                         + (sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0"));
-                                oDisplay.instance().refreshDisplaymode();
+                                xMain.shellLogic.displayPane.refreshDisplaymode();
                                 refreshText();
                             }
                             public void refreshText() {
@@ -142,26 +142,26 @@ public class uiMenus {
                         },
                         new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
                             public void doItem() {
-                                xCon.ex("cl_setvar vfxenableanimations "
+                                xMain.shellLogic.console.ex("cl_setvar vfxenableanimations "
                                         + (sSettings.vfxenableanimations ? "0" : "1"));
                                 text = String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ")){
                             public void doItem() {
-                                xCon.ex("cl_setvar vfxenableflares " + (sSettings.vfxenableflares ? "0" : "1"));
+                                xMain.shellLogic.console.ex("cl_setvar vfxenableflares " + (sSettings.vfxenableflares ? "0" : "1"));
                                 text = String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ")){
                             public void doItem() {
-                                xCon.ex("cl_setvar vfxenableshading " + (sSettings.vfxenableshading ? "0" : "1"));
+                                xMain.shellLogic.console.ex("cl_setvar vfxenableshading " + (sSettings.vfxenableshading ? "0" : "1"));
                                 text = String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ")){
                             public void doItem() {
-                                xCon.ex("cl_setvar vfxenableshadows " + (sSettings.vfxenableshadows ? "0" : "1"));
+                                xMain.shellLogic.console.ex("cl_setvar vfxenableshadows " + (sSettings.vfxenableshadows ? "0" : "1"));
                                 text = String.format("Shadows [%s]", sSettings.vfxenableshadows ? "X" : "  ");
                             }
                         }
@@ -186,7 +186,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
-                                xCon.ex("hostgame");
+                                xMain.shellLogic.console.ex("hostgame");
                                 selectedMenu = MENU_MAIN;
                             }
                         },
@@ -211,18 +211,18 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("-Start-"){
                             public void doItem() {
-                                xCon.ex("joingame;pause");
+                                xMain.shellLogic.console.ex("joingame;pause");
                                 selectedMenu = MENU_MAIN;
                             }
                         },
                         new uiMenuItem("Join IP []") {
                             public void doItem() {
-                                xCon.ex("e_changejoinip");
+                                xMain.shellLogic.console.ex("e_changejoinip");
                             }
                         },
                         new uiMenuItem("Join Port []") {
                             public void doItem() {
-                                xCon.ex("e_changejoinport");
+                                xMain.shellLogic.console.ex("e_changejoinport");
                             }
                         }
                 },
@@ -231,20 +231,20 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         "-Start-",
-                        String.format("Join IP [%s]", xCon.ex("cl_setvar joinip")),
-                        String.format("Join Port [%s]", xCon.ex("cl_setvar joinport"))
+                        String.format("Join IP [%s]", xMain.shellLogic.console.ex("cl_setvar joinip")),
+                        String.format("Join Port [%s]", xMain.shellLogic.console.ex("cl_setvar joinport"))
                 });
             }
         },
         new uiMenu(
                 "Profile",
                 new uiMenuItem[]{
-                        new uiMenuItem(String.format("Name [%s]", cClientLogic.playerName)) {
+                        new uiMenuItem(String.format("Name [%s]", sSettings.clientPlayerName)) {
                             public void doItem() {
-                                xCon.ex("e_changeplayername");
+                                xMain.shellLogic.console.ex("e_changeplayername");
                             }
                         },
-                        new uiMenuItem(String.format("Color [%s]", cClientLogic.playerColor)) {
+                        new uiMenuItem(String.format("Color [%s]", sSettings.clientPlayerColor)) {
                             public void doItem() {
                                 selectedMenu = MENU_COLOR;
                             }
@@ -254,8 +254,8 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Name [%s]", cClientLogic.playerName),
-                        String.format("Color [%s]", cClientLogic.playerColor),
+                        String.format("Name [%s]", sSettings.clientPlayerName),
+                        String.format("Color [%s]", sSettings.clientPlayerColor),
                 });
             }
         },
@@ -264,7 +264,7 @@ public class uiMenus {
                 new uiMenuItem[]{
                         new uiMenuItem("mute") {
                             public void doItem() {
-                                xCon.ex("cl_setvar audioenabled " + (sSettings.audioenabled ? "0" : "1"));
+                                xMain.shellLogic.console.ex("cl_setvar audioenabled " + (sSettings.audioenabled ? "0" : "1"));
                                 menuSelection[MENU_AUDIO].refresh();
                             }
                         },
@@ -279,7 +279,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         String.format("Mute Audio [%s]", sSettings.audioenabled ? "  " : "X"),
-                        String.format("Volume [%d]", (int) cClientLogic.volume)
+                        String.format("Volume [%d]", (int) sSettings.clientVolume)
                 });
             }
         },
@@ -369,7 +369,7 @@ public class uiMenus {
                         new uiMenuItem("Yes") {
                             public void doItem(){
                                 selectedMenu = MENU_MAIN;
-                                xCon.ex("disconnect");
+                                xMain.shellLogic.console.ex("disconnect");
                             }
                         }
                 },
@@ -427,7 +427,7 @@ public class uiMenus {
             items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
-                    xCon.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
+                    xMain.shellLogic.console.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
                     menuSelection[MENU_VIDEO].items[0].refreshText();
                     selectedMenu = MENU_VIDEO;
                 }
@@ -458,7 +458,7 @@ public class uiMenus {
     }
     
     private static void selectFramerateAfterSubmit() {
-        cClientLogic.vars.put("vidmode",
+        xMain.shellLogic.clientVars.put("vidmode",
                 String.format("%d,%d,%d", sSettings.width, sSettings.height,
                         sSettings.framerate));
         menuSelection[MENU_VIDEO].refresh();
@@ -472,7 +472,7 @@ public class uiMenus {
             items = Arrays.copyOf(items, items.length + 1);
             items[items.length - 1] = new uiMenuItem(s) {
                 public void doItem() {
-                    xCon.ex("cl_setvar playercolor " + text);
+                    xMain.shellLogic.console.ex("cl_setvar playercolor " + text);
                     menuSelection[MENU_PROFILE].refresh();
                     selectedMenu = MENU_PROFILE;
                 }
@@ -484,17 +484,17 @@ public class uiMenus {
     private static uiMenuItem[] getControlMenuItems() {
         return new uiMenuItem[] {
                 new uiMenuItem("throw rock: MOUSE_LEFT"),
-                new uiMenuItem("move up: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerup"))),
-                new uiMenuItem("move down: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerdown"))),
-                new uiMenuItem("move left: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerleft"))),
-                new uiMenuItem("move right: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("playerright"))),
-                new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("showscore"))),
-                new uiMenuItem("chat: "+KeyEvent.getKeyText(xCon.instance().getKeyCodeForComm("chat")))
+                new uiMenuItem("move up: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerup"))),
+                new uiMenuItem("move down: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerdown"))),
+                new uiMenuItem("move left: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerleft"))),
+                new uiMenuItem("move right: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("playerright"))),
+                new uiMenuItem("show scoreboard: "+ KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("showscore"))),
+                new uiMenuItem("chat: "+KeyEvent.getKeyText(xMain.shellLogic.console.getKeyCodeForComm("chat")))
         };
     }
 
     private static void setVolume(String val) {
-        xCon.ex("cl_setvar volume " + val);
+        xMain.shellLogic.console.ex("cl_setvar volume " + val);
         menuSelection[MENU_AUDIO].refresh();
         selectedMenu = MENU_AUDIO;
     }

@@ -14,10 +14,10 @@ public class dFonts {
     static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
     static int fontsize = 90;
     static String fontnameconsole = "monospaced";
-    static Font fontNormal = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN,
+    static Font fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             fontsize * sSettings.height / sSettings.gamescale);
-    static Font fontGNormal = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN, fontsize);
-    static Font fontSmall = new Font(cClientLogic.vars.get("fontui"), Font.PLAIN,
+    static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, fontsize);
+    static Font fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             fontsize*sSettings.height/sSettings.gamescale/2);
     static Font fontConsole = new Font(fontnameconsole, Font.PLAIN,
             fontsize*sSettings.height/sSettings.gamescale/2);
@@ -43,16 +43,13 @@ public class dFonts {
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
         g.setColor(color);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-        int[] bounds = {
-                x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2
-                        - eUtils.unscaleInt(5*sSettings.height/128),
-                y - eUtils.unscaleInt(sSettings.height/32),
-                eUtils.unscaleInt(sSettings.height/32),
-                eUtils.unscaleInt(sSettings.height/32)
-        };
-        g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-        dFonts.setFontColor(g, "clrf_normaltransparent");
-        g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
+    }
+
+    public static void drawPlayerNameScoreboard(Graphics g, String s, int x, int y, Color color) {
+        g.setColor(Color.BLACK);
+        g.drawString(s,x+3,y+3);
+        g.setColor(color);
+        g.drawString(s,x,y);
     }
 
     public static void drawRightJustifiedString(Graphics g, String s, int x, int y) {

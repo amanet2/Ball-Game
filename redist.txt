@@ -1,0 +1,6 @@
+* download JDK 20 from oracle (ew)
+* for GCC:
+  1. download from github: skeeto/w64devkit-<version>.zip
+  2. Extract all to folder
+  3. double-click: w64devkit
+  4. gcc -o ballmaster ballmaster.c

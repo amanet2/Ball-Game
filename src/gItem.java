@@ -6,7 +6,7 @@ public class gItem extends gThing {
     public void activateItem(gThing p) {
         String theScript = get("script");
         if(!theScript.equals("null"))
-            xCon.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
+            xMain.shellLogic.console.ex(String.format("%s %s %s", theScript, get("id"), p.get("id")));
     }
 
     public gItem(String type, int x, int y, int w, int h, Image sp) {
