@@ -821,45 +821,6 @@ public class xCon {
                 return getResDelegate(xMain.shellLogic.clientVars, fullCommand);
             }
         });
-        commands.put("giveweapon", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: giveweapon <player_id> <weap_code>";
-                String pid = args[1];
-                String weap = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
-                xMain.shellLogic.serverNetThread.addNetCmd("server", giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "gave weapon " + weap + " to player " + pid;
-            }
-        });
-        commands.put("givedecoration", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: givedecoration <player_id> <sprite_path>";
-                String pid = args[1];
-                String path = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
-                ex(giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "applied decoration " + path + " to player " + pid;
-            }
-        });
-        commands.put("givewaypoint", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: givewaypoint <player_id> <waypoint_string>";
-                String pid = args[1];
-                String val = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
-                ex(giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return String.format("Set waypoint '%s' for player %s", val, pid);
-            }
-        });
         commands.put("givepoint", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
@@ -1305,6 +1266,20 @@ public class xCon {
                 }
                 String tv = tvb.substring(1);
                 return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
+            }
+        });
+        commands.put("setplayer", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
+                if(args.length < 4)
+                    return "usage: setplayer <player_id> <var_name> <var_value>";
+                String pid = args[1];
+                String varname = args[2];
+                String varval = args[3];
+                String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
+                ex(giveString);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
+                return "player " + pid + " given var '" + varname + "' with value of " + varval;
             }
         });
         commands.put("setplayercoords", new gDoable() {

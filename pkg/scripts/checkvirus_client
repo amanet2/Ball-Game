@@ -5,4 +5,4 @@ testres $isv 0 givepoint $1
 testres $isv 0 setvar allvirus 0
 testresn $isv 0 spawnpopup $1 virus
 testres $isv 0 getres cw setthing THING_PLAYER $1 weapon
-testres $isv 0 testresn $cw $weap_shotgun giveweapon $1 $weap_shotgun
+testres $isv 0 testresn $cw $weap_shotgun setplayer $1 weapon $weap_shotgun

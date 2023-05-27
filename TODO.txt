@@ -1,15 +1,10 @@
-* SCRIPT: create give/clear decoration and waypoint scripts
-* GAMETYPE: scorepoints in corners of map, spawnpoints scattered in middle
-    -> flags spawn every few seconds in a random spot
-    -> players grab a flag and bring to scorepoint where this happens:
-        -> setnstate $playerid flag 0
-        -> givepoint $playerid
+* ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
+* ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
+* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * CRASH: concurrency crash in eGameLogicShell.updateEntityPositions:398
     -> scene objectMaps I think?
 * ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)
     -> idk what to do about the "synchronized" keyword in front of some functions
-* ENGINE: why did trying to synchronize the objectsMap ruin everything?
-    -> look at commit history
 * ENGINE: Concurrency exceptions plague draw functions
     -> already using concurrentHashMap in thingMaps
     -> looks at the other branch's commits to see how the drawqueues were handled
@@ -18,8 +13,6 @@
     -> git checkout -b <new branch>
     -> push this branch
         -> retarget the older branch into this new stable branch, stable branch targets main now
-* ENGINE: got to redo sound stuff
-    -> have to reimplement panning
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
 * SCRIPT: make an console doable like batch script "REM"
@@ -30,11 +23,6 @@
     -> move all pkg and bin files into a dir for distributing
     -> Executing: .exe that calls java (.c) -OR- .bat that calls java
         -> manually edit the internal system call in .c file when compiling into mapmaker exe
-* GAMETYPE: flags spawn on random points and players have to carry the flags to a scorepoint to get points
-    -> new item: remove flag state and decoration on intersection, give point (if they have flag)
-* ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
-* ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
-* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * ENGINE: think about whether net threads should have 'update' be called or 'render'
     -> one is in a while loop while syncing with current time, other is called after sync
 * Engine: xCon console should be split up into server and client
@@ -47,8 +35,8 @@
     -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
     -> remember to properly parse and fill in args and global variables for each line in loop
         -> same code as we currently have in gScript
-* GENERAL: cl_setthing shortcomings
-    -> if a client is also running the server, cl_setthing can be called by the server if client is ignored
+* GENERAL: cl_setthing executing on server thread (bad)
+    -> if a client is also running the server, cl_setthing can be called by the server if server not ignored
 * GENERAL: think about how prefabs are placed
     -> current state: client requests "exec_"
         -> client requests server to "exec prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
@@ -75,16 +63,12 @@
     -> get keys of object map
     -> have function take id and return hashmap of vars (copy of object vars if available)\
     -> looks like an example of this is how we update players in gameLogicCli/Srver kinda
-* CRASH: concurrent modifications with multiple threads and game objects
-    -> drawing, deleting, adding, moving
-    -> need to draw out threads in diagram
 * create a client var for player id to track with the camera
     -> can move an invisible item for the camera to track?
 * camera should track without its xy being explicitly tied to user player
     -> user player will be as smooth as the network, which is not very
 * create onShot script capability for items and players when they get hit by bullet object
 * fix the bug where players pop out on top of walls they shouldnt be visible behind
-* look into getting rid of unneeded linked hashmap in gScene. also other linked lists
 * replace all usages of "Math.Random()" with threadlocal random
 * create ban system using timeevents and saving timestamps to a file on close and loading
     -> on server start, check for unban vars in config file, load ids into ban map
@@ -96,14 +80,13 @@
 * dont draw blocks that cant be seen on screen
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
-* fix memory leaks if any
 * git reset --hard <last_working_commit_id>
     -> git push --force
     -> git push --set-upstream origin <branch_name> --force
     -> see for remotes: git reset --hard origin/<branch_name>
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* add zombies gametype, a zombie will be a prop
+* add cod zombies-style gametype, a zombie will be a prop with dumb ai
 * powerup idea
     -> egg, pick up to initiate the growing sequence
     -> chuck or drop it before it blows
@@ -121,17 +104,16 @@
         --> stopped/bounces by walls/players
     -> explodes on a timer
     -> right click could leave a bomb at player loc, left click launches it
-* can make "themes" for prefabs
-* make players bounce off each other and walls in a satisfying way
+* make "themes" for prefabs
+* make players bounce off each other and walls
 * add ball skins like polka dots stripes etc
-    -> use existing color architecture
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * make sure different timezones and computer times work correctly
-* BG MUSIC TRACK/PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
+* PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * gungame mode
 * add "disable attacks" option
 * make players eyes blink
-* Create a server browser program
+* Create a server browser program w/ flask or something
 * add voip
