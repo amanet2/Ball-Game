@@ -5,6 +5,7 @@ setvar mode_goldmaster 3
 setvar mode_pointmaster 4
 setvar mode_vipmaster 5
 setvar mode_capmaster 6
+setvar mode_bringmaster 7
 setvar THING_0 THING_PLAYER
 setvar THING_1 THING_BULLET
 setvar THING_2 THING_POPUP
@@ -26,6 +27,7 @@ setvar THING_17 ITEM_RIFLE
 setvar THING_18 ITEM_LAUNCHER
 setvar THING_19 ITEM_GLOVE
 setvar THING_20 ITEM_CAPTUREPOINT
+setvar THING_21 ITEM_FLAGDEPOSIT
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
@@ -76,6 +78,10 @@ setvar ITEM_CAPTUREPOINT_dimw 300
 setvar ITEM_CAPTUREPOINT_dimh 300
 setvar ITEM_CAPTUREPOINT_sprite misc/flag.png
 setvar ITEM_CAPTUREPOINT_script exec items/capturepoint
+setvar ITEM_FLAGDEPOSIT_dimw 300
+setvar ITEM_FLAGDEPOSIT_dimh 300
+setvar ITEM_FLAGDEPOSIT_sprite misc/light1.png
+setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2

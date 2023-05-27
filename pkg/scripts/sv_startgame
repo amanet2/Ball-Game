@@ -17,3 +17,5 @@ testres $gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 schedulee
 testres $gamemode $mode_vipmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
 testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
+testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleevent $tv exec scripts/bringmaster
+testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus

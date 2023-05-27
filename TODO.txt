@@ -1,3 +1,9 @@
+* SCRIPT: create give/clear decoration and waypoint scripts
+* GAMETYPE: scorepoints in corners of map, spawnpoints scattered in middle
+    -> flags spawn every few seconds in a random spot
+    -> players grab a flag and bring to scorepoint where this happens:
+        -> setnstate $playerid flag 0
+        -> givepoint $playerid
 * CRASH: concurrency crash in eGameLogicShell.updateEntityPositions:398
     -> scene objectMaps I think?
 * ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)

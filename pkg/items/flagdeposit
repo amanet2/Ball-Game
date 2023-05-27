@@ -1,0 +1,7 @@
+getres hasflag setnstate $2 flag
+testres $hasflag 1 setnstate $2 flag 0
+testres $hasflag 1 setthing THING_PLAYER $2 decorationsprite null
+testres $hasflag 1 addcomi server cl_setthing THING_PLAYER $2 decorationsprite null
+testres $hasflag 1 setthing THING_PLAYER $2 waypoint 0
+testres $hasflag 1 addcomi server cl_setthing THING_PLAYER $2 waypoint 0
+testres $hasflag 1 givepoint $2

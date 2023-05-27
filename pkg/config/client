@@ -82,6 +82,8 @@ cl_setvar GAMETYPE_5_title VIP Master
 cl_setvar GAMETYPE_5_text Only the VIP can Score for Rocks
 cl_setvar GAMETYPE_6_title Cap Master
 cl_setvar GAMETYPE_6_text Cap the Points
+cl_setvar GAMETYPE_7_title Bring Master
+cl_setvar GAMETYPE_7_text Bring Flags to the Points
 # colors
 cl_setvar clrf_alert 200 0 50 200
 cl_setvar clrf_bonus 0 200 0 200
