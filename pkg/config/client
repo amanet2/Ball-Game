@@ -84,6 +84,8 @@ cl_setvar GAMETYPE_6_title Cap Master
 cl_setvar GAMETYPE_6_text Cap the Points
 cl_setvar GAMETYPE_7_title Bring Master
 cl_setvar GAMETYPE_7_text Bring Flags to the Points
+cl_setvar GAMETYPE_8_title Hold Master
+cl_setvar GAMETYPE_8_text Hold Flags or Explode
 # colors
 cl_setvar clrf_alert 200 0 50 200
 cl_setvar clrf_bonus 0 200 0 200

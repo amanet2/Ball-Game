@@ -6,6 +6,7 @@ setvar mode_pointmaster 4
 setvar mode_vipmaster 5
 setvar mode_capmaster 6
 setvar mode_bringmaster 7
+setvar mode_holdmaster 8
 setvar THING_0 THING_PLAYER
 setvar THING_1 THING_BULLET
 setvar THING_2 THING_POPUP

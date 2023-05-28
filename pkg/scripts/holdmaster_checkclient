@@ -1,0 +1,3 @@
+getres hf setnstate $1 flag
+testresn $hf 1 damageplayer $1 1000
+testres $hf 1 givepoint $1

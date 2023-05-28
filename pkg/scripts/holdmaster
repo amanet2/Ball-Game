@@ -1,0 +1,2 @@
+foreachclient clid exec scripts/holdmaster_checkclient $clid
+echo KABOOM
