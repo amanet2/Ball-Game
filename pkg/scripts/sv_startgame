@@ -22,3 +22,5 @@ testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleev
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_holdmaster foreachlong tv $cstart $eend 20000 scheduleevent $tv exec scripts/holdmaster
 testres $gamemode $mode_holdmaster foreachlong tv $astart $eend 20000 scheduleevent $tv echo grab a flag or explode in 10 seconds!
+testres $gamemode $mode_holdmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $gamemode $mode_holdmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/holdmaster_checkflags
