@@ -321,32 +321,14 @@ public class xCon {
         });
         commands.put("deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(xMain.shellLogic.serverScene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) xMain.shellLogic.serverScene.getThingMap("THING_ITEM").get(id);
-                        String type = itemToDelete.get("type");
-                        xMain.shellLogic.serverScene.getThingMap("THING_ITEM").remove(id);
-                        xMain.shellLogic.serverScene.getThingMap(type).remove(id);
-                        xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
-                    }
-                }
+                deleteItemDelegate(fullCommand, xMain.shellLogic.serverScene);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 return "usage: deleteitem <id>";
             }
         });
         commands.put("cl_deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(xMain.shellLogic.clientScene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
-                        String type = itemToDelete.get("type");
-                        xMain.shellLogic.clientScene.getThingMap("THING_ITEM").remove(id);
-                        xMain.shellLogic.clientScene.getThingMap(type).remove(id);
-                    }
-                }
+                deleteItemDelegate(fullCommand, xMain.shellLogic.clientScene);
                 return "usage: deleteitem <id>";
             }
         });
@@ -1719,6 +1701,19 @@ public class xCon {
             String type = blockToDelete.get("type");
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
+        }
+    }
+
+    private void deleteItemDelegate(String fullCommand, gScene scene) {
+        String[] toks = fullCommand.split(" ");
+        if(toks.length > 1) {
+            String id = toks[1];
+            if(scene.getThingMap("THING_ITEM").containsKey(id)) {
+                gItem itemToDelete = (gItem) scene.getThingMap("THING_ITEM").get(id);
+                String type = itemToDelete.get("type");
+                scene.getThingMap("THING_ITEM").remove(id);
+                scene.getThingMap(type).remove(id);
+            }
         }
     }
 
