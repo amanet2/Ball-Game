@@ -279,20 +279,18 @@ public class dHUD {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sSettings.drawplayerarrow) {
-            gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
-            if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
-                return;
-            int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
-            int coordy = userPlayer.getInt("coordy") - 200;
-            Polygon pg = getPolygon(midx, coordy);
-            Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
-            g2.setStroke(dFonts.thickStroke);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.drawPolygon(pg);
-            g2.setColor(color);
-            g2.fillPolygon(pg);
-        }
+        gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
+        if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
+            return;
+        int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
+        int coordy = userPlayer.getInt("coordy") - 200;
+        Polygon pg = getPolygon(midx, coordy);
+        Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
+        g2.setStroke(dFonts.thickStroke);
+        dFonts.setFontColor(g2, "clrf_normaltransparent");
+        g2.drawPolygon(pg);
+        g2.setColor(color);
+        g2.fillPolygon(pg);
     }
 
     public static void drawPlayerNames(Graphics g) {
@@ -374,12 +372,18 @@ public class dHUD {
             dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
             if(xMain.shellLogic.getPlayerById(id) != null) {
                 Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height / 30, sSettings.height / 30);
-                g.drawImage(sprite, coordx - sSettings.height / 30, coordy - height, null);
+                g.drawImage(sprite, coordx - height, coordy - height, null);
             }
             g.setColor(color);
-            if(isMe)
-                g.drawRect(coordx, coordy - height,
-                        dFonts.getStringWidth(g, dividerString), dFonts.getStringHeight(g, hudName));
+            if(isMe) {
+                Polygon myArrow = new Polygon(
+                        new int[] {coordx - height*2, coordx - 4*height/3, coordx - height*2},
+                        new int[]{coordy - height, coordy - height/2, coordy},
+                        3
+                );
+                g.setColor(color);
+                g.fillPolygon(myArrow);
+            }
             g.drawString("                           "
                             + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
             g.drawString("                                       "
