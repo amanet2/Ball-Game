@@ -53,13 +53,12 @@ public class dHUD {
                 color = clStateMap.get(id).get("color");
             g.setColor(gColors.getColorFromName("clrp_" + color));
             String score = "0:0";
+            int scoreMargin = 2*marginX + spriteRad;
             if(clStateMap.get(id).contains("score"))
                 score = clStateMap.get(id).get("score");
-            g.drawString(score.split(":")[1],
-                    marginX + spriteRad, 109 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
+            g.drawString(score.split(":")[1], scoreMargin, 109 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
             dFonts.setFontColor(g, "clrf_normaldark");
-            g.drawString(clStateMap.get(id).get("name"), marginX + spriteRad,
-                    111 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
+            g.drawString(clStateMap.get(id).get("name"), scoreMargin, 111 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
             g.setColor(gColors.getColorFromName("clrp_" + color));
             Image oclsprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", color)), sSettings.height / 30, sSettings.height / 30);
             g.drawImage(oclsprite, marginX, 111 * sSettings.height / 128 - (ctr * (sSettings.height / 29)), null);
