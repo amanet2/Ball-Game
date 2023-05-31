@@ -28,9 +28,10 @@ public class dHUD {
             g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,hpbarwidth,
                     sSettings.height/64);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
-            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,
-                    hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
-                    sSettings.height/64);
+            if(xMain.shellLogic.getPlayerById(id) != null)
+                g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,
+                        hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
+                        sSettings.height/64);
             dFonts.setFontNormal(g);
             //score
             if(clState.contains("score")) {
