@@ -1,0 +1,4 @@
+getres lx setthing ITEM_LANDMINE $1 coordx
+getres lmx sumint $lx -5
+setthing ITEM_LANDMINE $1 coordx $lmx
+addcomi server cl_setthing ITEM_LANDMINE $1 coordx $lmx

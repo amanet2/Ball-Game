@@ -1,3 +1,6 @@
 foreachthing plid THING_PLAYER exec scripts/rechargehealth
 # line below simulates gravity. you can "charge" jumps with up arrow
-# foreachclient csid setnstate $csid mov1 1
+unbind w
+foreachclient csid setnstate $csid mov0 0
+foreachclient csid setnstate $csid mov1 1
+# foreachthing $lmid ITEM_LANDMINE exec scripts/checkmovinglandmine $lmid

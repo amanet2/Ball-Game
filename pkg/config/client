@@ -41,6 +41,7 @@ cl_setvar vidmode 1280,720,-1
 # volume
 cl_setvar volume 50
 # bindings
+bind b exec scripts/jump
 bind - -zoom
 bind = zoom
 bind backspace e_delthing
