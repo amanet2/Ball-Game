@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class dHUD {
     private static final String dividerString = "_______________________";
-    static int marginX = sSettings.width/128;
     static int spriteRad = sSettings.height/30;
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT)
@@ -20,6 +19,7 @@ public class dHUD {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
+        int marginX = sSettings.width/2 - clStateMap.keys().size()*sSettings.width/16;
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
             //healthbar
@@ -35,11 +35,11 @@ public class dHUD {
             if(clState.contains("score")) {
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
                 g.drawString(clState.get("score").split(":")[1],
-                        2*marginX + spriteRad + ctr*(sSettings.width/8 + sSettings.width/64), 58*sSettings.height/64);
+                        marginX + spriteRad + ctr*(sSettings.width/8 + sSettings.width/64), 58*sSettings.height/64);
             }
             //player sprite
-            dFonts.setFontColor(g, "clrf_normaldark");
-            g.drawString(clState.get("name"), marginX + ctr*(sSettings.width/8 + sSettings.width/64), 62*sSettings.height/64);
+//            dFonts.setFontColor(g, "clrf_normaldark");
+            dFonts.drawCenteredString(g, clState.get("name"), marginX + ctr*(sSettings.width/8 + sSettings.width/64) + sSettings.width/16, 62*sSettings.height/64);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", clState.get("color"))), sSettings.height / 30, sSettings.height / 30);
             g.drawImage(sprite, marginX + + ctr*(sSettings.width/8 + sSettings.width/64), 28*sSettings.height/32, null);
