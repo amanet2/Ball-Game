@@ -19,30 +19,28 @@ public class dHUD {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
-        int marginX = sSettings.width/2 - clStateMap.keys().size()*sSettings.width/16;
+        int hpbarwidth = sSettings.width/12;
+        int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2);
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
             //healthbar
             g.setColor(Color.black);
-            g.fillRect(marginX + ctr*(sSettings.width/8 + sSettings.width/64),59 * sSettings.height/64,sSettings.width/8,
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,hpbarwidth,
                     sSettings.height/64);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
-            g.fillRect(marginX + ctr*(sSettings.width/8 + sSettings.width/64),59 * sSettings.height/64,
-                    sSettings.width/8*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,
+                    hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                     sSettings.height/64);
             dFonts.setFontNormal(g);
             //score
             if(clState.contains("score")) {
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
-                g.drawString(clState.get("score").split(":")[1],
-                        marginX + spriteRad + ctr*(sSettings.width/8 + sSettings.width/64), 58*sSettings.height/64);
+                dFonts.drawRightJustifiedString(g, clState.get("score").split(":")[1],
+                        marginX + hpbarwidth + ctr*(hpbarwidth + sSettings.width/64), 31*sSettings.height/32);
             }
             //player sprite
-//            dFonts.setFontColor(g, "clrf_normaldark");
-            dFonts.drawCenteredString(g, clState.get("name"), marginX + ctr*(sSettings.width/8 + sSettings.width/64) + sSettings.width/16, 62*sSettings.height/64);
-            g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", clState.get("color"))), sSettings.height / 30, sSettings.height / 30);
-            g.drawImage(sprite, marginX + + ctr*(sSettings.width/8 + sSettings.width/64), 28*sSettings.height/32, null);
+            g.drawImage(sprite, marginX + + ctr*(hpbarwidth + sSettings.width/64), 30*sSettings.height/32, null);
             ctr++;
         }
     }
