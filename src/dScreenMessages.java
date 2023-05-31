@@ -215,6 +215,6 @@ public class dScreenMessages {
         //say
         if(gMessages.enteringMessage)
             g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
-                    0,25 * sSettings.height/32);
+                    0,24 * sSettings.height/32);
     }
 }

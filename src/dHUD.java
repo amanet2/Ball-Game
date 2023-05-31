@@ -370,14 +370,10 @@ public class dHUD {
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
-            if(xMain.shellLogic.getPlayerById(id) != null) {
-                Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height / 30, sSettings.height / 30);
-                g.drawImage(sprite, coordx - height, coordy - height, null);
-            }
             g.setColor(color);
             if(isMe) {
                 Polygon myArrow = new Polygon(
-                        new int[] {coordx - height*2, coordx - 4*height/3, coordx - height*2},
+                        new int[] {coordx - height, coordx, coordx - height},
                         new int[]{coordy - height, coordy - height/2, coordy},
                         3
                 );
