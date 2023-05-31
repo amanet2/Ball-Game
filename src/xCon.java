@@ -276,6 +276,7 @@ public class xCon {
                     nState playerState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
+                    xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));

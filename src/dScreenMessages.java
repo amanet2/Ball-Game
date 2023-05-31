@@ -59,7 +59,7 @@ public class dScreenMessages {
         }
         //timer
         dFonts.setFontNormal(g);
-        if(sSettings.inplay && sSettings.clientMapLoaded) {
+        if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
             dFonts.setFontColor(g, "clrf_normal");
             dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
                     sSettings.width/2, sSettings.height/15);

@@ -35,12 +35,9 @@ public class dHUD {
             //score
             if(clState.contains("score")) {
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
-                dFonts.drawRightJustifiedString(g, clState.get("score").split(":")[1],
-                        marginX + hpbarwidth + ctr*(hpbarwidth + sSettings.width/64), 31*sSettings.height/32);
+                g.drawString(clState.get("score").split(":")[1],
+                        marginX + ctr*(hpbarwidth + sSettings.width/64), 31*sSettings.height/32);
             }
-            //player sprite
-            Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", clState.get("color"))), sSettings.height / 30, sSettings.height / 30);
-            g.drawImage(sprite, marginX + + ctr*(hpbarwidth + sSettings.width/64), 30*sSettings.height/32, null);
             ctr++;
         }
     }
