@@ -276,6 +276,7 @@ public class xCon {
                     nState playerState = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot).get(id);
                     if(player == null || playerState == null)
                         return "no player found: " ;
+                    xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
@@ -321,32 +322,14 @@ public class xCon {
         });
         commands.put("deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(xMain.shellLogic.serverScene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) xMain.shellLogic.serverScene.getThingMap("THING_ITEM").get(id);
-                        String type = itemToDelete.get("type");
-                        xMain.shellLogic.serverScene.getThingMap("THING_ITEM").remove(id);
-                        xMain.shellLogic.serverScene.getThingMap(type).remove(id);
-                        xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
-                    }
-                }
+                deleteItemDelegate(fullCommand, xMain.shellLogic.serverScene);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_"+fullCommand);
                 return "usage: deleteitem <id>";
             }
         });
         commands.put("cl_deleteitem", new gDoable() {
             public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
-                    String id = toks[1];
-                    if(xMain.shellLogic.clientScene.getThingMap("THING_ITEM").containsKey(id)) {
-                        gItem itemToDelete = (gItem) xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
-                        String type = itemToDelete.get("type");
-                        xMain.shellLogic.clientScene.getThingMap("THING_ITEM").remove(id);
-                        xMain.shellLogic.clientScene.getThingMap(type).remove(id);
-                    }
-                }
+                deleteItemDelegate(fullCommand, xMain.shellLogic.clientScene);
                 return "usage: deleteitem <id>";
             }
         });
@@ -821,45 +804,6 @@ public class xCon {
                 return getResDelegate(xMain.shellLogic.clientVars, fullCommand);
             }
         });
-        commands.put("giveweapon", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: giveweapon <player_id> <weap_code>";
-                String pid = args[1];
-                String weap = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s weapon %s", pid, weap);
-                xMain.shellLogic.serverNetThread.addNetCmd("server", giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "gave weapon " + weap + " to player " + pid;
-            }
-        });
-        commands.put("givedecoration", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: givedecoration <player_id> <sprite_path>";
-                String pid = args[1];
-                String path = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s decorationsprite %s", pid, path);
-                ex(giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "applied decoration " + path + " to player " + pid;
-            }
-        });
-        commands.put("givewaypoint", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 3)
-                    return "usage: givewaypoint <player_id> <waypoint_string>";
-                String pid = args[1];
-                String val = args[2];
-                String giveString = String.format("setthing THING_PLAYER %s waypoint %s", pid, val);
-                ex(giveString);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return String.format("Set waypoint '%s' for player %s", val, pid);
-            }
-        });
         commands.put("givepoint", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
@@ -1307,6 +1251,20 @@ public class xCon {
                 return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
             }
         });
+        commands.put("setplayer", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
+                if(args.length < 4)
+                    return "usage: setplayer <player_id> <var_name> <var_value>";
+                String pid = args[1];
+                String varname = args[2];
+                String varval = args[3];
+                String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
+                ex(giveString);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
+                return "player " + pid + " given var '" + varname + "' with value of " + varval;
+            }
+        });
         commands.put("setplayercoords", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
@@ -1627,11 +1585,13 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-                sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
+                if(sSettings.show_mapmaker_ui)
+                    sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
                 return "zoom out";
             }
         });
@@ -1744,6 +1704,19 @@ public class xCon {
             String type = blockToDelete.get("type");
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
+        }
+    }
+
+    private void deleteItemDelegate(String fullCommand, gScene scene) {
+        String[] toks = fullCommand.split(" ");
+        if(toks.length > 1) {
+            String id = toks[1];
+            if(scene.getThingMap("THING_ITEM").containsKey(id)) {
+                gItem itemToDelete = (gItem) scene.getThingMap("THING_ITEM").get(id);
+                String type = itemToDelete.get("type");
+                scene.getThingMap("THING_ITEM").remove(id);
+                scene.getThingMap(type).remove(id);
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,60 +8,36 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class dHUD {
     private static final String dividerString = "_______________________";
-    static int marginX = sSettings.width/128;
     static int spriteRad = sSettings.height/30;
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT)
             return;
-        nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
+        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
+        nState userState = clStateMap.get(sSettings.uuid);
         if(userState == null)
             return;
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
-//        health
-        g.setColor(Color.black);
-        g.fillRect(marginX,59 * sSettings.height/64,sSettings.width/8,
-                sSettings.height/64);
-        g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-        g.fillRect(marginX,59 * sSettings.height/64,
-                sSettings.width/8*Integer.parseInt(userState.get("hp"))/ sSettings.clientMaxHP,
-                sSettings.height/64);
-//        g.drawString(userState.get("hp"), 37*sSettings.width / 256, 15*sSettings.height/16);
-        dFonts.setFontNormal(g);
-        //score
-        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-        if(clStateMap.contains(sSettings.uuid) && clStateMap.get(sSettings.uuid).contains("score")) {
-            g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g.drawString(clStateMap.get(sSettings.uuid).get("score").split(":")[1],
-                    2*marginX + spriteRad, 58*sSettings.height/64);
-        }
-        dFonts.setFontColor(g, "clrf_normaldark");
-        g.drawString(sSettings.clientPlayerName, marginX, 62*sSettings.height/64);
-        g.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-        Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", sSettings.clientPlayerColor)), sSettings.height / 30, sSettings.height / 30);
-        g.drawImage(sprite, marginX, 28*sSettings.height/32, null);
-        // other players on server
-        dFonts.setFontSmall(g);
-        int ctr = 1;
-        for (String id : clStateMap.keys()) {
-            if(id.equals(sSettings.uuid))
-                continue;
-            dFonts.setFontColor(g, "clrf_normaldark");
-            String color = "blue";
-            if(clStateMap.get(id).contains("color"))
-                color = clStateMap.get(id).get("color");
-            g.setColor(gColors.getColorFromName("clrp_" + color));
-            String score = "0:0";
-            if(clStateMap.get(id).contains("score"))
-                score = clStateMap.get(id).get("score");
-            g.drawString(score.split(":")[1],
-                    marginX + spriteRad, 109 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
-            dFonts.setFontColor(g, "clrf_normaldark");
-            g.drawString(clStateMap.get(id).get("name"), marginX + spriteRad,
-                    111 * sSettings.height / 128 - ((ctr-1) * (sSettings.height / 29)));
-            g.setColor(gColors.getColorFromName("clrp_" + color));
-            Image oclsprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", color)), sSettings.height / 30, sSettings.height / 30);
-            g.drawImage(oclsprite, marginX, 111 * sSettings.height / 128 - (ctr * (sSettings.height / 29)), null);
+        int ctr = 0;
+        int hpbarwidth = sSettings.width/12;
+        int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2);
+        for(String id : clStateMap.keys()) {
+            nState clState = clStateMap.get(id);
+            //healthbar
+            g.setColor(Color.black);
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,hpbarwidth,
+                    sSettings.height/64);
+            g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,
+                    hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
+                    sSettings.height/64);
+            dFonts.setFontNormal(g);
+            //score
+            if(clState.contains("score")) {
+                g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
+                g.drawString(clState.get("score").split(":")[1],
+                        marginX + ctr*(hpbarwidth + sSettings.width/64), 31*sSettings.height/32);
+            }
             ctr++;
         }
     }
@@ -280,20 +255,18 @@ public class dHUD {
     }
 
     public static void drawUserPlayerArrow(Graphics2D g2) {
-        if(sSettings.drawplayerarrow) {
-            gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
-            if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
-                return;
-            int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
-            int coordy = userPlayer.getInt("coordy") - 200;
-            Polygon pg = getPolygon(midx, coordy);
-            Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
-            g2.setStroke(dFonts.thickStroke);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.drawPolygon(pg);
-            g2.setColor(color);
-            g2.fillPolygon(pg);
-        }
+        gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
+        if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
+            return;
+        int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
+        int coordy = userPlayer.getInt("coordy") - 200;
+        Polygon pg = getPolygon(midx, coordy);
+        Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
+        g2.setStroke(dFonts.thickStroke);
+        dFonts.setFontColor(g2, "clrf_normaltransparent");
+        g2.drawPolygon(pg);
+        g2.setColor(color);
+        g2.fillPolygon(pg);
     }
 
     public static void drawPlayerNames(Graphics g) {
@@ -373,14 +346,16 @@ public class dHUD {
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
-            if(xMain.shellLogic.getPlayerById(id) != null) {
-                Image sprite = gTextures.getGScaledImage(eManager.getPath(String.format("animations/player_%s/a03.png", ck)), sSettings.height / 30, sSettings.height / 30);
-                g.drawImage(sprite, coordx - sSettings.height / 30, coordy - height, null);
-            }
             g.setColor(color);
-            if(isMe)
-                g.drawRect(coordx, coordy - height,
-                        dFonts.getStringWidth(g, dividerString), dFonts.getStringHeight(g, hudName));
+            if(isMe) {
+                Polygon myArrow = new Polygon(
+                        new int[] {coordx - height, coordx, coordx - height},
+                        new int[]{coordy - height, coordy - height/2, coordy},
+                        3
+                );
+                g.setColor(color);
+                g.fillPolygon(myArrow);
+            }
             g.drawString("                           "
                             + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
             g.drawString("                                       "

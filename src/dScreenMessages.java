@@ -57,19 +57,17 @@ public class dScreenMessages {
         if(sSettings.inplay) {
             dHUD.drawHUD(g);
         }
-        //big font
+        //timer
         dFonts.setFontNormal(g);
-        if(sSettings.inplay && sSettings.clientMapLoaded) {
-            dFonts.drawRightJustifiedString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
-                    29 * sSettings.width / 30, 59 * sSettings.height / 64);
+        if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawRightJustifiedString(g, sSettings.clientGameModeTitle.toUpperCase(),
-                    29 * sSettings.width / 30, 31*sSettings.height/32);
+            dFonts.drawCenteredString(g, eUtils.getTimeString(sSettings.clientTimeLeft),
+                    sSettings.width/2, sSettings.height/15);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");
-        dFonts.drawCenteredString(g, "STALLION IN PROGRESS",
-                sSettings.width/2, 31*sSettings.height/32);
+        dFonts.drawRightJustifiedString(g, "STALLION IN PROGRESS",
+                63*sSettings.width/64, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
         //menus
@@ -168,7 +166,7 @@ public class dScreenMessages {
             dHUD.showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded && sSettings.gameTime % 1000 < 500)
-            dFonts.drawRightJustifiedString(g, "LOADING...", 29 * sSettings.width / 30, 31*sSettings.height/32);
+            dFonts.drawCenteredString(g, "LOADING", sSettings.width/2, sSettings.height/2);
         //echo messages
         if(gMessages.screenMessages.size() > 0) {
             for(int i = 0; i < gMessages.screenMessages.size(); i++) {

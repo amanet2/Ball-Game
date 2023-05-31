@@ -431,7 +431,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
                         dy = obj.getInt("coordy");
                     if (isUserPlayer(obj))
-                        gCamera.put("coords", dx + ":" + dy);
+                        gCamera.put("coords", (dx + obj.getInt("dimw")/2) + ":" + (dy + obj.getInt("dimh")/2));
                     obj.putInt("coordx", dx);
                     obj.putInt("coordy", dy);
                 }

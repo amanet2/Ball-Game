@@ -10,10 +10,17 @@ testres $gamemode $mode_flagmaster foreachlong tv $estart $eend 10000 scheduleev
 testres $gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/flagmaster
 testres $gamemode $mode_goldmaster getres estart sumlong $gtime 3000
 testres $gamemode $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
-testres $gamemode $mode_pointmaster getres bstart sumlong $gtime 30000
-testres $gamemode $mode_pointmaster getres cstart sumlong $gtime 20000
+getres astart sumlong $gtime 10000
+getres bstart sumlong $gtime 30000
+getres cstart sumlong $gtime 20000
 testres $gamemode $mode_pointmaster foreachlong tv $bstart $eend 30000 scheduleevent $tv exec scripts/pointmaster
 testres $gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 scheduleevent $tv echo scorepoint spawning in 10 seconds!
 testres $gamemode $mode_vipmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
 testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
+testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleevent $tv exec scripts/bringmaster
+testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $gamemode $mode_holdmaster foreachlong tv $cstart $eend 20000 scheduleevent $tv exec scripts/holdmaster
+testres $gamemode $mode_holdmaster foreachlong tv $astart $eend 20000 scheduleevent $tv echo grab a flag or explode in 10 seconds!
+testres $gamemode $mode_holdmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
+testres $gamemode $mode_holdmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/holdmaster_checkflags

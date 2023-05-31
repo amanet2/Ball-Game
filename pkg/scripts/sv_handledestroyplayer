@@ -1,15 +1,4 @@
 # usage: handlekill $victimid $shooterid
-getres vn setnstate $1 name
-getres vc setnstate $1 color
-testresn $2 null getres sn setnstate $2 name
-testresn $2 null getres sc setnstate $2 color
-testresn $2 null getres sw setthing THING_PLAYER $2 weapon
-testresn $2 null testres $sw $weap_none echo $sn#$sc rocked $vn#$vc
-testresn $2 null testres $sw $weap_pistol echo $sn#$sc shot $vn#$vc with a pistol
-testresn $2 null testres $sw $weap_shotgun echo $sn#$sc shotgunned $vn#$vc
-testresn $2 null testres $sw $weap_autorifle echo $sn#$sc shot $vn#$vc with a rifle
-testresn $2 null testres $sw $weap_launcher echo $sn#$sc blew up $vn#$vc with a bazooka
-testresn $2 null testres $sw $weap_gloves echo $sn#$sc hit $vn#$vc with the gloves
 testresn $2 null testres $gamemode $mode_deathmatch givepoint $2 500
 testresn $2 null getres kflag setnstate $2 flag
 testresn $2 null testres $gamemode $mode_vipmaster testres $kflag 1 givepoint $2 500
@@ -19,4 +8,3 @@ testres $gamemode $mode_virus testres $wasvirus 0 getres vvname setnstate $1 nam
 testres $gamemode $mode_virus testres $wasvirus 0 getres vvcolor setnstate $1 color
 testres $gamemode $mode_virus testres $wasvirus 0 getres vvstr constr $vvname # $vvcolor
 testres $gamemode $mode_virus testres $wasvirus 0 echo $vvstr was infected
-testres $2 null echo $vn#$vc exploded

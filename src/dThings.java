@@ -163,6 +163,13 @@ public class dThings {
                     gColors.getColorFromName("clrw_roofoutline2")
             );
             g2.setPaint(gradient);
+            if(block.contains("wallh") && block.getInt("wallh") < 300)
+                g2.fillRect(
+                        block.getInt("coordx") ,
+                        block.getInt("coordy") ,
+                        block.getInt("dimw"),
+                        block.getInt("toph")
+                );
             g2.drawRoundRect(
                     block.getInt("coordx") ,
                     block.getInt("coordy") ,

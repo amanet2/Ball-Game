@@ -3,7 +3,7 @@ setnstate $2 flag 1
 testresn $hf 1 getres pname setnstate $2 name
 testresn $hf 1 getres pcol setnstate $2 color
 testresn $hf 1 getres pfs constr $pname # $pcol
-testresn $hf 1 testresn $pname null echo $pfs has the flag
+testresn $hf 1 testresn $pname null testresn $gamemode $mode_bringmaster echo $pfs has the flag
 testresn $hf 1 testresn $pname null deleteitem $1
-testresn $hf 1 testresn $pname null givedecoration $2 misc/flag.png
-testresn $hf 1 testresn $pname null givewaypoint $2 FLAG
+testresn $hf 1 testresn $pname null setplayer $2 decorationsprite misc/flag.png
+testresn $hf 1 testresn $pname null testresn $gamemode $mode_bringmaster setplayer $2 waypoint FLAG

@@ -186,7 +186,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.get("id"));
             //handle damage serverside
             xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
-            xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", p.get("id"), dmg));
         }
     }
 

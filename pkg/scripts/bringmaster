@@ -1,0 +1,5 @@
+getres spid getrandthing ITEM_SPAWNPOINT
+testresn null $spid getres spx setthing ITEM_SPAWNPOINT $spid coordx
+testresn null $spid getres spy setthing ITEM_SPAWNPOINT $spid coordy
+testresn null $spid getres nid getnewitemid
+testresn null $spid putitem ITEM_FLAG $nid $spx $spy
