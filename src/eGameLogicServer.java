@@ -196,9 +196,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         gScoreboard.addId(id);
         sendMapAndRespawn(id);
         handleBackfill(id);
-        String cname =  masterStateMap.get(id).get("name");
-        String ccolor =  masterStateMap.get(id).get("color");
-        xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", cname, ccolor));
     }
 
     private void handleBackfill(String id) {
@@ -218,8 +215,13 @@ public class eGameLogicServer extends eGameLogicAdapter {
         nState receivedState = new nState(receiveDataString);
         String stateId = receivedState.get("id");
         //check if masterState contains
-        if(!masterStateMap.contains(stateId))
+        if(!masterStateMap.contains(stateId)) {
             handleJoin(stateId);
+            String cname =  receivedState.get("name");
+            String ccolor = receivedState.get("color");
+            xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", cname, ccolor));
+
+        }
         //record checkin time for client
         clientCheckinMap.put(stateId, Long.toString(sSettings.gameTime));
         //load the keys from received data into our state map
