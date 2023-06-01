@@ -10,7 +10,7 @@ public class dHUD {
     private static final String dividerString = "_______________________";
     static int spriteRad = sSettings.height/30;
     public static void drawHUD(Graphics g) {
-        if(!sSettings.IS_CLIENT)
+        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded)
             return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         nState userState = clStateMap.get(sSettings.uuid);
@@ -28,7 +28,7 @@ public class dHUD {
             g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,hpbarwidth,
                     sSettings.height/64);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
-            if(xMain.shellLogic.getPlayerById(id) != null)
+            if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
                 g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,
                         hpbarwidth*Integer.parseInt(clState.get("hp"))/ sSettings.clientMaxHP,
                         sSettings.height/64);
@@ -303,10 +303,9 @@ public class dHUD {
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
-        dFonts.setFontColor(g, "clrf_highlight");
-        dFonts.drawCenteredString(g, sSettings.clientGameModeTitle.toUpperCase() + ": " + sSettings.clientGameModeText,
-                sSettings.width/2, 2*spriteRad);
         dFonts.setFontColor(g, "clrf_normal");
+        dFonts.drawCenteredString(g, sSettings.clientGameModeText,
+                sSettings.width/2, 2*spriteRad);
         g.drawString(clStateMap.keys().size() + " players",
                 sSettings.width/3,5*spriteRad);
         g.drawString("                           Wins",sSettings.width/3,5*spriteRad);
