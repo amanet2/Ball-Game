@@ -20,7 +20,7 @@ public class dHUD {
         g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
         int hpbarwidth = sSettings.width/12;
-        int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2);
+        int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
             //healthbar
