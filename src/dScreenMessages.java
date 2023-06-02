@@ -61,8 +61,8 @@ public class dScreenMessages {
         dFonts.setFontNormal(g);
         if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
             dFonts.setFontColor(g, "clrf_normal");
-            dFonts.drawCenteredString(g, sSettings.clientGameModeTitle.toUpperCase() + "  " + eUtils.getTimeString(sSettings.clientTimeLeft),
-                    sSettings.width/2, sSettings.height/15);
+            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft),
+                    sSettings.width/128, sSettings.height/15);
         }
         //wip notice -> needs to be transparent
         dFonts.setFontColor(g, "clrf_normaltransparent");

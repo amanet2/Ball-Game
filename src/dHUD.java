@@ -19,13 +19,13 @@ public class dHUD {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
-        int hpbarwidth = sSettings.width/12;
+        int hpbarwidth = sSettings.width/16;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
         for(String id : clStateMap.keys()) {
             nState clState = clStateMap.get(id);
             //healthbar
             g.setColor(Color.black);
-            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64),29 * sSettings.height/32,hpbarwidth,
+            g.fillRect(marginX + ctr*(hpbarwidth + sSettings.width/64)+3,29 * sSettings.height/32+3,hpbarwidth,
                     sSettings.height/64);
             g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
             if(Integer.parseInt(clState.get("hp")) > 0 && xMain.shellLogic.getPlayerById(id) != null)
