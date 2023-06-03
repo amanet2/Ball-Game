@@ -16,6 +16,8 @@ public class dFonts {
     static String fontnameconsole = "monospaced";
     static Font fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             fontsize * sSettings.height / sSettings.gamescale);
+    static Font fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+            (fontsize * sSettings.height / sSettings.gamescale)*2);
     static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, fontsize);
     static Font fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
             fontsize*sSettings.height/sSettings.gamescale/2);
@@ -58,8 +60,14 @@ public class dFonts {
 
     public static void setFontNormal(Graphics g) {
         setFontColor(g, "clrf_normal");
-        g.setFont(fontNormal );
+        g.setFont(fontNormal);
     }
+
+    public static void setFontLarge(Graphics g) {
+        setFontColor(g, "clrf_normal");
+        g.setFont(fontLarge);
+    }
+
     public static void setFontGNormal(Graphics g) {
         setFontColor(g, "clrf_normal");
         g.setFont(fontGNormal);
