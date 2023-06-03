@@ -59,15 +59,18 @@ public class dScreenMessages {
         }
         //timer
         dFonts.setFontLarge(g);
-        if(!showscore && sSettings.inplay && sSettings.clientMapLoaded)
-            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width/128, sSettings.height/15);
+        if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
+            g.setColor(Color.BLACK);
+            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
+            dFonts.setFontLarge(g);
+            g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
+        }
         //wip notice -> needs to be transparent
         dFonts.setFontNormal(g);
         dFonts.setFontColor(g, "clrf_normaltransparent");
         dFonts.drawRightJustifiedString(g, "WORK IN PROGRESS", 63*sSettings.width/64, 31*sSettings.height/32);
-        //big font
-        dFonts.setFontNormal(g);
         //menus
+        dFonts.setFontNormal(g);
         if(!sSettings.inplay) {
             if(!sSettings.show_mapmaker_ui) {
                 dMenus.showPauseMenu(g);
