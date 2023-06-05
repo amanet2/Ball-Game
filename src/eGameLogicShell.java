@@ -6,10 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
-    ArrayList<Clip> soundClips;
+    ConcurrentLinkedQueue<Clip> soundClips;
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
@@ -26,7 +27,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint topTexture;
 
     public eGameLogicShell() throws IOException {
-        soundClips = new ArrayList<>();
+        soundClips = new ConcurrentLinkedQueue<>();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
