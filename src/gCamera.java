@@ -1,5 +1,5 @@
 public class gCamera {
-	private static gArgSet argSet = null;
+	static gArgSet argSet = null;
 	private static final int[] move = {0, 0, 0, 0};
 	private static final int[] coords = {0, 0};
 	private static final int velocity = 8;
@@ -13,26 +13,14 @@ public class gCamera {
 				coords[1] = Integer.parseInt(vcoords[1]) - eUtils.unscaleInt(sSettings.height/2);
 			}
 		});
-		argSet.putArg(new gArg("mov0", "0") {
-			public void onChange() {
-				move[0] = Integer.parseInt(value);
-			}
-		});
-		argSet.putArg(new gArg("mov1", "0") {
-			public void onChange() {
-				move[1] = Integer.parseInt(value);
-			}
-		});
-		argSet.putArg(new gArg("mov2", "0") {
-			public void onChange() {
-				move[2] = Integer.parseInt(value);
-			}
-		});
-		argSet.putArg(new gArg("mov3", "0") {
-			public void onChange() {
-				move[3] = Integer.parseInt(value);
-			}
-		});
+		for(int i = 0; i < 4; i++) {
+			int t = i;
+			argSet.putArg(new gArg("mov" + t, "0") {
+				public void onChange() {
+					move[t] = Integer.parseInt(value);
+				}
+			});
+		}
 	}
 
 	public static void put(String k, String v) {
