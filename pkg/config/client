@@ -15,7 +15,7 @@ cl_setvar joinip localhost
 # default net port
 cl_setvar joinport 5555
 # player color
-cl_setvar playercolor green
+cl_setvar playercolor pink
 # player name
 cl_setvar playername player
 # available resolutions
@@ -87,9 +87,6 @@ cl_setvar GAMETYPE_7_text Bring Flags to the Points
 cl_setvar GAMETYPE_8_title Hold Master
 cl_setvar GAMETYPE_8_text Hold Flags or Explode
 # colors
-cl_setvar clrf_alert 200 0 50 200
-cl_setvar clrf_bonus 0 200 0 200
-cl_setvar clrf_highlight 220 175 0 255
 cl_setvar clrf_normal 255 255 255 200
 cl_setvar clrf_normaltransparent 255 255 255 100
 cl_setvar clrf_normaldark 200 200 200 255

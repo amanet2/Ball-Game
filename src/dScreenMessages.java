@@ -75,7 +75,7 @@ public class dScreenMessages {
             if(!sSettings.show_mapmaker_ui) {
                 dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    dFonts.setFontColor(g, "clrf_bonus");
+                    g.setColor(Color.WHITE);
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){

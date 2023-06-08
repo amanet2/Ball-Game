@@ -1884,7 +1884,7 @@ public class xCon {
                 return result;
             }
             else
-                return String.format("No result: %s", command);
+                return "null";
         }
         return "";
     }

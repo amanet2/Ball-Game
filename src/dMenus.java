@@ -1,6 +1,4 @@
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 
 public class dMenus {
     private static Image logoimg = gTextures.getGScaledImage(eManager.getPath("misc/logo.png"),
@@ -15,7 +13,7 @@ public class dMenus {
         dFonts.setFontColor(g, "clrf_scoreboardbg");
         g.fillRect(0,0,sSettings.width,sSettings.height);
         g.drawImage(logoimg,0,0,null);
-        dFonts.setFontColor(g, "clrf_highlight");
+        g.setColor(Color.GRAY);
         dFonts.drawCenteredString(g, uiMenus.menuSelection[uiMenus.selectedMenu].title,
             sSettings.width/2,10*sSettings.height/30);
         dFonts.setFontColor(g, "clrf_normal");
@@ -33,7 +31,10 @@ public class dMenus {
             }
             else if(uiMenus.selectedMenu != uiMenus.MENU_CREDITS && ctr == uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem) {
                 sel = 1;
-                dFonts.setFontColor(g, "clrf_bonus");
+                if(uiMenus.selectedMenu == uiMenus.MENU_COLOR && !xMain.shellLogic.console.ex("cl_setvar clrp_" + i.text).contains("null"))
+                    dFonts.setFontColor(g, "clrp_" + i.text);
+                else
+                    g.setColor(Color.WHITE);
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
