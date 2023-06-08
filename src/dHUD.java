@@ -35,6 +35,9 @@ public class dHUD {
             dFonts.setFontLarge(g);
             //score
             if(clState.contains("score")) {
+                g.setColor(Color.BLACK);
+                g.drawString(clState.get("score").split(":")[1],
+                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 63*sSettings.height/64 + 3);
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
                 g.drawString(clState.get("score").split(":")[1],
                         marginX + ctr*(hpbarwidth + sSettings.width/64), 63*sSettings.height/64);
