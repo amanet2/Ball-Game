@@ -279,6 +279,9 @@ public class xCon {
                     xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
+                    double rand = Math.random()*3;
+                    String sound = rand < 1 ? "shout.wav" : rand < 2 ? "death.wav" : "growl.wav";
+                    xMain.shellLogic.serverNetThread.addNetCmd(id, String.format("playsound sounds/%s", sound));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
                     //handle death
                     if(newhp < 1) {
@@ -366,9 +369,8 @@ public class xCon {
         commands.put("cl_deleteprefab", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
+                if(toks.length > 1)
                     deletePrefabDelegate(xMain.shellLogic.clientScene, toks[1]);
-                }
                 return "usage: cl_deleteprefab <id>";
             }
         });
