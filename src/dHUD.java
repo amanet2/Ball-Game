@@ -286,7 +286,10 @@ public class dHUD {
             int coordy = p.getInt("coordy");
             String ck = clState.get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
-            dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
+            g.setColor(Color.BLACK);
+            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
+            g.setColor(color);
+            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
             int[] bounds = {
                     coordx + p.getInt("dimw")/2-(int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
                             - eUtils.unscaleInt(5*sSettings.height/128),
