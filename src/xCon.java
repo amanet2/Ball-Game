@@ -297,8 +297,9 @@ public class xCon {
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                         ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
-                        ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                sSettings.gameTime + sSettings.serverRespawnDelay, id));
+                        if(sSettings.respawnEnabled)
+                            ex(String.format("scheduleevent %d respawnnetplayer %s",
+                                    sSettings.gameTime + sSettings.serverRespawnDelay, id));
                     }
                     return id + " took " + dmg + " dmg from " + shooterid;
                 }

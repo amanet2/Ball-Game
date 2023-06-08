@@ -57,6 +57,7 @@ public class sSettings {
 	static int serverRespawnDelay = 3000;
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
+	static boolean respawnEnabled = true;
 
 	//client
 	static int clientMaxHP = 500;

@@ -110,6 +110,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.serverRespawnDelay = Integer.parseInt(value);
             }
         });
+        serverVars.putArg(new gArg("respawnenabled", Boolean.toString(sSettings.respawnEnabled)) {
+            public void onChange() {
+                sSettings.respawnEnabled = value.equalsIgnoreCase("true") || value.equals("1");
+            }
+        });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
         //init client vars
