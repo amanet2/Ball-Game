@@ -265,8 +265,10 @@ public class dHUD {
         Polygon pg = getPolygon(midx, coordy);
         Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
         g2.setStroke(dFonts.thickStroke);
-        dFonts.setFontColor(g2, "clrf_normaltransparent");
-        g2.drawPolygon(pg);
+        g2.setColor(Color.BLACK);
+        pg.translate(3, 3);
+        g2.fillPolygon(pg);
+        pg.translate(-3, -3);
         g2.setColor(color);
         g2.fillPolygon(pg);
     }
@@ -292,9 +294,10 @@ public class dHUD {
                     eUtils.unscaleInt(sSettings.height/32),
                     eUtils.unscaleInt(sSettings.height/32)
             };
+            g.setColor(Color.BLACK);
+            g.fillOval(bounds[0]+3, bounds[1]+3, bounds[2], bounds[3]);
+            g.setColor(color);
             g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-            dFonts.setFontColor(g, "clrf_normaltransparent");
-            g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 
