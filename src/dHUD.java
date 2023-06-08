@@ -381,7 +381,6 @@ public class dHUD {
                     dy - xMain.shellLogic.getUserPlayer().getInt("coordy")
                             + xMain.shellLogic.getUserPlayer().getDouble("dimh")/2
             };
-            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             int[][] polygondims = new int[][]{
                     new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
                             dx + eUtils.unscaleInt(sSettings.height / 16), dx
@@ -390,10 +389,12 @@ public class dHUD {
                             dy, dy + eUtils.unscaleInt(sSettings.height / 16)
                     }
             };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
             g2.fillPolygon(polygondims[0], polygondims[1], 4);
-            g2.setStroke(dFonts.thickStroke);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.drawPolygon(polygondims[0], polygondims[1], 4);
+            g2.translate(-3,-3);
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
+            g2.fillPolygon(polygondims[0], polygondims[1], 4);
             //big font
             dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
@@ -421,11 +422,12 @@ public class dHUD {
                             eUtils.unscaleInt(0)
                     }
             };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
+            g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+            g2.translate(-3,-3);
             g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.setStroke(dFonts.waypointStroke);
-            g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
             g2.translate(-gCamera.getX(), -gCamera.getY());
             g2.setTransform(backup);
         }
