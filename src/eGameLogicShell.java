@@ -138,6 +138,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
                     dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
                             dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                    dFonts.fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                            (dFonts.fontsize * sSettings.height / sSettings.gamescale)*2);
                     if(displayPane.frame != null) {
                         displayPane.refreshResolution();
                         dMenus.refreshLogos();

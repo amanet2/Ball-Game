@@ -10,8 +10,6 @@ public class dFonts {
             new FontRenderContext(null, false, true);
     static Stroke defaultStroke = new BasicStroke(1);
     static Stroke thickStroke = new BasicStroke(eUtils.scaleInt(16));
-    static Stroke hudStroke = new BasicStroke(eUtils.scaleInt(10));
-    static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
     static int fontsize = 90;
     static String fontnameconsole = "monospaced";
     static Font fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,

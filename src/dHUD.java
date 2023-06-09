@@ -16,8 +16,6 @@ public class dHUD {
         nState userState = clStateMap.get(sSettings.uuid);
         if(userState == null)
             return;
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
         int hpbarwidth = sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);

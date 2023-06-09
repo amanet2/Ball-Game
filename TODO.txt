@@ -1,4 +1,3 @@
-* FONTS: font sizes don't update with resolution change, because sizes/scaling are declared once at init in dFonts
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots
     -> some commands: targetitem (will seek and pick up), targetplayer (will seek and attack)
