@@ -7,12 +7,11 @@ public class gMessages {
     static Queue<Long> expirs = new LinkedList<>();
     static boolean enteringMessage = false;
     static String msgInProgress = "";
-    static int fadetime = 10000;
     static String prompt = "SAY";
 
     public static void addScreenMessage(String s) {
         screenMessages.add(s);
-        expirs.add(sSettings.gameTime + fadetime);
+        expirs.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
     }
 
     public static void checkMessages() {

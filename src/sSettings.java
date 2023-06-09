@@ -101,4 +101,5 @@ public class sSettings {
     static boolean showplayer = false;
     static boolean showtick = false;
     static boolean showscale = false;
+	static int screenMessageFadeTime = 10000;
 }
