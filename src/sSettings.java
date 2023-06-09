@@ -93,4 +93,12 @@ public class sSettings {
     static int frames = 0;
     static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
     static boolean hideMouseUI = false;
+    static boolean showscore = false;
+    static boolean showfps = false;
+    static boolean showcam = false;
+    static boolean showmouse = false;
+    static boolean shownet = false;
+    static boolean showplayer = false;
+    static boolean showtick = false;
+    static boolean showscale = false;
 }

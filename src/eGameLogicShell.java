@@ -263,42 +263,42 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("fontui", "None"));
         clientVars.putArg(new gArg("showfps", "0"){
             public void onChange() {
-                dScreenMessages.showfps = value.equals("1");
+                sSettings.showfps = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showcam", "0"){
             public void onChange() {
-                dScreenMessages.showcam = value.equals("1");
+                sSettings.showcam = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showmouse", "0"){
             public void onChange() {
-                dScreenMessages.showmouse = value.equals("1");
+                sSettings.showmouse = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("shownet", "0"){
             public void onChange() {
-                dScreenMessages.shownet = value.equals("1");
+                sSettings.shownet = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showplayer", "0"){
             public void onChange() {
-                dScreenMessages.showplayer = value.equals("1");
+                sSettings.showplayer = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showtick", "0"){
             public void onChange() {
-                dScreenMessages.showtick = value.equals("1");
+                sSettings.showtick = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showscale", "0"){
             public void onChange() {
-                dScreenMessages.showscale = value.equals("1");
+                sSettings.showscale = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showscore", "0"){
             public void onChange() {
-                dScreenMessages.showscore = value.equals("1");
+                sSettings.showscore = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("joinip", "localhost"){

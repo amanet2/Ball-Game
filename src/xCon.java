@@ -1546,11 +1546,11 @@ public class xCon {
         });
         commands.put("showscore", new gDoable() {
             public String doCommand(String fullCommand) {
-                dScreenMessages.showscore = true;
+                sSettings.showscore = true;
                 return "show score";
             }
             public String undoCommand(String fullCommand) {
-                dScreenMessages.showscore = false;
+                sSettings.showscore = false;
                 return "hide score";
             }
         });
