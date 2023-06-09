@@ -54,9 +54,8 @@ public class dScreenMessages {
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
-        if(sSettings.inplay) {
+        if(sSettings.inplay)
             dHUD.drawHUD(g);
-        }
         //timer
         dFonts.setFontLarge(g);
         if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
@@ -90,7 +89,6 @@ public class dScreenMessages {
                         7*sSettings.height/20, 11*sSettings.height/32,
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
-//                g.drawString("Preview", 4*sSettings.width/5,31*sSettings.height/32);
                 if(uiEditorMenus.newitemname.length() > 0)
                     newThingString = uiEditorMenus.newitemname;
                 boolean drawnRotate = false;

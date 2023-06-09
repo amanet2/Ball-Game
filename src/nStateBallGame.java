@@ -8,7 +8,8 @@ public class nStateBallGame extends nState {
             public void onChange() {
                 if(changes > 1)
                     xMain.shellLogic.console.ex(String.format("echo %s#%s changed color to %s#%s", get("name"), oldcolor, value, value));
-                changes++;
+                else
+                    changes++;
                 oldcolor = value;
             }
         });
@@ -18,7 +19,8 @@ public class nStateBallGame extends nState {
             public void onChange() {
                 if(changes > 1)
                     xMain.shellLogic.console.ex(String.format("echo %s#%s changed name to %s#%s", oldname, get("color"), value, get("color")));
-                changes++;
+                else
+                    changes++;
                 oldname = value;
             }
         });

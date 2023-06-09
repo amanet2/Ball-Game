@@ -1,16 +1,12 @@
+* FONTS: font sizes don't update with resolution change, because sizes/scaling are declared once at init in dFonts
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots
     -> some commands: targetitem (will seek and pick up), targetplayer (will seek and attack)
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
 * ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
-* CRASH: concurrency crash in eGameLogicShell.updateEntityPositions:398
-    -> scene objectMaps I think?
 * ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)
     -> idk what to do about the "synchronized" keyword in front of some functions
-* ENGINE: Concurrency exceptions plague draw functions
-    -> already using concurrentHashMap in thingMaps
-    -> looks at the other branch's commits to see how the drawqueues were handled
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
@@ -18,7 +14,7 @@
         -> retarget the older branch into this new stable branch, stable branch targets main now
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
-* SCRIPT: make an console doable like batch script "REM"
+* SCRIPT: make an console doable like batch script "REM" for handling commented strings
 * BUILD: current steps
     -> compile java into .class files
     -> jar archive these files

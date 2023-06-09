@@ -537,7 +537,7 @@ public class xCon {
         });
         commands.put("e_showlossalert", new gDoable() {
             public  String doCommand(String fullcomm) {
-                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane,
+                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane.contentPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });

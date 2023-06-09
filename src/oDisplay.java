@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Toolkit;
 
-public class oDisplay extends JLayeredPane {
+public class oDisplay {
 	static int displaymode_windowed = 0;
 	static int displaymode_borderless = 1;
 	static int displaymode_fullscreen = 2;
 	JFrame frame;
+    JLayeredPane contentPane;
     Cursor blankCursor;
 
 	public oDisplay() {
@@ -21,8 +22,8 @@ public class oDisplay extends JLayeredPane {
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
                 cursorImg, new Point(0, 0), "blank cursor");
-        super.setOpaque(true);
-	}
+        contentPane = new JLayeredPane();
+    }
 
     public void refreshDisplaymode() {
         createPanels();
@@ -53,9 +54,9 @@ public class oDisplay extends JLayeredPane {
             xMain.shellLogic.console.ex(String.format("cl_execpreview prefabs/%s 0 0 12500 5600", sSettings.clientNewPrefabName));
         }
 		frame.setResizable(false);
-        setPreferredSize(new Dimension(sSettings.width,sSettings.height));
+        contentPane.setPreferredSize(new Dimension(sSettings.width,sSettings.height));
         createPanels();
-		frame.setContentPane(this);
+		frame.setContentPane(contentPane);
 		frame.pack();
         frame.setLocationRelativeTo(null);
         if(sSettings.displaymode == displaymode_fullscreen) {
@@ -87,11 +88,12 @@ public class oDisplay extends JLayeredPane {
     }
 
 	private void createPanels() {
-	    removeAll();
-        setBackground(gColors.getColorFromName("clrf_background"));
+	    contentPane.removeAll();
+        contentPane.setBackground(gColors.getColorFromName("clrf_background"));
         int[] od = getContentPaneOffsetDimension();
         dPanel vfxPanel = new dPanel();
         vfxPanel.setBounds(od[0], od[1], sSettings.width, sSettings.height);
-        add(vfxPanel, 0, 0);
+        contentPane.setOpaque(true);
+        contentPane.add(vfxPanel, 0, 0);
     }
 }

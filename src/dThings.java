@@ -292,12 +292,7 @@ public class dThings {
                     gColors.getColorFromName("clrw_shadow1half")
             );
             g2.setPaint(df);
-            g2.fillOval(
-                    player.getInt("coordx"),
-                    player.getInt("coordy"),
-                    player.getInt("dimw"),
-                    player.getInt("dimh")
-            );
+            g2.fillOval(player.getInt("coordx"), player.getInt("coordy"), player.getInt("dimw"), player.getInt("dimh"));
         }
         //player weapon
         AffineTransform backup = g2.getTransform();
@@ -343,11 +338,7 @@ public class dThings {
         }
         else if(sSettings.show_mapmaker_ui){
             dFonts.setFontColor(g2, "clrf_spawnpoint");
-            g2.fillRect(
-                    item.getInt("coordx"),
-                    item.getInt("coordy"),
-                    item.getInt("dimw"),
-                    item.getInt("dimh"));
+            g2.fillRect(item.getInt("coordx"), item.getInt("coordy"), item.getInt("dimw"), item.getInt("dimh"));
         }
     }
 }

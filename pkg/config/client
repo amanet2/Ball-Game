@@ -37,7 +37,7 @@ cl_setvar vfxenableshading 1
 # enable shadows
 cl_setvar vfxenableshadows 1
 # video mode
-cl_setvar vidmode 1920,1080,-1
+cl_setvar vidmode 1280,720,-1
 # volume
 cl_setvar volume 100
 # bindings
