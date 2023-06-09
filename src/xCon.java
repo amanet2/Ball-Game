@@ -971,7 +971,7 @@ public class xCon {
                 sSettings.inplay = !sSettings.inplay;
                 xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(sSettings.inplay) {
-                    xMain.shellLogic.displayPane.frame.setCursor(xMain.shellLogic.displayPane.blankCursor);
+                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     if(sSettings.show_mapmaker_ui)
                         xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + sSettings.uuid);
                 }

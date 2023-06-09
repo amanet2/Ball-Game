@@ -7,7 +7,7 @@ public class dScreenFX {
         nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
         if(userState == null)
             return;
-        Graphics2D g2 = (Graphics2D) g;
+//        Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {
 //            int factors = sVars.getInt("vfxfactor");
@@ -74,22 +74,6 @@ public class dScreenFX {
                 g.setColor(hpvfxColor);
                 g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
             }
-        }
-        // -- aimer
-        if(sSettings.inplay) {
-            int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
-            int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
-            int cx = eUtils.unscaleInt(gCamera.getX());
-            int cy = eUtils.unscaleInt(gCamera.getY());
-            int snapX = aimerx + cx;
-            int snapY = aimery + cy;
-            snapX -= eUtils.unscaleInt(gCamera.getX());
-            snapY -= eUtils.unscaleInt(gCamera.getY());
-            snapX = eUtils.scaleInt(snapX);
-            snapY = eUtils.scaleInt(snapY);
-            int setw = sSettings.height / 64;
-            g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-            g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }
 
