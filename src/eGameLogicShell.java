@@ -197,37 +197,22 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("vfxenableanimations", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableanimations = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableanimations = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableflares", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableflares = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableflares = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableshading", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableshading = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableshading = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableshadows", "1"){
             public void onChange() {
-                sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
+                sSettings.vfxenableshadows = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("gamemode", "0") {
