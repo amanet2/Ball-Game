@@ -1435,10 +1435,12 @@ public class xCon {
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
                     String id = eUtils.createId();
-                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id,
-                            new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-                                    p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
-                                    msg, 0.0));
+                    gThing popup = new gThing();
+                    popup.putInt("coordx", p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)));
+                    popup.putInt("coordy", p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)));
+                    popup.put("text", msg);
+                    popup.putDouble("fv", 0.0);
+                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gDoable() {
                                 public void doCommand() {

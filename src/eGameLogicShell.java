@@ -450,7 +450,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     checkQueue.add(thingMap.get(id));
                 }
                 while (checkQueue.size() > 0) {
-                    gPopup obj = (gPopup) checkQueue.remove();
+                    gThing obj = checkQueue.remove();
                     obj.put("coordx", Integer.toString(obj.getInt("coordx")
                             - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
                     obj.put("coordy", Integer.toString(obj.getInt("coordy")

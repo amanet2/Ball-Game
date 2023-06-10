@@ -1,3 +1,4 @@
+* ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots
     -> some commands: targetitem (will seek and pick up), targetplayer (will seek and attack)

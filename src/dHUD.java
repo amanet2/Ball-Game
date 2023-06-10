@@ -206,7 +206,7 @@ public class dHUD {
         if(size > 0)
             dFonts.setFontGNormal(g);
         for(String id : popupsIds) {
-            gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
+            gThing p = scene.getThingMap("THING_POPUP").get(id);
             if(p == null)
                 continue;
             // look for hashtag color codes here
