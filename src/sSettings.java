@@ -21,7 +21,7 @@ public class sSettings {
 	static int width = 1920;
 	static int height = 1080;
 	static int framerate = 240;
-	static int displaymode = 0;
+	static boolean borderless = false;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 8;
 	static double vfxshadowfactor = 0.3;

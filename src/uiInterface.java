@@ -4,10 +4,8 @@ public class uiInterface {
 
     public static int[] getMouseCoordinates() {
         return new int[]{
-                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.displayPane.frame.getLocationOnScreen().x
-                        - xMain.shellLogic.displayPane.getContentPaneOffsetDimension()[0],
+                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.displayPane.frame.getLocationOnScreen().x,
                 MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.displayPane.frame.getLocationOnScreen().y
-                        - xMain.shellLogic.displayPane.getContentPaneOffsetDimension()[1]
         };
     }
 
@@ -25,7 +23,7 @@ public class uiInterface {
         if(!sSettings.hideMouseUI) {
             int[] mc = uiInterface.getMouseCoordinates();
             int[] xBounds = new int[]{0, sSettings.width / 4};
-            int[] yBounds = sSettings.displaymode > 0
+            int[] yBounds = sSettings.borderless
                     ? new int[]{14 * sSettings.height / 16, 15 * sSettings.height / 16}
                     : new int[]{15 * sSettings.height / 16, sSettings.height};
             if ((mc[0] >= xBounds[0] && mc[0] <= xBounds[1]) && (mc[1] >= yBounds[0] && mc[1] <= yBounds[1])) {
@@ -42,7 +40,7 @@ public class uiInterface {
                             sSettings.width / 2 + sSettings.width / 8};
                     yBounds = new int[]{11 * sSettings.height / 30 + i * sSettings.height / 30,
                             11 * sSettings.height / 30 + (i + 1) * sSettings.height / 30};
-                    if (sSettings.displaymode == oDisplay.displaymode_windowed) {
+                    if (!sSettings.borderless) {
                         yBounds[0] += 40;
                         yBounds[1] += 40;
                     }

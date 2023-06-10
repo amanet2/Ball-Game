@@ -4,8 +4,8 @@ cl_setvar audioenabled 1
 cl_setvar debug 0
 # save console log to file on close
 cl_setvar debuglog 0
-# 0=window||1=borderless||2=fullscreen
-cl_setvar displaymode 0
+# set to 1 for borderless window
+cl_setvar borderless 0
 # font name ui
 cl_setvar fontui None
 # available framerates

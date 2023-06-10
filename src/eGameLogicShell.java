@@ -187,11 +187,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientPlayerName = value;
             }
         });
-        clientVars.putArg(new gArg("displaymode", "0") {
+        clientVars.putArg(new gArg("borderless", "0") {
             public void onChange() {
-                sSettings.displaymode = Integer.parseInt(value);
+                sSettings.borderless = value.equalsIgnoreCase("true") || value.equals("1");
                 if(displayPane.frame != null) {
-                    displayPane.refreshDisplaymode();
+                    displayPane.createPanels();
+                    displayPane.showFrame();
                 }
             }
         });
