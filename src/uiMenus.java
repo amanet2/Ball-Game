@@ -348,7 +348,9 @@ public class uiMenus {
                 "Credits",
                 new uiMenuItem[] {
                         new uiMenuItem("Programming & Design by Anthony Manetti"),
-                        new uiMenuItem("Special Thanks to hitrison.itch.io for UI SFX pack"),
+                        new uiMenuItem("Special Thanks to hitrison.itch.io for Menu Sound FX Pack + More!"),
+                        new uiMenuItem("Special Thanks to rustybulletgames.itch.io for Colored Explosions Asset Pack"),
+                        new uiMenuItem("Special Thanks to MixKit for shotgun and ball explosion sound effects"),
                         new uiMenuItem("Ballmaster 2021-2023")
                 },
                 MENU_MAIN
