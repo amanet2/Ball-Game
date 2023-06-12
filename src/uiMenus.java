@@ -348,7 +348,7 @@ public class uiMenus {
                 "Credits",
                 new uiMenuItem[] {
                         new uiMenuItem("Programming & Design by Anthony Manetti"),
-                        new uiMenuItem("venmo @StallionUSA"),
+                        new uiMenuItem("Special Thanks to hitrison.itch.io for UI SFX pack"),
                         new uiMenuItem("Ballmaster 2021-2023")
                 },
                 MENU_MAIN

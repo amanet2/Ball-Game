@@ -22,7 +22,7 @@ public class gAnimations {
         new gAnimation("animations/fire_splash_orange", 50, 50, 16),
         new gAnimation("animations/fire_splash_green", 50, 50, 16),
         new gAnimation("animations/fire_splash_red", 50, 50, 16),
-        new gAnimation("animations/explosion", 300, 300, 16),
+        new gAnimation("animations/fire_splash_blue", 300, 300, 16),
         new gAnimation("animations/fire_splash_blue", 300, 300, 16),
         new gAnimation("animations/fire_splash_green", 300, 300, 16),
         new gAnimation("animations/fire_splash_orange", 300, 300, 16),

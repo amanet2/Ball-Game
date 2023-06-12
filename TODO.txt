@@ -1,3 +1,5 @@
+* LEGAL: go through the sound and image files and make sure they are all homemade
+    -> LEFT TO DO:
 * ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots

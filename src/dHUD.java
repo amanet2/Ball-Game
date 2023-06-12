@@ -189,12 +189,20 @@ public class dHUD {
                 if (gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")] != null) {
                     g2.drawImage(gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")],
                             emit.getInt("coordx"), emit.getInt("coordy"), null);
-                    if (emit.getLong("frametime") + 1000/gAnimations.animation_selection[emit.getInt("animation")].framerate
-                            < gameTimeMillis) {
-                        emit.putInt("frame", emit.getInt("frame")+1);
-                        emit.putLong("frametime", gameTimeMillis);
+                    if(emit.getLong("frametime") < gameTimeMillis) {
+                        emit.putInt("frame", emit.getInt("frame") + 1);
+                        emit.putLong("frametime", gameTimeMillis + 30);
                     }
                 }
+            }
+            else {
+                xMain.shellLogic.scheduledEvents.put(
+                    Long.toString(sSettings.gameTime + 500), new gDoable() {
+                        public void doCommand() {
+                            xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(id);
+                        }
+                    }
+                );
             }
         }
     }

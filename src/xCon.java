@@ -842,14 +842,14 @@ public class xCon {
                         if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            ex("playsound sounds/splash.wav");
+                            ex("playsound sounds/goodwork.wav");
                         }
                         else
                             ex("pause");
                     }
                     else {
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        ex("playsound sounds/splash.wav");
+                        ex("playsound sounds/goodwork.wav");
                     }
                 }
                 return fullCommand;
@@ -1212,7 +1212,7 @@ public class xCon {
                 if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
-                    ex("playsound sounds/splash.wav");
+                    ex("playsound sounds/goodwork.wav");
                 }
                 return fullCommand;
             }
@@ -1368,13 +1368,6 @@ public class xCon {
                         String aid = eUtils.createId();
                         xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid,
                                 new gAnimationEmitter(animcode, x, y));
-                        gAnimation anim = gAnimations.animation_selection[animcode];
-                        xMain.shellLogic.scheduledEvents.put(
-                                Long.toString(sSettings.gameTime + anim.frames.length*anim.framerate), new gDoable() {
-                                    public void doCommand() {
-                                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(aid);
-                                    }
-                                });
                         return "spawned animation " + animcode + " at " + x + " " + y;
                     }
                 }
