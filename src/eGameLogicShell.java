@@ -251,7 +251,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("resolutions",
-                "640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160") {
+                "640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160") {
             public void onChange() {
                 String[] toks = value.split(",");
                 sSettings.resolutions = new String[toks.length];
