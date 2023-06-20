@@ -1,15 +1,15 @@
-* VIRUS: when all infected, just make everyone not virus again
-* LEGAL: go through the sound and image files and make sure they are all homemade
-    -> LEFT TO DO:
+* CONSOLE: need ability to refresh scripts while running app
+    -> IDEA #1: refresh scripts when loading map
+        -> this avoids situation where we try to refresh a script but it is running
+    -> IDEA #2: console command to refresh scripts
+        -> what if script is running when we try to refresh it?
+* SCRIPT: make an console doable like batch script "REM" for handling commented strings
 * ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots
     -> some commands: targetitem (will seek and pick up), targetplayer (will seek and attack)
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
-* ENGINE: look at moving static vars into sSettings file to serve as a big bucket central repo
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
-* ENGINE: according to stackoverflow we don't need to wrap concurrentHashMap access with sycnhronized(<mapname>)
-    -> idk what to do about the "synchronized" keyword in front of some functions
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
@@ -17,7 +17,6 @@
         -> retarget the older branch into this new stable branch, stable branch targets main now
 * TWO COMMITS TANGLED UP
     -> on target: git config pull.rebase true && git pull && git config pull.rebase false
-* SCRIPT: make an console doable like batch script "REM" for handling commented strings
 * BUILD: current steps
     -> compile java into .class files
     -> jar archive these files
@@ -31,6 +30,7 @@
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
 * IDEA: multi-line for loops in scripting language
+    -> QUESTION: am i making a game here or a scripting language???
     -> iterate over lines in gScript
     -> "for" should trigger a function that gets all line #'s of the script to loop over
     -> we can pass all loop lines to a function which then does the for i in range code in java
@@ -53,7 +53,6 @@
                 -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
-* SANITY: how the hell is the launcher explosion's velocity being set?
 * WEAPONS: make multiple bullet classes like we have for weapons
     -> we can customize these projectile's properties in a cfg
     -> in the cfg files, we will reference the bullet we want to come out of a weapon
@@ -77,8 +76,6 @@
     -> loop: check if any ban times have expire and remove player from ban map
     -> console command: banid will schedule the event to unban (remove from list of banned ids) and create svar
     -> on server close, save to file: setvar unban_<id> <time_millis>
-* make a "iscolliding" console comm with 2 ids for objects
-* convert cClientLogic.newprefabname into client var so console and onChange() can be used
 * dont draw blocks that cant be seen on screen
 * when someones pc sleeps/closes, the client loses connection then rejoins on wake as "null"
 * change the client rate when downloading map
@@ -89,30 +86,20 @@
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
 * add cod zombies-style gametype, a zombie will be a prop with dumb ai
-* powerup idea
-    -> egg, pick up to initiate the growing sequence
-    -> chuck or drop it before it blows
-* ATTACK: the rock from gungame
-    -> have it be wildly inaccurate
-* GAME: bring back squish effect for something
-* new Item: bonusblock
-    -> get its health to 0 and it has a chance to spawn a powerup
-* Interesting attack:
-    -> hold mouse to increase size of projectile
-    -> click mouse to start blowing up a bubble. click again to launch it before it pops
-        --> can get a bigger bubble, skillfully make small ones etc
-* other attack:
-    -> rock lazily flies for a time
-        --> stopped/bounces by walls/players
-    -> explodes on a timer
-    -> right click could leave a bomb at player loc, left click launches it
+* powerups
+    -> an egg you pick it up and it expands until explosion
+* GAME: bring back squish effect for movement/momentum changes and bounces
+* new Item: destructible box/crate
+    -> get itemvar "health" to 0 and it should exec spawnpointgiverbonus script
+* other attacks:
+    -> rock lazily flies, either bounces or stops when collides with walls/players (rock from maniac gungame)
+    -> right click could drop a timed bomb, left click kicks it forward
+    -> hold mouse to blow a bubble and release it before it pops
 * make "themes" for prefabs
 * make players bounce off each other and walls
-* add ball skins like polka dots stripes etc
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
-* make sure different timezones and computer times work correctly
 * PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
 * gungame mode
 * add "disable attacks" option
