@@ -1774,7 +1774,7 @@ public class xCon {
 
     public static int charlimit() {
         return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
-                dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+                dFonts.size *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 

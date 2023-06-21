@@ -66,14 +66,14 @@ public class uiEditorMenus {
 
     public static JMenuItem addMenuItem(String parentMenu, String text) {
         JMenuItem newItem = new JMenuItem(text);
-        newItem.setFont(dFonts.getFontNormal());
+        newItem.setFont(dFonts.fontNormal);
         menus.get(parentMenu).add(newItem);
         return newItem;
     }
 
     public static void addSubMenuLabel(String parentMenu, String text) {
         JLabel newLabel = new JLabel(text);
-        newLabel.setFont(dFonts.getFontNormal());
+        newLabel.setFont(dFonts.fontNormal);
         menus.get(parentMenu).add(newLabel);
     }
 
@@ -171,7 +171,7 @@ public class uiEditorMenus {
         }
         for(String s : allPrefabs) {
             JCheckBoxMenuItem prefabmenuitem = new JCheckBoxMenuItem(s);
-            prefabmenuitem.setFont(dFonts.getFontNormal());
+            prefabmenuitem.setFont(dFonts.fontNormal);
             if(uiEditorMenus.getRotateName(sSettings.clientNewPrefabName).contains(prefabmenuitem.getText()))
                 prefabmenuitem.setSelected(true);
             prefabmenuitem.addActionListener(e -> {
@@ -197,7 +197,7 @@ public class uiEditorMenus {
         String[] itemTitles = sb.substring(1).split(";");
         for(String itemname : itemTitles) {
             JCheckBoxMenuItem itemMenuItem = new JCheckBoxMenuItem(itemname);
-            itemMenuItem.setFont(dFonts.getFontNormal());
+            itemMenuItem.setFont(dFonts.fontNormal);
             if(itemMenuItem.getText().equals(newitemname))
                 itemMenuItem.setSelected(true);
             itemMenuItem.addActionListener(e -> {
@@ -218,7 +218,7 @@ public class uiEditorMenus {
         for(int gtr = 0; gtr < gameTypeTitles.size(); gtr++) {
             String gameTypeTitle = gameTypeTitles.get(gtr);
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gameTypeTitle);
-            gametypeMenuItem.setFont(dFonts.getFontNormal());
+            gametypeMenuItem.setFont(dFonts.fontNormal);
             resetCheckBoxMenuItem(gametypeMenuItem);
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
@@ -234,7 +234,7 @@ public class uiEditorMenus {
         //fill colors menu
         for(String color : sSettings.colorSelection) {
             JCheckBoxMenuItem colorMenuItem = new JCheckBoxMenuItem(color);
-            colorMenuItem.setFont(dFonts.getFontNormal());
+            colorMenuItem.setFont(dFonts.fontNormal);
             if(colorMenuItem.getText().equals(sSettings.clientPlayerColor))
                 colorMenuItem.setSelected(true);
             colorMenuItem.addActionListener(e -> {
@@ -315,7 +315,7 @@ public class uiEditorMenus {
         for(String option : new String[]{"drawhitboxes","drawmapmakergrid","vfxenableshading","vfxenableshadows",
         "vfxenableflares", "vfxenableanimations"}) {
             JCheckBoxMenuItem ovmenuitem = new JCheckBoxMenuItem(option);
-            ovmenuitem.setFont(dFonts.getFontNormal());
+            ovmenuitem.setFont(dFonts.fontNormal);
             ovmenuitem.setSelected(overlaySelectionActionMap.get(option).checkValue());
             ovmenuitem.addActionListener(e -> {
                 overlaySelectionActionMap.get(option).doCommand();
@@ -327,14 +327,14 @@ public class uiEditorMenus {
 
     private static void createNewMenu(String title) {
         JMenu newmenu = new JMenu(title);
-        newmenu.setFont(dFonts.getFontNormal());
+        newmenu.setFont(dFonts.fontNormal);
         menus.put(title, newmenu);
         xMain.shellLogic.displayPane.frame.getJMenuBar().add(newmenu);
     }
 
     private static void createNewSubmenu(String title, String subtitle) {
         JMenu newmenu = new JMenu(subtitle);
-              newmenu.setFont(dFonts.getFontNormal());
+              newmenu.setFont(dFonts.fontNormal);
         menus.put(subtitle,newmenu);
         menus.get(title).add(newmenu);
     }
