@@ -1,5 +1,5 @@
 foreachclient pid setnstate $pid virus 0
 foreachclient pid setplayer $pid decorationsprite null
-#gives random player the virus
-#getres rando getrandclid
-#testresn $rando null setnstate $rando virus 1
+REM gives random player the virus
+REM getres rando getrandclid
+REM testresn $rando null setnstate $rando virus 1

@@ -1,26 +1,26 @@
-# mute volume
+REM mute volume
 cl_setvar audioenabled 1
-# show debug info in console
+REM show debug info in console
 cl_setvar debug 0
-# save console log to file on close
+REM save console log to file on close
 cl_setvar debuglog 0
-# set to 1 for borderless window
+REM set to 1 for borderless window
 cl_setvar borderless 0
-# font name ui
+REM font name ui
 cl_setvar fontui None
-# available framerates
+REM available framerates
 cl_setvar framerates 24,30,60,75,98,120,144,165,240,320,360
-# default net address
+REM default net address
 cl_setvar joinip localhost
-# default net port
+REM default net port
 cl_setvar joinport 5555
-# player color
+REM player color
 cl_setvar playercolor pink
-# player name
+REM player name
 cl_setvar playername player
-# available resolutions
+REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
-# show frames per second
+REM show frames per second
 cl_setvar showfps 0
 cl_setvar showcam 0
 cl_setvar showmouse 0
@@ -28,19 +28,19 @@ cl_setvar shownet 0
 cl_setvar showplayer 0
 cl_setvar showtick 0
 cl_setvar showscale 0
-# enable animations
+REM enable animations
 cl_setvar vfxenableanimations 1
-# enable flares
+REM enable flares
 cl_setvar vfxenableflares 1
-# enable shading
+REM enable shading
 cl_setvar vfxenableshading 1
-# enable shadows
+REM enable shadows
 cl_setvar vfxenableshadows 1
-# video mode
+REM video mode
 cl_setvar vidmode 1280,720,-1
-# volume
+REM volume
 cl_setvar volume 100
-# bindings
+REM bindings
 bind - -zoom
 bind = zoom
 bind backspace e_delthing
@@ -67,7 +67,7 @@ bind y chat
 -bind left -playerleft
 -bind right -playerright
 -bind r e_rotthing
-# strings
+REM strings
 cl_setvar GAMETYPE_0_title Rock Master
 cl_setvar GAMETYPE_0_text Rock Other Players
 cl_setvar GAMETYPE_1_title Virus Master
@@ -86,7 +86,7 @@ cl_setvar GAMETYPE_7_title Bring Master
 cl_setvar GAMETYPE_7_text Bring Flags to the Points
 cl_setvar GAMETYPE_8_title Hold Master
 cl_setvar GAMETYPE_8_text Hold Flags or Explode
-# colors
+REM colors
 cl_setvar clrf_normal 255 255 255 200
 cl_setvar clrf_normaltransparent 255 255 255 100
 cl_setvar clrf_normaldark 200 200 200 255

@@ -1,9 +1,9 @@
+* BUG: scrolling through console lines doesnt work
 * CONSOLE: need ability to refresh scripts while running app
     -> IDEA #1: refresh scripts when loading map
         -> this avoids situation where we try to refresh a script but it is running
     -> IDEA #2: console command to refresh scripts
         -> what if script is running when we try to refresh it?
-* SCRIPT: make an console doable like batch script "REM" for handling commented strings
 * ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: come up with scriptable system for bots

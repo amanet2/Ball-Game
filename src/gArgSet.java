@@ -53,7 +53,7 @@ public class gArgSet {
             boolean clientSave = s.equals(sSettings.CONFIG_FILE_LOCATION_CLIENT);
             for(String line : filelines) {
                 String[] largs = line.split(" ");
-                if(!largs[0].equals("#") && largs.length > 2 && largs[0].contains("setvar")) {
+                if(largs.length > 2 && largs[0].contains("setvar")) {
                     String tk = largs[1]; //var key
                     if(contains(tk)) {
                         String argLine = String.format("%s %s %s\n", clientSave ? "cl_setvar" : "setvar", tk, get(tk));

@@ -1128,6 +1128,11 @@ public class xCon {
                 return "";
             }
         });
+        commands.put("REM", new gDoable() {
+            public String doCommand(String fullCommand) {
+                return "comment";
+            }
+        });
         commands.put("respawnnetplayer", new gDoable() {
             int tries = 0;
             final int trylimit = 5;
