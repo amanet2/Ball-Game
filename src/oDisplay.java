@@ -51,8 +51,8 @@ public class oDisplay {
 		//add listeners
         frame.addKeyListener(iInput.keyboardInput);
         frame.addMouseListener(iInput.mouseInput);
-        frame.addMouseMotionListener(iInput.mouseMotion);
-        frame.addMouseWheelListener(iInput.mouseWheelInput);
+        frame.addMouseMotionListener(iInput.mouseInput);
+        frame.addMouseWheelListener(iInput.mouseInput);
         frame.setFocusTraversalKeysEnabled(false);
     }
 
