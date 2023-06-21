@@ -1607,16 +1607,15 @@ public class xCon {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "1");
-        else if(sSettings.show_mapmaker_ui) {
-            gCamera.put("mov" + dir, "1");
-        }
+        else if(sSettings.show_mapmaker_ui)
+            gCamera.move[dir] = 1;
     }
 
     private void playerStopMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "0");
-        gCamera.put("mov" + dir, "0");
+        gCamera.move[dir] = 0;
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {
