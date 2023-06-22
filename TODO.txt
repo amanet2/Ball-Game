@@ -3,13 +3,13 @@
 * ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
 * BOTS: engine should handle all bot stuff up to spawning, actions should be scripted
-    -> commands: checkforthingtarget, targetthing, holdposition
+    -> commands: targetthing, avoidthing (for virus and flagmaster type modes)
     -> add invisible waypoint item for bots to target & travel around the map
     -> how bots will be scripted (bringmaster as example):
         -> check if bot has flag (setnstate bot_id flag)
-            -> if yes, then bot should seek deposit (checkforitemtarget DEPOST && targetitem DEPOSIT)
-            -> if no, bot should seek out a nearby flag (checkforitemtarget FLAG && targetitem FLAG)
-                -> if nothing nearby, move to a bot waypoint and repeat loop (targetitem BOT_WAYPOINT)
+            -> if yes, then bot should seek deposit (targetthing DEPOSIT)
+            -> if no, bot should seek out a nearby flag (targetthing FLAG)
+                -> if nothing nearby, move to a bot waypoint and repeat loop (targetthing BOT_WAYPOINT)
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
 * NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * GIT: want to go back in time
