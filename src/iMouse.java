@@ -35,14 +35,9 @@ public class iMouse implements MouseListener, MouseMotionListener, MouseWheelLis
     }
 
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (e.getWheelRotation() < 0) {
-            if(sSettings.inconsole)
+        if (e.getWheelRotation() < 0 && sSettings.inconsole)
                 xMain.shellLogic.console.linesToShowStart = Math.max(0, xMain.shellLogic.console.linesToShowStart-1);
-        }
-        else {
-            if(sSettings.inconsole)
-                xMain.shellLogic.console.linesToShowStart = Math.min(xMain.shellLogic.console.stringLines.size()
-                        - xMain.shellLogic.console.linesToShow, xMain.shellLogic.console.linesToShowStart + 1);
-        }
+        else if(sSettings.inconsole)
+                xMain.shellLogic.console.linesToShowStart = Math.min(xMain.shellLogic.console.stringLines.size() - xMain.shellLogic.console.linesToShow, xMain.shellLogic.console.linesToShowStart + 1);
     }
 }
