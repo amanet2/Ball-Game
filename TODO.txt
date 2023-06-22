@@ -1,4 +1,3 @@
-* BUG: scrolling through console lines doesnt work
 * CONSOLE: need ability to refresh scripts while running app
     -> IDEA #1: refresh scripts when loading map
         -> this avoids situation where we try to refresh a script but it is running
