@@ -1874,7 +1874,7 @@ public class xCon {
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
 //                if (result.length() > 0)
 //                    stringLines.add(result);
-                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+//                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);
                 }

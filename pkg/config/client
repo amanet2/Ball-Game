@@ -15,7 +15,7 @@ cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
-cl_setvar playercolor pink
+cl_setvar playercolor teal
 REM player name
 cl_setvar playername player
 REM available resolutions
