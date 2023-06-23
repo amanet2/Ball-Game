@@ -279,6 +279,9 @@ public class xCon {
                     xMain.shellLogic.console.ex(String.format("spawnpopup %s %d", id, dmg));
                     int newhp = Integer.parseInt(playerState.get("hp")) - dmg;
                     xMain.shellLogic.serverNetThread.setClientState(id, "hp", Integer.toString(newhp));
+                    double rand = Math.random()*3;
+                    String sound = rand < 1 ? "shout.wav" : rand < 2 ? "death.wav" : "growl.wav";
+                    xMain.shellLogic.serverNetThread.addNetCmd(id, String.format("playsound sounds/%s", sound));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
                     //handle death
                     if(newhp < 1) {
@@ -294,8 +297,9 @@ public class xCon {
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
                         ex(String.format("addcomi server cl_spawnanimation %d %d %d", animInd, dcx, dcy));
-                        ex(String.format("scheduleevent %d respawnnetplayer %s",
-                                sSettings.gameTime + sSettings.serverRespawnDelay, id));
+                        if(sSettings.respawnEnabled)
+                            ex(String.format("scheduleevent %d respawnnetplayer %s",
+                                    sSettings.gameTime + sSettings.serverRespawnDelay, id));
                     }
                     return id + " took " + dmg + " dmg from " + shooterid;
                 }
@@ -366,9 +370,8 @@ public class xCon {
         commands.put("cl_deleteprefab", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if(toks.length > 1) {
+                if(toks.length > 1)
                     deletePrefabDelegate(xMain.shellLogic.clientScene, toks[1]);
-                }
                 return "usage: cl_deleteprefab <id>";
             }
         });
@@ -534,7 +537,7 @@ public class xCon {
         });
         commands.put("e_showlossalert", new gDoable() {
             public  String doCommand(String fullcomm) {
-                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane,
+                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane.contentPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
@@ -839,14 +842,14 @@ public class xCon {
                         if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            ex("playsound sounds/splash.wav");
+                            ex("playsound sounds/goodwork.wav");
                         }
                         else
                             ex("pause");
                     }
                     else {
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        ex("playsound sounds/splash.wav");
+                        ex("playsound sounds/goodwork.wav");
                     }
                 }
                 return fullCommand;
@@ -968,7 +971,7 @@ public class xCon {
                 sSettings.inplay = !sSettings.inplay;
                 xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(sSettings.inplay) {
-                    xMain.shellLogic.displayPane.frame.setCursor(xMain.shellLogic.displayPane.blankCursor);
+                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     if(sSettings.show_mapmaker_ui)
                         xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + sSettings.uuid);
                 }
@@ -1125,6 +1128,11 @@ public class xCon {
                 return "";
             }
         });
+        commands.put("REM", new gDoable() {
+            public String doCommand(String fullCommand) {
+                return "comment";
+            }
+        });
         commands.put("respawnnetplayer", new gDoable() {
             int tries = 0;
             final int trylimit = 5;
@@ -1209,7 +1217,7 @@ public class xCon {
                 if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
-                    ex("playsound sounds/splash.wav");
+                    ex("playsound sounds/goodwork.wav");
                 }
                 return fullCommand;
             }
@@ -1365,13 +1373,6 @@ public class xCon {
                         String aid = eUtils.createId();
                         xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid,
                                 new gAnimationEmitter(animcode, x, y));
-                        gAnimation anim = gAnimations.animation_selection[animcode];
-                        xMain.shellLogic.scheduledEvents.put(
-                                Long.toString(sSettings.gameTime + anim.frames.length*anim.framerate), new gDoable() {
-                                    public void doCommand() {
-                                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(aid);
-                                    }
-                                });
                         return "spawned animation " + animcode + " at " + x + " " + y;
                     }
                 }
@@ -1432,10 +1433,12 @@ public class xCon {
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
                     String id = eUtils.createId();
-                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id,
-                            new gPopup(p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)),
-                                    p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)),
-                                    msg, 0.0));
+                    gThing popup = new gThing();
+                    popup.putInt("coordx", p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)));
+                    popup.putInt("coordy", p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)));
+                    popup.put("text", msg);
+                    popup.putDouble("fv", 0.0);
+                    xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gDoable() {
                                 public void doCommand() {
@@ -1543,11 +1546,11 @@ public class xCon {
         });
         commands.put("showscore", new gDoable() {
             public String doCommand(String fullCommand) {
-                dScreenMessages.showscore = true;
+                sSettings.showscore = true;
                 return "show score";
             }
             public String undoCommand(String fullCommand) {
-                dScreenMessages.showscore = false;
+                sSettings.showscore = false;
                 return "hide score";
             }
         });
@@ -1609,16 +1612,15 @@ public class xCon {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "1");
-        else if(sSettings.show_mapmaker_ui) {
-            gCamera.put("mov" + dir, "1");
-        }
+        else if(sSettings.show_mapmaker_ui)
+            gCamera.move[dir] = 1;
     }
 
     private void playerStopMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
         if(p != null)
             p.put("mov" + dir, "0");
-        gCamera.put("mov" + dir, "0");
+        gCamera.move[dir] = 0;
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {
@@ -1777,7 +1779,7 @@ public class xCon {
 
     public static int charlimit() {
         return (int)((double)sSettings.width/new Font(dFonts.fontnameconsole, Font.PLAIN,
-                dFonts.fontsize*sSettings.height/sSettings.gamescale/2).getStringBounds("_",
+                dFonts.size *sSettings.height/sSettings.gamescale/2).getStringBounds("_",
                 dFonts.fontrendercontext).getWidth());
     }
 
@@ -1872,7 +1874,7 @@ public class xCon {
                 String result = comstring.charAt(0) == '-' ? cp.undoCommand(comstring) : cp.doCommand(comstring);
 //                if (result.length() > 0)
 //                    stringLines.add(result);
-                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
+//                linesToShowStart = Math.max(0, stringLines.size() - linesToShow);
                 while (stringLines.size() > 1024) {
                     stringLines.remove(0);
                 }
@@ -1882,7 +1884,7 @@ public class xCon {
                 return result;
             }
             else
-                return String.format("No result: %s", command);
+                return "null";
         }
         return "";
     }

@@ -11,7 +11,7 @@ public class sSettings {
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
 	static String[] colorSelection = {"blue", "green", "orange", "pink", "purple", "red", "teal", "yellow"};
-	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1280x1024", "1680x1050", "1600x1200", "1920x1080", "2560x1440", "3840x2160"};
+	static String[] resolutions = {"640x480", "800x600", "1024x768", "1280x720", "1600x900", "1920x1080", "2560x1440", "3840x2160"};
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
@@ -21,7 +21,7 @@ public class sSettings {
 	static int width = 1920;
 	static int height = 1080;
 	static int framerate = 240;
-	static int displaymode = 0;
+	static boolean borderless = false;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 8;
 	static double vfxshadowfactor = 0.3;
@@ -57,6 +57,7 @@ public class sSettings {
 	static int serverRespawnDelay = 3000;
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
+	static boolean respawnEnabled = true;
 
 	//client
 	static int clientMaxHP = 500;
@@ -92,4 +93,13 @@ public class sSettings {
     static int frames = 0;
     static String uuid = Integer.toString(ThreadLocalRandom.current().nextInt(11111111, 99999999));
     static boolean hideMouseUI = false;
+    static boolean showscore = false;
+    static boolean showfps = false;
+    static boolean showcam = false;
+    static boolean showmouse = false;
+    static boolean shownet = false;
+    static boolean showplayer = false;
+    static boolean showtick = false;
+    static boolean showscale = false;
+	static int screenMessageFadeTime = 10000;
 }

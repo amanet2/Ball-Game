@@ -31,7 +31,7 @@ public class gScriptFactory {
                 StringBuilder fileContents = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
-                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                    if(line.trim().length() > 0)
                         fileContents.append("\n").append(line);
                 }
                 scriptMap.put(scriptMapKey, new gScript(scriptMapKey, fileContents.substring(1)));

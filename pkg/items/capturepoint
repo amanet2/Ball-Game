@@ -1,8 +1,8 @@
-#get the name of scorepoint var using id
+REM get the name of scorepoint var using id
 getres scorestring constr cap_ $1
-#get current capper (or null)
+REM get current capper (or null)
 getres currentcapper setvar $scorestring
-#if activator ($2) is not capper, give point and possession, set waypoint
+REM if activator ($2) is not capper, give point and possession, set waypoint
 testresn $currentcapper $2 givepoint $2
 testresn $currentcapper $2 setvar $scorestring $2
 testresn $currentcapper $2 getres newcappername setnstate $2 name

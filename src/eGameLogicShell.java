@@ -6,10 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
-    ArrayList<Clip> soundClips;
+    ConcurrentLinkedQueue<Clip> soundClips;
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
@@ -26,7 +27,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint topTexture;
 
     public eGameLogicShell() throws IOException {
-        soundClips = new ArrayList<>();
+        soundClips = new ConcurrentLinkedQueue<>();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
@@ -109,6 +110,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.serverRespawnDelay = Integer.parseInt(value);
             }
         });
+        serverVars.putArg(new gArg("respawnenabled", Boolean.toString(sSettings.respawnEnabled)) {
+            public void onChange() {
+                sSettings.respawnEnabled = value.equalsIgnoreCase("true") || value.equals("1");
+            }
+        });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
         //init client vars
@@ -126,12 +132,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     sSettings.height = sres[1];
                     //refresh fonts
                     dFonts.fontNormal = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.fontsize * sSettings.height / sSettings.gamescale);
-                    dFonts.fontGNormal = new Font(clientVars.get("fontui"), Font.PLAIN, dFonts.fontsize);
+                            dFonts.size * sSettings.height / sSettings.gamescale);
+                    dFonts.fontGNormal = new Font(clientVars.get("fontui"), Font.PLAIN, dFonts.size);
                     dFonts.fontSmall = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                            dFonts.size *sSettings.height/sSettings.gamescale/2);
                     dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
-                            dFonts.fontsize*sSettings.height/sSettings.gamescale/2);
+                            dFonts.size *sSettings.height/sSettings.gamescale/2);
+                    dFonts.fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                            (dFonts.size * sSettings.height / sSettings.gamescale)*2);
                     if(displayPane.frame != null) {
                         displayPane.refreshResolution();
                         dMenus.refreshLogos();
@@ -179,47 +187,33 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientPlayerName = value;
             }
         });
-        clientVars.putArg(new gArg("displaymode", "0") {
+        clientVars.putArg(new gArg("borderless", "0") {
             public void onChange() {
-                sSettings.displaymode = Integer.parseInt(value);
+                sSettings.borderless = value.equalsIgnoreCase("true") || value.equals("1");
                 if(displayPane.frame != null) {
-                    displayPane.refreshDisplaymode();
+                    displayPane.createPanels();
+                    displayPane.showFrame();
                 }
             }
         });
         clientVars.putArg(new gArg("vfxenableanimations", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableanimations = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableanimations = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableflares", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableflares = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableflares = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableshading", "1"){
             public void onChange() {
-                try {
-                    sSettings.vfxenableshading = Integer.parseInt(value) == 1;
-                }
-                catch (Exception ignored) {
-
-                }
+                sSettings.vfxenableshading = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("vfxenableshadows", "1"){
             public void onChange() {
-                sSettings.vfxenableshadows = Integer.parseInt(value) > 0;
+                sSettings.vfxenableshadows = value.equalsIgnoreCase("true") || value.equals("1");
             }
         });
         clientVars.putArg(new gArg("gamemode", "0") {
@@ -257,7 +251,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         });
         clientVars.putArg(new gArg("resolutions",
-                "640x480,800x600,1024x768,1280x720,1280x1024,1680x1050,1600x1200,1920x1080,2560x1440,3840x2160") {
+                "640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160") {
             public void onChange() {
                 String[] toks = value.split(",");
                 sSettings.resolutions = new String[toks.length];
@@ -270,42 +264,42 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("fontui", "None"));
         clientVars.putArg(new gArg("showfps", "0"){
             public void onChange() {
-                dScreenMessages.showfps = value.equals("1");
+                sSettings.showfps = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showcam", "0"){
             public void onChange() {
-                dScreenMessages.showcam = value.equals("1");
+                sSettings.showcam = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showmouse", "0"){
             public void onChange() {
-                dScreenMessages.showmouse = value.equals("1");
+                sSettings.showmouse = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("shownet", "0"){
             public void onChange() {
-                dScreenMessages.shownet = value.equals("1");
+                sSettings.shownet = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showplayer", "0"){
             public void onChange() {
-                dScreenMessages.showplayer = value.equals("1");
+                sSettings.showplayer = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showtick", "0"){
             public void onChange() {
-                dScreenMessages.showtick = value.equals("1");
+                sSettings.showtick = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showscale", "0"){
             public void onChange() {
-                dScreenMessages.showscale = value.equals("1");
+                sSettings.showscale = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("showscore", "0"){
             public void onChange() {
-                dScreenMessages.showscore = value.equals("1");
+                sSettings.showscore = value.equals("1");
             }
         });
         clientVars.putArg(new gArg("joinip", "localhost"){
@@ -328,7 +322,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.zoomLevel = 0.5;
         }
         displayPane.showFrame();
-        gCamera.init();
         gAnimations.init();
     }
 
@@ -431,7 +424,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
                         dy = obj.getInt("coordy");
                     if (isUserPlayer(obj))
-                        gCamera.put("coords", (dx + obj.getInt("dimw")/2) + ":" + (dy + obj.getInt("dimh")/2));
+                        gCamera.coords = new int[]{
+                                dx + obj.getInt("dimw")/2 - eUtils.unscaleInt(sSettings.width/2),
+                                dy + obj.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height/2)
+                        };
                     obj.putInt("coordx", dx);
                     obj.putInt("coordy", dy);
                 }
@@ -456,7 +452,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     checkQueue.add(thingMap.get(id));
                 }
                 while (checkQueue.size() > 0) {
-                    gPopup obj = (gPopup) checkQueue.remove();
+                    gThing obj = checkQueue.remove();
                     obj.put("coordx", Integer.toString(obj.getInt("coordx")
                             - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
                     obj.put("coordy", Integer.toString(obj.getInt("coordy")

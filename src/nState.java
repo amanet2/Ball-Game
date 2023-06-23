@@ -19,17 +19,6 @@ public class nState {
         return map.args.keySet();
     }
 
-    // worth keeping
-    public nState getDelta(nState oState) {
-        nState deltaState = new nState();
-        for(String k : oState.keys()) {
-            String tv = oState.get(k);
-            if(!contains(k) || !get(k).equals(tv))
-                deltaState.put(k, tv);
-        }
-        return deltaState;
-    }
-
     public nState(String stateMapString) {
         map = new gArgSet();
         stateMapString = stateMapString.trim();

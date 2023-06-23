@@ -10,14 +10,12 @@ public class dHUD {
     private static final String dividerString = "_______________________";
     static int spriteRad = sSettings.height/30;
     public static void drawHUD(Graphics g) {
-        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded || dScreenMessages.showscore)
+        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded || sSettings.showscore)
             return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         nState userState = clStateMap.get(sSettings.uuid);
         if(userState == null)
             return;
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(dFonts.hudStroke);
         int ctr = 0;
         int hpbarwidth = sSettings.width/8;
         int marginX = sSettings.width/2 - clStateMap.keys().size()*(hpbarwidth/2 + sSettings.width/128);
@@ -35,6 +33,9 @@ public class dHUD {
             dFonts.setFontLarge(g);
             //score
             if(clState.contains("score")) {
+                g.setColor(Color.BLACK);
+                g.drawString(clState.get("score").split(":")[1],
+                        marginX + ctr*(hpbarwidth + sSettings.width/64) + 3, 63*sSettings.height/64 + 3);
                 g.setColor(gColors.getColorFromName("clrp_" + clState.get("color")));
                 g.drawString(clState.get("score").split(":")[1],
                         marginX + ctr*(hpbarwidth + sSettings.width/64), 63*sSettings.height/64);
@@ -45,12 +46,10 @@ public class dHUD {
 
     public static int[] getNewPrefabDims() {
         //TODO: this sucks, find a better way to set size
-        if(sSettings.clientNewPrefabName.contains("_large")) {
+        if(sSettings.clientNewPrefabName.contains("_large"))
             return new int[]{2400, 2400};
-        }
-        else if(sSettings.clientNewPrefabName.contains("cube")) {
+        else if(sSettings.clientNewPrefabName.contains("cube"))
             return new int[]{300, 300};
-        }
         return new int[]{1200, 1200};
     }
 
@@ -190,12 +189,20 @@ public class dHUD {
                 if (gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")] != null) {
                     g2.drawImage(gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")],
                             emit.getInt("coordx"), emit.getInt("coordy"), null);
-                    if (emit.getLong("frametime") + 1000/gAnimations.animation_selection[emit.getInt("animation")].framerate
-                            < gameTimeMillis) {
-                        emit.putInt("frame", emit.getInt("frame")+1);
-                        emit.putLong("frametime", gameTimeMillis);
+                    if(emit.getLong("frametime") < gameTimeMillis) {
+                        emit.putInt("frame", emit.getInt("frame") + 1);
+                        emit.putLong("frametime", gameTimeMillis + 30);
                     }
                 }
+            }
+            else {
+                xMain.shellLogic.scheduledEvents.put(
+                    Long.toString(sSettings.gameTime + 500), new gDoable() {
+                        public void doCommand() {
+                            xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").remove(id);
+                        }
+                    }
+                );
             }
         }
     }
@@ -207,7 +214,7 @@ public class dHUD {
         if(size > 0)
             dFonts.setFontGNormal(g);
         for(String id : popupsIds) {
-            gPopup p = (gPopup) scene.getThingMap("THING_POPUP").get(id);
+            gThing p = scene.getThingMap("THING_POPUP").get(id);
             if(p == null)
                 continue;
             // look for hashtag color codes here
@@ -264,8 +271,10 @@ public class dHUD {
         Polygon pg = getPolygon(midx, coordy);
         Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
         g2.setStroke(dFonts.thickStroke);
-        dFonts.setFontColor(g2, "clrf_normaltransparent");
-        g2.drawPolygon(pg);
+        g2.setColor(Color.BLACK);
+        pg.translate(3, 3);
+        g2.fillPolygon(pg);
+        pg.translate(-3, -3);
         g2.setColor(color);
         g2.fillPolygon(pg);
     }
@@ -283,7 +292,10 @@ public class dHUD {
             int coordy = p.getInt("coordy");
             String ck = clState.get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
-            dFonts.drawPlayerNameHud(g, name, coordx + p.getInt("dimw")/2, coordy, color);
+            g.setColor(Color.BLACK);
+            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
+            g.setColor(color);
+            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
             int[] bounds = {
                     coordx + p.getInt("dimw")/2-(int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
                             - eUtils.unscaleInt(5*sSettings.height/128),
@@ -291,9 +303,10 @@ public class dHUD {
                     eUtils.unscaleInt(sSettings.height/32),
                     eUtils.unscaleInt(sSettings.height/32)
             };
+            g.setColor(Color.BLACK);
+            g.fillOval(bounds[0]+3, bounds[1]+3, bounds[2], bounds[3]);
+            g.setColor(color);
             g.fillOval(bounds[0], bounds[1], bounds[2], bounds[3]);
-            dFonts.setFontColor(g, "clrf_normaltransparent");
-            g.drawOval(bounds[0], bounds[1], bounds[2], bounds[3]);
         }
     }
 
@@ -374,7 +387,6 @@ public class dHUD {
                     dy - xMain.shellLogic.getUserPlayer().getInt("coordy")
                             + xMain.shellLogic.getUserPlayer().getDouble("dimh")/2
             };
-            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             int[][] polygondims = new int[][]{
                     new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
                             dx + eUtils.unscaleInt(sSettings.height / 16), dx
@@ -383,10 +395,12 @@ public class dHUD {
                             dy, dy + eUtils.unscaleInt(sSettings.height / 16)
                     }
             };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
             g2.fillPolygon(polygondims[0], polygondims[1], 4);
-            g2.setStroke(dFonts.thickStroke);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.drawPolygon(polygondims[0], polygondims[1], 4);
+            g2.translate(-3,-3);
+            g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
+            g2.fillPolygon(polygondims[0], polygondims[1], 4);
             //big font
             dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
@@ -414,11 +428,12 @@ public class dHUD {
                             eUtils.unscaleInt(0)
                     }
             };
+            g2.translate(3,3);
+            g2.setColor(Color.BLACK);
+            g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
+            g2.translate(-3,-3);
             g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-            dFonts.setFontColor(g2, "clrf_normaltransparent");
-            g2.setStroke(dFonts.waypointStroke);
-            g2.drawPolygon(arrowpolygon[0], arrowpolygon[1], 3);
             g2.translate(-gCamera.getX(), -gCamera.getY());
             g2.setTransform(backup);
         }

@@ -127,17 +127,13 @@ public class uiMenus {
                                 selectedMenu = MENU_FRAMERATE;
                             }
                         },
-                        new uiMenuItem(String.format("Borderless [%s]",
-                                sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ")) {
+                        new uiMenuItem(String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ")) {
                             public void doItem() {
-                                xMain.shellLogic.console.ex("cl_setvar displaymode "
-                                        + (sSettings.displaymode == oDisplay.displaymode_windowed ? "1" : "0"));
-                                xMain.shellLogic.displayPane.refreshDisplaymode();
+                                xMain.shellLogic.console.ex("cl_setvar borderless " + (sSettings.borderless ? "0" : "1"));
                                 refreshText();
                             }
                             public void refreshText() {
-                                text = String.format("Borderless [%s]",
-                                        sSettings.displaymode == oDisplay.displaymode_borderless ? "X" : "  ");
+                                text = String.format("Borderless [%s]", sSettings.borderless ? "X" : "  ");
                             }
                         },
                         new uiMenuItem(String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  ")){
@@ -172,8 +168,7 @@ public class uiMenus {
                 setMenuItemTexts(new String[]{
                         String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
                         String.format("Framerate [%d]",sSettings.framerate),
-                        String.format("Borderless [%s]", sSettings.displaymode == oDisplay.displaymode_borderless
-                                ? "X" : "  "),
+                        String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
                         String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
                         String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
                         String.format("Shading [%s]", sSettings.vfxenableshading ? "X" : "  "),
@@ -353,7 +348,6 @@ public class uiMenus {
                 "Credits",
                 new uiMenuItem[] {
                         new uiMenuItem("Programming & Design by Anthony Manetti"),
-                        new uiMenuItem("venmo @StallionUSA"),
                         new uiMenuItem("Ballmaster 2021-2023")
                 },
                 MENU_MAIN

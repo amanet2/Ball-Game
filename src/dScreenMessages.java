@@ -4,40 +4,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class dScreenMessages {
-    static boolean showscore = false;
-    static boolean showfps = false;
-    static boolean showcam = false;
-    static boolean showmouse = false;
-    static boolean shownet = false;
-    static boolean showplayer = false;
-    static boolean showtick = false;
-    static boolean showscale = false;
-
     public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
         dFonts.setFontSmall(g);
         //scale
-        if(showscale)
+        if(sSettings.showscale)
             g.drawString("ZOOM:" + sSettings.zoomLevel, 0, sSettings.height / 64);
         //fps
-        if(showfps)
+        if(sSettings.showfps)
             g.drawString("FPS:" + sSettings.fpsReport, 0, 2*sSettings.height / 64);
         //client
-        if(showtick)
+        if(sSettings.showtick)
             g.drawString("SHELL:" + sSettings.tickReport, 0, 3 * sSettings.height / 64);
         //net
-        if(shownet) {
+        if(sSettings.shownet) {
             g.drawString("CLIENT_NET:" + sSettings.tickReportClient, 0, 4 * sSettings.height / 64);
             g.drawString("SERVER_NET:" + sSettings.tickReportServer, 0, 5 * sSettings.height / 64);
             g.drawString("SIMULATION:" + sSettings.tickReportSimulation, 0, 6 * sSettings.height / 64);
             g.drawString("PING:" + sSettings.clientPing, 0, 7 * sSettings.height / 64);
         }
-        if(showcam) {
+        if(sSettings.showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
                     gCamera.getX(), gCamera.getY());
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
-        if(showmouse) {
+        if(sSettings.showmouse) {
             int[] mc = uiInterface.getMouseCoordinates();
             if(sSettings.show_mapmaker_ui)
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
@@ -46,7 +37,7 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.getX(),
                         eUtils.unscaleInt(mc[1]) + gCamera.getY()),0,9*sSettings.height/64);
         }
-        if(showplayer && xMain.shellLogic.getUserPlayer() != null) {
+        if(sSettings.showplayer && xMain.shellLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",
                     xMain.shellLogic.getUserPlayer().getInt("coordx"),
                     xMain.shellLogic.getUserPlayer().getInt("coordy")),
@@ -54,12 +45,11 @@ public class dScreenMessages {
         }
         //ingame messages
         dFonts.setFontColor(g, "clrf_normal");
-        if(sSettings.inplay) {
+        if(sSettings.inplay)
             dHUD.drawHUD(g);
-        }
         //timer
         dFonts.setFontLarge(g);
-        if(!showscore && sSettings.inplay && sSettings.clientMapLoaded) {
+        if(!sSettings.showscore && sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
             dFonts.setFontLarge(g);
@@ -75,7 +65,7 @@ public class dScreenMessages {
             if(!sSettings.show_mapmaker_ui) {
                 dMenus.showPauseMenu(g);
                 if(uiMenus.gobackSelected)
-                    dFonts.setFontColor(g, "clrf_bonus");
+                    g.setColor(Color.WHITE);
                 g.drawString("[Esc] GO BACK",0,31*sSettings.height/32);
             }
             else if(sSettings.clientMapLoaded){
@@ -90,7 +80,6 @@ public class dScreenMessages {
                         7*sSettings.height/20, 11*sSettings.height/32,
                         sSettings.height/36, sSettings.height/36);
                 dFonts.setFontNormal(g);
-//                g.drawString("Preview", 4*sSettings.width/5,31*sSettings.height/32);
                 if(uiEditorMenus.newitemname.length() > 0)
                     newThingString = uiEditorMenus.newitemname;
                 boolean drawnRotate = false;
@@ -162,7 +151,7 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         //scoreboard
-        if(showscore)
+        if(sSettings.showscore)
             dHUD.showScoreBoard(g);
         //loading
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded)

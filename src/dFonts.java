@@ -10,19 +10,16 @@ public class dFonts {
             new FontRenderContext(null, false, true);
     static Stroke defaultStroke = new BasicStroke(1);
     static Stroke thickStroke = new BasicStroke(eUtils.scaleInt(16));
-    static Stroke hudStroke = new BasicStroke(eUtils.scaleInt(10));
-    static Stroke waypointStroke = new BasicStroke(eUtils.scaleInt(8));
-    static int fontsize = 90;
+    static int size = 90;
     static String fontnameconsole = "monospaced";
     static Font fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            fontsize * sSettings.height / sSettings.gamescale);
+            size * sSettings.height / sSettings.gamescale);
     static Font fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            (fontsize * sSettings.height / sSettings.gamescale)*2);
-    static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, fontsize);
+            (size * sSettings.height / sSettings.gamescale)*2);
+    static Font fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, size);
     static Font fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-            fontsize*sSettings.height/sSettings.gamescale/2);
-    static Font fontConsole = new Font(fontnameconsole, Font.PLAIN,
-            fontsize*sSettings.height/sSettings.gamescale/2);
+            size *sSettings.height/sSettings.gamescale/2);
+    static Font fontConsole = new Font(fontnameconsole, Font.PLAIN, size *sSettings.height/sSettings.gamescale/2);
 
     public static int getStringWidth(Graphics g, String s) {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
@@ -37,13 +34,6 @@ public class dFonts {
         g.setColor(Color.BLACK);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
         g.setColor(savedColor);
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
-    }
-
-    public static void drawPlayerNameHud(Graphics g, String s, int x, int y, Color color) {
-        g.setColor(Color.BLACK);
-        g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2+3,y+3);
-        g.setColor(color);
         g.drawString(s,x-(int)g.getFont().getStringBounds(s, fontrendercontext).getWidth()/2,y);
     }
 
@@ -71,9 +61,6 @@ public class dFonts {
     public static void setFontGNormal(Graphics g) {
         setFontColor(g, "clrf_normal");
         g.setFont(fontGNormal);
-    }
-    public static Font getFontNormal() {
-        return fontNormal;
     }
 
     public static void setFontSmall(Graphics g) {
