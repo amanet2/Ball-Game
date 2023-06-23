@@ -53,7 +53,7 @@ public class iKeyboard implements KeyListener {
         specialKeyMap.put(KeyEvent.VK_UP, "");
         specialKeyMap.put(KeyEvent.VK_CAPS_LOCK, "");
         specialKeyMap.put(KeyEvent.VK_COMMA, ",");
-        specialKeyMap.put(KeyEvent.VK_BACK_QUOTE, "");
+        specialKeyMap.put(KeyEvent.VK_BACK_QUOTE, "`");
         specialKeyMap.put(KeyEvent.VK_OPEN_BRACKET, "[");
         specialKeyMap.put(KeyEvent.VK_CLOSE_BRACKET, "]");
         specialKeyMap.put(KeyEvent.VK_TAB, "    ");

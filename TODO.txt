@@ -1,3 +1,6 @@
+* BOT:
+    -> can move within server but doesnt move on clients
+    -> need to transmit full bot data to clients
 * BOT NOTES:
     -> DONT SAVE EDGES
         -> instead create and save nodes, build edges manually in map file

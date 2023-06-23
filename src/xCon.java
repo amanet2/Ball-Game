@@ -247,7 +247,7 @@ public class xCon {
         });
         commands.put("console", new gDoable() {
             public String doCommand(String fullCommand) {
-                sSettings.inconsole = !sSettings.inconsole;
+                sSettings.inconsole = true;
                 return "console";
             }
         });

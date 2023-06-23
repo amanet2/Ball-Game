@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class eGameLogicServer extends eGameLogicAdapter {
     public String masterStateSnapshot; //what we want publicly accessible
     private final DatagramSocket serverSocket;
+    public final ArrayList<String> botIds;
     private final Queue<String> quitClientIds;
     private final HashMap<String, Queue<String>> clientNetCmdMap;
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
@@ -24,6 +25,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
+        botIds = new ArrayList<>();
         quitClientIds = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
         masterStateSnapshot = "{}";
@@ -241,7 +243,21 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
-
+        //update bots
+        for(String botId : botIds) {
+            //update players
+            gPlayer bl = xMain.shellLogic.serverScene.getPlayerById(botId);
+            if(bl != null) {    //store player object's health in outgoing network arg map
+                masterStateMap.get(botId).put("coords", bl.get("coordx") + ":" + bl.get("coordy"));
+                masterStateMap.get(botId).put("vel0", bl.get("vel0"));
+                masterStateMap.get(botId).put("vel1", bl.get("vel1"));
+                masterStateMap.get(botId).put("vel2", bl.get("vel2"));
+                masterStateMap.get(botId).put("vel3", bl.get("vel3"));
+            }
+            //update scores
+            masterStateMap.get(botId).put("score",  String.format("%d:%d",
+                    gScoreboard.scoresMap.get(botId).get("wins"), gScoreboard.scoresMap.get(botId).get("score")));
+        }
         masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
     }
 
@@ -256,6 +272,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
         masterStateMap.put(id, new nStateBallGame());
         clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
+        botIds.add(id);
     }
 
     private void sendMap(String packId) {
