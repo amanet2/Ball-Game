@@ -252,6 +252,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
         return masterStateMap.get(id).get(key);
     }
 
+    public void addBot(String id) {
+        masterStateMap.put(id, new nStateBallGame());
+        clientNetCmdMap.put(id, new LinkedList<>());
+        gScoreboard.addId(id);
+    }
+
     private void sendMap(String packId) {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here

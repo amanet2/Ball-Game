@@ -1,17 +1,41 @@
+* BOT NOTES:
+    -> DONT SAVE EDGES
+        -> instead create and save nodes, build edges manually in map file
+             -> saving edges doesnt work but loading them does
+    -> saving edges as regular items doesn't retain node1 or node2 information
+        -> override this in the scene save function to add those two things at the end
+        -> override this in the server sendMap function to read those two things at the end
+        -> override this in the server loadMap function to reach those two things at the end
+* BOTS: engine should handle all bot stuff up to spawning, actions should be scripted
+    -> commands: targetthing, avoidthing (for virus and flagmaster type modes), holdposition <millis>
+    -> OPTION (BETTER): add invisible waypoint item and build a graph out of it on each map for bots to traverse with A*
+        -> PRO: fewer nodes for the CPU to calculate over
+            -> depending on severity can severely limit the number of bots available
+        -> CON: more work for designer
+        -> NEW ITEMS TO CREATE:
+            -> putitem ITEM_BOTNODE 0 <x> <y>
+            -> putitem ITEM_BOTEDGE 0 <x_doesnt_matter> <y_doesnt_matter>
+                -> setthing ITEM_BOTEDGE n1 <node_id>
+                -> setthing ITEM_BOTEDGE n2 <node_id>
+    -> OR: create a grid like what we see in mapmaker, and apply A* to it, using target thing to pursue/avoid
+        -> PRO: simpler to program the actual A*, maybe
+        -> CON: more costly A* calculation, and how do we build this grid and calculate it?
+    -> (in code) bots should automatically protect themselves shooting at players nearby
+        -> bots also move throughout the grid via code, but scripts will set targets
+    -> how bots will be scripted (bringmaster as example):
+        getres hasflag setnstate $1 flag
+        testres $hasflag 1 targetthing $1 ITEM_FLAGDEPOSIT <millis>
+        testres $hasflag 0 targetthing $1 ITEM_FLAG <millis>
+    -> virusmaster example, should aggro everyone but sometimes go for teleporter
+        getres rando getrand 0 5
+        testresn $rando 0 targetthing THING_PLAYER <millis>
+        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
+* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * CONSOLE: refresh scripts from disk when loading map
     -> verify scripts aren't running when map is loading
 * ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
-* BOTS: engine should handle all bot stuff up to spawning, actions should be scripted
-    -> commands: targetthing, avoidthing (for virus and flagmaster type modes)
-    -> add invisible waypoint item for bots to target & travel around the map
-    -> how bots will be scripted (bringmaster as example):
-        -> check if bot has flag (setnstate bot_id flag)
-            -> if yes, then bot should seek deposit (targetthing DEPOSIT)
-            -> if no, bot should seek out a nearby flag (targetthing FLAG)
-                -> if nothing nearby, move to a bot waypoint and repeat loop (targetthing BOT_WAYPOINT)
 * ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
-* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>

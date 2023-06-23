@@ -49,6 +49,14 @@ public class xCon {
                 return "1";
             }
         });
+        commands.put("addbot", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String botId = eUtils.createId();
+                xMain.shellLogic.serverNetThread.addBot(botId);
+                ex("respawnnetplayer " + botId);
+                return "spawned bot " + botId;
+            }
+        });
         commands.put("addcom", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
