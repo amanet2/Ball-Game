@@ -51,7 +51,7 @@ public class iInput {
                     return;
                 }
                 case KeyEvent.VK_ESCAPE -> {
-                    xMain.shellLogic.console.ex("console");
+                    sSettings.inconsole = false;
                     return;
                 }
                 case KeyEvent.VK_BACK_SPACE -> {
@@ -64,7 +64,7 @@ public class iInput {
                     return;
                 }
                 case KeyEvent.VK_DELETE -> {
-                    if (xMain.shellLogic.console.cursorIndex > 0 && xMain.shellLogic.console.commandString.length() > 0) {
+                    if (xMain.shellLogic.console.commandString.length() > xMain.shellLogic.console.cursorIndex) {
                         String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
                         String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex + 1);
                         xMain.shellLogic.console.commandString = a + b;
@@ -110,11 +110,12 @@ public class iInput {
                 }
             }
             String specialKey = iKeyboard.getSpecialKeyForCode(command);
-            if (specialKey != null) {
+            if (specialKey != null && specialKey.length() > 0) {
                 String a = xMain.shellLogic.console.commandString.substring(0, xMain.shellLogic.console.cursorIndex);
                 String b = xMain.shellLogic.console.commandString.substring(xMain.shellLogic.console.cursorIndex);
                 xMain.shellLogic.console.commandString = a+specialKey+b;
-                xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.commandString.length();
+//                xMain.shellLogic.console.cursorIndex = xMain.shellLogic.console.commandString.length();
+                xMain.shellLogic.console.cursorIndex++;
                 return;
             }
             if(xMain.shellLogic.console.commandString.length() < xCon.maxlinelength){

@@ -33,6 +33,8 @@ public class gThing {
 
     private HashMap<String, String> vars;
     public String get(String s) {
+        if(!vars.containsKey(s))
+            return "null";
         return vars.get(s);
     }
     public int getInt(String s) {
