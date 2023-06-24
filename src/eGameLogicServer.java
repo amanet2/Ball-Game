@@ -283,17 +283,17 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
         ConcurrentHashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
-            gBlock block = (gBlock) blockMap.get(id);
+            gThing block = blockMap.get(id);
             String[] args = new String[]{
-                    block.get("type"),
-                    block.get("id"),
-                    block.get("prefabid"),
-                    block.get("coordx"),
-                    block.get("coordy"),
-                    block.get("dimw"),
-                    block.get("dimh"),
-                    block.get("toph"),
-                    block.get("wallh")
+                    block.type,
+                    block.id,
+                    block.prefabId,
+                    block.coords[0],
+                    block.coords[1],
+                    block.dims[0],
+                    block.dims[1],
+                    block.toph,
+                    block.wallh
             };
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {

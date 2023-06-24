@@ -294,8 +294,8 @@ public class xCon {
                     //handle death
                     if(newhp < 1) {
                         //more server-side stuff
-                        int dcx = player.getInt("coordx");
-                        int dcy = player.getInt("coordy");
+                        int dcx = player.coords[0];
+                        int dcy = player.coords[1];
                         ex("deleteplayer " + id);
                         if(shooterid.length() < 1)
                             shooterid = "null";
@@ -926,9 +926,9 @@ public class xCon {
                                 int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - w / 2,
+                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - h / 2,
+                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
@@ -948,9 +948,9 @@ public class xCon {
                             if(uiEditorMenus.newitemname.length() > 0) {
                                 int iw = 300;
                                 int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - iw/2,
+                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - iw/2,
                                         uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
+                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - ih/2,
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
@@ -1039,8 +1039,8 @@ public class xCon {
                     clip.open(AudioSystem.getAudioInputStream(eManager.getAudioFile(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
                         if(toks.length > 4) {
-                            int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                            int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                            int diffx = gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                            int diffy = gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                             double absdistance = Math.sqrt(Math.pow((diffx), 2) + Math.pow((diffy), 2));
                             double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )
@@ -1442,8 +1442,8 @@ public class xCon {
                     String msg = toks[2];
                     String id = eUtils.createId();
                     gThing popup = new gThing();
-                    popup.putInt("coordx", p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)));
-                    popup.putInt("coordy", p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)));
+                    popup.putInt("coordx", p.coords[0] + (int)(Math.random()*(p.dims[0]+1)));
+                    popup.putInt("coordy", p.coords[1] + (int)(Math.random()*(p.dims[1]+1)));
                     popup.put("text", msg);
                     popup.putDouble("fv", 0.0);
                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
@@ -1665,7 +1665,7 @@ public class xCon {
             args[4] = toks[8];
             args[5] = toks[9];
         }
-        gThing newBlock = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
+        gThing newBlock = new gThing(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
                 Integer.parseInt(args[2]), Integer.parseInt(args[3]));
         newBlock.put("type", blockString);
         if(blockString.equals("BLOCK_CUBE")) {
@@ -1710,7 +1710,7 @@ public class xCon {
     private void deleteBlockDelegate(String[] toks, gScene scene) {
         String id = toks[1];
         if(scene.getThingMap("THING_BLOCK").containsKey(id)) {
-            gBlock blockToDelete = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
+            gThing blockToDelete = scene.getThingMap("THING_BLOCK").get(id);
             String type = blockToDelete.get("type");
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
@@ -1732,7 +1732,7 @@ public class xCon {
 
     private void deletePrefabDelegate(gScene scene, String prefabId) {
         for(String id : scene.getThingMapIds("THING_BLOCK")) {
-            gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
+            gThing block = scene.getThingMap("THING_BLOCK").get(id);
             if(!block.isVal("prefabid", prefabId))
                 continue;
             String type = block.get("type");

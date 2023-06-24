@@ -25,10 +25,6 @@ public class dFonts {
         return (int)g.getFont().getStringBounds(s, fontrendercontext).getWidth();
     }
 
-    public static int getStringHeight(Graphics g, String s) {
-        return (int)g.getFont().getStringBounds(s, fontrendercontext).getHeight();
-    }
-
     public static void drawCenteredString(Graphics g, String s, int x, int y) {
         Color savedColor = g.getColor();
         g.setColor(Color.BLACK);

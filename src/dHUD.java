@@ -62,28 +62,27 @@ public class dHUD {
         g2.setStroke(dFonts.thickStroke);
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
             gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
-            if(sSettings.drawhitboxes && block.isVal("type", "BLOCK_FLOOR")) {
+            if(sSettings.drawhitboxes && block.type.equals("BLOCK_FLOOR")) {
                 dFonts.setFontColor(g2, "clrf_flooroutline");
-                g2.drawRect(block.getInt("coordx"),
-                        block.getInt("coordy"),
-                        block.getInt("dimw"), block.getInt("dimh"));
+                g2.drawRect(block.coords[0],
+                        block.coords[1],
+                        block.dims[0], block.dims[1]);
             }
-            if(xMain.shellLogic.getUserPlayer() == null &&
-                    block.contains("prefabid") && block.isVal("prefabid", sSettings.clientSelectedPrefabId)) {
+            if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(block.getInt("coordx"),
-                        block.getInt("coordy"),
-                        block.getInt("dimw"), block.getInt("dimh"));
+                g2.drawRect(block.coords[0],
+                        block.coords[1],
+                        block.dims[0], block.dims[1]);
             }
         }
         // -- selected item
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("id") && item.isVal("id", sSettings.clientSelectedItemId)) {
+            if(item.id.equals(sSettings.clientSelectedItemId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(item.getInt("coordx"),
-                        item.getInt("coordy"),
-                        item.getInt("dimw"), item.getInt("dimh"));
+                g2.drawRect(item.coords[0],
+                        item.coords[1],
+                        item.dims[0], item.dims[1]);
             }
         }
         //prefab dims
@@ -96,9 +95,9 @@ public class dHUD {
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                + gCamera.getX() - w/2, uiEditorMenus.snapToX);
+                + gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                + gCamera.getY() - h/2, uiEditorMenus.snapToY);
+                + gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
         sSettings.clientPrevX = px;
         sSettings.clientPrevY = py;
         sSettings.clientPrevW = w;
@@ -151,20 +150,18 @@ public class dHUD {
             g2.setColor(Color.RED);
             for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
                 gThing collision = scene.getThingMap("BLOCK_COLLISION").get(id);
-                int x = collision.getX();
-                int y = collision.getY();
-                int w = collision.getWidth();
-                int h = collision.getHeight();
+                int x = collision.coords[0];
+                int y = collision.coords[1];
+                int w = collision.dims[0];
+                int h = collision.dims[1];
                 g2.drawRect(x,y,w,h);
             }
             for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
                 gThing player = scene.getThingMap("THING_PLAYER").get(id);
                 g2.setColor(Color.RED);
-                if(!player.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                    continue;
-                int x1 = player.getInt("coordx");
-                int y1 = player.getInt("coordy");
-                g2.drawRect(x1, y1, player.getInt("dimw"), player.getInt("dimh"));
+                int x1 = player.coords[0];
+                int y1 = player.coords[1];
+                g2.drawRect(x1, y1, player.dims[0], player.dims[1]);
             }
         }
     }
@@ -177,7 +174,7 @@ public class dHUD {
         }
         while (drawThings.size() > 0) {
             gBullet t = (gBullet) drawThings.remove();
-            g2.drawImage(t.sprite, t.getInt("coordx"), t.getInt("coordy"), null);
+            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
         }
         if(!sSettings.vfxenableanimations)
             return;
@@ -188,7 +185,7 @@ public class dHUD {
             if(emit.getInt("frame") < gAnimations.animation_selection[emit.getInt("animation")].frames.length) {
                 if (gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")] != null) {
                     g2.drawImage(gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")],
-                            emit.getInt("coordx"), emit.getInt("coordy"), null);
+                            emit.coords[0], emit.coords[1], null);
                     if(emit.getLong("frametime") < gameTimeMillis) {
                         emit.putInt("frame", emit.getInt("frame") + 1);
                         emit.putLong("frametime", gameTimeMillis + 30);
@@ -227,12 +224,12 @@ public class dHUD {
                     else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
                         g.setColor(Color.BLACK);
                         g.drawString(word.split("#")[0]+" ",
-                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
-                                p.getInt("coordy") + 3);
+                                p.coords[0] + dFonts.getStringWidth(g, ts.toString())+3,
+                                p.coords[1] + 3);
                         g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                         g.drawString(word.split("#")[0]+" ",
-                                p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()),
-                                p.getInt("coordy"));
+                                p.coords[0] + dFonts.getStringWidth(g, ts.toString()),
+                                p.coords[1]);
                         dFonts.setFontColor(g, "clrf_normal");
                         ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
                         continue;
@@ -241,11 +238,11 @@ public class dHUD {
                 g.setColor(Color.BLACK);
                 g.setColor(Color.BLACK);
                 g.drawString(word.split("#")[0]+" ",
-                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString())+3,
-                        p.getInt("coordy") + 3);
+                        p.coords[0] + dFonts.getStringWidth(g, ts.toString())+3,
+                        p.coords[1] + 3);
                 dFonts.setFontColor(g, "clrf_normal");
                 g.drawString(word.split("#")[0]+" ",
-                        p.getInt("coordx") + dFonts.getStringWidth(g, ts.toString()), p.getInt("coordy"));
+                        p.coords[0] + dFonts.getStringWidth(g, ts.toString()), p.coords[1]);
                 ts.append(word).append(" ");
             }
         }
@@ -266,8 +263,8 @@ public class dHUD {
         gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         if(userPlayer == null || (sSettings.show_mapmaker_ui && !sSettings.inplay))
             return;
-        int midx = userPlayer.getInt("coordx") + userPlayer.getInt("dimw")/2;
-        int coordy = userPlayer.getInt("coordy") - 200;
+        int midx = userPlayer.coords[0] + userPlayer.dims[0]/2;
+        int coordy = userPlayer.coords[1] - 200;
         Polygon pg = getPolygon(midx, coordy);
         Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
         g2.setStroke(dFonts.thickStroke);
@@ -288,16 +285,16 @@ public class dHUD {
             nState clState = clStateMap.get(id);
             dFonts.setFontGNormal(g);
             String name = clState.get("name");
-            int coordx = p.getInt("coordx");
-            int coordy = p.getInt("coordy");
+            int coordx = p.coords[0];
+            int coordy = p.coords[1];
             String ck = clState.get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
             g.setColor(Color.BLACK);
-            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
+            g.drawString(name,coordx + p.dims[0]/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2 + 3, coordy + 3);
             g.setColor(color);
-            g.drawString(name,coordx + p.getInt("dimw")/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
+            g.drawString(name,coordx + p.dims[0]/2 - (int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2, coordy);
             int[] bounds = {
-                    coordx + p.getInt("dimw")/2-(int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
+                    coordx + p.dims[0]/2-(int)g.getFont().getStringBounds(name, dFonts.fontrendercontext).getWidth()/2
                             - eUtils.unscaleInt(5*sSettings.height/128),
                     coordy - eUtils.unscaleInt(sSettings.height/32),
                     eUtils.unscaleInt(sSettings.height/32),
@@ -382,9 +379,9 @@ public class dHUD {
     public static void drawNavPointer(Graphics2D g2, int dx, int dy, String message) {
         if(sSettings.inplay && xMain.shellLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
-                    dx - xMain.shellLogic.getUserPlayer().getInt("coordx")
+                    dx - xMain.shellLogic.getUserPlayer().coords[0]
                             + xMain.shellLogic.getUserPlayer().getDouble("dimw")/2,
-                    dy - xMain.shellLogic.getUserPlayer().getInt("coordy")
+                    dy - xMain.shellLogic.getUserPlayer().coords[1]
                             + xMain.shellLogic.getUserPlayer().getDouble("dimh")/2
             };
             int[][] polygondims = new int[][]{
@@ -405,7 +402,7 @@ public class dHUD {
             dFonts.setFontGNormal(g2);
             dFonts.drawCenteredString(g2, message, dx, dy);
             AffineTransform backup = g2.getTransform();
-            g2.translate(gCamera.getX(), gCamera.getY());
+            g2.translate(gCamera.coords[0], gCamera.coords[1]);
             double angle = Math.atan2(deltas[1], deltas[0]);
             if (angle < 0)
                 angle += 2 * Math.PI;
@@ -434,7 +431,7 @@ public class dHUD {
             g2.translate(-3,-3);
             g2.setColor(gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor")));
             g2.fillPolygon(arrowpolygon[0], arrowpolygon[1], 3);
-            g2.translate(-gCamera.getX(), -gCamera.getY());
+            g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
             g2.setTransform(backup);
         }
     }
@@ -449,8 +446,8 @@ public class dHUD {
                 if(wpPlayer == null)
                     continue;
                 if(!(wpPlayer.get("waypoint").equals("null") || wpPlayer.get("waypoint").equals("0")))
-                    drawNavPointer(g2, wpPlayer.getInt("coordx") + wpPlayer.getInt("dimw") / 2,
-                            wpPlayer.getInt("coordy") + wpPlayer.getInt("dimh") / 2,
+                    drawNavPointer(g2, wpPlayer.coords[0] + wpPlayer.dims[0] / 2,
+                            wpPlayer.coords[1] + wpPlayer.dims[1] / 2,
                             wpPlayer.get("waypoint"));
             }
             // items
@@ -458,8 +455,8 @@ public class dHUD {
             for(String id : itemIds) {
                 gThing item = scene.getThingMap("THING_ITEM").get(id);
                 if(!(item.get("waypoint").equals("null") || item.get("waypoint").equals("0")))
-                    drawNavPointer(g2,item.getInt("coordx") + item.getInt("dimw")/2,
-                            item.getInt("coordy") + item.getInt("dimh")/2, item.get("waypoint"));
+                    drawNavPointer(g2,item.coords[0] + item.dims[0]/2,
+                            item.coords[1] + item.dims[1]/2, item.get("waypoint"));
             }
         }
     }

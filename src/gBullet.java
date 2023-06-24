@@ -18,6 +18,6 @@ public class gBullet extends gThing {
         putDouble("fv", fv);
         put("id", eUtils.createId());
         put("srcid", "God");
-        sprite = gTextures.getGScaledImage(tt, getInt("dimw"), getInt("dimh"));
+        sprite = gTextures.getGScaledImage(tt, dims[0], dims[1]);
     }
 }

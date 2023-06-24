@@ -53,10 +53,10 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
+                if(combinedMap.get(id).coords[1] <= lowestY) {
                     sorted = false;
                     lowestId = id;
-                    lowestY = combinedMap.get(id).getInt("coordy");
+                    lowestY = combinedMap.get(id).coords[1];
                 }
             }
             if(lowestId.length() > 0) {
@@ -76,7 +76,7 @@ public class gScene {
             writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
             ConcurrentHashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
-                gBlock block = (gBlock) blockMap.get(id);
+                gThing block = blockMap.get(id);
                 String[] args = new String[]{
                         block.get("type"), block.get("id"), block.get("prefabid"), block.get("coordx"),
                         block.get("coordy"), block.get("dimw"), block.get("dimh"), block.get("toph"), block.get("wallh")
@@ -118,9 +118,9 @@ public class gScene {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream("prefabs/" + filename), StandardCharsets.UTF_8))) {
             for(String id : getThingMap("THING_BLOCK").keySet()) {
-                gBlock block = (gBlock) getThingMap("THING_BLOCK").get(id);
-                int coordx = block.getInt("coordx");
-                int coordy = block.getInt("coordy");
+                gThing block = getThingMap("THING_BLOCK").get(id);
+                int coordx = block.coords[0];
+                int coordy = block.coords[1];
                 String xString = "$1";
                 String yString = "$2";
 

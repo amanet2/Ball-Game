@@ -3,14 +3,6 @@ public class gCamera {
 	static int[] coords = {0, 0};
 	private static final int velocity = 8;
 
-	public static int getX() {
-		return coords[0];
-	}
-
-	public static int getY() {
-		return coords[1];
-	}
-
 	public static void updatePosition() {
 		coords[0] += (velocity * move[3] - velocity * move[2]);
 		coords[1] += (velocity * move[1] - velocity * move[0]);

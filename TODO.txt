@@ -1,3 +1,4 @@
+* ENGINE: replace gThing vars with a gArgSet instance
 * BOT:
     -> can move within server but doesnt move on clients
     -> need to transmit full bot data to clients

@@ -27,7 +27,7 @@ public class nStateBallGame extends nState {
         map.putArg(new gArg("fv", "0") {
             public void onChange() {
                 if(xMain.shellLogic.serverScene.getPlayerById(get("id")) != null)
-                    xMain.shellLogic.serverScene.getPlayerById(get("id")).put("fv", value);
+                    xMain.shellLogic.serverScene.getPlayerById(get("id")).fv = Double.parseDouble(value);
             }
         });
         map.putArg(new gArg("hp", Integer.toString(sSettings.serverMaxHP)) {
@@ -38,22 +38,22 @@ public class nStateBallGame extends nState {
         });
         map.putArg(new gArg("mov0", "0") {
             public void onChange() {
-                setPlayerVal("mov0", value);
+                xMain.shellLogic.serverScene.getPlayerById(get("id")).mov0 = Integer.parseInt(value);
             }
         });
         map.putArg(new gArg("mov1", "0") {
             public void onChange() {
-                setPlayerVal("mov1", value);
+                xMain.shellLogic.serverScene.getPlayerById(get("id")).mov1 = Integer.parseInt(value);
             }
         });
         map.putArg(new gArg("mov2", "0") {
             public void onChange() {
-                setPlayerVal("mov2", value);
+                xMain.shellLogic.serverScene.getPlayerById(get("id")).mov2 = Integer.parseInt(value);
             }
         });
         map.putArg(new gArg("mov3", "0") {
             public void onChange() {
-                setPlayerVal("mov3", value);
+                xMain.shellLogic.serverScene.getPlayerById(get("id")).mov3 = Integer.parseInt(value);
             }
         });
         map.putArg(new gArg("cmdrcv", "0") {
@@ -70,11 +70,5 @@ public class nStateBallGame extends nState {
                     xMain.shellLogic.serverNetThread.handleClientCommand(get("id"), value);
             }
         });
-    }
-
-    private void setPlayerVal(String key, String val) {
-        gPlayer pl = xMain.shellLogic.serverScene.getPlayerById(get("id"));
-        if(pl != null)
-            pl.put(key, val);
     }
 }

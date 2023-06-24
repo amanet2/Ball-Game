@@ -71,8 +71,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             //check null fields
             if(!obj.containsFields(requiredFields))
                 continue;
-            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
+            int dx = obj.coords[0] + obj.vel3 - obj.vel2;
+            int dy = obj.coords[1] + obj.vel1 - obj.vel0;
             if(obj.getLong("acceltick") < gameTimeMillis) {
                 obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
                 for (int i = 0; i < 4; i++) {
@@ -84,10 +84,10 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                         obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
                 }
             }
-            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), xMain.shellLogic.serverScene))
+            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.putInt("coordx", dx);
             else {
-                if(obj.getInt("vel2") > obj.getInt("vel3")) {
+                if(obj.vel2 > obj.vel3) {
 //                    obj.put("vel3", obj.get("vel2")); //bounce
                     obj.putInt("vel2", 0);
                 }
@@ -96,10 +96,10 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.putInt("vel3", 0);
                 }
             }
-            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, xMain.shellLogic.serverScene))
+            if(obj.wontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
                 obj.putInt("coordy", dy);
             else {
-                if(obj.getInt("vel0") > obj.getInt("vel1")) {
+                if(obj.vel0 > obj.vel1) {
 //                    obj.put("vel1", obj.get("vel0")); //bounce
                     obj.putInt("vel0", 0);
                 }
@@ -119,9 +119,9 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
             while(checkQueue.size() > 0) {
                 gBullet obj = (gBullet) checkQueue.remove();
-                obj.putInt("coordx", obj.getInt("coordx")
+                obj.putInt("coordx", obj.coords[0]
                         - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-                obj.putInt("coordy", obj.getInt("coordy")
+                obj.putInt("coordy", obj.coords[1]
                         - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
             }
             checkBulletSplashes(gameTimeMillis);

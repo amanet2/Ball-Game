@@ -402,10 +402,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     //check null fields
                     if (!obj.containsFields(requiredFields))
                         continue;
-                    int mx = obj.getInt("vel3") - obj.getInt("vel2");
-                    int my = obj.getInt("vel1") - obj.getInt("vel0");
-                    int dx = obj.getInt("coordx") + (int) (mx * mod);
-                    int dy = obj.getInt("coordy") + (int) (my * mod);
+                    int mx = obj.vel3 - obj.vel2;
+                    int my = obj.vel1 - obj.vel0;
+                    int dx = obj.coords[0] + (int) (mx * mod);
+                    int dy = obj.coords[1] + (int) (my * mod);
                     if (obj.getLong("acceltick") < gameTimeMillis) {
                         obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
                         //user player
@@ -419,14 +419,14 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             }
                         }
                     }
-                    if (!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
-                        dx = obj.getInt("coordx");
-                    if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
-                        dy = obj.getInt("coordy");
+                    if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene))
+                        dx = obj.coords[0];
+                    if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene))
+                        dy = obj.coords[1];
                     if (isUserPlayer(obj))
                         gCamera.coords = new int[]{
-                                dx + obj.getInt("dimw")/2 - eUtils.unscaleInt(sSettings.width/2),
-                                dy + obj.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height/2)
+                                dx + obj.dims[0]/2 - eUtils.unscaleInt(sSettings.width/2),
+                                dy + obj.dims[1]/2 - eUtils.unscaleInt(sSettings.height/2)
                         };
                     obj.putInt("coordx", dx);
                     obj.putInt("coordy", dy);
@@ -439,9 +439,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
                 while (checkQueue.size() > 0) {
                     gBullet obj = (gBullet) checkQueue.remove();
-                    obj.putInt("coordx", obj.getInt("coordx")
+                    obj.putInt("coordx", obj.coords[0]
                             - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
-                    obj.putInt("coordy", obj.getInt("coordy")
+                    obj.putInt("coordy", obj.coords[1]
                             - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
                 }
                 checkBulletSplashes(gameTimeMillis);
@@ -453,9 +453,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
                 while (checkQueue.size() > 0) {
                     gThing obj = checkQueue.remove();
-                    obj.put("coordx", Integer.toString(obj.getInt("coordx")
+                    obj.put("coordx", Integer.toString(obj.coords[0]
                             - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
-                    obj.put("coordy", Integer.toString(obj.getInt("coordy")
+                    obj.put("coordy", Integer.toString(obj.coords[1]
                             - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
                 }
             } catch (Exception e) {
@@ -573,8 +573,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
-        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());
+        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - gCamera.coords[0]);
+        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;

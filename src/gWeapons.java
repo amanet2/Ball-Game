@@ -25,8 +25,8 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 						if(p == null)
 							return;
-						gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
-								p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2,
+						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
+								p.coords[1]+p.dims[1]/2-bulletDims[1]/2,
 								bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
 						double randomOffset = (Math.random() * ((Math.PI/10))) - Math.PI/20;
 						b.putDouble("fv", b.getDouble("fv") + randomOffset);
@@ -49,8 +49,8 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 						if(p == null)
 							return;
-						gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
-								p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0],
+						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
+								p.coords[1]+p.dims[1]/2-bulletDims[1]/2, bulletDims[0],
 								bulletDims[1],
 								eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))),
 								p.getDouble("fv"), damage);
@@ -80,8 +80,8 @@ public class gWeapons {
 						int numpellets = 7;
 						for (int i = 0; i < numpellets; i++) {
 							gBullet b = new gBullet(
-									p.getInt("coordx") + p.getInt("dimw") / 2 - bulletDims[0] / 2,
-									p.getInt("coordy") + p.getInt("dimh") / 2 - bulletDims[1] / 2,
+									p.coords[0] + p.dims[0] / 2 - bulletDims[0] / 2,
+									p.coords[1] + p.dims[1] / 2 - bulletDims[1] / 2,
 									bulletDims[0], bulletDims[1],
 									eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))),
 									p.getDouble("fv"), damage/numpellets);
@@ -109,8 +109,8 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 						if(p == null)
 							return;
-						gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
-								p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0],
+						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
+								p.coords[1]+p.dims[1]/2-bulletDims[1]/2, bulletDims[0],
 								bulletDims[1],
 								eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))),
 								p.getDouble("fv"), damage);
@@ -137,8 +137,8 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 						if(p == null)
 							return;
-						gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2,
-								p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
+						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
+								p.coords[1]+p.dims[1]/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
 								eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
 						b.put("srcid", p.get("id"));
 						b.putInt("ttl",bulletTtl);
@@ -161,7 +161,7 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 						if(p == null)
 							return;
-						gBullet b = new gBullet(p.getInt("coordx")+p.getInt("dimw")/2-bulletDims[0]/2, p.getInt("coordy")+p.getInt("dimh")/2-bulletDims[1]/2,
+						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2, p.coords[1]+p.dims[1]/2-bulletDims[1]/2,
 								bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
 						b.put("srcid", p.get("id"));
 						b.putInt("ttl",bulletTtl);
@@ -179,7 +179,7 @@ public class gWeapons {
 	public static void createGrenadeExplosion(gBullet seed) {
 		//launcher explosion
 		for (int i = 0; i < 8; i++) {
-			gBullet g = new gBullet(seed.getInt("coordx"),seed.getInt("coordy"), 300, 300,
+			gBullet g = new gBullet(seed.coords[0],seed.coords[1], 300, 300,
 					seed.get("sprite"), 0,
 					fromCode(launcher).damage);
 			double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
