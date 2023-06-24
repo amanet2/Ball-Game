@@ -17,8 +17,10 @@ public class gPlayer extends gThing {
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(this.id.equals(id))
                 continue;
-            if (willCollideWithPlayerAtCoordsTopDown(scene.getThingMap("THING_PLAYER").get(id), dx, dy))
+            if (willCollideWithPlayerAtCoordsTopDown(scene.getThingMap("THING_PLAYER").get(id), dx, dy)) {
+                collidedPlayer = scene.getThingMap("THING_PLAYER").get(id);
                 return false;
+            }
         }
         return true;
     }

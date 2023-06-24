@@ -42,6 +42,7 @@ public class gThing {
     String flare = "null";
     String script = "null";
     int occupied = 0;
+    gThing collidedPlayer = null;
 
     public gThing() {
         args = new gArgSet();

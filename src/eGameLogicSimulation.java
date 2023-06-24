@@ -89,15 +89,19 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
 
             //TODO: come up with a way to get "normal vector" from surface or player being collided with
+            // add a "collidedPlayer" arg to gThing and get velocity
+            //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
             if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.coords[0] = dx;
             else {
                 if(obj.vel2 > obj.vel3) {
-                    obj.vel3 = Math.max(0, obj.vel2-1); //bounce
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel3;
+                    obj.vel3 = Math.max(0, collidedPlayerVel + obj.vel2-1); //bounce
                     obj.vel2 = 0;
                 }
                 else {
-                    obj.vel2 = Math.max(0, obj.vel3-1); //bounce
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel2;
+                    obj.vel2 = Math.max(0, collidedPlayerVel + obj.vel3-1); //bounce
                     obj.vel3 = 0;
                 }
             }
@@ -105,14 +109,17 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 obj.coords[1] = dy;
             else {
                 if(obj.vel0 > obj.vel1) {
-                    obj.vel1 = Math.max(0, obj.vel0-1); //bounce
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel1;
+                    obj.vel1 = Math.max(0, collidedPlayerVel + obj.vel0-1); //bounce
                     obj.vel0 = 0;
                 }
                 else {
-                    obj.vel0 = Math.max(0, obj.vel1-1); //bounce
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel0;
+                    obj.vel0 = Math.max(0, collidedPlayerVel + obj.vel2-1); //bounce
                     obj.vel1 = 0;
                 }
             }
+            obj.collidedPlayer = null;
         }
 
         //bullets
