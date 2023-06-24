@@ -122,6 +122,15 @@ public class gThing {
                 return parent.waypoint;
             }
         });
+        args.putArg(new gArg("weapon", Integer.toString(parent.weapon)) {
+            public void onChange() {
+                parent.weapon = Integer.parseInt(value);
+            }
+
+            public String getValue() {
+                return Integer.toString(parent.weapon);
+            }
+        });
     }
 
     public String toString() {
