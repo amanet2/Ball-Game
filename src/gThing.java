@@ -68,6 +68,15 @@ public class gThing {
                 return Integer.toString(parent.coords[1]);
             }
         });
+        args.putArg(new gArg("decorationsprite", parent.decorationSprite) {
+            public void onChange() {
+                parent.decorationSprite = value;
+            }
+
+            public String getValue() {
+                return parent.decorationSprite;
+            }
+        });
         args.putArg(new gArg("vel0", "0") {
             public void onChange() {
                 parent.vel0 = Integer.parseInt(value);
