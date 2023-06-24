@@ -115,83 +115,78 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         }
 
         //bullets
-//        try {
-//            ConcurrentHashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
-//            Queue<gThing> checkQueue = new LinkedList<>();
-//            String[] keys = thingMap.keySet().toArray(new String[0]);
-//            for (String id : keys) {
-//                checkQueue.add(thingMap.get(id));
-//            }
-//            while(checkQueue.size() > 0) {
-//                gBullet obj = (gBullet) checkQueue.remove();
-//                obj.putInt("coordx", obj.coords[0]
-//                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-//                obj.putInt("coordy", obj.coords[1]
-//                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
-//            }
-//            checkBulletSplashes(gameTimeMillis);
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ConcurrentHashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
+            Queue<gThing> checkQueue = new LinkedList<>();
+            String[] keys = thingMap.keySet().toArray(new String[0]);
+            for (String id : keys) {
+                checkQueue.add(thingMap.get(id));
+            }
+            while(checkQueue.size() > 0) {
+                gThing obj = checkQueue.remove();
+                obj.coords[0] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.cos(obj.fv+Math.PI/2));
+                obj.coords[1] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.sin(obj.fv+Math.PI/2));
+            }
+            checkBulletSplashes(gameTimeMillis);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void checkBulletSplashes(long gameTimeMillis) {
-//        ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
-//        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
-//        ArrayList<gBullet> pseeds = new ArrayList<>();
-//        ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
-//        nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
-//        Queue<gThing> checkQueue = new LinkedList<>();
-//        String[] keys = bulletsMap.keySet().toArray(new String[0]);
-//        for (String id : keys) {
-//            checkQueue.add(bulletsMap.get(id));
-//        }
-//        while(checkQueue.size() > 0) {
-//            gBullet b = (gBullet) checkQueue.remove();
-//            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
-//                bulletsToRemoveIds.add(b.get("id"));
-//                //grenade explosion
-//                if(b.src == gWeapons.launcher)
-//                    pseeds.add(b);
-//                continue;
-//            }
-//            for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
-//                gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
-//                if(b.collidesWithThing(bl)) {
-//                    bulletsToRemoveIds.add(b.get("id"));
-//                    if(b.src == gWeapons.launcher)
-//                        pseeds.add(b);
-//                }
-//            }
-//            for(String playerId : svMap.keys()) {
-//                gPlayer t = xMain.shellLogic.serverScene.getPlayerById(playerId);
-//                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-//                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
-//                    bulletsToRemovePlayerMap.put(t, b);
-//                    if(b.src == gWeapons.launcher)
-//                        pseeds.add(b);
-//                }
-//            }
-//        }
-//        if(pseeds.size() > 0) {
-//            for(gBullet pseed : pseeds)
-//                gWeapons.createGrenadeExplosion(pseed);
-//        }
-//        for(Object bulletId : bulletsToRemoveIds) {
-//            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(bulletId);
-//        }
-//        for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-//            gBullet b = bulletsToRemovePlayerMap.get(p);
-//            //calculate dmg
-//            int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
-//                    *((Math.abs(Math.max(0, sSettings.gameTime - b.getLong("timestamp"))
-//            )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
-//            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.get("id"));
-//            //handle damage serverside
-//            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
-//        }
+        ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
+        HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
+        ArrayList<gThing> pseeds = new ArrayList<>();
+        ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
+        nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
+        Queue<gThing> checkQueue = new LinkedList<>();
+        String[] keys = bulletsMap.keySet().toArray(new String[0]);
+        for (String id : keys) {
+            checkQueue.add(bulletsMap.get(id));
+        }
+        while(checkQueue.size() > 0) {
+            gThing b = checkQueue.remove();
+            if(gameTimeMillis - b.timestamp > b.ttl) {
+                bulletsToRemoveIds.add(b.id);
+                //grenade explosion
+                if(b.src == gWeapons.launcher)
+                    pseeds.add(b);
+                continue;
+            }
+            for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
+                gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
+                if(b.collidesWithThing(bl)) {
+                    bulletsToRemoveIds.add(b.id);
+                    if(b.src == gWeapons.launcher)
+                        pseeds.add(b);
+                }
+            }
+            for(String playerId : svMap.keys()) {
+                gPlayer t = xMain.shellLogic.serverScene.getPlayerById(playerId);
+                if(t != null && b.collidesWithThing(t) && !b.srcId.equals(playerId)) {
+                    bulletsToRemovePlayerMap.put(t, b);
+                    if(b.src == gWeapons.launcher)
+                        pseeds.add(b);
+                }
+            }
+        }
+        if(pseeds.size() > 0) {
+            for(gThing pseed : pseeds)
+                gWeapons.createGrenadeExplosion(pseed);
+        }
+        for(Object bulletId : bulletsToRemoveIds) {
+            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(bulletId);
+        }
+        for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
+            gThing b = bulletsToRemovePlayerMap.get(p);
+            //calculate dmg
+            int dmg = b.dmg - (int)((double)b.dmg/2 *((Math.abs(Math.max(0, sSettings.gameTime - b.timestamp))/(double)b.ttl))); // dmg falloff based on age of bullet
+            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.id);
+            //handle damage serverside
+            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, dmg, b.srcId));
+        }
     }
 
     @Override

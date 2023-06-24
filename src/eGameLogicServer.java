@@ -243,21 +243,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
-        //update bots
-        for(String botId : botIds) {
-            //update players
-            gPlayer bl = xMain.shellLogic.serverScene.getPlayerById(botId);
-            if(bl != null) {    //store player object's health in outgoing network arg map
-                masterStateMap.get(botId).put("coords", bl.coords[0] + ":" + bl.coords[0]);
-                masterStateMap.get(botId).put("vel0", Integer.toString(bl.vel0));
-                masterStateMap.get(botId).put("vel1", Integer.toString(bl.vel1));
-                masterStateMap.get(botId).put("vel2", Integer.toString(bl.vel2));
-                masterStateMap.get(botId).put("vel3", Integer.toString(bl.vel3));
-            }
-            //update scores
-            masterStateMap.get(botId).put("score",  String.format("%d:%d",
-                    gScoreboard.scoresMap.get(botId).get("wins"), gScoreboard.scoresMap.get(botId).get("score")));
-        }
         masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
     }
 

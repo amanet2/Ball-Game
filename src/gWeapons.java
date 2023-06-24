@@ -25,14 +25,19 @@ public class gWeapons {
 						super.fireWeapon(p, scene);
 //						if(p == null)
 //							return;
-//						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
-//								p.coords[1]+p.dims[1]/2-bulletDims[1]/2,
-//								bulletDims[0], bulletDims[1], bulletSpritePath, p.getDouble("fv"), damage);
-//						double randomOffset = (Math.random() * ((Math.PI/10))) - Math.PI/20;
-//						b.putDouble("fv", b.getDouble("fv") + randomOffset);
-//						b.put("srcid", p.get("id"));
-//						b.putInt("ttl",bulletTtl);
-//						scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+//						gThing b = new gThing();
+//						b.coords = new int[]{
+//								p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
+//								p.coords[1]+p.dims[1]/2-bulletDims[1]/2
+//						};
+//						b.id = eUtils.createId();
+//						b.dims = new int[]{bulletDims[0], bulletDims[1]};
+//						b.spritePath = bulletSpritePath;
+//						b.dmg = damage;
+//						b.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
+//						b.srcId = p.id;
+//						b.ttl = bulletTtl;
+//						scene.getThingMap("THING_BULLET").put(b.id, b);
 					}
 				}
 		);

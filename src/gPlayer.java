@@ -15,21 +15,20 @@ public class gPlayer extends gThing {
                 return false;
         }
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
-            if(id.equals(id))
+            if(this.id.equals(id))
                 continue;
-            if (willCollideWithPlayerAtCoordsTopDown(
-                    (gPlayer) scene.getThingMap("THING_PLAYER").get(id), dx, dy))
+            if (willCollideWithPlayerAtCoordsTopDown(scene.getThingMap("THING_PLAYER").get(id), dx, dy))
                 return false;
         }
         return true;
     }
 
-    public boolean willCollideWithPlayerAtCoordsTopDown(gPlayer target, int dx, int dy) {
+    public boolean willCollideWithPlayerAtCoordsTopDown(gThing target, int dx, int dy) {
         if(target != null ) {
             //check null fields
             Shape bounds = new Rectangle(
                     target.coords[0] + target.dims[0]/4,
-                    target.coords[0] + target.dims[1]/4,
+                    target.coords[1] + target.dims[1]/4,
                     target.dims[0]/2,
                     target.dims[1]/2
             );

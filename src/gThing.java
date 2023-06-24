@@ -16,7 +16,7 @@ public class gThing {
     String decorationSprite = "null";
     String weaponsprite = "null";
     String waypoint = "null";
-    int cooldown = 0;
+    long cooldown = 0;
     long acceltick = 0;
     double fv = 0.0;
     int vel0 = 0;

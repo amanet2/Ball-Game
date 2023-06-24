@@ -16,9 +16,7 @@ public class nStateBallGameClient extends nState {
         });
         map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
-                String[] coords = value.split(":");
-                    setPlayerVal("coordx", coords[0]);
-                    setPlayerVal("coordy", coords[1]);
+                setPlayerVal("coords", value);
             }
         });
         map.putArg(new gArg("fv", "0") {
