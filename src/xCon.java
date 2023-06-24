@@ -1359,17 +1359,20 @@ public class xCon {
         commands.put("cl_spawnanimation", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.vfxenableanimations) {
-//                    String[] toks = fullCommand.split(" ");
-//                    if (toks.length > 3) {
-//                        int animcode = Integer.parseInt(toks[1]);
-//                        int x = Integer.parseInt(toks[2]);
-//                        int y = Integer.parseInt(toks[3]);
-//                        String aid = eUtils.createId();
-//                        gThing emit
-//                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid,
-//                                new gThing(animcode, x, y));
-//                        return "spawned animation " + animcode + " at " + x + " " + y;
-//                    }
+                    String[] toks = fullCommand.split(" ");
+                    if (toks.length > 3) {
+                        int animcode = Integer.parseInt(toks[1]);
+                        int x = Integer.parseInt(toks[2]);
+                        int y = Integer.parseInt(toks[3]);
+                        String aid = eUtils.createId();
+                        gThing emitter = new gThing();
+                        emitter.coords = new int[] { x, y};
+                        emitter.animation = animcode;
+                        emitter.frame = 0;
+                        emitter.frametime = sSettings.gameTime;
+                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid, emitter);
+                        return "spawned animation " + animcode + " at " + x + " " + y;
+                    }
                 }
                 return "usage: cl_spawnanimation <animation_code> <x> <y>";
             }
