@@ -96,11 +96,17 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             else {
                 if(obj.vel2 > obj.vel3) {
                     int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel3;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0) {
+                        obj.collidedPlayer.vel2 = Math.max(0, obj.vel2 - 1);
+                    }
                     obj.vel3 = Math.max(0, collidedPlayerVel + obj.vel2-1); //bounce
                     obj.vel2 = 0;
                 }
                 else {
                     int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel2;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0) {
+                        obj.collidedPlayer.vel3 = Math.max(0, obj.vel3 - 1);
+                    }
                     obj.vel2 = Math.max(0, collidedPlayerVel + obj.vel3-1); //bounce
                     obj.vel3 = 0;
                 }
@@ -110,12 +116,18 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             else {
                 if(obj.vel0 > obj.vel1) {
                     int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel1;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0) {
+                        obj.collidedPlayer.vel0 = Math.max(0, obj.vel0 - 1);
+                    }
                     obj.vel1 = Math.max(0, collidedPlayerVel + obj.vel0-1); //bounce
                     obj.vel0 = 0;
                 }
                 else {
                     int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel0;
-                    obj.vel0 = Math.max(0, collidedPlayerVel + obj.vel2-1); //bounce
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0) {
+                        obj.collidedPlayer.vel1 = Math.max(0, obj.vel1 - 1);
+                    }
+                    obj.vel0 = Math.max(0, collidedPlayerVel + obj.vel1-1); //bounce
                     obj.vel1 = 0;
                 }
             }
