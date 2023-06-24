@@ -1,6 +1,12 @@
 * ENGINE: replace gThing vars with a gArgSet instance
     -> hardcoded stuff is becoming the bane but have to persevere
     -> for args ADD a GET() function you can overrid to return specific sSetting or gThing engine var
+* BOTS: implement them like doom
+    -> pick target
+    -> find direct vector to target
+        -> if can move there, go there or 45 degree offset
+        -> if can not move there, find dir you CAN move in and go until you can turn toward target
+            -> have var "isRerouting" for bot
 * BOT:
     -> can move within server but doesnt move on clients
     -> need to transmit full bot data to clients

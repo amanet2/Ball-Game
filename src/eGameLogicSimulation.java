@@ -88,15 +88,16 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
             }
 
+            //TODO: come up with a way to get "normal vector" from surface or player being collided with
             if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.coords[0] = dx;
             else {
                 if(obj.vel2 > obj.vel3) {
-//                    obj.put("vel3", obj.get("vel2")); //bounce
+                    obj.vel3 = Math.max(0, obj.vel2-1); //bounce
                     obj.vel2 = 0;
                 }
                 else {
-//                    obj.put("vel2", obj.get("vel3")); //bounce
+                    obj.vel2 = Math.max(0, obj.vel3-1); //bounce
                     obj.vel3 = 0;
                 }
             }
@@ -104,11 +105,11 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 obj.coords[1] = dy;
             else {
                 if(obj.vel0 > obj.vel1) {
-//                    obj.put("vel1", obj.get("vel0")); //bounce
+                    obj.vel1 = Math.max(0, obj.vel0-1); //bounce
                     obj.vel0 = 0;
                 }
                 else {
-//                    obj.put("vel0", obj.get("vel1")); //bounce
+                    obj.vel0 = Math.max(0, obj.vel1-1); //bounce
                     obj.vel1 = 0;
                 }
             }

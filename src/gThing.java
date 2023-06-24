@@ -71,20 +71,45 @@ public class gThing {
             public void onChange() {
                 parent.vel0 = Integer.parseInt(value);
             }
+
+            public String getValue() {
+                return Integer.toString(parent.vel0);
+            }
         });
         args.putArg(new gArg("vel1", "0") {
             public void onChange() {
                 parent.vel1 = Integer.parseInt(value);
+            }
+
+            public String getValue() {
+                return Integer.toString(parent.vel1);
             }
         });
         args.putArg(new gArg("vel2", "0") {
             public void onChange() {
                 parent.vel2 = Integer.parseInt(value);
             }
+
+            public String getValue() {
+                return Integer.toString(parent.vel2);
+            }
         });
         args.putArg(new gArg("vel3", "0") {
             public void onChange() {
                 parent.vel3 = Integer.parseInt(value);
+            }
+
+            public String getValue() {
+                return Integer.toString(parent.vel3);
+            }
+        });
+        args.putArg(new gArg("waypoint", parent.waypoint) {
+            public void onChange() {
+                parent.waypoint = value;
+            }
+
+            public String getValue() {
+                return parent.waypoint;
             }
         });
     }

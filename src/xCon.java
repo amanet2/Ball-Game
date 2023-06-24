@@ -1695,7 +1695,7 @@ public class xCon {
             return "null";
         gThing thing = thingMap.get(tid);
         if(args.length < 4)
-            return thing.toString();
+            return thing.args.toString();
         String tk = args[3];
         if(args.length < 5) {
             if(thing.args.args.get(tk) == null)
