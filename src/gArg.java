@@ -18,4 +18,8 @@ public class gArg {
     public void onUpdate() {
         //executed every time argset.put is called for this arg
     }
+
+    public String getValue() {
+        return value;
+    }
 }

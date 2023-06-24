@@ -1695,9 +1695,9 @@ public class xCon {
             return thing.toString();
         String tk = args[3];
         if(args.length < 5) {
-            if(thing.args.get(tk) == null)
+            if(thing.args.args.get(tk) == null)
                 return "null";
-            return thing.args.get(tk);
+            return thing.args.args.get(tk).getValue();
         }
         StringBuilder tvb = new StringBuilder();
         for(int i = 4; i < args.length; i++) {
@@ -1705,7 +1705,7 @@ public class xCon {
         }
         String tv = tvb.substring(1);
         thing.args.put(tk, tv);
-        return thing.args.get(tk);
+        return thing.args.args.get(tk).getValue();
     }
 
 

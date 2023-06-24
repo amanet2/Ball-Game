@@ -46,6 +46,7 @@ public class gThing {
     public gThing() {
         args = new gArgSet();
         gThing parent = this;
+        args.put("teledelay", "0");
         //args are bindings for what scripts can use
         args.putArg(new gArg("coords", "0:0") {
             public void onChange() {
@@ -54,6 +55,16 @@ public class gThing {
                         Integer.parseInt(coords[0]),
                         Integer.parseInt(coords[1])
                 };
+            }
+        });
+        args.putArg(new gArg("coordx", "0") {
+            public String getValue() {
+                return Integer.toString(parent.coords[0]);
+            }
+        });
+        args.putArg(new gArg("coordy", "0") {
+            public String getValue() {
+                return Integer.toString(parent.coords[1]);
             }
         });
         args.putArg(new gArg("dims", "0:0") {
