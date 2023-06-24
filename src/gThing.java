@@ -46,15 +46,15 @@ public class gThing {
     public gThing() {
         args = new gArgSet();
         gThing parent = this;
-        args.put("teledelay", "0");
         //args are bindings for what scripts can use
         args.putArg(new gArg("coords", "0:0") {
             public void onChange() {
-                String[] coords = value.split(":");
-                parent.coords = new int[]{
-                        Integer.parseInt(coords[0]),
-                        Integer.parseInt(coords[1])
-                };
+                String[] argCoords = value.split(":");
+                parent.coords = new int[]{Integer.parseInt(argCoords[0]), Integer.parseInt(argCoords[1])};
+            }
+
+            public String getValue() {
+                return coords[0] + ":" + coords[1];
             }
         });
         args.putArg(new gArg("coordx", "0") {
@@ -65,15 +65,6 @@ public class gThing {
         args.putArg(new gArg("coordy", "0") {
             public String getValue() {
                 return Integer.toString(parent.coords[1]);
-            }
-        });
-        args.putArg(new gArg("dims", "0:0") {
-            public void onChange() {
-                String[] dims = value.split(":");
-                parent.coords = new int[]{
-                        Integer.parseInt(dims[0]),
-                        Integer.parseInt(dims[1])
-                };
             }
         });
         args.putArg(new gArg("vel0", "0") {
