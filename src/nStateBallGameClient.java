@@ -9,9 +9,9 @@ public class nStateBallGameClient extends nState {
                 gPlayer p = xMain.shellLogic.getPlayerById(get("id"));
                 if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
-                p.args.put("color", value);
-                p.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/%s", value,
-                        p.spritePath.substring(p.spritePath.lastIndexOf('/')))));
+                String oldColor = p.color;
+                p.color = value;
+                p.setSpriteFromPath(p.spritePath.replace(oldColor, p.color));
             }
         });
         map.putArg(new gArg("coords", "0:0") {

@@ -45,7 +45,7 @@ public class gThing {
 
     public gThing() {
         args = new gArgSet();
-        gThing parent= this;
+        gThing parent = this;
         //args are bindings for what scripts can use
         args.putArg(new gArg("coords", "0:0") {
             public void onChange() {
@@ -63,6 +63,26 @@ public class gThing {
                         Integer.parseInt(dims[0]),
                         Integer.parseInt(dims[1])
                 };
+            }
+        });
+        args.putArg(new gArg("vel0", "0") {
+            public void onChange() {
+                parent.vel0 = Integer.parseInt(value);
+            }
+        });
+        args.putArg(new gArg("vel1", "0") {
+            public void onChange() {
+                parent.vel1 = Integer.parseInt(value);
+            }
+        });
+        args.putArg(new gArg("vel2", "0") {
+            public void onChange() {
+                parent.vel2 = Integer.parseInt(value);
+            }
+        });
+        args.putArg(new gArg("vel3", "0") {
+            public void onChange() {
+                parent.vel3 = Integer.parseInt(value);
             }
         });
     }

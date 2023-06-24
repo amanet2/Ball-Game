@@ -266,7 +266,7 @@ public class dHUD {
         int midx = userPlayer.coords[0] + userPlayer.dims[0]/2;
         int coordy = userPlayer.coords[1] - 200;
         Polygon pg = getPolygon(midx, coordy);
-        Color color = gColors.getColorFromName("clrp_" + xMain.shellLogic.clientVars.get("playercolor"));
+        Color color = gColors.getColorFromName("clrp_" + userPlayer.color);
         g2.setStroke(dFonts.thickStroke);
         g2.setColor(Color.BLACK);
         pg.translate(3, 3);

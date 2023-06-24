@@ -78,6 +78,6 @@ public class gPlayer extends gThing {
         coords[1] = y;
         dims[0] = 200;
         dims[1] = 200;
-        setSpriteFromPath(eManager.getPath("animations/player_red/a03.png"));
+        setSpriteFromPath(eManager.getPath("animations/player_teal/a03.png"));
     }
 }

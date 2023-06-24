@@ -1146,7 +1146,7 @@ public class xCon {
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
-                        ex(String.format("spawnplayer %s %s %s", toks[1], randomSpawn.coords[0], randomSpawn.coords[1]));
+                        ex(String.format("spawnplayer %s %s %s teal", toks[1], randomSpawn.coords[0], randomSpawn.coords[1]));
                     }
                 }
                 return fullCommand;
@@ -1404,13 +1404,11 @@ public class xCon {
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-                if(clStateMap.contains(playerId)) {
-                    newPlayer.args.put("color", clStateMap.get(playerId).get("color"));
-                    newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
-                            clStateMap.get(playerId).get("color"))));
-                }
+                nState clState = clStateMap.get(playerId);
+                if(clState != null)
+                    newPlayer.color = clState.get("color");
+                newPlayer.setSpriteFromPath(eManager.getPath("animations/player_" + newPlayer.color + "/a03.png"));
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
-                System.out.println(xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").toString());
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
