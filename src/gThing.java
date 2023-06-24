@@ -13,11 +13,11 @@ public class gThing {
     int decelrate = 1;
     String pathsprite = "null";
     int weapon = gWeapons.none;
-    String decorationsprite = "null";
+    String decorationSprite = "null";
     String weaponsprite = "null";
     String waypoint = "null";
     int cooldown = 0;
-    int acceltick = 0;
+    long acceltick = 0;
     double fv = 0.0;
     int vel0 = 0;
     int vel1 = 0;
@@ -29,9 +29,19 @@ public class gThing {
     int mov3 = 0;
     int toph = 0;
     int wallh = 0;
-    int frame = 0;
-    long frametime = 0;
-    int animation = -1;
+    int frame = 0; //anim emit
+    long frametime = 0; //for anim emitter
+    int animation = -1; //for animation emitter
+    String text = "null"; //for popups
+    int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
+    long timestamp = 0; //bullets
+    int ttl = 1000; //bullets
+    int anim = -1; //bullets
+    int dmg = 0; //bullets
+    String srcId = "-1"; //hold id of player who fires a bullet
+    String flare = "null";
+    String script = "null";
+    int occupied = 0;
 
     public gThing() {
         args = new gArgSet();
@@ -55,6 +65,10 @@ public class gThing {
                 };
             }
         });
+    }
+
+    public String toString() {
+        return args.toString();
     }
 
     public boolean coordsWithinBounds(int x, int y) {

@@ -173,8 +173,8 @@ public class dHUD {
             drawThings.add(bulletsMap.get(id));
         }
         while (drawThings.size() > 0) {
-            gBullet t = (gBullet) drawThings.remove();
-            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
+//            gThing t = drawThings.remove();
+//            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
         }
         if(!sSettings.vfxenableanimations)
             return;
@@ -182,13 +182,13 @@ public class dHUD {
         long gameTimeMillis = sSettings.gameTime;
         for(String id : animationsMap.keySet()) {
             gThing emit = animationsMap.get(id);
-            if(emit.getInt("frame") < gAnimations.animation_selection[emit.getInt("animation")].frames.length) {
-                if (gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")] != null) {
-                    g2.drawImage(gAnimations.animation_selection[emit.getInt("animation")].frames[emit.getInt("frame")],
+            if(emit.frame < gAnimations.animation_selection[emit.animation].frames.length) {
+                if (gAnimations.animation_selection[emit.animation].frames[emit.frame] != null) {
+                    g2.drawImage(gAnimations.animation_selection[emit.animation].frames[emit.frame],
                             emit.coords[0], emit.coords[1], null);
-                    if(emit.getLong("frametime") < gameTimeMillis) {
-                        emit.putInt("frame", emit.getInt("frame") + 1);
-                        emit.putLong("frametime", gameTimeMillis + 30);
+                    if(emit.frametime < gameTimeMillis) {
+                        emit.frame = emit.frame + 1;
+                        emit.frametime = gameTimeMillis + 30;
                     }
                 }
             }
@@ -215,7 +215,7 @@ public class dHUD {
             if(p == null)
                 continue;
             // look for hashtag color codes here
-            String s = p.get("text");
+            String s = p.text;
             StringBuilder ts = new StringBuilder();
             for(String word : s.split(" ")) {
                 if(word.contains("#")) {
@@ -380,9 +380,9 @@ public class dHUD {
         if(sSettings.inplay && xMain.shellLogic.getUserPlayer() != null) {
             double[] deltas = new double[]{
                     dx - xMain.shellLogic.getUserPlayer().coords[0]
-                            + xMain.shellLogic.getUserPlayer().getDouble("dimw")/2,
+                            + xMain.shellLogic.getUserPlayer().dims[0]/2,
                     dy - xMain.shellLogic.getUserPlayer().coords[1]
-                            + xMain.shellLogic.getUserPlayer().getDouble("dimh")/2
+                            + xMain.shellLogic.getUserPlayer().dims[1]/2
             };
             int[][] polygondims = new int[][]{
                     new int[]{dx - eUtils.unscaleInt(sSettings.height / 16), dx,
@@ -445,18 +445,18 @@ public class dHUD {
                 gPlayer wpPlayer = scene.getPlayerById(id);
                 if(wpPlayer == null)
                     continue;
-                if(!(wpPlayer.get("waypoint").equals("null") || wpPlayer.get("waypoint").equals("0")))
+                if(!(wpPlayer.waypoint.equals("null") || wpPlayer.waypoint.equals("0")))
                     drawNavPointer(g2, wpPlayer.coords[0] + wpPlayer.dims[0] / 2,
                             wpPlayer.coords[1] + wpPlayer.dims[1] / 2,
-                            wpPlayer.get("waypoint"));
+                            wpPlayer.waypoint);
             }
             // items
             String[] itemIds = scene.getThingMapIds("THING_ITEM");
             for(String id : itemIds) {
                 gThing item = scene.getThingMap("THING_ITEM").get(id);
-                if(!(item.get("waypoint").equals("null") || item.get("waypoint").equals("0")))
+                if(!(item.waypoint.equals("null") || item.waypoint.equals("0")))
                     drawNavPointer(g2,item.coords[0] + item.dims[0]/2,
-                            item.coords[1] + item.dims[1]/2, item.get("waypoint"));
+                            item.coords[1] + item.dims[1]/2, item.waypoint);
             }
         }
     }

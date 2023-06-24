@@ -112,7 +112,7 @@ public class dThings {
         g2.setPaint(xMain.shellLogic.topTexture);
         g2.fillRect(block.coords[0], block.coords[1], block.dims[0], block.toph);
         dFonts.setFontColor(g2, "clrw_topcolor");
-        if(block.contains("wallh") && block.wallh < 300)
+        if(block.wallh > 0 && block.wallh < 300)
             dFonts.setFontColor(g2, "clrw_topcolordark");
         g2.fillRect(block.coords[0], block.coords[1], block.dims[0], block.toph);
         drawBlockTopShadingCube(g2, block);
@@ -122,7 +122,7 @@ public class dThings {
         ConcurrentHashMap<String, gThing> squareMap = uiEditorMenus.previewScene.getThingMap("BLOCK_CUBE");
         for(String tag : squareMap.keySet()) {
             gThing block = squareMap.get(tag);
-            if(block.contains("wallh")) {
+            if(block.wallh > 0) {
                 dFonts.setFontColor(g2, "clrw_wallcolorpreview");
                 g2.fillRect(eUtils.scaleInt(block.coords[0]/4),
                         eUtils.scaleInt(block.coords[1]/4+ block.toph/4),
@@ -133,7 +133,7 @@ public class dThings {
         }
         for(String tag : squareMap.keySet()) {
             gThing block = squareMap.get(tag);
-            if(block.contains("toph")) {
+            if(block.toph > 0) {
                 dFonts.setFontColor(g2, "clrw_topcolorpreview");
                 g2.fillRect(
                         eUtils.scaleInt(block.coords[0]/4),
@@ -160,7 +160,7 @@ public class dThings {
                     gColors.getColorFromName("clrw_roofoutline2")
             );
             g2.setPaint(gradient);
-            if(block.contains("wallh") && block.wallh < 300)
+            if(block.wallh > 0 && block.wallh < 300)
                 g2.fillRect(
                         block.coords[0] ,
                         block.coords[1] ,
@@ -219,9 +219,6 @@ public class dThings {
 
     public static void drawThingShadow(Graphics2D g2, gThing thing) {
         if(sSettings.vfxenableshadows) {
-            //check null fields
-            if(!thing.containsFields(new String[]{"coordx", "coordy", "dimw", "dimh"}))
-                return;
             int yadj = 5*thing.dims[1]/6;
             Rectangle2D shadowBounds = new Rectangle.Double(
                     thing.coords[0],
@@ -235,8 +232,8 @@ public class dThings {
                             gColors.getColorFromName("clrw_clear")
                     }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
             g2.setPaint(df);
-            g2.fillRect((int)shadowBounds.coords[0], (int)shadowBounds.coords[1], (int)shadowBounds.dims[0],
-                    (int)shadowBounds.dims[1]);
+            g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
+                    (int)shadowBounds.getHeight());
         }
     }
 
@@ -244,10 +241,8 @@ public class dThings {
         //player glow
         if(player == null)
             return;
-        if(!player.contains("id"))
-            return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-        nState cState = clStateMap.get(player.get("id"));
+        nState cState = clStateMap.get(player.id);
         if(cState == null)
             return;
         if(cState.contains("color")) {
@@ -270,7 +265,7 @@ public class dThings {
                 player.coords[1],
                 null
         );
-        String decor = player.get("decorationsprite");
+        String decor = player.decorationSprite;
         if(!decor.equalsIgnoreCase("null")) {
             g2.drawImage(
                     gTextures.getGScaledImage(eManager.getPath(decor), 300, 300),
@@ -294,13 +289,13 @@ public class dThings {
         //player weapon
         AffineTransform backup = g2.getTransform();
         AffineTransform a = g2.getTransform();
-        a.rotate(player.getDouble("fv")-Math.PI/2,
+        a.rotate(player.fv - Math.PI/2,
                 player.coords[0] + (float) player.dims[0] / 2,
                 player.coords[1] + (float) player.dims[1] / 2
         );
         g2.setTransform(a);
-        int diff = gWeapons.fromCode(player.getInt("weapon")).dims[1] / 2;
-        g2.drawImage(gWeapons.fromCode(player.getInt("weapon")).sprite,
+        int diff = gWeapons.fromCode(player.weapon).dims[1] / 2;
+        g2.drawImage(gWeapons.fromCode(player.weapon).sprite,
                 player.coords[0] + player.dims[0]/2,
                 player.coords[1] + player.dims[1]/2 - diff,
                 null);
@@ -316,8 +311,8 @@ public class dThings {
                     item.coords[1],
                     null
             );
-            if(sSettings.vfxenableflares && !item.get("flare").equals("null")) {
-                String[] flareToks = item.get("flare").split(":");
+            if(sSettings.vfxenableflares && !item.flare.equals("null")) {
+                String[] flareToks = item.flare.split(":");
                 int[] flareArgs = new int[] {
                         Integer.parseInt(flareToks[0]),
                         Integer.parseInt(flareToks[1]),

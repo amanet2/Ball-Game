@@ -23,7 +23,7 @@ cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x
 REM show frames per second
 cl_setvar showfps 0
 cl_setvar showcam 0
-cl_setvar showmouse 0
+cl_setvar showmouse 1
 cl_setvar shownet 0
 cl_setvar showplayer 0
 cl_setvar showtick 0
