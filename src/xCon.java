@@ -1410,6 +1410,7 @@ public class xCon {
                             clStateMap.get(playerId).get("color"))));
                 }
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                System.out.println(xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").toString());
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
@@ -1635,7 +1636,6 @@ public class xCon {
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {
-        System.out.println(Arrays.toString(toks));
         String itemTitle = toks[1];
         String itemId = toks[2];
         int iw = Integer.parseInt(ex("setvar " + itemTitle+"_dimw"));

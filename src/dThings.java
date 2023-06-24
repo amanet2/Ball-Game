@@ -241,20 +241,14 @@ public class dThings {
         //player glow
         if(player == null)
             return;
-        nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-        nState cState = clStateMap.get(player.id);
-        if(cState == null)
-            return;
-        if(cState.contains("color")) {
-            Color pc = gColors.getColorFromName("clrp_" + cState.get("color"));
-            if (pc != null) {
-                int x = player.coords[0] - player.dims[0] / 4;
-                int y = player.coords[1] - player.dims[1] / 4;
-                int w = 3 * player.dims[0] / 2;
-                int h = 3 * player.dims[1] / 2;
-                if (sSettings.vfxenableflares)
-                    dScreenFX.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
-            }
+        Color pc = gColors.getColorFromName("clrp_" + player.color);
+        if (pc != null) {
+            int x = player.coords[0] - player.dims[0] / 4;
+            int y = player.coords[1] - player.dims[1] / 4;
+            int w = 3 * player.dims[0] / 2;
+            int h = 3 * player.dims[1] / 2;
+            if (sSettings.vfxenableflares)
+                dScreenFX.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
         }
         //player shadow
         drawThingShadow(g2, player);

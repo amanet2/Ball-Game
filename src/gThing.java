@@ -11,7 +11,7 @@ public class gThing {
     int acceldelay = 100;
     int accelrate = 2;
     int decelrate = 1;
-    String pathsprite = "null";
+    String spritePath = "null";
     int weapon = gWeapons.none;
     String decorationSprite = "null";
     String weaponsprite = "null";

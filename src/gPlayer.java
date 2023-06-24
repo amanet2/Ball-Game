@@ -5,7 +5,6 @@ import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     Image sprite;
-    String spritePath;
 
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
@@ -73,6 +72,7 @@ public class gPlayer extends gThing {
 
     public gPlayer(String playerId, int x, int y) {
         super();
+        type = "THING_PLAYER";
         id = playerId;
         coords[0] = x;
         coords[1] = y;

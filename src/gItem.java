@@ -1,7 +1,7 @@
 import java.awt.Image;
 
 public class gItem extends gThing {
-    public Image sprite;
+    Image sprite;
     String script;
 
     public void activateItem(gThing p) {
