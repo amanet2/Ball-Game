@@ -1664,8 +1664,9 @@ public class xCon {
             args[4] = toks[8];
             args[5] = toks[9];
         }
-        gThing newBlock = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+        gThing newBlock = new gThing();
+        newBlock.coords = new int[] {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
+        newBlock.dims = new int[] {Integer.parseInt(args[2]), Integer.parseInt(args[3])};
         newBlock.type = blockString;
         if(blockString.equals("BLOCK_CUBE")) {
             newBlock.toph = Integer.parseInt(args[4]);

@@ -5,7 +5,6 @@ import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     Image sprite;
-//    long hpRechargeTime;
 
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
@@ -80,17 +79,6 @@ public class gPlayer extends gThing {
         coords[1] = y;
         dims[0] = 200;
         dims[1] = 200;
-//        hpRechargeTime = 0;
         setSpriteFromPath(eManager.getPath("animations/player_teal/a03.png"));
-        gPlayer parent = this;
-//        args.putArg(new gArg("hprechargetime", Long.toString(parent.hpRechargeTime)) {
-//            public void onChange() {
-//                parent.hpRechargeTime = Long.parseLong(value);
-//            }
-//
-//            public String getValue() {
-//                return Long.toString(parent.hpRechargeTime);
-//            }
-//        });
     }
 }
