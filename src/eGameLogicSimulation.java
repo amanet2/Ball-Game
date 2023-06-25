@@ -36,21 +36,16 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void checkGameItems() {
         ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
-        Queue<gThing> playerQueue = new LinkedList<>();
-        Queue<gThing> itemsQueue = new LinkedList<>();
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         ArrayList<String> keysetcopy = new ArrayList<>(itemsMap.keySet());
-        for(String id : keysetcopy) {
-            itemsQueue.add(itemsMap.get(id));
-        }
-        while(itemsQueue.size() > 0) {
-            gItem item = (gItem) itemsQueue.remove();
+        ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
+        for(String iid : keysetcopy) {
+            gItem item = (gItem) itemsMap.get(iid);
             item.occupied = 0;
-            for (String id : playerMap.keySet()) {
-                playerQueue.add(playerMap.get(id));
-            }
-            while(playerQueue.size() > 0) {
-                gPlayer player = (gPlayer) playerQueue.remove();
+            for(String pid : playerKeySetCopy) {
+                if(!playerMap.containsKey(pid))
+                    continue;
+                gPlayer player = (gPlayer) playerMap.get(pid);
                 if(player.collidesWithThing(item))
                     item.activateItem(player);
             }

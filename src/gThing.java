@@ -15,7 +15,6 @@ public class gThing {
     int decelrate = 1;
     int weapon = gWeapons.none;
     String decorationSprite = "null";
-    String weaponsprite = "null";
     String waypoint = "null";
     long cooldown = 0;
     long acceltick = 0;
@@ -35,13 +34,10 @@ public class gThing {
     int animation = -1; //for animation emitter
     String text = "null"; //for popups
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
-//    long timestamp = 0; //bullets
-//    int ttl = 1000; //bullets
     int anim = -1; //bullets
     int dmg = 0; //bullets
     String srcId = "-1"; //hold id of player who fires a bullet
     String flare = "null";
-    String script = "null";
     int occupied = 0;
     gThing collidedPlayer = null;
 
