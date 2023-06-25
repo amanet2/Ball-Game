@@ -435,17 +435,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
-                Queue<gThing> checkQueue = new LinkedList<>();
-                String[] keys = thingMap.keySet().toArray(new String[0]);
-                for (String id : keys) {
-                    checkQueue.add(thingMap.get(id));
+                for (String id : thingMap.keySet()) {
+                    gThing obj = thingMap.get(id);
+                    obj.coords[0] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.sin(obj.fv+Math.PI/2));
                 }
-                while (checkQueue.size() > 0) {
-                    gThing bullet = checkQueue.remove();
-                    bullet.coords[0] -= (int) (gWeapons.fromCode(bullet.src).bulletVel * Math.cos(bullet.fv + Math.PI / 2));
-                    bullet.coords[1] -= (int) (gWeapons.fromCode(bullet.src).bulletVel * Math.sin(bullet.fv + Math.PI / 2));
-                }
-                checkBulletSplashes(gameTimeMillis);
+                checkBulletSplashes();
 //                //popups
 //                thingMap = clientScene.getThingMap("THING_POPUP");
 //                checkQueue = new LinkedList<>();
@@ -465,7 +460,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
     }
 
-    private void checkBulletSplashes(long gameTimeMillis) {
+    private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gThing> pseeds = new ArrayList<>();
@@ -475,15 +470,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
         for (String id : keys) {
             checkThings.add(bulletsMap.get(id));
         }
-        while (checkThings.size() > 0) {
-            gThing t = checkThings.remove();
-            if(gameTimeMillis - t.timestamp > t.ttl){
-                bulletsToRemoveIds.add(t.id);
-                //grenade explosion
-                if(t.src == gWeapons.launcher)
-                    pseeds.add(t);
-                continue;
-            }
+        for (String id : bulletsMap.keySet()) {
+            gThing t = bulletsMap.get(id);
+//            if(gameTimeMillis - t.timestamp > t.ttl){
+//                bulletsToRemoveIds.add(t.id);
+//                //grenade explosion
+//                if(t.src == gWeapons.launcher)
+//                    pseeds.add(t);
+//                continue;
+//            }
             for(String blockId : clientScene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = clientScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(t.collidesWithThing(bl)) {

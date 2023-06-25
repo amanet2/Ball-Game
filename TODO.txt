@@ -1,3 +1,5 @@
+* ENGINE: too many while loops used to empty queues etc (e.g. bullets removal)
+    ->
 * ENGINE: replace gThing vars with a gArgSet instance
     -> hardcoded stuff is becoming the bane but have to persevere
     -> for args ADD a GET() function you can overrid to return specific sSetting or gThing engine var

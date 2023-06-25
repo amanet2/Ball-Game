@@ -168,13 +168,9 @@ public class dHUD {
 
     public static void drawBulletsAndAnimations(Graphics2D g2, gScene scene) {
         ConcurrentHashMap<String, gThing> bulletsMap = scene.getThingMap("THING_BULLET");
-        Queue<gThing> drawThings = new LinkedList<>();
         for (String id : bulletsMap.keySet()) {
-            drawThings.add(bulletsMap.get(id));
-        }
-        while (drawThings.size() > 0) {
-//            gThing t = drawThings.remove();
-//            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
+            gThing t = bulletsMap.get(id);
+            g2.drawImage(t.sprite, t.coords[0], t.coords[1], null);
         }
         if(!sSettings.vfxenableanimations)
             return;

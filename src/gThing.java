@@ -1,6 +1,8 @@
 import java.awt.*;
 
 public class gThing {
+    Image sprite = null;
+    String spritePath = "null";
     String type = "null";
     String color = "red";
     int[] coords = {0, 0};
@@ -11,7 +13,6 @@ public class gThing {
     int acceldelay = 100;
     int accelrate = 2;
     int decelrate = 1;
-    String spritePath = "null";
     int weapon = gWeapons.none;
     String decorationSprite = "null";
     String weaponsprite = "null";
@@ -34,8 +35,8 @@ public class gThing {
     int animation = -1; //for animation emitter
     String text = "null"; //for popups
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
-    long timestamp = 0; //bullets
-    int ttl = 1000; //bullets
+//    long timestamp = 0; //bullets
+//    int ttl = 1000; //bullets
     int anim = -1; //bullets
     int dmg = 0; //bullets
     String srcId = "-1"; //hold id of player who fires a bullet

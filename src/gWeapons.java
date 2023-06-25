@@ -23,21 +23,28 @@ public class gWeapons {
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
-//						if(p == null)
-//							return;
-//						gThing b = new gThing();
-//						b.coords = new int[]{
-//								p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
-//								p.coords[1]+p.dims[1]/2-bulletDims[1]/2
-//						};
-//						b.id = eUtils.createId();
-//						b.dims = new int[]{bulletDims[0], bulletDims[1]};
-//						b.spritePath = bulletSpritePath;
-//						b.dmg = damage;
-//						b.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
-//						b.srcId = p.id;
-//						b.ttl = bulletTtl;
-//						scene.getThingMap("THING_BULLET").put(b.id, b);
+						if (p == null)
+							return;
+						gThing bullet = new gThing();
+						bullet.coords = new int[]{p.coords[0], p.coords[1]};
+						bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
+						bullet.sprite = gTextures.getGScaledImage(bulletSpritePath, bullet.dims[0], bullet.dims[1]);
+						bullet.dmg = damage;
+						bullet.src = gWeapons.none;
+						bullet.anim = -1;
+//						bullet.ttl = bulletTtl;
+//						bullet.timestamp = sSettings.gameTime;
+						bullet.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
+						bullet.id = eUtils.createId();
+						bullet.srcId = p.id;
+						scene.getThingMap("THING_BULLET").put(bullet.id, bullet);
+						xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + bulletTtl),
+								new gDoable() {
+									public void doCommand() {
+										scene.getThingMap("THING_BULLET").remove(bullet.id);
+									}
+								}
+						);
 					}
 				}
 		);
