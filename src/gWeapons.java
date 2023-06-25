@@ -163,16 +163,28 @@ public class gWeapons {
 				) {
 					public void fireWeapon(gPlayer p, gScene scene) {
 						super.fireWeapon(p, scene);
-//						if(p == null)
-//							return;
-//						gBullet b = new gBullet(p.coords[0]+p.dims[0]/2-bulletDims[0]/2,
-//								p.coords[1]+p.dims[1]/2-bulletDims[1]/2, bulletDims[0], bulletDims[1],
-//								eManager.getPath(String.format("objects/misc/fire%s.png", p.get("color"))), p.getDouble("fv"), damage);
-//						b.put("srcid", p.get("id"));
-//						b.putInt("ttl",bulletTtl);
-//						b.putInt("src", launcher);
-//						b.putInt("anim", gAnimations.ANIM_SPLASH_GREEN);
-//						scene.getThingMap("THING_BULLET").put(b.get("id"), b);
+						if (p == null)
+							return;
+						gThing bullet = new gThing();
+						bullet.dims = new int[]{bulletDims[0], bulletDims[1]};
+						bullet.coords = new int[]{p.coords[0]+p.dims[0]/2-bullet.dims[0]/2, p.coords[1]+p.dims[1]/2-bullet.dims[1]/2};
+						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
+						bullet.dmg = damage;
+						bullet.src = gWeapons.launcher;
+						bullet.anim = -1;
+						bullet.fv = p.fv + (Math.random() * ((Math.PI/8))) - Math.PI/16;
+						bullet.id = eUtils.createId();
+						bullet.srcId = p.id;
+						bullet.spritePath = eManager.getPath(String.format("objects/misc/fire%s.png", p.color));
+						scene.getThingMap("THING_BULLET").put(bullet.id, bullet);
+						xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + bulletTtl),
+								new gDoable() {
+									public void doCommand() {
+										createGrenadeExplosion(bullet, scene);
+										scene.getThingMap("THING_BULLET").remove(bullet.id);
+									}
+								}
+						);
 					}
 				}
 		);
@@ -216,25 +228,26 @@ public class gWeapons {
 		return selection.get(code);
 	}
 
-	public static void createGrenadeExplosion(gThing seed) {
+	public static void createGrenadeExplosion(gThing seed, gScene scene) {
 //		//launcher explosion
-//		for (int i = 0; i < 8; i++) {
-//			gBullet g = new gBullet(seed.coords[0],seed.coords[1], 300, 300,
-//					seed.get("sprite"), 0,
-//					fromCode(launcher).damage);
-//			double randomOffset = (Math.random() * ((Math.PI / 8))) - Math.PI / 16;
-//			g.putDouble("fv", g.getDouble("fv")+(i * (2.0*Math.PI/8.0) - Math.PI / 16 + randomOffset));
-//			g.putInt("ttl",75);
-//			g.put("srcid", seed.get("srcid"));
-//			g.putInt("anim", gAnimations.ANIM_SPLASH_ORANGE);
-//			if(sSettings.IS_SERVER && sSettings.IS_CLIENT) {
-//				xMain.shellLogic.serverScene.getThingMap("THING_BULLET").put(g.get("id"), g);
-//				xMain.shellLogic.clientScene.getThingMap("THING_BULLET").put(g.get("id"), g);
-//			}
-//			else if(sSettings.IS_SERVER)
-//				xMain.shellLogic.serverScene.getThingMap("THING_BULLET").put(g.get("id"), g);
-//			else if(sSettings.IS_CLIENT)
-//				xMain.shellLogic.clientScene.getThingMap("THING_BULLET").put(g.get("id"), g);
-//		}
+		for (int i = 0; i < 8; i++) {
+			gThing bullet = new gThing();
+			bullet.dims = new int[]{300, 300};
+			bullet.coords = new int[]{seed.coords[0], seed.coords[1]};
+			bullet.sprite = gTextures.getGScaledImage(seed.spritePath, bullet.dims[0], bullet.dims[1]);
+			bullet.dmg = fromCode(launcher).damage;
+			bullet.anim = -1;
+			bullet.fv = ((i * (2.0*Math.PI/8.0) - Math.PI / 16 + ((Math.random() * ((Math.PI/8))) - Math.PI/16)));
+			bullet.id = eUtils.createId();
+			bullet.srcId = seed.srcId;
+			scene.getThingMap("THING_BULLET").put(bullet.id, bullet);
+			xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + 75),
+					new gDoable() {
+						public void doCommand() {
+							scene.getThingMap("THING_BULLET").remove(bullet.id);
+						}
+					}
+			);
+		}
 	}
 }
