@@ -56,7 +56,6 @@ bind down selectdown
 bind left selectleft
 bind right selectright
 bind y chat
--bind ` console
 -bind w -playerup
 -bind s -playerdown
 -bind a -playerleft

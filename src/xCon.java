@@ -237,12 +237,6 @@ public class xCon {
                 return sorted.toString();
             }
         });
-        commands.put("console", new gDoable() {
-            public String doCommand(String fullCommand) {
-                sSettings.inconsole = true;
-                return "console";
-            }
-        });
         commands.put("constr", new gDoable() {
             //concatenate two or more strings
             //usage: constr <disparate elements to combine and return>

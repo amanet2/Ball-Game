@@ -1,5 +1,6 @@
+* CONSOLE: should close with back tick
 * BOTS: implement them like doom
-    -> pick target
+    -> pick target, default should be nearest player
     -> find direct vector to target
         -> if can move there, go there or 45 degree offset
         -> if can not move there, find dir you CAN move in and go
