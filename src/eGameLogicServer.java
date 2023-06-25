@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class eGameLogicServer extends eGameLogicAdapter {
     public String masterStateSnapshot; //what we want publicly accessible
     private final DatagramSocket serverSocket;
-    public final ArrayList<String> botIds;
     private final Queue<String> quitClientIds;
     private final HashMap<String, Queue<String>> clientNetCmdMap;
     private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
@@ -25,7 +24,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();
-        botIds = new ArrayList<>();
         quitClientIds = new LinkedList<>();
         clientNetCmdMap = new HashMap<>();
         masterStateSnapshot = "{}";
@@ -251,13 +249,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
             return "null";
         masterStateMap.get(id).put(key, val);
         return masterStateMap.get(id).get(key);
-    }
-
-    public void addBot(String id) {
-        masterStateMap.put(id, new nStateBallGame());
-        clientNetCmdMap.put(id, new LinkedList<>());
-        gScoreboard.addId(id);
-        botIds.add(id);
     }
 
     private void sendMap(String packId) {
