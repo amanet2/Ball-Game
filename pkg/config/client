@@ -39,7 +39,7 @@ cl_setvar vfxenableshadows 1
 REM video mode
 cl_setvar vidmode 1280,720,-1
 REM volume
-cl_setvar volume 100
+cl_setvar volume 20
 REM bindings
 bind - -zoom
 bind = zoom

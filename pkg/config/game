@@ -97,7 +97,7 @@ setvar WEAPON_NONE_rad 150
 setvar WEAPON_PISTOL_dmg 350
 setvar WEAPON_PISTOL_delay 300
 setvar WEAPON_PISTOL_vel 70
-setvar WEAPON_PISTOL_ttl 560
+setvar WEAPON_PISTOL_ttl 250
 setvar WEAPON_PISTOL_rad 75
 setvar WEAPON_SHOTGUN_dmg 2100
 setvar WEAPON_SHOTGUN_delay 750
