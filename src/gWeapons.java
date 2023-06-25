@@ -235,7 +235,7 @@ public class gWeapons {
 			bullet.dims = new int[]{300, 300};
 			bullet.coords = new int[]{seed.coords[0], seed.coords[1]};
 			bullet.sprite = gTextures.getGScaledImage(seed.spritePath, bullet.dims[0], bullet.dims[1]);
-			bullet.dmg = fromCode(launcher).damage;
+			bullet.dmg = seed.dmg;
 			bullet.anim = -1;
 			bullet.fv = ((i * (2.0*Math.PI/8.0) - Math.PI / 16 + ((Math.random() * ((Math.PI/8))) - Math.PI/16)));
 			bullet.id = eUtils.createId();
