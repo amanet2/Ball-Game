@@ -442,18 +442,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
                 checkBulletSplashes();
 //                //popups
-//                thingMap = clientScene.getThingMap("THING_POPUP");
-//                checkQueue = new LinkedList<>();
-//                for (String id : thingMap.keySet()) {
-//                    checkQueue.add(thingMap.get(id));
-//                }
-//                while (checkQueue.size() > 0) {
-//                    gThing obj = checkQueue.remove();
-//                    obj.put("coordx", Integer.toString(obj.coords[0]
-//                            - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
-//                    obj.put("coordy", Integer.toString(obj.coords[1]
-//                            - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
-//                }
+                thingMap = clientScene.getThingMap("THING_POPUP");
+                for (String id : thingMap.keySet()) {
+                    gThing obj = thingMap.get(id);
+                    obj.coords[0] -= (int) (sSettings.velocity_popup*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) (sSettings.velocity_popup*Math.sin(obj.fv+Math.PI/2));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
