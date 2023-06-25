@@ -150,7 +150,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
         ArrayList<gThing> pseeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
-        nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
         for(String id : bulletsMap.keySet()) {
             gThing b = bulletsMap.get(id);
             for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
@@ -161,7 +160,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                         pseeds.add(b);
                 }
             }
-            for(String playerId : svMap.keys()) {
+            for(String playerId : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
                 gPlayer t = xMain.shellLogic.serverScene.getPlayerById(playerId);
                 if(t != null && b.collidesWithThing(t) && !b.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);

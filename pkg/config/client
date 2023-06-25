@@ -15,9 +15,9 @@ cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
-cl_setvar playercolor teal
+cl_setvar playercolor yellow
 REM player name
-cl_setvar playername player
+cl_setvar playername guest
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second

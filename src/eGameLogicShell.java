@@ -388,7 +388,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
             gCamera.updatePosition();
-        double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
         synchronized (clientScene.objectMaps) {
             try {
                 for (String id : getPlayerIds()) {
@@ -437,8 +437,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
                 for (String id : thingMap.keySet()) {
                     gThing obj = thingMap.get(id);
-                    obj.coords[0] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.cos(obj.fv+Math.PI/2));
-                    obj.coords[1] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.sin(obj.fv+Math.PI/2));
+                    obj.coords[0] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.sin(obj.fv+Math.PI/2));
                 }
                 checkBulletSplashes();
 //                //popups

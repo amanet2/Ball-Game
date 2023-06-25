@@ -1,10 +1,8 @@
-* BUG: launcher doesnt do any damage
 * BOTS: implement them like doom
     -> pick target
     -> find direct vector to target
         -> if can move there, go there or 45 degree offset
-        -> if can not move there, find dir you CAN move in and go until you can turn toward target
-            -> have var "isRerouting" for bot
+        -> if can not move there, find dir you CAN move in and go
     ->engine should handle all bot stuff up to spawning, actions should be scripted
     -> commands: targetthing, avoidthing (for virus and flagmaster type modes), holdposition <millis>
     -> bots should automatically protect themselves shooting at players nearby
