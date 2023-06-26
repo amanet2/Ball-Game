@@ -1,10 +1,15 @@
-* CONSOLE: should close with back tick
+* BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
+* THINGS: go back to separated classes for block, popup, item, player, etc depending on unique vars, bindings, functions
+    -> maybe even create class gThings, e.g. gThings.player, gThings.item, gThings.block
+    -> check out gPlayer for how this is done
 * BOTS: implement them like doom
     -> pick target, default should be nearest player
+    -> try this loop: aways go straight on or at random 45 degree offset
+    -> update loop: find vector we can move to that gets us closer to player
     -> find direct vector to target
         -> if can move there, go there or 45 degree offset
         -> if can not move there, find dir you CAN move in and go
-    ->engine should handle all bot stuff up to spawning, actions should be scripted
+    -> engine should handle all bot stuff up to spawning, actions should be scripted
     -> commands: targetthing, avoidthing (for virus and flagmaster type modes), holdposition <millis>
     -> bots should automatically protect themselves shooting at players nearby
     -> how bots will be scripted (bringmaster as example):

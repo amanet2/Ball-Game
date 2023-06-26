@@ -3,6 +3,9 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
+    String decorationSprite;
+    int weapon;
+
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
@@ -70,6 +73,8 @@ public class gPlayer extends gThing {
 
     public gPlayer(String playerId, int x, int y) {
         super();
+        decorationSprite = "null";
+        weapon = gWeapons.none;
         type = "THING_PLAYER";
         id = playerId;
         coords[0] = x;
@@ -77,5 +82,22 @@ public class gPlayer extends gThing {
         dims[0] = 200;
         dims[1] = 200;
         setSpriteFromPath(eManager.getPath("animations/player_teal/a03.png"));
+        gPlayer parent = this;
+        args.putArg(new gArg("decorationsprite", parent.decorationSprite) {
+            public void onChange() {
+                parent.decorationSprite = value;
+            }
+            public String getValue() {
+                return parent.decorationSprite;
+            }
+        });
+        args.putArg(new gArg("weapon", Integer.toString(parent.weapon)) {
+            public void onChange() {
+                parent.weapon = Integer.parseInt(value);
+            }
+            public String getValue() {
+                return Integer.toString(parent.weapon);
+            }
+        });
     }
 }

@@ -13,8 +13,6 @@ public class gThing {
     int acceldelay = 100;
     int accelrate = 2;
     int decelrate = 1;
-    int weapon = gWeapons.none;
-    String decorationSprite = "null";
     String waypoint = "null";
     long cooldown = 0;
     long acceltick = 0;
@@ -65,15 +63,6 @@ public class gThing {
                 return Integer.toString(parent.coords[1]);
             }
         });
-        args.putArg(new gArg("decorationsprite", parent.decorationSprite) {
-            public void onChange() {
-                parent.decorationSprite = value;
-            }
-
-            public String getValue() {
-                return parent.decorationSprite;
-            }
-        });
         args.putArg(new gArg("vel0", "0") {
             public void onChange() {
                 parent.vel0 = Integer.parseInt(value);
@@ -117,15 +106,6 @@ public class gThing {
 
             public String getValue() {
                 return parent.waypoint;
-            }
-        });
-        args.putArg(new gArg("weapon", Integer.toString(parent.weapon)) {
-            public void onChange() {
-                parent.weapon = Integer.parseInt(value);
-            }
-
-            public String getValue() {
-                return Integer.toString(parent.weapon);
             }
         });
     }
