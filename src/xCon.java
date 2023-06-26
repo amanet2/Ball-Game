@@ -140,9 +140,6 @@ public class xCon {
                 if(toks.length < 2)
                     return "usage: changemap <path_to_mapfile>";
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
-                // to block files like .DS_Store, etc
-                if(mapPath.contains("."))
-                    return "can't change to map: " + mapPath;
                 gScoreboard.resetScoresMap();
                 xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
                 ex("loadingscreen");
