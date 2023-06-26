@@ -1632,9 +1632,7 @@ public class xCon {
         String isp = ex("setvar " + itemTitle + "_sprite");
         String isc = ex("setvar " + itemTitle + "_script");
         String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
-                isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eManager.getPath(isp),
-                        iw, ih));
+        gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
         item.script = isc;
         item.flare = newItemFlare;
         item.id = itemId;
