@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class gThing {
     Image sprite = null;
@@ -123,5 +124,28 @@ public class gThing {
 
     public boolean collidesWithThing(gThing target) {
         return new Rectangle(target.coords[0], target.coords[1], target.dims[0], target.dims[1]).intersects(new Rectangle(coords[0], coords[1], dims[0], dims[1]));
+    }
+
+    public void drawRoundShadow(Graphics2D g2) {
+        if(sSettings.vfxenableshadows) {
+            Rectangle2D shadowBounds = new Rectangle.Double(
+                    coords[0],
+                    coords[1] + 5*dims[1]/6,
+                    dims[0],
+                    (double)dims[1]/3
+            );
+            RadialGradientPaint df = new RadialGradientPaint(
+                    shadowBounds, new float[]{0f, 1f},
+                    new Color[]{gColors.getColorFromName("clrw_shadow1"), gColors.getColorFromName("clrw_clear")},
+                    MultipleGradientPaint.CycleMethod.NO_CYCLE
+            );
+            g2.setPaint(df);
+            g2.fillRect(
+                    (int)shadowBounds.getX(),
+                    (int)shadowBounds.getY(),
+                    (int)shadowBounds.getWidth(),
+                    (int)shadowBounds.getHeight()
+            );
+        }
     }
 }

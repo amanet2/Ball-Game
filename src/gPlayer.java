@@ -1,5 +1,5 @@
-import java.awt.Rectangle;
-import java.awt.Shape;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
@@ -99,5 +99,55 @@ public class gPlayer extends gThing {
                 return Integer.toString(parent.weapon);
             }
         });
+    }
+
+    public void draw(Graphics2D g2) {
+        Color pc = gColors.getColorFromName("clrp_" + color);
+        if (pc != null) {
+            int x = coords[0] - dims[0] / 4;
+            int y = coords[1] - dims[1] / 4;
+            int w = 3 * dims[0] / 2;
+            int h = 3 * dims[1] / 2;
+            if (sSettings.vfxenableflares)
+                dScreenFX.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
+        }
+        //player shadow
+        drawRoundShadow(g2);
+        //player itself
+        g2.drawImage(
+                sprite,
+                coords[0],
+                coords[1],
+                null
+        );
+        if(!decorationSprite.equalsIgnoreCase("null")) {
+            g2.drawImage(
+                    gTextures.getGScaledImage(eManager.getPath(decorationSprite), 300, 300),
+                    coords[0], coords[1] - 2*dims[1]/3,
+                    null
+            );
+        }
+        //shading
+        if(sSettings.vfxenableshading) {
+            GradientPaint df = new GradientPaint(
+                    coords[0], coords[1] + 2*dims[1]/3, gColors.getColorFromName("clrw_clear"),
+                    coords[0], coords[1] + dims[1], gColors.getColorFromName("clrw_shadow1half")
+            );
+            g2.setPaint(df);
+            g2.fillOval(coords[0], coords[1], dims[0], dims[1]);
+        }
+        //player weapon
+        AffineTransform backup = g2.getTransform();
+        AffineTransform a = g2.getTransform();
+        a.rotate(fv - Math.PI/2, coords[0] + (float) dims[0] / 2, coords[1] + (float) dims[1] / 2);
+        g2.setTransform(a);
+        int diff = gWeapons.fromCode(weapon).dims[1] / 2;
+        g2.drawImage(
+                gWeapons.fromCode(weapon).sprite,
+                coords[0] + dims[0]/2,
+                coords[1] + dims[1]/2 - diff,
+                null
+        );
+        g2.setTransform(backup);
     }
 }

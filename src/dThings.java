@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,21 +8,15 @@ public class dThings {
         while(visualQueue.size() > 0) {
             gThing thing = visualQueue.remove();
             if(thing.type.equals("THING_PLAYER"))
-                drawPlayer(g2, (gPlayer) thing);
+                ((gPlayer) thing).draw(g2);
             else if(thing.type.contains("ITEM_"))
-                drawItem(g2, (gItem) thing);
-            else {
-                if(thing.type.contains("CUBE")) {
-                    if (thing.wallh > 0) {
-                        drawShadowBlockFlat(g2, thing);
-                        g2.setPaint(xMain.shellLogic.wallTexture);
-                        g2.fillRect(thing.coords[0], thing.coords[1] + thing.toph,
-                                thing.dims[0], thing.wallh
-                        );
-                        drawBlockWallsShadingFlat(g2, thing);
-                        drawBlockTopCube(g2, thing);
-                    }
-                }
+                ((gItem) thing).draw(g2);
+            else if(thing.type.contains("CUBE") && thing.wallh > 0) {
+                drawShadowBlockFlat(g2, thing);
+                g2.setPaint(xMain.shellLogic.wallTexture);
+                g2.fillRect(thing.coords[0], thing.coords[1] + thing.toph, thing.dims[0], thing.wallh);
+                drawBlockWallsShadingFlat(g2, thing);
+                drawBlockTopCube(g2, thing);
             }
         }
     }
@@ -214,117 +206,6 @@ public class dThings {
                         block.dims[0], (int)((block.dims[1] - block.toph)*sSettings.vfxshadowfactor)
                 );
             }
-        }
-    }
-
-    public static void drawThingShadow(Graphics2D g2, gThing thing) {
-        if(sSettings.vfxenableshadows) {
-            int yadj = 5*thing.dims[1]/6;
-            Rectangle2D shadowBounds = new Rectangle.Double(
-                    thing.coords[0],
-                    thing.coords[1] + yadj,
-                    thing.dims[0],
-                    (double)thing.dims[1]/3);
-            RadialGradientPaint df = new RadialGradientPaint(
-                    shadowBounds, new float[]{0f, 1f},
-                    new Color[]{
-                            gColors.getColorFromName("clrw_shadow1"),
-                            gColors.getColorFromName("clrw_clear")
-                    }, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-            g2.setPaint(df);
-            g2.fillRect((int)shadowBounds.getX(), (int)shadowBounds.getY(), (int)shadowBounds.getWidth(),
-                    (int)shadowBounds.getHeight());
-        }
-    }
-
-    public static void drawPlayer(Graphics2D g2, gPlayer player) {
-        //player glow
-        if(player == null)
-            return;
-        Color pc = gColors.getColorFromName("clrp_" + player.color);
-        if (pc != null) {
-            int x = player.coords[0] - player.dims[0] / 4;
-            int y = player.coords[1] - player.dims[1] / 4;
-            int w = 3 * player.dims[0] / 2;
-            int h = 3 * player.dims[1] / 2;
-            if (sSettings.vfxenableflares)
-                dScreenFX.drawFlareFromColor(g2, x, y, w, h, 1, pc, new Color(0, 0, 0, 0));
-        }
-        //player shadow
-        drawThingShadow(g2, player);
-        //player itself
-        g2.drawImage(
-                player.sprite,
-                player.coords[0],
-                player.coords[1],
-                null
-        );
-        String decor = player.decorationSprite;
-        if(!decor.equalsIgnoreCase("null")) {
-            g2.drawImage(
-                    gTextures.getGScaledImage(eManager.getPath(decor), 300, 300),
-                    player.coords[0], player.coords[1] - 2*player.dims[1]/3,
-                    null
-            );
-        }
-        //shading
-        if(sSettings.vfxenableshading) {
-            GradientPaint df = new GradientPaint(
-                    player.coords[0],
-                    player.coords[1] + 2*player.dims[1]/3,
-                    gColors.getColorFromName("clrw_clear"),
-                    player.coords[0],
-                    player.coords[1] + player.dims[1],
-                    gColors.getColorFromName("clrw_shadow1half")
-            );
-            g2.setPaint(df);
-            g2.fillOval(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
-        }
-        //player weapon
-        AffineTransform backup = g2.getTransform();
-        AffineTransform a = g2.getTransform();
-        a.rotate(player.fv - Math.PI/2,
-                player.coords[0] + (float) player.dims[0] / 2,
-                player.coords[1] + (float) player.dims[1] / 2
-        );
-        g2.setTransform(a);
-        int diff = gWeapons.fromCode(player.weapon).dims[1] / 2;
-        g2.drawImage(gWeapons.fromCode(player.weapon).sprite,
-                player.coords[0] + player.dims[0]/2,
-                player.coords[1] + player.dims[1]/2 - diff,
-                null);
-        g2.setTransform(backup);
-    }
-
-    public static void drawItem(Graphics2D g2, gItem item) {
-        if(item.sprite != null) {
-            //item shadow
-            drawThingShadow(g2, item);
-            g2.drawImage(item.sprite,
-                    item.coords[0],
-                    item.coords[1],
-                    null
-            );
-            if(sSettings.vfxenableflares && !item.flare.equals("null")) {
-                String[] flareToks = item.flare.split(":");
-                int[] flareArgs = new int[] {
-                        Integer.parseInt(flareToks[0]),
-                        Integer.parseInt(flareToks[1]),
-                        Integer.parseInt(flareToks[2]),
-                        Integer.parseInt(flareToks[3])
-                };
-                dScreenFX.drawFlareFromColor(g2,
-                        item.coords[0] - item.dims[0]/2,
-                        item.coords[1] - item.dims[1]/2,
-                        item.dims[0]*2,
-                        item.dims[1]*2,
-                        1, new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]), new Color(0,0,0,0)
-                );
-            }
-        }
-        else if(sSettings.show_mapmaker_ui){
-            dFonts.setFontColor(g2, "clrf_spawnpoint");
-            g2.fillRect(item.coords[0], item.coords[1], item.dims[0], item.dims[1]);
         }
     }
 }
