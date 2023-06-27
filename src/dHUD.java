@@ -1,12 +1,12 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class dHUD {
     private static final String dividerString = "_______________________";
     static int spriteRad = sSettings.height/30;
+
     public static void drawHUD(Graphics g) {
         if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded || sSettings.showscore)
             return;
@@ -199,46 +199,9 @@ public class dHUD {
     }
 
     public static void drawPopups(Graphics g, gScene scene) {
-        Collection<String> keys = scene.getThingMap("THING_POPUP").keySet();
-        int size = keys.size();
-        String[] popupsIds = keys.toArray(new String[size]);
-        if(size > 0)
-            dFonts.setFontGNormal(g);
-        for(String id : popupsIds) {
-            gThing p = scene.getThingMap("THING_POPUP").get(id);
-            if(p == null)
-                continue;
-            // look for hashtag color codes here
-            String s = p.text;
-            StringBuilder ts = new StringBuilder();
-            for(String word : s.split(" ")) {
-                if(word.contains("#")) {
-                    if(word.split("#").length != 2)
-                        ts.append(word).append(" ");
-                    else if(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")) != null){
-                        g.setColor(Color.BLACK);
-                        g.drawString(word.split("#")[0]+" ",
-                                p.coords[0] + dFonts.getStringWidth(g, ts.toString())+3,
-                                p.coords[1] + 3);
-                        g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
-                        g.drawString(word.split("#")[0]+" ",
-                                p.coords[0] + dFonts.getStringWidth(g, ts.toString()),
-                                p.coords[1]);
-                        dFonts.setFontColor(g, "clrf_normal");
-                        ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
-                        continue;
-                    }
-                }
-                g.setColor(Color.BLACK);
-                g.setColor(Color.BLACK);
-                g.drawString(word.split("#")[0]+" ",
-                        p.coords[0] + dFonts.getStringWidth(g, ts.toString())+3,
-                        p.coords[1] + 3);
-                dFonts.setFontColor(g, "clrf_normal");
-                g.drawString(word.split("#")[0]+" ",
-                        p.coords[0] + dFonts.getStringWidth(g, ts.toString()), p.coords[1]);
-                ts.append(word).append(" ");
-            }
+        dFonts.setFontGNormal(g);
+        for(String id : scene.getThingMap("THING_POPUP").keySet()) {
+            ((gPopup)scene.getThingMap("THING_POPUP").get(id)).draw((Graphics2D) g);
         }
     }
 

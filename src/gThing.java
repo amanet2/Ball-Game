@@ -31,7 +31,6 @@ public class gThing {
     int frame = 0; //anim emit
     long frametime = 0; //for anim emitter
     int animation = -1; //for animation emitter
-    String text = "null"; //for popups
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int anim = -1; //bullets
     int dmg = 0; //bullets

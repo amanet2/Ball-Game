@@ -1416,12 +1416,11 @@ public class xCon {
                         return "no player for id: " + toks[1];
                     String msg = toks[2];
                     String id = eUtils.createId();
-                    gThing popup = new gThing();
+                    gPopup popup = new gPopup(msg);
                     popup.coords = new int[]{
                             p.coords[0] + (int)(Math.random()*(p.dims[0]+1)),
                             p.coords[1] + (int)(Math.random()*(p.dims[1]+1))
                     };
-                    popup.text = msg;
                     popup.fv = 0.0;
                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
@@ -1430,7 +1429,7 @@ public class xCon {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });
-                    return "spawned popup " + msg + " for player_id " + toks[1];
+                    return "spawned popup " + popup.text + " for player_id " + toks[1];
                 }
                 return "usage: cl_spawnpopup <player_id> <points>";
             }
