@@ -17,20 +17,20 @@ public class gAnimations {
 
     static HashMap<String, Integer> colorNameToExplosionAnimMap;
 
-    static gAnimation[] animation_selection = new gAnimation[] {
-        new gAnimation("animations/fire_splash_blue", 50, 50, 16),
-        new gAnimation("animations/fire_splash_orange", 50, 50, 16),
-        new gAnimation("animations/fire_splash_green", 50, 50, 16),
-        new gAnimation("animations/fire_splash_red", 50, 50, 16),
-        new gAnimation("animations/fire_splash_blue", 300, 300, 16),
-        new gAnimation("animations/fire_splash_blue", 300, 300, 16),
-        new gAnimation("animations/fire_splash_green", 300, 300, 16),
-        new gAnimation("animations/fire_splash_orange", 300, 300, 16),
-        new gAnimation("animations/fire_splash_pink", 300, 300, 16),
-        new gAnimation("animations/fire_splash_purple", 300, 300, 16),
-        new gAnimation("animations/fire_splash_red", 300, 300, 16),
-        new gAnimation("animations/fire_splash_teal", 300, 300, 16),
-        new gAnimation("animations/fire_splash_yellow", 300, 300, 16)
+    static gAnimationsObject[] animation_selection = new gAnimationsObject[] {
+        new gAnimationsObject("animations/fire_splash_blue", 50, 50, 16),
+        new gAnimationsObject("animations/fire_splash_orange", 50, 50, 16),
+        new gAnimationsObject("animations/fire_splash_green", 50, 50, 16),
+        new gAnimationsObject("animations/fire_splash_red", 50, 50, 16),
+        new gAnimationsObject("animations/fire_splash_blue", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_blue", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_green", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_orange", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_pink", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_purple", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_red", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_teal", 300, 300, 16),
+        new gAnimationsObject("animations/fire_splash_yellow", 300, 300, 16)
     };
 
     static void init() {

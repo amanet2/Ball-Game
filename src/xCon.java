@@ -1350,13 +1350,8 @@ public class xCon {
                         int animcode = Integer.parseInt(toks[1]);
                         int x = Integer.parseInt(toks[2]);
                         int y = Integer.parseInt(toks[3]);
-                        String aid = eUtils.createId();
-                        gThing emitter = new gThing();
-                        emitter.coords = new int[] { x, y};
-                        emitter.animation = animcode;
-                        emitter.frame = 0;
-                        emitter.frametime = sSettings.gameTime;
-                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid, emitter);
+                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(eUtils.createId(),
+                                new gAnimation(animcode, x, y));
                         return "spawned animation " + animcode + " at " + x + " " + y;
                     }
                 }
@@ -1411,17 +1406,16 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
-                    gPlayer p = xMain.shellLogic.getPlayerById(toks[1]);
+                    String playerId = toks[1];
+                    gPlayer p = xMain.shellLogic.getPlayerById(playerId);
                     if(p == null)
-                        return "no player for id: " + toks[1];
-                    String msg = toks[2];
+                        return "no player for id: " + playerId;
                     String id = eUtils.createId();
-                    gPopup popup = new gPopup(msg);
-                    popup.coords = new int[]{
+                    gPopup popup = new gPopup(
+                            toks[2],
                             p.coords[0] + (int)(Math.random()*(p.dims[0]+1)),
                             p.coords[1] + (int)(Math.random()*(p.dims[1]+1))
-                    };
-                    popup.fv = 0.0;
+                    );
                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gDoable() {
@@ -1429,7 +1423,7 @@ public class xCon {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });
-                    return "spawned popup " + popup.text + " for player_id " + toks[1];
+                    return "spawned popup " + popup.text + " for player_id " + playerId;
                 }
                 return "usage: cl_spawnpopup <player_id> <points>";
             }

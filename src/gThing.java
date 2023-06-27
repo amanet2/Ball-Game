@@ -28,16 +28,12 @@ public class gThing {
     int mov3 = 0;
     int toph = 0;
     int wallh = 0;
-    int frame = 0; //anim emit
-    long frametime = 0; //for anim emitter
-    int animation = -1; //for animation emitter
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int anim = -1; //bullets
     int dmg = 0; //bullets
     String srcId = "-1"; //hold id of player who fires a bullet
     String flare = "null";
     int occupied = 0;
-    gThing collidedPlayer = null;
 
     public gThing() {
         args = new gArgSet();

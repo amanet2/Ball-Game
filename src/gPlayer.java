@@ -3,6 +3,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
+    gThing collidedPlayer = null;
     String decorationSprite;
     int weapon;
 

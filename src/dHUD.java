@@ -175,10 +175,10 @@ public class dHUD {
         ConcurrentHashMap<String, gThing> animationsMap = scene.getThingMap("THING_ANIMATION");
         long gameTimeMillis = sSettings.gameTime;
         for(String id : animationsMap.keySet()) {
-            gThing emit = animationsMap.get(id);
-            if(emit.frame < gAnimations.animation_selection[emit.animation].frames.length) {
-                if (gAnimations.animation_selection[emit.animation].frames[emit.frame] != null) {
-                    g2.drawImage(gAnimations.animation_selection[emit.animation].frames[emit.frame],
+            gAnimation emit = (gAnimation) animationsMap.get(id);
+            if(emit.frame < gAnimations.animation_selection[emit.code].frames.length) {
+                if (gAnimations.animation_selection[emit.code].frames[emit.frame] != null) {
+                    g2.drawImage(gAnimations.animation_selection[emit.code].frames[emit.frame],
                             emit.coords[0], emit.coords[1], null);
                     if(emit.frametime < gameTimeMillis) {
                         emit.frame = emit.frame + 1;
