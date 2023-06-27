@@ -26,14 +26,12 @@ public class gThing {
     int mov1 = 0;
     int mov2 = 0;
     int mov3 = 0;
-    int toph = 0;
-    int wallh = 0;
+    int toph = 0; //for blocks
+    int wallh = 0; //for blocks
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int anim = -1; //bullets
     int dmg = 0; //bullets
-    String srcId = "-1"; //hold id of player who fires a bullet
-    String flare = "null";
-    int occupied = 0;
+    String srcId = "-1"; //bullets
 
     public gThing() {
         args = new gArgSet();

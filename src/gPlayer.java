@@ -4,8 +4,8 @@ import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     gThing collidedPlayer = null;
-    String decorationSprite;
-    int weapon;
+    String decorationSprite = "null";
+    int weapon = gWeapons.none;
 
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
@@ -74,8 +74,6 @@ public class gPlayer extends gThing {
 
     public gPlayer(String playerId, int x, int y) {
         super();
-        decorationSprite = "null";
-        weapon = gWeapons.none;
         type = "THING_PLAYER";
         id = playerId;
         coords[0] = x;

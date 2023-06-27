@@ -1128,7 +1128,7 @@ public class xCon {
                 String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
                     gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
-                    if(randomSpawn.occupied > 0)
+                    if(((gItem) randomSpawn).occupied > 0)
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
@@ -1625,11 +1625,9 @@ public class xCon {
         String isp = ex("setvar " + itemTitle + "_sprite");
         String isc = ex("setvar " + itemTitle + "_script");
         String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
+        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
         item.script = isc;
         item.flare = newItemFlare;
-        item.id = itemId;
-        item.occupied = 0;
         scene.getThingMap("THING_ITEM").put(itemId, item);
         scene.getThingMap(item.type).put(itemId, item);
     }

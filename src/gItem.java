@@ -1,19 +1,21 @@
 import java.awt.*;
 
 public class gItem extends gThing {
-    String script;
+    int occupied = 0;
+    String flare = "null";
+    String script = "null";
 
     public void activateItem(gThing p) {
         if(!script.equals("null"))
             xMain.shellLogic.console.ex(String.format("%s %s %s", script, id, p.id));
     }
 
-    public gItem(String type, int x, int y, int w, int h, String sp) {
+    public gItem(String id, String type, int x, int y, int w, int h, String sp) {
         super();
+        this.id = id;
         this.type = type;
         if(type.trim().length() < 1)
             this.type = "null";
-        script = "null";
         coords[0] = x;
         coords[1] = y;
         dims[0] = w;
