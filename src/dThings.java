@@ -80,7 +80,7 @@ public class dThings {
 
     public static void drawBlockFloors(Graphics2D g2, gScene scene) {
         ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) { //TODO: concurrent exception occured on this line
+        for(String tag : floorMap.keySet()) {
             gThing block = floorMap.get(tag);
             g2.setPaint(xMain.shellLogic.floorTexture);
             g2.fillRect(block.coords[0], block.coords[1], block.dims[0], block.dims[1]);
