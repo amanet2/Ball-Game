@@ -31,7 +31,6 @@ public class gWeapons {
 						bullet.sprite = gTextures.getGScaledImage(bulletSpritePath, bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.none;
-						bullet.anim = -1;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
@@ -65,7 +64,6 @@ public class gWeapons {
 						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.pistol;
-						bullet.anim = -1;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
@@ -101,7 +99,6 @@ public class gWeapons {
 							bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 							bullet.dmg = damage/numpellets;
 							bullet.src = gWeapons.shotgun;
-							bullet.anim = -1;
 							double randomOffset = (Math.random() * ((Math.PI/16))) - Math.PI/32;
 							bullet.fv = p.fv + (i*Math.PI/32-(numpellets/2)*Math.PI/32+randomOffset);
 							bullet.id = eUtils.createId();
@@ -137,7 +134,6 @@ public class gWeapons {
 						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.autorifle;
-						bullet.anim = -1;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/8))) - Math.PI/16;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
@@ -171,7 +167,6 @@ public class gWeapons {
 						bullet.sprite = gTextures.getGScaledImage(eManager.getPath(String.format("objects/misc/fire%s.png", p.color)), bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.launcher;
-						bullet.anim = -1;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/8))) - Math.PI/16;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
@@ -207,7 +202,6 @@ public class gWeapons {
 						bullet.sprite = gTextures.getGScaledImage(bulletSpritePath, bullet.dims[0], bullet.dims[1]);
 						bullet.dmg = damage;
 						bullet.src = gWeapons.gloves;
-						bullet.anim = -1;
 						bullet.fv = p.fv + (Math.random() * ((Math.PI/10))) - Math.PI/20;
 						bullet.id = eUtils.createId();
 						bullet.srcId = p.id;
@@ -236,7 +230,6 @@ public class gWeapons {
 			bullet.coords = new int[]{seed.coords[0], seed.coords[1]};
 			bullet.sprite = gTextures.getGScaledImage(seed.spritePath, bullet.dims[0], bullet.dims[1]);
 			bullet.dmg = seed.dmg;
-			bullet.anim = -1;
 			bullet.fv = ((i * (2.0*Math.PI/8.0) - Math.PI / 16 + ((Math.random() * ((Math.PI/8))) - Math.PI/16)));
 			bullet.id = eUtils.createId();
 			bullet.srcId = seed.srcId;

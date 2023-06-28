@@ -29,7 +29,6 @@ public class gThing {
     int toph = 0; //for blocks
     int wallh = 0; //for blocks
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
-    int anim = -1; //bullets
     int dmg = 0; //bullets
     String srcId = "-1"; //bullets
 
