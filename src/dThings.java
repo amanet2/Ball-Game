@@ -190,22 +190,6 @@ public class dThings {
                         (int)(block.wallh*sSettings.vfxshadowfactor)
                 );
             }
-            else if (block.toph > 0) {
-                GradientPaint gradient = new GradientPaint(
-                        block.coords[0] + block.dims[0]/2,
-                        block.coords[1] + block.dims[1] - block.toph,
-                        gColors.getColorFromName("clrw_shadow1"),
-                        block.coords[0] + block.dims[0]/2,
-                        block.coords[1] + block.dims[1]
-                                + (int)((block.dims[1] - block.toph - block.toph
-                        )*sSettings.vfxshadowfactor),
-                        gColors.getColorFromName("clrw_shadow2")
-                );
-                g2.setPaint(gradient);
-                g2.fillRect(block.coords[0], block.coords[1] + block.dims[1] - block.toph,
-                        block.dims[0], (int)((block.dims[1] - block.toph)*sSettings.vfxshadowfactor)
-                );
-            }
         }
     }
 }
