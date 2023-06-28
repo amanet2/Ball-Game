@@ -182,10 +182,8 @@ public class dThings {
             );
             g2.setPaint(gradient);
             g2.fillRect(
-                    block.coords[0],
-                    block.coords[1] + block.dims[1],
-                    block.dims[0],
-                    (int)(block.wallh*sSettings.vfxshadowfactor)
+                    block.coords[0], block.coords[1] + block.dims[1],
+                    block.dims[0], (int)(block.wallh*sSettings.vfxshadowfactor)
             );
         }
     }

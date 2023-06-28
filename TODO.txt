@@ -1,7 +1,4 @@
-* THINGS: we don't want "draw" functions for complex things such as blocks
-    -> should view them as a collection of basic shapes like a 3d mesh is
-        -> we need to draw walls and players in the same interation, and tops are drawn separately for one
-            -> so having a catch-all "draw" for CUBE blocks doesn't work
+* CRASH: check on scheduled events make sure its clear when loading/changing map
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
 * THINGS: go back to separated classes for block, popup, item, player, etc depending on unique vars, bindings, functions
     -> maybe even create class gThings, e.g. gThings.player, gThings.item, gThings.block
