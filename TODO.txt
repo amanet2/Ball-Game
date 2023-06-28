@@ -1,5 +1,8 @@
+* BLOCKS: dont try to mess with them too much
+    -> right now moving blocks are possible only due to the "setthing" command and our "hashmap of things" architecture
 * CRASH: check on scheduled events make sure its clear when loading/changing map
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
+    -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
 * THINGS: go back to separated classes for block, popup, item, player, etc depending on unique vars, bindings, functions
     -> maybe even create class gThings, e.g. gThings.player, gThings.item, gThings.block
     -> check out gPlayer for how this is done

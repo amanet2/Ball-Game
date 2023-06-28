@@ -18,7 +18,7 @@ public class gPlayer extends gThing {
         for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
             if(this.id.equals(id))
                 continue;
-            if (willCollideWithPlayerAtCoordsTopDown(scene.getThingMap("THING_PLAYER").get(id), dx, dy)) {
+            if (willCollideWithPlayerAtCoords(scene.getThingMap("THING_PLAYER").get(id), dx, dy)) {
                 collidedPlayer = scene.getThingMap("THING_PLAYER").get(id);
                 return false;
             }
@@ -26,7 +26,7 @@ public class gPlayer extends gThing {
         return true;
     }
 
-    public boolean willCollideWithPlayerAtCoordsTopDown(gThing target, int dx, int dy) {
+    public boolean willCollideWithPlayerAtCoords(gThing target, int dx, int dy) {
         if(target != null ) {
             //check null fields
             Shape bounds = new Rectangle(
