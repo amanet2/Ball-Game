@@ -271,6 +271,20 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     Integer.toString(block.toph),
                     Integer.toString(block.wallh)
             };
+            if(block.type.equals("BLOCK_CUBE")) {
+                gBlockCube cube = (gBlockCube) blockMap.get(id);
+                args = new String[]{
+                        cube.type,
+                        cube.id,
+                        cube.prefabId,
+                        Integer.toString(cube.coords[0]),
+                        Integer.toString(cube.coords[1]),
+                        Integer.toString(cube.dims[0]),
+                        Integer.toString(cube.dims[1]),
+                        Integer.toString(cube.toph),
+                        Integer.toString(cube.wallh)
+                };
+            }
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
                 if(arg != null)

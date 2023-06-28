@@ -11,12 +11,8 @@ public class dThings {
                 ((gPlayer) thing).draw(g2);
             else if(thing.type.contains("ITEM_"))
                 ((gItem) thing).draw(g2);
-            else if(thing.type.contains("CUBE") && thing.wallh > 0) {
-                drawShadowBlockFlat(g2, thing);
-                g2.setPaint(xMain.shellLogic.wallTexture);
-                g2.fillRect(thing.coords[0], thing.coords[1] + thing.toph, thing.dims[0], thing.wallh);
-                drawBlockWallsShadingFlat(g2, thing);
-                drawBlockTopCube(g2, thing);
+            else if(thing.type.contains("CUBE")) {
+                ((gBlockCube) thing).draw(g2);
             }
         }
     }
@@ -79,11 +75,8 @@ public class dThings {
     }
 
     public static void drawBlockFloors(Graphics2D g2, gScene scene) {
-        ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
-        for(String tag : floorMap.keySet()) {
-            gThing block = floorMap.get(tag);
-            g2.setPaint(xMain.shellLogic.floorTexture);
-            g2.fillRect(block.coords[0], block.coords[1], block.dims[0], block.dims[1]);
+        for(String tag : scene.getThingMap("BLOCK_FLOOR").keySet()) {
+            ((gBlockFloor) scene.getThingMap("BLOCK_FLOOR").get(tag)).draw(g2);
         }
     }
 
@@ -188,22 +181,6 @@ public class dThings {
                         block.coords[1] + block.dims[1],
                         block.dims[0],
                         (int)(block.wallh*sSettings.vfxshadowfactor)
-                );
-            }
-            else if (block.toph > 0) {
-                GradientPaint gradient = new GradientPaint(
-                        block.coords[0] + block.dims[0]/2,
-                        block.coords[1] + block.dims[1] - block.toph,
-                        gColors.getColorFromName("clrw_shadow1"),
-                        block.coords[0] + block.dims[0]/2,
-                        block.coords[1] + block.dims[1]
-                                + (int)((block.dims[1] - block.toph - block.toph
-                        )*sSettings.vfxshadowfactor),
-                        gColors.getColorFromName("clrw_shadow2")
-                );
-                g2.setPaint(gradient);
-                g2.fillRect(block.coords[0], block.coords[1] + block.dims[1] - block.toph,
-                        block.dims[0], (int)((block.dims[1] - block.toph)*sSettings.vfxshadowfactor)
                 );
             }
         }

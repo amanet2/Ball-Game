@@ -5,18 +5,18 @@ public class gThing {
     Image sprite = null;
     String spritePath = "null";
     String type = "null";
-    String color = "red";
+    String color = "red"; //for players
     int[] coords = {0, 0};
     int[] dims = {0, 0};
     String id;
-    String prefabId;
+    String prefabId; //for blocks
     gArgSet args;
     int acceldelay = 100;
     int accelrate = 2;
     int decelrate = 1;
-    String waypoint = "null";
-    long cooldown = 0;
-    long acceltick = 0;
+    String waypoint = "null"; //for players and items
+    long cooldown = 0; //for players
+    long acceltick = 0; //for players
     double fv = 0.0;
     int vel0 = 0;
     int vel1 = 0;
@@ -29,7 +29,6 @@ public class gThing {
     int toph = 0; //for blocks
     int wallh = 0; //for blocks
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
-    int anim = -1; //bullets
     int dmg = 0; //bullets
     String srcId = "-1"; //bullets
 
@@ -102,6 +101,10 @@ public class gThing {
                 return parent.waypoint;
             }
         });
+    }
+
+    public void put(gScene scene) {
+        scene.getThingMap(type).put(id, this);
     }
 
     public String toString() {

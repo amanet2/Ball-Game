@@ -1056,6 +1056,8 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+                if(fullCommand.contains("CUBE"))
+                    System.out.println(fullCommand);
                 putBlockDelegate(toks, xMain.shellLogic.serverScene, toks[1], toks[2], toks[3]);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "1";
@@ -1066,6 +1068,8 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+                if(fullCommand.contains("CUBE"))
+                    System.out.println(fullCommand);
                 putBlockDelegate(toks, xMain.shellLogic.clientScene, toks[1], toks[2], toks[3]);
                 return "1";
             }
@@ -1075,6 +1079,8 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
+                if(fullCommand.contains("CUBE"))
+                    System.out.println(fullCommand);
                 putBlockDelegate(toks, uiEditorMenus.previewScene, toks[1], toks[2], toks[3]);
                 return "1";
             }
@@ -1647,14 +1653,27 @@ public class xCon {
             args[4] = toks[8];
             args[5] = toks[9];
         }
+        if(blockString.equals("BLOCK_FLOOR")) {
+            new gBlockFloor(blockid, prefabid, Integer.parseInt(args[0]), Integer.parseInt(args[1])).put(scene);
+            return;
+        }
+        if(blockString.equals("BLOCK_CUBE")) {
+            new gBlockCube(
+                    blockid,
+                    prefabid,
+                    Integer.parseInt(args[0]),
+                    Integer.parseInt(args[1]),
+                    Integer.parseInt(args[2]),
+                    Integer.parseInt(args[3]),
+                    Integer.parseInt(args[4]),
+                    Integer.parseInt(args[5])
+            ).put(scene);
+            return;
+        }
         gThing newBlock = new gThing();
         newBlock.coords = new int[] {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
         newBlock.dims = new int[] {Integer.parseInt(args[2]), Integer.parseInt(args[3])};
         newBlock.type = blockString;
-        if(blockString.equals("BLOCK_CUBE")) {
-            newBlock.toph = Integer.parseInt(args[4]);
-            newBlock.wallh = Integer.parseInt(args[5]);
-        }
         newBlock.id = blockid;
         newBlock.prefabId = prefabid;
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
