@@ -53,10 +53,10 @@ public class gScene {
             int lowestY = 1000000000;
             String lowestId = "";
             for(String id : combinedMap.keySet()) {
-                if(combinedMap.get(id).getInt("coordy") <= lowestY) {
+                if(combinedMap.get(id).coords[1] <= lowestY) {
                     sorted = false;
                     lowestId = id;
-                    lowestY = combinedMap.get(id).getInt("coordy");
+                    lowestY = combinedMap.get(id).coords[1];
                 }
             }
             if(lowestId.length() > 0) {
@@ -76,10 +76,11 @@ public class gScene {
             writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
             ConcurrentHashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
             for(String id : blockMap.keySet()) {
-                gBlock block = (gBlock) blockMap.get(id);
+                gThing block = blockMap.get(id);
                 String[] args = new String[]{
-                        block.get("type"), block.get("id"), block.get("prefabid"), block.get("coordx"),
-                        block.get("coordy"), block.get("dimw"), block.get("dimh"), block.get("toph"), block.get("wallh")
+                        block.type, block.id, block.prefabId, Integer.toString(block.coords[0]),
+                        Integer.toString(block.coords[1]), Integer.toString(block.dims[0]),
+                        Integer.toString(block.dims[1]), Integer.toString(block.toph), Integer.toString(block.wallh)
                 };
                 StringBuilder blockString = new StringBuilder("putblock");
                 for(String arg : args) {
@@ -94,66 +95,12 @@ public class gScene {
             for(String id : itemMap.keySet()) {
                 gItem item = (gItem) itemMap.get(id);
                 String[] args = new String[]{
-                        item.get("type"),
-                        item.get("id"),
-                        item.get("coordx"),
-                        item.get("coordy")
+                        item.type, item.id, Integer.toString(item.coords[0]), Integer.toString(item.coords[1])
                 };
                 StringBuilder str = new StringBuilder("putitem");
                 for(String arg : args) {
-                    if(arg != null) {
+                    if(arg != null)
                         str.append(" ").append(arg);
-                    }
-                }
-                str.append('\n');
-                writer.write(str.toString());
-            }
-        } catch (IOException e) {
-            xMain.shellLogic.console.logException(e);
-            e.printStackTrace();
-        }
-    }
-
-    public void exportasprefab(String filename) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("prefabs/" + filename), StandardCharsets.UTF_8))) {
-            for(String id : getThingMap("THING_BLOCK").keySet()) {
-                gBlock block = (gBlock) getThingMap("THING_BLOCK").get(id);
-                int coordx = block.getInt("coordx");
-                int coordy = block.getInt("coordy");
-                String xString = "$1";
-                String yString = "$2";
-
-                if(coordx < 0) {
-                    xString += Integer.toString(coordx);
-                }
-                else if(coordx > 0) {
-                    xString += "+";
-                    xString += Integer.toString(coordx);
-                }
-
-                if(coordy < 0) {
-                    yString += Integer.toString(coordy);
-                }
-                else if(coordy > 0) {
-                    yString += "+";
-                    yString += Integer.toString(coordy);
-                }
-
-                String[] args = new String[]{
-                        block.get("type"),
-                        xString,
-                        yString,
-                        block.get("dimw"),
-                        block.get("dimh"),
-                        block.get("toph"),
-                        block.get("wallh")
-                };
-                StringBuilder str = new StringBuilder("putblock");
-                for(String arg : args) {
-                    if(arg != null) {
-                        str.append(" ").append(arg);
-                    }
                 }
                 str.append('\n');
                 writer.write(str.toString());

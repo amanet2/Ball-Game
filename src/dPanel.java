@@ -42,7 +42,7 @@ public class dPanel extends JPanel {
             ((1.0 / sSettings.gamescale) * (double) sSettings.height),
             ((1.0 / sSettings.gamescale) * (double) sSettings.height)
         );
-        g2.translate(-gCamera.getX(), -gCamera.getY());
+        g2.translate(-gCamera.coords[0], -gCamera.coords[1]);
         synchronized (scene.objectMaps) {
             dThings.drawBlockFloors(g2, scene);
             dThings.drawBlockWallsAndPlayers(g2, scene);

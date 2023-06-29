@@ -237,12 +237,6 @@ public class xCon {
                 return sorted.toString();
             }
         });
-        commands.put("console", new gDoable() {
-            public String doCommand(String fullCommand) {
-                sSettings.inconsole = true;
-                return "console";
-            }
-        });
         commands.put("constr", new gDoable() {
             //concatenate two or more strings
             //usage: constr <disparate elements to combine and return>
@@ -286,8 +280,8 @@ public class xCon {
                     //handle death
                     if(newhp < 1) {
                         //more server-side stuff
-                        int dcx = player.getInt("coordx");
-                        int dcy = player.getInt("coordy");
+                        int dcx = player.coords[0];
+                        int dcy = player.coords[1];
                         ex("deleteplayer " + id);
                         if(shooterid.length() < 1)
                             shooterid = "null";
@@ -613,20 +607,6 @@ public class xCon {
                 return "execpreview";
             }
         });
-        commands.put("exportasprefab", new gDoable() {
-            public String doCommand(String fullcommand) {
-                JFileChooser fileChooser = new JFileChooser();
-                File workingDirectory = new File("prefabs");
-                fileChooser.setCurrentDirectory(workingDirectory);
-                if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    String filename = file.getName();
-                    xMain.shellLogic.clientScene.exportasprefab(filename);
-                    return "exported " + file.getPath();
-                }
-                return "";
-            }
-        });
         commands.put("fireweapon", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -918,16 +898,16 @@ public class xCon {
                                 int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - w / 2,
+                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - h / 2,
+                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
                                 for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
                                     if(bid < Integer.parseInt(id))
                                         bid = Integer.parseInt(id);
-                                    int tpid = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id).getInt("prefabid");
+                                    int tpid = Integer.parseInt(xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id).prefabId);
                                     if(pid < tpid)
                                         pid = tpid;
                                 }
@@ -940,9 +920,9 @@ public class xCon {
                             if(uiEditorMenus.newitemname.length() > 0) {
                                 int iw = 300;
                                 int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.getX() - iw/2,
+                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - iw/2,
                                         uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.getY() - ih/2,
+                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - ih/2,
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
@@ -1031,8 +1011,8 @@ public class xCon {
                     clip.open(AudioSystem.getAudioInputStream(eManager.getAudioFile(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
                         if(toks.length > 4) {
-                            int diffx = gCamera.getX() + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                            int diffy = gCamera.getY() + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                            int diffx = gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                            int diffy = gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                             double absdistance = Math.sqrt(Math.pow((diffx), 2) + Math.pow((diffy), 2));
                             double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )
@@ -1148,11 +1128,11 @@ public class xCon {
                 String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
                     gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
-                    if(randomSpawn.get("occupied").equals("1"))
+                    if(((gItem) randomSpawn).occupied > 0)
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;
-                        ex(String.format("spawnplayer %s %s %s", toks[1], randomSpawn.get("coordx"), randomSpawn.get("coordy")));
+                        ex(String.format("spawnplayer %s %s %s teal", toks[1], randomSpawn.coords[0], randomSpawn.coords[1]));
                     }
                 }
                 return fullCommand;
@@ -1281,8 +1261,8 @@ public class xCon {
                 gPlayer p = xMain.shellLogic.serverScene.getPlayerById(args[1]);
                 if(p == null)
                     return "null";
-                p.put("coordx", args[2]);
-                p.put("coordy", args[3]);
+                p.coords[0] = Integer.parseInt(args[2]);
+                p.coords[1] = Integer.parseInt(args[3]);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return fullCommand;
             }
@@ -1295,8 +1275,8 @@ public class xCon {
                 gPlayer p = xMain.shellLogic.getPlayerById(args[1]);
                 if(p == null)
                     return "null";
-                p.put("coordx", args[2]);
-                p.put("coordy", args[3]);
+                p.coords[0] = Integer.parseInt(args[2]);
+                p.coords[1] = Integer.parseInt(args[3]);
                 return fullCommand;
             }
         });
@@ -1370,9 +1350,8 @@ public class xCon {
                         int animcode = Integer.parseInt(toks[1]);
                         int x = Integer.parseInt(toks[2]);
                         int y = Integer.parseInt(toks[3]);
-                        String aid = eUtils.createId();
-                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(aid,
-                                new gAnimationEmitter(animcode, x, y));
+                        xMain.shellLogic.clientScene.getThingMap("THING_ANIMATION").put(eUtils.createId(),
+                                new gAnimation(animcode, x, y));
                         return "spawned animation " + animcode + " at " + x + " " + y;
                     }
                 }
@@ -1409,11 +1388,10 @@ public class xCon {
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").remove(playerId);
                 gPlayer newPlayer = new gPlayer(playerId, x, y);
                 nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
-                if(clStateMap.contains(playerId)) {
-                    newPlayer.put("color", clStateMap.get(playerId).get("color"));
-                    newPlayer.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/a03.png",
-                            clStateMap.get(playerId).get("color"))));
-                }
+                nState clState = clStateMap.get(playerId);
+                if(clState != null)
+                    newPlayer.color = clState.get("color");
+                newPlayer.setSpriteFromPath(eManager.getPath("animations/player_" + newPlayer.color + "/a03.png"));
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
@@ -1428,16 +1406,16 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 2) {
-                    gPlayer p = xMain.shellLogic.getPlayerById(toks[1]);
+                    String playerId = toks[1];
+                    gPlayer p = xMain.shellLogic.getPlayerById(playerId);
                     if(p == null)
-                        return "no player for id: " + toks[1];
-                    String msg = toks[2];
+                        return "no player for id: " + playerId;
                     String id = eUtils.createId();
-                    gThing popup = new gThing();
-                    popup.putInt("coordx", p.getInt("coordx") + (int)(Math.random()*(p.getInt("dimw")+1)));
-                    popup.putInt("coordy", p.getInt("coordy") + (int)(Math.random()*(p.getInt("dimh")+1)));
-                    popup.put("text", msg);
-                    popup.putDouble("fv", 0.0);
+                    gPopup popup = new gPopup(
+                            toks[2],
+                            p.coords[0] + (int)(Math.random()*(p.dims[0]+1)),
+                            p.coords[1] + (int)(Math.random()*(p.dims[1]+1))
+                    );
                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").put(id, popup);
                     xMain.shellLogic.scheduledEvents.put(Long.toString(sSettings.gameTime + sSettings.popuplivetime),
                             new gDoable() {
@@ -1445,7 +1423,7 @@ public class xCon {
                                     xMain.shellLogic.clientScene.getThingMap("THING_POPUP").remove(id);
                                 }
                             });
-                    return "spawned popup " + msg + " for player_id " + toks[1];
+                    return "spawned popup " + popup.text + " for player_id " + playerId;
                 }
                 return "usage: cl_spawnpopup <player_id> <points>";
             }
@@ -1610,16 +1588,32 @@ public class xCon {
 
     private void playerMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
-        if(p != null)
-            p.put("mov" + dir, "1");
+        if(p != null) {
+            if(dir == 0)
+                p.mov0 = 1;
+            else if(dir == 1)
+                p.mov1 = 1;
+            else if(dir == 2)
+                p.mov2 = 1;
+            else if(dir == 3)
+                p.mov3 = 1;
+        }
         else if(sSettings.show_mapmaker_ui)
             gCamera.move[dir] = 1;
     }
 
     private void playerStopMoveDelegate(int dir) {
         gPlayer p = xMain.shellLogic.getUserPlayer();
-        if(p != null)
-            p.put("mov" + dir, "0");
+        if(p != null) {
+            if(dir == 0)
+                p.mov0 = 0;
+            else if(dir == 1)
+                p.mov1 = 0;
+            else if(dir == 2)
+                p.mov2 = 0;
+            else if(dir == 3)
+                p.mov3 = 0;
+        }
         gCamera.move[dir] = 0;
     }
 
@@ -1631,15 +1625,11 @@ public class xCon {
         String isp = ex("setvar " + itemTitle + "_sprite");
         String isc = ex("setvar " + itemTitle + "_script");
         String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih,
-                isp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eManager.getPath(isp),
-                        iw, ih));
-        item.put("script", isc);
-        item.put("flare", newItemFlare);
-        item.put("id", itemId);
-        item.put("occupied", "0");
+        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
+        item.script = isc;
+        item.flare = newItemFlare;
         scene.getThingMap("THING_ITEM").put(itemId, item);
-        scene.getThingMap(item.get("type")).put(itemId, item);
+        scene.getThingMap(item.type).put(itemId, item);
     }
 
     private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
@@ -1657,17 +1647,18 @@ public class xCon {
             args[4] = toks[8];
             args[5] = toks[9];
         }
-        gThing newBlock = new gBlock(Integer.parseInt(args[0]), Integer.parseInt(args[1]),
-                Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-        newBlock.put("type", blockString);
+        gThing newBlock = new gThing();
+        newBlock.coords = new int[] {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
+        newBlock.dims = new int[] {Integer.parseInt(args[2]), Integer.parseInt(args[3])};
+        newBlock.type = blockString;
         if(blockString.equals("BLOCK_CUBE")) {
-            newBlock.put("toph", args[4]);
-            newBlock.put("wallh", args[5]);
+            newBlock.toph = Integer.parseInt(args[4]);
+            newBlock.wallh = Integer.parseInt(args[5]);
         }
-        newBlock.put("id", blockid);
-        newBlock.put("prefabid", prefabid);
+        newBlock.id = blockid;
+        newBlock.prefabId = prefabid;
         scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
-        scene.getThingMap(newBlock.get("type")).put(blockid, newBlock);
+        scene.getThingMap(newBlock.type).put(blockid, newBlock);
     }
 
     private String setThingDelegate(String[] args, gScene scene) {
@@ -1682,28 +1673,28 @@ public class xCon {
             return "null";
         gThing thing = thingMap.get(tid);
         if(args.length < 4)
-            return thing.toString();
+            return thing.args.toString();
         String tk = args[3];
         if(args.length < 5) {
-            if(thing.get(tk) == null)
+            if(thing.args.args.get(tk) == null)
                 return "null";
-            return thing.get(tk);
+            return thing.args.args.get(tk).getValue();
         }
         StringBuilder tvb = new StringBuilder();
         for(int i = 4; i < args.length; i++) {
             tvb.append(" ").append(args[i]);
         }
         String tv = tvb.substring(1);
-        thing.put(tk, tv);
-        return thing.get(tk);
+        thing.args.put(tk, tv);
+        return thing.args.args.get(tk).getValue();
     }
 
 
     private void deleteBlockDelegate(String[] toks, gScene scene) {
         String id = toks[1];
         if(scene.getThingMap("THING_BLOCK").containsKey(id)) {
-            gBlock blockToDelete = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
-            String type = blockToDelete.get("type");
+            gThing blockToDelete = scene.getThingMap("THING_BLOCK").get(id);
+            String type = blockToDelete.type;
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
         }
@@ -1715,7 +1706,7 @@ public class xCon {
             String id = toks[1];
             if(scene.getThingMap("THING_ITEM").containsKey(id)) {
                 gItem itemToDelete = (gItem) scene.getThingMap("THING_ITEM").get(id);
-                String type = itemToDelete.get("type");
+                String type = itemToDelete.type;
                 scene.getThingMap("THING_ITEM").remove(id);
                 scene.getThingMap(type).remove(id);
             }
@@ -1724,10 +1715,10 @@ public class xCon {
 
     private void deletePrefabDelegate(gScene scene, String prefabId) {
         for(String id : scene.getThingMapIds("THING_BLOCK")) {
-            gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
-            if(!block.isVal("prefabid", prefabId))
+            gThing block = scene.getThingMap("THING_BLOCK").get(id);
+            if(!block.prefabId.equals(prefabId))
                 continue;
-            String type = block.get("type");
+            String type = block.type;
             scene.getThingMap("THING_BLOCK").remove(id);
             scene.getThingMap(type).remove(id);
         }

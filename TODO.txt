@@ -1,17 +1,38 @@
+* BLOCKS: dont try to mess with them too much
+    -> right now moving blocks are possible only due to the "setthing" command and our "hashmap of things" architecture
+* CRASH: check on scheduled events make sure its clear when loading/changing map
+* BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
+    -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
+* THINGS: go back to separated classes for block, popup, item, player, etc depending on unique vars, bindings, functions
+    -> maybe even create class gThings, e.g. gThings.player, gThings.item, gThings.block
+    -> check out gPlayer for how this is done
+* BOTS: implement them like doom
+    -> pick target, default should be nearest player
+    -> try this loop: aways go straight on or at random 45 degree offset
+    -> update loop: find vector we can move to that gets us closer to player
+    -> find direct vector to target
+        -> if can move there, go there or 45 degree offset
+        -> if can not move there, find dir you CAN move in and go
+    -> engine should handle all bot stuff up to spawning, actions should be scripted
+    -> commands: targetthing, avoidthing (for virus and flagmaster type modes), holdposition <millis>
+    -> bots should automatically protect themselves shooting at players nearby
+    -> how bots will be scripted (bringmaster as example):
+        getres hasflag setnstate $1 flag
+        testres $hasflag 1 targetthing $1 ITEM_FLAGDEPOSIT <millis>
+        testres $hasflag 0 targetthing $1 ITEM_FLAG <millis>
+    -> virusmaster example, should aggro everyone but sometimes go for teleporter
+        (no virus)
+        getres rando getrand 0 5
+        testresn $rando 0 avoidthing THING_PLAYER <millis>
+        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
+        (if we have the virus)
+        getres rando getrand 0 5
+        testresn $rando 0 targetthing THING_PLAYER <millis>
+        testres $rando 0 targetthing ITEM_TELEPORTER <millis>
+* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * CONSOLE: refresh scripts from disk when loading map
     -> verify scripts aren't running when map is loading
-* ENGINE: see if bullet despawning can be converted to scheduled event
 * SCRIPT: handledestroyplayer and handledeleteplayer should be combined
-* BOTS: engine should handle all bot stuff up to spawning, actions should be scripted
-    -> commands: targetthing, avoidthing (for virus and flagmaster type modes)
-    -> add invisible waypoint item for bots to target & travel around the map
-    -> how bots will be scripted (bringmaster as example):
-        -> check if bot has flag (setnstate bot_id flag)
-            -> if yes, then bot should seek deposit (targetthing DEPOSIT)
-            -> if no, bot should seek out a nearby flag (targetthing FLAG)
-                -> if nothing nearby, move to a bot waypoint and repeat loop (targetthing BOT_WAYPOINT)
-* ENGINE: use player (and thing in general) "coords" instead of serparate coordx and coordy stuff
-* NETWORK: add retry limit to gamelogicclient so we disconnect and cl_echo when remote server becomes unreachable
 * GIT: want to go back in time
     -> git checkout <old working commit>
     -> git checkout -b <new branch>
@@ -55,17 +76,6 @@
                 -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
-* WEAPONS: make multiple bullet classes like we have for weapons
-    -> we can customize these projectile's properties in a cfg
-    -> in the cfg files, we will reference the bullet we want to come out of a weapon
-        -> e.g. setvar WEAP_LAUNCHER_projectile PROJECTILE_ROCKET
-        -> e.g. setvar WEAP_SHOTGUN_projectile PROJECTILE_SHOTGUN
-        -> e.g. setvar PROJECTILE_SHOTGUN_spread 5
-* STABILITY: Watch out for weird error of null item from queue in checkitems
-* STABILITY: make sure we're not iterating over maps of objects
-    -> get keys of object map
-    -> have function take id and return hashmap of vars (copy of object vars if available)\
-    -> looks like an example of this is how we update players in gameLogicCli/Srver kinda
 * create a client var for player id to track with the camera
     -> can move an invisible item for the camera to track?
 * camera should track without its xy being explicitly tied to user player
@@ -98,7 +108,6 @@
     -> right click could drop a timed bomb, left click kicks it forward
     -> hold mouse to blow a bubble and release it before it pops
 * make "themes" for prefabs
-* make players bounce off each other and walls
 * COMMIT SPOT CHECKS
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>

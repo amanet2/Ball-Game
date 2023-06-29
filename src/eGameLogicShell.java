@@ -388,75 +388,65 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
             gCamera.updatePosition();
-        double mod = (double)sSettings.ratesimulation /(double)sSettings.rateShell;
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
         synchronized (clientScene.objectMaps) {
             try {
                 for (String id : getPlayerIds()) {
                     gPlayer obj = getPlayerById(id);
                     if (obj == null)
                         continue;
-                    String[] requiredFields = new String[]{
-                            "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
-                            "decelrate"
-                    };
-                    //check null fields
-                    if (!obj.containsFields(requiredFields))
-                        continue;
-                    int mx = obj.getInt("vel3") - obj.getInt("vel2");
-                    int my = obj.getInt("vel1") - obj.getInt("vel0");
-                    int dx = obj.getInt("coordx") + (int) (mx * mod);
-                    int dy = obj.getInt("coordy") + (int) (my * mod);
-                    if (obj.getLong("acceltick") < gameTimeMillis) {
-                        obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
+                    int mx = obj.vel3 - obj.vel2;
+                    int my = obj.vel1 - obj.vel0;
+                    int dx = obj.coords[0] + (int) (mx * mod);
+                    int dy = obj.coords[1] + (int) (my * mod);
+                    if (obj.acceltick < gameTimeMillis) {
+                        obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
                         if (isUserPlayer(obj)) {
-                            for (int i = 0; i < 4; i++) {
-                                if (obj.getInt("mov" + i) > 0)
-                                    obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
-                                            obj.getInt("vel" + i) + obj.getInt("accelrate"))));
-                                else
-                                    obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
-                            }
+                            if(obj.mov0 > 0)
+                                obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
+                            else
+                                obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
+                            if(obj.mov1 > 0)
+                                obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
+                            else
+                                obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
+                            if(obj.mov2 > 0)
+                                obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
+                            else
+                                obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
+                            if(obj.mov3 > 0)
+                                obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
+                            else
+                                obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
                         }
                     }
-                    if (!obj.wontClipOnMove(dx, obj.getInt("coordy"), clientScene))
-                        dx = obj.getInt("coordx");
-                    if (!obj.wontClipOnMove(obj.getInt("coordx"), dy, clientScene))
-                        dy = obj.getInt("coordy");
+                    if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene))
+                        dx = obj.coords[0];
+                    if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene))
+                        dy = obj.coords[1];
                     if (isUserPlayer(obj))
                         gCamera.coords = new int[]{
-                                dx + obj.getInt("dimw")/2 - eUtils.unscaleInt(sSettings.width/2),
-                                dy + obj.getInt("dimh")/2 - eUtils.unscaleInt(sSettings.height/2)
+                                dx + obj.dims[0]/2 - eUtils.unscaleInt(sSettings.width/2),
+                                dy + obj.dims[1]/2 - eUtils.unscaleInt(sSettings.height/2)
                         };
-                    obj.putInt("coordx", dx);
-                    obj.putInt("coordy", dy);
+                    obj.coords[0] = dx;
+                    obj.coords[1] = dy;
                 }
+                //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
-                Queue<gThing> checkQueue = new LinkedList<>();
-                String[] keys = thingMap.keySet().toArray(new String[0]);
-                for (String id : keys) {
-                    checkQueue.add(thingMap.get(id));
-                }
-                while (checkQueue.size() > 0) {
-                    gBullet obj = (gBullet) checkQueue.remove();
-                    obj.putInt("coordx", obj.getInt("coordx")
-                            - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.cos(obj.getDouble("fv") + Math.PI / 2)));
-                    obj.putInt("coordy", obj.getInt("coordy")
-                            - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel * Math.sin(obj.getDouble("fv") + Math.PI / 2)));
-                }
-                checkBulletSplashes(gameTimeMillis);
-                //popups
-                thingMap = clientScene.getThingMap("THING_POPUP");
-                checkQueue = new LinkedList<>();
                 for (String id : thingMap.keySet()) {
-                    checkQueue.add(thingMap.get(id));
+                    gThing obj = thingMap.get(id);
+                    obj.coords[0] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) ((double)gWeapons.fromCode(obj.src).bulletVel*mod*Math.sin(obj.fv+Math.PI/2));
                 }
-                while (checkQueue.size() > 0) {
-                    gThing obj = checkQueue.remove();
-                    obj.put("coordx", Integer.toString(obj.getInt("coordx")
-                            - (int) (sSettings.velocity_popup * Math.cos(obj.getDouble("fv") + Math.PI / 2))));
-                    obj.put("coordy", Integer.toString(obj.getInt("coordy")
-                            - (int) (sSettings.velocity_popup * Math.sin(obj.getDouble("fv") + Math.PI / 2))));
+                checkBulletSplashes();
+//                //popups
+                thingMap = clientScene.getThingMap("THING_POPUP");
+                for (String id : thingMap.keySet()) {
+                    gThing obj = thingMap.get(id);
+                    obj.coords[0] -= (int) (sSettings.velocity_popup*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) (sSettings.velocity_popup*Math.sin(obj.fv+Math.PI/2));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -464,52 +454,40 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
     }
 
-    private void checkBulletSplashes(long gameTimeMillis) {
+    private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
-        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gBullet> pseeds = new ArrayList<>();
+        HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
+        ArrayList<gThing> pseeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
-        Queue<gThing> checkThings = new LinkedList<>();
-        String[] keys = bulletsMap.keySet().toArray(new String[0]);
-        for (String id : keys) {
-            checkThings.add(bulletsMap.get(id));
-        }
-        while (checkThings.size() > 0) {
-            gBullet t = (gBullet) checkThings.remove();
-            if(gameTimeMillis - t.getLong("timestamp") > t.getInt("ttl")){
-                bulletsToRemoveIds.add(t.get("id"));
-                //grenade explosion
-                if(t.isInt("src", gWeapons.launcher))
-                    pseeds.add(t);
-                continue;
-            }
+        for (String id : bulletsMap.keySet()) {
+            gThing t = bulletsMap.get(id);
             for(String blockId : clientScene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = clientScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(t.collidesWithThing(bl)) {
-                    bulletsToRemoveIds.add(t.get("id"));
-                    if(t.isInt("src", gWeapons.launcher))
+                    bulletsToRemoveIds.add(t.id);
+                    if(t.src == gWeapons.launcher)
                         pseeds.add(t);
                 }
             }
             for(String playerId : getPlayerIds()) {
                 gPlayer p = getPlayerById(playerId);
-                if(p != null && p.containsFields(new String[]{"coordx", "coordy"})
-                        && t.collidesWithThing(p) && !t.get("srcid").equals(playerId)) {
+                if(p != null && t.collidesWithThing(p) && !t.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(p, t);
-                    if(t.isInt("src", gWeapons.launcher))
+                    if(t.src == gWeapons.launcher)
                         pseeds.add(t);
                 }
             }
         }
         if(pseeds.size() > 0) {
-            for(gBullet pseed : pseeds)
-                gWeapons.createGrenadeExplosion(pseed);
+            for(gThing pseed : pseeds) {
+                gWeapons.createGrenadeExplosion(pseed, clientScene);
+            }
         }
-        for(Object bulletId : bulletsToRemoveIds) {
+        for(String bulletId : bulletsToRemoveIds) {
             clientScene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            clientScene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).get("id"));
+            clientScene.getThingMap("THING_BULLET").remove(bulletsToRemovePlayerMap.get(p).id);
         }
     }
 
@@ -525,25 +503,16 @@ public class eGameLogicShell extends eGameLogicAdapter {
         int[] mc = uiInterface.getMouseCoordinates();
         for(String id : clientScene.getThingMap("THING_ITEM").keySet()) {
             gThing item = clientScene.getThingMap("THING_ITEM").get(id);
-            if(item.contains("id") && item.coordsWithinBounds(mc[0], mc[1])) {
-                sSettings.clientSelectedItemId = item.get("id");
+            if(item.coordsWithinBounds(mc[0], mc[1])) {
+                sSettings.clientSelectedItemId = item.id;
                 sSettings.clientSelectedPrefabId = "";
                 return;
             }
         }
         for(String id : clientScene.getThingMap("THING_BLOCK").keySet()) {
             gThing block = clientScene.getThingMap("THING_BLOCK").get(id);
-            if(!block.get("type").equals("BLOCK_FLOOR")
-                    && block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                sSettings.clientSelectedPrefabId = block.get("prefabid");
-                sSettings.clientSelectedItemId = "";
-                return;
-            }
-        }
-        for(String id : clientScene.getThingMap("BLOCK_FLOOR").keySet()) {
-            gThing block = clientScene.getThingMap("BLOCK_FLOOR").get(id);
-            if(block.contains("prefabid") && block.coordsWithinBounds(mc[0], mc[1])) {
-                sSettings.clientSelectedPrefabId = block.get("prefabid");
+            if(block.coordsWithinBounds(mc[0], mc[1])) {
+                sSettings.clientSelectedPrefabId = block.prefabId;
                 sSettings.clientSelectedItemId = "";
                 return;
             }
@@ -553,19 +522,17 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private boolean isUserPlayer(gPlayer player) {
-        return player.isVal("id", sSettings.uuid);
+        return player.id.equals(sSettings.uuid);
     }
 
     private void checkPlayerFire() {
         if(getUserPlayer() != null && iMouse.holdingMouseLeft) {
             gPlayer player = getUserPlayer();
-            if(player.contains("cooldown")) {
-                int weapint = player.getInt("weapon");
-                long gametimemillis = sSettings.gameTime;
-                if(player.getLong("cooldown") <= gametimemillis) {
-                    clientNetThread.addNetCmd(String.format("fireweapon %s %d", sSettings.uuid, weapint));
-                    player.putLong("cooldown", gametimemillis + gWeapons.fromCode(weapint).refiredelay);
-                }
+            int weapint = player.weapon;
+            long gametimemillis = sSettings.gameTime;
+            if(player.cooldown <= gametimemillis) {
+                clientNetThread.addNetCmd(String.format("fireweapon %s %d", sSettings.uuid, weapint));
+                player.cooldown = gametimemillis + gWeapons.fromCode(weapint).refiredelay;
             }
         }
     }
@@ -573,13 +540,13 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.getInt("coordx") + p.getInt("dimw")/2 - gCamera.getX());
-        double dy = mc[1] - eUtils.scaleInt(p.getInt("coordy") + p.getInt("dimh")/2 - gCamera.getY());
+        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - gCamera.coords[0]);
+        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;
         angle += Math.PI/2;
-        p.putDouble("fv", angle);
+        p.fv = angle;
         p.checkSpriteFlip();
     }
 

@@ -36,22 +36,17 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void checkGameItems() {
         ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
-        Queue<gThing> playerQueue = new LinkedList<>();
-        Queue<gThing> itemsQueue = new LinkedList<>();
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         ArrayList<String> keysetcopy = new ArrayList<>(itemsMap.keySet());
-        for(String id : keysetcopy) {
-            itemsQueue.add(itemsMap.get(id));
-        }
-        while(itemsQueue.size() > 0) {
-            gItem item = (gItem) itemsQueue.remove();
-            item.put("occupied", "0");
-            for (String id : playerMap.keySet()) {
-                playerQueue.add(playerMap.get(id));
-            }
-            while(playerQueue.size() > 0) {
-                gPlayer player = (gPlayer) playerQueue.remove();
-                if(player.containsFields(new String[]{"coordx", "coordy"}) && player.collidesWithThing(item))
+        ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
+        for(String iid : keysetcopy) {
+            gItem item = (gItem) itemsMap.get(iid);
+            item.occupied = 0;
+            for(String pid : playerKeySetCopy) {
+                if(!playerMap.containsKey(pid))
+                    continue;
+                gPlayer player = (gPlayer) playerMap.get(pid);
+                if(player.collidesWithThing(item))
                     item.activateItem(player);
             }
         }
@@ -64,67 +59,82 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             gPlayer obj = xMain.shellLogic.serverScene.getPlayerById(id);
             if(obj == null)
                 continue;
-            String[] requiredFields = new String[]{
-                    "coordx", "coordy", "vel0", "vel1", "vel2", "vel3", "acceltick", "acceldelay", "accelrate",
-                    "decelrate"
-            };
-            //check null fields
-            if(!obj.containsFields(requiredFields))
-                continue;
-            int dx = obj.getInt("coordx") + obj.getInt("vel3") - obj.getInt("vel2");
-            int dy = obj.getInt("coordy") + obj.getInt("vel1") - obj.getInt("vel0");
-            if(obj.getLong("acceltick") < gameTimeMillis) {
-                obj.putLong("acceltick", gameTimeMillis + obj.getInt("acceldelay"));
-                for (int i = 0; i < 4; i++) {
-                    if (obj.getInt("mov" + i) > 0) {
-                        obj.putInt("vel" + i, (Math.min(sSettings.clientVelocityPlayerBase,
-                                obj.getInt("vel" + i) + obj.getInt("accelrate"))));
-                    }
-                    else
-                        obj.putInt("vel" + i, Math.max(0, obj.getInt("vel" + i) - obj.getInt("decelrate")));
-                }
+            int dx = obj.coords[0] + obj.vel3 - obj.vel2;
+            int dy = obj.coords[1] + obj.vel1 - obj.vel0;
+
+            if (obj.acceltick < gameTimeMillis) {
+                obj.acceltick = gameTimeMillis + obj.acceldelay;
+                //user player
+                if(obj.mov0 > 0)
+                    obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
+                else
+                    obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
+                if(obj.mov1 > 0)
+                    obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
+                else
+                    obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
+                if(obj.mov2 > 0)
+                    obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
+                else
+                    obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
+                if(obj.mov3 > 0)
+                    obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
+                else
+                    obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
             }
-            if(obj.wontClipOnMove(dx, obj.getInt("coordy"), xMain.shellLogic.serverScene))
-                obj.putInt("coordx", dx);
+
+            //TODO: come up with a way to get "normal vector" from surface or player being collided with
+            // add a "collidedPlayer" arg to gThing and get velocity
+            //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
+            //TODO UPDATE: looks better, but bounces are restricted to 4 basic dirs
+            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
+                obj.coords[0] = dx;
             else {
-                if(obj.getInt("vel2") > obj.getInt("vel3")) {
-//                    obj.put("vel3", obj.get("vel2")); //bounce
-                    obj.putInt("vel2", 0);
+                if(obj.vel2 > obj.vel3) {
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel3;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
+                        obj.collidedPlayer.vel2 = Math.max(0, obj.vel2 - 1);
+                    obj.vel3 = Math.max(0, collidedPlayerVel + obj.vel2/2 - obj.vel0/2 - obj.vel1/2); //bounce
+                    obj.vel2 = 0;
                 }
                 else {
-//                    obj.put("vel2", obj.get("vel3")); //bounce
-                    obj.putInt("vel3", 0);
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel2;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
+                        obj.collidedPlayer.vel3 = Math.max(0, obj.vel3 - 1);
+                    obj.vel2 = Math.max(0, collidedPlayerVel + obj.vel3/2 - obj.vel0/2 - obj.vel1/2); //bounce
+                    obj.vel3 = 0;
                 }
             }
-            if(obj.wontClipOnMove(obj.getInt("coordx"), dy, xMain.shellLogic.serverScene))
-                obj.putInt("coordy", dy);
+            if(obj.wontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
+                obj.coords[1] = dy;
             else {
-                if(obj.getInt("vel0") > obj.getInt("vel1")) {
-//                    obj.put("vel1", obj.get("vel0")); //bounce
-                    obj.putInt("vel0", 0);
+                if(obj.vel0 > obj.vel1) {
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel1;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
+                        obj.collidedPlayer.vel0 = Math.max(0, obj.vel0 - 1);
+                    obj.vel1 = Math.max(0, collidedPlayerVel + obj.vel0/2 - obj.vel2/2 - obj.vel3/2); //bounce
+                    obj.vel0 = 0;
                 }
                 else {
-//                    obj.put("vel0", obj.get("vel1")); //bounce
-                    obj.putInt("vel1", 0);
+                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel0;
+                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
+                        obj.collidedPlayer.vel1 = Math.max(0, obj.vel1 - 1);
+                    obj.vel0 = Math.max(0, collidedPlayerVel + obj.vel1/2 - obj.vel2/2 - obj.vel3/2); //bounce
+                    obj.vel1 = 0;
                 }
             }
+            obj.collidedPlayer = null;
         }
 
+        //bullets
         try {
             ConcurrentHashMap<String, gThing> thingMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
-            Queue<gThing> checkQueue = new LinkedList<>();
-            String[] keys = thingMap.keySet().toArray(new String[0]);
-            for (String id : keys) {
-                checkQueue.add(thingMap.get(id));
+            for (String id : thingMap.keySet()) {
+                gThing obj = thingMap.get(id);
+                obj.coords[0] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.cos(obj.fv+Math.PI/2));
+                obj.coords[1] -= (int) (gWeapons.fromCode(obj.src).bulletVel*Math.sin(obj.fv+Math.PI/2));
             }
-            while(checkQueue.size() > 0) {
-                gBullet obj = (gBullet) checkQueue.remove();
-                obj.putInt("coordx", obj.getInt("coordx")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.cos(obj.getDouble("fv")+Math.PI/2)));
-                obj.putInt("coordy", obj.getInt("coordy")
-                        - (int) (gWeapons.fromCode(obj.getInt("src")).bulletVel*Math.sin(obj.getDouble("fv")+Math.PI/2)));
-            }
-            checkBulletSplashes(gameTimeMillis);
+            checkBulletSplashes();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -132,60 +142,45 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 
     }
 
-    private void checkBulletSplashes(long gameTimeMillis) {
+    private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
-        HashMap<gPlayer, gBullet> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gBullet> pseeds = new ArrayList<>();
+        HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
+        ArrayList<gThing> pseeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
-        nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
-        Queue<gThing> checkQueue = new LinkedList<>();
-        String[] keys = bulletsMap.keySet().toArray(new String[0]);
-        for (String id : keys) {
-            checkQueue.add(bulletsMap.get(id));
-        }
-        while(checkQueue.size() > 0) {
-            gBullet b = (gBullet) checkQueue.remove();
-            if(gameTimeMillis - b.getLong("timestamp") > b.getInt("ttl")) {
-                bulletsToRemoveIds.add(b.get("id"));
-                //grenade explosion
-                if(b.isInt("src", gWeapons.launcher))
-                    pseeds.add(b);
-                continue;
-            }
+        for(String id : bulletsMap.keySet()) {
+            gThing b = bulletsMap.get(id);
             for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
                 if(b.collidesWithThing(bl)) {
-                    bulletsToRemoveIds.add(b.get("id"));
-                    if(b.isInt("src", gWeapons.launcher))
+                    bulletsToRemoveIds.add(b.id);
+                    if(b.src == gWeapons.launcher)
                         pseeds.add(b);
                 }
             }
-            for(String playerId : svMap.keys()) {
+            for(String playerId : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
                 gPlayer t = xMain.shellLogic.serverScene.getPlayerById(playerId);
-                if(t != null && t.containsFields(new String[]{"coordx", "coordy"})
-                        && b.collidesWithThing(t) && !b.get("srcid").equals(playerId)) {
+                if(t != null && b.collidesWithThing(t) && !b.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
-                    if(b.isInt("src", gWeapons.launcher))
+                    if(b.src == gWeapons.launcher)
                         pseeds.add(b);
                 }
             }
         }
         if(pseeds.size() > 0) {
-            for(gBullet pseed : pseeds)
-                gWeapons.createGrenadeExplosion(pseed);
+            for(gThing pseed : pseeds) {
+                gWeapons.createGrenadeExplosion(pseed, xMain.shellLogic.serverScene);
+            }
         }
-        for(Object bulletId : bulletsToRemoveIds) {
+        for(String bulletId : bulletsToRemoveIds) {
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(bulletId);
         }
         for(gPlayer p : bulletsToRemovePlayerMap.keySet()) {
-            gBullet b = bulletsToRemovePlayerMap.get(p);
+            gThing b = bulletsToRemovePlayerMap.get(p);
             //calculate dmg
-            int dmg = b.getInt("dmg") - (int)((double)b.getInt("dmg")/2
-                    *((Math.abs(Math.max(0, sSettings.gameTime - b.getLong("timestamp"))
-            )/(double)b.getInt("ttl")))); // dmg falloff based on age of bullet
-            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.get("id"));
+//            int dmg = b.dmg - (int)((double)b.dmg/2 *((Math.abs(Math.max(0, sSettings.gameTime - b.timestamp))/(double)b.ttl))); // dmg falloff based on age of bullet
+            xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.id);
             //handle damage serverside
-            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.get("id"), dmg, b.get("srcid")));
+            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg, b.srcId));
         }
     }
 

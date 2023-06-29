@@ -203,7 +203,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             if(!id.equals(cId)) {
                 gPlayer p = xMain.shellLogic.serverScene.getPlayerById(cId);
                 if(p != null)
-                    addNetCmd(id, String.format("cl_spawnplayer %s %s %s", cId, p.get("coordx"), p.get("coordy")));
+                    addNetCmd(id, String.format("cl_spawnplayer %s %d %d", cId, p.coords[0], p.coords[1]));
             }
         }
     }
@@ -232,16 +232,15 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //update players
         gPlayer pl = xMain.shellLogic.serverScene.getPlayerById(stateId);
         if(pl != null) {    //store player object's health in outgoing network arg map
-            masterStateMap.get(stateId).put("coords", pl.get("coordx") + ":" + pl.get("coordy"));
-            masterStateMap.get(stateId).put("vel0", pl.get("vel0"));
-            masterStateMap.get(stateId).put("vel1", pl.get("vel1"));
-            masterStateMap.get(stateId).put("vel2", pl.get("vel2"));
-            masterStateMap.get(stateId).put("vel3", pl.get("vel3"));
+            masterStateMap.get(stateId).put("coords", pl.coords[0] + ":" + pl.coords[1]);
+            masterStateMap.get(stateId).put("vel0", Integer.toString(pl.vel0));
+            masterStateMap.get(stateId).put("vel1", Integer.toString(pl.vel1));
+            masterStateMap.get(stateId).put("vel2", Integer.toString(pl.vel2));
+            masterStateMap.get(stateId).put("vel3", Integer.toString(pl.vel3));
         }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
-
         masterStateSnapshot = masterStateMap.toString().replace(", ", ",");
     }
 
@@ -260,17 +259,17 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
         ConcurrentHashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
         for(String id : blockMap.keySet()) {
-            gBlock block = (gBlock) blockMap.get(id);
+            gThing block = blockMap.get(id);
             String[] args = new String[]{
-                    block.get("type"),
-                    block.get("id"),
-                    block.get("prefabid"),
-                    block.get("coordx"),
-                    block.get("coordy"),
-                    block.get("dimw"),
-                    block.get("dimh"),
-                    block.get("toph"),
-                    block.get("wallh")
+                    block.type,
+                    block.id,
+                    block.prefabId,
+                    Integer.toString(block.coords[0]),
+                    Integer.toString(block.coords[1]),
+                    Integer.toString(block.dims[0]),
+                    Integer.toString(block.dims[1]),
+                    Integer.toString(block.toph),
+                    Integer.toString(block.wallh)
             };
             StringBuilder blockString = new StringBuilder("cl_putblock");
             for(String arg : args) {
@@ -283,10 +282,10 @@ public class eGameLogicServer extends eGameLogicAdapter {
         for(String id : itemMap.keySet()) {
             gItem item = (gItem) itemMap.get(id);
             String[] args = new String[]{
-                    item.get("type"),
-                    item.get("id"),
-                    item.get("coordx"),
-                    item.get("coordy")
+                    item.type,
+                    item.id,
+                    Integer.toString(item.coords[0]),
+                    Integer.toString(item.coords[1])
             };
             StringBuilder str = new StringBuilder("cl_putitem");
             for(String arg : args) {

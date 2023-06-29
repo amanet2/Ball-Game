@@ -12,9 +12,9 @@ public class uiInterface {
     public static int[] getPlaceObjCoords() {
         int[] mc = getMouseCoordinates();
         int[] fabdims = dHUD.getNewPrefabDims();
-        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+gCamera.getX() - fabdims[0]/2,
+        int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0])+gCamera.coords[0] - fabdims[0]/2,
                 uiEditorMenus.snapToX);
-        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+gCamera.getY() - fabdims[1]/2,
+        int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1])+gCamera.coords[1] - fabdims[1]/2,
                 uiEditorMenus.snapToY);
         return new int[]{pfx, pfy};
     }

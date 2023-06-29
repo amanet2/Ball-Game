@@ -9,16 +9,14 @@ public class nStateBallGameClient extends nState {
                 gPlayer p = xMain.shellLogic.getPlayerById(get("id"));
                 if(p == null || gColors.getColorFromName("clrp_" + value) == null)
                     return;
-                p.put("color", value);
-                p.setSpriteFromPath(eManager.getPath(String.format("animations/player_%s/%s", value,
-                        p.get("pathsprite").substring(p.get("pathsprite").lastIndexOf('/')))));
+                String oldColor = p.color;
+                p.color = value;
+                p.setSpriteFromPath(p.spritePath.replace(oldColor, p.color));
             }
         });
         map.putArg(new gArg("coords", "0:0") {
             public void onChange() {
-                String[] coords = value.split(":");
-                    setPlayerVal("coordx", coords[0]);
-                    setPlayerVal("coordy", coords[1]);
+                setPlayerVal("coords", value);
             }
         });
         map.putArg(new gArg("fv", "0") {
@@ -28,7 +26,7 @@ public class nStateBallGameClient extends nState {
                 gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
                 if(pl == null)
                     return;
-                pl.put("fv", value);
+                pl.fv = Double.parseDouble(value);
                 pl.checkSpriteFlip();
             }
         });
@@ -57,6 +55,6 @@ public class nStateBallGameClient extends nState {
     private void setPlayerVal(String key, String val) {
         gPlayer pl = xMain.shellLogic.getPlayerById(get("id"));
         if(pl != null)
-            pl.put(key, val);
+            pl.args.put(key, val);
     }
 }

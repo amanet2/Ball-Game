@@ -21,6 +21,10 @@ public class iInput {
 	public static void processKeyPressInput(int command) {
 	    if(sSettings.inconsole) {
             switch (command) {
+                case KeyEvent.VK_BACK_QUOTE -> {
+                    //do nothing
+                    return;
+                }
                 case KeyEvent.VK_UP -> {
                     xMain.shellLogic.console.prevCommandIndex =
                             xMain.shellLogic.console.prevCommandIndex > -1 ? xMain.shellLogic.console.prevCommandIndex - 1
@@ -195,7 +199,7 @@ public class iInput {
 	    if(sSettings.inconsole) {
             switch (command) {
                 case KeyEvent.VK_BACK_QUOTE -> {
-                    xMain.shellLogic.console.ex("console");
+                    sSettings.inconsole = false;
                 }
                 case KeyEvent.VK_SHIFT -> iKeyboard.shiftMode = false;
                 default -> {
@@ -214,6 +218,10 @@ public class iInput {
             }
         }
 	    else {
+            if(command == KeyEvent.VK_BACK_QUOTE) {
+                sSettings.inconsole = true;
+                return;
+            }
             if(sSettings.show_mapmaker_ui) {
                 switch (command) {
                     case KeyEvent.VK_SHIFT -> iKeyboard.shiftMode = false;

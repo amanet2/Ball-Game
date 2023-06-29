@@ -36,7 +36,7 @@ public class gTextures {
         gscaled_sprites.clear();
         for(String id : xMain.shellLogic.getPlayerIds()) {
             gPlayer p = xMain.shellLogic.getPlayerById(id);
-            p.sprite = getGScaledImage(p.get("pathsprite"), p.getInt("dimw"), p.getInt("dimh"));
+            p.sprite = getGScaledImage(p.spritePath, p.dims[0], p.dims[1]);
         }
     }
 }

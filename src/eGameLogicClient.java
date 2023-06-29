@@ -140,11 +140,11 @@ public class eGameLogicClient extends eGameLogicAdapter {
         gPlayer userPlayer = xMain.shellLogic.getUserPlayer();
         //userplayer vars like coords and dirs and weapon
         if(userPlayer != null) {
-            keys.put("fv", userPlayer.get("fv").substring(0, Math.min(userPlayer.get("fv").length(), 4)));
-            keys.put("mov0", userPlayer.get("mov0"));
-            keys.put("mov1", userPlayer.get("mov1"));
-            keys.put("mov2", userPlayer.get("mov2"));
-            keys.put("mov3", userPlayer.get("mov3"));
+            keys.put("fv", Double.toString(userPlayer.fv).substring(0, Math.min(Double.toString(userPlayer.fv).length(), 4)));
+            keys.put("mov0", Integer.toString(userPlayer.mov0));
+            keys.put("mov1", Integer.toString(userPlayer.mov1));
+            keys.put("mov2", Integer.toString(userPlayer.mov2));
+            keys.put("mov3", Integer.toString(userPlayer.mov3));
         }
         else {
             keys.put("fv", "0");
