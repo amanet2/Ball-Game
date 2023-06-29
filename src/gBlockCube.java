@@ -31,7 +31,64 @@ public class gBlockCube extends gBlock {
         }
         g2.setPaint(wallTexture);
         g2.fillRect(coords[0], coords[1] + toph, dims[0], wallh);
-        dThings.drawBlockWallsShadingFlat(g2, this);
-        dThings.drawBlockTopCube(g2, this);
+        if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
+            if (wallh > 0) {
+                GradientPaint gradient;
+                if(wallh < 300) {
+                    gradient = new GradientPaint(
+                            coords[0] + dims[0] / 2, coords[1] + toph,
+                            gColors.getColorFromName("clrw_walllowshading1"),
+                            coords[0] + dims[0] / 2, coords[1] + dims[1],
+                            gColors.getColorFromName("clrw_walllowshading2")
+                    );
+                }
+                else {
+                    gradient = new GradientPaint(
+                            coords[0] + dims[0] / 2, coords[1] + toph,
+                            gColors.getColorFromName("clrw_wallshading1"),
+                            coords[0] + dims[0] / 2, coords[1] + dims[1],
+                            gColors.getColorFromName("clrw_wallshading2")
+                    );
+                }
+                g2.setPaint(gradient);
+                g2.fillRect(coords[0], coords[1] + toph, dims[0], wallh);
+                if(wallh < 300) {
+                    gradient = new GradientPaint(
+                            coords[0] + dims[0] / 2, coords[1] + toph,
+                            gColors.getColorFromName("clrw_walllowoutline1"),
+                            coords[0] + dims[0] / 2, coords[1] + dims[1],
+                            gColors.getColorFromName("clrw_walllowoutline2")
+                    );
+                }
+                else {
+                    gradient = new GradientPaint(
+                            coords[0] + dims[0] / 2, coords[1] + toph,
+                            gColors.getColorFromName("clrw_walloutline1"),
+                            coords[0] + dims[0] / 2, coords[1] + dims[1],
+                            gColors.getColorFromName("clrw_walloutline2")
+                    );
+                }
+                g2.setPaint(gradient);
+                g2.drawRoundRect(coords[0], coords[1] + toph, dims[0], wallh, 5, 5);
+            }
+        }
+        g2.setPaint(xMain.shellLogic.topTexture);
+        g2.fillRect(coords[0], coords[1], dims[0], toph);
+        dFonts.setFontColor(g2, "clrw_topcolor");
+        if(wallh > 0 && wallh < 300)
+            dFonts.setFontColor(g2, "clrw_topcolordark");
+        g2.fillRect(coords[0], coords[1], dims[0], toph);
+        if (sSettings.vfxenableshading) {
+            g2.setStroke(dFonts.thickStroke);
+            GradientPaint gradient = new GradientPaint(
+                    coords[0] + dims[0] / 2, coords[1], gColors.getColorFromName("clrw_roofoutline1"),
+                    coords[0] + dims[0] / 2, coords[1] + toph, gColors.getColorFromName("clrw_roofoutline2")
+            );
+            g2.setPaint(gradient);
+            if(wallh > 0 && wallh < 300)
+                g2.fillRect(coords[0], coords[1], dims[0], toph);
+            g2.drawRoundRect(coords[0], coords[1], dims[0], toph, 5, 5);
+        }
     }
 }
