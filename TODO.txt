@@ -1,3 +1,5 @@
+* NEW BLOCKS: addToScene may be unnecessary
+    -> are future coders gonna want to deal with these inheritances?
 * BLOCKS: dont try to mess with them too much
     -> right now moving blocks are possible only due to the "setthing" command and our "hashmap of things" architecture
 * CRASH: check on scheduled events make sure its clear when loading/changing map

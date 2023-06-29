@@ -107,6 +107,10 @@ public class gThing {
         return args.toString();
     }
 
+    public void addToScene(gScene scene) {
+        scene.getThingMap(type).put(id, this);
+    }
+
     public boolean coordsWithinBounds(int x, int y) {
         return (x >= eUtils.scaleInt(coords[0] - gCamera.coords[0])
                 && x <= eUtils.scaleInt(coords[0] - gCamera.coords[0] + dims[0]))
