@@ -1,5 +1,3 @@
-* FEATURE: moving blocks?
-    -> need sync between client and server "setthing" and "cl_setthing"
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
     -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
 * BOTS: implement them like doom
