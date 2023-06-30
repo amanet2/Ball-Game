@@ -7,9 +7,9 @@ public class gColors {
     public static int hpAlpha = 230;
 
     public static Color getColorFromName(String name) {
-        //return color if in the map
-        if(colorMap.containsKey(name))
-            return colorMap.get(name);
+//        //return color if in the map SHIT: this makes only the first value set count
+//        if(colorMap.containsKey(name))
+//            return colorMap.get(name);
         //not in the map, check our cvars for color info
         String s = xMain.shellLogic.clientVars.get(name);
         //if not in cvars, return default white
