@@ -1692,15 +1692,15 @@ public class xCon {
 
     private void putItemDelegate(String[] toks, gScene scene) {
         String itemTitle = toks[1];
-        String itemId = toks[2];
-        int iw = Integer.parseInt(ex("setvar " + itemTitle+"_dimw"));
-        int ih = Integer.parseInt(ex("setvar " + itemTitle+"_dimh"));
-        String isp = ex("setvar " + itemTitle + "_sprite");
-        String isc = ex("setvar " + itemTitle + "_script");
-        String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp, isc, newItemFlare);
-        scene.getThingMap("THING_ITEM").put(itemId, item);
-        scene.getThingMap(item.type).put(itemId, item);
+        (new gItem(
+                toks[2], itemTitle,
+                Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                Integer.parseInt(ex("setvar " + itemTitle+"_dimw")),
+                Integer.parseInt(ex("setvar " + itemTitle+"_dimh")),
+                ex("setvar " + itemTitle + "_sprite"),
+                ex("setvar " + itemTitle + "_script"),
+                ex("setvar " + itemTitle + "_flare"))
+        ).addToScene(scene);
     }
 
     private String setThingDelegate(String[] args, gScene scene) {

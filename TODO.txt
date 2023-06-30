@@ -1,3 +1,6 @@
+* ITEMS: looks like items may need to be syncd on client and server
+    -> we want the server to be able to send custom items to clients
+    -> have fallbacks if sprite, script, flare fields are "null"
 * FLASHLIGHT: adjust map brightness via: cl_setvar clrw_floorshading <r> <g> <b> <a>
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
     -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.

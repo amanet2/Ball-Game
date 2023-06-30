@@ -48,4 +48,9 @@ public class gItem extends gThing {
             g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
         }
     }
+
+    public void addToScene(gScene scene) {
+        super.addToScene(scene);
+        scene.getThingMap("THING_ITEM").put(id, this);
+    }
 }
