@@ -211,11 +211,11 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 1) {
                     String thing_title = toks[1];
-                    if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
-                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new ConcurrentHashMap<>());
+                    if(xMain.shellLogic.clientPreviewScene.objectMaps.containsKey(thing_title))
+                        xMain.shellLogic.clientPreviewScene.objectMaps.put(thing_title, new ConcurrentHashMap<>());
                 }
-                for(String thing_title : uiEditorMenus.previewScene.objectMaps.keySet()) {
-                    uiEditorMenus.previewScene.objectMaps.get(thing_title).clear();
+                for(String thing_title : xMain.shellLogic.clientPreviewScene.objectMaps.keySet()) {
+                    xMain.shellLogic.clientPreviewScene.objectMaps.get(thing_title).clear();
                 }
                 return "usage: cl_clearthingmappreview";
             }
@@ -588,12 +588,10 @@ public class xCon {
                 gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
                 StringBuilder moddedScriptContentBuilder = new StringBuilder();
                 for(String rawLine : theScript.lines) {
-                    if(rawLine.contains("putblock BLOCK_FLOOR")
-                            || rawLine.contains("putblock BLOCK_CUBE")
-                            || rawLine.contains("getres")) {
-                        String clRawLine = rawLine.replace("getres",
-                                "cl_getres").replace("putblock",
-                                "cl_putblockpreview");
+                    if(rawLine.startsWith("putfloor") || rawLine.startsWith("putcube") || rawLine.startsWith("getres")) {
+                        String clRawLine = rawLine.replace("getres", "cl_getres"
+                        ).replace("putfloor", "cl_putfloorpreview"
+                        ).replace("putcube", "cl_putcubepreview");
                         moddedScriptContentBuilder.append("\n").append(clRawLine);
                     }
                 }
@@ -1051,31 +1049,12 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("putblock", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, xMain.shellLogic.serverScene, toks[1], toks[2], toks[3]);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
-                return "1";
-            }
-        });
-        commands.put("cl_putblock", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, xMain.shellLogic.clientScene, toks[1], toks[2], toks[3]);
-                return "1";
-            }
-        });
         commands.put("cl_putblockpreview", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length < 8)
                     return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, uiEditorMenus.previewScene, toks[1], toks[2], toks[3]);
+                putBlockDelegate(toks, xMain.shellLogic.clientPreviewScene, toks[1], toks[2], toks[3]);
                 return "1";
             }
         });
@@ -1096,6 +1075,15 @@ public class xCon {
                     return "usage: cl_putfloor <id> <prefabId> <x> <y>";
                 new gBlockFloor(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4])).addToScene(xMain.shellLogic.clientScene);
                 return "put floor client";
+            }
+        });
+        commands.put("cl_putfloorpreview", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 5)
+                    return "usage: cl_putfloorpreview <id> <prefabId> <x> <y>";
+                new gBlockFloor(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4])).addToScene(xMain.shellLogic.clientPreviewScene);
+                return "1";
             }
         });
         commands.put("putcollision", new gDoable() {
@@ -1153,6 +1141,23 @@ public class xCon {
                         Integer.parseInt(toks[7]),
                         Integer.parseInt(toks[8])
                 ).addToScene(xMain.shellLogic.clientScene);
+                return "put cube client";
+            }
+        });
+        commands.put("cl_putcubepreview", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 9)
+                    return "usage: cl_putcubepreview <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
+                new gBlockCube(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]),
+                        Integer.parseInt(toks[4]),
+                        Integer.parseInt(toks[5]),
+                        Integer.parseInt(toks[6]),
+                        Integer.parseInt(toks[7]),
+                        Integer.parseInt(toks[8])
+                ).addToScene(xMain.shellLogic.clientPreviewScene);
                 return "put cube client";
             }
         });

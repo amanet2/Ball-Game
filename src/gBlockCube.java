@@ -91,4 +91,18 @@ public class gBlockCube extends gBlock {
             g2.drawRoundRect(coords[0], coords[1], dims[0], toph, 5, 5);
         }
     }
+    
+    public void drawPreview(Graphics2D g2) {
+        dFonts.setFontColor(g2, "clrw_wallcolorpreview");
+        g2.fillRect(
+                eUtils.scaleInt(coords[0]/4), eUtils.scaleInt(coords[1]/4+ toph/4),
+                eUtils.scaleInt(dims[0]/4), eUtils.scaleInt(wallh/4)
+        );
+        dFonts.setFontColor(g2, "clrw_topcolorpreview");
+        g2.fillRect(
+                eUtils.scaleInt(coords[0]/4), eUtils.scaleInt(coords[1]/4),
+                eUtils.scaleInt(dims[0]/4), eUtils.scaleInt(toph/4)
+        );
+        
+    }
 }

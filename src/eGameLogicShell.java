@@ -18,6 +18,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     xCon console;
     gScene serverScene;
     gScene clientScene;
+    gScene clientPreviewScene;
     gScheduler scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
     eGameLogicServer serverNetThread;
@@ -52,8 +53,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         sSettings.object_titles = thingTypes.toArray(String[]::new);
         clientScene = new gScene();
+        clientPreviewScene = new gScene();
         serverScene = new gScene();
-        uiEditorMenus.previewScene = new gScene();
         gWeapons.init();
     }
 

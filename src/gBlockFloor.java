@@ -13,4 +13,12 @@ public class gBlockFloor extends gBlock {
         g2.setPaint(texture);
         g2.fillRect(coords[0], coords[1], dims[0], dims[1]);
     }
+
+    public void drawPreview(Graphics2D g2) {
+        dFonts.setFontColor(g2, "clrw_floorcolorpreview");
+        g2.fillRect(
+                eUtils.scaleInt(coords[0]/4), eUtils.scaleInt(coords[1]/4),
+                eUtils.scaleInt(dims[0]/4), eUtils.scaleInt(dims[1]/4)
+        );
+    }
 }

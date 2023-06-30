@@ -18,6 +18,10 @@ public class gBlock extends gThing {
         //to be overridden
     }
 
+    public void drawPreview(Graphics2D g2) {
+        //to be overridden
+    }
+
     public void addToScene(gScene scene) {
         super.addToScene(scene);
         scene.getThingMap("THING_BLOCK").put(id, this);
