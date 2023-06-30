@@ -45,7 +45,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 }
             });
         for(String rcs : new String[]{
-                "respawnnetplayer", "setnstate", "putblock", "putitem", "deleteblock", "deleteitem",
+                "respawnnetplayer", "setnstate", "putitem", "deleteblock", "deleteitem",
                 "gamemode", "deleteprefab"
         }) {
             clientCmdDoables.put(rcs,

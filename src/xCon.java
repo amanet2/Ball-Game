@@ -1049,15 +1049,6 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("cl_putblockpreview", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, xMain.shellLogic.clientPreviewScene, toks[1], toks[2], toks[3]);
-                return "1";
-            }
-        });
         commands.put("putfloor", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -1707,40 +1698,9 @@ public class xCon {
         String isp = ex("setvar " + itemTitle + "_sprite");
         String isc = ex("setvar " + itemTitle + "_script");
         String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
-        item.script = isc;
-        item.flare = newItemFlare;
+        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp, isc, newItemFlare);
         scene.getThingMap("THING_ITEM").put(itemId, item);
         scene.getThingMap(item.type).put(itemId, item);
-    }
-
-    private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
-        String rawX = toks[4];
-        String rawY = toks[5];
-        String width = toks[6];
-        String height = toks[7];
-        //args are x y w h (t m)
-        String[] args = new String[toks.length - 4];
-        args[0] = rawX;
-        args[1] = rawY;
-        args[2] = width;
-        args[3] = height;
-        if (args.length > 4) {
-            args[4] = toks[8];
-            args[5] = toks[9];
-        }
-        gThing newBlock = new gThing();
-        newBlock.coords = new int[] {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
-        newBlock.dims = new int[] {Integer.parseInt(args[2]), Integer.parseInt(args[3])};
-        newBlock.type = blockString;
-        if(blockString.equals("BLOCK_CUBE")) {
-            newBlock.toph = Integer.parseInt(args[4]);
-            newBlock.wallh = Integer.parseInt(args[5]);
-        }
-        newBlock.id = blockid;
-        newBlock.prefabId = prefabid;
-        scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
-        scene.getThingMap(newBlock.type).put(blockid, newBlock);
     }
 
     private String setThingDelegate(String[] args, gScene scene) {

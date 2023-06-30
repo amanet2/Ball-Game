@@ -2,15 +2,15 @@ import java.awt.*;
 
 public class gItem extends gThing {
     int occupied = 0;
-    String flare = "null";
-    String script = "null";
+    String flare;
+    String script;
 
     public void activateItem(gThing p) {
         if(!script.equals("null"))
             xMain.shellLogic.console.ex(String.format("%s %s %s", script, id, p.id));
     }
 
-    public gItem(String id, String type, int x, int y, int w, int h, String sp) {
+    public gItem(String id, String type, int x, int y, int w, int h, String sp, String script, String flare) {
         super();
         this.id = id;
         this.type = type;
@@ -21,6 +21,8 @@ public class gItem extends gThing {
         dims[0] = w;
         dims[1] = h;
         sprite = sp.equalsIgnoreCase("null") ? null : gTextures.getGScaledImage(eManager.getPath(sp), dims[0], dims[1]);
+        this.script = script;
+        this.flare = flare;
     }
 
     public void draw(Graphics2D g2) {

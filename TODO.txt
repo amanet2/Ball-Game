@@ -59,16 +59,16 @@
     -> if a client is also running the server, cl_setthing can be called by the server if server not ignored
 * GENERAL: think about how prefabs are placed
     -> current state: client requests "exec_"
-        -> client requests server to "exec prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
+        -> client requests server to "exec prefabs/X", server fans-out lines (no client custom prefabs supported)
             -> client does not get prefabs selection from server, so client needs same prefabs the server has
         -> client requests server to "deleteprefab", server fans-out "cl_deleteprefab" (instant, OK)
     -> option 1: have comm for "putprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly
             -> server and clients need same prefab files (already the case)
-    -> option 2: have client request "putblock" for each individual block in local prefab file
+    -> option 2: have client request "put" for each individual block in local prefab file
         -> even slower but does not require requesting "exec prefabs/X" and it supports client-custom prefabs
             -> clients might put malicious script calls into prefabs, like playing sounds
-                -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
+                -> we can ignore lines that arent "put" or "getres" (see previews)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera
