@@ -74,22 +74,53 @@ public class gScene {
                 new FileOutputStream(foldername + "/" + filename), StandardCharsets.UTF_8))) {
             //these three are always here
             writer.write(String.format("load\ngamemode %d\n", sSettings.clientGameMode));
-            ConcurrentHashMap<String, gThing> blockMap = getThingMap("THING_BLOCK");
-            for(String id : blockMap.keySet()) {
-                gThing block = blockMap.get(id);
-                String[] args = new String[]{
-                        block.type, block.id, block.prefabId, Integer.toString(block.coords[0]),
-                        Integer.toString(block.coords[1]), Integer.toString(block.dims[0]),
-                        Integer.toString(block.dims[1]), Integer.toString(block.toph), Integer.toString(block.wallh)
+            ConcurrentHashMap<String, gThing> floorMap = getThingMap("BLOCK_FLOOR");
+            ConcurrentHashMap<String, gThing> cubeMap = getThingMap("BLOCK_CUBE");
+            ConcurrentHashMap<String, gThing> collisionMap = getThingMap("BLOCK_COLLISION");
+            for(String id : floorMap.keySet()) {
+                gBlockFloor floor = (gBlockFloor) floorMap.get(id);
+                String[] args = new String[] {
+                        floor.id, floor.prefabId,
+                        Integer.toString(floor.coords[0]), Integer.toString(floor.coords[1])
                 };
-                StringBuilder blockString = new StringBuilder("putblock");
+                StringBuilder floorString = new StringBuilder("putfloor");
                 for(String arg : args) {
-                    if(arg != null) {
-                        blockString.append(" ").append(arg);
-                    }
+                    if(arg != null)
+                        floorString.append(" ").append(arg);
                 }
-                blockString.append('\n');
-                writer.write(blockString.toString());
+                floorString.append('\n');
+                writer.write(floorString.toString());
+            }
+            for(String id : cubeMap.keySet()) {
+                gBlockCube cube = (gBlockCube) cubeMap.get(id);
+                String[] args = new String[] {
+                        cube.id, cube.prefabId,
+                        Integer.toString(cube.coords[0]), Integer.toString(cube.coords[1]),
+                        Integer.toString(cube.dims[0]), Integer.toString(cube.dims[1]),
+                        Integer.toString(cube.toph), Integer.toString(cube.wallh),
+                };
+                StringBuilder cubeString = new StringBuilder("putcube");
+                for(String arg : args) {
+                    if(arg != null)
+                        cubeString.append(" ").append(arg);
+                }
+                cubeString.append('\n');
+                writer.write(cubeString.toString());
+            }
+            for(String id : collisionMap.keySet()) {
+                gBlockCollision collision = (gBlockCollision) collisionMap.get(id);
+                String[] args = new String[] {
+                        collision.id, collision.prefabId,
+                        Integer.toString(collision.coords[0]), Integer.toString(collision.coords[1]),
+                        Integer.toString(collision.dims[0]), Integer.toString(collision.dims[1]),
+                };
+                StringBuilder collisionString = new StringBuilder("putcollision");
+                for(String arg : args) {
+                    if(arg != null)
+                        collisionString.append(" ").append(arg);
+                }
+                collisionString.append('\n');
+                writer.write(collisionString.toString());
             }
             ConcurrentHashMap<String, gThing> itemMap = getThingMap("THING_ITEM");
             for(String id : itemMap.keySet()) {

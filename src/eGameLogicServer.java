@@ -264,8 +264,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             gBlockFloor floor = (gBlockFloor) floorMap.get(id);
             String[] args = new String[] {
                     floor.id, floor.prefabId,
-                    Integer.toString(floor.coords[0]), Integer.toString(floor.coords[1]),
-                    Integer.toString(floor.dims[0]), Integer.toString(floor.dims[1]),
+                    Integer.toString(floor.coords[0]), Integer.toString(floor.coords[1])
             };
             StringBuilder floorString = new StringBuilder("cl_putfloor");
             for(String arg : args) {
