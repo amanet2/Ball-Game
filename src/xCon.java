@@ -1082,7 +1082,9 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 7)
                     return "usage: putcollision <id> <prefabId> <x> <y> <w> <h>";
-                new gBlockCollision(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                new gBlockCollision(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
                         Integer.parseInt(toks[5]), Integer.parseInt(toks[6])
                 ).addToScene(xMain.shellLogic.serverScene);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
@@ -1094,7 +1096,9 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 7)
                     return "usage: cl_putcollision <id> <prefabId> <x> <y> <w> <h>";
-                new gBlockCollision(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                new gBlockCollision(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
                         Integer.parseInt(toks[5]), Integer.parseInt(toks[6])
                 ).addToScene(xMain.shellLogic.clientScene);
                 return "put collision client";
@@ -1105,15 +1109,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 9)
                     return "usage: putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
-                new gBlockCube(
-                        toks[1], toks[2],
-                        Integer.parseInt(toks[3]),
-                        Integer.parseInt(toks[4]),
-                        Integer.parseInt(toks[5]),
-                        Integer.parseInt(toks[6]),
-                        Integer.parseInt(toks[7]),
-                        Integer.parseInt(toks[8])
-                    ).addToScene(xMain.shellLogic.serverScene);
+                putCubeDelegate(toks, xMain.shellLogic.serverScene);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
                 return "put cube server";
             }
@@ -1123,15 +1119,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 9)
                     return "usage: cl_putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
-                new gBlockCube(
-                        toks[1], toks[2],
-                        Integer.parseInt(toks[3]),
-                        Integer.parseInt(toks[4]),
-                        Integer.parseInt(toks[5]),
-                        Integer.parseInt(toks[6]),
-                        Integer.parseInt(toks[7]),
-                        Integer.parseInt(toks[8])
-                ).addToScene(xMain.shellLogic.clientScene);
+                putCubeDelegate(toks, xMain.shellLogic.clientScene);
                 return "put cube client";
             }
         });
@@ -1140,15 +1128,7 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if(toks.length < 9)
                     return "usage: cl_putcubepreview <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
-                new gBlockCube(
-                        toks[1], toks[2],
-                        Integer.parseInt(toks[3]),
-                        Integer.parseInt(toks[4]),
-                        Integer.parseInt(toks[5]),
-                        Integer.parseInt(toks[6]),
-                        Integer.parseInt(toks[7]),
-                        Integer.parseInt(toks[8])
-                ).addToScene(xMain.shellLogic.clientPreviewScene);
+                putCubeDelegate(toks, xMain.shellLogic.clientPreviewScene);
                 return "put cube client";
             }
         });
@@ -1688,6 +1668,18 @@ public class xCon {
                 p.mov3 = 0;
         }
         gCamera.move[dir] = 0;
+    }
+
+    private void putCubeDelegate(String[] toks, gScene scene) {
+        new gBlockCube(
+                toks[1], toks[2],
+                Integer.parseInt(toks[3]),
+                Integer.parseInt(toks[4]),
+                Integer.parseInt(toks[5]),
+                Integer.parseInt(toks[6]),
+                Integer.parseInt(toks[7]),
+                Integer.parseInt(toks[8])
+        ).addToScene(scene);
     }
 
     private void putItemDelegate(String[] toks, gScene scene) {
