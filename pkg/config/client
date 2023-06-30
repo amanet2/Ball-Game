@@ -96,7 +96,7 @@ cl_setvar clrf_flooroutline 100 100 255
 cl_setvar clrf_selected 255 100 255
 cl_setvar clrf_preview 50 255 100
 cl_setvar clrf_console 100 100 150 100
-cl_setvar clrf_mapmakergrid 255 255 255 125
+cl_setvar clrf_mapmakergrid 255 255 255 80
 cl_setvar clrf_playerarrow1 0 150 50 255
 cl_setvar clrf_playerarrow2 0 200 0 100
 cl_setvar clrf_waypoint1 255 100 50 150

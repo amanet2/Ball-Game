@@ -7,7 +7,7 @@ public class gBlockCollision extends gBlock {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.RED);
+        g2.setColor(Color.WHITE);
         g2.drawRect(coords[0], coords[1], dims[0], dims[1]);
     }
 }
