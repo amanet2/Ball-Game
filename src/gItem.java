@@ -27,26 +27,15 @@ public class gItem extends gThing {
         if(sprite != null) {
             //item shadow
             drawRoundShadow(g2);
-            g2.drawImage(
-                    sprite,
-                    coords[0],
-                    coords[1],
-                    null
-            );
+            g2.drawImage(sprite, coords[0], coords[1], null);
             if(sSettings.vfxenableflares && !flare.equals("null")) {
                 String[] flareToks = flare.split(":");
                 int[] flareArgs = new int[] {
-                        Integer.parseInt(flareToks[0]),
-                        Integer.parseInt(flareToks[1]),
-                        Integer.parseInt(flareToks[2]),
-                        Integer.parseInt(flareToks[3])
+                        Integer.parseInt(flareToks[0]), Integer.parseInt(flareToks[1]),
+                        Integer.parseInt(flareToks[2]), Integer.parseInt(flareToks[3])
                 };
                 dScreenFX.drawFlareFromColor(g2,
-                        coords[0] - dims[0]/2,
-                        coords[1] - dims[1]/2,
-                        dims[0]*2,
-                        dims[1]*2,
-                        1,
+                        coords[0] - dims[0]/2, coords[1] - dims[1]/2, dims[0]*2, dims[1]*2, 1,
                         new Color(flareArgs[0], flareArgs[1], flareArgs[2], flareArgs[3]),
                         new Color(0,0,0,0)
                 );
