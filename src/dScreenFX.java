@@ -7,7 +7,7 @@ public class dScreenFX {
         nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
         if(userState == null)
             return;
-//        Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
         //spawn protection shine
 //        if(cGameLogic.drawLocalSpawnProtection()) {
 //            int factors = sVars.getInt("vfxfactor");
@@ -74,6 +74,28 @@ public class dScreenFX {
                 g.setColor(hpvfxColor);
                 g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
             }
+        }
+
+        // -- aimer
+        if(xMain.shellLogic.getUserPlayer() != null) {
+            int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
+            int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
+            int cx = eUtils.unscaleInt(gCamera.coords[0]);
+            int cy = eUtils.unscaleInt(gCamera.coords[1]);
+            int snapX = aimerx + cx;
+            int snapY = aimery + cy;
+            snapX -= eUtils.unscaleInt(gCamera.coords[0]);
+            snapY -= eUtils.unscaleInt(gCamera.coords[1]);
+            snapX = eUtils.scaleInt(snapX);
+            snapY = eUtils.scaleInt(snapY);
+            int setw = sSettings.height / 8;
+            RadialGradientPaint df = new RadialGradientPaint(new Point(snapX + setw/2, snapY + setw/2), setw/2,
+                    new float[]{0f, 1f}, new Color[]{new Color(255,255,255,25), new Color(0,0,0,0)}
+            );
+            g2.setPaint(df);
+            g2.fillOval(snapX, snapY, setw, setw);
+//            g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+//            g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }
 
