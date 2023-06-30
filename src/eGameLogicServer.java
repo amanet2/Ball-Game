@@ -257,26 +257,51 @@ public class eGameLogicServer extends eGameLogicAdapter {
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
-        ConcurrentHashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
-        for(String id : blockMap.keySet()) {
-            gThing block = blockMap.get(id);
-            String[] args = new String[]{
-                    block.type,
-                    block.id,
-                    block.prefabId,
-                    Integer.toString(block.coords[0]),
-                    Integer.toString(block.coords[1]),
-                    Integer.toString(block.dims[0]),
-                    Integer.toString(block.dims[1]),
-                    Integer.toString(block.toph),
-                    Integer.toString(block.wallh)
+        ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
+        ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
+        ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");
+        for(String id : floorMap.keySet()) {
+            gBlockFloor floor = (gBlockFloor) floorMap.get(id);
+            String[] args = new String[] {
+                    floor.id, floor.prefabId,
+                    Integer.toString(floor.coords[0]), Integer.toString(floor.coords[1]),
+                    Integer.toString(floor.dims[0]), Integer.toString(floor.dims[1]),
             };
-            StringBuilder blockString = new StringBuilder("cl_putblock");
+            StringBuilder floorString = new StringBuilder("cl_putfloor");
             for(String arg : args) {
                 if(arg != null)
-                    blockString.append(" ").append(arg);
+                    floorString.append(" ").append(arg);
             }
-            maplines.add(blockString.toString());
+            maplines.add(floorString.toString());
+        }
+        for(String id : cubeMap.keySet()) {
+            gBlockCube cube = (gBlockCube) cubeMap.get(id);
+            String[] args = new String[] {
+                    cube.id, cube.prefabId,
+                    Integer.toString(cube.coords[0]), Integer.toString(cube.coords[1]),
+                    Integer.toString(cube.dims[0]), Integer.toString(cube.dims[1]),
+                    Integer.toString(cube.toph), Integer.toString(cube.wallh),
+            };
+            StringBuilder cubeString = new StringBuilder("cl_putcube");
+            for(String arg : args) {
+                if(arg != null)
+                    cubeString.append(" ").append(arg);
+            }
+            maplines.add(cubeString.toString());
+        }
+        for(String id : collisionMap.keySet()) {
+            gBlockCollision collision = (gBlockCollision) collisionMap.get(id);
+            String[] args = new String[] {
+                    collision.id, collision.prefabId,
+                    Integer.toString(collision.coords[0]), Integer.toString(collision.coords[1]),
+                    Integer.toString(collision.dims[0]), Integer.toString(collision.dims[1]),
+            };
+            StringBuilder collisionString = new StringBuilder("cl_putcollision");
+            for(String arg : args) {
+                if(arg != null)
+                    collisionString.append(" ").append(arg);
+            }
+            maplines.add(collisionString.toString());
         }
         ConcurrentHashMap<String, gThing> itemMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
