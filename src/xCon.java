@@ -907,7 +907,7 @@ public class xCon {
                                 for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
                                     if(bid < Integer.parseInt(id))
                                         bid = Integer.parseInt(id);
-                                    int tpid = Integer.parseInt(xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id).prefabId);
+                                    int tpid = Integer.parseInt(((gBlock) xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id)).prefabId);
                                     if(pid < tpid)
                                         pid = tpid;
                                 }
@@ -1792,7 +1792,7 @@ public class xCon {
 
     private void deletePrefabDelegate(gScene scene, String prefabId) {
         for(String id : scene.getThingMapIds("THING_BLOCK")) {
-            gThing block = scene.getThingMap("THING_BLOCK").get(id);
+            gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
             if(!block.prefabId.equals(prefabId))
                 continue;
             String type = block.type;

@@ -510,7 +510,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         }
         for(String id : clientScene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = clientScene.getThingMap("THING_BLOCK").get(id);
+            gBlock block = (gBlock) clientScene.getThingMap("THING_BLOCK").get(id);
             if(block.coordsWithinBounds(mc[0], mc[1])) {
                 sSettings.clientSelectedPrefabId = block.prefabId;
                 sSettings.clientSelectedItemId = "";

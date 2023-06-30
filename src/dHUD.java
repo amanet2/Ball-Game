@@ -56,33 +56,33 @@ public class dHUD {
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
         int window_offsetx = xMain.shellLogic.displayPane.frame.getLocationOnScreen().x;
         int window_offsety = xMain.shellLogic.displayPane.frame.getLocationOnScreen().y;
-        // -- selected prefab (blocks)
-        g2.setStroke(dFonts.thickStroke);
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
-            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
-            if(sSettings.drawhitboxes && block.type.equals("BLOCK_FLOOR")) {
-                dFonts.setFontColor(g2, "clrf_flooroutline");
-                g2.drawRect(block.coords[0],
-                        block.coords[1],
-                        block.dims[0], block.dims[1]);
-            }
-            if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
-                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(block.coords[0],
-                        block.coords[1],
-                        block.dims[0], block.dims[1]);
-            }
-        }
-        // -- selected item
-        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
-            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
-            if(item.id.equals(sSettings.clientSelectedItemId)) {
-                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(item.coords[0],
-                        item.coords[1],
-                        item.dims[0], item.dims[1]);
-            }
-        }
+//        // -- selected prefab (blocks)
+//        g2.setStroke(dFonts.thickStroke);
+//        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
+//            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
+//            if(sSettings.drawhitboxes && block.type.equals("BLOCK_FLOOR")) {
+//                dFonts.setFontColor(g2, "clrf_flooroutline");
+//                g2.drawRect(block.coords[0],
+//                        block.coords[1],
+//                        block.dims[0], block.dims[1]);
+//            }
+//            if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
+//                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+//                g2.drawRect(block.coords[0],
+//                        block.coords[1],
+//                        block.dims[0], block.dims[1]);
+//            }
+//        }
+//        // -- selected item
+//        for(String id : xMain.shellLogic.clientScene.getThingMap("THING_ITEM").keySet()) {
+//            gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
+//            if(item.id.equals(sSettings.clientSelectedItemId)) {
+//                g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
+//                g2.drawRect(item.coords[0],
+//                        item.coords[1],
+//                        item.dims[0], item.dims[1]);
+//            }
+//        }
         //prefab dims
         // -- preview rect
         int w = 300;

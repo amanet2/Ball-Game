@@ -20,5 +20,6 @@ public class gBlock extends gThing {
 
     public void addToScene(gScene scene) {
         super.addToScene(scene);
+        scene.getThingMap("THING_BLOCK").put(id, this);
     }
 }
