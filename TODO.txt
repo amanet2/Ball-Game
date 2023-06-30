@@ -1,3 +1,4 @@
+* FLASHLIGHT: adjust map brightness via: cl_setvar clrw_floorshading <r> <g> <b> <a>
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
     -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
 * BOTS: implement them like doom

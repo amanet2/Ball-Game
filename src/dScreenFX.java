@@ -7,37 +7,6 @@ public class dScreenFX {
         nState userState = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot).get(sSettings.uuid);
         if(userState == null)
             return;
-        Graphics2D g2 = (Graphics2D) g;
-        //spawn protection shine
-//        if(cGameLogic.drawLocalSpawnProtection()) {
-//            int factors = sVars.getInt("vfxfactor");
-//            int maxl = sVars.getInt("vfxuialphaflashlight");
-//            for (int i = 0; i < factors; i++) {
-//                g.setColor(new Color(128, 128, 28,
-//                        Math.abs((maxl /(factors/2)) * (Math.abs(((factors / 2) - i)) - (factors / 2)))));
-//                g.fillRect(sSettings.width/factors * i, 0,sSettings.width/factors, sSettings.height);
-//                g.fillRect(0, sSettings.height/factors * i, sSettings.width, sSettings.height/factors);
-//            }
-//        }
-//        // sprint overlay
-//        if(sVars.isOne("sprint")) {
-//            int maxl = sVars.getInt("vfxuialphasprint");
-//            int factorsw = sSettings.width/sVars.getInt("vfxfactordiv");
-//            int factorsh = sSettings.height/sVars.getInt("vfxfactordiv");
-//            for (int i = 0; i < factorsw; i++) {
-//                g.setColor(new Color(50, 220, 100,
-//                        Math.abs(Math.abs((maxl / (factorsw/2)) * (Math.abs(((factorsw/2) - i))-(factorsw/2))) - maxl)
-//                                * sVars.getInt("stockspeed")/sVars.getInt("maxstockspeed")/2));
-//                g.fillRect(sSettings.width/factorsw * i, 0,sSettings.width/factorsw, sSettings.height);
-//            }
-//            for (int i = 0; i < factorsh; i++) {
-//                g.setColor(new Color(50, 220, 100,
-//                        Math.abs(Math.abs((maxl / (factorsh/2)) * (Math.abs(((factorsh/2) - i))-(factorsh/2))) - maxl)
-//                                * sVars.getInt("stockspeed")/sVars.getInt("maxstockspeed")/2));
-//                g.fillRect(0, sSettings.height/factorsh * i, sSettings.width, sSettings.height/factorsh);
-//            }
-//
-//        }
         // health overlay
         int userhp = Math.max(Integer.parseInt(userState.get("hp")), 0);
         if (userhp < sSettings.clientMaxHP) {
@@ -74,28 +43,6 @@ public class dScreenFX {
                 g.setColor(hpvfxColor);
                 g.fillRect(0, sSettings.height / factorsh * i, sSettings.width, sSettings.height / factorsh);
             }
-        }
-
-        // -- aimer
-        if(xMain.shellLogic.getUserPlayer() != null) {
-            int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
-            int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
-            int cx = eUtils.unscaleInt(gCamera.coords[0]);
-            int cy = eUtils.unscaleInt(gCamera.coords[1]);
-            int snapX = aimerx + cx;
-            int snapY = aimery + cy;
-            snapX -= eUtils.unscaleInt(gCamera.coords[0]);
-            snapY -= eUtils.unscaleInt(gCamera.coords[1]);
-            snapX = eUtils.scaleInt(snapX);
-            snapY = eUtils.scaleInt(snapY);
-            int setw = sSettings.height / 8;
-            RadialGradientPaint df = new RadialGradientPaint(new Point(snapX + setw/2, snapY + setw/2), setw/2,
-                    new float[]{0f, 1f}, new Color[]{new Color(255,255,255,25), new Color(0,0,0,0)}
-            );
-            g2.setPaint(df);
-            g2.fillOval(snapX, snapY, setw, setw);
-//            g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-//            g2.fillOval(snapX - setw / 2, snapY - setw / 2, setw, setw);
         }
     }
 
