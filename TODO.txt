@@ -1,3 +1,9 @@
+* GAMETYPE: bounce the bot into the flagdeposit
+    -> botplayer doesn't do anything except get bounced around
+    -> engine will have to detect collision between BOTPLAYER and items like players are
+    -> botplayer should have a var created in the script called "collidedplayer" (DONE)
+    -> if botplayer collided with flagdeposit give a point to item "collidedplayer" and delete the item
+        -> schedule a new BOTPLAYER to spawn in at a random spawnpoint
 * ITEMS: looks like items may need to be syncd on client and server
     -> we want the server to be able to send custom items to clients
     -> have fallbacks if sprite, script, flare fields are "null"
