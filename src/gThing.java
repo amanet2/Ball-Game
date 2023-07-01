@@ -5,11 +5,10 @@ public class gThing {
     Image sprite = null;
     String spritePath = "null";
     String type = "null";
-    String color = "red";
+    String color = "red"; //for players
     int[] coords = {0, 0};
     int[] dims = {0, 0};
     String id;
-    String prefabId;
     gArgSet args;
     int acceldelay = 100;
     int accelrate = 2;
@@ -26,8 +25,6 @@ public class gThing {
     int mov1 = 0;
     int mov2 = 0;
     int mov3 = 0;
-    int toph = 0; //for blocks
-    int wallh = 0; //for blocks
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int dmg = 0; //bullets
     String srcId = "-1"; //bullets
