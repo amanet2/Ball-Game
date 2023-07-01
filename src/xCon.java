@@ -1345,33 +1345,6 @@ public class xCon {
                 return "player " + pid + " given var '" + varname + "' with value of " + varval;
             }
         });
-        commands.put("setplayercoords", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 4)
-                    return "null";
-                gPlayer p = xMain.shellLogic.serverScene.getPlayerById(args[1]);
-                if(p == null)
-                    return "null";
-                p.coords[0] = Integer.parseInt(args[2]);
-                p.coords[1] = Integer.parseInt(args[3]);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
-                return fullCommand;
-            }
-        });
-        commands.put("cl_setplayercoords", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 4)
-                    return "null";
-                gPlayer p = xMain.shellLogic.getPlayerById(args[1]);
-                if(p == null)
-                    return "null";
-                p.coords[0] = Integer.parseInt(args[2]);
-                p.coords[1] = Integer.parseInt(args[3]);
-                return fullCommand;
-            }
-        });
         commands.put("setthing", new gDoable() {
             //usage: setthing $THING_TYPE $id $key $val
             public String doCommand(String fullCommand) {
