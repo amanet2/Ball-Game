@@ -4,6 +4,8 @@ addcomi server cl_setvar clrw_floorshading 0 0 0 200
 getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
+REM control the bots
+foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/botscript
 testres $gamemode $mode_deathmatch foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_pointmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
