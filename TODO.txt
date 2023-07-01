@@ -1,3 +1,6 @@
+* BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
+    -> save what we have now for a "bouncyball" type object
+    -> make it bounce off walls then come up with new system
 * GAMETYPE: bounce the bot into the flagdeposit
     -> botplayer doesn't do anything except get bounced around
     -> engine will have to detect collision between BOTPLAYER and items like players are
