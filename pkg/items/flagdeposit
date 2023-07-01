@@ -1,5 +1,5 @@
 getres hasflag setnstate $2 flag
 testres $hasflag 1 setnstate $2 flag 0
-testres $hasflag 1 setplayer $2 decorationsprite null
-testres $hasflag 1 setplayer $2 waypoint 0
+testres $hasflag 1 setnplayer $2 decorationsprite null
+testres $hasflag 1 setnplayer $2 waypoint 0
 testres $hasflag 1 givepoint $2

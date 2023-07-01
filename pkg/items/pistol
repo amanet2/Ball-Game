@@ -3,4 +3,4 @@ testresn $pw 1 getres dwd setthing THING_PLAYER $2 dropweapondelay
 testresn $pw 1 getres dodw gte $gametimemillis $dwd
 testresn $pw 1 testres $dodw 1 exec scripts/handleplayerweapondrop $2
 testresn $pw 1 testres $dodw 1 deleteitem $1
-testresn $pw 1 testres $dodw 1 setplayer $2 weapon 1
+testresn $pw 1 testres $dodw 1 setnplayer $2 weapon 1

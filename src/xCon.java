@@ -1331,11 +1331,12 @@ public class xCon {
                 return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
             }
         });
-        commands.put("setplayer", new gDoable() {
+        commands.put("setnplayer", new gDoable() {
             public String doCommand(String fullCommand) {
+                //synchronized between server and clients
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 4)
-                    return "usage: setplayer <player_id> <var_name> <var_value>";
+                    return "usage: setnplayer <player_id> <var_name> <var_value>";
                 String pid = args[1];
                 String varname = args[2];
                 String varval = args[3];
