@@ -20,7 +20,8 @@ testres $gamemode $mode_pointmaster foreachlong tv $bstart $eend 30000 schedulee
 testres $gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 scheduleevent $tv echo scorepoint spawning in 10 seconds!
 testres $gamemode $mode_vipmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
-REM testres $gamemode $mode_virus foreachclient $cd addcomx $cd cl_setvar clrw_floorshading 0 0 0 200
+REM bring brightness after virus
+addcom cl_setvar clrw_floorshading 0 0 0 0
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleevent $tv exec scripts/bringmaster
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
