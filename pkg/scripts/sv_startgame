@@ -5,7 +5,7 @@ getres gtime setvar gametimemillis
 getres estart sumlong $gtime 1000
 getres eend sumlong $gtime $timelimit
 REM control the bots
-foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/botscript
+REM foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/botscript
 testres $gamemode $mode_deathmatch foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_pointmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
@@ -20,7 +20,7 @@ testres $gamemode $mode_pointmaster foreachlong tv $bstart $eend 30000 schedulee
 testres $gamemode $mode_pointmaster foreachlong tv $cstart $eend 30000 scheduleevent $tv echo scorepoint spawning in 10 seconds!
 testres $gamemode $mode_vipmaster foreachlong tv $estart $eend 10000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/checkvirus
-REM bring brightness after virus
+REM bring brightness back after virus
 addcom cl_setvar clrw_floorshading 0 0 0 0
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleevent $tv exec scripts/bringmaster

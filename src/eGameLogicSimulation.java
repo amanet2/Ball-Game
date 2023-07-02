@@ -58,6 +58,34 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             int dx = obj.coords[0] + obj.vel3 - obj.vel2;
             int dy = obj.coords[1] + obj.vel1 - obj.vel0;
 
+            gPlayer player = xMain.shellLogic.getUserPlayer();
+            if(player != null) {
+                if(player.coords[1] > obj.coords[1]) {
+                    obj.mov0 = 0;
+                    obj.mov1 = 1;
+                }
+                else if(player.coords[1] < obj.coords[1]){
+                    obj.mov0 = 1;
+                    obj.mov1 = 0;
+                }
+                else {
+                    obj.mov0 = 0;
+                    obj.mov1 = 0;
+                }
+                if(player.coords[0] > obj.coords[0]) {
+                    obj.mov2 = 0;
+                    obj.mov3 = 1;
+                }
+                else if(player.coords[0] < obj.coords[0]){
+                    obj.mov2 = 1;
+                    obj.mov3 = 0;
+                }
+                else {
+                    obj.mov2 = 0;
+                    obj.mov3 = 0;
+                }
+            }
+
             if (obj.acceltick < gameTimeMillis) {
                 obj.acceltick = gameTimeMillis + obj.acceldelay;
                 //user player
@@ -79,54 +107,15 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
             }
 
-            //TODO: come up with a way to get "normal vector" from surface or player being collided with
-            // add a "collidedPlayer" arg to gThing and get velocity
-            //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
-            //TODO UPDATE: looks better, but bounces are restricted to 4 basic dirs
-//            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
         if(obj.coords[0] != dx || obj.coords[1] != dy) { //want to NOT add a server command every tick here
-            obj.coords[0] = dx;
-            obj.coords[1] = dy;
+            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
+                obj.coords[0] = dx;
+            if(obj.wontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
+                obj.coords[1] = dy;
             xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server",
-                    String.format("cl_setthing ITEM_BOTPLAYER %s coords %d:%d", obj.id, dx, dy)
+                    String.format("cl_setthing ITEM_BOTPLAYER %s coords %d:%d", obj.id, obj.coords[0], obj.coords[1])
             );
         }
-//                obj.coords[0] = dx;
-//            else {
-//                if(obj.vel2 > obj.vel3) {
-//                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel3;
-//                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
-//                        obj.collidedPlayer.vel2 = Math.max(0, obj.vel2 - 1);
-//                    obj.vel3 = Math.max(0, collidedPlayerVel + obj.vel2/2 - obj.vel0/2 - obj.vel1/2); //bounce
-//                    obj.vel2 = 0;
-//                }
-//                else {
-//                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel2;
-//                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
-//                        obj.collidedPlayer.vel3 = Math.max(0, obj.vel3 - 1);
-//                    obj.vel2 = Math.max(0, collidedPlayerVel + obj.vel3/2 - obj.vel0/2 - obj.vel1/2); //bounce
-//                    obj.vel3 = 0;
-//                }
-//            }
-//            if(obj.wontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
-//                obj.coords[1] = dy;
-//            else {
-//                if(obj.vel0 > obj.vel1) {
-//                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel1;
-//                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
-//                        obj.collidedPlayer.vel0 = Math.max(0, obj.vel0 - 1);
-//                    obj.vel1 = Math.max(0, collidedPlayerVel + obj.vel0/2 - obj.vel2/2 - obj.vel3/2); //bounce
-//                    obj.vel0 = 0;
-//                }
-//                else {
-//                    int collidedPlayerVel = obj.collidedPlayer == null ? 0 : obj.collidedPlayer.vel0;
-//                    if(obj.collidedPlayer != null && obj.collidedPlayer.mov0 == 0 && obj.collidedPlayer.mov1 == 0 && obj.collidedPlayer.mov2 == 0 && obj.collidedPlayer.mov3 == 0)
-//                        obj.collidedPlayer.vel1 = Math.max(0, obj.vel1 - 1);
-//                    obj.vel0 = Math.max(0, collidedPlayerVel + obj.vel1/2 - obj.vel2/2 - obj.vel3/2); //bounce
-//                    obj.vel1 = 0;
-//                }
-//            }
-//            obj.collidedPlayer = null;
     }
 
 

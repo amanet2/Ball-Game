@@ -1632,12 +1632,12 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
                 return "zoom out";
             }
