@@ -9,7 +9,7 @@ public class dThings {
             gThing thing = visualQueue.remove();
             if(thing.type.equals("THING_PLAYER"))
                 ((gPlayer) thing).draw(g2);
-            else if(thing.type.contains("ITEM_"))
+            else if(thing.type.startsWith("ITEM_"))
                 ((gItem) thing).draw(g2);
             else if(thing.type.contains("CUBE")) {
                 ((gBlockCube) thing).draw(g2);

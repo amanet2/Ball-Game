@@ -119,7 +119,7 @@ public class gThing {
         return new Rectangle(target.coords[0], target.coords[1], target.dims[0], target.dims[1]).intersects(new Rectangle(coords[0], coords[1], dims[0], dims[1]));
     }
 
-    public boolean wontClipOnMove(int dx, int dy, gScene scene) {
+    public boolean botWontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
             if(new Rectangle(dx, dy, dims[0], dims[1]).intersects(new Rectangle(coll.coords[0], coll.coords[1], coll.dims[0], coll.dims[1])))

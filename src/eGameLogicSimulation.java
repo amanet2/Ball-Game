@@ -108,9 +108,9 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
 
         if(obj.coords[0] != dx || obj.coords[1] != dy) { //want to NOT add a server command every tick here
-            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
+            if(obj.botWontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.coords[0] = dx;
-            if(obj.wontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
+            if(obj.botWontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
                 obj.coords[1] = dy;
             xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server",
                     String.format("cl_setthing ITEM_BOTPLAYER %s coords %d:%d", obj.id, obj.coords[0], obj.coords[1])

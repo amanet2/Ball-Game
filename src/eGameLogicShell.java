@@ -386,44 +386,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
         return itemId+1; //want to be the _next_ id
     }
 
-    private void updateThingPositions(gThing obj, long gameTimeMillis) {
-        if(obj == null)
-            return;
-        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
-        int mx = obj.vel3 - obj.vel2;
-        int my = obj.vel1 - obj.vel0;
-        int dx = obj.coords[0] + (int) (mx * mod);
-        int dy = obj.coords[1] + (int) (my * mod);
-
-        if (obj.acceltick < gameTimeMillis) {
-            obj.acceltick = gameTimeMillis + obj.acceldelay;
-            //user player
-            if(obj.mov0 > 0)
-                obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-            else
-                obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-            if(obj.mov1 > 0)
-                obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-            else
-                obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-            if(obj.mov2 > 0)
-                obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-            else
-                obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-            if(obj.mov3 > 0)
-                obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-            else
-                obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
-        }
-
-        //TODO: come up with a way to get "normal vector" from surface or player being collided with
-        // add a "collidedPlayer" arg to gThing and get velocity
-        //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
-        //TODO UPDATE: looks better, but bounces are restricted to 4 basic dirs
-//            if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
-        obj.coords = new int[] {dx, dy};
-    }
-
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
             gCamera.updatePosition();
@@ -472,10 +434,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     obj.coords[0] = dx;
                     obj.coords[1] = dy;
                 }
-                //bots
-//                for(String id : clientScene.getThingMapIds("ITEM_BOTPLAYER")) {
-//                    updateThingPositions(clientScene.getThingMap("ITEM_BOTPLAYER").get(id), gameTimeMillis);
-//                }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
                 for (String id : thingMap.keySet()) {
