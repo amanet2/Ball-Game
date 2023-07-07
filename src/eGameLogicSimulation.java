@@ -42,6 +42,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         for(String iid : keysetcopy) {
             gItem item = (gItem) itemsMap.get(iid);
             item.occupied = 0;
+            updateThingPosition(item, sSettings.gameTime);
             for(String pid : playerKeySetCopy) {
                 if(!playerMap.containsKey(pid))
                     continue;
@@ -53,7 +54,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void updateThingPosition(gThing obj, long gameTimeMillis) {
-            if(obj == null)
+            if(obj == null || !obj.type.equals("ITEM_BOTPLAYER"))
                 return;
             int dx = obj.coords[0] + obj.vel3 - obj.vel2;
             int dy = obj.coords[1] + obj.vel1 - obj.vel0;
@@ -112,9 +113,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 obj.coords[0] = dx;
             if(obj.botWontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
                 obj.coords[1] = dy;
-            xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server",
-                    String.format("cl_setthing ITEM_BOTPLAYER %s coords %d:%d", obj.id, obj.coords[0], obj.coords[1])
-            );
         }
     }
 
@@ -192,9 +190,9 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             obj.collidedPlayer = null;
         }
         // bots
-        for(String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BOTPLAYER")) {
-            updateThingPosition(xMain.shellLogic.serverScene.getThingMap("ITEM_BOTPLAYER").get(id), gameTimeMillis);
-        }
+//        for(String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BOTPLAYER")) {
+//            updateThingPosition(xMain.shellLogic.serverScene.getThingMap("ITEM_BOTPLAYER").get(id), gameTimeMillis);
+//        }
 
         //bullets
         try {

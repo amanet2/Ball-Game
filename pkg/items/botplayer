@@ -1,5 +1,3 @@
-getres clp setthing ITEM_BOTPLAYER $1 collidedplayer
-testres $clp null setvar clp $2
 getres bdl setthing THING_PLAYER $2 bouncedelay
 getres dobounce gte $gametimemillis $bdl
 testres $dobounce 1 bounceplayers $1 $2

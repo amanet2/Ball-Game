@@ -1715,10 +1715,10 @@ public class xCon {
         ConcurrentHashMap<String, gThing> thingMap = scene.getThingMap(ttype);
         if(args.length < 3)
             return thingMap.toString();
-        String tid = args[2];
-        if(!thingMap.containsKey(tid))
+        String thingId = args[2];
+        if(!thingMap.containsKey(thingId))
             return "null";
-        gThing thing = thingMap.get(tid);
+        gThing thing = thingMap.get(thingId);
         if(args.length < 4)
             return thing.args.toString();
         String tk = args[3];

@@ -57,6 +57,15 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(idload.equals("server")) {
                 for (String k : packArgState.keys()) {
                     receivedArgsServer.put(k, packArgState.get(k));
+                    if(k.contains("ITEM_BOTPLAYER")) {
+                        String botId = k.split("_")[k.split("_").length - 1];
+                        if(!xMain.shellLogic.clientScene.getThingMap("THING_ITEM").containsKey(botId))
+                            continue;
+                        String[] botCoords = packArgState.get(k).split(":");
+                        xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(botId).coords = new int[]{
+                                Integer.parseInt(botCoords[0]), Integer.parseInt(botCoords[1])
+                        };
+                    }
                 }
             }
             else {
