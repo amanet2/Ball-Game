@@ -86,8 +86,8 @@ setvar ITEM_FLAGDEPOSIT_sprite misc/light1.png
 setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
 setvar ITEM_BALL_dimw 200
 setvar ITEM_BALL_dimh 200
-setvar ITEM_BALL_sprite animations/player_blue/a03.png
-setvar ITEM_BALL_script exec items/botplayer
+setvar ITEM_BALL_sprite misc/ball.png
+setvar ITEM_BALL_script exec items/ball
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2
