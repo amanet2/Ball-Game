@@ -57,7 +57,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(idload.equals("server")) {
                 for (String k : packArgState.keys()) {
                     receivedArgsServer.put(k, packArgState.get(k));
-                    if(k.equals("ITEM_BOTPLAYER")) {
+                    if(k.equals("ITEM_BALL")) {
                         String botsState = packArgState.get(k);
                         String[] botsToks = botsState.split("/");
                         for(String botState : botsToks) {

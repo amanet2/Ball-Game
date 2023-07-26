@@ -49,6 +49,14 @@ public class xCon {
                 return "1";
             }
         });
+        commands.put("addbot", new gDoable() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only the host can add bots!";
+                ex("respawnnetplayer " + eUtils.createId());
+                return "spawned botplayer";
+            }
+        });
         commands.put("addcom", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
@@ -141,7 +149,7 @@ public class xCon {
                     String id1 = toks[1];
                     String id2 = toks[2];
                     gThing obj1  = xMain.shellLogic.serverScene.getPlayerById(id2);
-                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BOTPLAYER").get(id1);
+                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id1);
                     if(obj1 != null && obj2 != null) {
                         if(obj1.vel2 > obj1.vel3) {
                             if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)

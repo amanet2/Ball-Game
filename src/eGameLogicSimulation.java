@@ -54,38 +54,39 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void updateThingPosition(gThing obj, long gameTimeMillis) {
-            if(obj == null || !obj.type.equals("ITEM_BOTPLAYER"))
+            if(obj == null || !obj.type.equals("ITEM_BALL"))
                 return;
             int dx = obj.coords[0] + obj.vel3 - obj.vel2;
             int dy = obj.coords[1] + obj.vel1 - obj.vel0;
 
-            gPlayer player = xMain.shellLogic.getUserPlayer();
-            if(player != null) {
-                if(player.coords[1] > obj.coords[1]) {
-                    obj.mov0 = 0;
-                    obj.mov1 = 1;
-                }
-                else if(player.coords[1] < obj.coords[1]){
-                    obj.mov0 = 1;
-                    obj.mov1 = 0;
-                }
-                else {
-                    obj.mov0 = 0;
-                    obj.mov1 = 0;
-                }
-                if(player.coords[0] > obj.coords[0]) {
-                    obj.mov2 = 0;
-                    obj.mov3 = 1;
-                }
-                else if(player.coords[0] < obj.coords[0]){
-                    obj.mov2 = 1;
-                    obj.mov3 = 0;
-                }
-                else {
-                    obj.mov2 = 0;
-                    obj.mov3 = 0;
-                }
-            }
+            // TRACKS PLAYER
+//            gPlayer player = xMain.shellLogic.getUserPlayer();
+//            if(player != null) {
+//                if(player.coords[1] > obj.coords[1]) {
+//                    obj.mov0 = 0;
+//                    obj.mov1 = 1;
+//                }
+//                else if(player.coords[1] < obj.coords[1]){
+//                    obj.mov0 = 1;
+//                    obj.mov1 = 0;
+//                }
+//                else {
+//                    obj.mov0 = 0;
+//                    obj.mov1 = 0;
+//                }
+//                if(player.coords[0] > obj.coords[0]) {
+//                    obj.mov2 = 0;
+//                    obj.mov3 = 1;
+//                }
+//                else if(player.coords[0] < obj.coords[0]){
+//                    obj.mov2 = 1;
+//                    obj.mov3 = 0;
+//                }
+//                else {
+//                    obj.mov2 = 0;
+//                    obj.mov3 = 0;
+//                }
+//            }
 
             if (obj.acceltick < gameTimeMillis) {
                 obj.acceltick = gameTimeMillis + obj.acceldelay;
@@ -190,8 +191,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             obj.collidedPlayer = null;
         }
         // bots
-//        for(String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BOTPLAYER")) {
-//            updateThingPosition(xMain.shellLogic.serverScene.getThingMap("ITEM_BOTPLAYER").get(id), gameTimeMillis);
+//        for(String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
+//            updateThingPosition(xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id), gameTimeMillis);
 //        }
 
         //bullets
