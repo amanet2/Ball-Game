@@ -189,11 +189,39 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 }
             }
             obj.collidedPlayer = null;
+
+            if(obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
+                obj.botThinkTime = sSettings.gameTime + 1000;
+                gPlayer player = xMain.shellLogic.getUserPlayer();
+                if(player != null) {
+                    if(player.coords[1] > obj.coords[1]) {
+                        obj.mov0 = 0;
+                        obj.mov1 = 1;
+                    }
+                    else if(player.coords[1] < obj.coords[1]){
+                        obj.mov0 = 1;
+                        obj.mov1 = 0;
+                    }
+                    else {
+                        obj.mov0 = 0;
+                        obj.mov1 = 0;
+                    }
+                    if(player.coords[0] > obj.coords[0]) {
+                        obj.mov2 = 0;
+                        obj.mov3 = 1;
+                    }
+                    else if(player.coords[0] < obj.coords[0]){
+                        obj.mov2 = 1;
+                        obj.mov3 = 0;
+                    }
+                    else {
+                        obj.mov2 = 0;
+                        obj.mov3 = 0;
+                    }
+                }
+            }
         }
         // bots
-//        for(String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
-//            updateThingPosition(xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id), gameTimeMillis);
-//        }
 
         //bullets
         try {
