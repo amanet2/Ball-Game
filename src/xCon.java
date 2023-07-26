@@ -53,7 +53,9 @@ public class xCon {
             public String doCommand(String fullCommand) {
                 if(!sSettings.IS_SERVER)
                     return "only the host can add bots!";
-                ex("respawnnetplayer " + eUtils.createId());
+                String botId = "bot" + eUtils.createId();
+                ex("respawnnetplayer " + botId);
+                xMain.shellLogic.serverNetThread.handleJoin(botId);
                 return "spawned botplayer";
             }
         });

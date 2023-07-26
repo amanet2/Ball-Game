@@ -190,12 +190,15 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.ex("respawnnetplayer " + id);
     }
 
-    private void handleJoin(String id) {
+    public void handleJoin(String id) {
         masterStateMap.put(id, new nStateBallGame());
-        clientNetCmdMap.put(id, new LinkedList<>());
+        if(!id.startsWith("bot"))
+            clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
-        sendMapAndRespawn(id);
-        handleBackfill(id);
+        if(!id.startsWith("bot")) {
+            sendMapAndRespawn(id);
+            handleBackfill(id);
+        }
     }
 
     private void handleBackfill(String id) {
