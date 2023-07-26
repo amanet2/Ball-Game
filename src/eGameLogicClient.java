@@ -3,10 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
@@ -77,6 +74,13 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     clientStateMap.put(idload, new nStateBallGameClient());
                 for(String k : packArgState.keys()) {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
+                }
+                if(idload.startsWith("bot")) {
+                    gThing botThing = xMain.shellLogic.getPlayerById(idload);
+                    if(botThing != null) {
+                        String[] ccds = packArgState.get("coords").split(":");
+                        botThing.coords = new int[]{Integer.parseInt(ccds[0]), Integer.parseInt(ccds[1])};
+                    }
                 }
                 foundIds.add(idload);
             }

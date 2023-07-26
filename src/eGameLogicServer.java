@@ -149,7 +149,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     private void addNetSendData(String id, String data) {
-        clientNetCmdMap.get(id).add(data);
+        if(clientNetCmdMap.containsKey(id))
+            clientNetCmdMap.get(id).add(data);
     }
 
     private void addNetSendData(String data) {
@@ -240,6 +241,19 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.get(stateId).put("vel1", Integer.toString(pl.vel1));
             masterStateMap.get(stateId).put("vel2", Integer.toString(pl.vel2));
             masterStateMap.get(stateId).put("vel3", Integer.toString(pl.vel3));
+        }
+        //update bots
+        for(String id : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
+            if(id.startsWith("bot")) {
+                gPlayer bpl = xMain.shellLogic.serverScene.getPlayerById(id);
+                if(bpl != null) {    //store player object's health in outgoing network arg map
+                    masterStateMap.get(id).put("coords", bpl.coords[0] + ":" + bpl.coords[1]);
+                    masterStateMap.get(id).put("vel0", Integer.toString(bpl.vel0));
+                    masterStateMap.get(id).put("vel1", Integer.toString(bpl.vel1));
+                    masterStateMap.get(id).put("vel2", Integer.toString(bpl.vel2));
+                    masterStateMap.get(id).put("vel3", Integer.toString(bpl.vel3));
+                }
+            }
         }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
