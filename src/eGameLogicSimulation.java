@@ -192,7 +192,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 
             if(obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + 1000;
-                gPlayer player = xMain.shellLogic.getUserPlayer();
+                gPlayer player = getClosestPlayer(obj);
                 if(player != null) {
                     if(player.coords[1] > obj.coords[1]) {
                         obj.mov0 = 0;
@@ -237,6 +237,24 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             e.printStackTrace();
         }
 
+    }
+
+    public gPlayer getClosestPlayer(gPlayer src) {
+        gPlayer closest = null;
+        int closestDist = 1000000;
+        for(String id : xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").keySet()) {
+            if(id.equals(src.id))
+                continue;
+            gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(id);
+            int x1 = src.coords[0];
+            int y1 = src.coords[1];
+            int x2 = dst.coords[1];
+            int y2 = dst.coords[1];
+            int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            if(dist < closestDist)
+                closest = dst;
+        }
+        return closest;
     }
 
     private void checkBulletSplashes() {
