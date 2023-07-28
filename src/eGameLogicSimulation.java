@@ -248,7 +248,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(id);
             int x1 = src.coords[0];
             int y1 = src.coords[1];
-            int x2 = dst.coords[1];
+            int x2 = dst.coords[0];
             int y2 = dst.coords[1];
             int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
             if(dist < closestDist)
