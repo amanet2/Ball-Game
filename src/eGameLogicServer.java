@@ -252,6 +252,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                     masterStateMap.get(id).put("vel1", Integer.toString(bpl.vel1));
                     masterStateMap.get(id).put("vel2", Integer.toString(bpl.vel2));
                     masterStateMap.get(id).put("vel3", Integer.toString(bpl.vel3));
+                    masterStateMap.get(id).put("fv", Double.toString(bpl.fv));
                 }
                 masterStateMap.get(id).put("score",  String.format("%d:%d",
                         gScoreboard.scoresMap.get(id).get("wins"), gScoreboard.scoresMap.get(id).get("score")));

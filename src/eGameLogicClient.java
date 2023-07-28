@@ -76,10 +76,12 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
                 }
                 if(idload.startsWith("bot")) {
-                    gThing botThing = xMain.shellLogic.getPlayerById(idload);
+                    gPlayer botThing = xMain.shellLogic.getPlayerById(idload);
                     if(botThing != null) {
                         String[] ccds = packArgState.get("coords").split(":");
                         botThing.coords = new int[]{Integer.parseInt(ccds[0]), Integer.parseInt(ccds[1])};
+                        botThing.fv = Double.parseDouble(packArgState.get("fv"));
+                        botThing.checkSpriteFlip();
                     }
                 }
                 foundIds.add(idload);

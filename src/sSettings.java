@@ -58,6 +58,8 @@ public class sSettings {
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
 	static boolean respawnEnabled = true;
+	static int botThinkTimeDelay = 250;
+	static int botShootRange = 1200;
 
 	//client
 	static int clientMaxHP = 500;

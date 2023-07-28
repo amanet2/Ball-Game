@@ -191,7 +191,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             obj.collidedPlayer = null;
 
             if(obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
-                obj.botThinkTime = sSettings.gameTime + 1000;
+                obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
                 gPlayer player = getClosestPlayer(obj);
                 if(player != null) {
                     if(player.coords[1] > obj.coords[1]) {
@@ -218,6 +218,14 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                         obj.mov2 = 0;
                         obj.mov3 = 0;
                     }
+                    //point at player
+                    double bdx = player.coords[0] + player.dims[0]/2 - obj.coords[0] + obj.dims[0]/2;
+                    double bdy = player.coords[1] + player.dims[1]/2 - obj.coords[1] + obj.dims[1]/2;
+                    double angle = Math.atan2(bdy, bdx);
+                    if (angle < 0)
+                        angle += 2*Math.PI;
+                    angle += Math.PI/2;
+                    obj.fv = angle;
                 }
             }
         }
@@ -251,8 +259,13 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             int x2 = dst.coords[0];
             int y2 = dst.coords[1];
             int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-            if(dist < closestDist)
+            if(dist < closestDist) {
                 closest = dst;
+                closestDist = dist;
+            }
+        }
+        if(closestDist < sSettings.botShootRange) {
+            xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
         }
         return closest;
     }
