@@ -60,6 +60,7 @@ public class sSettings {
 	static boolean respawnEnabled = true;
 	static int botThinkTimeDelay = 250;
 	static int botShootRange = 1200;
+	static int botShootTimeDelay = 1000;
 
 	//client
 	static int clientMaxHP = 500;

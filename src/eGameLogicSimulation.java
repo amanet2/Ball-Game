@@ -264,7 +264,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 closestDist = dist;
             }
         }
-        if(closestDist < sSettings.botShootRange) {
+        if(closestDist < sSettings.botShootRange && src.botShootTime < sSettings.gameTime) {
+            src.botShootTime = sSettings.gameTime + sSettings.botShootTimeDelay;
             xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
         }
         return closest;
