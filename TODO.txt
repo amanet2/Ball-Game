@@ -1,10 +1,7 @@
 * CLEANUP:
-    -> Bots all hone in on the host's player
-        -> disable bot targeting for now
-    -> Rename the "bots" to be a bouncy ball item
-        -> implement a new sv_ballcollision script that will give points for ball hitting scorepoint
-            -> have a delay like teleporters
-        -> bouncy balls should bounce off walls
+    -> investigate exceptions
+    -> instead of bot's being named after their ID have some int range match to a name
+        -> e.g. bot100000-bot199999 -> "botSteve", bot200000-bot299999 -> "botGreg" etc
     -> Fix the teleporter seemingly not letting players go back through
 * BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
     -> save what we have now for a "bouncyball" type object
