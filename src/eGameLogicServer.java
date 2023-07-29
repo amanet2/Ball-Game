@@ -196,7 +196,27 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.put(id, new nStateBallGame());
         else {
             nStateBallGame botState = new nStateBallGame();
-            botState.put("name", id);
+            String botName = id;
+            int idInt = Integer.parseInt(id.replace("bot",""));
+            if(idInt > 90000000)
+                botName = "BotSteve";
+            else if(idInt > 80000000)
+                botName = "BotRick";
+            else if(idInt > 70000000)
+                botName = "BotDuke";
+            else if(idInt > 60000000)
+                botName = "BotChief";
+            else if(idInt > 50000000)
+                botName = "BotHoleWater";
+            else if(idInt > 40000000)
+                botName = "BotBratwurst";
+            else if(idInt > 30000000)
+                botName = "BotLite";
+            else if(idInt > 20000000)
+                botName = "BotMustard";
+            else if(idInt > 10000000)
+                botName = "BotGeorge";
+            botState.put("name", botName);
             String botColor = sSettings.colorSelection[(int)(Math.random()*(sSettings.colorSelection.length-1))];
             botState.put("color", botColor);
             masterStateMap.put(id, botState);
