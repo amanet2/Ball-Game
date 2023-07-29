@@ -192,7 +192,16 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void handleJoin(String id) {
-        masterStateMap.put(id, new nStateBallGame());
+        if(!id.startsWith("bot"))
+            masterStateMap.put(id, new nStateBallGame());
+        else {
+            nStateBallGame botState = new nStateBallGame();
+            botState.put("name", id);
+            String botColor = sSettings.colorSelection[(int)(Math.random()*(sSettings.colorSelection.length-1))];
+            botState.put("color", botColor);
+            masterStateMap.put(id, botState);
+        }
+
         if(!id.startsWith("bot"))
             clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
