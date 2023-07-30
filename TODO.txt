@@ -1,7 +1,7 @@
 * CLEANUP:
     -> investigate exceptions
-    -> instead of bot's being named after their ID have some int range match to a name
-        -> e.g. bot100000-bot199999 -> "botSteve", bot200000-bot299999 -> "botGreg" etc
+    -> create console command to pause bots
+        -> sSettings.botsSleep
     -> Fix the teleporter seemingly not letting players go back through
 * BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
     -> save what we have now for a "bouncyball" type object

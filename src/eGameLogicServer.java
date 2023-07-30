@@ -220,6 +220,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             String botColor = sSettings.colorSelection[(int)(Math.random()*(sSettings.colorSelection.length-1))];
             botState.put("color", botColor);
             masterStateMap.put(id, botState);
+            xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", botName, botColor));
         }
 
         if(!id.startsWith("bot"))
