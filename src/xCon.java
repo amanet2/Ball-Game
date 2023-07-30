@@ -191,7 +191,6 @@ public class xCon {
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
                 xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
-                ex("pausebots 1");
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");

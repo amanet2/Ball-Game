@@ -108,7 +108,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void checkForVoteSkip() {
-        if(voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
+        if(clientNetCmdMap.size() < 2 || voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
             voteSkipList.clear();
             xMain.shellLogic.console.ex("echo [SKIP] VOTE TARGET REACHED");
             xMain.shellLogic.console.ex("exec scripts/sv_endgame");

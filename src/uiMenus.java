@@ -193,7 +193,7 @@ public class uiMenus {
                         new uiMenuItem(String.format("Number of Bots [%d]", sSettings.botCount)){
                             public void doItem() {
                                 sSettings.botCount++;
-                                if(sSettings.botCount > 4)
+                                if(sSettings.botCount > 3)
                                     sSettings.botCount = 0;
                                 this.text = String.format("Number of Bots [%d]", sSettings.botCount);
                             }
