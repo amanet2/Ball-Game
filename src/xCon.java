@@ -890,6 +890,9 @@ public class xCon {
                         "joingame localhost " + sSettings.serverListenPort,
                         "pause"
                 });
+                for(int i = 0; i < sSettings.botCount; i++) {
+                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 7000));
+                }
                 return "hosting game on port " + sSettings.serverListenPort;
             }
         });

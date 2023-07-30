@@ -189,6 +189,14 @@ public class uiMenus {
                             public void doItem() {
                                 selectedMenu = MENU_MAP;
                             }
+                        },
+                        new uiMenuItem(String.format("Number of Bots [%d]", sSettings.botCount)){
+                            public void doItem() {
+                                sSettings.botCount++;
+                                if(sSettings.botCount > 4)
+                                    sSettings.botCount = 0;
+                                this.text = String.format("Number of Bots [%d]", sSettings.botCount);
+                            }
                         }
                 },
                 MENU_MAIN
@@ -198,6 +206,7 @@ public class uiMenus {
                         "-Start-",
                         String.format("Map [%s]", eManager.mapSelectionIndex < 0 ? "<random map>"
                                 : eManager.mapsFileSelection[eManager.mapSelectionIndex]),
+                        String.format("Number of Bots [%d]", sSettings.botCount),
                 });
             }
         },

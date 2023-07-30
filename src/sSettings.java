@@ -15,6 +15,7 @@ public class sSettings {
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
+	public static int botCount = 0;
 
 	// vfx
 	static int gamescale = 2160;
