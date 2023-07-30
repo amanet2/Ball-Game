@@ -191,9 +191,11 @@ public class xCon {
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
                 xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
+                ex("pausebots 1");
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
+                ex("pausebots 0");
                 if(!sSettings.show_mapmaker_ui) {
                     //spawn in after finished loading
                     nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -1008,6 +1010,17 @@ public class xCon {
                 else if(sSettings.show_mapmaker_ui)
                     xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + sSettings.uuid);
                 return fullCommand;
+            }
+        });
+        commands.put("pausebots", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                int val = sSettings.botsPaused < 1 ? 1 : 0;
+                if(toks.length > 1)
+                    val = Integer.parseInt(toks[1]);
+                sSettings.botsPaused = val;
+                System.out.println(sSettings.botsPaused);
+                return "bots paused " + val;
             }
         });
         commands.put("playerdown", new gDoable() {

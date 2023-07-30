@@ -2,3 +2,4 @@ addcomi server playsound sounds/bfg2.wav
 echo changing map in 10 seconds...
 getres egt sumlong $gametimemillis $intermissiondelay
 scheduleevent $egt changemaprandom
+

@@ -15,7 +15,6 @@ public class sSettings {
 	static int[] framerates = {24, 30, 60, 75, 98, 120, 144, 165, 240, 320, 360};
 	public static String[] object_titles = new String[]{};
 	public static String[] prefab_titles;
-	public static int botCount = 0;
 
 	// vfx
 	static int gamescale = 2160;
@@ -62,6 +61,8 @@ public class sSettings {
 	static int botThinkTimeDelay = 250;
 	static int botShootRange = 1200;
 	static int botShootTimeDelay = 1000;
+	static int botCount = 0;
+	static int botsPaused = 0;
 
 	//client
 	static int clientMaxHP = 500;

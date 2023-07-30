@@ -190,7 +190,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
             obj.collidedPlayer = null;
 
-            if(obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
+            if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
                 gPlayer player = getClosestPlayer(obj);
                 if(player != null) {
