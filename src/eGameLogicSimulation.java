@@ -225,6 +225,11 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     if (angle < 0)
                         angle += 2*Math.PI;
                     angle += Math.PI/2;
+                    double randomOffset = Math.random()*5;
+                    if(randomOffset > 4)
+                        angle -= Math.PI/4;
+                    else if(randomOffset > 3)
+                        angle += Math.PI/4;
                     obj.fv = angle;
                 }
             }
