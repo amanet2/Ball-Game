@@ -194,7 +194,6 @@ public class xCon {
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
-                ex("pausebots 0");
                 if(!sSettings.show_mapmaker_ui) {
                     //spawn in after finished loading
                     nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -224,6 +223,11 @@ public class xCon {
                                 ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
                             }
                             ex("exec scripts/sv_endgame");
+                        }
+                    });
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
+                        public void doCommand() {
+                            ex("pausebots 0");
                         }
                     });
                     //ensure this servervar is ready right when script execs, sometimes it isn't
@@ -1018,7 +1022,6 @@ public class xCon {
                 if(toks.length > 1)
                     val = Integer.parseInt(toks[1]);
                 sSettings.botsPaused = val;
-                System.out.println(sSettings.botsPaused);
                 return "bots paused " + val;
             }
         });
