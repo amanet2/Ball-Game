@@ -1,3 +1,9 @@
+set out_dir=%~dp0..\pkg
+%~dp0..\bin\jdk-20.0.1\bin\javac -d %out_dir% %~dp0..\src\*.java
+cd %out_dir%
+..\bin\jdk-20.0.1\bin\jar cmf ..\debug\MANIFEST.MF BALL_GAME.jar *.class
+del *.class
+cd %~dp0
 set pkg_dir=%~dp0..\..\pkg_ballmaster
 if exist %pkg_dir% del /f /s /q %pkg_dir%
 if exist %pkg_dir% rmdir /s /q %pkg_dir%
