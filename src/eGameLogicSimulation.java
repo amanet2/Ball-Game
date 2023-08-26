@@ -36,9 +36,12 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void checkGameItems() {
         ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
+        ConcurrentHashMap<String, gThing> balldepositmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALLDEPOSIT");
+        ConcurrentHashMap<String, gThing> ballmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL");
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         ArrayList<String> itemKeySetCopy = new ArrayList<>(itemsMap.keySet());
-        ArrayList<String> itemKeySetCopy2 = new ArrayList<>(itemsMap.keySet());
+        ArrayList<String> balldepositkeysetcopy = new ArrayList<>(balldepositmap.keySet());
+        ArrayList<String> ballkeysetcopy = new ArrayList<>(ballmap.keySet());
         ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
         for(String iid : itemKeySetCopy) {
             gItem item = (gItem) itemsMap.get(iid);
@@ -51,14 +54,16 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 if(!item.type.equals("ITEM_BALLDEPOSIT") && player.collidesWithThing(item))
                     item.activateItem(player);
             }
-            for(String id : itemKeySetCopy2) {
-                gItem item2 = (gItem) itemsMap.get(id);
-                if(!id.equals(iid) && item.type.equals("ITEM_BALLDEPOSIT") && item.collidesWithThing(item2)) {
-                    item.activateItem(item2);
+        }
+        for(String bdid : balldepositkeysetcopy) {
+            gItem bd = (gItem) balldepositmap.get(bdid);
+            for(String id : ballkeysetcopy) {
+                gItem b = (gItem) itemsMap.get(id);
+                if(bd.collidesWithThing(b)) {
+                    bd.activateItem(b);
                 }
             }
         }
-
     }
 
     private void updateThingPosition(gThing obj, long gameTimeMillis) {

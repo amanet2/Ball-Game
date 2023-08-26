@@ -5,7 +5,7 @@ cl_setvar debug 0
 REM save console log to file on close
 cl_setvar debuglog 0
 REM set to 1 for borderless window
-cl_setvar borderless 1
+cl_setvar borderless 0
 REM font name ui
 cl_setvar fontui None
 REM available framerates
@@ -37,7 +37,7 @@ cl_setvar vfxenableshading 1
 REM enable shadows
 cl_setvar vfxenableshadows 1
 REM video mode
-cl_setvar vidmode 3840,2160,120
+cl_setvar vidmode 1280,720,120
 REM volume
 cl_setvar volume 20
 REM bindings
