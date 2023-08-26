@@ -37,9 +37,10 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
-        ArrayList<String> keysetcopy = new ArrayList<>(itemsMap.keySet());
+        ArrayList<String> itemKeySetCopy = new ArrayList<>(itemsMap.keySet());
+        ArrayList<String> itemKeySetCopy2 = new ArrayList<>(itemsMap.keySet());
         ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
-        for(String iid : keysetcopy) {
+        for(String iid : itemKeySetCopy) {
             gItem item = (gItem) itemsMap.get(iid);
             item.occupied = 0;
             updateThingPosition(item, sSettings.gameTime);
@@ -47,10 +48,17 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 if(!playerMap.containsKey(pid))
                     continue;
                 gPlayer player = (gPlayer) playerMap.get(pid);
-                if(player.collidesWithThing(item))
+                if(!item.type.equals("ITEM_BALLDEPOSIT") && player.collidesWithThing(item))
                     item.activateItem(player);
             }
+            for(String id : itemKeySetCopy2) {
+                gItem item2 = (gItem) itemsMap.get(id);
+                if(!id.equals(iid) && item.type.equals("ITEM_BALLDEPOSIT") && item.collidesWithThing(item2)) {
+                    item.activateItem(item2);
+                }
+            }
         }
+
     }
 
     private void updateThingPosition(gThing obj, long gameTimeMillis) {

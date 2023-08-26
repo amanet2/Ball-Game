@@ -30,6 +30,7 @@ setvar THING_19 ITEM_GLOVE
 setvar THING_20 ITEM_CAPTUREPOINT
 setvar THING_21 ITEM_FLAGDEPOSIT
 setvar THING_22 ITEM_BALL
+setvar THING_23 ITEM_BALLDEPOSIT
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
@@ -88,6 +89,10 @@ setvar ITEM_BALL_dimw 200
 setvar ITEM_BALL_dimh 200
 setvar ITEM_BALL_sprite misc/ball.png
 setvar ITEM_BALL_script exec items/ball
+setvar ITEM_BALLDEPOSIT_dimw 300
+setvar ITEM_BALLDEPOSIT_dimh 300
+setvar ITEM_BALLDEPOSIT_sprite misc/ball.png
+setvar ITEM_BALLDEPOSIT_script exec items/balldeposit
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2

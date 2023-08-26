@@ -1,0 +1,2 @@
+deleteitem $2
+exec scripts/sv_endgameballdeposit
