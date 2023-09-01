@@ -293,7 +293,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gThing> pseeds = new ArrayList<>();
+        ArrayList<gThing> grenadeSeeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gThing b = bulletsMap.get(id);
@@ -302,7 +302,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.id);
                     if(b.src == gWeapons.launcher)
-                        pseeds.add(b);
+                        grenadeSeeds.add(b);
                 }
             }
             for(String playerId : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
@@ -310,12 +310,12 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 if(t != null && b.collidesWithThing(t) && !b.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(t, b);
                     if(b.src == gWeapons.launcher)
-                        pseeds.add(b);
+                        grenadeSeeds.add(b);
                 }
             }
         }
-        if(pseeds.size() > 0) {
-            for(gThing pseed : pseeds) {
+        if(grenadeSeeds.size() > 0) {
+            for(gThing pseed : grenadeSeeds) {
                 gWeapons.createGrenadeExplosion(pseed, xMain.shellLogic.serverScene);
             }
         }

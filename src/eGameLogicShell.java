@@ -458,7 +458,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gThing> pseeds = new ArrayList<>();
+        ArrayList<gThing> grenadeSeeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
         for (String id : bulletsMap.keySet()) {
             gThing t = bulletsMap.get(id);
@@ -467,7 +467,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(t.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(t.id);
                     if(t.src == gWeapons.launcher)
-                        pseeds.add(t);
+                        grenadeSeeds.add(t);
                 }
             }
             for(String playerId : getPlayerIds()) {
@@ -475,12 +475,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(p != null && t.collidesWithThing(p) && !t.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(p, t);
                     if(t.src == gWeapons.launcher)
-                        pseeds.add(t);
+                        grenadeSeeds.add(t);
                 }
             }
         }
-        if(pseeds.size() > 0) {
-            for(gThing pseed : pseeds) {
+        if(grenadeSeeds.size() > 0) {
+            for(gThing pseed : grenadeSeeds) {
                 gWeapons.createGrenadeExplosion(pseed, clientScene);
             }
         }
