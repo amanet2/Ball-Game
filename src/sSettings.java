@@ -2,9 +2,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class sSettings {
     // sources
-	static String CONFIG_FILE_LOCATION_SERVER = "config/server";
-	static String CONFIG_FILE_LOCATION_CLIENT = "config/client";
-	static String CONFIG_FILE_LOCATION_GAME = "config/game";
+	static String CONFIG_FILE_LOCATION_SERVER = "config/server.bs";
+	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.bs";
+	static String CONFIG_FILE_LOCATION_GAME = "config/game.bs";
 	static String CONSOLE_LOG_LOCATION = "_console_log";
 	static String datapath = "ballgame";
 	public static boolean show_mapmaker_ui = false;

@@ -119,7 +119,7 @@ setvar WEAPON_AUTORIFLE_delay 80
 setvar WEAPON_AUTORIFLE_vel 70
 setvar WEAPON_AUTORIFLE_ttl 210
 setvar WEAPON_AUTORIFLE_rad 50
-setvar WEAPON_LAUNCHER_dmg 1500
+setvar WEAPON_LAUNCHER_dmg 200
 setvar WEAPON_LAUNCHER_delay 1000
 setvar WEAPON_LAUNCHER_vel 30
 setvar WEAPON_LAUNCHER_ttl 180
@@ -127,7 +127,7 @@ setvar WEAPON_LAUNCHER_rad 50
 setvar WEAPON_LAUNCHER_vel_xpl 75
 setvar WEAPON_LAUNCHER_ttl_xpl 75
 setvar WEAPON_LAUNCHER_rad_xpl 300
-setvar WEAPON_GLOVES_dmg 600
+setvar WEAPON_GLOVES_dmg 400
 setvar WEAPON_GLOVES_delay 450
 setvar WEAPON_GLOVES_vel 30
 setvar WEAPON_GLOVES_ttl 50

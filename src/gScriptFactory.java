@@ -37,6 +37,7 @@ public class gScriptFactory {
                 scriptMap.put(scriptMapKey, new gScript(scriptMapKey, fileContents.substring(1)));
             }
             catch (Exception e) {
+                System.out.printf("Exception in %s%n", scriptMapKey);
                 xMain.shellLogic.console.logException(e);
                 e.printStackTrace();
             }
