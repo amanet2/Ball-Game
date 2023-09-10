@@ -84,29 +84,22 @@ public class xCon {
         stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
-        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../src/test.py").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../src/test.py").redirectOutput(ProcessBuilder.Redirect.INHERIT);
 //        ProcessBuilder pb = new ProcessBuilder("pwd");
         try{
             pyProcess = pb.start();
             pyOutput = new BufferedReader(new InputStreamReader(pyProcess.getInputStream()));
             pyInput = new BufferedWriter(new OutputStreamWriter(pyProcess.getOutputStream()));
             // TEST
-//            pyInput.write("print(\"Hello World\")");
-//            pyInput.flush();
-//            String foo = pyOutput.readLine();
-//            while(foo != null) {
-//                System.out.println("python output: " + foo);
-//                foo = pyOutput.readLine();
-//            }
-//            pyInput.write("exit()");
-//            pyInput.flush();
-            System.out.println("foopython");
-            String foo = pyOutput.readLine();
-            System.out.println("barpython");
-//            while(foo != null) {
+            String foo;
+            while((foo = pyOutput.readLine()) != null) {
                 System.out.println(foo);
-//                foo = pyOutput.readLine();
-//            }
+            }
+            pyInput.write("1\n");
+            pyInput.flush();
+            while((foo = pyOutput.readLine()) != null) {
+                System.out.println(foo);
+            }
             // /TEST
         }
         catch(Exception e){
