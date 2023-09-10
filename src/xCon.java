@@ -93,22 +93,28 @@ public class xCon {
             pyInput = new BufferedWriter(new OutputStreamWriter(pyProcess.getOutputStream()));
             // TEST
             String foo = pyOutput.readLine();
-            System.out.println("Python printed: " + foo);
+            System.out.println("Python returned: " + foo); //hello world
+            foo = pyOutput.readLine();
+            System.out.println("Python returned: " + foo); //enter message
 //            while((foo = pyOutput.readLine()) != null) {
 //                System.out.println("Python printed: " + foo);
 //            }
             pyInput.write("print(2+2)\n");
             pyInput.flush();
             foo = pyOutput.readLine();
-            System.out.println("Python printed: " + foo);
-            pyInput.write("print(2+2)\n");
+            System.out.println("Python returned: " + foo); //prev result
+            foo = pyOutput.readLine();
+            System.out.println("Python returned: " + foo); //enter message
+            pyInput.write("print(\"working correctly\")\n");
             pyInput.flush();
             foo = pyOutput.readLine();
-            System.out.println("Python printed: " + foo);
-            pyInput.write("exit\n");
-            pyInput.flush();
+            System.out.println("Python returned: " + foo); //prev result
             foo = pyOutput.readLine();
-            System.out.println("Python printed: " + foo);
+            System.out.println("Python returned: " + foo); //enter message
+//            pyInput.write("exit\n");
+//            pyInput.flush();
+//            foo = pyOutput.readLine();
+//            System.out.println("Python printed: " + foo);
 //            while((foo = pyOutput.readLine()) != null) {
 //                System.out.println("Python printed: " + foo);
 //            }
