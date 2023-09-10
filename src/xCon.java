@@ -95,11 +95,14 @@ public class xCon {
             while((foo = pyOutput.readLine()) != null) {
                 System.out.println(foo);
             }
-            pyInput.write("1\n");
+//            pyInput.write("exit\n");
+            pyInput.write("print(\"Printing Python\")");
             pyInput.flush();
             while((foo = pyOutput.readLine()) != null) {
                 System.out.println(foo);
             }
+//            pyProcess.destroy();
+//            pyProcess.waitFor();
             // /TEST
         }
         catch(Exception e){
