@@ -94,15 +94,29 @@ public class xCon {
             // TEST
             String foo = pyOutput.readLine();
             System.out.println("Python printed: " + foo);
-//            String foo;
 //            while((foo = pyOutput.readLine()) != null) {
 //                System.out.println("Python printed: " + foo);
 //            }
-////            pyInput.write("exit\n");
-            pyInput.write("print(\"Printing Python\")\n");
+            pyInput.write("print(2+2)\n");
             pyInput.flush();
             foo = pyOutput.readLine();
             System.out.println("Python printed: " + foo);
+            pyInput.write("print(2+2)\n");
+            pyInput.flush();
+            foo = pyOutput.readLine();
+            System.out.println("Python printed: " + foo);
+            pyInput.write("exit\n");
+            pyInput.flush();
+            foo = pyOutput.readLine();
+            System.out.println("Python printed: " + foo);
+//            while((foo = pyOutput.readLine()) != null) {
+//                System.out.println("Python printed: " + foo);
+//            }
+//            pyInput.write("exit\n");
+//            pyInput.flush();
+//            while((foo = pyOutput.readLine()) != null) {
+//                System.out.println("Python printed: " + foo);
+//            }
 
 //            while((foo = pyOutput.readLine()) != null) {
 //                System.out.println("Python printed: " + foo);
