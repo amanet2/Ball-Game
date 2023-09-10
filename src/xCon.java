@@ -84,23 +84,34 @@ public class xCon {
         stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
-        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../src/test.py").redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py");
+//        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py").redirectOutput(ProcessBuilder.Redirect.INHERIT);
 //        ProcessBuilder pb = new ProcessBuilder("pwd");
         try{
             pyProcess = pb.start();
             pyOutput = new BufferedReader(new InputStreamReader(pyProcess.getInputStream()));
             pyInput = new BufferedWriter(new OutputStreamWriter(pyProcess.getOutputStream()));
             // TEST
-            String foo;
-            while((foo = pyOutput.readLine()) != null) {
-                System.out.println(foo);
-            }
-//            pyInput.write("exit\n");
-            pyInput.write("print(\"Printing Python\")");
+            String foo = pyOutput.readLine();
+            System.out.println("Python printed: " + foo);
+//            String foo;
+//            while((foo = pyOutput.readLine()) != null) {
+//                System.out.println("Python printed: " + foo);
+//            }
+////            pyInput.write("exit\n");
+            pyInput.write("print(\"Printing Python\")\n");
             pyInput.flush();
-            while((foo = pyOutput.readLine()) != null) {
-                System.out.println(foo);
-            }
+            foo = pyOutput.readLine();
+            System.out.println("Python printed: " + foo);
+
+//            while((foo = pyOutput.readLine()) != null) {
+//                System.out.println("Python printed: " + foo);
+//            }
+//            pyInput.write("exit\n");
+//            pyInput.flush();
+//            while((foo = pyOutput.readLine()) != null) {
+//                System.out.println("Python printed: " + foo);
+//            }
 //            pyProcess.destroy();
 //            pyProcess.waitFor();
             // /TEST
