@@ -1,7 +1,7 @@
 * CLEANUP:
     -> investigate exceptions
     -> create console command to pause bots
-        -> sSettings.botsSleep
+        -> game.sSettings.botsSleep
     -> Fix the teleporter seemingly not letting players go back through
 * BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
     -> save what we have now for a "bouncyball" type object
@@ -17,7 +17,7 @@
     -> have fallbacks if sprite, script, flare fields are "null"
 * FLASHLIGHT: adjust map brightness via: cl_setvar clrw_floorshading <r> <g> <b> <a>
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
-    -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
+    -> might need to move some vars from game.gPlayer to game.gThing so game.gItem (bot) can inherit things like collidingPlayer, etc.
 * BOTS: implement them like doom
     -> pick target, default should be nearest player
     -> try this loop: aways go straight on or at random 45 degree offset
@@ -61,17 +61,17 @@
         -> manually edit the internal system call in .c file when compiling into mapmaker exe
 * ENGINE: think about whether net threads should have 'update' be called or 'render'
     -> one is in a while loop while syncing with current time, other is called after sync
-* Engine: xCon console should be split up into server and client
+* Engine: game.xCon console should be split up into server and client
 * BUG: Escape comma ',' characters that appear in net values
     -> it screws up building hashmap from received data
 * IDEA: multi-line for loops in scripting language
     -> QUESTION: am i making a game here or a scripting language???
-    -> iterate over lines in gScript
+    -> iterate over lines in game.gScript
     -> "for" should trigger a function that gets all line #'s of the script to loop over
     -> we can pass all loop lines to a function which then does the for i in range code in java
     -> when the forloop delegate completes, we jump ahead the parent script iterator by X lines
     -> remember to properly parse and fill in args and global variables for each line in loop
-        -> same code as we currently have in gScript
+        -> same code as we currently have in game.gScript
 * GENERAL: cl_setthing executing on server thread (bad)
     -> if a client is also running the server, cl_setthing can be called by the server if server not ignored
 * GENERAL: think about how prefabs are placed

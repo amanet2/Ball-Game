@@ -1,0 +1,57 @@
+package game;
+
+import java.util.HashMap;
+
+public class gScoreboard {
+    static HashMap<String, HashMap<String, Integer>> scoresMap = new HashMap<>(); //server too, index by uuids
+
+    public static void resetScoresMap() {
+        HashMap<String, Integer> savedWins = new HashMap<>();
+        for(String id : scoresMap.keySet()) {
+            savedWins.put(id, scoresMap.get(id).get("wins"));
+        }
+        scoresMap = new HashMap<>();
+        for(String id : savedWins.keySet()) {
+            if(!scoresMap.containsKey(id)) {
+                addId(id);
+            }
+            scoresMap.get(id).put("wins", savedWins.get(id));
+        }
+    }
+
+    public static String getWinnerId() {
+        int highestScore = 0;
+        String highestId = "null";
+        boolean pass = false;
+        while (!pass) {
+            pass = true;
+            for(String id : scoresMap.keySet()) {
+                HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+                if(scoresMapIdMap.get("score") > highestScore) {
+                    pass = false;
+                    highestId = id;
+                    highestScore = scoresMapIdMap.get("score");
+                }
+            }
+        }
+        return highestId;
+    }
+
+    public static void addId(String id) {
+        scoresMap.put(id, new HashMap<>());
+        scoresMap.get(id).put("wins", 0);
+        scoresMap.get(id).put("score", 0);
+    }
+
+    public static void addToScoreField(String id, String field, int score) {
+        if(!scoresMap.containsKey(id))
+            scoresMap.put(id, new HashMap<>());
+        HashMap<String, Integer> scoresMapIdMap = scoresMap.get(id);
+        if(!scoresMapIdMap.containsKey(field))
+            scoresMapIdMap.put(field, 0);
+        int nscore = scoresMapIdMap.get(field) + score;
+        if(nscore < 0)
+            nscore = 0;
+        scoresMapIdMap.put(field, nscore);
+    }
+}
