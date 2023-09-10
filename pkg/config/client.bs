@@ -37,7 +37,7 @@ cl_setvar vfxenableshading 1
 REM enable shadows
 cl_setvar vfxenableshadows 1
 REM video mode
-cl_setvar vidmode 1920,1080,60
+cl_setvar vidmode 1280,720,60
 REM volume
 cl_setvar volume 10
 REM bindings
