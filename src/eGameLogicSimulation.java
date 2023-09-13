@@ -28,6 +28,17 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         checkLocalCmds();
         scheduledEvents.executeCommands();
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
+        try {
+            //IDEA: send state dict to script, receive dict delta back, sync up
+            System.out.println("PY CALLED: " + System.nanoTime());
+            xMain.shellLogic.console.pyOutput.readLine(); //Enter Message...
+            xMain.shellLogic.console.pyInput.write(String.format("\"%s\"\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
+            xMain.shellLogic.console.pyInput.flush();
+            String foo = xMain.shellLogic.console.pyOutput.readLine();
+            System.out.println("PY RETURN: " + System.nanoTime() + "_" + foo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         checkGameItems();
         updateEntityPositions(gameTimeMillis);
         sSettings.tickReportSimulation = getTickReport();

@@ -84,7 +84,7 @@ public class xCon {
         stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
-        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py");
+        ProcessBuilder pb = new ProcessBuilder("../bin/python-3.11.5-embed-amd64/python", "../python/test.py");
 //        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py").redirectOutput(ProcessBuilder.Redirect.INHERIT);
 //        ProcessBuilder pb = new ProcessBuilder("pwd");
         try{
@@ -92,46 +92,8 @@ public class xCon {
             pyOutput = new BufferedReader(new InputStreamReader(pyProcess.getInputStream()));
             pyInput = new BufferedWriter(new OutputStreamWriter(pyProcess.getOutputStream()));
             // TEST
-            String foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //hello world
-            foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //enter message
-//            while((foo = pyOutput.readLine()) != null) {
-//                System.out.println("Python printed: " + foo);
-//            }
-            pyInput.write("print(2+2)\n");
-            pyInput.flush();
-            foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //prev result
-            foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //enter message
-            pyInput.write("print(\"working correctly\")\n");
-            pyInput.flush();
-            foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //prev result
-            foo = pyOutput.readLine();
-            System.out.println("Python returned: " + foo); //enter message
-//            pyInput.write("exit\n");
-//            pyInput.flush();
-//            foo = pyOutput.readLine();
-//            System.out.println("Python printed: " + foo);
-//            while((foo = pyOutput.readLine()) != null) {
-//                System.out.println("Python printed: " + foo);
-//            }
-//            pyInput.write("exit\n");
-//            pyInput.flush();
-//            while((foo = pyOutput.readLine()) != null) {
-//                System.out.println("Python printed: " + foo);
-//            }
-
-//            while((foo = pyOutput.readLine()) != null) {
-//                System.out.println("Python printed: " + foo);
-//            }
-//            pyInput.write("exit\n");
-//            pyInput.flush();
-//            while((foo = pyOutput.readLine()) != null) {
-//                System.out.println("Python printed: " + foo);
-//            }
+//            String foo = pyOutput.readLine();  // Enter Message...
+//            System.out.println("Python returned: " + foo);
 //            pyProcess.destroy();
 //            pyProcess.waitFor();
             // /TEST
