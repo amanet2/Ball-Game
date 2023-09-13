@@ -24,11 +24,14 @@ while True:
             ':"{', ':{').replace(
             '}', '"}').replace(
             '}"', '}')
-        # print(java_state_str_json)
+        java_state_dict = None
         try:
-            json.loads(java_state_str_json)
+            java_state_dict = json.loads(java_state_str_json)
+            for client in java_state_dict.keys():
+                java_state_dict[client]["test"] = "foobar"
         except Exception as e:
+            # 1. Needs more debugging info e.g. line number
             print(str(e))
         else:
-            print(json.dumps(json.loads(java_state_str_json)))
+            print(json.dumps(java_state_dict))
 exit()
