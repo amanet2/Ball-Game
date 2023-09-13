@@ -32,7 +32,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             //IDEA: send state dict to script, receive dict delta back, sync up
             System.out.println("PY CALLED: " + System.nanoTime());
             xMain.shellLogic.console.pyOutput.readLine(); //Enter Message...
-            xMain.shellLogic.console.pyInput.write(String.format("\"%s\"\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
+            xMain.shellLogic.console.pyInput.write(String.format("%s\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
             xMain.shellLogic.console.pyInput.flush();
             String foo = xMain.shellLogic.console.pyOutput.readLine();
             System.out.println("PY RETURN: " + System.nanoTime() + "_" + foo);
