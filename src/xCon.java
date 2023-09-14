@@ -84,8 +84,8 @@ public class xCon {
         stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
-        ProcessBuilder pb = new ProcessBuilder("../bin/python-3.11.5-embed-amd64/python", "../python/test.py");
-//        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py").redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        ProcessBuilder pb = new ProcessBuilder("../bin/python-3.11.5-embed-amd64/python", "../python/test.py");  //windows
+//        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py");  //mac
 //        ProcessBuilder pb = new ProcessBuilder("pwd");
         try{
             pyProcess = pb.start();

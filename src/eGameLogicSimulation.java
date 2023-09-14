@@ -30,12 +30,23 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         try {
             //IDEA: send state dict to script, receive dict delta back, sync up
-            System.out.println("PY CALLED: " + System.nanoTime());
+            System.out.println("PY CALLED: " + System.nanoTime() + "_" + xMain.shellLogic.serverNetThread.masterStateSnapshot);
             xMain.shellLogic.console.pyOutput.readLine(); //Enter Message...
             xMain.shellLogic.console.pyInput.write(String.format("%s\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
             xMain.shellLogic.console.pyInput.flush();
             String foo = xMain.shellLogic.console.pyOutput.readLine();
             System.out.println("PY RETURN: " + System.nanoTime() + "_" + foo);
+            nStateMap pyState = new nStateMap(foo);
+//            System.out.println("STATE: " + pyState);
+            for(String clid : pyState.keys()) {
+                System.out.println("STATE_" + clid + "_" + pyState.get(clid));
+                for(String k : pyState.get(clid).keys()) {
+//                    System.out.println(k);
+                    if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k)))
+                        xMain.shellLogic.serverNetThread.setClientState(clid, k, pyState.get(clid).get(k));
+                }
+//                xMain.shellLogic.serverNetThread.setClientStateVal(clid, pyState.get(clid));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

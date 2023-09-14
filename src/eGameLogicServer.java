@@ -301,6 +301,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
         return masterStateMap.get(id).get(key);
     }
 
+    public String getClientStateVal(String id, String key) {
+        if(!masterStateMap.contains(id))
+            return "null";
+        return masterStateMap.get(id).get(key);
+    }
+
     private void sendMap(String packId) {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
