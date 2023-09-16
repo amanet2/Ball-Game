@@ -1,6 +1,8 @@
 import json
 from sys import path
-path.append("C:\\Code\\Ball-Game\\python")
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+path.append(dir_path)
 from custom.sv_checkgamestate import check_game_state
 """
 TODO:
