@@ -1,4 +1,7 @@
 import json
+from sys import path
+path.append("C:\\Code\\Ball-Game\\python")
+from custom.sv_checkgamestate import check_game_state
 """
 TODO:
 1. Needs debugging
@@ -27,8 +30,7 @@ while True:
         java_state_dict = None
         try:
             java_state_dict = json.loads(java_state_str_json)
-            # for client in java_state_dict.keys():
-            #     java_state_dict[client]["mov1"] = "1"
+            check_game_state(java_state_dict)
         except Exception as e:
             # 1. Needs more debugging info e.g. line number
             print(str(e))
