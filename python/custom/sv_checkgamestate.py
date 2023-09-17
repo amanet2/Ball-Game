@@ -1,5 +1,7 @@
 import time
 
+player_recharge_times = {}
+player_old_hps = {}
 
 def check_game_state(game_state):
     for client in game_state.keys():
