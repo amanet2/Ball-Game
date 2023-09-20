@@ -27,7 +27,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(gameTimeMillis));
         checkLocalCmds();
         scheduledEvents.executeCommands();
-        xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
+//        xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
         try {
             //IDEA: send state dict to script, receive dict delta back, sync up
             System.out.println("PY CALLED: " + System.nanoTime() + "_" + xMain.shellLogic.serverNetThread.masterStateSnapshot);

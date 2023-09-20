@@ -1,6 +1,9 @@
 * PY SCRIPTING
     -> scheduleevent
         -> instead of calling "ex", start a "pyInput.write..." loop
+    -> have multiple py scripts
+        -> java enqueues scheduled events to pass to python event script
+        -> there is also the "checkgamestate" pyscript
 * CLEANUP:
     -> investigate exceptions
     -> create console command to pause bots

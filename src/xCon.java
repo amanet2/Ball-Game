@@ -1943,7 +1943,7 @@ public class xCon {
         return -1;
     }
 
-    public String doCommand(String fullCommand) {
+    private String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
