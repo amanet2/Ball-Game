@@ -43,11 +43,15 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             for(String clid : pyState.keys()) {
                 System.out.println("STATE_" + clid + "_" + pyState.get(clid));
                 for(String k : pyState.get(clid).keys()) {
-//                    System.out.println(k);
+                    if(k.equals("recharge"))
+                        System.out.println("RECHARGE " + pyState.get(clid).get(k));
+                    if(k.equals("gametime"))
+                        System.out.println("GAMETIME " + pyState.get(clid).get(k));
                     if(k.equalsIgnoreCase("cmd"))
                         continue;
-                    if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k)))
+                    if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k))) {
                         xMain.shellLogic.serverNetThread.setClientState(clid, k, pyState.get(clid).get(k));
+                    }
                 }
 //                xMain.shellLogic.serverNetThread.setClientStateVal(clid, pyState.get(clid));
             }

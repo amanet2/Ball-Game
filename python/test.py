@@ -32,7 +32,7 @@ while True:
         java_state_dict = None
         try:
             java_state_dict = json.loads(java_state_str_json)
-            check_game_state(java_state_dict)
+            check_game_state(java_state_dict)  # recharge health
         except Exception as e:
             # 1. Needs more debugging info e.g. line number
             print(str(e))
