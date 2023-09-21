@@ -20,6 +20,4 @@ def check_game_state(game_state):
             newhp = oldhp + 1
             if newhp <= 500:  # maxhp, config vars need to be loaded into python
                 game_state[client]["hp"] = newhp
-        player_old_hps[client] = int(game_state[client]["hp"])
-        game_state[client]["recharge"] = player_recharge_times[client]
-        game_state[client]["gametime"] = gametime
+        player_old_hps[client] = oldhp
