@@ -36,6 +36,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             xMain.shellLogic.console.pyInput.write(String.format("%s\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
             xMain.shellLogic.console.pyInput.flush();
             String foo = xMain.shellLogic.console.pyOutput.readLine();
+            // TODO: schema for state so we can have clean handling of nonvalid string
             System.out.println("PY RETURN: " + System.nanoTime() + "_" + foo);
             // Accept state return and do live game editing
             nStateMap pyState = new nStateMap(foo);

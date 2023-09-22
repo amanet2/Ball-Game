@@ -7,8 +7,9 @@ player_old_hps = {}
 def check_game_state(game_state):
     gametime = time.time()*1000  # gametime should be sent to python from java
     for client in game_state.keys():
-        # WIP: Check health recharge
-        # TODO: save the old hp and if the new check is less than old hp, we know we took dmg
+        # gravity simulation
+        # game_state[client]["mov1"] = "1"
+        # check health: if hp < old_hp, we took dmg
         if client not in player_recharge_times:
             player_recharge_times[client] = 0  # hprechargetime, playervars needs to be loaded to python
         if client not in player_old_hps:

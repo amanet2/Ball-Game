@@ -8,7 +8,6 @@ from custom.sv_checkgamestate import check_game_state
 TODO:
 1. Needs debugging
     * Java hook needs to be able to handle stream of messages e.g. exception output
-2. Needs to parse incoming state into real JSON object so values can be changed and returned
 """
 do_break = False
 while True:

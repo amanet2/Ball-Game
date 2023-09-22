@@ -1,6 +1,0 @@
-setvar rechargehp 1
-getres playerhp setnstate $plid hp
-testresn $playerhp null getres newhp sumint $playerhp $rechargehp
-testresn $playerhp null getres toohealthy gte $newhp $maxhp
-testresn $playerhp null testres $toohealthy 1 setnstate $plid hp $maxhp
-testresn $playerhp null testres $toohealthy 0 setnstate $plid hp $newhp
