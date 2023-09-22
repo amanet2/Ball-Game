@@ -15,7 +15,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final DatagramSocket serverSocket;
     private final Queue<String> quitClientIds;
     private final HashMap<String, Queue<String>> clientNetCmdMap;
-    private final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
+     final nStateMap masterStateMap; //will be the source of truth for game state, messages, and console comms
     private final HashMap<String, String> clientCheckinMap; //track the timestamp of last received packet of a client
     private final HashMap<String, gDoable> clientCmdDoables; //doables for handling client cmds
     private final ArrayList<String> voteSkipList;

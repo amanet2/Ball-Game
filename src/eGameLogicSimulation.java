@@ -28,12 +28,11 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         checkLocalCmds();
         scheduledEvents.executeCommands();
 //        xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
-        //TODO: why does the below try/catch block result in "damageplayer" not working everytime
         try {
             //IDEA: send state dict to script, receive dict delta back, sync up
-            System.out.println("PY CALLED: " + System.nanoTime() + "_" + xMain.shellLogic.serverNetThread.masterStateSnapshot);
+            System.out.println("PY CALLED: " + System.nanoTime() + "_" + xMain.shellLogic.serverNetThread.masterStateMap.toString().replace(", ", ","));
             xMain.shellLogic.console.pyOutput.readLine(); //Enter Message...
-            xMain.shellLogic.console.pyInput.write(String.format("%s\n", xMain.shellLogic.serverNetThread.masterStateSnapshot));
+            xMain.shellLogic.console.pyInput.write(String.format("%s\n", xMain.shellLogic.serverNetThread.masterStateMap.toString().replace(", ", ",")));
             xMain.shellLogic.console.pyInput.flush();
             String foo = xMain.shellLogic.console.pyOutput.readLine();
             // TODO: schema for state so we can have clean handling of nonvalid string
@@ -46,10 +45,10 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     if(k.equalsIgnoreCase("cmd"))  //don't overwrite this
                         continue;
                     if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k))) {
+                        //TODO: why does this lines result in "damageplayer" not working everytime
                         xMain.shellLogic.serverNetThread.setClientState(clid, k, pyState.get(clid).get(k));
                     }
                 }
-//                xMain.shellLogic.serverNetThread.setClientStateVal(clid, pyState.get(clid));
             }
         } catch (Exception e) {
             e.printStackTrace();
