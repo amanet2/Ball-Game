@@ -395,7 +395,6 @@ public class xCon {
                     double rand = Math.random()*3;
                     String sound = rand < 1 ? "shout.wav" : rand < 2 ? "death.wav" : "growl.wav";
                     xMain.shellLogic.serverNetThread.addNetCmd(id, String.format("playsound sounds/%s", sound));
-                    ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
                     //handle death
                     if(newhp < 1) {
                         //more server-side stuff

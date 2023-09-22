@@ -28,8 +28,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         checkLocalCmds();
         scheduledEvents.executeCommands();
 //        xMain.shellLogic.console.ex("exec scripts/sv_checkgamestate");
-        //TODO: why does the below try/catch block result in the "no handler found" issue
-        //ANSWER: It's because the python script strips whitespace for everything including outgoing cmd
+        //TODO: why does the below try/catch block result in "damageplayer" not working everytime
         try {
             //IDEA: send state dict to script, receive dict delta back, sync up
             System.out.println("PY CALLED: " + System.nanoTime() + "_" + xMain.shellLogic.serverNetThread.masterStateSnapshot);
@@ -43,7 +42,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             for(String clid : pyState.keys()) {
                 System.out.println("STATE_" + clid + "_" + pyState.get(clid));
                 for(String k : pyState.get(clid).keys()) {
-                    if(k.equalsIgnoreCase("cmd"))
+                    if(k.equalsIgnoreCase("cmd"))  //don't overwrite this
                         continue;
                     if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k))) {
                         xMain.shellLogic.serverNetThread.setClientState(clid, k, pyState.get(clid).get(k));
