@@ -1,5 +1,5 @@
 REM mute volume
-cl_setvar audioenabled 0
+cl_setvar audioenabled 1
 REM show debug info in console
 cl_setvar debug 0
 REM save console log to file on close
