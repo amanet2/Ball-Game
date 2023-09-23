@@ -1,4 +1,4 @@
 getres idmod1 sumint $1 1
 getres ymod3 sumint $4 50
-putblock BLOCK_CUBE $1 $2 $3 $4 300 300 150 150
-putblock BLOCK_COLLISION $idmod1 $2 $3 $ymod3 300 150
+putcube $1 $2 $3 $4 300 300 150 150
+putcollision $idmod1 $2 $3 $ymod3 300 150

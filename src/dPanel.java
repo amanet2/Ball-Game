@@ -25,7 +25,7 @@ public class dPanel extends JPanel {
         dScreenFX.drawScreenFX(g2);
         dScreenMessages.displayScreenMessages(g2, gameTimeMillis);
         if(!sSettings.inplay && sSettings.show_mapmaker_ui && sSettings.clientMapLoaded) {
-            dThings.drawMapmakerPreviewBlockFloors(g2, uiEditorMenus.previewScene);
+            dThings.drawMapmakerPreviewBlockFloors(g2, xMain.shellLogic.clientPreviewScene);
             dThings.drawBlockTopCubesPreview(g2);
         }
         gMessages.checkMessages();

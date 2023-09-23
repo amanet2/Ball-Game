@@ -18,9 +18,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
     xCon console;
     gScene serverScene;
     gScene clientScene;
+    gScene clientPreviewScene;
     gScheduler scheduledEvents;
     eGameLogicSimulation serverSimulationThread;
-    eGameLogicServer serverNetThread;
+    public eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
     TexturePaint floorTexture;
     TexturePaint wallTexture;
@@ -52,8 +53,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         }
         sSettings.object_titles = thingTypes.toArray(String[]::new);
         clientScene = new gScene();
+        clientPreviewScene = new gScene();
         serverScene = new gScene();
-        uiEditorMenus.previewScene = new gScene();
         gWeapons.init();
     }
 
@@ -457,7 +458,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void checkBulletSplashes() {
         ArrayList<String> bulletsToRemoveIds = new ArrayList<>();
         HashMap<gPlayer, gThing> bulletsToRemovePlayerMap = new HashMap<>();
-        ArrayList<gThing> pseeds = new ArrayList<>();
+        ArrayList<gThing> grenadeSeeds = new ArrayList<>();
         ConcurrentHashMap<String, gThing> bulletsMap = clientScene.getThingMap("THING_BULLET");
         for (String id : bulletsMap.keySet()) {
             gThing t = bulletsMap.get(id);
@@ -466,7 +467,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(t.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(t.id);
                     if(t.src == gWeapons.launcher)
-                        pseeds.add(t);
+                        grenadeSeeds.add(t);
                 }
             }
             for(String playerId : getPlayerIds()) {
@@ -474,12 +475,12 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 if(p != null && t.collidesWithThing(p) && !t.srcId.equals(playerId)) {
                     bulletsToRemovePlayerMap.put(p, t);
                     if(t.src == gWeapons.launcher)
-                        pseeds.add(t);
+                        grenadeSeeds.add(t);
                 }
             }
         }
-        if(pseeds.size() > 0) {
-            for(gThing pseed : pseeds) {
+        if(grenadeSeeds.size() > 0) {
+            for(gThing pseed : grenadeSeeds) {
                 gWeapons.createGrenadeExplosion(pseed, clientScene);
             }
         }
@@ -510,7 +511,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             }
         }
         for(String id : clientScene.getThingMap("THING_BLOCK").keySet()) {
-            gThing block = clientScene.getThingMap("THING_BLOCK").get(id);
+            gBlock block = (gBlock) clientScene.getThingMap("THING_BLOCK").get(id);
             if(block.coordsWithinBounds(mc[0], mc[1])) {
                 sSettings.clientSelectedPrefabId = block.prefabId;
                 sSettings.clientSelectedItemId = "";

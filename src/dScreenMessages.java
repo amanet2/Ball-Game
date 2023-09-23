@@ -55,10 +55,6 @@ public class dScreenMessages {
             dFonts.setFontLarge(g);
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128, sSettings.height / 12);
         }
-        //wip notice -> needs to be transparent
-        dFonts.setFontNormal(g);
-        dFonts.setFontColor(g, "clrf_normaltransparent");
-        dFonts.drawRightJustifiedString(g, "WORK IN PROGRESS", 63*sSettings.width/64, 31*sSettings.height/32);
         //menus
         dFonts.setFontNormal(g);
         if(!sSettings.inplay) {
@@ -148,6 +144,10 @@ public class dScreenMessages {
             g.drawString(String.format("           %s", is), 0,
                 (xMain.shellLogic.console.linesToShow+1)*sSettings.height/64);
         }
+        //wip notice -> needs to be transparent
+        dFonts.setFontNormal(g);
+        dFonts.setFontColor(g, "clrf_normaltransparent");
+        dFonts.drawRightJustifiedString(g, "WORK IN PROGRESS", 63*sSettings.width/64, 31*sSettings.height/32);
         //big font
         dFonts.setFontNormal(g);
         //scoreboard

@@ -1,5 +1,6 @@
 setthing THING_PLAYER $1 teledelay $gametimemillis
 setthing THING_PLAYER $1 dropweapondelay $gametimemillis
+setthing THING_PLAYER $1 bouncedelay $gametimemillis
 testres $mode_virus $gamemode getres iv setnstate $1 virus
-testres $mode_virus $gamemode testres 1 $iv setplayer $1 weapon $weap_gloves
-testres $mode_virus $gamemode testres 1 $iv setplayer $1 decorationsprite misc/forbidden.png
+testres $mode_virus $gamemode testres 1 $iv setnplayer $1 weapon $weap_gloves
+testres $mode_virus $gamemode testres 1 $iv setnplayer $1 decorationsprite misc/forbidden.png

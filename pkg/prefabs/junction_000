@@ -9,10 +9,10 @@ getres ymod1 sumint $4 -150
 getres ymod2 sumint $4 900
 getres ymod3 sumint $4 50
 getres ymod4 sumint $4 1100
-putblock BLOCK_FLOOR $1 $2 $3 $4 1200 1200
-putblock BLOCK_CUBE $idmod1 $2 $3 $ymod1 1200 450 150 300
-putblock BLOCK_CUBE $idmod2 $2 $3 $ymod2 300 450 150 300
-putblock BLOCK_CUBE $idmod3 $2 $xmod1 $ymod2 300 450 150 300
-putblock BLOCK_COLLISION $idmod4 $2 $3 $ymod3 1200 150
-putblock BLOCK_COLLISION $idmod5 $2 $3 $ymod4 300 150
-putblock BLOCK_COLLISION $idmod6 $2 $xmod1 $ymod4 300 150
+putfloor $1 $2 $3 $4
+putcube $idmod1 $2 $3 $ymod1 1200 450 150 300
+putcube $idmod2 $2 $3 $ymod2 300 450 150 300
+putcube $idmod3 $2 $xmod1 $ymod2 300 450 150 300
+putcollision $idmod4 $2 $3 $ymod3 1200 150
+putcollision $idmod5 $2 $3 $ymod4 300 150
+putcollision $idmod6 $2 $xmod1 $ymod4 300 150

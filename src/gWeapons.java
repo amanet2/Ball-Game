@@ -224,13 +224,14 @@ public class gWeapons {
 
 	public static void createGrenadeExplosion(gThing seed, gScene scene) {
 //		//launcher explosion
-		for (int i = 0; i < 8; i++) {
+		int np = 8;
+		for (int i = 0; i < np; i++) {
 			gThing bullet = new gThing();
 			bullet.dims = new int[]{300, 300};
 			bullet.coords = new int[]{seed.coords[0], seed.coords[1]};
 			bullet.sprite = gTextures.getGScaledImage(seed.spritePath, bullet.dims[0], bullet.dims[1]);
-			bullet.dmg = seed.dmg;
-			bullet.fv = ((i * (2.0*Math.PI/8.0) - Math.PI / 16 + ((Math.random() * ((Math.PI/8))) - Math.PI/16)));
+			bullet.dmg = seed.dmg/np;
+			bullet.fv = ((i * (2.0*Math.PI/(double)np) - Math.PI / (np*2) + ((Math.random() * ((Math.PI/np))) - Math.PI/(np*2))));
 			bullet.id = eUtils.createId();
 			bullet.srcId = seed.srcId;
 			scene.getThingMap("THING_BULLET").put(bullet.id, bullet);

@@ -3,11 +3,11 @@ setvar listenport 5555
 REM max hp
 setvar maxhp 500
 REM timelimit in ms
-setvar timelimit 120000
+setvar timelimit 180000
 REM respawn wait time in ms
 setvar respawnwaittime 3000
 REM player speed
-setvar velocityplayerbase 64
+setvar velocityplayerbase 16
 REM number of votes to skip map (say 'skip' in chat)
 setvar voteskiplimit 2
 REM time between game end and next map loads

@@ -27,6 +27,49 @@ public class xCon {
     int linesToShow;
     int cursorIndex;
 
+    public String exec(String fullCommand) {
+        String[] args = fullCommand.split(" ");
+        if(args.length < 2)
+            return "usage: exec <script_id> <optional: args>";
+        String scriptId = args[1];
+        if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
+            System.out.println("LOADING MAP FROM HDD");
+            sSettings.serverLoadingFromHDD = false;
+            ex("loadingscreen");
+            try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                        ex(line);
+                }
+            }
+            catch (Exception e) {
+                logException(e);
+                e.printStackTrace();
+            }
+            ex("-loadingscreen");
+            return "loaded map " + scriptId;
+        }
+        gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
+        if(theScript == null)
+            return "no script found for: " + scriptId;
+        if(args.length > 2) {
+            String[] callArgs = new String[args.length - 2];
+            for(int i = 0; i < callArgs.length; i++) {
+                callArgs[i] = args[i+2];
+                if(callArgs[i].startsWith("$")) {
+                    String tokenKey = callArgs[i];
+                    if(xMain.shellLogic.serverVars.contains(tokenKey))
+                        callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
+                }
+            }
+            theScript.callScript(callArgs);
+        }
+        else
+            theScript.callScript(new String[]{});
+        return "null";
+    }
+
     public xCon() {
         linesToShowStart = 0;
         linesToShow = 24;
@@ -47,6 +90,16 @@ public class xCon {
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
                 }
                 return "1";
+            }
+        });
+        commands.put("addbot", new gDoable() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only the host can add bots!";
+                String botId = "bot" + eUtils.createId();
+                ex("respawnnetplayer " + botId);
+                xMain.shellLogic.serverNetThread.handleJoin(botId);
+                return "spawned botplayer";
             }
         });
         commands.put("addcom", new gDoable() {
@@ -134,6 +187,45 @@ public class xCon {
                 return "cannot bindrelease ";
             }
         });
+        commands.put("bounceplayers", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length >= 3) {
+                    String id1 = toks[1];
+                    String id2 = toks[2];
+                    gThing obj1  = xMain.shellLogic.serverScene.getPlayerById(id2);
+                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id1);
+                    if(obj1 != null && obj2 != null) {
+                        if(obj1.vel2 > obj1.vel3) {
+                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
+                                obj2.vel2 = Math.max(0, obj1.vel2 - 1);
+                            obj1.vel3 = Math.max(0, obj2.vel3 + obj1.vel2/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
+                            obj1.vel2 = 0;
+                        }
+                        else {
+                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
+                                obj2.vel3 = Math.max(0, obj1.vel3 - 1);
+                            obj1.vel2 = Math.max(0, obj2.vel2 + obj1.vel3/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
+                            obj1.vel3 = 0;
+                        }
+                        if(obj1.vel0 > obj1.vel1) {
+                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
+                                obj2.vel0 = Math.max(0, obj1.vel0 - 1);
+                            obj1.vel1 = Math.max(0, obj2.vel1 + obj1.vel0/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
+                            obj1.vel0 = 0;
+                        }
+                        else {
+                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
+                                obj2.vel1 = Math.max(0, obj1.vel1 - 1);
+                            obj1.vel0 = Math.max(0, obj2.vel0 + obj1.vel1/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
+                            obj1.vel1 = 0;
+                        }
+                    }
+                    return "bounced players: " + id1 + " " + id2;
+                }
+                return "usage: bounceplayer <id1> <id2>";
+            }
+        });
         commands.put("changemap", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
@@ -176,6 +268,11 @@ public class xCon {
                             ex("exec scripts/sv_endgame");
                         }
                     });
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
+                        public void doCommand() {
+                            ex("pausebots 0");
+                        }
+                    });
                     //ensure this servervar is ready right when script execs, sometimes it isn't
                     xMain.shellLogic.serverVars.put("gametimemillis", Long.toString(System.currentTimeMillis()));
                     ex("exec scripts/sv_startgame");
@@ -211,11 +308,11 @@ public class xCon {
                 String[] toks = fullCommand.split(" ");
                 if (toks.length > 1) {
                     String thing_title = toks[1];
-                    if(uiEditorMenus.previewScene.objectMaps.containsKey(thing_title))
-                        uiEditorMenus.previewScene.objectMaps.put(thing_title, new ConcurrentHashMap<>());
+                    if(xMain.shellLogic.clientPreviewScene.objectMaps.containsKey(thing_title))
+                        xMain.shellLogic.clientPreviewScene.objectMaps.put(thing_title, new ConcurrentHashMap<>());
                 }
-                for(String thing_title : uiEditorMenus.previewScene.objectMaps.keySet()) {
-                    uiEditorMenus.previewScene.objectMaps.get(thing_title).clear();
+                for(String thing_title : xMain.shellLogic.clientPreviewScene.objectMaps.keySet()) {
+                    xMain.shellLogic.clientPreviewScene.objectMaps.get(thing_title).clear();
                 }
                 return "usage: cl_clearthingmappreview";
             }
@@ -537,46 +634,7 @@ public class xCon {
         });
         commands.put("exec", new gDoable() {
             public  String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 2)
-                    return "usage: exec <script_id> <optional: args>";
-                String scriptId = args[1];
-                if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
-                    System.out.println("LOADING MAP FROM HDD");
-                    sSettings.serverLoadingFromHDD = false;
-                    ex("loadingscreen");
-                    try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                ex(line);
-                        }
-                    }
-                    catch (Exception e) {
-                        logException(e);
-                        e.printStackTrace();
-                    }
-                    ex("-loadingscreen");
-                    return "loaded map " + scriptId;
-                }
-                gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
-                if(theScript == null)
-                    return "no script found for: " + scriptId;
-                if(args.length > 2) {
-                    String[] callArgs = new String[args.length - 2];
-                    for(int i = 0; i < callArgs.length; i++) {
-                        callArgs[i] = args[i+2];
-                        if(callArgs[i].startsWith("$")) {
-                            String tokenKey = callArgs[i];
-                            if(xMain.shellLogic.serverVars.contains(tokenKey))
-                                callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
-                        }
-                    }
-                    theScript.callScript(callArgs);
-                }
-                else
-                    theScript.callScript(new String[]{});
-                return "script completed successfully";
+                return exec(fullCommand);
             }
         });
         commands.put("cl_execpreview", new gDoable() {
@@ -588,12 +646,10 @@ public class xCon {
                 gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
                 StringBuilder moddedScriptContentBuilder = new StringBuilder();
                 for(String rawLine : theScript.lines) {
-                    if(rawLine.contains("putblock BLOCK_FLOOR")
-                            || rawLine.contains("putblock BLOCK_CUBE")
-                            || rawLine.contains("getres")) {
-                        String clRawLine = rawLine.replace("getres",
-                                "cl_getres").replace("putblock",
-                                "cl_putblockpreview");
+                    if(rawLine.startsWith("putfloor") || rawLine.startsWith("putcube") || rawLine.startsWith("getres")) {
+                        String clRawLine = rawLine.replace("getres", "cl_getres"
+                        ).replace("putfloor", "cl_putfloorpreview"
+                        ).replace("putcube", "cl_putcubepreview");
                         moddedScriptContentBuilder.append("\n").append(clRawLine);
                     }
                 }
@@ -843,6 +899,9 @@ public class xCon {
                         "joingame localhost " + sSettings.serverListenPort,
                         "pause"
                 });
+                for(int i = 0; i < sSettings.botCount; i++) {
+                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 7000 + i*2000));
+                }
                 return "hosting game on port " + sSettings.serverListenPort;
             }
         });
@@ -907,7 +966,7 @@ public class xCon {
                                 for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) {
                                     if(bid < Integer.parseInt(id))
                                         bid = Integer.parseInt(id);
-                                    int tpid = Integer.parseInt(xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id).prefabId);
+                                    int tpid = Integer.parseInt(((gBlock) xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id)).prefabId);
                                     if(pid < tpid)
                                         pid = tpid;
                                 }
@@ -958,6 +1017,16 @@ public class xCon {
                 else if(sSettings.show_mapmaker_ui)
                     xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + sSettings.uuid);
                 return fullCommand;
+            }
+        });
+        commands.put("pausebots", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                int val = sSettings.botsPaused < 1 ? 1 : 0;
+                if(toks.length > 1)
+                    val = Integer.parseInt(toks[1]);
+                sSettings.botsPaused = val;
+                return "bots paused " + val;
             }
         });
         commands.put("playerdown", new gDoable() {
@@ -1051,32 +1120,87 @@ public class xCon {
                 return fullCommand;
             }
         });
-        commands.put("putblock", new gDoable() {
+        commands.put("putfloor", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage: putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, xMain.shellLogic.serverScene, toks[1], toks[2], toks[3]);
+                if(toks.length < 5)
+                    return "usage: putfloor <id> <prefabId> <x> <y>";
+                new gBlockFloor(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4])).addToScene(xMain.shellLogic.serverScene);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                return "put floor server";
+            }
+        });
+        commands.put("cl_putfloor", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 5)
+                    return "usage: cl_putfloor <id> <prefabId> <x> <y>";
+                new gBlockFloor(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4])).addToScene(xMain.shellLogic.clientScene);
+                return "put floor client";
+            }
+        });
+        commands.put("cl_putfloorpreview", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 5)
+                    return "usage: cl_putfloorpreview <id> <prefabId> <x> <y>";
+                new gBlockFloor(toks[1], toks[2], Integer.parseInt(toks[3]), Integer.parseInt(toks[4])).addToScene(xMain.shellLogic.clientPreviewScene);
                 return "1";
             }
         });
-        commands.put("cl_putblock", new gDoable() {
+        commands.put("putcollision", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage: cl_putblock <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, xMain.shellLogic.clientScene, toks[1], toks[2], toks[3]);
-                return "1";
+                if(toks.length < 7)
+                    return "usage: putcollision <id> <prefabId> <x> <y> <w> <h>";
+                new gBlockCollision(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                        Integer.parseInt(toks[5]), Integer.parseInt(toks[6])
+                ).addToScene(xMain.shellLogic.serverScene);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                return "put collision server";
             }
         });
-        commands.put("cl_putblockpreview", new gDoable() {
+        commands.put("cl_putcollision", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
-                if (toks.length < 8)
-                    return "usage:cl_putblockpreview <BLOCK_TITLE> <id> <pid> <x> <y> <w> <h>. opt: <t> <m> ";
-                putBlockDelegate(toks, uiEditorMenus.previewScene, toks[1], toks[2], toks[3]);
-                return "1";
+                if(toks.length < 7)
+                    return "usage: cl_putcollision <id> <prefabId> <x> <y> <w> <h>";
+                new gBlockCollision(
+                        toks[1], toks[2],
+                        Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                        Integer.parseInt(toks[5]), Integer.parseInt(toks[6])
+                ).addToScene(xMain.shellLogic.clientScene);
+                return "put collision client";
+            }
+        });
+        commands.put("putcube", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 9)
+                    return "usage: putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
+                putCubeDelegate(toks, xMain.shellLogic.serverScene);
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
+                return "put cube server";
+            }
+        });
+        commands.put("cl_putcube", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 9)
+                    return "usage: cl_putcube <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
+                putCubeDelegate(toks, xMain.shellLogic.clientScene);
+                return "put cube client";
+            }
+        });
+        commands.put("cl_putcubepreview", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                if(toks.length < 9)
+                    return "usage: cl_putcubepreview <id> <prefabid> <x> <y> <w> <y> <top_height> <wall_height>";
+                putCubeDelegate(toks, xMain.shellLogic.clientPreviewScene);
+                return "put cube client";
             }
         });
         commands.put("putitem", new gDoable() {
@@ -1239,11 +1363,12 @@ public class xCon {
                 return xMain.shellLogic.serverNetThread.setClientState(pid, tk, tv);
             }
         });
-        commands.put("setplayer", new gDoable() {
+        commands.put("setnplayer", new gDoable() {
             public String doCommand(String fullCommand) {
+                //synchronized between server and clients
                 String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
                 if(args.length < 4)
-                    return "usage: setplayer <player_id> <var_name> <var_value>";
+                    return "usage: setnplayer <player_id> <var_name> <var_value>";
                 String pid = args[1];
                 String varname = args[2];
                 String varval = args[3];
@@ -1251,33 +1376,6 @@ public class xCon {
                 ex(giveString);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
                 return "player " + pid + " given var '" + varname + "' with value of " + varval;
-            }
-        });
-        commands.put("setplayercoords", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 4)
-                    return "null";
-                gPlayer p = xMain.shellLogic.serverScene.getPlayerById(args[1]);
-                if(p == null)
-                    return "null";
-                p.coords[0] = Integer.parseInt(args[2]);
-                p.coords[1] = Integer.parseInt(args[3]);
-                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + fullCommand);
-                return fullCommand;
-            }
-        });
-        commands.put("cl_setplayercoords", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 4)
-                    return "null";
-                gPlayer p = xMain.shellLogic.getPlayerById(args[1]);
-                if(p == null)
-                    return "null";
-                p.coords[0] = Integer.parseInt(args[2]);
-                p.coords[1] = Integer.parseInt(args[3]);
-                return fullCommand;
             }
         });
         commands.put("setthing", new gDoable() {
@@ -1566,12 +1664,12 @@ public class xCon {
         });
         commands.put("zoom", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.min(1.5, sSettings.zoomLevel + 0.5);
                 return "zoom in";
             }
             public String undoCommand(String fullCommand) {
-                if(sSettings.show_mapmaker_ui)
+//                if(sSettings.show_mapmaker_ui)
                     sSettings.zoomLevel = Math.max(0.5, sSettings.zoomLevel - 0.5);
                 return "zoom out";
             }
@@ -1617,48 +1715,29 @@ public class xCon {
         gCamera.move[dir] = 0;
     }
 
-    private void putItemDelegate(String[] toks, gScene scene) {
-        String itemTitle = toks[1];
-        String itemId = toks[2];
-        int iw = Integer.parseInt(ex("setvar " + itemTitle+"_dimw"));
-        int ih = Integer.parseInt(ex("setvar " + itemTitle+"_dimh"));
-        String isp = ex("setvar " + itemTitle + "_sprite");
-        String isc = ex("setvar " + itemTitle + "_script");
-        String newItemFlare = ex("setvar " + itemTitle + "_flare");
-        gItem item = new gItem(itemId, itemTitle, Integer.parseInt(toks[3]), Integer.parseInt(toks[4]), iw, ih, isp);
-        item.script = isc;
-        item.flare = newItemFlare;
-        scene.getThingMap("THING_ITEM").put(itemId, item);
-        scene.getThingMap(item.type).put(itemId, item);
+    private void putCubeDelegate(String[] toks, gScene scene) {
+        new gBlockCube(
+                toks[1], toks[2],
+                Integer.parseInt(toks[3]),
+                Integer.parseInt(toks[4]),
+                Integer.parseInt(toks[5]),
+                Integer.parseInt(toks[6]),
+                Integer.parseInt(toks[7]),
+                Integer.parseInt(toks[8])
+        ).addToScene(scene);
     }
 
-    private void putBlockDelegate(String[] toks, gScene scene, String blockString, String blockid, String prefabid) {
-        String rawX = toks[4];
-        String rawY = toks[5];
-        String width = toks[6];
-        String height = toks[7];
-        //args are x y w h (t m)
-        String[] args = new String[toks.length - 4];
-        args[0] = rawX;
-        args[1] = rawY;
-        args[2] = width;
-        args[3] = height;
-        if (args.length > 4) {
-            args[4] = toks[8];
-            args[5] = toks[9];
-        }
-        gThing newBlock = new gThing();
-        newBlock.coords = new int[] {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
-        newBlock.dims = new int[] {Integer.parseInt(args[2]), Integer.parseInt(args[3])};
-        newBlock.type = blockString;
-        if(blockString.equals("BLOCK_CUBE")) {
-            newBlock.toph = Integer.parseInt(args[4]);
-            newBlock.wallh = Integer.parseInt(args[5]);
-        }
-        newBlock.id = blockid;
-        newBlock.prefabId = prefabid;
-        scene.getThingMap("THING_BLOCK").put(blockid, newBlock);
-        scene.getThingMap(newBlock.type).put(blockid, newBlock);
+    private void putItemDelegate(String[] toks, gScene scene) {
+        String itemTitle = toks[1];
+        (new gItem(
+                toks[2], itemTitle,
+                Integer.parseInt(toks[3]), Integer.parseInt(toks[4]),
+                Integer.parseInt(ex("setvar " + itemTitle+"_dimw")),
+                Integer.parseInt(ex("setvar " + itemTitle+"_dimh")),
+                ex("setvar " + itemTitle + "_sprite"),
+                ex("setvar " + itemTitle + "_script"),
+                ex("setvar " + itemTitle + "_flare"))
+        ).addToScene(scene);
     }
 
     private String setThingDelegate(String[] args, gScene scene) {
@@ -1668,10 +1747,10 @@ public class xCon {
         ConcurrentHashMap<String, gThing> thingMap = scene.getThingMap(ttype);
         if(args.length < 3)
             return thingMap.toString();
-        String tid = args[2];
-        if(!thingMap.containsKey(tid))
+        String thingId = args[2];
+        if(!thingMap.containsKey(thingId))
             return "null";
-        gThing thing = thingMap.get(tid);
+        gThing thing = thingMap.get(thingId);
         if(args.length < 4)
             return thing.args.toString();
         String tk = args[3];
@@ -1715,7 +1794,7 @@ public class xCon {
 
     private void deletePrefabDelegate(gScene scene, String prefabId) {
         for(String id : scene.getThingMapIds("THING_BLOCK")) {
-            gThing block = scene.getThingMap("THING_BLOCK").get(id);
+            gBlock block = (gBlock) scene.getThingMap("THING_BLOCK").get(id);
             if(!block.prefabId.equals(prefabId))
                 continue;
             String type = block.type;
@@ -1842,7 +1921,7 @@ public class xCon {
         return -1;
     }
 
-    public String doCommand(String fullCommand) {
+    private String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {

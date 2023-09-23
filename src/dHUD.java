@@ -59,18 +59,10 @@ public class dHUD {
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line
-            gThing block = xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
-            if(sSettings.drawhitboxes && block.type.equals("BLOCK_FLOOR")) {
-                dFonts.setFontColor(g2, "clrf_flooroutline");
-                g2.drawRect(block.coords[0],
-                        block.coords[1],
-                        block.dims[0], block.dims[1]);
-            }
+            gBlock block = (gBlock) xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").get(id);
             if(xMain.shellLogic.getUserPlayer() == null && block.prefabId.equals(sSettings.clientSelectedPrefabId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(block.coords[0],
-                        block.coords[1],
-                        block.dims[0], block.dims[1]);
+                g2.drawRect(block.coords[0], block.coords[1], block.dims[0], block.dims[1]);
             }
         }
         // -- selected item
@@ -78,9 +70,7 @@ public class dHUD {
             gThing item = xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(id);
             if(item.id.equals(sSettings.clientSelectedItemId)) {
                 g2.setColor(gColors.getColorFromName("clrp_" + sSettings.clientPlayerColor));
-                g2.drawRect(item.coords[0],
-                        item.coords[1],
-                        item.dims[0], item.dims[1]);
+                g2.drawRect(item.coords[0], item.coords[1], item.dims[0], item.dims[1]);
             }
         }
         //prefab dims
@@ -145,21 +135,13 @@ public class dHUD {
         }
         //draw hitboxes
         if(sSettings.drawhitboxes) {
-            g2.setColor(Color.RED);
             for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
-                gThing collision = scene.getThingMap("BLOCK_COLLISION").get(id);
-                int x = collision.coords[0];
-                int y = collision.coords[1];
-                int w = collision.dims[0];
-                int h = collision.dims[1];
-                g2.drawRect(x,y,w,h);
+                ((gBlockCollision) scene.getThingMap("BLOCK_COLLISION").get(id)).draw(g2);
             }
             for(String id : scene.getThingMap("THING_PLAYER").keySet()) {
                 gThing player = scene.getThingMap("THING_PLAYER").get(id);
-                g2.setColor(Color.RED);
-                int x1 = player.coords[0];
-                int y1 = player.coords[1];
-                g2.drawRect(x1, y1, player.dims[0], player.dims[1]);
+                g2.setColor(Color.WHITE);
+                g2.drawRect(player.coords[0], player.coords[1], player.dims[0], player.dims[1]);
             }
         }
     }

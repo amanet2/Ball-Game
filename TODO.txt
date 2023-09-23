@@ -1,11 +1,36 @@
-* BLOCKS: dont try to mess with them too much
-    -> right now moving blocks are possible only due to the "setthing" command and our "hashmap of things" architecture
-* CRASH: check on scheduled events make sure its clear when loading/changing map
+* CLEANUP:
+    -> investigate exceptions
+    -> create console command to pause bots
+        -> sSettings.botsSleep
+    -> Fix the teleporter seemingly not letting players go back through
+* COMMANDS:
+    -> server var to not allow movement for ID or all
+    -> bots to be able to target item of chosen type
+        -> bots should have state
+    -> server var to not allow movement for ID or all
+    -> bots to be able to target item of chosen type
+        -> bots should have state
+            -> rest
+            -> seek (player|item) // seek any items of a type, or players
+                -> seek (player|item) id //seek player/item with id
+            -> avoid (player|item)
+                -> see 'seek'
+    -> add race gamemode
+* BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
+    -> save what we have now for a "bouncyball" type object
+    -> make it bounce off walls then come up with new system
+* GAMETYPE: bounce the bot into the flagdeposit
+    -> botplayer doesn't do anything except get bounced around
+    -> engine will have to detect collision between BOTPLAYER and items like players are
+    -> botplayer should have a var created in the script called "collidedplayer" (DONE)
+    -> if botplayer collided with flagdeposit give a point to item "collidedplayer" and delete the item
+        -> schedule a new BOTPLAYER to spawn in at a random spawnpoint
+* ITEMS: looks like items may need to be syncd on client and server
+    -> we want the server to be able to send custom items to clients
+    -> have fallbacks if sprite, script, flare fields are "null"
+* FLASHLIGHT: adjust map brightness via: cl_setvar clrw_floorshading <r> <g> <b> <a>
 * BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
     -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
-* THINGS: go back to separated classes for block, popup, item, player, etc depending on unique vars, bindings, functions
-    -> maybe even create class gThings, e.g. gThings.player, gThings.item, gThings.block
-    -> check out gPlayer for how this is done
 * BOTS: implement them like doom
     -> pick target, default should be nearest player
     -> try this loop: aways go straight on or at random 45 degree offset
@@ -64,16 +89,16 @@
     -> if a client is also running the server, cl_setthing can be called by the server if server not ignored
 * GENERAL: think about how prefabs are placed
     -> current state: client requests "exec_"
-        -> client requests server to "exec prefabs/X", server fans-out "cl_putblock" lines (no client custom prefabs supported)
+        -> client requests server to "exec prefabs/X", server fans-out lines (no client custom prefabs supported)
             -> client does not get prefabs selection from server, so client needs same prefabs the server has
         -> client requests server to "deleteprefab", server fans-out "cl_deleteprefab" (instant, OK)
     -> option 1: have comm for "putprefab" to the effect that executed on each machine w/out server routing
         -> this makes prefab appear and disappear instantly
             -> server and clients need same prefab files (already the case)
-    -> option 2: have client request "putblock" for each individual block in local prefab file
+    -> option 2: have client request "put" for each individual block in local prefab file
         -> even slower but does not require requesting "exec prefabs/X" and it supports client-custom prefabs
             -> clients might put malicious script calls into prefabs, like playing sounds
-                -> we can ignore lines that arent "putblock" or "getres" (possibly malicious script after getres???)
+                -> we can ignore lines that arent "put" or "getres" (see previews)
 * GENERAL: increase map streaming speed by batching lines (see commented code in sendmap)
 * BUG: teleporters delay affects different colors i.e. blue teles are affected by red tele delay and vice versa
 * create a client var for player id to track with the camera

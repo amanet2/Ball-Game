@@ -6,6 +6,8 @@ public class gPlayer extends gThing {
     gThing collidedPlayer = null;
     String decorationSprite = "null";
     int weapon = gWeapons.none;
+    long botThinkTime = 0;
+    long botShootTime = 0;
 
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {

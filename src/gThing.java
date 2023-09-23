@@ -5,11 +5,10 @@ public class gThing {
     Image sprite = null;
     String spritePath = "null";
     String type = "null";
-    String color = "red";
+    String color = "red"; //for players
     int[] coords = {0, 0};
     int[] dims = {0, 0};
-    String id;
-    String prefabId;
+    public String id;
     gArgSet args;
     int acceldelay = 100;
     int accelrate = 2;
@@ -26,8 +25,6 @@ public class gThing {
     int mov1 = 0;
     int mov2 = 0;
     int mov3 = 0;
-    int toph = 0; //for blocks
-    int wallh = 0; //for blocks
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int dmg = 0; //bullets
     String srcId = "-1"; //bullets
@@ -107,6 +104,10 @@ public class gThing {
         return args.toString();
     }
 
+    public void addToScene(gScene scene) {
+        scene.getThingMap(type).put(id, this);
+    }
+
     public boolean coordsWithinBounds(int x, int y) {
         return (x >= eUtils.scaleInt(coords[0] - gCamera.coords[0])
                 && x <= eUtils.scaleInt(coords[0] - gCamera.coords[0] + dims[0]))
@@ -116,6 +117,15 @@ public class gThing {
 
     public boolean collidesWithThing(gThing target) {
         return new Rectangle(target.coords[0], target.coords[1], target.dims[0], target.dims[1]).intersects(new Rectangle(coords[0], coords[1], dims[0], dims[1]));
+    }
+
+    public boolean botWontClipOnMove(int dx, int dy, gScene scene) {
+        for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
+            gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);
+            if(new Rectangle(dx, dy, dims[0], dims[1]).intersects(new Rectangle(coll.coords[0], coll.coords[1], coll.dims[0], coll.dims[1])))
+                return false;
+        }
+        return true;
     }
 
     public void drawRoundShadow(Graphics2D g2) {

@@ -45,7 +45,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 }
             });
         for(String rcs : new String[]{
-                "respawnnetplayer", "setnstate", "putblock", "putitem", "deleteblock", "deleteitem",
+                "respawnnetplayer", "setnstate", "putitem", "deleteblock", "deleteitem",
                 "gamemode", "deleteprefab"
         }) {
             clientCmdDoables.put(rcs,
@@ -108,7 +108,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void checkForVoteSkip() {
-        if(voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
+        if(clientNetCmdMap.size() < 2 || voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
             voteSkipList.clear();
             xMain.shellLogic.console.ex("echo [SKIP] VOTE TARGET REACHED");
             xMain.shellLogic.console.ex("exec scripts/sv_endgame");
@@ -149,7 +149,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     private void addNetSendData(String id, String data) {
-        clientNetCmdMap.get(id).add(data);
+        if(clientNetCmdMap.containsKey(id))
+            clientNetCmdMap.get(id).add(data);
     }
 
     private void addNetSendData(String data) {
@@ -190,12 +191,45 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.ex("respawnnetplayer " + id);
     }
 
-    private void handleJoin(String id) {
-        masterStateMap.put(id, new nStateBallGame());
-        clientNetCmdMap.put(id, new LinkedList<>());
+    public void handleJoin(String id) {
+        if(!id.startsWith("bot"))
+            masterStateMap.put(id, new nStateBallGame());
+        else {
+            nStateBallGame botState = new nStateBallGame();
+            String botName = id;
+            int idInt = Integer.parseInt(id.replace("bot",""));
+            if(idInt > 90000000)
+                botName = "BotSteve";
+            else if(idInt > 80000000)
+                botName = "BotRick";
+            else if(idInt > 70000000)
+                botName = "BotDuke";
+            else if(idInt > 60000000)
+                botName = "BotChief";
+            else if(idInt > 50000000)
+                botName = "BotHoleWater";
+            else if(idInt > 40000000)
+                botName = "BotBratwurst";
+            else if(idInt > 30000000)
+                botName = "BotLite";
+            else if(idInt > 20000000)
+                botName = "BotMustard";
+            else if(idInt > 10000000)
+                botName = "BotGeorge";
+            botState.put("name", botName);
+            String botColor = sSettings.colorSelection[(int)(Math.random()*(sSettings.colorSelection.length-1))];
+            botState.put("color", botColor);
+            masterStateMap.put(id, botState);
+            xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", botName, botColor));
+        }
+
+        if(!id.startsWith("bot"))
+            clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
-        sendMapAndRespawn(id);
-        handleBackfill(id);
+        if(!id.startsWith("bot")) {
+            sendMapAndRespawn(id);
+            handleBackfill(id);
+        }
     }
 
     private void handleBackfill(String id) {
@@ -238,6 +272,22 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.get(stateId).put("vel2", Integer.toString(pl.vel2));
             masterStateMap.get(stateId).put("vel3", Integer.toString(pl.vel3));
         }
+        //update bots
+        for(String id : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
+            if(id.startsWith("bot")) {
+                gPlayer bpl = xMain.shellLogic.serverScene.getPlayerById(id);
+                if(bpl != null) {    //store player object's health in outgoing network arg map
+                    masterStateMap.get(id).put("coords", bpl.coords[0] + ":" + bpl.coords[1]);
+                    masterStateMap.get(id).put("vel0", Integer.toString(bpl.vel0));
+                    masterStateMap.get(id).put("vel1", Integer.toString(bpl.vel1));
+                    masterStateMap.get(id).put("vel2", Integer.toString(bpl.vel2));
+                    masterStateMap.get(id).put("vel3", Integer.toString(bpl.vel3));
+                    masterStateMap.get(id).put("fv", Double.toString(bpl.fv));
+                }
+                masterStateMap.get(id).put("score",  String.format("%d:%d",
+                        gScoreboard.scoresMap.get(id).get("wins"), gScoreboard.scoresMap.get(id).get("score")));
+            }
+        }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
@@ -251,32 +301,62 @@ public class eGameLogicServer extends eGameLogicAdapter {
         return masterStateMap.get(id).get(key);
     }
 
+    public String getClientStateVal(String id, String key) {
+        if(!masterStateMap.contains(id))
+            return "null";
+        return masterStateMap.get(id).get(key);
+    }
+
     private void sendMap(String packId) {
         // MANUALLY streams map to joiner, needs all raw vars, can NOT use console comms like 'loadingscreen' to sync
         //these three are always here
         ArrayList<String> maplines = new ArrayList<>();
         maplines.add(String.format("cl_setvar velocityplayerbase %s;cl_setvar maploaded 0;cl_setvar gamemode %d\n",
                 sSettings.serverVelocityPlayerBase, sSettings.serverGameMode));
-        ConcurrentHashMap<String, gThing> blockMap = xMain.shellLogic.serverScene.getThingMap("THING_BLOCK");
-        for(String id : blockMap.keySet()) {
-            gThing block = blockMap.get(id);
-            String[] args = new String[]{
-                    block.type,
-                    block.id,
-                    block.prefabId,
-                    Integer.toString(block.coords[0]),
-                    Integer.toString(block.coords[1]),
-                    Integer.toString(block.dims[0]),
-                    Integer.toString(block.dims[1]),
-                    Integer.toString(block.toph),
-                    Integer.toString(block.wallh)
+        ConcurrentHashMap<String, gThing> floorMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_FLOOR");
+        ConcurrentHashMap<String, gThing> cubeMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_CUBE");
+        ConcurrentHashMap<String, gThing> collisionMap = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION");
+        for(String id : floorMap.keySet()) {
+            gBlockFloor floor = (gBlockFloor) floorMap.get(id);
+            String[] args = new String[] {
+                    floor.id, floor.prefabId,
+                    Integer.toString(floor.coords[0]), Integer.toString(floor.coords[1])
             };
-            StringBuilder blockString = new StringBuilder("cl_putblock");
+            StringBuilder floorString = new StringBuilder("cl_putfloor");
             for(String arg : args) {
                 if(arg != null)
-                    blockString.append(" ").append(arg);
+                    floorString.append(" ").append(arg);
             }
-            maplines.add(blockString.toString());
+            maplines.add(floorString.toString());
+        }
+        for(String id : cubeMap.keySet()) {
+            gBlockCube cube = (gBlockCube) cubeMap.get(id);
+            String[] args = new String[] {
+                    cube.id, cube.prefabId,
+                    Integer.toString(cube.coords[0]), Integer.toString(cube.coords[1]),
+                    Integer.toString(cube.dims[0]), Integer.toString(cube.dims[1]),
+                    Integer.toString(cube.toph), Integer.toString(cube.wallh),
+            };
+            StringBuilder cubeString = new StringBuilder("cl_putcube");
+            for(String arg : args) {
+                if(arg != null)
+                    cubeString.append(" ").append(arg);
+            }
+            maplines.add(cubeString.toString());
+        }
+        for(String id : collisionMap.keySet()) {
+            gBlockCollision collision = (gBlockCollision) collisionMap.get(id);
+            String[] args = new String[] {
+                    collision.id, collision.prefabId,
+                    Integer.toString(collision.coords[0]), Integer.toString(collision.coords[1]),
+                    Integer.toString(collision.dims[0]), Integer.toString(collision.dims[1]),
+            };
+            StringBuilder collisionString = new StringBuilder("cl_putcollision");
+            for(String arg : args) {
+                if(arg != null)
+                    collisionString.append(" ").append(arg);
+            }
+            maplines.add(collisionString.toString());
         }
         ConcurrentHashMap<String, gThing> itemMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
         for(String id : itemMap.keySet()) {
@@ -335,6 +415,13 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 HashMap<String, String> netVars = new HashMap<>();
                 netVars.put("cmd", "");
                 netVars.put("time", Long.toString(sSettings.serverTimeLeft));
+                StringBuilder botStringBuilder = new StringBuilder();
+                for (String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
+                    gThing obj = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id);
+                    botStringBuilder.append(String.format("/%s:%s:%s", obj.id, obj.coords[0], obj.coords[1]));
+                }
+                if(!botStringBuilder.isEmpty())
+                    netVars.put("ITEM_BALL", botStringBuilder.substring(1));
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
