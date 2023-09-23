@@ -43,10 +43,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 for(String k : pyState.get(clid).keys()) {
                     if(k.equalsIgnoreCase("cmd"))  //don't overwrite this
                         continue;
-                    if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k))) {
-                        //TODO: why does this lines result in "damageplayer" not working everytime
+                    if(!xMain.shellLogic.serverNetThread.getClientStateVal(clid, k).equals(pyState.get(clid).get(k)))
                         xMain.shellLogic.serverNetThread.setClientState(clid, k, pyState.get(clid).get(k));
-                    }
                 }
             }
         } catch (Exception e) {
