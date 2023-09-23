@@ -26,9 +26,6 @@ public class xCon {
     int linesToShowStart;
     int linesToShow;
     int cursorIndex;
-    Process pyProcess;
-    BufferedReader pyOutput;
-    BufferedWriter pyInput;
 
     public String exec(String fullCommand) {
         String[] args = fullCommand.split(" ");
@@ -84,24 +81,6 @@ public class xCon {
         stringLines = new ArrayList<>();
         commandString = "";
         prevCommandIndex = -1;
-        ProcessBuilder pb = new ProcessBuilder("../bin/python-3.11.5-embed-amd64/python", "../python/test.py");  //windows
-//        ProcessBuilder pb = new ProcessBuilder("/usr/bin/python3", "../python/test.py");  //mac
-//        ProcessBuilder pb = new ProcessBuilder("pwd");
-        try{
-            pyProcess = pb.start();
-            pyOutput = new BufferedReader(new InputStreamReader(pyProcess.getInputStream()));
-            pyInput = new BufferedWriter(new OutputStreamWriter(pyProcess.getOutputStream()));
-            // TEST
-//            String foo = pyOutput.readLine();  // Enter Message...
-//            System.out.println("Python returned: " + foo);
-//            pyProcess.destroy();
-//            pyProcess.waitFor();
-            // /TEST
-        }
-        catch(Exception e){
-            System.out.println("Failed to start python");
-            e.printStackTrace();
-        }
 
         commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
@@ -1942,7 +1921,7 @@ public class xCon {
         return -1;
     }
 
-    public String doCommand(String fullCommand) {
+    private String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {
