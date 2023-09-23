@@ -1,17 +1,25 @@
-set out_dir=%~dp0..\pkg
-%~dp0..\bin\jdk-20.0.1\bin\javac -d %out_dir% %~dp0..\src\*.java
-cd %out_dir%
-..\bin\jdk-20.0.1\bin\jar cmf ..\debug\MANIFEST.MF BALL_GAME.jar *.class
+set home_dir=C:\Code\Ball-Game
+set out_dir=C:\Code\pkg_ballmaster
+set debug_dir=%home_dir%\debug
+set pkg_dir=%home_dir%\pkg
+set src_dir=%home_dir%\src
+set java_prefix=bin\jdk-20.0.1
+set java_dir=%home_dir%\%java_prefix%
+
+REM build jar
+%java_dir%\bin\javac -d %pkg_dir% %src_dir%\*.java
+cd %pkg_dir%
+%java_dir%\bin\jar cmf %debug_dir%\MANIFEST.MF BALL_GAME.jar *.class
 del *.class
 cd %~dp0
-set pkg_dir=%~dp0..\..\pkg_ballmaster
-if exist %pkg_dir% del /f /s /q %pkg_dir%
-if exist %pkg_dir% rmdir /s /q %pkg_dir%
-mkdir %pkg_dir%
-xcopy /y /e /i %~dp0..\bin %pkg_dir%\bin
-xcopy /y /e /i %~dp0..\pkg %pkg_dir%\pkg
-xcopy /y %~dp0..\Readme.txt %pkg_dir%
-xcopy /y %~dp0..\ballmaster.exe %pkg_dir%
-xcopy /y %~dp0..\ballmaster_editor.exe %pkg_dir%
-if exist %pkg_dir%.zip del %pkg_dir%.zip
-powershell.exe Compress-Archive -Path %pkg_dir%\* -DestinationPath %pkg_dir%.zip
+
+REM create archive
+if exist %out_dir% rmdir /s /q %out_dir%
+mkdir %out_dir%
+xcopy /y /e /i %java_dir% %out_dir%\%java_prefix%
+xcopy /y /e /i %pkg_dir% %out_dir%\pkg
+xcopy /y %home_dir%\Readme.txt %out_dir%
+xcopy /y %home_dir%\ballmaster.exe %out_dir%
+xcopy /y %home_dir%\ballmaster_editor.exe %out_dir%
+if exist %out_dir%.zip del %out_dir%.zip
+powershell.exe Compress-Archive -Path %out_dir%\* -DestinationPath %out_dir%.zip
