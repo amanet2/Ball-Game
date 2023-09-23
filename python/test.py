@@ -1,15 +1,19 @@
 import json
-from sys import path
 import os
+from sys import path
 dir_path = os.path.dirname(os.path.realpath(__file__))
 path.append(dir_path)
 from custom.sv_checkgamestate import check_game_state
+from abstracts.doable import doable
+from scheduler.scheduler import scheduler
 """
 TODO:
 1. Needs debugging
     * Java hook needs to be able to handle stream of messages e.g. exception output
 """
 do_break = False
+test_scheduler = scheduler()
+test_scheduler.put(0, doable())
 while True:
     java_state_str = input("Enter message...\n")
     if do_break:
