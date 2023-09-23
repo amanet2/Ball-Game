@@ -1,6 +1,6 @@
 set home_dir=C:\Code\Ball-Game
 set out_dir=C:\Code\pkg_ballmaster
-set debug_dir=%home_dir%\debug
+set manifest_path=%home_dir%\debug\MANIFEST.MF
 set pkg_prefix=pkg
 set pkg_dir=%home_dir%\%pkg_prefix%
 set src_dir=%home_dir%\src
@@ -14,7 +14,7 @@ set python_dir=%home_dir%\%python_prefix%
 REM build jar
 %java_dir%\bin\javac -d %pkg_dir% %src_dir%\*.java
 cd %pkg_dir%
-%java_dir%\bin\jar cmf %debug_dir%\MANIFEST.MF BALL_GAME.jar *.class
+%java_dir%\bin\jar cmf %manifest_path% BALL_GAME.jar *.class
 del *.class
 cd %~dp0
 
