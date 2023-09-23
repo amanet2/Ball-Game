@@ -8,7 +8,7 @@ public class gThing {
     String color = "red"; //for players
     int[] coords = {0, 0};
     int[] dims = {0, 0};
-    String id;
+    public String id;
     gArgSet args;
     int acceldelay = 100;
     int accelrate = 2;

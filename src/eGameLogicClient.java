@@ -3,10 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class eGameLogicClient extends eGameLogicAdapter {
     private Queue<String> netSendCmds;
@@ -57,6 +54,19 @@ public class eGameLogicClient extends eGameLogicAdapter {
             if(idload.equals("server")) {
                 for (String k : packArgState.keys()) {
                     receivedArgsServer.put(k, packArgState.get(k));
+                    if(k.equals("ITEM_BALL")) {
+                        String botsState = packArgState.get(k);
+                        String[] botsToks = botsState.split("/");
+                        for(String botState : botsToks) {
+                            String[] botToks = botState.split(":");
+                            String botId = botToks[0];
+                            if(!xMain.shellLogic.clientScene.getThingMap("THING_ITEM").containsKey(botId))
+                                continue;
+                            xMain.shellLogic.clientScene.getThingMap("THING_ITEM").get(botId).coords = new int[]{
+                                    Integer.parseInt(botToks[1]), Integer.parseInt(botToks[2])
+                            };
+                        }
+                    }
                 }
             }
             else {
@@ -64,6 +74,15 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     clientStateMap.put(idload, new nStateBallGameClient());
                 for(String k : packArgState.keys()) {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
+                }
+                if(idload.startsWith("bot")) {
+                    gPlayer botThing = xMain.shellLogic.getPlayerById(idload);
+                    if(botThing != null) {
+                        String[] ccds = packArgState.get("coords").split(":");
+                        botThing.coords = new int[]{Integer.parseInt(ccds[0]), Integer.parseInt(ccds[1])};
+                        botThing.fv = Double.parseDouble(packArgState.get("fv"));
+                        botThing.checkSpriteFlip();
+                    }
                 }
                 foundIds.add(idload);
             }

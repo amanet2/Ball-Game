@@ -1,5 +1,5 @@
 REM mute volume
-cl_setvar audioenabled 1
+cl_setvar audioenabled 0
 REM show debug info in console
 cl_setvar debug 0
 REM save console log to file on close
@@ -15,7 +15,7 @@ cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
-cl_setvar playercolor orange
+cl_setvar playercolor blue
 REM player name
 cl_setvar playername player
 REM available resolutions
@@ -39,7 +39,7 @@ cl_setvar vfxenableshadows 1
 REM video mode
 cl_setvar vidmode 1280,720,60
 REM volume
-cl_setvar volume 20
+cl_setvar volume 10
 REM bindings
 bind - -zoom
 bind = zoom

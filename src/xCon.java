@@ -27,6 +27,49 @@ public class xCon {
     int linesToShow;
     int cursorIndex;
 
+    public String exec(String fullCommand) {
+        String[] args = fullCommand.split(" ");
+        if(args.length < 2)
+            return "usage: exec <script_id> <optional: args>";
+        String scriptId = args[1];
+        if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
+            System.out.println("LOADING MAP FROM HDD");
+            sSettings.serverLoadingFromHDD = false;
+            ex("loadingscreen");
+            try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
+                        ex(line);
+                }
+            }
+            catch (Exception e) {
+                logException(e);
+                e.printStackTrace();
+            }
+            ex("-loadingscreen");
+            return "loaded map " + scriptId;
+        }
+        gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
+        if(theScript == null)
+            return "no script found for: " + scriptId;
+        if(args.length > 2) {
+            String[] callArgs = new String[args.length - 2];
+            for(int i = 0; i < callArgs.length; i++) {
+                callArgs[i] = args[i+2];
+                if(callArgs[i].startsWith("$")) {
+                    String tokenKey = callArgs[i];
+                    if(xMain.shellLogic.serverVars.contains(tokenKey))
+                        callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
+                }
+            }
+            theScript.callScript(callArgs);
+        }
+        else
+            theScript.callScript(new String[]{});
+        return "null";
+    }
+
     public xCon() {
         linesToShowStart = 0;
         linesToShow = 24;
@@ -47,6 +90,16 @@ public class xCon {
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
                 }
                 return "1";
+            }
+        });
+        commands.put("addbot", new gDoable() {
+            public String doCommand(String fullCommand) {
+                if(!sSettings.IS_SERVER)
+                    return "only the host can add bots!";
+                String botId = "bot" + eUtils.createId();
+                ex("respawnnetplayer " + botId);
+                xMain.shellLogic.serverNetThread.handleJoin(botId);
+                return "spawned botplayer";
             }
         });
         commands.put("addcom", new gDoable() {
@@ -141,7 +194,7 @@ public class xCon {
                     String id1 = toks[1];
                     String id2 = toks[2];
                     gThing obj1  = xMain.shellLogic.serverScene.getPlayerById(id2);
-                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BOTPLAYER").get(id1);
+                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id1);
                     if(obj1 != null && obj2 != null) {
                         if(obj1.vel2 > obj1.vel3) {
                             if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
@@ -213,6 +266,11 @@ public class xCon {
                                 ex(String.format("spawnpopup %s WINNER!#%s", winid, wcolor));
                             }
                             ex("exec scripts/sv_endgame");
+                        }
+                    });
+                    xMain.shellLogic.serverSimulationThread.scheduledEvents.put(Long.toString(starttime + 8000), new gDoable() {
+                        public void doCommand() {
+                            ex("pausebots 0");
                         }
                     });
                     //ensure this servervar is ready right when script execs, sometimes it isn't
@@ -576,46 +634,7 @@ public class xCon {
         });
         commands.put("exec", new gDoable() {
             public  String doCommand(String fullCommand) {
-                String[] args = fullCommand.split(" ");
-                if(args.length < 2)
-                    return "usage: exec <script_id> <optional: args>";
-                String scriptId = args[1];
-                if(sSettings.serverLoadingFromHDD) { //detect loading from openFile
-                    System.out.println("LOADING MAP FROM HDD");
-                    sSettings.serverLoadingFromHDD = false;
-                    ex("loadingscreen");
-                    try (BufferedReader br = new BufferedReader(new FileReader(scriptId))) {
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            if(line.trim().length() > 0 && line.trim().charAt(0) != '#')
-                                ex(line);
-                        }
-                    }
-                    catch (Exception e) {
-                        logException(e);
-                        e.printStackTrace();
-                    }
-                    ex("-loadingscreen");
-                    return "loaded map " + scriptId;
-                }
-                gScript theScript = xMain.shellLogic.scriptFactory.getScript(scriptId);
-                if(theScript == null)
-                    return "no script found for: " + scriptId;
-                if(args.length > 2) {
-                    String[] callArgs = new String[args.length - 2];
-                    for(int i = 0; i < callArgs.length; i++) {
-                        callArgs[i] = args[i+2];
-                        if(callArgs[i].startsWith("$")) {
-                            String tokenKey = callArgs[i];
-                            if(xMain.shellLogic.serverVars.contains(tokenKey))
-                                callArgs[i] = xMain.shellLogic.serverVars.get(tokenKey);
-                        }
-                    }
-                    theScript.callScript(callArgs);
-                }
-                else
-                    theScript.callScript(new String[]{});
-                return "script completed successfully";
+                return exec(fullCommand);
             }
         });
         commands.put("cl_execpreview", new gDoable() {
@@ -880,6 +899,9 @@ public class xCon {
                         "joingame localhost " + sSettings.serverListenPort,
                         "pause"
                 });
+                for(int i = 0; i < sSettings.botCount; i++) {
+                    ex(String.format("scheduleevent %d addbot", sSettings.gameTime + 7000 + i*2000));
+                }
                 return "hosting game on port " + sSettings.serverListenPort;
             }
         });
@@ -995,6 +1017,16 @@ public class xCon {
                 else if(sSettings.show_mapmaker_ui)
                     xMain.shellLogic.clientNetThread.addNetCmd("deleteplayer " + sSettings.uuid);
                 return fullCommand;
+            }
+        });
+        commands.put("pausebots", new gDoable() {
+            public String doCommand(String fullCommand) {
+                String[] toks = fullCommand.split(" ");
+                int val = sSettings.botsPaused < 1 ? 1 : 0;
+                if(toks.length > 1)
+                    val = Integer.parseInt(toks[1]);
+                sSettings.botsPaused = val;
+                return "bots paused " + val;
             }
         });
         commands.put("playerdown", new gDoable() {
@@ -1715,10 +1747,10 @@ public class xCon {
         ConcurrentHashMap<String, gThing> thingMap = scene.getThingMap(ttype);
         if(args.length < 3)
             return thingMap.toString();
-        String tid = args[2];
-        if(!thingMap.containsKey(tid))
+        String thingId = args[2];
+        if(!thingMap.containsKey(thingId))
             return "null";
-        gThing thing = thingMap.get(tid);
+        gThing thing = thingMap.get(thingId);
         if(args.length < 4)
             return thing.args.toString();
         String tk = args[3];
@@ -1889,7 +1921,7 @@ public class xCon {
         return -1;
     }
 
-    public String doCommand(String fullCommand) {
+    private String doCommand(String fullCommand) {
         if(fullCommand.length() > 0) {
             String[] args = fullCommand.trim().split(" ");
             for(int i = 0; i < args.length; i++) {

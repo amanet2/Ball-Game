@@ -6,8 +6,10 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
+//import items.itemEnum;
+//import items.itemRegistry;
+//import items.itemTemplate;
 /**
  * A scene holds the background and objects for a game
  * play scenario.
@@ -20,6 +22,10 @@ public class gScene {
         for(String s : sSettings.object_titles) {
             objectMaps.put(s, new ConcurrentHashMap<>());
         }
+//        itemRegistry itemsSelection = new itemRegistry();
+//        itemTemplate it = itemsSelection.getItemTemplate(itemEnum.flag);
+//        if(it != null)
+//            it.activateItem();
     }
 
     public String[] getThingMapIds(String title) {

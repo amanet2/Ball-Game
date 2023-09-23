@@ -1,3 +1,21 @@
+* CLEANUP:
+    -> investigate exceptions
+    -> create console command to pause bots
+        -> sSettings.botsSleep
+    -> Fix the teleporter seemingly not letting players go back through
+* COMMANDS:
+    -> server var to not allow movement for ID or all
+    -> bots to be able to target item of chosen type
+        -> bots should have state
+    -> server var to not allow movement for ID or all
+    -> bots to be able to target item of chosen type
+        -> bots should have state
+            -> rest
+            -> seek (player|item) // seek any items of a type, or players
+                -> seek (player|item) id //seek player/item with id
+            -> avoid (player|item)
+                -> see 'seek'
+    -> add race gamemode
 * BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
     -> save what we have now for a "bouncyball" type object
     -> make it bounce off walls then come up with new system

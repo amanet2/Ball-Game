@@ -3,18 +3,13 @@ import javax.swing.JLayeredPane;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 
 public class oDisplay {
 	JFrame frame;
     JLayeredPane contentPane;
-    Cursor blankCursor;
 
 	public oDisplay() {
 		super();
-        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-                cursorImg, new Point(0, 0), "blank cursor");
         contentPane = new JLayeredPane();
     }
 

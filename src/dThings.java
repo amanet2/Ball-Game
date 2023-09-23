@@ -11,9 +11,8 @@ public class dThings {
                 ((gPlayer) thing).draw(g2);
             else if(thing.type.startsWith("ITEM_"))
                 ((gItem) thing).draw(g2);
-            else if(thing.type.contains("CUBE")) {
+            else if(thing.type.contains("CUBE"))
                 ((gBlockCube) thing).draw(g2);
-            }
         }
         ConcurrentHashMap<String, gThing> floorMap = scene.getThingMap("BLOCK_FLOOR");
         for(String tag : floorMap.keySet()) {

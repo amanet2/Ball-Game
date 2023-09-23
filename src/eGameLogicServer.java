@@ -108,7 +108,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void checkForVoteSkip() {
-        if(voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
+        if(clientNetCmdMap.size() < 2 || voteSkipList.size() >= sSettings.serverVoteSkipLimit) {
             voteSkipList.clear();
             xMain.shellLogic.console.ex("echo [SKIP] VOTE TARGET REACHED");
             xMain.shellLogic.console.ex("exec scripts/sv_endgame");
@@ -149,7 +149,8 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     private void addNetSendData(String id, String data) {
-        clientNetCmdMap.get(id).add(data);
+        if(clientNetCmdMap.containsKey(id))
+            clientNetCmdMap.get(id).add(data);
     }
 
     private void addNetSendData(String data) {
@@ -190,12 +191,45 @@ public class eGameLogicServer extends eGameLogicAdapter {
             xMain.shellLogic.console.ex("respawnnetplayer " + id);
     }
 
-    private void handleJoin(String id) {
-        masterStateMap.put(id, new nStateBallGame());
-        clientNetCmdMap.put(id, new LinkedList<>());
+    public void handleJoin(String id) {
+        if(!id.startsWith("bot"))
+            masterStateMap.put(id, new nStateBallGame());
+        else {
+            nStateBallGame botState = new nStateBallGame();
+            String botName = id;
+            int idInt = Integer.parseInt(id.replace("bot",""));
+            if(idInt > 90000000)
+                botName = "BotSteve";
+            else if(idInt > 80000000)
+                botName = "BotRick";
+            else if(idInt > 70000000)
+                botName = "BotDuke";
+            else if(idInt > 60000000)
+                botName = "BotChief";
+            else if(idInt > 50000000)
+                botName = "BotHoleWater";
+            else if(idInt > 40000000)
+                botName = "BotBratwurst";
+            else if(idInt > 30000000)
+                botName = "BotLite";
+            else if(idInt > 20000000)
+                botName = "BotMustard";
+            else if(idInt > 10000000)
+                botName = "BotGeorge";
+            botState.put("name", botName);
+            String botColor = sSettings.colorSelection[(int)(Math.random()*(sSettings.colorSelection.length-1))];
+            botState.put("color", botColor);
+            masterStateMap.put(id, botState);
+            xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", botName, botColor));
+        }
+
+        if(!id.startsWith("bot"))
+            clientNetCmdMap.put(id, new LinkedList<>());
         gScoreboard.addId(id);
-        sendMapAndRespawn(id);
-        handleBackfill(id);
+        if(!id.startsWith("bot")) {
+            sendMapAndRespawn(id);
+            handleBackfill(id);
+        }
     }
 
     private void handleBackfill(String id) {
@@ -238,6 +272,22 @@ public class eGameLogicServer extends eGameLogicAdapter {
             masterStateMap.get(stateId).put("vel2", Integer.toString(pl.vel2));
             masterStateMap.get(stateId).put("vel3", Integer.toString(pl.vel3));
         }
+        //update bots
+        for(String id : xMain.shellLogic.serverScene.getThingMapIds("THING_PLAYER")) {
+            if(id.startsWith("bot")) {
+                gPlayer bpl = xMain.shellLogic.serverScene.getPlayerById(id);
+                if(bpl != null) {    //store player object's health in outgoing network arg map
+                    masterStateMap.get(id).put("coords", bpl.coords[0] + ":" + bpl.coords[1]);
+                    masterStateMap.get(id).put("vel0", Integer.toString(bpl.vel0));
+                    masterStateMap.get(id).put("vel1", Integer.toString(bpl.vel1));
+                    masterStateMap.get(id).put("vel2", Integer.toString(bpl.vel2));
+                    masterStateMap.get(id).put("vel3", Integer.toString(bpl.vel3));
+                    masterStateMap.get(id).put("fv", Double.toString(bpl.fv));
+                }
+                masterStateMap.get(id).put("score",  String.format("%d:%d",
+                        gScoreboard.scoresMap.get(id).get("wins"), gScoreboard.scoresMap.get(id).get("score")));
+            }
+        }
         //update scores
         masterStateMap.get(stateId).put("score",  String.format("%d:%d",
                 gScoreboard.scoresMap.get(stateId).get("wins"), gScoreboard.scoresMap.get(stateId).get("score")));
@@ -248,6 +298,12 @@ public class eGameLogicServer extends eGameLogicAdapter {
         if(!masterStateMap.contains(id))
             return "null";
         masterStateMap.get(id).put(key, val);
+        return masterStateMap.get(id).get(key);
+    }
+
+    public String getClientStateVal(String id, String key) {
+        if(!masterStateMap.contains(id))
+            return "null";
         return masterStateMap.get(id).get(key);
     }
 
@@ -359,6 +415,13 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 HashMap<String, String> netVars = new HashMap<>();
                 netVars.put("cmd", "");
                 netVars.put("time", Long.toString(sSettings.serverTimeLeft));
+                StringBuilder botStringBuilder = new StringBuilder();
+                for (String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
+                    gThing obj = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id);
+                    botStringBuilder.append(String.format("/%s:%s:%s", obj.id, obj.coords[0], obj.coords[1]));
+                }
+                if(!botStringBuilder.isEmpty())
+                    netVars.put("ITEM_BALL", botStringBuilder.substring(1));
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);

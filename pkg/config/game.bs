@@ -29,7 +29,8 @@ setvar THING_18 ITEM_LAUNCHER
 setvar THING_19 ITEM_GLOVE
 setvar THING_20 ITEM_CAPTUREPOINT
 setvar THING_21 ITEM_FLAGDEPOSIT
-setvar THING_22 ITEM_BOTPLAYER
+setvar THING_22 ITEM_BALL
+setvar THING_23 ITEM_BALLDEPOSIT
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
@@ -84,10 +85,14 @@ setvar ITEM_FLAGDEPOSIT_dimw 300
 setvar ITEM_FLAGDEPOSIT_dimh 300
 setvar ITEM_FLAGDEPOSIT_sprite misc/light1.png
 setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
-setvar ITEM_BOTPLAYER_dimw 200
-setvar ITEM_BOTPLAYER_dimh 200
-setvar ITEM_BOTPLAYER_sprite animations/player_blue/a03.png
-setvar ITEM_BOTPLAYER_script exec items/botplayer
+setvar ITEM_BALL_dimw 200
+setvar ITEM_BALL_dimh 200
+setvar ITEM_BALL_sprite misc/ball.png
+setvar ITEM_BALL_script exec items/ball
+setvar ITEM_BALLDEPOSIT_dimw 300
+setvar ITEM_BALLDEPOSIT_dimh 300
+setvar ITEM_BALLDEPOSIT_sprite misc/ball.png
+setvar ITEM_BALLDEPOSIT_script exec items/balldeposit
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2
@@ -114,7 +119,7 @@ setvar WEAPON_AUTORIFLE_delay 80
 setvar WEAPON_AUTORIFLE_vel 70
 setvar WEAPON_AUTORIFLE_ttl 210
 setvar WEAPON_AUTORIFLE_rad 50
-setvar WEAPON_LAUNCHER_dmg 1500
+setvar WEAPON_LAUNCHER_dmg 800
 setvar WEAPON_LAUNCHER_delay 1000
 setvar WEAPON_LAUNCHER_vel 30
 setvar WEAPON_LAUNCHER_ttl 180
@@ -122,7 +127,7 @@ setvar WEAPON_LAUNCHER_rad 50
 setvar WEAPON_LAUNCHER_vel_xpl 75
 setvar WEAPON_LAUNCHER_ttl_xpl 75
 setvar WEAPON_LAUNCHER_rad_xpl 300
-setvar WEAPON_GLOVES_dmg 600
+setvar WEAPON_GLOVES_dmg 400
 setvar WEAPON_GLOVES_delay 450
 setvar WEAPON_GLOVES_vel 30
 setvar WEAPON_GLOVES_ttl 50
