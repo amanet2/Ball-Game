@@ -1,4 +1,12 @@
 * PY SCRIPTING
+    -> have different kinds of json payloads to send to python
+        -> one payload will be game state (clients, hps, etc)
+        -> another could be map state (blocks, collisions, items, etc)
+        -> check the buffer limit of python process and see if it can work with both?
+            -> or save the player/game state and map states in cases where we need to check one for the other
+                -> e.g. players dropping items, or map points teleporting players
+        -> look at all our scripts so far and see how they _could_ work with python
+        -> e.g. if map state returns and there are new/changed items, blocks they would be spawned in
     -> scheduleevent
         -> instead of calling "ex", start a "pyInput.write..." loop
     -> have multiple py scripts
