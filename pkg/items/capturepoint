@@ -1,13 +1,23 @@
+REM make sure we don't allow caps too fast
+REM create var from item id
+getres capdelaystr constr capdelay_ $1
+REM load capdelay from this var
+getres capdelay setvar $capdelaystr
+REM if var hasnt been created yet make the var current time
+testres $capdelay null setvar capdelay $gametimemillis
+getres cancap gte $gametimemillis $capdelay
+testres $cancap 1 getres newcaplim sumlong $gametimemillis 1000
+testres $cancap 1 setvar $capdelaystr $newcaplim
 REM get the name of scorepoint var using id
-getres scorestring constr cap_ $1
+testres $cancap 1 getres scorestring constr cap_ $1
 REM get current capper (or null)
-getres currentcapper setvar $scorestring
+testres $cancap 1 getres currentcapper setvar $scorestring
 REM if activator ($2) is not capper, give point and possession, set waypoint
-testresn $currentcapper $2 givepoint $2
-testresn $currentcapper $2 setvar $scorestring $2
-testresn $currentcapper $2 getres newcappername setnstate $2 name
-testresn $currentcapper $2 getres newcappercolor setnstate $2 color
-testresn $currentcapper $2 getres newcappernamecolor constr $newcappername # $newcappercolor
-testresn $currentcapper $2 addcomi server cl_setthing ITEM_CAPTUREPOINT $1 waypoint CAPTURE
-testresn $currentcapper $2 addcomx $2 cl_setthing ITEM_CAPTUREPOINT $1 waypoint 0
-testresn $currentcapper $2 echo $newcappernamecolor capped a point!
+testres $cancap 1 testresn $currentcapper $2 givepoint $2
+testres $cancap 1 testresn $currentcapper $2 setvar $scorestring $2
+testres $cancap 1 testresn $currentcapper $2 getres newcappername setnstate $2 name
+testres $cancap 1 testresn $currentcapper $2 getres newcappercolor setnstate $2 color
+testres $cancap 1 testresn $currentcapper $2 getres newcappernamecolor constr $newcappername # $newcappercolor
+testres $cancap 1 testresn $currentcapper $2 addcomi server cl_setthing ITEM_CAPTUREPOINT $1 waypoint CAPTURE
+testres $cancap 1 testresn $currentcapper $2 addcomx $2 cl_setthing ITEM_CAPTUREPOINT $1 waypoint 0
+testres $cancap 1 testresn $currentcapper $2 echo $newcappernamecolor capped a point!
