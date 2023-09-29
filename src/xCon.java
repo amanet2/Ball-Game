@@ -687,27 +687,6 @@ public class xCon {
                 return "usage: cl_fireweapon <player_id> <weapon_code>";
             }
         });
-        commands.put("foreach", new gDoable() {
-            //usage: foreach $var $start $end $incr <script to execute where $var is preloaded>
-            public String doCommand(String fullCommand) {
-                String[] args = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                if(args.length < 6)
-                    return "usage: foreach $var $start $end $incr <script where $var is num>";
-                String varname = args[1];
-                int start = Integer.parseInt(args[2]);
-                int end = Integer.parseInt(args[3]);
-                int incr = Integer.parseInt(args[4]);
-                for(int i = start; i <= end; i+=incr) {
-                    ex(String.format("setvar %s %s", varname, i));
-                    String[] cargs = xMain.shellLogic.serverVars.parseScriptArgs(fullCommand);
-                    String[] subarray = Arrays.stream(cargs, 5, cargs.length).toArray(String[]::new);
-                    String es = String.join(" ", subarray);
-                    ex(es);
-                    xMain.shellLogic.serverVars.args.remove(varname); //why is this needed here and not in foreachthing???
-                }
-                return "usage: foreach $var $start $end $incr <script where $var is num>";
-            }
-        });
         commands.put("foreachclient", new gDoable() {
             //usage: foreachclient $id <script to execute where $id is preloaded>
             public String doCommand(String fullCommand) {
