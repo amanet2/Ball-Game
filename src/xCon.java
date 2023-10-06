@@ -1079,7 +1079,12 @@ public class xCon {
                             if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                                 float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0));
-                                gainControl.setValue(dB);
+                                if(dB >= -80.0)
+                                    gainControl.setValue(dB);
+                                else {
+                                    clip.close();
+                                    return "clip gain was less than allowable (80.0)";
+                                }
                             }
                         }
                         clip.loop(Integer.parseInt(toks[2]));

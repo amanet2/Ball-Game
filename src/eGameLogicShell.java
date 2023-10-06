@@ -368,6 +368,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 }
             }
             for (Clip c : tr) {
+                c.close();
                 soundClips.remove(c);
             }
         }
