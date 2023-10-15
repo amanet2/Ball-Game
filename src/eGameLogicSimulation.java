@@ -297,8 +297,12 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gThing b = bulletsMap.get(id);
+            if(b == null)
+                continue;
             for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
+                if(bl == null)
+                    continue;
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.id);
                     if(b.src == gWeapons.launcher)

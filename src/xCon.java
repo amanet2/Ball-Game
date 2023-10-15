@@ -1083,7 +1083,7 @@ public class xCon {
                                     gainControl.setValue(dB);
                                 else {
                                     clip.close();
-                                    return "clip gain was less than allowable (80.0)";
+                                    return "clip gain was less than allowable (-80.0): " + dB;
                                 }
                             }
                         }

@@ -1,5 +1,5 @@
 REM mute volume
-cl_setvar audioenabled 1
+cl_setvar audioenabled 0
 REM show debug info in console
 cl_setvar debug 0
 REM save console log to file on close
@@ -37,7 +37,7 @@ cl_setvar vfxenableshading 1
 REM enable shadows
 cl_setvar vfxenableshadows 1
 REM video mode
-cl_setvar vidmode 1280,720,60
+cl_setvar vidmode 800,600,60
 REM volume
 cl_setvar volume 10
 REM bindings
@@ -117,7 +117,7 @@ cl_setvar clrw_shadow1 0 0 0 200
 cl_setvar clrw_shadow1half 0 0 0 100
 cl_setvar clrw_shadow2 0 0 0 0
 cl_setvar clrw_clear 0 0 0 0
-cl_setvar clrw_floorshading 0 0 0 0
+cl_setvar clrw_floorshading 0 0 0 200
 cl_setvar clrw_roofvertoutline1 0 0 0 20
 cl_setvar clrw_roofvertoutline2 0 0 0 90
 cl_setvar clrw_roofvertshading1 0 0 0 0

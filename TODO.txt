@@ -1,3 +1,10 @@
+* MEMORY LEAK
+    -> with sound?
+        -> even with sound muted I see memory going up in task manager
+        -> noticed shitload of threads being created when i enabled sounds
+        -> try closing the audio line
+    -> with animations?
+        -> with muted audio and no animations, mem hovers around 300mb give or take
 * CLEANUP:
     -> investigate exceptions
     -> create console command to pause bots

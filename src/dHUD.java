@@ -393,6 +393,8 @@ public class dHUD {
             String[] itemIds = scene.getThingMapIds("THING_ITEM");
             for(String id : itemIds) {
                 gThing item = scene.getThingMap("THING_ITEM").get(id);
+                if(item == null)
+                    continue;
                 if(!(item.waypoint.equals("null") || item.waypoint.equals("0")))
                     drawNavPointer(g2,item.coords[0] + item.dims[0]/2,
                             item.coords[1] + item.dims[1]/2, item.waypoint);

@@ -358,13 +358,13 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkAudio() {
-        //TODO: fix concurrency issues here
         if(soundClips.size() > 0){
             ArrayList<Clip> tr = new ArrayList<>();
             for (Clip c : soundClips) {
                 if (!c.isActive()) {
                     tr.add(c);
-//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c.toString());
+                    c.close();
+                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                 }
             }
             for (Clip c : tr) {
