@@ -29,7 +29,7 @@ public class eGameSession extends Thread implements Runnable {
                     long nextFrameTime = (snapshotTimeNanos + (1000000000/tickRate));
                     while (nextFrameTime > System.nanoTime()) {
                         try {
-                            Thread.sleep(1);
+                            sleep(1);
                         }
                         catch (InterruptedException ignored) {
                         }
