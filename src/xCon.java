@@ -234,12 +234,6 @@ public class xCon {
                 String mapPath = fullCommand.split(" ").length > 1 ? fullCommand.split(" ")[1] : "";
                 gScoreboard.resetScoresMap();
                 xMain.shellLogic.serverSimulationThread.scheduledEvents.clear();
-                for(Clip c : xMain.shellLogic.soundClips) {
-                    c.stop();
-                    c.flush();
-                    c.close();
-                }
-                xMain.shellLogic.soundClips.clear();
                 ex("loadingscreen");
                 ex("exec " + mapPath); //by exec'ing the map, server is actively streaming blocks
                 ex("-loadingscreen");
@@ -1105,7 +1099,7 @@ public class xCon {
                         }
                         clip.start();
                     }
-                    xMain.shellLogic.soundClips.add(clip);
+                    xMain.shellLogic.clientScene.soundClips.add(clip);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
