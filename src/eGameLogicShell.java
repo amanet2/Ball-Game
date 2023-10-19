@@ -361,15 +361,26 @@ public class eGameLogicShell extends eGameLogicAdapter {
         if(soundClips.size() > 0){
             ArrayList<Clip> tr = new ArrayList<>();
             for (Clip c : soundClips) {
-                if (!c.isActive()) {
-                    tr.add(c);
-                    c.close();
+                if(!c.isRunning()) {
                     System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
+                    tr.add(c);
+                    c.stop();
+                    c.flush();
+                    c.close();
+                    System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
+                    c = null;
+                    System.out.println("CLIP SET TO NULL");
                 }
             }
             for (Clip c : tr) {
+                System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
+                c.stop();
+                c.flush();
                 c.close();
                 soundClips.remove(c);
+                System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
+                c = null;
+                System.out.println("CLIP SET TO NULL");
             }
         }
     }
