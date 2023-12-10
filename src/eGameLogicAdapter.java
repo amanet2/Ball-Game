@@ -46,6 +46,7 @@ public class eGameLogicAdapter implements eGameLogic {
 
     @Override
     public void disconnect() {
+        System.out.println("DESTROYING LOGIC: " + this);
         parentSession.destroy();
     }
 

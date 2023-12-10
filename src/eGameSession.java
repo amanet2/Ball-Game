@@ -42,10 +42,12 @@ public class eGameSession extends Thread implements Runnable {
             err.printStackTrace();
         }
         finally {
-            gameLogic.cleanup();        }
+            destroy();
+        }
     }
 
     public void destroy() {
         playing = false;
+        gameLogic.cleanup(); // if this is commented out server doesnt cleanly exit
     }
 }

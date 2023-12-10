@@ -1,5 +1,5 @@
 REM mute volume
-cl_setvar audioenabled 0
+cl_setvar audioenabled 1
 REM show debug info in console
 cl_setvar debug 0
 REM save console log to file on close
@@ -15,13 +15,13 @@ cl_setvar joinip localhost
 REM default net port
 cl_setvar joinport 5555
 REM player color
-cl_setvar playercolor blue
+cl_setvar playercolor purple
 REM player name
 cl_setvar playername player
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
-cl_setvar showfps 0
+cl_setvar showfps 1
 cl_setvar showcam 0
 cl_setvar showmouse 0
 cl_setvar shownet 0
@@ -37,7 +37,7 @@ cl_setvar vfxenableshading 1
 REM enable shadows
 cl_setvar vfxenableshadows 1
 REM video mode
-cl_setvar vidmode 800,600,60
+cl_setvar vidmode 1920,1080,-1
 REM volume
 cl_setvar volume 10
 REM bindings
@@ -103,7 +103,7 @@ cl_setvar clrf_waypoint1 255 100 50 150
 cl_setvar clrf_waypoint2 255 100 50 220
 cl_setvar clrp_red 200 50 50
 cl_setvar clrp_orange 200 100 50
-cl_setvar clrp_yellow 200 180 0
+cl_setvar clrp_yellow 220 200 0
 cl_setvar clrp_green 0 180 50
 cl_setvar clrp_blue 50 160 200
 cl_setvar clrp_teal 0 200 160

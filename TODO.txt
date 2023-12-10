@@ -5,6 +5,9 @@
         -> try closing the audio line
     -> with animations?
         -> with muted audio and no animations, mem hovers around 300mb give or take
+* Client, Server interp
+    -> everytime client receives from server it sets "coords"
+    -> create some config value that will set this to only occur every X milliseconds
 * CLEANUP:
     -> investigate exceptions
     -> create console command to pause bots
