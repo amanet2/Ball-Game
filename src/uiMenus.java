@@ -357,9 +357,10 @@ public class uiMenus {
                 "Credits",
                 new uiMenuItem[] {
                         new uiMenuItem("Ballmaster 2021-2023"),
-                        new uiMenuItem("Programming & Design by Anthony Manetti"),
+                        new uiMenuItem("Programming and Design by Anthony Manetti"),
                         new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
                         new uiMenuItem("Addition SFX from mixkit.io"),
+                        new uiMenuItem("VFX by Anthony Manetti"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
                         new uiMenuItem("VFX by Master484 (opengameart.org)")
                 },
