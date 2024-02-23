@@ -15,41 +15,20 @@
     -> Fix the teleporter seemingly not letting players go back through
 * COMMANDS:
     -> server var to not allow movement for ID or all
+    -> add race gamemode
+* BOTS:
+    -> pick target, default should be nearest player
     -> bots to be able to target item of chosen type
         -> bots should have state
-    -> server var to not allow movement for ID or all
-    -> bots to be able to target item of chosen type
-        -> bots should have state
-            -> rest
+            -> rest <millis>
             -> seek (player|item) // seek any items of a type, or players
                 -> seek (player|item) id //seek player/item with id
             -> avoid (player|item)
                 -> see 'seek'
-    -> add race gamemode
-* BOTS: looks like the engine and scripts are fighting each other when we want to manipulate bots in script
-    -> save what we have now for a "bouncyball" type object
-    -> make it bounce off walls then come up with new system
-* GAMETYPE: bounce the bot into the flagdeposit
-    -> botplayer doesn't do anything except get bounced around
-    -> engine will have to detect collision between BOTPLAYER and items like players are
-    -> botplayer should have a var created in the script called "collidedplayer" (DONE)
-    -> if botplayer collided with flagdeposit give a point to item "collidedplayer" and delete the item
-        -> schedule a new BOTPLAYER to spawn in at a random spawnpoint
-* ITEMS: looks like items may need to be syncd on client and server
-    -> we want the server to be able to send custom items to clients
-    -> have fallbacks if sprite, script, flare fields are "null"
-* FLASHLIGHT: adjust map brightness via: cl_setvar clrw_floorshading <r> <g> <b> <a>
-* BOTS: since gItems can have coords, velocitys and stuff, make bots an ITEM object so they sync properly
-    -> might need to move some vars from gPlayer to gThing so gItem (bot) can inherit things like collidingPlayer, etc.
-* BOTS: implement them like doom
-    -> pick target, default should be nearest player
-    -> try this loop: aways go straight on or at random 45 degree offset
-    -> update loop: find vector we can move to that gets us closer to player
     -> find direct vector to target
         -> if can move there, go there or 45 degree offset
         -> if can not move there, find dir you CAN move in and go
     -> engine should handle all bot stuff up to spawning, actions should be scripted
-    -> commands: targetthing, avoidthing (for virus and flagmaster type modes), holdposition <millis>
     -> bots should automatically protect themselves shooting at players nearby
     -> how bots will be scripted (bringmaster as example):
         getres hasflag setnstate $1 flag
@@ -132,7 +111,8 @@
     -> see for remotes: git reset --hard origin/<branch_name>
 * NET: Have server not send any other clients' vars if the client is still loading
 * NET: The maximum safe UDP payload is ??? bytes
-* add cod zombies-style gametype, a zombie will be a prop with dumb ai
+* add cod zombies-style gametype, bots will be unarmed but real players will always have weapons
+    -> or moving items can act as zombies
 * powerups
     -> an egg you pick it up and it expands until explosion
 * GAME: bring back squish effect for movement/momentum changes and bounces
