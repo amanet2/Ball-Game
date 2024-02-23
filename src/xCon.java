@@ -863,6 +863,8 @@ public class xCon {
                             ex("pause");
                     }
                     else {
+                        if(gMessages.enteringMessage)
+                            gMessages.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                         ex("playsound sounds/goodwork.wav");
                     }
@@ -1080,7 +1082,7 @@ public class xCon {
                             }
                             if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                                float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0));
+                                float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.1)) / Math.log(10.0) * 20.0));
                                 if(dB >= -80.0)
                                     gainControl.setValue(dB);
                                 else {
@@ -1094,7 +1096,7 @@ public class xCon {
                     else {
                         if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            float dB = (float) (Math.log((sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0);
+                            float dB = (float) (Math.log((sSettings.clientVolume*0.1)) / Math.log(10.0) * 20.0);
                             gainControl.setValue(dB);
                         }
                         clip.start();

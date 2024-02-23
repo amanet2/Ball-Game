@@ -298,53 +298,53 @@ public class uiMenus {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("10"){
+                        new uiMenuItem("1"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("20"){
+                        new uiMenuItem("2"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("30"){
+                        new uiMenuItem("3"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("40"){
+                        new uiMenuItem("4"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("50"){
+                        new uiMenuItem("5"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("60"){
+                        new uiMenuItem("6"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("70"){
+                        new uiMenuItem("7"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("80"){
+                        new uiMenuItem("8"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
                         },
-                        new uiMenuItem("90"){
+                        new uiMenuItem("9"){
                             public void doItem() {
                                 setVolume(this.text);
 
                             }
                         },
-                        new uiMenuItem("100"){
+                        new uiMenuItem("10"){
                             public void doItem() {
                                 setVolume(this.text);
                             }
@@ -359,7 +359,7 @@ public class uiMenus {
                         new uiMenuItem("Ballmaster 2021-2023"),
                         new uiMenuItem("Programming and Design by Anthony Manetti"),
                         new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
-                        new uiMenuItem("Addition SFX from mixkit.io"),
+                        new uiMenuItem("SFX from mixkit.io"),
                         new uiMenuItem("VFX by Anthony Manetti"),
                         new uiMenuItem("VFX by drummyfish (opengameart.org)"),
                         new uiMenuItem("VFX by Master484 (opengameart.org)")

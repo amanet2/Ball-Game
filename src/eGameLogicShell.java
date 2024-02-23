@@ -172,7 +172,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientDebugLog = Integer.parseInt(value) > 0;
             }
         });
-        clientVars.putArg(new gArg("volume", "100") {
+        clientVars.putArg(new gArg("volume", "10") {
             public void onChange() {
                 sSettings.clientVolume = Double.parseDouble(value);
             }

@@ -209,8 +209,7 @@ public class iInput {
         else if(gMessages.enteringMessage) {
             switch (command) {
                 case KeyEvent.VK_ESCAPE -> {
-                    gMessages.msgInProgress = "";
-                    gMessages.enteringMessage = false;
+                    gMessages.cancelEnterMessage();
                 }
                 case KeyEvent.VK_SHIFT -> iKeyboard.shiftMode = false;
                 default -> {

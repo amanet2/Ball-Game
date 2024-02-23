@@ -37,6 +37,7 @@ public class sSettings {
 
 	// audio
 	static boolean audioenabled = true;
+	static double clientVolume = 100.0;
 
 	// net
 	static int max_packet_size = 1200;
@@ -66,7 +67,6 @@ public class sSettings {
 
 	//client
 	static int clientMaxHP = 500;
-	static double clientVolume = 100.0;
 	static String clientSelectedItemId = "";
 	static String clientSelectedPrefabId = "";
 	static String clientPlayerName = "player";
