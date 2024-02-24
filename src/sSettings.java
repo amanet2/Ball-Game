@@ -61,7 +61,6 @@ public class sSettings {
 	static boolean respawnEnabled = true;
 	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
-	static int botShootTimeDelay = 400;
 	static int botCount = 0;
 	static int botsPaused = 0;
 

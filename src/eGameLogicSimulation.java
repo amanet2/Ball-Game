@@ -282,7 +282,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
         }
         if(closestDist < sSettings.botShootRange && src.botShootTime < sSettings.gameTime) {
-            src.botShootTime = sSettings.gameTime + sSettings.botShootTimeDelay;
+            src.botShootTime = sSettings.gameTime + gWeapons.fromCode(src.weapon).refiredelay;
             xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", src.id, src.weapon));
             xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", src.id, src.weapon));
 //            xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
