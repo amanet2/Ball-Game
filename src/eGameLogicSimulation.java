@@ -202,6 +202,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 }
             }
             obj.collidedPlayer = null;
+            //bots
             if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
                 gPlayer player = getClosestPlayer(obj);
@@ -239,14 +240,13 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     angle += Math.PI/2;
                     double randomOffset = Math.random()*3;
                     if(randomOffset > 2)
-                        angle -= Math.PI/4;
+                        angle -= Math.PI/8;
                     else if(randomOffset > 1)
-                        angle += Math.PI/4;
+                        angle += Math.PI/8;
                     obj.fv = angle;
                 }
             }
         }
-        // bots
 
         //bullets
         try {

@@ -1,3 +1,5 @@
+* bots could be a little more deadly
+* weapons might be too powerful
 * MEMORY LEAK
     -> with sound?
         -> even with sound muted I see memory going up in task manager

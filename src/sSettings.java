@@ -59,9 +59,9 @@ public class sSettings {
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
 	static boolean respawnEnabled = true;
-	static int botThinkTimeDelay = 250;
+	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
-	static int botShootTimeDelay = 1000;
+	static int botShootTimeDelay = 400;
 	static int botCount = 0;
 	static int botsPaused = 0;
 
