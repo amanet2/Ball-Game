@@ -3,6 +3,8 @@
         -> won't find resource files like images, sounds otherwise
         -> maybe pass resource folder on launch
 * weapons might be too powerful
+    -> give them ammo limits
+    -> or have them be destroyed when holder dies
 * MEMORY LEAK
     -> with sound?
         -> even with sound muted I see memory going up in task manager

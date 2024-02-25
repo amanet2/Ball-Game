@@ -4,8 +4,8 @@
 #include <unistd.h>
 
 int main(int argc, char * argv[]) {
-    char * findstr = "/ballmaster_mac"; // for regular
-    char * cdreplacestr = "/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "; // for regular
+    char * findstr = "/ballmaster_mac_editor"; // for editor
+    char * cdreplacestr = "/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar showmapmakerui 1 "; // for editor
     char * cdstr = malloc(strlen("cd ") + strlen(argv[0]) - strlen(findstr) + strlen("/pkg"));
     char * cptr;
 

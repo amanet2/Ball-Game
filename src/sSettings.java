@@ -6,7 +6,7 @@ public class sSettings {
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.bs";
 	static String CONFIG_FILE_LOCATION_GAME = "config/game.bs";
 	static String CONSOLE_LOG_LOCATION = "_console_log";
-	static String datapath = "ballgame";
+	static String datapath = "assets";
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
