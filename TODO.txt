@@ -1,4 +1,7 @@
-* bots could be a little more deadly
+* DEBUG SCRIPTS:
+    -> we have to CD to the jar's directory to properly run game
+        -> won't find resource files like images, sounds otherwise
+        -> maybe pass resource folder on launch
 * weapons might be too powerful
 * MEMORY LEAK
     -> with sound?
