@@ -1,3 +1,4 @@
+set call_dir=%cd%
 set home_dir=C:\Code\Ball-Game
 set out_dir=C:\Code\pkg_ballmaster
 set manifest_path=%home_dir%\debug\MANIFEST.MF
@@ -12,7 +13,6 @@ REM build jar
 cd %pkg_dir%
 %java_dir%\bin\jar cmf %manifest_path% BALL_GAME.jar *.class
 del *.class
-cd %~dp0
 
 REM create archive
 if exist %out_dir% rmdir /s /q %out_dir%
@@ -24,3 +24,6 @@ xcopy /y %home_dir%\ballmaster.exe %out_dir%
 xcopy /y %home_dir%\ballmaster_editor.exe %out_dir%
 if exist %out_dir%.zip del %out_dir%.zip
 powershell.exe Compress-Archive -Path %out_dir%\* -DestinationPath %out_dir%.zip
+
+REM return to calling dir
+cd %call_dir%

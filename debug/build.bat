@@ -1,3 +1,4 @@
+set call_dir=%cd%
 set home_dir=C:\Code\Ball-Game
 set manifest_path=%home_dir%\debug\MANIFEST.MF
 set out_dir=%home_dir%\pkg
@@ -8,4 +9,4 @@ set java_dir=%home_dir%\bin\jdk-20.0.1
 cd %out_dir%
 %java_dir%\bin\jar cmf %manifest_path% BALL_GAME.jar *.class
 del *.class
-cd %~dp0
+cd %call_dir%
