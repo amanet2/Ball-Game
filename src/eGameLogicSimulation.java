@@ -332,10 +332,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 //            int dmg = b.dmg - (int)((double)b.dmg/2 *((Math.abs(Math.max(0, sSettings.gameTime - b.timestamp))/(double)b.ttl))); // dmg falloff based on age of bullet
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.id);
             //handle damage serverside
-            if(b.srcId.startsWith("bot") && b.src == gWeapons.autorifle)
-                xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg*5, b.srcId));
-            else
-                xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg, b.srcId));
+            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg, b.srcId));
 
         }
     }
