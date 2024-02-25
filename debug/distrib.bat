@@ -20,10 +20,19 @@ set readme_path=%home_dir%\Readme.txt
 REM cleanup existing files
 if exist %out_zip% del %out_zip%
 if exist %out_dir% rmdir /s /q %out_dir%
+if exist %game_c% del %game_c%
+if exist %game_editor_c% del %game_editor_c%
 if exist %game_exe% del %game_exe%
 if exist %game_editor_exe% del %game_editor_exe%
 
 REM create executables
+set echo_c_script=C:\Code\Ball-Game\debug\echo_c.bat
+set game_c_start_str="start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar "
+set game_c_file="%game_c%"
+call %echo_c_script%
+set game_c_start_str="start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -jar BALL_GAME.jar showmapmakerui 1 "
+set game_c_file="%game_editor_c%"
+call %echo_c_script%
 %gcc_home% -o %game_exe% %game_c%
 %gcc_home% -o %game_editor_exe% %game_editor_c%
 
@@ -39,6 +48,8 @@ REM zip up output
 powershell.exe Compress-Archive -Path %out_dir%\* -DestinationPath %out_zip%
 
 REM cleanup temp files
+del %game_c%
+del %game_editor_c%
 del %game_exe%
 del %game_editor_exe%
 rmdir /s /q %out_dir%
