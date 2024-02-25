@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
@@ -117,33 +116,28 @@ public class eGameLogicShell extends eGameLogicAdapter {
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
         //init client vars
-        clientVars.putArg(new gArg("vidmode", "1920,1080,60") {
+        clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {
-                String[] vidmodetoks = value.split(",");
-                int[] sres = new int[]{
-                        Integer.parseInt(vidmodetoks[0]),
-                        Integer.parseInt(vidmodetoks[1]),
-                        Integer.parseInt(vidmodetoks[2])
-                };
-                sSettings.framerate = sres[2];
-                if(sSettings.width != sres[0] || sSettings.height != sres[1]) {
-                    sSettings.width = sres[0];
-                    sSettings.height = sres[1];
-                    //refresh fonts
-                    dFonts.fontNormal = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.size * sSettings.height / sSettings.gamescale);
-                    dFonts.fontGNormal = new Font(clientVars.get("fontui"), Font.PLAIN, dFonts.size);
-                    dFonts.fontSmall = new Font(clientVars.get("fontui"), Font.PLAIN,
-                            dFonts.size *sSettings.height/sSettings.gamescale/2);
-                    dFonts.fontConsole = new Font(dFonts.fontnameconsole, Font.PLAIN,
-                            dFonts.size *sSettings.height/sSettings.gamescale/2);
-                    dFonts.fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
-                            (dFonts.size * sSettings.height / sSettings.gamescale)*2);
-                    if(displayPane.frame != null) {
-                        displayPane.refreshResolution();
-                        dMenus.refreshLogos();
-                    }
+                sSettings.width = Integer.parseInt(value);
+                if(displayPane.frame != null) {
+                    displayPane.refreshResolution();
+                    dMenus.refreshLogos();
                 }
+            }
+        });
+        clientVars.putArg(new gArg("height", "1080") {
+            public void onChange() {
+                sSettings.height = Integer.parseInt(value);
+                dFonts.refreshFonts();
+                if(displayPane.frame != null) {
+                    displayPane.refreshResolution();
+                    dMenus.refreshLogos();
+                }
+            }
+        });
+        clientVars.putArg(new gArg("refresh", "60") {
+            public void onChange() {
+                sSettings.refresh = Integer.parseInt(value);
             }
         });
         clientVars.putArg(new gArg("audioenabled", "1") {

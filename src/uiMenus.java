@@ -122,7 +122,7 @@ public class uiMenus {
                                 text = String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
                             }
                         },
-                        new uiMenuItem(String.format("Framerate [%d]",sSettings.framerate)) {
+                        new uiMenuItem(String.format("Framerate [%d]",sSettings.refresh)) {
                             public void doItem() {
                                 selectedMenu = MENU_FRAMERATE;
                             }
@@ -167,7 +167,7 @@ public class uiMenus {
             public void refresh() {
                 setMenuItemTexts(new String[]{
                         String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
-                        String.format("Framerate [%d]",sSettings.framerate),
+                        String.format("Framerate [%d]",sSettings.refresh),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
                         String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
                         String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
@@ -435,7 +435,8 @@ public class uiMenus {
             items[items.length-1] = new uiMenuItem(sSettings.resolutions[i]){
                 public void doItem() {
                     String[] toks = text.split("x");
-                    xMain.shellLogic.console.ex(String.format("cl_setvar vidmode %s,%s,%d", toks[0], toks[1], sSettings.framerate));
+                    xMain.shellLogic.console.ex("cl_setvar width " + toks[0]);
+                    xMain.shellLogic.console.ex("cl_setvar height " + toks[1]);
                     menuSelection[MENU_VIDEO].items[0].refreshText();
                     selectedMenu = MENU_VIDEO;
                 }
@@ -448,7 +449,7 @@ public class uiMenus {
         uiMenuItem[] items = new uiMenuItem[]{
                 new uiMenuItem("<None>") {
                     public void doItem() {
-                        sSettings.framerate = -1;
+                        sSettings.refresh = -1;
                         selectFramerateAfterSubmit();
                     }
                 }
@@ -457,7 +458,7 @@ public class uiMenus {
             items = Arrays.copyOf(items,items.length+1);
             items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
-                    sSettings.framerate = Integer.parseInt(text);
+                    sSettings.refresh = Integer.parseInt(text);
                     selectFramerateAfterSubmit();
                 }
             };
@@ -466,9 +467,7 @@ public class uiMenus {
     }
     
     private static void selectFramerateAfterSubmit() {
-        xMain.shellLogic.clientVars.put("vidmode",
-                String.format("%d,%d,%d", sSettings.width, sSettings.height,
-                        sSettings.framerate));
+        xMain.shellLogic.clientVars.put("refresh", Integer.toString(sSettings.refresh));
         menuSelection[MENU_VIDEO].refresh();
         selectedMenu = MENU_VIDEO;
     }

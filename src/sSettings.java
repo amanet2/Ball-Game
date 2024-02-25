@@ -20,7 +20,7 @@ public class sSettings {
 	static int gamescale = 2160;
 	static int width = 1920;
 	static int height = 1080;
-	static int framerate = 240;
+	static int refresh = 240;
 	static boolean borderless = false;
 	static int vfxfactor = 144;
 	static int vfxfactordiv = 8;

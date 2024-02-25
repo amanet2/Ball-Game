@@ -4,7 +4,7 @@ echo #include ^<string.h^>
 echo #include ^<unistd.h^>
 echo int main^(int argc, char * argv^[^]^) {
 echo     int argmalloc = 0;
-echo     char * startstr = %game_c_start_str%; // for editor
+echo     char * startstr = %echo_c_start_str%; // for editor
 echo     int i;
 echo     for^(i = 1; i ^< argc; i++^) {
 echo         argmalloc += sizeof^(char^)*strlen^(argv^[i^]^);
@@ -22,4 +22,4 @@ echo     chdir^("pkg"^);
 echo     system^(runstr^);
 echo     return 0;
 echo }
-)>%game_c_file%
+)>%echo_c_file%

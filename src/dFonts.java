@@ -71,4 +71,15 @@ public class dFonts {
     public static void setFontColor(Graphics g, String name) {
         g.setColor(gColors.getColorFromName(name));
     }
+
+    public static void refreshFonts() {
+        fontNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                size * sSettings.height / sSettings.gamescale);
+        fontGNormal = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN, size);
+        fontSmall = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                size *sSettings.height/sSettings.gamescale/2);
+        fontConsole = new Font(fontnameconsole, Font.PLAIN, size *sSettings.height/sSettings.gamescale/2);
+        fontLarge = new Font(xMain.shellLogic.clientVars.get("fontui"), Font.PLAIN,
+                (size * sSettings.height / sSettings.gamescale)*2);
+    }
 }

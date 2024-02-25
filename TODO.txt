@@ -1,9 +1,10 @@
+* BUG VIDEO:
+    -> framerate changing doesnt work
 * DEBUG SCRIPTS:
     -> we have to CD to the jar's directory to properly run game
         -> won't find resource files like images, sounds otherwise
         -> maybe pass resource folder on launch
     -> create a similar distrib process for mac that lets us remove the mac .c files
-    -> create a temp dir for distributing so that we dont mess up our code dir
 * weapons might be too powerful
     -> give them ammo limits
     -> or have them be destroyed when holder dies
