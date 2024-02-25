@@ -393,11 +393,15 @@ public class eGameLogicServer extends eGameLogicAdapter {
 
     @Override
     public void update() {
+        if(!sSettings.IS_SERVER) //avoids more exceptions when socket closed
+            return;
         super.update();
         try {
             checkForUnhandledQuitters();
             byte[] receiveData = new byte[sSettings.rcvbytesserver];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            if(serverSocket.isClosed() || !sSettings.IS_SERVER) //avoids more exceptions when socket closed
+                return;
             serverSocket.receive(receivePacket);
             try {
                 String receiveDataString = new String(receivePacket.getData());
@@ -453,7 +457,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
     public void disconnect() {
         super.disconnect();
         sSettings.IS_SERVER = false;
-        serverSocket.close();
     }
 
     @Override

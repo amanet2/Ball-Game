@@ -29,7 +29,7 @@ public class eGameSession extends Thread implements Runnable {
                     long nextFrameTime = (snapshotTimeNanos + (1000000000/tickRate));
                     while (nextFrameTime > System.nanoTime()) {
                         try {
-                            Thread.sleep(1);
+                            sleep(1);
                         }
                         catch (InterruptedException ignored) {
                         }
@@ -42,10 +42,12 @@ public class eGameSession extends Thread implements Runnable {
             err.printStackTrace();
         }
         finally {
-            gameLogic.cleanup();        }
+            destroy();
+        }
     }
 
     public void destroy() {
         playing = false;
+        gameLogic.cleanup(); // if this is commented out server doesnt cleanly exit
     }
 }

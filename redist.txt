@@ -1,6 +1,5 @@
 * download JDK 20 from oracle (ew)
 * for GCC:
-  1. download from github: skeeto/w64devkit-<version>.zip
+  1. download from github: niXman/mingw-builds-binaries/releases
   2. Extract all to folder
-  3. double-click: w64devkit
-  4. gcc -o ballmaster ballmaster.c
+  4. <mingw64_location>\bin\gcc.exe -o ballmaster ballmaster.c

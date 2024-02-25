@@ -23,4 +23,9 @@ public class gMessages {
             }
         }
     }
+
+    public static void cancelEnterMessage() {
+        gMessages.msgInProgress = "";
+        gMessages.enteringMessage = false;
+    }
 }

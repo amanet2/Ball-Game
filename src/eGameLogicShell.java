@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class eGameLogicShell extends eGameLogicAdapter {
     private long frameCounterTime = -1;
-    ConcurrentLinkedQueue<Clip> soundClips;
     gArgSet serverVars;
     gArgSet clientVars;
     gScriptFactory scriptFactory;
@@ -28,7 +27,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint topTexture;
 
     public eGameLogicShell() throws IOException {
-        soundClips = new ConcurrentLinkedQueue<>();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
@@ -152,9 +150,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
             public void onChange() {
                 sSettings.audioenabled = Integer.parseInt(value) > 0;
                 if(!sSettings.audioenabled) {
-                    for(Clip c : soundClips) {
+                    for(Clip c : clientScene.soundClips) {
                         c.stop();
                     }
+                    clientScene.soundClips.clear();
                 }
             }
         });
@@ -173,7 +172,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientDebugLog = Integer.parseInt(value) > 0;
             }
         });
-        clientVars.putArg(new gArg("volume", "100") {
+        clientVars.putArg(new gArg("volume", "10") {
             public void onChange() {
                 sSettings.clientVolume = Double.parseDouble(value);
             }
@@ -358,17 +357,30 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void checkAudio() {
-        //TODO: fix concurrency issues here
-        if(soundClips.size() > 0){
+        if(clientScene.soundClips.size() > 0){
             ArrayList<Clip> tr = new ArrayList<>();
-            for (Clip c : soundClips) {
-                if (!c.isActive()) {
+            for (Clip c : clientScene.soundClips) {
+                if(!c.isRunning()) {
+//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
                     tr.add(c);
-//                    System.out.println("REMOVE ACTIVE SOUND CLIP: " + c.toString());
+//                    c.stop();
+//                    c.flush();
+//                    c.close();
+//                    System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
+//                    c = null;
+//                    System.out.println("CLIP SET TO NULL");
                 }
             }
             for (Clip c : tr) {
-                soundClips.remove(c);
+//                System.out.println("REMOVE ACTIVE SOUND CLIP: " + c);
+                c.stop();
+                c.flush();
+                c.close();
+                c.drain();
+                clientScene.soundClips.remove(c);
+//                System.out.println("REMOVED ACTIVE SOUND CLIP: " + c);
+                c = null;
+//                System.out.println("CLIP SET TO NULL");
             }
         }
     }

@@ -6,7 +6,7 @@ public class sSettings {
 	static String CONFIG_FILE_LOCATION_CLIENT = "config/client.bs";
 	static String CONFIG_FILE_LOCATION_GAME = "config/game.bs";
 	static String CONSOLE_LOG_LOCATION = "_console_log";
-	static String datapath = "ballgame";
+	static String datapath = "assets";
 	public static boolean show_mapmaker_ui = false;
 	static boolean IS_SERVER = false;
 	static boolean IS_CLIENT = false;
@@ -37,6 +37,7 @@ public class sSettings {
 
 	// audio
 	static boolean audioenabled = true;
+	static double clientVolume = 100.0;
 
 	// net
 	static int max_packet_size = 1200;
@@ -58,15 +59,13 @@ public class sSettings {
 	static int serverMaxHP = 500;
 	static int serverVelocityPlayerBase = 16;
 	static boolean respawnEnabled = true;
-	static int botThinkTimeDelay = 250;
+	static int botThinkTimeDelay = 150;
 	static int botShootRange = 1200;
-	static int botShootTimeDelay = 1000;
 	static int botCount = 0;
 	static int botsPaused = 0;
 
 	//client
 	static int clientMaxHP = 500;
-	static double clientVolume = 100.0;
 	static String clientSelectedItemId = "";
 	static String clientSelectedPrefabId = "";
 	static String clientPlayerName = "player";

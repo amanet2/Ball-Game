@@ -863,6 +863,8 @@ public class xCon {
                             ex("pause");
                     }
                     else {
+                        if(gMessages.enteringMessage)
+                            gMessages.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                         ex("playsound sounds/goodwork.wav");
                     }
@@ -897,6 +899,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("setvar gamemode 0");
+                xMain.shellLogic.serverScene = null;
                 xMain.shellLogic.serverScene = new gScene();
                 if(sSettings.IS_SERVER)
                     xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_load");
@@ -908,6 +911,7 @@ public class xCon {
                 //load the most basic blank map
                 gTextures.clear();
                 ex("cl_setvar gamemode 0");
+                xMain.shellLogic.clientScene = null;
                 xMain.shellLogic.clientScene = new gScene();
                 return "";
             }
@@ -1078,8 +1082,13 @@ public class xCon {
                             }
                             if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                                 FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                                float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0));
-                                gainControl.setValue(dB);
+                                float dB = (float) ((Math.log(distanceAdj * (sSettings.clientVolume*0.1)) / Math.log(10.0) * 20.0));
+                                if(dB >= -80.0)
+                                    gainControl.setValue(dB);
+                                else {
+                                    clip.close();
+                                    return "clip gain was less than allowable (-80.0): " + dB;
+                                }
                             }
                         }
                         clip.loop(Integer.parseInt(toks[2]));
@@ -1087,12 +1096,12 @@ public class xCon {
                     else {
                         if(clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            float dB = (float) (Math.log((sSettings.clientVolume*0.01)) / Math.log(10.0) * 20.0);
+                            float dB = (float) (Math.log((sSettings.clientVolume*0.1)) / Math.log(10.0) * 20.0);
                             gainControl.setValue(dB);
                         }
                         clip.start();
                     }
-                    xMain.shellLogic.soundClips.add(clip);
+                    xMain.shellLogic.clientScene.soundClips.add(clip);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

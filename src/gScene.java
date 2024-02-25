@@ -1,3 +1,4 @@
+import javax.sound.sampled.Clip;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -6,26 +7,22 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-//import items.itemEnum;
-//import items.itemRegistry;
-//import items.itemTemplate;
 /**
  * A scene holds the background and objects for a game
  * play scenario.
  */
 public class gScene {
     final ConcurrentHashMap<String, ConcurrentHashMap<String, gThing>> objectMaps;
+    final ConcurrentLinkedQueue<Clip> soundClips;
 
 	public gScene() {
         objectMaps = new ConcurrentHashMap<>();
         for(String s : sSettings.object_titles) {
             objectMaps.put(s, new ConcurrentHashMap<>());
         }
-//        itemRegistry itemsSelection = new itemRegistry();
-//        itemTemplate it = itemsSelection.getItemTemplate(itemEnum.flag);
-//        if(it != null)
-//            it.activateItem();
+        soundClips = new ConcurrentLinkedQueue<>();
     }
 
     public String[] getThingMapIds(String title) {

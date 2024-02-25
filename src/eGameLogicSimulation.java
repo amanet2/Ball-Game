@@ -202,6 +202,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                 }
             }
             obj.collidedPlayer = null;
+            //bots
             if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
                 gPlayer player = getClosestPlayer(obj);
@@ -239,14 +240,13 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     angle += Math.PI/2;
                     double randomOffset = Math.random()*3;
                     if(randomOffset > 2)
-                        angle -= Math.PI/4;
+                        angle -= Math.PI/8;
                     else if(randomOffset > 1)
-                        angle += Math.PI/4;
+                        angle += Math.PI/8;
                     obj.fv = angle;
                 }
             }
         }
-        // bots
 
         //bullets
         try {
@@ -282,7 +282,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             }
         }
         if(closestDist < sSettings.botShootRange && src.botShootTime < sSettings.gameTime) {
-            src.botShootTime = sSettings.gameTime + sSettings.botShootTimeDelay;
+            src.botShootTime = sSettings.gameTime + gWeapons.fromCode(src.weapon).refiredelay;
             xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", src.id, src.weapon));
             xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", src.id, src.weapon));
 //            xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
@@ -297,8 +297,12 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
         ConcurrentHashMap<String, gThing> bulletsMap = xMain.shellLogic.serverScene.getThingMap("THING_BULLET");
         for(String id : bulletsMap.keySet()) {
             gThing b = bulletsMap.get(id);
+            if(b == null)
+                continue;
             for(String blockId : xMain.shellLogic.serverScene.getThingMapIds("BLOCK_COLLISION")) {
                 gThing bl = xMain.shellLogic.serverScene.getThingMap("BLOCK_COLLISION").get(blockId);
+                if(bl == null)
+                    continue;
                 if(b.collidesWithThing(bl)) {
                     bulletsToRemoveIds.add(b.id);
                     if(b.src == gWeapons.launcher)
@@ -328,10 +332,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
 //            int dmg = b.dmg - (int)((double)b.dmg/2 *((Math.abs(Math.max(0, sSettings.gameTime - b.timestamp))/(double)b.ttl))); // dmg falloff based on age of bullet
             xMain.shellLogic.serverScene.getThingMap("THING_BULLET").remove(b.id);
             //handle damage serverside
-            if(b.srcId.startsWith("bot") && b.src == gWeapons.autorifle)
-                xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg*5, b.srcId));
-            else
-                xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg, b.srcId));
+            xMain.shellLogic.console.ex(String.format("damageplayer %s %d %s", p.id, b.dmg, b.srcId));
 
         }
     }

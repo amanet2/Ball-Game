@@ -6,7 +6,7 @@ getres capdelay setvar $capdelaystr
 REM if var hasnt been created yet make the var current time
 testres $capdelay null setvar capdelay $gametimemillis
 getres cancap gte $gametimemillis $capdelay
-testres $cancap 1 getres newcaplim sumlong $gametimemillis 1000
+testres $cancap 1 getres newcaplim sumlong $gametimemillis 2000
 testres $cancap 1 setvar $capdelaystr $newcaplim
 REM get the name of scorepoint var using id
 testres $cancap 1 getres scorestring constr cap_ $1
