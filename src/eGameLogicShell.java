@@ -137,7 +137,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("refresh", "60") {
             public void onChange() {
-                sSettings.refresh = Integer.parseInt(value);
+                sSettings.rateShell = Integer.parseInt(value);
+                xMain.shellSession.tickRate = sSettings.rateShell;
             }
         });
         clientVars.putArg(new gArg("audioenabled", "1") {
@@ -234,7 +235,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientVelocityPlayerBase = Integer.parseInt(value);
             }
         });
-        clientVars.putArg(new gArg("framerates", "24,30,60,75,98,120,144,165,240,320,360") {
+        clientVars.putArg(new gArg("framerates", "30,60,120,240,360,540,1000") {
             public void onChange() {
                 String[] toks = value.split(",");
                 sSettings.framerates = new int[toks.length];

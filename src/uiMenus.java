@@ -122,7 +122,7 @@ public class uiMenus {
                                 text = String.format("Resolution: [%dx%d]", sSettings.width, sSettings.height);
                             }
                         },
-                        new uiMenuItem(String.format("Framerate [%d]",sSettings.refresh)) {
+                        new uiMenuItem(String.format("Framerate [%d]",sSettings.rateShell)) {
                             public void doItem() {
                                 selectedMenu = MENU_FRAMERATE;
                             }
@@ -166,8 +166,8 @@ public class uiMenus {
         ) {
             public void refresh() {
                 setMenuItemTexts(new String[]{
-                        String.format("Resolution [%dx%d]",sSettings.width,sSettings.height),
-                        String.format("Framerate [%d]",sSettings.refresh),
+                        String.format("Resolution [%dx%d]", sSettings.width,sSettings.height),
+                        String.format("Framerate [%d]", sSettings.rateShell),
                         String.format("Borderless [%s]", sSettings.borderless ? "X" : "  "),
                         String.format("Animations [%s]", sSettings.vfxenableanimations ? "X" : "  "),
                         String.format("Flares [%s]", sSettings.vfxenableflares ? "X" : "  "),
@@ -446,19 +446,11 @@ public class uiMenus {
     }
     
     private static uiMenuItem[] getFramerateMenuItems() {
-        uiMenuItem[] items = new uiMenuItem[]{
-                new uiMenuItem("<None>") {
-                    public void doItem() {
-                        sSettings.refresh = -1;
-                        selectFramerateAfterSubmit();
-                    }
-                }
-        };
+        uiMenuItem[] items = new uiMenuItem[sSettings.framerates.length];
         for(int i = 0; i < sSettings.framerates.length; i++){
-            items = Arrays.copyOf(items,items.length+1);
-            items[items.length-1] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
+            items[i] = new uiMenuItem(Integer.toString(sSettings.framerates[i])){
                 public void doItem() {
-                    sSettings.refresh = Integer.parseInt(text);
+                    xMain.shellLogic.console.ex("cl_setvar refresh " + text);
                     selectFramerateAfterSubmit();
                 }
             };
@@ -467,7 +459,6 @@ public class uiMenus {
     }
     
     private static void selectFramerateAfterSubmit() {
-        xMain.shellLogic.clientVars.put("refresh", Integer.toString(sSettings.refresh));
         menuSelection[MENU_VIDEO].refresh();
         selectedMenu = MENU_VIDEO;
     }

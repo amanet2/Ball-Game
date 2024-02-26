@@ -9,9 +9,9 @@ cl_setvar borderless 0
 REM font name ui
 cl_setvar fontui None
 REM available framerates
-cl_setvar framerates 24,30,60,75,98,120,144,165,240,320,360
+cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 1440
+cl_setvar height 1080
 REM default net address
 cl_setvar joinip localhost
 REM default net port
@@ -21,7 +21,7 @@ cl_setvar playercolor purple
 REM player name
 cl_setvar playername player
 REM framerate
-cl_setvar refresh -1
+cl_setvar refresh 60
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
@@ -43,7 +43,7 @@ cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 2560
+cl_setvar width 1920
 REM bindings
 bind - -zoom
 bind = zoom

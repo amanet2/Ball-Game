@@ -1,5 +1,6 @@
 * BUG VIDEO:
-    -> framerate changing doesnt work
+    -> framerates dont exactly line up e.g. 60fps == 57 actual
+    -> uiMenus framerate selection needs to update with the client vars file
 * DEBUG SCRIPTS:
     -> we have to CD to the jar's directory to properly run game
         -> won't find resource files like images, sounds otherwise
@@ -7,6 +8,7 @@
     -> create a similar distrib process for mac that lets us remove the mac .c files
 * weapons might be too powerful
     -> give them ammo limits
+        -> these can be hidden from the ui
     -> or have them be destroyed when holder dies
 * MEMORY LEAK
     -> with sound?

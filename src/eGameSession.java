@@ -1,6 +1,6 @@
 public class eGameSession extends Thread implements Runnable {
     private final eGameLogic gameLogic;
-    private final int tickRate;
+    int tickRate;
     private boolean playing;
 
     public eGameSession(eGameLogic logic, int rate) {
