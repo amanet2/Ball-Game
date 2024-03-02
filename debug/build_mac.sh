@@ -1,11 +1,20 @@
 home_dir=~/Code/Ball-Game
 manifest_path=$home_dir/debug/MANIFEST.MF
-out_dir=$home_dir/pkg
-src_dir=$home_dir/src
-java_dir=$home_dir/bin/jdk-18.jdk/Contents/Home
+tmp_dir=$home_dir/tmp
+java_src=$home_dir/src/
+java_bin=$home_dir/bin/jdk-18.jdk/Contents/Home/bin
+jar_path=$home_dir/pkg/BALL_GAME.jar
 
-$java_dir/bin/javac -d $out_dir $src_dir/*.java
-cd $out_dir
-$java_dir/bin/jar cmf $manifest_path BALL_GAME.jar *.class
-rm *.class
-cd "$(cd $(dirname "$1");pwd)"
+# clean up existing files
+rm -rf $tmp_dir
+rm -f $jar_path
+
+# create temp directory
+mkdir $tmp_dir
+$java_bin/javac -d $tmp_dir $java_src/*.java # need the filename pattern here
+
+# generate jar file
+$java_bin/jar cmf $manifest_path $jar_path -C $tmp_dir .
+
+# cleanup tmp files
+rm -r $tmp_dir
