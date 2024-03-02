@@ -1,5 +1,0 @@
-getres bdl setthing THING_PLAYER $2 bouncedelay
-getres dobounce gte $gametimemillis $bdl
-testres $dobounce 1 bounceplayers $1 $2
-testres $dobounce 1 getres bouncedelay sumlong $gametimemillis 500
-testres $dobounce 1 setthing THING_PLAYER $2 bouncedelay $bouncedelay

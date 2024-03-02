@@ -187,45 +187,6 @@ public class xCon {
                 return "cannot bindrelease ";
             }
         });
-        commands.put("bounceplayers", new gDoable() {
-            public String doCommand(String fullCommand) {
-                String[] toks = fullCommand.split(" ");
-                if(toks.length >= 3) {
-                    String id1 = toks[1];
-                    String id2 = toks[2];
-                    gThing obj1  = xMain.shellLogic.serverScene.getPlayerById(id2);
-                    gThing obj2  = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id1);
-                    if(obj1 != null && obj2 != null) {
-                        if(obj1.vel2 > obj1.vel3) {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel2 = Math.max(0, obj1.vel2 - 1);
-                            obj1.vel3 = Math.max(0, obj2.vel3 + obj1.vel2/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
-                            obj1.vel2 = 0;
-                        }
-                        else {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel3 = Math.max(0, obj1.vel3 - 1);
-                            obj1.vel2 = Math.max(0, obj2.vel2 + obj1.vel3/2 - obj1.vel0/2 - obj1.vel1/2); //bounce
-                            obj1.vel3 = 0;
-                        }
-                        if(obj1.vel0 > obj1.vel1) {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel0 = Math.max(0, obj1.vel0 - 1);
-                            obj1.vel1 = Math.max(0, obj2.vel1 + obj1.vel0/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
-                            obj1.vel0 = 0;
-                        }
-                        else {
-                            if(obj2.mov0 == 0 && obj2.mov1 == 0 && obj2.mov2 == 0 && obj2.mov3 == 0)
-                                obj2.vel1 = Math.max(0, obj1.vel1 - 1);
-                            obj1.vel0 = Math.max(0, obj2.vel0 + obj1.vel1/2 - obj1.vel2/2 - obj1.vel3/2); //bounce
-                            obj1.vel1 = 0;
-                        }
-                    }
-                    return "bounced players: " + id1 + " " + id2;
-                }
-                return "usage: bounceplayer <id1> <id2>";
-            }
-        });
         commands.put("changemap", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] toks = fullCommand.split(" ");
