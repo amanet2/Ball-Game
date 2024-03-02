@@ -81,7 +81,7 @@ setvar ITEM_CAPTUREPOINT_sprite misc/flag.png
 setvar ITEM_CAPTUREPOINT_script exec items/capturepoint
 setvar ITEM_FLAGDEPOSIT_dimw 300
 setvar ITEM_FLAGDEPOSIT_dimh 300
-setvar ITEM_FLAGDEPOSIT_sprite misc/light1.png
+setvar ITEM_FLAGDEPOSIT_sprite misc/ball.png
 setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
 setvar weap_none 0
 setvar weap_pistol 1
