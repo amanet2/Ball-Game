@@ -34,102 +34,23 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     }
 
     private void checkGameItems() {
-        ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         ConcurrentHashMap<String, gThing> itemsMap = xMain.shellLogic.serverScene.getThingMap("THING_ITEM");
-        ConcurrentHashMap<String, gThing> balldepositmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALLDEPOSIT");
-        ConcurrentHashMap<String, gThing> ballmap = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL");
+        ConcurrentHashMap<String, gThing> playerMap = xMain.shellLogic.serverScene.getThingMap("THING_PLAYER");
         //TODO: fix concurrent modification by capturing a copy of the keyset and iterating over that instead
         ArrayList<String> itemKeySetCopy = new ArrayList<>(itemsMap.keySet());
-        ArrayList<String> balldepositkeysetcopy = new ArrayList<>(balldepositmap.keySet());
-        ArrayList<String> ballkeysetcopy = new ArrayList<>(ballmap.keySet());
         ArrayList<String> playerKeySetCopy = new ArrayList<>(playerMap.keySet());
         for(String iid : itemKeySetCopy) {
             gItem item = (gItem) itemsMap.get(iid);
             item.occupied = 0;
-            updateThingPosition(item, sSettings.gameTime);
             for(String pid : playerKeySetCopy) {
                 if(!playerMap.containsKey(pid))
                     continue;
                 gPlayer player = (gPlayer) playerMap.get(pid);
-                if(!item.type.equals("ITEM_BALLDEPOSIT") && player.collidesWithThing(item))
+                if(player.collidesWithThing(item))
                     item.activateItem(player);
             }
         }
-        for(String bdid : balldepositkeysetcopy) {
-            gItem bd = (gItem) balldepositmap.get(bdid);
-            for(String id : ballkeysetcopy) {
-                gItem b = (gItem) itemsMap.get(id);
-                if(bd.collidesWithThing(b)) {
-                    bd.activateItem(b);
-                }
-            }
-        }
     }
-
-    private void updateThingPosition(gThing obj, long gameTimeMillis) {
-            if(obj == null || !obj.type.equals("ITEM_BALL"))
-                return;
-            int dx = obj.coords[0] + obj.vel3 - obj.vel2;
-            int dy = obj.coords[1] + obj.vel1 - obj.vel0;
-
-            // TRACKS PLAYER
-//            gPlayer player = xMain.shellLogic.getUserPlayer();
-//            if(player != null) {
-//                if(player.coords[1] > obj.coords[1]) {
-//                    obj.mov0 = 0;
-//                    obj.mov1 = 1;
-//                }
-//                else if(player.coords[1] < obj.coords[1]){
-//                    obj.mov0 = 1;
-//                    obj.mov1 = 0;
-//                }
-//                else {
-//                    obj.mov0 = 0;
-//                    obj.mov1 = 0;
-//                }
-//                if(player.coords[0] > obj.coords[0]) {
-//                    obj.mov2 = 0;
-//                    obj.mov3 = 1;
-//                }
-//                else if(player.coords[0] < obj.coords[0]){
-//                    obj.mov2 = 1;
-//                    obj.mov3 = 0;
-//                }
-//                else {
-//                    obj.mov2 = 0;
-//                    obj.mov3 = 0;
-//                }
-//            }
-
-            if (obj.acceltick < gameTimeMillis) {
-                obj.acceltick = gameTimeMillis + obj.acceldelay;
-                //user player
-                if(obj.mov0 > 0)
-                    obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-                else
-                    obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-                if(obj.mov1 > 0)
-                    obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-                else
-                    obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-                if(obj.mov2 > 0)
-                    obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-                else
-                    obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-                if(obj.mov3 > 0)
-                    obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-                else
-                    obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
-            }
-
-        if(obj.coords[0] != dx || obj.coords[1] != dy) { //want to NOT add a server command every tick here
-            if(obj.botWontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
-                obj.coords[0] = dx;
-            if(obj.botWontClipOnMove(obj.coords[0], dy, xMain.shellLogic.serverScene))
-                obj.coords[1] = dy;
-        }
-    }
-
 
     private void updateEntityPositions(long gameTimeMillis) {
         nStateMap svMap = new nStateMap(xMain.shellLogic.serverNetThread.masterStateSnapshot);

@@ -419,13 +419,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
                 HashMap<String, String> netVars = new HashMap<>();
                 netVars.put("cmd", "");
                 netVars.put("time", Long.toString(sSettings.serverTimeLeft));
-                StringBuilder botStringBuilder = new StringBuilder();
-                for (String id : xMain.shellLogic.serverScene.getThingMapIds("ITEM_BALL")) {
-                    gThing obj = xMain.shellLogic.serverScene.getThingMap("ITEM_BALL").get(id);
-                    botStringBuilder.append(String.format("/%s:%s:%s", obj.id, obj.coords[0], obj.coords[1]));
-                }
-                if(!botStringBuilder.isEmpty())
-                    netVars.put("ITEM_BALL", botStringBuilder.substring(1));
                 String sendDataString = createSendDataString(netVars, clientId);
                 byte[] sendData = sendDataString.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addr, port);
