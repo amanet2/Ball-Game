@@ -4,3 +4,7 @@ testresn $pw 4 getres dodw gte $gametimemillis $dwd
 testresn $pw 4 testres $dodw 1 exec scripts/handleplayerweapondrop $2
 testresn $pw 4 testres $dodw 1 deleteitem $1
 testresn $pw 4 testres $dodw 1 setnplayer $2 weapon 4
+testresn $pw 1 testres $dodw 1 getres ammodrop setthing THING_ITEM $1 ammo
+testresn $pw 1 testres $dodw 1 echo $ammodrop
+testresn $pw 1 testres $dodw 1 testres $ammodrop null setnplayer $2 ammo 1
+testresn $pw 1 testres $dodw 1 testresn $ammodrop null setnplayer $2 ammo $ammodrop

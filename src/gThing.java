@@ -27,12 +27,22 @@ public class gThing {
     int mov3 = 0;
     int src = gWeapons.none; //for getting weapon source of a bullet e.g. launcher explosion
     int dmg = 0; //bullets
+    int ammo = 0; //max ammo
     String srcId = "-1"; //bullets
 
     public gThing() {
         args = new gArgSet();
         gThing parent = this;
         //args are bindings for what scripts can use
+        args.putArg(new gArg("ammo", "0") {
+            public void onChange() {
+                parent.ammo = Integer.parseInt(value);
+            }
+
+            public String getValue() {
+                return Integer.toString(parent.ammo);
+            }
+        });
         args.putArg(new gArg("coords", "0:0") {
             public void onChange() {
                 String[] argCoords = value.split(":");
