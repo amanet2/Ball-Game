@@ -11,7 +11,7 @@ set pkg_prefix=pkg
 set pkg_dir=%home_dir%\%pkg_prefix%
 set java_prefix=bin\jdk-20.0.1
 set java_dir=%home_dir%\%java_prefix%
-set gcc_home=C:\mingw64\bin\gcc.exe
+set gcc_exe=C:\mingw64\bin\gcc.exe
 set game_c=%tmp_dir%\ballmaster.c
 set game_editor_c=%tmp_dir%\ballmaster_editor.c
 set game_exe=%tmp_dir%\ballmaster.exe
@@ -31,8 +31,8 @@ call %echo_c_script%
 set echo_c_start_str="start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
 set echo_c_file="%game_editor_c%"
 call %echo_c_script%
-%gcc_home% -o %game_exe% %game_c%
-%gcc_home% -o %game_editor_exe% %game_editor_c%
+%gcc_exe% -o %game_exe% %game_c%
+%gcc_exe% -o %game_editor_exe% %game_editor_c%
 
 REM copy files to output dir
 mkdir %out_dir%

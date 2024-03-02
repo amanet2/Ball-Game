@@ -10,6 +10,7 @@ testres $gamemode $mode_pointmaster foreachlong tv $estart $eend 5000 scheduleev
 testres $gamemode $mode_flagmaster foreachlong tv $estart $eend 5000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/flagmaster
 testres $gamemode $mode_goldmaster getres estart sumlong $gtime 3000
+testres $gamemode $mode_goldmaster foreachlong tv $estart $eend 5000 scheduleevent $tv exec scripts/spawnpointgiverbonus
 testres $gamemode $mode_goldmaster foreachlong tv $estart $eend 3000 scheduleevent $tv exec scripts/goldmaster
 getres astart sumlong $gtime 10000
 getres bstart sumlong $gtime 30000
