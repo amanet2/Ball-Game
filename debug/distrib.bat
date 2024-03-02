@@ -24,7 +24,7 @@ REM cleanup existing files
 
 REM create executables
 mkdir %tmp_dir%
-set echo_c_script=C:\Code\Ball-Game\debug\echo_c.bat
+set echo_c_script=%home_dir%\debug\echo_c.bat
 set echo_c_start_str="start ..\\bin\\jdk-20.0.1\\bin\\javaw -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
 set echo_c_file="%game_c%"
 call %echo_c_script%
