@@ -1,3 +1,4 @@
+* See if converting session's loops to a scheduled task works for framerate timings
 * BUG VIDEO:
     -> framerates dont exactly line up e.g. 60fps == 57 actual
     -> uiMenus framerate selection needs to update with the client vars file

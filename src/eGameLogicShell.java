@@ -453,8 +453,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 thingMap = clientScene.getThingMap("THING_POPUP");
                 for (String id : thingMap.keySet()) {
                     gThing obj = thingMap.get(id);
-                    obj.coords[0] -= (int) (sSettings.velocity_popup*Math.cos(obj.fv+Math.PI/2));
-                    obj.coords[1] -= (int) (sSettings.velocity_popup*Math.sin(obj.fv+Math.PI/2));
+                    obj.coords[0] -= (int) (sSettings.velocity_popup*mod*Math.cos(obj.fv+Math.PI/2));
+                    obj.coords[1] -= (int) (sSettings.velocity_popup*mod*Math.sin(obj.fv+Math.PI/2));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

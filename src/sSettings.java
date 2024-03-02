@@ -31,7 +31,7 @@ public class sSettings {
 	static boolean vfxenableflares = true;
 	static boolean vfxenableanimations = true;
 	static int popuplivetime = 2000;
-	static int velocity_popup = 2;
+	static int velocity_popup = 17;
 	static double zoomLevel = 1.0;
 
 	// audio
