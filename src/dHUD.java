@@ -254,8 +254,17 @@ public class dHUD {
         g.fillRect(0,0,sSettings.width,sSettings.height);
         dFonts.setFontColor(g, "clrf_normal");
         dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, 2*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString(clStateMap.keys().size() + " players", sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString(clStateMap.keys().size() + " players", sSettings.width/3,5*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString("                           Wins",sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("                           Wins",sSettings.width/3,5*spriteRad);
+        g.setColor(Color.BLACK);
+        g.drawString("                                       Score",sSettings.width/3+3,5*spriteRad+3);
+        dFonts.setFontColor(g, "clrf_normal");
         g.drawString("                                       Score",sSettings.width/3,5*spriteRad);
         g.drawString(dividerString,
                 sSettings.width/3, 11*sSettings.height/60);
