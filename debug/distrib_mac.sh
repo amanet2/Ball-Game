@@ -36,8 +36,7 @@ $gcc_exe -o $game_editor_exe $game_editor_c
 
 # copy files to output dir
 mkdir $out_dir
-cp -r $java_dir $out_dir # TODO: this corrupts java somehow
-cp -r $pkg_dir $out_dir
+for FOLDER in $java_dir $pkg_dir; do cp $FOLDER $out_dir; done # TODO: this corrupts java somehow
 for FILE in $readme_path $game_exe $game_editor_exe; do cp $FILE $out_dir; done
 
 # zip up finished output
