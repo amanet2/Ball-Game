@@ -292,7 +292,7 @@ public class dHUD {
             int height = sSettings.height / 30;
             String ck = clStateMap.get(id).get("color");
             Color color = gColors.getColorFromName("clrp_" + ck);
-            dFonts.drawPlayerNameScoreboard(g, hudName, coordx, coordy, color);
+            dFonts.drawScoreBoardPlayerLine(g, hudName, coordx, coordy, color);
             g.setColor(color);
             if(isMe) {
                 Polygon myArrow = new Polygon(
@@ -303,10 +303,12 @@ public class dHUD {
                 g.setColor(color);
                 g.fillPolygon(myArrow);
             }
-            g.drawString("                           "
-                            + clStateMap.get(id).get("score").split(":")[0], sSettings.width/3, coordy);
-            g.drawString("                                       "
-                            + clStateMap.get(id).get("score").split(":")[1], sSettings.width/3, coordy);
+            dFonts.drawScoreBoardPlayerLine(g,
+                    "                           " + clStateMap.get(id).get("score").split(":")[0],
+                    sSettings.width/3, coordy, color);
+            dFonts.drawScoreBoardPlayerLine(g,
+                    "                                       " + clStateMap.get(id).get("score").split(":")[1],
+                    sSettings.width/3, coordy, color);
             dFonts.setFontColor(g, "clrf_normal");
             if(isMe)
                 isMe = false;

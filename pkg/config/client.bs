@@ -35,11 +35,11 @@ cl_setvar showscale 0
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 0
+cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 0
+cl_setvar vfxenableshading 1
 REM enable shadows
-cl_setvar vfxenableshadows 0
+cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
