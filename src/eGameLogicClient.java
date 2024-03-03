@@ -61,6 +61,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
                     clientStateMap.put(idload, new nStateBallGameClient());
                 for(String k : packArgState.keys()) {
                     clientStateMap.get(idload).put(k, packArgState.get(k));
+                    //TODO: special code here to manage rate of client position set by server
                 }
                 if(idload.startsWith("bot")) {
                     gPlayer botThing = xMain.shellLogic.getPlayerById(idload);

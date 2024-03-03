@@ -199,7 +199,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             String botName = id;
             int idInt = Integer.parseInt(id.replace("bot",""));
             if(idInt > 90000000)
-                botName = "BotSteve";
+                botName = "BotLite";
             else if(idInt > 80000000)
                 botName = "BotRick";
             else if(idInt > 70000000)
@@ -207,9 +207,9 @@ public class eGameLogicServer extends eGameLogicAdapter {
             else if(idInt > 60000000)
                 botName = "BotChief";
             else if(idInt > 50000000)
-                botName = "BotHoleWater";
+                botName = "BotLite";
             else if(idInt > 40000000)
-                botName = "BotBratwurst";
+                botName = "BotMustard";
             else if(idInt > 30000000)
                 botName = "BotLite";
             else if(idInt > 20000000)

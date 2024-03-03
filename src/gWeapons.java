@@ -50,7 +50,7 @@ public class gWeapons {
 						"PISTOL",
 						new int[] {200, 100},
 						"objects/misc/firegreen.png",
-						"sounds/laser.wav",
+						"sounds/splash.wav",
 						"misc/bfg.png",
 						new int[] {100, 100}
 				) {
@@ -83,7 +83,7 @@ public class gWeapons {
 						"SHOTGUN",
 						new int[] {200, 100},
 						"objects/misc/fireblue.png",
-						"sounds/shotgun.wav",
+						"sounds/splash.wav",
 						"misc/shotgun.png",
 						new int[] {100, 100}
 				) {
@@ -120,7 +120,7 @@ public class gWeapons {
 					"AUTORIFLE",
 					new int[] {200, 100},
 					"objects/misc/fireorange.png",
-					"sounds/30cal.wav",
+					"sounds/splash.wav",
 						"misc/autorifle.png",
 						new int[] {100, 100}
 				) {

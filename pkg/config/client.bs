@@ -21,7 +21,7 @@ cl_setvar playercolor purple
 REM player name
 cl_setvar playername player
 REM framerate
-cl_setvar refresh 240
+cl_setvar refresh 1000
 REM available resolutions
 cl_setvar resolutions 640x480,800x600,1024x768,1280x720,1600x900,1920x1080,2560x1440,3840x2160
 REM show frames per second
@@ -35,11 +35,11 @@ cl_setvar showscale 0
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 1
+cl_setvar vfxenableflares 0
 REM enable shading
-cl_setvar vfxenableshading 1
+cl_setvar vfxenableshading 0
 REM enable shadows
-cl_setvar vfxenableshadows 1
+cl_setvar vfxenableshadows 0
 REM volume
 cl_setvar volume 1
 REM screen width
@@ -72,23 +72,23 @@ bind y chat
 -bind r e_rotthing
 REM strings
 cl_setvar GAMETYPE_0_title Rock Master
-cl_setvar GAMETYPE_0_text Rock Other Players
+cl_setvar GAMETYPE_0_text Defeat Other Players in Combat
 cl_setvar GAMETYPE_1_title Virus Master
-cl_setvar GAMETYPE_1_text Players Respawn Infected
+cl_setvar GAMETYPE_1_text Remain uninfected to score points
 cl_setvar GAMETYPE_2_title Flag Master
-cl_setvar GAMETYPE_2_text Hold the Flag
+cl_setvar GAMETYPE_2_text Hold the Flag to get points
 cl_setvar GAMETYPE_3_title Gold Master
 cl_setvar GAMETYPE_3_text Get the Gold
 cl_setvar GAMETYPE_4_title Point Master
-cl_setvar GAMETYPE_4_text Get the Point or Explode
+cl_setvar GAMETYPE_4_text A point will appear on the map periodically
 cl_setvar GAMETYPE_5_title VIP Master
-cl_setvar GAMETYPE_5_text Only the VIP can Score for Rocks
+cl_setvar GAMETYPE_5_text Only players marked 'VIP' can score points for frags
 cl_setvar GAMETYPE_6_title Cap Master
-cl_setvar GAMETYPE_6_text Cap the Points
+cl_setvar GAMETYPE_6_text Capture and Defend Flags to Score Points
 cl_setvar GAMETYPE_7_title Bring Master
-cl_setvar GAMETYPE_7_text Bring Flags to the Points
+cl_setvar GAMETYPE_7_text Bring Flags to the Deposit Locations for Points
 cl_setvar GAMETYPE_8_title Hold Master
-cl_setvar GAMETYPE_8_text Hold Flags or Explode
+cl_setvar GAMETYPE_8_text Players without a flag will explode when a timer reaches 0
 REM colors
 cl_setvar clrf_normal 255 255 255 200
 cl_setvar clrf_normaltransparent 255 255 255 100
