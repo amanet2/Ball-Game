@@ -29,6 +29,7 @@ public class gThing {
     int dmg = 0; //bullets
     int ammo = 0; //max ammo
     String srcId = "-1"; //bullets
+    int occupied = 0;
 
     public gThing() {
         args = new gArgSet();
@@ -54,6 +55,11 @@ public class gThing {
             }
         });
         args.putArg(new gArg("coordx", "0") {
+            public String getValue() {
+                return Integer.toString(parent.coords[0]);
+            }
+        });
+        args.putArg(new gArg("occupied", "0") {
             public String getValue() {
                 return Integer.toString(parent.coords[0]);
             }

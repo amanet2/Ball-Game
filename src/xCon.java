@@ -1196,12 +1196,12 @@ public class xCon {
                 tries++;
                 if(tries > trylimit) {
                     tries = 0;
-                    return "couldn't find available ITEM_SPAWNPOINT";
+                    return "couldn't find available ITEM_PLAYERSPAWN";
                 }
-                String randomSpawnId = ex("getrandthing ITEM_SPAWNPOINT");
+                String randomSpawnId = ex("getrandthing ITEM_PLAYERSPAWN");
                 if(!randomSpawnId.equalsIgnoreCase("null")) {
-                    gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_SPAWNPOINT").get(randomSpawnId);
-                    if(((gItem) randomSpawn).occupied > 0)
+                    gThing randomSpawn = xMain.shellLogic.serverScene.getThingMap("ITEM_PLAYERSPAWN").get(randomSpawnId);
+                    if(randomSpawn.occupied > 0)
                         ex("respawnnetplayer " + toks[1]);
                     else {
                         tries = 0;

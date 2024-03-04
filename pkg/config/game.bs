@@ -29,6 +29,7 @@ setvar THING_18 ITEM_LAUNCHER
 setvar THING_19 ITEM_GLOVE
 setvar THING_20 ITEM_CAPTUREPOINT
 setvar THING_21 ITEM_FLAGDEPOSIT
+setvar THING_22 ITEM_PLAYERSPAWN
 setvar ITEM_FLAG_dimw 200
 setvar ITEM_FLAG_dimh 300
 setvar ITEM_FLAG_sprite misc/flag.png
@@ -44,7 +45,6 @@ setvar ITEM_POINTGIVER_sprite misc/light1.png
 setvar ITEM_POINTGIVER_script exec items/pointgiver
 setvar ITEM_SPAWNPOINT_dimw 300
 setvar ITEM_SPAWNPOINT_dimh 300
-setvar ITEM_SPAWNPOINT_script exec items/spawnpoint
 setvar ITEM_TELEPORTER_BLUE_dimw 300
 setvar ITEM_TELEPORTER_BLUE_dimh 300
 setvar ITEM_TELEPORTER_BLUE_sprite misc/teleporter_blue.png
@@ -83,6 +83,9 @@ setvar ITEM_FLAGDEPOSIT_dimw 300
 setvar ITEM_FLAGDEPOSIT_dimh 300
 setvar ITEM_FLAGDEPOSIT_sprite misc/ball.png
 setvar ITEM_FLAGDEPOSIT_script exec items/flagdeposit
+setvar ITEM_PLAYERSPAWN_dimw 300
+setvar ITEM_PLAYERSPAWN_dimh 300
+setvar ITEM_PLAYERSPAWN_script exec items/playerspawn
 setvar weap_none 0
 setvar weap_pistol 1
 setvar weap_shotgun 2

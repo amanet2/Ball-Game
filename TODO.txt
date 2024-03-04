@@ -1,4 +1,11 @@
 * See if converting session's loops to a scheduled task works for framerate timings
+* SCRIPT: respawning netplayers should be script
+* IDEA: game should have dedicated spawn object for items
+    -> more gameplay options
+        -> can have players spawn in one area, items in another
+        -> maybe think about separate weapon spawns too
+* IDEA: glowing light that follows around the player character
+* CAMERA: make camera smooth follow the character instead of instantly jumping to characters' XY
 * BUG VIDEO:
     -> framerates dont exactly line up e.g. 60fps == 57 actual
     -> uiMenus framerate selection needs to update with the client vars file
@@ -6,7 +13,6 @@
     -> we have to CD to the jar's directory to properly run game
         -> won't find resource files like images, sounds otherwise
         -> maybe pass resource folder on launch
-    -> create a similar distrib process for mac that lets us remove the mac .c files
 * weapons might be too powerful
     -> give them ammo limits
         -> these can be hidden from the ui
