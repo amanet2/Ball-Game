@@ -49,7 +49,7 @@ public class dScreenMessages {
             dHUD.drawHUD(g);
         //timer
         dFonts.setFontLarge(g);
-        if(!sSettings.showscore && sSettings.inplay && sSettings.clientMapLoaded) {
+        if(sSettings.inplay && sSettings.clientMapLoaded) {
             g.setColor(Color.BLACK);
             g.drawString(eUtils.getTimeString(sSettings.clientTimeLeft), sSettings.width / 128 + 2, sSettings.height / 12 + 2);
             dFonts.setFontLarge(g);

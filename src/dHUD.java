@@ -8,7 +8,7 @@ public class dHUD {
     static int spriteRad = sSettings.height/30;
 
     public static void drawHUD(Graphics g) {
-        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded || sSettings.showscore)
+        if(!sSettings.IS_CLIENT || !sSettings.clientMapLoaded)
             return;
         nStateMap clStateMap = new nStateMap(xMain.shellLogic.clientNetThread.clientStateSnapshot);
         nState userState = clStateMap.get(sSettings.uuid);
