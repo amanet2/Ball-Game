@@ -9,6 +9,69 @@ public class gPlayer extends gThing {
     long botThinkTime = 0;
     long botShootTime = 0;
 
+    public void attackClosestPlayer() {
+        gPlayer closest = null;
+        int closestDist = 1000000;
+        for(String oid : xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").keySet()) {
+            if(id.equals(oid))
+                continue;
+            gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(oid);
+            int x1 = coords[0];
+            int y1 = coords[1];
+            int x2 = dst.coords[0];
+            int y2 = dst.coords[1];
+            int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            if(dist < closestDist) {
+                closest = dst;
+                closestDist = dist;
+            }
+        }
+        if(closestDist < sSettings.botShootRange && botShootTime < sSettings.gameTime) {
+            botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
+            xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
+            xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
+        }
+        if(closest != null) {
+            if(closest.coords[1] > coords[1]) {
+                mov0 = 0;
+                mov1 = 1;
+            }
+            else if(closest.coords[1] < coords[1]){
+                mov0 = 1;
+                mov1 = 0;
+            }
+            else {
+                mov0 = 0;
+                mov1 = 0;
+            }
+            if(closest.coords[0] > coords[0]) {
+                mov2 = 0;
+                mov3 = 1;
+            }
+            else if(closest.coords[0] < coords[0]){
+                mov2 = 1;
+                mov3 = 0;
+            }
+            else {
+                mov2 = 0;
+                mov3 = 0;
+            }
+            //point at target
+            double bdx = closest.coords[0] + closest.dims[0]/2 - coords[0] + dims[0]/2;
+            double bdy = closest.coords[1] + closest.dims[1]/2 - coords[1] + dims[1]/2;
+            double angle = Math.atan2(bdy, bdx);
+            if (angle < 0)
+                angle += 2*Math.PI;
+            angle += Math.PI/2;
+            double randomOffset = Math.random()*3;
+            if(randomOffset > 2)
+                angle -= Math.PI/8;
+            else if(randomOffset > 1)
+                angle += Math.PI/8;
+            fv = angle;
+        }
+    }
+
     public boolean wontClipOnMove(int dx, int dy, gScene scene) {
         for(String id : scene.getThingMap("BLOCK_COLLISION").keySet()) {
             gThing coll = scene.getThingMap("BLOCK_COLLISION").get(id);

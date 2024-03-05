@@ -309,6 +309,10 @@ public class dHUD {
                         new int[]{coordy - height, coordy - height/2, coordy},
                         3
                 );
+                myArrow.translate(3,3);
+                g.setColor(Color.BLACK);
+                g.fillPolygon(myArrow);
+                myArrow.translate(-3,-3);
                 g.setColor(color);
                 g.fillPolygon(myArrow);
             }

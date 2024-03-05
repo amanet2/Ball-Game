@@ -251,7 +251,6 @@ public class eGameLogicServer extends eGameLogicAdapter {
         //check if masterState contains
         if(!masterStateMap.contains(stateId)) {
             handleJoin(stateId);
-            // TODO: investigate 3 lines below possibly causing invisible players to spawn in
             String cname =  receivedState.get("name");
             String ccolor = receivedState.get("color");
             xMain.shellLogic.console.ex(String.format("echo %s#%s joined the game", cname, ccolor));

@@ -82,10 +82,9 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
                     obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
             }
 
-            //TODO: come up with a way to get "normal vector" from surface or player being collided with
+            //TODO: come up with a way to get vector for surface or player being collided with
             // add a "collidedPlayer" arg to gThing and get velocity
-            //TODO UPDATE: Looks good, just need at-rest players to get launched by players colliding into them
-            //TODO UPDATE: looks better, but bounces are restricted to 4 basic dirs
+            //TODO UPDATE: bounces are restricted to 4 basic dirs
             if(obj.wontClipOnMove(dx, obj.coords[1], xMain.shellLogic.serverScene))
                 obj.coords[0] = dx;
             else {
@@ -126,46 +125,8 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             //bots
             if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
-                gPlayer player = getClosestPlayer(obj);
-                if(player != null) {
-                    if(player.coords[1] > obj.coords[1]) {
-                        obj.mov0 = 0;
-                        obj.mov1 = 1;
-                    }
-                    else if(player.coords[1] < obj.coords[1]){
-                        obj.mov0 = 1;
-                        obj.mov1 = 0;
-                    }
-                    else {
-                        obj.mov0 = 0;
-                        obj.mov1 = 0;
-                    }
-                    if(player.coords[0] > obj.coords[0]) {
-                        obj.mov2 = 0;
-                        obj.mov3 = 1;
-                    }
-                    else if(player.coords[0] < obj.coords[0]){
-                        obj.mov2 = 1;
-                        obj.mov3 = 0;
-                    }
-                    else {
-                        obj.mov2 = 0;
-                        obj.mov3 = 0;
-                    }
-                    //point at player
-                    double bdx = player.coords[0] + player.dims[0]/2 - obj.coords[0] + obj.dims[0]/2;
-                    double bdy = player.coords[1] + player.dims[1]/2 - obj.coords[1] + obj.dims[1]/2;
-                    double angle = Math.atan2(bdy, bdx);
-                    if (angle < 0)
-                        angle += 2*Math.PI;
-                    angle += Math.PI/2;
-                    double randomOffset = Math.random()*3;
-                    if(randomOffset > 2)
-                        angle -= Math.PI/8;
-                    else if(randomOffset > 1)
-                        angle += Math.PI/8;
-                    obj.fv = angle;
-                }
+                //default behavior
+                obj.attackClosestPlayer();
             }
         }
 
@@ -183,32 +144,6 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             e.printStackTrace();
         }
 
-    }
-
-    public gPlayer getClosestPlayer(gPlayer src) {
-        gPlayer closest = null;
-        int closestDist = 1000000;
-        for(String id : xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").keySet()) {
-            if(id.equals(src.id))
-                continue;
-            gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(id);
-            int x1 = src.coords[0];
-            int y1 = src.coords[1];
-            int x2 = dst.coords[0];
-            int y2 = dst.coords[1];
-            int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-            if(dist < closestDist) {
-                closest = dst;
-                closestDist = dist;
-            }
-        }
-        if(closestDist < sSettings.botShootRange && src.botShootTime < sSettings.gameTime) {
-            src.botShootTime = sSettings.gameTime + gWeapons.fromCode(src.weapon).refiredelay;
-            xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", src.id, src.weapon));
-            xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", src.id, src.weapon));
-//            xMain.shellLogic.console.ex(String.format("fireweapon %s %d", src.id, src.weapon));
-        }
-        return closest;
     }
 
     private void checkBulletSplashes() {
