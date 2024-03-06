@@ -41,7 +41,7 @@ cl_setvar vfxenableshading 1
 REM enable shadows
 cl_setvar vfxenableshadows 1
 REM volume
-cl_setvar volume 1
+cl_setvar volume 3
 REM screen width
 cl_setvar width 1280
 REM bindings

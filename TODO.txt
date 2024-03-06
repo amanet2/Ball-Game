@@ -1,22 +1,14 @@
 * See if converting session's loops to a scheduled task works for framerate timings
 * SCRIPT: respawning netplayers should be script
-* IDEA: game should have dedicated spawn object for items
-    -> more gameplay options
-        -> can have players spawn in one area, items in another
-        -> maybe think about separate weapon spawns too
+* IDEA: separate weapon spawns maybe
 * IDEA: glowing light that follows around the player character
 * CAMERA: make camera smooth follow the character instead of instantly jumping to characters' XY
 * BUG VIDEO:
-    -> framerates dont exactly line up e.g. 60fps == 57 actual
     -> uiMenus framerate selection needs to update with the client vars file
 * DEBUG SCRIPTS:
     -> we have to CD to the jar's directory to properly run game
         -> won't find resource files like images, sounds otherwise
         -> maybe pass resource folder on launch
-* weapons might be too powerful
-    -> give them ammo limits
-        -> these can be hidden from the ui
-    -> or have them be destroyed when holder dies
 * MEMORY LEAK
     -> with sound?
         -> even with sound muted I see memory going up in task manager
@@ -146,7 +138,6 @@
     -> GO TO COMMIT: git checkout <commit>
     -> GO BACK: git checkout <branch_name>
 * PLAYING CLIPS NEED TO CHANGE VOLUME IMMEDIATELY ON CHANGE
-* gungame mode
 * add "disable attacks" option
 * make players eyes blink
 * Create a server browser program w/ flask or something

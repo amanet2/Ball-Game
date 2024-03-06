@@ -105,4 +105,5 @@ public class sSettings {
     static boolean showtick = false;
     static boolean showscale = false;
 	static int screenMessageFadeTime = 10000;
+	static int mapTheme = 0;
 }

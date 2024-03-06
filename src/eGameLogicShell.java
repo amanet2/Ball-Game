@@ -21,9 +21,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
     eGameLogicSimulation serverSimulationThread;
     public eGameLogicServer serverNetThread;
     eGameLogicClient clientNetThread;
-    TexturePaint floorTexture;
-    TexturePaint wallTexture;
-    TexturePaint topTexture;
+    TexturePaint[] floorTextures;
+    TexturePaint[] wallTextures;
+    TexturePaint[] topTextures;
+    String[] mapThemes = {"default", "desert", "forest"};
+
 
     public eGameLogicShell() throws IOException {
         serverVars = new gArgSet();
@@ -32,12 +34,20 @@ public class eGameLogicShell extends eGameLogicAdapter {
         displayPane = new oDisplay();
         console = new xCon();
         scheduledEvents = new gScheduler();
-        floorTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/floor.png"))),
-                new Rectangle2D.Double(0,0,1200, 1200));
-        wallTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/wall.png"))),
-                new Rectangle2D.Double(0,0, 300, 300));
-        topTexture = new TexturePaint(ImageIO.read(new File(eManager.getPath("tiles/top.png"))),
-                new Rectangle2D.Double(0,0, 300, 300));
+        floorTextures = new TexturePaint[mapThemes.length];
+        wallTextures = new TexturePaint[mapThemes.length];
+        topTextures = new TexturePaint[mapThemes.length];
+        for(int i = 0; i < mapThemes.length; i++) {
+            String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", mapThemes[i]));
+            String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", mapThemes[i]));
+            String topPath = eManager.getPath(String.format("tiles/top/%s.png", mapThemes[i]));
+            floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+                    new Rectangle2D.Double(0,0,300, 300));
+            wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+                    new Rectangle2D.Double(0,0, 300, 300));
+            topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+                    new Rectangle2D.Double(0,0, 300, 300));
+        }
     }
 
     private void initGameObjectsAndScenes() {
@@ -115,6 +125,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         serverVars.loadFromFile(sSettings.CONFIG_FILE_LOCATION_SERVER);
         serverVars.loadFromLaunchArgs(xMain.launchArgs);
+
         //init client vars
         clientVars.putArg(new gArg("width", "1920") {
             public void onChange() {
@@ -223,6 +234,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
         clientVars.putArg(new gArg("maploaded", "0") {
             public void onChange() {
                 sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
+            }
+        });
+        clientVars.putArg(new gArg("mapTheme", Integer.toString(sSettings.mapTheme)) {
+            public void onChange() {
+                sSettings.mapTheme = Integer.parseInt(value);
             }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
