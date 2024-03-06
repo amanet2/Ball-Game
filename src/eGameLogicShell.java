@@ -24,7 +24,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint[] floorTextures;
     TexturePaint[] wallTextures;
     TexturePaint[] topTextures;
-    String[] mapThemes = {"default", "desert", "forest"};
 
 
     public eGameLogicShell() throws IOException {
@@ -34,20 +33,21 @@ public class eGameLogicShell extends eGameLogicAdapter {
         displayPane = new oDisplay();
         console = new xCon();
         scheduledEvents = new gScheduler();
-        floorTextures = new TexturePaint[mapThemes.length];
-        wallTextures = new TexturePaint[mapThemes.length];
-        topTextures = new TexturePaint[mapThemes.length];
-        for(int i = 0; i < mapThemes.length; i++) {
-            String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", mapThemes[i]));
-            String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", mapThemes[i]));
-            String topPath = eManager.getPath(String.format("tiles/top/%s.png", mapThemes[i]));
-            floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
-                    new Rectangle2D.Double(0,0,300, 300));
-            wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
-                    new Rectangle2D.Double(0,0, 300, 300));
-            topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
-                    new Rectangle2D.Double(0,0, 300, 300));
-        }
+//        floorTextures = new TexturePaint[sSettings.mapThemes.length];
+//        wallTextures = new TexturePaint[sSettings.mapThemes.length];
+//        topTextures = new TexturePaint[sSettings.mapThemes.length];
+//        for(int i = 0; i < sSettings.mapThemes.length; i++) {
+//            String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
+//            String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
+//            String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
+//            System.out.println(floorPath);
+//            floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+//                    new Rectangle2D.Double(0,0,300, 300));
+//            wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+//                    new Rectangle2D.Double(0,0, 300, 300));
+//            topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+//                    new Rectangle2D.Double(0,0, 300, 300));
+//        }
     }
 
     private void initGameObjectsAndScenes() {
@@ -236,7 +236,16 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 sSettings.clientMapLoaded = Integer.parseInt(value) > 0;
             }
         });
-        clientVars.putArg(new gArg("mapTheme", Integer.toString(sSettings.mapTheme)) {
+        clientVars.putArg(new gArg("mapthemes", sSettings.mapThemes[sSettings.mapTheme]) {
+            public void onChange() {
+                String[] toks = value.split(",");
+                sSettings.mapThemes = new String[toks.length];
+                for(int i = 0; i < toks.length; i++) {
+                    sSettings.mapThemes[i] = toks[i].strip();
+                }
+            }
+        });
+        clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
             public void onChange() {
                 sSettings.mapTheme = Integer.parseInt(value);
             }
@@ -331,6 +340,26 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
+        }
+        try {
+            floorTextures = new TexturePaint[sSettings.mapThemes.length];
+            wallTextures = new TexturePaint[sSettings.mapThemes.length];
+            topTextures = new TexturePaint[sSettings.mapThemes.length];
+            for(int i = 0; i < sSettings.mapThemes.length; i++) {
+                String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
+                String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
+                String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
+                System.out.println(floorPath);
+                floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
+                        new Rectangle2D.Double(0,0,300, 300));
+                wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
+                        new Rectangle2D.Double(0,0, 300, 300));
+                topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
+                        new Rectangle2D.Double(0,0, 300, 300));
+            }
+        }
+        catch (IOException err) {
+            err.printStackTrace();
         }
         displayPane.showFrame();
         gAnimations.init();
