@@ -160,8 +160,14 @@ public class eGameLogicServer extends eGameLogicAdapter {
     }
 
     public void clientReceivedCmd(String id) {
-        if(clientNetCmdMap.get(id).size() > 0)
-            clientNetCmdMap.get(id).remove();
+        if(clientNetCmdMap.get(id).size() > 0) {
+            try { //needed here
+                clientNetCmdMap.get(id).remove();
+            }
+            catch(Exception cre) {
+                cre.printStackTrace();
+            }
+        }
     }
 
     private String createSendDataString(HashMap<String, String> netVars, String clientid) {
