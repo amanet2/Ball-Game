@@ -8,7 +8,7 @@ tmp_dir=$home_dir/tmp
 out_dir=~/Code/pkg_ballmaster_mac
 out_zip=~/Code/pkg_ballmaster_mac.zip
 pkg_dir=$home_dir/pkg
-java_dir=$home_dir/bin
+java_dir=$home_dir/runtime
 gcc_exe=gcc
 game_c=$tmp_dir/ballmaster_mac.c
 game_editor_c=$tmp_dir/ballmaster_mac_editor.c
@@ -18,7 +18,7 @@ readme_path=$home_dir/Readme.txt
 
 # cleanup before starting
 for FOLDER in $out_dir $tmp_dir; do rm -rf $FOLDER; done
-for FILE in $out_zip $game_c $game_editor_c $game_exe $game_editor_exe; do rm -f $FILE; done
+rm -f $out_zip
 
 # create C executables
 mkdir $tmp_dir
@@ -44,4 +44,3 @@ zip -r $out_zip $out_dir
 
 # clean up temp files
 for FOLDER in $out_dir $tmp_dir; do rm -rf $FOLDER; done
-for FILE in $game_c $game_editor_c $game_exe $game_editor_exe; do rm -f $FILE; done
