@@ -1,12 +1,12 @@
-cat <<EOF > $echo_c_file
+cat <<EOF > $3
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 int main(int argc, char * argv[]) {
-    char * findstr = "$echo_c_find_str"; // for regular
-    char * cdreplacestr = "$echo_c_replace_str";
+    char * findstr = "$1"; // for regular
+    char * cdreplacestr = "$2";
     char * cdstr = malloc(strlen("cd ") + strlen(argv[0]) - strlen(findstr) + strlen("/pkg"));
     char * cptr;
 

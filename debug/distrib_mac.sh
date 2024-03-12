@@ -9,6 +9,11 @@ out_dir=~/Code/pkg_ballmaster_mac
 out_zip=~/Code/pkg_ballmaster_mac.zip
 pkg_dir=$home_dir/pkg
 java_dir=$home_dir/runtime
+echo_c_script=$home_dir/debug/echo_c_mac.sh
+echo_c_find_str="/ballmaster_mac"
+echo_c_replace_str="/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
+echo_c_find_str_editor="/ballmaster_mac_editor"
+echo_c_replace_str_editor="/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
 gcc_exe=gcc
 game_c=$tmp_dir/ballmaster_mac.c
 game_editor_c=$tmp_dir/ballmaster_mac_editor.c
@@ -22,15 +27,8 @@ rm -f $out_zip
 
 # create C executables
 mkdir $tmp_dir
-export echo_c_script=$home_dir/debug/echo_c_mac.sh
-export echo_c_find_str="/ballmaster_mac"
-export echo_c_replace_str="/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar "
-export echo_c_file=$game_c
-bash $echo_c_script
-export echo_c_find_str="/ballmaster_mac_editor"
-export echo_c_replace_str="/pkg && ../bin/jdk-18.jdk/Contents/Home/bin/java -Dsun.java2d.uiScale=1.0 -Dsun.java2d.opengl=true -jar BALL_GAME.jar showmapmakerui 1 "
-export echo_c_file=$game_editor_c
-bash $echo_c_script
+bash $echo_c_script $echo_c_find_str $echo_c_replace_str $game_c
+bash $echo_c_script $echo_c_find_str_editor $echo_c_replace_str_editor $game_editor_c
 $gcc_exe -o $game_exe $game_c
 $gcc_exe -o $game_editor_exe $game_editor_c
 
