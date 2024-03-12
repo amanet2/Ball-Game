@@ -6,6 +6,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
     final gScheduler scheduledEvents;
 
     public eGameLogicSimulation() {
+        super();
         cmdQueue = new LinkedList<>();
         scheduledEvents = new gScheduler();
     }

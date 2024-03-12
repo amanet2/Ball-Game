@@ -21,6 +21,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
     private final ArrayList<String> voteSkipList;
 
     public eGameLogicServer() {
+        super();
         masterStateMap = new nStateMap();
         clientCheckinMap = new HashMap<>();
         clientCmdDoables = new HashMap<>();

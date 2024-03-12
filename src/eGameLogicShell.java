@@ -27,27 +27,13 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
 
     public eGameLogicShell() throws IOException {
+        super();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
         scriptFactory = new gScriptFactory();
         displayPane = new oDisplay();
         console = new xCon();
         scheduledEvents = new gScheduler();
-//        floorTextures = new TexturePaint[sSettings.mapThemes.length];
-//        wallTextures = new TexturePaint[sSettings.mapThemes.length];
-//        topTextures = new TexturePaint[sSettings.mapThemes.length];
-//        for(int i = 0; i < sSettings.mapThemes.length; i++) {
-//            String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
-//            String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
-//            String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
-//            System.out.println(floorPath);
-//            floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
-//                    new Rectangle2D.Double(0,0,300, 300));
-//            wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),
-//                    new Rectangle2D.Double(0,0, 300, 300));
-//            topTextures[i] = new TexturePaint(ImageIO.read(new File(topPath)),
-//                    new Rectangle2D.Double(0,0, 300, 300));
-//        }
     }
 
     private void initGameObjectsAndScenes() {

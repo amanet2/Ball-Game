@@ -14,6 +14,7 @@ public class eGameLogicClient extends eGameLogicAdapter {
     public String clientStateSnapshot; //hold snapshot of clientStateMap
 
     public eGameLogicClient() {
+        super();
         netSendCmds = new LinkedList<>();
         cmdReceived = false;
         try {
