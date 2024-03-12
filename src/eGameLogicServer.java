@@ -167,6 +167,7 @@ public class eGameLogicServer extends eGameLogicAdapter {
             }
             catch(Exception cre) {
                 cre.printStackTrace();
+                clientNetCmdMap.get(id).clear();
             }
         }
     }
