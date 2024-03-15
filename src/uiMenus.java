@@ -356,7 +356,7 @@ public class uiMenus {
         new uiMenu(
                 "Credits",
                 new uiMenuItem[] {
-                        new uiMenuItem("Ballmaster 2021-2023"),
+                        new uiMenuItem("Ballmaster 2021-2024"),
                         new uiMenuItem("Programming and Design by Anthony Manetti"),
                         new uiMenuItem("SFX by Kevin Fowler (hitrison.itch.io)"),
                         new uiMenuItem("SFX from mixkit.io"),
