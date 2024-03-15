@@ -326,6 +326,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
             sSettings.drawhitboxes = true;
             sSettings.drawmapmakergrid = true;
             sSettings.zoomLevel = 0.5;
+            sSettings.showscale = true;
         }
         try {
             floorTextures = new TexturePaint[sSettings.mapThemes.length];
