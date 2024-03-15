@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class uiEditorMenus {
     static Map<String,JMenu> menus = new HashMap<>();
-    static gScene previewScene;
     static int snapToX = 300;
     static int snapToY = 300;
     static String newitemname = "";
@@ -22,6 +21,7 @@ public class uiEditorMenus {
     private static final ArrayList<JCheckBoxMenuItem> prefabCheckboxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> itemCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> gametypeCheckBoxMenuItems = new ArrayList<>();
+    private static final ArrayList<JCheckBoxMenuItem> themeCheckBoxMenuItems = new ArrayList<>();
     private static final ArrayList<JCheckBoxMenuItem> colorCheckBoxMenuItems = new ArrayList<>();
 
     public static void refreshCheckBoxItems() {
@@ -53,14 +53,14 @@ public class uiEditorMenus {
         }
     }
 
-    public static void resetCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
+    public static void resetGametypeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
         checkBoxMenuItem.setSelected(xMain.shellLogic.console.ex(String.format(
                 "cl_setvar GAMETYPE_%d_title", sSettings.clientGameMode)).equalsIgnoreCase(checkBoxMenuItem.getText()));
     }
 
     public static void refreshGametypeCheckBoxMenuItems() {
         for(JCheckBoxMenuItem checkBoxMenuItem : gametypeCheckBoxMenuItems) {
-            resetCheckBoxMenuItem(checkBoxMenuItem);
+            resetGametypeCheckBoxMenuItem(checkBoxMenuItem);
         }
     }
 
@@ -69,6 +69,16 @@ public class uiEditorMenus {
         newItem.setFont(dFonts.fontNormal);
         menus.get(parentMenu).add(newItem);
         return newItem;
+    }
+
+    public static void resetThemeCheckBoxMenuItem(JCheckBoxMenuItem checkBoxMenuItem) {
+        checkBoxMenuItem.setSelected(sSettings.mapThemes[Integer.parseInt(xMain.shellLogic.console.ex("cl_setvar maptheme"))].equalsIgnoreCase(checkBoxMenuItem.getText()));
+    }
+
+    public static void resetThemeCheckBoxMenuItems() {
+        for(JCheckBoxMenuItem checkBoxMenuItem : themeCheckBoxMenuItems) {
+            resetThemeCheckBoxMenuItem(checkBoxMenuItem);
+        }
     }
 
     public static void addSubMenuLabel(String parentMenu, String text) {
@@ -85,6 +95,7 @@ public class uiEditorMenus {
         createNewMenu("Prefabs");
         createNewMenu("Items");
         createNewMenu("Gametype");
+        createNewMenu("Theme");
         createNewMenu("Settings");
         JMenuItem newtopmap = addMenuItem("File", "New");
         JMenuItem open = addMenuItem("File", "Open");
@@ -219,7 +230,7 @@ public class uiEditorMenus {
             String gameTypeTitle = gameTypeTitles.get(gtr);
             JCheckBoxMenuItem gametypeMenuItem = new JCheckBoxMenuItem(gameTypeTitle);
             gametypeMenuItem.setFont(dFonts.fontNormal);
-            resetCheckBoxMenuItem(gametypeMenuItem);
+            resetGametypeCheckBoxMenuItem(gametypeMenuItem);
             int mygameType = gtr;
             gametypeMenuItem.addActionListener(e -> {
                 if(sSettings.IS_SERVER)
@@ -230,6 +241,20 @@ public class uiEditorMenus {
             });
             gametypeCheckBoxMenuItems.add(gametypeMenuItem);
             menus.get("Gametype").add(gametypeMenuItem);
+        }
+        //fill themes menu
+        for(int i = 0; i < sSettings.mapThemes.length; i++) {
+            String themeTitle = sSettings.mapThemes[i];
+            JCheckBoxMenuItem themeMenuItem = new JCheckBoxMenuItem(themeTitle);
+            themeMenuItem.setFont(dFonts.fontNormal);
+            resetThemeCheckBoxMenuItem(themeMenuItem);
+            int finalI = i;
+            themeMenuItem.addActionListener(e -> {
+                xMain.shellLogic.console.ex("cl_setvar maptheme " + finalI);
+                resetThemeCheckBoxMenuItems();
+            });
+            themeCheckBoxMenuItems.add(themeMenuItem);
+            menus.get("Theme").add(themeMenuItem);
         }
         //fill colors menu
         for(String color : sSettings.colorSelection) {

@@ -335,7 +335,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 String floorPath = eManager.getPath(String.format("tiles/floor/%s.png", sSettings.mapThemes[i]));
                 String wallPath = eManager.getPath(String.format("tiles/wall/%s.png", sSettings.mapThemes[i]));
                 String topPath = eManager.getPath(String.format("tiles/top/%s.png", sSettings.mapThemes[i]));
-                System.out.println(floorPath);
                 floorTextures[i] = new TexturePaint(ImageIO.read(new File(floorPath)),
                         new Rectangle2D.Double(0,0,300, 300));
                 wallTextures[i] = new TexturePaint(ImageIO.read(new File(wallPath)),

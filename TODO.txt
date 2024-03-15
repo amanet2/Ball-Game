@@ -1,8 +1,8 @@
+* CAMERA: make camera smooth follow the character instead of instantly jumping to characters' XY
 * See if converting session's loops to a scheduled task works for framerate timings
 * SCRIPT: respawning netplayers should be script
 * IDEA: separate weapon spawns maybe
 * IDEA: glowing light that follows around the player character
-* CAMERA: make camera smooth follow the character instead of instantly jumping to characters' XY
 * BUG VIDEO:
     -> uiMenus framerate selection needs to update with the client vars file
 * DEBUG SCRIPTS:
