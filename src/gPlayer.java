@@ -11,7 +11,7 @@ public class gPlayer extends gThing {
     long botShootTime = 0;
 
     public void attackClosestTargetThing() {
-        String thingType = args.get("attack_target_type");
+        String thingType = attackTargetType;
         if(xMain.shellLogic.serverScene.getThingMap(thingType) == null)
             return;
         gThing closest = null;
