@@ -233,7 +233,9 @@ public class eGameLogicShell extends eGameLogicAdapter {
         });
         clientVars.putArg(new gArg("maptheme", Integer.toString(sSettings.mapTheme)) {
             public void onChange() {
-                sSettings.mapTheme = Integer.parseInt(value);
+                int requestedTheme = Integer.parseInt(value);
+                if(sSettings.mapThemes.length > requestedTheme)
+                    sSettings.mapTheme = requestedTheme;
             }
         });
         clientVars.putArg(new gArg("maxhp", "500") {
@@ -465,9 +467,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene))
                         dy = obj.coords[1];
                     if (isUserPlayer(obj)) {
-                        int newX = dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2);
-                        int newY = dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2);
-                        gCamera.coords = new int[]{newX, newY};
+                        gCamera.snapToCoords(
+                                dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+                                dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+                        );
                     }
                     obj.coords[0] = dx;
                     obj.coords[1] = dy;

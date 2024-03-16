@@ -23,7 +23,6 @@
     -> investigate exceptions
     -> create console command to pause bots
         -> sSettings.botsSleep
-    -> Fix the teleporter seemingly not letting players go back through
 * COMMANDS:
     -> server var to not allow movement for ID or all
     -> add race gamemode

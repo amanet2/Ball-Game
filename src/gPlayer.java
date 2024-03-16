@@ -4,18 +4,22 @@ import java.awt.geom.Rectangle2D;
 
 public class gPlayer extends gThing {
     gThing collidedPlayer = null;
+    String attackTargetType = "THING_PLAYER";
     String decorationSprite = "null";
     int weapon = gWeapons.none;
     long botThinkTime = 0;
     long botShootTime = 0;
 
-    public void attackClosestPlayer() {
-        gPlayer closest = null;
+    public void attackClosestTargetThing() {
+        String thingType = args.get("attack_target_type");
+        if(xMain.shellLogic.serverScene.getThingMap(thingType) == null)
+            return;
+        gThing closest = null;
         int closestDist = 1000000;
-        for(String oid : xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").keySet()) {
+        for(String oid : xMain.shellLogic.serverScene.getThingMap(thingType).keySet()) {
             if(id.equals(oid))
                 continue;
-            gPlayer dst = (gPlayer) xMain.shellLogic.serverScene.getThingMap("THING_PLAYER").get(oid);
+            gThing dst = xMain.shellLogic.serverScene.getThingMap(thingType).get(oid);
             int x1 = coords[0];
             int y1 = coords[1];
             int x2 = dst.coords[0];
@@ -25,11 +29,6 @@ public class gPlayer extends gThing {
                 closest = dst;
                 closestDist = dist;
             }
-        }
-        if(closestDist < sSettings.botShootRange && botShootTime < sSettings.gameTime) {
-            botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
-            xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
-            xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
         }
         if(closest != null) {
             if(closest.coords[1] > coords[1]) {
@@ -69,6 +68,12 @@ public class gPlayer extends gThing {
             else if(randomOffset > 1)
                 angle += Math.PI/8;
             fv = angle;
+            //attack
+            if(closestDist < sSettings.botShootRange && botShootTime < sSettings.gameTime) {
+                botShootTime = sSettings.gameTime + gWeapons.fromCode(weapon).refiredelay;
+                xMain.shellLogic.serverNetThread.addNetCmd("server", String.format("fireweapon %s %d", id, weapon));
+                xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", String.format("cl_fireweapon %s %d", id, weapon));
+            }
         }
     }
 
@@ -161,6 +166,14 @@ public class gPlayer extends gThing {
             }
             public String getValue() {
                 return Integer.toString(parent.weapon);
+            }
+        });
+        args.putArg(new gArg("attack_target_type", "THING_PLAYER") {
+            public void onChange() {
+                attackTargetType = value;
+            }
+            public String getValue() {
+                return attackTargetType;
             }
         });
     }

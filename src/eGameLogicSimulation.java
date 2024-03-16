@@ -127,7 +127,7 @@ public class eGameLogicSimulation extends eGameLogicAdapter {
             if(sSettings.botsPaused < 1 && obj.id.startsWith("bot") && obj.botThinkTime < sSettings.gameTime) {
                 obj.botThinkTime = sSettings.gameTime + sSettings.botThinkTimeDelay;
                 //default behavior
-                obj.attackClosestPlayer();
+                obj.attackClosestTargetThing();
             }
         }
 

@@ -10,4 +10,8 @@ public class gCamera {
 		coords[0] += (velocity * mod * move[3] - velocity * mod * move[2]);
 		coords[1] += (velocity * mod * move[1] - velocity * mod * move[0]);
 	}
+
+	public static void snapToCoords(int x, int y) {
+		gCamera.coords = new int[]{x, y};
+	}
 }

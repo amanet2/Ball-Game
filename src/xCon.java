@@ -1322,9 +1322,9 @@ public class xCon {
                 String varname = args[2];
                 String varval = args[3];
                 String giveString = String.format("setthing THING_PLAYER %s %s %s", pid, varname, varval);
-                ex(giveString);
+                String res = ex(giveString);
                 xMain.shellLogic.serverNetThread.addIgnoringNetCmd("server", "cl_" + giveString);
-                return "player " + pid + " given var '" + varname + "' with value of " + varval;
+                return res;
             }
         });
         commands.put("setthing", new gDoable() {
