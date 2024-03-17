@@ -444,13 +444,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     int dy = obj.coords[1] + (int) (my * mod);
                     int cdx = gCamera.coords[0] + (int) (mx * mod);
                     int cdy = gCamera.coords[1] + (int) (my * mod);
+//                    int cdx = gCamera.coords[0] + (int) (cx * mod);
+//                    int cdy = gCamera.coords[1] + (int) (cy * mod);
                     if (obj.acceltick < gameTimeMillis) {
                         obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
                         if (isUserPlayer(obj)) {
                             if(obj.mov0 > 0) {
                                 obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-//                                gCamera.vels[0] = Math.min(sSettings.clientVelocityPlayerBase, gCamera.vels[0] + obj.accelrate);
+//                                gCamera.vels[0] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[0] + obj.accelrate);
                             }
                             else {
                                 obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
@@ -458,7 +460,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             }
                             if(obj.mov1 > 0) {
                                 obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-//                                gCamera.vels[1] = Math.min(sSettings.clientVelocityPlayerBase, gCamera.vels[1] + obj.accelrate);
+//                                gCamera.vels[1] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[1] + obj.accelrate);
                             }
                             else {
                                 obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
@@ -466,7 +468,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             }
                             if(obj.mov2 > 0) {
                                 obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-//                                gCamera.vels[2] = Math.min(sSettings.clientVelocityPlayerBase, gCamera.vels[2] + obj.accelrate);
+//                                gCamera.vels[2] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[2] + obj.accelrate);
                             }
                             else {
                                 obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
@@ -474,7 +476,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                             }
                             if(obj.mov3 > 0) {
                                 obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-//                                gCamera.vels[3] = Math.min(sSettings.clientVelocityPlayerBase, gCamera.vels[3] + obj.accelrate);
+//                                gCamera.vels[3] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[3] + obj.accelrate);
                             }
                             else {
                                 obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
@@ -500,7 +502,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                 dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
                                 dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
                         };
-                        if (Math.abs(cdx - snapCoords[0]) > 1200 || Math.abs(cdy - snapCoords[1]) > 1200)
+                        if (Math.abs(cdx - snapCoords[0]) > 600 || Math.abs(cdy - snapCoords[1]) > 600)
                             gCamera.snapToCoords(snapCoords[0], snapCoords[1]);
                     }
                 }
