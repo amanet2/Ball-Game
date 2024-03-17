@@ -503,7 +503,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                 dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
                                 dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
                         };
-                        if (Math.abs(cdx - snapCoords[0]) > 300 || Math.abs(cdy - snapCoords[1]) > 300)
+                        if (Math.abs(cdx - snapCoords[0]) > 1200 || Math.abs(cdy - snapCoords[1]) > 1200)
                             gCamera.snapToCoords(snapCoords[0], snapCoords[1]);
                     }
                 }
