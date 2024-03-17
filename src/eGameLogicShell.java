@@ -497,6 +497,15 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     obj.coords[0] = dx;
                     obj.coords[1] = dy;
                     gCamera.coords = new int[]{cdx, cdy};
+                    //check if camera is too far away, snap to player
+                    if(isUserPlayer(obj)) {
+                        int[] snapCoords = new int[]{
+                                dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+                                dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+                        };
+                        if (Math.abs(cdx - snapCoords[0]) > 100 || Math.abs(cdy - snapCoords[1]) > 100)
+                            gCamera.snapToCoords(snapCoords[0], snapCoords[1]);
+                    }
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");

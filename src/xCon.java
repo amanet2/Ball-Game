@@ -335,6 +335,12 @@ public class xCon {
                     String sound = rand < 1 ? "shout.wav" : rand < 2 ? "death.wav" : "growl.wav";
                     xMain.shellLogic.serverNetThread.addNetCmd(id, String.format("playsound sounds/%s", sound));
                     ex(String.format("exec scripts/sv_handledamageplayer %s %d", id, dmg));
+                    if (xMain.shellLogic.isUserPlayer(player)) {
+                        gCamera.snapToCoords(
+                            player.coords[0] + player.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+                            player.coords[1] + player.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+                        );
+                    }
                     //handle death
                     if(newhp < 1) {
                         //more server-side stuff

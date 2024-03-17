@@ -67,6 +67,12 @@ public class gWeapon {
             xMain.shellLogic.console.ex(String.format("playsound %s 0 %d %d", soundFilePath, p.coords[0], p.coords[1]));
             if(sSettings.IS_SERVER && p.ammo-- <= 0 && p.weapon != 5) //special case for boxing gloves
                 xMain.shellLogic.console.ex(String.format("setnplayer %s weapon 0", p.id));
+//            if (xMain.shellLogic.isUserPlayer(p)) {
+//                gCamera.snapToCoords(
+//                        p.coords[0] + p.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+//                        p.coords[1] + p.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+//                );
+//            }
         }
     }
 }
