@@ -1,3 +1,4 @@
+* for goldmaster and pointmaster have a way to replace botbehavior without interrupting regularly scheduled behavior
 * replace all usages of "Math.Random()" with threadlocal random
 * See if converting session's loops to a scheduled task works for framerate timings
 * IDEA: separate weapon spawns maybe
