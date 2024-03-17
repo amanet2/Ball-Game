@@ -1,14 +1,15 @@
 public class gCamera {
 	static int[] move = {0, 0, 0, 0};
 	static int[] coords = {0, 0};
-	static int[] accels = {0,0,0,0};
-	private static final int velocity = 32;
+	static int[] trackMove = {0,0,0,0};
+	static int[] vels = {0,0,0,0};
+	private static final int maxVelocity = 32;
 
-	public static void updatePosition() {
+	public static void updatePositionMapmaker() {
 		double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
 
-		coords[0] += (velocity * mod * move[3] - velocity * mod * move[2]);
-		coords[1] += (velocity * mod * move[1] - velocity * mod * move[0]);
+		coords[0] += (maxVelocity * mod * move[3] - maxVelocity * mod * move[2]);
+		coords[1] += (maxVelocity * mod * move[1] - maxVelocity * mod * move[0]);
 	}
 
 	public static void snapToCoords(int x, int y) {

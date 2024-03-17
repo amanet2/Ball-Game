@@ -11,7 +11,7 @@ cl_setvar fontui None
 REM available framerates
 cl_setvar framerates 30,60,120,240,360,540,1000
 REM screen height
-cl_setvar height 1080
+cl_setvar height 720
 REM default net address
 cl_setvar joinip localhost
 REM default net port
@@ -37,15 +37,15 @@ cl_setvar showscale 0
 REM enable animations
 cl_setvar vfxenableanimations 1
 REM enable flares
-cl_setvar vfxenableflares 1
+cl_setvar vfxenableflares 0
 REM enable shading
-cl_setvar vfxenableshading 1
+cl_setvar vfxenableshading 0
 REM enable shadows
-cl_setvar vfxenableshadows 1
+cl_setvar vfxenableshadows 0
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 1920
+cl_setvar width 1280
 REM bindings
 bind - -zoom
 bind = zoom

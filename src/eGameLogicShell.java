@@ -428,7 +428,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
 
     private void updateEntityPositions(long gameTimeMillis) {
         if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
-            gCamera.updatePosition();
+            gCamera.updatePositionMapmaker();
         double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
         synchronized (clientScene.objectMaps) {
             try {
@@ -440,40 +440,63 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     int my = obj.vel1 - obj.vel0;
                     int dx = obj.coords[0] + (int) (mx * mod);
                     int dy = obj.coords[1] + (int) (my * mod);
+                    int cdx = gCamera.coords[0] + (int) (mx * mod);
+                    int cdy = gCamera.coords[1] + (int) (my * mod);
                     if (obj.acceltick < gameTimeMillis) {
                         obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
                         if (isUserPlayer(obj)) {
-                            if(obj.mov0 > 0)
+                            if(obj.mov0 > 0) {
                                 obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-                            else
+                                gCamera.vels[0] = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
+                            }
+                            else {
                                 obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-                            if(obj.mov1 > 0)
+                                gCamera.vels[0] = Math.max(0, obj.vel0 - obj.decelrate);
+                            }
+                            if(obj.mov1 > 0) {
                                 obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-                            else
+                                gCamera.vels[1] = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
+                            }
+                            else {
                                 obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-                            if(obj.mov2 > 0)
+                                gCamera.vels[1] = Math.max(0, obj.vel1 - obj.decelrate);
+                            }
+                            if(obj.mov2 > 0) {
                                 obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-                            else
+                                gCamera.vels[2] = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
+                            }
+                            else {
                                 obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-                            if(obj.mov3 > 0)
+                                gCamera.vels[2] = Math.max(0, obj.vel2 - obj.decelrate);
+                            }
+                            if(obj.mov3 > 0) {
                                 obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-                            else
+                                gCamera.vels[3] = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
+                            }
+                            else {
                                 obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
+                                gCamera.vels[3] = Math.max(0, obj.vel3 - obj.decelrate);
+                            }
                         }
                     }
-                    if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene))
+                    if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene)) {
                         dx = obj.coords[0];
-                    if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene))
-                        dy = obj.coords[1];
-                    if (isUserPlayer(obj)) {
-                        gCamera.snapToCoords(
-                                dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
-                                dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
-                        );
+                        cdx = gCamera.coords[0];
                     }
+                    if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene)) {
+                        dy = obj.coords[1];
+                        cdy = gCamera.coords[1];
+                    }
+//                    if (isUserPlayer(obj)) {
+//                        gCamera.snapToCoords(
+//                                dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+//                                dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+//                        );
+//                    }
                     obj.coords[0] = dx;
                     obj.coords[1] = dy;
+                    gCamera.coords = new int[]{cdx, cdy};
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
@@ -563,7 +586,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
         sSettings.clientSelectedItemId = "";
     }
 
-    private boolean isUserPlayer(gPlayer player) {
+    public boolean isUserPlayer(gPlayer player) {
         return player.id.equals(sSettings.uuid);
     }
 

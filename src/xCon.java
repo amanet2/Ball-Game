@@ -1440,6 +1440,12 @@ public class xCon {
                     newPlayer.color = clState.get("color");
                 newPlayer.setSpriteFromPath(eManager.getPath("animations/player_" + newPlayer.color + "/a03.png"));
                 xMain.shellLogic.clientScene.getThingMap("THING_PLAYER").put(playerId, newPlayer);
+                if (xMain.shellLogic.isUserPlayer(newPlayer)) {
+                    gCamera.snapToCoords(
+                            newPlayer.coords[0] + newPlayer.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
+                            newPlayer.coords[1] + newPlayer.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
+                    );
+                }
                 return "spawned player " + playerId + " at " + x + " " + y;
             }
         });
