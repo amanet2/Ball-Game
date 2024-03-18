@@ -23,6 +23,8 @@ testres $gamemode $mode_virus foreachlong tv $estart $eend 1000 scheduleevent $t
 REM bring brightness back after virus
 addcom cl_setvar clrw_floorshading 0 0 0 0
 testres $gamemode $mode_capmaster foreachlong tv $estart $eend 1000 scheduleevent $tv exec scripts/capmaster
+testres $gamemode $mode_flagmaster foreachlong tv $estart $eend 1000 scheduleevent $tv foreachclient cli exec scripts/flagmaster_bot $cli
+testres $gamemode $mode_holdmaster foreachlong tv $estart $eend 1000 scheduleevent $tv foreachclient cli exec scripts/holdmaster_bot $cli
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 1000 scheduleevent $tv foreachclient cli exec scripts/bringmaster_bot $cli
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 6000 scheduleevent $tv exec scripts/bringmaster
 testres $gamemode $mode_bringmaster foreachlong tv $estart $eend 5000 scheduleevent $tv exec scripts/spawnpointgiverbonus

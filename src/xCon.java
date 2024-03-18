@@ -85,7 +85,7 @@ public class xCon {
         commands.put("activatemenu", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(!sSettings.inplay && !sSettings.show_mapmaker_ui) {
-                    ex("playsound sounds/tap.wav");
+                    ex("playsound sounds/bfg2.wav");
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[
                             uiMenus.menuSelection[uiMenus.selectedMenu].selectedItem].doItem();
                 }
@@ -824,7 +824,7 @@ public class xCon {
                         if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            ex("playsound sounds/goodwork.wav");
+                            ex("playsound sounds/tap.wav");
                         }
                         else
                             ex("pause");
@@ -833,7 +833,7 @@ public class xCon {
                         if(gMessages.enteringMessage)
                             gMessages.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        ex("playsound sounds/goodwork.wav");
+                        ex("playsound sounds/tap.wav");
                     }
                 }
                 return fullCommand;
@@ -1276,7 +1276,7 @@ public class xCon {
                 if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
-                    ex("playsound sounds/goodwork.wav");
+                    ex("playsound sounds/tap.wav");
                 }
                 return fullCommand;
             }
