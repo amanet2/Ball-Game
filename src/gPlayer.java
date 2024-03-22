@@ -5,10 +5,19 @@ import java.awt.geom.Rectangle2D;
 public class gPlayer extends gThing {
     gThing collidedPlayer = null;
     String attackTargetType = "THING_PLAYER";
+    String attackTargetId = "null";
     String decorationSprite = "null";
     int weapon = gWeapons.none;
     long botThinkTime = 0;
     long botShootTime = 0;
+
+    public int getDistanceToThing(gThing target) {
+        int x1 = coords[0];
+        int y1 = coords[1];
+        int x2 = target.coords[0];
+        int y2 = target.coords[1];
+        return (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    }
 
     public void attackClosestTargetThing() {
         String thingType = attackTargetType;
@@ -16,18 +25,20 @@ public class gPlayer extends gThing {
             return;
         gThing closest = null;
         int closestDist = 1000000;
-        for(String oid : xMain.shellLogic.serverScene.getThingMap(thingType).keySet()) {
-            if(id.equals(oid))
-                continue;
-            gThing dst = xMain.shellLogic.serverScene.getThingMap(thingType).get(oid);
-            int x1 = coords[0];
-            int y1 = coords[1];
-            int x2 = dst.coords[0];
-            int y2 = dst.coords[1];
-            int dist = (int) Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-            if(dist < closestDist) {
-                closest = dst;
-                closestDist = dist;
+        if(xMain.shellLogic.serverScene.getThingMap(thingType).containsKey(attackTargetId)) {
+           closest = xMain.shellLogic.serverScene.getThingMap(thingType).get(attackTargetId);
+           closestDist = getDistanceToThing(closest);
+        }
+        else {
+            for (String oid : xMain.shellLogic.serverScene.getThingMap(thingType).keySet()) {
+                if (id.equals(oid))
+                    continue;
+                gThing dst = xMain.shellLogic.serverScene.getThingMap(thingType).get(oid);
+                int dist = getDistanceToThing(dst);
+                if (dist < closestDist) {
+                    closest = dst;
+                    closestDist = dist;
+                }
             }
         }
         if(closest != null) {
@@ -174,6 +185,14 @@ public class gPlayer extends gThing {
             }
             public String getValue() {
                 return attackTargetType;
+            }
+        });
+        args.putArg(new gArg("attack_target_id", "null") {
+            public void onChange() {
+                attackTargetId = value;
+            }
+            public String getValue() {
+                return attackTargetId;
             }
         });
     }
