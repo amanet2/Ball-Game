@@ -438,50 +438,30 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         continue;
                     int mx = obj.vel3 - obj.vel2;
                     int my = obj.vel1 - obj.vel0;
-//                    int cx = gCamera.vels[3] - gCamera.vels[2];
-//                    int cy = gCamera.vels[1] - gCamera.vels[0];
                     int dx = obj.coords[0] + (int) (mx * mod);
                     int dy = obj.coords[1] + (int) (my * mod);
-                    int cdx = gCamera.coords[0] + (int) (mx * mod);
-                    int cdy = gCamera.coords[1] + (int) (my * mod);
-//                    int cdx = gCamera.coords[0] + (int) (cx * mod);
-//                    int cdy = gCamera.coords[1] + (int) (cy * mod);
+                    int cdx = gCamera.coords[0] + (int) (eUtils.unscaleInt(mx) * mod);
+                    int cdy = gCamera.coords[1] + (int) (eUtils.unscaleInt(my) * mod);
                     if (obj.acceltick < gameTimeMillis) {
                         obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
                         if (isUserPlayer(obj)) {
-                            if(obj.mov0 > 0) {
+                            if(obj.mov0 > 0)
                                 obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
-//                                gCamera.vels[0] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[0] + obj.accelrate);
-                            }
-                            else {
+                            else
                                 obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
-//                                gCamera.vels[0] = Math.max(0, gCamera.vels[0] - obj.decelrate);
-                            }
-                            if(obj.mov1 > 0) {
+                            if(obj.mov1 > 0)
                                 obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
-//                                gCamera.vels[1] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[1] + obj.accelrate);
-                            }
-                            else {
+                            else
                                 obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
-//                                gCamera.vels[1] = Math.max(0, gCamera.vels[1] - obj.decelrate);
-                            }
-                            if(obj.mov2 > 0) {
+                            if(obj.mov2 > 0)
                                 obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
-//                                gCamera.vels[2] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[2] + obj.accelrate);
-                            }
-                            else {
+                            else
                                 obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
-//                                gCamera.vels[2] = Math.max(0, gCamera.vels[2] - obj.decelrate);
-                            }
-                            if(obj.mov3 > 0) {
+                            if(obj.mov3 > 0)
                                 obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
-//                                gCamera.vels[3] = Math.min(eUtils.unscaleInt(sSettings.clientVelocityPlayerBase), gCamera.vels[3] + obj.accelrate);
-                            }
-                            else {
+                            else
                                 obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
-//                                gCamera.vels[3] = Math.max(0, gCamera.vels[3] - obj.decelrate);
-                            }
                         }
                     }
                     if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene)) {
@@ -492,8 +472,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         dy = obj.coords[1];
                         cdy = gCamera.coords[1];
                     }
-                    obj.coords[0] = dx;
-                    obj.coords[1] = dy;
+                    obj.coords = new int[]{dx, dy};
                     //update cam coords smoothly
                     gCamera.coords = new int[]{cdx, cdy};
                     //check if camera is too far away, snap to player
