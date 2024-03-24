@@ -1,3 +1,3 @@
-getres hasflag setthing THING_PLAYER $1 flag
+getres hasflag setnstate $1 flag
 testres $hasflag 0 setthing THING_PLAYER $1 attack_target_type ITEM_FLAG
 testres $hasflag 1 setthing THING_PLAYER $1 attack_target_type THING_PLAYER
