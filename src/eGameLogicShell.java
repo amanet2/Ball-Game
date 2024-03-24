@@ -475,28 +475,34 @@ public class eGameLogicShell extends eGameLogicAdapter {
                                 dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
                                 dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
                         };
+                        Polygon poly = new Polygon(
+                                new int[]{gCamera.coords[0], snapCoords[0], snapCoords[0]},
+                                new int[]{gCamera.coords[1], snapCoords[1], gCamera.coords[1]},
+                                3
+                        );
                         int[] tempMove = new int[]{0, 0, 0, 0};
+                        int moveRange = 100;
                         //update cam coords smoothly
-                        if(snapCoords[1] > gCamera.coords[1]) {
+                        if(snapCoords[1] > gCamera.coords[1] + moveRange) {
                             tempMove[1] = 1;
                         }
-                        else if(snapCoords[1] < gCamera.coords[1]){
+                        else if(snapCoords[1] < gCamera.coords[1] - moveRange){
                             tempMove[0] = 1;
                         }
-                        if(snapCoords[0] > gCamera.coords[0]) {
+                        if(snapCoords[0] > gCamera.coords[0] + moveRange) {
                             tempMove[3] = 1;
                         }
-                        else if(snapCoords[0] < gCamera.coords[0]){
+                        else if(snapCoords[0] < gCamera.coords[0] - moveRange){
                             tempMove[2] = 1;
                         }
                         gCamera.move = tempMove;
-                        if (Math.abs(gCamera.coords[0] - snapCoords[0]) > 100
-                                || Math.abs(gCamera.coords[1] - snapCoords[1]) > 100)
-                            gCamera.updatePositionMapmaker();
-                        else {
-                            gCamera.move = new int[]{0, 0, 0, 0};
-                            gCamera.vels = new int[]{0, 0, 0, 0};
-                        }
+//                        if (Math.abs(gCamera.coords[0] - snapCoords[0]) > 100
+//                                || Math.abs(gCamera.coords[1] - snapCoords[1]) > 100)
+                        gCamera.updatePositionMapmaker();
+//                        else {
+//                            gCamera.move = new int[]{0, 0, 0, 0};
+//                            gCamera.vels = new int[]{0, 0, 0, 0};
+//                        }
                         if (Math.abs(gCamera.coords[0] - snapCoords[0]) > 1200
                             || Math.abs(gCamera.coords[1] - snapCoords[1]) > 1200)
                             gCamera.snapToCoords(snapCoords[0], snapCoords[1]);
