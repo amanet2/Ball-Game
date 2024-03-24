@@ -438,10 +438,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         continue;
                     int mx = obj.vel3 - obj.vel2;
                     int my = obj.vel1 - obj.vel0;
-                    int dx = obj.coords[0] + (int) ((double)mx * mod);
-                    int dy = obj.coords[1] + (int) ((double)my * mod);
-                    int cdx = gCamera.coords[0] + (int) ((double)mx * mod);
-                    int cdy = gCamera.coords[1] + (int) ((double)my * mod);
+                    int dx = (int)(obj.coords[0] + ((double)mx * mod));
+                    int dy = (int)(obj.coords[1] + ((double)my * mod));
                     if (obj.acceltick < gameTimeMillis) {
                         obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
@@ -466,22 +464,45 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     }
                     if (!obj.wontClipOnMove(dx, obj.coords[1], clientScene)) {
                         dx = obj.coords[0];
-                        cdx = gCamera.coords[0];
                     }
                     if (!obj.wontClipOnMove(obj.coords[0], dy, clientScene)) {
                         dy = obj.coords[1];
-                        cdy = gCamera.coords[1];
                     }
                     obj.coords = new int[]{dx, dy};
-                    //update cam coords smoothly
-                    gCamera.coords = new int[]{cdx, cdy};
                     //check if camera is too far away, snap to player
                     if(isUserPlayer(obj)) {
                         int[] snapCoords = new int[]{
                                 dx + obj.dims[0] / 2 - eUtils.unscaleInt(sSettings.width / 2),
                                 dy + obj.dims[1] / 2 - eUtils.unscaleInt(sSettings.height / 2)
                         };
-                        if (Math.abs(cdx - snapCoords[0]) > 1200 || Math.abs(cdy - snapCoords[1]) > 1200)
+                        //update cam coords smoothly
+                        if(snapCoords[1] > gCamera.coords[1]) {
+                            gCamera.move[0] = 0;
+                            gCamera.move[1] = 1;
+                        }
+                        else if(snapCoords[1] < gCamera.coords[1]){
+                            gCamera.move[0] = 1;
+                            gCamera.move[1] = 0;
+                        }
+                        else {
+                            gCamera.move[0] = 0;
+                            gCamera.move[1] = 0;
+                        }
+                        if(snapCoords[0] > gCamera.coords[0]) {
+                            gCamera.move[2] = 0;
+                            gCamera.move[3] = 1;
+                        }
+                        else if(snapCoords[0] < gCamera.coords[0]){
+                            gCamera.move[2] = 1;
+                            gCamera.move[3] = 0;
+                        }
+                        else {
+                            gCamera.move[2] = 0;
+                            gCamera.move[3] = 0;
+                        }
+                        gCamera.updatePositionMapmaker();
+                        if (Math.abs(gCamera.coords[0] - snapCoords[0]) > 1200
+                            || Math.abs(gCamera.coords[1] - snapCoords[1]) > 1200)
                             gCamera.snapToCoords(snapCoords[0], snapCoords[1]);
                     }
                 }
