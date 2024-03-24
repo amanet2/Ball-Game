@@ -818,7 +818,7 @@ public class xCon {
                         if(!sSettings.IS_CLIENT) {
                             //offline mode do this
                             uiMenus.selectedMenu = uiMenus.MENU_QUIT;
-                            ex("playsound sounds/tap.wav");
+                            ex("playsound sounds/bfg2.wav");
                         }
                         else
                             ex("pause");
@@ -827,7 +827,7 @@ public class xCon {
                         if(gMessages.enteringMessage)
                             gMessages.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
-                        ex("playsound sounds/tap.wav");
+                        ex("playsound sounds/bfg2.wav");
                     }
                 }
                 return fullCommand;
@@ -1270,7 +1270,7 @@ public class xCon {
                 if(!sSettings.show_mapmaker_ui && !sSettings.inplay) {
                     uiMenus.menuSelection[uiMenus.selectedMenu].items[uiMenus.menuSelection[
                             uiMenus.selectedMenu].selectedItem].doItem();
-                    ex("playsound sounds/tap.wav");
+                    ex("playsound sounds/bfg2.wav");
                 }
                 return fullCommand;
             }
