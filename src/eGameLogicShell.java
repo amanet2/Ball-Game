@@ -438,10 +438,10 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         continue;
                     int mx = obj.vel3 - obj.vel2;
                     int my = obj.vel1 - obj.vel0;
-                    int dx = obj.coords[0] + (int) (mx * mod);
-                    int dy = obj.coords[1] + (int) (my * mod);
-                    int cdx = gCamera.coords[0] + (int) (eUtils.unscaleInt(mx) * mod);
-                    int cdy = gCamera.coords[1] + (int) (eUtils.unscaleInt(my) * mod);
+                    int dx = obj.coords[0] + (int) ((double)mx * mod);
+                    int dy = obj.coords[1] + (int) ((double)my * mod);
+                    int cdx = gCamera.coords[0] + (int) ((double)mx * mod);
+                    int cdy = gCamera.coords[1] + (int) ((double)my * mod);
                     if (obj.acceltick < gameTimeMillis) {
                         obj.acceltick = gameTimeMillis + obj.acceldelay;
                         //user player
