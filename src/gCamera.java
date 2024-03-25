@@ -7,7 +7,7 @@ public class gCamera {
 	static long acceltick = 0;
 	static int acceldelay = 50;
 	static final int maxVelocity = 32;
-	static final int trackVelocity = sSettings.clientVelocityPlayerBase;
+	static int linearVelocity = 0;
 	static double fv = 0.0;
 
 	public static void updatePositionMapmaker() {

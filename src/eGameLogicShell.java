@@ -473,11 +473,19 @@ public class eGameLogicShell extends eGameLogicAdapter {
                         if(Math.abs(gCamera.coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 50
                                 || Math.abs(gCamera.coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 50) {
                             gCamera.pointAtWorldCoords(snapCoords[0], snapCoords[1]);
-                            int linearVel = (int) Math.sqrt(Math.pow(velX, 2) + Math.pow(velY, 2));
+                            if (gCamera.acceltick < sSettings.gameTime) {
+                                gCamera.acceltick = sSettings.gameTime + gCamera.acceldelay;
+                                gCamera.linearVelocity = Math.min(gCamera.maxVelocity, gCamera.linearVelocity + gCamera.accelrate);
+
+                            }
                             gCamera.coords = new int[]{
-                                    gCamera.coords[0] + (int) ((double) linearVel * mod * Math.cos(gCamera.fv)),
-                                    gCamera.coords[1] + (int) ((double) linearVel * mod * Math.sin(gCamera.fv))
+                                    gCamera.coords[0] + (int) ((double) gCamera.linearVelocity * mod * Math.cos(gCamera.fv)),
+                                    gCamera.coords[1] + (int) ((double) gCamera.linearVelocity * mod * Math.sin(gCamera.fv))
                             };
+                        }
+                        if (gCamera.acceltick < sSettings.gameTime) {
+                            gCamera.acceltick = sSettings.gameTime + gCamera.acceldelay;
+                            gCamera.linearVelocity = Math.max(0, gCamera.linearVelocity - gCamera.decelrate);
                         }
                         if(Math.abs(gCamera.coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 1200
                         || Math.abs(gCamera.coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 1200)
