@@ -6,10 +6,9 @@ public class gCamera {
 	static int decelrate = 3;
 	static long acceltick = 0;
 	static int acceldelay = 50;
-	private static final int maxVelocity = 32;
+	static final int maxVelocity = 32;
+	static final int trackVelocity = sSettings.clientVelocityPlayerBase;
 	static double fv = 0.0;
-	static double velx = 0.0;
-	static double vely = 0.0;
 
 	public static void updatePositionMapmaker() {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
@@ -39,30 +38,29 @@ public class gCamera {
 		coords = new int[]{cdx, cdy};
 	}
 
-	public static void snapToCoords(int x, int y) {
-		coords = new int[]{x, y};
+	public static void snapToWorldCoords(int worldX, int worldY) {
+		coords = new int[]{
+				worldX - eUtils.unscaleInt(sSettings.width / 2),
+				worldY - eUtils.unscaleInt(sSettings.height / 2)
+		};
 	}
 
-	public static void pointAtCoords(int x, int y) {
-		double dx = Math.abs(x - gCamera.coords[0]);
-		double dy = Math.abs(y - gCamera.coords[1]);
-		//		if (angle < 0)
-//			angle += 2*Math.PI;
-//		angle += Math.PI/2;
-		fv = Math.atan2(dy, dx);
+	public static void pointAtWorldCoords(int worldX, int worldY) {
+		double dx = worldX - eUtils.unscaleInt(sSettings.width / 2) - gCamera.coords[0];
+		double dy = worldY - eUtils.unscaleInt(sSettings.height / 2) - gCamera.coords[1];
+		double newFV = Math.atan2(dy, dx);
+		if(newFV < 0.0)
+			newFV += (Math.PI*2);
+		fv = newFV;
 	}
 
 	// Call this function every tick for a shake effect
-	public static void shakeAt(int x, int y) {
+	public static void shakeAtWorldCoords(int x, int y) {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
-		int[] snapCoords = new int[]{
-				x - eUtils.unscaleInt(sSettings.width / 2),
-				y - eUtils.unscaleInt(sSettings.height / 2)
-		};
-		gCamera.pointAtCoords(snapCoords[0], snapCoords[1]);
-		gCamera.coords = new int[]{
-				gCamera.coords[0] - (int) (((double)16)*mod*Math.cos(gCamera.fv+Math.PI/2)),
-				gCamera.coords[1] - (int) (((double)16)*mod*Math.sin(gCamera.fv+Math.PI/2))
+		pointAtWorldCoords(x, y);
+		coords = new int[]{
+				coords[0] - (int) (((double)16)*mod*Math.cos(fv+Math.PI/2)),
+				coords[1] - (int) (((double)16)*mod*Math.sin(fv+Math.PI/2))
 		};
 	}
 }
