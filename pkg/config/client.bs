@@ -39,13 +39,13 @@ cl_setvar vfxenableanimations 1
 REM enable flares
 cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 1
+cl_setvar vfxenableshading 0
 REM enable shadows
-cl_setvar vfxenableshadows 1
+cl_setvar vfxenableshadows 0
 REM volume
 cl_setvar volume 1
 REM screen width
-cl_setvar width 1280
+cl_setvar width 1080
 REM bindings
 bind - -zoom
 bind = zoom
