@@ -107,6 +107,41 @@ public class gPlayer extends gThing {
         return true;
     }
 
+    public void updatePlayerPositionShell(gScene scene, long gameTimeMillis) {
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+        if (acceltick < gameTimeMillis) {
+            acceltick = gameTimeMillis + acceldelay;
+            //user player
+            if (xMain.shellLogic.isUserPlayer(this)) {
+                if(mov0 > 0)
+                    vel0 = Math.min(sSettings.clientVelocityPlayerBase, vel0 + accelrate);
+                else
+                    vel0 = Math.max(0, vel0 - decelrate);
+                if(mov1 > 0)
+                    vel1 = Math.min(sSettings.clientVelocityPlayerBase, vel1 + accelrate);
+                else
+                    vel1 = Math.max(0, vel1 - decelrate);
+                if(mov2 > 0)
+                    vel2 = Math.min(sSettings.clientVelocityPlayerBase, vel2 + accelrate);
+                else
+                    vel2 = Math.max(0, vel2 - decelrate);
+                if(mov3 > 0)
+                    vel3 = Math.min(sSettings.clientVelocityPlayerBase, vel3 + accelrate);
+                else
+                    vel3 = Math.max(0, vel3 - decelrate);
+            }
+        }
+        int velX = vel3 - vel2;
+        int velY = vel1 - vel0;
+        int newX = (int)(coords[0] + ((double)velX * mod));
+        int newY = (int)(coords[1] + ((double)velY * mod));
+        if (!wontClipOnMove(newX, coords[1], scene))
+            newX = coords[0];
+        if (!wontClipOnMove(coords[0], newY, scene))
+            newY = coords[1];
+        coords = new int[]{newX, newY};
+    }
+
     public boolean willCollideWithPlayerAtCoords(gThing target, int dx, int dy) {
         if(target != null ) {
             //check null fields

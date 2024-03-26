@@ -43,8 +43,8 @@ public class gCamera {
 		double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
 //		gThing obj = trackingTarget;
 		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0]/2, obj.coords[1] + obj.dims[1]/2};
-		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 50
-				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 50) {
+		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 25
+				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 25) {
 			pointAtWorldCoords(snapCoords[0], snapCoords[1]);
 			if (acceltick < sSettings.gameTime) {
 				acceltick = sSettings.gameTime + acceldelay;
