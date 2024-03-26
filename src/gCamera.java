@@ -5,10 +5,11 @@ public class gCamera {
 	static int accelrate = 2;
 	static int decelrate = 3;
 	static long acceltick = 0;
-	static int acceldelay = 50;
+	static int acceldelay = 16;
 	static final int maxVelocity = 32;
 	static int linearVelocity = 0;
 	static double fv = 0.0;
+//	static gThing trackingTarget = null;
 
 	public static void updatePositionMapmaker() {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
@@ -36,6 +37,31 @@ public class gCamera {
 		int cdx = (int)(coords[0] + ((double)mx * mod));
 		int cdy = (int)(coords[1] + ((double)my * mod));
 		coords = new int[]{cdx, cdy};
+	}
+
+	public static void updatePositionTrackThing(gThing obj) {
+		double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+//		gThing obj = trackingTarget;
+		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0]/2, obj.coords[1] + obj.dims[1]/2};
+		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 50
+				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 50) {
+			pointAtWorldCoords(snapCoords[0], snapCoords[1]);
+			if (acceltick < sSettings.gameTime) {
+				acceltick = sSettings.gameTime + acceldelay;
+				linearVelocity = Math.min(maxVelocity, linearVelocity + accelrate);
+			}
+			coords = new int[]{
+					coords[0] + (int) ((double) linearVelocity * mod * Math.cos(fv)),
+					coords[1] + (int) ((double) linearVelocity * mod * Math.sin(fv))
+			};
+		}
+		if (acceltick < sSettings.gameTime) {
+			acceltick = sSettings.gameTime + acceldelay;
+			linearVelocity = Math.max(0, linearVelocity - decelrate);
+		}
+		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 1200
+				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 1200)
+			snapToWorldCoords(snapCoords[0], snapCoords[1]);
 	}
 
 	public static void snapToWorldCoords(int worldX, int worldY) {

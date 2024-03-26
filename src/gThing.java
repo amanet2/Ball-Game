@@ -10,7 +10,7 @@ public class gThing {
     int[] dims = {0, 0};
     public String id;
     gArgSet args;
-    int acceldelay = 100;
+    int acceldelay = 32;
     int accelrate = 2;
     int decelrate = 1;
     String waypoint = "null";

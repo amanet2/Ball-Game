@@ -427,8 +427,11 @@ public class eGameLogicShell extends eGameLogicAdapter {
     }
 
     private void updateEntityPositions(long gameTimeMillis) {
-        if(sSettings.show_mapmaker_ui && getUserPlayer() == null)
+        gPlayer userPlayer = getUserPlayer();
+        if(sSettings.show_mapmaker_ui && userPlayer == null)
             gCamera.updatePositionMapmaker();
+        else if(userPlayer != null)
+            gCamera.updatePositionTrackThing(userPlayer);
         double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
         synchronized (clientScene.objectMaps) {
             try {
@@ -467,30 +470,6 @@ public class eGameLogicShell extends eGameLogicAdapter {
                     if (!obj.wontClipOnMove(obj.coords[0], newY, clientScene))
                         newY = obj.coords[1];
                     obj.coords = new int[]{newX, newY};
-                    //check if camera is too far away, snap to player
-                    if(isUserPlayer(obj)) {
-                        int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0]/2, obj.coords[1] + obj.dims[1]/2};
-                        if(Math.abs(gCamera.coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 50
-                                || Math.abs(gCamera.coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 50) {
-                            gCamera.pointAtWorldCoords(snapCoords[0], snapCoords[1]);
-                            if (gCamera.acceltick < sSettings.gameTime) {
-                                gCamera.acceltick = sSettings.gameTime + gCamera.acceldelay;
-                                gCamera.linearVelocity = Math.min(gCamera.maxVelocity, gCamera.linearVelocity + gCamera.accelrate);
-
-                            }
-                            gCamera.coords = new int[]{
-                                    gCamera.coords[0] + (int) ((double) gCamera.linearVelocity * mod * Math.cos(gCamera.fv)),
-                                    gCamera.coords[1] + (int) ((double) gCamera.linearVelocity * mod * Math.sin(gCamera.fv))
-                            };
-                        }
-                        if (gCamera.acceltick < sSettings.gameTime) {
-                            gCamera.acceltick = sSettings.gameTime + gCamera.acceldelay;
-                            gCamera.linearVelocity = Math.max(0, gCamera.linearVelocity - gCamera.decelrate);
-                        }
-                        if(Math.abs(gCamera.coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 1200
-                        || Math.abs(gCamera.coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 1200)
-                            gCamera.snapToWorldCoords(snapCoords[0], snapCoords[1]);
-                    }
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
