@@ -26,7 +26,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
     TexturePaint[] topTextures;
 
 
-    public eGameLogicShell() throws IOException {
+    public eGameLogicShell() {
         super();
         serverVars = new gArgSet();
         clientVars = new gArgSet();
