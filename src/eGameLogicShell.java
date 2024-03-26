@@ -437,7 +437,7 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 for (String id : getPlayerIds()) {
                     gPlayer obj = getPlayerById(id);
                     if (obj != null)
-                        obj.updatePlayerPositionShell(clientScene, gameTimeMillis);
+                        updatePlayerPositionShell(obj, gameTimeMillis);
                 }
                 //bullets
                 ConcurrentHashMap<String, gThing> thingMap = clientScene.getThingMap("THING_BULLET");
@@ -465,6 +465,41 @@ public class eGameLogicShell extends eGameLogicAdapter {
                 thing.coords[0] - (int) (velocity*mod*Math.cos(thing.fv+Math.PI/2)),
                 thing.coords[1] - (int) (velocity*mod*Math.sin(thing.fv+Math.PI/2))
         };
+    }
+
+    public void updatePlayerPositionShell(gPlayer obj, long gameTimeMillis) {
+        double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+        if (obj.acceltick < gameTimeMillis) {
+            obj.acceltick = gameTimeMillis + obj.acceldelay;
+            //user player
+            if (isUserPlayer(obj)) {
+                if(obj.mov0 > 0)
+                    obj.vel0 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel0 + obj.accelrate);
+                else
+                    obj.vel0 = Math.max(0, obj.vel0 - obj.decelrate);
+                if(obj.mov1 > 0)
+                    obj.vel1 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel1 + obj.accelrate);
+                else
+                    obj.vel1 = Math.max(0, obj.vel1 - obj.decelrate);
+                if(obj.mov2 > 0)
+                    obj.vel2 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel2 + obj.accelrate);
+                else
+                    obj.vel2 = Math.max(0, obj.vel2 - obj.decelrate);
+                if(obj.mov3 > 0)
+                    obj.vel3 = Math.min(sSettings.clientVelocityPlayerBase, obj.vel3 + obj.accelrate);
+                else
+                    obj.vel3 = Math.max(0, obj.vel3 - obj.decelrate);
+            }
+        }
+        int velX = obj.vel3 - obj.vel2;
+        int velY = obj.vel1 - obj.vel0;
+        int newX = (int)(obj.coords[0] + ((double)velX * mod));
+        int newY = (int)(obj.coords[1] + ((double)velY * mod));
+        if (!obj.wontClipOnMove(newX, obj.coords[1], clientScene))
+            newX = obj.coords[0];
+        if (!obj.wontClipOnMove(obj.coords[0], newY, clientScene))
+            newY = obj.coords[1];
+        obj.coords = new int[]{newX, newY};
     }
 
     private void checkBulletSplashes() {
