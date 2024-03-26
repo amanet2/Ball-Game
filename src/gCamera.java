@@ -43,8 +43,10 @@ public class gCamera {
 		double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
 //		gThing obj = trackingTarget;
 		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0]/2, obj.coords[1] + obj.dims[1]/2};
-		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 25
-				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 25) {
+		int snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]);
+		int snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]);
+		double camToSnapVectorLength = Math.sqrt(Math.pow(snapDistanceX, 2) + Math.pow(snapDistanceY, 2));
+		if(camToSnapVectorLength > 50) {
 			pointAtWorldCoords(snapCoords[0], snapCoords[1]);
 			if (acceltick < sSettings.gameTime) {
 				acceltick = sSettings.gameTime + acceldelay;
@@ -59,8 +61,7 @@ public class gCamera {
 			acceltick = sSettings.gameTime + acceldelay;
 			linearVelocity = Math.max(0, linearVelocity - decelrate);
 		}
-		if(Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]) > 1200
-				|| Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]) > 1200)
+		if(camToSnapVectorLength > 1200)
 			snapToWorldCoords(snapCoords[0], snapCoords[1]);
 	}
 
