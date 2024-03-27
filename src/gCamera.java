@@ -7,10 +7,11 @@ public class gCamera {
 	static long acceltick = 0;
 	static int acceldelay = 16;
 	static long startTrackingTick = 0;
-	static int startTrackingDelay = 1000;
+	static int startTrackingDelay = 50;
 	static boolean isTracking = false;
 	static boolean impulse = false;
 	static final int maxVelocity = 32;
+	static final int maxVelocityTracking = 20;
 	static int linearVelocity = 0;
 	static double fv = 0.0;
 //	static gThing trackingTarget = null;
@@ -51,27 +52,28 @@ public class gCamera {
 		int snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
 		double camToSnapVectorLength = Math.sqrt(Math.pow(snapDistanceX, 2) + Math.pow(snapDistanceY, 2));
 
-		if(!isTracking && camToSnapVectorLength > 50 && startTrackingTick < sSettings.gameTime) {
+		if(!isTracking && camToSnapVectorLength > 10 && startTrackingTick < sSettings.gameTime) {
 			startTrackingTick = sSettings.gameTime + startTrackingDelay;
 			isTracking = true;
 			impulse = true;
 		}
 
-		if(isTracking && camToSnapVectorLength > 50) {
-			impulse = true;
-		}
+//		if(isTracking && camToSnapVectorLength > 50) {
+//			impulse = true;
+//		}
 
 		if (acceltick < sSettings.gameTime) {
 			acceltick = sSettings.gameTime + acceldelay;
 			if (impulse)
-				linearVelocity = Math.min(maxVelocity, linearVelocity + accelrate);
+				linearVelocity = Math.min(maxVelocityTracking, linearVelocity + accelrate);
 			else
 				linearVelocity = Math.max(0, linearVelocity - decelrate);
 		}
 
-		if (camToSnapVectorLength < 50) {
+		if (camToSnapVectorLength < 10) {
 			impulse = false;
-			startTrackingTick = sSettings.gameTime + startTrackingDelay;
+//			if(startTrackingTick > 0)
+				startTrackingTick = sSettings.gameTime + startTrackingDelay;
 			isTracking = false;
 		}
 
