@@ -40,27 +40,41 @@ public class gCamera {
 	}
 
 	public static void updatePositionTrackThing(gThing obj) {
-		double mod = (double)sSettings.ratesimulation/(double)sSettings.rateShell;
+		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
 //		gThing obj = trackingTarget;
-		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0]/2, obj.coords[1] + obj.dims[1]/2};
-		int snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width/2) - snapCoords[0]);
-		int snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height/2) - snapCoords[1]);
+		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0] / 2, obj.coords[1] + obj.dims[1] / 2};
+		int snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width / 2) - snapCoords[0]);
+		int snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
 		double camToSnapVectorLength = Math.sqrt(Math.pow(snapDistanceX, 2) + Math.pow(snapDistanceY, 2));
-		if(camToSnapVectorLength > 50) {
-			pointAtWorldCoords(snapCoords[0], snapCoords[1]);
-			if (acceltick < sSettings.gameTime) {
-				acceltick = sSettings.gameTime + acceldelay;
-				linearVelocity = Math.min(maxVelocity, linearVelocity + accelrate);
-			}
-			coords = new int[]{
-					coords[0] + (int) ((double) linearVelocity * mod * Math.cos(fv)),
-					coords[1] + (int) ((double) linearVelocity * mod * Math.sin(fv))
-			};
-		}
+//		if (camToSnapVectorLength > 50) {
+//  			pointAtWorldCoords(snapCoords[0], snapCoords[1]);
+//  			if (acceltick < sSettings.gameTime) {
+//  				acceltick = sSettings.gameTime + acceldelay;
+//  				linearVelocity = Math.min(maxVelocity, linearVelocity + accelrate);
+//  			}
+//  			coords = new int[]{
+//  					coords[0] + (int) ((double) linearVelocity * mod * Math.cos(fv)),
+//  					coords[1] + (int) ((double) linearVelocity * mod * Math.sin(fv))
+//  			};
+//  	}
+//  	if (acceltick < sSettings.gameTime) {
+//  		acceltick = sSettings.gameTime + acceldelay;
+//  		linearVelocity = Math.max(0, linearVelocity - decelrate);
+//  	}
+
 		if (acceltick < sSettings.gameTime) {
 			acceltick = sSettings.gameTime + acceldelay;
-			linearVelocity = Math.max(0, linearVelocity - decelrate);
+			if (camToSnapVectorLength > 50)
+				linearVelocity = Math.min(maxVelocity, linearVelocity + accelrate);
+			else
+				linearVelocity = Math.max(0, linearVelocity - decelrate);
 		}
+		pointAtWorldCoords(snapCoords[0], snapCoords[1]);
+		System.out.println(linearVelocity);
+		coords = new int[]{
+				coords[0] + (int) ((double) linearVelocity * mod * Math.cos(fv)),
+				coords[1] + (int) ((double) linearVelocity * mod * Math.sin(fv))
+		};
 		if(camToSnapVectorLength > 1200)
 			snapToWorldCoords(snapCoords[0], snapCoords[1]);
 	}
