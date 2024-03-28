@@ -11,7 +11,7 @@ public class gCamera {
 	static boolean isTracking = false;
 	static boolean impulse = false;
 	static final int maxVelocity = 32;
-	static final int maxVelocityTracking = 20;
+	static final int maxVelocityTracking = sSettings.clientVelocityPlayerBase;
 	static int linearVelocity = 0;
 	static double fv = 0.0;
 //	static gThing trackingTarget = null;
@@ -58,9 +58,9 @@ public class gCamera {
 			impulse = true;
 		}
 
-//		if(isTracking && camToSnapVectorLength > 50) {
-//			impulse = true;
-//		}
+		if(isTracking && camToSnapVectorLength > 10) {
+			impulse = true;
+		}
 
 		if (acceltick < sSettings.gameTime) {
 			acceltick = sSettings.gameTime + acceldelay;
