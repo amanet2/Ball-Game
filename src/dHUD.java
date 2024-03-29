@@ -91,9 +91,9 @@ public class dHUD {
             h = pfd[1];
         }
         int px = eUtils.roundToNearest(eUtils.unscaleInt(mousex - window_offsetx)
-                + gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
+                + (int) gCamera.coords[0] - w/2, uiEditorMenus.snapToX);
         int py = eUtils.roundToNearest(eUtils.unscaleInt(mousey - window_offsety)
-                + gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
+                + (int) gCamera.coords[1] - h/2, uiEditorMenus.snapToY);
         sSettings.clientPrevX = px;
         sSettings.clientPrevY = py;
         sSettings.clientPrevW = w;

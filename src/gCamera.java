@@ -1,6 +1,6 @@
 public class gCamera {
 	static int[] move = {0, 0, 0, 0};
-	static int[] coords = {0, 0};
+	static double[] coords = {0.0, 0.0};
 	static int[] vels = {0,0,0,0};
 	static int accelrate = 2;
 	static int decelrate = 3;
@@ -39,17 +39,17 @@ public class gCamera {
 		}
 		int mx = vels[3] - vels[2];
 		int my = vels[1] - vels[0];
-		int cdx = (int)(coords[0] + ((double)mx * mod));
-		int cdy = (int)(coords[1] + ((double)my * mod));
-		coords = new int[]{cdx, cdy};
+		double cdx = (coords[0] + ((double)mx * mod));
+		double cdy = (coords[1] + ((double)my * mod));
+		coords = new double[]{cdx, cdy};
 	}
 
 	public static void updatePositionTrackThing(gThing obj) {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
 //		gThing obj = trackingTarget;
 		int[] snapCoords = new int[]{obj.coords[0] + obj.dims[0] / 2, obj.coords[1] + obj.dims[1] / 2};
-		int snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width / 2) - snapCoords[0]);
-		int snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
+		double snapDistanceX = Math.abs(coords[0] + eUtils.unscaleInt(sSettings.width / 2) - snapCoords[0]);
+		double snapDistanceY = Math.abs(coords[1] + eUtils.unscaleInt(sSettings.height / 2) - snapCoords[1]);
 		double camToSnapVectorLength = Math.sqrt(Math.pow(snapDistanceX, 2) + Math.pow(snapDistanceY, 2));
 
 		if(!isTracking && camToSnapVectorLength > 10 && startTrackingTick < sSettings.gameTime) {
@@ -79,9 +79,9 @@ public class gCamera {
 
 		pointAtWorldCoords(snapCoords[0], snapCoords[1]);
 
-		coords = new int[]{
-				coords[0] + (int) ((double) linearVelocity * mod * Math.cos(fv)),
-				coords[1] + (int) ((double) linearVelocity * mod * Math.sin(fv))
+		coords = new double[]{
+				coords[0] +(double) linearVelocity * mod * Math.cos(fv),
+				coords[1] +(double) linearVelocity * mod * Math.sin(fv)
 		};
 
 		if(camToSnapVectorLength > 1200)
@@ -89,9 +89,9 @@ public class gCamera {
 	}
 
 	public static void snapToWorldCoords(int worldX, int worldY) {
-		coords = new int[]{
-				worldX - eUtils.unscaleInt(sSettings.width / 2),
-				worldY - eUtils.unscaleInt(sSettings.height / 2)
+		coords = new double[]{
+				(double)(worldX - eUtils.unscaleInt(sSettings.width / 2)),
+				(double)(worldY - eUtils.unscaleInt(sSettings.height / 2))
 		};
 	}
 
@@ -108,9 +108,9 @@ public class gCamera {
 	public static void shakeAtWorldCoords(int x, int y) {
 		double mod = (double) sSettings.ratesimulation / (double) sSettings.rateShell;
 		pointAtWorldCoords(x, y);
-		coords = new int[]{
-				coords[0] - (int) (((double)16)*mod*Math.cos(fv+Math.PI/2)),
-				coords[1] - (int) (((double)16)*mod*Math.sin(fv+Math.PI/2))
+		coords = new double[]{
+				coords[0] - (16.0)*mod*Math.cos(fv+Math.PI/2),
+				coords[1] - (16.0)*mod*Math.sin(fv+Math.PI/2)
 		};
 	}
 }

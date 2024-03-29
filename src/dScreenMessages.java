@@ -25,7 +25,7 @@ public class dScreenMessages {
         if(sSettings.showcam) {
             //camera
             String camstring = String.format("Cam: %d,%d",
-                    gCamera.coords[0], gCamera.coords[1]);
+                    (int) gCamera.coords[0], (int) gCamera.coords[1]);
             g.drawString(camstring,0, 8 * sSettings.height / 64);
         }
         if(sSettings.showmouse) {
@@ -34,8 +34,8 @@ public class dScreenMessages {
                 g.drawString(String.format("Mouse: %d,%d", uiInterface.getPlaceObjCoords()[0],
                         uiInterface.getPlaceObjCoords()[1]),0,9*sSettings.height/64);
             else
-                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + gCamera.coords[0],
-                        eUtils.unscaleInt(mc[1]) + gCamera.coords[1]),0,9*sSettings.height/64);
+                g.drawString(String.format("Mouse: %d,%d",eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0],
+                        eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1]),0,9*sSettings.height/64);
         }
         if(sSettings.showplayer && xMain.shellLogic.getUserPlayer() != null) {
             g.drawString(String.format("Player: %d,%d",

@@ -21,8 +21,8 @@ public class dThings {
             if(xMain.shellLogic.getUserPlayer() != null) {
                 int aimerx = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[0]);
                 int aimery = eUtils.unscaleInt(uiInterface.getMouseCoordinates()[1]);
-                int snapX = aimerx + gCamera.coords[0];
-                int snapY = aimery + gCamera.coords[1];
+                int snapX = aimerx + (int) gCamera.coords[0];
+                int snapY = aimery + (int) gCamera.coords[1];
                 int setw = sSettings.height;
                 RadialGradientPaint df = new RadialGradientPaint(new Point(snapX, snapY), setw/2,
                         new float[]{0f, 1f}, new Color[]{new Color(0,0,0,0), gColors.getColorFromName("clrw_floorshading")}

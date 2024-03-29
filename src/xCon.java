@@ -901,9 +901,9 @@ public class xCon {
                                 int[] pfd = dHUD.getNewPrefabDims();
                                 int w = pfd[0];
                                 int h = pfd[1];
-                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - w / 2,
+                                int pfx = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - w / 2,
                                         uiEditorMenus.snapToX);
-                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - h / 2,
+                                int pfy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - h / 2,
                                         uiEditorMenus.snapToY);
                                 int bid = 0;
                                 int pid = 0;
@@ -923,9 +923,9 @@ public class xCon {
                             if(uiEditorMenus.newitemname.length() > 0) {
                                 int iw = 300;
                                 int ih = 300;
-                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + gCamera.coords[0] - iw/2,
+                                int ix = eUtils.roundToNearest(eUtils.unscaleInt(mc[0]) + (int) gCamera.coords[0] - iw/2,
                                         uiEditorMenus.snapToX);
-                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + gCamera.coords[1] - ih/2,
+                                int iy = eUtils.roundToNearest(eUtils.unscaleInt(mc[1]) + (int) gCamera.coords[1] - ih/2,
                                         uiEditorMenus.snapToY);
                                 String cmd = String.format("putitem %s %d %d %d",
                                         uiEditorMenus.newitemname, xMain.shellLogic.getNewItemIdClient(), ix, iy);
@@ -1024,8 +1024,8 @@ public class xCon {
                     clip.open(AudioSystem.getAudioInputStream(eManager.getAudioFile(eManager.getPath(toks[1]))));
                     if(toks.length > 2) {
                         if(toks.length > 4) {
-                            int diffx = gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
-                            int diffy = gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
+                            int diffx = (int) gCamera.coords[0] + eUtils.unscaleInt(sSettings.width)/2-Integer.parseInt(toks[3]);
+                            int diffy = (int) gCamera.coords[1] + eUtils.unscaleInt(sSettings.height)/2-Integer.parseInt(toks[4]);
                             double absdistance = Math.sqrt(Math.pow((diffx), 2) + Math.pow((diffy), 2));
                             double distanceAdj = 1.0 - (absdistance /sfxrange);
                             if(distanceAdj < 0 )

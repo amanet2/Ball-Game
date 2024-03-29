@@ -125,10 +125,10 @@ public class gThing {
     }
 
     public boolean coordsWithinBounds(int x, int y) {
-        return (x >= eUtils.scaleInt(coords[0] - gCamera.coords[0])
-                && x <= eUtils.scaleInt(coords[0] - gCamera.coords[0] + dims[0]))
-                && (y >= eUtils.scaleInt(coords[1] - gCamera.coords[1])
-                && y <= eUtils.scaleInt(coords[1] - gCamera.coords[1] + dims[1]));
+        return (x >= eUtils.scaleInt(coords[0] - (int) gCamera.coords[0])
+                && x <= eUtils.scaleInt(coords[0] - (int) gCamera.coords[0] + dims[0]))
+                && (y >= eUtils.scaleInt(coords[1] - (int) gCamera.coords[1])
+                && y <= eUtils.scaleInt(coords[1] - (int) gCamera.coords[1] + dims[1]));
     }
 
     public boolean collidesWithThing(gThing target) {

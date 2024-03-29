@@ -588,8 +588,8 @@ public class eGameLogicShell extends eGameLogicAdapter {
     private void pointPlayerAtMousePointer() {
         gPlayer p = getUserPlayer();
         int[] mc = uiInterface.getMouseCoordinates();
-        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - gCamera.coords[0]);
-        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - gCamera.coords[1]);
+        double dx = mc[0] - eUtils.scaleInt(p.coords[0] + p.dims[0]/2 - (int) gCamera.coords[0]);
+        double dy = mc[1] - eUtils.scaleInt(p.coords[1] + p.dims[1]/2 - (int) gCamera.coords[1]);
         double angle = Math.atan2(dy, dx);
         if (angle < 0)
             angle += 2*Math.PI;
