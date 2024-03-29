@@ -39,9 +39,9 @@ cl_setvar vfxenableanimations 1
 REM enable flares
 cl_setvar vfxenableflares 1
 REM enable shading
-cl_setvar vfxenableshading 0
+cl_setvar vfxenableshading 1
 REM enable shadows
-cl_setvar vfxenableshadows 0
+cl_setvar vfxenableshadows 1
 REM volume
 cl_setvar volume 1
 REM screen width
@@ -136,7 +136,7 @@ cl_setvar clrw_wallshading1 0 0 0 80
 cl_setvar clrw_wallshading2 0 0 0 200
 cl_setvar clrw_walllowshading1 0 0 0 120
 cl_setvar clrw_walllowshading2 0 0 0 200
-cl_setvar clrw_topcolor 125 125 125 100
+cl_setvar clrw_topcolor 0 0 0 0
 cl_setvar clrw_topcolordark 0 0 0 100
 cl_setvar clrw_toppolorpreview 190 190 180 255
 cl_setvar clrw_wallcolorpreview 120 120 200 255

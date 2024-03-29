@@ -72,8 +72,7 @@ public class gCamera {
 
 		if (camToSnapVectorLength < 10) {
 			impulse = false;
-//			if(startTrackingTick > 0)
-				startTrackingTick = sSettings.gameTime + startTrackingDelay;
+			startTrackingTick = sSettings.gameTime + startTrackingDelay;
 			isTracking = false;
 		}
 
