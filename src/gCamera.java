@@ -1,9 +1,9 @@
 public class gCamera {
 	static int[] move = {0, 0, 0, 0};
 	static double[] coords = {0.0, 0.0};
-	static int[] vels = {0,0,0,0};
-	static int accelrate = 2;
-	static int decelrate = 3;
+	static double[] vels = {0.0, 0.0, 0.0, 0.0};
+	static double accelrate = 2.0;
+	static double decelrate = 3.0;
 	static long acceltick = 0;
 	static int acceldelay = 16;
 	static long startTrackingTick = 0;
@@ -12,7 +12,7 @@ public class gCamera {
 	static boolean impulse = false;
 	static final int maxVelocity = 32;
 	static final int maxVelocityTracking = sSettings.clientVelocityPlayerBase;
-	static int linearVelocity = 0;
+	static double linearVelocity = 0.0;
 	static double fv = 0.0;
 //	static gThing trackingTarget = null;
 
@@ -37,10 +37,10 @@ public class gCamera {
 			else
 				vels[3] = Math.max(0, vels[3] - decelrate);
 		}
-		int mx = vels[3] - vels[2];
-		int my = vels[1] - vels[0];
-		double cdx = (coords[0] + ((double)mx * mod));
-		double cdy = (coords[1] + ((double)my * mod));
+		double mx = vels[3] - vels[2];
+		double my = vels[1] - vels[0];
+		double cdx = coords[0] + mx * mod;
+		double cdy = coords[1] + my * mod;
 		coords = new double[]{cdx, cdy};
 	}
 
@@ -67,7 +67,7 @@ public class gCamera {
 			if (impulse)
 				linearVelocity = Math.min(maxVelocityTracking, linearVelocity + accelrate);
 			else
-				linearVelocity = Math.max(0, linearVelocity - decelrate);
+				linearVelocity = Math.max(0.0, linearVelocity - decelrate);
 		}
 
 		if (camToSnapVectorLength < 10) {
@@ -80,8 +80,8 @@ public class gCamera {
 		pointAtWorldCoords(snapCoords[0], snapCoords[1]);
 
 		coords = new double[]{
-				coords[0] +(double) linearVelocity * mod * Math.cos(fv),
-				coords[1] +(double) linearVelocity * mod * Math.sin(fv)
+				coords[0] + linearVelocity * mod * Math.cos(fv),
+				coords[1] + linearVelocity * mod * Math.sin(fv)
 		};
 
 		if(camToSnapVectorLength > 1200)
