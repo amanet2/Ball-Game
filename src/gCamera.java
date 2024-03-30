@@ -14,9 +14,9 @@ public class gCamera {
 	static final double maxVelocityTracking = sSettings.clientVelocityPlayerBase;
 	static double linearVelocity = 0.0;
 	static double fv = 0.0;
-	static boolean isShaking = false;
-	static long shakeDuration = 200;
-	static long shakeTick = 0;
+	private static boolean isShaking = false;
+	private static long shakeDuration = 200;
+	private static long shakeTick = 0;
 //	static gThing trackingTarget = null;
 
 	public static void updatePositionMapmaker() {

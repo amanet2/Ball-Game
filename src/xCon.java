@@ -1389,6 +1389,12 @@ public class xCon {
                 return xMain.shellLogic.clientVars.get(tk);
             }
         });
+        commands.put("cl_shake", new gDoable() {
+            public String doCommand(String fullCommand) {
+                gCamera.shake();
+                return "1";
+            }
+        });
         commands.put("cl_spawnanimation", new gDoable() {
             public String doCommand(String fullCommand) {
                 if(sSettings.vfxenableanimations) {
