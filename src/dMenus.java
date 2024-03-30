@@ -38,8 +38,8 @@ public class dMenus {
                 dFonts.drawCenteredString(g,i.text,
                     sSettings.width/2,12*sSettings.height/30+ctr*sSettings.height/30);
                 dFonts.setFontColor(g, "clrf_normal");
-                if(xMain.shellLogic.displayPane.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
-                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                if(xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+                    xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
                 dFonts.drawCenteredString(g,i.text,
@@ -47,7 +47,7 @@ public class dMenus {
             }
             ctr++;
         }
-        if(sel == 0 && xMain.shellLogic.displayPane.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
-            xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        if(sel == 0 && xMain.shellLogic.frame.getCursor() != Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR))
+            xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }

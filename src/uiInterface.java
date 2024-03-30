@@ -4,8 +4,8 @@ public class uiInterface {
 
     public static int[] getMouseCoordinates() {
         return new int[]{
-                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.displayPane.frame.getLocationOnScreen().x,
-                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.displayPane.frame.getLocationOnScreen().y
+                MouseInfo.getPointerInfo().getLocation().x - xMain.shellLogic.frame.getLocationOnScreen().x,
+                MouseInfo.getPointerInfo().getLocation().y - xMain.shellLogic.frame.getLocationOnScreen().y
         };
     }
 

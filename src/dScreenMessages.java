@@ -1,9 +1,26 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class dScreenMessages {
+    static ArrayList<String> messagesOnScreen = new ArrayList<>();
+    static Queue<Long> expireTimes = new LinkedList<>();
+
+    public static void addMessage(String s) {
+        messagesOnScreen.add(s);
+        expireTimes.add(sSettings.gameTime + sSettings.screenMessageFadeTime);
+    }
+
+    public static void checkExpiredMessages() {
+        //expired msgs
+        if(expireTimes.size() > 0) {
+            if(expireTimes.peek() != null && expireTimes.peek() < sSettings.gameTime) {
+                messagesOnScreen.remove(0);
+                expireTimes.remove();
+            }
+        }
+    }
+
     public static void displayScreenMessages(Graphics g, long gameTimeMillis) {
         dFonts.setFontSmall(g);
         //scale
@@ -157,9 +174,9 @@ public class dScreenMessages {
         if(sSettings.IS_CLIENT && !sSettings.clientMapLoaded)
             dFonts.drawCenteredString(g, sSettings.clientGameModeTitle + " - " + sSettings.clientGameModeText, sSettings.width/2, sSettings.height/2);
         //echo messages
-        if(gMessages.screenMessages.size() > 0) {
-            for(int i = 0; i < gMessages.screenMessages.size(); i++) {
-                String s = gMessages.screenMessages.get(i);
+        if(messagesOnScreen.size() > 0) {
+            for(int i = 0; i < messagesOnScreen.size(); i++) {
+                String s = messagesOnScreen.get(i);
                 dFonts.setFontColor(g, "clrf_normal");
                 // look for hashtag color codes here
                 StringBuilder ts = new StringBuilder();
@@ -171,12 +188,12 @@ public class dScreenMessages {
                             g.setColor(Color.BLACK);
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString())+3,
-                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                    24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32))+3);
                             g.setColor(gColors.getColorFromName("clrp_" + word.split("#")[1].replace(":","")));
                             g.drawString(word.split("#")[0]+" ",
                                     dFonts.getStringWidth(g, ts.toString()),
-                                    24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                                    24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
                                             +(i*(sSettings.height/32)));
                             dFonts.setFontColor(g, "clrf_normal");
                             ts.append(word.split("#")[0]).append(word.contains(":") ? ": " : " ");
@@ -186,12 +203,12 @@ public class dScreenMessages {
                     g.setColor(Color.BLACK);
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString())+3,
-                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                            24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
                                     +(i*(sSettings.height/32))+3);
                     dFonts.setFontColor(g, "clrf_normal");
                     g.drawString(word+" ",
                             dFonts.getStringWidth(g, ts.toString()),
-                            24*sSettings.height/32-(gMessages.screenMessages.size()*(sSettings.height/32))
+                            24*sSettings.height/32-(messagesOnScreen.size()*(sSettings.height/32))
                             +(i*(sSettings.height/32)));
                     ts.append(word).append(" ");
                 }
@@ -200,8 +217,8 @@ public class dScreenMessages {
         //big font
         dFonts.setFontNormal(g);
         //say
-        if(gMessages.enteringMessage)
-            g.drawString(String.format("%s: %s",gMessages.prompt, gMessages.msgInProgress),
+        if(xMain.shellLogic.enteringMessage)
+            g.drawString(String.format("%s: %s", xMain.shellLogic.prompt, xMain.shellLogic.msgInProgress),
                     0,25 * sSettings.height/32);
     }
 }

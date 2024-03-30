@@ -28,7 +28,7 @@ public class dPanel extends JPanel {
             dThings.drawMapmakerPreviewBlockFloors(g2, xMain.shellLogic.clientPreviewScene);
             dThings.drawBlockTopCubesPreview(g2);
         }
-        gMessages.checkMessages();
+        dScreenMessages.checkExpiredMessages();
     }
 
     public void drawFrame(Graphics2D g2) {

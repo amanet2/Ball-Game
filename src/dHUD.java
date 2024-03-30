@@ -62,8 +62,8 @@ public class dHUD {
     public static void drawSelectionBoxes(Graphics2D g2) {
         int mousex = MouseInfo.getPointerInfo().getLocation().x;
         int mousey = MouseInfo.getPointerInfo().getLocation().y;
-        int window_offsetx = xMain.shellLogic.displayPane.frame.getLocationOnScreen().x;
-        int window_offsety = xMain.shellLogic.displayPane.frame.getLocationOnScreen().y;
+        int window_offsetx = xMain.shellLogic.frame.getLocationOnScreen().x;
+        int window_offsety = xMain.shellLogic.frame.getLocationOnScreen().y;
         // -- selected prefab (blocks)
         g2.setStroke(dFonts.thickStroke);
         for(String id : xMain.shellLogic.clientScene.getThingMap("THING_BLOCK").keySet()) { //TODO: concurrent excpetion occurred on this line

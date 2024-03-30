@@ -251,16 +251,16 @@ public class xCon {
         commands.put("chat", new gDoable() {
             public String doCommand(String fullCommand) {
                 String[] args = fullCommand.split(" ");
-                gMessages.enteringMessage = true;
+                xMain.shellLogic.enteringMessage = true;
                 if(args.length > 1) {
                     StringBuilder sb = new StringBuilder();
                     for(int i = 1; i < args.length; i++) {
                         sb.append(" ").append(args[i]);
                     }
-                    gMessages.prompt = sb.substring(1);
+                    xMain.shellLogic.prompt = sb.substring(1);
                 }
-                else if(!gMessages.prompt.equals("SAY"))
-                    gMessages.prompt = "SAY";
+                else if(!xMain.shellLogic.prompt.equals("SAY"))
+                    xMain.shellLogic.prompt = "SAY";
                 return fullCommand;
             }
         });
@@ -343,7 +343,7 @@ public class xCon {
                         if(shooterid.length() < 1)
                             shooterid = "null";
                         ex("deleteplayer " + id + " " + shooterid);
-                        int animInd = gAnimations.ANIM_EXPLOSION_REG;
+                        int animInd = gAnimations.ANIM_EXPLOSION_BLUE;
                         String colorName = playerState.get("color");
                         if(gAnimations.colorNameToExplosionAnimMap.containsKey(colorName))
                             animInd = gAnimations.colorNameToExplosionAnimMap.get(colorName);
@@ -482,7 +482,7 @@ public class xCon {
         commands.put("cl_echo", new gDoable() {
             public String doCommand(String fullCommand) {
                 String rs = fullCommand.substring(fullCommand.indexOf(" ")+1);
-                gMessages.addScreenMessage(rs);
+                dScreenMessages.addMessage(rs);
                 return rs;
             }
         });
@@ -591,7 +591,7 @@ public class xCon {
         });
         commands.put("e_showlossalert", new gDoable() {
             public  String doCommand(String fullcomm) {
-                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.displayPane.contentPane,
+                return Integer.toString(JOptionPane.showConfirmDialog(xMain.shellLogic.contentPane,
                         "Any unsaved changes will be lost...", "Are You Sure?", JOptionPane.YES_NO_OPTION));
             }
         });
@@ -826,8 +826,8 @@ public class xCon {
                             ex("pause");
                     }
                     else {
-                        if(gMessages.enteringMessage)
-                            gMessages.cancelEnterMessage();
+                        if(xMain.shellLogic.enteringMessage)
+                            xMain.shellLogic.cancelEnterMessage();
                         uiMenus.selectedMenu = uiMenus.menuSelection[uiMenus.selectedMenu].parentMenu;
                         ex("playsound sounds/bfg2.wav");
                     }
@@ -893,7 +893,7 @@ public class xCon {
         });
         commands.put("mouseleft", new gDoable() {
             public String doCommand(String fullCommand) {
-                if(xMain.shellLogic.displayPane.frame.hasFocus()) {
+                if(xMain.shellLogic.frame.hasFocus()) {
                     if (sSettings.inplay)
                         iMouse.holdingMouseLeft = true;
                     else {
@@ -954,9 +954,9 @@ public class xCon {
         commands.put("pause", new gDoable() {
             public String doCommand(String fullCommand) {
                 sSettings.inplay = !sSettings.inplay;
-                xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 if(sSettings.inplay) {
-                    xMain.shellLogic.displayPane.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+                    xMain.shellLogic.frame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     if(sSettings.show_mapmaker_ui)
                         xMain.shellLogic.clientNetThread.addNetCmd("respawnnetplayer " + sSettings.uuid);
                 }
@@ -1219,7 +1219,7 @@ public class xCon {
                     String msg = sSettings.clientPlayerName + "#"+ sSettings.clientPlayerColor +": "
                             + fullCommand.substring(fullCommand.indexOf(" ") + 1);
                     xMain.shellLogic.clientNetThread.addNetCmd("echo " + msg);
-                    gMessages.msgInProgress = "";
+                    xMain.shellLogic.msgInProgress = "";
                 }
                 return "said enough";
             }
